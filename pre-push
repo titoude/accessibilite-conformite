@@ -1,0 +1,31 @@
+#!/bin/sh
+# Garde-fou accessibilité local — à installer comme hook git :
+#   cp scripts/a11y/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+#
+# Bloque le `git push` si l'audit axe trouve ≥ 1 violation — sans CI distante.
+# Prérequis : app démarrée et joignable (A11Y_URL) + `npm i -D playwright axe-core`.
+#
+#   A11Y_URL=http://localhost:3000 git push
+#   A11Y_SKIP=1 git push            # contournement explicite, tracé dans le log
+#
+# Adaptez : si l'app se build en statique, démarrez un serveur éphémère ici
+# (ex. `npx serve dist -l 4173 &` puis A11Y_URL=http://localhost:4173).
+
+if [ "$A11Y_SKIP" = "1" ]; then
+  echo "a11y: audit ignoré (A11Y_SKIP=1)" >&2
+  exit 0
+fi
+
+URL="${A11Y_URL:-http://localhost:3000}"
+AUDIT="$(git rev-parse --show-toplevel)/scripts/a11y/audit.mjs"
+[ -f "$AUDIT" ] || AUDIT="$(git rev-parse --show-toplevel)/audit.mjs"
+
+if ! curl -sf -o /dev/null --max-time 3 "$URL"; then
+  echo "a11y: $URL injoignable — démarrez l'app ou passez A11Y_URL=…" >&2
+  echo "      (A11Y_SKIP=1 pour ignorer)" >&2
+  exit 1
+fi
+
+node "$AUDIT" "$URL" --states all --out "$(git rev-parse --show-toplevel)/a11y-audit/pre-push" \
+  && echo "a11y: 0 violation — push autorisé" >&2 \
+  || { echo "a11y: violations détectées — voir a11y-audit/pre-push/report.md" >&2; exit 1; }

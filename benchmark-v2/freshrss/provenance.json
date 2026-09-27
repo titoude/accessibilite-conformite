@@ -1,0 +1,15 @@
+{
+  "repo": "FreshRSS/FreshRSS",
+  "commit_sha": "a6253486c04de4ffbc8a2017d669015137f6f423",
+  "commands": [
+    "php -S 127.0.0.1:8082 -t p/ (sqlite, utilisateur benchadmin)",
+    "A11Y_STRIP_CSP=1 NODE_OPTIONS='--require /home/ubuntu/a11y-harness/tt-preload.cjs' node scripts/a11y/audit.mjs --urls <32 urls> --states all --storage-state freshrss-auth.json --out a11y-audit/baseline",
+    "idem --out a11y-audit/round2 puis a11y-audit/round3 (= final)",
+    "node scripts/a11y/verify.mjs (13/13 PASS)",
+    "node scripts/a11y/eval-final.mjs (30/30 PASS)"
+  ],
+  "versions": {"axe-core": "4.13.0", "playwright": "1.63.0", "node": "v20.18.1", "php": "8.x builtin server"},
+  "timestamps": {"baseline": "2026-09-26T~14:00Z", "final_round3": "2026-09-26T~20:30Z", "eval_final": "2026-09-26T~21:10Z"},
+  "scope_hash_baseline": "15bd8c5e63ba34b4ab55d3a6e77c10d6b5569c16b4b744cd2b6020169e05e8df",
+  "scope_hash_final": "15bd8c5e63ba34b4ab55d3a6e77c10d6b5569c16b4b744cd2b6020169e05e8df"
+}

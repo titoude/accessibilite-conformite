@@ -1,0 +1,22 @@
+{
+  "commit_sha": "f3d99c42e905706c1899bd887cfec59f2e92f425",
+  "commands": [
+    "yarn install",
+    "yarn --cwd excalidraw-app start (vite dev http://127.0.0.1:3001)",
+    "node scripts/a11y/audit.mjs http://127.0.0.1:3001/ --urls http://127.0.0.1:3001/ --states all --out a11y-audit/baseline",
+    "node scripts/a11y/audit.mjs http://127.0.0.1:3001/ --urls http://127.0.0.1:3001/ --states all --out a11y-audit/final",
+    "node ~/verify/excalidraw-verify.mjs",
+    "node ~/verify/excalidraw-eval.mjs"
+  ],
+  "versions": {
+    "axe_core": "4.13.0",
+    "playwright": "1.63.0",
+    "node": "24.19.0"
+  },
+  "timestamps": {
+    "start": "2026-09-26T17:05:00Z",
+    "end": "2026-09-26T21:25:00Z"
+  },
+  "scope_hash": "398feaf870047335340d7eebf470039d877f748fe276c1cd8a2204547a8246cd",
+  "notes": "5 scenarios: 1 page + 4 STATES (main-menu, help-dialog, command-palette, canvas-context-menu). rounds=4 (verify-phase keyboard fix + eval-phase label fix each re-audited) -> budget_exceeded."
+}

@@ -1,0 +1,2106 @@
+diff --git a/components.d.ts b/components.d.ts
+index 3e65c3c..ba1ba9d 100644
+--- a/components.d.ts
++++ b/components.d.ts
+@@ -90,17 +90,28 @@ declare module '@vue/runtime-core' {
+     HttpStatusCodes: typeof import('./src/tools/http-status-codes/http-status-codes.vue')['default']
+     IbanValidatorAndParser: typeof import('./src/tools/iban-validator-and-parser/iban-validator-and-parser.vue')['default']
+     'IconMdi:brushVariant': typeof import('~icons/mdi/brush-variant')['default']
++    'IconMdi:contentCopy': typeof import('~icons/mdi/content-copy')['default']
+     'IconMdi:kettleSteamOutline': typeof import('~icons/mdi/kettle-steam-outline')['default']
++    IconMdiArrowDown: typeof import('~icons/mdi/arrow-down')['default']
++    IconMdiArrowRightBottom: typeof import('~icons/mdi/arrow-right-bottom')['default']
++    IconMdiCamera: typeof import('~icons/mdi/camera')['default']
+     IconMdiChevronDown: typeof import('~icons/mdi/chevron-down')['default']
+     IconMdiChevronRight: typeof import('~icons/mdi/chevron-right')['default']
+     IconMdiClose: typeof import('~icons/mdi/close')['default']
+     IconMdiContentCopy: typeof import('~icons/mdi/content-copy')['default']
++    IconMdiDeleteOutline: typeof import('~icons/mdi/delete-outline')['default']
++    IconMdiDownload: typeof import('~icons/mdi/download')['default']
+     IconMdiEye: typeof import('~icons/mdi/eye')['default']
+     IconMdiEyeOff: typeof import('~icons/mdi/eye-off')['default']
+     IconMdiHeart: typeof import('~icons/mdi/heart')['default']
++    IconMdiPause: typeof import('~icons/mdi/pause')['default']
++    IconMdiPlay: typeof import('~icons/mdi/play')['default']
++    IconMdiRecord: typeof import('~icons/mdi/record')['default']
++    IconMdiRefresh: typeof import('~icons/mdi/refresh')['default']
+     IconMdiSearch: typeof import('~icons/mdi/search')['default']
+     IconMdiTranslate: typeof import('~icons/mdi/translate')['default']
+     IconMdiTriangleDown: typeof import('~icons/mdi/triangle-down')['default']
++    IconMdiVideo: typeof import('~icons/mdi/video')['default']
+     InputCopyable: typeof import('./src/components/InputCopyable.vue')['default']
+     IntegerBaseConverter: typeof import('./src/tools/integer-base-converter/integer-base-converter.vue')['default']
+     Ipv4AddressConverter: typeof import('./src/tools/ipv4-address-converter/ipv4-address-converter.vue')['default']
+@@ -129,20 +140,42 @@ declare module '@vue/runtime-core' {
+     MenuLayout: typeof import('./src/components/MenuLayout.vue')['default']
+     MetaTagGenerator: typeof import('./src/tools/meta-tag-generator/meta-tag-generator.vue')['default']
+     MimeTypes: typeof import('./src/tools/mime-types/mime-types.vue')['default']
++    NAlert: typeof import('naive-ui')['NAlert']
+     NavbarButtons: typeof import('./src/components/NavbarButtons.vue')['default']
++    NButton: typeof import('naive-ui')['NButton']
+     NCheckbox: typeof import('naive-ui')['NCheckbox']
++    NCode: typeof import('naive-ui')['NCode']
+     NCollapseTransition: typeof import('naive-ui')['NCollapseTransition']
++    NColorPicker: typeof import('naive-ui')['NColorPicker']
+     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
++    NDatePicker: typeof import('naive-ui')['NDatePicker']
+     NDivider: typeof import('naive-ui')['NDivider']
++    NDynamicInput: typeof import('naive-ui')['NDynamicInput']
+     NEllipsis: typeof import('naive-ui')['NEllipsis']
++    NForm: typeof import('naive-ui')['NForm']
++    NFormItem: typeof import('naive-ui')['NFormItem']
++    NGi: typeof import('naive-ui')['NGi']
++    NGrid: typeof import('naive-ui')['NGrid']
+     NH1: typeof import('naive-ui')['NH1']
++    NH2: typeof import('naive-ui')['NH2']
+     NH3: typeof import('naive-ui')['NH3']
+     NIcon: typeof import('naive-ui')['NIcon']
++    NImage: typeof import('naive-ui')['NImage']
++    NInputGroup: typeof import('naive-ui')['NInputGroup']
++    NInputGroupLabel: typeof import('naive-ui')['NInputGroupLabel']
++    NInputNumber: typeof import('naive-ui')['NInputNumber']
+     NLayout: typeof import('naive-ui')['NLayout']
+     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
+     NMenu: typeof import('naive-ui')['NMenu']
++    NProgress: typeof import('naive-ui')['NProgress']
++    NScrollbar: typeof import('naive-ui')['NScrollbar']
++    NSlider: typeof import('naive-ui')['NSlider']
+     NSpace: typeof import('naive-ui')['NSpace']
++    NSpin: typeof import('naive-ui')['NSpin']
++    NStatistic: typeof import('naive-ui')['NStatistic']
++    NSwitch: typeof import('naive-ui')['NSwitch']
+     NTable: typeof import('naive-ui')['NTable']
++    NTag: typeof import('naive-ui')['NTag']
+     NumeronymGenerator: typeof import('./src/tools/numeronym-generator/numeronym-generator.vue')['default']
+     OtpCodeGeneratorAndValidator: typeof import('./src/tools/otp-code-generator-and-validator/otp-code-generator-and-validator.vue')['default']
+     PasswordStrengthAnalyser: typeof import('./src/tools/password-strength-analyser/password-strength-analyser.vue')['default']
+diff --git a/package.json b/package.json
+index 5738b63..9cf5aea 100644
+--- a/package.json
++++ b/package.json
+@@ -131,11 +131,13 @@
+     "@vue/runtime-dom": "^3.3.4",
+     "@vue/test-utils": "^2.3.2",
+     "@vue/tsconfig": "^0.4.0",
++    "axe-core": "^4.13.0",
+     "consola": "^3.0.2",
+     "eslint": "^8.47.0",
+     "hygen": "^6.2.11",
+     "jsdom": "^22.0.0",
+     "less": "^4.1.3",
++    "playwright": "^1.63.0",
+     "prettier": "^3.0.0",
+     "typescript": "~5.2.0",
+     "unocss": "^0.65.1",
+@@ -149,5 +151,14 @@
+     "vitest": "^0.34.0",
+     "workbox-window": "^7.0.0",
+     "zx": "^7.2.1"
++  },
++  "pnpm": {
++    "overrides": {
++      "@vueuse/core": "10.3.0",
++      "@vueuse/shared": "10.3.0"
++    },
++    "patchedDependencies": {
++      "naive-ui@2.35.0": "patches/naive-ui@2.35.0.patch"
++    }
+   }
+ }
+diff --git a/patches/naive-ui@2.35.0.patch b/patches/naive-ui@2.35.0.patch
+new file mode 100644
+index 0000000..f6c3a99
+--- /dev/null
++++ b/patches/naive-ui@2.35.0.patch
+@@ -0,0 +1,58 @@
++diff --git a/es/_internal/scrollbar/src/Scrollbar.js b/es/_internal/scrollbar/src/Scrollbar.js
++index 50a914b4e486658a7e2820a80331772945da03d1..427b21d835f6905794c8e53803293249b72ab1ab 100644
++--- a/es/_internal/scrollbar/src/Scrollbar.js
+++++ b/es/_internal/scrollbar/src/Scrollbar.js
++@@ -551,7 +551,7 @@ const Scrollbar = defineComponent({
++             return (h("div", { ref: "yRailRef", class: [
++                     `${mergedClsPrefix}-scrollbar-rail`,
++                     `${mergedClsPrefix}-scrollbar-rail--vertical`
++-                ], "data-scrollbar-rail": true, style: [style || '', this.verticalRailStyle], "aria-hiddens": true }, h((triggerIsNone ? Wrapper : Transition), triggerIsNone ? null : { name: 'fade-in-transition' }, {
+++                ], "data-scrollbar-rail": true, style: [style || '', this.verticalRailStyle], "aria-hidden": true }, h((triggerIsNone ? Wrapper : Transition), triggerIsNone ? null : { name: 'fade-in-transition' }, {
++                 default: () => this.needYBar && this.isShowYBar && !this.isIos ? (h("div", { class: `${mergedClsPrefix}-scrollbar-rail__scrollbar`, style: {
++                         height: this.yBarSizePx,
++                         top: this.yBarTopPx
++diff --git a/es/color-picker/src/ColorPickerTrigger.js b/es/color-picker/src/ColorPickerTrigger.js
++index f3db35bdaba6f702112b4f9240a37adb95820cc2..88b29390c7f79deebfca19520ff7afe1da11e49a 100644
++--- a/es/color-picker/src/ColorPickerTrigger.js
+++++ b/es/color-picker/src/ColorPickerTrigger.js
++@@ -40,7 +40,17 @@ export default defineComponent({
++                             backgroundColor: hsla ? toHslaString(hsla) : ''
++                         } }),
++                     value && hsla ? (h("div", { class: `${clsPrefix}-color-picker-trigger__value`, style: {
++-                            color: hsla[2] > 50 || hsla[3] < 0.5 ? 'black' : 'white'
+++                            color: (() => {
+++                            const [hue, sat, lig, alpha] = hsla;
+++                            const sn = sat / 100; const ln = lig / 100;
+++                            const c = (1 - Math.abs(2 * ln - 1)) * sn;
+++                            const hp = hue / 60; const x = c * (1 - Math.abs(hp % 2 - 1));
+++                            const [r1, g1, b1] = hp < 1 ? [c, x, 0] : hp < 2 ? [x, c, 0] : hp < 3 ? [0, c, x] : hp < 4 ? [0, x, c] : hp < 5 ? [x, 0, c] : [c, 0, x];
+++                            const m = ln - c / 2;
+++                            const lin = v => { v += m; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; };
+++                            const L = 0.2126 * lin(r1) + 0.7152 * lin(g1) + 0.0722 * lin(b1);
+++                            return alpha < 0.5 || (L + 0.05) / 0.05 >= 1.05 / (L + 0.05) ? 'black' : 'white';
+++                        })()
++                         } }, renderLabel ? renderLabel(value) : value)) : null)));
++         };
++     }
++diff --git a/es/input-number/src/InputNumber.js b/es/input-number/src/InputNumber.js
++index 0000000000000000000000000000000000000000..1111111111111111111111111111111111111111 100644
++--- a/es/input-number/src/InputNumber.js
+++++ b/es/input-number/src/InputNumber.js
++@@ -522,7 +522,7 @@
++     render() {
++         const { mergedClsPrefix, $slots } = this;
++         const renderMinusButton = () => {
++-            return (h(NxButton, { text: true, disabled: !this.minusable || this.mergedDisabled || this.readonly, focusable: false, theme: this.mergedTheme.peers.Button, themeOverrides: this.mergedTheme.peerOverrides.Button, builtinThemeOverrides: this.buttonThemeOverrides, onClick: this.handleMinusClick, onMousedown: this.handleMinusMousedown, ref: "minusButtonInstRef" }, {
+++            return (h(NxButton, { text: true, "aria-label": "Decrease", disabled: !this.minusable || this.mergedDisabled || this.readonly, focusable: false, theme: this.mergedTheme.peers.Button, themeOverrides: this.mergedTheme.peerOverrides.Button, builtinThemeOverrides: this.buttonThemeOverrides, onClick: this.handleMinusClick, onMousedown: this.handleMinusMousedown, ref: "minusButtonInstRef" }, {
++                 icon: () => resolveSlot($slots['minus-icon'], () => [
++                     h(NBaseIcon, { clsPrefix: mergedClsPrefix }, {
++                         default: () => h(RemoveIcon, null)
++@@ -531,7 +531,7 @@
++             }));
++         };
++         const renderAddButton = () => {
++-            return (h(NxButton, { text: true, disabled: !this.addable || this.mergedDisabled || this.readonly, focusable: false, theme: this.mergedTheme.peers.Button, themeOverrides: this.mergedTheme.peerOverrides.Button, builtinThemeOverrides: this.buttonThemeOverrides, onClick: this.handleAddClick, onMousedown: this.handleAddMousedown, ref: "addButtonInstRef" }, {
+++            return (h(NxButton, { text: true, "aria-label": "Increase", disabled: !this.addable || this.mergedDisabled || this.readonly, focusable: false, theme: this.mergedTheme.peers.Button, themeOverrides: this.mergedTheme.peerOverrides.Button, builtinThemeOverrides: this.buttonThemeOverrides, onClick: this.handleAddClick, onMousedown: this.handleAddMousedown, ref: "addButtonInstRef" }, {
++                 icon: () => resolveSlot($slots['add-icon'], () => [
++                     h(NBaseIcon, { clsPrefix: mergedClsPrefix }, {
++                         default: () => h(AddIcon, null)
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 5d11389..aecf052 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -4,6 +4,15 @@ settings:
+   autoInstallPeers: true
+   excludeLinksFromLockfile: false
+ 
++overrides:
++  '@vueuse/core': 10.3.0
++  '@vueuse/shared': 10.3.0
++
++patchedDependencies:
++  naive-ui@2.35.0:
++    hash: zlc7c26bcxmilgpuzdd2xwxq5e
++    path: patches/naive-ui@2.35.0.patch
++
+ importers:
+ 
+   .:
+@@ -45,11 +54,11 @@ importers:
+         specifier: ^0.12.0
+         version: 0.12.0
+       '@vueuse/core':
+-        specifier: ^10.3.0
++        specifier: 10.3.0
+         version: 10.3.0(vue@3.3.4)
+       '@vueuse/head':
+         specifier: ^1.0.0
+-        version: 1.0.0(typescript@5.2.2)(vue@3.3.4)
++        version: 1.0.0(vue@3.3.4)
+       '@vueuse/router':
+         specifier: ^10.0.0
+         version: 10.0.0(vue-router@4.1.6(vue@3.3.4))(vue@3.3.4)
+@@ -139,7 +148,7 @@ importers:
+         version: 0.43.0
+       naive-ui:
+         specifier: ^2.35.0
+-        version: 2.35.0(vue@3.3.4)
++        version: 2.35.0(patch_hash=zlc7c26bcxmilgpuzdd2xwxq5e)(vue@3.3.4)
+       netmask:
+         specifier: ^2.0.2
+         version: 2.0.2
+@@ -285,6 +294,9 @@ importers:
+       '@vue/tsconfig':
+         specifier: ^0.4.0
+         version: 0.4.0
++      axe-core:
++        specifier: ^4.13.0
++        version: 4.13.0
+       consola:
+         specifier: ^3.0.2
+         version: 3.0.2
+@@ -300,6 +312,9 @@ importers:
+       less:
+         specifier: ^4.1.3
+         version: 4.1.3
++      playwright:
++        specifier: ^1.63.0
++        version: 1.63.0
+       prettier:
+         specifier: ^3.0.0
+         version: 3.0.0
+@@ -332,7 +347,7 @@ importers:
+         version: 4.0.0
+       vitest:
+         specifier: ^0.34.0
+-        version: 0.34.0(jsdom@22.0.0)(less@4.1.3)(terser@5.37.0)
++        version: 0.34.0(jsdom@22.0.0)(less@4.1.3)(playwright@1.63.0)(terser@5.37.0)
+       workbox-window:
+         specifier: ^7.0.0
+         version: 7.0.0
+@@ -2303,9 +2318,6 @@ packages:
+   '@vue/compiler-core@3.3.7':
+     resolution: {integrity: sha512-pACdY6YnTNVLXsB86YD8OF9ihwpolzhhtdLVHhBL6do/ykr6kKXNYABRtNMGrsQXpEXXyAdwvWWkuTbs4MFtPQ==}
+ 
+-  '@vue/compiler-core@3.5.13':
+-    resolution: {integrity: sha512-oOdAkwqUfW1WqpwSYJce06wvt6HljgY3fGeM9NcVA1HaYOij3mZG9Rkysn0OHuyUAGMbEbARIpsG+LPVlBJ5/Q==}
+-
+   '@vue/compiler-dom@3.2.47':
+     resolution: {integrity: sha512-dBBnEHEPoftUiS03a4ggEig74J2YBZ2UIeyfpcRM2tavgMWo4bsEfgCGsu+uJIL/vax9S+JztH8NmQerUo7shQ==}
+ 
+@@ -2315,18 +2327,12 @@ packages:
+   '@vue/compiler-dom@3.3.7':
+     resolution: {integrity: sha512-0LwkyJjnUPssXv/d1vNJ0PKfBlDoQs7n81CbO6Q0zdL7H1EzqYRrTVXDqdBVqro0aJjo/FOa1qBAPVI4PGSHBw==}
+ 
+-  '@vue/compiler-dom@3.5.13':
+-    resolution: {integrity: sha512-ZOJ46sMOKUjO3e94wPdCzQ6P1Lx/vhp2RSvfaab88Ajexs0AHeV0uasYhi99WPaogmBlRHNRuly8xV75cNTMDA==}
+-
+   '@vue/compiler-sfc@3.2.47':
+     resolution: {integrity: sha512-rog05W+2IFfxjMcFw10tM9+f7i/+FFpZJJ5XHX72NP9eC2uRD+42M3pYcQqDXVYoj74kHMSEdQ/WmCjt8JFksQ==}
+ 
+   '@vue/compiler-sfc@3.3.4':
+     resolution: {integrity: sha512-6y/d8uw+5TkCuzBkgLS0v3lSM3hJDntFEiUORM11pQ/hKvkhSKZrXW6i69UyXlJQisJxuUEJKAWEqWbWsLeNKQ==}
+ 
+-  '@vue/compiler-sfc@3.5.13':
+-    resolution: {integrity: sha512-6VdaljMpD82w6c2749Zhf5T9u5uLBWKnVue6XWxprDobftnletJ8+oel7sexFfM3qIxNmVE7LSFGTpv6obNyaQ==}
+-
+   '@vue/compiler-ssr@3.2.47':
+     resolution: {integrity: sha512-wVXC+gszhulcMD8wpxMsqSOpvDZ6xKXSVWkf50Guf/S+28hTAXPDYRTbLQ3EDkOP5Xz/+SY37YiwDquKbJOgZw==}
+ 
+@@ -2336,9 +2342,6 @@ packages:
+   '@vue/compiler-ssr@3.3.7':
+     resolution: {integrity: sha512-TxOfNVVeH3zgBc82kcUv+emNHo+vKnlRrkv8YvQU5+Y5LJGJwSNzcmLUoxD/dNzv0bhQ/F0s+InlgV0NrApJZg==}
+ 
+-  '@vue/compiler-ssr@3.5.13':
+-    resolution: {integrity: sha512-wMH6vrYHxQl/IybKJagqbquvxpWCuVYpoUJfCqFZwa/JY1GdATAQ+TgVtgrwwMZ0D07QhA99rs/EAAWfvG6KpA==}
+-
+   '@vue/devtools-api@6.5.0':
+     resolution: {integrity: sha512-o9KfBeaBmCKl10usN4crU53fYtC1r7jJwdGKjPT24t348rHxgfpZ0xL3Xm/gLUYnc0oTp8LAmrxOeLyu6tbk2Q==}
+ 
+@@ -2359,21 +2362,12 @@ packages:
+   '@vue/reactivity@3.3.4':
+     resolution: {integrity: sha512-kLTDLwd0B1jG08NBF3R5rqULtv/f8x3rOFByTDz4J53ttIQEDmALqKqXY0J+XQeN0aV2FBxY8nJDf88yvOPAqQ==}
+ 
+-  '@vue/reactivity@3.5.13':
+-    resolution: {integrity: sha512-NaCwtw8o48B9I6L1zl2p41OHo/2Z4wqYGGIK1Khu5T7yxrn+ATOixn/Udn2m+6kZKB/J7cuT9DbWWhRxqixACg==}
+-
+   '@vue/runtime-core@3.3.4':
+     resolution: {integrity: sha512-R+bqxMN6pWO7zGI4OMlmvePOdP2c93GsHFM/siJI7O2nxFRzj55pLwkpCedEY+bTMgp5miZ8CxfIZo3S+gFqvA==}
+ 
+-  '@vue/runtime-core@3.5.13':
+-    resolution: {integrity: sha512-Fj4YRQ3Az0WTZw1sFe+QDb0aXCerigEpw418pw1HBUKFtnQHWzwojaukAs2X/c9DQz4MQ4bsXTGlcpGxU/RCIw==}
+-
+   '@vue/runtime-dom@3.3.4':
+     resolution: {integrity: sha512-Aj5bTJ3u5sFsUckRghsNjVTtxZQ1OyMWCr5dZRAPijF/0Vy4xEoRCwLyHXcj4D0UFbJ4lbx3gPTgg06K/GnPnQ==}
+ 
+-  '@vue/runtime-dom@3.5.13':
+-    resolution: {integrity: sha512-dLaj94s93NYLqjLiyFzVs9X6dWhTdAlEAciC3Moq7gzAc13VJUdCnjjRurNM6uTLFATRHexHCTu/Xp3eW6yoog==}
+-
+   '@vue/server-renderer@3.3.4':
+     resolution: {integrity: sha512-Q6jDDzR23ViIb67v+vM1Dqntu+HUexQcsWKhhQa4ARVzxOY2HbC7QRW/ggkDBd5BU+uM1sV6XOAP0b216o34JQ==}
+     peerDependencies:
+@@ -2384,11 +2378,6 @@ packages:
+     peerDependencies:
+       vue: 3.3.7
+ 
+-  '@vue/server-renderer@3.5.13':
+-    resolution: {integrity: sha512-wAi4IRJV/2SAW3htkTlB+dHeRmpTiVIK1OGLWV1yeStVSebSQQOwGwIq0D3ZIoBj2C2qpgz5+vX9iEBkTdk5YA==}
+-    peerDependencies:
+-      vue: 3.5.13
+-
+   '@vue/shared@3.2.47':
+     resolution: {integrity: sha512-BHGyyGN3Q97EZx0taMQ+OLNuZcW3d37ZEVmEAyeoA9ERdGvm9Irc/0Fua8SNyOtV1w6BS4q25wbMzJujO9HIfQ==}
+ 
+@@ -2398,9 +2387,6 @@ packages:
+   '@vue/shared@3.3.7':
+     resolution: {integrity: sha512-N/tbkINRUDExgcPTBvxNkvHGu504k8lzlNQRITVnm6YjOjwa4r0nnbd4Jb01sNpur5hAllyRJzSK5PvB9PPwRg==}
+ 
+-  '@vue/shared@3.5.13':
+-    resolution: {integrity: sha512-/hnE/qP5ZoGpol0a5mDi45bOd7t3tjYJBjsgCsivow7D48cJeV5l05RD82lPqi7gRiphZM37rnhW1l6ZoCNNnQ==}
+-
+   '@vue/test-utils@2.3.2':
+     resolution: {integrity: sha512-hJnVaYhbrIm0yBS0+e1Y0Sj85cMyAi+PAbK4JHqMRUZ6S622Goa+G7QzkRSyvCteG8wop7tipuEbHoZo26wsSA==}
+     peerDependencies:
+@@ -2428,15 +2414,9 @@ packages:
+     peerDependencies:
+       vue-router: '>=4.0.0-rc.1'
+ 
+-  '@vueuse/shared@10.0.0':
+-    resolution: {integrity: sha512-Zh3LgJqvUBWVY3SiMvXanTcfAneGbt63QPczBRDNgQ6jd/ehodO9a1lCFzaA6SWJJoI+ugVTjHFYJdoR656DVQ==}
+-
+   '@vueuse/shared@10.3.0':
+     resolution: {integrity: sha512-kGqCTEuFPMK4+fNWy6dUOiYmxGcUbtznMwBZLC1PubidF4VZY05B+Oht7Jh7/6x4VOWGpvu3R37WHi81cKpiqg==}
+ 
+-  '@vueuse/shared@12.0.0':
+-    resolution: {integrity: sha512-3i6qtcq2PIio5i/vVYidkkcgvmTjCqrf26u+Fd4LhnbBmIT6FN8y6q/GJERp8lfcB9zVEfjdV0Br0443qZuJpw==}
+-
+   '@zhead/schema@1.0.0-beta.13':
+     resolution: {integrity: sha512-P1A1vRGFBhITco8Iw4/hvnDYoE/SoVrd71dW1pBFdXJb3vP+pBtoOuhbEKy0ROJGOyzQuqvFibcwzyLlWMqNiQ==}
+ 
+@@ -2550,6 +2530,10 @@ packages:
+     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
+     engines: {node: '>= 0.4'}
+ 
++  axe-core@4.13.0:
++    resolution: {integrity: sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==}
++    engines: {node: '>=4'}
++
+   babel-merge@3.0.0:
+     resolution: {integrity: sha512-eBOBtHnzt9xvnjpYNI5HmaPp/b2vMveE5XggzqHnQeHJ8mFIBrBv6WZEVIj5jJ2uwTItkqKo9gWzEEcBxEq0yw==}
+     peerDependencies:
+@@ -2896,9 +2880,6 @@ packages:
+   csstype@3.1.2:
+     resolution: {integrity: sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==}
+ 
+-  csstype@3.1.3:
+-    resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
+-
+   dash-get@1.0.2:
+     resolution: {integrity: sha512-4FbVrHDwfOASx7uQVxeiCTo7ggSdYZbqs8lH+WU6ViypPlDbe9y6IP5VVUDQBv9DcnyaiPT5XT0UWHgJ64zLeQ==}
+ 
+@@ -3246,6 +3227,7 @@ packages:
+   eslint-plugin-i@2.28.0-2:
+     resolution: {integrity: sha512-z48kG4qmE4TmiLcxbmvxMT5ycwvPkXaWW0XpU1L768uZaTbiDbxsHMEdV24JHlOR1xDsPpKW39BfP/pRdYIwFA==}
+     engines: {node: '>=12'}
++    deprecated: Please migrate to the brand new `eslint-plugin-import-x` instead
+     peerDependencies:
+       eslint: ^7.2.0 || ^8
+ 
+@@ -4616,6 +4598,16 @@ packages:
+     engines: {node: '>=14'}
+     hasBin: true
+ 
++  playwright-core@1.63.0:
++    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
++    engines: {node: '>=20'}
++    hasBin: true
++
++  playwright@1.63.0:
++    resolution: {integrity: sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==}
++    engines: {node: '>=20'}
++    hasBin: true
++
+   pluralize@8.0.0:
+     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+     engines: {node: '>=4'}
+@@ -4868,10 +4860,6 @@ packages:
+     resolution: {integrity: sha512-PXNdCiPqDqeUou+w1C2eTQbNfxKSuMxqTCuvlmmMsk1NWHL5fRrhY6Pl0qEYYc6+QqGClco1Qj8XnjPego4wfg==}
+     hasBin: true
+ 
+-  resolve@1.22.8:
+-    resolution: {integrity: sha512-oKWePCxqpd6FlLvGV1VU0x7bkPmmCNolxzjMf4NczoDnQcIWrAF+cPtZn5i6n+RfD2d9i0tzpKnG6Yk168yIyw==}
+-    hasBin: true
+-
+   resolve@1.22.9:
+     resolution: {integrity: sha512-QxrmX1DzraFIi9PxdG5VkRfRwIgjwyud+z/iBwfRRrVmHc+P9Q7u2lSSpQ6bjr2gy5lrqIiU9vb6iAeGf2400A==}
+     hasBin: true
+@@ -5071,6 +5059,7 @@ packages:
+   source-map@0.8.0-beta.0:
+     resolution: {integrity: sha512-2ymg6oRBpebeZi9UUNsgQ89bhx01TcTkmNTGnNO88imTmbSgy4nfujrgVEFKWpMTEGA11EDkTt7mqObTPdigIA==}
+     engines: {node: '>= 8'}
++    deprecated: The work that was done in this beta branch won't be included in future versions
+ 
+   sourcemap-codec@1.4.8:
+     resolution: {integrity: sha512-9NykojV5Uih4lgo5So5dtw+f0JgJX30KCNI8gwhz2J9A15wD0Ml6tjHKwf6fTSa6fAdVBdZeNOs9eJ71qCk8vA==}
+@@ -5453,7 +5442,7 @@ packages:
+     engines: {node: '>=14'}
+     peerDependencies:
+       '@nuxt/kit': ^3.2.2
+-      '@vueuse/core': '*'
++      '@vueuse/core': 10.3.0
+     peerDependenciesMeta:
+       '@nuxt/kit':
+         optional: true
+@@ -5701,14 +5690,6 @@ packages:
+   vue@3.3.4:
+     resolution: {integrity: sha512-VTyEYn3yvIeY1Py0WaYGZsXnz3y5UnGi62GjVEqvEGPl6nxbOrCXbVOTQWBEJUqAyTUk2uJ5JLVnYJ6ZzGbrSw==}
+ 
+-  vue@3.5.13:
+-    resolution: {integrity: sha512-wmeiSMxkZCSc+PM2w2VRsOYAZC8GdipNFRTsLSfodVqI9mbejKeXEGr8SckuLnrQPGe3oJN5c3K0vpoU9q/wCQ==}
+-    peerDependencies:
+-      typescript: '*'
+-    peerDependenciesMeta:
+-      typescript:
+-        optional: true
+-
+   vuedraggable@4.1.0:
+     resolution: {integrity: sha512-FU5HCWBmsf20GpP3eudURW3WdWTKIbEIQxh9/8GE806hydR9qZqRRxRE3RjqX7PkuLuMQG/A7n3cfj9rCEchww==}
+     peerDependencies:
+@@ -6117,7 +6098,7 @@ snapshots:
+       '@babel/traverse': 7.23.2
+       '@babel/types': 7.23.0
+       convert-source-map: 2.0.0
+-      debug: 4.3.4
++      debug: 4.4.0
+       gensync: 1.0.0-beta.2
+       json5: 2.2.3
+       semver: 6.3.1
+@@ -7030,7 +7011,7 @@ snapshots:
+       '@babel/helper-split-export-declaration': 7.22.6
+       '@babel/parser': 7.23.0
+       '@babel/types': 7.23.0
+-      debug: 4.3.4
++      debug: 4.4.0
+       globals: 11.12.0
+     transitivePeerDependencies:
+       - supports-color
+@@ -7401,7 +7382,7 @@ snapshots:
+ 
+   '@linaria/logger@4.0.0':
+     dependencies:
+-      debug: 4.3.4
++      debug: 4.4.0
+       picocolors: 1.0.0
+     transitivePeerDependencies:
+       - supports-color
+@@ -7940,10 +7921,10 @@ snapshots:
+     dependencies:
+       '@typescript-eslint/types': 5.60.0
+       '@typescript-eslint/visitor-keys': 5.60.0
+-      debug: 4.3.4
++      debug: 4.4.0
+       globby: 11.1.0
+       is-glob: 4.0.3
+-      semver: 7.5.4
++      semver: 7.6.3
+       tsutils: 3.21.0(typescript@5.2.2)
+     optionalDependencies:
+       typescript: 5.2.2
+@@ -7968,10 +7949,10 @@ snapshots:
+     dependencies:
+       '@typescript-eslint/types': 6.9.1
+       '@typescript-eslint/visitor-keys': 6.9.1
+-      debug: 4.3.4
++      debug: 4.4.0
+       globby: 11.1.0
+       is-glob: 4.0.3
+-      semver: 7.5.4
++      semver: 7.6.3
+       ts-api-utils: 1.0.1(typescript@5.2.2)
+     optionalDependencies:
+       typescript: 5.2.2
+@@ -7988,7 +7969,7 @@ snapshots:
+       '@typescript-eslint/typescript-estree': 5.60.0(typescript@5.2.2)
+       eslint: 8.47.0
+       eslint-scope: 5.1.1
+-      semver: 7.5.4
++      semver: 7.6.3
+     transitivePeerDependencies:
+       - supports-color
+       - typescript
+@@ -8049,15 +8030,15 @@ snapshots:
+     dependencies:
+       '@unhead/schema': 0.5.1
+ 
+-  '@unhead/vue@0.5.1(typescript@5.2.2)(vue@3.3.4)':
++  '@unhead/vue@0.5.1(vue@3.3.4)':
+     dependencies:
+       '@unhead/dom': 0.5.1
+       '@unhead/schema': 0.5.1
+-      '@vueuse/shared': 12.0.0(typescript@5.2.2)
++      '@vueuse/shared': 10.3.0(vue@3.3.4)
+       unhead: 0.5.1
+       vue: 3.3.4
+     transitivePeerDependencies:
+-      - typescript
++      - '@vue/composition-api'
+ 
+   '@unocss/astro@0.65.1(rollup@2.79.2)(vite@4.4.9(@types/node@18.15.11)(less@4.1.3)(terser@5.37.0))(vue@3.3.4)':
+     dependencies:
+@@ -8341,14 +8322,6 @@ snapshots:
+       source-map-js: 1.0.2
+     optional: true
+ 
+-  '@vue/compiler-core@3.5.13':
+-    dependencies:
+-      '@babel/parser': 7.26.3
+-      '@vue/shared': 3.5.13
+-      entities: 4.5.0
+-      estree-walker: 2.0.2
+-      source-map-js: 1.2.1
+-
+   '@vue/compiler-dom@3.2.47':
+     dependencies:
+       '@vue/compiler-core': 3.2.47
+@@ -8365,11 +8338,6 @@ snapshots:
+       '@vue/shared': 3.3.7
+     optional: true
+ 
+-  '@vue/compiler-dom@3.5.13':
+-    dependencies:
+-      '@vue/compiler-core': 3.5.13
+-      '@vue/shared': 3.5.13
+-
+   '@vue/compiler-sfc@3.2.47':
+     dependencies:
+       '@babel/parser': 7.21.4
+@@ -8396,18 +8364,6 @@ snapshots:
+       postcss: 8.4.28
+       source-map-js: 1.0.2
+ 
+-  '@vue/compiler-sfc@3.5.13':
+-    dependencies:
+-      '@babel/parser': 7.26.3
+-      '@vue/compiler-core': 3.5.13
+-      '@vue/compiler-dom': 3.5.13
+-      '@vue/compiler-ssr': 3.5.13
+-      '@vue/shared': 3.5.13
+-      estree-walker: 2.0.2
+-      magic-string: 0.30.15
+-      postcss: 8.4.49
+-      source-map-js: 1.2.1
+-
+   '@vue/compiler-ssr@3.2.47':
+     dependencies:
+       '@vue/compiler-dom': 3.2.47
+@@ -8424,11 +8380,6 @@ snapshots:
+       '@vue/shared': 3.3.7
+     optional: true
+ 
+-  '@vue/compiler-ssr@3.5.13':
+-    dependencies:
+-      '@vue/compiler-dom': 3.5.13
+-      '@vue/shared': 3.5.13
+-
+   '@vue/devtools-api@6.5.0': {}
+ 
+   '@vue/language-core@1.8.1(typescript@5.2.2)':
+@@ -8464,33 +8415,17 @@ snapshots:
+     dependencies:
+       '@vue/shared': 3.3.4
+ 
+-  '@vue/reactivity@3.5.13':
+-    dependencies:
+-      '@vue/shared': 3.5.13
+-
+   '@vue/runtime-core@3.3.4':
+     dependencies:
+       '@vue/reactivity': 3.3.4
+       '@vue/shared': 3.3.4
+ 
+-  '@vue/runtime-core@3.5.13':
+-    dependencies:
+-      '@vue/reactivity': 3.5.13
+-      '@vue/shared': 3.5.13
+-
+   '@vue/runtime-dom@3.3.4':
+     dependencies:
+       '@vue/runtime-core': 3.3.4
+       '@vue/shared': 3.3.4
+       csstype: 3.1.2
+ 
+-  '@vue/runtime-dom@3.5.13':
+-    dependencies:
+-      '@vue/reactivity': 3.5.13
+-      '@vue/runtime-core': 3.5.13
+-      '@vue/shared': 3.5.13
+-      csstype: 3.1.3
+-
+   '@vue/server-renderer@3.3.4(vue@3.3.4)':
+     dependencies:
+       '@vue/compiler-ssr': 3.3.4
+@@ -8504,12 +8439,6 @@ snapshots:
+       vue: 3.3.4
+     optional: true
+ 
+-  '@vue/server-renderer@3.5.13(vue@3.5.13(typescript@5.2.2))':
+-    dependencies:
+-      '@vue/compiler-ssr': 3.5.13
+-      '@vue/shared': 3.5.13
+-      vue: 3.5.13(typescript@5.2.2)
+-
+   '@vue/shared@3.2.47': {}
+ 
+   '@vue/shared@3.3.4': {}
+@@ -8517,8 +8446,6 @@ snapshots:
+   '@vue/shared@3.3.7':
+     optional: true
+ 
+-  '@vue/shared@3.5.13': {}
+-
+   '@vue/test-utils@2.3.2(vue@3.3.4)':
+     dependencies:
+       js-beautify: 1.14.6
+@@ -8546,33 +8473,26 @@ snapshots:
+       - '@vue/composition-api'
+       - vue
+ 
+-  '@vueuse/head@1.0.0(typescript@5.2.2)(vue@3.3.4)':
++  '@vueuse/head@1.0.0(vue@3.3.4)':
+     dependencies:
+       '@unhead/schema': 0.5.1
+       '@unhead/ssr': 0.5.1
+-      '@unhead/vue': 0.5.1(typescript@5.2.2)(vue@3.3.4)
++      '@unhead/vue': 0.5.1(vue@3.3.4)
+       vue: 3.3.4
+     transitivePeerDependencies:
+-      - typescript
++      - '@vue/composition-api'
+ 
+   '@vueuse/metadata@10.3.0': {}
+ 
+   '@vueuse/router@10.0.0(vue-router@4.1.6(vue@3.3.4))(vue@3.3.4)':
+     dependencies:
+-      '@vueuse/shared': 10.0.0(vue@3.3.4)
++      '@vueuse/shared': 10.3.0(vue@3.3.4)
+       vue-demi: 0.14.5(vue@3.3.4)
+       vue-router: 4.1.6(vue@3.3.4)
+     transitivePeerDependencies:
+       - '@vue/composition-api'
+       - vue
+ 
+-  '@vueuse/shared@10.0.0(vue@3.3.4)':
+-    dependencies:
+-      vue-demi: 0.14.5(vue@3.3.4)
+-    transitivePeerDependencies:
+-      - '@vue/composition-api'
+-      - vue
+-
+   '@vueuse/shared@10.3.0(vue@3.3.4)':
+     dependencies:
+       vue-demi: 0.14.5(vue@3.3.4)
+@@ -8580,12 +8500,6 @@ snapshots:
+       - '@vue/composition-api'
+       - vue
+ 
+-  '@vueuse/shared@12.0.0(typescript@5.2.2)':
+-    dependencies:
+-      vue: 3.5.13(typescript@5.2.2)
+-    transitivePeerDependencies:
+-      - typescript
+-
+   '@zhead/schema@1.0.0-beta.13': {}
+ 
+   abab@2.0.6: {}
+@@ -8608,7 +8522,7 @@ snapshots:
+ 
+   agent-base@6.0.2:
+     dependencies:
+-      debug: 4.3.4
++      debug: 4.4.0
+     transitivePeerDependencies:
+       - supports-color
+ 
+@@ -8685,6 +8599,8 @@ snapshots:
+     dependencies:
+       possible-typed-array-names: 1.0.0
+ 
++  axe-core@4.13.0: {}
++
+   babel-merge@3.0.0(@babel/core@7.23.2):
+     dependencies:
+       '@babel/core': 7.23.2
+@@ -9084,8 +9000,6 @@ snapshots:
+ 
+   csstype@3.1.2: {}
+ 
+-  csstype@3.1.3: {}
+-
+   dash-get@1.0.2: {}
+ 
+   data-uri-to-buffer@4.0.1: {}
+@@ -10673,7 +10587,7 @@ snapshots:
+ 
+   muggle-string@0.3.1: {}
+ 
+-  naive-ui@2.35.0(vue@3.3.4):
++  naive-ui@2.35.0(patch_hash=zlc7c26bcxmilgpuzdd2xwxq5e)(vue@3.3.4):
+     dependencies:
+       '@css-render/plugin-bem': 0.15.12(css-render@0.15.12)
+       '@css-render/vue3-ssr': 0.15.12(vue@3.3.4)
+@@ -10753,7 +10667,7 @@ snapshots:
+   normalize-package-data@2.5.0:
+     dependencies:
+       hosted-git-info: 2.8.9
+-      resolve: 1.22.8
++      resolve: 1.22.9
+       semver: 5.7.2
+       validate-npm-package-license: 3.0.4
+ 
+@@ -10974,6 +10888,12 @@ snapshots:
+ 
+   playwright-core@1.32.3: {}
+ 
++  playwright-core@1.63.0: {}
++
++  playwright@1.63.0:
++    dependencies:
++      playwright-core: 1.63.0
++
+   pluralize@8.0.0: {}
+ 
+   pngjs@5.0.0: {}
+@@ -11271,12 +11191,6 @@ snapshots:
+       path-parse: 1.0.7
+       supports-preserve-symlinks-flag: 1.0.0
+ 
+-  resolve@1.22.8:
+-    dependencies:
+-      is-core-module: 2.13.1
+-      path-parse: 1.0.7
+-      supports-preserve-symlinks-flag: 1.0.0
+-
+   resolve@1.22.9:
+     dependencies:
+       is-core-module: 2.16.0
+@@ -12073,7 +11987,7 @@ snapshots:
+       less: 4.1.3
+       terser: 5.37.0
+ 
+-  vitest@0.34.0(jsdom@22.0.0)(less@4.1.3)(terser@5.37.0):
++  vitest@0.34.0(jsdom@22.0.0)(less@4.1.3)(playwright@1.63.0)(terser@5.37.0):
+     dependencies:
+       '@types/chai': 4.3.5
+       '@types/chai-subset': 1.3.3
+@@ -12101,6 +12015,7 @@ snapshots:
+       why-is-node-running: 2.2.2
+     optionalDependencies:
+       jsdom: 22.0.0
++      playwright: 1.63.0
+     transitivePeerDependencies:
+       - less
+       - lightningcss
+@@ -12180,16 +12095,6 @@ snapshots:
+       '@vue/server-renderer': 3.3.4(vue@3.3.4)
+       '@vue/shared': 3.3.4
+ 
+-  vue@3.5.13(typescript@5.2.2):
+-    dependencies:
+-      '@vue/compiler-dom': 3.5.13
+-      '@vue/compiler-sfc': 3.5.13
+-      '@vue/runtime-dom': 3.5.13
+-      '@vue/server-renderer': 3.5.13(vue@3.5.13(typescript@5.2.2))
+-      '@vue/shared': 3.5.13
+-    optionalDependencies:
+-      typescript: 5.2.2
+-
+   vuedraggable@4.1.0(vue@3.3.4):
+     dependencies:
+       sortablejs: 1.14.0
+diff --git a/scripts/a11y/audit.mjs b/scripts/a11y/audit.mjs
+new file mode 100644
+index 0000000..aac19a8
+--- /dev/null
++++ b/scripts/a11y/audit.mjs
+@@ -0,0 +1,347 @@
++#!/usr/bin/env node
++/**
++ * audit.mjs — audit d'accessibilité axe-core + Playwright.
++ *
++ * Usage :
++ *   node audit.mjs <url-de-base>            # crawl same-origin (profondeur 1, max 50 pages)
++ *   node audit.mjs --urls a,b,c              # liste explicite d'URLs
++ *   node audit.mjs <url> --out dir           # dossier de sortie (défaut: ./a11y-audit)
++ *   node audit.mjs <url> --max 20            # nb max de pages en crawl
++ *   node audit.mjs <url> --depth 2           # profondeur de crawl (défaut 1)
++ *   node audit.mjs <url> --wait 1500         # attente fixe (ms) après chargement
++ *   node audit.mjs <url> --wait-for '#app'   # sélecteur REQUIS — absent => erreur de page
++ *   node audit.mjs <url> --states all        # états dynamiques déclarés dans STATES
++ *   node audit.mjs <url> --states nom1,nom2  # sous-ensemble explicite
++ *   node audit.mjs <url> --states none       # déclare explicitement l'ABSENCE d'états
++ *   node audit.mjs <url> --keep-hash         # conserve tous les fragments # (SPA hash-router)
++ *   node audit.mjs <url> --storage-state f.json  # contexte authentifié Playwright
++ *   node audit.mjs <url> --strict-incomplete # 'incomplete' axe compte comme erreur du gate
++ *
++ * États dynamiques : déclarez-les dans la carte STATES ci-dessous — ce sont les
++ * vues invisibles au chargement (modales, drawers, toasts, onglets) qu'un audit
++ * route-par-route ne voit jamais. Le scan tourne après le `setup` de chaque état.
++ * `--states all` sur une carte vide est une ERREUR : déclarez les états ou
++ * affirmez leur absence avec `--states none`.
++ *
++ * Prérequis : npm i -D playwright axe-core && npx playwright install chromium
++ *
++ * Sorties : <out>/report.json (violations + incomplete + métadonnées),
++ *           <out>/report.md (trié par impact), <out>/scope.json (périmètre
++ *           exécuté + hash — à comparer entre baseline et final).
++ *
++ * Exit code : 0 = périmètre complet sans violation ; 1 = violation(s) ;
++ *             2 = périmètre incomplet ou erreur (config, navigation, injection,
++ *                 précondition, HTTP >= 400, redirection login, état inconnu).
++ *             Un PASS n'existe que si tout le périmètre demandé a été audité.
++ */
++import { createRequire } from 'node:module';
++import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
++import { createHash } from 'node:crypto';
++import { resolve } from 'node:path';
++
++// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const args = process.argv.slice(2);
++const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
++const opt = (name, dflt) => {
++  const i = args.indexOf(`--${name}`);
++  return i >= 0 ? args[i + 1] : dflt;
++};
++const flag = (name) => args.includes(`--${name}`);
++const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
++
++const baseUrl = positional[0];
++const urlsOpt = opt('urls', null);
++const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean);
++const outDir = resolve(opt('out', './a11y-audit'));
++const maxPages = parseInt(opt('max', '50'), 10);
++const waitMs = parseInt(opt('wait', '0'), 10);
++const waitFor = opt('wait-for', null);
++const depth = parseInt(opt('depth', '1'), 10);
++const statesOpt = opt('states', '');
++const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
++const keepHash = flag('keep-hash');
++const strictIncomplete = flag('strict-incomplete');
++const storageState = opt('storage-state', null);
++
++const configErrors = [];
++if (!baseUrl && explicitUrls === null) {
++  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
++  process.exit(2);
++}
++if (explicitUrls !== null && explicitUrls.length === 0) {
++  configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
++}
++if (statesArg.includes('none') && statesArg.length > 1) {
++  configErrors.push("--states none ne se combine pas avec d'autres états");
++}
++
++// Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
++const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
++
++/**
++ * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
++ * APRÈS `setup`, sur le DOM résultant — c'est ce qui couvre les composants
++ * invisibles au chargement (modale, drawer, toast, onglet, section dépliée),
++ * angle mort d'un audit route-par-route. `url(b)` reçoit l'origine de base.
++ * Adaptez cette carte au projet (sélecteurs + séquence). Exemple :
++ *   'drawer-fiche': {
++ *     url: b => `${b}/#/liste`,
++ *     setup: async page => {
++ *       await page.locator('table tr[data-id]').first().click();
++ *       await page.waitForSelector('#drawer:not(.hidden)', { timeout: 10000 });
++ *     },
++ *   },
++ */
++const STATES = {
++  'command-palette': {
++    url: b => `${b}/`,
++    setup: async page => {
++      await page.keyboard.press('Control+k');
++      await page.waitForSelector('.palette-modal', { timeout: 10000 });
++    },
++  },
++};
++
++if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
++  configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
++}
++const unknownStates = statesArg.filter(s => s !== 'all' && s !== 'none' && !(s in STATES));
++if (unknownStates.length) {
++  configErrors.push(`état(s) demandé(s) inconnu(s) : ${unknownStates.join(', ')} (déclarés : ${Object.keys(STATES).join(', ') || 'aucun'})`);
++}
++
++function sameOrigin(u, origin) {
++  try { return new URL(u).origin === origin; } catch { return false; }
++}
++
++// Un fragment n'est une ANCRE effaçable que s'il ne ressemble pas à une route
++// de hash-router (#/x, #!/x, #$:/x, #x/y). #HelloThere (TiddlyWiki) ressemble à
++// une ancre mais est une route : utiliser --keep-hash ou --urls sur ces apps.
++function normalizeForDedup(u) {
++  try {
++    const url = new URL(u);
++    if (keepHash) return url.href;
++    const h = url.hash;
++    if (!h) return url.href;
++    return /[\/!:$]/.test(h) ? url.href : url.href.split('#')[0];
++  } catch { return u; }
++}
++
++async function collectUrls(page, startUrl, origin, maxDepth, limit, crawlErrors) {
++  const seen = new Set([normalizeForDedup(startUrl)]);
++  const queue = [{ url: startUrl, d: 0 }];
++  while (queue.length && seen.size < limit) {
++    const { url, d } = queue.shift();
++    if (d >= maxDepth) continue;
++    try {
++      await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
++      const links = await page.$$eval('a[href]', els => els.map(e => e.href));
++      for (const l of links) {
++        const clean = normalizeForDedup(l);
++        if (sameOrigin(clean.split('#')[0], origin) && !seen.has(clean) && seen.size < limit
++            && !/\.(png|jpe?g|gif|svg|webp|pdf|zip|css|js|ico|woff2?|mp[34]|xml|json)(\?|#|$)/i.test(clean)) {
++          seen.add(clean);
++          queue.push({ url: clean, d: d + 1 });
++        }
++      }
++    } catch (e) {
++      crawlErrors.push(`[crawl] ${url}: ${e.message}`);
++      console.error(`[crawl] ${url}: ${e.message}`);
++    }
++  }
++  return [...seen];
++}
++
++const LOGIN_PATH = /\/(login|signin|sign-in|sign_in|auth|connexion)\b/i;
++
++async function run() {
++  mkdirSync(outDir, { recursive: true });
++  const results = [];
++  const crawlErrors = [];
++
++  const browser = await chromium.launch();
++  const context = await browser.newContext(storageState ? { storageState } : {});
++  const page = await context.newPage();
++
++  let urls;
++  if (explicitUrls !== null) {
++    urls = explicitUrls;
++  } else {
++    const origin = new URL(baseUrl).origin;
++    console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
++    urls = await collectUrls(page, baseUrl, origin, depth, maxPages, crawlErrors);
++    console.log(`[crawl] ${urls.length} page(s)`);
++    if (urls.length === 0) crawlErrors.push('crawl : aucune page découverte');
++  }
++
++  const axePath = require.resolve('axe-core/axe.min.js');
++  const axeSource = readFileSync(axePath, 'utf8');
++
++  const scanPage = async () => {
++    await page.addScriptTag({ content: axeSource });
++    return await page.evaluate(async (tags) => {
++      return await window.axe.run(document, {
++        runOnly: { type: 'tag', values: tags },
++        resultTypes: ['violations', 'incomplete'],
++      });
++    }, RULE_TAGS);
++  };
++
++  const recordPage = (entry) => results.push(entry);
++
++  const auditLocation = async (label, gotoUrl, extraSetup) => {
++    const entry = { url: label, requestedUrl: gotoUrl, violations: [], incomplete: [] };
++    try {
++      const response = await page.goto(gotoUrl, { waitUntil: 'networkidle', timeout: 30000 });
++      const httpStatus = response ? response.status() : null;
++      const finalUrl = page.url();
++      entry.httpStatus = httpStatus;
++      entry.finalUrl = finalUrl;
++      if (httpStatus !== null && httpStatus >= 400) {
++        entry.error = `HTTP ${httpStatus}`;
++      } else if (LOGIN_PATH.test(finalUrl) && !LOGIN_PATH.test(gotoUrl)) {
++        entry.error = `redirection vers une page de connexion (${finalUrl}) — la page demandée n'a pas été auditée`;
++      } else {
++        if (waitFor) {
++          await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
++        }
++        if (waitMs) await page.waitForTimeout(waitMs);
++        if (extraSetup) await extraSetup(page);
++        const res = await scanPage();
++        entry.violations = res.violations || [];
++        entry.incomplete = res.incomplete || [];
++        entry.testEngine = res.testEngine || null;
++        if (strictIncomplete && entry.incomplete.length) {
++          entry.error = `${entry.incomplete.length} résultat(s) axe 'incomplete' (--strict-incomplete)`;
++        }
++      }
++      console.log(`[scan] ${label} — ${entry.error ? 'ERREUR ' + entry.error : `${entry.violations.length} règle(s) violée(s)` + (entry.incomplete.length ? `, ${entry.incomplete.length} incomplete` : '')}`);
++    } catch (e) {
++      entry.error = e.message;
++      console.error(`[scan] ${label}: ${e.message}`);
++    }
++    recordPage(entry);
++  };
++
++  for (const url of urls) {
++    await auditLocation(url, url, null);
++  }
++
++  // États dynamiques : chaque état repart d'un document neuf — en navigation
++  // par hash (SPA), un goto sur le même document ne recharge pas et l'état
++  // précédent (drawer ouvert…) persisterait.
++  const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
++  if (wanted.length) {
++    const origin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
++    for (const name of wanted) {
++      const st = STATES[name];
++      const label = `${st.url(origin)} [state:${name}]`;
++      await auditLocation(label, st.url(origin), async (p) => {
++        await p.goto('about:blank');
++        await p.goto(st.url(origin), { waitUntil: 'networkidle', timeout: 30000 });
++        await st.setup(p);
++      });
++    }
++  }
++
++  await browser.close();
++
++  // Périmètre exécuté : identifiant = url demandée + statut. scope.json permet
++  // de comparer l'ensemble EXACT des scénarios entre baseline et final — une
++  // somme égale de pages ne prouve pas l'identité des ensembles.
++  const scenarioId = (e) => e.url;
++  const scopeEntries = results.map(e => ({
++    id: scenarioId(e), status: e.error ? 'error' : 'audited',
++    httpStatus: e.httpStatus ?? null, finalUrl: e.finalUrl ?? null,
++  }));
++  const scopeHash = createHash('sha256')
++    .update(JSON.stringify(scopeEntries.map(e => e.id).sort()))
++    .digest('hex');
++  const scope = {
++    generatedAt: new Date().toISOString(),
++    baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
++    storageState: !!storageState,
++    total: scopeEntries.length,
++    audited: scopeEntries.filter(e => e.status === 'audited').length,
++    errored: scopeEntries.filter(e => e.status === 'error').length,
++    crawlErrors,
++    scopeHash,
++    scenarios: scopeEntries,
++  };
++  writeFileSync(resolve(outDir, 'scope.json'), JSON.stringify(scope, null, 2));
++
++  const errorCount = scope.errored + crawlErrors.length + configErrors.length;
++  writeFileSync(resolve(outDir, 'report.json'), JSON.stringify({
++    generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
++    pages: results, configErrors, crawlErrors, scopeHash,
++  }, null, 2));
++
++  // Rapport markdown : regroupé par règle, trié par impact
++  const impactRank = { critical: 0, serious: 1, moderate: 2, minor: 3 };
++  const byRule = new Map();
++  const incompleteByRule = new Map();
++  for (const p of results) {
++    for (const v of p.violations || []) {
++      if (!byRule.has(v.id)) byRule.set(v.id, { ...v, pages: new Map() });
++      byRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => n.target.join(' ')));
++    }
++    for (const v of p.incomplete || []) {
++      if (!incompleteByRule.has(v.id)) incompleteByRule.set(v.id, { ...v, pages: new Map() });
++      incompleteByRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => (n.target || []).join(' ')));
++    }
++  }
++  const rules = [...byRule.values()].sort((a, b) =>
++    (impactRank[a.impact] ?? 9) - (impactRank[b.impact] ?? 9) || b.pages.size - a.pages.size);
++
++  let md = `# Audit accessibilité — ${new Date().toISOString().slice(0, 10)}\n\n`;
++  const totalRules = rules.length;
++  const totalNodes = rules.reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  const totalIncomplete = [...incompleteByRule.values()].reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  md += `**${totalRules} règle(s) violée(s), ${totalNodes} occurrence(s), ${scope.audited}/${scope.total} scénario(s) audité(s), ${errorCount} erreur(s), ${totalIncomplete} résultat(s) incomplet(s).**\n\n`;
++  md += `Périmètre : scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
++
++  for (const r of rules) {
++    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nRéférence : ${r.helpUrl}\n\n`;
++    for (const [page, targets] of r.pages) {
++      md += `- ${page}\n`;
++      for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++      if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++    }
++    md += '\n';
++  }
++
++  if (incompleteByRule.size) {
++    md += `## Résultats incomplets à revoir (${totalIncomplete})\n\n`;
++    md += 'axe n\'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :\n\n';
++    for (const r of incompleteByRule.values()) {
++      md += `### ${r.id} — ${r.help || ''}\n\n`;
++      for (const [page, targets] of r.pages) {
++        md += `- ${page}\n`;
++        for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++        if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++      }
++      md += '\n';
++    }
++  }
++
++  const errs = results.filter(p => p.error);
++  if (errs.length || crawlErrors.length || configErrors.length) {
++    md += `## Erreurs (${errs.length + crawlErrors.length + configErrors.length}) — exit code != 0\n\n`;
++    md += 'Ces scénarios n\'ont pas été audités. Un audit partiel n\'est pas un PASS : le gate CI échoue tant qu\'un scénario demandé manque.\n\n';
++    for (const e of errs) md += `- ${e.url} — ${e.error}\n`;
++    for (const e of crawlErrors) md += `- ${e}\n`;
++    for (const e of configErrors) md += `- config : ${e}\n`;
++    md += '\n';
++  }
++  writeFileSync(resolve(outDir, 'report.md'), md);
++  console.log(`\n${outDir}/report.md — ${totalRules} règle(s), ${totalNodes} occurrence(s), ${errorCount} erreur(s), ${totalIncomplete} incomplet(s)`);
++
++  if (configErrors.length) for (const e of configErrors) console.error(`[config] ${e}`);
++  if (errorCount > 0) process.exit(2);
++  process.exit(totalRules > 0 ? 1 : 0);
++}
++
++run().catch(e => { console.error(e); process.exit(2); });
+diff --git a/src/App.vue b/src/App.vue
+index 8e65335..52ddd1c 100644
+--- a/src/App.vue
++++ b/src/App.vue
+@@ -49,4 +49,15 @@ html {
+ * {
+   box-sizing: border-box;
+ }
++
++@media (prefers-reduced-motion: reduce) {
++  *,
++  *::before,
++  *::after {
++    animation-duration: 0.01ms !important;
++    animation-iteration-count: 1 !important;
++    transition-duration: 0.01ms !important;
++    scroll-behavior: auto !important;
++  }
++}
+ </style>
+diff --git a/src/components/CollapsibleToolMenu.vue b/src/components/CollapsibleToolMenu.vue
+index 9a73ddd..d88e4d1 100644
+--- a/src/components/CollapsibleToolMenu.vue
++++ b/src/components/CollapsibleToolMenu.vue
+@@ -46,7 +46,13 @@ const themeVars = useThemeVars();
+ 
+ <template>
+   <div v-for="{ name, tools, isCollapsed } of menuOptions" :key="name">
+-    <div ml-6px mt-12px flex cursor-pointer items-center op-60 @click="toggleCategoryCollapse({ name })">
++    <button
++      type="button"
++      ml-6px mt-12px flex cursor-pointer items-center op-80
++      class="category-toggle"
++      :aria-expanded="!isCollapsed"
++      @click="toggleCategoryCollapse({ name })"
++    >
+       <span :class="{ 'rotate-0': isCollapsed, 'rotate-90': !isCollapsed }" text-16px lh-1 op-50 transition-transform>
+         <icon-mdi-chevron-right />
+       </span>
+@@ -54,7 +60,7 @@ const themeVars = useThemeVars();
+       <span ml-8px text-13px>
+         {{ name }}
+       </span>
+-    </div>
++    </button>
+ 
+     <n-collapse-transition :show="!isCollapsed">
+       <div class="menu-wrapper">
+@@ -75,6 +81,15 @@ const themeVars = useThemeVars();
+ </template>
+ 
+ <style scoped lang="less">
++.category-toggle {
++  border: none;
++  background: none;
++  padding: 0;
++  font: inherit;
++  color: inherit;
++  text-align: left;
++}
++
+ .menu-wrapper {
+   display: flex;
+   flex-direction: row;
+diff --git a/src/components/ColoredCard.vue b/src/components/ColoredCard.vue
+index 0407e65..2cde5ef 100644
+--- a/src/components/ColoredCard.vue
++++ b/src/components/ColoredCard.vue
+@@ -7,7 +7,7 @@ const { icon, title } = toRefs(props);
+ 
+ <template>
+   <c-card class="colored-card">
+-    <n-icon class="icon" size="40" :component="icon" />
++    <n-icon aria-hidden="true" class="icon" size="40" :component="icon" />
+     <n-h3 class="title">
+       <n-ellipsis>{{ title }}</n-ellipsis>
+     </n-h3>
+diff --git a/src/components/FavoriteButton.vue b/src/components/FavoriteButton.vue
+index e43ed8a..1b44a59 100644
+--- a/src/components/FavoriteButton.vue
++++ b/src/components/FavoriteButton.vue
+@@ -29,6 +29,7 @@ function toggleFavorite(event: MouseEvent) {
+       variant="text"
+       circle
+       :type="buttonType"
++      :aria-label="isFavorite ? $t('favoriteButton.remove') : $t('favoriteButton.add')"
+       :style="{ opacity: isFavorite ? 1 : 0.2 }"
+       @click="toggleFavorite"
+     >
+diff --git a/src/components/InputCopyable.vue b/src/components/InputCopyable.vue
+index a69a039..32e7181 100644
+--- a/src/components/InputCopyable.vue
++++ b/src/components/InputCopyable.vue
+@@ -14,7 +14,7 @@ const tooltipText = computed(() => isJustCopied.value ? 'Copied!' : 'Copy to cli
+   <c-input-text v-model:value="value">
+     <template #suffix>
+       <c-tooltip :tooltip="tooltipText">
+-        <c-button circle variant="text" size="small" @click="copy()">
++        <c-button circle variant="text" size="small" :aria-label="tooltipText" @click="copy()">
+           <icon-mdi-content-copy />
+         </c-button>
+       </c-tooltip>
+diff --git a/src/components/MenuIconItem.vue b/src/components/MenuIconItem.vue
+index d816f8c..2cc4f17 100644
+--- a/src/components/MenuIconItem.vue
++++ b/src/components/MenuIconItem.vue
+@@ -10,7 +10,7 @@ const theme = useThemeVars();
+ 
+ <template>
+   <div class="menu-icon-item">
+-    <n-icon :component="tool.icon" />
++    <n-icon aria-hidden="true" :component="tool.icon" />
+     <div v-if="tool.isNew" class="badge" />
+   </div>
+ </template>
+diff --git a/src/components/NavbarButtons.vue b/src/components/NavbarButtons.vue
+index 4084526..54cf4fd 100644
+--- a/src/components/NavbarButtons.vue
++++ b/src/components/NavbarButtons.vue
+@@ -16,7 +16,7 @@ const { isDarkTheme } = toRefs(styleStore);
+       rel="noopener noreferrer"
+       :aria-label="$t('home.nav.githubRepository')"
+     >
+-      <n-icon size="25" :component="IconBrandGithub" />
++      <n-icon aria-hidden="true" size="25" :component="IconBrandGithub" />
+     </c-button>
+   </c-tooltip>
+ 
+@@ -29,19 +29,19 @@ const { isDarkTheme } = toRefs(styleStore);
+       target="_blank"
+       :aria-label="$t('home.nav.twitterXAccount')"
+     >
+-      <n-icon size="25" :component="IconBrandX" />
++      <n-icon aria-hidden="true" size="25" :component="IconBrandX" />
+     </c-button>
+   </c-tooltip>
+ 
+   <c-tooltip :tooltip="$t('home.nav.about')" position="bottom">
+     <c-button circle variant="text" to="/about" :aria-label="$t('home.nav.aboutLabel')">
+-      <n-icon size="25" :component="IconInfoCircle" />
++      <n-icon aria-hidden="true" size="25" :component="IconInfoCircle" />
+     </c-button>
+   </c-tooltip>
+   <c-tooltip :tooltip="isDarkTheme ? $t('home.nav.lightMode') : $t('home.nav.darkMode')" position="bottom">
+     <c-button circle variant="text" :aria-label="$t('home.nav.mode')" @click="() => styleStore.toggleDark()">
+-      <n-icon v-if="isDarkTheme" size="25" :component="IconSun" />
+-      <n-icon v-else size="25" :component="IconMoon" />
++      <n-icon aria-hidden="true" v-if="isDarkTheme" size="25" :component="IconSun" />
++      <n-icon aria-hidden="true" v-else size="25" :component="IconMoon" />
+     </c-button>
+   </c-tooltip>
+ </template>
+diff --git a/src/components/TextareaCopyable.vue b/src/components/TextareaCopyable.vue
+index 9585177..fe1cdea 100644
+--- a/src/components/TextareaCopyable.vue
++++ b/src/components/TextareaCopyable.vue
+@@ -54,8 +54,8 @@ const tooltipText = computed(() => isJustCopied.value ? 'Copied!' : copyMessage.
+       </n-scrollbar>
+       <div absolute right-10px top-10px>
+         <c-tooltip v-if="value" :tooltip="tooltipText" position="left">
+-          <c-button circle important:h-10 important:w-10 @click="copy()">
+-            <n-icon size="22" :component="Copy" />
++          <c-button circle important:h-10 important:w-10 :aria-label="tooltipText" @click="copy()">
++            <n-icon aria-hidden="true" size="22" :component="Copy" />
+           </c-button>
+         </c-tooltip>
+       </div>
+@@ -69,6 +69,10 @@ const tooltipText = computed(() => isJustCopied.value ? 'Copied!' : copyMessage.
+ </template>
+ 
+ <style lang="less" scoped>
++::v-deep(.hljs-name) {
++  color: #b12015;
++}
++
+ ::v-deep(.n-scrollbar) {
+   padding-bottom: 10px;
+   margin-bottom: -10px;
+diff --git a/src/components/ToolCard.vue b/src/components/ToolCard.vue
+index 4ba4564..5038c6f 100644
+--- a/src/components/ToolCard.vue
++++ b/src/components/ToolCard.vue
+@@ -12,7 +12,7 @@ const theme = useThemeVars();
+   <router-link :to="tool.path" class="decoration-none">
+     <c-card class="h-full transition transition-duration-0.5s !border-2px !hover:border-primary">
+       <div flex items-center justify-between>
+-        <n-icon class="text-neutral-400 dark:text-neutral-600" size="40" :component="tool.icon" />
++        <n-icon aria-hidden="true" class="text-neutral-400 dark:text-neutral-600" size="40" :component="tool.icon" />
+ 
+         <div flex items-center gap-8px>
+           <div
+diff --git a/src/layouts/base.layout.vue b/src/layouts/base.layout.vue
+index ef53420..58e6973 100644
+--- a/src/layouts/base.layout.vue
++++ b/src/layouts/base.layout.vue
+@@ -38,9 +38,9 @@ const tools = computed<ToolCategory[]>(() => [
+       <RouterLink to="/" class="hero-wrapper">
+         <HeroGradient class="gradient" />
+         <div class="text-wrapper">
+-          <div class="title">
++          <h1 class="title">
+             IT - TOOLS
+-          </div>
++          </h1>
+           <div class="divider" />
+           <div class="subtitle">
+             {{ $t('home.subtitle') }}
+@@ -90,19 +90,19 @@ const tools = computed<ToolCategory[]>(() => [
+     </template>
+ 
+     <template #content>
+-      <div flex items-center justify-center gap-2>
++      <header flex items-center justify-center gap-2>
+         <c-button
+           circle
+           variant="text"
+           :aria-label="$t('home.toggleMenu')"
+           @click="styleStore.isMenuCollapsed = !styleStore.isMenuCollapsed"
+         >
+-          <NIcon size="25" :component="Menu2" />
++          <NIcon aria-hidden="true" size="25" :component="Menu2" />
+         </c-button>
+ 
+         <c-tooltip :tooltip="$t('home.home')" position="bottom">
+           <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
+-            <NIcon size="25" :component="Home2" />
++            <NIcon aria-hidden="true" size="25" :component="Home2" />
+           </c-button>
+         </c-tooltip>
+ 
+@@ -131,11 +131,13 @@ const tools = computed<ToolCategory[]>(() => [
+             @click="() => tracker.trackEvent({ eventName: 'Support button clicked' })"
+           >
+             {{ $t('home.buyMeACoffee') }}
+-            <NIcon v-if="!styleStore.isSmallScreen" :component="Heart" ml-2 />
++            <NIcon v-if="!styleStore.isSmallScreen" aria-hidden="true" :component="Heart" ml-2 />
+           </c-button>
+         </c-tooltip>
+-      </div>
+-      <slot />
++      </header>
++      <main>
++        <slot />
++      </main>
+     </template>
+   </MenuLayout>
+ </template>
+diff --git a/src/modules/command-palette/command-palette.vue b/src/modules/command-palette/command-palette.vue
+index bceef5c..f5aa034 100644
+--- a/src/modules/command-palette/command-palette.vue
++++ b/src/modules/command-palette/command-palette.vue
+@@ -113,7 +113,7 @@ function activateOption(option: PaletteOption) {
+ <template>
+   <div flex-1>
+     <c-button w-full important:justify-start @click="isModalOpen = true">
+-      <span flex items-center gap-3 op-40>
++      <span flex items-center gap-3 op-80>
+ 
+         <icon-mdi-search />
+         {{ $t('search.label') }}
+@@ -124,11 +124,11 @@ function activateOption(option: PaletteOption) {
+       </span>
+     </c-button>
+ 
+-    <c-modal v-model:open="isModalOpen" class="palette-modal" shadow-xl important:max-w-650px important:pa-12px @keydown="handleKeydown">
++    <c-modal v-model:open="isModalOpen" class="palette-modal" aria-label="Command palette" shadow-xl important:max-w-650px important:pa-12px @keydown="handleKeydown">
+       <c-input-text ref="inputRef" v-model:value="searchPrompt" raw-text placeholder="Type to search a tool or a command..." autofocus clearable />
+ 
+       <div v-for="(options, category) in filteredSearchResult" :key="category">
+-        <div ml-3 mt-3 text-sm font-bold text-primary op-60>
++        <div ml-3 mt-3 text-sm text-neutral-600 font-bold dark:text-neutral-300>
+           {{ category }}
+         </div>
+         <command-palette-option v-for="option in options" :key="option.name" :option="option" :selected="selectedOptionIndex === getOptionIndex(option)" @activated="activateOption" />
+@@ -145,6 +145,11 @@ function activateOption(option: PaletteOption) {
+       padding: 4px;
+       padding-left: 18px;
+   }
++
++  ::v-deep(.input)::placeholder {
++    color: #666e75;
++    opacity: 1;
++  }
+ }
+ 
+ .c-modal--overlay {
+diff --git a/src/modules/command-palette/components/command-palette-option.vue b/src/modules/command-palette/components/command-palette-option.vue
+index 9192bc0..7ae4083 100644
+--- a/src/modules/command-palette/components/command-palette-option.vue
++++ b/src/modules/command-palette/components/command-palette-option.vue
+@@ -28,7 +28,7 @@ const { selected } = toRefs(props);
+         {{ option.name }}
+       </div>
+ 
+-      <div v-if="option.description" truncate lh-tight op-60>
++      <div v-if="option.description" truncate lh-tight op-80>
+         {{ option.description }}
+       </div>
+     </div>
+diff --git a/src/pages/404.page.vue b/src/pages/404.page.vue
+index 20f61c4..fbe1c02 100644
+--- a/src/pages/404.page.vue
++++ b/src/pages/404.page.vue
+@@ -13,10 +13,10 @@ useHead({ title: 'Page not found - IT Tools' });
+     <h1 m-0 mt-3>
+       {{ $t('404.notFound') }}
+     </h1>
+-    <div mt-4 op-60>
++    <div mt-4 op-80>
+       {{ $t('404.sorry') }}
+     </div>
+-    <div mb-8 op-60>
++    <div mb-8 op-80>
+       {{ $t('404.maybe') }}
+     </div>
+ 
+diff --git a/src/pages/Home.page.vue b/src/pages/Home.page.vue
+index 601f674..1035d69 100644
+--- a/src/pages/Home.page.vue
++++ b/src/pages/Home.page.vue
+@@ -41,18 +41,18 @@ function onUpdateFavoriteTools() {
+             :aria-label="$t('home.follow.twitterXAccount')"
+           >X</a>.
+           {{ $t('home.follow.thankYou') }}
+-          <n-icon :component="IconHeart" />
++          <n-icon aria-hidden="true" :component="IconHeart" />
+         </ColoredCard>
+       </div>
+ 
+       <transition name="height">
+         <div v-if="toolStore.favoriteTools.length > 0">
+-          <h3 class="mb-5px mt-25px text-neutral-400 font-500">
++          <h2 class="mb-5px mt-25px text-neutral-600 font-500 dark:text-neutral-300">
+             {{ $t('home.categories.favoriteTools') }}
+             <c-tooltip :tooltip="$t('home.categories.favoritesDndToolTip')">
+-              <n-icon :component="IconDragDrop" size="18" />
++              <n-icon aria-hidden="true" :component="IconDragDrop" size="18" />
+             </c-tooltip>
+-          </h3>
++          </h2>
+           <Draggable
+             :list="favoriteTools"
+             class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4"
+@@ -68,17 +68,17 @@ function onUpdateFavoriteTools() {
+       </transition>
+ 
+       <div v-if="toolStore.newTools.length > 0">
+-        <h3 class="mb-5px mt-25px text-neutral-400 font-500">
++        <h2 class="mb-5px mt-25px text-neutral-600 font-500 dark:text-neutral-300">
+           {{ t('home.categories.newestTools') }}
+-        </h3>
++        </h2>
+         <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
+           <ToolCard v-for="tool in toolStore.newTools" :key="tool.name" :tool="tool" />
+         </div>
+       </div>
+ 
+-      <h3 class="mb-5px mt-25px text-neutral-400 font-500">
++      <h2 class="mb-5px mt-25px text-neutral-600 font-500 dark:text-neutral-300">
+         {{ $t('home.categories.allTools') }}
+-      </h3>
++      </h2>
+       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
+         <ToolCard v-for="tool in toolStore.tools" :key="tool.name" :tool="tool" />
+       </div>
+diff --git a/src/tools/base64-string-converter/base64-string-converter.vue b/src/tools/base64-string-converter/base64-string-converter.vue
+index 07c4c39..78450fc 100644
+--- a/src/tools/base64-string-converter/base64-string-converter.vue
++++ b/src/tools/base64-string-converter/base64-string-converter.vue
+@@ -27,7 +27,7 @@ const b64ValidationWatch = [decodeUrlSafe];
+ <template>
+   <c-card title="String to base64">
+     <n-form-item label="Encode URL safe" label-placement="left">
+-      <n-switch v-model:value="encodeUrlSafe" />
++      <n-switch v-model:value="encodeUrlSafe" aria-label="Encode URL safe" />
+     </n-form-item>
+     <c-input-text
+       v-model:value="textInput"
+@@ -58,7 +58,7 @@ const b64ValidationWatch = [decodeUrlSafe];
+ 
+   <c-card title="Base64 to string">
+     <n-form-item label="Decode URL safe" label-placement="left">
+-      <n-switch v-model:value="decodeUrlSafe" />
++      <n-switch v-model:value="decodeUrlSafe" aria-label="Decode URL safe" />
+     </n-form-item>
+     <c-input-text
+       v-model:value="base64Input"
+diff --git a/src/tools/basic-auth-generator/basic-auth-generator.vue b/src/tools/basic-auth-generator/basic-auth-generator.vue
+index a894612..fd1c0e0 100644
+--- a/src/tools/basic-auth-generator/basic-auth-generator.vue
++++ b/src/tools/basic-auth-generator/basic-auth-generator.vue
+@@ -38,6 +38,10 @@ const { copy } = useCopy({ source: header, text: 'Header copied to the clipboard
+ </template>
+ 
+ <style lang="less" scoped>
++::v-deep(.n-statistic__label) {
++  color: #666e75;
++}
++
+ ::v-deep(.n-statistic-value__content) {
+   font-family: monospace;
+   font-size: 17px !important;
+diff --git a/src/tools/benchmark-builder/benchmark-builder.vue b/src/tools/benchmark-builder/benchmark-builder.vue
+index 9391142..7499b3a 100644
+--- a/src/tools/benchmark-builder/benchmark-builder.vue
++++ b/src/tools/benchmark-builder/benchmark-builder.vue
+@@ -99,14 +99,14 @@ function copyAsBulletList() {
+ 
+         <div flex justify-center>
+           <c-button v-if="suites.length > 1" variant="text" @click="suites.splice(index, 1)">
+-            <n-icon :component="Trash" depth="3" mr-2 size="18" />
++            <n-icon aria-hidden="true" :component="Trash" depth="3" mr-2 size="18" />
+             Delete suite
+           </c-button>
+           <c-button
+             variant="text"
+             @click="suites.splice(index + 1, 0, { data: [0], title: `Suite ${suites.length + 1}` })"
+           >
+-            <n-icon :component="Plus" depth="3" mr-2 size="18" />
++            <n-icon aria-hidden="true" :component="Plus" depth="3" mr-2 size="18" />
+             Add suite
+           </c-button>
+         </div>
+diff --git a/src/tools/benchmark-builder/dynamic-values.vue b/src/tools/benchmark-builder/dynamic-values.vue
+index e048ef9..c4fdcc2 100644
+--- a/src/tools/benchmark-builder/dynamic-values.vue
++++ b/src/tools/benchmark-builder/dynamic-values.vue
+@@ -40,14 +40,14 @@ function onInputEnter(index: number) {
+         @keydown.enter="onInputEnter(index)"
+       />
+       <c-tooltip tooltip="Delete this value">
+-        <c-button circle variant="text" @click="values.splice(index, 1)">
+-          <n-icon :component="Trash" depth="3" size="18" />
++        <c-button circle variant="text" aria-label="Delete this value" @click="values.splice(index, 1)">
++          <n-icon aria-hidden="true" :component="Trash" depth="3" size="18" />
+         </c-button>
+       </c-tooltip>
+     </div>
+ 
+     <c-button @click="addValue">
+-      <n-icon :component="Plus" depth="3" mr-2 size="18" />
++      <n-icon aria-hidden="true" :component="Plus" depth="3" mr-2 size="18" />
+       Add a measure
+     </c-button>
+   </div>
+diff --git a/src/tools/bip39-generator/bip39-generator.vue b/src/tools/bip39-generator/bip39-generator.vue
+index a07941b..ab83fde 100644
+--- a/src/tools/bip39-generator/bip39-generator.vue
++++ b/src/tools/bip39-generator/bip39-generator.vue
+@@ -100,13 +100,13 @@ const { copy: copyPassphrase } = useCopy({ source: passphrase, text: 'Passphrase
+           <n-input-group>
+             <c-input-text v-model:value="entropy" placeholder="Your string..." />
+ 
+-            <c-button @click="refreshEntropy()">
+-              <n-icon size="22">
++            <c-button aria-label="Generate a new random entropy" @click="refreshEntropy()">
++              <n-icon aria-hidden="true" size="22">
+                 <Refresh />
+               </n-icon>
+             </c-button>
+-            <c-button @click="copyEntropy()">
+-              <n-icon size="22">
++            <c-button aria-label="Copy entropy to clipboard" @click="copyEntropy()">
++              <n-icon aria-hidden="true" size="22">
+                 <Copy />
+               </n-icon>
+             </c-button>
+@@ -122,8 +122,8 @@ const { copy: copyPassphrase } = useCopy({ source: passphrase, text: 'Passphrase
+       <n-input-group>
+         <c-input-text v-model:value="passphrase" placeholder="Your mnemonic..." raw-text />
+ 
+-        <c-button @click="copyPassphrase()">
+-          <n-icon size="22" :component="Copy" />
++        <c-button aria-label="Copy passphrase to clipboard" @click="copyPassphrase()">
++          <n-icon aria-hidden="true" size="22" :component="Copy" />
+         </c-button>
+       </n-input-group>
+     </n-form-item>
+diff --git a/src/tools/camera-recorder/camera-recorder.vue b/src/tools/camera-recorder/camera-recorder.vue
+index 23fedd8..a2e1a45 100644
+--- a/src/tools/camera-recorder/camera-recorder.vue
++++ b/src/tools/camera-recorder/camera-recorder.vue
+@@ -183,7 +183,7 @@ function downloadMedia({ type, value, createdAt }: Media) {
+               Stop
+             </c-button>
+           </div>
+-          <div v-else italic op-60>
++          <div v-else italic op-80>
+             Video recording is not supported in your browser
+           </div>
+         </div>
+@@ -202,11 +202,11 @@ function downloadMedia({ type, value, createdAt }: Media) {
+           </div>
+ 
+           <div flex gap-2>
+-            <c-button @click="downloadMedia({ type, value, createdAt })">
++            <c-button aria-label="Download media" @click="downloadMedia({ type, value, createdAt })">
+               <icon-mdi-download />
+             </c-button>
+ 
+-            <c-button @click="medias = medias.filter((_ignored, i) => i !== index)">
++            <c-button aria-label="Delete media" @click="medias = medias.filter((_ignored, i) => i !== index)">
+               <icon-mdi-delete-outline />
+             </c-button>
+           </div>
+diff --git a/src/tools/html-wysiwyg-editor/editor/menu-bar-item.vue b/src/tools/html-wysiwyg-editor/editor/menu-bar-item.vue
+index 5be2329..98fdf2b 100644
+--- a/src/tools/html-wysiwyg-editor/editor/menu-bar-item.vue
++++ b/src/tools/html-wysiwyg-editor/editor/menu-bar-item.vue
+@@ -7,8 +7,8 @@ const { icon, title, action, isActive } = toRefs(props);
+ 
+ <template>
+   <c-tooltip :tooltip="title">
+-    <c-button circle variant="text" :type="isActive?.() ? 'primary' : 'default'" @click="action">
+-      <n-icon :component="icon" />
++    <c-button circle variant="text" :type="isActive?.() ? 'primary' : 'default'" :aria-label="title" @click="action">
++      <n-icon aria-hidden="true" :component="icon" />
+     </c-button>
+   </c-tooltip>
+ </template>
+diff --git a/src/tools/ipv4-range-expander/ipv4-range-expander.vue b/src/tools/ipv4-range-expander/ipv4-range-expander.vue
+index 6eb3c92..f9a3ae9 100644
+--- a/src/tools/ipv4-range-expander/ipv4-range-expander.vue
++++ b/src/tools/ipv4-range-expander/ipv4-range-expander.vue
+@@ -111,7 +111,7 @@ function onSwitchStartEndClicked() {
+       </div>
+ 
+       <c-button @click="onSwitchStartEndClicked">
+-        <n-icon mr-2 :component="Exchange" depth="3" size="22" />
++        <n-icon aria-hidden="true" mr-2 :component="Exchange" depth="3" size="22" />
+         Switch start and end IPv4 address
+       </c-button>
+     </n-alert>
+diff --git a/src/tools/ipv4-subnet-calculator/ipv4-subnet-calculator.vue b/src/tools/ipv4-subnet-calculator/ipv4-subnet-calculator.vue
+index 3e2f437..dbb7fec 100644
+--- a/src/tools/ipv4-subnet-calculator/ipv4-subnet-calculator.vue
++++ b/src/tools/ipv4-subnet-calculator/ipv4-subnet-calculator.vue
+@@ -111,12 +111,12 @@ function switchToBlock({ count = 1 }: { count?: number }) {
+ 
+       <div mt-3 flex items-center justify-between>
+         <c-button @click="switchToBlock({ count: -1 })">
+-          <n-icon :component="ArrowLeft" />
++          <n-icon aria-hidden="true" :component="ArrowLeft" />
+           Previous block
+         </c-button>
+         <c-button @click="switchToBlock({ count: 1 })">
+           Next block
+-          <n-icon :component="ArrowRight" />
++          <n-icon aria-hidden="true" :component="ArrowRight" />
+         </c-button>
+       </div>
+     </div>
+diff --git a/src/tools/list-converter/list-converter.vue b/src/tools/list-converter/list-converter.vue
+index 19dd30e..c679f24 100644
+--- a/src/tools/list-converter/list-converter.vue
++++ b/src/tools/list-converter/list-converter.vue
+@@ -42,10 +42,10 @@ function transformer(value: string) {
+         <div flex>
+           <div>
+             <n-form-item label="Trim list items" label-placement="left" label-width="150" :show-feedback="false" mb-2>
+-              <n-switch v-model:value="conversionConfig.trimItems" />
++              <n-switch v-model:value="conversionConfig.trimItems" aria-label="Trim list items" />
+             </n-form-item>
+             <n-form-item label="Remove duplicates" label-placement="left" label-width="150" :show-feedback="false" mb-2>
+-              <n-switch v-model:value="conversionConfig.removeDuplicates" data-test-id="removeDuplicates" />
++              <n-switch v-model:value="conversionConfig.removeDuplicates" data-test-id="removeDuplicates" aria-label="Remove duplicates" />
+             </n-form-item>
+             <n-form-item
+               label="Convert to lowercase"
+@@ -54,10 +54,10 @@ function transformer(value: string) {
+               :show-feedback="false"
+               mb-2
+             >
+-              <n-switch v-model:value="conversionConfig.lowerCase" />
++              <n-switch v-model:value="conversionConfig.lowerCase" aria-label="Convert to lowercase" />
+             </n-form-item>
+             <n-form-item label="Keep line breaks" label-placement="left" label-width="150" :show-feedback="false" mb-2>
+-              <n-switch v-model:value="conversionConfig.keepLineBreaks" />
++              <n-switch v-model:value="conversionConfig.keepLineBreaks" aria-label="Keep line breaks" />
+             </n-form-item>
+           </div>
+           <div flex-1>
+diff --git a/src/tools/numeronym-generator/n7m-icon.svg b/src/tools/numeronym-generator/n7m-icon.svg
+index 2470e44..7bba66f 100644
+--- a/src/tools/numeronym-generator/n7m-icon.svg
++++ b/src/tools/numeronym-generator/n7m-icon.svg
+@@ -1,3 +1,3 @@
+ <svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" >
+-	<path id="n7m" fill="currentColor" aria-label="n7m"  d="m0.7 35v-16.7q1.1-0.2 2.8-0.5 1.7-0.3 4-0.3 2.1 0 3.4 0.6 1.4 0.5 2.2 1.6 0.8 1 1.1 2.5 0.4 1.4 0.4 3.2v9.6h-3.1v-9q0-1.6-0.2-2.7-0.2-1.1-0.7-1.8-0.5-0.7-1.4-1-0.8-0.3-2-0.3-0.5 0-1 0-0.6 0-1 0.1-0.5 0-0.9 0.1-0.4 0.1-0.5 0.1v14.5zm18.8 0h-3.2q0.2-2.6 0.9-5.5 0.8-3 1.9-5.7 1.1-2.8 2.4-5.1 1.3-2.4 2.5-3.9h-11.1v-2.7h14.6v2.6q-1.1 1.2-2.4 3.4-1.4 2.2-2.6 5-1.1 2.7-2 5.8-0.8 3-1 6.1zm6.6 0v-16.7q1.1-0.2 2.8-0.5 1.8-0.3 4-0.3 1.7 0 2.8 0.4 1.1 0.5 1.9 1.3 0.2-0.1 0.7-0.4 0.5-0.3 1.2-0.6 0.8-0.3 1.7-0.5 0.8-0.2 1.9-0.2 1.9 0 3.2 0.6 1.3 0.5 2 1.6 0.7 1 0.9 2.5 0.3 1.4 0.3 3.2v9.6h-3.1v-9q0-1.5-0.2-2.6-0.1-1.1-0.5-1.8-0.4-0.7-1.1-1.1-0.7-0.3-1.9-0.3-1.5 0-2.5 0.4-1 0.4-1.4 0.7 0.3 0.9 0.4 1.9 0.1 1 0.1 2.2v9.6h-3v-9q0-1.5-0.2-2.6-0.2-1.1-0.6-1.8-0.4-0.7-1.1-1.1-0.7-0.3-1.8-0.3-0.5 0-1 0-0.5 0-1 0.1-0.5 0-0.9 0.1-0.4 0.1-0.5 0.1v14.5z"/>
++	<path id="n7m" fill="currentColor"  d="m0.7 35v-16.7q1.1-0.2 2.8-0.5 1.7-0.3 4-0.3 2.1 0 3.4 0.6 1.4 0.5 2.2 1.6 0.8 1 1.1 2.5 0.4 1.4 0.4 3.2v9.6h-3.1v-9q0-1.6-0.2-2.7-0.2-1.1-0.7-1.8-0.5-0.7-1.4-1-0.8-0.3-2-0.3-0.5 0-1 0-0.6 0-1 0.1-0.5 0-0.9 0.1-0.4 0.1-0.5 0.1v14.5zm18.8 0h-3.2q0.2-2.6 0.9-5.5 0.8-3 1.9-5.7 1.1-2.8 2.4-5.1 1.3-2.4 2.5-3.9h-11.1v-2.7h14.6v2.6q-1.1 1.2-2.4 3.4-1.4 2.2-2.6 5-1.1 2.7-2 5.8-0.8 3-1 6.1zm6.6 0v-16.7q1.1-0.2 2.8-0.5 1.8-0.3 4-0.3 1.7 0 2.8 0.4 1.1 0.5 1.9 1.3 0.2-0.1 0.7-0.4 0.5-0.3 1.2-0.6 0.8-0.3 1.7-0.5 0.8-0.2 1.9-0.2 1.9 0 3.2 0.6 1.3 0.5 2 1.6 0.7 1 0.9 2.5 0.3 1.4 0.3 3.2v9.6h-3.1v-9q0-1.5-0.2-2.6-0.1-1.1-0.5-1.8-0.4-0.7-1.1-1.1-0.7-0.3-1.9-0.3-1.5 0-2.5 0.4-1 0.4-1.4 0.7 0.3 0.9 0.4 1.9 0.1 1 0.1 2.2v9.6h-3v-9q0-1.5-0.2-2.6-0.2-1.1-0.6-1.8-0.4-0.7-1.1-1.1-0.7-0.3-1.8-0.3-0.5 0-1 0-0.5 0-1 0.1-0.5 0-0.9 0.1-0.4 0.1-0.5 0.1v14.5z"/>
+ </svg>
+\ No newline at end of file
+diff --git a/src/tools/otp-code-generator-and-validator/otp-code-generator-and-validator.vue b/src/tools/otp-code-generator-and-validator/otp-code-generator-and-validator.vue
+index 6bd881c..8b85058 100644
+--- a/src/tools/otp-code-generator-and-validator/otp-code-generator-and-validator.vue
++++ b/src/tools/otp-code-generator-and-validator/otp-code-generator-and-validator.vue
+@@ -62,7 +62,7 @@ const secretValidationRules = [
+     >
+       <template #suffix>
+         <c-tooltip tooltip="Generate a new random secret">
+-          <c-button circle variant="text" size="small" @click="refreshSecret">
++          <c-button circle variant="text" size="small" aria-label="Generate a new random secret" @click="refreshSecret">
+             <icon-mdi-refresh />
+           </c-button>
+         </c-tooltip>
+@@ -72,13 +72,13 @@ const secretValidationRules = [
+     <div>
+       <TokenDisplay :tokens="tokens" />
+ 
+-      <n-progress :percentage="(100 * interval) / 30" :color="theme.primaryColor" :show-indicator="false" />
++      <n-progress :percentage="(100 * interval) / 30" :color="theme.primaryColor" :show-indicator="false" aria-label="Time elapsed before next token" />
+       <div style="text-align: center">
+         Next in {{ String(Math.floor(30 - interval)).padStart(2, '0') }}s
+       </div>
+     </div>
+     <div mt-4 flex flex-col items-center justify-center gap-3>
+-      <n-image :src="qrcode" />
++      <n-image :src="qrcode" alt="QR code for the TOTP key URI" />
+       <c-button :href="keyUri" target="_blank">
+         Open Key URI in new tab
+       </c-button>
+diff --git a/src/tools/password-strength-analyser/password-strength-analyser.vue b/src/tools/password-strength-analyser/password-strength-analyser.vue
+index 7064ad0..d66a6cb 100644
+--- a/src/tools/password-strength-analyser/password-strength-analyser.vue
++++ b/src/tools/password-strength-analyser/password-strength-analyser.vue
+@@ -37,7 +37,7 @@ const details = computed(() => [
+     />
+ 
+     <c-card text-center>
+-      <div op-60>
++      <div op-80>
+         Duration to crack this password with brute force
+       </div>
+       <div text-2xl data-test-id="crack-duration">
+@@ -46,7 +46,7 @@ const details = computed(() => [
+     </c-card>
+     <c-card>
+       <div v-for="({ label, value }) of details" :key="label" flex gap-3>
+-        <div flex-1 text-right op-60>
++        <div flex-1 text-right op-80>
+           {{ label }}
+         </div>
+         <div flex-1 text-left>
+diff --git a/src/tools/qr-code-generator/qr-code-generator.vue b/src/tools/qr-code-generator/qr-code-generator.vue
+index 8bc9f74..7d4d0c2 100644
+--- a/src/tools/qr-code-generator/qr-code-generator.vue
++++ b/src/tools/qr-code-generator/qr-code-generator.vue
+@@ -58,7 +58,7 @@ const { download } = useDownloadFileFromBase64({ source: qrcode, filename: 'qr-c
+       </n-gi>
+       <n-gi>
+         <div flex flex-col items-center gap-3>
+-          <n-image :src="qrcode" width="200" />
++          <n-image :src="qrcode" width="200" alt="Generated QR code" />
+           <c-button @click="download">
+             Download qr-code
+           </c-button>
+diff --git a/src/tools/rsa-key-pair-generator/rsa-key-pair-generator.vue b/src/tools/rsa-key-pair-generator/rsa-key-pair-generator.vue
+index 7f97246..758a07c 100644
+--- a/src/tools/rsa-key-pair-generator/rsa-key-pair-generator.vue
++++ b/src/tools/rsa-key-pair-generator/rsa-key-pair-generator.vue
+@@ -38,12 +38,12 @@ const [certs, refreshCerts] = computedRefreshableAsync(
+   </div>
+ 
+   <div>
+-    <h3>Public key</h3>
++    <h2 class="text-lg font-semibold">Public key</h2>
+     <TextareaCopyable :value="certs.publicKeyPem" />
+   </div>
+ 
+   <div>
+-    <h3>Private key</h3>
++    <h2 class="text-lg font-semibold">Private key</h2>
+     <TextareaCopyable :value="certs.privateKeyPem" />
+   </div>
+ </template>
+diff --git a/src/tools/string-obfuscator/string-obfuscator.vue b/src/tools/string-obfuscator/string-obfuscator.vue
+index 512d378..783ff37 100644
+--- a/src/tools/string-obfuscator/string-obfuscator.vue
++++ b/src/tools/string-obfuscator/string-obfuscator.vue
+@@ -30,7 +30,7 @@ const { copy } = useCopy({ source: obfuscatedString });
+         <div mb-5px>
+           Keep&nbsp;spaces:
+         </div>
+-        <n-switch v-model:value="keepSpace" />
++        <n-switch v-model:value="keepSpace" aria-label="Keep spaces" />
+       </div>
+     </div>
+ 
+@@ -39,7 +39,7 @@ const { copy } = useCopy({ source: obfuscatedString });
+         {{ obfuscatedString }}
+       </div>
+ 
+-      <c-button @click="copy()">
++      <c-button aria-label="Copy obfuscated string" @click="copy()">
+         <icon-mdi:content-copy />
+       </c-button>
+     </c-card>
+diff --git a/src/tools/token-generator/token-generator.tool.vue b/src/tools/token-generator/token-generator.tool.vue
+index fe53edc..a36bea0 100644
+--- a/src/tools/token-generator/token-generator.tool.vue
++++ b/src/tools/token-generator/token-generator.tool.vue
+@@ -31,21 +31,21 @@ const { copy } = useCopy({ source: token, text: t('tools.token-generator.copied'
+         <div flex justify-center>
+           <div>
+             <n-form-item :label="t('tools.token-generator.uppercase')">
+-              <n-switch v-model:value="withUppercase" />
++              <n-switch v-model:value="withUppercase" :aria-label="t('tools.token-generator.uppercase')" />
+             </n-form-item>
+ 
+             <n-form-item :label="t('tools.token-generator.lowercase')">
+-              <n-switch v-model:value="withLowercase" />
++              <n-switch v-model:value="withLowercase" :aria-label="t('tools.token-generator.lowercase')" />
+             </n-form-item>
+           </div>
+ 
+           <div>
+             <n-form-item :label="t('tools.token-generator.numbers')">
+-              <n-switch v-model:value="withNumbers" />
++              <n-switch v-model:value="withNumbers" :aria-label="t('tools.token-generator.numbers')" />
+             </n-form-item>
+ 
+             <n-form-item :label="t('tools.token-generator.symbols')">
+-              <n-switch v-model:value="withSymbols" />
++              <n-switch v-model:value="withSymbols" :aria-label="t('tools.token-generator.symbols')" />
+             </n-form-item>
+           </div>
+         </div>
+diff --git a/src/tools/user-agent-parser/user-agent-result-cards.vue b/src/tools/user-agent-parser/user-agent-result-cards.vue
+index 77502df..18646ba 100644
+--- a/src/tools/user-agent-parser/user-agent-result-cards.vue
++++ b/src/tools/user-agent-parser/user-agent-result-cards.vue
+@@ -15,14 +15,14 @@ const { userAgentInfo, sections } = toRefs(props);
+       <n-gi v-for="{ heading, icon, content } in sections" :key="heading">
+         <c-card h-full>
+           <div flex items-center gap-3>
+-            <n-icon size="30" :component="icon" :depth="3" />
++            <n-icon aria-hidden="true" size="30" :component="icon" :depth="3" />
+             <span text-lg>{{ heading }}</span>
+           </div>
+ 
+           <div mt-5 flex gap-2>
+             <span v-for="{ label, getValue } in content" :key="label">
+               <c-tooltip v-if="getValue(userAgentInfo)" :tooltip="label">
+-                <n-tag type="success" size="large" round :bordered="false">
++                <n-tag size="large" round :bordered="false" :color="{ color: '#e3f4eb', textColor: '#0c7a43', borderColor: 'transparent' }">
+                   {{ getValue(userAgentInfo) }}
+                 </n-tag>
+               </c-tooltip>
+diff --git a/src/ui/c-button/c-button.demo.vue b/src/ui/c-button/c-button.demo.vue
+index b9d011a..3fb5114 100644
+--- a/src/ui/c-button/c-button.demo.vue
++++ b/src/ui/c-button/c-button.demo.vue
+@@ -40,6 +40,7 @@ const buttonSizes = ['small', 'medium', 'large'] as const;
+         :variant="buttonVariant"
+         :type="buttonType"
+         :size="buttonSize"
++        :aria-label="`Copy button (${buttonType})`"
+         circle
+         mx-1
+       >
+diff --git a/src/ui/c-button/c-button.theme.ts b/src/ui/c-button/c-button.theme.ts
+index 926cd11..e1ca0bb 100644
+--- a/src/ui/c-button/c-button.theme.ts
++++ b/src/ui/c-button/c-button.theme.ts
+@@ -52,7 +52,7 @@ function createTheme({ style }: { style: 'light' | 'dark' }) {
+         pressedBackground: theme.default.colorPressed,
+       }),
+       primary: createState({
+-        textColor: theme.primary.color,
++        textColor: theme.primary.colorDarker,
+         backgroundColor: theme.primary.colorFaded,
+         hoverBackground: lighten(theme.primary.colorFaded, 30),
+         pressedBackground: darken(theme.primary.colorFaded, 30),
+@@ -78,7 +78,7 @@ function createTheme({ style }: { style: 'light' | 'dark' }) {
+         pressedBackground: theme.default.colorPressed,
+       }),
+       primary: createState({
+-        textColor: theme.primary.color,
++        textColor: theme.primary.colorPressed,
+         backgroundColor: 'transparent',
+         hoverBackground: theme.primary.colorFaded,
+         pressedBackground: darken(theme.primary.colorFaded, 30),
+diff --git a/src/ui/c-button/c-button.vue b/src/ui/c-button/c-button.vue
+index 06a4786..d0d119e 100644
+--- a/src/ui/c-button/c-button.vue
++++ b/src/ui/c-button/c-button.vue
+@@ -57,6 +57,8 @@ const size = computed(() => theme.value.size[sizeName.value]);
+     :href="href ?? to"
+     class="c-button"
+     :class="{ disabled, round, circle }"
++    :disabled="tag === 'button' ? disabled : undefined"
++    :aria-disabled="tag !== 'button' && disabled ? 'true' : undefined"
+     :to="to"
+     @click="handleClick"
+   >
+diff --git a/src/ui/c-file-upload/c-file-upload.vue b/src/ui/c-file-upload/c-file-upload.vue
+index b48d8c3..6382a1a 100644
+--- a/src/ui/c-file-upload/c-file-upload.vue
++++ b/src/ui/c-file-upload/c-file-upload.vue
+@@ -79,12 +79,12 @@ function handleUpload(files: FileList | null | undefined) {
+       </span>
+ 
+       <!-- separator -->
+-      <div my-4 w-full flex items-center justify-center op-70>
+-        <div class="h-1px max-w-100px flex-1 bg-gray-300 op-50" />
+-        <div class="mx-2 text-gray-400">
++      <div my-4 w-full flex items-center justify-center>
++        <div class="h-1px max-w-100px flex-1 bg-gray-300 op-50" aria-hidden="true" />
++        <div class="mx-2 text-gray-700 dark:text-gray-300">
+           or
+         </div>
+-        <div class="h-1px max-w-100px flex-1 bg-gray-300 op-50" />
++        <div class="h-1px max-w-100px flex-1 bg-gray-300 op-50" aria-hidden="true" />
+       </div>
+ 
+       <c-button>
+diff --git a/src/ui/c-input-text/c-input-text.vue b/src/ui/c-input-text/c-input-text.vue
+index b5f423d..b98e68f 100644
+--- a/src/ui/c-input-text/c-input-text.vue
++++ b/src/ui/c-input-text/c-input-text.vue
+@@ -194,11 +194,11 @@ defineExpose({
+           :spellcheck="spellcheck ?? (rawText ? false : undefined)"
+         >
+ 
+-        <c-button v-if="clearable && value" variant="text" circle size="small" @click="value = ''">
++        <c-button v-if="clearable && value" variant="text" circle size="small" aria-label="Clear input" @click="value = ''">
+           <icon-mdi-close />
+         </c-button>
+ 
+-        <c-button v-if="type === 'password'" variant="text" circle size="small" @click="showPassword = !showPassword">
++        <c-button v-if="type === 'password'" variant="text" circle size="small" :aria-label="showPassword ? 'Hide password' : 'Show password'" :aria-pressed="showPassword" @click="showPassword = !showPassword">
+           <icon-mdi-eye v-if="!showPassword" />
+           <icon-mdi-eye-off v-if="showPassword" />
+         </c-button>
+diff --git a/src/ui/c-modal/c-modal.vue b/src/ui/c-modal/c-modal.vue
+index 4d032bb..abd4b46 100644
+--- a/src/ui/c-modal/c-modal.vue
++++ b/src/ui/c-modal/c-modal.vue
+@@ -38,6 +38,59 @@ defineExpose({
+ const theme = useTheme();
+ const modal = ref();
+ 
++let previouslyFocused: HTMLElement | null = null;
++
++function getFocusable(root: HTMLElement) {
++  return [...root.querySelectorAll<HTMLElement>(
++    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
++  )].filter(el => el.offsetParent !== null);
++}
++
++function onKeydown(event: KeyboardEvent) {
++  if (event.key === 'Escape') {
++    close();
++    return;
++  }
++  if (event.key === 'Tab' && modal.value) {
++    const focusable = getFocusable(modal.value);
++    if (focusable.length === 0) {
++      event.preventDefault();
++      modal.value.focus();
++      return;
++    }
++    const first = focusable[0];
++    const last = focusable[focusable.length - 1];
++    const active = document.activeElement;
++    if (event.shiftKey && (active === first || !modal.value.contains(active))) {
++      event.preventDefault();
++      last.focus();
++    }
++    else if (!event.shiftKey && (active === last || !modal.value.contains(active))) {
++      event.preventDefault();
++      first.focus();
++    }
++  }
++}
++
++watch(isOpen, async (open) => {
++  if (open) {
++    previouslyFocused = document.activeElement as HTMLElement | null;
++    await nextTick();
++    if (modal.value) {
++      const focusable = getFocusable(modal.value);
++      (focusable[0] ?? modal.value).focus();
++    }
++    document.addEventListener('keydown', onKeydown);
++  }
++  else {
++    document.removeEventListener('keydown', onKeydown);
++    previouslyFocused?.focus?.();
++    previouslyFocused = null;
++  }
++});
++
++onBeforeUnmount(() => document.removeEventListener('keydown', onKeydown));
++
+ onClickOutside(modal, () => {
+   if (isOpen.value) {
+     close();
+@@ -46,9 +99,12 @@ onClickOutside(modal, () => {
+ </script>
+ 
+ <template>
++  <transition name="backdrop">
++    <div v-if="isOpen" class="c-modal--backdrop" fixed left-0 top-0 z-10 h-full w-full aria-hidden="true" />
++  </transition>
+   <transition>
+-    <div v-if="isOpen" class="c-modal--overlay" fixed left-0 top-0 z-10 h-full w-full flex justify-center px-2 :class="{ 'items-center': centered }">
+-      <div ref="modal" class="c-modal--container" v-bind="$attrs" max-w-xl w-full flex-grow rounded-md pa-24px>
++    <div v-if="isOpen" class="c-modal--overlay" fixed left-0 top-0 z-20 h-full w-full flex justify-center px-2 :class="{ 'items-center': centered }">
++      <div ref="modal" class="c-modal--container" role="dialog" aria-modal="true" tabindex="-1" v-bind="$attrs" max-w-xl w-full flex-grow rounded-md pa-24px>
+         <slot />
+       </div>
+     </div>
+@@ -56,7 +112,7 @@ onClickOutside(modal, () => {
+ </template>
+ 
+ <style scoped lang="less">
+-.c-modal--overlay {
++.c-modal--backdrop {
+   background-color: rgba(0, 0, 0, 0.5);
+ }
+ 
+@@ -64,13 +120,13 @@ onClickOutside(modal, () => {
+   background-color: v-bind('theme.background');
+ }
+ 
+-.v-enter-active,
+-.v-leave-active {
++.backdrop-enter-active,
++.backdrop-leave-active {
+   transition: opacity 0.3s ease-in-out;
+ }
+ 
+-.v-enter-from,
+-.v-leave-to {
++.backdrop-enter-from,
++.backdrop-leave-to {
+   opacity: 0;
+ }
+ </style>
+diff --git a/src/ui/theme/themes.ts b/src/ui/theme/themes.ts
+index 2c330b0..87050fc 100644
+--- a/src/ui/theme/themes.ts
++++ b/src/ui/theme/themes.ts
+@@ -5,7 +5,7 @@ export const { themes: appThemes, useTheme: useAppTheme } = defineThemes({
+     background: '#ffffff',
+     text: {
+       baseColor: '#333639',
+-      mutedColor: '#767c82',
++      mutedColor: '#666e75',
+     },
+     default: {
+       color: 'rgba(46, 51, 56, 0.05)',
+@@ -16,6 +16,7 @@ export const { themes: appThemes, useTheme: useAppTheme } = defineThemes({
+       color: '#18a058',
+       colorHover: '#1ea54c',
+       colorPressed: '#0C7A43',
++      colorDarker: '#0a6b3a',
+       colorFaded: '#18a0582f',
+     },
+     warning: {
+@@ -52,6 +53,7 @@ export const { themes: appThemes, useTheme: useAppTheme } = defineThemes({
+       color: '#1ea54c',
+       colorHover: '#36AD6A',
+       colorPressed: '#0C7A43',
++      colorDarker: '#63e2b7',
+       colorFaded: '#18a0582f',
+     },
+     warning: {

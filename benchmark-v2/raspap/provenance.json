@@ -1,0 +1,14 @@
+{
+  "repo": "RaspAP/raspap-webgui",
+  "commit_sha": "b93ffbee5f0cab9046bd875d174b8ef33213eb41",
+  "stack": "PHP 8.1 (built-in server via dev-router.php), Bootstrap 5, sb-admin",
+  "versions": { "node": "v24.19.0", "playwright": "1.63.0", "axe_core": "4.13.0", "php": "8.1.2" },
+  "server": "php -S 127.0.0.1:8099 dev-router.php (PATH_INFO routing; plugins/manifest.json=[] runtime file created for plugin installer)",
+  "auth": "Playwright storageState a11y-audit/auth.json (PHPSESSID) — NOT attached (credential)",
+  "env_setup": ["/etc/raspap/raspap.auth bcrypt admin", "/etc/wpa_supplicant/wpa_supplicant.conf minimal stub (wpa_conf page otherwise throws RuntimeException)", "includes/config.php from config/config.php"],
+  "commands": [
+    "node scripts/a11y/audit.mjs http://127.0.0.1:8099 --urls <16 abs urls> --states all --storage-state a11y-audit/auth.json --out a11y-audit/{baseline,round1..4,final}"
+  ],
+  "timestamps": { "baseline": "2026-09-26T22:42:22Z", "final": "2026-09-26T23:09:32Z" },
+  "notes": "torproxy_conf renders the exception page: DisplayTorProxyConfig() is undefined upstream (dead route). Exception template given proper h1. LED poller setInterval 100ms->1000ms in app/js/app.js (was blocking networkidle forever)."
+}

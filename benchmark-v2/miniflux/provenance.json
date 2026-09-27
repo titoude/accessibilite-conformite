@@ -1,0 +1,21 @@
+{
+  "commit_sha": "4e6d7f93b2e9c036bd7a0b5299d0bd70f36718b4",
+  "commands": {
+    "baseline": "NODE_OPTIONS=\"--require tt-preload.cjs\" node scripts/a11y/audit.mjs http://127.0.0.1:8081 --urls <24 URLs figées> --states all --storage-state miniflux-auth.json --out a11y-audit/baseline",
+    "rounds": [
+      "a11y-audit/round1",
+      "a11y-audit/round2"
+    ],
+    "final": "même commande vers a11y-audit/final",
+    "verify": "MINIFUX_STORAGE=miniflux-auth.json node scripts/a11y/verify.mjs (17/17)",
+    "eval_final": "node scripts/a11y/eval-final.mjs (77/77, indépendant)",
+    "note": "tt-preload.cjs = shim NODE_OPTIONS Trusted Types (CSP require-trusted-types-for script) : fallback injection axe via policy html du CSP. Runner audit.mjs non modifié (md5 f0e8341029363345621ba6afdd5942ab)."
+  },
+  "versions": {
+    "axe": "4.13.0",
+    "playwright": "1.63.0",
+    "node": "v20.18.1"
+  },
+  "started": "2026-09-26T~13:00Z",
+  "finished": "2026-09-26T22:06:59.854Z"
+}

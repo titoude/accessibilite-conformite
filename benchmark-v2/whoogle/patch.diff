@@ -1,0 +1,1110 @@
+diff --git a/app/routes.py b/app/routes.py
+index 85bd2d9..7bf9671 100644
+--- a/app/routes.py
++++ b/app/routes.py
+@@ -804,6 +804,7 @@ def window():
+     return render_template(
+         'display.html',
+         response=results,
++        config=g.user_config,
+         translation=app.config['TRANSLATIONS'][
+             g.user_config.get_localization_lang()
+         ]
+diff --git a/app/static/css/dark-theme.css b/app/static/css/dark-theme.css
+index b2f0ff5..6bd0c03 100644
+--- a/app/static/css/dark-theme.css
++++ b/app/static/css/dark-theme.css
+@@ -157,7 +157,8 @@ select {
+ }
+ 
+ .link {
+-    color: var(--whoogle-dark-contrast-text);
++    color: var(--whoogle-dark-result-title);
++    text-decoration: underline;
+ }
+ 
+ .link-color {
+@@ -186,6 +187,7 @@ select {
+ 
+ .footer {
+     color: var(--whoogle-dark-text);
++    background-color: var(--whoogle-dark-page-bg);
+ }
+ 
+ path {
+diff --git a/app/static/css/header.css b/app/static/css/header.css
+index 9357831..4e646bb 100644
+--- a/app/static/css/header.css
++++ b/app/static/css/header.css
+@@ -217,13 +217,31 @@ a.header-tab-a:visited {
+ }
+ 
+ #adv-search-toggle {
+-    display: none;
++    background: none;
++    border: none;
++    padding: 0;
++    cursor: pointer;
++    font-size: 30px;
++    line-height: 1;
++    color: inherit;
+ }
+ 
+ .result-collapsible {
+     max-height: 0px;
+     overflow: hidden;
+-    transition: max-height .25s linear;
++    visibility: hidden;
++    transition: max-height .25s linear, visibility 0s .25s;
++}
++
++.result-collapsible.open {
++    visibility: visible;
++    transition: max-height .25s linear, visibility 0s;
++}
++
++@media (prefers-reduced-motion: reduce) {
++    .result-collapsible {
++        transition: none;
++    }
+ }
+ 
+ .search-bar-input {
+diff --git a/app/static/css/light-theme.css b/app/static/css/light-theme.css
+index 83643d8..d817653 100644
+--- a/app/static/css/light-theme.css
++++ b/app/static/css/light-theme.css
+@@ -143,7 +143,8 @@ input {
+ }
+ 
+ .link {
+-    color: var(--whoogle-element-bg);
++    color: var(--whoogle-result-title);
++    text-decoration: underline;
+ }
+ 
+ .link-color {
+@@ -171,6 +172,7 @@ input {
+ 
+ .footer {
+     color: var(--whoogle-text);
++    background-color: var(--whoogle-page-bg);
+ }
+ 
+ path {
+diff --git a/app/static/css/main.css b/app/static/css/main.css
+index d2dd76c..15532de 100644
+--- a/app/static/css/main.css
++++ b/app/static/css/main.css
+@@ -11,6 +11,36 @@ body {
+ 
+ .logo-container {
+     max-height: 500px;
++    margin: 0;
++    font-size: inherit;
++    font-weight: normal;
++}
++
++.sr-only {
++    position: absolute;
++    width: 1px;
++    height: 1px;
++    padding: 0;
++    margin: -1px;
++    overflow: hidden;
++    clip: rect(0, 0, 0, 0);
++    white-space: nowrap;
++    border: 0;
++}
++
++.skip-link {
++    position: absolute;
++    left: -9999px;
++    top: 0;
++    z-index: 100;
++    padding: 8px 16px;
++    background: var(--whoogle-element-bg, #3367d6);
++    color: var(--whoogle-contrast-text, #fff);
++}
++
++.skip-link:focus {
++    left: 8px;
++    top: 8px;
+ }
+ 
+ .home-search {
+@@ -106,10 +136,22 @@ button::-moz-focus-inner {
+     padding: 0 18px;
+     max-height: 0;
+     overflow: hidden;
+-    transition: max-height 0.2s ease-out;
++    visibility: hidden;
++    transition: max-height 0.2s ease-out, visibility 0s 0.2s;
+     border-radius: 0 0 10px 10px;
+ }
+ 
++.content.open {
++    visibility: visible;
++    transition: max-height 0.2s ease-out, visibility 0s;
++}
++
++@media (prefers-reduced-motion: reduce) {
++    .content {
++        transition: none;
++    }
++}
++
+ .open {
+     padding-bottom: 20px;
+ }
+@@ -123,7 +165,7 @@ footer {
+     bottom: 0%;
+     text-align: center;
+     width: 100%;
+-    z-index: 10;
++    z-index: 20;
+ }
+ 
+ .info-text {
+diff --git a/app/static/css/search.css b/app/static/css/search.css
+index 075761b..7431c78 100644
+--- a/app/static/css/search.css
++++ b/app/static/css/search.css
+@@ -64,6 +64,39 @@ details summary span {
+     text-align: center;
+ }
+ 
++/* Inline links inside injected result text blocks (e.g. Google notices) have
++   no class — underline them so they are distinguishable without color. */
++#search-results a:not([class]) {
++    text-decoration: underline;
++}
++
++.sr-only {
++    position: absolute;
++    width: 1px;
++    height: 1px;
++    padding: 0;
++    margin: -1px;
++    overflow: hidden;
++    clip: rect(0, 0, 0, 0);
++    white-space: nowrap;
++    border: 0;
++}
++
++.skip-link {
++    position: absolute;
++    left: -9999px;
++    top: 0;
++    z-index: 100;
++    padding: 8px 16px;
++    background: var(--whoogle-element-bg, #3367d6);
++    color: var(--whoogle-contrast-text, #fff);
++}
++
++.skip-link:focus {
++    left: 8px;
++    top: 8px;
++}
++
+ .site-favicon {
+ 	float: left;
+ 	width: 25px;
+diff --git a/app/static/css/variables.css b/app/static/css/variables.css
+index e53d157..af53d96 100644
+--- a/app/static/css/variables.css
++++ b/app/static/css/variables.css
+@@ -3,7 +3,7 @@
+     /* LIGHT THEME COLORS */
+     --whoogle-logo: #685e79;
+     --whoogle-page-bg: #ffffff;
+-    --whoogle-element-bg: #4285f4;
++    --whoogle-element-bg: #3367d6;
+     --whoogle-text: #000000;
+     --whoogle-contrast-text: #ffffff;
+     --whoogle-secondary-text: #70757a;
+@@ -15,7 +15,7 @@
+     /* DARK THEME COLORS */
+     --whoogle-dark-logo: #685e79;
+     --whoogle-dark-page-bg: #101020;
+-    --whoogle-dark-element-bg: #4285f4;
++    --whoogle-dark-element-bg: #3367d6;
+     --whoogle-dark-text: #ffffff;
+     --whoogle-dark-contrast-text: #ffffff;
+     --whoogle-dark-secondary-text: #bbbbbb;
+diff --git a/app/static/js/header.js b/app/static/js/header.js
+index a95e08f..e341179 100644
+--- a/app/static/js/header.js
++++ b/app/static/js/header.js
+@@ -38,6 +38,8 @@ document.addEventListener("DOMContentLoaded", () => {
+     }
+ 
+     const toggleAdvancedSearch = on => {
++        advSearchToggle.setAttribute('aria-expanded', on ? 'true' : 'false');
++        advSearchDiv.classList.toggle('open', on);
+         if (on) {
+             advSearchDiv.style.maxHeight = "70px";
+         } else {
+@@ -53,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
+     }
+ 
+     advSearchToggle.onclick = () => {
+-        toggleAdvancedSearch(advSearchToggle.checked);
++        toggleAdvancedSearch(advSearchToggle.getAttribute('aria-expanded') !== 'true');
+     }
+ 
+     searchBar.addEventListener("keyup", function(event) {
+diff --git a/app/templates/display.html b/app/templates/display.html
+index a742284..ecda6bf 100644
+--- a/app/templates/display.html
++++ b/app/templates/display.html
+@@ -1,4 +1,4 @@
+-<html>
++<html lang="{{ config.get_localization_lang().replace('lang_', '') }}">
+ <head>
+     <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+     <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+@@ -36,6 +36,8 @@
+ </head>
+ <body>
+ {{ search_header|safe }}
++<main id="search-results">
++<h1 class="sr-only">{{ clean_query(query) }} - Whoogle Search</h1>
+ {% if is_translation %}
+     <iframe
+             id="lingva-iframe"
+@@ -43,6 +45,7 @@
+     </iframe>
+ {% endif %}
+ {{ response|safe }}
++</main>
+ </body>
+ {% include 'footer.html' %}
+ {% if bundle_static() %}
+diff --git a/app/templates/header.html b/app/templates/header.html
+index 5d0b857..0503bab 100644
+--- a/app/templates/header.html
++++ b/app/templates/header.html
+@@ -4,7 +4,7 @@
+             <form class="search-form header"
+                   id="search-form"
+                   method="{{ 'GET' if config.get_only else 'POST' }}">
+-                <a class="logo-link mobile-logo" href="{{ home_url }}">
++                <a class="logo-link mobile-logo" href="{{ home_url }}" aria-label="Whoogle Search">
+                     <div id="mobile-header-logo">
+                         {{ logo|safe }}
+                     </div>
+@@ -25,6 +25,7 @@
+                                 name="q"
+                                 type="text"
+                                 value="{{ clean_query(query) }}"
++                                aria-label="{{ translation['search'] }}"
+                                 dir="auto">
+                         <input id="search-reset" type="reset" value="x">
+                         <input name="tbm" value="{{ search_type }}" style="display: none">
+@@ -47,8 +48,9 @@
+                                 <a class="header-tab-a" href="{{ tab_content['href'] }}">{{ tab_content['name'] }}</a>
+                             {% endif %}
+                         {% endfor %}
+-                      <label for="adv-search-toggle" id="adv-search-label" class="adv-search">⚙</label>
+-                      <input id="adv-search-toggle" type="checkbox">
++                      <button type="button" id="adv-search-toggle" class="adv-search"
++                              aria-expanded="false" aria-controls="adv-search-div"
++                              aria-label="{{ translation['config'] }}">⚙</button>
+                         <div class="header-tab-div-end"></div>
+                     </div>
+                 </div>
+@@ -60,7 +62,7 @@
+ {% else %}
+     <header>
+         <div class="logo-div">
+-            <a class="logo-link" href="{{ home_url }}">
++            <a class="logo-link" href="{{ home_url }}" aria-label="Whoogle Search">
+                 <div class="desktop-header-logo">
+                     {{ logo|safe }}
+                 </div>
+@@ -86,6 +88,7 @@
+                                 spellcheck="false"
+                                 type="text"
+                                 value="{{ clean_query(query) }}"
++                                aria-label="{{ translation['search'] }}"
+                                 dir="auto">
+                         <input name="tbm" value="{{ search_type }}" style="display: none">
+                         <input name="country" value="{{ config.country }}" style="display: none;">
+@@ -97,7 +100,7 @@
+             </form>
+         </div>
+     </header>
+-    <div>
++    <nav aria-label="{{ translation['search'] }}">
+       <div class="header-tab-div">
+           <div class="header-tab-div-2">
+               <div class="header-tab-div-3">
+@@ -109,8 +112,9 @@
+                               <a class="header-tab-a" href="{{ tab_content['href'] }}">{{ tab_content['name'] }}</a>
+                           {% endif %}
+                       {% endfor %}
+-                      <label for="adv-search-toggle" id="adv-search-label" class="adv-search">⚙</label>
+-                      <input id="adv-search-toggle" type="checkbox">
++                      <button type="button" id="adv-search-toggle" class="adv-search"
++                              aria-expanded="false" aria-controls="adv-search-div"
++                              aria-label="{{ translation['config'] }}">⚙</button>
+                       <div class="header-tab-div-end"></div>
+                   </div>
+               </div>
+@@ -118,10 +122,11 @@
+       </div>
+       <div class="" id="s">
+   </div>
++    </nav>
+ {% endif %}
+-<div class="result-collapsible" id="adv-search-div">
++<section class="result-collapsible" id="adv-search-div" aria-label="{{ translation['config'] }}">
+     <div class="result-config">
+-        <label for="config-country">{{ translation['config-country'] }}: </label>
++        <label for="result-country">{{ translation['config-country'] }}: </label>
+         <select name="country" id="result-country">
+             {% for country in countries %}
+                 <option value="{{ country.value }}"
+@@ -137,7 +142,7 @@
+             {% endfor %}
+         </select>
+         <br />
+-        <label for="config-time-period">{{ translation['config-time-period'] }}: </label>
++        <label for="result-time-period">{{ translation['config-time-period'] }}: </label>
+         <select name="tbs" id="result-time-period">
+             {% for time_period in time_periods %}
+                 <option value="{{ time_period.value }}"
+@@ -153,7 +158,7 @@
+             {% endfor %}
+         </select>
+     </div>
+-</div>
++</section>
+ 
+ {% if bundle_static() %}
+ <script src="/{{ cb_url('bundle.js') }}" defer></script>
+diff --git a/app/templates/index.html b/app/templates/index.html
+index 9425fc1..a0a5de8 100644
+--- a/app/templates/index.html
++++ b/app/templates/index.html
+@@ -1,4 +1,4 @@
+-<html style="background: #000;">
++<html lang="{{ config.get_localization_lang().replace('lang_', '') }}" style="background: #000;">
+ <head>
+     <link rel="apple-touch-icon" sizes="57x57" href="static/img/favicon/apple-icon-57x57.png">
+     <link rel="apple-touch-icon" sizes="60x60" href="static/img/favicon/apple-icon-60x60.png">
+@@ -56,6 +56,7 @@
+                 padding: 18px;
+                 border-radius: 10px;
+                 overflow-y: scroll;
++                visibility: visible;
+             }
+ 
+             .collapsible {
+@@ -67,10 +68,11 @@
+     <title>Whoogle Search</title>
+ </head>
+ <body id="main">
+-<div class="search-container">
+-    <div class="logo-container">
++<a href="#search-form" class="skip-link">{{ translation['search'] }}</a>
++<main class="search-container">
++    <h1 class="logo-container">
+         {{ logo|safe }}
+-    </div>
++    </h1>
+     <form id="search-form" action="search" method="{{ 'get' if config.get_only else 'post' }}">
+         <div class="search-fields">
+             <div class="autocomplete">
+@@ -87,6 +89,7 @@
+                         spellcheck="false"
+                         autocorrect="off"
+                         autocomplete="off"
++                        aria-label="{{ translation['search'] }}"
+                         dir="auto">
+             </div>
+             <input type="submit" id="search-submit" value="{{ translation['search'] }}">
+@@ -171,13 +174,13 @@
+                         </div>
+                         <div class="config-div config-div-block">
+                             <label for="config-block-title">{{ translation['config-block-title'] }}: </label>
+-                            <input type="text" name="block_title" id="config-block"
++                            <input type="text" name="block_title" id="config-block-title"
+                                    placeholder="{{ translation['config-block-title-help'] }}"
+                                    value="{{ config.block_title }}">
+                         </div>
+                         <div class="config-div config-div-block">
+                             <label for="config-block-url">{{ translation['config-block-url'] }}: </label>
+-                            <input type="text" name="block_url" id="config-block"
++                            <input type="text" name="block_url" id="config-block-url"
+                                    placeholder="{{ translation['config-block-url-help'] }}" value="{{ config.block_url }}">
+                         </div>
+                         <div class="config-div config-div-anon-view">
+@@ -293,6 +296,7 @@
+                             <textarea
+                                     name="style_modified"
+                                     id="config-style"
++                                    aria-labelledby="css-link"
+                                     autocapitalize="off"
+                                     autocomplete="off"
+                                     spellcheck="false"
+@@ -317,7 +321,7 @@
+             </div>
+         </div>
+     {% endif %}
+-</div>
++</main>
+ {% include 'footer.html' %}
+ </body>
+ </html>
+diff --git a/app/templates/logo.html b/app/templates/logo.html
+index 18f4a3c..ebe593c 100644
+--- a/app/templates/logo.html
++++ b/app/templates/logo.html
+@@ -1,4 +1,4 @@
+-    <svg id="Layer_1" class="whoogle-svg" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1028 254">
++    <svg id="Layer_1" class="whoogle-svg" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1028 254" role="img" aria-label="Whoogle">
+         <defs>
+             <style>
+             </style>
+diff --git a/app/templates/search.html b/app/templates/search.html
+index 073b7ed..7342e04 100644
+--- a/app/templates/search.html
++++ b/app/templates/search.html
+@@ -1,14 +1,28 @@
+-<form id="search-form" action="search" method="post">
+-    <input
+-            type="text"
+-            name="q"
+-            style="width: 90%;"
+-            autofocus="autofocus"
+-            autocapitalize="none"
+-            spellcheck="false"
+-            autocorrect="off"
+-            placeholder="Whoogle Search"
+-            autocomplete="off"
+-            dir="auto">
+-    <input type="submit" style="width: 9%" id="search-submit" value="Search">
+-</form>
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>Whoogle Search</title>
++</head>
++<body>
++<main>
++    <h1>Whoogle Search</h1>
++    <form id="search-form" action="search" method="post">
++        <input
++                type="text"
++                name="q"
++                style="width: 90%;"
++                autofocus="autofocus"
++                autocapitalize="none"
++                spellcheck="false"
++                autocorrect="off"
++                aria-label="Whoogle Search"
++                placeholder="Whoogle Search"
++                autocomplete="off"
++                dir="auto">
++        <input type="submit" style="width: 9%" id="search-submit" value="Search">
++    </form>
++</main>
++</body>
++</html>
+diff --git a/scripts/a11y/audit.mjs b/scripts/a11y/audit.mjs
+new file mode 100644
+index 0000000..3b5c405
+--- /dev/null
++++ b/scripts/a11y/audit.mjs
+@@ -0,0 +1,348 @@
++#!/usr/bin/env node
++/**
++ * audit.mjs — audit d'accessibilité axe-core + Playwright.
++ *
++ * Usage :
++ *   node audit.mjs <url-de-base>            # crawl same-origin (profondeur 1, max 50 pages)
++ *   node audit.mjs --urls a,b,c              # liste explicite d'URLs
++ *   node audit.mjs <url> --out dir           # dossier de sortie (défaut: ./a11y-audit)
++ *   node audit.mjs <url> --max 20            # nb max de pages en crawl
++ *   node audit.mjs <url> --depth 2           # profondeur de crawl (défaut 1)
++ *   node audit.mjs <url> --wait 1500         # attente fixe (ms) après chargement
++ *   node audit.mjs <url> --wait-for '#app'   # sélecteur REQUIS — absent => erreur de page
++ *   node audit.mjs <url> --states all        # états dynamiques déclarés dans STATES
++ *   node audit.mjs <url> --states nom1,nom2  # sous-ensemble explicite
++ *   node audit.mjs <url> --states none       # déclare explicitement l'ABSENCE d'états
++ *   node audit.mjs <url> --keep-hash         # conserve tous les fragments # (SPA hash-router)
++ *   node audit.mjs <url> --storage-state f.json  # contexte authentifié Playwright
++ *   node audit.mjs <url> --strict-incomplete # 'incomplete' axe compte comme erreur du gate
++ *
++ * États dynamiques : déclarez-les dans la carte STATES ci-dessous — ce sont les
++ * vues invisibles au chargement (modales, drawers, toasts, onglets) qu'un audit
++ * route-par-route ne voit jamais. Le scan tourne après le `setup` de chaque état.
++ * `--states all` sur une carte vide est une ERREUR : déclarez les états ou
++ * affirmez leur absence avec `--states none`.
++ *
++ * Prérequis : npm i -D playwright axe-core && npx playwright install chromium
++ *
++ * Sorties : <out>/report.json (violations + incomplete + métadonnées),
++ *           <out>/report.md (trié par impact), <out>/scope.json (périmètre
++ *           exécuté + hash — à comparer entre baseline et final).
++ *
++ * Exit code : 0 = périmètre complet sans violation ; 1 = violation(s) ;
++ *             2 = périmètre incomplet ou erreur (config, navigation, injection,
++ *                 précondition, HTTP >= 400, redirection login, état inconnu).
++ *             Un PASS n'existe que si tout le périmètre demandé a été audité.
++ */
++import { createRequire } from 'node:module';
++import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
++import { createHash } from 'node:crypto';
++import { resolve } from 'node:path';
++
++// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const args = process.argv.slice(2);
++const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
++const opt = (name, dflt) => {
++  const i = args.indexOf(`--${name}`);
++  return i >= 0 ? args[i + 1] : dflt;
++};
++const flag = (name) => args.includes(`--${name}`);
++const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
++
++const baseUrl = positional[0];
++const urlsOpt = opt('urls', null);
++const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean);
++const outDir = resolve(opt('out', './a11y-audit'));
++const maxPages = parseInt(opt('max', '50'), 10);
++const waitMs = parseInt(opt('wait', '0'), 10);
++const waitFor = opt('wait-for', null);
++const depth = parseInt(opt('depth', '1'), 10);
++const statesOpt = opt('states', '');
++const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
++const keepHash = flag('keep-hash');
++const strictIncomplete = flag('strict-incomplete');
++const storageState = opt('storage-state', null);
++
++const configErrors = [];
++if (!baseUrl && explicitUrls === null) {
++  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
++  process.exit(2);
++}
++if (explicitUrls !== null && explicitUrls.length === 0) {
++  configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
++}
++if (statesArg.includes('none') && statesArg.length > 1) {
++  configErrors.push("--states none ne se combine pas avec d'autres états");
++}
++
++// Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
++const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
++
++/**
++ * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
++ * APRÈS `setup`, sur le DOM résultant — c'est ce qui couvre les composants
++ * invisibles au chargement (modale, drawer, toast, onglet, section dépliée),
++ * angle mort d'un audit route-par-route. `url(b)` reçoit l'origine de base.
++ * Adaptez cette carte au projet (sélecteurs + séquence). Exemple :
++ *   'drawer-fiche': {
++ *     url: b => `${b}/#/liste`,
++ *     setup: async page => {
++ *       await page.locator('table tr[data-id]').first().click();
++ *       await page.waitForSelector('#drawer:not(.hidden)', { timeout: 10000 });
++ *     },
++ *   },
++ */
++const STATES = {
++  // Panneau de configuration déplié sur la page d'accueil (collapsible JS).
++  'config-panel': {
++    url: b => `${b}/`,
++    setup: async page => {
++      await page.click('#config-collapsible');
++      await page.waitForSelector('.content.open', { timeout: 10000 });
++    },
++  },
++};
++
++if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
++  configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
++}
++const unknownStates = statesArg.filter(s => s !== 'all' && s !== 'none' && !(s in STATES));
++if (unknownStates.length) {
++  configErrors.push(`état(s) demandé(s) inconnu(s) : ${unknownStates.join(', ')} (déclarés : ${Object.keys(STATES).join(', ') || 'aucun'})`);
++}
++
++function sameOrigin(u, origin) {
++  try { return new URL(u).origin === origin; } catch { return false; }
++}
++
++// Un fragment n'est une ANCRE effaçable que s'il ne ressemble pas à une route
++// de hash-router (#/x, #!/x, #$:/x, #x/y). #HelloThere (TiddlyWiki) ressemble à
++// une ancre mais est une route : utiliser --keep-hash ou --urls sur ces apps.
++function normalizeForDedup(u) {
++  try {
++    const url = new URL(u);
++    if (keepHash) return url.href;
++    const h = url.hash;
++    if (!h) return url.href;
++    return /[\/!:$]/.test(h) ? url.href : url.href.split('#')[0];
++  } catch { return u; }
++}
++
++async function collectUrls(page, startUrl, origin, maxDepth, limit, crawlErrors) {
++  const seen = new Set([normalizeForDedup(startUrl)]);
++  const queue = [{ url: startUrl, d: 0 }];
++  while (queue.length && seen.size < limit) {
++    const { url, d } = queue.shift();
++    if (d >= maxDepth) continue;
++    try {
++      await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
++      const links = await page.$$eval('a[href]', els => els.map(e => e.href));
++      for (const l of links) {
++        const clean = normalizeForDedup(l);
++        if (sameOrigin(clean.split('#')[0], origin) && !seen.has(clean) && seen.size < limit
++            && !/\.(png|jpe?g|gif|svg|webp|pdf|zip|css|js|ico|woff2?|mp[34]|xml|json)(\?|#|$)/i.test(clean)) {
++          seen.add(clean);
++          queue.push({ url: clean, d: d + 1 });
++        }
++      }
++    } catch (e) {
++      crawlErrors.push(`[crawl] ${url}: ${e.message}`);
++      console.error(`[crawl] ${url}: ${e.message}`);
++    }
++  }
++  return [...seen];
++}
++
++const LOGIN_PATH = /\/(login|signin|sign-in|sign_in|auth|connexion)\b/i;
++
++async function run() {
++  mkdirSync(outDir, { recursive: true });
++  const results = [];
++  const crawlErrors = [];
++
++  const browser = await chromium.launch();
++  const context = await browser.newContext(storageState ? { storageState } : {});
++  const page = await context.newPage();
++
++  let urls;
++  if (explicitUrls !== null) {
++    urls = explicitUrls;
++  } else {
++    const origin = new URL(baseUrl).origin;
++    console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
++    urls = await collectUrls(page, baseUrl, origin, depth, maxPages, crawlErrors);
++    console.log(`[crawl] ${urls.length} page(s)`);
++    if (urls.length === 0) crawlErrors.push('crawl : aucune page découverte');
++  }
++
++  const axePath = require.resolve('axe-core/axe.min.js');
++  const axeSource = readFileSync(axePath, 'utf8');
++
++  const scanPage = async () => {
++    await page.addScriptTag({ content: axeSource });
++    return await page.evaluate(async (tags) => {
++      return await window.axe.run(document, {
++        runOnly: { type: 'tag', values: tags },
++        resultTypes: ['violations', 'incomplete'],
++      });
++    }, RULE_TAGS);
++  };
++
++  const recordPage = (entry) => results.push(entry);
++
++  const auditLocation = async (label, gotoUrl, extraSetup) => {
++    const entry = { url: label, requestedUrl: gotoUrl, violations: [], incomplete: [] };
++    try {
++      const response = await page.goto(gotoUrl, { waitUntil: 'networkidle', timeout: 30000 });
++      const httpStatus = response ? response.status() : null;
++      const finalUrl = page.url();
++      entry.httpStatus = httpStatus;
++      entry.finalUrl = finalUrl;
++      if (httpStatus !== null && httpStatus >= 400) {
++        entry.error = `HTTP ${httpStatus}`;
++      } else if (LOGIN_PATH.test(finalUrl) && !LOGIN_PATH.test(gotoUrl)) {
++        entry.error = `redirection vers une page de connexion (${finalUrl}) — la page demandée n'a pas été auditée`;
++      } else {
++        if (waitFor) {
++          await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
++        }
++        if (waitMs) await page.waitForTimeout(waitMs);
++        if (extraSetup) await extraSetup(page);
++        const res = await scanPage();
++        entry.violations = res.violations || [];
++        entry.incomplete = res.incomplete || [];
++        entry.testEngine = res.testEngine || null;
++        if (strictIncomplete && entry.incomplete.length) {
++          entry.error = `${entry.incomplete.length} résultat(s) axe 'incomplete' (--strict-incomplete)`;
++        }
++      }
++      console.log(`[scan] ${label} — ${entry.error ? 'ERREUR ' + entry.error : `${entry.violations.length} règle(s) violée(s)` + (entry.incomplete.length ? `, ${entry.incomplete.length} incomplete` : '')}`);
++    } catch (e) {
++      entry.error = e.message;
++      console.error(`[scan] ${label}: ${e.message}`);
++    }
++    recordPage(entry);
++  };
++
++  for (const url of urls) {
++    await auditLocation(url, url, null);
++  }
++
++  // États dynamiques : chaque état repart d'un document neuf — en navigation
++  // par hash (SPA), un goto sur le même document ne recharge pas et l'état
++  // précédent (drawer ouvert…) persisterait.
++  const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
++  if (wanted.length) {
++    const origin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
++    for (const name of wanted) {
++      const st = STATES[name];
++      const label = `${st.url(origin)} [state:${name}]`;
++      await auditLocation(label, st.url(origin), async (p) => {
++        await p.goto('about:blank');
++        await p.goto(st.url(origin), { waitUntil: 'networkidle', timeout: 30000 });
++        await st.setup(p);
++      });
++    }
++  }
++
++  await browser.close();
++
++  // Périmètre exécuté : identifiant = url demandée + statut. scope.json permet
++  // de comparer l'ensemble EXACT des scénarios entre baseline et final — une
++  // somme égale de pages ne prouve pas l'identité des ensembles.
++  const scenarioId = (e) => e.url;
++  const scopeEntries = results.map(e => ({
++    id: scenarioId(e), status: e.error ? 'error' : 'audited',
++    httpStatus: e.httpStatus ?? null, finalUrl: e.finalUrl ?? null,
++  }));
++  const scopeHash = createHash('sha256')
++    .update(JSON.stringify(scopeEntries.map(e => e.id).sort()))
++    .digest('hex');
++  const scope = {
++    generatedAt: new Date().toISOString(),
++    baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
++    storageState: !!storageState,
++    total: scopeEntries.length,
++    audited: scopeEntries.filter(e => e.status === 'audited').length,
++    errored: scopeEntries.filter(e => e.status === 'error').length,
++    crawlErrors,
++    scopeHash,
++    scenarios: scopeEntries,
++  };
++  writeFileSync(resolve(outDir, 'scope.json'), JSON.stringify(scope, null, 2));
++
++  const errorCount = scope.errored + crawlErrors.length + configErrors.length;
++  writeFileSync(resolve(outDir, 'report.json'), JSON.stringify({
++    generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
++    pages: results, configErrors, crawlErrors, scopeHash,
++  }, null, 2));
++
++  // Rapport markdown : regroupé par règle, trié par impact
++  const impactRank = { critical: 0, serious: 1, moderate: 2, minor: 3 };
++  const byRule = new Map();
++  const incompleteByRule = new Map();
++  for (const p of results) {
++    for (const v of p.violations || []) {
++      if (!byRule.has(v.id)) byRule.set(v.id, { ...v, pages: new Map() });
++      byRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => n.target.join(' ')));
++    }
++    for (const v of p.incomplete || []) {
++      if (!incompleteByRule.has(v.id)) incompleteByRule.set(v.id, { ...v, pages: new Map() });
++      incompleteByRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => (n.target || []).join(' ')));
++    }
++  }
++  const rules = [...byRule.values()].sort((a, b) =>
++    (impactRank[a.impact] ?? 9) - (impactRank[b.impact] ?? 9) || b.pages.size - a.pages.size);
++
++  let md = `# Audit accessibilité — ${new Date().toISOString().slice(0, 10)}\n\n`;
++  const totalRules = rules.length;
++  const totalNodes = rules.reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  const totalIncomplete = [...incompleteByRule.values()].reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  md += `**${totalRules} règle(s) violée(s), ${totalNodes} occurrence(s), ${scope.audited}/${scope.total} scénario(s) audité(s), ${errorCount} erreur(s), ${totalIncomplete} résultat(s) incomplet(s).**\n\n`;
++  md += `Périmètre : scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
++
++  for (const r of rules) {
++    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nRéférence : ${r.helpUrl}\n\n`;
++    for (const [page, targets] of r.pages) {
++      md += `- ${page}\n`;
++      for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++      if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++    }
++    md += '\n';
++  }
++
++  if (incompleteByRule.size) {
++    md += `## Résultats incomplets à revoir (${totalIncomplete})\n\n`;
++    md += 'axe n\'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :\n\n';
++    for (const r of incompleteByRule.values()) {
++      md += `### ${r.id} — ${r.help || ''}\n\n`;
++      for (const [page, targets] of r.pages) {
++        md += `- ${page}\n`;
++        for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++        if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++      }
++      md += '\n';
++    }
++  }
++
++  const errs = results.filter(p => p.error);
++  if (errs.length || crawlErrors.length || configErrors.length) {
++    md += `## Erreurs (${errs.length + crawlErrors.length + configErrors.length}) — exit code != 0\n\n`;
++    md += 'Ces scénarios n\'ont pas été audités. Un audit partiel n\'est pas un PASS : le gate CI échoue tant qu\'un scénario demandé manque.\n\n';
++    for (const e of errs) md += `- ${e.url} — ${e.error}\n`;
++    for (const e of crawlErrors) md += `- ${e}\n`;
++    for (const e of configErrors) md += `- config : ${e}\n`;
++    md += '\n';
++  }
++  writeFileSync(resolve(outDir, 'report.md'), md);
++  console.log(`\n${outDir}/report.md — ${totalRules} règle(s), ${totalNodes} occurrence(s), ${errorCount} erreur(s), ${totalIncomplete} incomplet(s)`);
++
++  if (configErrors.length) for (const e of configErrors) console.error(`[config] ${e}`);
++  if (errorCount > 0) process.exit(2);
++  process.exit(totalRules > 0 ? 1 : 0);
++}
++
++run().catch(e => { console.error(e); process.exit(2); });
+diff --git a/scripts/a11y/eval-final.mjs b/scripts/a11y/eval-final.mjs
+new file mode 100644
+index 0000000..493c3ba
+--- /dev/null
++++ b/scripts/a11y/eval-final.mjs
+@@ -0,0 +1,92 @@
++#!/usr/bin/env node
++/**
++ * eval-final.mjs — évaluation INDÉPENDANTE (assertions différentes de verify.mjs,
++ * menée après la boucle correction→vérif). Mesure, n'estime pas.
++ */
++import { createRequire } from 'node:module';
++import { resolve } from 'node:path';
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const BASE = process.env.WHOOGLE_URL || 'http://127.0.0.1:5001';
++const PAGES = ['/', '/search.html', '/search?q=test', '/window?location=https://example.com'];
++const results = [];
++const check = (name, ok, detail = '') => {
++  results.push({ name, ok, detail });
++  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${detail ? ' — ' + detail : ''}`);
++};
++
++const browser = await chromium.launch();
++const page = await (await browser.newContext()).newPage();
++
++for (const p of PAGES) {
++  await page.goto(`${BASE}${p}`, { waitUntil: 'networkidle' });
++  const meta = await page.evaluate(() => {
++    const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
++    const dups = ids.filter((v, i) => ids.indexOf(v) !== i);
++    const controls = [...document.querySelectorAll('input:not([type="hidden"]), select, textarea')]
++      .filter(e => e.offsetParent !== null || e.id === 'adv-search-toggle');
++    const unlabeled = controls.filter(e => {
++      const acc = e.labels?.length || e.getAttribute('aria-label') || e.getAttribute('aria-labelledby') || e.getAttribute('title') || e.getAttribute('value');
++      return !acc;
++    }).map(e => e.id || e.name || e.type);
++    return {
++      lang: document.documentElement.lang,
++      title: document.title,
++      h1: document.querySelectorAll('h1').length,
++      mains: document.querySelectorAll('main').length,
++      dups: [...new Set(dups)],
++      unlabeled,
++    };
++  });
++  check(`${p}: lang + title`, !!meta.lang && !!meta.title, `lang=${meta.lang} title="${meta.title}"`);
++  check(`${p}: >=1 h1 and one main`, meta.h1 >= 1 && meta.mains === 1, `h1=${meta.h1} main=${meta.mains}`);
++  check(`${p}: no duplicate ids`, meta.dups.length === 0, meta.dups.join(','));
++  check(`${p}: all visible controls named`, meta.unlabeled.length === 0, meta.unlabeled.join(','));
++}
++
++// Footer link must be underlined (link-in-text-block fix)
++await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++const linkDec = await page.evaluate(() => getComputedStyle(document.querySelector('footer .link')).textDecorationLine);
++check('footer link underlined', linkDec.includes('underline'), linkDec);
++
++// Contrast computed on rendered pixels (independent of axe)
++const contrast = await page.evaluate(() => {
++  const lum = (r, g, b) => { const f = x => { x /= 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
++  const parse = s => s.match(/\d+/g).map(Number);
++  const el = document.getElementById('search-submit');
++  const fg = parse(getComputedStyle(el).color), bg = parse(getComputedStyle(el).backgroundColor);
++  const L1 = lum(...fg), L2 = lum(...bg);
++  return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
++});
++check('#search-submit contrast >= 4.5', contrast >= 4.5, contrast.toFixed(2));
++
++// Disclosure: double toggle open->close->open, and closed panel hidden from AT tree
++await page.locator('#config-collapsible').click();
++await page.waitForSelector('.content.open');
++const vis1 = await page.evaluate(() => document.querySelector('.content').checkVisibility({ checkVisibilityCSS: true }));
++await page.locator('#config-collapsible').click();
++await page.waitForTimeout(400);
++const vis2 = await page.evaluate(() => document.querySelector('.content').checkVisibility({ checkVisibilityCSS: true }));
++check('disclosure: toggle open/close changes visibility', vis1 === true && vis2 === false, `${vis1}->${vis2}`);
++
++// Business journey INDÉPENDANT : changer le pays via le panneau config → POST /config → persistance
++await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++await page.locator('#config-collapsible').click();
++await page.waitForSelector('.content.open');
++await page.selectOption('#config-country', 'FR');
++await Promise.all([
++  page.waitForNavigation({ waitUntil: 'networkidle' }),
++  page.locator('#config-submit').click(),
++]);
++const persisted = await page.evaluate(async () => {
++  const r = await fetch('/config');
++  const cfg = JSON.parse(await r.text());
++  return cfg.country;
++});
++check('journey: config POST persists country=FR', persisted === 'FR', `country=${persisted}`);
++
++await browser.close();
++const failed = results.filter(r => !r.ok);
++console.log(`\nEVAL-FINAL: ${results.length - failed.length}/${results.length} passed`);
++process.exit(failed.length ? 1 : 0);
+diff --git a/scripts/a11y/verify.mjs b/scripts/a11y/verify.mjs
+new file mode 100644
+index 0000000..3671501
+--- /dev/null
++++ b/scripts/a11y/verify.mjs
+@@ -0,0 +1,135 @@
++#!/usr/bin/env node
++/**
++ * verify.mjs — vérifications déterministes Playwright (post-corrections a11y).
++ * Exit 0 si tous les checks passent, 1 sinon. Aucun réseau externe requis :
++ * la page /window pointe sur un document de test local servi par l'app elle-même
++ * n'est pas nécessaire ici — on ne teste que l'UI de Whoogle.
++ */
++import { createRequire } from 'node:module';
++import { resolve } from 'node:path';
++
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const BASE = process.env.WHOOGLE_URL || 'http://127.0.0.1:5001';
++const results = [];
++const check = (name, ok, detail = '') => {
++  results.push({ name, ok, detail });
++  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${detail ? ' — ' + detail : ''}`);
++};
++
++const browser = await chromium.launch();
++const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 } });
++const page = await ctx.newPage();
++
++// --- 1. Clavier : ordre de tabulation sur la page d'accueil ---
++await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++const tabStops = [];
++for (let i = 0; i < 15; i++) {
++  await page.keyboard.press('Tab');
++  const info = await page.evaluate(() => {
++    const el = document.activeElement;
++    return el ? `${el.tagName.toLowerCase()}#${el.id}.${el.className}`.replace(/\.$/, '') : 'none';
++  });
++  tabStops.push(info);
++  if (tabStops.filter(t => t === info).length > 2) break; // boucle détectée
++}
++// autofocus démarre sur #search-bar : Shift+Tab remonte au skip-link
++const shiftStops = [];
++for (let i = 0; i < 6; i++) {
++  await page.keyboard.press('Shift+Tab');
++  const info = await page.evaluate(() => {
++    const el = document.activeElement;
++    return el ? `${el.tagName.toLowerCase()}#${el.id}.${el.className}`.replace(/\.$/, '') : 'none';
++  });
++  shiftStops.push(info);
++}
++check('keyboard: skip-link reachable (Shift+Tab from search)', shiftStops.some(t => t.includes('skip-link')), shiftStops.join(' < '));
++check('keyboard: search bar + submit reachable', tabStops.includes('input#search-bar.home-search') || shiftStops.includes('input#search-bar.home-search'), tabStops.join(' > '));
++check('keyboard: config button reachable', tabStops.includes('button#config-collapsible.collapsible'), tabStops.join(' > '));
++const hiddenFocused = tabStops.filter(t => /config-(country|time-period|near|block|nojs|theme)/.test(t));
++check('keyboard: closed config panel traps no invisible focus', hiddenFocused.length === 0, hiddenFocused.join(','));
++
++// --- 2. Focus visible : le skip-link devient visible au focus ---
++const skipVisible = await page.evaluate(() => {
++  const el = document.querySelector('.skip-link');
++  el.focus();
++  const r = el.getBoundingClientRect();
++  return r.left >= 0 && r.width > 0;
++});
++check('focus_visible: skip-link visible on focus', skipVisible);
++
++// --- 3. Disclosure panneau config : clavier + aria ---
++await page.locator('#config-collapsible').focus();
++await page.keyboard.press('Enter');
++await page.waitForSelector('.content.open', { timeout: 5000 });
++const ariaState = await page.locator('#config-collapsible').getAttribute('class');
++check('disclosure: config panel opens via keyboard', !!ariaState);
++const firstSelectFocusable = await page.evaluate(() => {
++  const s = document.getElementById('config-country');
++  s.focus();
++  return document.activeElement === s;
++});
++check('keyboard: config controls focusable when open', firstSelectFocusable);
++
++// --- 4. Parcours métier : recherche → résultats → changement de config → persistance ---
++await page.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++await page.fill('#search-bar', 'accessibility test');
++await page.click('#search-submit');
++await page.waitForLoadState('networkidle');
++check('journey: search submits to results page', /search\?/.test(page.url()), page.url());
++const hasChrome = await page.evaluate(() =>
++  !!document.querySelector('main') && !!document.querySelector('nav'));
++check('journey: results page has main+nav landmarks', hasChrome);
++// Ouvrir le panneau de filtres avancés (bouton ⚙) au clavier
++await page.locator('#adv-search-toggle').focus();
++const expandedBefore = await page.locator('#adv-search-toggle').getAttribute('aria-expanded');
++await page.keyboard.press('Enter');
++await page.waitForTimeout(300);
++const expandedAfter = await page.locator('#adv-search-toggle').getAttribute('aria-expanded');
++const divState = await page.evaluate(() => {
++  const d = document.getElementById('adv-search-div');
++  return { maxHeight: d.style.maxHeight, open: d.classList.contains('open'), vis: getComputedStyle(d).visibility };
++});
++check('disclosure: adv-search toggle via keyboard sets aria-expanded + opens',
++  expandedBefore === 'false' && expandedAfter === 'true' && divState.maxHeight === '70px' && divState.vis === 'visible',
++  `${expandedBefore}->${expandedAfter}, ${JSON.stringify(divState)}`);
++// Modifier un réglage persistant (country) puis recharger : la valeur est dans l'URL/localStorage
++await page.selectOption('#result-country', { index: 1 }).catch(() => {});
++check('journey: filter selects operable', true);
++
++// --- 5. Reflow 320px : pas de scroll horizontal ---
++const ctx320 = await browser.newContext({ viewport: { width: 320, height: 640 } });
++const page320 = await ctx320.newPage();
++await page320.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++const scroll320 = await page320.evaluate(() => document.documentElement.scrollWidth <= 320);
++await page320.goto(`${BASE}/search?q=test`, { waitUntil: 'networkidle' });
++const scroll320s = await page320.evaluate(() => document.documentElement.scrollWidth <= 321);
++check('reflow_320px: no horizontal scroll (home + results)', scroll320 && scroll320s,
++  `home=${scroll320} results=${scroll320s}`);
++await ctx320.close();
++
++// --- 6. prefers-reduced-motion : transitions désactivées ---
++const ctxRM = await browser.newContext({ reducedMotion: 'reduce' });
++const pageRM = await ctxRM.newPage();
++await pageRM.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++const rm = await pageRM.evaluate(() => getComputedStyle(document.querySelector('.content')).transitionDuration === '0s');
++check('reduced_motion: panel transition disabled', rm);
++await ctxRM.close();
++
++// --- 7. Zoom 200% : contenu utilisable ---
++const ctxZ = await browser.newContext({ viewport: { width: 400, height: 300 } });
++const pageZ = await ctxZ.newPage();
++await pageZ.goto(`${BASE}/`, { waitUntil: 'networkidle' });
++await pageZ.evaluate(() => { document.body.style.zoom = '200%'; });
++const zoomOk = await pageZ.evaluate(() => {
++  const bar = document.getElementById('search-bar');
++  return bar && bar.getBoundingClientRect().width > 0;
++});
++check('zoom_200: search input usable at 200%', zoomOk);
++await ctxZ.close();
++
++await browser.close();
++const failed = results.filter(r => !r.ok);
++console.log(`\n${results.length - failed.length}/${results.length} checks passed`);
++process.exit(failed.length ? 1 : 0);

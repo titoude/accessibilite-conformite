@@ -1,0 +1,94 @@
+
+================================================================================
+SESSION bench-1 (miniflux, linkding, changedetection, whoogle, healthchecks, FreshRSS) — devin-9746d46201264d27812430d0bce434e3
+================================================================================
+
+Toujours en progression — 4/6 dépôt terminés (miniflux, linkding, whoogle, FreshRSS à 0 violation). Je corrige actuellement changedetection.io (baseline 336 occurrences, 11 pages), puis healthchecks, puis le bilan final.
+
+---
+
+Benchmark terminé : les 6 dépôts passent à 0 violation axe sur leur périmètre gelé, corrections faites dans le code source uniquement (aucun overlay, aucune règle désactivée, aucun push/PR).
+
+- **miniflux/v2** : 84 → 0 (18 pages/états, 2 rounds)
+- **linkding** : 27 → 0 (12 états) — vrai bug corrigé : FocusTrapController ne retenait pas le focus
+- **changedetection.io** : 336 → 0 (11 pages, 3 rounds) — landmarks, contrastes, reflow 320px, drawer
+- **whoogle-search** : 88 → 0 — `/config` = endpoint JSON non auditable (coverage gap documenté)
+- **healthchecks** : 314 → 0 (12 états, 3 rounds) — vrai bug corrigé : aucune modale ne piégeait Tab (nouveau `modal-focus.js` couvrant jQuery-Bootstrap ET bootstrap-native) + reflow table profil ; attention : `COMPRESS_OFFLINE` impose `manage.py compress --force` après chaque modif de bloc compress
+- **FreshRSS** : 87 → 0 (21 états)
+
+Chaque dépôt a aussi passé les tests déterministes (clavier complet, focus visible, piège/relâche modal, 320px, reduced-motion) et une évaluation finale indépendante (axe all-rules sur sous-ensemble + checks fonctionnels) — 0 faux PASS, 0 régression détectée. Tous les changements restent en working tree local, rien n'a été poussé.
+
+---
+
+
+================================================================================
+SESSION bench-2 (it-tools, uptime-kuma, excalidraw, dashy, wiki.js, romm) — devin-986f9d9e31424a8ebeaecdd1d90e5a3e
+================================================================================
+
+Progression normale : wiki.js est passé à 0 violation axe sur le périmètre gelé ; il reste un dépassement horizontal à 320 px (barre d'actions authentifiée + commentaires) en cours de correction, puis évaluation finale et romm.
+
+---
+
+Benchmark terminé — 6/6 dépôts : 0 violation axe sur le périmètre gelé de chacun, corrections en code source livré, vérifications Playwright déterministes et évaluations indépendantes passées. Rien de pushé, aucun PR.
+
+Chiffres par dépôt (baseline → final) : it-tools 12 règles/6871 occ → 0 ; uptime-kuma 9/166 → 0 ; excalidraw 5/37 → 0 (a nécessité un 4e round, au-delà du max de 3 — signalé) ; dashy 14/106 → 0 ; wiki 8/55 → 0 ; romm 7/13 → 0, dont 3 vrais défauts trouvés par l'éval indépendante (role menuitem manquant, dialogue sans nom accessible, focus perdu quand un dialogue s'ouvre depuis un menu) puis corrigés.
+
+Notes par dépôt : <repo>/.a11y-notes.md, commits locaux uniquement.
+
+---
+
+
+================================================================================
+SESSION bench-3 (kanboard, grav, raspap, gitea, n8n, TiddlyWiki5) — devin-fde8d4911f1840b992c4839343a609f8
+================================================================================
+
+Statut : 5/6 dépôts terminés et mesurés à 0 violation (kanboard 452→0, grav 80→0, raspap 286→0, gitea 531→0, n8n 216→0, commits locaux `a11y-fixes-local`). La session enfant TiddlyWiki5 a repris et tourne ; j'agrége le rapport final dès qu'elle rend son output.
+
+---
+
+Benchmark terminé — les 6 dépôts passent à 0 violation axe sur leur périmètre gelé :
+
+• kanboard/kanboard : 452 → 0 (14 pages, verify 17/17)
+• trilbymedia/grav : 80 → 0 (3 pages, verify 14/14)
+• RaspAP/raspap-webgui : 286 → 0 (19 pages-états ; substitué à artur-simon/RaspAP qui est 404)
+• go-gitea/gitea : 531 → 0 (15 pages, verify 19/19)
+• n8n-io/n8n : 216 → 0 (11 pages-états, verify 22/22, 4 findings d'éval corrigés)
+• Jermolene/TiddlyWiki5 : 2807 → 0 (14 pages-états, verify 20/20)
+
+≈4372 occurrences éliminées via ~80 causes racines corrigées dans le code source livré — aucune règle désactivée, aucun overlay, aucune fonctionnalité retirée. Régressions : 0. Tout est en local sur les branches `a11y-fixes-local` (master local pour TiddlyWiki5) — aucun push ni PR, comme demandé.
+
+---
+
+
+================================================================================
+SESSION enfant n8n — devin-399f0555f0f348f8aac1c5e255cc04d5
+================================================================================
+
+Done. 81 → 0 axe violations on the frozen 11-page/state scope, committed locally as 260eb597 ("a11y: fix axe violations") — no push, no PR.
+
+Verification: 22/22 deterministic checks pass (keyboard operability, focus visibility, modal trap+release, 320px reflow, reduced-motion). Adversarial eval found and fixed 4 real issues (global Tab trap on canvas, coachmark popover FocusScope trap, two invisible-focus gaps); 0 regressions.
+
+Reports: baseline https://app.devin.ai/attachments/25c474b0-131f-43da-ac11-a8593ea11ba2/report.md · final https://app.devin.ai/attachments/5cc602a5-a779-4afa-877a-d25aeeaa4084/report.md
+
+Structured output submitted with criterion_status all PASS; coverage gaps and human-check notes included.
+
+---
+
+
+================================================================================
+SESSION enfant TiddlyWiki5 — devin-003f72ff885f4d3fbe44dc8a226b4b0b
+================================================================================
+
+Resuming — baseline frozen (15 rules/132 violations, 14 pages+states), fix round 1 cut it to 4 rules/169 nodes; I'm now fixing the remaining families (menubar/tag colors, image alt rendering, target-size scoping, two button labels) before re-audit round 2.
+
+---
+
+A11y protocol complete on Jermolene/TiddlyWiki5 — PASS.
+
+Baseline → final: 132 rule-level violations (~2807 nodes, 15 rules) → **0 on the identical frozen scope** (6 hash routes + 8 dynamic states = 14 pages). Fixes were source-level across ~59 files: modal dialog semantics + focus trap/restore, landmark roles, form/button labels, TOC anchors, palette contrast, 24px target sizes, 320px reflow, prefers-reduced-motion (JS+CSS). Deterministic verify: 20/20 (keyboard, focus-visible, modal trap+release, 320px no-h-scrollbar, reduced-motion). Adversarial eval: 3 held-out pages clean, untouched open/close flow intact, no false-PASS in diff. Committed locally as `ce265ba` (no push/PR).
+
+Reports: baseline https://app.devin.ai/attachments/84604d7a-92cd-4fdd-b567-7e3bcb27d4a1/report.md · final https://app.devin.ai/attachments/e03331f5-22e8-46a8-a7de-32ea6ad1c0e9/report.md
+
+Coverage gaps: menubar plugin not enabled on this wiki (keyboard flow unexercised; static markup clean). One pre-existing artifact: 2 harmless `/xhr` 404s from the filesystem syncer on page load, unrelated to changes.
+
+---

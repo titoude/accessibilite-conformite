@@ -1,0 +1,23 @@
+{
+  "repo": "CorentinTh/it-tools",
+  "commit_sha": "d505845f918e946ec300af7b36efc107e2f66e9e",
+  "commands": [
+    "pnpm install",
+    "pnpm dev  # vite :5173",
+    "node scripts/a11y/audit.mjs http://localhost:5173 --states all --out a11y-audit/baseline",
+    "node scripts/a11y/audit.mjs http://localhost:5173 --states all --out a11y-audit/final",
+    "node verify/ittools-verify.mjs  # 13/13 PASS",
+    "node verify/ittools-eval.mjs   # 11/11 PASS"
+  ],
+  "versions": {
+    "node": "v24.19.0",
+    "axe-core": "4.13.0",
+    "playwright": "1.63.0",
+    "pnpm": "9.11.0"
+  },
+  "timestamps": {
+    "started": "2026-09-26T20:55Z",
+    "finished": "2026-09-26T22:20Z"
+  },
+  "notes": "dev server Vite ; patch pnpm naive-ui@2.35.0 (aria-hiddens typo, color-picker contraste, steppers input-number aria-labels) ; baseline report.md >200Ko non joint"
+}

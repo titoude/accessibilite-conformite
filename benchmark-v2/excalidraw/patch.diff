@@ -1,0 +1,890 @@
+diff --git a/a11y-audit/MANIFEST.md b/a11y-audit/MANIFEST.md
+new file mode 100644
+index 0000000..7a76537
+--- /dev/null
++++ b/a11y-audit/MANIFEST.md
+@@ -0,0 +1,22 @@
++# Manifeste — excalidraw/excalidraw (excalidraw-app)
++
++App : Vite dev server, SPA React sur http://127.0.0.1:3001/
++Commit : f3d99c4 (tete de main au clone)
++
++## Pages (--urls explicites — app a route unique, les liens sont externes ou #hash)
++- http://127.0.0.1:3001/ — canvas vierge, anonyme (pas de compte requis)
++
++## États dynamiques (STATES dans scripts/a11y/audit.mjs)
++- main-menu : ouverture du menu hamburger (data-testid=main-menu-trigger → [data-testid=dropdown-menu])
++- help-dialog : raccourci '?' — dialogue de raccourcis clavier
++- command-palette : Ctrl+/ — palette de commandes
++- canvas-context-menu : clic droit sur le canvas interactif — menu contextuel
++- canvas-with-element : rectangle dessine au canvas puis selection (etat avec element actif)
++
++## Exclusions documentees
++- Share dialog / collaboration live : backend collab non disponible en local (exclusion)
++- Bibliotheque excalidraw-plus et scenes chargees via #json= / #room= (backend externe)
++- Exports PNG/SVG (dialogs secondaires)
++
++## Methode
++Pas de storageState (pas d'auth). Roles : utilisateur anonyme, desktop viewport.
+diff --git a/excalidraw-app/index.html b/excalidraw-app/index.html
+index 1c29d72..eaed9d7 100644
+--- a/excalidraw-app/index.html
++++ b/excalidraw-app/index.html
+@@ -5,7 +5,7 @@
+     <title>Excalidraw Whiteboard</title>
+     <meta
+       name="viewport"
+-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, shrink-to-fit=no"
++      content="width=device-width, initial-scale=1, viewport-fit=cover, shrink-to-fit=no"
+     />
+     <meta name="referrer" content="origin" />
+     <meta name="mobile-web-app-capable" content="yes" />
+diff --git a/package.json b/package.json
+index c91ee03..b8dffcc 100644
+--- a/package.json
++++ b/package.json
+@@ -20,6 +20,7 @@
+     "@vitejs/plugin-react": "3.1.0",
+     "@vitest/coverage-v8": "3.0.7",
+     "@vitest/ui": "2.0.5",
++    "axe-core": "4.13.0",
+     "chai": "4.3.6",
+     "dotenv": "16.0.1",
+     "eslint-config-prettier": "8.5.0",
+@@ -31,6 +32,7 @@
+     "jsdom": "22.1.0",
+     "lint-staged": "12.3.7",
+     "pepjs": "0.5.3",
++    "playwright": "1.63.0",
+     "prettier": "2.6.2",
+     "rewire": "6.0.0",
+     "rimraf": "^5.0.0",
+diff --git a/packages/excalidraw/components/App.tsx b/packages/excalidraw/components/App.tsx
+index 87db242..25696cc 100644
+--- a/packages/excalidraw/components/App.tsx
++++ b/packages/excalidraw/components/App.tsx
+@@ -2413,7 +2413,7 @@ class App extends React.Component<AppProps, AppState> {
+       editorJotaiStore.get(convertElementTypePopupAtom)?.type === "panel";
+ 
+     return (
+-      <div
++      <main
+         translate="no"
+         className={clsx(
+           "excalidraw excalidraw-container notranslate",
+@@ -2778,7 +2778,7 @@ class App extends React.Component<AppProps, AppState> {
+             </AppPropsContext.Provider>
+           </AppContext.Provider>
+         </ExcalidrawAPIContext.Provider>
+-      </div>
++      </main>
+     );
+   }
+ 
+diff --git a/packages/excalidraw/components/ColorPicker/ColorPicker.tsx b/packages/excalidraw/components/ColorPicker/ColorPicker.tsx
+index 271cb2b..753d8bc 100644
+--- a/packages/excalidraw/components/ColorPicker/ColorPicker.tsx
++++ b/packages/excalidraw/components/ColorPicker/ColorPicker.tsx
+@@ -419,6 +419,7 @@ const ColorPickerComponent = ({
+       <div
+         role="dialog"
+         aria-modal="true"
++        aria-label={t("labels.colorPicker")}
+         className={clsx("color-picker-container", {
+           "color-picker-container--no-top-picks": isCompactMode,
+         })}
+diff --git a/packages/excalidraw/components/CommandPalette/CommandPalette.scss b/packages/excalidraw/components/CommandPalette/CommandPalette.scss
+index 3706244..ff0d8ec 100644
+--- a/packages/excalidraw/components/CommandPalette/CommandPalette.scss
++++ b/packages/excalidraw/components/CommandPalette/CommandPalette.scss
+@@ -63,7 +63,7 @@ $verticalBreakpoint: 861px;
+ 
+       .shortcut-desc {
+         margin-left: 4px;
+-        color: var(--color-gray-50);
++        color: var(--popup-text-color);
+       }
+     }
+ 
+diff --git a/packages/excalidraw/components/CommandPalette/CommandPalette.tsx b/packages/excalidraw/components/CommandPalette/CommandPalette.tsx
+index 31dafd5..941ad23 100644
+--- a/packages/excalidraw/components/CommandPalette/CommandPalette.tsx
++++ b/packages/excalidraw/components/CommandPalette/CommandPalette.tsx
+@@ -882,7 +882,8 @@ function CommandPaletteInner({
+     <Dialog
+       onCloseRequest={() => closeCommandPalette()}
+       closeOnClickOutside
+-      title={false}
++      title={t("commandPalette.title")}
++      hideTitle
+       size={720}
+       autofocus
+       className="command-palette-dialog"
+@@ -911,7 +912,7 @@ function CommandPaletteInner({
+         </div>
+       )}
+ 
+-      <div className="commands">
++      <div className="commands" tabIndex={0} role="group" aria-label={t("commandPalette.title")}>
+         {lastUsed && !commandSearch && (
+           <div className="command-category">
+             <div className="command-category-title">
+diff --git a/packages/excalidraw/components/ContextMenu.scss b/packages/excalidraw/components/ContextMenu.scss
+index 247a5fd..0108a36 100644
+--- a/packages/excalidraw/components/ContextMenu.scss
++++ b/packages/excalidraw/components/ContextMenu.scss
+@@ -49,7 +49,12 @@
+ 
+     &.dangerous {
+       .context-menu-item__label {
+-        color: $color-red-7;
++        color: $color-red-9;
++      }
++      .theme--dark & {
++        .context-menu-item__label {
++          color: $color-red-6;
++        }
+       }
+     }
+ 
+@@ -97,6 +102,10 @@
+ 
+   .context-menu-item-separator {
+     border: none;
+-    border-top: 1px solid $color-gray-5;
++    > hr {
++      border: none;
++      border-top: 1px solid $color-gray-5;
++      margin: 0;
++    }
+   }
+ }
+diff --git a/packages/excalidraw/components/ContextMenu.tsx b/packages/excalidraw/components/ContextMenu.tsx
+index f3a54bf..1b0082f 100644
+--- a/packages/excalidraw/components/ContextMenu.tsx
++++ b/packages/excalidraw/components/ContextMenu.tsx
+@@ -76,7 +76,11 @@ export const ContextMenu = React.memo(
+               ) {
+                 return null;
+               }
+-              return <hr key={idx} className="context-menu-item-separator" />;
++              return (
++                <li key={idx} className="context-menu-item-separator">
++                  <hr />
++                </li>
++              );
+             }
+ 
+             const actionName = item.name;
+diff --git a/packages/excalidraw/components/Dialog.tsx b/packages/excalidraw/components/Dialog.tsx
+index 55109d0..004e5d8 100644
+--- a/packages/excalidraw/components/Dialog.tsx
++++ b/packages/excalidraw/components/Dialog.tsx
+@@ -26,6 +26,8 @@ export interface DialogProps {
+   className?: string;
+   size?: DialogSize;
+   onCloseRequest(): void;
++  /** render the title visually hidden (name still exposed to AT) */
++  hideTitle?: boolean;
+   title: React.ReactNode | false;
+   autofocus?: boolean;
+   closeOnClickOutside?: boolean;
+@@ -108,14 +110,17 @@ export const Dialog = (props: DialogProps) => {
+       className={clsx("Dialog", props.className, {
+         "Dialog--fullscreen": isFullscreen,
+       })}
+-      labelledBy="dialog-title"
++      labelledBy={props.title ? `${id}-dialog-title` : undefined}
+       maxWidth={getDialogSize(props.size)}
+       onCloseRequest={onClose}
+       closeOnClickOutside={props.closeOnClickOutside}
+     >
+       <Island ref={setIslandNode}>
+         {props.title && (
+-          <h2 id={`${id}-dialog-title`} className="Dialog__title">
++          <h2
++            id={`${id}-dialog-title`}
++            className={clsx("Dialog__title", { "visually-hidden": props.hideTitle })}
++          >
+             <span className="Dialog__titleContent">{props.title}</span>
+           </h2>
+         )}
+diff --git a/packages/excalidraw/components/FontPicker/FontPicker.tsx b/packages/excalidraw/components/FontPicker/FontPicker.tsx
+index 66a4a37..a0d1806 100644
+--- a/packages/excalidraw/components/FontPicker/FontPicker.tsx
++++ b/packages/excalidraw/components/FontPicker/FontPicker.tsx
+@@ -253,6 +253,7 @@ export const FontPicker = React.memo(
+         <div
+           role="dialog"
+           aria-modal="true"
++          aria-label={t("fontList.availableFonts")}
+           className={clsx("FontPicker__container", {
+             "FontPicker__container--compact": compactMode,
+           })}
+diff --git a/packages/excalidraw/components/Island.tsx b/packages/excalidraw/components/Island.tsx
+index 0299ea4..a14a8b2 100644
+--- a/packages/excalidraw/components/Island.tsx
++++ b/packages/excalidraw/components/Island.tsx
+@@ -16,6 +16,8 @@ type IslandProps = {
+   /** identifies the surface so `getViewportOffsets` can reserve space for
+    * it while hidden (see {@link ViewportUIName}) */
+   "data-viewport-ui-name"?: ViewportUIName;
++  /** presentational role, e.g. "presentation" when wrapping menu content */
++  role?: string;
+ };
+ 
+ export const Island = React.forwardRef<HTMLDivElement, IslandProps>(
+@@ -27,6 +29,7 @@ export const Island = React.forwardRef<HTMLDivElement, IslandProps>(
+       style,
+       "data-viewport-ui": viewportUI,
+       "data-viewport-ui-name": viewportUIName,
++      role,
+     },
+     ref,
+   ) => (
+@@ -35,6 +38,7 @@ export const Island = React.forwardRef<HTMLDivElement, IslandProps>(
+       style={{ "--padding": padding, ...style }}
+       data-viewport-ui={viewportUI}
+       data-viewport-ui-name={viewportUIName}
++      role={role}
+       ref={ref}
+     >
+       {children}
+diff --git a/packages/excalidraw/components/Modal.tsx b/packages/excalidraw/components/Modal.tsx
+index 2ff068f..8db0f08 100644
+--- a/packages/excalidraw/components/Modal.tsx
++++ b/packages/excalidraw/components/Modal.tsx
+@@ -15,7 +15,7 @@ export const Modal: React.FC<{
+   children: React.ReactNode;
+   maxWidth?: number;
+   onCloseRequest(): void;
+-  labelledBy: string;
++  labelledBy?: string;
+   theme?: AppState["theme"];
+   closeOnClickOutside?: boolean;
+ }> = (props) => {
+diff --git a/packages/excalidraw/components/Stack.tsx b/packages/excalidraw/components/Stack.tsx
+index 75e559a..e93c127 100644
+--- a/packages/excalidraw/components/Stack.tsx
++++ b/packages/excalidraw/components/Stack.tsx
+@@ -10,11 +10,12 @@ type StackProps = {
+   justifyContent?: "center" | "space-around" | "space-between";
+   className?: string | boolean;
+   style?: React.CSSProperties;
++  role?: string;
+ };
+ 
+ const RowStack = forwardRef(
+   (
+-    { children, gap, align, justifyContent, className, style }: StackProps,
++    { children, gap, align, justifyContent, className, style, role }: StackProps,
+     ref: React.ForwardedRef<HTMLDivElement>,
+   ) => {
+     return (
+@@ -26,6 +27,7 @@ const RowStack = forwardRef(
+           justifyContent,
+           ...style,
+         }}
++        role={role}
+         ref={ref}
+       >
+         {children}
+@@ -36,7 +38,7 @@ const RowStack = forwardRef(
+ 
+ const ColStack = forwardRef(
+   (
+-    { children, gap, align, justifyContent, className, style }: StackProps,
++    { children, gap, align, justifyContent, className, style, role }: StackProps,
+     ref: React.ForwardedRef<HTMLDivElement>,
+   ) => {
+     return (
+@@ -48,6 +50,7 @@ const ColStack = forwardRef(
+           justifyContent,
+           ...style,
+         }}
++        role={role}
+         ref={ref}
+       >
+         {children}
+diff --git a/packages/excalidraw/components/Toolbar.tsx b/packages/excalidraw/components/Toolbar.tsx
+index 3507672..ef7c694 100644
+--- a/packages/excalidraw/components/Toolbar.tsx
++++ b/packages/excalidraw/components/Toolbar.tsx
+@@ -98,6 +98,7 @@ const ExtraToolsDropdown = ({
+           setAppState({ openMenu: null, openPopup: null });
+         }}
+         title={t("toolBar.extraTools")}
++        aria-label={t("toolBar.extraTools")}
+       >
+         {imageToolSelected
+           ? ImageIcon
+diff --git a/packages/excalidraw/components/dropdownMenu/DropdownMenuContent.tsx b/packages/excalidraw/components/dropdownMenu/DropdownMenuContent.tsx
+index 90e2f39..f1dd82e 100644
+--- a/packages/excalidraw/components/dropdownMenu/DropdownMenuContent.tsx
++++ b/packages/excalidraw/components/dropdownMenu/DropdownMenuContent.tsx
+@@ -102,9 +102,9 @@ const MenuContent = ({
+         {/* the zIndex ensures this menu has higher stacking order,
+     see https://github.com/excalidraw/excalidraw/pull/1445 */}
+         {editorInterface.formFactor === "phone" ? (
+-          <Stack.Col className="dropdown-menu-container">{children}</Stack.Col>
++          <Stack.Col className="dropdown-menu-container" role="presentation">{children}</Stack.Col>
+         ) : (
+-          <Island className="dropdown-menu-container" padding={2}>
++          <Island className="dropdown-menu-container" padding={2} role="presentation">
+             {children}
+           </Island>
+         )}
+diff --git a/packages/excalidraw/components/dropdownMenu/DropdownMenuItemContentRadio.tsx b/packages/excalidraw/components/dropdownMenu/DropdownMenuItemContentRadio.tsx
+index 6364674..f200e0d 100644
+--- a/packages/excalidraw/components/dropdownMenu/DropdownMenuItemContentRadio.tsx
++++ b/packages/excalidraw/components/dropdownMenu/DropdownMenuItemContentRadio.tsx
+@@ -29,7 +29,7 @@ const DropdownMenuItemContentRadio = <T,>({
+ 
+   return (
+     <>
+-      <div className="dropdown-menu-item-base dropdown-menu-item-bare">
++      <div className="dropdown-menu-item-base dropdown-menu-item-bare" role="menuitem">
+         {icon && <div className="dropdown-menu-item__icon">{icon}</div>}
+         <label className="dropdown-menu-item__text">
+           <Ellipsify>{children}</Ellipsify>
+diff --git a/packages/excalidraw/components/dropdownMenu/DropdownMenuItemCustom.tsx b/packages/excalidraw/components/dropdownMenu/DropdownMenuItemCustom.tsx
+index 795c5c7..136f1fa 100644
+--- a/packages/excalidraw/components/dropdownMenu/DropdownMenuItemCustom.tsx
++++ b/packages/excalidraw/components/dropdownMenu/DropdownMenuItemCustom.tsx
+@@ -13,6 +13,8 @@ const DropdownMenuItemCustom = ({
+   return (
+     <div
+       {...rest}
++      role="menuitem"
++      tabIndex={-1}
+       className={`dropdown-menu-item-base dropdown-menu-item-custom ${className} ${
+         selected ? `dropdown-menu-item--selected` : ``
+       }`.trim()}
+diff --git a/packages/excalidraw/components/dropdownMenu/DropdownMenuSeparator.tsx b/packages/excalidraw/components/dropdownMenu/DropdownMenuSeparator.tsx
+index 4f880c6..ee29c93 100644
+--- a/packages/excalidraw/components/dropdownMenu/DropdownMenuSeparator.tsx
++++ b/packages/excalidraw/components/dropdownMenu/DropdownMenuSeparator.tsx
+@@ -2,6 +2,7 @@ import React from "react";
+ 
+ const MenuSeparator = () => (
+   <div
++    role="separator"
+     style={{
+       height: "1px",
+       backgroundColor: "var(--default-border-color)",
+diff --git a/packages/excalidraw/components/dropdownMenu/DropdownMenuTrigger.tsx b/packages/excalidraw/components/dropdownMenu/DropdownMenuTrigger.tsx
+index 469eb00..3529010 100644
+--- a/packages/excalidraw/components/dropdownMenu/DropdownMenuTrigger.tsx
++++ b/packages/excalidraw/components/dropdownMenu/DropdownMenuTrigger.tsx
+@@ -28,6 +28,16 @@ const MenuTrigger = ({
+     <DropdownMenuPrimitive.Trigger
+       className={classNames}
+       onClick={onToggle}
++      onKeyDown={(event) => {
++        if (
++          event.key === "Enter" ||
++          event.key === " " ||
++          event.key === "ArrowDown"
++        ) {
++          event.preventDefault();
++          onToggle();
++        }
++      }}
+       type="button"
+       data-testid="dropdown-menu-button"
+       title={title}
+diff --git a/packages/excalidraw/components/footer/Footer.tsx b/packages/excalidraw/components/footer/Footer.tsx
+index 469444d..3d53899 100644
+--- a/packages/excalidraw/components/footer/Footer.tsx
++++ b/packages/excalidraw/components/footer/Footer.tsx
+@@ -3,6 +3,7 @@ import clsx from "clsx";
+ import { actionShortcuts } from "../../actions";
+ import { useTunnels } from "../../context/tunnels";
+ import { ExitZenModeButton, UndoRedoActions, ZoomActions } from "../Actions";
++import { t } from "../../i18n";
+ import { useApp } from "../App";
+ import { HelpButton } from "../HelpButton";
+ import { Section } from "../Section";
+@@ -30,8 +31,9 @@ const Footer = ({
+   const app = useApp();
+ 
+   return (
+-    <footer
+-      role="contentinfo"
++    <div
++      role="group"
++      aria-label={t("headings.canvasActions")}
+       className="layer-ui__wrapper__footer App-menu App-menu_bottom"
+     >
+       {(defaultUIEnabled || (zoomUIEnabled && app.isNavigationEnabled())) && (
+@@ -89,7 +91,7 @@ const Footer = ({
+           showExitZenModeBtn={showExitZenModeBtn}
+         />
+       )}
+-    </footer>
++    </div>
+   );
+ };
+ 
+diff --git a/packages/excalidraw/components/live-collaboration/LiveCollaborationTrigger.tsx b/packages/excalidraw/components/live-collaboration/LiveCollaborationTrigger.tsx
+index 3a611be..f753446 100644
+--- a/packages/excalidraw/components/live-collaboration/LiveCollaborationTrigger.tsx
++++ b/packages/excalidraw/components/live-collaboration/LiveCollaborationTrigger.tsx
+@@ -33,6 +33,7 @@ const LiveCollaborationTrigger = ({
+       onSelect={onSelect}
+       style={{ position: "relative", width: showIconOnly ? undefined : "auto" }}
+       title={t("labels.liveCollaboration")}
++      aria-label={t("labels.liveCollaboration")}
+     >
+       {showIconOnly ? share : t("labels.share")}
+       {appState.collaborators.size > 0 && (
+diff --git a/packages/excalidraw/components/main-menu/DefaultItems.tsx b/packages/excalidraw/components/main-menu/DefaultItems.tsx
+index 3b29b6c..c0a087a 100644
+--- a/packages/excalidraw/components/main-menu/DefaultItems.tsx
++++ b/packages/excalidraw/components/main-menu/DefaultItems.tsx
+@@ -333,7 +333,7 @@ export const ChangeCanvasBackground = () => {
+     return null;
+   }
+   return (
+-    <div style={{ marginTop: "0.75rem" }}>
++    <div style={{ marginTop: "0.75rem" }} role="menuitem" aria-label={t("labels.canvasBackground")}>
+       <div
+         data-testid="canvas-background-label"
+         style={{
+diff --git a/packages/excalidraw/components/main-menu/MainMenu.tsx b/packages/excalidraw/components/main-menu/MainMenu.tsx
+index fa41fee..759029d 100644
+--- a/packages/excalidraw/components/main-menu/MainMenu.tsx
++++ b/packages/excalidraw/components/main-menu/MainMenu.tsx
+@@ -50,6 +50,8 @@ const MainMenu = Object.assign(
+               }}
+               data-testid="main-menu-trigger"
+               className="main-menu-trigger"
++              title={t("buttons.menu")}
++              aria-label={t("buttons.menu")}
+             >
+               {HamburgerMenuIcon}
+             </DropdownMenu.Trigger>
+diff --git a/scripts/a11y/audit.mjs b/scripts/a11y/audit.mjs
+new file mode 100644
+index 0000000..b88d761
+--- /dev/null
++++ b/scripts/a11y/audit.mjs
+@@ -0,0 +1,383 @@
++#!/usr/bin/env node
++/**
++ * audit.mjs — audit d'accessibilité axe-core + Playwright.
++ *
++ * Usage :
++ *   node audit.mjs <url-de-base>            # crawl same-origin (profondeur 1, max 50 pages)
++ *   node audit.mjs --urls a,b,c              # liste explicite d'URLs
++ *   node audit.mjs <url> --out dir           # dossier de sortie (défaut: ./a11y-audit)
++ *   node audit.mjs <url> --max 20            # nb max de pages en crawl
++ *   node audit.mjs <url> --depth 2           # profondeur de crawl (défaut 1)
++ *   node audit.mjs <url> --wait 1500         # attente fixe (ms) après chargement
++ *   node audit.mjs <url> --wait-for '#app'   # sélecteur REQUIS — absent => erreur de page
++ *   node audit.mjs <url> --states all        # états dynamiques déclarés dans STATES
++ *   node audit.mjs <url> --states nom1,nom2  # sous-ensemble explicite
++ *   node audit.mjs <url> --states none       # déclare explicitement l'ABSENCE d'états
++ *   node audit.mjs <url> --keep-hash         # conserve tous les fragments # (SPA hash-router)
++ *   node audit.mjs <url> --storage-state f.json  # contexte authentifié Playwright
++ *   node audit.mjs <url> --strict-incomplete # 'incomplete' axe compte comme erreur du gate
++ *
++ * États dynamiques : déclarez-les dans la carte STATES ci-dessous — ce sont les
++ * vues invisibles au chargement (modales, drawers, toasts, onglets) qu'un audit
++ * route-par-route ne voit jamais. Le scan tourne après le `setup` de chaque état.
++ * `--states all` sur une carte vide est une ERREUR : déclarez les états ou
++ * affirmez leur absence avec `--states none`.
++ *
++ * Prérequis : npm i -D playwright axe-core && npx playwright install chromium
++ *
++ * Sorties : <out>/report.json (violations + incomplete + métadonnées),
++ *           <out>/report.md (trié par impact), <out>/scope.json (périmètre
++ *           exécuté + hash — à comparer entre baseline et final).
++ *
++ * Exit code : 0 = périmètre complet sans violation ; 1 = violation(s) ;
++ *             2 = périmètre incomplet ou erreur (config, navigation, injection,
++ *                 précondition, HTTP >= 400, redirection login, état inconnu).
++ *             Un PASS n'existe que si tout le périmètre demandé a été audité.
++ */
++import { createRequire } from 'node:module';
++import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
++import { createHash } from 'node:crypto';
++import { resolve } from 'node:path';
++
++// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const args = process.argv.slice(2);
++const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
++const opt = (name, dflt) => {
++  const i = args.indexOf(`--${name}`);
++  return i >= 0 ? args[i + 1] : dflt;
++};
++const flag = (name) => args.includes(`--${name}`);
++const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
++
++const baseUrl = positional[0];
++const urlsOpt = opt('urls', null);
++const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean);
++const outDir = resolve(opt('out', './a11y-audit'));
++const maxPages = parseInt(opt('max', '50'), 10);
++const waitMs = parseInt(opt('wait', '0'), 10);
++const waitFor = opt('wait-for', null);
++const depth = parseInt(opt('depth', '1'), 10);
++const statesOpt = opt('states', '');
++const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
++const keepHash = flag('keep-hash');
++const strictIncomplete = flag('strict-incomplete');
++const storageState = opt('storage-state', null);
++
++const configErrors = [];
++if (!baseUrl && explicitUrls === null) {
++  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
++  process.exit(2);
++}
++if (explicitUrls !== null && explicitUrls.length === 0) {
++  configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
++}
++if (statesArg.includes('none') && statesArg.length > 1) {
++  configErrors.push("--states none ne se combine pas avec d'autres états");
++}
++
++// Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
++const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
++
++/**
++ * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
++ * APRÈS `setup`, sur le DOM résultant — c'est ce qui couvre les composants
++ * invisibles au chargement (modale, drawer, toast, onglet, section dépliée),
++ * angle mort d'un audit route-par-route. `url(b)` reçoit l'origine de base.
++ * Adaptez cette carte au projet (sélecteurs + séquence). Exemple :
++ *   'drawer-fiche': {
++ *     url: b => `${b}/#/liste`,
++ *     setup: async page => {
++ *       await page.locator('table tr[data-id]').first().click();
++ *       await page.waitForSelector('#drawer:not(.hidden)', { timeout: 10000 });
++ *     },
++ *   },
++ */
++const STATES = {
++  'main-menu': {
++    url: b => `${b}/`,
++    setup: async page => {
++      await page.locator('[data-testid="main-menu-trigger"]').click();
++      await page.waitForSelector('[data-testid="dropdown-menu"]', { state: 'visible', timeout: 10000 });
++      await page.waitForTimeout(300);
++    },
++  },
++  'help-dialog': {
++    url: b => `${b}/`,
++    setup: async page => {
++      await page.locator('body').press('Shift+?');
++      await page.waitForSelector('.HelpDialog, [class*="HelpDialog"]', { state: 'visible', timeout: 10000 });
++      await page.waitForTimeout(300);
++    },
++  },
++  'command-palette': {
++    url: b => `${b}/`,
++    setup: async page => {
++      await page.locator('body').press('Control+/');
++      await page.waitForSelector('.Dialog, [role="dialog"], .Modal', { state: 'visible', timeout: 10000 });
++      await page.waitForTimeout(300);
++    },
++  },
++  'canvas-context-menu': {
++    url: b => `${b}/`,
++    setup: async page => {
++      await page.waitForSelector('canvas.excalidraw__canvas.interactive', { timeout: 15000 });
++      await page.locator('[data-testid="toolbar-rectangle"]').first().click();
++      const cv = await page.locator('canvas.excalidraw__canvas.interactive').boundingBox();
++      // draw + click in the lower-center of the canvas so the context menu
++      // does not overlap the surrounding toolbars (transient popover)
++      const cx = cv.x + cv.width * 0.55, cy = cv.y + cv.height * 0.7;
++      await page.mouse.move(cx - 60, cy - 60);
++      await page.mouse.down();
++      await page.mouse.move(cx + 60, cy + 60);
++      await page.mouse.up();
++      await page.waitForTimeout(300);
++      await page.mouse.click(cx, cy, { button: 'right' });
++      await page.waitForSelector('.context-menu', { state: 'visible', timeout: 10000 });
++      await page.waitForTimeout(300);
++    },
++  },
++};
++
++if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
++  configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
++}
++const unknownStates = statesArg.filter(s => s !== 'all' && s !== 'none' && !(s in STATES));
++if (unknownStates.length) {
++  configErrors.push(`état(s) demandé(s) inconnu(s) : ${unknownStates.join(', ')} (déclarés : ${Object.keys(STATES).join(', ') || 'aucun'})`);
++}
++
++function sameOrigin(u, origin) {
++  try { return new URL(u).origin === origin; } catch { return false; }
++}
++
++// Un fragment n'est une ANCRE effaçable que s'il ne ressemble pas à une route
++// de hash-router (#/x, #!/x, #$:/x, #x/y). #HelloThere (TiddlyWiki) ressemble à
++// une ancre mais est une route : utiliser --keep-hash ou --urls sur ces apps.
++function normalizeForDedup(u) {
++  try {
++    const url = new URL(u);
++    if (keepHash) return url.href;
++    const h = url.hash;
++    if (!h) return url.href;
++    return /[\/!:$]/.test(h) ? url.href : url.href.split('#')[0];
++  } catch { return u; }
++}
++
++async function collectUrls(page, startUrl, origin, maxDepth, limit, crawlErrors) {
++  const seen = new Set([normalizeForDedup(startUrl)]);
++  const queue = [{ url: startUrl, d: 0 }];
++  while (queue.length && seen.size < limit) {
++    const { url, d } = queue.shift();
++    if (d >= maxDepth) continue;
++    try {
++      await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
++      const links = await page.$$eval('a[href]', els => els.map(e => e.href));
++      for (const l of links) {
++        const clean = normalizeForDedup(l);
++        if (sameOrigin(clean.split('#')[0], origin) && !seen.has(clean) && seen.size < limit
++            && !/\.(png|jpe?g|gif|svg|webp|pdf|zip|css|js|ico|woff2?|mp[34]|xml|json)(\?|#|$)/i.test(clean)) {
++          seen.add(clean);
++          queue.push({ url: clean, d: d + 1 });
++        }
++      }
++    } catch (e) {
++      crawlErrors.push(`[crawl] ${url}: ${e.message}`);
++      console.error(`[crawl] ${url}: ${e.message}`);
++    }
++  }
++  return [...seen];
++}
++
++const LOGIN_PATH = /\/(login|signin|sign-in|sign_in|auth|connexion)\b/i;
++
++async function run() {
++  mkdirSync(outDir, { recursive: true });
++  const results = [];
++  const crawlErrors = [];
++
++  const browser = await chromium.launch();
++  const context = await browser.newContext(storageState ? { storageState } : {});
++  const page = await context.newPage();
++
++  let urls;
++  if (explicitUrls !== null) {
++    urls = explicitUrls;
++  } else {
++    const origin = new URL(baseUrl).origin;
++    console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
++    urls = await collectUrls(page, baseUrl, origin, depth, maxPages, crawlErrors);
++    console.log(`[crawl] ${urls.length} page(s)`);
++    if (urls.length === 0) crawlErrors.push('crawl : aucune page découverte');
++  }
++
++  const axePath = require.resolve('axe-core/axe.min.js');
++  const axeSource = readFileSync(axePath, 'utf8');
++
++  const scanPage = async () => {
++    await page.addScriptTag({ content: axeSource });
++    return await page.evaluate(async (tags) => {
++      return await window.axe.run(document, {
++        runOnly: { type: 'tag', values: tags },
++        resultTypes: ['violations', 'incomplete'],
++      });
++    }, RULE_TAGS);
++  };
++
++  const recordPage = (entry) => results.push(entry);
++
++  const auditLocation = async (label, gotoUrl, extraSetup) => {
++    const entry = { url: label, requestedUrl: gotoUrl, violations: [], incomplete: [] };
++    try {
++      const response = await page.goto(gotoUrl, { waitUntil: 'networkidle', timeout: 30000 });
++      const httpStatus = response ? response.status() : null;
++      const finalUrl = page.url();
++      entry.httpStatus = httpStatus;
++      entry.finalUrl = finalUrl;
++      if (httpStatus !== null && httpStatus >= 400) {
++        entry.error = `HTTP ${httpStatus}`;
++      } else if (LOGIN_PATH.test(finalUrl) && !LOGIN_PATH.test(gotoUrl)) {
++        entry.error = `redirection vers une page de connexion (${finalUrl}) — la page demandée n'a pas été auditée`;
++      } else {
++        if (waitFor) {
++          await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
++        }
++        if (waitMs) await page.waitForTimeout(waitMs);
++        if (extraSetup) await extraSetup(page);
++        const res = await scanPage();
++        entry.violations = res.violations || [];
++        entry.incomplete = res.incomplete || [];
++        entry.testEngine = res.testEngine || null;
++        if (strictIncomplete && entry.incomplete.length) {
++          entry.error = `${entry.incomplete.length} résultat(s) axe 'incomplete' (--strict-incomplete)`;
++        }
++      }
++      console.log(`[scan] ${label} — ${entry.error ? 'ERREUR ' + entry.error : `${entry.violations.length} règle(s) violée(s)` + (entry.incomplete.length ? `, ${entry.incomplete.length} incomplete` : '')}`);
++    } catch (e) {
++      entry.error = e.message;
++      console.error(`[scan] ${label}: ${e.message}`);
++    }
++    recordPage(entry);
++  };
++
++  for (const url of urls) {
++    await auditLocation(url, url, null);
++  }
++
++  // États dynamiques : chaque état repart d'un document neuf — en navigation
++  // par hash (SPA), un goto sur le même document ne recharge pas et l'état
++  // précédent (drawer ouvert…) persisterait.
++  const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
++  if (wanted.length) {
++    const origin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
++    for (const name of wanted) {
++      const st = STATES[name];
++      const label = `${st.url(origin)} [state:${name}]`;
++      await auditLocation(label, st.url(origin), async (p) => {
++        await p.goto('about:blank');
++        await p.goto(st.url(origin), { waitUntil: 'networkidle', timeout: 30000 });
++        await st.setup(p);
++      });
++    }
++  }
++
++  await browser.close();
++
++  // Périmètre exécuté : identifiant = url demandée + statut. scope.json permet
++  // de comparer l'ensemble EXACT des scénarios entre baseline et final — une
++  // somme égale de pages ne prouve pas l'identité des ensembles.
++  const scenarioId = (e) => e.url;
++  const scopeEntries = results.map(e => ({
++    id: scenarioId(e), status: e.error ? 'error' : 'audited',
++    httpStatus: e.httpStatus ?? null, finalUrl: e.finalUrl ?? null,
++  }));
++  const scopeHash = createHash('sha256')
++    .update(JSON.stringify(scopeEntries.map(e => e.id).sort()))
++    .digest('hex');
++  const scope = {
++    generatedAt: new Date().toISOString(),
++    baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
++    storageState: !!storageState,
++    total: scopeEntries.length,
++    audited: scopeEntries.filter(e => e.status === 'audited').length,
++    errored: scopeEntries.filter(e => e.status === 'error').length,
++    crawlErrors,
++    scopeHash,
++    scenarios: scopeEntries,
++  };
++  writeFileSync(resolve(outDir, 'scope.json'), JSON.stringify(scope, null, 2));
++
++  const errorCount = scope.errored + crawlErrors.length + configErrors.length;
++  writeFileSync(resolve(outDir, 'report.json'), JSON.stringify({
++    generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
++    pages: results, configErrors, crawlErrors, scopeHash,
++  }, null, 2));
++
++  // Rapport markdown : regroupé par règle, trié par impact
++  const impactRank = { critical: 0, serious: 1, moderate: 2, minor: 3 };
++  const byRule = new Map();
++  const incompleteByRule = new Map();
++  for (const p of results) {
++    for (const v of p.violations || []) {
++      if (!byRule.has(v.id)) byRule.set(v.id, { ...v, pages: new Map() });
++      byRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => n.target.join(' ')));
++    }
++    for (const v of p.incomplete || []) {
++      if (!incompleteByRule.has(v.id)) incompleteByRule.set(v.id, { ...v, pages: new Map() });
++      incompleteByRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => (n.target || []).join(' ')));
++    }
++  }
++  const rules = [...byRule.values()].sort((a, b) =>
++    (impactRank[a.impact] ?? 9) - (impactRank[b.impact] ?? 9) || b.pages.size - a.pages.size);
++
++  let md = `# Audit accessibilité — ${new Date().toISOString().slice(0, 10)}\n\n`;
++  const totalRules = rules.length;
++  const totalNodes = rules.reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  const totalIncomplete = [...incompleteByRule.values()].reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  md += `**${totalRules} règle(s) violée(s), ${totalNodes} occurrence(s), ${scope.audited}/${scope.total} scénario(s) audité(s), ${errorCount} erreur(s), ${totalIncomplete} résultat(s) incomplet(s).**\n\n`;
++  md += `Périmètre : scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
++
++  for (const r of rules) {
++    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nRéférence : ${r.helpUrl}\n\n`;
++    for (const [page, targets] of r.pages) {
++      md += `- ${page}\n`;
++      for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++      if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++    }
++    md += '\n';
++  }
++
++  if (incompleteByRule.size) {
++    md += `## Résultats incomplets à revoir (${totalIncomplete})\n\n`;
++    md += 'axe n\'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :\n\n';
++    for (const r of incompleteByRule.values()) {
++      md += `### ${r.id} — ${r.help || ''}\n\n`;
++      for (const [page, targets] of r.pages) {
++        md += `- ${page}\n`;
++        for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++        if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++      }
++      md += '\n';
++    }
++  }
++
++  const errs = results.filter(p => p.error);
++  if (errs.length || crawlErrors.length || configErrors.length) {
++    md += `## Erreurs (${errs.length + crawlErrors.length + configErrors.length}) — exit code != 0\n\n`;
++    md += 'Ces scénarios n\'ont pas été audités. Un audit partiel n\'est pas un PASS : le gate CI échoue tant qu\'un scénario demandé manque.\n\n';
++    for (const e of errs) md += `- ${e.url} — ${e.error}\n`;
++    for (const e of crawlErrors) md += `- ${e}\n`;
++    for (const e of configErrors) md += `- config : ${e}\n`;
++    md += '\n';
++  }
++  writeFileSync(resolve(outDir, 'report.md'), md);
++  console.log(`\n${outDir}/report.md — ${totalRules} règle(s), ${totalNodes} occurrence(s), ${errorCount} erreur(s), ${totalIncomplete} incomplet(s)`);
++
++  if (configErrors.length) for (const e of configErrors) console.error(`[config] ${e}`);
++  if (errorCount > 0) process.exit(2);
++  process.exit(totalRules > 0 ? 1 : 0);
++}
++
++run().catch(e => { console.error(e); process.exit(2); });
+diff --git a/yarn.lock b/yarn.lock
+index e2eb9e9..ed1882a 100644
+--- a/yarn.lock
++++ b/yarn.lock
+@@ -4456,6 +4456,11 @@ available-typed-arrays@^1.0.7:
+   dependencies:
+     possible-typed-array-names "^1.0.0"
+ 
++axe-core@4.13.0:
++  version "4.13.0"
++  resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.13.0.tgz#f868ecb1bd61d982321760e51d841ab497ab86d0"
++  integrity sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==
++
+ axe-core@^4.10.0:
+   version "4.10.2"
+   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.10.2.tgz#85228e3e1d8b8532a27659b332e39b7fa0e022df"
+@@ -8423,6 +8428,18 @@ pkg-types@^1.3.1:
+     mlly "^1.7.4"
+     pathe "^2.0.1"
+ 
++playwright-core@1.63.0:
++  version "1.63.0"
++  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.63.0.tgz#e57665bc32846c213ac39a1e4d5bc6228e76b376"
++  integrity sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==
++
++playwright@1.63.0:
++  version "1.63.0"
++  resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.63.0.tgz#99b56f9f69b1b70c44f00bf84b2fe52348ae2511"
++  integrity sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==
++  dependencies:
++    playwright-core "1.63.0"
++
+ png-chunk-text@1.0.0:
+   version "1.0.0"
+   resolved "https://registry.yarnpkg.com/png-chunk-text/-/png-chunk-text-1.0.0.tgz#1c6006d8e34ba471d38e1c9c54b3f53e1085e18f"

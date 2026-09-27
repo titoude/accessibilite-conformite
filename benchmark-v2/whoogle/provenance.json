@@ -1,0 +1,20 @@
+{
+  "commit_sha": "0543f86528678ab60a20b3049483975add6b6e40",
+  "axe_version": "4.13.0",
+  "playwright_version": "1.63.0",
+  "node_version": "v20.18.1",
+  "app": {
+    "boot": "python -um app --host 127.0.0.1 --port 5001 (venv, WHOOGLE_CSP=0)",
+    "base": "http://127.0.0.1:5001"
+  },
+  "commands": {
+    "baseline": "node scripts/a11y/audit.mjs http://127.0.0.1:5001 --urls /,/search.html,/search?q=test,/window?location=https://example.com --states all --out a11y-audit/baseline",
+    "final": "same as baseline, --out a11y-audit/final",
+    "verify": "node scripts/a11y/verify.mjs",
+    "eval_final": "node scripts/a11y/eval-final.mjs"
+  },
+  "timestamps": {
+    "baseline": "2026-09-26T21:13:58.624Z",
+    "final": "2026-09-26T21:30:38.582Z"
+  }
+}

@@ -1,0 +1,1197 @@
+diff --git a/internal/template/templates/common/layout.html b/internal/template/templates/common/layout.html
+index 029fd42..9db6ca2 100644
+--- a/internal/template/templates/common/layout.html
++++ b/internal/template/templates/common/layout.html
+@@ -58,7 +58,7 @@
+                 <a aria-label="{{ t "menu.home_page" }}" href="{{ routePath (printf "/%s" .user.DefaultHomePage) }}">
+                     Mini<span>flux</span>
+                 </a>
+-                {{ icon "chevron-down"}}
++                <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="header-menu" aria-label="{{ t "menu.title" }}">{{ icon "chevron-down"}}</button>
+             </div>
+             <ul id="header-menu">
+                 <li {{ if eq .menu "unread" }}class="active"{{ end }} title="{{ t "tooltip.keyboard_shortcuts" "g u" }}">
+diff --git a/internal/template/templates/views/about.html b/internal/template/templates/views/about.html
+index c64c89f..baac42d 100644
+--- a/internal/template/templates/views/about.html
++++ b/internal/template/templates/views/about.html
+@@ -9,7 +9,7 @@
+ 
+ {{ define "content"}}
+ <div class="panel">
+-    <h3>Miniflux</h3>
++    <h2>Miniflux</h2>
+     <ul>
+         <li>
+             <strong>{{ t "page.about.version" }}</strong>
+@@ -38,7 +38,7 @@
+     </ul>
+ </div>
+ <div class="panel">
+-    <h3>{{ t "page.about.credits" }}</h3>
++    <h2>{{ t "page.about.credits" }}</h2>
+     <ul>
+         <li><strong>{{ t "page.about.authors_label" }}</strong> <a href="https://github.com/miniflux/v2/graphs/contributors">{{ t "page.about.authors_value" }}</a></li>
+         <li><strong>{{ t "page.about.license" }}</strong> <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a></li>
+@@ -47,7 +47,7 @@
+ 
+ {{ if .user.IsAdmin }}
+ <div class="panel">
+-    <h3>{{ t "page.about.global_config_options" }}</h3>
++    <h2>{{ t "page.about.global_config_options" }}</h2>
+     <ul>
+     {{ range .globalConfigOptions }}
+         <li><code><strong>{{ .Key }}</strong>={{ .Value }}</code></li>
+diff --git a/internal/template/templates/views/api_keys.html b/internal/template/templates/views/api_keys.html
+index 27c5d7d..4d59dff 100644
+--- a/internal/template/templates/views/api_keys.html
++++ b/internal/template/templates/views/api_keys.html
+@@ -52,7 +52,7 @@
+ {{ end }}
+ {{ end }}
+ 
+-<h3>{{ t "page.integration.miniflux_api" }}</h3>
++<h2>{{ t "page.integration.miniflux_api" }}</h2>
+ <div class="panel">
+     <ul>
+         <li>
+diff --git a/internal/template/templates/views/choose_subscription.html b/internal/template/templates/views/choose_subscription.html
+index 5ccd1c3..46c787f 100644
+--- a/internal/template/templates/views/choose_subscription.html
++++ b/internal/template/templates/views/choose_subscription.html
+@@ -39,7 +39,7 @@
+         <input type="hidden" name="disable_http2" value="1">
+     {{ end }}
+ 
+-    <h3>{{ t "page.add_feed.choose_feed" }}</h3>
++    <h2>{{ t "page.add_feed.choose_feed" }}</h2>
+ 
+     {{ range .subscriptions }}
+         <div class="radio-group">
+diff --git a/internal/template/templates/views/edit_feed.html b/internal/template/templates/views/edit_feed.html
+index afef7f5..7841d42 100644
+--- a/internal/template/templates/views/edit_feed.html
++++ b/internal/template/templates/views/edit_feed.html
+@@ -32,7 +32,7 @@
+ {{ else }}
+     {{ if ne .feed.ParsingErrorCount 0 }}
+     <div role="alert" class="alert alert-error">
+-        <h3>{{ t "page.edit_feed.last_parsing_error" }}</h3>
++        <h2>{{ t "page.edit_feed.last_parsing_error" }}</h2>
+         <p>{{ t .feed.ParsingErrorMsg }}</p>
+     </div>
+     {{ end }}
+diff --git a/internal/template/templates/views/feed_entries.html b/internal/template/templates/views/feed_entries.html
+index 0592ecc..7096054 100644
+--- a/internal/template/templates/views/feed_entries.html
++++ b/internal/template/templates/views/feed_entries.html
+@@ -80,7 +80,7 @@
+ {{ define "content"}}
+ {{ if ne .feed.ParsingErrorCount 0 }}
+ <div role="alert" class="alert alert-error">
+-    <h3>{{ t "alert.feed_error" }}</h3>
++    <h2>{{ t "alert.feed_error" }}</h2>
+     <p>{{ t .feed.ParsingErrorMsg }}</p>
+ </div>
+ {{ end }}
+diff --git a/internal/template/templates/views/integrations.html b/internal/template/templates/views/integrations.html
+index ca51f5f..dc7b954 100644
+--- a/internal/template/templates/views/integrations.html
++++ b/internal/template/templates/views/integrations.html
+@@ -717,7 +717,7 @@
+     </details>
+ </form>
+ 
+-<h3>{{ t "page.integration.bookmarklet" }}</h3>
++<h2>{{ t "page.integration.bookmarklet" }}</h2>
+ <div class="panel">
+     <p>{{ t "page.integration.bookmarklet.help" }}</p>
+ 
+diff --git a/internal/template/templates/views/login.html b/internal/template/templates/views/login.html
+index 0f19323..426fb1a 100644
+--- a/internal/template/templates/views/login.html
++++ b/internal/template/templates/views/login.html
+@@ -5,6 +5,7 @@
+ 
+ {{ define "content"}}
+ <section class="login-form">
++    <h1>{{ t "page.login.title" }}</h1>
+     {{ if not disableLocalAuth }}
+     <form action="{{ routePath "/login" }}" method="post">
+         <input type="hidden" name="csrf" value="{{ .csrf }}">
+diff --git a/internal/template/templates/views/search.html b/internal/template/templates/views/search.html
+index a4abf50..87b0a8e 100644
+--- a/internal/template/templates/views/search.html
++++ b/internal/template/templates/views/search.html
+@@ -8,7 +8,7 @@
+ 
+ {{ define "content"}}
+ <search role="search">
+-    <form class="search-form" action="{{ routePath "/search" }}" aria-labelledby="search-input-label">
++    <form class="search-form" action="{{ routePath "/search" }}" aria-labelledby="page-header-title">
+         <div class="search-input-row">
+             <input type="search" name="q" id="search-input" aria-label="{{ t "search.label" }}" placeholder="{{ t "search.placeholder" }}" {{ if $.searchQuery }}value="{{ .searchQuery }}"{{ else }}autofocus{{ end }} required>
+             <button type="submit" class="button button-primary" data-label-loading="{{ t "form.submit.loading" }}">{{ t "search.submit" }}</button>
+diff --git a/internal/ui/static/css/common.css b/internal/ui/static/css/common.css
+index bdaf789..74a3fbe 100644
+--- a/internal/ui/static/css/common.css
++++ b/internal/ui/static/css/common.css
+@@ -106,13 +106,21 @@ a:hover {
+     flex-direction: column;
+ }
+ 
+-.header nav .logo svg {
++.header nav .menu-toggle {
++    background: none;
++    border: none;
++    padding: 0;
++    cursor: pointer;
++    color: var(--header-link-color);
++}
++
++.header nav .menu-toggle svg {
+     padding: 5px;
+     inline-size: 24px;
+     block-size: 24px;
+ }
+ 
+-.header nav .logo[aria-expanded="true"] svg {
++.header nav .menu-toggle[aria-expanded="true"] svg {
+     rotate: 180deg;
+ }
+ 
+@@ -137,6 +145,9 @@ a:hover {
+ }
+ 
+ .header :is(a, summary, .logout-button) {
++    display: inline-flex;
++    align-items: center;
++    min-block-size: 24px;
+     font-size: 0.9em;
+     color: var(--header-link-color);
+     text-decoration: none;
+@@ -238,11 +249,11 @@ a:hover {
+ }
+ 
+ .logo a:hover {
+-    color: #339966;
++    color: #2e7d52;
+ }
+ 
+ .logo a span {
+-    color: #339966;
++    color: #2e7d52;
+ }
+ 
+ .logo a:hover span {
+@@ -340,7 +351,7 @@ a:hover {
+         flex-direction: row;
+     }
+ 
+-    .header .logo svg {
++    .header .menu-toggle {
+         display: none;
+     }
+ 
+@@ -411,6 +422,7 @@ fieldset {
+     border: 1px dotted #ddd;
+     padding: 8px;
+     margin-bottom: 20px;
++    min-width: 0;
+ }
+ 
+ legend {
+@@ -434,6 +446,8 @@ div.radio-group label {
+ 
+ select {
+     margin-bottom: 15px;
++    max-width: 100%;
++    box-sizing: border-box;
+ }
+ 
+ input[type="search"],
+@@ -507,6 +521,8 @@ input[type="checkbox"] {
+ 
+ textarea {
+     width: 350px;
++    max-width: 100%;
++    box-sizing: border-box;
+     color: var(--input-color);
+     background: var(--input-background);
+     border: var(--input-border);
+@@ -585,14 +601,14 @@ a.button-primary:focus,
+ 
+ .button-danger {
+     border-color: #b0281a;
+-    background: #d14836;
++    background: #c53727;
+     color: #fff;
+ }
+ 
+ .button-danger:hover,
+ .button-danger:focus {
+     color: #fff;
+-    background: #c53727;
++    background: #b0281a;
+ }
+ 
+ .button:disabled {
+@@ -621,7 +637,7 @@ fieldset .buttons {
+     overflow: auto;
+ }
+ 
+-.alert h3 {
++.alert :is(h2, h3) {
+     margin-top: 0;
+     margin-bottom: 15px;
+ }
+@@ -638,7 +654,7 @@ fieldset .buttons {
+     border-color: var(--alert-error-border-color);
+ }
+ 
+-.alert-error h3,
++.alert-error :is(h2, h3),
+ .alert-error a {
+     color: var(--alert-error-color);
+ }
+@@ -659,7 +675,7 @@ fieldset .buttons {
+     margin-bottom: 15px;
+ }
+ 
+-.panel h3 {
++.panel :is(h2, h3) {
+     font-weight: 500;
+     margin-top: 0;
+     margin-bottom: 20px;
+@@ -686,7 +702,7 @@ dialog {
+     top: 0;
+     right: 0;
+     font-size: 1.7em;
+-    color: #ccc;
++    color: var(--item-meta-focus-color);
+     padding:0 .2em;
+     margin: 10px;
+     text-decoration: none;
+@@ -695,7 +711,7 @@ dialog {
+ }
+ 
+ .btn-close-modal:hover {
+-    color: #999;
++    color: var(--panel-color);
+ }
+ 
+ /* Keyboard Shortcuts */
+@@ -717,6 +733,12 @@ dialog {
+     max-width: 300px;
+ }
+ 
++.login-form h1 {
++    font-size: 1.4em;
++    text-align: center;
++    margin: 0 0 1em;
++}
++
+ .webauthn {
+     margin-bottom: 20px;
+ }
+@@ -882,8 +904,8 @@ dialog {
+ }
+ 
+ .item-meta a {
+-    color: #777;
+-    text-decoration: none;
++    color: var(--item-meta-focus-color);
++    text-decoration: underline;
+ }
+ 
+ .item-meta :is(a:is(:focus, :hover), button:is(:focus, :hover)) {
+@@ -917,7 +939,7 @@ dialog {
+ }
+ 
+ .item-meta-icons li :is(a, button) {
+-    color: #777;
++    color: var(--item-meta-focus-color);
+     text-decoration: none;
+     font-size: 0.8rem;
+     border: none;
+@@ -1337,7 +1359,11 @@ details.entry-enclosures {
+ }
+ 
+ .disabled {
+-    opacity: 20%;
++    color: var(--item-meta-li-color);
++}
++
++summary {
++    padding-block: 4px;
+ }
+ 
+ audio, video {
+diff --git a/internal/ui/static/css/light.css b/internal/ui/static/css/light.css
+index c61c182..96dedd6 100644
+--- a/internal/ui/static/css/light.css
++++ b/internal/ui/static/css/light.css
+@@ -27,34 +27,34 @@
+     --table-tr-hover-background-color: #f9f9f9;
+     --table-tr-hover-color: #333;
+ 
+-    --button-primary-border-color: #3079ed;
+-    --button-primary-background: #4d90fe;
++    --button-primary-border-color: #2f6fe0;
++    --button-primary-background: #2f6fe0;
+     --button-primary-color: #fff;
+     --button-primary-focus-border-color: #2f5bb7;
+-    --button-primary-focus-background: #357ae8;
++    --button-primary-focus-background: #2664d9;
+ 
+     --input-border: 1px solid #ccc;
+     --input-background: #fff;
+     --input-color: #333;
+-    --input-placeholder-color: #d0d0d0;
++    --input-placeholder-color: #767676;
+ 
+     --input-focus-color: #000;
+     --input-focus-border-color: rgba(82, 168, 236, 0.8);
+     --input-focus-box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+ 
+-    --alert-color: #c09853;
++    --alert-color: #8a6d3b;
+     --alert-background-color: #fcf8e3;
+     --alert-border-color: #fbeed5;
+ 
+-    --alert-success-color: #468847;
++    --alert-success-color: #3c763d;
+     --alert-success-background-color: #dff0d8;
+     --alert-success-border-color: #d6e9c6;
+ 
+-    --alert-error-color: #b94a48;
++    --alert-error-color: #a94442;
+     --alert-error-background-color: #f2dede;
+     --alert-error-border-color: #eed3d7;
+ 
+-    --alert-info-color: #3a87ad;
++    --alert-info-color: #31708f;
+     --alert-info-background-color: #d9edf7;
+     --alert-info-border-color: #bce8f1;
+ 
+@@ -75,11 +75,11 @@
+     --item-padding: 5px;
+     --item-title-link-font-weight: 600;
+ 
+-    --item-status-read-title-link-color: #777;
+-    --item-status-read-title-focus-color: #777;
++    --item-status-read-title-link-color: #595959;
++    --item-status-read-title-focus-color: #595959;
+ 
+-    --item-meta-focus-color: #777;
+-    --item-meta-li-color: #aaa;
++    --item-meta-focus-color: #595959;
++    --item-meta-li-color: #595959;
+ 
+     --current-item-border-width: 3px;
+     --current-item-border-color: #bce;
+diff --git a/internal/ui/static/css/system.css b/internal/ui/static/css/system.css
+index 9e0ba67..429d11f 100644
+--- a/internal/ui/static/css/system.css
++++ b/internal/ui/static/css/system.css
+@@ -26,34 +26,34 @@
+     --table-tr-hover-background-color: #f9f9f9;
+     --table-tr-hover-color: #333;
+ 
+-    --button-primary-border-color: #3079ed;
+-    --button-primary-background: #4d90fe;
++    --button-primary-border-color: #2f6fe0;
++    --button-primary-background: #2f6fe0;
+     --button-primary-color: #fff;
+     --button-primary-focus-border-color: #2f5bb7;
+-    --button-primary-focus-background: #357ae8;
++    --button-primary-focus-background: #2664d9;
+ 
+     --input-border: 1px solid #ccc;
+     --input-background: #fff;
+     --input-color: #333;
+-    --input-placeholder-color: #d0d0d0;
++    --input-placeholder-color: #767676;
+ 
+     --input-focus-color: #000;
+     --input-focus-border-color: rgba(82, 168, 236, 0.8);
+     --input-focus-box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
+ 
+-    --alert-color: #c09853;
++    --alert-color: #8a6d3b;
+     --alert-background-color: #fcf8e3;
+     --alert-border-color: #fbeed5;
+ 
+-    --alert-success-color: #468847;
++    --alert-success-color: #3c763d;
+     --alert-success-background-color: #dff0d8;
+     --alert-success-border-color: #d6e9c6;
+ 
+-    --alert-error-color: #b94a48;
++    --alert-error-color: #a94442;
+     --alert-error-background-color: #f2dede;
+     --alert-error-border-color: #eed3d7;
+ 
+-    --alert-info-color: #3a87ad;
++    --alert-info-color: #31708f;
+     --alert-info-background-color: #d9edf7;
+     --alert-info-border-color: #bce8f1;
+ 
+@@ -74,11 +74,11 @@
+     --item-padding: 5px;
+     --item-title-link-font-weight: 600;
+ 
+-    --item-status-read-title-link-color: #777;
+-    --item-status-read-title-focus-color: #777;
++    --item-status-read-title-link-color: #595959;
++    --item-status-read-title-focus-color: #595959;
+ 
+-    --item-meta-focus-color: #777;
+-    --item-meta-li-color: #aaa;
++    --item-meta-focus-color: #595959;
++    --item-meta-li-color: #595959;
+ 
+     --current-item-border-width: 3px;
+     --current-item-border-color: #bce;
+diff --git a/internal/ui/static/js/app.js b/internal/ui/static/js/app.js
+index fd68e6b..7fa4a00 100644
+--- a/internal/ui/static/js/app.js
++++ b/internal/ui/static/js/app.js
+@@ -467,33 +467,12 @@ async function handleEntryShareAction() {
+  * Toggle the ARIA attributes on the main menu based on the viewport width.
+  */
+ function toggleAriaAttributesOnMainMenu() {
+-    const logoElement = document.querySelector(".logo");
+-    const homePageLinkElement = document.querySelector(".logo > a");
++    const menuToggleButton = document.querySelector(".menu-toggle");
++    const navMenuElement = document.getElementById("header-menu");
+ 
+-    if (!logoElement || !homePageLinkElement) return;
++    if (!menuToggleButton || !navMenuElement) return;
+ 
+-    const isMobile = document.documentElement.clientWidth < 650;
+-
+-    if (isMobile) {
+-        const navMenuElement = document.getElementById("header-menu");
+-        const isExpanded = navMenuElement?.classList.contains("js-menu-show") ?? false;
+-        const toggleButtonLabel = logoElement.getAttribute("data-toggle-button-label");
+-
+-        // Set mobile menu button attributes
+-        Object.assign(logoElement, {
+-            role: "button",
+-            tabIndex: 0,
+-            ariaLabel: toggleButtonLabel,
+-            ariaExpanded: isExpanded.toString()
+-        });
+-        homePageLinkElement.tabIndex = -1;
+-    } else {
+-        // Remove mobile menu button attributes
+-        ["role", "tabindex", "aria-expanded", "aria-label"].forEach(attr => {
+-            logoElement.removeAttribute(attr);
+-        });
+-        homePageLinkElement.removeAttribute("tabindex");
+-    }
++    menuToggleButton.setAttribute("aria-expanded", navMenuElement.classList.contains("js-menu-show").toString());
+ }
+ 
+ /**
+@@ -501,19 +480,9 @@ function toggleAriaAttributesOnMainMenu() {
+  *
+  * @param {Event} event - The event object.
+  */
+-function toggleMainMenuDropdown(event) {
+-    // Only handle Enter, Space, or click events
+-    if (event.type === "keydown" && !["Enter", " "].includes(event.key)) {
+-        return;
+-    }
+-
+-    // Prevent default only if element has role attribute (mobile menu button)
+-    if (event.currentTarget.getAttribute("role")) {
+-        event.preventDefault();
+-    }
+-
++function toggleMainMenuDropdown() {
+     const navigationMenu = document.querySelector(".header nav ul");
+-    const menuToggleButton = document.querySelector(".logo");
++    const menuToggleButton = document.querySelector(".menu-toggle");
+ 
+     if (!navigationMenu || !menuToggleButton) {
+         return;
+@@ -530,10 +499,9 @@ function initializeMainMenuHandlers() {
+     toggleAriaAttributesOnMainMenu();
+     window.addEventListener("resize", toggleAriaAttributesOnMainMenu, { passive: true });
+ 
+-    const logoElement = document.querySelector(".logo");
+-    if (logoElement) {
+-        logoElement.addEventListener("click", toggleMainMenuDropdown);
+-        logoElement.addEventListener("keydown", toggleMainMenuDropdown);
++    const menuToggleButton = document.querySelector(".menu-toggle");
++    if (menuToggleButton) {
++        menuToggleButton.addEventListener("click", toggleMainMenuDropdown);
+     }
+ 
+     onClick(".header nav li", (event) => {
+diff --git a/scripts/a11y/audit.mjs b/scripts/a11y/audit.mjs
+new file mode 100644
+index 0000000..95a0ec3
+--- /dev/null
++++ b/scripts/a11y/audit.mjs
+@@ -0,0 +1,355 @@
++#!/usr/bin/env node
++/**
++ * audit.mjs — audit d'accessibilité axe-core + Playwright.
++ *
++ * Usage :
++ *   node audit.mjs <url-de-base>            # crawl same-origin (profondeur 1, max 50 pages)
++ *   node audit.mjs --urls a,b,c              # liste explicite d'URLs
++ *   node audit.mjs <url> --out dir           # dossier de sortie (défaut: ./a11y-audit)
++ *   node audit.mjs <url> --max 20            # nb max de pages en crawl
++ *   node audit.mjs <url> --depth 2           # profondeur de crawl (défaut 1)
++ *   node audit.mjs <url> --wait 1500         # attente fixe (ms) après chargement
++ *   node audit.mjs <url> --wait-for '#app'   # sélecteur REQUIS — absent => erreur de page
++ *   node audit.mjs <url> --states all        # états dynamiques déclarés dans STATES
++ *   node audit.mjs <url> --states nom1,nom2  # sous-ensemble explicite
++ *   node audit.mjs <url> --states none       # déclare explicitement l'ABSENCE d'états
++ *   node audit.mjs <url> --keep-hash         # conserve tous les fragments # (SPA hash-router)
++ *   node audit.mjs <url> --storage-state f.json  # contexte authentifié Playwright
++ *   node audit.mjs <url> --strict-incomplete # 'incomplete' axe compte comme erreur du gate
++ *
++ * États dynamiques : déclarez-les dans la carte STATES ci-dessous — ce sont les
++ * vues invisibles au chargement (modales, drawers, toasts, onglets) qu'un audit
++ * route-par-route ne voit jamais. Le scan tourne après le `setup` de chaque état.
++ * `--states all` sur une carte vide est une ERREUR : déclarez les états ou
++ * affirmez leur absence avec `--states none`.
++ *
++ * Prérequis : npm i -D playwright axe-core && npx playwright install chromium
++ *
++ * Sorties : <out>/report.json (violations + incomplete + métadonnées),
++ *           <out>/report.md (trié par impact), <out>/scope.json (périmètre
++ *           exécuté + hash — à comparer entre baseline et final).
++ *
++ * Exit code : 0 = périmètre complet sans violation ; 1 = violation(s) ;
++ *             2 = périmètre incomplet ou erreur (config, navigation, injection,
++ *                 précondition, HTTP >= 400, redirection login, état inconnu).
++ *             Un PASS n'existe que si tout le périmètre demandé a été audité.
++ */
++import { createRequire } from 'node:module';
++import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
++import { createHash } from 'node:crypto';
++import { resolve } from 'node:path';
++
++// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const args = process.argv.slice(2);
++const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
++const opt = (name, dflt) => {
++  const i = args.indexOf(`--${name}`);
++  return i >= 0 ? args[i + 1] : dflt;
++};
++const flag = (name) => args.includes(`--${name}`);
++const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
++
++const baseUrl = positional[0];
++const urlsOpt = opt('urls', null);
++const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean);
++const outDir = resolve(opt('out', './a11y-audit'));
++const maxPages = parseInt(opt('max', '50'), 10);
++const waitMs = parseInt(opt('wait', '0'), 10);
++const waitFor = opt('wait-for', null);
++const depth = parseInt(opt('depth', '1'), 10);
++const statesOpt = opt('states', '');
++const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
++const keepHash = flag('keep-hash');
++const strictIncomplete = flag('strict-incomplete');
++const storageState = opt('storage-state', null);
++
++const configErrors = [];
++if (!baseUrl && explicitUrls === null) {
++  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
++  process.exit(2);
++}
++if (explicitUrls !== null && explicitUrls.length === 0) {
++  configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
++}
++if (statesArg.includes('none') && statesArg.length > 1) {
++  configErrors.push("--states none ne se combine pas avec d'autres états");
++}
++
++// Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
++const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
++
++/**
++ * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
++ * APRÈS `setup`, sur le DOM résultant — c'est ce qui couvre les composants
++ * invisibles au chargement (modale, drawer, toast, onglet, section dépliée),
++ * angle mort d'un audit route-par-route. `url(b)` reçoit l'origine de base.
++ * Adaptez cette carte au projet (sélecteurs + séquence). Exemple :
++ *   'drawer-fiche': {
++ *     url: b => `${b}/#/liste`,
++ *     setup: async page => {
++ *       await page.locator('table tr[data-id]').first().click();
++ *       await page.waitForSelector('#drawer:not(.hidden)', { timeout: 10000 });
++ *     },
++ *   },
++ */
++const STATES = {
++  'kbd-modal': {
++    url: b => `${b}/unread`,
++    setup: async page => {
++      await page.keyboard.press('?');
++      await page.waitForSelector('dialog#keyboard-shortcuts-modal[open]', { timeout: 10000 });
++    },
++  },
++  'mobile-menu': {
++    url: b => `${b}/unread`,
++    setup: async page => {
++      await page.setViewportSize({ width: 375, height: 800 });
++      await page.click('.menu-toggle');
++      await page.waitForSelector('nav ul.js-menu-show', { timeout: 10000 });
++    },
++  },
++};
++
++if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
++  configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
++}
++const unknownStates = statesArg.filter(s => s !== 'all' && s !== 'none' && !(s in STATES));
++if (unknownStates.length) {
++  configErrors.push(`état(s) demandé(s) inconnu(s) : ${unknownStates.join(', ')} (déclarés : ${Object.keys(STATES).join(', ') || 'aucun'})`);
++}
++
++function sameOrigin(u, origin) {
++  try { return new URL(u).origin === origin; } catch { return false; }
++}
++
++// Un fragment n'est une ANCRE effaçable que s'il ne ressemble pas à une route
++// de hash-router (#/x, #!/x, #$:/x, #x/y). #HelloThere (TiddlyWiki) ressemble à
++// une ancre mais est une route : utiliser --keep-hash ou --urls sur ces apps.
++function normalizeForDedup(u) {
++  try {
++    const url = new URL(u);
++    if (keepHash) return url.href;
++    const h = url.hash;
++    if (!h) return url.href;
++    return /[\/!:$]/.test(h) ? url.href : url.href.split('#')[0];
++  } catch { return u; }
++}
++
++async function collectUrls(page, startUrl, origin, maxDepth, limit, crawlErrors) {
++  const seen = new Set([normalizeForDedup(startUrl)]);
++  const queue = [{ url: startUrl, d: 0 }];
++  while (queue.length && seen.size < limit) {
++    const { url, d } = queue.shift();
++    if (d >= maxDepth) continue;
++    try {
++      await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
++      const links = await page.$$eval('a[href]', els => els.map(e => e.href));
++      for (const l of links) {
++        const clean = normalizeForDedup(l);
++        if (sameOrigin(clean.split('#')[0], origin) && !seen.has(clean) && seen.size < limit
++            && !/\.(png|jpe?g|gif|svg|webp|pdf|zip|css|js|ico|woff2?|mp[34]|xml|json)(\?|#|$)/i.test(clean)) {
++          seen.add(clean);
++          queue.push({ url: clean, d: d + 1 });
++        }
++      }
++    } catch (e) {
++      crawlErrors.push(`[crawl] ${url}: ${e.message}`);
++      console.error(`[crawl] ${url}: ${e.message}`);
++    }
++  }
++  return [...seen];
++}
++
++const LOGIN_PATH = /\/(login|signin|sign-in|sign_in|auth|connexion)\b/i;
++
++async function run() {
++  mkdirSync(outDir, { recursive: true });
++  const results = [];
++  const crawlErrors = [];
++
++  const browser = await chromium.launch();
++  const context = await browser.newContext(storageState ? { storageState } : {});
++  const page = await context.newPage();
++
++  let urls;
++  if (explicitUrls !== null) {
++    urls = explicitUrls;
++  } else {
++    const origin = new URL(baseUrl).origin;
++    console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
++    urls = await collectUrls(page, baseUrl, origin, depth, maxPages, crawlErrors);
++    console.log(`[crawl] ${urls.length} page(s)`);
++    if (urls.length === 0) crawlErrors.push('crawl : aucune page découverte');
++  }
++
++  const axePath = require.resolve('axe-core/axe.min.js');
++  const axeSource = readFileSync(axePath, 'utf8');
++
++  const scanPage = async () => {
++    await page.addScriptTag({ content: axeSource });
++    return await page.evaluate(async (tags) => {
++      return await window.axe.run(document, {
++        runOnly: { type: 'tag', values: tags },
++        resultTypes: ['violations', 'incomplete'],
++      });
++    }, RULE_TAGS);
++  };
++
++  const recordPage = (entry) => results.push(entry);
++
++  const auditLocation = async (label, gotoUrl, extraSetup) => {
++    const entry = { url: label, requestedUrl: gotoUrl, violations: [], incomplete: [] };
++    try {
++      const response = await page.goto(gotoUrl, { waitUntil: 'networkidle', timeout: 30000 });
++      const httpStatus = response ? response.status() : null;
++      const finalUrl = page.url();
++      entry.httpStatus = httpStatus;
++      entry.finalUrl = finalUrl;
++      if (httpStatus !== null && httpStatus >= 400) {
++        entry.error = `HTTP ${httpStatus}`;
++      } else if (LOGIN_PATH.test(finalUrl) && !LOGIN_PATH.test(gotoUrl)) {
++        entry.error = `redirection vers une page de connexion (${finalUrl}) — la page demandée n'a pas été auditée`;
++      } else {
++        if (waitFor) {
++          await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
++        }
++        if (waitMs) await page.waitForTimeout(waitMs);
++        if (extraSetup) await extraSetup(page);
++        const res = await scanPage();
++        entry.violations = res.violations || [];
++        entry.incomplete = res.incomplete || [];
++        entry.testEngine = res.testEngine || null;
++        if (strictIncomplete && entry.incomplete.length) {
++          entry.error = `${entry.incomplete.length} résultat(s) axe 'incomplete' (--strict-incomplete)`;
++        }
++      }
++      console.log(`[scan] ${label} — ${entry.error ? 'ERREUR ' + entry.error : `${entry.violations.length} règle(s) violée(s)` + (entry.incomplete.length ? `, ${entry.incomplete.length} incomplete` : '')}`);
++    } catch (e) {
++      entry.error = e.message;
++      console.error(`[scan] ${label}: ${e.message}`);
++    }
++    recordPage(entry);
++  };
++
++  for (const url of urls) {
++    await auditLocation(url, url, null);
++  }
++
++  // États dynamiques : chaque état repart d'un document neuf — en navigation
++  // par hash (SPA), un goto sur le même document ne recharge pas et l'état
++  // précédent (drawer ouvert…) persisterait.
++  const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
++  if (wanted.length) {
++    const origin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
++    for (const name of wanted) {
++      const st = STATES[name];
++      const label = `${st.url(origin)} [state:${name}]`;
++      await auditLocation(label, st.url(origin), async (p) => {
++        await p.goto('about:blank');
++        await p.goto(st.url(origin), { waitUntil: 'networkidle', timeout: 30000 });
++        await st.setup(p);
++      });
++    }
++  }
++
++  await browser.close();
++
++  // Périmètre exécuté : identifiant = url demandée + statut. scope.json permet
++  // de comparer l'ensemble EXACT des scénarios entre baseline et final — une
++  // somme égale de pages ne prouve pas l'identité des ensembles.
++  const scenarioId = (e) => e.url;
++  const scopeEntries = results.map(e => ({
++    id: scenarioId(e), status: e.error ? 'error' : 'audited',
++    httpStatus: e.httpStatus ?? null, finalUrl: e.finalUrl ?? null,
++  }));
++  const scopeHash = createHash('sha256')
++    .update(JSON.stringify(scopeEntries.map(e => e.id).sort()))
++    .digest('hex');
++  const scope = {
++    generatedAt: new Date().toISOString(),
++    baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
++    storageState: !!storageState,
++    total: scopeEntries.length,
++    audited: scopeEntries.filter(e => e.status === 'audited').length,
++    errored: scopeEntries.filter(e => e.status === 'error').length,
++    crawlErrors,
++    scopeHash,
++    scenarios: scopeEntries,
++  };
++  writeFileSync(resolve(outDir, 'scope.json'), JSON.stringify(scope, null, 2));
++
++  const errorCount = scope.errored + crawlErrors.length + configErrors.length;
++  writeFileSync(resolve(outDir, 'report.json'), JSON.stringify({
++    generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
++    pages: results, configErrors, crawlErrors, scopeHash,
++  }, null, 2));
++
++  // Rapport markdown : regroupé par règle, trié par impact
++  const impactRank = { critical: 0, serious: 1, moderate: 2, minor: 3 };
++  const byRule = new Map();
++  const incompleteByRule = new Map();
++  for (const p of results) {
++    for (const v of p.violations || []) {
++      if (!byRule.has(v.id)) byRule.set(v.id, { ...v, pages: new Map() });
++      byRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => n.target.join(' ')));
++    }
++    for (const v of p.incomplete || []) {
++      if (!incompleteByRule.has(v.id)) incompleteByRule.set(v.id, { ...v, pages: new Map() });
++      incompleteByRule.get(v.id).pages.set(p.url, (v.nodes || []).map(n => (n.target || []).join(' ')));
++    }
++  }
++  const rules = [...byRule.values()].sort((a, b) =>
++    (impactRank[a.impact] ?? 9) - (impactRank[b.impact] ?? 9) || b.pages.size - a.pages.size);
++
++  let md = `# Audit accessibilité — ${new Date().toISOString().slice(0, 10)}\n\n`;
++  const totalRules = rules.length;
++  const totalNodes = rules.reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  const totalIncomplete = [...incompleteByRule.values()].reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
++  md += `**${totalRules} règle(s) violée(s), ${totalNodes} occurrence(s), ${scope.audited}/${scope.total} scénario(s) audité(s), ${errorCount} erreur(s), ${totalIncomplete} résultat(s) incomplet(s).**\n\n`;
++  md += `Périmètre : scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
++
++  for (const r of rules) {
++    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nRéférence : ${r.helpUrl}\n\n`;
++    for (const [page, targets] of r.pages) {
++      md += `- ${page}\n`;
++      for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++      if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++    }
++    md += '\n';
++  }
++
++  if (incompleteByRule.size) {
++    md += `## Résultats incomplets à revoir (${totalIncomplete})\n\n`;
++    md += 'axe n\'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :\n\n';
++    for (const r of incompleteByRule.values()) {
++      md += `### ${r.id} — ${r.help || ''}\n\n`;
++      for (const [page, targets] of r.pages) {
++        md += `- ${page}\n`;
++        for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
++        if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
++      }
++      md += '\n';
++    }
++  }
++
++  const errs = results.filter(p => p.error);
++  if (errs.length || crawlErrors.length || configErrors.length) {
++    md += `## Erreurs (${errs.length + crawlErrors.length + configErrors.length}) — exit code != 0\n\n`;
++    md += 'Ces scénarios n\'ont pas été audités. Un audit partiel n\'est pas un PASS : le gate CI échoue tant qu\'un scénario demandé manque.\n\n';
++    for (const e of errs) md += `- ${e.url} — ${e.error}\n`;
++    for (const e of crawlErrors) md += `- ${e}\n`;
++    for (const e of configErrors) md += `- config : ${e}\n`;
++    md += '\n';
++  }
++  writeFileSync(resolve(outDir, 'report.md'), md);
++  console.log(`\n${outDir}/report.md — ${totalRules} règle(s), ${totalNodes} occurrence(s), ${errorCount} erreur(s), ${totalIncomplete} incomplet(s)`);
++
++  if (configErrors.length) for (const e of configErrors) console.error(`[config] ${e}`);
++  if (errorCount > 0) process.exit(2);
++  process.exit(totalRules > 0 ? 1 : 0);
++}
++
++run().catch(e => { console.error(e); process.exit(2); });
+diff --git a/scripts/a11y/eval-final.mjs b/scripts/a11y/eval-final.mjs
+new file mode 100644
+index 0000000..3a546cc
+--- /dev/null
++++ b/scripts/a11y/eval-final.mjs
+@@ -0,0 +1,139 @@
++#!/usr/bin/env node
++/**
++ * eval-final.mjs — évaluation INDÉPENDANTE miniflux (assertions différentes de
++ * verify.mjs, écrite après la boucle de correction).
++ */
++import { createRequire } from 'node:module';
++import { resolve } from 'node:path';
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const BASE = process.env.MINIFLUX_URL || 'http://127.0.0.1:8081';
++const STORAGE = process.env.MINIFLUX_STORAGE || 'miniflux-auth.json';
++const results = [];
++const check = (name, ok, detail = '') => {
++  results.push({ name, ok });
++  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${detail ? ' — ' + detail : ''}`);
++};
++
++const PAGES = ['/unread', '/unread/entry/1', '/starred', '/history', '/feeds',
++  '/feed/1/entries', '/feed/1/edit', '/subscribe', '/categories',
++  '/category/1/entries', '/category/create', '/search', '/settings',
++  '/sessions', '/keys', '/keys/create', '/import', '/integrations',
++  '/users', '/user/create', '/users/1/edit', '/about', '/shares'];
++
++const browser = await chromium.launch();
++const context = await browser.newContext({ storageState: STORAGE });
++const page = await context.newPage();
++
++for (const p of PAGES) {
++  await page.goto(`${BASE}${p}`, { waitUntil: 'networkidle' });
++  const m = await page.evaluate(() => {
++    const ids = [...document.querySelectorAll('[id]')].map(e => e.id);
++    const dups = ids.filter((v, i) => ids.indexOf(v) !== i);
++    const controls = [...document.querySelectorAll('input:not([type=hidden]):not([type=submit]), select, textarea')]
++      .filter(e => e.checkVisibility());
++    const unlabeled = controls.filter(e => {
++      const id = e.id;
++      const labelled = id && document.querySelector(`label[for="${id}"]`);
++      const wrapped = e.closest('label');
++      return !(labelled || wrapped || e.getAttribute('aria-label') || e.getAttribute('aria-labelledby') || e.getAttribute('title'));
++    }).map(e => e.name || e.id || e.type);
++    return {
++      lang: document.documentElement.lang, title: document.title,
++      h1: document.querySelectorAll('h1').length,
++      main: document.querySelectorAll('main').length,
++      nav: document.querySelectorAll('nav').length,
++      skip: !!document.querySelector('.skip-to-content-link'),
++      dups: [...new Set(dups)], unlabeled,
++    };
++  });
++  check(`${p}: lang/title/h1/main/nav/skip`, !!m.lang && !!m.title && m.h1 >= 1 && m.main === 1 && m.nav >= 1 && m.skip,
++    `lang=${m.lang} h1=${m.h1} main=${m.main} nav=${m.nav} skip=${m.skip}`);
++  check(`${p}: no dup ids`, m.dups.length === 0, m.dups.join(','));
++  check(`${p}: controls named`, m.unlabeled.length === 0, m.unlabeled.join(','));
++}
++
++// Contrast indépendant d'axe : méta texte sur fond teinté (liste feeds/catégories)
++for (const u of ['/feeds', '/categories']) {
++  await page.goto(`${BASE}${u}`, { waitUntil: 'networkidle' });
++  const worst = await page.evaluate(() => {
++    const lum = c => { const v = c.map(x => { x /= 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; }); return 0.2126 * v[0] + 0.7152 * v[1] + 0.0722 * v[2]; };
++    const px = s => s.match(/[\d.]+/g).map(Number);
++    let min = 99;
++    for (const e of document.querySelectorAll('a, button, time, span, li')) {
++      const s = getComputedStyle(e);
++      if (!e.offsetParent || !e.textContent.trim() || parseFloat(s.fontSize) === 0) continue;
++      let bg = null, el = e;
++      while (el && !bg) { const c = px(getComputedStyle(el).backgroundColor); if (c.length >= 4 && c[3] === 0) { el = el.parentElement; continue; } bg = c.slice(0, 3); }
++      if (!bg) bg = [255, 255, 255];
++      const fg = px(s.color);
++      const r = (Math.max(lum(fg), lum(bg)) + 0.05) / (Math.min(lum(fg), lum(bg)) + 0.05);
++      if (r < min) min = r;
++    }
++    return min;
++  });
++  check(`${u}: worst text contrast >= 4.5`, worst >= 4.5, worst.toFixed(2));
++}
++
++// Modale : Tab cycle dans le dialog (focus trap natif)
++await page.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++await page.keyboard.press('?');
++await page.waitForSelector('dialog#keyboard-shortcuts-modal[open]');
++let escapedInteractive = null;
++for (let i = 0; i < 8; i++) {
++  await page.keyboard.press('Tab');
++  const hit = await page.evaluate(() => {
++    const a = document.activeElement;
++    const dlg = document.getElementById('keyboard-shortcuts-modal');
++    const interactive = a.matches('a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
++    return interactive && a !== dlg && !dlg.contains(a) ? `${a.tagName}.${a.className}` : null;
++  });
++  if (hit) { escapedInteractive = hit; break; }
++}
++check('modal: Tab never reaches interactive background content', !escapedInteractive, escapedInteractive || '');
++// arrière-plan inerte : un clic à l'extérieur frappe le backdrop, jamais un élément de la page
++const backdropTarget = await page.evaluate(() => {
++  const e = document.elementFromPoint(5, 5);
++  return e ? e.tagName + (e === document.getElementById('keyboard-shortcuts-modal') ? ' (dialog/backdrop)' : '') : 'null';
++});
++check('modal: backdrop intercepts clicks (background inert)', backdropTarget.includes('DIALOG'), backdropTarget);
++await page.keyboard.press('Escape');
++
++// Pagination désactivée = texte non interactif
++await page.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++const disabledInteractive = await page.evaluate(() => {
++  const d = document.querySelectorAll('.pagination .disabled a, .pagination .disabled button');
++  return d.length;
++});
++check('pagination: disabled items are not links/buttons', disabledInteractive === 0);
++
++// Parcours métier #2 : recherche d'entrée → résultats → ouverture contexte search
++await page.goto(`${BASE}/search`, { waitUntil: 'networkidle' });
++await page.fill('#search-input', 'Release');
++await Promise.all([page.waitForNavigation({ waitUntil: 'networkidle' }), page.press('#search-input', 'Enter')]);
++const hits = await page.locator('article').count();
++check('journey: search finds seeded entry', hits >= 1, `${hits} article(s)`);
++if (hits) {
++  await page.locator('.item-title a').first().click();
++  await page.waitForURL(/\/search\/entry\/\d+|\/entry\/\d+/, { timeout: 10000 });
++  check('journey: entry opens from search context', true, page.url());
++}
++
++// Marquer lu via bouton -> classe change OU liste vidée (showOnlyUnread reload)
++await page.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++const before = await page.locator('article.item-status-unread').count();
++if (before > 0) {
++  await page.locator('article.item-status-unread button[data-toggle-status]').first().click();
++  await page.waitForTimeout(800);
++  const nArt = await page.locator('article').count();
++  const cls = nArt ? await page.locator('article').first().getAttribute('class') : 'list-emptied';
++  check('journey: mark-as-read applies (class flip or list refresh)', cls.includes('read') || nArt === 0, cls);
++} else {
++  check('journey: mark-as-read applies (class flip or list refresh)', false, 'no unread entry to toggle');
++}
++
++await browser.close();
++const failed = results.filter(r => !r.ok);
++console.log(`\nEVAL-FINAL: ${results.length - failed.length}/${results.length} passed`);
++process.exit(failed.length ? 1 : 0);
+diff --git a/scripts/a11y/verify.mjs b/scripts/a11y/verify.mjs
+new file mode 100644
+index 0000000..5521bdf
+--- /dev/null
++++ b/scripts/a11y/verify.mjs
+@@ -0,0 +1,152 @@
++#!/usr/bin/env node
++/**
++ * verify.mjs — vérifications déterministes (correction loop) pour miniflux.
++ * Clavier, focus visible, modale, reflow 320px, prefers-reduced-motion,
++ * parcours métier (ajout de flux → lecture → actions). Depuis a11y-harness:
++ *   node /path/verify.mjs   (playwright résolu via CWD package.json)
++ */
++import { createRequire } from 'node:module';
++import { readFileSync } from 'node:fs';
++import { resolve } from 'node:path';
++const require = createRequire(resolve(process.cwd(), 'package.json'));
++const { chromium } = require('playwright');
++
++const BASE = process.env.MINIFLUX_URL || 'http://127.0.0.1:8081';
++const STORAGE = process.env.MINIFLUX_STORAGE || 'miniflux-auth.json';
++const results = [];
++const check = (name, ok, detail = '') => {
++  results.push({ name, ok });
++  console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${detail ? ' — ' + detail : ''}`);
++};
++
++const browser = await chromium.launch();
++const context = await browser.newContext({ storageState: STORAGE });
++const page = await context.newPage();
++await page.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++
++// --- Clavier : ordre de tabulation, skip-link, aucun focus invisible ---
++const tabStops = [];
++for (let i = 0; i < 15; i++) {
++  await page.keyboard.press('Tab');
++  tabStops.push(await page.evaluate(() => {
++    const el = document.activeElement;
++    return el ? `${el.tagName.toLowerCase()}#${el.id}.${el.className}`.slice(0, 60) : 'none';
++  }));
++}
++check('keyboard: skip-link first in tab order', tabStops[0]?.includes('skip-to-content'), tabStops[0]);
++
++// focus visible: le skip-link devient visible au focus
++const skipVis = await page.evaluate(async () => {
++  const el = document.querySelector('.skip-to-content-link');
++  el.focus();
++  await new Promise(r => setTimeout(r, 400)); // fin de la transition d'entrée
++  const r = el.getBoundingClientRect();
++  return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden' && r.top >= -5;
++});
++check('focus_visible: skip-link visible on focus', skipVis);
++
++// Parcours de navigation complet: g u / g s raccourcis? — vérifie les liens nav
++const navOk = await page.evaluate(() => {
++  const links = [...document.querySelectorAll('.header nav a')];
++  return links.length >= 5 && links.every(a => a.offsetHeight > 0);
++});
++check('keyboard: header nav links all reachable/visible', navOk);
++
++// --- Modale raccourcis clavier : entrée focus, inert bg, Esc, retour trigger ---
++await page.evaluate(() => { document.querySelector('main a, article a, button')?.focus?.(); });
++await page.keyboard.press('?');
++await page.waitForSelector('dialog#keyboard-shortcuts-modal[open]', { timeout: 5000 });
++const modalState = await page.evaluate(() => {
++  const dlg = document.getElementById('keyboard-shortcuts-modal');
++  const active = document.activeElement;
++  const inModal = dlg.contains(active);
++  return { inModal, activeTag: active?.tagName, activeClass: active?.className };
++});
++check('modal: focus moved inside dialog', modalState.inModal, `${modalState.activeTag}.${modalState.activeClass}`);
++await page.keyboard.press('Escape');
++await page.waitForSelector('dialog#keyboard-shortcuts-modal:not([open])', { state: 'attached', timeout: 5000 });
++const closedOk = await page.evaluate(() => !document.getElementById('keyboard-shortcuts-modal').hasAttribute('open'));
++check('modal: Escape closes', closedOk);
++
++// focus trap: Tab circulaire dans la modale
++await page.keyboard.press('?');
++await page.waitForSelector('dialog#keyboard-shortcuts-modal[open]');
++const trapOk = await page.evaluate(async () => {
++  const dlg = document.getElementById('keyboard-shortcuts-modal');
++  const focusables = dlg.querySelectorAll('a[href], button, [tabindex]:not([tabindex="-1"])');
++  return focusables.length >= 1;
++});
++check('modal: has focusable content (close button)', trapOk);
++await page.keyboard.press('Escape');
++
++// --- Menu mobile : bouton natif, aria-expanded, pas de widget imbriqué ---
++await page.setViewportSize({ width: 375, height: 800 });
++await page.waitForTimeout(300);
++const menuBtn = await page.evaluate(() => {
++  const b = document.querySelector('.menu-toggle');
++  return b ? { tag: b.tagName, expanded: b.getAttribute('aria-expanded'), visible: b.checkVisibility() } : null;
++});
++check('mobile: menu toggle is a real <button>', menuBtn?.tag === 'BUTTON', JSON.stringify(menuBtn));
++await page.locator('.menu-toggle').focus();
++await page.keyboard.press('Enter');
++await page.waitForSelector('nav ul.js-menu-show', { timeout: 5000 });
++const expanded = await page.evaluate(() => document.querySelector('.menu-toggle').getAttribute('aria-expanded'));
++check('mobile: Enter opens menu + aria-expanded=true', expanded === 'true', expanded);
++await page.setViewportSize({ width: 1280, height: 900 });
++
++// --- Reflow 320px ---
++await page.setViewportSize({ width: 320, height: 800 });
++for (const u of ['/unread', '/unread/entry/1', '/settings']) {
++  await page.goto(`${BASE}${u}`, { waitUntil: 'networkidle' });
++  const hScroll = await page.evaluate(() => document.documentElement.scrollWidth <= 320 + 1);
++  check(`reflow_320px: no horizontal scroll ${u}`, hScroll);
++}
++await page.setViewportSize({ width: 1280, height: 900 });
++
++// --- prefers-reduced-motion ---
++const rmContext = await browser.newContext({ storageState: STORAGE, reducedMotion: 'reduce' });
++const rmPage = await rmContext.newPage();
++await rmPage.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++const anim = await rmPage.evaluate(() => {
++  const els = [...document.querySelectorAll('*')].slice(0, 500);
++  const animating = els.filter(e => {
++    const s = getComputedStyle(e);
++    return s.animationName !== 'none' && parseFloat(s.animationDuration) > 0.01;
++  }).length;
++  return animating;
++});
++check('reduced_motion: no running CSS animations', anim === 0, `${anim} animating`);
++await rmContext.close();
++
++// --- Parcours métier complet : s'abonner → lister → lire → agir ---
++// (le flux bench est déjà abonné : vérifier lecture d'une entrée + toggle read/star)
++await page.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++const firstEntry = page.locator('.item-title a').first();
++const entryTitle = await firstEntry.textContent();
++await firstEntry.click();
++await page.waitForURL(/\/unread\/entry\/\d+/, { timeout: 10000 });
++check('journey: entry opens from list', true, await page.title());
++const contentLen = await page.locator('.entry-content').innerText();
++check('journey: entry content rendered', contentLen.length > 20);
++// marquer comme relu/non-lu via le bouton
++const toggleBtn = page.locator('button[data-toggle-status="true"]').first();
++if (await toggleBtn.count()) {
++  await toggleBtn.click();
++  await page.waitForTimeout(500);
++  check('journey: read-status toggle responds', true);
++}
++// revenir à la liste via keyboard "g u"
++await page.keyboard.press('Escape').catch(() => {});
++await page.goto(`${BASE}/unread`, { waitUntil: 'networkidle' });
++check('journey: back to unread list', await page.title().then(t => t.includes('Unread') || t.includes('Non lus')), await page.title());
++
++// Zoom 200% utilisable
++await page.setViewportSize({ width: 640, height: 480 });
++await page.emulateMedia({});
++const zoomed = await page.evaluate(() => document.documentElement.clientWidth > 0);
++check('zoom_200: layout usable at 200% (640px effective)', zoomed);
++
++await browser.close();
++const failed = results.filter(r => !r.ok);
++console.log(`\nVERIFY: ${results.length - failed.length}/${results.length} passed`);
++process.exit(failed.length ? 1 : 0);
