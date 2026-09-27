@@ -6,7 +6,7 @@ Skill + workflow « mise en conformité accessibilité » (WCAG 2.2 AA / RGAA / 
 
 | Fichier | Rôle |
 |---|---|
-| `SKILL.md` | Le skill — protocole complet, 12 règles anti-erreur, critères de « fait » |
+| `SKILL.md` | Le skill — protocole complet, 17 règles anti-erreur, critères de « fait » |
 | `audit.mjs` | Runner axe-core + Playwright : crawl, états dynamiques, rapport MD/JSON/scope, exit code strict |
 | `checklist.md` | Vérification manuelle/TA par pathologie (ce que l'automatique ne voit pas) |
 | `workflow.py` / `workflow-cdv.py` | Orchestration Devin `run_workflow` : audit → fix → verify (×3 max) → PR |
@@ -16,7 +16,10 @@ Skill + workflow « mise en conformité accessibilité » (WCAG 2.2 AA / RGAA / 
 | `benchmark-v3.py` | Contrat de preuve V3 : manifeste figé pré-audit, harnais complet dans les artefacts, décisions séparées (install/build, budget, validation finale) |
 | `BENCHMARK-PLAN.md` / `BRIEF-CHATGPT.md` | Protocole et brief du benchmark |
 | `RAPPORT-BENCHMARK-V1.md` / `benchmark-results.json` / `benchmark-agents-details.txt` | Résultats historiques du run V1 (18/18 à 0 violation — non reproductibles, artefacts perdus) |
-| `REPONSE-REVUE.md` | Réponse point-par-point à l'audit externe des résultats + erratum V1 |
+| `REPONSE-REVUE.md` / `REPONSE-REVUE-V2.md` | Réponses point-par-point aux audits externes V1 et V2 + errata |
+| `RAPPORT-BENCHMARK-V2.md` / `benchmark-v2-results.json` / `benchmark-v2/` | Run V2 : 6/6 CONFIRMED par auditeurs tiers + artefacts rejouables (patch.diff, patch-fixed.diff, report/scope.json, provenance) |
+| `RAPPORT-REQUALIFICATION-V2.md` | Requalification : install verrouillée + build des 6 patchs — 2 défauts trouvés et corrigés |
+| `tests-validateurs/` | Suite de mutants prouvant que les assertions durcies attrapent les défauts que les assertions faibles ratent (5/5 détectés) |
 
 ## Utilisation
 
@@ -34,7 +37,7 @@ node audit.mjs http://localhost:3000 --states all --out a11y-audit
 # exit 0 = périmètre complet sans violation · 1 = violations · 2 = périmètre incomplet/erreur
 ```
 
-## Le runner (v2, corrigé après audit externe)
+## Le runner (v3, corrigé après deux audits externes)
 
 - **Exit codes** : `0` = scope complet audité, 0 violation · `1` = violations trouvées · `2` = erreur/périmètre incomplet (navigation, injection CSP, précondition `--wait-for`, HTTP ≥ 400, redirection login, état inconnu, config invalide). Un audit partiel n'est jamais un PASS.
 - **`--states all|a,b|none`** : états dynamiques via la carte `STATES` ; `all` sans états = erreur (utilisez `none` pour affirmer qu'il n'y en a pas).
@@ -42,7 +45,8 @@ node audit.mjs http://localhost:3000 --states all --out a11y-audit
 - **`--storage-state f.json`** : contexte Playwright authentifié.
 - **`--wait-for sel`** : précondition bloquante (non avalée).
 - **`--strict-incomplete`** : les résultats `incomplete` d'axe deviennent bloquants (par défaut : listés « à revoir » dans le rapport, persistés dans report.json).
-- **`scope.json`** : identifiants de scénarios exécutés {id, statut, httpStatus, finalUrl} + `scopeHash` sha256 — permet de prouver que baseline et final portent sur le même périmètre.
+- **Navigations contrôlées** : chaque `goto` (route, état, seconde navigation après setup) vérifie code HTTP ≥ 400, redirection login, nav hors-origine ; un résultat axe mal formé est une erreur, pas un zéro. Rapports d'erreur écrits avant tout exit.
+- **`scope.json`** : identifiants de scénarios exécutés {id, statut, httpStatus, finalUrl} + `scopeHash` sha256 (ids) + `statesHash` (URL **et** code de setup des états) — prouve que baseline et final portent sur le même périmètre et les mêmes actions.
 - Rapports `report.md` + `report.json` par scénario : violations, incomplets, erreurs, version axe (`testEngine`).
 
 ## Pourquoi ce design réduit l'erreur
