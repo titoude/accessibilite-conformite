@@ -1,4 +1,6 @@
-#!/usr/bin/env node
+// Export de CHECKS pour le harnais externe (test_hardened_assertions.mjs).
+// Régénéré depuis validateurs.mjs — ne pas éditer à la main.
+///usr/bin/env node
 /**
  * validateurs.mjs — suite de contre-exemples pour valider les ASSERTIONS
  * d'accessibilité (pas le produit — les tests eux-mêmes).
@@ -174,30 +176,5 @@ const CHECKS = [
   },
 ];
 
-async function main() {
-  const browser = await chromium.launch();
-  const page = await browser.newPage();
-  let detected = 0, total = 0, falseNeg = 0;
-  for (const c of CHECKS) {
-    // Témoin correct : les deux assertions doivent passer
-    await page.setContent(HTML);
-    if (c.controlFix) await c.controlFix(page);
-    const weakOk = await c.weak(page).catch(() => false);
-    const hardOk = await c.hard(page).catch(() => false);
-    console.log(`[témoin] ${c.name}: weak=${weakOk} hard=${hardOk}`);
-    if (!hardOk) { falseNeg++; console.log(`  FAUX NÉGATIF : l'assertion durcie rate le cas correct`); }
-    // Mutant : l'assertion durcie doit échouer (détecter le défaut)
-    await page.setContent(HTML);
-    await MUTANTS[c.mutant](page);
-    const weakMut = await c.weak(page).catch(() => 'err');
-    const hardMut = await c.hard(page).catch(() => false);
-    total++;
-    const caught = hardMut === false;
-    if (caught) detected++;
-    console.log(`[mutant] ${c.name}: weak=${weakMut} hard=${hardMut} → ${caught ? 'DÉTECTÉ' : 'MANQUÉ'}`);
-  }
-  await browser.close();
-  console.log(`\n${detected}/${total} mutants détectés par les assertions durcies, ${falseNeg} faux négatifs`);
-  process.exit(detected === total && falseNeg === 0 ? 0 : 1);
-}
-main().catch(e => { console.error(e); process.exit(2); });
+
+export { CHECKS, MUTANTS, HTML };

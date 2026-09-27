@@ -1,0 +1,19 @@
+{
+  "name": "accessibilite-conformite",
+  "private": true,
+  "version": "3.0.0",
+  "description": "Kit accessibilité pour agents IA — audit axe-core + workflow vérifié (WCAG 2.2 AA / RGAA / EAA)",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "setup": "npm install && npx playwright install chromium",
+    "audit": "node audit.mjs",
+    "sync-runner": "python3 sync_runner.py",
+    "test:parity": "python3 tests/test_runner_parity.py",
+    "test:validateurs": "node tests-validateurs/validateurs.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "4.13.0",
+    "playwright": "1.63.0"
+  }
+}

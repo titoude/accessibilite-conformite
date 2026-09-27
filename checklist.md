@@ -70,7 +70,7 @@ NVDA + Firefox (Windows, gratuit) ou VoiceOver + Safari (macOS). Sur les parcour
 ## 5. Multimédia (surdité)
 
 - [ ] Toute vidéo/audio avec parole a des sous-titres synchronisés
-- [ ] **Audiodescription** (1.2.5, AA) : vidéos dont l'action n'est pas audible ont une audiodescription ou une alternative textuelle complète
+- [ ] **Audiodescription** (1.2.5, AA) : vidéos dont l'action n'est pas audible ont une **audiodescription** — l'alternative textuelle complète est le critère 1.2.3 de niveau A, elle NE SUFFIT PAS au niveau AA (exception : l'audio existant décrit déjà tout le contenu visuel)
 - [ ] Transcription textuelle pour les contenus audio
 - [ ] Aucun son indispensable sans équivalent visuel
 

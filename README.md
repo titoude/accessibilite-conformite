@@ -19,7 +19,9 @@ Skill + workflow « mise en conformité accessibilité » (WCAG 2.2 AA / RGAA / 
 | `REPONSE-REVUE.md` / `REPONSE-REVUE-V2.md` | Réponses point-par-point aux audits externes V1 et V2 + errata |
 | `RAPPORT-BENCHMARK-V2.md` / `benchmark-v2-results.json` / `benchmark-v2/` | Run V2 : 6/6 CONFIRMED par auditeurs tiers + artefacts rejouables (patch.diff, patch-fixed.diff, report/scope.json, provenance) |
 | `RAPPORT-REQUALIFICATION-V2.md` | Requalification : install verrouillée + build des 6 patchs — 2 défauts trouvés et corrigés |
-| `tests-validateurs/` | Suite de mutants prouvant que les assertions durcies attrapent les défauts que les assertions faibles ratent (5/5 détectés) |
+| `tests-validateurs/` | Suite de mutants prouvant que les assertions durcies attrapent les défauts que les assertions faibles ratent (9/9 détectés, 0 faux négatif) + `assertions.mjs` (helpers partagés à importer dans vos verify.mjs/eval-final.mjs) |
+| `sync_runner.py` + `tests/test_runner_parity.py` | Source unique du runner : les copies embarquées dans les orchestrateurs sont régénérées depuis `audit.mjs` ; le test de parité échoue si elles divergent |
+| `package.json` | Versions épinglées de l'outil (playwright 1.63.0, axe-core 4.13.0) — install reproductible |
 
 ## Utilisation
 
@@ -32,12 +34,24 @@ Skill + workflow « mise en conformité accessibilité » (WCAG 2.2 AA / RGAA / 
 
 **En standalone** (sans agent) :
 ```bash
-npm i -D playwright axe-core && npx playwright install chromium
-node audit.mjs http://localhost:3000 --states all --out a11y-audit
+# Dans ce dépôt : versions épinglées via package.json
+npm install && npx playwright install chromium
+# (Dans votre projet : npm i -D playwright@1.63.0 axe-core@4.13.0)
+
+node audit.mjs http://localhost:3000 --states none --out a11y-audit
 # exit 0 = périmètre complet sans violation · 1 = violations · 2 = périmètre incomplet/erreur
 ```
 
-## Le runner (v3, corrigé après deux audits externes)
+États dynamiques — déclarez-les dans la carte `STATES` de `audit.mjs` (ou dans votre copie sous `scripts/a11y/`), ex :
+```javascript
+const STATES = {
+  'modal-settings': { url: '/settings', setup: "document.querySelector('#open-settings').click()" },
+  'drawer-menu':    { url: '/', setup: "document.querySelector('.menu-btn').click()" },
+};
+```
+puis `node audit.mjs http://localhost:3000 --states all --out a11y-audit`.
+
+## Le runner (v4, corrigé après trois audits externes)
 
 - **Exit codes** : `0` = scope complet audité, 0 violation · `1` = violations trouvées · `2` = erreur/périmètre incomplet (navigation, injection CSP, précondition `--wait-for`, HTTP ≥ 400, redirection login, état inconnu, config invalide). Un audit partiel n'est jamais un PASS.
 - **`--states all|a,b|none`** : états dynamiques via la carte `STATES` ; `all` sans états = erreur (utilisez `none` pour affirmer qu'il n'y en a pas).
@@ -45,7 +59,7 @@ node audit.mjs http://localhost:3000 --states all --out a11y-audit
 - **`--storage-state f.json`** : contexte Playwright authentifié.
 - **`--wait-for sel`** : précondition bloquante (non avalée).
 - **`--strict-incomplete`** : les résultats `incomplete` d'axe deviennent bloquants (par défaut : listés « à revoir » dans le rapport, persistés dans report.json).
-- **Navigations contrôlées** : chaque `goto` (route, état, seconde navigation après setup) vérifie code HTTP ≥ 400, redirection login, nav hors-origine ; un résultat axe mal formé est une erreur, pas un zéro. Rapports d'erreur écrits avant tout exit.
+- **Chaîne documentaire contrôlée** : chaque `goto` ET le document final sont vérifiés (code HTTP ≥ 400 — y compris navigations déclenchées par JS, redirection login, document final ≠ document demandé) ; un résultat axe mal formé est une erreur, pas un zéro ; aucune attente `networkidle` (attentes explicites). Rapports d'erreur **atomiques** écrits avant tout exit, avec `runId` — impossible de réutiliser un vieux rapport.
 - **`scope.json`** : identifiants de scénarios exécutés {id, statut, httpStatus, finalUrl} + `scopeHash` sha256 (ids) + `statesHash` (URL **et** code de setup des états) — prouve que baseline et final portent sur le même périmètre et les mêmes actions.
 - Rapports `report.md` + `report.json` par scénario : violations, incomplets, erreurs, version axe (`testEngine`).
 

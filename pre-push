@@ -1,14 +1,23 @@
 #!/bin/sh
 # Garde-fou accessibilité local — à installer comme hook git :
-#   cp scripts/a11y/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+#   cp pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
 #
-# Bloque le `git push` si l'audit axe trouve ≥ 1 violation — sans CI distante.
-# Prérequis : app démarrée et joignable (A11Y_URL) + `npm i -D playwright axe-core`.
+# Bloque le `git push` si l'audit axe trouve ≥ 1 violation ou que le périmètre
+# est incomplet — sans CI distante. L'audit porte sur le code de VOTRE checkout
+# courant, donc sur le commit poussé. C'est une aide locale, pas une garantie
+# absolue : il ne couvre que la partie automatisable (axe-core), pas la
+# checklist manuelle (checklist.md).
+#
+# Prérequis : app démarrée et joignable (A11Y_URL) + dépendances épinglées :
+#   npm install && npx playwright install chromium
 #
 #   A11Y_URL=http://localhost:3000 git push
-#   A11Y_SKIP=1 git push            # contournement explicite, tracé dans le log
+#   A11Y_STATES=all git push                    # états dynamiques de STATES
+#   A11Y_STORAGE_STATE=auth.json git push       # contexte authentifié Playwright
+#   A11Y_URLS="/,/pricing" git push             # routes supplémentaires non crawlables
+#   A11Y_SKIP=1 git push                        # contournement explicite, tracé
 #
-# Adaptez : si l'app se build en statique, démarrez un serveur éphémère ici
+# Si l'app se build en statique, démarrez un serveur éphémère ici
 # (ex. `npx serve dist -l 4173 &` puis A11Y_URL=http://localhost:4173).
 
 if [ "$A11Y_SKIP" = "1" ]; then
@@ -17,8 +26,16 @@ if [ "$A11Y_SKIP" = "1" ]; then
 fi
 
 URL="${A11Y_URL:-http://localhost:3000}"
-AUDIT="$(git rev-parse --show-toplevel)/scripts/a11y/audit.mjs"
-[ -f "$AUDIT" ] || AUDIT="$(git rev-parse --show-toplevel)/audit.mjs"
+ROOT="$(git rev-parse --show-toplevel)"
+AUDIT="$ROOT/scripts/a11y/audit.mjs"
+[ -f "$AUDIT" ] || AUDIT="$ROOT/audit.mjs"
+[ -f "$AUDIT" ] || { echo "a11y: audit.mjs introuvable (scripts/a11y/ ou racine)" >&2; exit 1; }
+
+STATES="${A11Y_STATES:-none}"
+URLS="${A11Y_URLS:-}"
+EXTRA=""
+[ -n "$A11Y_STORAGE_STATE" ] && EXTRA="$EXTRA --storage-state $A11Y_STORAGE_STATE"
+[ -n "$URLS" ] && EXTRA="$EXTRA --urls $URLS"
 
 if ! curl -sf -o /dev/null --max-time 3 "$URL"; then
   echo "a11y: $URL injoignable — démarrez l'app ou passez A11Y_URL=…" >&2
@@ -26,6 +43,13 @@ if ! curl -sf -o /dev/null --max-time 3 "$URL"; then
   exit 1
 fi
 
-node "$AUDIT" "$URL" --states all --out "$(git rev-parse --show-toplevel)/a11y-audit/pre-push" \
-  && echo "a11y: 0 violation — push autorisé" >&2 \
-  || { echo "a11y: violations détectées — voir a11y-audit/pre-push/report.md" >&2; exit 1; }
+OUT="$ROOT/a11y-audit/pre-push"
+# shellcheck disable=SC2086
+node "$AUDIT" "$URL" --states "$STATES" --out "$OUT" $EXTRA
+rc=$?
+case "$rc" in
+  0) echo "a11y: 0 violation, périmètre complet — push autorisé" >&2 ;;
+  1) echo "a11y: violations détectées — voir $OUT/report.md" >&2 ;;
+  2) echo "a11y: périmètre incomplet ou erreur — voir $OUT/report.md (un audit partiel n'est pas un PASS)" >&2 ;;
+esac
+exit "$rc"

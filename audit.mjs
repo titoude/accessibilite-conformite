@@ -35,8 +35,8 @@
  *             Un PASS n'existe que si tout le périmètre demandé a été audité.
  */
 import { createRequire } from 'node:module';
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
-import { createHash } from 'node:crypto';
+import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
+import { createHash, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 
 // Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
@@ -90,6 +90,8 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
+const RUNNER_VERSION = 'audit.mjs v4';
+
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
  * APRÈS `setup`, sur le DOM résultant — c'est ce qui couvre les composants
@@ -138,7 +140,7 @@ async function collectUrls(page, startUrl, origin, maxDepth, limit, crawlErrors)
     const { url, d } = queue.shift();
     if (d >= maxDepth) continue;
     try {
-      await page.goto(url, { waitUntil: 'networkidle', timeout: 30000 });
+      await page.goto(url, { waitUntil: 'load', timeout: 30000 });
       const links = await page.$$eval('a[href]', els => els.map(e => e.href));
       for (const l of links) {
         const clean = normalizeForDedup(l);
@@ -158,28 +160,46 @@ async function collectUrls(page, startUrl, origin, maxDepth, limit, crawlErrors)
 
 const LOGIN_PATH = /\/(login|signin|sign-in|sign_in|auth|connexion)\b/i;
 
+const runId = randomUUID();
+
+// Écriture atomique : tmp + rename — un reader ne voit jamais un fichier
+// partiellement écrit, et les preuves portent le runId du run courant.
+function writeJson(file, obj) {
+  const tmp = resolve(outDir, file + '.tmp');
+  writeFileSync(tmp, JSON.stringify(obj, null, 2));
+  renameSync(tmp, resolve(outDir, file));
+}
+function writeText(file, text) {
+  const tmp = resolve(outDir, file + '.tmp');
+  writeFileSync(tmp, text);
+  renameSync(tmp, resolve(outDir, file));
+}
+
 // Écrit un résultat d'erreur atomique : un audit dont la config est invalide
-// produit quand même scope.json/report.json/report.md horodatés — jamais
-// de rapport ancien laissé en place et réutilisé par erreur.
+// (ou dont le navigateur n'a pas démarré) produit quand même scope.json/
+// report.json/report.md du RUN COURANT — jamais un rapport ancien laissé
+// en place et réutilisé par erreur.
 function writeErrorReports(configErrors, crawlErrors) {
   mkdirSync(outDir, { recursive: true });
   const scopeHash = createHash('sha256').update('[]').digest('hex');
   const now = new Date().toISOString();
-  writeFileSync(resolve(outDir, 'scope.json'), JSON.stringify({
-    generatedAt: now, baseUrl: baseUrl ?? null, depth, maxPages,
+  writeJson('scope.json', {
+    runId, runnerVersion: RUNNER_VERSION, generatedAt: now,
+    baseUrl: baseUrl ?? null, depth, maxPages,
     statesRequested: statesArg, storageState: !!storageState,
     total: 0, audited: 0, errored: 0, crawlErrors, configErrors,
     scopeHash, scenarios: [],
-  }, null, 2));
-  writeFileSync(resolve(outDir, 'report.json'), JSON.stringify({
-    generatedAt: now, baseUrl: baseUrl ?? null,
+  });
+  writeJson('report.json', {
+    runId, runnerVersion: RUNNER_VERSION, generatedAt: now,
+    baseUrl: baseUrl ?? null,
     pages: [], configErrors, crawlErrors, scopeHash,
-  }, null, 2));
+  });
   let md = `# Audit accessibilité — ${now.slice(0, 10)}\n\n`;
   md += `**0 scénario audité — ${configErrors.length + crawlErrors.length} erreur(s) de configuration/périmètre. Exit code 2.**\n\n`;
   for (const e of configErrors) md += `- config : ${e}\n`;
   for (const e of crawlErrors) md += `- ${e}\n`;
-  writeFileSync(resolve(outDir, 'report.md'), md);
+  writeText('report.md', md);
 }
 
 async function run() {
@@ -197,6 +217,19 @@ async function run() {
   const browser = await chromium.launch();
   const context = await browser.newContext(storageState ? { storageState } : {});
   const page = await context.newPage();
+
+  // Suivi de la dernière réponse de NAVIGATION du document principal : un clic
+  // dans un setup (ou un reload) déclenche une vraie navigation dont goto() ne
+  // rend pas la réponse — sans ce suivi, un HTTP 500 déclenché pendant setup
+  // était invisible et le scan partait sur la page d'erreur (v4).
+  let lastNavResponse = null;
+  if (typeof page.on === 'function') {
+    page.on('response', (r) => {
+      try {
+        if (r.request().isNavigationRequest() && r.frame() === page.mainFrame()) lastNavResponse = r;
+      } catch { /* frame/request détachés */ }
+    });
+  }
 
   let urls;
   if (explicitUrls !== null) {
@@ -224,11 +257,14 @@ async function run() {
 
   const recordPage = (entry) => results.push(entry);
 
-  // Contrôle commun à TOUTE navigation : statut HTTP + identité de l'URL
-  // finale (redirection login = la page demandée n'a pas été auditée).
-  // response null → contrôle de l'URL courante seulement (post-setup).
+  // Contrôle commun à TOUTE navigation : statut HTTP de la dernière
+  // navigation du document principal + identité de l'URL finale
+  // (redirection login = la page demandée n'a pas été auditée).
+  // response null → on retombe sur lastNavResponse (navigations déclenchées
+  // par un setup ou un JS, dont goto() ne rend pas la réponse).
   const checkNav = (response, requested) => {
-    const httpStatus = response ? response.status() : null;
+    const httpStatus = response ? response.status()
+      : (lastNavResponse && lastNavResponse.url() === page.url() ? lastNavResponse.status() : null);
     const finalUrl = page.url();
     let error = null;
     if (httpStatus !== null && httpStatus >= 400) {
@@ -239,19 +275,26 @@ async function run() {
     return { httpStatus, finalUrl, error };
   };
 
+  // Préconditions métier rejouées sur le document courant : --wait-for sur
+  // le document FINAL, pas seulement sur le document avant rechargement.
+  const applyPreconditions = async () => {
+    if (waitFor) {
+      await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
+    }
+    if (waitMs) await page.waitForTimeout(waitMs);
+  };
+
   const auditLocation = async (label, gotoUrl, extraSetup) => {
     const entry = { url: label, requestedUrl: gotoUrl, violations: [], incomplete: [] };
+    lastNavResponse = null;
     try {
-      const nav = checkNav(await page.goto(gotoUrl, { waitUntil: 'networkidle', timeout: 30000 }), gotoUrl);
+      const nav = checkNav(await page.goto(gotoUrl, { waitUntil: 'load', timeout: 30000 }), gotoUrl);
       entry.httpStatus = nav.httpStatus;
       entry.finalUrl = nav.finalUrl;
       if (nav.error) {
         entry.error = nav.error;
       } else {
-        if (waitFor) {
-          await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
-        }
-        if (waitMs) await page.waitForTimeout(waitMs);
+        await applyPreconditions();
         if (extraSetup) {
           // Le setup peut re-naviguer (état dynamique) : sa navigation est
           // re-contrôlée, et l'URL post-setup aussi — le document scanné
@@ -262,16 +305,29 @@ async function run() {
             entry.finalUrl = nav2.finalUrl;
             if (nav2.error) entry.error = nav2.error;
           }
-          const post = checkNav(null, gotoUrl);
-          entry.finalUrl = post.finalUrl;
-          if (!entry.error && post.error) entry.error = post.error;
-          if (!entry.error && baseUrl) {
-            try {
-              if (new URL(post.finalUrl).origin !== new URL(gotoUrl).origin) {
-                entry.error = `navigation hors origine pendant le setup (${post.finalUrl})`;
-              }
-            } catch { /* URL exotique : déjà couvert par les autres contrôles */ }
-          }
+        }
+        // Re-vérification SYSTÉMATIQUE du document final (pages comme états) :
+        // couvre la nav pendant setup, la redirection login différée pendant
+        // --wait, et applique les préconditions sur le document réellement
+        // scanné — pas celui d'avant rechargement.
+        if (!entry.error && extraSetup) await applyPreconditions();
+        const post = checkNav(null, gotoUrl);
+        entry.httpStatus = post.httpStatus ?? entry.httpStatus;
+        entry.finalUrl = post.finalUrl;
+        if (!entry.error && post.error) entry.error = post.error;
+        if (!entry.error) {
+          try {
+            const req = new URL(gotoUrl), fin = new URL(post.finalUrl);
+            if (fin.origin !== req.origin) {
+              entry.error = `navigation hors origine avant le scan (${post.finalUrl})`;
+            } else if (extraSetup && fin.pathname !== req.pathname) {
+              // Un setup qui change de PAGE (pas seulement de hash/query)
+              // scanne un autre document que celui demandé — couvre les
+              // erreurs serveur déclenchées par un clic dont le statut
+              // HTTP n'est pas observable (ex. '.../server-error').
+              entry.error = `le document final diffère du document demandé (${post.finalUrl}) — déclarer l'URL réelle de l'état dans STATES`;
+            }
+          } catch { /* URL exotique : déjà couvert par les autres contrôles */ }
         }
         if (!entry.error) {
           const res = await scanPage();
@@ -310,10 +366,12 @@ async function run() {
       const label = `${st.url(origin)} [state:${name}]`;
       // La 2e navigation (rechargement à neuf) est contrôlée comme la 1re :
       // HTTP >= 400 ou redirection login => erreur, le scan ne tourne pas
-      // sur la mauvaise page. Toute navigation pendant setup est re-vérifiée.
+      // sur la mauvaise page. Le contrôle post-setup (statut via
+      // lastNavResponse, identité d'URL, préconditions re-jouées) est fait
+      // par auditLocation lui-même sur le document final.
       await auditLocation(label, st.url(origin), async (p, check) => {
         await p.goto('about:blank');
-        const nav2 = check(await p.goto(st.url(origin), { waitUntil: 'networkidle', timeout: 30000 }), st.url(origin));
+        const nav2 = check(await p.goto(st.url(origin), { waitUntil: 'load', timeout: 30000 }), st.url(origin));
         if (nav2.error) return nav2;
         await st.setup(p);
         const nav3 = check(null, st.url(origin));
@@ -348,7 +406,7 @@ async function run() {
     statesHash = createHash('sha256').update(JSON.stringify(statesDigest)).digest('hex');
   }
   const scope = {
-    generatedAt: new Date().toISOString(),
+    runId, runnerVersion: RUNNER_VERSION, generatedAt: new Date().toISOString(),
     baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
     storageState: !!storageState,
     total: scopeEntries.length,
@@ -359,13 +417,14 @@ async function run() {
     statesHash,
     scenarios: scopeEntries,
   };
-  writeFileSync(resolve(outDir, 'scope.json'), JSON.stringify(scope, null, 2));
+  writeJson('scope.json', scope);
 
   const errorCount = scope.errored + crawlErrors.length + configErrors.length;
-  writeFileSync(resolve(outDir, 'report.json'), JSON.stringify({
+  writeJson('report.json', {
+    runId, runnerVersion: RUNNER_VERSION,
     generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
     pages: results, configErrors, crawlErrors, scopeHash,
-  }, null, 2));
+  });
 
   // Rapport markdown : regroupé par règle, trié par impact
   const impactRank = { critical: 0, serious: 1, moderate: 2, minor: 3 };
@@ -424,7 +483,7 @@ async function run() {
     for (const e of configErrors) md += `- config : ${e}\n`;
     md += '\n';
   }
-  writeFileSync(resolve(outDir, 'report.md'), md);
+  writeText('report.md', md);
   console.log(`\n${outDir}/report.md — ${totalRules} règle(s), ${totalNodes} occurrence(s), ${errorCount} erreur(s), ${totalIncomplete} incomplet(s)`);
 
   if (configErrors.length) for (const e of configErrors) console.error(`[config] ${e}`);
@@ -432,4 +491,15 @@ async function run() {
   process.exit(totalRules > 0 ? 1 : 0);
 }
 
-run().catch(e => { console.error(e); process.exit(2); });
+run().catch(e => {
+  console.error(e);
+  // Échec global (ex. navigateur non lançable) : on écrit quand même les
+  // rapports d'erreur du RUN COURANT — jamais un report.json périmé pris
+  // pour une preuve récente.
+  try {
+    writeErrorReports([`erreur fatale du run : ${e.message}`], []);
+  } catch (w) {
+    console.error('impossible d\'écrire le rapport d\'erreur :', w);
+  }
+  process.exit(2);
+});
