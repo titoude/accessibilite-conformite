@@ -689,6 +689,10 @@ Puis, pour chaque dépôt :""" + """
    EN PLUS, dans ta réponse structurée : patch_diff = le patch COMPLET en texte
    (pas une référence — l'évaluateur indépendant le rejoue), patch_sha256 =
    sha256 hex de ce diff, scope_json_final = contenu du scope.json final.
+   Le patch doit aussi livrer scripts/a11y/audit.mjs avec sa carte STATES figée,
+   manifest.json et les commandes exactes de provenance nécessaires au rejeu.
+   Les fichiers nouveaux doivent apparaître dans le diff : utilise git add
+   --intent-to-add uniquement sur les chemins de livraison autorisés, sans secret.
 8. Remplis le schéma par dépôt. criterion_status : UNIQUEMENT ces clés canoniques —
    keyboard_full, focus_visible, modal_dialog, skip_link, reflow_320px,
    color_contrast, alt_quality, forms_labels_errors, status_announcements,
@@ -836,14 +840,23 @@ Tu n'as rien corrigé ; tu REJOUES la preuve. Pour le dépôt indiqué :
 2. Vérifie sha256 du patch ci-dessous == patch_sha256 déclaré (patch_identity_ok).
 3. `git apply` le patch ; install VERROUILLÉE (npm ci / yarn --frozen-lockfile /
    équivalent) + build/lint du projet → install_build.
-4. Démarre l'app, écris scripts/a11y/audit.mjs (fourni ci-dessous), relance
-   `node scripts/a11y/audit.mjs <url> --states all --out a11y-eval` ; rapporte
-   final_violations mesuré et le scopeHash de scope.json.
+4. Démarre l'app et utilise scripts/a11y/audit.mjs livré par le patch, avec sa
+   carte STATES figée. Le runner ci-dessous sert de RÉFÉRENCE pour vérifier
+   qu'aucune règle n'a été affaiblie hors configuration des états ; ne remplace
+   jamais le runner livré par cette référence dont STATES est vide.
+   Rejoue la commande exacte conservée dans la provenance (URLs, préconditions,
+   états, options et données du manifeste), vers un nouveau dossier a11y-eval.
+   --states none est légitime uniquement si le manifeste déclare zéro état.
+   Compare les scénarios, scopeHash et statesHash mesurés au scope final annoncé
+   ci-dessous. Ce dernier est une déclaration à contrôler, pas une mesure de rejeu.
+   Rapporte final_violations et scope_hash depuis les nouveaux fichiers produits.
+   Harnais, manifeste, commande ou preuve de périmètre manquants : NOT_TESTED
+   avec les pièces absentes dans evidence ; ne les reconstruis pas à partir du score.
 5. verdict=PASS seulement si patch appliqué + install+build OK + 0 violation +
    périmètre complet. Tout écart = FAIL avec evidence. Tout non-testable =
    NOT_TESTED avec evidence. AUCUN secret dans les sorties.
 
-Runner audit.mjs :
+Runner audit.mjs de référence (ne pas écraser la configuration livrée) :
 ```javascript
 """ + AUDIT_SCRIPT + """
 ```
@@ -855,6 +868,8 @@ def eval_prompt(r):
             + f"\nDépôt : {r['repo']} — commit_sha attendu : {r.get('commit_sha', '?')}"
             + f"\nInstall/build de référence : {r.get('install_build', '?')}"
             + f"\npatch_sha256 déclaré : {r.get('patch_sha256', '?')}"
+            + f"\nscopeHash final déclaré : {r.get('scope_hash_final', '?')}"
+            + f"\n\nscope.json final déclaré :\n```json\n{r.get('scope_json_final', '')}\n```\n"
             + f"\n\npatch.diff :\n```diff\n{r.get('patch_diff', '')}\n```\n")
 
 

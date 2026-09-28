@@ -9,7 +9,7 @@ Run `pnpm test` after the locked installation.
 | Check | Evidence | Scope |
 | --- | --- | --- |
 | Embedded scanner parity | `tests/test_runner_parity.py` | Three orchestration copies equal the source |
-| Decision regressions | `tests/test_decisions.py` | 14 tests with subcases: contradictory/missing replay data, base commit, counters, digest, scope, budget and findings |
+| Decision regressions | `tests/test_decisions.py` | 15 tests with subcases: contradictory/missing replay data, base commit, counters, digest, scope transfer, budget and findings |
 | Assertion mutants | `tests-validateurs/validateurs.mjs` | 9 deliberately broken cases plus valid controls |
 | Real Chromium integration | `tests/browser.test.mjs` | 7 tests with subcases: clean/broken pages, redirects, HTTP, CLI validation, stale evidence and accessible names |
 | Teaching demonstration | `tests/demo.test.mjs` | Complete keyboard reservation; 4 corrected states scanned; 320 CSS-pixel reflow and forced-colors operation |
@@ -51,5 +51,7 @@ There was no paired control without the skill. These results cannot isolate the 
 Freeze commits, tools, manifest, evaluator and prompts before either arm. Isolate workers, give them identical tools/budgets, and prevent the control from seeing the skill or sibling outputs. Replay source patches on fresh clones. Preserve failures, incompletes, timeouts and regressions.
 
 Require raw reports and an executable harness. Hashes prove identity, not truth. The metadata validator rejects contradictions but cannot replace an independent replay of actual files.
+
+The optional V3 adapter requires the configured runner, frozen manifest and replay commands in the delivered patch. Its independent evaluator receives the declared final scope, preserves the configured states and returns `NOT_TESTED` when replay inputs are missing. Prompt regression tests verify scope transfer; they do not establish that every agent follows these instructions.
 
 Publish per-project results before totals. Mark unavailable model/cost data honestly. One pair is a pilot, not statistical evidence of general effectiveness.

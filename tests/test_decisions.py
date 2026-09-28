@@ -123,6 +123,19 @@ class BenchmarkDecisions(unittest.TestCase):
         self.assertEqual(self.verdict(self.result), "INCOMPLETE")
 
 
+class ReplayContext(unittest.TestCase):
+    def test_replay_receives_declared_scope_for_static_and_dynamic_runs(self):
+        module = load_definitions("benchmark-v3.py", {"AUDIT_SCRIPT", "EVAL_HEAD", "eval_prompt"})
+        for scope in ('{"statesRequested":["none"],"scenarios":[{"id":"/static-reference"}]}',
+                      '{"statesRequested":["settings-dialog"],"scenarios":[{"id":"/settings [state:settings-dialog]"}]}'):
+            with self.subTest(scope=scope):
+                result = {"repo": "example/app", "scope_json_final": scope,
+                          "scope_hash_final": "d" * 64}
+                prompt = module["eval_prompt"](result)
+                self.assertIn(scope, prompt)
+                self.assertIn(result["scope_hash_final"], prompt)
+
+
 class WorkflowDecisions(unittest.TestCase):
     def test_final_evaluation_controls_success_report(self):
         for filename in ("workflow.py", "workflow-cdv.py"):
