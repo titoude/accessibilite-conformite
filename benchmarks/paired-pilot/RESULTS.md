@@ -39,17 +39,23 @@ Mapping used the public API: `axe.getRules().filter(r => (r.actIds||[]).includes
 
 | outcome | count |
 |---|---|
-| agree_fail (expected failed → mapped rule(s) flagged the fixture) | 40 |
+| agree_fail (expected failed → mapped rule(s) flagged the fixture) | 39 |
 | consistent_no_violation (expected passed/inapplicable → no mapped violation) | 62 |
 | divergent | 0 |
 | unscorable (non-HTML fixture: 2 SVG → `addScriptTag` fails, 1 XML → browser download) | 3 |
+| unsupported_external_dependency (`c487ae/7b3b94c0` fetches `img src` from github.com — unresolvable offline) | 1 |
 | execution error | 0 |
 
-Reported as **105 attempted / 102 scored / 0 divergent** — NOT "105/105 agreement".
-The 3 unscorable cases are kept visible; inapplicability is never inferred from
-absence of a violation. The same split was independently reproduced by the
-reviewer (105 fixture + 5 asset hashes match; they label the 3 as execution
-errors — same cases). Mapped-rule results preserve the **verbatim** axe output
+Reported as **105 attempted / 101 scored / 0 divergent** — NOT "105/105 agreement".
+The runner enforces a local-only request policy (`calibration/net-policy.mjs`,
+regression-tested by `calibration/test-net-policy.mjs`): every non-local
+request is aborted AND recorded per case as `network_attempts`. Fetched
+external refs (src=, link href=) make a case `unsupported_external_dependency`
+rather than a partial replay; inert refs (`a href`, form action) are recorded
+as `external_references_inert` and never fetched. The 3 unscorable cases are
+kept visible; inapplicability is never inferred from absence of a violation.
+The split was independently reproduced by the reviewer (105 fixture + 5 asset
+hashes match). Mapped-rule results preserve the **verbatim** axe output
 (`raw_axe_mapped`, incl. testEngine/passes/inapplicable); the all-rules context
 run is summarized and labelled `raw_axe_all_rules_summary`. Cases whose axe rule
 map is empty stay `unsupported_no_axe_mapping` — no fallback scan.
@@ -59,17 +65,20 @@ remediation skill.
 
 ## Track 2 — paired remediation pilot
 
-Two isolated child sessions, byte-identical frozen prompts (commit `271ba8e`),
-identical tools/scope/budgets. The WITH arm additionally received the verbatim
-treatment files from PR #1 @ `b415cf39`; the control prompt is neutral and
-contains no skill material, no expected fixes, no held-out detail.
+Two isolated child sessions, each receiving its own frozen prompt verbatim
+(`prompts/arm-with-skill.rendered.md` / `prompts/arm-control.rendered.md`,
+assembled at commit `271ba8e` — the two prompts are NOT identical to each
+other; they share the frozen runner, scope, tools and budgets). The WITH arm
+additionally received the verbatim treatment files from PR #1 @ `b415cf39`;
+the control prompt is neutral and contains no skill material, no expected
+fixes, no held-out detail.
 
 | | baseline | control | with-skill |
 |---|---|---|---|
 | worker session | — | devin-8f0c038c24ad4eb9b8376e85f73c56b1 | devin-e082328e303f4e0c90dca09d1e8b19e9 |
 | patch sha256 | — | `37c64103…` | `278d30dd…` |
-| rounds used | — | 3 (exhausted) | 2 |
-| correction minutes (self-reported) | — | 14.0 | 18.0 |
+| rounds used (self-reported, unverified) | — | 3 (exhausted) | 2 |
+| correction minutes (self-reported, unverified — never independently measured) | — | 14.0 | 18.0 |
 | patch applies cleanly on pinned clone | — | yes | yes |
 | install / pytest / boot | — | pass / 33-33 / pass | pass / 33-33 / pass |
 | axe violation nodes (evaluator replay) | 108 | **1** | **1** |
@@ -77,8 +86,8 @@ contains no skill material, no expected fixes, no held-out detail.
 | new violation rules | — | none | none |
 | incomplete | 8 | 3 | 3 |
 | audit_exit | 1 | 1 | 1 |
-| heldout PASS/FAIL/NOT_TESTED | 9 / 6 / 3 | 14 / 1 / 3 | 14 / 1 / 3 |
-| heldout controls (5) | all PASS | all PASS | all PASS |
+| heldout PASS/FAIL/NOT_TESTED (18 total = 13 product checks + 5 instrumentation controls) | 9 / 6 / 3 | 14 / 1 / 3 | 14 / 1 / 3 |
+| heldout instrumentation controls (5 of the 18) | all PASS | all PASS | all PASS |
 | comparison verdict (score.py v2) | — | OK | OK |
 
 Scope integrity: `scopeHash` and `statesHash` identical across baseline and both
@@ -130,7 +139,7 @@ Held-out regressions: none in either arm.
    `--wait 500` settled-state fix, `--wait` timing recorded; baseline + both arms
    replayed identically under v3. The v1-protocol baseline (94 nodes) is
    preserved unmodified in `evaluation/baseline-v1-protocol/`.
-3. `score.py`/`test_score.py` evaluator revision: cherry-picked user-tested
+3. `score.py`/`test_score.py` evaluator revision: cherry-picked reviewer-tested
    commit `796add9eb302e522d7c6339d4c883cbae40f03d8` (30 tests pass here;
    accepts exit-1 partial scans, validates baseline page set/counters/heldout
    evidence on both sides, gates deltas on integrity + coverage loss). Its
@@ -138,6 +147,14 @@ Held-out regressions: none in either arm.
 4. `WHOOGLE_CSP=0` environment deviation (identical everywhere).
 5. Worker prompts frozen at `271ba8e`; evaluation runs used the committed
    harness only — no worker output was trusted as evidence.
+
+## Independent verification
+
+Reviewer replay (separate OS/toolchain — WSL Python 3.12.3, Node 24.15,
+Chromium 153) reproduced every measurement: same counts, same violation-node
+identities, same held-out statuses; published under
+`independent-review/` (commit `8925c3c` on branch `codex/pilot-independent-review`,
+cherry-picked into this PR; artifacts byte-preserved, unmodified).
 
 ## Reproduce
 

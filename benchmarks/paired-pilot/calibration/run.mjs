@@ -21,7 +21,14 @@
  *   any mapped axe INCOMPLETE result           => unscorable_incomplete
  *     (incompletes mean axe could not decide — never folded into pass/fail)
  *   fixture sha256 mismatch / HTTP / crash     => error (never scored)
+ *   fixture needs an unfrozen external resource => unsupported_external_dependency
  * All violations AND incompletes (mapped and unmapped rules) are recorded.
+ *
+ * OFFLINE POLICY: the page may only load bytes from the local fixture
+ * server — every other request is aborted and recorded (see net-policy.mjs).
+ * A fixture whose fetched dependencies (src=, link href=) point outside is
+ * unsupported, not "faithfully replayed with missing bytes". Inert refs
+ * (a href, form action) are recorded but never fetched by the browser.
  *
  * The axe rule list per ACT rule is recomputed LIVE via the PUBLIC API
  * axe.getRules() (ruleId + actIds) of the loaded build — not trusted from
@@ -36,6 +43,7 @@ import { readFileSync, writeFileSync, mkdirSync, renameSync, createReadStream, e
 import { resolve, dirname, extname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createServer } from 'node:http';
+import { isLocalRequest, fetchExternalRefs } from './net-policy.mjs';
 
 const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
@@ -100,7 +108,6 @@ await probe.close();
 const rows = [];
 let agreeFail = 0, consistent = 0, unscorable = 0, diverge = 0, errors = 0, unsupported = 0;
 const ASSET_REF = /\/WAI\/content-assets\/wcag-act-rules\/test-assets\/[^\s"'`)\\]+/g;
-const EXT_REF = /(?:src|href)\s*=\s*"(https?:\/\/[^"]+)"/g;
 
 for (const c of casesDoc.cases) {
   const liveRules = liveRulesByAct[c.ruleId] || [];
@@ -115,6 +122,7 @@ for (const c of casesDoc.cases) {
       sha256_verified: null, axeRuleIds: [], map_drift: mapDrift,
       observed_rules: [], incomplete_rules: [], all_violation_rules: [],
       missing_dependencies: [], external_dependencies: [],
+      external_references_inert: [],
       outcome: 'unsupported_no_axe_mapping', error: null };
     unsupported++;
     rows.push(row);
@@ -142,11 +150,21 @@ for (const c of casesDoc.cases) {
     const html = readFileSync(join(HERE, c.localFile), 'utf8');
     const refs = [...html.matchAll(ASSET_REF)].map(m => m[0].slice(ASSET_PREFIX.length));
     row.missing_dependencies = refs.filter(r => !existsSync(join(HERE, 'test-assets', r)));
-    row.external_dependencies = [...new Set([...html.matchAll(EXT_REF)].map(m => m[1]))];
+    // Fetched vs inert external refs: only src= / link href= are dereferenced
+    // by the browser at load; a/form hrefs are context, not dependencies.
+    const ext = fetchExternalRefs(html);
+    row.external_dependencies = ext.fetched;
+    row.external_references_inert = ext.inert;
     if (row.missing_dependencies.length) {
       row.outcome = 'unsupported_missing_dependency'; unsupported++;
       rows.push(row);
       console.log(`[unsupported_missing_dependency] ${c.ruleId}/${c.testcaseId.slice(0,10)} missing=${row.missing_dependencies.join(',')}`);
+      continue;
+    }
+    if (row.external_dependencies.length) {
+      row.outcome = 'unsupported_external_dependency'; unsupported++;
+      rows.push(row);
+      console.log(`[unsupported_external_dependency] ${c.ruleId}/${c.testcaseId.slice(0,10)} ext=${row.external_dependencies.join(',')}`);
       continue;
     }
     // axe can only run inside an HTML document — .svg/.xml fixtures have no
@@ -158,6 +176,14 @@ for (const c of casesDoc.cases) {
       continue;
     }
     const p = await browser.newPage();
+    // LOCAL-ONLY enforcement: record every request; abort non-local ones.
+    row.network_attempts = [];
+    await p.route('**/*', (route) => {
+      const ru = route.request().url();
+      const allowed = isLocalRequest(ru, PORT);
+      row.network_attempts.push({ url: ru, allowed });
+      if (allowed) route.continue(); else route.abort();
+    });
     const resp = await p.goto(url, { waitUntil: 'load', timeout: 20000 });
     if (!resp || resp.status() !== 200) throw new Error(`HTTP ${resp && resp.status()}`);
     await p.addScriptTag({ content: axeSrc });
@@ -185,8 +211,9 @@ for (const c of casesDoc.cases) {
     row.incomplete_rules = res.raw_mapped.incomplete.map(v => ({ id: v.id, nodes: v.nodes.length }));
     row.passed_mapped = res.raw_mapped.passes.map(v => ({ id: v.id, nodes: v.nodes.length }));
     row.inapplicable_mapped = res.raw_mapped.inapplicable.map(v => v.id);
-    row.all_violation_rules = res.all_ids;
-    row.all_incomplete_rules = res.all_incomplete_ids;
+    // labelled all-rules context (summary fields — see raw_mapped for evidence)
+    row.all_violation_rules = res.all_rules_summary.violations;
+    row.all_incomplete_rules = res.all_rules_summary.incomplete;
     const anyMapped = row.observed_rules.length > 0;
     const anyIncomplete = row.incomplete_rules.length > 0;
     if (anyIncomplete) {
@@ -230,5 +257,5 @@ const summary = {
 const tmp = join(outDir, 'calibration-results.json.tmp');
 writeFileSync(tmp, JSON.stringify(summary, null, 2));
 renameSync(tmp, join(outDir, 'calibration-results.json'));
-console.log(`\n${rows.length} cases: ${agreeFail} agree-fail, ${consistent} consistent-no-violation, ${unscorable} unscorable, ${diverge} divergent, ${errors} errors`);
+console.log(`\n${rows.length} cases: ${agreeFail} agree-fail, ${consistent} consistent-no-violation, ${unscorable} unscorable, ${diverge} divergent, ${errors} errors, ${unsupported} unsupported`);
 process.exit(errors > 0 || diverge > 0 ? 1 : 0);
