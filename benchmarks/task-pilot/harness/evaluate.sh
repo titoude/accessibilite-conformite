@@ -11,7 +11,9 @@ PATCH="${1:?patch file path, or '-' for unmodified baseline}"
 OUTDIR="${2:?output dir}"
 SHA="ff43b02e59dfa604386bb382034b2cd07c2bcd8a"
 PORT="${PORT:-8388}"
-export PATH="$HOME/opt/node/bin:$PATH"
+# Node comes from the caller's PATH when present (recorded in scope.json
+# via process.version); fall back to the box default only if missing.
+if ! command -v node >/dev/null; then export PATH="$HOME/opt/node/bin:$PATH"; fi
 
 mkdir -p "$OUTDIR"; OUTDIR="$(cd "$OUTDIR" && pwd)"
 WORK="$(mktemp -d /tmp/taskpilot-eval.XXXXXX)"
