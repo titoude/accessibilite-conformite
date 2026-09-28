@@ -1,3 +1,6 @@
+Historical V1 worker statements, retained as provenance. Original per-run audit
+artifacts and patches are not preserved here. These statements are not current
+independently replayable evidence; see docs/EVIDENCE.md and the paired pilot.
 
 ================================================================================
 SESSION bench-1 (miniflux, linkding, changedetection, whoogle, healthchecks, FreshRSS) — devin-9746d46201264d27812430d0bce434e3
@@ -68,7 +71,7 @@ Done. 81 → 0 axe violations on the frozen 11-page/state scope, committed local
 
 Verification: 22/22 deterministic checks pass (keyboard operability, focus visibility, modal trap+release, 320px reflow, reduced-motion). Adversarial eval found and fixed 4 real issues (global Tab trap on canvas, coachmark popover FocusScope trap, two invisible-focus gaps); 0 regressions.
 
-Reports: baseline (archived: consolidated in benchmark-results.json / RAPPORT-BENCHMARK-V1.md) · final (archived: consolidated in benchmark-results.json / RAPPORT-BENCHMARK-V1.md)
+Reports: original baseline/final artifacts are not preserved in this repository. Historical worker-reported summaries only: benchmark-results.json / RAPPORT-BENCHMARK-V1.md.
 
 Structured output submitted with criterion_status all PASS; coverage gaps and human-check notes included.
 
@@ -87,7 +90,7 @@ A11y protocol complete on Jermolene/TiddlyWiki5 — PASS.
 
 Baseline → final: 132 rule-level violations (~2807 nodes, 15 rules) → **0 on the identical frozen scope** (6 hash routes + 8 dynamic states = 14 pages). Fixes were source-level across ~59 files: modal dialog semantics + focus trap/restore, landmark roles, form/button labels, TOC anchors, palette contrast, 24px target sizes, 320px reflow, prefers-reduced-motion (JS+CSS). Deterministic verify: 20/20 (keyboard, focus-visible, modal trap+release, 320px no-h-scrollbar, reduced-motion). Adversarial eval: 3 held-out pages clean, untouched open/close flow intact, no false-PASS in diff. Committed locally as `ce265ba` (no push/PR).
 
-Reports: baseline (archived: consolidated in benchmark-results.json / RAPPORT-BENCHMARK-V1.md) · final (archived: consolidated in benchmark-results.json / RAPPORT-BENCHMARK-V1.md)
+Reports: original baseline/final artifacts are not preserved in this repository. Historical worker-reported summaries only: benchmark-results.json / RAPPORT-BENCHMARK-V1.md.
 
 Coverage gaps: menubar plugin not enabled on this wiki (keyboard flow unexercised; static markup clean). One pre-existing artifact: 2 harmless `/xhr` 404s from the filesystem syncer on page load, unrelated to changes.
 

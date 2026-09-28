@@ -1,5 +1,7 @@
 # Benchmark v1 — skill `accessibilite-conformite` sur 18 dépôts OSS réels
 
+> **Historical record, not current evidence.** The original V1 patches and per-run audit artifacts are not preserved here. The figures and conclusions below are historical agent reports, not independently replayable current results. The claimed failure-rate bound below is not adopted: these selected, unverified outcomes do not establish a general failure probability. See the [evidence ledger](docs/EVIDENCE.md) and the [paired pilot with independent replay](benchmarks/paired-pilot/RESULTS.md) for the current evidence and its limits. The original report is retained below for provenance.
+
 **Date** : 26 septembre 2026 · **Run** : `wfr-0d0c572d675b401eb8facf2c842ac123` (3 agents Devin, ~5h37 wall) · **Protocole** : BENCHMARK-PLAN.md v2 (méthodo durcie après audit ChatGPT : périmètre gelé, correcteur ≠ vérificateur ≠ évaluateur final, aucune règle désactivée, corrections dans le code source livré, aucun push/PR — tout en local).
 
 ## Verdict global
