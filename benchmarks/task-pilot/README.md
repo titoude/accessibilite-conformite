@@ -23,11 +23,13 @@ code. One pair; no causal claims.
   server), `net-policy.mjs` (only `http://127.0.0.1:<port>` + `about:/data:/
   blob:`), `audit.todo.mjs` (runner), `task-checks.mjs` (three journeys),
   `test-controls.mjs` + `test-cli.mjs` (the gate).
-- `harness/fixtures/` — synthetic controls: 3 positive variants, 7 negative
-  mutants proven to falsely pass earlier revisions, plus `cli-errors.html`
-  for the CLI fatal gate.
-- `baseline/run-1/` — raw measured baseline at head `4da572d` (report.json,
-  scope.json, eval-status.env, logs).
+- `harness/fixtures/` — synthetic controls: 4 positive variants (incl. a
+  700ms delayed-render one) and 10 negative mutants covering every
+  reviewed false-accept (broken filters, invisible list, checked/class
+  contradiction, self-checking toggle-all, focus sink, no-commit edit,
+  dblclick-only, survivor relabel, data-id replacement on filter/clear),
+  plus isolated `cli-*` fixtures for the CLI fatal gate.
+- `baseline/run-3-node22/` — raw measured baseline at committed head `eb71eb5` on Node v22.23.3 (report.json, scope.json, eval-status.env, logs).
 
 ## Reproduce (from repo root, pinned deps via `pnpm install --frozen-lockfile --ignore-scripts`)
 

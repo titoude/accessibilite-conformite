@@ -2,7 +2,7 @@
 
 You are fixing an existing vanilla-JavaScript TodoMVC app so keyboard users can complete real tasks. The evaluator drives the app with real keyboard events only and checks actual item identities.
 
-The skill files are provided verbatim in the `skill/` directory next to this prompt (SKILL.md, checklist.md, assertions.mjs). Read SKILL.md first and follow it.
+The skill is provided verbatim in the `skill/` directory next to this prompt at its original relative paths (SKILL.md, checklist.md, audit.mjs, README.md, templates/, docs/RELEASE-READINESS.md, tests-validateurs/assertions.mjs). Read skill/SKILL.md first and follow it; helper paths it references (templates/, tests-validateurs/assertions.mjs) resolve inside `skill/`.
 
 ## Target
 

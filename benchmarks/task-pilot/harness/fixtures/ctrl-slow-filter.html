@@ -51,7 +51,7 @@ list.addEventListener('dblclick', (e) => { if (e.target.tagName === 'LABEL') ope
 
 toggleAll.addEventListener('change', () => { for (const it of items.values()) { it.done = toggleAll.checked; it.li.classList.toggle('completed', it.done); it.li.querySelector('.toggle').checked = it.done; } render(); });
 clear.addEventListener('click', () => { for (const [i, it] of items) if (it.done) { it.li.remove(); items.delete(i); } render(); });
-window.addEventListener('hashchange', () => setTimeout(render, 350));
+window.addEventListener('hashchange', () => setTimeout(render, 700));
 render();
 </script>
 </body>

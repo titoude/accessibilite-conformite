@@ -8,7 +8,7 @@
     "license": "MIT (upstream license.md \u2014 notices preserved)",
     "install": "npm ci --omit=dev --ignore-scripts --no-audit --no-fund in examples/javascript-es5 (the two locked production deps: todomvc-app-css 2.4.2, todomvc-common 1.0.5); raw index/src runs, no build",
     "serve": "repository root on 127.0.0.1:<port>; app at /examples/javascript-es5/ so /learn.json resolves",
-    "offline_evidence": "baseline run-1: 36 requests, all http://127.0.0.1:8388/* \u2014 zero external attempts (see baseline/run-1/report.json network_attempts). The api.github.com sidebar call in todomvc-common/base.js did not fire (learn.json entry has no issueLink for this example)."
+    "offline_evidence": "baseline/run-3-node22: all requests http://127.0.0.1:8388/* \u2014 zero external attempts (see baseline/run-3-node22/report.json network_attempts). The api.github.com sidebar call in todomvc-common/base.js did not fire (learn.json entry has no issueLink for this example)."
   },
   "arms": {
     "treatment": {
@@ -36,7 +36,8 @@
     "mode_recording": "requested devin_mode and the returned/effective mode/model metadata are recorded separately in arms/<arm>/session-meta.json. If 'lite' is rejected or the two workers come back with different effective modes, dispatch STOPS and the asymmetry is reported \u2014 no silent substitution.",
     "interpretation": "Lite-preset pilot only. The preset name does not establish underlying model weights; results say nothing about a known weaker model.",
     "slots": "at most 2 worker sessions, sequential acceptable",
-    "budgets": "max 3 correction rounds; 20-minute session wall-time per arm INCLUDING setup, measured from platform event timestamps; partial patch preserved on timeout. Self-reported minutes are labelled unverified."
+    "budgets": "max 3 correction rounds; 20-minute session wall-time per arm INCLUDING setup, measured from platform event timestamps; partial patch preserved on timeout. Self-reported minutes are labelled unverified.",
+    "provisioning": "provisioning/worker-layout.md \u2014 frozen file layout + commands identical for both arms; treatment adds only skill/ bundle"
   },
   "evaluation_contract": {
     "runner": "harness/evaluate.sh <patch.diff|-> <outdir> \u2014 fresh mktemp clone -> pin checkout -> optional git apply --check -> npm ci (omit=dev, ignore-scripts) -> serve repo root -> harness/audit.todo.mjs",
@@ -59,7 +60,7 @@
       "ctrl-complete (aria-label edit button)",
       "ctrl-labelledby (aria-labelledby hidden span)",
       "ctrl-label-enter (focusable label, Enter opens edit)",
-      "ctrl-slow-filter (render lands ~350ms after hashchange \u2014 proves rendered-outcome waits)"
+      "ctrl-slow-filter (render lands 700ms after hashchange \u2014 proves rendered-outcome waits)"
     ],
     "negative": [
       "ctrl-no-all (All-link preventDefault)",
@@ -78,8 +79,16 @@
     "rule": "controls exercise the SAME published task functions and the real CLI; outcomes are never weakened to make the evaluator pass"
   },
   "baseline": {
-    "dir": "baseline/run-2 (re-run after evaluator corrections; run-1 not retained \u2014 identical outcomes)",
-    "head_measured": "4975cbd07c0d977218a6bbeff2ebaf21c4049154",
+    "dir": "baseline/run-3-node22",
+    "head_measured": "eb71eb5c3ebf40b8d72a18ec51c7e75d061441fa",
+    "toolchain": {
+      "node": "v22.23.3",
+      "pnpm": "10.34.5",
+      "playwright": "1.63.0",
+      "axe": "4.13.0",
+      "chromium": "153.0.8010.12"
+    },
+    "prior_runs": "baseline/run-1 and run-2 were executed on a dirty working tree / Node 20 and are preserved as historical only; run-3 is the committed-head accepted baseline",
     "result": {
       "task1_add_complete_filter": "PASS",
       "task2_keyboard_edit": "FAIL \u2014 upstream binds editing to dblclick only; no keyboard affordance discovered",
@@ -89,7 +98,7 @@
       "external_requests": 0,
       "page_errors": 0
     },
-    "consistency_with_reviewer": "matches the reviewer's independent baseline (zero external requests, MemoryStorage reload reset, toggle-all self-check, axe label rule present post-items)"
+    "consistency_with_reviewer": "matches the reviewer's independent baseline (zero external requests, MemoryStorage reload reset, toggle-all self-check, axe label rule present post-items) and their Windows Node24 replay of task PASS/FAIL/FAIL + axe counts"
   },
   "deviations_and_limits": [
     "n=1 pair \u2014 no causal claim, no generalization",
