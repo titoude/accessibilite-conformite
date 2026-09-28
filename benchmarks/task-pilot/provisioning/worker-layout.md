@@ -1,9 +1,11 @@
 # Worker provisioning — frozen layout for both arms
 
-Phase boundary: the layout below is **baseline setup** performed BEFORE the
-20-minute correction budget starts. The 20-minute wall-clock covers the
-worker's actual remediation session only; provisioning, the frozen clone of
-`tastejs/todomvc` @ `ff43b02e`, and dependency install happen first.
+Budget boundary (identical both arms): the 20-minute wall-clock starts at
+platform worker-session creation and INCLUDES everything inside that session —
+any worker-side setup, waits, remediation and correction rounds. There is no
+pause or reset. Parent-only protocol preparation (this document, the frozen
+clone reference, evaluator) happens before worker creation and is outside the
+clock.
 
 ## Identical for BOTH arms
 
@@ -26,11 +28,12 @@ cd examples/javascript-es5
 npm ci --omit=dev --ignore-scripts --no-audit --no-fund   # two prod deps
 ```
 
-Recorded per arm (hashes of the three copied files + lockfile, node/npm/pnpm
-versions, clone HEAD). **Generic tools/config only** — no SKILL.md content,
-no evaluator harness, no fixtures, no sibling-arm data, no `.git` of the
-benchmark repo, and workers are prohibited from consulting the experimental
-repository or the other arm online.
+The three shared config files are copied verbatim from the approved freeze
+SHA `3f78d7c3668d108df26a43cff364c8cff946849f` — hashes recorded per arm
+along with node/npm/pnpm versions and clone HEAD. **Generic tools/config
+only** — no SKILL.md content, no evaluator harness, no fixtures, no
+sibling-arm data, no `.git` of the benchmark repo, and workers are prohibited
+from consulting the experimental repository or the other arm online.
 
 ## TREATMENT arm additionally
 

@@ -36,7 +36,7 @@
     "mode_recording": "requested devin_mode and the returned/effective mode/model metadata are recorded separately in arms/<arm>/session-meta.json. If 'lite' is rejected or the two workers come back with different effective modes, dispatch STOPS and the asymmetry is reported \u2014 no silent substitution.",
     "interpretation": "Lite-preset pilot only. The preset name does not establish underlying model weights; results say nothing about a known weaker model.",
     "slots": "at most 2 worker sessions, sequential acceptable",
-    "budgets": "max 3 correction rounds; 20-minute session wall-time per arm INCLUDING setup, measured from platform event timestamps; partial patch preserved on timeout. Self-reported minutes are labelled unverified.",
+    "budgets": "20-minute wall-clock per arm measured from platform worker-session creation \u2014 INCLUDES all worker-side setup/waits/remediation; no pause or reset. Parent-only protocol preparation precedes creation and is outside the clock. Max 3 correction rounds; partial patch preserved on timeout. Self-reported minutes are labelled unverified.",
     "provisioning": "provisioning/worker-layout.md \u2014 frozen file layout + commands identical for both arms; treatment adds only skill/ bundle"
   },
   "evaluation_contract": {
@@ -88,7 +88,7 @@
       "axe": "4.13.0",
       "chromium": "153.0.8010.12"
     },
-    "prior_runs": "baseline/run-1 and run-2 were executed on a dirty working tree / Node 20 and are preserved as historical only; run-3 is the committed-head accepted baseline",
+    "prior_runs": "baseline run-1 (4da572d) and run-2 (820e05e) were executed on a dirty working tree / Node 20 \u2014 historical evidence only, viewable at immutable commits: https://github.com/titoude/accessibilite-conformite/tree/3e863959bcb1dac87de41e914c80d41db78ced25/benchmarks/task-pilot/baseline run-3-node22 is the committed-head accepted baseline",
     "result": {
       "task1_add_complete_filter": "PASS",
       "task2_keyboard_edit": "FAIL \u2014 upstream binds editing to dblclick only; no keyboard affordance discovered",

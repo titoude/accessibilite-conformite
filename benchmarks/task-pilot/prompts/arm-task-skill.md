@@ -22,6 +22,11 @@ The skill is provided verbatim in the `skill/` directory next to this prompt at 
 
 ## Rules
 
+- Offline work only: do NOT consult the experimental repository
+  (titoude/accessibilite-conformite), its issues/PRs, or any sibling worker
+  session's output. Your three config files (package.json, pnpm-lock.yaml,
+  pnpm-workspace.yaml) are verbatim copies from freeze commit
+  `3f78d7c3668d108df26a43cff364c8cff946849f`.
 - Real keyboard operability — programmatic-only hooks that no keyboard focus can reach do not count.
 - Do not break existing mouse behavior (dblclick edit, click toggles).
 - Budgets: max 3 correction rounds; 20-minute session wall-time including setup. Report your actual elapsed minutes honestly — they are recorded as self-reported.
