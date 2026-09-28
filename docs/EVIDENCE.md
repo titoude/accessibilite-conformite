@@ -75,7 +75,6 @@ so their results must not be pooled into a general effectiveness score.
 | Scanner behavior on recognized reference cases? | Selected W3C ACT cases; see per-case outcomes and limits in the [calibration report](../benchmarks/paired-pilot/RESULTS.md) |
 | Actual assistive-technology user tasks? | NEEDS_HUMAN_REVIEW |
 | Full corpus WCAG/RGAA conformance? | NOT_ESTABLISHED |
-| Opethon eligibility of earlier work? | Organizer ruling required |
 
 [ACT Rules](https://www.w3.org/WAI/standards-guidelines/act/rules/) provide reference cases. A selected subset is not a full WCAG audit, and scanner calibration is not an agent-remediation benchmark.
 

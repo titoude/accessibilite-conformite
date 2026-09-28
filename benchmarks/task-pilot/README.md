@@ -16,11 +16,13 @@ code. One pair; no causal claims.
   evaluation contract, controls, baseline result, limits.
 - `prompts/arm-task-skill.md`, `prompts/arm-task-control.md` — per-arm prompts;
   the task-requirement text is identical, only the skill preamble differs.
-- `treatment/` — dependency-complete bundle verbatim from `f7fb27e` at
+- `treatment/` — the trial used the dependency-complete bundle from `f7fb27e` at
   original relative paths: `SKILL.md`, `checklist.md`, `audit.mjs`,
   `README.md`, `templates/{README.md,wcag-2.2-aa.csv}`,
   `docs/RELEASE-READINESS.md`, `tests-validateurs/assertions.mjs`
-  (8 files, sha256 in `provenance.json`).
+  (8 files). Two published documentation copies were edited after the trial;
+  source and publication hashes are separate in `treatment/provenance.json`.
+  Restore the original bytes from `source_commit` when reproducing agent inputs.
 - `harness/` — `evaluate.sh` (fresh clone → pin → `npm ci --omit=dev
   --ignore-scripts` → serve repo root → audit), `serve.mjs` (zero-dep static
   server), `net-policy.mjs` (only `http://127.0.0.1:<port>` + `about:/data:/
