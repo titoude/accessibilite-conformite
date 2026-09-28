@@ -20,9 +20,11 @@ honestly, not reconstructed:
 
 treatment task2 failed steps (observed, verbatim):
 - "focus after commit lands on visible affordance of same item": FAIL —
-  focus landed on `input.toggle` (checkbox) inside the correct li
+  focus landed on `input.toggle` (checkbox) inside the correct li, but the
+  frozen checkVisibility({checkOpacity, checkVisibilityCSS}) predicate
+  rejected it (opacity-hidden in the app's stylesheet)
 - "focus after cancel lands on visible affordance of same item": FAIL —
-  same landing
+  same landing, same predicate rejection
 
 All other task2 steps PASS (affordance discovered via F2; commit preserves
 id + exits edit; Escape cancels with text unchanged + id preserved; dblclick
@@ -52,8 +54,18 @@ verified-free port 8396 in `eval-round2/`:
 |-----|--------------|-------|-------|-------|-------------|--------------|-------|
 | treatment (round 2) | 73a980a2…b3fbb4 | PASS | PASS | PASS | 0 | 0 | none |
 
-**Pair outcome: both arms converge to PASS/PASS/PASS.** The skill changed
-neither the task outcomes nor which checks initially failed (treatment's r1
-focus-commit/cancel failure was self-corrected after identical step-status
-feedback; control passed outright on r1). One pair — no causal or
-generalizable claim; self-reported worker minutes remain unverified.
+**Pair outcome: FINAL task outcomes are equal (PASS/PASS/PASS both arms),
+but INITIAL outcomes differed** — control passed 3/3 on round 1, treatment
+passed 2/3 and needed one correction round to reach 3/3. Treatment's r1
+focus-commit/cancel failure was corrected after identical step-status
+feedback. One pair — no causal or generalizable claim; self-reported worker
+minutes remain unverified.
+
+## Submission / retrieval timestamps
+
+- Treatment r2 patch delivered by the worker ~13:31 Paris (before its
+  11:41:32 UTC deadline); the parent's retrieval + evaluation ran after —
+  the artifact's submission was before deadline, parent's pick-up was late.
+  No worker repair ran post-deadline.
+- Evaluator/inputs frozen at eb71eb5 / dee0f5a; nothing in the harness or
+  task code changed during the trial.

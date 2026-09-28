@@ -45,7 +45,8 @@
       "sessions_created": 0,
       "interpretation": "Platform entitlement failure, zero experimental sessions/data. NOT evidence the arms differ or that lite is weaker. Substituted per Codex supervising-reviewer decision under the user's delegation with inherited preset; this is an equal-preset pilot, not a Lite-preset or weaker-model experiment.",
       "requested_vs_effective": "recorded per worker in arms/<arm>/session-meta.json at dispatch; underlying model/version remains unknown unless the platform supplies it"
-    }
+    },
+    "effective_mode_observed": "swe-2-max for both workers (symmetric \u2014 no asymmetry stop)"
   },
   "evaluation_contract": {
     "runner": "harness/evaluate.sh <patch.diff|-> <outdir> \u2014 fresh mktemp clone -> pin checkout -> optional git apply --check -> npm ci (omit=dev, ignore-scripts) -> serve repo root -> harness/audit.todo.mjs",
@@ -116,5 +117,34 @@
     "the with-skill arm of pilot 1 self-reported violations that differed from replay measurement \u2014 the same risk applies here; only evaluator replay counts",
     "skill-only additions vs. control: the treatment/ bundle files; no other setup difference"
   ],
-  "freeze_commit": "bdef03d69e7f8a49044debdaa15725f4a9bce011"
+  "freeze_commit": "bdef03d69e7f8a49044debdaa15725f4a9bce011",
+  "trial": {
+    "status": "COMPLETE \u2014 one pair, no further trials authorized",
+    "dispatch_head": "dee0f5a8c6be8b01ced6d7fcc6011a1728440d12",
+    "sessions": {
+      "control": {
+        "id": "75aa5458e5154f6caacb1dec67172dcd",
+        "created_at": 1790594491,
+        "deadline_20min": 1790595691,
+        "correction_rounds": 0,
+        "self_reported_minutes": "~5-6 (unverified)"
+      },
+      "treatment": {
+        "id": "d323a994d8ef4b0b84e9e4ee7d0efcb2",
+        "created_at": 1790594492,
+        "deadline_20min": 1790595692,
+        "correction_rounds": 1,
+        "self_reported_minutes": "~9 total (unverified)"
+      }
+    },
+    "result": {
+      "control_r1": "PASS/PASS/PASS (0 page errors, 0 external, no fatal)",
+      "treatment_r1": "PASS/FAIL/PASS \u2014 focus after commit/cancel landed on opacity-hidden input.toggle inside the correct li (checkVisibility rejected it)",
+      "treatment_r2": "PASS/PASS/PASS \u2014 submitted before deadline (parent retrieved after; no post-deadline worker repair)",
+      "final_equal": true,
+      "initial_differed": true,
+      "residual_axe_identical": "initial heading-order x1, landmark-one-main x1, region x1; final heading-order x1, label x2, region x3 \u2014 reported separately from task pass; AT/zoom NOT_TESTED"
+    },
+    "artifacts": "arms/<arm>/{worker-patch.diff,worker-patch-round2.diff?,report.md,sent-prompt.md,session-meta.json,eval*/}; sha256 in provenance.json; eval-run logs + diagnostic attempt preserved"
+  }
 }

@@ -16,8 +16,11 @@ code. One pair; no causal claims.
   evaluation contract, controls, baseline result, limits.
 - `prompts/arm-task-skill.md`, `prompts/arm-task-control.md` — per-arm prompts;
   the task-requirement text is identical, only the skill preamble differs.
-- `treatment/` — verbatim `SKILL.md`, `checklist.md`,
-  `tests-validateurs/assertions.mjs` from `f7fb27e` (+ `provenance.json` sha256).
+- `treatment/` — dependency-complete bundle verbatim from `f7fb27e` at
+  original relative paths: `SKILL.md`, `checklist.md`, `audit.mjs`,
+  `README.md`, `templates/{README.md,wcag-2.2-aa.csv}`,
+  `docs/RELEASE-READINESS.md`, `tests-validateurs/assertions.mjs`
+  (8 files, sha256 in `provenance.json`).
 - `harness/` — `evaluate.sh` (fresh clone → pin → `npm ci --omit=dev
   --ignore-scripts` → serve repo root → audit), `serve.mjs` (zero-dep static
   server), `net-policy.mjs` (only `http://127.0.0.1:<port>` + `about:/data:/
@@ -40,8 +43,11 @@ pnpm test:task-pilot
 # re-run the baseline (fresh clone of tastejs/todomvc @ ff43b02e)
 bash benchmarks/task-pilot/harness/evaluate.sh - /tmp/taskpilot-baseline
 
-# evaluate a worker patch
-bash benchmarks/task-pilot/harness/evaluate.sh path/to/worker-patch.diff /tmp/taskpilot-eval
+# evaluate a worker patch — the patch path must be ABSOLUTE (the script
+# clones into mktemp and relatives resolve inside the clone, not your cwd);
+# use a fresh, unique output directory per run and run evaluations SERIALLY
+# (a second concurrent run trips the server's port-ownership check)
+bash benchmarks/task-pilot/harness/evaluate.sh "$PWD/arms/control/worker-patch.diff" /tmp/taskpilot-eval-control
 ```
 
 `audit.todo.mjs` exits nonzero on any execution-level failure (navigation,
@@ -73,8 +79,24 @@ task-checks + net-policy sources).
 
 Max 3 correction rounds, 20-minute session wall-time per arm **including
 setup**, measured from platform event timestamps; partial patch preserved on
-timeout. Workers run the inherited preset (`devin_mode` omitted — parent
-SWE-2); a Lite request was rejected at platform preflight (HTTP 400, zero
-sessions — recorded in `manifest.json` → `worker_config.lite_rejection`).
-Requested vs. returned/effective mode is still recorded separately per arm,
-and dispatch stops if the presets differ.
+timeout. Workers ran the **inherited preset** (`devin_mode` omitted); the
+platform returned effective mode `swe-2-max` for both. A prior Lite request
+was rejected at platform preflight (HTTP 400, zero sessions created —
+recorded in `manifest.json` → `worker_config.lite_rejection`); the
+substitution was a supervising-reviewer decision under the user's
+delegation, not a weaker-model claim.
+
+## Trial results (Phase B, frozen evaluator eb71eb5 — see `arms/EVALUATION.md`)
+
+| arm | rounds | task1 | task2 | task3 |
+|-----|--------|-------|-------|-------|
+| control | 1 | PASS | PASS | PASS |
+| treatment | 2 | PASS | PASS (r2) | PASS |
+
+Final task outcomes are equal; initial outcomes differed (control 3/3 on
+round 1, treatment 2/3 then corrected after identical step-status feedback).
+Residual axe findings are identical across both arms and **reported
+separately** from the task checks — initial `heading-order`×1,
+`landmark-one-main`×1, `region`×1; final `heading-order`×1, `label`×2,
+`region`×3 — they are contextual axe output, not the custom task contract,
+and AT/zoom remain `NOT_TESTED`.
