@@ -2,7 +2,7 @@
   "name": "accessibilite-conformite",
   "private": true,
   "version": "3.0.0",
-  "description": "Kit accessibilité pour agents IA — audit axe-core + workflow vérifié (WCAG 2.2 AA / RGAA / EAA)",
+  "description": "Accessibility skill and toolkit for coding agents, with reproducible evidence and human review gates",
   "type": "module",
   "license": "MIT",
   "packageManager": "pnpm@10.34.5",
@@ -17,7 +17,9 @@
     "test:decisions": "python -X utf8 -m unittest discover -s tests -p test_decisions.py -v",
     "test:validateurs": "node tests-validateurs/validateurs.mjs",
     "test:browser": "node --test tests/browser.test.mjs",
-    "test": "pnpm test:parity && pnpm test:decisions && pnpm test:validateurs && pnpm test:browser"
+    "demo": "python -X utf8 -m http.server 4173 --bind 127.0.0.1 --directory demo",
+    "test:demo": "node --test tests/demo.test.mjs",
+    "test": "pnpm test:parity && pnpm test:decisions && pnpm test:validateurs && pnpm test:browser && pnpm test:demo"
   },
   "devDependencies": {
     "axe-core": "4.13.0",

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Before — accessibility teaching demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="broken">
+<main>
+  <header>
+    <p class="kicker">Accessibility, with evidence / Before</p>
+    <h1>A small form.<br>A real barrier.</h1>
+    <p>Intentionally broken teaching fixture. No real booking or personal data is sent.</p>
+    <a href="after.html">Open the corrected example</a>
+  </header>
+  <section class="card" aria-labelledby="booking-title">
+    <h2 id="booking-title">Book a community workshop</h2>
+    <p>Choose a place for a free, fictional introduction to accessible design.</p>
+    <div class="field">
+      <span class="label">Display name</span>
+      <input id="name" autocomplete="off">
+      <p class="bad-help">Use a fictional name for this demo.</p>
+    </div>
+    <div class="field">
+      <span class="label">Workshop format</span>
+      <select id="format"><option>Online</option><option>In person</option></select>
+    </div>
+    <div class="fake-button" id="book">Reserve a place</div>
+    <p class="status" id="status"></p>
+  </section>
+  <footer class="note">
+    <p>Try Tab, Shift+Tab and Enter. The reservation control is a clickable div with no keyboard behavior. Field names and help text also need work.</p>
+    <p>This hand-authored example is a demonstration, not a measured agent experiment or a conformance certificate.</p>
+  </footer>
+</main>
+<script>
+document.querySelector('#book').onclick = () => {
+  document.querySelector('#status').textContent =
+    'Place reserved for ' + (document.querySelector('#name').value.trim() || 'Guest') +
+    ' (' + document.querySelector('#format').value + ').';
+};
+</script>
+</body>
+</html>

@@ -12,10 +12,13 @@ Run `pnpm test` after the locked installation.
 | Decision regressions | `tests/test_decisions.py` | 12 tests with subcases: contradictory/missing replay data, counters, digest, scope, budget and findings |
 | Assertion mutants | `tests-validateurs/validateurs.mjs` | 9 deliberately broken cases plus valid controls |
 | Real Chromium integration | `tests/browser.test.mjs` | 7 tests with subcases: clean/broken pages, redirects, HTTP, CLI validation, stale evidence and accessible names |
+| Teaching demonstration | `tests/demo.test.mjs` | Complete keyboard reservation; 4 corrected states scanned; 320 CSS-pixel reflow and forced-colors operation |
 
 Local verification: Windows, Node 24.15.0, Python 3.12.7, Playwright 1.63.0, axe-core 4.13.0, Chromium 153.0.8010.12. CI repeats the tests on Windows and Linux; inspect the actual checks for the reviewed commit. A workflow file alone is not a successful CI run.
 
 These synthetic regressions demonstrate specific failure rejection, not the absence of every defect.
+
+The [demo](../demo/README.md) preserves its full local reports in `test-results/demo/`. It has three rule violations in the deliberately broken initial state and zero violations/incompletes in four corrected states in the recorded local run. The source was hand-authored with AI assistance. It is not evidence that an isolated coding agent improved over a control.
 
 ## Historical corpus
 

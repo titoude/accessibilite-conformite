@@ -4,7 +4,7 @@
 
 An open-source skill and toolkit for websites and web applications. Designed for maintainers who need useful fixes with reproducible evidence.
 
-[Use the skill](SKILL.md) · [See the evidence](docs/EVIDENCE.md) · [Release checklist](docs/RELEASE-READINESS.md) · [Contribute](CONTRIBUTING.md)
+[Use the skill](SKILL.md) · [Try the demo](demo/README.md) · [See the evidence](docs/EVIDENCE.md) · [Release checklist](docs/RELEASE-READINESS.md) · [Contribute](CONTRIBUTING.md)
 
 ## From a barrier to a verified change
 
@@ -68,6 +68,19 @@ Useful options: `--urls /,/contact` for explicit routes, `--storage-state auth.j
 | `2` | Invalid configuration, navigation/execution error, or strict incomplete findings |
 
 Reports: `report.md`, `report.json`, `scope.json`. Configuration failures replace old evidence with a fresh error report.
+
+## Try a two-minute demonstration
+
+`pnpm demo` serves a local [before/after workshop form](demo/README.md). Follow the keyboard walkthrough: submit an empty field, select a format, confirm the reservation, and dismiss the dialog with focus restored. No real booking is made.
+
+`pnpm test:demo` replays the task and preserves full reports and screenshots. On the current local run, the broken initial page has three axe rule violations; the corrected initial, error, dialog and confirmation states have zero violations and zero incomplete findings. This is a hand-authored teaching example, not a measured AI-remediation result.
+
+<details>
+<summary>See the corrected example after a keyboard reservation</summary>
+
+![The corrected workshop form shows named fields, a visible focus ring around Reserve a place, and the confirmation Place reserved for Alex, In person.](docs/assets/demo-after.png)
+
+</details>
 
 ## Give the skill to an agent
 
