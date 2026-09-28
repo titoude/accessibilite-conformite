@@ -566,7 +566,7 @@ RESULT_SCHEMA = {
                     "repo": {"type": "string"},
                     "stack": {"type": "string"},
                     "booted": {"type": "boolean"},
-                    "commit_sha": {"type": "string", "description": "commit évalué, pour reproductibilité"},
+                    "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$", "description": "SHA Git complet de la base évaluée, avant application du patch"},
                     "baseline_violations": {"type": "integer"},
                     "baseline_rules": {"type": "integer"},
                     "baseline_pages": {"type": "integer"},
@@ -738,6 +738,8 @@ def validate_result(r):
     if r.get("install_build") == "pass" and r.get("failure"):
         errors.append("install_build=pass avec failure déclaré")
     if r.get("booted") is True and not r.get("failure"):
+        if not isinstance(r.get("commit_sha"), str) or not re.fullmatch(r"[0-9a-f]{40}", r["commit_sha"]):
+            errors.append("commit_sha absent ou invalide — base exacte non identifiée")
         # Les réponses JSON sont des entrées non fiables. False n'est pas le
         # compteur 0 et deux hashes absents ne prouvent pas une identité.
         for field in ("errors_baseline", "errors_final", "final_violations",
@@ -782,7 +784,8 @@ def validate_result(r):
             errors.append("rejeu indépendant mal formé")
         else:
             # Recalculer la décision : le seul mot PASS ne fait pas foi.
-            expected = {"repo": r.get("repo"), "patch_identity_ok": True,
+            expected = {"repo": r.get("repo"), "commit_sha": r.get("commit_sha"),
+                        "patch_identity_ok": True,
                         "replay_ok": True, "install_build": "pass",
                         "final_violations": 0, "scope_hash": r.get("scope_hash_final")}
             for field, value in expected.items():
@@ -813,6 +816,7 @@ EVAL_SCHEMA = {
     "type": "object",
     "properties": {
         "repo": {"type": "string"},
+        "commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$", "description": "git rev-parse HEAD mesuré sur le clone propre, avant application du patch"},
         "patch_identity_ok": {"type": "boolean", "description": "sha256 du patch reçu == patch_sha256 déclaré"},
         "replay_ok": {"type": "boolean", "description": "patch appliqué + install verrouillée + build réussis sur clone propre au commit_sha"},
         "install_build": {"type": "string", "pattern": "^(pass|fail:.+|skipped:.+)$"},
@@ -821,13 +825,14 @@ EVAL_SCHEMA = {
         "evidence": {"type": "string"},
         "verdict": {"type": "string", "enum": ["PASS", "FAIL", "NOT_TESTED"]},
     },
-    "required": ["repo", "patch_identity_ok", "replay_ok", "install_build",
+    "required": ["repo", "commit_sha", "patch_identity_ok", "replay_ok", "install_build",
                  "final_violations", "scope_hash", "evidence", "verdict"],
 }
 
 EVAL_HEAD = """Tu es l'ÉVALUATEUR INDÉPENDANT d'un benchmark accessibilité.
 Tu n'as rien corrigé ; tu REJOUES la preuve. Pour le dépôt indiqué :
-1. Clone public au commit_sha indiqué (pas HEAD).
+1. Clone public au commit_sha indiqué (pas HEAD). Mesure `git rev-parse HEAD`
+   avant application du patch et rapporte ce SHA complet dans commit_sha.
 2. Vérifie sha256 du patch ci-dessous == patch_sha256 déclaré (patch_identity_ok).
 3. `git apply` le patch ; install VERROUILLÉE (npm ci / yarn --frozen-lockfile /
    équivalent) + build/lint du projet → install_build.

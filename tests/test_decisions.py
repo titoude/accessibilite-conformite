@@ -29,7 +29,7 @@ class BenchmarkDecisions(unittest.TestCase):
         scope_hash = "a" * 64
         patch = "diff --git a/index.html b/index.html\n"
         self.result = {
-            "repo": "miniflux/v2", "booted": True, "failure": None,
+            "repo": "miniflux/v2", "commit_sha": "c" * 40, "booted": True, "failure": None,
             "scope_identical": True, "scope_hash_baseline": scope_hash,
             "scope_hash_final": scope_hash, "execution_complete": True,
             "errors_baseline": 0, "errors_final": 0, "axe_score": 0,
@@ -40,7 +40,8 @@ class BenchmarkDecisions(unittest.TestCase):
             "artifacts": list(self.module["REQUIRED_ARTIFACTS"]),
             "patch_diff": patch, "patch_sha256": hashlib.sha256(patch.encode()).hexdigest(),
             "eval_replay": {
-                "repo": "miniflux/v2", "patch_identity_ok": True, "replay_ok": True,
+                "repo": "miniflux/v2", "commit_sha": "c" * 40,
+                "patch_identity_ok": True, "replay_ok": True,
                 "verdict": "PASS", "final_violations": 0, "scope_hash": scope_hash,
                 "install_build": "pass", "evidence": "Clean replay logs attached",
             },
@@ -82,6 +83,21 @@ class BenchmarkDecisions(unittest.TestCase):
     def test_patch_digest_must_match(self):
         self.result["patch_sha256"] = "b" * 64
         self.assertEqual(self.verdict(self.result), "REJECTED")
+
+    def test_success_requires_an_exact_base_commit(self):
+        for value in (None, "", "main", "abc1234", 123):
+            with self.subTest(value=value):
+                result = copy.deepcopy(self.result)
+                result["commit_sha"] = value
+                result["eval_replay"]["commit_sha"] = value
+                self.assertEqual(self.verdict(result), "REJECTED")
+
+    def test_replay_must_measure_the_same_base_commit(self):
+        for value in (None, "", "d" * 40):
+            with self.subTest(value=value):
+                result = copy.deepcopy(self.result)
+                result["eval_replay"]["commit_sha"] = value
+                self.assertEqual(self.verdict(result), "REJECTED")
 
     def test_missing_scope_hashes_are_not_identity(self):
         self.result["scope_hash_baseline"] = self.result["scope_hash_final"] = ""

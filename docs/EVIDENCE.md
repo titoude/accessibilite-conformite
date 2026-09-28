@@ -9,7 +9,7 @@ Run `pnpm test` after the locked installation.
 | Check | Evidence | Scope |
 | --- | --- | --- |
 | Embedded scanner parity | `tests/test_runner_parity.py` | Three orchestration copies equal the source |
-| Decision regressions | `tests/test_decisions.py` | 12 tests with subcases: contradictory/missing replay data, counters, digest, scope, budget and findings |
+| Decision regressions | `tests/test_decisions.py` | 14 tests with subcases: contradictory/missing replay data, base commit, counters, digest, scope, budget and findings |
 | Assertion mutants | `tests-validateurs/validateurs.mjs` | 9 deliberately broken cases plus valid controls |
 | Real Chromium integration | `tests/browser.test.mjs` | 7 tests with subcases: clean/broken pages, redirects, HTTP, CLI validation, stale evidence and accessible names |
 | Teaching demonstration | `tests/demo.test.mjs` | Complete keyboard reservation; 4 corrected states scanned; 320 CSS-pixel reflow and forced-colors operation |
