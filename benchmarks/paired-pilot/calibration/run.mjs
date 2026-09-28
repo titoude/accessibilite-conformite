@@ -149,6 +149,14 @@ for (const c of casesDoc.cases) {
       console.log(`[unsupported_missing_dependency] ${c.ruleId}/${c.testcaseId.slice(0,10)} missing=${row.missing_dependencies.join(',')}`);
       continue;
     }
+    // axe can only run inside an HTML document — .svg/.xml fixtures have no
+    // document.head to inject into and may download instead of rendering.
+    if (!/\.html?$/i.test(c.localFile)) {
+      row.outcome = 'unscorable_non_html_fixture'; unscorable++;
+      rows.push(row);
+      console.log(`[unscorable_non_html_fixture] ${c.ruleId}/${c.testcaseId.slice(0,10)} expected=${c.expected}`);
+      continue;
+    }
     const p = await browser.newPage();
     const resp = await p.goto(url, { waitUntil: 'load', timeout: 20000 });
     if (!resp || resp.status() !== 200) throw new Error(`HTTP ${resp && resp.status()}`);
@@ -208,7 +216,7 @@ const summary = {
   counts: {
     total: rows.length, agree_fail: agreeFail,
     consistent_no_violation: consistent,
-    unscorable_incomplete: unscorable,
+    unscorable: unscorable,
     divergent: diverge, errors,
     unsupported: unsupported,
   },
@@ -218,5 +226,5 @@ const summary = {
 const tmp = join(outDir, 'calibration-results.json.tmp');
 writeFileSync(tmp, JSON.stringify(summary, null, 2));
 renameSync(tmp, join(outDir, 'calibration-results.json'));
-console.log(`\n${rows.length} cases: ${agreeFail} agree-fail, ${consistent} consistent-no-violation, ${unscorable} unscorable-incomplete, ${diverge} divergent, ${errors} errors`);
+console.log(`\n${rows.length} cases: ${agreeFail} agree-fail, ${consistent} consistent-no-violation, ${unscorable} unscorable, ${diverge} divergent, ${errors} errors`);
 process.exit(errors > 0 || diverge > 0 ? 1 : 0);
