@@ -6,10 +6,10 @@
     "SKILL.md": "a4914a0c8940e5fa8de9b817eb19f17e4f148f163e8838e4b72e1ce2196c526a",
     "checklist.md": "cb55201f32d1da697cc6edddd4fd636c0acfcf3ac5192c3df28ded1856e14543",
     "audit.mjs": "49fbe283ce0b53362dc53b668b5f1de86cc52209c9bf72d119f2e01b74442d0f",
-    "README.md": "1e15d0ddb0076967ce933fde84c3ea5e1333db5066964974cd8c2183c6a1598b",
+    "README.md": "3b685664aed0b40e8f3565c2ebf8158d0d21c5bc384d7e4ffe96fc77bcb53a60",
     "templates/README.md": "c5b72b93f0cc932498ea32037680b6a531de452fc91993b2d8117f2941d5001e",
     "templates/wcag-2.2-aa.csv": "cdfafec0831a76b9f9caefc50715d64f064044fdac581a1e16e07c0b2435905a",
-    "docs/RELEASE-READINESS.md": "9deead8c564c6890c63c107fd067af043d8b252f9206a7f8bdb08ce1821df5f7",
+    "docs/RELEASE-READINESS.md": "e98da30c4ad14be65eb8e266b4d7f1c62278f537a9348b915a4b7e889dbbc657",
     "tests-validateurs/assertions.mjs": "8d454fee71fe5f8003841466d9652249703812c2d6c4be99498959b126884caf"
   },
   "copied_paths": {
@@ -23,6 +23,20 @@
     "tests-validateurs/assertions.mjs": "tests-validateurs/assertions.mjs"
   },
   "runtime": "audit.mjs requires the org's pinned root deps via createRequire(cwd/package.json): playwright 1.63.0 + axe-core 4.13.0 (pnpm-lock.yaml on main); assertions.mjs requires @playwright/test 1.63.0",
-  "excluded": "benchmarks/, docs/EVIDENCE.md, docs/JUDGE-WALKTHROUGH.md, demo/, tests/ are pilot evidence/presentation, not skill runtime deps \u2014 not shipped to the worker",
-  "note": "Verbatim byte copies. Verify: git show f7fb27e:<path> | sha256sum"
+  "excluded": "benchmarks/, evidence and product presentation docs, demo/, tests/ are not skill runtime dependencies and were not shipped to the worker",
+  "note": "The trial used the original bytes at source_commit, identified by source_sha256. sha256 identifies current publication bytes. Six files remain verbatim; the two documentation edits below were made after the trial. Restore original files with git show <source_commit>:<path> for agent-trial reproduction.",
+  "source_sha256": {
+    "SKILL.md": "a4914a0c8940e5fa8de9b817eb19f17e4f148f163e8838e4b72e1ce2196c526a",
+    "checklist.md": "cb55201f32d1da697cc6edddd4fd636c0acfcf3ac5192c3df28ded1856e14543",
+    "audit.mjs": "49fbe283ce0b53362dc53b668b5f1de86cc52209c9bf72d119f2e01b74442d0f",
+    "README.md": "1e15d0ddb0076967ce933fde84c3ea5e1333db5066964974cd8c2183c6a1598b",
+    "templates/README.md": "c5b72b93f0cc932498ea32037680b6a531de452fc91993b2d8117f2941d5001e",
+    "templates/wcag-2.2-aa.csv": "cdfafec0831a76b9f9caefc50715d64f064044fdac581a1e16e07c0b2435905a",
+    "docs/RELEASE-READINESS.md": "9deead8c564c6890c63c107fd067af043d8b252f9206a7f8bdb08ce1821df5f7",
+    "tests-validateurs/assertions.mjs": "8d454fee71fe5f8003841466d9652249703812c2d6c4be99498959b126884caf"
+  },
+  "publication_edits": {
+    "README.md": "Product presentation and disclosure only",
+    "docs/RELEASE-READINESS.md": "Product release criteria only"
+  }
 }

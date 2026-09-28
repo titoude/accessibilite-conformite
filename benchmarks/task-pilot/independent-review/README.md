@@ -24,6 +24,8 @@ skill advantage.
 - Trial dispatch freeze: `dee0f5a8c6be8b01ced6d7fcc6011a1728440d12`.
   Its harness, fixtures, prompts and treatment files remained unchanged
   through the reviewed publication at `e581a58893c5d56b8310c0397275ff9c48cf6f96`.
+  Later presentation edits to two documentation copies are recorded separately
+  in `treatment/provenance.json`; the original source and trial are unchanged.
 - Worker artifact checkpoint:
   `085954c12dcc9ca6bcbded343e2fb9869ef92fdb`.
 - The reviewer used a raw Git archive of `bdef03d69e7f8a49044debdaa15725f4a9bce011`

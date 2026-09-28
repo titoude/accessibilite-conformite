@@ -60,10 +60,9 @@ untested. Maintainers must evaluate applicability, complete user tasks and
 record actual human review. More isolated trials and model families are needed
 before making a general effectiveness claim.
 
-Human assistive-technology validation and an organizer ruling on Opethon's
-pre-existing-work policy remain open. See [release readiness](RELEASE-READINESS.md).
-Do not describe the product as universally conformant or eligible until those
-claims have the necessary evidence.
+Human assistive-technology validation remains open. See
+[release readiness](RELEASE-READINESS.md). Conformance claims need evidence
+for the declared tasks, scope and environments.
 
 This page is the presentation transcript. If recording a video, provide accurate
 captions and keep the on-screen commands and limitations readable.

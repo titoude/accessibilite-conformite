@@ -4,7 +4,7 @@
 
 An open-source skill and toolkit for websites and web applications. Designed for maintainers who need useful fixes with reproducible evidence.
 
-[Use the skill](SKILL.md) · [Try the demo](demo/README.md) · [See the evidence](docs/EVIDENCE.md) · [Judge walkthrough](docs/JUDGE-WALKTHROUGH.md) · [Contribute](CONTRIBUTING.md)
+[Use the skill](SKILL.md) · [Try the demo](demo/README.md) · [See the evidence](docs/EVIDENCE.md) · [Product walkthrough](docs/PRODUCT-WALKTHROUGH.md) · [Contribute](CONTRIBUTING.md)
 
 ## From a barrier to a verified change
 
@@ -130,9 +130,7 @@ weaker models.
 
 Historical French audit documents remain as provenance. Use the current skill and release checklist for new work.
 
-## Opethon and disclosure
-
-The theme fits Accessibility & Inclusion. **The existing repository needs an organizer ruling before it can be presented as eligible.** As checked on 28 September 2026, [Opethon](https://opethon.com/) requires a new public repository created after its start date and lists October or November, with exact dates still pending. [GitHub records this repository's creation](https://api.github.com/repos/titoude/accessibilite-conformite) on 27 September 2026. It therefore predates the announced event window; the displayed rule is not satisfied by the existing repository. Preserve the history and obtain written clarification or an exception.
+## AI disclosure
 
 Developed with AI assistance, including Devin and Codex. Human assistive-technology validation has not yet been completed for the published benchmark corpus.
 

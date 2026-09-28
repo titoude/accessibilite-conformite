@@ -1,6 +1,6 @@
-# Release and submission readiness
+# Release readiness
 
-Every decision refers to an exact commit, declared scope and linked evidence. Do not certify perfect accessibility for everyone or guarantee a competition win.
+Every decision refers to an exact commit, declared scope and linked evidence. Do not certify perfect accessibility for everyone.
 
 | Gate | Required evidence |
 | --- | --- |
@@ -12,13 +12,8 @@ Every decision refers to an exact commit, declared scope and linked evidence. Do
 | Human usability | Actual critical tasks, tester/date, OS/browser/AT versions, observed results and open defects |
 | Standards | [Complete criterion inventory](../templates/README.md), justified applicability, appropriate methods, full-page/process requirements and separate jurisdictional assessment |
 | Presentation | Tested English quick start, working links, license, AI disclosure and honest limitations |
-| Opethon | Organizer ruling on pre-existing work and repository creation date |
 
 Missing evidence stays open. Automation cannot substitute for an unavailable human test.
-
-## Current Opethon eligibility gate
-
-Checked on 28 September 2026: [the event page](https://opethon.com/) requires a new public repository created after the start date, and announces October or November with exact dates pending. [This repository was created on 27 September 2026 at 19:54:33 UTC](https://api.github.com/repos/titoude/accessibilite-conformite), before that announced window. The existing repository does not satisfy the displayed creation-date rule. A written organizer clarification or exception is required before claiming eligibility; none is recorded here. Keep the original Git history and disclose pre-existing work.
 
 ## Human review record
 
