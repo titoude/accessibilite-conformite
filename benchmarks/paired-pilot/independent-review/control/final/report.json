@@ -1,0 +1,248 @@
+{
+  "runId": "43af4db4-57bb-4edc-95a2-c291bcacfc73",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-09-28T08:55:49.826Z",
+  "baseUrl": "http://127.0.0.1:5001",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:5001/",
+      "requestedUrl": "http://127.0.0.1:5001/",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/search.html",
+      "requestedUrl": "http://127.0.0.1:5001/search.html",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/search.html",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/search?q=test",
+      "requestedUrl": "http://127.0.0.1:5001/search?q=test",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2a",
+            "wcag141",
+            "TTv5",
+            "TT13.a",
+            "EN-301-549",
+            "EN-9.1.4.1",
+            "RGAAv4",
+            "RGAA-10.6.1"
+          ],
+          "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
+          "help": "Links must be distinguishable without relying on color",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-in-text-block?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "link-in-text-block",
+                  "data": {
+                    "messageKey": "bgOverlap"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"MAeEI\"><div class=\"RBdMVb\">Mettez à jour votre navigateur</div><span>Votre navigateur n'est plus pris en charge. Pour poursuivre votre recherche, passez à une version récente.</span> <a href=\"support.google.com\" rel=\"nofollow noopener noreferrer\"><span>En savoir plus</span></a></div>",
+                      "target": [
+                        ".MAeEI"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's contrast ratio could not be determined because of element overlap"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"support.google.com\" rel=\"nofollow noopener noreferrer\"><span>En savoir plus</span></a>",
+              "target": [
+                "a[href$=\"support.google.com\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's contrast ratio could not be determined because of element overlap"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/search?q=test",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/window?location=https://example.com",
+      "requestedUrl": "http://127.0.0.1:5001/window?location=https://example.com",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/window?location=https://example.com",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/ [state:config-panel]",
+      "requestedUrl": "http://127.0.0.1:5001/",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ccd9f5",
+                    "bgColor": "#3367d6",
+                    "contrastRatio": 3.65,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"content open\" style=\"max-height: 400px;\">",
+                      "target": [
+                        ".content"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.65 (foreground color: #ccd9f5, background color: #3367d6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"info-text\"> — Replaces Twitter/YouTube/etc links with privacy respecting alternatives.</span>",
+              "target": [
+                ".config-div-alts > div > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.65 (foreground color: #ccd9f5, background color: #3367d6, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"footer\">\n        Whoogle Search v1.2.4 ||\n        <a class=\"link\" href=\"https://github.com/benbusby/whoogle-search\">View on GitHub</a>\n        \n        \n    </p>",
+              "target": [
+                "p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"link\" href=\"https://github.com/benbusby/whoogle-search\">View on GitHub</a>",
+              "target": [
+                ".link"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "d07fa814ceb6f0cba175658a6405401066f988c8b08866935c4d7ab24eb0c338"
+}
