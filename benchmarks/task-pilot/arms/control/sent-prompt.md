@@ -52,15 +52,16 @@ install per the steps below; it counts inside your 20-minute session.
    3f78d7c3668d108df26a43cff364c8cff946849f). After they download to
    ~/attachments/, place them in a worker root directory and run
    `pnpm install --frozen-lockfile --ignore-scripts` there (install
-   pnpm@10.34.5 via npm if absent).
+   pnpm@10.34.5 via `npm i -g pnpm@10.34.5 --ignore-scripts` if absent).
 3. Use Node v22.23.3. If `node -v` differs, install it from
    https://nodejs.org/dist/v22.23.3/node-v22.23.3-linux-x64.tar.xz and put it
    on PATH. Record actual `node -v`, `npm -v`, `pnpm -v` in your report.
 4. In `todomvc/examples/javascript-es5/` run
    `npm ci --omit=dev --ignore-scripts --no-audit --no-fund`. No build step.
 5. To exercise the app manually, serve the todomvc repo ROOT statically and
-   open /examples/javascript-es5/ (e.g. `python3 -m http.server` or
-   `npx http-server`). All requests stay local.
+   open /examples/javascript-es5/ (e.g.
+   `python3 -m http.server --bind 127.0.0.1 <port>` or another already-
+   installed locked tool). All requests stay local.
 6. Time budget: 20 minutes TOTAL from your session's platform creation time —
    includes all setup, waits, and remediation. Max 3 correction rounds. If time
    expires mid-work, stop immediately and deliver the current patch as-is —
@@ -72,6 +73,7 @@ install per the steps below; it counts inside your 20-minute session.
 8. Isolation: do NOT access titoude/accessibilite-conformite or any benchmark/
    evaluator repository, its PRs/issues, or another worker session's output.
    The attached files and the public todomvc clone are your only inputs.
+   Do not create or delegate to any sub-agent/session.
 
 
 ATTACHMENT:"https://app.devin.ai/attachments/f1392b0f-4f2f-4187-a341-39aae0600029/package.json"
