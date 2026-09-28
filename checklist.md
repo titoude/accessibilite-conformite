@@ -2,6 +2,8 @@
 
 Use a reviewer separate from the corrector. This is a practical task checklist, not a substitute for evaluating every applicable criterion in the chosen standard.
 
+Start the [55-criterion WCAG 2.2 A/AA record](templates/README.md) before applying this task checklist. Its default `NOT_TESTED` statuses make omissions visible; a filled table without appropriate evidence is not an audit.
+
 For each check, record `PASS`, `FAIL`, `NOT_APPLICABLE` with justification, `NOT_TESTED`, or `NEEDS_HUMAN_REVIEW`. Attach the candidate commit, route/state/role, expected/observed behavior and evidence.
 
 Keep three methods separate: reproducible deterministic assertions; agent semantic judgment with uncertainty; actual human testing with tester, date and OS/browser/assistive-technology versions. An agent cannot mark a human check complete by reading the markup.
