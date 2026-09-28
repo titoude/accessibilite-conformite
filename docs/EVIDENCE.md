@@ -11,7 +11,7 @@ Run `pnpm test` after the locked installation.
 | Embedded scanner parity | `tests/test_runner_parity.py` | Three orchestration copies equal the source |
 | Decision regressions | `tests/test_decisions.py` | 15 tests with subcases: contradictory/missing replay data, base commit, counters, digest, scope transfer, budget and findings |
 | Paired-pilot scorer | `benchmarks/paired-pilot/harness/test_score.py` | 30 tests with subcases: malformed artifacts, baseline and final scope/counters, replay status, held-out evidence and lost coverage; valid partial reductions remain comparable |
-| Calibration resource policy | `benchmarks/paired-pilot/calibration/test-net-policy.mjs` | Local fixture resources, external dependency rejection and browser request evidence |
+| Calibration resource policy | `benchmarks/paired-pilot/calibration/test-net-policy.mjs` and `tests/calibration-contract.test.mjs` | Local/inert positive controls, blocked resources excluded from actual CLI scores, no external hits and altered asset bytes rejected |
 | Assertion mutants | `tests-validateurs/validateurs.mjs` | 9 deliberately broken cases plus valid controls |
 | Real Chromium integration | `tests/browser.test.mjs` | 7 tests with subcases: clean/broken pages, redirects, HTTP, CLI validation, stale evidence and accessible names |
 | Teaching demonstration | `tests/demo.test.mjs` | Complete keyboard reservation; 4 corrected states scanned; 320 CSS-pixel reflow and forced-colors operation |
