@@ -6,7 +6,7 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { statSync } from "node:fs";
-import { join, normalize, extname, resolve, relative } from "node:path";
+import { join, normalize, extname, resolve, relative, isAbsolute, sep } from "node:path";
 
 const [dirArg, portArg, fixtureDir] = process.argv.slice(2);
 if (!dirArg || !portArg) {
@@ -35,7 +35,7 @@ function safePath(root, urlPath) {
   // shares the /srv/app prefix must NOT be accepted by a startsWith check.
   const rel = relative(root, p);
   if (rel === "") return root;
-  if (rel === ".." || rel.startsWith(".." + "/") || resolve(rel) === rel) return null;
+  if (rel === ".." || rel.startsWith(".." + sep) || isAbsolute(rel)) return null;
   return p;
 }
 
@@ -65,5 +65,5 @@ server.on("error", (err) => {
 });
 server.listen(PORT, "127.0.0.1", () => {
   // Announce our PID + port so the caller can verify ownership.
-  console.log(`serve pid=${process.pid} port=${PORT} root=${ROOT}`);
+  console.log(`serve pid=${process.pid} port=${server.address().port} root=${ROOT}`);
 });
