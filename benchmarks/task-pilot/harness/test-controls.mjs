@@ -102,3 +102,31 @@ test("ctrl-dblclick-only: no keyboard affordance fails task2", async () => {
   const { results } = await runAll("ctrl-dblclick-only.html");
   assert.equal(results.task2.status, "FAIL");
 });
+
+// Filter render lands ~350ms after hashchange — PASS proves the evaluator
+// waits for the rendered outcome, not the hash alone.
+test("ctrl-slow-filter: delayed render still PASSes task1", async () => {
+  const { results } = await runAll("ctrl-slow-filter.html");
+  assert.equal(results.task1.status, "PASS",
+    `task1: ${JSON.stringify(results.task1.ev?.steps?.filter(s => s.ok === false))}`);
+});
+
+// Survivor relabel inside the toggle-all handler must FAIL task3.
+test("ctrl-survivor-rename: replaced survivor labels fail task3", async () => {
+  const { results } = await runAll("ctrl-survivor-rename.html");
+  assert.equal(results.task3.status, "FAIL");
+});
+
+// data-id rewritten inside the filter hashchange handler — the rendered
+// identity wait must never match, so task1 FAILs.
+test("ctrl-id-replace-filter: data-id rewritten on hashchange fails task1", async () => {
+  const { results } = await runAll("ctrl-id-replace-filter.html");
+  assert.equal(results.task1.status, "FAIL");
+});
+
+// survivor data-ids rewritten inside a second Clear-completed handler —
+// pre/post-clear identity comparison must FAIL task3.
+test("ctrl-id-replace-clear: survivor ids replaced on clear fails task3", async () => {
+  const { results } = await runAll("ctrl-id-replace-clear.html");
+  assert.equal(results.task3.status, "FAIL");
+});

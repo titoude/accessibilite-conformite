@@ -95,31 +95,42 @@ function itemStates(page) {
   });
 }
 
-async function activateLinkByKeyboard(page, name) {
-  // Tab to a link whose accessible name is exactly `name`, press Enter,
-  // then wait for the RENDERED outcome — the selected filter marker plus a
-  // settled visible-item set — never the hash alone ("All" maps to "#/").
+// Keyboard-activate a named filter link and wait for its RENDERED
+// outcome: the target route AND the list actually rendering the expected
+// visible item identities — never the hash alone, never a fixed delay.
+// `expectVisible` is an array of "data-id|text" the caller derived from
+// observed state (the contract stays implementation-neutral: the selected
+// marker/class name is not required, only the route + rendered list).
+async function activateLinkByKeyboard(page, name, expectVisible = null) {
+  const targetHash = { all: "#/", active: "#/active", completed: "#/completed" }[name.toLowerCase()] || name.toLowerCase();
+  const rendered = async () => {
+    // Rendered outcome = route reached AND (if given) the visible list
+    // equals the expected identities. Waits poll until the render settles.
+    return page.waitForFunction(
+      ([th, want]) => {
+        if (location.hash !== th) return false;
+        if (!want) return true;
+        const vis = [...document.querySelectorAll(".todo-list li")].filter((li) =>
+          typeof li.checkVisibility === "function"
+            ? li.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })
+            : getComputedStyle(li).display !== "none"
+        ).map((li) => `${li.getAttribute("data-id")}|${(li.querySelector("label")?.textContent || "").trim()}`);
+        return vis.length === want.length && vis.every((x) => want.includes(x));
+      },
+      [targetHash, expectVisible], { timeout: 3000 });
+  };
   for (let i = 0; i < 40; i++) {
     const d = await focusedDescriptor(page);
     if (d && d.tag === "a") {
       const named = await focusedHasName(page, new RegExp(`^${name}$`, "i"));
       if (named) {
-        const before = await itemStates(page);
         await page.keyboard.press("Enter");
-        // wait for EITHER a hash change to the filter route OR (All="#/")
-        // a rendered visibility change in the list — no swallowed timeout.
-        const targetHash = { all: "#/", active: "#/active", completed: "#/completed" }[name.toLowerCase()] || name.toLowerCase();
         try {
-          await page.waitForFunction(
-            ([th, prev]) => location.hash === th || location.hash !== prev,
-            [targetHash, before.hash], { timeout: 2000 });
+          await rendered();
         } catch {
-          return { ok: false, reason: `Enter on "${name}" produced no route/render change` };
+          return { ok: false, reason: `Enter on "${name}" never reached route ${targetHash} with expected rendered items` };
         }
-        await page.waitForTimeout(200);
-        const after = await itemStates(page);
-        const ok = after.hash === targetHash || after.hash !== before.hash;
-        return { ok, hash: after.hash };
+        return { ok: true, hash: (await itemStates(page)).hash };
       }
     }
     await page.keyboard.press("Tab");
@@ -226,6 +237,9 @@ export async function runTask1(page) {
   ev.commitKey = commitKey;
   let st = await itemStates(page);
   step("two items added with exact text", TEXTS.every((t) => st.items.some((i) => i.text === t)), st.items.map((i) => i.text));
+  const alphaKey = st.items.find((i) => i.text === TEXTS[0]);
+  const betaKey = st.items.find((i) => i.text === TEXTS[1]);
+  const idOf = (i) => `${i.id}|${i.text}`;
 
   // Complete Alpha: focus the checkbox inside ITS li, press Space.
   const f1 = await focusInsideItem(page, TEXTS[0], "checkbox");
@@ -237,20 +251,25 @@ export async function runTask1(page) {
     !!a && a.completed && !a.inconsistent,
     a ? { checked: a.checkboxChecked, cls: a.classCompleted } : "item missing");
 
-  const c = await activateLinkByKeyboard(page, "Completed");
+  const c = await activateLinkByKeyboard(page, "Completed", [idOf(alphaKey)]);
   step("Completed filter via keyboard", c.ok, c.reason || c.hash);
   st = await itemStates(page);
-  step("Completed shows exactly Alpha (visible)", st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[0] && st.visibleItems[0].completed, st.visibleItems);
-  const ac = await activateLinkByKeyboard(page, "Active");
+  step("Completed shows exactly Alpha (visible, id+text)",
+    st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[0] && st.visibleItems[0].completed && st.visibleItems[0].id === alphaKey.id,
+    st.visibleItems);
+  const ac = await activateLinkByKeyboard(page, "Active", [idOf(betaKey)]);
   step("Active filter via keyboard", ac.ok, ac.reason || ac.hash);
   st = await itemStates(page);
-  step("Active shows exactly Beta (visible)", st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[1] && !st.visibleItems[0].completed, st.visibleItems);
-  const all = await activateLinkByKeyboard(page, "All");
+  step("Active shows exactly Beta (visible, id+text)",
+    st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[1] && !st.visibleItems[0].completed && st.visibleItems[0].id === betaKey.id,
+    st.visibleItems);
+  const all = await activateLinkByKeyboard(page, "All", [idOf(alphaKey), idOf(betaKey)]);
   step("All filter via keyboard", all.ok, all.reason || all.hash);
   st = await itemStates(page);
   step("All restores both items with identities intact",
-    st.visibleItems.length === 2 && st.visibleItems.some((i) => i.text === TEXTS[0]) && st.visibleItems.some((i) => i.text === TEXTS[1]),
-    st.visibleItems.map((i) => i.text));
+    st.visibleItems.length === 2 && [idOf(alphaKey), idOf(betaKey)].every((k) =>
+      st.visibleItems.some((i) => `${i.id}|${i.text}` === k)),
+    st.visibleItems.map((i) => [i.id, i.text]));
   step("no inconsistent checked/class states anywhere", !st.anyInconsistent, st.items.filter((i) => i.inconsistent));
   step("count text reports 1 item left", /\b1\b\s*items? left/i.test(st.countText), st.countText);
 
@@ -443,6 +462,10 @@ export async function runTask3(page) {
   step("complete One (checked AND class agree)", !!one && one.completed && !one.inconsistent,
     one ? { checked: one.checkboxChecked, cls: one.classCompleted } : "missing");
 
+  // Snapshot full identities BEFORE clear — an item replaced/relabelled
+  // during the clear handler must not pass the survivor checks.
+  const preClearKeys = st.items.map((i) => `${i.id}|${i.text}`).sort();
+
   // Clear completed via keyboard (real accessible name).
   let cleared = false;
   for (let i = 0; i < 50 && !cleared; i++) {
@@ -467,9 +490,13 @@ export async function runTask3(page) {
   }
   step("Clear completed via keyboard", cleared, "");
   st = await itemStates(page);
-  step("remaining items are exactly Two+Three, still active",
-    st.items.length === 2 && st.items.some((i) => i.text === "Two") && st.items.some((i) => i.text === "Three") && st.items.every((i) => !i.completed && !i.inconsistent),
-    st.items.map((i) => [i.text, i.completed]));
+  const oneKey = preClearKeys.find((k) => k.endsWith("|One"));
+  step("remaining items are exactly Two+Three, still active, same ids",
+    st.items.length === 2
+      && st.items.map((i) => `${i.id}|${i.text}`).sort().join()
+         === preClearKeys.filter((k) => k !== oneKey).join()
+      && st.items.every((i) => !i.completed && !i.inconsistent),
+    { before: preClearKeys, after: st.items.map((i) => `${i.id}|${i.text}`) });
 
   // Record survivor identities BEFORE toggle-all so a patched item set
   // (same count, different ids) cannot pass.
@@ -509,10 +536,10 @@ export async function runTask3(page) {
     { before: survivorIds, after: st.items.map((i) => `${i.id}|${i.text}`) });
   st = await itemStates(page);
   step("count reports 0 items left", /\b0\b\s*items? left/i.test(st.countText), st.countText);
-  const ac = await activateLinkByKeyboard(page, "Active");
+  const ac = await activateLinkByKeyboard(page, "Active", []);
   st = await itemStates(page);
   step("Active filter shows 0 items", ac.ok && st.visibleItems.length === 0, st.visibleItems.length);
-  const cp = await activateLinkByKeyboard(page, "Completed");
+  const cp = await activateLinkByKeyboard(page, "Completed", survivorIds);
   st = await itemStates(page);
   step("Completed filter shows all remaining by identity",
     cp.ok && st.visibleItems.length === 2 && st.visibleItems.every((i) => i.completed)

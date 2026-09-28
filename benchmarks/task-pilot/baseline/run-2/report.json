@@ -1,5 +1,5 @@
 {
-  "runId": "aefc5d59bb66e9eb",
+  "runId": "8da2fefb924e825f",
   "target": "tastejs/todomvc examples/javascript-es5",
   "pin": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
   "url": "http://127.0.0.1:8388/examples/javascript-es5/",
@@ -59,7 +59,7 @@
             "detail": "#/completed"
           },
           {
-            "s": "Completed shows exactly Alpha (visible)",
+            "s": "Completed shows exactly Alpha (visible, id+text)",
             "ok": true,
             "detail": [
               {
@@ -79,7 +79,7 @@
             "detail": "#/active"
           },
           {
-            "s": "Active shows exactly Beta (visible)",
+            "s": "Active shows exactly Beta (visible, id+text)",
             "ok": true,
             "detail": [
               {
@@ -102,8 +102,14 @@
             "s": "All restores both items with identities intact",
             "ok": true,
             "detail": [
-              "Alpha task",
-              "Beta task"
+              [
+                "1",
+                "Alpha task"
+              ],
+              [
+                "2",
+                "Beta task"
+              ]
             ]
           },
           {
@@ -165,18 +171,19 @@
             "detail": ""
           },
           {
-            "s": "remaining items are exactly Two+Three, still active",
+            "s": "remaining items are exactly Two+Three, still active, same ids",
             "ok": true,
-            "detail": [
-              [
-                "Two",
-                false
+            "detail": {
+              "before": [
+                "1|One",
+                "2|Two",
+                "3|Three"
               ],
-              [
-                "Three",
-                false
+              "after": [
+                "2|Two",
+                "3|Three"
               ]
-            ]
+            }
           },
           {
             "s": "toggle-all keyboard path completes all items",

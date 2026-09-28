@@ -1,11 +1,13 @@
 // CLI contract tests for audit.todo.mjs — spawn the actual runner process
 // (not the exported functions) under the normal locked install and assert
-// its exit code + report.fatal for each failure branch.
+// its exit code + report.fatal for each failure branch. Each branch is
+// isolated: page-error-only and external-request-only fixtures prove the
+// two fatal branches independently.
 // Usage: node --test benchmarks/task-pilot/harness/test-cli.mjs
 import { test } from "node:test";
 import assert from "node:assert";
 import { spawn } from "node:child_process";
-import { mkdtempSync, existsSync, readFileSync } from "node:fs";
+import { mkdtempSync, existsSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -35,20 +37,62 @@ function runAudit(url) {
   });
 }
 
-test("CLI: page error + aborted external request => exit != 0, report.fatal set", async (t) => {
-  // error fixture trips before tasks complete quickly; cap runtime
-  t.signal?.addEventListener?.("abort", () => {});
-  const r = await runAudit(`http://127.0.0.1:${PORT}/cli-errors.html`);
-  assert.notEqual(r.code, 0, `expected nonzero exit, got ${r.code}:\n${r.out}\n${r.err}`);
-  const reportPath = join(r.outdir, "report.json");
-  assert.ok(existsSync(reportPath), "report.json must exist even on failure");
-  const report = JSON.parse(readFileSync(reportPath, "utf8"));
-  assert.ok(report.fatal, "report.fatal must be set");
-  assert.ok(report.page_errors.length > 0 || report.network_attempts.some((n) => !n.allowed),
-    "evidence of page error or aborted request must be preserved");
+function readReport(outdir) {
+  return JSON.parse(readFileSync(join(outdir, "report.json"), "utf8"));
+}
+
+// --- HEALTHY POSITIVE: clean fixture => exit 0, zero page errors, zero blocked ---
+test("CLI: healthy fixture => exit 0, no fatal, zero page errors/blocked", async () => {
+  const r = await runAudit(`http://127.0.0.1:${PORT}/ctrl-complete.html`);
+  assert.equal(r.code, 0, `expected exit 0:\n${r.out}\n${r.err}`);
+  const report = readReport(r.outdir);
+  assert.equal(report.fatal, null);
+  assert.equal(report.page_errors.length, 0, JSON.stringify(report.page_errors));
+  assert.equal(report.network_attempts.filter((n) => !n.allowed).length, 0);
+  assert.ok(report.tasks.every((t) => t.status === "PASS"), JSON.stringify(report.tasks.map((t) => [t.id, t.status])));
 });
 
-test("CLI: unreachable URL => exit != 0, fresh outputs only", async () => {
+// --- SEPARATED FATAL BRANCHES ---
+test("CLI: page-error only => exit != 0, fatal names page errors", async () => {
+  const r = await runAudit(`http://127.0.0.1:${PORT}/cli-pageerror.html`);
+  assert.notEqual(r.code, 0, `expected nonzero:\n${r.out}`);
+  const report = readReport(r.outdir);
+  assert.match(report.fatal, /page errors/i, `fatal=${report.fatal}`);
+  assert.ok(report.page_errors.length > 0);
+});
+
+test("CLI: external request only (no page error) => exit != 0, fatal names aborted requests", async () => {
+  const r = await runAudit(`http://127.0.0.1:${PORT}/cli-external.html`);
+  assert.notEqual(r.code, 0, `expected nonzero:\n${r.out}`);
+  const report = readReport(r.outdir);
+  assert.equal(report.page_errors.length, 0, "external-only fixture must not record page errors");
+  assert.match(report.fatal, /aborted external/i, `fatal=${report.fatal}`);
+  assert.ok(report.network_attempts.some((n) => !n.allowed));
+});
+
+// --- NAVIGATION FAILURE ---
+test("CLI: 404 document => exit != 0, fatal names navigation", async () => {
   const r = await runAudit(`http://127.0.0.1:${PORT}/does-not-exist/`);
-  assert.notEqual(r.code, 0, `expected nonzero exit, got ${r.code}`);
+  assert.notEqual(r.code, 0, `expected nonzero, got ${r.code}`);
+  const report = readReport(r.outdir);
+  assert.ok(report.fatal, "report.fatal must be set");
+});
+
+// --- STALE OUTPUT REJECTION ---
+test("CLI: preseeded stale report/scope are replaced by the fresh run", async () => {
+  const outdir = mkdtempSync(join(tmpdir(), "audit-stale-"));
+  writeFileSync(join(outdir, "report.json"), JSON.stringify({ sentinel: "STALE" }));
+  writeFileSync(join(outdir, "scope.json"), JSON.stringify({ sentinel: "STALE" }));
+  const code = await new Promise((res) => {
+    const p = spawn(process.execPath,
+      [join(HERE, "audit.todo.mjs"), `http://127.0.0.1:${PORT}/does-not-exist/`, outdir, String(PORT)],
+      { stdio: "pipe" });
+    p.on("exit", res);
+  });
+  assert.notEqual(code, 0);
+  const report = readReport(outdir);
+  const scope = JSON.parse(readFileSync(join(outdir, "scope.json"), "utf8"));
+  assert.ok(!report.sentinel, "stale report.json must be overwritten");
+  assert.ok(!scope.sentinel, "stale scope.json must be overwritten");
+  assert.ok(report.runId && report.runId === scope.runId, "fresh runIds must match");
 });
