@@ -130,7 +130,8 @@ Held-out regressions: none in either arm.
 - Dark-theme contrast pair, pages outside the frozen scope: not audited.
 - Exact model identifiers of the child sessions: unobservable → recorded
   unavailable. Child-session wall-clock UI showed ~26 min each (setup included);
-  correction budgets measured separately (14.0 / 18.0 min, both < 20 cap).
+  correction times are worker SELF-REPORTS (14.0 / 18.0 min, both < 20 cap) —
+  unverified, never independently measured.
 
 ## Deviations disclosed
 
@@ -160,19 +161,8 @@ cherry-picked into this PR; artifacts byte-preserved, unmodified).
 
 ## Reproduce
 
-```bash
-# scoring
-python3 harness/score.py with-skill control \
-  --eval-root evaluation --baseline baseline --out evaluation/scores.json
-python3 harness/test_score.py            # 30 tests
-
-# evaluator replay of one arm
-bash harness/evaluate.sh <new-clone-dir> arms/<arm>/worker-patch.diff \
-  evaluation/<arm>-rerun <patch-sha256>
-
-# calibration
-python3 calibration/fetch-cases.py && node calibration/run.mjs
-```
+See `README.md` § Reproduce — the commands there are the maintained copy
+(root-relative, pinned deps, `--wait 500`, committed-corpus calibration).
 
 ## Limitations
 

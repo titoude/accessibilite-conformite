@@ -21,7 +21,10 @@
  *   any mapped axe INCOMPLETE result           => unscorable_incomplete
  *     (incompletes mean axe could not decide — never folded into pass/fail)
  *   fixture sha256 mismatch / HTTP / crash     => error (never scored)
- *   fixture needs an unfrozen external resource => unsupported_external_dependency
+ *   fetched external dep (static regex OR any aborted live request)
+ *     => unsupported_external_dependency (evidence kept, never scored as
+ *        a faithful offline replay — CSS url()/dynamic loads a regex misses
+ *        are still caught by the route gate)
  * All violations AND incompletes (mapped and unmapped rules) are recorded.
  *
  * OFFLINE POLICY: the page may only load bytes from the local fixture
@@ -64,6 +67,20 @@ const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript
 // assets (referenced by absolute path /WAI/content-assets/...) are served from
 // calibration/test-assets/ preserving the upstream layout — fixture HTML is
 // never rewritten. Bytes + sources recorded in test-assets/provenance.json.
+// Verify every recorded test-asset digest BEFORE serving any — existence
+// alone is not integrity; a replaced/corrupted asset would silently replay
+// wrong bytes. Abort the whole run if any asset fails its recorded sha256.
+const assetProv = JSON.parse(readFileSync(join(HERE, 'test-assets', 'provenance.json'), 'utf8'));
+for (const [rel, meta] of Object.entries(assetProv.files)) {
+  const fp = join(HERE, 'test-assets', rel);
+  const actual = existsSync(fp) ? createHash('sha256').update(readFileSync(fp)).digest('hex') : null;
+  if (actual !== meta.sha256) {
+    console.error(`FATAL: test-asset ${rel} sha256 mismatch (recorded ${meta.sha256.slice(0, 16)}, actual ${actual ? actual.slice(0, 16) : 'MISSING'})`);
+    process.exit(2);
+  }
+}
+console.log(`test-assets: ${Object.keys(assetProv.files).length} sha256-verified`);
+
 const ASSET_PREFIX = '/WAI/content-assets/wcag-act-rules/test-assets/';
 const server = createServer((req, res) => {
   const path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
@@ -214,6 +231,18 @@ for (const c of casesDoc.cases) {
     // labelled all-rules context (summary fields — see raw_mapped for evidence)
     row.all_violation_rules = res.all_rules_summary.violations;
     row.all_incomplete_rules = res.all_rules_summary.incomplete;
+    // AUTHORITATIVE offline gate: any request the interceptor had to abort
+    // means the page reached for bytes we did not freeze — CSS url(),
+    // dynamic imports, injected scripts. The axe results stay in the row
+    // as evidence, but the case is NOT a faithful offline replay.
+    const aborted = row.network_attempts.filter(r => !r.allowed);
+    if (aborted.length) {
+      row.aborted_requests = aborted.map(r => r.url);
+      row.outcome = 'unsupported_external_dependency'; unsupported++;
+      rows.push(row); await p.close();
+      console.log(`[unsupported_external_dependency] ${c.ruleId}/${c.testcaseId.slice(0,10)} blocked=${row.aborted_requests.join(',')}`);
+      continue;
+    }
     const anyMapped = row.observed_rules.length > 0;
     const anyIncomplete = row.incomplete_rules.length > 0;
     if (anyIncomplete) {

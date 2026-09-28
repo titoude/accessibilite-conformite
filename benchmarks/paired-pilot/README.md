@@ -25,10 +25,12 @@ Bounded evidence experiment on a frozen target. Two tracks:
 
 ## Reproduce
 
-All commands run from the repo root; node deps come from the pinned root
-install (`npm ci --ignore-scripts` → playwright 1.63.0, axe-core 4.13.0),
-python deps from `harness/whoogle-frozen-requirements.txt`. The audit
-invocation below includes the evaluator-v3 `--wait 500` settled-state fix.
+All commands run from the repo root (no `cd` into the pilot dir — run.mjs
+resolves deps via `createRequire(process.cwd()/package.json)`, so cwd must
+be the repo root). Node deps: `pnpm install --frozen-lockfile --ignore-scripts`
+at root (playwright 1.63.0, axe-core 4.13.0); python deps from
+`benchmarks/paired-pilot/harness/whoogle-frozen-requirements.txt`. The audit
+invocation includes the evaluator-v3 `--wait 500` settled-state fix.
 
 ```bash
 # baseline / final audit of the frozen scope (v3 args)
@@ -56,8 +58,8 @@ python3 benchmarks/paired-pilot/harness/test_score.py   # 30 tests
 # (cases.json + testcases/ + test-assets/ are sha256-pinned; do NOT run
 # fetch-cases.py for reproduction — it re-downloads mutable upstream and
 # exists only to refresh the corpus)
-cd benchmarks/paired-pilot && node calibration/run.mjs
-node --test calibration/test-net-policy.mjs   # offline-policy regression tests
+node benchmarks/paired-pilot/calibration/run.mjs
+node --test benchmarks/paired-pilot/calibration/test-net-policy.mjs   # 9 tests
 ```
 
 ## Rules of the experiment

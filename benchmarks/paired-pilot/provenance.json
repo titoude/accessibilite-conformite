@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-09-28T09:14:33Z",
+  "generated_at_utc": "2026-09-28T09:20:32Z",
   "freeze": {
     "frozen_at_utc": "2026-09-28T08:17:34Z",
     "frozen_at_note": "git committer timestamp of 271ba8e, the last commit before worker dispatch (dispatch event timestamps 08:19:05Z/08:19:06Z). The prompts/runner/scope the workers received are the bytes at that commit.",
@@ -13,7 +13,7 @@
       "3afc97b 2026-09-28T08:37:04Z: calibration test-assets + non-HTML fixtures marked unscorable",
       "aaab94e 2026-09-28T08:44:27Z: score.py/test_score.py replaced by reviewer-tested 796add9 cherry-pick (30 tests; exit-1 partial scans comparable; strict artifact/heldout validation)",
       "a42141b 2026-09-28T08:48:45Z: worker artifacts + evaluator replays + RESULTS.md + verbatim raw_axe_mapped calibration results",
-      "final pass: local-only request policy + unsupported_external_dependency (net-policy.mjs + regression test); dangling all_ids fields fixed to labelled summaries; README root-relative repro commands; .gitattributes byte-preservation widened to all of benchmarks/paired-pilot (verified: 0 sha mismatches on autocrlf=true clone); provenance timestamps switched to verified git committer values; independent-review/ cherry-picked (8925c3c)"
+      "final pass v2: exact-origin http-only policy (no localhost/ws/file aliases); aborted requests gate case to unsupported_external_dependency (post-scan, evidence kept); runtime sha256 verify of all 5 test-assets; browser-level regression tests incl. regex-invisible CSS url() dep; provenance now generated from git ls-files (tracked only \u2014 no pycache); README pnpm/cd-free commands; RESULTS links README Reproduce"
     ]
   },
   "effective_audit_args": "--urls /,/search.html,/search?q=test,/window?location=https://example.com --states all --wait 500",
@@ -21,8 +21,9 @@
   "calibration_asset_count": 5,
   "files": {
     ".gitattributes": "9d95889bcc8c95c30bd09d64425ec103bc4c4e787b36e17bd585b314d47f57fe",
-    "README.md": "771cccf7c00942777fc8b2b142e8628cfbd83d62f85ecfb81915858f5a7dfcd2",
-    "RESULTS.md": "19b71594b5a0ac19f461e267b788e8ad1a753a092ed02634ccf6dd696dd598a3",
+    "README.md": "890f1fe2ccefaa987a7de7cf479b0c284596ef7d8b4831815f68e20a154302fd",
+    "RESULTS.md": "0ae6a71b8970edbd1fd049cd90ac45772ee4aaf67901465b015a8b0f241edc16",
+    "arms/control/provenance.json": "49d140717132b5540e1bd04c59226a74d01ab68de3d7a587c4dd2ecbe0d31b95",
     "arms/control/worker-patch.diff": "37c64103cef28ee475ac46a61a2f3d76b53a95909d8cf714bf61dbe51d84d86a",
     "arms/control/worker-reported/baseline/report.json": "d9b0f5eeecf1b13b51a7d948978e857d0cdd66193ec2082dd5fc195f14c43dc7",
     "arms/control/worker-reported/baseline/report.md": "b512ab309cb276f84da65b0afa96cd5d9919af3fbf5d9ac69cdaecc70622cbe4",
@@ -31,6 +32,7 @@
     "arms/control/worker-reported/final/report.md": "b2383aadf4b9a0346de3234174b39316f2bc908a118df3e55fc054b9f7b25833",
     "arms/control/worker-reported/final/scope.json": "082c555266bf356c96d2e1db2ff1cbb87f12d0376e00c7a8af73bcc732e312fe",
     "arms/control/worker-structured_output.json": "130d6a296f50e65d968493701e5153878d2859b83d979bed2126b97ef00005e6",
+    "arms/with-skill/provenance.json": "e641aedb3103497b9980c95c7fab500dbdc3453ea19e071475b32e31b2d7f061",
     "arms/with-skill/worker-patch.diff": "278d30dd10e5fae02a525d29b3317682532fe8b0973d6b1f77f1b7d82a7f4e4f",
     "arms/with-skill/worker-reported/baseline/report.json": "1f6fe08e4e6853fd592f119425243987f0c715a7cdabb66dfb685b8af2df6434",
     "arms/with-skill/worker-reported/baseline/scope.json": "706aa088c97eca7fcb99bec5074b7e7adb0135c67ab89a5667fee90153f68728",
@@ -41,16 +43,17 @@
     "calibration/LICENSE-W3C.txt": "23338ea31465331733037e9cbcfc7cc84a55547a613565adf0789788e27b7961",
     "calibration/cases.json": "176c54a2cae3fc09a87c5dc932aa2a196fa7d1b42eec6a65337705a31282cd1c",
     "calibration/fetch-cases.py": "98342a92a884c59dca9e751342f81dab7a6c531cd3ae60bf772e3c5bf166b75d",
-    "calibration/net-policy.mjs": "6d60b9a15cc4edf5df5edd0177b168ed8e76b53f4ef9b1ff9b22ee18369840da",
+    "calibration/net-policy.mjs": "a1ecf318accc1c92cb5da7e2efde5dd2fe42412b659f8a1393f74ed31932b4ed",
     "calibration/results/axe-act-map.json": "6a4884de90b484a33b8fc8edf2d0658fc86cf0e5955e72b2ce3a77eeee875f88",
-    "calibration/results/calibration-results.json": "9e2ca13a8592688d2e17f228a1b31b0f1292fe5611baf379ac07fb783e8ce107",
-    "calibration/run.mjs": "4c12cad34a21ecf058b91705536a49e4be111f69dedc6dc7b352141f904dafa9",
+    "calibration/results/calibration-results.json": "2f33f4f2dee7b2c49d4f9aedabfbf2868a861e3235f5792ff0144265848deaf1",
+    "calibration/run.mjs": "d8c9523e55814936b7fdb467484a687dc866f6a1c4f7d53930fab1848cb955e4",
     "calibration/test-assets/c487ae/planets.jpg": "12e6d8c03b6c42fdd242324fb26254bc4a20f5baf37583d0dca0b0536a8cead0",
+    "calibration/test-assets/provenance.json": "c78453b3b8189c1cae0ec42d4ba6bd018d17d8bd722a444917b91394ccfbe132",
     "calibration/test-assets/sc2-4-2-title-page-with-title.html": "940cc49c3ba7810ce7f59fb599e32d58bf7799b5b8399584ee4edca3f7d8b779",
     "calibration/test-assets/sc2-4-2-title-page-without-title.html": "b2d0b17b3d3f14889a8b70d59d50c7a268894b363d86651a1886de87ac029460",
     "calibration/test-assets/shared/background.png": "2e0ce1f118dbf7353af0afc91bf59e44a4165dfef2cfa7bfe100d1298c995c4b",
     "calibration/test-assets/shared/w3c-logo.png": "083d533eb45c69231ca633a4fe6ad908324d8330902f29cf8397ae0499bcd45a",
-    "calibration/test-net-policy.mjs": "95f776fc7d9a219378b8f79c67d37e77139424c8eba0365a94ab8f7035149e20",
+    "calibration/test-net-policy.mjs": "8906e194fbbd648a3ec5086e5f38c239f8d21e001eae705ad7abfc73ea61c5ea",
     "calibration/testcases/23a2a8/13b8678881fba03e7465f82b5550abc5093f7968.html": "bb34439a56d399a1187b77cf396bfe6a65b7a48159651803a50c27ccf529b6c0",
     "calibration/testcases/23a2a8/25e5364c0a1320a08e2742fa59a0f8627591bc61.html": "b1dcb9eb4f7a949f14eaadb5a49d0b5beed8b1b17eb4b4277258c483e834c5d4",
     "calibration/testcases/23a2a8/2f35ed62ed14afb6d9e8b886e95e846f0cfa0d2a.html": "6f2be637b82b64c8409c77212a77725543a48a685f9d4e8b5707d027997c66b5",
@@ -187,7 +190,6 @@
     "evaluation/with-skill/heldout/heldout.json": "6f432ec9d75f4843f2c6a4e02d6cf3156f86a6d09365c05ab58f2a12dac6240f",
     "evaluation/with-skill/pip.log": "ee3d9279ced59e7e63e49535319f5e66ed633610c6defa275b1cb8b5f7cfdc63",
     "evaluation/with-skill/pytest.log": "063289056c0d1122e1b4f2b15468e724b127a6e4aae4a8889bc11c1ec37b0f97",
-    "harness/__pycache__/test_score.cpython-310.pyc": "d4c4245f15ff1c56abd1ef606f0394d172f23a3cfad9ba53c6e7e25169800f13",
     "harness/assemble-prompts.py": "9f7909550bcceb1a009b264079c7e0b6b134362fb93ddd0360122668dbb7e669",
     "harness/audit.whoogle.mjs": "f9d6bd100344bce526fac0667b12468ce8ab55a64c3ebfba73e8cb663fdfd422",
     "harness/evaluate.sh": "c20f86a746788b17bc5ed421345340414487e6141cac05d90641f08907032ca0",
@@ -215,6 +217,7 @@
     "independent-review/control/listener.txt": "8b40965ec301bd334df361147af45518179b76de3652cf7c9f9a00a722a3d0b1",
     "independent-review/control/pytest.log": "7c8edcd6164b6a0d6741e3abe07009ab28acf4b9fd6c60b8e1a367f475d5f10e",
     "independent-review/pip-freeze.txt": "ee3d9279ced59e7e63e49535319f5e66ed633610c6defa275b1cb8b5f7cfdc63",
+    "independent-review/provenance.json": "b18f453bb1883f228dca1b213d2d80e8c0406aeb8604c82676aecd6a9a8eabd5",
     "independent-review/scores.json": "cc4cde87e7d48f0127420dc6e8ab0a27f91616e678beaf20b95f690f7f067128",
     "independent-review/with-skill/eval-status.env": "54e1fde38341a4431a28500256abdbdb9d9eb417c90c3c0c262c29b0fced5dd3",
     "independent-review/with-skill/final/report.json": "cb055c9926c5ffe35e81dcd6a04e95c5e9cd566657a1f6d524c5d854bae9f45c",
@@ -230,7 +233,9 @@
     "prompts/arm-with-skill.rendered.md": "126913c98b4641e6bff3c56f7c3457d409562d2df42ebf5ab4597c118f66286e",
     "treatment/SKILL.md": "a5df959538bd2d96ae24f7158268cbca4d4b01cc1ba327ed5bb20d97a47a7430",
     "treatment/assertions.mjs": "8d454fee71fe5f8003841466d9652249703812c2d6c4be99498959b126884caf",
-    "treatment/checklist.md": "c2c017e9a039d2b99d94b74b123ad8cee196876cbf4d55ecb55dfafdab26b15e"
+    "treatment/checklist.md": "c2c017e9a039d2b99d94b74b123ad8cee196876cbf4d55ecb55dfafdab26b15e",
+    "treatment/provenance.json": "9f64bd3484a7c9d01d777ca54eacb6bd2179f769dc2e35596f35270c625379a9"
   },
-  "file_count": 211
+  "file_count": 215,
+  "provenance_scope": "git-tracked files under benchmarks/paired-pilot only (git ls-files; caches/untracked artifacts excluded)"
 }
