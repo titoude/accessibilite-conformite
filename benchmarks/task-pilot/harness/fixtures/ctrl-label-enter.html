@@ -42,11 +42,11 @@ function openEdit(li, lab) {
   li.appendChild(e); e.focus();
   e.addEventListener('keydown', (ev) => {
     if (ev.key === 'Enter') { lab.textContent = e.value; closeEdit(li, e); }
-    if (ev.key === 'Escape') { closeEdit(li, e); }
+    if (ev.key === 'Escape') { e.dataset.cancelled = '1'; closeEdit(li, e); }
   });
-  e.addEventListener('blur', () => { if (li.contains(e)) { lab.textContent = e.value; closeEdit(li, e); } });
+  e.addEventListener('blur', () => { if (!li.contains(e)) return; if (!e.dataset.cancelled) lab.textContent = e.value; closeEdit(li, e); });
 }
-function closeEdit(li, e) { li.classList.remove('editing'); e.remove(); li.querySelector('.toggle').focus(); }
+function closeEdit(li, e) { li.classList.remove('editing'); if (!e.isConnected) return; e.remove(); li.querySelector('.toggle').focus(); }
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && input.value.trim()) { add(input.value.trim()); input.value = ''; } });
 list.addEventListener('dblclick', (e) => { if (e.target.tagName === 'LABEL') openEdit(e.target.closest('li'), e.target); });
 

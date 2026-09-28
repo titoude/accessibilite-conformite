@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<!-- SYNTHETIC CLI-contract fixture (evaluator-owned, not app code):
+     intentionally throws a page error AND requests a stylesheet on a
+     DIFFERENT loopback port — exercises the CLI's fatal gate for page
+     errors and aborted external requests. Must make audit.todo.mjs exit 1. -->
+<html lang="en">
+<head>
+<meta charset="utf-8"><title>cli errors</title>
+<link rel="stylesheet" href="http://127.0.0.1:1/blocked.css">
+</head>
+<body>
+<section class="todoapp"><header><input class="new-todo"></header><ul class="todo-list"></ul></section>
+<script>throw new Error("intentional page error for CLI contract test");</script>
+</body>
+</html>
