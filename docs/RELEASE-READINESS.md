@@ -10,7 +10,7 @@ Every decision refers to an exact commit, declared scope and linked evidence. Do
 | Demonstration | Reproducible source change and complete keyboard task; captions/transcript for any video |
 | Benchmark | Frozen inputs, isolated skill/control arms, full artifacts and independent replay; failures retained |
 | Human usability | Actual critical tasks, tester/date, OS/browser/AT versions, observed results and open defects |
-| Standards | Applicable criteria tracked, methods distinguished, jurisdictional scope assessed separately |
+| Standards | [Complete criterion inventory](../templates/README.md), justified applicability, appropriate methods, full-page/process requirements and separate jurisdictional assessment |
 | Presentation | Tested English quick start, working links, license, AI disclosure and honest limitations |
 | Opethon | Organizer ruling on pre-existing work and repository creation date |
 

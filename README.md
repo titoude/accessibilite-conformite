@@ -101,6 +101,7 @@ Current tests exercise decision failures and real Chromium scans. A paired pilot
 | [audit.mjs](audit.mjs) | Scanner and scope reports |
 | [tests/](tests/) | Decision and browser regression tests |
 | [tests-validateurs/](tests-validateurs/) | Deliberately broken cases and assertion helpers |
+| [Criterion coverage record](templates/README.md) | All 55 WCAG 2.2 A/AA criteria, initially untested |
 | [workflow.py](workflow.py) | Optional Devin orchestration |
 | [benchmark-v3.py](benchmark-v3.py) | Benchmark adapter and hardened metadata checks |
 | [benchmark-v2/](benchmark-v2/) | Preserved historical patches and reports |

@@ -14,6 +14,7 @@ Use [audit.mjs](audit.mjs) for scans and [checklist.md](checklist.md) for checks
 - Verify the exact repository, branch and commit. Preserve concurrent work. This skill does not grant permission for deployments, production mutations, messages or unrelated changes.
 - Identify complete user tasks, including error paths.
 - Freeze a manifest of routes, states, roles, data, language, theme, viewport, expected outcomes and tool versions.
+- For WCAG 2.2 A/AA, start a [complete criterion record](templates/README.md). Keep all 55 criteria; justify inapplicability and leave unperformed checks open. Other standards require their own inventory.
 - Configure dynamic `STATES` before the baseline, or use `--states none` explicitly when there are none in scope. Crawling does not discover every screen.
 - Keep credentials and browser authentication state out of Git and public artifacts.
 - Use locked tools and the project's approved installation procedure. The toolkit uses `pnpm install --frozen-lockfile --ignore-scripts` followed by an explicit Chromium installation. Do not migrate a target project's package manager merely to audit it.
