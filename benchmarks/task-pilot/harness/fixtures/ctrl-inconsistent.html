@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). Completion sets .completed class but resets checkbox.checked - contradictory state. task1 must FAIL. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl inconsistent</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
@@ -29,7 +29,7 @@ function add(text) {
   const cb = document.createElement('input'); cb.type = 'checkbox'; cb.className = 'toggle'; cb.setAttribute('aria-label', 'Mark complete');
   const lab = document.createElement('label'); lab.textContent = text;
   const it = { li, done: false };
-  cb.addEventListener('change', () => { it.done = cb.checked; li.classList.toggle('completed', cb.checked); render(); });
+  cb.addEventListener('change', () => { it.done = cb.checked; li.classList.toggle('completed', cb.checked); cb.checked = false; render(); });
   const ed = document.createElement('button'); ed.className = 'edit-btn'; ed.setAttribute('aria-label', 'Edit item'); ed.textContent = 'Edit';
   ed.addEventListener('click', () => openEdit(li, lab));
   li.append(cb, lab, ed); list.appendChild(li); items.set(id, it); render();

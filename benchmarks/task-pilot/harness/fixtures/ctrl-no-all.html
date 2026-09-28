@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). The All link has preventDefault - the list never restores both items. task1 must FAIL. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl no-all</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
@@ -48,7 +48,7 @@ function openEdit(li, lab) {
 function closeEdit(li, e) { li.classList.remove('editing'); e.remove(); li.querySelector('.toggle').focus(); }
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && input.value.trim()) { add(input.value.trim()); input.value = ''; } });
 list.addEventListener('dblclick', (e) => { if (e.target.tagName === 'LABEL') openEdit(e.target.closest('li'), e.target); });
-
+document.querySelector('.filters a[href=\'#/\']').addEventListener('click', e => e.preventDefault());
 toggleAll.addEventListener('change', () => { for (const it of items.values()) { it.done = toggleAll.checked; it.li.classList.toggle('completed', it.done); it.li.querySelector('.toggle').checked = it.done; } render(); });
 clear.addEventListener('click', () => { for (const [i, it] of items) if (it.done) { it.li.remove(); items.delete(i); } render(); });
 window.addEventListener('hashchange', render);

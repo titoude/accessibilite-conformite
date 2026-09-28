@@ -36,6 +36,9 @@ npm ci --omit=dev --ignore-scripts --no-audit --no-fund \
 
 # Serve the repo ROOT so /learn.json resolves; app lives under
 # /examples/javascript-es5/.
+SERVE_PID=""
+cleanup() { [ -n "$SERVE_PID" ] && kill "$SERVE_PID" 2>/dev/null || true; }
+trap cleanup EXIT
 node "$HERE/serve.mjs" "$CLONE" "$PORT" "$HERE/fixtures" > "$OUTDIR/serve.log" 2>&1 &
 SERVE_PID=$!
 echo "serve_pid=$SERVE_PID port=$PORT" >> "$OUTDIR/eval-status.env"
@@ -57,10 +60,9 @@ fi
 
 APP="http://127.0.0.1:$PORT/examples/javascript-es5/"
 node "$HERE/audit.todo.mjs" "$APP" "$OUTDIR" "$PORT" "$HERE/fixtures" 2>&1 | tee "$OUTDIR/audit.log"
-STATUS=$?
-kill $SERVE_PID 2>/dev/null || true
+STATUS=${PIPESTATUS[0]}
 [ $STATUS -ne 0 ] && { echo "AUDIT_FAILED" >> "$OUTDIR/eval-status.env"; exit 8; }
 
-echo "versions:" >> "$OUTDIR/eval-status.env"
-{ echo "  node: $(node -v)"; echo "  npm: $(npm -v)"; echo "  chromium: $(node -e 'console.log(require("playwright-core/package.json").version)' 2>/dev/null || true)"; } >> "$OUTDIR/eval-status.env"
+# versions are recorded by the runner itself (browser.version() etc.) in
+# scope.json/report.json — do not re-derive them from the wrong cwd.
 echo "DONE" >> "$OUTDIR/eval-status.env"

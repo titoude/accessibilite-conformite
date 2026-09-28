@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). .todo-list is opacity:0 - real content invisible. task1 must FAIL. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl invisible-list</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
-  <main class="main"><input class="toggle-all" type="checkbox" aria-label="Mark all as complete"><ul class="todo-list"></ul></main>
+  <main class="main"><input class="toggle-all" type="checkbox" aria-label="Mark all as complete"><ul class="todo-list" style="opacity:0"></ul></main>
   <footer class="footer">
     <span class="todo-count">0 items left</span>
     <ul class="filters"><li><a href="#/">All</a></li><li><a href="#/active">Active</a></li><li><a href="#/completed">Completed</a></li></ul>

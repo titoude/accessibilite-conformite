@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). Edit input opens but Enter never commits - text does not update. task2 must FAIL. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl noop-commit</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
@@ -40,7 +40,7 @@ function openEdit(li, lab) {
   const e = document.createElement('input'); e.className = 'edit'; e.value = lab.textContent;
   li.appendChild(e); e.focus();
   e.addEventListener('keydown', (ev) => {
-    if (ev.key === 'Enter') { lab.textContent = e.value; closeEdit(li, e); }
+    if (ev.key === 'Enter') { closeEdit(li, e); /* no commit */ }
     if (ev.key === 'Escape') { closeEdit(li, e); }
   });
   e.addEventListener('blur', () => { if (li.contains(e)) { lab.textContent = e.value; closeEdit(li, e); } });

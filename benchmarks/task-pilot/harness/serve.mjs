@@ -6,7 +6,7 @@
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { statSync } from "node:fs";
-import { join, normalize, extname, resolve } from "node:path";
+import { join, normalize, extname, resolve, relative } from "node:path";
 
 const [dirArg, portArg, fixtureDir] = process.argv.slice(2);
 if (!dirArg || !portArg) {
@@ -31,7 +31,11 @@ const TYPES = {
 
 function safePath(root, urlPath) {
   const p = normalize(join(root, decodeURIComponent(urlPath)));
-  if (!p.startsWith(root)) return null; // path escape
+  // path.relative containment — a sibling like /srv/app-evil whose name
+  // shares the /srv/app prefix must NOT be accepted by a startsWith check.
+  const rel = relative(root, p);
+  if (rel === "") return root;
+  if (rel === ".." || rel.startsWith(".." + "/") || resolve(rel) === rel) return null;
   return p;
 }
 

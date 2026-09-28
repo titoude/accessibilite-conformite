@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Edit button named via aria-labelledby referencing a hidden span (accName indirection). All tasks PASS. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl labelledby</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
@@ -30,8 +30,10 @@ function add(text) {
   const lab = document.createElement('label'); lab.textContent = text;
   const it = { li, done: false };
   cb.addEventListener('change', () => { it.done = cb.checked; li.classList.toggle('completed', cb.checked); render(); });
-  const ed = document.createElement('button'); ed.className = 'edit-btn'; ed.setAttribute('aria-label', 'Edit item'); ed.textContent = 'Edit';
+  const hidden = document.createElement('span'); hidden.id = 'edlbl' + li.dataset.id; hidden.textContent = 'Edit item'; hidden.style.display = 'none';
+  const ed = document.createElement('button'); ed.className = 'edit-btn'; ed.setAttribute('aria-labelledby', hidden.id); ed.textContent = '✎';
   ed.addEventListener('click', () => openEdit(li, lab));
+  li.appendChild(hidden);
   li.append(cb, lab, ed); list.appendChild(li); items.set(id, it); render();
 }
 function openEdit(li, lab) {

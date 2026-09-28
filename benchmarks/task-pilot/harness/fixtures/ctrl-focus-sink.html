@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). Edit opens and commits, but commit/cancel drops focus to BODY - no meaningful focus return. task2 must FAIL. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl focus-sink</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
@@ -45,7 +45,7 @@ function openEdit(li, lab) {
   });
   e.addEventListener('blur', () => { if (li.contains(e)) { lab.textContent = e.value; closeEdit(li, e); } });
 }
-function closeEdit(li, e) { li.classList.remove('editing'); e.remove(); li.querySelector('.toggle').focus(); }
+function closeEdit(li, e) { li.classList.remove('editing'); e.remove();  }
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && input.value.trim()) { add(input.value.trim()); input.value = ''; } });
 list.addEventListener('dblclick', (e) => { if (e.target.tagName === 'LABEL') openEdit(e.target.closest('li'), e.target); });
 

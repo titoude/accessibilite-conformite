@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- SYNTHETIC positive-control fixture (evaluator-owned, not app code). Fully working todo: named edit button (aria-label), real completion state, filters, count, clear. All tasks PASS. -->
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). toggle-all change checks only itself; items never complete. task3 must FAIL. -->
 <html lang="en">
-<head><meta charset="utf-8"><title>ctrl complete</title></head>
+<head><meta charset="utf-8"><title>ctrl toggle-noop</title></head>
 <body>
 <section class="todoapp">
   <header><input class="new-todo" aria-label="New todo" autofocus></header>
@@ -49,7 +49,7 @@ function closeEdit(li, e) { li.classList.remove('editing'); e.remove(); li.query
 input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && input.value.trim()) { add(input.value.trim()); input.value = ''; } });
 list.addEventListener('dblclick', (e) => { if (e.target.tagName === 'LABEL') openEdit(e.target.closest('li'), e.target); });
 
-toggleAll.addEventListener('change', () => { for (const it of items.values()) { it.done = toggleAll.checked; it.li.classList.toggle('completed', it.done); it.li.querySelector('.toggle').checked = it.done; } render(); });
+toggleAll.addEventListener('change', () => { render(); }); // checks itself only - per-item state untouched
 clear.addEventListener('click', () => { for (const [i, it] of items) if (it.done) { it.li.remove(); items.delete(i); } render(); });
 window.addEventListener('hashchange', render);
 render();

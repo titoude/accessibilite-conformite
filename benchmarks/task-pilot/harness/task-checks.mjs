@@ -1,12 +1,14 @@
 // Held-out task checks for the task-pilot evaluator.
 // Every interaction credited toward a task is a real keyboard event
-// (page.keyboard.*). DOM reads (evaluate on document state) are evidence
-// only — they never produce a credited action. Programmatic focus(),
-// element.click() or seeded outcomes cannot count as keyboard success.
+// (page.keyboard.*). DOM reads are evidence only — they never produce a
+// credited action. Programmatic focus(), element.click(), or seeded
+// outcomes cannot count as keyboard success.
 //
-// These checks implement the pilot's custom evaluation CONTRACT, not a
-// normative WCAG requirement. The contract is published equally to both
-// arms; the discovery procedure is in README/manifest.
+// These checks implement the pilot's custom evaluation CONTRACT (see
+// manifest.json), not a normative WCAG requirement. The contract and the
+// discovery procedure are published equally to both arms.
+
+import { expect } from "@playwright/test";
 
 export const TASK_IDS = [
   "task1_add_complete_filter",
@@ -15,66 +17,103 @@ export const TASK_IDS = [
 ];
 
 const TEXTS = ["Alpha task", "Beta task"];
+const ENTER = "Enter";
+const PW_OPTS = { timeout: 400 }; // accessible-name assertions are instant
 
 async function focusedDescriptor(page) {
   return page.evaluate(() => {
     const el = document.activeElement;
     if (!el) return null;
+    const r = el.getBoundingClientRect();
     return {
       tag: el.tagName.toLowerCase(),
       type: el.getAttribute("type") || null,
       cls: el.getAttribute("class") || "",
-      name: el.getAttribute("aria-label") || el.getAttribute("placeholder") || (el.textContent || "").trim().slice(0, 60),
-      role: el.getAttribute("role") || null,
-      inLiId: el.closest("li")?.dataset?.id ?? el.closest("li")?.getAttribute("data-id") ?? null,
-      isEditInput: el.matches("input.edit") || (el.tagName === "INPUT" && el.closest("li")),
+      name: el.getAttribute("aria-label") || (el.textContent || "").trim().slice(0, 60),
+      visible: !!(r.width || r.height) && getComputedStyle(el).visibility !== "hidden",
+      liIndex: el.closest("li") ? [...document.querySelectorAll(".todo-list li")].indexOf(el.closest("li")) : null,
     };
   });
 }
 
-// Tab (or Shift+Tab) until predicate on the focused descriptor holds.
-// Returns the descriptor on success, null when the walk exhausted.
-async function tabUntil(page, predicate, { maxTabs = 30, backwards = false } = {}) {
+// Real accessible-name check on the currently focused element using the
+// pinned Playwright matcher — no in-page approximation.
+async function focusedHasName(page, re) {
+  try {
+    await expect(page.locator(":focus")).toHaveAccessibleName(re, PW_OPTS);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+// Tab until predicate(descriptor) holds; descriptor is evidence, and for
+// name checks callers should use focusedHasName (real accName).
+async function tabUntil(page, predicate, { maxTabs = 40 } = {}) {
   for (let i = 0; i < maxTabs; i++) {
     const d = await focusedDescriptor(page);
-    if (d && predicate(d)) return d;
-    await page.keyboard.press(backwards ? "Shift+Tab" : "Tab");
-    await page.waitForTimeout(50);
+    if (d && (await predicate(d, page))) return d;
+    await page.keyboard.press("Tab");
+    await page.waitForTimeout(40);
   }
   const d = await focusedDescriptor(page);
-  return d && predicate(d) ? d : null;
+  return d && (await predicate(d, page)) ? d : null;
 }
 
 function itemStates(page) {
-  // Ground truth: per-item identity (label text) + completion (checkbox +
-  // li class), plus footer count text. Never trusts toggle-all.checked.
+  // Ground truth per item: identity text, checkbox.checked AND li class
+  // kept SEPARATE (a mismatch = inconsistent state, not "completed"),
+  // plus visibility via checkVisibility which covers hidden ancestors,
+  // visibility:hidden and opacity:0. Never trusts toggle-all.checked.
   return page.evaluate(() => {
-    const items = [...document.querySelectorAll(".todo-list li")].map((li) => ({
-      id: li.getAttribute("data-id"),
-      text: (li.querySelector("label")?.textContent || "").trim(),
-      completed: li.classList.contains("completed") || !!li.querySelector("input[type=checkbox]")?.checked,
-      visible: getComputedStyle(li).display !== "none" && !li.hidden,
-    }));
-    const visibleItems = items.filter((i) => i.visible);
-    const countText = (document.querySelector(".todo-count")?.textContent || "").replace(/\s+/g, " ").trim();
-    const clearVisible = !!document.querySelector(".clear-completed") &&
-      getComputedStyle(document.querySelector(".clear-completed")).display !== "none";
-    const footerVisible = !!document.querySelector(".footer") &&
-      getComputedStyle(document.querySelector(".footer")).display !== "none";
-    const mainVisible = !!document.querySelector(".main") &&
-      getComputedStyle(document.querySelector(".main")).display !== "none";
-    return { items, visibleItems, countText, clearVisible, footerVisible, mainVisible, hash: location.hash };
+    const items = [...document.querySelectorAll(".todo-list li")].map((li) => {
+      const cb = li.querySelector("input[type=checkbox]");
+      const clsDone = li.classList.contains("completed");
+      const cbDone = cb ? !!cb.checked : null;
+      const visible = typeof li.checkVisibility === "function"
+        ? li.checkVisibility({ checkOpacity: true, checkVisibilityCSS: true })
+        : (getComputedStyle(li).display !== "none" && getComputedStyle(li).visibility !== "hidden"
+           && Number(getComputedStyle(li).opacity) > 0 && !li.hidden);
+      return {
+        id: li.getAttribute("data-id"),
+        text: (li.querySelector("label")?.textContent || "").trim(),
+        checkboxChecked: cbDone,
+        classCompleted: clsDone,
+        completed: cbDone === true && clsDone === true,
+        inconsistent: cbDone !== null && cbDone !== clsDone,
+        visible,
+      };
+    });
+    const vis = items.filter((i) => i.visible);
+    return {
+      items, visibleItems: vis,
+      anyInconsistent: items.some((i) => i.inconsistent),
+      countText: (document.querySelector(".todo-count")?.textContent || "").replace(/\s+/g, " ").trim(),
+      clearVisible: (() => { const c = document.querySelector(".clear-completed"); return !!c && (typeof c.checkVisibility === "function" ? c.checkVisibility() : getComputedStyle(c).display !== "none"); })(),
+      hash: location.hash,
+    };
   });
 }
 
 async function activateLinkByKeyboard(page, name) {
-  // Focus link by Tab walking and verify identity via focused descriptor.
+  // Tab to a link whose accessible name is exactly `name`, press Enter,
+  // then wait for the rendered outcome (hash + rerendered list state),
+  // never the hash alone.
   for (let i = 0; i < 40; i++) {
     const d = await focusedDescriptor(page);
-    if (d && d.tag === "a" && new RegExp(`^${name}$`, "i").test(d.name)) {
-      await page.keyboard.press("Enter");
-      await page.waitForTimeout(150);
-      return { ok: true };
+    if (d && d.tag === "a") {
+      const named = await focusedHasName(page, new RegExp(`^${name}$`, "i"));
+      if (named) {
+        const before = await itemStates(page);
+        await page.keyboard.press("Enter");
+        await page.waitForFunction(
+          (n) => location.hash.toLowerCase().includes(n.toLowerCase()),
+          name, { timeout: 2000 },
+        ).catch(() => {});
+        await page.waitForTimeout(200);
+        const after = await itemStates(page);
+        return { ok: after.hash !== before.hash || after.hash.toLowerCase().includes(name.toLowerCase()), hash: after.hash };
+      }
     }
     await page.keyboard.press("Tab");
     await page.waitForTimeout(40);
@@ -82,104 +121,120 @@ async function activateLinkByKeyboard(page, name) {
   return { ok: false, reason: `link ${name} not reachable by Tab` };
 }
 
-async function pressKeyOnItem(page, itemText, keys) {
-  // Walk focus until the active element is inside the li holding itemText,
-  // then send keys. Returns {ok, affordance?, error?}
-  for (let i = 0; i < 40; i++) {
+// Move focus INSIDE the li whose label text === itemText, landing on a
+// specific descendant kind ('checkbox'|'label'|'any'). Walks past the
+// first descendant — does not stop at the checkbox when another
+// affordance is requested.
+async function focusInsideItem(page, itemText, want = "any") {
+  for (let i = 0; i < 50; i++) {
     const d = await focusedDescriptor(page);
-    if (d) {
-      const inside = await page.evaluate((want) => {
-        const el = document.activeElement;
-        const li = el.closest("li");
+    if (d && d.liIndex !== null) {
+      const ok = await page.evaluate(([wantText, wantKind, idx]) => {
+        const li = document.querySelectorAll(".todo-list li")[idx];
         if (!li) return false;
-        const label = (li.querySelector("label")?.textContent || "").trim();
-        return label === want;
-      }, itemText);
-      if (inside) {
-        await page.keyboard.press(keys);
-        await page.waitForTimeout(150);
-        return { ok: true, focused: d };
-      }
+        if ((li.querySelector("label")?.textContent || "").trim() !== wantText) return false;
+        const el = document.activeElement;
+        if (!li.contains(el)) return false;
+        if (wantKind === "any") return true;
+        if (wantKind === "checkbox") return el.matches('input[type=checkbox]');
+        if (wantKind === "label") return el.tagName === "LABEL" || el.matches('[role=button],button,a,label');
+        if (wantKind === "noncheckbox") return !el.matches('input[type=checkbox]');
+        return false;
+      }, [itemText, want, d.liIndex]);
+      if (ok) return { ok: true, focused: d };
     }
     await page.keyboard.press("Tab");
     await page.waitForTimeout(40);
   }
-  return { ok: false, reason: "item not keyboard-reachable" };
+  return { ok: false, reason: `no ${want} focusable inside item ${itemText}` };
 }
 
+// Editing is REAL when: the focused element is a VISIBLE text input or
+// textarea inside the li for the right item (label text match or the
+// input's own value === item text). A focused checkbox never qualifies.
 async function isEditing(page, itemText) {
   return page.evaluate((want) => {
     const el = document.activeElement;
-    if (!el || el.tagName !== "INPUT") return false;
+    if (!el || !(el.tagName === "INPUT" || el.tagName === "TEXTAREA")) return false;
+    if (el.tagName === "INPUT" && el.type && !["text", "search", ""].includes(el.type)) return false;
     const li = el.closest("li");
     if (!li) return false;
+    const r = el.getBoundingClientRect();
+    const cs = getComputedStyle(el);
+    if (!(r.width || r.height) || cs.visibility === "hidden" || cs.display === "none" || Number(cs.opacity) === 0) return false;
     const label = (li.querySelector("label")?.textContent || "").trim();
-    return label === want || el.value === want;
+    return label === want || el.value === want || label.startsWith(want) || want.startsWith(label);
   }, itemText);
 }
 
-export async function runTask1(page, log) {
-  // CONTRACT: add two distinct todos, complete one, Active/Completed
-  // filters preserve item identity + completion in-session.
-  // Reload reset is baseline behavior — explicitly NOT tested/failed.
+async function addItem(page, text) {
+  const d = await tabUntil(page, (x) => x.tag === "input" && (x.type === "text" || x.type === null || x.type === "search") && !x.liIndex);
+  if (!d) return { ok: false, reason: "no empty-list text input reachable" };
+  await page.keyboard.type(text, { delay: 10 });
+  await page.keyboard.press(ENTER);
+  await page.waitForTimeout(180);
+  let st = await itemStates(page);
+  if (!st.items.some((i) => i.text === text)) {
+    // upstream commits on 'change' (blur) — Tab to commit is still a real
+    // keyboard path; record which mechanism fired.
+    await page.keyboard.press("Tab");
+    await page.waitForTimeout(150);
+    st = await itemStates(page);
+    if (st.items.some((i) => i.text === text)) return { ok: true, commitKey: "Enter+Tab" };
+    return { ok: false, reason: "item not added" };
+  }
+  return { ok: true, commitKey: "Enter" };
+}
+
+export async function runTask1(page) {
+  // CONTRACT: add two distinct todos, complete one via keyboard, filters
+  // Active/Completed show the correct items (visible, identity-verified),
+  // and All restores both. Reload reset is baseline, not scored.
   const ev = { steps: [] };
   const step = (s, ok, detail) => ev.steps.push({ s, ok, detail });
-
-  // Focus the new-todo input (autofocus on load; else Tab to first textbox).
-  let d = await focusedDescriptor(page);
-  if (!d || !(d.tag === "input" && (d.type === "text" || !d.type))) {
-    d = await tabUntil(page, (x) => x.tag === "input" && (x.type === "text" || x.type === null));
-  }
-  if (!d) { step("focus new-todo input", false, "no text input reachable"); return { status: "FAIL", ev }; }
-  step("focus new-todo input", true, d);
-
+  let commitKey = null;
   for (const t of TEXTS) {
-    await page.keyboard.type(t, { delay: 10 });
-    await page.keyboard.press("Enter");
-    await page.waitForTimeout(200);
-    // If Enter did not commit (upstream 'change' semantics), Tab away to
-    // force commit — still a real keyboard path. Record which fired.
-    const st = await itemStates(page);
-    if (!st.items.some((i) => i.text === t)) {
-      await page.keyboard.press("Tab");
-      await page.waitForTimeout(150);
-      const st2 = await itemStates(page);
-      if (st2.items.some((i) => i.text === t)) {
-        ev.commitKey = "Enter+Tab (change on blur)";
-        // return focus to the input for the next item
-        await tabUntil(page, (x) => x.tag === "input" && (x.type === "text" || x.type === null));
-      }
-    } else {
-      ev.commitKey = ev.commitKey || "Enter";
-    }
+    const a = await addItem(page, t);
+    commitKey = commitKey || a.commitKey;
+    if (!a.ok) { step(`add "${t}"`, false, a.reason); return { status: "FAIL", ev }; }
+    step(`add "${t}"`, true, a.commitKey);
+    // refocus input for next item if focus moved into the list
+    const d = await focusedDescriptor(page);
+    if (d && d.liIndex !== null) await tabUntil(page, (x) => x.tag === "input" && !x.liIndex);
   }
+  ev.commitKey = commitKey;
   let st = await itemStates(page);
-  const okAdd = TEXTS.every((t) => st.items.some((i) => i.text === t));
-  step("two items added with exact text", okAdd, st.items.map((i) => i.text));
-  if (!okAdd) return { status: "FAIL", ev };
+  step("two items added with exact text", TEXTS.every((t) => st.items.some((i) => i.text === t)), st.items.map((i) => i.text));
 
-  // Complete Alpha via keyboard: focus inside its li then Space.
-  const f1 = await pressKeyOnItem(page, TEXTS[0], " ");
+  // Complete Alpha: focus the checkbox inside ITS li, press Space.
+  const f1 = await focusInsideItem(page, TEXTS[0], "checkbox");
+  if (f1.ok) { await page.keyboard.press(" "); await page.waitForTimeout(150); }
   step("keyboard toggle Alpha", f1.ok, f1.focused || f1.reason);
   st = await itemStates(page);
   const a = st.items.find((i) => i.text === TEXTS[0]);
-  step("Alpha completed=true", !!a && a.completed, st.items);
+  step("Alpha completed (checked AND class agree)",
+    !!a && a.completed && !a.inconsistent,
+    a ? { checked: a.checkboxChecked, cls: a.classCompleted } : "item missing");
 
-  // Completed filter shows only Alpha; Active shows only Beta.
   const c = await activateLinkByKeyboard(page, "Completed");
-  step("Completed filter via keyboard", c.ok, c.reason || "activated");
+  step("Completed filter via keyboard", c.ok, c.reason || c.hash);
   st = await itemStates(page);
-  step("Completed shows exactly Alpha", st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[0] && st.visibleItems[0].completed, st.visibleItems);
+  step("Completed shows exactly Alpha (visible)", st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[0] && st.visibleItems[0].completed, st.visibleItems);
   const ac = await activateLinkByKeyboard(page, "Active");
+  step("Active filter via keyboard", ac.ok, ac.reason || ac.hash);
   st = await itemStates(page);
-  step("Active shows exactly Beta", st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[1] && !st.visibleItems[0].completed, st.visibleItems);
-  await activateLinkByKeyboard(page, "All");
+  step("Active shows exactly Beta (visible)", st.visibleItems.length === 1 && st.visibleItems[0].text === TEXTS[1] && !st.visibleItems[0].completed, st.visibleItems);
+  const all = await activateLinkByKeyboard(page, "All");
+  step("All filter via keyboard", all.ok, all.reason || all.hash);
   st = await itemStates(page);
+  step("All restores both items with identities intact",
+    st.visibleItems.length === 2 && st.visibleItems.some((i) => i.text === TEXTS[0]) && st.visibleItems.some((i) => i.text === TEXTS[1]),
+    st.visibleItems.map((i) => i.text));
+  step("no inconsistent checked/class states anywhere", !st.anyInconsistent, st.items.filter((i) => i.inconsistent));
   step("count text reports 1 item left", /\b1\b\s*items? left/i.test(st.countText), st.countText);
 
   ev.reloadReset = await (async () => {
-    await page.reload();
-    await page.waitForTimeout(300);
+    await page.reload(); await page.waitForTimeout(300);
     const r = await itemStates(page);
     return r.items.length === 0;
   })();
@@ -188,210 +243,237 @@ export async function runTask1(page, log) {
   return { status: fails === 0 ? "PASS" : "FAIL", ev };
 }
 
-export async function runTask2(page, log) {
-  // CONTRACT: a keyboard path to item editing exists and works. Discovery
-  // order (custom contract): (a) a focusable control with accessible name
-  // matching /edit/i inside the item — Enter/Space; (b) F2 while the item
-  // row/descendant has focus; (c) Enter on a focusable item label.
-  // Success = a focused text input bearing the item's title inside its li.
+export async function runTask2(page) {
+  // CONTRACT: a keyboard path to item editing exists. Discovery order
+  // (custom contract, equal for both arms):
+  //   (a) focusable control inside the item whose ACCESSIBLE NAME (real
+  //       accName via toHaveAccessibleName — covers aria-labelledby and
+  //       native labels) matches /edit/i → Enter/Space;
+  //   (b) F2 while focus is inside the item (any descendant);
+  //   (c) Enter/Space on a focusable label/non-checkbox descendant.
+  // Success = a visible focused text editor bearing the item's title.
   const ev = { steps: [] };
   const step = (s, ok, detail) => ev.steps.push({ s, ok, detail });
-  const target = TEXTS[1]; // Beta — still active/uncompleted after task1
+  const target = TEXTS[1];
 
-  // ensure the item exists (task3 may have cleared; re-add if needed)
   let st = await itemStates(page);
-  if (!st.items.length) {
-    const d = await tabUntil(page, (x) => x.tag === "input");
-    if (d) { await page.keyboard.type(target, { delay: 10 }); await page.keyboard.press("Enter"); await page.waitForTimeout(200);
-      st = await itemStates(page);
-      if (!st.items.some((i) => i.text === target)) { await page.keyboard.press("Tab"); await page.waitForTimeout(150); }
-    }
+  if (!st.items.some((i) => i.text === target)) {
+    const a = await addItem(page, target);
+    if (a.ok) { const d = await focusedDescriptor(page); if (d?.liIndex === null) {} }
     st = await itemStates(page);
   }
   if (!st.items.some((i) => i.text === target)) {
     step("precondition: item present", false, st.items.map((i) => i.text));
     return { status: "FAIL", ev };
   }
+  const itemId = st.items.find((i) => i.text === target)?.id;
+  ev.itemId = itemId;
 
-  // (a) edit control inside the item
-  const hasEditCtl = await page.evaluate((want) => {
-    const li = [...document.querySelectorAll("li")].find((x) => (x.querySelector("label")?.textContent || "").trim() === want);
-    if (!li) return false;
-    return [...li.querySelectorAll("button,[role=button],a")].some((c) => /edit/i.test((c.getAttribute("aria-label") || c.textContent || "")));
-  }, target);
-
-  let affordance = null;
-  if (hasEditCtl) {
-    for (let i = 0; i < 40 && !affordance; i++) {
+  const tryEnter = async (want) => {
+    // Tab through the document; whenever focus is inside the item's li,
+    // apply the contract's affordance search on that focused element.
+    for (let i = 0; i < 60; i++) {
       const d = await focusedDescriptor(page);
-      if (d && /edit/i.test(d.name) && (d.tag === "button" || d.tag === "a" || d.role === "button")) {
-        await page.keyboard.press("Enter");
-        await page.waitForTimeout(150);
-        if (await isEditing(page, target)) affordance = "named edit control + Enter";
+      if (d) {
+        const inside = await page.evaluate(([wantText]) => {
+          const el = document.activeElement;
+          const li = el.closest("li");
+          return !!li && (li.querySelector("label")?.textContent || "").trim() === wantText;
+        }, [want]);
+        if (inside) {
+          // (a) real accessible name check on the focused element
+          if (await focusedHasName(page, /edit/i)) {
+            await page.keyboard.press(ENTER);
+            await page.waitForTimeout(150);
+            if (await isEditing(page, want)) return "named edit control + Enter";
+            await page.keyboard.press(" ");
+            await page.waitForTimeout(150);
+            if (await isEditing(page, want)) return "named edit control + Space";
+          }
+          // (b) F2 while inside the item
+          await page.keyboard.press("F2");
+          await page.waitForTimeout(150);
+          if (await isEditing(page, want)) return "F2 inside item";
+          // (c) Enter/Space on a non-checkbox descendant (label etc.)
+          if (d.tag !== "input" || d.type !== "checkbox") {
+            await page.keyboard.press(ENTER);
+            await page.waitForTimeout(150);
+            if (await isEditing(page, want)) return "Enter on item descendant";
+            await page.keyboard.press(" ");
+            await page.waitForTimeout(150);
+            if (await isEditing(page, want)) return "Space on item descendant";
+          }
+        }
       }
       await page.keyboard.press("Tab");
       await page.waitForTimeout(40);
     }
-  }
+    return null;
+  };
 
-  // (b) F2 on focused item/descendant
-  if (!affordance) {
-    const f = await pressKeyOnItem(page, target, "F2");
-    if (f.ok && (await isEditing(page, target))) affordance = "F2 on item";
-  }
-  // (c) Enter / Space on a focusable label
-  if (!affordance) {
-    for (const key of ["Enter", " "]) {
-      const f = await pressKeyOnItem(page, target, key);
-      if (f.ok && (await isEditing(page, target))) { affordance = `${key === " " ? "Space" : "Enter"} on item`; break; }
-    }
-  }
+  const affordance = await tryEnter(target);
   ev.affordance = affordance;
-  step("keyboard edit affordance discovered", !!affordance, affordance || "none of {named control, F2, Enter, Space} worked");
+  step("keyboard edit affordance discovered", !!affordance, affordance || "none of {named control, F2, Enter/Space} worked");
   if (!affordance) return { status: "FAIL", ev };
 
-  // Commit: select-all, retype, Enter.
+  // Commit path: Ctrl+A retype Enter — item ID must be preserved, edit
+  // mode must exit, focus must land on a visible affordance tied to the
+  // SAME item (not BODY).
   await page.keyboard.press("ControlOrMeta+a");
   const newText = "Beta renamed";
   await page.keyboard.type(newText, { delay: 10 });
-  await page.keyboard.press("Enter");
-  await page.waitForTimeout(200);
+  await page.keyboard.press(ENTER);
+  await page.waitForTimeout(250);
   st = await itemStates(page);
-  const renamed = st.items.find((i) => i.id || i.text);
-  step("commit via Enter updates item text", st.items.some((i) => i.text === newText), st.items.map((i) => i.text));
+  const committed = st.items.find((i) => i.text === newText);
+  step("commit preserves item id + exits edit mode",
+    !!committed && committed.id === itemId && !(await isEditing(page, newText)),
+    { items: st.items.map((i) => [i.id, i.text]), wantedId: itemId });
   const dCommit = await focusedDescriptor(page);
-  step("focus after commit is meaningful (not body)", !!dCommit && dCommit.tag !== "body", dCommit);
+  const focusOkCommit = dCommit && await page.evaluate(([idx, id]) => {
+    const el = document.activeElement;
+    if (!el || el === document.body) return false;
+    const li = el.closest("li");
+    if (!li) return false;
+    if (id && li.getAttribute("data-id") !== String(id)) return false;
+    const cs = getComputedStyle(el);
+    return cs.display !== "none" && cs.visibility !== "hidden" && Number(cs.opacity) > 0;
+  }, [dCommit?.liIndex, itemId]);
+  step("focus after commit lands on visible affordance of same item", !!focusOkCommit, dCommit);
 
-  // Cancel path: re-enter edit, Escape, text unchanged.
-  let affordance2 = null;
-  if (hasEditCtl) {
-    for (let i = 0; i < 40 && !affordance2; i++) {
-      const d = await focusedDescriptor(page);
-      if (d && /edit/i.test(d.name)) { await page.keyboard.press("Enter"); await page.waitForTimeout(150);
-        if (await isEditing(page, newText)) affordance2 = "edit control"; }
-      await page.keyboard.press("Tab"); await page.waitForTimeout(40);
-    }
-  }
-  if (!affordance2) { const f = await pressKeyOnItem(page, newText, "F2"); if (f.ok && (await isEditing(page, newText))) affordance2 = "F2"; }
-  if (!affordance2) { for (const k of ["Enter", " "]) { const f = await pressKeyOnItem(page, newText, k); if (f.ok && (await isEditing(page, newText))) { affordance2 = k; break; } } }
+  // Cancel path: re-enter edit on the same item, Escape → text unchanged,
+  // id preserved, edit exited, meaningful focus.
+  let affordance2 = await tryEnter(newText);
   if (affordance2) {
-    await page.keyboard.type(" discard me", { delay: 5 });
+    await page.keyboard.type(" discard", { delay: 5 });
     await page.keyboard.press("Escape");
-    await page.waitForTimeout(200);
+    await page.waitForTimeout(250);
     st = await itemStates(page);
-    step("Escape cancels edit", st.items.some((i) => i.text === newText), st.items.map((i) => i.text));
+    const still = st.items.find((i) => i.id === itemId);
+    step("Escape cancels: text unchanged, id preserved, edit exited",
+      !!still && still.text === newText && !(await isEditing(page, newText)),
+      st.items.map((i) => [i.id, i.text]));
     const dEsc = await focusedDescriptor(page);
-    step("focus after cancel is meaningful (not body)", !!dEsc && dEsc.tag !== "body", dEsc);
+    const focusOkEsc = dEsc && await page.evaluate((id) => {
+      const el = document.activeElement;
+      if (!el || el === document.body) return false;
+      const li = el.closest("li");
+      if (!li) return false;
+      if (id && li.getAttribute("data-id") !== String(id)) return false;
+      const cs = getComputedStyle(el);
+      return cs.display !== "none" && cs.visibility !== "hidden" && Number(cs.opacity) > 0;
+    }, itemId);
+    step("focus after cancel lands on visible affordance of same item", !!focusOkEsc, dEsc);
   } else {
     step("cancel path re-entry", false, "could not re-enter edit mode");
   }
 
-  // Mouse edit path must still work (preserve mouse functionality).
-  const labelEl = page.locator("li").filter({ hasText: newText }).locator("label").first();
+  // Mouse path must still work.
+  const labelEl = page.locator(".todo-list li").filter({ hasText: newText }).locator("label").first();
   if (await labelEl.count()) {
     await labelEl.dblclick();
-    await page.waitForTimeout(150);
-    const ok = await isEditing(page, newText) || await page.evaluate((w) => {
-      const li = [...document.querySelectorAll("li")].find((x) => (x.querySelector("label")?.textContent || "").trim() === w);
-      return !!li && li.classList.contains("editing");
+    await page.waitForTimeout(200);
+    const ok = await page.evaluate((w) => {
+      const li = [...document.querySelectorAll(".todo-list li")].find((x) => (x.querySelector("label")?.textContent || "").trim() === w);
+      return !!li && li.classList.contains("editing") && !!li.querySelector("input.edit, input[type=text], textarea");
     }, newText);
     step("mouse dblclick still opens edit", ok, "");
     await page.keyboard.press("Escape");
+    await page.waitForTimeout(150);
   }
   const fails = ev.steps.filter((s) => s.ok === false).length;
   return { status: fails === 0 ? "PASS" : "FAIL", ev };
 }
 
-export async function runTask3(page, log) {
-  // CONTRACT: toggle-all via keyboard actually completes every item
-  // (per-item truth, not toggle-all.checked); count/filters agree; Clear
-  // completed removes only completed items and preserves the rest.
+export async function runTask3(page) {
+  // CONTRACT: keyboard toggle-all actually completes every item
+  // (per-item checked+class truth), count and filters agree, and Clear
+  // completed removes only completed items.
   const ev = { steps: [] };
   const step = (s, ok, detail) => ev.steps.push({ s, ok, detail });
 
-  // Fresh state: clear storage keys upstream might use, reload, add 3 items.
   await page.reload(); await page.waitForTimeout(300);
-  const d = await tabUntil(page, (x) => x.tag === "input" && (x.type === "text" || x.type === null));
-  if (!d) { step("focus new-todo", false, ""); return { status: "FAIL", ev }; }
   const NAMES = ["One", "Two", "Three"];
   for (const t of NAMES) {
-    await page.keyboard.type(t, { delay: 10 });
-    await page.keyboard.press("Enter");
-    await page.waitForTimeout(180);
-    let st = await itemStates(page);
-    if (!st.items.some((i) => i.text === t)) {
-      await page.keyboard.press("Tab"); await page.waitForTimeout(150);
-      st = await itemStates(page);
-      await tabUntil(page, (x) => x.tag === "input" && (x.type === "text" || x.type === null));
-    }
+    const a = await addItem(page, t);
+    if (!a.ok) { step(`add "${t}"`, false, a.reason); return { status: "FAIL", ev }; }
+    const d = await focusedDescriptor(page);
+    if (d && d.liIndex !== null) await tabUntil(page, (x) => x.tag === "input" && !x.liIndex);
   }
   let st = await itemStates(page);
   step("three items present", st.items.length === 3, st.items.map((i) => i.text));
 
-  // Complete "One" via its own checkbox (Space on checkbox inside its li).
-  const f = await pressKeyOnItem(page, "One", " ");
-  step("complete One via keyboard", f.ok, f.reason || "");
+  const f = await focusInsideItem(page, "One", "checkbox");
+  if (f.ok) { await page.keyboard.press(" "); await page.waitForTimeout(150); }
   st = await itemStates(page);
   const one = st.items.find((i) => i.text === "One");
-  step("One completed", !!one && one.completed, st.items);
+  step("complete One (checked AND class agree)", !!one && one.completed && !one.inconsistent,
+    one ? { checked: one.checkboxChecked, cls: one.classCompleted } : "missing");
 
-  // Clear completed via keyboard: walk Tab until a button named
-  // /clear completed/i is focused, then Enter (and Space fallback).
+  // Clear completed via keyboard (real accessible name).
   let cleared = false;
   for (let i = 0; i < 50 && !cleared; i++) {
-    const dd = await focusedDescriptor(page);
-    if (dd && (dd.tag === "button" || dd.role === "button") && /clear completed/i.test(dd.name)) {
-      const before = await itemStates(page);
-      await page.keyboard.press("Enter");
-      await page.waitForTimeout(200);
-      let after = await itemStates(page);
-      if (!after.items.some((i) => i.completed) && after.items.length === before.items.length - 1) cleared = true;
-      else {
-        await page.keyboard.press(" ");
+    const d = await focusedDescriptor(page);
+    if (d && (d.tag === "button" || await focusedHasName(page, /clear completed/i))) {
+      if (await focusedHasName(page, /clear completed/i)) {
+        const before = await itemStates(page);
+        await page.keyboard.press(ENTER);
         await page.waitForTimeout(200);
-        after = await itemStates(page);
-        if (!after.items.some((i) => i.completed)) cleared = true;
+        let after = await itemStates(page);
+        if (!after.items.some((x) => x.completed) && after.items.length === before.items.length - 1) cleared = true;
+        else {
+          await page.keyboard.press(" ");
+          await page.waitForTimeout(200);
+          after = await itemStates(page);
+          if (!after.items.some((x) => x.completed)) cleared = true;
+        }
       }
-      break;
+      if (cleared) break;
     }
     await page.keyboard.press("Tab"); await page.waitForTimeout(40);
   }
   step("Clear completed via keyboard", cleared, "");
   st = await itemStates(page);
-  step("remaining items are exactly Two+Three",
-    st.items.length === 2 && st.items.some((i) => i.text === "Two") && st.items.some((i) => i.text === "Three") && st.items.every((i) => !i.completed), st.items);
+  step("remaining items are exactly Two+Three, still active",
+    st.items.length === 2 && st.items.some((i) => i.text === "Two") && st.items.some((i) => i.text === "Three") && st.items.every((i) => !i.completed && !i.inconsistent),
+    st.items.map((i) => [i.text, i.completed]));
 
-  // Toggle-all via keyboard: find the all-toggle control (checkbox or
-  // named control). Space must actually complete BOTH items.
+  // Toggle-all: find the all-toggle via accessible name (/mark all|toggle
+  // all|complete all/i) or the checkbox near the list top; press Space and
+  // require EVERY item completed — a box that checks itself without
+  // completing items is the known upstream failure and must FAIL.
   let toggled = false, via = null;
   for (let i = 0; i < 50 && !toggled; i++) {
-    const dd = await focusedDescriptor(page);
-    if (dd && ((dd.tag === "input" && dd.type === "checkbox" && /toggle-all|main|header|todoapp|body/.test(((await page.evaluate(() => document.activeElement.closest("div,section,header"))?.className || "") + "")))
-        || /mark all|toggle all|check all|complete all/i.test(dd.name))) {
+    const d = await focusedDescriptor(page);
+    if (!d) { await page.keyboard.press("Tab"); continue; }
+    const named = await focusedHasName(page, /mark all|toggle all|check all|complete all|select all/i);
+    const isAllCb = d.tag === "input" && d.type === "checkbox" && d.liIndex === null;
+    if (named || isAllCb) {
       await page.keyboard.press(" ");
       await page.waitForTimeout(200);
       const s2 = await itemStates(page);
-      if (s2.items.length && s2.items.every((i) => i.completed)) { toggled = true; via = `Space on ${dd.tag}.${dd.cls || dd.type}`; }
-      else {
-        // record the half-state: control may have checked without effect
+      if (s2.items.length && s2.items.every((x) => x.completed && !x.inconsistent)) {
+        toggled = true; via = `Space on ${d.tag}.${d.cls || d.type}${named ? " (named)" : ""}`;
+      } else {
         ev.toggleAllCheckedWithoutEffect = await page.evaluate(() => {
-          const c = document.querySelector("input.toggle-all, [class*=toggle-all] input[type=checkbox]");
-          return c ? c.checked : null;
+          const c = document.querySelector(".toggle-all, input.toggle-all");
+          return c ? (c.checked ?? null) : null;
         });
+        via = `Space on ${d.tag}.${d.cls || d.type} had no per-item effect`;
       }
       break;
     }
     await page.keyboard.press("Tab"); await page.waitForTimeout(40);
   }
-  step("toggle-all keyboard path completes all items", toggled, via || "no working toggle-all affordance");
+  step("toggle-all keyboard path completes all items", toggled, via || "no toggle-all affordance");
   st = await itemStates(page);
   step("count reports 0 items left", /\b0\b\s*items? left/i.test(st.countText), st.countText);
   const ac = await activateLinkByKeyboard(page, "Active");
   st = await itemStates(page);
-  step("Active filter shows 0 items", st.visibleItems.length === 0, st.visibleItems.length);
+  step("Active filter shows 0 items", ac.ok && st.visibleItems.length === 0, st.visibleItems.length);
   const cp = await activateLinkByKeyboard(page, "Completed");
   st = await itemStates(page);
-  step("Completed filter shows all remaining", st.visibleItems.length === 2 && st.visibleItems.every((i) => i.completed), st.visibleItems);
+  step("Completed filter shows all remaining", cp.ok && st.visibleItems.length === 2 && st.visibleItems.every((i) => i.completed), st.visibleItems.length);
   const fails = ev.steps.filter((s) => s.ok === false).length;
   return { status: fails === 0 ? "PASS" : "FAIL", ev };
 }
