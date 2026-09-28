@@ -8,8 +8,11 @@ License: W3C Software and Document Notice and License
          (https://act-rules.github.io/pages/license/) — full text in
          LICENSE-W3C.txt; required NOTICE retained per its terms.
 
-Selected rules (explicit, fixed): each maps to >=1 axe-core 4.13.0 rule via
-the `actIds` metadata embedded in the axe build (verified at runtime).
+Selected rules (explicit, fixed): the ACT rule ids below were chosen at
+fetch time; the authoritative axe-rule mapping is recomputed live by
+run.mjs from `axe.getRules()` — this static RULE_MAP is a fetch-time
+snapshot that has since DRIFTED (see map_drift in results) and is kept
+for selection/reproducibility only, not as runtime metadata.
 The subset measures only scanner-rule fidelity, not the remediation skill.
 """
 import hashlib, json, pathlib, sys, urllib.request
@@ -17,8 +20,11 @@ import hashlib, json, pathlib, sys, urllib.request
 BASE = "https://www.w3.org/WAI/content-assets/wcag-act-rules/"
 HERE = pathlib.Path(__file__).resolve().parent
 
-# ruleId -> axe rule ids that declare this ACT rule in their actIds metadata
-# (read from axe-core 4.13.0 at runtime; recorded here for transparency)
+# ruleId -> axe rule ids observed to declare this ACT rule AT FETCH TIME.
+# Static snapshot — it contains drifted entries (e.g. 'definition-list',
+# 'blink' carry no actIds in axe 4.13.0). run.mjs recomputes the live map
+# via axe.getRules() and reports differences as map_drift; entries here
+# are used ONLY to select test cases, never to scan with.
 RULE_MAP = {
     "b5c3f8": ["html-has-lang"],
     "2779a5": ["document-title", "definition-list", "p-as-heading"],

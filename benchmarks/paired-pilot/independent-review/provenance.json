@@ -1,0 +1,59 @@
+{
+  "review_date": "2026-09-28",
+  "reviewed_commit": "a42141ba96cdc35b8183a7a465354a8298560b2b",
+  "target_commit": "0543f86528678ab60a20b3049483975add6b6e40",
+  "type": "independent cross-environment replay of the same two patches; not new worker trials",
+  "environment": {
+    "app_os": "Ubuntu 24.04 under WSL2",
+    "python": "3.12.3",
+    "scanner_os": "Windows",
+    "node": "v24.15.0",
+    "playwright": "1.63.0",
+    "axe_core": "4.13.0",
+    "chromium": "153.0.8010.12",
+    "WHOOGLE_CSP": "0",
+    "dependency_install": "Existing frozen 46-package WSL venv reused read-only across three fresh application clones; not three fresh dependency installations."
+  },
+  "audit_args": "--urls /,/search.html,/search?q=test,/window?location=https://example.com --states all --wait 500",
+  "inputs_sha256": {
+    "harness/audit.whoogle.mjs": "f9d6bd100344bce526fac0667b12468ce8ab55a64c3ebfba73e8cb663fdfd422",
+    "harness/heldout-checks.mjs": "7c8f9f05671a21464e3e21b780fc75907aeeb72aa8ff62f647e1974b4d8d9d0e",
+    "harness/score.py": "559f52ee03e9f0303cea29abf8da3303aaa605c9cf56cc2aa1f718339b27373d",
+    "harness/whoogle-frozen-requirements.txt": "d82209591de8290a1965e7732b94264d901378c9142517e245b11b2cf4f78c96",
+    "arms/control/worker-patch.diff": "37c64103cef28ee475ac46a61a2f3d76b53a95909d8cf714bf61dbe51d84d86a",
+    "arms/with-skill/worker-patch.diff": "278d30dd10e5fae02a525d29b3317682532fe8b0973d6b1f77f1b7d82a7f4e4f"
+  },
+  "published_artifacts_sha256": {
+    "baseline/eval-status.env": "54e1fde38341a4431a28500256abdbdb9d9eb417c90c3c0c262c29b0fced5dd3",
+    "baseline/heldout/heldout.json": "f126a3ff7c8563f773e74ed9aa133db534790cf56cdfcd9417f19ee3a478ba38",
+    "baseline/identity.txt": "2818ed2f6722707c72cc5ac6d1b5cdb7e4dcce142e08dd4e0fe8178f06fa06a4",
+    "baseline/listener.txt": "1ecd5de99ff3b11ce6dd48c7e544798a05d4a4d2091f72331c6dd63ecbf1fe7c",
+    "baseline/pytest.log": "fd235c370933c41d844b04a306e9887e97e0182260b9341cde09c7c5b02993b2",
+    "baseline/report.json": "81450d7fb4204dd44c1f29ac92b38f64af5ece2bfd5e57b5669fb8d258d772e9",
+    "baseline/scope.json": "1e51277c7be32993ce1abf730a61cb50914c3599f02906cf1d45b06be9281543",
+    "comparison-with-devin.json": "a51ad998f0157a2c1555e7d574c8eb1be8fec0634bbb183b4e2db4bb362a7465",
+    "control/eval-status.env": "54e1fde38341a4431a28500256abdbdb9d9eb417c90c3c0c262c29b0fced5dd3",
+    "control/final/report.json": "d161c27ade1b2df94ebb05c4dee629dd37c3286d2c522bcf37f48d2c848fd37c",
+    "control/final/scope.json": "958396d4320e534b25c16e57d669ad076ec1cf512c120dd66c462e5f1110042b",
+    "control/heldout/heldout.json": "5489ed9f52e92db0875acc77533d71925d61263f881bd687f684307fbbb0a420",
+    "control/identity.txt": "311acb5609388fb94c3b9fdf3d15fa6b04e9d70b29f4423d153e8f4b6f30364f",
+    "control/listener.txt": "8b40965ec301bd334df361147af45518179b76de3652cf7c9f9a00a722a3d0b1",
+    "control/pytest.log": "7c8edcd6164b6a0d6741e3abe07009ab28acf4b9fd6c60b8e1a367f475d5f10e",
+    "pip-freeze.txt": "ee3d9279ced59e7e63e49535319f5e66ed633610c6defa275b1cb8b5f7cfdc63",
+    "scores.json": "cc4cde87e7d48f0127420dc6e8ab0a27f91616e678beaf20b95f690f7f067128",
+    "with-skill/eval-status.env": "54e1fde38341a4431a28500256abdbdb9d9eb417c90c3c0c262c29b0fced5dd3",
+    "with-skill/final/report.json": "cb055c9926c5ffe35e81dcd6a04e95c5e9cd566657a1f6d524c5d854bae9f45c",
+    "with-skill/final/scope.json": "16ead9571ecd1afe2df7fc7a1dec07826f651f86e239f69f267a989399b3924b",
+    "with-skill/heldout/heldout.json": "5242e9927ab865e339f668e1779a4981c9a812e4f77214abd80af50b765a9eab",
+    "with-skill/identity.txt": "376ac9a1dd677424ce5af10fce9c2e021e5bcb363e69af6f9d9be49aa7b6c807",
+    "with-skill/listener.txt": "04a86eade0a4a3fff496e4ccc1c9ad0e693404dfa2c04d960afbe3f0ca62a7bf",
+    "with-skill/pytest.log": "b433960881a35da764a549a2cac00184a5bf834ccc73fe4d5937e5c3f768f199"
+  },
+  "publication_notes": [
+    "JSON reports, scope, heldout, scores, statuses and pip-freeze are byte-preserved.",
+    "identity.txt, listener.txt and pytest.log replace the local workspace prefix with <review-workspace> and normalize line endings; no outcome is changed.",
+    "Encrypted URLs in heldout evidence come from synthetic local test searches, not user searches or authentication credentials.",
+    "Live upstream Google results were unavailable. Search journey and results remain NOT_TESTED.",
+    "Review results do not validate assistive technology, real browser zoom, dark theme, production CSP or pages outside the declared scope."
+  ]
+}
