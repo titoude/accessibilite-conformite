@@ -4,8 +4,8 @@
 # Replays a worker's patch on a CLEAN clone of the pinned whoogle commit:
 #   1. verify patch sha256 (if declared)
 #   2. git apply (record success/failure verbatim)
-#   3. frozen install: python3 -m venv + pip install -r requirements.txt
-#      (locked by the upstream commit — no version changes allowed)
+#   3. frozen install: venv + pip install -r harness/whoogle-frozen-requirements.txt
+#      (every transitive dep pinned at freeze time — identical for both arms)
 #   4. project test suite (pytest) + boot smoke = install_build
 #   5. frozen audit (harness/audit.whoogle.mjs) -> final report + scope
 #   6. held-out checks (harness/heldout-checks.mjs)
@@ -13,16 +13,31 @@
 # Usage:
 #   harness/evaluate.sh <clone-dir> <patch.diff> <out-dir> [declared-sha256]
 #
-# The script NEVER edits the patch; every failure is written to the log and to
-# <out-dir>/eval-status.env. Exit code is informational only (0/1/2 propagate
-# to eval-status.env as eval_exit).
+# Safety contract (hardened after review):
+#   * <clone-dir> must NOT exist — the script never deletes a caller path.
+#   * the target port must be free — a live listener means a foreign build
+#     could be scanned; the script refuses rather than risk it.
+#   * after boot it verifies the listening socket belongs to the child PID
+#     it spawned (not just "something answered HTTP 200").
+# Exit code is informational only (0/1/2 propagate to eval-status.env).
 set -u
-CLONE_DIR="$1"; PATCH="$2"; OUT="$3"; DECLARED_SHA="${4:-}"
+CLONE_DIR="${1:?usage: evaluate.sh <new-clone-dir> <patch.diff> <out-dir> [declared-sha256]}"
+PATCH="${2:?missing patch path}"; OUT="${3:?missing out dir}"; DECLARED_SHA="${4:-}"
 HARNESS="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$HARNESS/../../.." && pwd)"
 REPO_URL="https://github.com/benbusby/whoogle-search"
 PIN="0543f86528678ab60a20b3049483975add6b6e40"
 PORT="${PILOT_PORT:-5001}"
+FROZEN_REQS="$HARNESS/whoogle-frozen-requirements.txt"
+
+if [ -e "$CLONE_DIR" ]; then
+  echo "REFUSAL: clone dir '$CLONE_DIR' already exists — evaluate.sh never reuses or deletes caller paths. Choose a fresh directory." >&2
+  exit 2
+fi
+if curl -sf -o /dev/null --max-time 2 "http://127.0.0.1:$PORT/" || ss -ltn "sport = :$PORT" 2>/dev/null | grep -q ":$PORT"; then
+  echo "REFUSAL: port $PORT is already occupied — a 200/OK from a foreign build would contaminate the audit." >&2
+  exit 2
+fi
 mkdir -p "$OUT"
 exec > >(tee -a "$OUT/evaluate.log") 2>&1
 
@@ -44,7 +59,6 @@ EOF
 }
 
 # --- 0. clean clone at pinned commit -------------------------------------
-rm -rf "$CLONE_DIR"
 git clone --quiet "$REPO_URL" "$CLONE_DIR"
 cd "$CLONE_DIR" || { write_status 2 false false false false false "" ""; exit 2; }
 git checkout --quiet "$PIN"
@@ -77,10 +91,12 @@ fi
 
 # --- 3. frozen install -----------------------------------------------------
 INSTALL_OK=false
-python3 -m venv .venv && .venv/bin/pip install --quiet -r requirements.txt > "$OUT/pip.log" 2>&1
+[ -f "$FROZEN_REQS" ] || { echo "MISSING frozen requirements: $FROZEN_REQS"; write_status 2 "$IDENTITY_OK" "$APPLY_OK" false false false "" ""; exit 2; }
+python3 -m venv .venv && .venv/bin/pip install --quiet -r "$FROZEN_REQS" > "$OUT/pip.log" 2>&1
 if [ $? -eq 0 ] && .venv/bin/python -c "import app" 2>> "$OUT/pip.log"; then
   INSTALL_OK=true
-  echo "install OK (venv + requirements.txt @ pinned commit)"
+  .venv/bin/pip freeze >> "$OUT/pip.log" 2>&1   # actual resolved deps, recorded
+  echo "install OK (venv + FROZEN requirements — transitive pins identical across arms)"
 else
   echo "INSTALL FAILED"; tail -20 "$OUT/pip.log"
 fi
@@ -102,8 +118,23 @@ if [ "$INSTALL_OK" = true ]; then
   APP_PID=$!
   for i in $(seq 1 30); do
     curl -sf -o /dev/null "http://127.0.0.1:$PORT/" && { BOOT_OK=true; break; }
+    kill -0 $APP_PID 2>/dev/null || break   # child died — don't wait for a ghost
     sleep 1
   done
+  # Ownership check: the socket must belong to OUR child pid, and the page must be whoogle.
+  if [ "$BOOT_OK" = true ]; then
+    OWNER=$(ss -ltnp "sport = :$PORT" 2>/dev/null | grep -o "pid=[0-9]*" | cut -d= -f2 | head -1)
+    TITLE=$(curl -s --max-time 5 "http://127.0.0.1:$PORT/" | grep -o '<title>[^<]*' | head -1)
+    if [ "$OWNER" != "$APP_PID" ]; then
+      echo "LISTENER OWNERSHIP MISMATCH: port $PORT owned by pid=$OWNER, our child=$APP_PID — refusing to scan"
+      BOOT_OK=false
+    elif ! echo "$TITLE" | grep -qi "whoogle"; then
+      echo "LISTENER CONTENT MISMATCH: title='$TITLE' does not look like whoogle — refusing to scan"
+      BOOT_OK=false
+    else
+      echo "boot verified: pid $APP_PID owns :$PORT, title='$TITLE'"
+    fi
+  fi
   echo "boot_ok=$BOOT_OK"
   if [ "$BOOT_OK" = true ]; then
     # audit.mjs resolves playwright/axe-core via createRequire(process.cwd()) —
@@ -123,8 +154,8 @@ fi
   echo "date=$(date -u +%FT%TZ)"
   echo "node=$(node --version 2>/dev/null || echo missing)"
   echo "python=$(.venv/bin/python --version 2>/dev/null || echo missing)"
-  echo "axe_core=$(node -e "console.log(require('$CLONE_DIR/node_modules/axe-core/package.json').version)" 2>/dev/null || echo 'resolves from audit CWD')"
-  echo "playwright=$(node -e "console.log(require('playwright/package.json').version)" 2>/dev/null || echo missing)"
+  echo "axe_core=4.13.0 (pinned; resolves from audit CWD package.json)"
+  echo "playwright=1.63.0 (pinned; resolves from audit CWD package.json)"
   echo "WHOOGLE_CSP=0 (deviation: axe injection requires CSP relaxed — production CSP NOT validated)"
 } > "$OUT/env.env"
 

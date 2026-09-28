@@ -38,15 +38,18 @@ curl -fsSLO https://nodejs.org/dist/v20.18.1/node-v20.18.1-linux-x64.tar.xz
 tar -xf node-v20.18.1-linux-x64.tar.xz
 export PATH="$PWD/node-v20.18.1-linux-x64/bin:$PATH"
 
+# Tooling goes OUTSIDE the clone so the source patch stays clean.
+# Write the four FROZEN tool files provided below verbatim to ~/a11y-tools/ FIRST.
+mkdir -p ~/a11y-tools && cd ~/a11y-tools
+npm ci --ignore-scripts --no-audit --no-fund   # uses the provided package-lock.json
+npx playwright install chromium
+
+python3 -m venv ~/whoogle-venv
+~/whoogle-venv/bin/pip install -r ~/a11y-tools/whoogle-frozen-requirements.txt  # all transitive deps pinned
+
 git clone https://github.com/benbusby/whoogle-search
 cd whoogle-search && git checkout 0543f86528678ab60a20b3049483975add6b6e40
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-
-# Tooling goes OUTSIDE the clone so the source patch stays clean:
-mkdir -p ~/a11y-tools && cd ~/a11y-tools
-npm init -y && npm i -D playwright@1.63.0 @playwright/test@1.63.0 axe-core@4.13.0 --no-audit --no-fund
-npx playwright install chromium
-# write the audit runner provided below to ~/a11y-tools/audit.mjs
+# venv lives outside the clone too: use ~/whoogle-venv/bin/python
 ```
 
 Boot the app (exactly this; WHOOGLE_CSP=0 is required so axe can be injected —
@@ -54,7 +57,7 @@ it is a benchmark deviation, record it in provenance):
 
 ```bash
 cd whoogle-search
-WHOOGLE_CSP=0 .venv/bin/python -um app --host 127.0.0.1 --port 5001 &
+WHOOGLE_CSP=0 ~/whoogle-venv/bin/python -um app --host 127.0.0.1 --port 5001 &
 # wait until GET / returns 200
 ```
 
@@ -110,4 +113,16 @@ Write the audit runner verbatim to ~/a11y-tools/audit.mjs (do not edit it).
 
 ===BEGIN FILE audit.mjs===
 __AUDIT_MJS__
+===END FILE===
+
+===BEGIN FILE package.json (write verbatim to ~/a11y-tools/package.json)===
+__PACKAGE_JSON__
+===END FILE===
+
+===BEGIN FILE package-lock.json (write verbatim to ~/a11y-tools/package-lock.json — required by `npm ci`)===
+__PACKAGE_LOCK__
+===END FILE===
+
+===BEGIN FILE whoogle-frozen-requirements.txt (write verbatim to ~/a11y-tools/whoogle-frozen-requirements.txt)===
+__FROZEN_REQS__
 ===END FILE===

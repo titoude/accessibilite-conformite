@@ -30,15 +30,18 @@ curl -fsSLO https://nodejs.org/dist/v20.18.1/node-v20.18.1-linux-x64.tar.xz
 tar -xf node-v20.18.1-linux-x64.tar.xz
 export PATH="$PWD/node-v20.18.1-linux-x64/bin:$PATH"
 
+# Tooling goes OUTSIDE the clone so the source patch stays clean.
+# Write the four FROZEN tool/manifest files provided below verbatim to ~/a11y-tools/ FIRST.
+mkdir -p ~/a11y-tools && cd ~/a11y-tools
+npm ci --ignore-scripts --no-audit --no-fund   # uses the provided package-lock.json
+npx playwright install chromium
+
+python3 -m venv ~/whoogle-venv
+~/whoogle-venv/bin/pip install -r ~/a11y-tools/whoogle-frozen-requirements.txt  # all transitive deps pinned
+
 git clone https://github.com/benbusby/whoogle-search
 cd whoogle-search && git checkout 0543f86528678ab60a20b3049483975add6b6e40
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-
-# Tooling goes OUTSIDE the clone so the source patch stays clean:
-mkdir -p ~/a11y-tools && cd ~/a11y-tools
-npm init -y && npm i -D playwright@1.63.0 @playwright/test@1.63.0 axe-core@4.13.0 --no-audit --no-fund
-npx playwright install chromium
-# write the audit runner provided below to ~/a11y-tools/audit.mjs
+# venv lives outside the clone too: use ~/whoogle-venv/bin/python
 ```
 
 Boot the app (exactly this; WHOOGLE_CSP=0 is required so axe can be injected —
@@ -46,7 +49,7 @@ it is a benchmark deviation, record it in provenance):
 
 ```bash
 cd whoogle-search
-WHOOGLE_CSP=0 .venv/bin/python -um app --host 127.0.0.1 --port 5001 &
+WHOOGLE_CSP=0 ~/whoogle-venv/bin/python -um app --host 127.0.0.1 --port 5001 &
 # wait until GET / returns 200
 ```
 
@@ -895,5 +898,143 @@ Run actual relevant combinations, such as NVDA with a tested Windows browser or 
 - [ ] The release record includes limitations, unresolved defects and the exact evaluated commit.
 
 Use the record template and final gates in [release readiness](docs/RELEASE-READINESS.md). Unperformed checks remain open.
+
+===END FILE===
+
+===BEGIN FILE package.json (write verbatim to ~/a11y-tools/package.json)===
+{
+  "name": "a11y-pilot-tools",
+  "private": true,
+  "description": "Pinned worker tooling for the paired accessibility pilot",
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "axe-core": "4.13.0",
+    "playwright": "1.63.0"
+  }
+}
+
+===END FILE===
+
+===BEGIN FILE package-lock.json (write verbatim to ~/a11y-tools/package-lock.json — required by `npm ci`)===
+{
+  "name": "a11y-pilot-tools",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "a11y-pilot-tools",
+      "devDependencies": {
+        "@playwright/test": "1.63.0",
+        "axe-core": "4.13.0",
+        "playwright": "1.63.0"
+      }
+    },
+    "node_modules/@playwright/test": {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/@playwright/test/-/test-1.63.0.tgz",
+      "integrity": "sha512-oxMK4vllB9RK5NQ2l1pq1IfOf2AvnEuj/vYGDj0H2nMtmtZpKtCwt/l00GEO6xjGfpBNAvjovvYdCm50dRQkpQ==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "dependencies": {
+        "playwright": "1.63.0"
+      },
+      "bin": {
+        "playwright": "cli.js"
+      },
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    "node_modules/axe-core": {
+      "version": "4.13.0",
+      "resolved": "https://registry.npmjs.org/axe-core/-/axe-core-4.13.0.tgz",
+      "integrity": "sha512-UzGt8zg7Ny8djbYMhxl2zuEevVa7r2gJjYY5Lwr1xM7+XU2nd6CkIWFTVcCIbAP63vSz71NaVyyuSk9lHKcy0A==",
+      "dev": true,
+      "license": "MPL-2.0",
+      "engines": {
+        "node": ">=4"
+      }
+    },
+    "node_modules/playwright": {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/playwright/-/playwright-1.63.0.tgz",
+      "integrity": "sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "dependencies": {
+        "playwright-core": "1.63.0"
+      },
+      "bin": {
+        "playwright": "cli.js"
+      },
+      "engines": {
+        "node": ">=20"
+      }
+    },
+    "node_modules/playwright-core": {
+      "version": "1.63.0",
+      "resolved": "https://registry.npmjs.org/playwright-core/-/playwright-core-1.63.0.tgz",
+      "integrity": "sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "bin": {
+        "playwright-core": "cli.js"
+      },
+      "engines": {
+        "node": ">=20"
+      }
+    }
+  }
+}
+
+===END FILE===
+
+===BEGIN FILE whoogle-frozen-requirements.txt (write verbatim to ~/a11y-tools/whoogle-frozen-requirements.txt)===
+Flask==3.1.3
+Jinja2==3.1.6
+MarkupSafe==3.0.2
+Pygments==2.21.0
+Werkzeug==3.1.6
+anyio==4.15.1
+attrs==25.3.0
+beautifulsoup4==4.13.5
+blinker==1.9.0
+brotli==1.2.0
+cachetools==6.2.0
+certifi==2025.8.3
+cffi==2.0.0
+click==8.3.0
+cryptography==46.0.7
+cssutils==2.11.1
+defusedxml==0.7.1
+exceptiongroup==1.3.1
+h11==0.16.0
+h2==4.4.1
+hpack==4.2.0
+httpcore==1.0.9
+httpx==0.28.1
+hyperframe==6.1.0
+idna==3.15
+iniconfig==2.3.0
+itsdangerous==2.2.0
+more-itertools==10.8.0
+packaging==25.0
+pluggy==1.6.0
+pyOpenSSL==26.0.0
+pycodestyle==2.14.0
+pycparser==2.22
+pyparsing==3.2.5
+pytest==9.0.3
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.2
+six==1.17.0
+socksio==1.0.0
+soupsieve==2.8
+stem==1.8.2
+tomli==2.4.1
+typing_extensions==4.16.0
+validators==0.35.0
+waitress==3.0.2
+wcwidth==0.2.14
 
 ===END FILE===

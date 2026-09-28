@@ -15,7 +15,19 @@
  * distinguishable from a real label association.
  *
  * Every check asserts an OBSERVABLE effect; required element missing = FAIL or
- * NOT_TESTED — never a silent pass.
+ * NOT_TESTED — never a silent pass. Floors (CONFIG_FIELD_FLOOR, LINK_FLOOR)
+ * freeze the baseline control count — dropping controls to pass = FAIL.
+ *
+ * Frozen control checks (kind:'control') validate the instrumentation itself:
+ * ctrl_name_positive MUST PASS (a known-named element is detected) and
+ * ctrl_name_negative MUST PASS (an unnamed element is reported unnamed).
+ * If a control fails, the whole run's name checks are untrustworthy — the
+ * evaluator treats control failures as a coverage gap, not an app defect.
+ *
+ * Frozen baseline expectations (recorded at freeze time, see
+ * evaluation/baseline/heldout/heldout.json): the two controls PASS; app
+ * checks produce their measured baseline statuses (several FAILs are real
+ * app findings, not evaluator defects).
  *
  * Usage:  node harness/heldout-checks.mjs http://127.0.0.1:5001 --out <dir>
  * Output: <dir>/heldout.json — [{id, status, evidence}]
@@ -40,14 +52,18 @@ if (!base || !/^https?:\/\//.test(base)) {
 }
 mkdirSync(outDir, { recursive: true });
 
+// Frozen floors: minimum control counts that must still exist after a patch.
+const CONFIG_FIELD_FLOOR = 12;   // baseline: 14 visible fields
+const LINK_FLOOR = 3;            // baseline: 3 visible links
+
 const results = [];
-const check = async (id, fn) => {
+const check = async (id, fn, kind = 'check') => {
   try {
     const r = await fn();
-    results.push({ id, status: r.status, evidence: r.evidence || '' });
+    results.push({ id, kind, status: r.status, evidence: r.evidence || '' });
     console.log(`[${r.status}] ${id} — ${r.evidence || ''}`);
   } catch (e) {
-    results.push({ id, status: 'FAIL', evidence: `exception: ${e.message.split('\n')[0]}` });
+    results.push({ id, kind, status: 'FAIL', evidence: `exception: ${e.message.split('\n')[0]}` });
     console.log(`[FAIL] ${id} — exception: ${e.message.split('\n')[0]}`);
   }
 };
@@ -73,9 +89,8 @@ async function isTrulyVisible(locator) {
 
 // Declared naming mechanism for one element: label[for] with text, non-empty
 // aria-label, or aria-labelledby where every referenced id exists AND
-// contributes content (text, aria-label, or img alt). Returns a descriptor
-// {mechanism, ok} — used to distinguish a *real* label association from a
-// name that merely comes from the element's own text.
+// contributes content — including the referenced element ITSELF being an
+// <img> (its own alt counts; the old helper missed this).
 async function declaredLabel(locator) {
   return locator.first().evaluate((e) => {
     const id = e.getAttribute('id');
@@ -91,7 +106,9 @@ async function declaredLabel(locator) {
       const allOk = ids.every((rid) => {
         const t = document.getElementById(rid);
         if (!t) return false;
+        const selfAlt = t.tagName === 'IMG' ? (t.getAttribute('alt') || '') : '';
         const content = (t.getAttribute('aria-label') || '').trim()
+          || selfAlt.trim()
           || Array.from(t.querySelectorAll('img')).map((i) => i.alt || '').join(' ').trim()
           || (t.textContent || '').trim();
         return content.length > 0;
@@ -104,16 +121,19 @@ async function declaredLabel(locator) {
   }).catch(() => ({ mechanism: 'error', ok: false, detail: 'evaluate failed' }));
 }
 
-// toHaveAccessibleName on the exact locator -> {named, actual} pair.
+// toHaveAccessibleName on the EXACT locator -> {named, actual} pair.
+// The locator must match exactly one element: silently taking .first() would
+// let a wrong/duplicated node borrow a name (review finding).
 async function computedName(locator) {
-  const el = locator.first();
-  if (await el.count() === 0) return { named: null, actual: null };
+  const n = await locator.count();
+  if (n === 0) return { named: null, actual: 'missing' };
+  if (n !== 1) return { named: null, actual: `ambiguous: ${n} matches` };
   try {
-    await expect(el).toHaveAccessibleName(/.+/, { timeout: 3000 });
+    await expect(locator).toHaveAccessibleName(/.+/, { timeout: 3000 });
     return { named: true, actual: 'non-empty' };
   } catch {
     try {
-      await expect(el).toHaveAccessibleName('', { timeout: 3000 });
+      await expect(locator).toHaveAccessibleName('', { timeout: 3000 });
       return { named: false, actual: '' };
     } catch (e) {
       return { named: false, actual: `unresolved (${e.message.split('\n')[0].slice(0, 100)})` };
@@ -124,6 +144,31 @@ async function computedName(locator) {
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1280, height: 960 } });
 const page = await ctx.newPage();
+
+// ---- instrumentation controls (kind:'control'; must PASS or the run's
+//      name assertions are untrustworthy — see header note) ---------------
+await check('ctrl_name_positive', async () => {
+  await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
+  const { named, actual } = await computedName(page.locator('#search-submit'));
+  return named === true
+    ? P(`known-named control element detected (submit button, name=${actual})`)
+    : F(`instrumentation failed to detect a known name: ${actual}`);
+}, 'control');
+
+await check('ctrl_name_negative', async () => {
+  // synthetic unnamed element injected into the live page — must be reported
+  // as NOT named; proves the check is not vacuously passing.
+  await page.evaluate(() => {
+    const s = document.createElement('input');
+    s.type = 'text'; s.id = '__heldout_ctl';
+    document.body.appendChild(s);
+  });
+  const { named, actual } = await computedName(page.locator('#__heldout_ctl'));
+  await page.evaluate(() => document.getElementById('__heldout_ctl').remove());
+  return named === false
+    ? P(`unnamed synthetic element correctly reported unnamed`)
+    : F(`instrumentation false-positive: unnamed element reported named=${actual}`);
+}, 'control');
 
 // C1 — home page loads, document title non-empty
 await check('document_title_home', async () => {
@@ -187,41 +232,47 @@ await check('keyboard_search_journey', async () => {
   return NT(`landed on ${url} with 0 .result elements (title="${title}") — live upstream not guaranteed, NOT counted as coverage`);
 });
 
-// C5 — focus indicator on the search input (keyboard focus -> perceivable style)
+// C5 — focus indicator on the search input. A CONSTANT non-none style is not
+// evidence (review finding): measure the computed style UNFOCUSED vs after a
+// real keyboard focus, and require a perceivable delta (outline/shadow/border
+// change or background switch).
+const focusStyle = (sel) => page.locator(sel).evaluate((e) => {
+  const cs = getComputedStyle(e);
+  return {
+    outlineStyle: cs.outlineStyle, outlineWidth: cs.outlineWidth,
+    outlineColor: cs.outlineColor, boxShadow: cs.boxShadow.slice(0, 120),
+  };
+});
 await check('focus_indicator_search_input', async () => {
   await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
-  // Move focus away then back with Shift+Tab so :focus-visible heuristics
-  // apply to a real keyboard entry (autofocus at load doesn't exercise them).
-  await page.keyboard.press('Tab');
-  await page.keyboard.press('Shift+Tab');
-  let ok = await page.evaluate(() => document.activeElement && document.activeElement.id === 'search-bar');
-  if (!ok) {
-    for (let i = 0; i < 30; i++) {
-      await page.keyboard.press('Tab');
-      ok = await page.evaluate(() => document.activeElement && document.activeElement.id === 'search-bar');
-      if (ok) break;
-    }
+  // Record the input's style UNFOCUSED, then keyboard-focus it and compare the
+  // same fields — a constant style or a color-only serialization artifact is
+  // not a perceivable indicator.
+  const before = await focusStyle('#search-bar');
+  await page.locator('#config-collapsible').focus().catch(() => {});
+  // #search-bar sits before #config-collapsible in tab order: walk backward
+  // first (bounded), then forward if the backward walk didn't land.
+  let ok = false;
+  for (let i = 0; i < 10 && !ok; i++) {
+    await page.keyboard.press('Shift+Tab');
+    ok = await page.evaluate(() => document.activeElement && document.activeElement.id === 'search-bar');
   }
   if (!ok) {
-    for (let i = 0; i < 10 && !ok; i++) {
-      await page.keyboard.press('Shift+Tab');
+    for (let i = 0; i < 30 && !ok; i++) {
+      await page.keyboard.press('Tab');
       ok = await page.evaluate(() => document.activeElement && document.activeElement.id === 'search-bar');
     }
   }
   if (!ok) return NT('could not keyboard-focus #search-bar');
-  const ind = await page.evaluate(() => {
-    const cs = getComputedStyle(document.activeElement);
-    const ow = parseFloat(cs.outlineWidth);
-    return {
-      hasOutline: cs.outlineStyle !== 'none' && ow > 0,
-      hasShadow: cs.boxShadow !== 'none',
-      outline: `${cs.outlineStyle} ${cs.outlineWidth} ${cs.outlineColor}`,
-      boxShadow: cs.boxShadow.slice(0, 80),
-    };
-  });
-  return (ind.hasOutline || ind.hasShadow)
-    ? P(`outline=${ind.outline}; boxShadow=${ind.boxShadow}`)
-    : F(`no perceivable focus indicator (outline=${ind.outline}, boxShadow=${ind.boxShadow})`);
+  const ind = await focusStyle('#search-bar');
+  const delta = ind.outlineStyle !== before.outlineStyle
+    || ind.outlineWidth !== before.outlineWidth
+    || ind.outlineColor !== before.outlineColor
+    || ind.boxShadow !== before.boxShadow;
+  const visible = (ind.outlineStyle !== 'none' && parseFloat(ind.outlineWidth) > 0)
+    || ind.boxShadow !== 'none';
+  if (delta && visible) return P(`focus style delta: unfocused ${JSON.stringify(before)} -> focused ${JSON.stringify(ind)}`);
+  return F(`no perceivable focus indicator (unfocused=${JSON.stringify(before)}; focused=${JSON.stringify(ind)})`);
 });
 
 // C6 — config panel opens with keyboard only (Enter on #config-collapsible)
@@ -235,7 +286,17 @@ await check('config_panel_keyboard', async () => {
   if (!ok) return NT('#config-collapsible not reached by Tab within 40 steps');
   await page.keyboard.press('Enter');
   const opened = await page.waitForSelector('.content.open', { timeout: 5000 }).then(() => true).catch(() => false);
-  return opened ? P('config panel gained .open after Enter') : F('Enter on config button did not open the panel');
+  if (!opened) return F('Enter on config button did not open the panel');
+  // A CSS class alone is not evidence: require at least one form control
+  // inside the opened panel to be actually visible.
+  const visibleControls = await page.locator('.content.open select, .content.open input, .content.open textarea').count();
+  let anyVisible = false;
+  for (let i = 0; i < visibleControls && !anyVisible; i++) {
+    anyVisible = await isTrulyVisible(page.locator('.content.open select, .content.open input, .content.open textarea').nth(i));
+  }
+  return anyVisible
+    ? P('config panel opened via Enter and exposes a visible control')
+    : F('.content.open present but no form control became visible');
 });
 
 // C7 — every field inside the opened config panel: computed name + declared label
@@ -255,11 +316,14 @@ await check('config_fields_named', async () => {
     if (!(await isTrulyVisible(f))) continue;
     checked++;
     const id = (await f.getAttribute('id').catch(() => null)) || `index ${i}`;
-    const { named } = await computedName(f);
+    const { named, actual } = await computedName(f);
     const decl = await declaredLabel(f);
-    if (!named || !decl.ok) unnamed.push(`${id} (named=${named}, label=${decl.mechanism}${decl.ok ? ':ok' : ':missing'})`);
+    if (named !== true || !decl.ok) unnamed.push(`${id} (named=${actual}, label=${decl.mechanism}${decl.ok ? ':ok' : ':missing'})`);
   }
-  if (checked === 0) return NT('all config fields conditionally hidden');
+  // Frozen floor: removing controls to pass is a regression, not a fix.
+  if (checked < CONFIG_FIELD_FLOOR) {
+    return F(`only ${checked} visible config fields (floor ${CONFIG_FIELD_FLOOR}) — controls lost?`);
+  }
   return unnamed.length === 0
     ? P(`all ${checked} visible config fields have computed name + declared label`)
     : F(`${unnamed.length}/${checked} visible config fields unnamed/unlabeled: ${unnamed.slice(0, 8).join(', ')}`);
@@ -280,24 +344,11 @@ await check('reflow_320px', async () => {
   } catch (e) { await p2.close(); throw e; }
 });
 
-// C9 — zoom proxy 200%: viewport 640x480 (200% of 1280x960 CSS reference)
-await check('zoom_200_proxy', async () => {
-  const p2 = await browser.newPage({ viewport: { width: 640, height: 480 } });
-  try {
-    const r = await p2.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
-    if (!r || r.status() >= 400) { await p2.close(); return F(`HTTP ${r && r.status()}`); }
-    const visible = await isTrulyVisible(p2.locator('#search-bar'));
-    let typedOk = false;
-    if (visible) {
-      await p2.locator('#search-bar').click();
-      await p2.keyboard.type('zoom');
-      typedOk = (await p2.locator('#search-bar').inputValue()) === 'zoom';
-    }
-    await p2.close();
-    if (!visible) return F('#search-bar not truly visible at 640x480 (200% proxy)');
-    if (!typedOk) return F('#search-bar visible but not operable at 200% proxy');
-    return P('search input visible and operable at 640x480');
-  } catch (e) { await p2.close(); throw e; }
+// C9 — real 200% browser zoom. NOT automatable through Playwright/CDP page
+// scale (that is device-pixel scaling, not zoom) — per review, report
+// NOT_TESTED rather than pass a viewport-resize proxy off as zoom.
+await check('zoom_200', async () => {
+  return NT('real browser zoom cannot be driven by this harness (CDP page-scale is not zoom); WCAG 1.4.4 unassessed');
 });
 
 // C10 — /search.html document title non-empty
@@ -324,21 +375,46 @@ await check('search_results_functional', async () => {
   return NT(`0 .result elements, bodyLen=${bodyLen}, title="${t}" — live upstream not guaranteed, NOT counted as coverage`);
 });
 
-// C12 — bypass mechanism: skip link OR main landmark on home
+// C12 — bypass mechanism. A declared skip link only counts if it ACTIVATES:
+// keyboard-focus it, press Enter, and verify the referenced target exists and
+// receives focus (or scroll position/hash changes to it). A bare main
+// landmark alone is recorded as partial (a screen-reader user can jump to it).
 await check('bypass_mechanism', async () => {
   await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
   const info = await page.evaluate(() => {
     const main = document.querySelector('main, [role="main"]');
     const links = Array.from(document.querySelectorAll('a[href^="#"]'));
     const skip = links.find(a => /skip|content|main|aller|contenu/i.test(a.textContent || ''));
-    return { hasMain: !!main, skipHref: skip ? skip.getAttribute('href') : null, skipText: skip ? skip.textContent.trim() : null };
+    return { hasMain: !!main, skipHref: skip ? skip.getAttribute('href') : null };
   });
-  if (info.skipHref) return P(`skip link "${info.skipText}" -> ${info.skipHref}`);
-  if (info.hasMain) return P('main landmark present (partial bypass support)');
-  return F('no skip link and no main landmark on /');
+  if (!info.skipHref) {
+    return info.hasMain
+      ? P('no skip link; main landmark present (partial bypass — SR users can jump to it)')
+      : F('no skip link and no main landmark on /');
+  }
+  const targetSel = info.skipHref;
+  const targetExists = await page.locator(targetSel).count() > 0;
+  if (!targetExists) return F(`skip link -> ${targetSel} but no such element exists`);
+  await page.locator(`a[href="${targetSel}"]`).first().focus();
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(500);
+  const landed = await page.evaluate((sel) => {
+    const t = document.querySelector(sel);
+    if (!t) return 'target-gone';
+    const ae = document.activeElement;
+    if (ae === t || (t.contains && t.contains(ae))) return 'focused';
+    if (location.hash === sel) return 'hash';
+    const r = t.getBoundingClientRect();
+    if (r.top >= -1 && r.top < innerHeight) return 'in-viewport';
+    return 'no-effect';
+  }, targetSel);
+  if (landed === 'focused' || landed === 'hash' || landed === 'in-viewport')
+    return P(`skip link activates: -> ${targetSel} (${landed})`);
+  return F(`skip link present but activation had no effect (${landed})`);
 });
 
-// C13 — all visible links on home have non-empty computed accessible names
+// C13 — all visible links on home have non-empty computed accessible names.
+// Frozen floor: dropping links to pass is a regression (review finding).
 await check('link_names_home', async () => {
   await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
   const links = page.locator('a[href]');
@@ -348,11 +424,12 @@ await check('link_names_home', async () => {
     const l = links.nth(i);
     if (!(await isTrulyVisible(l))) continue;
     checked++;
-    const { named } = await computedName(l);
-    if (!named) unnamed++;
+    const { named, actual } = await computedName(l);
+    if (named !== true) unnamed++;
   }
-  return checked === 0 ? NT('no visible links')
-    : unnamed === 0 ? P(`${checked} visible links all named`)
+  if (checked === 0) return NT('no visible links');
+  if (checked < LINK_FLOOR) return F(`only ${checked} visible links (floor ${LINK_FLOOR}) — controls lost?`);
+  return unnamed === 0 ? P(`${checked} visible links all named`)
     : F(`${unnamed}/${checked} visible links lack an accessible name`);
 });
 

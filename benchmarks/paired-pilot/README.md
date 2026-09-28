@@ -37,9 +37,10 @@ node harness/heldout-checks.mjs http://127.0.0.1:5001 --out <out-dir>
 # replay one arm's patch on a clean clone end-to-end
 harness/evaluate.sh <workdir> <arm.patch> <out-dir> [expected patch sha256]
 
-# score two arm evaluations against the frozen baseline
-python3 harness/score.py evaluation/with-skill evaluation/control \
-  --baseline evaluation/baseline
+# score arm evaluations against the frozen baseline
+# argv: score.py [arm ...] --eval-root <dir> --baseline <name> --out <file>
+python3 harness/score.py with-skill control \
+  --eval-root evaluation --baseline baseline --out evaluation/scores.json
 
 # calibration track
 python3 calibration/fetch-cases.py   # downloads + sha256-freezes W3C ACT cases
