@@ -8,7 +8,9 @@ Usage : run_workflow(script_path="benchmark-v3.py") — ou ajouter des repos en
 modifiant BATCHES. Les résultats arrivent dans le journal du run.
 """
 import asyncio
+import hashlib
 import json
+import re
 
 AUDIT_SCRIPT = r'''#!/usr/bin/env node
 /**
@@ -56,13 +58,30 @@ const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
-const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
-const opt = (name, dflt) => {
-  const i = args.indexOf(`--${name}`);
-  return i >= 0 ? args[i + 1] : dflt;
-};
-const flag = (name) => args.includes(`--${name}`);
-const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
+const VALUE_OPTIONS = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'storage-state']);
+const FLAG_OPTIONS = new Set(['keep-hash', 'strict-incomplete']);
+const options = new Map();
+const positional = [];
+const configErrors = [];
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (!arg.startsWith('--')) { positional.push(arg); continue; }
+  const name = arg.slice(2);
+  if (!VALUE_OPTIONS.has(name) && !FLAG_OPTIONS.has(name)) {
+    configErrors.push(`option inconnue : ${arg}`);
+  } else if (options.has(name)) {
+    configErrors.push(`option répétée : ${arg}`);
+  } else if (FLAG_OPTIONS.has(name)) {
+    options.set(name, true);
+  } else if (args[i + 1] === undefined || args[i + 1].startsWith('--')) {
+    configErrors.push(`valeur manquante : ${arg}`);
+  } else {
+    options.set(name, args[++i]);
+  }
+}
+const opt = (name, dflt) => options.get(name) ?? dflt;
+const flag = (name) => options.get(name) === true;
+if (positional.length > 1) configErrors.push('une seule URL de base est permise');
 
 const baseUrl = positional[0];
 const urlsOpt = opt('urls', null);
@@ -74,21 +93,23 @@ const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.tri
   return u;
 });
 const outDir = resolve(opt('out', './a11y-audit'));
-const maxPages = parseInt(opt('max', '50'), 10);
-const waitMs = parseInt(opt('wait', '0'), 10);
+const maxPages = Number(opt('max', '50'));
+const waitMs = Number(opt('wait', '0'));
 const waitFor = opt('wait-for', null);
-const depth = parseInt(opt('depth', '1'), 10);
+const depth = Number(opt('depth', '1'));
 const statesOpt = opt('states', '');
 const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
 const keepHash = flag('keep-hash');
 const strictIncomplete = flag('strict-incomplete');
 const storageState = opt('storage-state', null);
 
-const configErrors = [];
 if (!baseUrl && explicitUrls === null) {
-  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
-  process.exit(2);
+  configErrors.push('URL manquante : node audit.mjs <url> | --urls u1,u2,...');
 }
+for (const [name, value, minimum] of [['max', maxPages, 1], ['wait', waitMs, 0], ['depth', depth, 0]]) {
+  if (!Number.isSafeInteger(value) || value < minimum) configErrors.push(`--${name} doit être un entier >= ${minimum}`);
+}
+if (!statesArg.length) configErrors.push('déclarer les états : --states all|nom1,nom2|none');
 if (explicitUrls !== null && explicitUrls.length === 0) {
   configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
 }
@@ -102,7 +123,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v4';
+const RUNNER_VERSION = 'audit.mjs v5';
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -332,7 +353,7 @@ async function run() {
             const req = new URL(gotoUrl), fin = new URL(post.finalUrl);
             if (fin.origin !== req.origin) {
               entry.error = `navigation hors origine avant le scan (${post.finalUrl})`;
-            } else if (extraSetup && fin.pathname !== req.pathname) {
+            } else if (fin.pathname !== req.pathname) {
               // Un setup qui change de PAGE (pas seulement de hash/query)
               // scanne un autre document que celui demandé — couvre les
               // erreurs serveur déclenchées par un clic dont le statut
@@ -617,7 +638,9 @@ Puis, pour chaque dépôt :""" + """
    joint) + états dynamiques déclarés dans STATES.
    Baseline : node scripts/a11y/audit.mjs <url> --states all --out a11y-audit/baseline
    Le runner produit scope.json (scénarios exécutés + scopeHash) — CONSERVE-le.
-   Prérequis : `npm i -D playwright axe-core && npx playwright install chromium`.
+   Prérequis : playwright@1.63.0, axe-core@4.13.0, @playwright/test@1.63.0.
+   Installer avec le gestionnaire approuvé, lockfile figé, sans scripts implicites.
+   Toutes les commandes --states all utilisent --states none si le manifeste déclare zéro état.
    IMPORTANT : le runner échoue (exit 2) sur toute erreur — navigation, injection,
    sélecteur --wait-for absent, HTTP ≥ 400, redirection login, état inconnu.
    errors_baseline/errors_final = scope.errored. Un audit partiel n'est PAS un PASS.
@@ -703,34 +726,77 @@ def validate_result(r):
       INCOMPLETE           — exécuté mais une condition manque
       REJECTED             — contradictions internes / preuves manquantes
     """
+    if not isinstance(r, dict):
+        return "REJECTED", ["résultat absent ou mal formé"]
     errors = []
     if not isinstance(r.get("repo"), str) or r["repo"] not in EXPECTED_REPOS:
         errors.append(f"repo inattendu ou dupliqué: {r.get('repo')!r}")
     if r.get("scope_identical") is True and r.get("scope_hash_baseline") != r.get("scope_hash_final"):
         errors.append("scope_identical=true mais les hashes diffèrent")
-    if r.get("execution_complete") is True and r.get("errors_final", 0) > 0:
-        errors.append("execution_complete=true avec errors_final>0")
-    if r.get("axe_score") == 0 and r.get("final_violations", 0) != 0:
+    if r.get("axe_score") == 0 and r.get("final_violations") != 0:
         errors.append("axe_score=0 mais final_violations>0")
-    if r.get("final_validation") == "pass" and r.get("final_eval_findings", 0) > 0:
-        errors.append("final_validation=pass mais final_eval_findings>0")
     if r.get("install_build") == "pass" and r.get("failure"):
         errors.append("install_build=pass avec failure déclaré")
+    if r.get("booted") is True and not r.get("failure"):
+        # Les réponses JSON sont des entrées non fiables. False n'est pas le
+        # compteur 0 et deux hashes absents ne prouvent pas une identité.
+        for field in ("errors_baseline", "errors_final", "final_violations",
+                      "axe_score", "final_eval_findings", "regressions", "rounds"):
+            value = r.get(field)
+            if type(value) is not int or value < 0:
+                errors.append(f"compteur absent ou invalide: {field}")
+        for field in ("scope_hash_baseline", "scope_hash_final"):
+            if not re.fullmatch(r"[0-9a-f]{64}", str(r.get(field, ""))):
+                errors.append(f"hash absent ou invalide: {field}")
+        if r.get("execution_complete") is True:
+            if r.get("errors_baseline") != 0 or r.get("errors_final") != 0:
+                errors.append("execution_complete=true avec erreurs baseline/final")
+            if r.get("coverage_gaps") != []:
+                errors.append("execution_complete=true sans couverture complète prouvée")
+        if r.get("final_validation") == "pass" and r.get("final_eval_findings") != 0:
+            errors.append("final_validation=pass avec findings non nuls")
+        if r.get("review_resolved") is True and r.get("regressions") != 0:
+            errors.append("review_resolved=true avec régressions")
+        rounds = r.get("rounds")
+        if type(rounds) is int and rounds >= 0:
+            if (r.get("budget_respected") is not (rounds <= 3)
+                    or r.get("budget_exceeded") is not (rounds > 3)):
+                errors.append("budget contradictoire avec le nombre de rounds")
+        arts = r.get("artifacts")
+        if not isinstance(arts, list) or not all(isinstance(a, str) for a in arts):
+            errors.append("liste d'artefacts absente ou invalide")
+        else:
+            names = {a.replace("\\", "/").rsplit("/", 1)[-1] for a in arts}
+            missing = [a for a in REQUIRED_ARTIFACTS if a not in names]
+            if missing:
+                errors.append(f"artefacts requis absents: {missing}")
+        patch = r.get("patch_diff")
+        if not isinstance(patch, str) or not patch.strip():
+            errors.append("patch_diff absent — le rejeu indépendant est impossible")
+        elif hashlib.sha256(patch.encode("utf-8")).hexdigest() != r.get("patch_sha256"):
+            errors.append("patch_sha256 ne correspond pas au patch reçu")
+
     ev = r.get("eval_replay")
-    if ev and not ev.get("replay_ok"):
-        errors.append(f"rejeu indépendant échoué: {ev.get('evidence', '?')[:120]}")
-    if ev and ev.get("verdict") == "FAIL":
-        errors.append("évaluateur indépendant: FAIL")
-    arts = r.get("artifacts") or []
-    missing = [a for a in REQUIRED_ARTIFACTS if not any(a in str(x) for x in arts)]
-    if r.get("booted") and not r.get("failure") and missing:
-        errors.append(f"artefacts requis absents: {missing}")
-    if r.get("booted") and not r.get("failure") and not r.get("patch_diff"):
-        errors.append("patch_diff absent — le rejeu indépendant est impossible")
+    if ev is not None:
+        if not isinstance(ev, dict):
+            errors.append("rejeu indépendant mal formé")
+        else:
+            # Recalculer la décision : le seul mot PASS ne fait pas foi.
+            expected = {"repo": r.get("repo"), "patch_identity_ok": True,
+                        "replay_ok": True, "install_build": "pass",
+                        "final_violations": 0, "scope_hash": r.get("scope_hash_final")}
+            for field, value in expected.items():
+                actual = ev.get(field)
+                if type(actual) is not type(value) or actual != value:
+                    errors.append(f"rejeu indépendant contradictoire ou incomplet: {field}")
+            if not isinstance(ev.get("evidence"), str) or not ev["evidence"].strip():
+                errors.append("preuves du rejeu indépendant absentes")
+            if ev.get("verdict") not in ("PASS", "NOT_TESTED"):
+                errors.append("évaluateur indépendant: FAIL ou verdict invalide")
 
     if errors:
         return "REJECTED", errors
-    if not r.get("booted") or r.get("failure"):
+    if r.get("booted") is not True or r.get("failure"):
         return f"FAIL:{r.get('failure') or 'unrunnable'}", errors
     if (r.get("execution_complete") is True and r.get("axe_score") == 0
             and r.get("final_violations") == 0 and r.get("scope_identical") is True
@@ -750,12 +816,13 @@ EVAL_SCHEMA = {
         "patch_identity_ok": {"type": "boolean", "description": "sha256 du patch reçu == patch_sha256 déclaré"},
         "replay_ok": {"type": "boolean", "description": "patch appliqué + install verrouillée + build réussis sur clone propre au commit_sha"},
         "install_build": {"type": "string", "pattern": "^(pass|fail:.+|skipped:.+)$"},
-        "final_violations": {"type": "integer"},
+        "final_violations": {"type": "integer", "minimum": 0},
         "scope_hash": {"type": "string", "description": "scopeHash mesuré par le rejeu — doit égaler scope_hash_final"},
         "evidence": {"type": "string"},
         "verdict": {"type": "string", "enum": ["PASS", "FAIL", "NOT_TESTED"]},
     },
-    "required": ["repo", "patch_identity_ok", "replay_ok", "verdict"],
+    "required": ["repo", "patch_identity_ok", "replay_ok", "install_build",
+                 "final_violations", "scope_hash", "evidence", "verdict"],
 }
 
 EVAL_HEAD = """Tu es l'ÉVALUATEUR INDÉPENDANT d'un benchmark accessibilité.

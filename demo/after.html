@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>After — accessibility teaching demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Accessibility, with evidence / After</p>
+    <h1>The same task.<br>A usable path.</h1>
+    <p>Corrected teaching fixture. No real booking or personal data is sent.</p>
+    <a href="before.html">Compare with the broken example</a>
+  </header>
+  <section class="card" aria-labelledby="booking-title">
+    <h2 id="booking-title">Book a community workshop</h2>
+    <p>Choose a place for a free, fictional introduction to accessible design.</p>
+    <form id="booking" novalidate>
+      <div class="field">
+        <label for="name">Display name (required)</label>
+        <input id="name" required autocomplete="off" aria-describedby="name-help name-error">
+        <p id="name-help" class="note">Use a fictional name for this demo.</p>
+        <p id="name-error" class="error" hidden>Enter a display name to reserve a place.</p>
+      </div>
+      <div class="field">
+        <label for="format">Workshop format</label>
+        <select id="format"><option>Online</option><option>In person</option></select>
+      </div>
+      <button type="submit" id="book">Reserve a place</button>
+    </form>
+    <p class="status" id="status" role="status"></p>
+  </section>
+  <dialog id="confirmation" aria-labelledby="confirmation-title" aria-describedby="reservation">
+    <h2 id="confirmation-title">Your place is reserved</h2>
+    <p id="reservation"></p>
+    <form method="dialog"><button autofocus>Done</button></form>
+  </dialog>
+  <footer class="note">
+    <p>Use Tab and Enter to reserve. Escape closes the confirmation and returns focus to the reservation button. Try submitting an empty name first.</p>
+    <p>Automated checks cover these declared states and keyboard outcomes. Screen reader announcements and real user experience still need human review.</p>
+  </footer>
+</main>
+<script>
+const nameInput = document.querySelector('#name');
+const nameError = document.querySelector('#name-error');
+const dialog = document.querySelector('#confirmation');
+document.querySelector('#booking').addEventListener('submit', event => {
+  event.preventDefault();
+  const name = nameInput.value.trim();
+  nameError.hidden = Boolean(name);
+  nameInput.setAttribute('aria-invalid', String(!name));
+  if (!name) {
+    nameInput.focus();
+    return;
+  }
+  document.querySelector('#reservation').textContent =
+    'Place reserved for ' + name + ' (' + document.querySelector('#format').value + ').';
+  dialog.showModal();
+});
+dialog.addEventListener('close', () => {
+  document.querySelector('#status').textContent = document.querySelector('#reservation').textContent;
+  document.querySelector('#book').focus();
+});
+</script>
+</body>
+</html>

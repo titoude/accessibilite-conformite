@@ -177,6 +177,7 @@ const CHECKS = [
 async function main() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
+  page.setDefaultTimeout(1500);
   let detected = 0, total = 0, falseNeg = 0;
   for (const c of CHECKS) {
     // Témoin correct : les deux assertions doivent passer

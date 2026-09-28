@@ -3,13 +3,13 @@
 #   cp pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
 #
 # Bloque le `git push` si l'audit axe trouve ≥ 1 violation ou que le périmètre
-# est incomplet — sans CI distante. L'audit porte sur le code de VOTRE checkout
-# courant, donc sur le commit poussé. C'est une aide locale, pas une garantie
+# est incomplet — sans CI distante. L'audit porte sur le serveur A11Y_URL ;
+# il ne prouve pas l'identité du commit servi. C'est une aide locale, pas une garantie
 # absolue : il ne couvre que la partie automatisable (axe-core), pas la
 # checklist manuelle (checklist.md).
 #
 # Prérequis : app démarrée et joignable (A11Y_URL) + dépendances épinglées :
-#   npm install && npx playwright install chromium
+#   pnpm install --frozen-lockfile --ignore-scripts && pnpm exec playwright install chromium
 #
 #   A11Y_URL=http://localhost:3000 git push
 #   A11Y_STATES=all git push                    # états dynamiques de STATES
@@ -18,7 +18,7 @@
 #   A11Y_SKIP=1 git push                        # contournement explicite, tracé
 #
 # Si l'app se build en statique, démarrez un serveur éphémère ici
-# (ex. `npx serve dist -l 4173 &` puis A11Y_URL=http://localhost:4173).
+# avec la commande documentée par le projet, puis renseignez A11Y_URL.
 
 if [ "$A11Y_SKIP" = "1" ]; then
   echo "a11y: audit ignoré (A11Y_SKIP=1)" >&2
@@ -33,9 +33,9 @@ AUDIT="$ROOT/scripts/a11y/audit.mjs"
 
 STATES="${A11Y_STATES:-none}"
 URLS="${A11Y_URLS:-}"
-EXTRA=""
-[ -n "$A11Y_STORAGE_STATE" ] && EXTRA="$EXTRA --storage-state $A11Y_STORAGE_STATE"
-[ -n "$URLS" ] && EXTRA="$EXTRA --urls $URLS"
+set --
+[ -n "$A11Y_STORAGE_STATE" ] && set -- "$@" --storage-state "$A11Y_STORAGE_STATE"
+[ -n "$URLS" ] && set -- "$@" --urls "$URLS"
 
 if ! curl -sf -o /dev/null --max-time 3 "$URL"; then
   echo "a11y: $URL injoignable — démarrez l'app ou passez A11Y_URL=…" >&2
@@ -44,8 +44,7 @@ if ! curl -sf -o /dev/null --max-time 3 "$URL"; then
 fi
 
 OUT="$ROOT/a11y-audit/pre-push"
-# shellcheck disable=SC2086
-node "$AUDIT" "$URL" --states "$STATES" --out "$OUT" $EXTRA
+node "$AUDIT" "$URL" --states "$STATES" --out "$OUT" "$@"
 rc=$?
 case "$rc" in
   0) echo "a11y: 0 violation, périmètre complet — push autorisé" >&2 ;;

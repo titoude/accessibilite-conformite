@@ -44,13 +44,30 @@ const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
-const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
-const opt = (name, dflt) => {
-  const i = args.indexOf(`--${name}`);
-  return i >= 0 ? args[i + 1] : dflt;
-};
-const flag = (name) => args.includes(`--${name}`);
-const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
+const VALUE_OPTIONS = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'storage-state']);
+const FLAG_OPTIONS = new Set(['keep-hash', 'strict-incomplete']);
+const options = new Map();
+const positional = [];
+const configErrors = [];
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (!arg.startsWith('--')) { positional.push(arg); continue; }
+  const name = arg.slice(2);
+  if (!VALUE_OPTIONS.has(name) && !FLAG_OPTIONS.has(name)) {
+    configErrors.push(`option inconnue : ${arg}`);
+  } else if (options.has(name)) {
+    configErrors.push(`option répétée : ${arg}`);
+  } else if (FLAG_OPTIONS.has(name)) {
+    options.set(name, true);
+  } else if (args[i + 1] === undefined || args[i + 1].startsWith('--')) {
+    configErrors.push(`valeur manquante : ${arg}`);
+  } else {
+    options.set(name, args[++i]);
+  }
+}
+const opt = (name, dflt) => options.get(name) ?? dflt;
+const flag = (name) => options.get(name) === true;
+if (positional.length > 1) configErrors.push('une seule URL de base est permise');
 
 const baseUrl = positional[0];
 const urlsOpt = opt('urls', null);
@@ -62,21 +79,23 @@ const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.tri
   return u;
 });
 const outDir = resolve(opt('out', './a11y-audit'));
-const maxPages = parseInt(opt('max', '50'), 10);
-const waitMs = parseInt(opt('wait', '0'), 10);
+const maxPages = Number(opt('max', '50'));
+const waitMs = Number(opt('wait', '0'));
 const waitFor = opt('wait-for', null);
-const depth = parseInt(opt('depth', '1'), 10);
+const depth = Number(opt('depth', '1'));
 const statesOpt = opt('states', '');
 const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
 const keepHash = flag('keep-hash');
 const strictIncomplete = flag('strict-incomplete');
 const storageState = opt('storage-state', null);
 
-const configErrors = [];
 if (!baseUrl && explicitUrls === null) {
-  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
-  process.exit(2);
+  configErrors.push('URL manquante : node audit.mjs <url> | --urls u1,u2,...');
 }
+for (const [name, value, minimum] of [['max', maxPages, 1], ['wait', waitMs, 0], ['depth', depth, 0]]) {
+  if (!Number.isSafeInteger(value) || value < minimum) configErrors.push(`--${name} doit être un entier >= ${minimum}`);
+}
+if (!statesArg.length) configErrors.push('déclarer les états : --states all|nom1,nom2|none');
 if (explicitUrls !== null && explicitUrls.length === 0) {
   configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
 }
@@ -90,7 +109,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v4';
+const RUNNER_VERSION = 'audit.mjs v5';
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -320,7 +339,7 @@ async function run() {
             const req = new URL(gotoUrl), fin = new URL(post.finalUrl);
             if (fin.origin !== req.origin) {
               entry.error = `navigation hors origine avant le scan (${post.finalUrl})`;
-            } else if (extraSetup && fin.pathname !== req.pathname) {
+            } else if (fin.pathname !== req.pathname) {
               // Un setup qui change de PAGE (pas seulement de hash/query)
               // scanne un autre document que celui demandé — couvre les
               // erreurs serveur déclenchées par un clic dont le statut

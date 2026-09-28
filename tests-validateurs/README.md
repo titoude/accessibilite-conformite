@@ -1,44 +1,31 @@
-# tests-validateurs — suite de mutants pour les assertions a11y
+# Assertion mutation suite
 
-Cette suite ne teste pas un produit : elle teste les **façons de tester**.
-Chaque cas confronte une assertion *faible* (anti-patron documenté par les
-revues externes V2 et V3) à l'assertion *durcie* prescrite par `SKILL.md`
-règles 13–17, implémentée dans `assertions.mjs`.
+These tests exercise the **ways we test accessibility**. Nine deliberately broken cases challenge weak assertions and the shared helpers in `assertions.mjs`. Valid controls ensure the strengthened assertions still accept the intended behavior.
 
-`assertions.mjs` est le module **partagé** — les helpers sont importés par la
-suite ici ET réutilisables tels quels dans les `verify.mjs` / `eval-final.mjs`
-produits pendant un run (les mutants éprouvent le code qui sert réellement à
-valider, pas un exemple parallèle).
+From the repository root:
 
-## Lancer
-
-```bash
-npm i -D playwright && npx playwright install chromium
-node tests-validateurs/validateurs.mjs   # exit 0 = 9/9 détectés, 0 faux négatifs
+```sh
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm exec playwright install chromium
+pnpm test:validateurs
 ```
 
-## Mutants couverts
+Exit 0 means all nine deliberate defects were detected and their valid controls passed.
 
-| mutant | piège de l'assertion faible | assertion durcie (helper) |
-|---|---|---|
-| `read` vs `unread` | `className.includes('read')` | `classList.contains('read')` — effet exact |
-| nom accessible vide | `aria-labelledby` présent | `accNameMatches` — nom calculé + cibles résolues |
-| leurre même nom | `getByRole` à l'échelle page | `accNameMatches` sur le locator exact |
-| labelledby cible vide | attribut + cible existante | `accNameMatches` — cible doit apporter du contenu accessible (texte, `aria-label`, `alt` d'img) |
-| app masquée | `clientWidth > 0` | `isTrulyVisible` — repère métier réellement visible |
-| `opacity:0` | `isVisible()` l'ignore | `isTrulyVisible` — remonte la chaîne d'ancêtres |
-| élément requis absent | `catch` muet → `true` | `effectObserved` — l'action lève, élément absent = FAIL |
-| filtre sans effet métier | `selectOption` a marché | `effectObserved` — l'effet sur `#results` est mesuré |
-| page d'erreur servie | `title !== null` | repère métier `isTrulyVisible` + gabarit d'erreur absent |
+| Mutation | Weak assertion | Stronger check |
+| --- | --- | --- |
+| `read` versus `unread` | Substring in class name | Exact class token |
+| Empty accessible name | Attribute exists | Exact locator's computed accessible name |
+| Decoy with the same name | Whole-page name query | Target the actual control |
+| Empty label reference | Referenced ID exists | Computed name plus explicit reference integrity |
+| Hidden application | Element has width | Business landmark passes visibility checks |
+| Transparent ancestor | Playwright `isVisible()` alone | Check opacity through the ancestor chain |
+| Missing required control | Swallowed exception | Required action must complete |
+| Ineffective filter | Selection succeeded | Expected result actually changes |
+| Error page | Page has a title | Expected business landmark and no error template |
 
-## Enseignements propres à la suite
+`accNameMatches` uses Playwright's accessible-name matcher on a unique locator. Its additional label-reference guard is a stricter test contract, not an independent WCAG success criterion. An image's `alt` may supply a referenced name. The older `accName` export is retained for diagnostic compatibility only; never use it as evidence about the exact target.
 
-- Chromium retombe sur le contenu de l'élément quand `aria-labelledby` pointe
-  vers un id inexistant : `getByRole({name:'OK'})` seul NE détecte PAS un
-  labelledby cassé. L'assertion durcie est donc composée : nom calculé ET
-  résolution effective des ids référencés — y compris le cas légitime où la
-  cible est une image dont le `alt` fournit le nom (pas de `textContent`).
-- `locator.isVisible()` accepte `opacity:0` — la visibilité réelle exige
-  `getComputedStyle` sur l'élément **et ses ancêtres** + boîte non vide.
-- Un contrôle peut exister et fonctionner mécaniquement sans produire
-  l'effet métier : `effectObserved` sépare l'action de sa preuve.
+`isTrulyVisible` detects missing boxes, display/visibility suppression and zero opacity on ancestors. It does not prove absence of clipping, occlusion or every possible visual defect. Pair it with appropriate visual and functional checks.
+
+These nine cases are a targeted regression suite, not exhaustive validation of every possible assertion.
