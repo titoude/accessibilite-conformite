@@ -73,6 +73,8 @@ task-checks + net-policy sources).
 
 Max 3 correction rounds, 20-minute session wall-time per arm **including
 setup**, measured from platform event timestamps; partial patch preserved on
-timeout. Workers are requested at `devin_mode="lite"`; requested vs.
-returned/effective mode is recorded separately, and dispatch stops if the
-presets differ.
+timeout. Workers run the inherited preset (`devin_mode` omitted — parent
+SWE-2); a Lite request was rejected at platform preflight (HTTP 400, zero
+sessions — recorded in `manifest.json` → `worker_config.lite_rejection`).
+Requested vs. returned/effective mode is still recorded separately per arm,
+and dispatch stops if the presets differ.

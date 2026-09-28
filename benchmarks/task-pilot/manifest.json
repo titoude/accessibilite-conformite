@@ -27,17 +27,25 @@
       "network policy",
       "max correction rounds (3)",
       "20-minute session wall-time including setup",
-      "devin_mode requested: lite",
+      "inherited preset (devin_mode omitted \u2014 parent SWE-2)",
       "general tools/environment (both arms get the pinned root toolkit)"
     ]
   },
   "worker_config": {
-    "requested_mode": "lite",
-    "mode_recording": "requested devin_mode and the returned/effective mode/model metadata are recorded separately in arms/<arm>/session-meta.json. If 'lite' is rejected or the two workers come back with different effective modes, dispatch STOPS and the asymmetry is reported \u2014 no silent substitution.",
-    "interpretation": "Lite-preset pilot only. The preset name does not establish underlying model weights; results say nothing about a known weaker model.",
+    "requested_mode": "inherited (devin_mode omitted)",
+    "mode_recording": "requested preset (inherited \u2014 devin_mode omitted) and the returned/effective mode/model metadata are recorded separately in arms/<arm>/session-meta.json. If the two workers come back with different effective modes, dispatch STOPS and the asymmetry is reported \u2014 no silent substitution.",
+    "interpretation": "Equal-preset pilot (inherited SWE-2 for both arms after Lite preflight rejection \u2014 see lite_rejection). Preset name does not establish underlying model weights; results say nothing about a known weaker model.",
     "slots": "at most 2 worker sessions, sequential acceptable",
     "budgets": "20-minute wall-clock per arm measured from platform worker-session creation \u2014 INCLUDES all worker-side setup/waits/remediation; no pause or reset. Parent-only protocol preparation precedes creation and is outside the clock. Max 3 correction rounds; partial patch preserved on timeout. Self-reported minutes are labelled unverified.",
-    "provisioning": "provisioning/worker-layout.md \u2014 frozen file layout + commands identical for both arms; treatment adds only skill/ bundle"
+    "provisioning": "provisioning/worker-layout.md \u2014 frozen file layout + commands identical for both arms; treatment adds only skill/ bundle",
+    "devin_mode": "inherited (devin_mode omitted at creation \u2014 children run the parent preset, SWE-2)",
+    "lite_rejection": {
+      "requested": "lite",
+      "outcome": "HTTP 400 at devin_session_create preflight: 'Children of a free SWE-2 session run on SWE-2; omit devin_mode to create one.'",
+      "sessions_created": 0,
+      "interpretation": "Platform entitlement failure, zero experimental sessions/data. NOT evidence the arms differ or that lite is weaker. Substituted per user decision with inherited preset; this is an equal-preset pilot, not a Lite-preset or weaker-model experiment.",
+      "requested_vs_effective": "recorded per worker in arms/<arm>/session-meta.json at dispatch; underlying model/version remains unknown unless the platform supplies it"
+    }
   },
   "evaluation_contract": {
     "runner": "harness/evaluate.sh <patch.diff|-> <outdir> \u2014 fresh mktemp clone -> pin checkout -> optional git apply --check -> npm ci (omit=dev, ignore-scripts) -> serve repo root -> harness/audit.todo.mjs",
@@ -107,5 +115,6 @@
     "AT and zoom NOT_TESTED",
     "the with-skill arm of pilot 1 self-reported violations that differed from replay measurement \u2014 the same risk applies here; only evaluator replay counts",
     "skill-only additions vs. control: the treatment/ bundle files; no other setup difference"
-  ]
+  ],
+  "freeze_commit": "bdef03d69e7f8a49044debdaa15725f4a9bce011"
 }
