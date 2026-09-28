@@ -54,8 +54,10 @@ external refs (src=, link href=) make a case `unsupported_external_dependency`
 rather than a partial replay; inert refs (`a href`, form action) are recorded
 as `external_references_inert` and never fetched. The 3 unscorable cases are
 kept visible; inapplicability is never inferred from absence of a violation.
-The split was independently reproduced by the reviewer (105 fixture + 5 asset
-hashes match). Mapped-rule results preserve the **verbatim** axe output
+The reviewer independently reproduced all 105 fixture + 5 asset hashes and the
+pre-policy outcome split (40/62/3 with the same 3 non-HTML cases as errors);
+the 39/62/3 + 1-unsupported row above is the post-local-policy rerun.
+Mapped-rule results preserve the **verbatim** axe output
 (`raw_axe_mapped`, incl. testEngine/passes/inapplicable); the all-rules context
 run is summarized and labelled `raw_axe_all_rules_summary`. Cases whose axe rule
 map is empty stay `unsupported_no_axe_mapping` — no fallback scan.
