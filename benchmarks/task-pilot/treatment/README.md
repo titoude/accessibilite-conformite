@@ -106,22 +106,12 @@ The [paired Whoogle pilot](benchmarks/paired-pilot/RESULTS.md) gives one isolate
 
 A separate [W3C ACT calibration](benchmarks/paired-pilot/RESULTS.md) compares selected scanner rules with recognized reference cases. It evaluates the scanner, not agent effectiveness or complete WCAG coverage. [Methods, raw evidence and limitations](docs/EVIDENCE.md).
 
-The [TodoMVC task pilot](benchmarks/task-pilot/README.md) tests three complete
-keyboard journeys on a pinned offline application. The baseline passes one.
-The control passes all three on its first submission; the skill arm passes
-two, then all three after a correction. [Independent replay](benchmarks/task-pilot/independent-review/README.md)
-reproduces every task and step status. Both final patches retain axe findings
-and unresolved human checks. These two exploratory pairs use different targets
-and skill versions; neither establishes a general advantage or robustness on
-weaker models.
-
 | Resource | Purpose |
 | --- | --- |
 | [audit.mjs](audit.mjs) | Scanner and scope reports |
 | [tests/](tests/) | Decision and browser regression tests |
 | [tests-validateurs/](tests-validateurs/) | Deliberately broken cases and assertion helpers |
 | [Paired pilot and calibration](benchmarks/paired-pilot/README.md) | Frozen prompts, source patches, reference fixtures and measured outcomes |
-| [Keyboard-task pilot](benchmarks/task-pilot/README.md) | TodoMVC journeys, isolated agents, failed submissions and independent replay |
 | [Criterion coverage record](templates/README.md) | All 55 WCAG 2.2 A/AA criteria, initially untested |
 | [workflow.py](workflow.py) | Optional Devin orchestration |
 | [benchmark-v3.py](benchmark-v3.py) | Benchmark adapter and hardened metadata checks |
@@ -132,7 +122,7 @@ Historical French audit documents remain as provenance. Use the current skill an
 
 ## Opethon and disclosure
 
-The theme fits Accessibility & Inclusion. **The existing repository needs an organizer ruling before it can be presented as eligible.** As checked on 28 September 2026, [Opethon](https://opethon.com/) requires a new public repository created after its start date and lists October or November, with exact dates still pending. [GitHub records this repository's creation](https://api.github.com/repos/titoude/accessibilite-conformite) on 27 September 2026. It therefore predates the announced event window; the displayed rule is not satisfied by the existing repository. Preserve the history and obtain written clarification or an exception.
+The theme fits Accessibility & Inclusion. **Eligibility is unconfirmed:** [Opethon](https://opethon.com/) currently requires a new public repository created after its start date; this project contains earlier work. Obtain an organizer ruling before claiming eligibility. Do not disguise the history.
 
 Developed with AI assistance, including Devin and Codex. Human assistive-technology validation has not yet been completed for the published benchmark corpus.
 

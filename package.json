@@ -17,11 +17,12 @@
     "test:decisions": "python -X utf8 -m unittest discover -s tests -p test_decisions.py -v",
     "test:pilot": "python -X utf8 benchmarks/paired-pilot/harness/test_score.py",
     "test:calibration": "node --test benchmarks/paired-pilot/calibration/test-net-policy.mjs tests/calibration-contract.test.mjs",
+    "test:task-pilot": "node --test benchmarks/task-pilot/harness/test-controls.mjs benchmarks/task-pilot/harness/test-cli.mjs benchmarks/task-pilot/harness/test-serve.mjs",
     "test:validateurs": "node tests-validateurs/validateurs.mjs",
     "test:browser": "node --test tests/browser.test.mjs",
     "demo": "python -X utf8 -m http.server 4173 --bind 127.0.0.1 --directory demo",
     "test:demo": "node --test tests/demo.test.mjs",
-    "test": "pnpm test:parity && pnpm test:decisions && pnpm test:pilot && pnpm test:calibration && pnpm test:validateurs && pnpm test:browser && pnpm test:demo"
+    "test": "pnpm test:parity && pnpm test:decisions && pnpm test:pilot && pnpm test:calibration && pnpm test:task-pilot && pnpm test:validateurs && pnpm test:browser && pnpm test:demo"
   },
   "devDependencies": {
     "axe-core": "4.13.0",

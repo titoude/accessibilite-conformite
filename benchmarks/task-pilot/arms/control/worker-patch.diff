@@ -1,0 +1,104 @@
+diff --git a/examples/javascript-es5/index.html b/examples/javascript-es5/index.html
+index 67c29a04..8c5e3ece 100644
+--- a/examples/javascript-es5/index.html
++++ b/examples/javascript-es5/index.html
+@@ -17,7 +17,7 @@
+             </header>
+             <main class="main">
+                 <div class="toggle-all-container">
+-                    <input class="toggle-all" type="checkbox" />
++                    <input id="toggle-all" class="toggle-all" type="checkbox" />
+                     <label class="toggle-all-label" for="toggle-all">Mark all as complete</label>
+                 </div>
+                 <ul class="todo-list"></ul>
+diff --git a/examples/javascript-es5/src/template.js b/examples/javascript-es5/src/template.js
+index fca160f3..ca27fe7c 100644
+--- a/examples/javascript-es5/src/template.js
++++ b/examples/javascript-es5/src/template.js
+@@ -32,7 +32,7 @@
+             = '<li data-id="{{id}}" class="{{completed}}">'
+             + '<div class="view">'
+             + '<input class="toggle" type="checkbox" {{checked}}>'
+-            + "<label>{{title}}</label>"
++            + '<label tabindex="0">{{title}}</label>'
+             + '<button class="destroy"></button>'
+             + "</div>"
+             + "</li>";
+diff --git a/examples/javascript-es5/src/view.js b/examples/javascript-es5/src/view.js
+index b3432333..28dcde75 100644
+--- a/examples/javascript-es5/src/view.js
++++ b/examples/javascript-es5/src/view.js
+@@ -60,7 +60,7 @@
+     View.prototype._editItem = function (id, title) {
+         var listItem = qs(`[data-id="${id}"]`);
+ 
+-        if (!listItem)
++        if (!listItem || listItem.className.indexOf("editing") >= 0)
+             return;
+ 
+         listItem.className = `${listItem.className} editing`;
+@@ -82,11 +82,15 @@
+         var input = qs("input.edit", listItem);
+         listItem.removeChild(input);
+ 
+-        listItem.className = listItem.className.replace("editing", "");
++        listItem.className = listItem.className.replace("editing", "").trim();
+ 
+         qsa("label", listItem).forEach(function (label) {
+             label.textContent = title;
+         });
++
++        var label = qs("label", listItem);
++        if (label)
++            label.focus();
+     };
+ 
+     View.prototype._replaceContentWithHtml = function (element, html) {
+@@ -113,7 +117,7 @@
+                 self.$main.style.display = self.$footer.style.display = parameter.visible ? "block" : "none";
+             },
+             toggleAll: function () {
+-                self.$toggleAll.checked = parameter.checked;
++                self.$toggleAllInput.checked = parameter.checked;
+             },
+             setFilter: function () {
+                 self._setFilter(parameter);
+@@ -175,6 +179,10 @@
+     View.prototype.bind = function (event, handler) {
+         var self = this;
+         if (event === "newTodo") {
++            $on(self.$newTodo, "keydown", function (event) {
++                if (event.key === "Enter")
++                    handler(self.$newTodo.value);
++            });
+             $on(self.$newTodo, "change", function () {
+                 handler(self.$newTodo.value);
+             });
+@@ -183,14 +191,25 @@
+                 handler();
+             });
+         } else if (event === "toggleAll") {
+-            $on(self.$toggleAll, "click", function () {
+-                self.$toggleAllInput.click();
++            $on(self.$toggleAllInput, "click", function () {
+                 handler({ completed: self.$toggleAllInput.checked });
+             });
+         } else if (event === "itemEdit") {
+             $delegate(self.$todoList, "li label", "dblclick", function () {
+                 handler({ id: self._itemId(this) });
+             });
++
++            $on(self.$todoList, "keydown", function (event) {
++                var li = event.target.tagName === "LI" ? event.target : $parent(event.target, "li");
++
++                if (!li)
++                    return;
++
++                if (event.key === "F2" || (event.target.tagName === "LABEL" && (event.key === "Enter" || event.key === " "))) {
++                    event.preventDefault();
++                    handler({ id: parseInt(li.dataset.id, 10) });
++                }
++            });
+         } else if (event === "itemRemove") {
+             $delegate(self.$todoList, ".destroy", "click", function () {
+                 handler({ id: self._itemId(this) });

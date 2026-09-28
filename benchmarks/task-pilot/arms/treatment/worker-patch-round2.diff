@@ -1,0 +1,108 @@
+diff --git a/examples/javascript-es5/index.html b/examples/javascript-es5/index.html
+index 67c29a04..371cbc56 100644
+--- a/examples/javascript-es5/index.html
++++ b/examples/javascript-es5/index.html
+@@ -8,6 +8,22 @@
+         <title>TodoMVC: JavaScript Es5</title>
+         <link rel="stylesheet" href="node_modules/todomvc-common/base.css" />
+         <link rel="stylesheet" href="node_modules/todomvc-app-css/index.css" />
++        <style>
++            .todo-list li .edit-item {
++                position: absolute;
++                top: 0;
++                right: 44px;
++                bottom: 0;
++                height: 30px;
++                margin: auto 0;
++                padding: 0 8px;
++                font-size: 12px;
++                color: #af5b5e;
++                border: 0;
++                background: none;
++                cursor: pointer;
++            }
++        </style>
+     </head>
+     <body>
+         <section class="todoapp">
+@@ -17,7 +33,7 @@
+             </header>
+             <main class="main">
+                 <div class="toggle-all-container">
+-                    <input class="toggle-all" type="checkbox" />
++                    <input class="toggle-all" type="checkbox" id="toggle-all" />
+                     <label class="toggle-all-label" for="toggle-all">Mark all as complete</label>
+                 </div>
+                 <ul class="todo-list"></ul>
+diff --git a/examples/javascript-es5/src/template.js b/examples/javascript-es5/src/template.js
+index fca160f3..ecd0bf07 100644
+--- a/examples/javascript-es5/src/template.js
++++ b/examples/javascript-es5/src/template.js
+@@ -33,6 +33,7 @@
+             + '<div class="view">'
+             + '<input class="toggle" type="checkbox" {{checked}}>'
+             + "<label>{{title}}</label>"
++            + '<button class="edit-item" type="button">Edit</button>'
+             + '<button class="destroy"></button>'
+             + "</div>"
+             + "</li>";
+diff --git a/examples/javascript-es5/src/view.js b/examples/javascript-es5/src/view.js
+index b3432333..dd08618e 100644
+--- a/examples/javascript-es5/src/view.js
++++ b/examples/javascript-es5/src/view.js
+@@ -87,6 +87,8 @@
+         qsa("label", listItem).forEach(function (label) {
+             label.textContent = title;
+         });
++
++        qs(".edit-item", listItem).focus();
+     };
+ 
+     View.prototype._replaceContentWithHtml = function (element, html) {
+@@ -113,7 +115,7 @@
+                 self.$main.style.display = self.$footer.style.display = parameter.visible ? "block" : "none";
+             },
+             toggleAll: function () {
+-                self.$toggleAll.checked = parameter.checked;
++                self.$toggleAllInput.checked = parameter.checked;
+             },
+             setFilter: function () {
+                 self._setFilter(parameter);
+@@ -178,19 +180,35 @@
+             $on(self.$newTodo, "change", function () {
+                 handler(self.$newTodo.value);
+             });
++
++            $on(self.$newTodo, "keydown", function (event) {
++                if (event.keyCode === self.ENTER_KEY)
++                    handler(self.$newTodo.value);
++            });
+         } else if (event === "removeCompleted") {
+             $on(self.$clearCompleted, "click", function () {
+                 handler();
+             });
+         } else if (event === "toggleAll") {
+-            $on(self.$toggleAll, "click", function () {
+-                self.$toggleAllInput.click();
++            $on(self.$toggleAllInput, "click", function () {
+                 handler({ completed: self.$toggleAllInput.checked });
+             });
+         } else if (event === "itemEdit") {
+             $delegate(self.$todoList, "li label", "dblclick", function () {
+                 handler({ id: self._itemId(this) });
+             });
++
++            $delegate(self.$todoList, "li .edit-item", "click", function () {
++                handler({ id: self._itemId(this) });
++            });
++
++            $on(self.$todoList, "keydown", function (event) {
++                if (event.keyCode === 113) {
++                    var li = $parent(event.target, "li");
++                    if (li)
++                        handler({ id: parseInt(li.dataset.id, 10) });
++                }
++            });
+         } else if (event === "itemRemove") {
+             $delegate(self.$todoList, ".destroy", "click", function () {
+                 handler({ id: self._itemId(this) });

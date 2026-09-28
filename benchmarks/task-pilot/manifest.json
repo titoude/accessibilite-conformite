@@ -1,0 +1,150 @@
+{
+  "pilot": "task-pilot",
+  "purpose": "Exploratory paired benchmark: does the accessibility skill (frozen at f7fb27e) change measurable keyboard-task completion on a real, fully-offline application. NOT ACT calibration; NOT a general effectiveness result \u2014 one pair.",
+  "target": {
+    "repo": "https://github.com/tastejs/todomvc.git",
+    "pin": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
+    "implementation": "examples/javascript-es5",
+    "license": "MIT (upstream license.md \u2014 notices preserved)",
+    "install": "npm ci --omit=dev --ignore-scripts --no-audit --no-fund in examples/javascript-es5 (the two locked production deps: todomvc-app-css 2.4.2, todomvc-common 1.0.5); raw index/src runs, no build",
+    "serve": "repository root on 127.0.0.1:<port>; app at /examples/javascript-es5/ so /learn.json resolves",
+    "offline_evidence": "baseline/run-3-node22: all requests http://127.0.0.1:8388/* \u2014 zero external attempts (see baseline/run-3-node22/report.json network_attempts). The api.github.com sidebar call in todomvc-common/base.js did not fire (learn.json entry has no issueLink for this example)."
+  },
+  "arms": {
+    "treatment": {
+      "prompt": "prompts/arm-task-skill.md",
+      "skill_source": "treatment/ dependency-complete bundle verbatim at f7fb27e4e9e36ccc0733b09d0af10fb9148a5d49: SKILL.md, checklist.md, audit.mjs, README.md, templates/{README.md,wcag-2.2-aa.csv}, docs/RELEASE-READINESS.md, tests-validateurs/assertions.mjs at original relative paths; sha256 in treatment/provenance.json; worker env = pinned root pnpm deps (playwright 1.63.0, axe-core 4.13.0)"
+    },
+    "control": {
+      "prompt": "prompts/arm-task-control.md",
+      "skill": "none \u2014 identical task requirements, neutral prompt"
+    },
+    "identical": [
+      "task requirements text",
+      "budgets",
+      "runner",
+      "evaluator",
+      "network policy",
+      "max correction rounds (3)",
+      "20-minute session wall-time including setup",
+      "inherited preset (devin_mode omitted \u2014 parent SWE-2)",
+      "general tools/environment (both arms get the pinned root toolkit)"
+    ]
+  },
+  "worker_config": {
+    "requested_mode": "inherited (devin_mode omitted)",
+    "mode_recording": "requested preset (inherited \u2014 devin_mode omitted) and the returned/effective mode/model metadata are recorded separately in arms/<arm>/session-meta.json. If the two workers come back with different effective modes, dispatch STOPS and the asymmetry is reported \u2014 no silent substitution.",
+    "interpretation": "Equal-preset pilot (inherited SWE-2 for both arms after Lite preflight rejection \u2014 see lite_rejection). Preset name does not establish underlying model weights; results say nothing about a known weaker model.",
+    "slots": "at most 2 worker sessions, sequential acceptable",
+    "budgets": "20-minute wall-clock per arm measured from platform worker-session creation \u2014 INCLUDES all worker-side setup/waits/remediation; no pause or reset. Parent-only protocol preparation precedes creation and is outside the clock. Max 3 correction rounds; partial patch preserved on timeout. Self-reported minutes are labelled unverified.",
+    "provisioning": "provisioning/worker-layout.md \u2014 frozen file layout + commands identical for both arms; treatment adds only skill/ bundle",
+    "devin_mode": "inherited (devin_mode omitted at creation \u2014 children run the parent preset, SWE-2)",
+    "lite_rejection": {
+      "requested": "lite",
+      "outcome": "HTTP 400 at devin_session_create preflight: 'Children of a free SWE-2 session run on SWE-2; omit devin_mode to create one.'",
+      "sessions_created": 0,
+      "interpretation": "Platform entitlement failure, zero experimental sessions/data. NOT evidence the arms differ or that lite is weaker. Substituted per Codex supervising-reviewer decision under the user's delegation with inherited preset; this is an equal-preset pilot, not a Lite-preset or weaker-model experiment.",
+      "requested_vs_effective": "recorded per worker in arms/<arm>/session-meta.json at dispatch; underlying model/version remains unknown unless the platform supplies it"
+    },
+    "effective_mode_observed": "swe-2-max for both workers (symmetric \u2014 no asymmetry stop)"
+  },
+  "evaluation_contract": {
+    "runner": "harness/evaluate.sh <patch.diff|-> <outdir> \u2014 fresh mktemp clone -> pin checkout -> optional git apply --check -> npm ci (omit=dev, ignore-scripts) -> serve repo root -> harness/audit.todo.mjs",
+    "input_hashes": "scope.json statesHash = sha256(task-checks.mjs + net-policy.mjs); patch sha256 recorded in eval-status.env",
+    "keyboard_rule": "Only real keyboard events (Tab walking + Enter/Space/F2/Escape via page.keyboard) count as credited actions. DOM focus()/programmatic click()/pre-seeded outcomes do not count.",
+    "discovery_rule": "The evaluator discovers a keyboard edit affordance by trying, in order: (a) a control with accessible name matching /edit/i (checked with @playwright/test toHaveAccessibleName \u2014 no in-page approximation), (b) F2 inside the item, (c) Enter/Space on a non-checkbox descendant of the item. This is a CUSTOM EVALUATION CONTRACT, not a normative WCAG requirement: WCAG/APG requires keyboard operability but does not mandate one specific shortcut or markup. Both arms receive this contract text verbatim.",
+    "identity_oracles": "Items tracked by data-id + label text; per-item checkbox.checked AND li.classList consistency required (contradiction = FAIL); ancestor-aware visibility via checkVisibility({checkOpacity,checkVisibilityCSS}); filter assertions compare exact visible identities; task3 survivors must keep id+text identity across toggle-all and Completed filter.",
+    "focus_oracles": "After edit commit/cancel, focus must land on a visible semantic control (button/input/a/[role]/[tabindex]) inside the SAME item \u2014 never BODY, never a hidden element.",
+    "persistence_note": "Upstream store.js uses module-local MemoryStorage \u2014 reload resets items to empty. Recorded in baseline as expected behavior (reloadReset, unscored); persistence is NOT a required feature and is never scored.",
+    "not_tested": [
+      "assistive technology / screen readers (live-region DOM metadata is a semantic signal, not SR-announcement proof)",
+      "zoom/reflow",
+      "pointer-only users beyond the preserved-dblclick check",
+      "any non-Chromium engine"
+    ]
+  },
+  "controls": {
+    "location": "harness/fixtures/ctrl-*.html \u2014 SYNTHETIC evaluator-owned pages; not app code, not worker output",
+    "positive": [
+      "ctrl-complete (aria-label edit button)",
+      "ctrl-labelledby (aria-labelledby hidden span)",
+      "ctrl-label-enter (focusable label, Enter opens edit)",
+      "ctrl-slow-filter (render lands 700ms after hashchange \u2014 proves rendered-outcome waits)"
+    ],
+    "negative": [
+      "ctrl-no-all (All-link preventDefault)",
+      "ctrl-invisible-list (opacity:0 list)",
+      "ctrl-inconsistent (class set, checkbox.checked reset)",
+      "ctrl-toggle-noop (toggle-all self-checks)",
+      "ctrl-focus-sink (focus to BODY)",
+      "ctrl-noop-commit (Enter closes without writing)",
+      "ctrl-dblclick-only (no keyboard affordance)",
+      "ctrl-survivor-rename (toggle-all relabels survivors)",
+      "ctrl-id-replace-filter (data-id rewritten on hashchange)",
+      "ctrl-id-replace-clear (survivor ids rewritten on clear)"
+    ],
+    "cli_contracts": "harness/test-cli.mjs spawns the real audit.todo.mjs: healthy positive (exit 0, zero page errors, zero blocked), page-error-only and external-request-only fixtures (exit != 0, fatal names the correct branch independently), 404 navigation (exit != 0), preseeded stale report/scope replaced by fresh run ids",
+    "gate": "pnpm test:task-pilot = test-controls.mjs + test-cli.mjs + test-serve.mjs (path-traversal regression, cherry-picked 8b42ff7)",
+    "rule": "controls exercise the SAME published task functions and the real CLI; outcomes are never weakened to make the evaluator pass"
+  },
+  "baseline": {
+    "dir": "baseline/run-3-node22",
+    "head_measured": "eb71eb5c3ebf40b8d72a18ec51c7e75d061441fa",
+    "toolchain": {
+      "node": "v22.23.3",
+      "pnpm": "10.34.5",
+      "playwright": "1.63.0",
+      "axe": "4.13.0",
+      "chromium": "153.0.8010.12"
+    },
+    "prior_runs": "baseline run-1 (evaluator 4da572d, dirty tree) and run-2 (evaluator 820e05e, dirty tree, Node 20) are historical evidence only, preserved at immutable commits: run-1 https://github.com/titoude/accessibilite-conformite/tree/3e863959bcb1dac87de41e914c80d41db78ced25/benchmarks/task-pilot/baseline/run-1 ; run-2 https://github.com/titoude/accessibilite-conformite/tree/820e05e5cafadf1f2f5924daeaef034a1e00cb1e/benchmarks/task-pilot/baseline/run-2 . run-3-node22 is the committed-head accepted baseline.",
+    "result": {
+      "task1_add_complete_filter": "PASS",
+      "task2_keyboard_edit": "FAIL \u2014 upstream binds editing to dblclick only; no keyboard affordance discovered",
+      "task3_toggle_clear": "FAIL \u2014 Space on .toggle-all checks the control itself without completing any item (toggleAllCheckedWithoutEffect); downstream count/filter checks fail",
+      "axe_initial": "heading-order x1, landmark-one-main x1, region x1 (0-item state)",
+      "axe_final": "heading-order x1, label x1, region x3 (post-task state)",
+      "external_requests": 0,
+      "page_errors": 0
+    },
+    "consistency_with_reviewer": "matches the reviewer's independent baseline (zero external requests, MemoryStorage reload reset, toggle-all self-check, axe label rule present post-items) and their Windows Node24 replay of task PASS/FAIL/FAIL + axe counts"
+  },
+  "deviations_and_limits": [
+    "n=1 pair \u2014 no causal claim, no generalization",
+    "custom discovery contract is not a normative WCAG requirement",
+    "worker correction minutes are self-reported/unverified",
+    "AT and zoom NOT_TESTED",
+    "the with-skill arm of pilot 1 self-reported violations that differed from replay measurement \u2014 the same risk applies here; only evaluator replay counts",
+    "skill-only additions vs. control: the treatment/ bundle files; no other setup difference"
+  ],
+  "freeze_commit": "bdef03d69e7f8a49044debdaa15725f4a9bce011",
+  "trial": {
+    "status": "COMPLETE \u2014 one pair, no further trials authorized",
+    "dispatch_head": "dee0f5a8c6be8b01ced6d7fcc6011a1728440d12",
+    "sessions": {
+      "control": {
+        "id": "75aa5458e5154f6caacb1dec67172dcd",
+        "created_at": 1790594491,
+        "deadline_20min": 1790595691,
+        "correction_rounds": 0,
+        "self_reported_minutes": "~5-6 (unverified)"
+      },
+      "treatment": {
+        "id": "d323a994d8ef4b0b84e9e4ee7d0efcb2",
+        "created_at": 1790594492,
+        "deadline_20min": 1790595692,
+        "correction_rounds": 1,
+        "self_reported_minutes": "~9 total (unverified)"
+      }
+    },
+    "result": {
+      "control_r1": "PASS/PASS/PASS (0 page errors, 0 external, no fatal)",
+      "treatment_r1": "PASS/FAIL/PASS \u2014 focus after commit/cancel landed on opacity-hidden input.toggle inside the correct li (checkVisibility rejected it)",
+      "treatment_r2": "PASS/PASS/PASS \u2014 submitted before deadline (parent retrieved after; no post-deadline worker repair)",
+      "final_equal": true,
+      "initial_differed": true,
+      "residual_axe_identical": "initial heading-order x1, landmark-one-main x1, region x1; final heading-order x1, label x2, region x3 \u2014 reported separately from task pass; AT/zoom NOT_TESTED"
+    },
+    "artifacts": "arms/<arm>/{worker-patch.diff,worker-patch-round2.diff?,report.md,sent-prompt.md,session-meta.json,eval*/}; sha256 in provenance.json; eval-run logs + diagnostic attempt preserved"
+  }
+}

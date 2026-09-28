@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- SYNTHETIC negative-control fixture (evaluator-owned, not app code). Completion sets .completed class but resets checkbox.checked - contradictory state. task1 must FAIL. -->
+<html lang="en">
+<head><meta charset="utf-8"><title>ctrl inconsistent</title></head>
+<body>
+<section class="todoapp">
+  <header><input class="new-todo" aria-label="New todo" autofocus></header>
+  <main class="main"><input class="toggle-all" type="checkbox" aria-label="Mark all as complete"><ul class="todo-list"></ul></main>
+  <footer class="footer">
+    <span class="todo-count">0 items left</span>
+    <ul class="filters"><li><a href="#/">All</a></li><li><a href="#/active">Active</a></li><li><a href="#/completed">Completed</a></li></ul>
+    <button class="clear-completed">Clear completed</button>
+  </footer>
+</section>
+<script>
+const list = document.querySelector('.todo-list'), input = document.querySelector('.new-todo'),
+      count = document.querySelector('.todo-count'), clear = document.querySelector('.clear-completed'),
+      toggleAll = document.querySelector('.toggle-all');
+let id = 0; const items = new Map();
+function render() {
+  const f = location.hash.replace('#/', '');
+  let left = 0;
+  for (const [i, it] of items) { it.li.style.display = (f === 'active' && it.done) || (f === 'completed' && !it.done) ? 'none' : ''; if (!it.done) left++; }
+  count.textContent = left + (left === 1 ? ' item left' : ' items left');
+  clear.style.display = [...items.values()].some(i => i.done) ? '' : 'none';
+}
+function add(text) {
+  const li = document.createElement('li'); li.dataset.id = ++id;
+  const cb = document.createElement('input'); cb.type = 'checkbox'; cb.className = 'toggle'; cb.setAttribute('aria-label', 'Mark complete');
+  const lab = document.createElement('label'); lab.textContent = text;
+  const it = { li, done: false };
+  cb.addEventListener('change', () => { it.done = cb.checked; li.classList.toggle('completed', cb.checked); cb.checked = false; render(); });
+  const ed = document.createElement('button'); ed.className = 'edit-btn'; ed.setAttribute('aria-label', 'Edit item'); ed.textContent = 'Edit';
+  ed.addEventListener('click', () => openEdit(li, lab));
+  li.append(cb, lab, ed); list.appendChild(li); items.set(id, it); render();
+}
+function openEdit(li, lab) {
+  if (li.querySelector('.edit')) return;
+  li.classList.add('editing');
+  const e = document.createElement('input'); e.className = 'edit'; e.value = lab.textContent;
+  li.appendChild(e); e.focus();
+  e.addEventListener('keydown', (ev) => {
+    if (ev.key === 'Enter') { lab.textContent = e.value; closeEdit(li, e); }
+    if (ev.key === 'Escape') { e.dataset.cancelled = '1'; closeEdit(li, e); }
+  });
+  e.addEventListener('blur', () => { if (e.dataset.closing) return; if (!e.dataset.cancelled) lab.textContent = e.value; closeEdit(li, e); });
+}
+function closeEdit(li, e) { if (e.dataset.closing) return; e.dataset.closing = '1'; li.classList.remove('editing'); e.remove(); li.querySelector('.toggle').focus(); }
+input.addEventListener('keydown', (e) => { if (e.key === 'Enter' && input.value.trim()) { add(input.value.trim()); input.value = ''; } });
+list.addEventListener('dblclick', (e) => { if (e.target.tagName === 'LABEL') openEdit(e.target.closest('li'), e.target); });
+
+toggleAll.addEventListener('change', () => { for (const it of items.values()) { it.done = toggleAll.checked; it.li.classList.toggle('completed', it.done); it.li.querySelector('.toggle').checked = it.done; } render(); });
+clear.addEventListener('click', () => { for (const [i, it] of items) if (it.done) { it.li.remove(); items.delete(i); } render(); });
+window.addEventListener('hashchange', render);
+render();
+</script>
+</body>
+</html>
