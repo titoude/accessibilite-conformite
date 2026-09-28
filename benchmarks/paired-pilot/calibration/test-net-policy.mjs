@@ -17,9 +17,15 @@ test('local fixture-server requests are allowed', () => {
 });
 
 test('non-network schemes a page legitimately emits are allowed', () => {
-  for (const u of ['about:blank', 'data:image/png;base64,xx', 'blob:http://127.0.0.1/x',
-                   'javascript:void(0)'])
+  for (const u of ['about:blank', 'data:image/png;base64,xx', 'blob:http://127.0.0.1/x'])
     assert.equal(isLocalRequest(u, 8871), true, u);
+});
+
+test('file:, javascript:, ws://localhost, wrong port are NOT local', () => {
+  for (const u of ['file:///etc/passwd', 'javascript:void(0)',
+                   'ws://127.0.0.1:8871/socket',   // right host+port, wrong scheme
+                   'http://localhost:8871/x'])      // hostname alias — not the origin
+    assert.equal(isLocalRequest(u, 8871), false, u);
 });
 
 test('external hosts and wrong ports are NOT local', () => {
@@ -48,9 +54,72 @@ test('a href and form action are INERT (never fetched by the browser)', () => {
   assert.deepEqual(inert, ['https://www.w3.org/WAI']);
 });
 
+test('browser-level: a CSS/dynamic external fetch is aborted + recorded (regex-invisible)', async () => {
+  // A page whose ONLY external dependency hides in a stylesheet url() — the
+  // static regex cannot see it. The route policy must still abort + record
+  // it, which is what gates the case to unsupported in run.mjs.
+  const { createRequire } = await import('node:module');
+  const { createServer } = await import('node:http');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const HERE = dirname(fileURLToPath(import.meta.url));
+  const require = createRequire(resolve(HERE, '../../..', 'package.json'));
+  const { chromium } = require('playwright');
+
+  const PAGE = '<style>body{background:url(https://evil.example/x.png)}</style><p>hi</p>';
+  const srv = createServer((q, s) => { s.writeHead(200, {'Content-Type':'text/html'}); s.end(PAGE); });
+  await new Promise(r => srv.listen(0, '127.0.0.1', r));
+  const port = srv.address().port;
+  try {
+    const browser = await chromium.launch();
+    const p = await browser.newPage();
+    const attempts = [];
+    await p.route('**/*', route => {
+      const u = route.request().url();
+      attempts.push({ url: u, allowed: isLocalRequest(u, port) });
+      if (isLocalRequest(u, port)) route.continue(); else route.abort();
+    });
+    await p.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'load' });
+    const blocked = attempts.filter(a => !a.allowed);
+    assert.equal(blocked.length, 1, 'CSS external fetch must be recorded+aborted');
+    assert.equal(blocked[0].url, 'https://evil.example/x.png');
+    assert.ok(attempts.some(a => a.allowed), 'the local page itself loads');
+    await browser.close();
+  } finally { srv.close(); }
+});
+
+test('browser-level: inert a-href navigation is never attempted', async () => {
+  const { createRequire } = await import('node:module');
+  const { createServer } = await import('node:http');
+  const { resolve, dirname } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const HERE = dirname(fileURLToPath(import.meta.url));
+  const require = createRequire(resolve(HERE, '../../..', 'package.json'));
+  const { chromium } = require('playwright');
+  const srv = createServer((q, s) => {
+    s.writeHead(200, {'Content-Type':'text/html'});
+    s.end('<a href="https://www.w3.org/WAI">WAI</a><p>ok</p>');
+  });
+  await new Promise(r => srv.listen(0, '127.0.0.1', r));
+  const port = srv.address().port;
+  try {
+    const browser = await chromium.launch();
+    const p = await browser.newPage();
+    const attempts = [];
+    await p.route('**/*', route => {
+      attempts.push(route.request().url());
+      if (isLocalRequest(route.request().url(), port)) route.continue(); else route.abort();
+    });
+    await p.goto(`http://127.0.0.1:${port}/`, { waitUntil: 'load' });
+    assert.deepEqual(attempts.filter(u => !isLocalRequest(u, port)), [],
+      'inert hrefs must produce zero external hits');
+    await browser.close();
+  } finally { srv.close(); }
+});
+
 test('the real corpus has exactly one fetched external dep and no surprises', async () => {
   const { readFileSync, readdirSync, statSync } = await import('node:fs');
-  const { join, dirname } = await import('node:path');
+  const { join, dirname, basename } = await import('node:path');
   const { fileURLToPath } = await import('node:url');
   const HERE = dirname(fileURLToPath(import.meta.url));
   const fixtures = [];
@@ -62,7 +131,7 @@ test('the real corpus has exactly one fetched external dep and no surprises', as
   const fetchedRefs = [];
   for (const f of fixtures)
     for (const u of fetchExternalRefs(readFileSync(f, 'utf8')).fetched)
-      fetchedRefs.push(`${u} :: ${f.split('/').pop()}`);
+      fetchedRefs.push(`${u} :: ${basename(f)}`);
   // c487ae/7b3b94c0 references github.com .../act-logo.png via img src — the
   // ONLY fetched external dep in the corpus. If a future refresh adds more,
   // this test fails loudly instead of silently weakening the offline claim.
