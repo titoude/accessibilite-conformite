@@ -67,13 +67,30 @@ const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
-const OPT_NAMES = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'keep-hash', 'storage-state', 'strict-incomplete']);
-const opt = (name, dflt) => {
-  const i = args.indexOf(`--${name}`);
-  return i >= 0 ? args[i + 1] : dflt;
-};
-const flag = (name) => args.includes(`--${name}`);
-const positional = args.filter((a, i) => !a.startsWith('--') && (i === 0 || !OPT_NAMES.has(args[i - 1].slice(2))));
+const VALUE_OPTIONS = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'storage-state']);
+const FLAG_OPTIONS = new Set(['keep-hash', 'strict-incomplete']);
+const options = new Map();
+const positional = [];
+const configErrors = [];
+for (let i = 0; i < args.length; i++) {
+  const arg = args[i];
+  if (!arg.startsWith('--')) { positional.push(arg); continue; }
+  const name = arg.slice(2);
+  if (!VALUE_OPTIONS.has(name) && !FLAG_OPTIONS.has(name)) {
+    configErrors.push(`option inconnue : ${arg}`);
+  } else if (options.has(name)) {
+    configErrors.push(`option répétée : ${arg}`);
+  } else if (FLAG_OPTIONS.has(name)) {
+    options.set(name, true);
+  } else if (args[i + 1] === undefined || args[i + 1].startsWith('--')) {
+    configErrors.push(`valeur manquante : ${arg}`);
+  } else {
+    options.set(name, args[++i]);
+  }
+}
+const opt = (name, dflt) => options.get(name) ?? dflt;
+const flag = (name) => options.get(name) === true;
+if (positional.length > 1) configErrors.push('une seule URL de base est permise');
 
 const baseUrl = positional[0];
 const urlsOpt = opt('urls', null);
@@ -85,21 +102,23 @@ const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.tri
   return u;
 });
 const outDir = resolve(opt('out', './a11y-audit'));
-const maxPages = parseInt(opt('max', '50'), 10);
-const waitMs = parseInt(opt('wait', '0'), 10);
+const maxPages = Number(opt('max', '50'));
+const waitMs = Number(opt('wait', '0'));
 const waitFor = opt('wait-for', null);
-const depth = parseInt(opt('depth', '1'), 10);
+const depth = Number(opt('depth', '1'));
 const statesOpt = opt('states', '');
 const statesArg = statesOpt.split(',').map(s => s.trim()).filter(Boolean);
 const keepHash = flag('keep-hash');
 const strictIncomplete = flag('strict-incomplete');
 const storageState = opt('storage-state', null);
 
-const configErrors = [];
 if (!baseUrl && explicitUrls === null) {
-  console.error('Usage: node audit.mjs <url> | --urls u1,u2,...');
-  process.exit(2);
+  configErrors.push('URL manquante : node audit.mjs <url> | --urls u1,u2,...');
 }
+for (const [name, value, minimum] of [['max', maxPages, 1], ['wait', waitMs, 0], ['depth', depth, 0]]) {
+  if (!Number.isSafeInteger(value) || value < minimum) configErrors.push(`--${name} doit être un entier >= ${minimum}`);
+}
+if (!statesArg.length) configErrors.push('déclarer les états : --states all|nom1,nom2|none');
 if (explicitUrls !== null && explicitUrls.length === 0) {
   configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
 }
@@ -113,7 +132,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v4';
+const RUNNER_VERSION = 'audit.mjs v5';
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -343,7 +362,7 @@ async function run() {
             const req = new URL(gotoUrl), fin = new URL(post.finalUrl);
             if (fin.origin !== req.origin) {
               entry.error = `navigation hors origine avant le scan (${post.finalUrl})`;
-            } else if (extraSetup && fin.pathname !== req.pathname) {
+            } else if (fin.pathname !== req.pathname) {
               // Un setup qui change de PAGE (pas seulement de hash/query)
               // scanne un autre document que celui demandé — couvre les
               // erreurs serveur déclenchées par un clic dont le statut
@@ -598,6 +617,7 @@ RULES = """Règles impératives :
 - Zoom/reflow : la preuve porte sur le contenu préservé et utilisable, pas sur une taille de viewport.
 - Ne pas réécrire ni toucher aux preuves, au runner, aux données de test.
 - Les résultats axe 'incomplete' reçoivent une décision traçable ; rien n'est absorbé dans un PASS.
+- Dans chaque commande, --states all suppose des états déclarés ; utiliser --states none uniquement si le manifeste figé confirme leur absence.
 """
 
 BASE_LINE = f"Branche de base de travail : {BASE_BRANCH if BASE_BRANCH else 'la branche par défaut du dépôt'}."
@@ -609,7 +629,9 @@ COMMON = f"""Contexte : mise en conformité accessibilité WCAG 2.2 AA / RGAA du
 INSTALL_SNIPPET = (
     "Écris ce fichier exact à `scripts/a11y/audit.mjs` (il devient partie du projet) :\n\n"
     "```javascript\n" + AUDIT_SCRIPT + "\n```\n\n"
-    "Prérequis : `npm i -D playwright axe-core && npx playwright install chromium`.\n"
+    "Outillage verrouillé : playwright@1.63.0, axe-core@4.13.0, @playwright/test@1.63.0. "
+    "Respecter le gestionnaire du projet, figer le lockfile, installer sans scripts implicites "
+    "puis installer Chromium explicitement. Pas d'installation non épinglée.\n"
 )
 
 
@@ -618,12 +640,12 @@ async def audit():
         COMMON + INSTALL_SNIPPET + """
 Tâche :
 1. Clone/checke le dépôt, lis le README, découvre comment installer et démarrer l'app en local.
-2. Démarre l'app, puis lance l'audit : `node scripts/a11y/audit.mjs <url-de-base> --out a11y-audit/baseline`
-   (pour les routes derrière auth ou non crawlables, passe --urls explicites).
-3. Identifie les composants invisibles au chargement (modales, drawers, toasts, onglets,
+2. Démarre l'app et fige le manifeste des routes, rôles, données et états attendus.
+3. AVANT la baseline, identifie les composants invisibles au chargement (modales, drawers, toasts, onglets,
    sections dépliées) : déclare-les dans la carte `STATES` de `scripts/a11y/audit.mjs`
    (sélecteurs + séquence d'ouverture Playwright), prévois les données de seed nécessaires,
-   puis audite-les : `--states all`.
+   puis lance `node scripts/a11y/audit.mjs <url-de-base> --states all --out a11y-audit/baseline`.
+   Utilise --states none si aucun état dynamique ; --urls pour les routes non crawlables.
 4. Pousse `scripts/a11y/audit.mjs` (et tout setup nécessaire, ex. script npm "audit:a11y", script de seed) sur une nouvelle branche `devin/a11y-setup-<timestamp>` — rapporte le nom.
 5. Rapporte : instructions de lancement exactes, nb de pages, nb de règles violées, le report.md complet.
 """,
@@ -753,7 +775,11 @@ def compute_status(verify_res):
     """Décision calculée depuis les preuves — la déclaration d'un agent ne
     fait pas foi. accepted=true avec des violations restantes est une
     sortie contradictoire : ERROR, pas PASS."""
-    if verify_res is None:
+    if not isinstance(verify_res, dict):
+        return "ERROR"
+    if (type(verify_res.get("accepted")) is not bool
+            or type(verify_res.get("remaining_violations")) is not int
+            or verify_res["remaining_violations"] < 0):
         return "ERROR"
     if verify_res["accepted"] and verify_res["remaining_violations"] > 0:
         return "ERROR"
@@ -803,10 +829,16 @@ async def main():
 
     if status == "PASS":
         eval_res = await final_eval(last_fix, audit_res, verify_res)
-        log(f"Éval finale : verdict={eval_res['verdict']}, nouveaux findings={eval_res['new_findings']}")
-        if eval_res["verdict"] != "PASS":
+        log(f"Éval finale : verdict={eval_res.get('verdict')}, nouveaux findings={eval_res.get('new_findings')}")
+        if (eval_res.get("verdict") != "PASS"
+                or type(eval_res.get("new_findings")) is not int
+                or eval_res["new_findings"] != 0
+                or not isinstance(eval_res.get("evidence"), str)
+                or not eval_res["evidence"].strip()):
             status = "PARTIAL"
-            rejections.append(f"final_eval: {eval_res['evidence']}")
+            rejections.append(f"final_eval: verdict={eval_res.get('verdict')}, "
+                              f"new_findings={eval_res.get('new_findings')}, "
+                              f"evidence={eval_res.get('evidence')}")
 
     if status == "PASS":
         final = await report_success(last_fix, audit_res, verify_res)
