@@ -23,23 +23,23 @@ BASE_SCOPE = {
 }
 BASE_REPORT = {"runId": "r1", "runnerVersion": "audit.mjs v5",
                "scopeHash": H1, "crawlErrors": [], "pages": [
-                   {"url": "http://x/", "violations": [{"id": "document-title", "nodes": [{}]}], "incomplete": []},
-                   {"url": "http://x/a", "violations": [{"id": "html-has-lang", "nodes": [{}, {}]}], "incomplete": []},
+                   {"url": "http://x/", "httpStatus": 200, "violations": [{"id": "document-title", "nodes": [{}]}], "incomplete": []},
+                   {"url": "http://x/a", "httpStatus": 200, "violations": [{"id": "html-has-lang", "nodes": [{}, {}]}], "incomplete": []},
                ], "configErrors": []}
 BASE_HELD = {"results": [
-    {"id": "c_pass", "kind": "check", "status": "PASS", "evidence": ""},
-    {"id": "c_fail", "kind": "check", "status": "FAIL", "evidence": ""},
-    {"id": "ctrl_name_positive", "kind": "control", "status": "PASS", "evidence": ""},
-    {"id": "ctrl_name_negative", "kind": "control", "status": "PASS", "evidence": ""},
+    {"id": "c_pass", "kind": "check", "status": "PASS", "evidence": "fixture passed"},
+    {"id": "c_fail", "kind": "check", "status": "FAIL", "evidence": "fixture failed"},
+    {"id": "ctrl_name_positive", "kind": "control", "status": "PASS", "evidence": "named fixture detected"},
+    {"id": "ctrl_name_negative", "kind": "control", "status": "PASS", "evidence": "unnamed fixture detected"},
 ]}
 GOOD_ENV_MINI = ("eval_exit=0\npatch_identity_ok=true\npatch_apply_ok=true\n"
                  "install_ok=true\ntests_ok=true\nboot_ok=true\n"
-                 "audit_exit=0\nheldout_exit=0\n")
+                 "audit_exit=1\nheldout_exit=1\n")
 
 
 def wj(path, obj):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w") as f:
+    with open(path, "w", encoding="utf-8") as f:
         if isinstance(obj, str):
             f.write(obj)
         else:
@@ -64,7 +64,10 @@ def run_score(root):
     p = subprocess.run([sys.executable, SCORE, "arm1", "--eval-root", root,
                         "--out", f"{root}/scores.json"],
                        capture_output=True, text=True)
-    return json.load(open(f"{root}/scores.json")), p.stdout
+    if p.returncode:
+        raise AssertionError(p.stderr)
+    with open(f"{root}/scores.json", encoding="utf-8") as f:
+        return json.load(f), p.stdout
 
 
 class TestScoreIntegrity(unittest.TestCase):
@@ -128,8 +131,8 @@ class TestScoreIntegrity(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             held = {"results": [
                 {"id": "c_pass", "status": "NOT_TESTED", "evidence": "upstream down"},
-                {"id": "c_fail", "status": "FAIL", "evidence": ""},
-            ]}
+                {"id": "c_fail", "status": "FAIL", "evidence": "fixture failed"},
+            ] + BASE_HELD["results"][2:]}
             make_tree(d, held=held)
             out, _ = run_score(d)
             a = out["arms"]["arm1"]
@@ -138,7 +141,7 @@ class TestScoreIntegrity(unittest.TestCase):
 
     def test_missing_check_id_vs_baseline_flagged(self):
         with tempfile.TemporaryDirectory() as d:
-            held = {"results": [{"id": "c_pass", "status": "PASS", "evidence": ""}]}
+            held = {"results": [BASE_HELD["results"][0]] + BASE_HELD["results"][2:]}
             make_tree(d, held=held)
             out, _ = run_score(d)
             self.assertIn("c_fail", out["arms"]["arm1"]["heldout_missing_checks"])
@@ -146,10 +149,11 @@ class TestScoreIntegrity(unittest.TestCase):
     def test_normal_comparison(self):
         with tempfile.TemporaryDirectory() as d:
             held = {"results": [
-                {"id": "c_pass", "status": "PASS", "evidence": ""},
-                {"id": "c_fail", "status": "PASS", "evidence": ""},
-            ]}
+                {"id": "c_pass", "status": "PASS", "evidence": "fixture passed"},
+                {"id": "c_fail", "status": "PASS", "evidence": "fixture passed"},
+            ] + BASE_HELD["results"][2:]}
             make_tree(d, held=held)
+            wj(f"{d}/arm1/eval-status.env", GOOD_ENV_MINI.replace("heldout_exit=1", "heldout_exit=0"))
             out, _ = run_score(d)
             a = out["arms"]["arm1"]
             self.assertEqual(a["comparison"], "OK")
@@ -159,7 +163,7 @@ class TestScoreIntegrity(unittest.TestCase):
             self.assertTrue(a["scope_identical"])
 
 
-# --- Mutant suite: uses the REAL committed baseline (94 violation nodes) ----
+# --- Mutant suite: uses the REAL committed baseline -----------------------
 # Each mutant must yield NOT_COMPARABLE (or an integrity gap), never a clean
 # delta. These came from an independent review that produced false-OK
 # comparisons with the actual artifacts.
@@ -167,7 +171,7 @@ class TestScoreIntegrity(unittest.TestCase):
 REAL_BASE = os.path.join(os.path.dirname(HERE), "evaluation", "baseline")
 GOOD_ENV = ("eval_exit=0\npatch_identity_ok=true\npatch_apply_ok=true\n"
             "install_ok=true\ntests_ok=true\nboot_ok=true\n"
-            "audit_exit=0\nheldout_exit=1\n")
+            "audit_exit=1\nheldout_exit=1\n")
 
 
 def real_tree(root, arm="arm1", scope=None, report=None, held=None, env=GOOD_ENV):
@@ -190,7 +194,95 @@ def real_tree(root, arm="arm1", scope=None, report=None, held=None, env=GOOD_ENV
 
 
 def load_real(name):
-    return json.load(open(f"{REAL_BASE}/{name}"))
+    with open(f"{REAL_BASE}/{name}", encoding="utf-8") as f:
+        return json.load(f)
+
+
+class TestComparisonContract(unittest.TestCase):
+    def test_completed_scan_with_findings_is_comparable(self):
+        with tempfile.TemporaryDirectory() as d:
+            real_tree(d)
+            out, _ = run_score(d)
+            self.assertEqual(out["arms"]["arm1"]["comparison"], "OK")
+            self.assertEqual(out["arms"]["arm1"]["nodes_delta"], 0)
+
+    def test_partial_and_zero_violation_results_are_measured(self):
+        for clean in (False, True):
+            with self.subTest(clean=clean), tempfile.TemporaryDirectory() as d:
+                r = load_real("report.json")
+                removed = len(r["pages"][0]["violations"][0]["nodes"])
+                baseline_nodes = sum(len(v["nodes"]) for p in r["pages"] for v in p["violations"])
+                if clean:
+                    for page in r["pages"]: page["violations"] = []
+                else:
+                    r["pages"][0]["violations"].pop(0)
+                env = GOOD_ENV.replace("audit_exit=1", "audit_exit=0") if clean else GOOD_ENV
+                real_tree(d, report=r, env=env)
+                out, _ = run_score(d)
+                a = out["arms"]["arm1"]
+                self.assertEqual(a["comparison"], "OK")
+                self.assertEqual(a["nodes_delta"], baseline_nodes if clean else removed)
+                self.assertTrue(a["heldout_still_failing"])
+
+    def test_counter_types_are_validated(self):
+        for field in ("total", "audited", "errored"):
+            for value in (None, False, "0", -1):
+                with self.subTest(field=field, value=value), tempfile.TemporaryDirectory() as d:
+                    s = load_real("scope.json"); s[field] = value
+                    real_tree(d, scope=s)
+                    out, _ = run_score(d)
+                    self.assertTrue(out["arms"]["arm1"]["scope_problems"])
+
+    def test_missing_baseline_page_invalidates_comparison(self):
+        with tempfile.TemporaryDirectory() as d:
+            real_tree(d)
+            r = load_real("report.json"); r["pages"].pop()
+            wj(f"{d}/baseline/report.json", r)
+            out, _ = run_score(d)
+            self.assertTrue(out["baseline"]["report_problems"])
+            self.assertIsNone(out["arms"]["arm1"]["nodes_delta"])
+
+    def test_malformed_finding_and_http_evidence_is_rejected(self):
+        for change in ("missing_incomplete", "missing_nodes", "bad_nodes", "bad_rule",
+                       "http_error", "null_http", "missing_http", "missing_config_errors"):
+            with self.subTest(change=change), tempfile.TemporaryDirectory() as d:
+                r = load_real("report.json"); page = r["pages"][0]
+                if change == "missing_incomplete": page.pop("incomplete")
+                elif change == "missing_nodes": page["violations"][0].pop("nodes")
+                elif change == "bad_nodes": page["violations"][0]["nodes"] = "wrong"
+                elif change == "bad_rule": page["violations"][0] = None
+                elif change == "http_error": page["httpStatus"] = 500
+                elif change == "null_http": page["httpStatus"] = None
+                elif change == "missing_http": page.pop("httpStatus")
+                else: r.pop("configErrors")
+                real_tree(d, report=r)
+                out, _ = run_score(d)
+                self.assertTrue(out["arms"]["arm1"]["report_problems"])
+                self.assertIsNone(out["arms"]["arm1"]["violation_nodes_final"])
+
+    def test_invalid_heldout_cannot_be_a_clean_comparison(self):
+        for side in ("baseline", "arm1"):
+            for change in ("missing", "duplicate", "unknown_status", "invalid_type", "control_failure"):
+                with self.subTest(side=side, change=change), tempfile.TemporaryDirectory() as d:
+                    real_tree(d)
+                    h = load_real("heldout/heldout.json")
+                    if change == "missing": h["results"].pop()
+                    elif change == "duplicate": h["results"].append(dict(h["results"][0]))
+                    elif change == "unknown_status": h["results"][0]["status"] = "MAYBE"
+                    elif change == "invalid_type": h = ["invalid"]
+                    else:
+                        next(x for x in h["results"] if x["kind"] == "control")["status"] = "FAIL"
+                    wj(f"{d}/{side}/heldout/heldout.json", h)
+                    out, _ = run_score(d)
+                    self.assertEqual(out["arms"]["arm1"]["comparison"], "NOT_COMPARABLE")
+
+    def test_inconsistent_audit_exit_is_rejected(self):
+        for code in ("0", "2", "0.0", ""):
+            with self.subTest(code=code), tempfile.TemporaryDirectory() as d:
+                real_tree(d, env=GOOD_ENV.replace("audit_exit=1", f"audit_exit={code}"))
+                out, _ = run_score(d)
+                self.assertTrue(out["arms"]["arm1"]["replay_evidence_problems"])
+                self.assertIsNone(out["arms"]["arm1"]["nodes_delta"])
 
 
 class TestRealBaselineMutants(unittest.TestCase):
@@ -204,7 +296,8 @@ class TestRealBaselineMutants(unittest.TestCase):
             real_tree(d)
             a = self._arm(d)
             self.assertEqual(a["comparison"], "OK")
-            self.assertEqual(a["violation_nodes_final"], 94)
+            expected = sum(len(v["nodes"]) for p in load_real("report.json")["pages"] for v in p["violations"])
+            self.assertEqual(a["violation_nodes_final"], expected)
 
     def test_empty_pages_array(self):
         with tempfile.TemporaryDirectory() as d:

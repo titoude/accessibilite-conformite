@@ -18,11 +18,14 @@ Integrity semantics (hardened after review):
   * Held-out coverage: a missing heldout.json or a missing check id is a
     coverage_gap; a baseline PASS observed as NOT_TESTED is a coverage_loss
     (upstream dependency withdrew evidence — flagged, never neutral).
-  * Violation deltas are only computed when both sides validate; new
-    violation rules are still listed when the arm report alone validates.
+  * Completed scans with violations (exit 1) remain comparable. Exit 2,
+    contradictory exit codes, missing checks and failed instrumentation do
+    not. Comparison OK means comparable evidence, never product conformance.
+  * App test failures and held-out FAILs remain visible: a partial fix may
+    have a measurable delta without being ready for delivery.
 
 Usage:
-  python3 score.py [--eval-root evaluation] [--arm with-skill control ...]
+  python3 score.py [with-skill control ...] [--eval-root evaluation]
                    [--baseline baseline] [--out scores.json]
 """
 import argparse, json, os, re, sys
@@ -31,17 +34,19 @@ REQUIRED_SCOPE_KEYS = ("runId", "runnerVersion", "scopeHash", "statesHash",
                        "scenarios", "audited", "errored", "total")
 REQUIRED_REPORT_KEYS = ("runId", "runnerVersion", "scopeHash", "pages",
                         "configErrors")
-HELDOUT_REQUIRED_KEYS = ("results",)
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 REQUIRED_ENV_KEYS = ("patch_identity_ok", "patch_apply_ok", "install_ok",
-                     "tests_ok", "boot_ok", "audit_exit")
+                     "tests_ok", "boot_ok", "audit_exit", "heldout_exit", "eval_exit")
 
 
 def load_json(path):
     """-> (data_or_None, error_or_None). Missing/malformed is explicit."""
     try:
-        with open(path) as f:
-            return json.load(f), None
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, dict):
+            return None, "malformed: expected a JSON object"
+        return data, None
     except FileNotFoundError:
         return None, "missing"
     except Exception as e:
@@ -51,10 +56,11 @@ def load_json(path):
 def load_env(path):
     out = {}
     try:
-        for line in open(path):
-            if "=" in line:
-                k, v = line.rstrip("\n").split("=", 1)
-                out[k] = v
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                if "=" in line:
+                    k, v = line.rstrip("\n").split("=", 1)
+                    out[k] = v
     except FileNotFoundError:
         pass
     return out
@@ -65,7 +71,7 @@ def _nonempty_str(v):
 
 
 def _is_sha256(v):
-    return isinstance(v, str) and bool(SHA256_RE.match(v))
+    return isinstance(v, str) and bool(SHA256_RE.fullmatch(v))
 
 
 def validate_scope(scope, expected_scenarios=None, baseline=None):
@@ -90,6 +96,9 @@ def validate_scope(scope, expected_scenarios=None, baseline=None):
         problems.append("scope.scopeHash missing/not a sha256")
     if not _is_sha256(scope.get("statesHash")):
         problems.append("scope.statesHash missing/not a sha256")
+    for k in ("total", "audited", "errored"):
+        if type(scope.get(k)) is not int or scope[k] < 0:
+            problems.append(f"scope.{k} must be a nonnegative integer")
     scen = scope.get("scenarios")
     ids = []
     if not isinstance(scen, list) or not scen:
@@ -108,11 +117,11 @@ def validate_scope(scope, expected_scenarios=None, baseline=None):
                 problems.append(f"scenario {s['id']} status={s.get('status')!r} (expected 'audited')")
             if s.get("error"):
                 problems.append(f"scenario {s['id']} carries error: {s['error']}")
-        if isinstance(scope.get("total"), int) and scope["total"] != len(scen):
+        if type(scope.get("total")) is int and scope["total"] != len(scen):
             problems.append(f"scope.total={scope['total']} != {len(scen)} scenarios")
-        if isinstance(scope.get("audited"), int) and scope["audited"] != len(scen):
+        if type(scope.get("audited")) is int and scope["audited"] != len(scen):
             problems.append(f"scope.audited={scope['audited']} != {len(scen)} scenarios")
-    if scope.get("errored") not in (0, "0", None):
+    if scope.get("errored") != 0:
         problems.append(f"scope.errored={scope.get('errored')}")
     if scope.get("crawlErrors"):
         problems.append(f"scope.crawlErrors non-empty: {scope['crawlErrors']}")
@@ -121,6 +130,8 @@ def validate_scope(scope, expected_scenarios=None, baseline=None):
             f"scenario set mismatch: missing={sorted(set(expected_scenarios) - set(ids))} "
             f"extra={sorted(set(ids) - set(expected_scenarios))}")
     if baseline and isinstance(baseline, dict):
+        if scope.get("runnerVersion") != baseline.get("runnerVersion"):
+            problems.append("scope.runnerVersion differs from baseline")
         if scope.get("scopeHash") != baseline.get("scopeHash"):
             problems.append("scope.scopeHash differs from baseline (frozen scope violated)")
         if scope.get("statesHash") != baseline.get("statesHash"):
@@ -155,7 +166,7 @@ def validate_report(report, scope=None, expected_page_ids=None):
             problems.append("report.runnerVersion != scope.runnerVersion")
         if _is_sha256(scope.get("scopeHash")) and report.get("scopeHash") != scope["scopeHash"]:
             problems.append("report.scopeHash != scope.scopeHash (report does not belong to this run)")
-    if report.get("configErrors"):
+    if not isinstance(report.get("configErrors"), list) or report["configErrors"]:
         problems.append(f"runner configErrors: {report['configErrors']}")
     if report.get("crawlErrors"):
         problems.append(f"runner crawlErrors: {report['crawlErrors']}")
@@ -171,12 +182,24 @@ def validate_report(report, scope=None, expected_page_ids=None):
         page_ids.append(pg["url"])
         if pg.get("error"):
             problems.append(f"page {pg['url']} carries error: {pg['error']}")
-        if not isinstance(pg.get("violations"), list):
-            problems.append(f"page {pg['url']}: 'violations' missing or not a list")
-        if "incomplete" in pg and not isinstance(pg["incomplete"], list):
-            problems.append(f"page {pg['url']}: 'incomplete' not a list")
-        if pg.get("httpStatus") is not None and not isinstance(pg["httpStatus"], int):
-            problems.append(f"page {pg['url']}: httpStatus not an int")
+        for category in ("violations", "incomplete"):
+            findings = pg.get(category)
+            if not isinstance(findings, list):
+                problems.append(f"page {pg['url']}: '{category}' missing or not a list")
+                continue
+            rule_ids = set()
+            for finding in findings:
+                if not isinstance(finding, dict) or not _nonempty_str(finding.get("id")):
+                    problems.append(f"page {pg['url']}: malformed {category} rule")
+                    continue
+                if finding["id"] in rule_ids:
+                    problems.append(f"page {pg['url']}: duplicate {category} rule {finding['id']}")
+                rule_ids.add(finding["id"])
+                nodes = finding.get("nodes")
+                if not isinstance(nodes, list) or not nodes or any(not isinstance(n, dict) for n in nodes):
+                    problems.append(f"page {pg['url']}: {category}/{finding['id']} has invalid nodes")
+        if type(pg.get("httpStatus")) is not int or not 200 <= pg["httpStatus"] < 400:
+            problems.append(f"page {pg['url']}: missing or unsuccessful httpStatus")
     if len(set(page_ids)) != len(page_ids):
         problems.append(f"duplicate page urls: {sorted(u for u in set(page_ids) if page_ids.count(u) > 1)}")
     if expected_page_ids is not None:
@@ -187,7 +210,7 @@ def validate_report(report, scope=None, expected_page_ids=None):
     return problems
 
 
-def replay_problems(env):
+def replay_problems(env, stats=None, checks=None):
     """eval-status.env must prove the replay happened: identity, apply,
     install, boot. A failed/absent replay means the arm has no valid final
     artifacts — raw measurements are still reported, separately."""
@@ -202,9 +225,20 @@ def replay_problems(env):
     for k in ("patch_identity_ok", "patch_apply_ok", "install_ok", "boot_ok"):
         if env.get(k) not in ("true", "1"):
             probs.append(f"replay step failed: {k}={env.get(k)}")
-    # tests_ok is recorded but not gated: the app suite may legitimately fail
-    if env.get("audit_exit") not in ("0", "0.0"):
-        probs.append(f"audit exit nonzero/missing: {env.get('audit_exit')}")
+    # A test failure is a measured delivery failure, not a reason to hide a
+    # completed scanner measurement. Unknown/missing test status is different.
+    if env.get("tests_ok") not in ("true", "false", "1", "0"):
+        probs.append("tests_ok missing or invalid")
+    if env.get("eval_exit") != "0":
+        probs.append(f"evaluation did not complete: {env.get('eval_exit')}")
+    if env.get("audit_exit") not in ("0", "1"):
+        probs.append(f"audit did not complete: {env.get('audit_exit')}")
+    elif stats is not None and env["audit_exit"] != ("1" if stats["nodes"] else "0"):
+        probs.append("audit_exit contradicts the measured violations")
+    if env.get("heldout_exit") not in ("0", "1"):
+        probs.append(f"heldout did not complete: {env.get('heldout_exit')}")
+    elif checks and env["heldout_exit"] != ("1" if any(c["status"] == "FAIL" for c in checks.values()) else "0"):
+        probs.append("heldout_exit contradicts the observed checks")
     return probs
 
 
@@ -225,24 +259,34 @@ def violation_stats(report):
             "incomplete": incomplete}
 
 
-def check_map(h):
-    if not h or not isinstance(h.get("results"), list):
-        return {}
-    return {r["id"]: r for r in h["results"] if isinstance(r, dict) and "id" in r}
-
-
-def heldout_control_problems(arm_checks):
-    """Instrumentation controls (kind:'control') must PASS — a control
-    failure means the measurement apparatus itself is untrustworthy, an
-    integrity gap, not a clean comparison."""
-    probs = []
-    for cid, r in arm_checks.items():
+def validate_heldout(h, expected=None):
+    """Validate measurement records before deriving any check transitions."""
+    if not isinstance(h, dict) or not isinstance(h.get("results"), list) or not h["results"]:
+        return ["heldout.json missing or malformed"], {}
+    probs, checks = [], {}
+    for r in h["results"]:
+        if (not isinstance(r, dict) or not _nonempty_str(r.get("id"))
+                or r.get("status") not in ("PASS", "FAIL", "NOT_TESTED")
+                or r.get("kind", "check") not in ("check", "control")
+                or not _nonempty_str(r.get("evidence"))):
+            probs.append("malformed heldout check (id/status/kind/evidence)")
+            continue
+        cid = r["id"]
+        if cid in checks:
+            probs.append(f"duplicate heldout id: {cid}")
+        checks[cid] = r
         if r.get("kind") == "control" and r.get("status") != "PASS":
             probs.append(f"instrumentation control {cid} status={r.get('status')}")
     for cid in ("ctrl_name_positive", "ctrl_name_negative"):
-        if cid not in arm_checks:
-            probs.append(f"required control {cid} absent from heldout results")
-    return probs
+        if checks.get(cid, {}).get("kind") != "control":
+            probs.append(f"required control {cid} absent or mistyped")
+    if expected is not None:
+        if set(checks) != set(expected):
+            probs.append("heldout check set differs from baseline")
+        for cid in set(checks) & set(expected):
+            if checks[cid].get("kind", "check") != expected[cid].get("kind", "check"):
+                probs.append(f"heldout check kind changed: {cid}")
+    return probs, checks
 
 
 def compare_heldout(base_checks, arm_checks, arm_has_heldout):
@@ -292,9 +336,9 @@ def main():
     base_report, be2 = load_json(os.path.join(ev, args.baseline, "report.json"))
     base_heldout, be3 = load_json(os.path.join(ev, args.baseline, "heldout", "heldout.json"))
     base_scope_probs, base_statuses = validate_scope(base_scope)
-    base_rep_probs = validate_report(base_report, base_scope)
-    base_stats = violation_stats(base_report) if not base_rep_probs else None
-    base_checks = check_map(base_heldout) if base_heldout else {}
+    base_rep_probs = validate_report(base_report, base_scope, expected_page_ids=base_statuses)
+    base_stats = violation_stats(base_report) if not base_rep_probs and not base_scope_probs else None
+    base_held_probs, base_checks = validate_heldout(base_heldout)
     base_hash = (base_scope or {}).get("scopeHash")
     base_scenarios = list(base_statuses)
 
@@ -313,6 +357,7 @@ def main():
             "incomplete": base_stats["incomplete"] if base_stats else None,
             "heldout": {k: v["status"] for k, v in base_checks.items()},
             "heldout_available": base_heldout is not None,
+            "heldout_problems": base_held_probs,
         },
         "arms": {},
     }
@@ -327,15 +372,15 @@ def main():
         scope_probs, arm_ids = validate_scope(scope,
             expected_scenarios=base_scenarios or None, baseline=base_scope)
         rep_probs = validate_report(report, scope, expected_page_ids=arm_ids or None)
-        stats = violation_stats(report) if not rep_probs else None
-        checks = check_map(heldout) if heldout else {}
+        stats = violation_stats(report) if not rep_probs and not scope_probs else None
+        held_probs, checks = validate_heldout(heldout, expected=base_checks)
         held_cmp = compare_heldout(base_checks, checks, heldout is not None)
-        ctrl_probs = heldout_control_problems(checks) if heldout else []
-        replay_probs = replay_problems(env)
+        replay_probs = replay_problems(env, stats, checks)
 
         comparable = (not scope_probs) and (not rep_probs) and stats is not None \
             and base_stats is not None and not base_scope_probs \
-            and not base_rep_probs and not replay_probs
+            and not base_rep_probs and not replay_probs and not base_held_probs \
+            and not held_probs and not held_cmp["coverage_loss_PASS_to_NT"]
         arm_out = {
             "eval_status": env,
             "artifact_errors": [e for e in (se, re_, he) if e],
@@ -356,16 +401,16 @@ def main():
             "violation_rules_final": stats["rules"] if stats else None,
             "nodes_delta": (base_stats["nodes"] - stats["nodes"]) if (comparable) else None,
             "new_violation_rules": (sorted(set(stats["rules"]) - set(base_stats["rules"]))
-                                    if stats and base_stats else None),
+                                    if comparable else None),
             "incomplete_final": stats["incomplete"] if stats else None,
             "heldout": {k: v["status"] for k, v in checks.items()} or None,
             "heldout_evidence": {k: v.get("evidence", "") for k, v in checks.items()} or None,
-            "heldout_regressions": held_cmp["regressions"],
-            "heldout_improvements": held_cmp["improvements"],
+            "heldout_regressions": held_cmp["regressions"] if not base_held_probs and not held_probs else None,
+            "heldout_improvements": held_cmp["improvements"] if not base_held_probs and not held_probs else None,
             "heldout_still_failing": held_cmp["still_failing"],
             "heldout_coverage_loss_PASS_to_NT": held_cmp["coverage_loss_PASS_to_NT"],
             "heldout_missing_checks": held_cmp["missing_checks_vs_baseline"],
-            "heldout_coverage_gaps": held_cmp["coverage_gaps"] + ctrl_probs,
+            "heldout_coverage_gaps": held_cmp["coverage_gaps"] + held_probs,
         }
         out["arms"][arm] = arm_out
 
