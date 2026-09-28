@@ -1,0 +1,72 @@
+{
+  "sid": "devin-8f0c038c24ad4eb9b8376e85f73c56b1",
+  "dispatch": "2026-09-28T08:19:06Z",
+  "settled": "2026-09-28T08:37:25Z",
+  "patch_sha256": "37c64103cef28ee475ac46a61a2f3d76b53a95909d8cf714bf61dbe51d84d86a",
+  "patch_sha256_declared": "37c64103cef28ee475ac46a61a2f3d76b53a95909d8cf714bf61dbe51d84d86a",
+  "patch_sha256_match": true,
+  "prompt_file": "prompts/arm-control.rendered.md",
+  "worker_self_report": {
+    "commit_sha": "0543f86528678ab60a20b3049483975add6b6e40",
+    "booted": true,
+    "rounds": 3,
+    "correction_minutes": 14.0,
+    "files_changed": [
+      "app/static/css/dark-theme.css",
+      "app/static/css/light-theme.css",
+      "app/static/css/logo.css",
+      "app/static/css/variables.css",
+      "app/templates/display.html",
+      "app/templates/header.html",
+      "app/templates/index.html",
+      "app/templates/search.html"
+    ],
+    "failure": "rounds_exhausted",
+    "baseline_summary_json": {
+      "http://127.0.0.1:5001/": {
+        "color-contrast": 2,
+        "html-has-lang": 1,
+        "label": 2,
+        "landmark-one-main": 1,
+        "page-has-heading-one": 1,
+        "region": 28
+      },
+      "http://127.0.0.1:5001/ [state:config-panel]": {
+        "color-contrast": 9,
+        "html-has-lang": 1,
+        "label": 2,
+        "landmark-one-main": 1,
+        "page-has-heading-one": 1,
+        "region": 28
+      },
+      "http://127.0.0.1:5001/search.html": {
+        "document-title": 1,
+        "html-has-lang": 1,
+        "landmark-one-main": 1,
+        "page-has-heading-one": 1,
+        "region": 1
+      },
+      "http://127.0.0.1:5001/search?q=test": {
+        "color-contrast": 1,
+        "label": 1,
+        "landmark-one-main": 1,
+        "link-name": 1,
+        "page-has-heading-one": 1,
+        "region": 8,
+        "select-name": 2
+      },
+      "http://127.0.0.1:5001/window?location=https://example.com": {
+        "landmark-one-main": 1,
+        "link-in-text-block": 1,
+        "region": 1
+      }
+    },
+    "final_summary_json": {
+      "http://127.0.0.1:5001/window?location=https://example.com": {
+        "color-contrast": 1
+      }
+    }
+  },
+  "worker_artifacts_dir": "worker-reported/ (baseline+final report/scope/report.md exactly as returned by the worker; NOT the evaluator replay)",
+  "evaluator_replay": "evaluation/control/ (independent clean-clone replay under evaluator v3, --wait 500)"
+}

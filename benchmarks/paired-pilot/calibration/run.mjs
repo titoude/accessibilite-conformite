@@ -169,18 +169,22 @@ for (const c of casesDoc.cases) {
       });
       const all = await window.axe.run(document);
       return {
-        raw_mapped: { violations: out.violations, incomplete: out.incomplete,
-                      passes: out.passes.map(v => ({ id: v.id, nodes: v.nodes.length })),
-                      inapplicable: out.inapplicable.map(v => v.id) },
-        all_ids: all.violations.map(v => v.id),
-        all_incomplete_ids: all.incomplete.map(v => v.id),
+        // Verbatim axe.run() result for the mapped rules: violations,
+        // incomplete, passes, inapplicable, testEngine/tool metadata — the
+        // actual evidence object, not a reduction.
+        raw_mapped: out,
+        // all-rules run is deliberately summarized (id lists only) —
+        // labelled as such, it is context not evidence.
+        all_rules_summary: { violations: all.violations.map(v => v.id),
+                             incomplete: all.incomplete.map(v => v.id) },
       };
     }, ruleIds);
-    row.raw_axe = res.raw_mapped;   // full raw axe result — the evidence
+    row.raw_axe_mapped = res.raw_mapped;          // full axe result object
+    row.raw_axe_all_rules_summary = res.all_rules_summary;
     row.observed_rules = res.raw_mapped.violations.map(v => ({ id: v.id, nodes: v.nodes.length }));
     row.incomplete_rules = res.raw_mapped.incomplete.map(v => ({ id: v.id, nodes: v.nodes.length }));
-    row.passed_mapped = res.raw_mapped.passes;
-    row.inapplicable_mapped = res.raw_mapped.inapplicable;
+    row.passed_mapped = res.raw_mapped.passes.map(v => ({ id: v.id, nodes: v.nodes.length }));
+    row.inapplicable_mapped = res.raw_mapped.inapplicable.map(v => v.id);
     row.all_violation_rules = res.all_ids;
     row.all_incomplete_rules = res.all_incomplete_ids;
     const anyMapped = row.observed_rules.length > 0;
