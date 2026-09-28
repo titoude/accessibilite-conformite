@@ -29,6 +29,8 @@ node audit.mjs http://localhost:3000 --states none --out a11y-audit/baseline
 
 For dynamic states, use an application-specific runner copy with the function-based `STATES` example in [README.md](README.md), freeze it, and use `--states all`. Add explicit routes with `--urls`, authorized authentication with `--storage-state`, and hash routing with `--keep-hash` when needed.
 
+Wait for observable state completion before scanning: loaded content, expanded panels and finished transitions. A changed class or a visible container can precede its final layout. If repeated baselines disagree, investigate the affected nodes before comparing fixes. Record the exact invocation, including any `--wait` value; scope and state hashes do not encode every runtime option. Apply a justified timing amendment equally to the baseline and all candidates, preserving the original results.
+
 Preserve baseline reports, manifest and application commit. Missing controls, wrong documents, timeouts and failed preconditions are coverage failures, never clean results.
 
 ## Correction rules
@@ -41,7 +43,7 @@ Preserve baseline reports, manifest and application commit. Missing controls, wr
 6. **Test observable effects.** A click, attribute or nonzero viewport is not a completed user task. Assert the exact state, name, focus and business outcome.
 7. **Required actions fail visibly.** Never swallow missing-element errors or return success from an exception.
 8. **Verify the exact accessible name.** Use `accNameMatches` from [assertions.mjs](tests-validateurs/assertions.mjs), backed by Playwright's matcher. The legacy `accName` snapshot extractor is diagnostic only.
-9. **Exercise complete keyboard tasks.** Check order, visible focus, errors and transitions. Roving `tabindex="-1"` is legitimate inside correctly implemented composites.
+9. **Exercise complete keyboard tasks.** Check order, visible focus, errors and transitions even when axe reports zero violations. Compare the unfocused and keyboard-focused states of each relevant control; a permanent shadow or transparent outline is not evidence of a focus indicator. Automated style checks need visual confirmation. A main landmark and a working keyboard skip link serve different navigation methods. Roving `tabindex="-1"` is legitimate inside correctly implemented composites.
 10. **Check dialog behavior precisely.** Initial focus, inert background, closure and focus return matter. Escaping focus and an inescapable keyboard trap are different defects.
 11. **Dragging needs a single-pointer alternative** when WCAG 2.5.7 applies; keyboard access alone is insufficient.
 12. **Reflow preserves content.** Check 320 CSS-pixel equivalent width, text resizing and real browser zoom. Respect legitimate two-dimensional content exceptions. Resizing a viewport does not prove browser zoom.
