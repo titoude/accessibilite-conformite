@@ -41,3 +41,19 @@ still opens edit).
     task3_toggle_clear: PASS
 
 Control needed no correction (all three PASS on round 1).
+
+## Round 2 (treatment only)
+
+Round-2 patch sha256 73a980a248dcbb273731216c0d2733bb0e695d52b616ed18db33d05eb8b3fbb4
+(delivered ~13:31 Paris, before the 11:41:32 UTC deadline). Serial run on
+verified-free port 8396 in `eval-round2/`:
+
+| arm | patch sha256 | task1 | task2 | task3 | page errors | external req | fatal |
+|-----|--------------|-------|-------|-------|-------------|--------------|-------|
+| treatment (round 2) | 73a980a2…b3fbb4 | PASS | PASS | PASS | 0 | 0 | none |
+
+**Pair outcome: both arms converge to PASS/PASS/PASS.** The skill changed
+neither the task outcomes nor which checks initially failed (treatment's r1
+focus-commit/cancel failure was self-corrected after identical step-status
+feedback; control passed outright on r1). One pair — no causal or
+generalizable claim; self-reported worker minutes remain unverified.
