@@ -12,7 +12,7 @@ import asyncio
 import json
 import os
 
-REPO = os.environ.get("A11Y_REPO", "titoude/cdv-collect")  # défaut : cdv-collect ; export A11Y_REPO pour autre dépôt
+REPO = os.environ.get("A11Y_REPO", "")          # ex. "owner/repo"
 BASE_BRANCH = os.environ.get("A11Y_BASE", "")   # vide = branche par défaut
 MAX_ROUNDS = 3
 
