@@ -1,0 +1,284 @@
+diff --git a/app/static/css/dark-theme.css b/app/static/css/dark-theme.css
+index b2f0ff5..65d573b 100644
+--- a/app/static/css/dark-theme.css
++++ b/app/static/css/dark-theme.css
+@@ -157,7 +157,8 @@ select {
+ }
+ 
+ .link {
+-    color: var(--whoogle-dark-contrast-text);
++    color: var(--whoogle-dark-contrast-text) !important;
++    text-decoration: underline !important;
+ }
+ 
+ .link-color {
+diff --git a/app/static/css/light-theme.css b/app/static/css/light-theme.css
+index 83643d8..c33243d 100644
+--- a/app/static/css/light-theme.css
++++ b/app/static/css/light-theme.css
+@@ -143,7 +143,8 @@ input {
+ }
+ 
+ .link {
+-    color: var(--whoogle-element-bg);
++    color: var(--whoogle-element-bg) !important;
++    text-decoration: underline !important;
+ }
+ 
+ .link-color {
+diff --git a/app/static/css/logo.css b/app/static/css/logo.css
+index 0dfe8bb..3bad7a0 100644
+--- a/app/static/css/logo.css
++++ b/app/static/css/logo.css
+@@ -2,6 +2,23 @@
+     fill: transparent;
+ }
+ 
++a.link {
++    color: var(--whoogle-element-bg, #2b5fc7) !important;
++    text-decoration: underline !important;
++}
++
++.sr-only {
++    position: absolute;
++    width: 1px;
++    height: 1px;
++    padding: 0;
++    margin: -1px;
++    overflow: hidden;
++    clip: rect(0, 0, 0, 0);
++    white-space: nowrap;
++    border: 0;
++}
++
+ svg {
+     height: inherit;
+ }
+diff --git a/app/static/css/variables.css b/app/static/css/variables.css
+index e53d157..5bf35bc 100644
+--- a/app/static/css/variables.css
++++ b/app/static/css/variables.css
+@@ -3,7 +3,7 @@
+     /* LIGHT THEME COLORS */
+     --whoogle-logo: #685e79;
+     --whoogle-page-bg: #ffffff;
+-    --whoogle-element-bg: #4285f4;
++    --whoogle-element-bg: #3367d6;
+     --whoogle-text: #000000;
+     --whoogle-contrast-text: #ffffff;
+     --whoogle-secondary-text: #70757a;
+diff --git a/app/templates/display.html b/app/templates/display.html
+index a742284..c65aed1 100644
+--- a/app/templates/display.html
++++ b/app/templates/display.html
+@@ -1,4 +1,4 @@
+-<html>
++<html lang="{{ g.user_config.get_localization_lang().replace('lang_', '') }}">
+ <head>
+     <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+     <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+@@ -36,6 +36,8 @@
+ </head>
+ <body>
+ {{ search_header|safe }}
++<main>
++<h1 class="sr-only">Whoogle Search</h1>
+ {% if is_translation %}
+     <iframe
+             id="lingva-iframe"
+@@ -43,6 +45,7 @@
+     </iframe>
+ {% endif %}
+ {{ response|safe }}
++</main>
+ </body>
+ {% include 'footer.html' %}
+ {% if bundle_static() %}
+diff --git a/app/templates/header.html b/app/templates/header.html
+index 5d0b857..95af9d5 100644
+--- a/app/templates/header.html
++++ b/app/templates/header.html
+@@ -4,7 +4,7 @@
+             <form class="search-form header"
+                   id="search-form"
+                   method="{{ 'GET' if config.get_only else 'POST' }}">
+-                <a class="logo-link mobile-logo" href="{{ home_url }}">
++                <a class="logo-link mobile-logo" href="{{ home_url }}" aria-label="Whoogle Search">
+                     <div id="mobile-header-logo">
+                         {{ logo|safe }}
+                     </div>
+@@ -22,6 +22,7 @@
+                                 autocorrect="off"
+                                 spellcheck="false"
+                                 class="search-bar-input"
++                                aria-label="{{ translation['search'] }}"
+                                 name="q"
+                                 type="text"
+                                 value="{{ clean_query(query) }}"
+@@ -60,7 +61,7 @@
+ {% else %}
+     <header>
+         <div class="logo-div">
+-            <a class="logo-link" href="{{ home_url }}">
++            <a class="logo-link" href="{{ home_url }}" aria-label="Whoogle Search">
+                 <div class="desktop-header-logo">
+                     {{ logo|safe }}
+                 </div>
+@@ -82,6 +83,7 @@
+                                 autocomplete="off"
+                                 autocorrect="off"
+                                 class="search-bar-desktop search-bar-input"
++                                aria-label="{{ translation['search'] }}"
+                                 name="q"
+                                 spellcheck="false"
+                                 type="text"
+@@ -97,7 +99,7 @@
+             </form>
+         </div>
+     </header>
+-    <div>
++    <nav aria-label="Search categories">
+       <div class="header-tab-div">
+           <div class="header-tab-div-2">
+               <div class="header-tab-div-3">
+@@ -118,10 +120,11 @@
+       </div>
+       <div class="" id="s">
+   </div>
++    </nav>
+ {% endif %}
+-<div class="result-collapsible" id="adv-search-div">
++<div class="result-collapsible" id="adv-search-div" role="complementary">
+     <div class="result-config">
+-        <label for="config-country">{{ translation['config-country'] }}: </label>
++        <label for="result-country">{{ translation['config-country'] }}: </label>
+         <select name="country" id="result-country">
+             {% for country in countries %}
+                 <option value="{{ country.value }}"
+@@ -137,7 +140,7 @@
+             {% endfor %}
+         </select>
+         <br />
+-        <label for="config-time-period">{{ translation['config-time-period'] }}: </label>
++        <label for="result-time-period">{{ translation['config-time-period'] }}: </label>
+         <select name="tbs" id="result-time-period">
+             {% for time_period in time_periods %}
+                 <option value="{{ time_period.value }}"
+diff --git a/app/templates/index.html b/app/templates/index.html
+index 9425fc1..c90c9fe 100644
+--- a/app/templates/index.html
++++ b/app/templates/index.html
+@@ -1,4 +1,4 @@
+-<html style="background: #000;">
++<html lang="{{ g.user_config.get_localization_lang().replace('lang_', '') }}" style="background: #000;">
+ <head>
+     <link rel="apple-touch-icon" sizes="57x57" href="static/img/favicon/apple-icon-57x57.png">
+     <link rel="apple-touch-icon" sizes="60x60" href="static/img/favicon/apple-icon-60x60.png">
+@@ -67,7 +67,9 @@
+     <title>Whoogle Search</title>
+ </head>
+ <body id="main">
++<main>
+ <div class="search-container">
++    <h1 class="sr-only">Whoogle Search</h1>
+     <div class="logo-container">
+         {{ logo|safe }}
+     </div>
+@@ -87,6 +89,7 @@
+                         spellcheck="false"
+                         autocorrect="off"
+                         autocomplete="off"
++                        aria-label="{{ translation['search'] }}"
+                         dir="auto">
+             </div>
+             <input type="submit" id="search-submit" value="{{ translation['search'] }}">
+@@ -171,13 +174,13 @@
+                         </div>
+                         <div class="config-div config-div-block">
+                             <label for="config-block-title">{{ translation['config-block-title'] }}: </label>
+-                            <input type="text" name="block_title" id="config-block"
++                            <input type="text" name="block_title" id="config-block-title"
+                                    placeholder="{{ translation['config-block-title-help'] }}"
+                                    value="{{ config.block_title }}">
+                         </div>
+                         <div class="config-div config-div-block">
+                             <label for="config-block-url">{{ translation['config-block-url'] }}: </label>
+-                            <input type="text" name="block_url" id="config-block"
++                            <input type="text" name="block_url" id="config-block-url"
+                                    placeholder="{{ translation['config-block-url-help'] }}" value="{{ config.block_url }}">
+                         </div>
+                         <div class="config-div config-div-anon-view">
+@@ -293,6 +296,7 @@
+                             <textarea
+                                     name="style_modified"
+                                     id="config-style"
++                                    aria-label="{{ translation['config-css'] }}"
+                                     autocapitalize="off"
+                                     autocomplete="off"
+                                     spellcheck="false"
+@@ -318,6 +322,7 @@
+         </div>
+     {% endif %}
+ </div>
++</main>
+ {% include 'footer.html' %}
+ </body>
+ </html>
+diff --git a/app/templates/search.html b/app/templates/search.html
+index 073b7ed..622ff07 100644
+--- a/app/templates/search.html
++++ b/app/templates/search.html
+@@ -1,14 +1,39 @@
+-<form id="search-form" action="search" method="post">
+-    <input
+-            type="text"
+-            name="q"
+-            style="width: 90%;"
+-            autofocus="autofocus"
+-            autocapitalize="none"
+-            spellcheck="false"
+-            autocorrect="off"
+-            placeholder="Whoogle Search"
+-            autocomplete="off"
+-            dir="auto">
+-    <input type="submit" style="width: 9%" id="search-submit" value="Search">
+-</form>
++<html lang="{{ g.user_config.get_localization_lang().replace('lang_', '') }}">
++<head>
++    <meta charset="utf-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>Whoogle Search</title>
++    <style>
++        .sr-only {
++            position: absolute;
++            width: 1px;
++            height: 1px;
++            padding: 0;
++            margin: -1px;
++            overflow: hidden;
++            clip: rect(0, 0, 0, 0);
++            white-space: nowrap;
++            border: 0;
++        }
++    </style>
++</head>
++<body>
++<main>
++    <h1 class="sr-only">Whoogle Search</h1>
++    <form id="search-form" action="search" method="post">
++        <input
++                type="text"
++                name="q"
++                style="width: 90%;"
++                autofocus="autofocus"
++                autocapitalize="none"
++                spellcheck="false"
++                autocorrect="off"
++                placeholder="Whoogle Search"
++                autocomplete="off"
++                dir="auto">
++        <input type="submit" style="width: 9%" id="search-submit" value="Search">
++    </form>
++</main>
++</body>
++</html>

@@ -1,0 +1,39 @@
+=== evaluate.sh 2026-09-28T08:42:32Z ===
+clone_dir=/home/ubuntu/repos/whoogle-eval-with patch=/home/ubuntu/repos/accessibilite-conformite/benchmarks/paired-pilot/arms/with-skill/worker-patch.diff out=/home/ubuntu/repos/accessibilite-conformite/benchmarks/paired-pilot/evaluation/with-skill declared_sha=278d30dd10e5fae02a525d29b3317682532fe8b0973d6b1f77f1b7d82a7f4e4f
+host: Linux devin-box 6.8.0-1061-aws #64~22.04.1-Ubuntu SMP Thu Jul 16 14:38:59 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+checkout: 0543f86528678ab60a20b3049483975add6b6e40 (expected 0543f86528678ab60a20b3049483975add6b6e40)
+patch sha256: 278d30dd10e5fae02a525d29b3317682532fe8b0973d6b1f77f1b7d82a7f4e4f
+patch applied cleanly
+* Finished creating ddg bangs json
+install OK (venv + FROZEN requirements — transitive pins identical across arms)
+pytest PASS
+boot verified: pid 29640 owns :5001, title='<title>Whoogle Search'
+boot_ok=true
+[scan] http://127.0.0.1:5001/ — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:5001/search.html — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:5001/search?q=test — 0 règle(s) violée(s), 1 incomplete
+[scan] http://127.0.0.1:5001/window?location=https://example.com — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:5001/ [state:config-panel] — 1 règle(s) violée(s), 1 incomplete
+
+/home/ubuntu/repos/accessibilite-conformite/benchmarks/paired-pilot/evaluation/with-skill/final/report.md — 1 règle(s), 1 occurrence(s), 0 erreur(s), 3 incomplet(s)
+[PASS] ctrl_name_positive — synthetic known-named element detected (name="non-empty")
+[PASS] ctrl_skip_broken — broken skip link correctly detected (target absent)
+[PASS] ctrl_name_negative — unnamed synthetic element correctly reported unnamed
+[PASS] document_title_home — title="Whoogle Search"
+[PASS] html_lang_home — lang="en"
+[PASS] search_input_accessible_name — computed name + declared label (label[for]: "Search")
+[NOT_TESTED] keyboard_search_journey — landed on http://127.0.0.1:5001/search?preferences=uG0ICAJwHdjNL0ksRlmC8zWab7fXf-3O4dsRKdKgjIgoRcBuej9gMIjBABm6zADzTmxW6ozALcIEytwY-ZiFE1Jyz3U16KX2-aGCbte6rZKZZgY3VNGoTF7wHkvLf47B2qCP0F1Bm39z_0oOM2EGpxmaE1ThE2AkHxgEIAAahqaABRUvxdqigeGDiVc9XmHSoImBBaiiZ6gGdRStVIPPrUB4GHiW8XxsflPQGUYWsyXpHdLJAVV0qMTcMqLdasoiJp0_iXcVho9-M9umRhKyp3s9B9CI_ClmMHFIH66V-&q=gAAAAABquiiOtMKkB58cnmNKwa2J_eUF5QH_xEzYlD7qssH5AA8ckqOLx7Gz1FENEo7Wj_LFRj0fxiQTO2bdDDHn8Yk7Q6RrZQ%3D%3D with 0 .result elements (title="heldout check - Whoogle Search") — live upstream not guaranteed, NOT counted as coverage
+[PASS] ctrl_focus_positive — synthetic visible-focus element detected: {"outlineStyle":"solid","outlineWidth":"3px","outlineColor":"rgb(255, 0, 0)","boxShadow":"none"}
+[PASS] ctrl_focus_negative — constant-shadow/transparent-outline correctly reported NOT a focus indicator
+[FAIL] focus_indicator_search_input — no computed-style focus change (unfocused={"outlineStyle":"none","outlineWidth":"3px","outlineColor":"rgb(0, 0, 0)","boxShadow":"none"}; focused={"outlineStyle":"none","outlineWidth":"3px","outlineColor":"rgb(0, 0, 0)","boxShadow":"none"})
+[PASS] config_panel_keyboard — config panel opened via Enter and exposes a visible control
+[PASS] config_fields_named — all 14 visible config fields have computed name + declared label
+[PASS] reflow_320px — scrollWidth=320 <= 321, #search-bar visible
+[NOT_TESTED] zoom_200 — real browser zoom cannot be driven by this harness (CDP page-scale is not zoom); WCAG 1.4.4 unassessed
+[PASS] document_title_search_page — title="Whoogle Search"
+[NOT_TESTED] search_results_functional — 0 .result elements, bodyLen=3216, title="test - Whoogle Search" — live upstream not guaranteed, NOT counted as coverage
+[PASS] bypass_mechanism — skip link activates: -> #main-content (focused)
+[PASS] link_names_home — 4 visible links all named
+
+heldout: 14 PASS / 1 FAIL / 3 NOT_TESTED
+=== done: identity=true apply=true install=true tests=true boot=true audit_exit=1 heldout_exit=1

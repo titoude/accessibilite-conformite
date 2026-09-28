@@ -1,0 +1,346 @@
+{
+  "runId": "316177ee-ceab-4d37-9aa0-b6b9302041bb",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-09-28T08:36:02.503Z",
+  "baseUrl": "http://127.0.0.1:5001",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:5001/",
+      "requestedUrl": "http://127.0.0.1:5001/",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/search.html",
+      "requestedUrl": "http://127.0.0.1:5001/search.html",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/search.html",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/search?q=test",
+      "requestedUrl": "http://127.0.0.1:5001/search?q=test",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "link-in-text-block",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2a",
+            "wcag141",
+            "TTv5",
+            "TT13.a",
+            "EN-301-549",
+            "EN-9.1.4.1",
+            "RGAAv4",
+            "RGAA-10.6.1"
+          ],
+          "description": "Ensure links are distinguished from surrounding text in a way that does not rely on color",
+          "help": "Links must be distinguishable without relying on color",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-in-text-block?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "link-in-text-block",
+                  "data": {
+                    "messageKey": "bgOverlap"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"MAeEI\"><div class=\"RBdMVb\">Update your browser</div><span>Your browser isn't supported anymore. To continue your search, upgrade to a recent version.</span> <a href=\"support.google.com\" rel=\"nofollow noopener noreferrer\"><span>Learn more</span></a></div>",
+                      "target": [
+                        ".MAeEI"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's contrast ratio could not be determined because of element overlap"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"support.google.com\" rel=\"nofollow noopener noreferrer\"><span>Learn more</span></a>",
+              "target": [
+                "a[href$=\"support.google.com\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's contrast ratio could not be determined because of element overlap"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/search?q=test",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/window?location=https://example.com",
+      "requestedUrl": "http://127.0.0.1:5001/window?location=https://example.com",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/window?location=https://example.com",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5001/ [state:config-panel]",
+      "requestedUrl": "http://127.0.0.1:5001/",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body id=\"main\" style=\"display: block;\">",
+                      "target": [
+                        "#main"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<label for=\"config-country\">Country: </label>",
+              "target": [
+                "label[for=\"config-country\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body id=\"main\" style=\"display: block;\">",
+                      "target": [
+                        "#main"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<label for=\"config-time-period\">Time Period</label>",
+              "target": [
+                "label[for=\"config-time-period\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body id=\"main\" style=\"display: block;\">",
+                      "target": [
+                        "#main"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<label for=\"config-lang-interface\">Interface Language: </label>",
+              "target": [
+                "label[for=\"config-lang-interface\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body id=\"main\" style=\"display: block;\">",
+                      "target": [
+                        "#main"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<label for=\"config-lang-search\">Search Language: </label>",
+              "target": [
+                "label[for=\"config-lang-search\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body id=\"main\" style=\"display: block;\">",
+                      "target": [
+                        "#main"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<label for=\"config-near\">Near: </label>",
+              "target": [
+                "label[for=\"config-near\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body id=\"main\" style=\"display: block;\">",
+                      "target": [
+                        "#main"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<label for=\"config-block\">Block: </label>",
+              "target": [
+                "label[for=\"config-block\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5001/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "d07fa814ceb6f0cba175658a6405401066f988c8b08866935c4d7ab24eb0c338"
+}
