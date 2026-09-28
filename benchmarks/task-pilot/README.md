@@ -41,14 +41,21 @@ code. One pair; no causal claims.
 pnpm test:task-pilot
 
 # re-run the baseline (fresh clone of tastejs/todomvc @ ff43b02e)
-bash benchmarks/task-pilot/harness/evaluate.sh - /tmp/taskpilot-baseline
+BASELINE_OUT="$(mktemp -d /tmp/taskpilot-baseline.XXXXXX)"
+bash benchmarks/task-pilot/harness/evaluate.sh - "$BASELINE_OUT"
 
 # evaluate a worker patch — the patch path must be ABSOLUTE (the script
 # clones into mktemp and relatives resolve inside the clone, not your cwd);
 # use a fresh, unique output directory per run and run evaluations SERIALLY
 # (a second concurrent run trips the server's port-ownership check)
-bash benchmarks/task-pilot/harness/evaluate.sh "$PWD/arms/control/worker-patch.diff" /tmp/taskpilot-eval-control
+CONTROL_OUT="$(mktemp -d /tmp/taskpilot-control.XXXXXX)"
+bash benchmarks/task-pilot/harness/evaluate.sh "$PWD/benchmarks/task-pilot/arms/control/worker-patch.diff" "$CONTROL_OUT"
 ```
+
+The wrapper requires Linux or WSL with Git, npm, Bash, curl, `ss` and
+`sha256sum`, plus the installed Chromium dependencies. The Node evaluator
+and its tests also run on Windows. Do not reuse an output directory or run
+two evaluations on the same port; inspect the exit status and raw logs.
 
 `audit.todo.mjs` exits nonzero on any execution-level failure (navigation,
 axe, page errors, aborted external requests, task ERROR) and always writes a
@@ -100,3 +107,7 @@ separately** from the task checks — initial `heading-order`×1,
 `landmark-one-main`×1, `region`×1; final `heading-order`×1, `label`×2,
 `region`×3 — they are contextual axe output, not the custom task contract,
 and AT/zoom remain `NOT_TESTED`.
+
+An [independent Windows replay](independent-review/README.md) reproduces
+the baseline and all three submitted patches, including the failed first
+treatment submission. Its raw reports and executable comparison are public.

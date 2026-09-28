@@ -1,7 +1,14 @@
-# Third-party notices for the paired pilot
+# Third-party notices for the benchmarks
 
 The toolkit's [MIT license](LICENSE) does not replace the licenses of upstream
-benchmark materials. This page identifies the sources used in the paired pilot.
+benchmark materials. This page identifies the sources used in the published pilots.
+
+## TodoMVC
+
+The keyboard-task pilot's patch context and report excerpts derive from
+[tastejs/todomvc](https://github.com/tastejs/todomvc/tree/ff43b02e59dfa604386bb382034b2cd07c2bcd8a).
+Its [MIT notice](benchmarks/task-pilot/LICENSE-TODOMVC.txt) is preserved verbatim
+at the tested commit. Benchmarking does not imply upstream endorsement.
 
 ## W3C ACT fixtures
 

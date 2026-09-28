@@ -43,6 +43,12 @@ Both isolated agents reduce 108 detected violation nodes to one. Both leave a
 focus-indicator failure. The skill arm's self-reported zero did not survive
 replay. One pair with matching outcomes does not establish skill superiority.
 
+The [second pilot](../benchmarks/task-pilot/independent-review/README.md)
+measures three offline TodoMVC keyboard journeys. Both final patches pass,
+but the skill arm needs a correction that the control does not. Independent
+replay retains that failed first submission and the remaining axe findings.
+This makes the limits of the evidence visible.
+
 The separate W3C ACT calibration tests selected scanner rules against public
 reference fixtures. Its scope, unsupported cases and raw outcomes are published;
 it does not measure the skill's effect.
