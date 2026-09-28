@@ -25,12 +25,16 @@ Usage:
   python3 score.py [--eval-root evaluation] [--arm with-skill control ...]
                    [--baseline baseline] [--out scores.json]
 """
-import argparse, json, os, sys
+import argparse, json, os, re, sys
 
 REQUIRED_SCOPE_KEYS = ("runId", "runnerVersion", "scopeHash", "statesHash",
-                       "scenarios", "audited", "errored")
-REQUIRED_REPORT_KEYS = ("runId", "runnerVersion", "scopeHash", "pages")
+                       "scenarios", "audited", "errored", "total")
+REQUIRED_REPORT_KEYS = ("runId", "runnerVersion", "scopeHash", "pages",
+                        "configErrors")
 HELDOUT_REQUIRED_KEYS = ("results",)
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+REQUIRED_ENV_KEYS = ("patch_identity_ok", "patch_apply_ok", "install_ok",
+                     "tests_ok", "boot_ok", "audit_exit")
 
 
 def load_json(path):
@@ -56,45 +60,152 @@ def load_env(path):
     return out
 
 
-def validate_scope(scope, expected_scenarios=None):
-    """-> (problems list, scenario_statuses dict). Empty problems = valid."""
+def _nonempty_str(v):
+    return isinstance(v, str) and len(v.strip()) > 0
+
+
+def _is_sha256(v):
+    return isinstance(v, str) and bool(SHA256_RE.match(v))
+
+
+def validate_scope(scope, expected_scenarios=None, baseline=None):
+    """-> (problems list, scenario ids list). Empty problems = valid.
+    Strict: nonempty typed identities, sha256-shaped hashes, no duplicate
+    scenario ids, counters consistent, all scenarios audited, counters clean."""
     problems = []
     if scope is None:
-        return ["scope.json missing or malformed"], {}
+        return ["scope.json missing or malformed"], []
+    if not isinstance(scope, dict):
+        return ["scope.json is not an object"], []
     for k in REQUIRED_SCOPE_KEYS:
         if k not in scope:
             problems.append(f"scope.json missing key '{k}'")
     if problems:
-        return problems, {}
-    statuses = {s.get("id"): s.get("status") for s in scope.get("scenarios", [])}
-    if expected_scenarios is not None:
-        exp = set(expected_scenarios)
-        got = set(statuses)
-        if exp != got:
-            problems.append(
-                f"scenario set mismatch: missing={sorted(exp - got)} extra={sorted(got - exp)}")
-        else:
-            bad = {i: s for i, s in statuses.items() if s != "audited"}
-            if bad:
-                problems.append(f"scenarios not audited: {bad}")
-    return problems, statuses
+        return problems, []
+    if not _nonempty_str(scope.get("runId")):
+        problems.append("scope.runId empty or not a string")
+    if not _nonempty_str(scope.get("runnerVersion")):
+        problems.append("scope.runnerVersion empty or not a string")
+    if not _is_sha256(scope.get("scopeHash")):
+        problems.append("scope.scopeHash missing/not a sha256")
+    if not _is_sha256(scope.get("statesHash")):
+        problems.append("scope.statesHash missing/not a sha256")
+    scen = scope.get("scenarios")
+    ids = []
+    if not isinstance(scen, list) or not scen:
+        problems.append("scope.scenarios empty or not a list")
+    else:
+        seen = set()
+        for i, s in enumerate(scen):
+            if not isinstance(s, dict) or not _nonempty_str(s.get("id")):
+                problems.append(f"scenario[{i}] missing/non-string id")
+                continue
+            if s["id"] in seen:
+                problems.append(f"duplicate scenario id: {s['id']}")
+            seen.add(s["id"])
+            ids.append(s["id"])
+            if s.get("status") != "audited":
+                problems.append(f"scenario {s['id']} status={s.get('status')!r} (expected 'audited')")
+            if s.get("error"):
+                problems.append(f"scenario {s['id']} carries error: {s['error']}")
+        if isinstance(scope.get("total"), int) and scope["total"] != len(scen):
+            problems.append(f"scope.total={scope['total']} != {len(scen)} scenarios")
+        if isinstance(scope.get("audited"), int) and scope["audited"] != len(scen):
+            problems.append(f"scope.audited={scope['audited']} != {len(scen)} scenarios")
+    if scope.get("errored") not in (0, "0", None):
+        problems.append(f"scope.errored={scope.get('errored')}")
+    if scope.get("crawlErrors"):
+        problems.append(f"scope.crawlErrors non-empty: {scope['crawlErrors']}")
+    if expected_scenarios is not None and set(expected_scenarios) != set(ids):
+        problems.append(
+            f"scenario set mismatch: missing={sorted(set(expected_scenarios) - set(ids))} "
+            f"extra={sorted(set(ids) - set(expected_scenarios))}")
+    if baseline and isinstance(baseline, dict):
+        if scope.get("scopeHash") != baseline.get("scopeHash"):
+            problems.append("scope.scopeHash differs from baseline (frozen scope violated)")
+        if scope.get("statesHash") != baseline.get("statesHash"):
+            problems.append("scope.statesHash differs from baseline (frozen states violated)")
+    return problems, ids
 
 
-def validate_report(report, scope=None):
-    """-> problems list; empty = valid."""
+def validate_report(report, scope=None, expected_page_ids=None):
+    """-> problems list; empty = valid. Strict: identity match with its own
+    scope, exact 1:1 page set vs scenario ids, explicit violations arrays,
+    per-page error gating, no runner errors."""
     problems = []
     if report is None:
         return ["report.json missing or malformed"]
+    if not isinstance(report, dict):
+        return ["report.json is not an object"]
     for k in REQUIRED_REPORT_KEYS:
         if k not in report:
             problems.append(f"report.json missing key '{k}'")
     if problems:
         return problems
-    if scope and scope.get("scopeHash") and report.get("scopeHash") != scope["scopeHash"]:
-        problems.append("report.scopeHash != scope.scopeHash (report does not belong to this run)")
+    if not _nonempty_str(report.get("runId")):
+        problems.append("report.runId empty or not a string")
+    if not _nonempty_str(report.get("runnerVersion")):
+        problems.append("report.runnerVersion empty or not a string")
+    if not _is_sha256(report.get("scopeHash")):
+        problems.append("report.scopeHash missing/not a sha256")
+    if scope and isinstance(scope, dict):
+        if _nonempty_str(scope.get("runId")) and report.get("runId") != scope["runId"]:
+            problems.append("report.runId != scope.runId (report does not belong to this run)")
+        if _nonempty_str(scope.get("runnerVersion")) and report.get("runnerVersion") != scope["runnerVersion"]:
+            problems.append("report.runnerVersion != scope.runnerVersion")
+        if _is_sha256(scope.get("scopeHash")) and report.get("scopeHash") != scope["scopeHash"]:
+            problems.append("report.scopeHash != scope.scopeHash (report does not belong to this run)")
     if report.get("configErrors"):
         problems.append(f"runner configErrors: {report['configErrors']}")
+    if report.get("crawlErrors"):
+        problems.append(f"runner crawlErrors: {report['crawlErrors']}")
+    pages = report.get("pages")
+    if not isinstance(pages, list) or not pages:
+        problems.append("report.pages empty or not a list")
+        return problems
+    page_ids = []
+    for i, pg in enumerate(pages):
+        if not isinstance(pg, dict) or not _nonempty_str(pg.get("url")):
+            problems.append(f"page[{i}] missing/non-string url")
+            continue
+        page_ids.append(pg["url"])
+        if pg.get("error"):
+            problems.append(f"page {pg['url']} carries error: {pg['error']}")
+        if not isinstance(pg.get("violations"), list):
+            problems.append(f"page {pg['url']}: 'violations' missing or not a list")
+        if "incomplete" in pg and not isinstance(pg["incomplete"], list):
+            problems.append(f"page {pg['url']}: 'incomplete' not a list")
+        if pg.get("httpStatus") is not None and not isinstance(pg["httpStatus"], int):
+            problems.append(f"page {pg['url']}: httpStatus not an int")
+    if len(set(page_ids)) != len(page_ids):
+        problems.append(f"duplicate page urls: {sorted(u for u in set(page_ids) if page_ids.count(u) > 1)}")
+    if expected_page_ids is not None:
+        if sorted(page_ids) != sorted(expected_page_ids):
+            problems.append(
+                f"page set != scenario set: missing={sorted(set(expected_page_ids) - set(page_ids))} "
+                f"extra={sorted(set(page_ids) - set(expected_page_ids))}")
     return problems
+
+
+def replay_problems(env):
+    """eval-status.env must prove the replay happened: identity, apply,
+    install, boot. A failed/absent replay means the arm has no valid final
+    artifacts — raw measurements are still reported, separately."""
+    probs = []
+    if not env:
+        return ["eval-status.env missing or empty — no replay evidence"]
+    for k in REQUIRED_ENV_KEYS:
+        if k not in env:
+            probs.append(f"eval-status.env missing key '{k}'")
+    if probs:
+        return probs
+    for k in ("patch_identity_ok", "patch_apply_ok", "install_ok", "boot_ok"):
+        if env.get(k) not in ("true", "1"):
+            probs.append(f"replay step failed: {k}={env.get(k)}")
+    # tests_ok is recorded but not gated: the app suite may legitimately fail
+    if env.get("audit_exit") not in ("0", "0.0"):
+        probs.append(f"audit exit nonzero/missing: {env.get('audit_exit')}")
+    return probs
 
 
 def violation_stats(report):
@@ -115,7 +226,23 @@ def violation_stats(report):
 
 
 def check_map(h):
-    return {r["id"]: r for r in (h or {}).get("results", [])}
+    if not h or not isinstance(h.get("results"), list):
+        return {}
+    return {r["id"]: r for r in h["results"] if isinstance(r, dict) and "id" in r}
+
+
+def heldout_control_problems(arm_checks):
+    """Instrumentation controls (kind:'control') must PASS — a control
+    failure means the measurement apparatus itself is untrustworthy, an
+    integrity gap, not a clean comparison."""
+    probs = []
+    for cid, r in arm_checks.items():
+        if r.get("kind") == "control" and r.get("status") != "PASS":
+            probs.append(f"instrumentation control {cid} status={r.get('status')}")
+    for cid in ("ctrl_name_positive", "ctrl_name_negative"):
+        if cid not in arm_checks:
+            probs.append(f"required control {cid} absent from heldout results")
+    return probs
 
 
 def compare_heldout(base_checks, arm_checks, arm_has_heldout):
@@ -197,19 +324,24 @@ def main():
         report, re_ = load_json(os.path.join(d, "final", "report.json"))
         heldout, he = load_json(os.path.join(d, "heldout", "heldout.json"))
 
-        scope_probs, _ = validate_scope(scope, expected_scenarios=base_scenarios or None)
-        rep_probs = validate_report(report, scope)
+        scope_probs, arm_ids = validate_scope(scope,
+            expected_scenarios=base_scenarios or None, baseline=base_scope)
+        rep_probs = validate_report(report, scope, expected_page_ids=arm_ids or None)
         stats = violation_stats(report) if not rep_probs else None
         checks = check_map(heldout) if heldout else {}
         held_cmp = compare_heldout(base_checks, checks, heldout is not None)
+        ctrl_probs = heldout_control_problems(checks) if heldout else []
+        replay_probs = replay_problems(env)
 
         comparable = (not scope_probs) and (not rep_probs) and stats is not None \
-            and base_stats is not None
+            and base_stats is not None and not base_scope_probs \
+            and not base_rep_probs and not replay_probs
         arm_out = {
             "eval_status": env,
             "artifact_errors": [e for e in (se, re_, he) if e],
             "scope_problems": scope_probs,
             "report_problems": rep_probs,
+            "replay_evidence_problems": replay_probs,
             "comparable": comparable,
             "comparison": "OK" if comparable else "NOT_COMPARABLE",
             "scopeHash_final": (scope or {}).get("scopeHash"),
@@ -233,7 +365,7 @@ def main():
             "heldout_still_failing": held_cmp["still_failing"],
             "heldout_coverage_loss_PASS_to_NT": held_cmp["coverage_loss_PASS_to_NT"],
             "heldout_missing_checks": held_cmp["missing_checks_vs_baseline"],
-            "heldout_coverage_gaps": held_cmp["coverage_gaps"],
+            "heldout_coverage_gaps": held_cmp["coverage_gaps"] + ctrl_probs,
         }
         out["arms"][arm] = arm_out
 

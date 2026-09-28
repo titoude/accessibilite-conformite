@@ -1,15 +1,18 @@
 {
-  "generated_at_utc": "2026-09-28T08:40:00Z",
+  "generated_at_utc": "2026-09-28T09:05:00Z",
   "freeze": {
-    "frozen_at_utc": "2026-09-28T08:40:00Z",
-    "note": "freeze v2 = evaluator revision applied BEFORE worker dispatch (review findings of 7001125/f93a468 incorporated; workers receive none of this detail)",
+    "frozen_at_utc": "2026-09-28T09:05:00Z",
+    "worker_dispatch": "workers dispatched at commit 271ba8e prompts (UNCHANGED \u2014 no evaluator detail leaked); all later commits are evaluator-side only",
     "sequence": [
-      "7001125 2026-09-28T07:35Z: harness v1 + baseline v1 + 105 ACT fixtures",
-      "f93a468 2026-09-28T08:14Z: README/protocol alignment",
-      "freeze v2 2026-09-28T08:40Z (this commit): score.py integrity rewrite + test_score.py negative suite; evaluate.sh non-destructive + port ownership; npm package-lock + pip frozen transitive reqs; heldout strengthened (instrumentation controls, img-alt in declared labels, focus-style delta, skip-link activation, visibility floor, zoom=NOT_TESTED); calibration all-categories + sha256 pre-verify; baseline re-run"
+      "7001125 07:35Z: harness v1 + baseline v1 (94 nodes, old checks) + 105 ACT fixtures",
+      "f93a468 08:14Z: protocol docs",
+      "271ba8e 08:20Z freeze v2 (pre-dispatch): score.py rewrite + tests, evaluate.sh safety, frozen deps, heldout strengthening, calibration categories",
+      "v3 POST-DISPATCH evaluator amendment (~09:05Z): strict score.py validation (13 real-baseline mutants -> NOT_COMPARABLE; replay-evidence gating; ctrl_* integrity); heldout v3 (synthetic positive control, broken-skip control, focus blur-before-sample + pos/neg controls, frozen REQUIRED_CONFIG_IDS, in-viewport bypass removed, zero-links=FAIL); audit invocation adds --wait 500 settled-state precondition (config-panel 0.2s transition race: v1=94, v3=108 nodes \u2014 same flaky variance as reported); calibration: no declared-rule fallback + raw axe preserved + asset replay deps; evaluate.sh: normalized paths, non-empty out dir refusal, measured versions. Baseline re-run under v3; v1 artifacts preserved in evaluation/baseline-v1-protocol/"
     ]
   },
+  "effective_audit_args": "--urls /,/search.html,/search?q=test,/window?location=https://example.com --states all --wait 500",
   "calibration_fixture_count": 105,
+  "calibration_asset_count": 5,
   "files": [
     {
       "path": ".gitattributes",
@@ -23,28 +26,48 @@
     },
     {
       "path": "manifest.json",
-      "sha256": "5df3cffa8157ace204014c10af05c58a7f843afc51fef041cdd2163d351071b2",
-      "bytes": 4751
+      "sha256": "964440d60077639f352745d46adb462d2e18559b90adf75f9705e372b6712bd0",
+      "bytes": 5579
     },
     {
       "path": "evaluation/baseline/report.json",
-      "sha256": "ff71624b8c6a3c80ba55410ec8baa70365e2e3450d0177c30532390fb06562fe",
-      "bytes": 135833
+      "sha256": "43c596e42306fe5c2bca14d058fd45f3be007d5f858d7aefa34e30b1743342f1",
+      "bytes": 152181
     },
     {
       "path": "evaluation/baseline/report.md",
-      "sha256": "73ce15509e0d8a7d68b08d2ca6bdd12da11084ceb0755a295584e97cd3211310",
-      "bytes": 5963
+      "sha256": "d95dd08338d2e2b2a425466a90d12af5c573a0caaf254979ac7a56cdc2ae4051",
+      "bytes": 6062
     },
     {
       "path": "evaluation/baseline/scope.json",
-      "sha256": "d2f92131729be6a09ec2e6b8d3e1243b2fff9025c42e8a6887acbf86785d17f2",
+      "sha256": "69687aaf6ee780cde432846cb2ebcf73be298a5360dc13030f7911d16f3daa45",
       "bytes": 1390
     },
     {
       "path": "evaluation/baseline/heldout/heldout.json",
-      "sha256": "d4935fa95fc4c7ba9ba0f549d0bae4d62499e8f441c020f048bdfb7f1f40803a",
-      "bytes": 3547
+      "sha256": "7653a7bf0677c9a4e44420db0189757c0d4a63c2e04bd037823247239969c307",
+      "bytes": 4170
+    },
+    {
+      "path": "evaluation/baseline-v1-protocol/report.json",
+      "sha256": "ff71624b8c6a3c80ba55410ec8baa70365e2e3450d0177c30532390fb06562fe",
+      "bytes": 135833
+    },
+    {
+      "path": "evaluation/baseline-v1-protocol/report.md",
+      "sha256": "73ce15509e0d8a7d68b08d2ca6bdd12da11084ceb0755a295584e97cd3211310",
+      "bytes": 5963
+    },
+    {
+      "path": "evaluation/baseline-v1-protocol/scope.json",
+      "sha256": "d2f92131729be6a09ec2e6b8d3e1243b2fff9025c42e8a6887acbf86785d17f2",
+      "bytes": 1390
+    },
+    {
+      "path": "evaluation/baseline-v1-protocol/heldout/heldout.json",
+      "sha256": "920352db3b2f46c2178741fce306117339c7cbea4fdb762d93b030132c6120bf",
+      "bytes": 4167
     },
     {
       "path": "treatment/SKILL.md",
@@ -73,23 +96,23 @@
     },
     {
       "path": "harness/evaluate.sh",
-      "sha256": "838df6704cd4978a36b4d8765252405a86f1d8ae328b45c1089b66b5aa19bd77",
-      "bytes": 7348
+      "sha256": "c20f86a746788b17bc5ed421345340414487e6141cac05d90641f08907032ca0",
+      "bytes": 8672
     },
     {
       "path": "harness/heldout-checks.mjs",
-      "sha256": "2c7ce97176edcc9d96e36a7dc617e1fdca7f0f3d5275baf5254e97890af81a47",
-      "bytes": 23187
+      "sha256": "7c8f9f05671a21464e3e21b780fc75907aeeb72aa8ff62f647e1974b4d8d9d0e",
+      "bytes": 28506
     },
     {
       "path": "harness/score.py",
-      "sha256": "143d69abc15a9da13c18f53de198e7106dda5b0e1fff0d7949a28abd52faa136",
-      "bytes": 12247
+      "sha256": "feb11797dbd6249abf5aa0ce56d1e5c5b4e3bf82cc068fabb93f2dc1a68a2346",
+      "bytes": 19389
     },
     {
       "path": "harness/test_score.py",
-      "sha256": "90abcd8e6652693256bea8f0f35c4d127a1004251be1c062eb1b5b11d60945f5",
-      "bytes": 6462
+      "sha256": "8e92f3652c223b4196d6926d8638214e1a2810886b9bc58d2259aabc8507ea2a",
+      "bytes": 13152
     },
     {
       "path": "harness/whoogle-frozen-requirements.txt",
@@ -123,8 +146,8 @@
     },
     {
       "path": "calibration/run.mjs",
-      "sha256": "102c34b37c860e9663518da35cef2f10888923b4905219cedd8cdaa885709671",
-      "bytes": 9171
+      "sha256": "ab93173642a9fb7d279b069751300b3d4b357f2bcf10b4d4a91237a14e943d3f",
+      "bytes": 12083
     },
     {
       "path": "calibration/testcases/e086e5/004258203c8bf167307b6ed79f765115d16a6357.html",
@@ -650,6 +673,31 @@
       "path": "calibration/testcases/c487ae/f417fbb0db2a62f84dd79497b23b1e6e97007740.html",
       "sha256": "5f0cdfc14ed319021ece63bda32c86252cf4f42cd08bff95ab3d0fc74c4783be",
       "bytes": 116
+    },
+    {
+      "path": "calibration/test-assets/sc2-4-2-title-page-with-title.html",
+      "sha256": "940cc49c3ba7810ce7f59fb599e32d58bf7799b5b8399584ee4edca3f7d8b779",
+      "bytes": 82
+    },
+    {
+      "path": "calibration/test-assets/sc2-4-2-title-page-without-title.html",
+      "sha256": "b2d0b17b3d3f14889a8b70d59d50c7a268894b363d86651a1886de87ac029460",
+      "bytes": 42
+    },
+    {
+      "path": "calibration/test-assets/shared/background.png",
+      "sha256": "2e0ce1f118dbf7353af0afc91bf59e44a4165dfef2cfa7bfe100d1298c995c4b",
+      "bytes": 93
+    },
+    {
+      "path": "calibration/test-assets/shared/w3c-logo.png",
+      "sha256": "083d533eb45c69231ca633a4fe6ad908324d8330902f29cf8397ae0499bcd45a",
+      "bytes": 1927
+    },
+    {
+      "path": "calibration/test-assets/c487ae/planets.jpg",
+      "sha256": "12e6d8c03b6c42fdd242324fb26254bc4a20f5baf37583d0dca0b0536a8cead0",
+      "bytes": 34896
     },
     {
       "path": "prompts/arm-control.md",

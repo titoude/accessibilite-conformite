@@ -52,8 +52,15 @@ if (!base || !/^https?:\/\//.test(base)) {
 }
 mkdirSync(outDir, { recursive: true });
 
-// Frozen floors: minimum control counts that must still exist after a patch.
-const CONFIG_FIELD_FLOOR = 12;   // baseline: 14 visible fields
+// Frozen baseline control inventory (measured on the pinned commit's rendered
+// config panel — 14 visible fields incl. the 3-element config-block group).
+// A required id absent from the visible set = functionality deleted to pass.
+const REQUIRED_CONFIG_IDS = [
+  'config-country', 'config-time-period', 'config-lang-interface',
+  'config-lang-search', 'config-near', 'config-block', 'config-theme',
+  'config-user-agent', 'config-cse-id', 'config-url', 'config-style',
+  'config-pref-url',
+];
 const LINK_FLOOR = 3;            // baseline: 3 visible links
 
 const results = [];
@@ -149,10 +156,39 @@ const page = await ctx.newPage();
 //      name assertions are untrustworthy — see header note) ---------------
 await check('ctrl_name_positive', async () => {
   await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
-  const { named, actual } = await computedName(page.locator('#search-submit'));
+  // Synthetic known-named fixture — never the app's own control, so the
+  // control stays valid even if the app legitimately changes its submit.
+  await page.evaluate(() => {
+    const s = document.createElement('input');
+    s.type = 'text'; s.id = '__heldout_ctlp';
+    s.setAttribute('aria-label', 'heldout probe name');
+    document.body.appendChild(s);
+  });
+  const { named, actual } = await computedName(page.locator('#__heldout_ctlp'));
+  await page.evaluate(() => document.getElementById('__heldout_ctlp').remove());
   return named === true
-    ? P(`known-named control element detected (submit button, name=${actual})`)
+    ? P(`synthetic known-named element detected (name="${actual}")`)
     : F(`instrumentation failed to detect a known name: ${actual}`);
+}, 'control');
+
+await check('ctrl_skip_broken', async () => {
+  await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
+  // Instrumentation control: a skip link whose target does NOT exist must be
+  // reported as ineffective — proves activation is really verified.
+  const landed = await page.evaluate(async () => {
+    const a = document.createElement('a');
+    a.href = '#__heldout_dead_target'; a.textContent = 'Skip to content';
+    document.body.prepend(a);
+    a.focus(); a.click();
+    await new Promise(r => setTimeout(r, 200));
+    const t = document.querySelector('#__heldout_dead_target');
+    const res = { targetExists: !!t, hashSet: location.hash === '#__heldout_dead_target' };
+    a.remove();
+    return res;
+  });
+  return (!landed.targetExists)
+    ? P('broken skip link correctly detected (target absent)')
+    : F('instrumentation failed: nonexistent skip target accepted');
 }, 'control');
 
 await check('ctrl_name_negative', async () => {
@@ -236,19 +272,70 @@ await check('keyboard_search_journey', async () => {
 // evidence (review finding): measure the computed style UNFOCUSED vs after a
 // real keyboard focus, and require a perceivable delta (outline/shadow/border
 // change or background switch).
-const focusStyle = (sel) => page.locator(sel).evaluate((e) => {
+const focusStyleOf = (sel) => page.locator(sel).evaluate((e) => {
   const cs = getComputedStyle(e);
   return {
     outlineStyle: cs.outlineStyle, outlineWidth: cs.outlineWidth,
     outlineColor: cs.outlineColor, boxShadow: cs.boxShadow.slice(0, 120),
   };
 });
+// The search input is AUTOFOCUSED on load: the "before" sample MUST be taken
+// after focus has moved elsewhere, else a correct :focus-visible patch would
+// falsely FAIL (no delta because it was focused all along).
+async function blurSearchBar() {
+  await page.locator('body').click({ position: { x: 5, y: 5 } }).catch(() => {});
+  const active = await page.evaluate(() => document.activeElement && document.activeElement.id);
+  return active !== 'search-bar';
+}
+await check('ctrl_focus_positive', async () => {
+  await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
+  // Instrumentation control: inject an element with a KNOWN visible :focus
+  // style. The harness must detect a perceivable delta, else every focus
+  // verdict is untrustworthy.
+  await page.evaluate(() => {
+    const st = document.createElement('style');
+    st.textContent = '#__heldout_focuspos:focus{outline:3px solid rgb(255,0,0);outline-offset:2px}';
+    document.head.appendChild(st);
+    const b = document.createElement('button');
+    b.id = '__heldout_focuspos'; b.textContent = 'x';
+    document.body.prepend(b);
+  });
+  const before = await focusStyleOf('#__heldout_focuspos');
+  await page.locator('#__heldout_focuspos').focus();
+  const ind = await focusStyleOf('#__heldout_focuspos');
+  const delta = ind.outlineStyle !== before.outlineStyle || ind.outlineWidth !== before.outlineWidth
+    || ind.outlineColor !== before.outlineColor || ind.boxShadow !== before.boxShadow;
+  const visible = (ind.outlineStyle !== 'none' && parseFloat(ind.outlineWidth) > 0) || ind.boxShadow !== 'none';
+  if (delta && visible) return P(`synthetic visible-focus element detected: ${JSON.stringify(ind)}`);
+  return F(`instrumentation failed: known-visible :focus not detected (${JSON.stringify(ind)})`);
+}, 'control');
+await check('ctrl_focus_negative', async () => {
+  await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
+  // Instrumentation control: constant-shadow + fully-transparent outline —
+  // no delta, nothing perceivable. Must NOT be reported as an indicator.
+  await page.evaluate(() => {
+    const st = document.createElement('style');
+    st.textContent = '#__heldout_focusneg{box-shadow:0 0 2px #888}#__heldout_focusneg:focus{outline:2px solid transparent;box-shadow:0 0 2px #888}';
+    document.head.appendChild(st);
+    const b = document.createElement('button');
+    b.id = '__heldout_focusneg'; b.textContent = 'x';
+    document.body.prepend(b);
+  });
+  const before = await focusStyleOf('#__heldout_focusneg');
+  await page.locator('#__heldout_focusneg').focus();
+  const ind = await focusStyleOf('#__heldout_focusneg');
+  const delta = ind.outlineStyle !== before.outlineStyle || ind.outlineWidth !== before.outlineWidth
+    || ind.outlineColor !== before.outlineColor || ind.boxShadow !== before.boxShadow;
+  const visible = (ind.outlineStyle !== 'none' && parseFloat(ind.outlineWidth) > 0
+    && ind.outlineColor !== 'rgba(0, 0, 0, 0)' && ind.outlineColor !== 'transparent')
+    || (ind.boxShadow !== 'none' && ind.boxShadow !== before.boxShadow);
+  if (!delta || !visible) return P('constant-shadow/transparent-outline correctly reported NOT a focus indicator');
+  return F(`instrumentation false-positive: transparent outline reported visible (${JSON.stringify(ind)})`);
+}, 'control');
 await check('focus_indicator_search_input', async () => {
   await page.goto(`${base}/`, { waitUntil: 'load', timeout: 30000 });
-  // Record the input's style UNFOCUSED, then keyboard-focus it and compare the
-  // same fields — a constant style or a color-only serialization artifact is
-  // not a perceivable indicator.
-  const before = await focusStyle('#search-bar');
+  if (!await blurSearchBar()) return NT('could not move focus off autofocused #search-bar');
+  const before = await focusStyleOf('#search-bar');
   await page.locator('#config-collapsible').focus().catch(() => {});
   // #search-bar sits before #config-collapsible in tab order: walk backward
   // first (bounded), then forward if the backward walk didn't land.
@@ -264,15 +351,18 @@ await check('focus_indicator_search_input', async () => {
     }
   }
   if (!ok) return NT('could not keyboard-focus #search-bar');
-  const ind = await focusStyle('#search-bar');
+  const ind = await focusStyleOf('#search-bar');
   const delta = ind.outlineStyle !== before.outlineStyle
     || ind.outlineWidth !== before.outlineWidth
     || ind.outlineColor !== before.outlineColor
     || ind.boxShadow !== before.boxShadow;
-  const visible = (ind.outlineStyle !== 'none' && parseFloat(ind.outlineWidth) > 0)
+  const visible = (ind.outlineStyle !== 'none' && parseFloat(ind.outlineWidth) > 0
+    && ind.outlineColor !== 'rgba(0, 0, 0, 0)' && ind.outlineColor !== 'transparent')
     || ind.boxShadow !== 'none';
-  if (delta && visible) return P(`focus style delta: unfocused ${JSON.stringify(before)} -> focused ${JSON.stringify(ind)}`);
-  return F(`no perceivable focus indicator (unfocused=${JSON.stringify(before)}; focused=${JSON.stringify(ind)})`);
+  // NOTE: this is a computed-style signal, not a proven perceivable indicator
+  // (contrast/area thresholds are out of harness scope).
+  if (delta && visible) return P(`computed-style delta unfocused->focused: ${JSON.stringify(before)} -> ${JSON.stringify(ind)} (computed-style signal, perceivability not proven)`);
+  return F(`no computed-style focus change (unfocused=${JSON.stringify(before)}; focused=${JSON.stringify(ind)})`);
 });
 
 // C6 — config panel opens with keyboard only (Enter on #config-collapsible)
@@ -306,8 +396,9 @@ await check('config_fields_named', async () => {
   await page.waitForSelector('.content.open', { timeout: 5000 });
   const fields = page.locator('.content.open select, .content.open input[type="text"], .content.open input[type="number"], .content.open textarea');
   const n = await fields.count();
-  if (n === 0) return NT('no form fields found inside open config panel');
+  if (n === 0) return F('no form fields found inside open config panel — required controls removed?');
   const unnamed = [];
+  const seenIds = new Set();
   let checked = 0;
   for (let i = 0; i < n; i++) {
     const f = fields.nth(i);
@@ -316,13 +407,16 @@ await check('config_fields_named', async () => {
     if (!(await isTrulyVisible(f))) continue;
     checked++;
     const id = (await f.getAttribute('id').catch(() => null)) || `index ${i}`;
+    seenIds.add(id);
     const { named, actual } = await computedName(f);
     const decl = await declaredLabel(f);
     if (named !== true || !decl.ok) unnamed.push(`${id} (named=${actual}, label=${decl.mechanism}${decl.ok ? ':ok' : ':missing'})`);
   }
-  // Frozen floor: removing controls to pass is a regression, not a fix.
-  if (checked < CONFIG_FIELD_FLOOR) {
-    return F(`only ${checked} visible config fields (floor ${CONFIG_FIELD_FLOOR}) — controls lost?`);
+  // Frozen inventory from the pinned commit (not a count floor): every
+  // baseline control id must still be present among visible fields.
+  const missing = REQUIRED_CONFIG_IDS.filter(id => !seenIds.has(id));
+  if (missing.length) {
+    return F(`required config controls missing: ${missing.join(', ')}`);
   }
   return unnamed.length === 0
     ? P(`all ${checked} visible config fields have computed name + declared label`)
@@ -404,11 +498,9 @@ await check('bypass_mechanism', async () => {
     const ae = document.activeElement;
     if (ae === t || (t.contains && t.contains(ae))) return 'focused';
     if (location.hash === sel) return 'hash';
-    const r = t.getBoundingClientRect();
-    if (r.top >= -1 && r.top < innerHeight) return 'in-viewport';
-    return 'no-effect';
+    return 'no-effect';   // already-in-viewport is NOT proof of bypass
   }, targetSel);
-  if (landed === 'focused' || landed === 'hash' || landed === 'in-viewport')
+  if (landed === 'focused' || landed === 'hash')
     return P(`skip link activates: -> ${targetSel} (${landed})`);
   return F(`skip link present but activation had no effect (${landed})`);
 });
@@ -427,7 +519,7 @@ await check('link_names_home', async () => {
     const { named, actual } = await computedName(l);
     if (named !== true) unnamed++;
   }
-  if (checked === 0) return NT('no visible links');
+  if (checked === 0) return F('no visible links — required functionality lost');
   if (checked < LINK_FLOOR) return F(`only ${checked} visible links (floor ${LINK_FLOOR}) — controls lost?`);
   return unnamed === 0 ? P(`${checked} visible links all named`)
     : F(`${unnamed}/${checked} visible links lack an accessible name`);

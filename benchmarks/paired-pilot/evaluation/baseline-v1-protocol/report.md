@@ -1,6 +1,6 @@
 # Audit accessibilité — 2026-09-28
 
-**10 règle(s) violée(s), 108 occurrence(s), 5/5 scénario(s) audité(s), 0 erreur(s), 8 résultat(s) incomplet(s).**
+**10 règle(s) violée(s), 94 occurrence(s), 5/5 scénario(s) audité(s), 0 erreur(s), 12 résultat(s) incomplet(s).**
 
 Périmètre : scope.json — hash `d07fa814ceb6`
 
@@ -40,15 +40,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?applicat
 - http://127.0.0.1:5001/ [state:config-panel]
   - `#search-submit`
   - `#config-collapsible`
-  - `label[for="config-country"]`
-  - `label[for="config-time-period"]`
-  - `label[for="config-lang-interface"]`
-  - `label[for="config-lang-search"]`
-  - `label[for="config-near"]`
-  - `label[for="config-block"]`
-  - `label[for="config-block-title"]`
-  - `label[for="config-block-url"]`
-  - … +7 autres
+  - `.link`
 
 ## [SERIOUS] html-has-lang — <html> element must have a lang attribute
 
@@ -159,7 +151,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?ap
 - http://127.0.0.1:5001/ [state:config-panel]
   - `html`
 
-## Résultats incomplets à revoir (8)
+## Résultats incomplets à revoir (12)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
@@ -187,6 +179,10 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
 - http://127.0.0.1:5001/ [state:config-panel]
-  - `p`
-  - `.link`
+  - `label[for="config-country"]`
+  - `label[for="config-time-period"]`
+  - `label[for="config-lang-interface"]`
+  - `label[for="config-lang-search"]`
+  - `label[for="config-near"]`
+  - `label[for="config-block"]`
 

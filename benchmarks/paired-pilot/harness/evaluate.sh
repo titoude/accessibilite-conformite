@@ -30,8 +30,20 @@ PIN="0543f86528678ab60a20b3049483975add6b6e40"
 PORT="${PILOT_PORT:-5001}"
 FROZEN_REQS="$HARNESS/whoogle-frozen-requirements.txt"
 
+# Normalize every caller path BEFORE any cd — the script changes directory
+# later; a relative patch/out path would silently resolve wrong, and a
+# relative CLONE_DIR check could pass while targeting the wrong dir.
+CLONE_DIR="$(realpath -m "$CLONE_DIR")"
+PATCH="$(realpath -m "$PATCH")"
+OUT="$(realpath -m "$OUT")"
+[ -f "$PATCH" ] || { echo "REFUSAL: patch '$PATCH' not found" >&2; exit 2; }
+
 if [ -e "$CLONE_DIR" ]; then
   echo "REFUSAL: clone dir '$CLONE_DIR' already exists — evaluate.sh never reuses or deletes caller paths. Choose a fresh directory." >&2
+  exit 2
+fi
+if [ -d "$OUT" ] && [ -n "$(ls -A "$OUT" 2>/dev/null)" ]; then
+  echo "REFUSAL: out dir '$OUT' exists and is non-empty — no stale output reuse. Choose a fresh directory." >&2
   exit 2
 fi
 if curl -sf -o /dev/null --max-time 2 "http://127.0.0.1:$PORT/" || ss -ltn "sport = :$PORT" 2>/dev/null | grep -q ":$PORT"; then
@@ -139,9 +151,13 @@ if [ "$INSTALL_OK" = true ]; then
   if [ "$BOOT_OK" = true ]; then
     # audit.mjs resolves playwright/axe-core via createRequire(process.cwd()) —
     # run node from the harness repo root, which carries the pinned deps.
+    # --wait 500: settled-state precondition (evaluator v3, post-dispatch
+    # amendment — 0.2s max-height transition on .content.open made the
+    # config-panel scan racy: 94 vs 100 nodes on identical commands).
+    # scopeHash/statesHash do NOT encode this flag -> recorded explicitly below.
     ( cd "$REPO_ROOT" && node "$HARNESS/audit.whoogle.mjs" "http://127.0.0.1:$PORT" \
       --urls "/,/search.html,/search?q=test,/window?location=https://example.com" \
-      --states all --out "$OUT/final" )
+      --states all --wait 500 --out "$OUT/final" )
     AUDIT_EXIT=$?
     ( cd "$REPO_ROOT" && node "$HARNESS/heldout-checks.mjs" "http://127.0.0.1:$PORT" --out "$OUT/heldout" )
     HELDOUT_EXIT=$?
@@ -154,9 +170,12 @@ fi
   echo "date=$(date -u +%FT%TZ)"
   echo "node=$(node --version 2>/dev/null || echo missing)"
   echo "python=$(.venv/bin/python --version 2>/dev/null || echo missing)"
-  echo "axe_core=4.13.0 (pinned; resolves from audit CWD package.json)"
-  echo "playwright=1.63.0 (pinned; resolves from audit CWD package.json)"
+  # Measured, not declared: report the versions actually installed under the
+  # harness repo root so a drifted install can't masquerade as the pin.
+  echo "axe_core=$(cd "$REPO_ROOT" && node -p 'require("axe-core/package.json").version' 2>/dev/null || echo unmeasured)"
+  echo "playwright=$(cd "$REPO_ROOT" && node -p 'require("playwright/package.json").version' 2>/dev/null || echo unmeasured)"
   echo "WHOOGLE_CSP=0 (deviation: axe injection requires CSP relaxed — production CSP NOT validated)"
+  echo "audit_args=--urls /,/search.html,/search?q=test,/window?location=https://example.com --states all --wait 500 (evaluator v3; --wait is NOT encoded in scopeHash/statesHash)"
 } > "$OUT/env.env"
 
 echo "=== done: identity=$IDENTITY_OK apply=$APPLY_OK install=$INSTALL_OK tests=$TESTS_OK boot=$BOOT_OK audit_exit=$AUDIT_EXIT heldout_exit=$HELDOUT_EXIT"

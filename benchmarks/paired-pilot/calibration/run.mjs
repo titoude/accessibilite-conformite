@@ -52,9 +52,20 @@ const PORT = 8871;
 
 const MIME = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.png': 'image/png', '.svg': 'image/svg+xml', '.woff': 'font/woff', '.woff2': 'font/woff2', '.json': 'application/json' };
 
+// Fixture files are served at their stored relative paths. Shared W3C test
+// assets (referenced by absolute path /WAI/content-assets/...) are served from
+// calibration/test-assets/ preserving the upstream layout — fixture HTML is
+// never rewritten. Bytes + sources recorded in test-assets/provenance.json.
+const ASSET_PREFIX = '/WAI/content-assets/wcag-act-rules/test-assets/';
 const server = createServer((req, res) => {
   const path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
-  const file = join(HERE, path === '/' ? 'index.html' : path);
+  let file;
+  if (path.startsWith(ASSET_PREFIX)) {
+    file = join(HERE, 'test-assets', path.slice(ASSET_PREFIX.length));
+    if (!file.startsWith(join(HERE, 'test-assets'))) { res.writeHead(404); res.end('nf'); return; }
+  } else {
+    file = join(HERE, path === '/' ? 'index.html' : path);
+  }
   if (!file.startsWith(HERE) || !existsSync(file)) { res.writeHead(404); res.end('nf'); return; }
   res.writeHead(200, { 'Content-Type': MIME[extname(file)] || 'application/octet-stream' });
   createReadStream(file).pipe(res);
@@ -87,13 +98,29 @@ writeFileSync(join(outDir, 'axe-act-map.json'), JSON.stringify({
 await probe.close();
 
 const rows = [];
-let agreeFail = 0, consistent = 0, unscorable = 0, diverge = 0, errors = 0;
+let agreeFail = 0, consistent = 0, unscorable = 0, diverge = 0, errors = 0, unsupported = 0;
+const ASSET_REF = /\/WAI\/content-assets\/wcag-act-rules\/test-assets\/[^\s"'`)\\]+/g;
+const EXT_REF = /(?:src|href)\s*=\s*"(https?:\/\/[^"]+)"/g;
 
 for (const c of casesDoc.cases) {
   const liveRules = liveRulesByAct[c.ruleId] || [];
   const declaredRules = c.axeRuleIds || [];
   const mapDrift = JSON.stringify([...liveRules].sort()) !== JSON.stringify([...declaredRules].sort());
-  const ruleIds = liveRules.length ? liveRules : declaredRules;
+  // No fallback to declared rules: an ACT id with no axe mapping is
+  // unsupported — it stays unsupported, never scanned under a wrong rule.
+  const ruleIds = liveRules;
+  if (!ruleIds.length) {
+    const row = { ruleId: c.ruleId, ruleName: c.ruleName, testcaseId: c.testcaseId,
+      expected: c.expected, url: c.url, localFile: c.localFile, sha256: c.sha256,
+      sha256_verified: null, axeRuleIds: [], map_drift: mapDrift,
+      observed_rules: [], incomplete_rules: [], all_violation_rules: [],
+      missing_dependencies: [], external_dependencies: [],
+      outcome: 'unsupported_no_axe_mapping', error: null };
+    unsupported++;
+    rows.push(row);
+    console.log(`[unsupported_no_axe_mapping] ${c.ruleId}/${c.testcaseId.slice(0,10)} expected=${c.expected}`);
+    continue;
+  }
   const url = `http://127.0.0.1:${PORT}/${c.localFile}`;
   const row = {
     ruleId: c.ruleId, ruleName: c.ruleName, testcaseId: c.testcaseId,
@@ -108,29 +135,48 @@ for (const c of casesDoc.cases) {
     const actualSha = createHash('sha256').update(readFileSync(join(HERE, c.localFile))).digest('hex');
     row.sha256_verified = actualSha === c.sha256;
     if (!row.sha256_verified) throw new Error(`fixture sha256 mismatch: file=${actualSha.slice(0, 16)} declared=${c.sha256.slice(0, 16)}`);
+    // Replay-dependency audit: every /WAI/... test-asset reference must exist
+    // under test-assets/. A missing file is a missing replay dependency -> the
+    // case is unsupported, NOT faithfully replayed. External http(s) refs are
+    // recorded but never rewritten or fetched by us.
+    const html = readFileSync(join(HERE, c.localFile), 'utf8');
+    const refs = [...html.matchAll(ASSET_REF)].map(m => m[0].slice(ASSET_PREFIX.length));
+    row.missing_dependencies = refs.filter(r => !existsSync(join(HERE, 'test-assets', r)));
+    row.external_dependencies = [...new Set([...html.matchAll(EXT_REF)].map(m => m[1]))];
+    if (row.missing_dependencies.length) {
+      row.outcome = 'unsupported_missing_dependency'; unsupported++;
+      rows.push(row);
+      console.log(`[unsupported_missing_dependency] ${c.ruleId}/${c.testcaseId.slice(0,10)} missing=${row.missing_dependencies.join(',')}`);
+      continue;
+    }
     const p = await browser.newPage();
     const resp = await p.goto(url, { waitUntil: 'load', timeout: 20000 });
     if (!resp || resp.status() !== 200) throw new Error(`HTTP ${resp && resp.status()}`);
     await p.addScriptTag({ content: axeSrc });
     const res = await p.evaluate(async (ruleIds) => {
+      // Preserve the FULL raw axe output for both runs — reduced counts
+      // destroyed the evidence review needs (node selectors, checks, etc.).
       const out = await window.axe.run(document, {
         runOnly: { type: 'rule', values: ruleIds },
-        resultTypes: ['violations', 'incomplete'],
       });
-      const all = await window.axe.run(document, { resultTypes: ['violations', 'incomplete'] });
+      const all = await window.axe.run(document);
       return {
-        mapped: out.violations.map(v => ({ id: v.id, nodes: v.nodes.length })),
-        incompleteMapped: out.incomplete.map(v => ({ id: v.id, nodes: v.nodes.length })),
-        all: all.violations.map(v => v.id),
-        allIncomplete: all.incomplete.map(v => v.id),
+        raw_mapped: { violations: out.violations, incomplete: out.incomplete,
+                      passes: out.passes.map(v => ({ id: v.id, nodes: v.nodes.length })),
+                      inapplicable: out.inapplicable.map(v => v.id) },
+        all_ids: all.violations.map(v => v.id),
+        all_incomplete_ids: all.incomplete.map(v => v.id),
       };
     }, ruleIds);
-    row.observed_rules = res.mapped;
-    row.incomplete_rules = res.incompleteMapped;
-    row.all_violation_rules = res.all;
-    row.all_incomplete_rules = res.allIncomplete;
-    const anyMapped = res.mapped.length > 0;
-    const anyIncomplete = res.incompleteMapped.length > 0;
+    row.raw_axe = res.raw_mapped;   // full raw axe result — the evidence
+    row.observed_rules = res.raw_mapped.violations.map(v => ({ id: v.id, nodes: v.nodes.length }));
+    row.incomplete_rules = res.raw_mapped.incomplete.map(v => ({ id: v.id, nodes: v.nodes.length }));
+    row.passed_mapped = res.raw_mapped.passes;
+    row.inapplicable_mapped = res.raw_mapped.inapplicable;
+    row.all_violation_rules = res.all_ids;
+    row.all_incomplete_rules = res.all_incomplete_ids;
+    const anyMapped = row.observed_rules.length > 0;
+    const anyIncomplete = row.incomplete_rules.length > 0;
     if (anyIncomplete) {
       row.outcome = 'unscorable_incomplete';   // axe could not decide — not evidence
     } else if (c.expected === 'failed') {
@@ -164,6 +210,7 @@ const summary = {
     consistent_no_violation: consistent,
     unscorable_incomplete: unscorable,
     divergent: diverge, errors,
+    unsupported: unsupported,
   },
   note: 'Measures selected axe scanner rules against expected ACT outcomes. Does NOT measure the remediation skill. "consistent_no_violation" is not asserted agreement: absence of a violation cannot prove pass/inapplicable. ACT rules and axe rules are not 1:1 — divergences are recorded, not hidden.',
   cases: rows,
