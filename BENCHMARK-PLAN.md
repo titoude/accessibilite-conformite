@@ -43,7 +43,7 @@ Le vérificateur des rounds fait partie du système testé. Ajout d'un niveau : 
 Mêmes pages, états, rôles, données, langues. Manifeste de test avec préconditions + actions + résultat attendu (« ouvrir la modale » → vérifier qu'elle est réellement ouverte). Route absente / état inaccessible / timeout = **lacune de couverture**, jamais une page « sans violation ». États découverts en cours de correction : listés séparément, ne modifient pas le dénominateur initial.
 
 ### D. Corpus mixte
-Pas que des repos à forte densité axe : inclure des apps avec **peu/zéro erreur axe mais difficultés fonctionnelles**, formulaires multi-étapes, tableaux interactifs, éditeurs, cartes, apps authentifiées. Les 2 projets pilotes (cdv-collect, TRAJECTOIRE) restent hors de l'échantillon (ils ont servi à concevoir le skill).
+Pas que des repos à forte densité axe : inclure des apps avec **peu/zéro erreur axe mais difficultés fonctionnelles**, formulaires multi-étapes, tableaux interactifs, éditeurs, cartes, apps authentifiées. Les 2 projets pilotes internes restent hors de l'échantillon (ils ont servi à concevoir le skill).
 
 ### E. Faux progrès interdits (au-delà des règles déjà interdites)
 Une correction ne doit ni supprimer une fonctionnalité, ni retirer une information utile, ni rendre un élément invisible aux tests/AT. Le correcteur ne peut pas modifier : le runner de référence, la liste d'URLs, les exclusions, les données de test. La correction doit exister dans le **code livré et le build évalué**.
