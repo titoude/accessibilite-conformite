@@ -12,7 +12,7 @@ import asyncio
 import json
 import os
 
-REPO = os.environ.get("A11Y_REPO", "")          # ex. "titoude/cdv-collect"
+REPO = os.environ.get("A11Y_REPO", "")          # ex. "owner/repo"
 BASE_BRANCH = os.environ.get("A11Y_BASE", "")   # vide = branche par défaut
 MAX_ROUNDS = 3
 
