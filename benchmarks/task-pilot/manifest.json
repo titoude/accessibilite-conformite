@@ -1,0 +1,70 @@
+{
+  "pilot": "task-pilot",
+  "purpose": "Exploratory paired benchmark: does the accessibility skill (frozen at f7fb27e) change measurable keyboard-task completion on a real, fully-offline application. NOT ACT calibration; NOT a general effectiveness result — one pair.",
+  "target": {
+    "repo": "https://github.com/tastejs/todomvc.git",
+    "pin": "ff43b02e59dfa604386bb382034b2cd07c2bcd8a",
+    "implementation": "examples/javascript-es5",
+    "license": "MIT (upstream license.md — notices preserved)",
+    "install": "npm ci --omit=dev --ignore-scripts --no-audit --no-fund in examples/javascript-es5 (the two locked production deps: todomvc-app-css 2.4.2, todomvc-common 1.0.5); raw index/src runs, no build",
+    "serve": "repository root on 127.0.0.1:<port>; app at /examples/javascript-es5/ so /learn.json resolves",
+    "offline_evidence": "baseline run-1: 36 requests, all http://127.0.0.1:8388/* — zero external attempts (see baseline/run-1/report.json network_attempts). The api.github.com sidebar call in todomvc-common/base.js did not fire (learn.json entry has no issueLink for this example)."
+  },
+  "arms": {
+    "treatment": {
+      "prompt": "prompts/arm-task-skill.md",
+      "skill_source": "treatment/ verbatim at f7fb27e4e9e36ccc0733b09d0af10fb9148a5d49 (SKILL.md + checklist.md + tests-validateurs/assertions.mjs); sha256 in treatment/provenance.json"
+    },
+    "control": {
+      "prompt": "prompts/arm-task-control.md",
+      "skill": "none — identical task requirements, neutral prompt"
+    },
+    "identical": ["task requirements text", "budgets", "runner", "evaluator", "network policy", "max correction rounds (3)", "20-minute session wall-time including setup", "devin_mode requested: lite"]
+  },
+  "worker_config": {
+    "requested_mode": "lite",
+    "mode_recording": "requested devin_mode and the returned/effective mode/model metadata are recorded separately in arms/<arm>/session-meta.json. If 'lite' is rejected or the two workers come back with different effective modes, dispatch STOPS and the asymmetry is reported — no silent substitution.",
+    "interpretation": "Lite-preset pilot only. The preset name does not establish underlying model weights; results say nothing about a known weaker model.",
+    "slots": "at most 2 worker sessions, sequential acceptable",
+    "budgets": "max 3 correction rounds; 20-minute session wall-time per arm INCLUDING setup, measured from platform event timestamps; partial patch preserved on timeout. Self-reported minutes are labelled unverified."
+  },
+  "evaluation_contract": {
+    "runner": "harness/evaluate.sh <patch.diff|-> <outdir> — fresh mktemp clone -> pin checkout -> optional git apply --check -> npm ci (omit=dev, ignore-scripts) -> serve repo root -> harness/audit.todo.mjs",
+    "input_hashes": "scope.json statesHash = sha256(task-checks.mjs + net-policy.mjs); patch sha256 recorded in eval-status.env",
+    "keyboard_rule": "Only real keyboard events (Tab walking + Enter/Space/F2/Escape via page.keyboard) count as credited actions. DOM focus()/programmatic click()/pre-seeded outcomes do not count.",
+    "discovery_rule": "The evaluator discovers a keyboard edit affordance by trying, in order: (a) a control with accessible name matching /edit/i (checked with @playwright/test toHaveAccessibleName — no in-page approximation), (b) F2 inside the item, (c) Enter/Space on a non-checkbox descendant of the item. This is a CUSTOM EVALUATION CONTRACT, not a normative WCAG requirement: WCAG/APG requires keyboard operability but does not mandate one specific shortcut or markup. Both arms receive this contract text verbatim.",
+    "identity_oracles": "Items tracked by data-id + label text; per-item checkbox.checked AND li.classList consistency required (contradiction = FAIL); ancestor-aware visibility via checkVisibility({checkOpacity,checkVisibilityCSS}); filter assertions compare exact visible identities; task3 survivors must keep id+text identity across toggle-all and Completed filter.",
+    "focus_oracles": "After edit commit/cancel, focus must land on a visible semantic control (button/input/a/[role]/[tabindex]) inside the SAME item — never BODY, never a hidden element.",
+    "persistence_note": "Upstream store.js uses module-local MemoryStorage — reload resets items to empty. Recorded in baseline as expected behavior (reloadReset, unscored); persistence is NOT a required feature and is never scored.",
+    "not_tested": ["assistive technology / screen readers (live-region DOM metadata is a semantic signal, not SR-announcement proof)", "zoom/reflow", "pointer-only users beyond the preserved-dblclick check", "any non-Chromium engine"]
+  },
+  "controls": {
+    "location": "harness/fixtures/ctrl-*.html — SYNTHETIC evaluator-owned pages; not app code, not worker output",
+    "positive": ["ctrl-complete (aria-label edit button)", "ctrl-labelledby (aria-labelledby hidden span)", "ctrl-label-enter (focusable label, Enter opens edit)"],
+    "negative": ["ctrl-no-all (All-link preventDefault)", "ctrl-invisible-list (opacity:0 list)", "ctrl-inconsistent (class set, checkbox.checked reset)", "ctrl-toggle-noop (toggle-all self-checks)", "ctrl-focus-sink (focus to BODY)", "ctrl-noop-commit (Enter closes without writing)", "ctrl-dblclick-only (no keyboard affordance)"],
+    "cli_contracts": "harness/test-cli.mjs spawns the actual audit.todo.mjs process: page-error + aborted-external-request fixture => exit != 0 + report.fatal; unreachable URL => exit != 0; stale report.json/scope.json are deleted before each run",
+    "gate": "pnpm test:task-pilot (wired into pnpm test by cherry-picked 99fb0ea; expanded to include test-cli.mjs)",
+    "rule": "controls exercise the SAME published task functions and the real CLI; outcomes are never weakened to make the evaluator pass"
+  },
+  "baseline": {
+    "dir": "baseline/run-1",
+    "head_measured": "4da572d2c5adabc3a205007e20b1afba9559c0c8",
+    "result": {
+      "task1_add_complete_filter": "PASS",
+      "task2_keyboard_edit": "FAIL — upstream binds editing to dblclick only; no keyboard affordance discovered",
+      "task3_toggle_clear": "FAIL — Space on .toggle-all checks the control itself without completing any item (recorded toggleAllCheckedWithoutEffect); downstream count/filter checks fail",
+      "axe_initial": "heading-order x1, landmark-one-main x1, region x1 (0-item state)",
+      "axe_final": "heading-order x1, label x1, region x3 (post-task state)",
+      "external_requests": 0,
+      "page_errors": 0
+    },
+    "consistency_with_reviewer": "matches the reviewer's independent baseline (zero external requests, MemoryStorage reload reset, toggle-all self-check, axe label rule present post-items)"
+  },
+  "deviations_and_limits": [
+    "n=1 pair — no causal claim, no generalization",
+    "custom discovery contract is not a normative WCAG requirement",
+    "worker correction minutes are self-reported/unverified",
+    "AT and zoom NOT_TESTED",
+    "the with-skill arm of pilot 1 self-reported violations that differed from replay measurement — the same risk applies here; only evaluator replay counts"
+  ]
+}
