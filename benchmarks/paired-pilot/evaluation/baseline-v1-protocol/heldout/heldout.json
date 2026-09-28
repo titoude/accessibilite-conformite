@@ -1,0 +1,117 @@
+{
+  "base": "http://127.0.0.1:5001",
+  "generatedAt": "2026-09-28T08:32:26.212Z",
+  "pass": 8,
+  "fail": 7,
+  "notTested": 3,
+  "results": [
+    {
+      "id": "ctrl_name_positive",
+      "kind": "control",
+      "status": "FAIL",
+      "evidence": "instrumentation failed to detect a known name: non-empty"
+    },
+    {
+      "id": "ctrl_skip_broken",
+      "kind": "control",
+      "status": "PASS",
+      "evidence": "broken skip link correctly detected (target absent)"
+    },
+    {
+      "id": "ctrl_name_negative",
+      "kind": "control",
+      "status": "PASS",
+      "evidence": "unnamed synthetic element correctly reported unnamed"
+    },
+    {
+      "id": "document_title_home",
+      "kind": "check",
+      "status": "PASS",
+      "evidence": "title=\"Whoogle Search\""
+    },
+    {
+      "id": "html_lang_home",
+      "kind": "check",
+      "status": "FAIL",
+      "evidence": "html element has no lang attribute"
+    },
+    {
+      "id": "search_input_accessible_name",
+      "kind": "check",
+      "status": "FAIL",
+      "evidence": "computed name ; declared-label: none (no label[for], aria-label, aria-labelledby, or wrapping label)"
+    },
+    {
+      "id": "keyboard_search_journey",
+      "kind": "check",
+      "status": "NOT_TESTED",
+      "evidence": "landed on http://127.0.0.1:5001/search?preferences=uG0ICAJwHdjNL0ksRlmC8zWab7fXf-3O4dsRKdKgjIgoRcBuej9gMIjBABm6zADzTmxW6ozALcIEytwY-ZiFE1Jyz3U16KX2-aGCbte6rZKZZgY3VNGoTF7wHkvLf47B2qCP0F1Bm39z_0oOM2EGpxmaE1ThE2AkHxgEIAAahqaABRUvxdqigeGDiVc9XmHSoImBBaiiZ6gGdRStVIPPrUB4GHiW8XxsflPQGUYWsyXpHdLJAVV0qMTcMqLdasoiJp0_iXcVho9-M9umRhKyp3s9B9CI_ClmMHFIH66V-&q=gAAAAABquiYVUyTwIouUKSwmye7qZz7rdppg4jEy4ouwZlL7bI8i2KXgxy-4ARwUnNATxPWr11CxMdAZYOtppMiB1_k5BCCcHw%3D%3D with 0 .result elements (title=\"heldout check - Whoogle Search\") — live upstream not guaranteed, NOT counted as coverage"
+    },
+    {
+      "id": "ctrl_focus_positive",
+      "kind": "control",
+      "status": "PASS",
+      "evidence": "synthetic visible-focus element detected: {\"outlineStyle\":\"solid\",\"outlineWidth\":\"3px\",\"outlineColor\":\"rgb(255, 0, 0)\",\"boxShadow\":\"none\"}"
+    },
+    {
+      "id": "ctrl_focus_negative",
+      "kind": "control",
+      "status": "PASS",
+      "evidence": "constant-shadow/transparent-outline correctly reported NOT a focus indicator"
+    },
+    {
+      "id": "focus_indicator_search_input",
+      "kind": "check",
+      "status": "FAIL",
+      "evidence": "no computed-style focus change (unfocused={\"outlineStyle\":\"none\",\"outlineWidth\":\"3px\",\"outlineColor\":\"rgb(0, 0, 0)\",\"boxShadow\":\"none\"}; focused={\"outlineStyle\":\"none\",\"outlineWidth\":\"3px\",\"outlineColor\":\"rgb(0, 0, 0)\",\"boxShadow\":\"none\"})"
+    },
+    {
+      "id": "config_panel_keyboard",
+      "kind": "check",
+      "status": "PASS",
+      "evidence": "config panel opened via Enter and exposes a visible control"
+    },
+    {
+      "id": "config_fields_named",
+      "kind": "check",
+      "status": "FAIL",
+      "evidence": "1/14 visible config fields unnamed/unlabeled: config-style (named=, label=none:missing)"
+    },
+    {
+      "id": "reflow_320px",
+      "kind": "check",
+      "status": "PASS",
+      "evidence": "scrollWidth=320 <= 321, #search-bar visible"
+    },
+    {
+      "id": "zoom_200",
+      "kind": "check",
+      "status": "NOT_TESTED",
+      "evidence": "real browser zoom cannot be driven by this harness (CDP page-scale is not zoom); WCAG 1.4.4 unassessed"
+    },
+    {
+      "id": "document_title_search_page",
+      "kind": "check",
+      "status": "FAIL",
+      "evidence": "empty <title> on /search.html"
+    },
+    {
+      "id": "search_results_functional",
+      "kind": "check",
+      "status": "NOT_TESTED",
+      "evidence": "0 .result elements, bodyLen=3166, title=\"test - Whoogle Search\" — live upstream not guaranteed, NOT counted as coverage"
+    },
+    {
+      "id": "bypass_mechanism",
+      "kind": "check",
+      "status": "FAIL",
+      "evidence": "no skip link and no main landmark on /"
+    },
+    {
+      "id": "link_names_home",
+      "kind": "check",
+      "status": "PASS",
+      "evidence": "3 visible links all named"
+    }
+  ]
+}

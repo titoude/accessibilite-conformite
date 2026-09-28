@@ -1,0 +1,91 @@
+{
+  "manifest": "paired-pilot frozen test manifest",
+  "version": "paired-pilot-1",
+  "created": "2026-09-28",
+  "written_before_any_arm_run": true,
+  "target": {
+    "repo": "benbusby/whoogle-search",
+    "repo_url": "https://github.com/benbusby/whoogle-search",
+    "commit_sha": "0543f86528678ab60a20b3049483975add6b6e40",
+    "commit_selected_via": "benchmark-v2/whoogle/provenance.json (task instruction)",
+    "commit_verified": "git rev-parse HEAD on clean clone == commit_sha (also remote HEAD at freeze time)"
+  },
+  "environment": {
+    "node": "v20.18.1",
+    "npm": "10.8.2",
+    "playwright": "1.63.0",
+    "playwright_test": "@playwright/test 1.63.0 (needed by treatment assertions.mjs and held-out checks)",
+    "axe_core": "4.13.0",
+    "python": "3.10",
+    "app_deps": "harness/whoogle-frozen-requirements.txt — full transitive freeze (pip freeze output of the verified baseline venv, 46 pinned lines incl. pytest); identical install for both arms and all replays; npm tools use committed worker-assets/package-lock.json via npm ci --ignore-scripts",
+    "browser": "playwright chromium-headless-shell (bundled with playwright 1.63.0)",
+    "runner": "harness/audit.whoogle.mjs (audit.mjs v5 @ b415cf39 + frozen STATES map below; sha256 in provenance.json)"
+  },
+  "environment_deviations": {
+    "WHOOGLE_CSP": "0 — REQUIRED for axe injection; production CSP behavior was NOT validated; identical in both arms"
+  },
+  "treatment": {
+    "source_repo": "https://github.com/titoude/accessibilite-conformite",
+    "source_revision": "b415cf39fd73cc410ba23b5cbfc6febbbefef47c",
+    "source_note": "hardened SKILL.md + English docs published in PR #1; pinned per user instruction before any worker started",
+    "files_dir": "treatment/ (verbatim copies + sha256 in treatment/provenance.json)",
+    "shared_runner": "harness/audit.whoogle.mjs — identical bytes given to BOTH arms"
+  },
+  "app": {
+    "boot": "WHOOGLE_CSP=0 .venv/bin/python -um app --host 127.0.0.1 --port 5001",
+    "base_url": "http://127.0.0.1:5001",
+    "readiness": "GET / returns HTTP 200",
+    "env": {"WHOOGLE_CSP": "0"}
+  },
+  "app_notes": {
+    "query_encryption": "whoogle encrypts the search query in the URL (/search?preferences=…&q=<fernet-enc>); held-out checks match the /search route, not the plaintext q param",
+    "autocomplete": "autocomplete.js is enabled by default and its keydown handler calls preventDefault() on Enter; keyboard-submission checks observe actual navigation"
+  },
+  "scope": {
+    "routes": ["/", "/search.html", "/search?q=test", "/window?location=https://example.com"],
+    "states": {
+      "config-panel": {
+        "url": "/",
+        "setup": "click #config-collapsible, then wait for .content.open",
+        "source": "app/static/js/controller.js setupConfigLayout() at the pinned commit"
+      }
+    },
+    "data": {"search_query": "test", "window_location": "https://example.com"},
+    "auth": "none",
+    "theme": "default (system)",
+    "roles": "anonymous only"
+  },
+  "audit_command": "node harness/audit.whoogle.mjs http://127.0.0.1:5001 --urls /,/search.html,/search?q=test,/window?location=https://example.com --states all --out <out-dir>",
+  "expected_scenario_ids": [
+    "http://127.0.0.1:5001/",
+    "http://127.0.0.1:5001/search.html",
+    "http://127.0.0.1:5001/search?q=test",
+    "http://127.0.0.1:5001/window?location=https://example.com",
+    "http://127.0.0.1:5001/ [state:config-panel]"
+  ],
+  "budget": {
+    "correction_rounds_max": 3,
+    "correction_minutes_max_per_arm": 20,
+    "pilot_total_minutes": 60,
+    "checkpoint_note": "the 60-minute point is a progress checkpoint (report overhead + remaining work), NOT an abandonment cutoff — per coordinator instruction the paired experiment continues to completion",
+    "note": "correction minutes = time spent in fix->re-audit rounds, excluding setup/boot; wall-clock measured by the coordinator as well"
+  },
+  "arms": {
+    "with-skill": "receives treatment/{SKILL.md,assertions.mjs,checklist.md} @ b415cf39 + harness/audit.whoogle.mjs inline; no repository access, no prior results",
+    "control": "receives a neutral accessibility-fix task + identical audit tool + identical scope/budget; no SKILL.md, no assertions/checklist, no prior patches/results"
+  },
+  "evaluation": {
+    "evaluator": "coordinator session, distinct from both workers",
+    "replay": "harness/evaluate.sh on a clean clone at the pinned commit per arm",
+    "held_out_checks": "harness/heldout-checks.mjs — keyboard/functional checks not disclosed to workers; includes instrumentation controls (ctrl_* rows) that must PASS or the run is an integrity gap",
+    "replay_safety": "evaluate.sh refuses an existing clone dir or non-empty out dir (never deletes a caller path), refuses an occupied port, verifies the spawned PID owns the listener + whoogle title, and installs the frozen requirements file; score.py gates comparability on valid baseline + equal frozen scope/states hashes + clean replay evidence",
+    "ground_truth_note": "benchmark-v3.py CONFIRMED verdicts are NOT used as ground truth (per task instruction: permissive validation under review by Codex)"
+  },
+  "forbidden_for_workers": [
+    "modifying the runner audit.whoogle.mjs, the manifest, the URL list, or test data",
+    "disabling/skipping rules, adding exceptions, or weakening assertions",
+    "removing functionality or information to make a violation disappear",
+    "accessing this benchmark repository, prior patches, or prior results",
+    "pushing, opening PRs, or modifying repository settings"
+  ]
+}

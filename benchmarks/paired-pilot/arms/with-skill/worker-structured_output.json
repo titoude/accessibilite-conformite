@@ -1,0 +1,135 @@
+{
+ "commit_sha": "0543f86528678ab60a20b3049483975add6b6e40",
+ "booted": true,
+ "patch_diff": "diff --git a/app/static/css/logo.css b/app/static/css/logo.css\nindex 0dfe8bb..b99b4be 100644\n--- a/app/static/css/logo.css\n+++ b/app/static/css/logo.css\n@@ -16,3 +16,33 @@ a {\n         height: 70%;\n     }\n }\n+\n+/* Accessibility helpers */\n+.visually-hidden {\n+    position: absolute;\n+    width: 1px;\n+    height: 1px;\n+    padding: 0;\n+    margin: -1px;\n+    overflow: hidden;\n+    clip: rect(0 0 0 0);\n+    white-space: nowrap;\n+    border: 0;\n+}\n+\n+.skip-link {\n+    position: absolute;\n+    top: -100px;\n+    left: 8px;\n+    padding: 8px;\n+    z-index: 100;\n+    text-decoration: underline;\n+}\n+\n+.skip-link:focus {\n+    top: 8px;\n+}\n+\n+.link {\n+    text-decoration: underline;\n+}\ndiff --git a/app/static/css/main.css b/app/static/css/main.css\nindex d2dd76c..3c85e75 100644\n--- a/app/static/css/main.css\n+++ b/app/static/css/main.css\n@@ -11,6 +11,7 @@ body {\n \n .logo-container {\n     max-height: 500px;\n+    margin: 0;\n }\n \n .home-search {\ndiff --git a/app/static/css/variables.css b/app/static/css/variables.css\nindex e53d157..8449eea 100644\n--- a/app/static/css/variables.css\n+++ b/app/static/css/variables.css\n@@ -3,7 +3,7 @@\n     /* LIGHT THEME COLORS */\n     --whoogle-logo: #685e79;\n     --whoogle-page-bg: #ffffff;\n-    --whoogle-element-bg: #4285f4;\n+    --whoogle-element-bg: #1967d2;\n     --whoogle-text: #000000;\n     --whoogle-contrast-text: #ffffff;\n     --whoogle-secondary-text: #70757a;\ndiff --git a/app/templates/display.html b/app/templates/display.html\nindex a742284..9e4aeb0 100644\n--- a/app/templates/display.html\n+++ b/app/templates/display.html\n@@ -1,4 +1,4 @@\n-<html>\n+<html lang=\"{{ config.get_localization_lang().replace('lang_', '') if config.get_localization_lang is defined else 'en' }}\">\n <head>\n     <link rel=\"shortcut icon\" href=\"static/img/favicon.ico\" type=\"image/x-icon\">\n     <link rel=\"icon\" href=\"static/img/favicon.ico\" type=\"image/x-icon\">\n@@ -35,7 +35,14 @@\n     <title>{{ clean_query(query) }} - Whoogle Search</title>\n </head>\n <body>\n+<a class=\"skip-link\" href=\"#main-content\">Skip to main content</a>\n {{ search_header|safe }}\n+<main id=\"main-content\" tabindex=\"-1\">\n+{% if query %}\n+    <h1 class=\"visually-hidden\">{{ clean_query(query) }} - Whoogle Search</h1>\n+{% else %}\n+    <h1 class=\"visually-hidden\">Whoogle Search</h1>\n+{% endif %}\n {% if is_translation %}\n     <iframe\n             id=\"lingva-iframe\"\n@@ -43,6 +50,7 @@\n     </iframe>\n {% endif %}\n {{ response|safe }}\n+</main>\n </body>\n {% include 'footer.html' %}\n {% if bundle_static() %}\ndiff --git a/app/templates/header.html b/app/templates/header.html\nindex 5d0b857..ad58b23 100644\n--- a/app/templates/header.html\n+++ b/app/templates/header.html\n@@ -14,6 +14,7 @@\n                         {% if config.preferences %}\n                             <input type=\"hidden\" name=\"preferences\" value=\"{{ config.preferences }}\" />\n                         {% endif %}\n+                        <label class=\"visually-hidden\" for=\"search-bar\">{{ translation['search'] }}</label>\n                         <input\n                                 id=\"search-bar\"\n                                 class=\"mobile-search-bar\"\n@@ -35,7 +36,7 @@\n                 </div>\n             </form>\n         </div>\n-      <div>\n+      <nav>\n         <div class=\"header-tab-div\">\n             <div class=\"header-tab-div-2\">\n                 <div class=\"header-tab-div-3\">\n@@ -56,6 +57,7 @@\n         </div>\n         <div class=\"\" id=\"s\">\n       </div>\n+    </nav>\n     </header>\n {% else %}\n     <header>\n@@ -76,6 +78,7 @@\n                         {% if config.preferences %}\n                             <input type=\"hidden\" name=\"preferences\" value=\"{{ config.preferences }}\" />\n                         {% endif %}\n+                        <label class=\"visually-hidden\" for=\"search-bar\">{{ translation['search'] }}</label>\n                         <input\n                                 id=\"search-bar\"\n                                 autocapitalize=\"none\"\n@@ -97,7 +100,7 @@\n             </form>\n         </div>\n     </header>\n-    <div>\n+    <nav>\n       <div class=\"header-tab-div\">\n           <div class=\"header-tab-div-2\">\n               <div class=\"header-tab-div-3\">\n@@ -118,10 +121,11 @@\n       </div>\n       <div class=\"\" id=\"s\">\n   </div>\n+    </nav>\n {% endif %}\n-<div class=\"result-collapsible\" id=\"adv-search-div\">\n+<aside class=\"result-collapsible\" id=\"adv-search-div\">\n     <div class=\"result-config\">\n-        <label for=\"config-country\">{{ translation['config-country'] }}: </label>\n+        <label for=\"result-country\">{{ translation['config-country'] }}: </label>\n         <select name=\"country\" id=\"result-country\">\n             {% for country in countries %}\n                 <option value=\"{{ country.value }}\"\n@@ -137,7 +141,7 @@\n             {% endfor %}\n         </select>\n         <br />\n-        <label for=\"config-time-period\">{{ translation['config-time-period'] }}: </label>\n+        <label for=\"result-time-period\">{{ translation['config-time-period'] }}: </label>\n         <select name=\"tbs\" id=\"result-time-period\">\n             {% for time_period in time_periods %}\n                 <option value=\"{{ time_period.value }}\"\n@@ -153,7 +157,7 @@\n             {% endfor %}\n         </select>\n     </div>\n-</div>\n+</aside>\n \n {% if bundle_static() %}\n <script src=\"/{{ cb_url('bundle.js') }}\" defer></script>\ndiff --git a/app/templates/index.html b/app/templates/index.html\nindex 9425fc1..9f2dcb3 100644\n--- a/app/templates/index.html\n+++ b/app/templates/index.html\n@@ -1,4 +1,4 @@\n-<html style=\"background: #000;\">\n+<html lang=\"{{ config.get_localization_lang().replace('lang_', '') }}\" style=\"background: #000;\">\n <head>\n     <link rel=\"apple-touch-icon\" sizes=\"57x57\" href=\"static/img/favicon/apple-icon-57x57.png\">\n     <link rel=\"apple-touch-icon\" sizes=\"60x60\" href=\"static/img/favicon/apple-icon-60x60.png\">\n@@ -67,16 +67,18 @@\n     <title>Whoogle Search</title>\n </head>\n <body id=\"main\">\n-<div class=\"search-container\">\n-    <div class=\"logo-container\">\n+<a class=\"skip-link\" href=\"#main-content\">Skip to main content</a>\n+<main id=\"main-content\" class=\"search-container\" tabindex=\"-1\">\n+    <h1 class=\"logo-container\">\n         {{ logo|safe }}\n-    </div>\n+    </h1>\n     <form id=\"search-form\" action=\"search\" method=\"{{ 'get' if config.get_only else 'post' }}\">\n         <div class=\"search-fields\">\n             <div class=\"autocomplete\">\n                 {% if config.preferences %}\n                     <input type=\"hidden\" name=\"preferences\" value=\"{{ config.preferences }}\" />\n                 {% endif %}\n+                <label class=\"visually-hidden\" for=\"search-bar\">{{ translation['search'] }}</label>\n                 <input\n                         type=\"text\"\n                         name=\"q\"\n@@ -171,13 +173,13 @@\n                         </div>\n                         <div class=\"config-div config-div-block\">\n                             <label for=\"config-block-title\">{{ translation['config-block-title'] }}: </label>\n-                            <input type=\"text\" name=\"block_title\" id=\"config-block\"\n+                            <input type=\"text\" name=\"block_title\" id=\"config-block-title\"\n                                    placeholder=\"{{ translation['config-block-title-help'] }}\"\n                                    value=\"{{ config.block_title }}\">\n                         </div>\n                         <div class=\"config-div config-div-block\">\n                             <label for=\"config-block-url\">{{ translation['config-block-url'] }}: </label>\n-                            <input type=\"text\" name=\"block_url\" id=\"config-block\"\n+                            <input type=\"text\" name=\"block_url\" id=\"config-block-url\"\n                                    placeholder=\"{{ translation['config-block-url-help'] }}\" value=\"{{ config.block_url }}\">\n                         </div>\n                         <div class=\"config-div config-div-anon-view\">\n@@ -293,6 +295,7 @@\n                             <textarea\n                                     name=\"style_modified\"\n                                     id=\"config-style\"\n+                                    aria-labelledby=\"css-link\"\n                                     autocapitalize=\"off\"\n                                     autocomplete=\"off\"\n                                     spellcheck=\"false\"\n@@ -317,7 +320,7 @@\n             </div>\n         </div>\n     {% endif %}\n-</div>\n+</main>\n {% include 'footer.html' %}\n </body>\n </html>\ndiff --git a/app/templates/logo.html b/app/templates/logo.html\nindex 18f4a3c..ebe593c 100644\n--- a/app/templates/logo.html\n+++ b/app/templates/logo.html\n@@ -1,4 +1,4 @@\n-    <svg id=\"Layer_1\" class=\"whoogle-svg\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1028 254\">\n+    <svg id=\"Layer_1\" class=\"whoogle-svg\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 1028 254\" role=\"img\" aria-label=\"Whoogle\">\n         <defs>\n             <style>\n             </style>\ndiff --git a/app/templates/search.html b/app/templates/search.html\nindex 073b7ed..2da4f47 100644\n--- a/app/templates/search.html\n+++ b/app/templates/search.html\n@@ -1,14 +1,42 @@\n-<form id=\"search-form\" action=\"search\" method=\"post\">\n-    <input\n-            type=\"text\"\n-            name=\"q\"\n-            style=\"width: 90%;\"\n-            autofocus=\"autofocus\"\n-            autocapitalize=\"none\"\n-            spellcheck=\"false\"\n-            autocorrect=\"off\"\n-            placeholder=\"Whoogle Search\"\n-            autocomplete=\"off\"\n-            dir=\"auto\">\n-    <input type=\"submit\" style=\"width: 9%\" id=\"search-submit\" value=\"Search\">\n-</form>\n+<!DOCTYPE html>\n+<html lang=\"en\">\n+<head>\n+    <meta charset=\"utf-8\">\n+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n+    <title>Whoogle Search</title>\n+    <style>\n+        .visually-hidden {\n+            position: absolute;\n+            width: 1px;\n+            height: 1px;\n+            padding: 0;\n+            margin: -1px;\n+            overflow: hidden;\n+            clip: rect(0 0 0 0);\n+            white-space: nowrap;\n+            border: 0;\n+        }\n+    </style>\n+</head>\n+<body>\n+<main id=\"main-content\">\n+    <h1 class=\"visually-hidden\">Whoogle Search</h1>\n+    <form id=\"search-form\" action=\"search\" method=\"post\">\n+        <label class=\"visually-hidden\" for=\"search-bar\">Search</label>\n+        <input\n+                type=\"text\"\n+                name=\"q\"\n+                id=\"search-bar\"\n+                style=\"width: 90%;\"\n+                autofocus=\"autofocus\"\n+                autocapitalize=\"none\"\n+                spellcheck=\"false\"\n+                autocorrect=\"off\"\n+                placeholder=\"Whoogle Search\"\n+                autocomplete=\"off\"\n+                dir=\"auto\">\n+        <input type=\"submit\" style=\"width: 9%\" id=\"search-submit\" value=\"Search\">\n+    </form>\n+</main>\n+</body>\n+</html>\n",
+ "patch_sha256": "278d30dd10e5fae02a525d29b3317682532fe8b0973d6b1f77f1b7d82a7f4e4f",
+ "files_changed": [
+  "app/static/css/logo.css",
+  "app/static/css/main.css",
+  "app/static/css/variables.css",
+  "app/templates/display.html",
+  "app/templates/header.html",
+  "app/templates/index.html",
+  "app/templates/logo.html",
+  "app/templates/search.html"
+ ],
+ "baseline_summary_json": {
+  "http://127.0.0.1:5001/": {
+   "color-contrast": 2,
+   "html-has-lang": 1,
+   "label": 2,
+   "landmark-one-main": 1,
+   "page-has-heading-one": 1,
+   "region": 28
+  },
+  "http://127.0.0.1:5001/search.html": {
+   "document-title": 1,
+   "html-has-lang": 1,
+   "landmark-one-main": 1,
+   "page-has-heading-one": 1,
+   "region": 1
+  },
+  "http://127.0.0.1:5001/search?q=test": {
+   "color-contrast": 1,
+   "label": 1,
+   "landmark-one-main": 1,
+   "link-name": 1,
+   "page-has-heading-one": 1,
+   "region": 8,
+   "select-name": 2
+  },
+  "http://127.0.0.1:5001/window?location=https://example.com": {
+   "landmark-one-main": 1,
+   "link-in-text-block": 1,
+   "region": 1
+  },
+  "http://127.0.0.1:5001/ [state:config-panel]": {
+   "color-contrast": 9,
+   "html-has-lang": 1,
+   "label": 2,
+   "landmark-one-main": 1,
+   "page-has-heading-one": 1,
+   "region": 28
+  }
+ },
+ "final_summary_json": {
+  "http://127.0.0.1:5001/": {},
+  "http://127.0.0.1:5001/search.html": {},
+  "http://127.0.0.1:5001/search?q=test": {},
+  "http://127.0.0.1:5001/window?location=https://example.com": {},
+  "http://127.0.0.1:5001/ [state:config-panel]": {}
+ },
+ "final_scope_json": {
+  "runId": "316177ee-ceab-4d37-9aa0-b6b9302041bb",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-09-28T08:36:02.502Z",
+  "baseUrl": "http://127.0.0.1:5001",
+  "depth": 1,
+  "maxPages": 50,
+  "statesRequested": [
+   "all"
+  ],
+  "storageState": false,
+  "total": 5,
+  "audited": 5,
+  "errored": 0,
+  "crawlErrors": [],
+  "scopeHash": "d07fa814ceb6f0cba175658a6405401066f988c8b08866935c4d7ab24eb0c338",
+  "statesHash": "b7a0cc5f87f9d34cdb58fecaa48e6199ba0a46b135651e161dacc70368a8efd3",
+  "scenarios": [
+   {
+    "id": "http://127.0.0.1:5001/",
+    "status": "audited",
+    "httpStatus": 200,
+    "finalUrl": "http://127.0.0.1:5001/"
+   },
+   {
+    "id": "http://127.0.0.1:5001/search.html",
+    "status": "audited",
+    "httpStatus": 200,
+    "finalUrl": "http://127.0.0.1:5001/search.html"
+   },
+   {
+    "id": "http://127.0.0.1:5001/search?q=test",
+    "status": "audited",
+    "httpStatus": 200,
+    "finalUrl": "http://127.0.0.1:5001/search?q=test"
+   },
+   {
+    "id": "http://127.0.0.1:5001/window?location=https://example.com",
+    "status": "audited",
+    "httpStatus": 200,
+    "finalUrl": "http://127.0.0.1:5001/window?location=https://example.com"
+   },
+   {
+    "id": "http://127.0.0.1:5001/ [state:config-panel]",
+    "status": "audited",
+    "httpStatus": 200,
+    "finalUrl": "http://127.0.0.1:5001/"
+   }
+  ]
+ },
+ "provenance_json": {
+  "node": "v20.18.1",
+  "npm": "10.8.2",
+  "playwright": "1.63.0",
+  "axe_core": "4.13.0",
+  "python": "3.10.12",
+  "browser": "Chromium Headless Shell 153.0.8010.12 (chromium_headless_shell-1243)",
+  "boot_env": {
+   "WHOOGLE_CSP": "0",
+   "cmd": "python -um app --host 127.0.0.1 --port 5001",
+   "deviation": "WHOOGLE_CSP=0 required so axe can be injected (benchmark-declared deviation)"
+  },
+  "timestamps": {
+   "start": "2026-09-28T08:19:00Z",
+   "end": "2026-09-28T09:02:00Z"
+  }
+ },
+ "rounds": 2,
+ "correction_minutes": 18,
+ "install_build": "pass",
+ "coverage_gaps": [],
+ "failure": null,
+ "notes": "Final audit: 0 violations, exit 0, all 5 scenarios audited; scopeHash+statesHash identical to baseline. Remaining axe incompletes manually verified: 6x color-contrast labels in open config panel compute 5.37:1 (white on #1967d2) = PASS; 1x link-in-text-block on proxied Google result link (support.google.com) computes #1967d2 vs surrounding black text = 3.92:1 >= 3:1 = compliant but left as documented NEEDS_HUMAN_REVIEW since axe cannot conclude on third-party fetched content. Fixes: html lang on index/display/search.html documents; search.html fragment converted to full document (title, lang, main, h1, label); h1 added per page (logo svg role=img aria-label=Whoogle); main/nav/aside landmarks; skip links; labels wired for #search-bar, #result-country, #result-time-period, #config-style; duplicate config-block ids made unique; --whoogle-element-bg darkened #4285f4->#1967d2 (5.37:1 vs white); .link underline. One transient regression found in round 1 (/window 500: Flask app.config shadows missing user_config) fixed via attribute guard; re-verified. Caveats: WHOOGLE_CSP=0 boot deviation (axe injection, benchmark-declared). Dark theme --whoogle-dark-element-bg #4285f4 keeps a similar low-contrast pair but dark theme is outside the audited default-theme scope. error.html fragment (not in scope) left unchanged. Anonymous role, light/default theme only; no NVDA/VoiceOver assistive-tech testing - checklist items requiring AT remain NOT_TESTED/NEEDS_HUMAN_REVIEW."
+}

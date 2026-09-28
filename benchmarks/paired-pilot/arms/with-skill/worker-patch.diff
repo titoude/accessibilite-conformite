@@ -1,0 +1,310 @@
+diff --git a/app/static/css/logo.css b/app/static/css/logo.css
+index 0dfe8bb..b99b4be 100644
+--- a/app/static/css/logo.css
++++ b/app/static/css/logo.css
+@@ -16,3 +16,33 @@ a {
+         height: 70%;
+     }
+ }
++
++/* Accessibility helpers */
++.visually-hidden {
++    position: absolute;
++    width: 1px;
++    height: 1px;
++    padding: 0;
++    margin: -1px;
++    overflow: hidden;
++    clip: rect(0 0 0 0);
++    white-space: nowrap;
++    border: 0;
++}
++
++.skip-link {
++    position: absolute;
++    top: -100px;
++    left: 8px;
++    padding: 8px;
++    z-index: 100;
++    text-decoration: underline;
++}
++
++.skip-link:focus {
++    top: 8px;
++}
++
++.link {
++    text-decoration: underline;
++}
+diff --git a/app/static/css/main.css b/app/static/css/main.css
+index d2dd76c..3c85e75 100644
+--- a/app/static/css/main.css
++++ b/app/static/css/main.css
+@@ -11,6 +11,7 @@ body {
+ 
+ .logo-container {
+     max-height: 500px;
++    margin: 0;
+ }
+ 
+ .home-search {
+diff --git a/app/static/css/variables.css b/app/static/css/variables.css
+index e53d157..8449eea 100644
+--- a/app/static/css/variables.css
++++ b/app/static/css/variables.css
+@@ -3,7 +3,7 @@
+     /* LIGHT THEME COLORS */
+     --whoogle-logo: #685e79;
+     --whoogle-page-bg: #ffffff;
+-    --whoogle-element-bg: #4285f4;
++    --whoogle-element-bg: #1967d2;
+     --whoogle-text: #000000;
+     --whoogle-contrast-text: #ffffff;
+     --whoogle-secondary-text: #70757a;
+diff --git a/app/templates/display.html b/app/templates/display.html
+index a742284..9e4aeb0 100644
+--- a/app/templates/display.html
++++ b/app/templates/display.html
+@@ -1,4 +1,4 @@
+-<html>
++<html lang="{{ config.get_localization_lang().replace('lang_', '') if config.get_localization_lang is defined else 'en' }}">
+ <head>
+     <link rel="shortcut icon" href="static/img/favicon.ico" type="image/x-icon">
+     <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
+@@ -35,7 +35,14 @@
+     <title>{{ clean_query(query) }} - Whoogle Search</title>
+ </head>
+ <body>
++<a class="skip-link" href="#main-content">Skip to main content</a>
+ {{ search_header|safe }}
++<main id="main-content" tabindex="-1">
++{% if query %}
++    <h1 class="visually-hidden">{{ clean_query(query) }} - Whoogle Search</h1>
++{% else %}
++    <h1 class="visually-hidden">Whoogle Search</h1>
++{% endif %}
+ {% if is_translation %}
+     <iframe
+             id="lingva-iframe"
+@@ -43,6 +50,7 @@
+     </iframe>
+ {% endif %}
+ {{ response|safe }}
++</main>
+ </body>
+ {% include 'footer.html' %}
+ {% if bundle_static() %}
+diff --git a/app/templates/header.html b/app/templates/header.html
+index 5d0b857..ad58b23 100644
+--- a/app/templates/header.html
++++ b/app/templates/header.html
+@@ -14,6 +14,7 @@
+                         {% if config.preferences %}
+                             <input type="hidden" name="preferences" value="{{ config.preferences }}" />
+                         {% endif %}
++                        <label class="visually-hidden" for="search-bar">{{ translation['search'] }}</label>
+                         <input
+                                 id="search-bar"
+                                 class="mobile-search-bar"
+@@ -35,7 +36,7 @@
+                 </div>
+             </form>
+         </div>
+-      <div>
++      <nav>
+         <div class="header-tab-div">
+             <div class="header-tab-div-2">
+                 <div class="header-tab-div-3">
+@@ -56,6 +57,7 @@
+         </div>
+         <div class="" id="s">
+       </div>
++    </nav>
+     </header>
+ {% else %}
+     <header>
+@@ -76,6 +78,7 @@
+                         {% if config.preferences %}
+                             <input type="hidden" name="preferences" value="{{ config.preferences }}" />
+                         {% endif %}
++                        <label class="visually-hidden" for="search-bar">{{ translation['search'] }}</label>
+                         <input
+                                 id="search-bar"
+                                 autocapitalize="none"
+@@ -97,7 +100,7 @@
+             </form>
+         </div>
+     </header>
+-    <div>
++    <nav>
+       <div class="header-tab-div">
+           <div class="header-tab-div-2">
+               <div class="header-tab-div-3">
+@@ -118,10 +121,11 @@
+       </div>
+       <div class="" id="s">
+   </div>
++    </nav>
+ {% endif %}
+-<div class="result-collapsible" id="adv-search-div">
++<aside class="result-collapsible" id="adv-search-div">
+     <div class="result-config">
+-        <label for="config-country">{{ translation['config-country'] }}: </label>
++        <label for="result-country">{{ translation['config-country'] }}: </label>
+         <select name="country" id="result-country">
+             {% for country in countries %}
+                 <option value="{{ country.value }}"
+@@ -137,7 +141,7 @@
+             {% endfor %}
+         </select>
+         <br />
+-        <label for="config-time-period">{{ translation['config-time-period'] }}: </label>
++        <label for="result-time-period">{{ translation['config-time-period'] }}: </label>
+         <select name="tbs" id="result-time-period">
+             {% for time_period in time_periods %}
+                 <option value="{{ time_period.value }}"
+@@ -153,7 +157,7 @@
+             {% endfor %}
+         </select>
+     </div>
+-</div>
++</aside>
+ 
+ {% if bundle_static() %}
+ <script src="/{{ cb_url('bundle.js') }}" defer></script>
+diff --git a/app/templates/index.html b/app/templates/index.html
+index 9425fc1..9f2dcb3 100644
+--- a/app/templates/index.html
++++ b/app/templates/index.html
+@@ -1,4 +1,4 @@
+-<html style="background: #000;">
++<html lang="{{ config.get_localization_lang().replace('lang_', '') }}" style="background: #000;">
+ <head>
+     <link rel="apple-touch-icon" sizes="57x57" href="static/img/favicon/apple-icon-57x57.png">
+     <link rel="apple-touch-icon" sizes="60x60" href="static/img/favicon/apple-icon-60x60.png">
+@@ -67,16 +67,18 @@
+     <title>Whoogle Search</title>
+ </head>
+ <body id="main">
+-<div class="search-container">
+-    <div class="logo-container">
++<a class="skip-link" href="#main-content">Skip to main content</a>
++<main id="main-content" class="search-container" tabindex="-1">
++    <h1 class="logo-container">
+         {{ logo|safe }}
+-    </div>
++    </h1>
+     <form id="search-form" action="search" method="{{ 'get' if config.get_only else 'post' }}">
+         <div class="search-fields">
+             <div class="autocomplete">
+                 {% if config.preferences %}
+                     <input type="hidden" name="preferences" value="{{ config.preferences }}" />
+                 {% endif %}
++                <label class="visually-hidden" for="search-bar">{{ translation['search'] }}</label>
+                 <input
+                         type="text"
+                         name="q"
+@@ -171,13 +173,13 @@
+                         </div>
+                         <div class="config-div config-div-block">
+                             <label for="config-block-title">{{ translation['config-block-title'] }}: </label>
+-                            <input type="text" name="block_title" id="config-block"
++                            <input type="text" name="block_title" id="config-block-title"
+                                    placeholder="{{ translation['config-block-title-help'] }}"
+                                    value="{{ config.block_title }}">
+                         </div>
+                         <div class="config-div config-div-block">
+                             <label for="config-block-url">{{ translation['config-block-url'] }}: </label>
+-                            <input type="text" name="block_url" id="config-block"
++                            <input type="text" name="block_url" id="config-block-url"
+                                    placeholder="{{ translation['config-block-url-help'] }}" value="{{ config.block_url }}">
+                         </div>
+                         <div class="config-div config-div-anon-view">
+@@ -293,6 +295,7 @@
+                             <textarea
+                                     name="style_modified"
+                                     id="config-style"
++                                    aria-labelledby="css-link"
+                                     autocapitalize="off"
+                                     autocomplete="off"
+                                     spellcheck="false"
+@@ -317,7 +320,7 @@
+             </div>
+         </div>
+     {% endif %}
+-</div>
++</main>
+ {% include 'footer.html' %}
+ </body>
+ </html>
+diff --git a/app/templates/logo.html b/app/templates/logo.html
+index 18f4a3c..ebe593c 100644
+--- a/app/templates/logo.html
++++ b/app/templates/logo.html
+@@ -1,4 +1,4 @@
+-    <svg id="Layer_1" class="whoogle-svg" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1028 254">
++    <svg id="Layer_1" class="whoogle-svg" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1028 254" role="img" aria-label="Whoogle">
+         <defs>
+             <style>
+             </style>
+diff --git a/app/templates/search.html b/app/templates/search.html
+index 073b7ed..2da4f47 100644
+--- a/app/templates/search.html
++++ b/app/templates/search.html
+@@ -1,14 +1,42 @@
+-<form id="search-form" action="search" method="post">
+-    <input
+-            type="text"
+-            name="q"
+-            style="width: 90%;"
+-            autofocus="autofocus"
+-            autocapitalize="none"
+-            spellcheck="false"
+-            autocorrect="off"
+-            placeholder="Whoogle Search"
+-            autocomplete="off"
+-            dir="auto">
+-    <input type="submit" style="width: 9%" id="search-submit" value="Search">
+-</form>
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>Whoogle Search</title>
++    <style>
++        .visually-hidden {
++            position: absolute;
++            width: 1px;
++            height: 1px;
++            padding: 0;
++            margin: -1px;
++            overflow: hidden;
++            clip: rect(0 0 0 0);
++            white-space: nowrap;
++            border: 0;
++        }
++    </style>
++</head>
++<body>
++<main id="main-content">
++    <h1 class="visually-hidden">Whoogle Search</h1>
++    <form id="search-form" action="search" method="post">
++        <label class="visually-hidden" for="search-bar">Search</label>
++        <input
++                type="text"
++                name="q"
++                id="search-bar"
++                style="width: 90%;"
++                autofocus="autofocus"
++                autocapitalize="none"
++                spellcheck="false"
++                autocorrect="off"
++                placeholder="Whoogle Search"
++                autocomplete="off"
++                dir="auto">
++        <input type="submit" style="width: 9%" id="search-submit" value="Search">
++    </form>
++</main>
++</body>
++</html>
