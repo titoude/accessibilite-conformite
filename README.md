@@ -4,7 +4,7 @@
 
 An open-source skill and toolkit for websites and web applications. Designed for maintainers who need useful fixes with reproducible evidence.
 
-[Use the skill](SKILL.md) · [Try the demo](demo/README.md) · [See the evidence](docs/EVIDENCE.md) · [Release checklist](docs/RELEASE-READINESS.md) · [Contribute](CONTRIBUTING.md)
+[Use the skill](SKILL.md) · [Try the demo](demo/README.md) · [See the evidence](docs/EVIDENCE.md) · [Judge walkthrough](docs/JUDGE-WALKTHROUGH.md) · [Contribute](CONTRIBUTING.md)
 
 ## From a barrier to a verified change
 
@@ -94,13 +94,24 @@ The CLI scans the application. A coding agent or developer produces source fixes
 
 The historical V2 report records **six projects with reproducible zero-violation axe results**, including **three within the three-round budget**. These are historical scanner results, not six fully conformant products or a controlled measurement of the skill's benefit. Some patches needed later fixes.
 
-Current tests exercise decision failures and real Chromium scans. A paired pilot is being prepared separately; no skill improvement percentage has been established. [Evidence and reproducibility](docs/EVIDENCE.md).
+The [paired Whoogle pilot](benchmarks/paired-pilot/RESULTS.md) gives one isolated agent the skill and another the same task without it. A separate [reviewer replay](benchmarks/paired-pilot/independent-review/README.md) reproduced every violation-node identity and held-out status on fresh application clones.
+
+| Same frozen application and evaluation scope | Baseline | Without skill | With skill |
+| --- | ---: | ---: | ---: |
+| Detected axe violation nodes | 108 | 1 | 1 |
+| Product checks: PASS / FAIL / NOT_TESTED | 4 / 6 / 3 | 9 / 1 / 3 | 9 / 1 / 3 |
+| Instrumentation controls passed | 5 / 5 | 5 / 5 | 5 / 5 |
+
+**This pilot does not demonstrate an advantage for the skill.** Both patches retain the same contrast finding and fail the focus-indicator check. Three product checks remain untested. The with-skill agent reported zero violations; independent replay found one. Keeping that discrepancy visible is part of the product's verification contract.
+
+A separate [W3C ACT calibration](benchmarks/paired-pilot/RESULTS.md) compares selected scanner rules with recognized reference cases. It evaluates the scanner, not agent effectiveness or complete WCAG coverage. [Methods, raw evidence and limitations](docs/EVIDENCE.md).
 
 | Resource | Purpose |
 | --- | --- |
 | [audit.mjs](audit.mjs) | Scanner and scope reports |
 | [tests/](tests/) | Decision and browser regression tests |
 | [tests-validateurs/](tests-validateurs/) | Deliberately broken cases and assertion helpers |
+| [Paired pilot and calibration](benchmarks/paired-pilot/README.md) | Frozen prompts, source patches, reference fixtures and measured outcomes |
 | [Criterion coverage record](templates/README.md) | All 55 WCAG 2.2 A/AA criteria, initially untested |
 | [workflow.py](workflow.py) | Optional Devin orchestration |
 | [benchmark-v3.py](benchmark-v3.py) | Benchmark adapter and hardened metadata checks |
@@ -115,4 +126,4 @@ The theme fits Accessibility & Inclusion. **Eligibility is unconfirmed:** [Opeth
 
 Developed with AI assistance, including Devin and Codex. Human assistive-technology validation has not yet been completed for the published benchmark corpus.
 
-MIT licensed. Upstream benchmark materials retain their own licenses.
+MIT licensed. Upstream benchmark materials retain their own licenses; see [third-party notices](THIRD-PARTY-NOTICES.md).

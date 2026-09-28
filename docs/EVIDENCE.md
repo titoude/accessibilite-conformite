@@ -35,11 +35,33 @@ There was no paired control without the skill. These results cannot isolate the 
 
 ## Open evidence
 
+The [paired pilot](../benchmarks/paired-pilot/RESULTS.md) evaluated one isolated
+control agent and one agent receiving the skill at `b415cf39`. Both reduce 108
+axe violation nodes to one under the same amended evaluator. Both retain a
+focus-indicator failure. Each completes 9 of 13 product checks, with one failing
+and three untested; five additional instrumentation controls pass in every run.
+
+A [reviewer replay](../benchmarks/paired-pilot/independent-review/README.md)
+matches violation-node identities and held-out statuses on three fresh Whoogle
+clones using the same existing frozen Python environment. Its OS/Python/Node
+versions differ from the coordinator's. It is replication of the same patches,
+not another pair of model trials.
+
+The with-skill worker reported zero violations; both independent replays found
+one. Neither an agent's conclusion nor a successful comparison verdict changes
+the measured residual failures into a pass. The experiment retains the original
+baseline, post-dispatch evaluator amendments and self-report discrepancies.
+
+The current skill now explicitly addresses settled dynamic states and checks
+keyboard focus even when axe is clean. These refinements follow the pilot;
+**their effect has not been measured in a new controlled trial**. The original
+[treatment files](../benchmarks/paired-pilot/treatment/) remain unchanged.
+
 | Question | Status |
 | --- | --- |
-| Improvement over an otherwise identical agent? | Paired pilot pending review; no effect size established |
+| Improvement over an otherwise identical agent? | One pair, no separation on measured outcomes; no general benefit established |
 | Robustness with weaker models? | NOT_TESTED |
-| Scanner behavior on recognized reference cases? | W3C ACT subset calibration delegated; no result adopted |
+| Scanner behavior on recognized reference cases? | Selected W3C ACT cases; see per-case outcomes and limits in the [calibration report](../benchmarks/paired-pilot/RESULTS.md) |
 | Actual assistive-technology user tasks? | NEEDS_HUMAN_REVIEW |
 | Full corpus WCAG/RGAA conformance? | NOT_ESTABLISHED |
 | Opethon eligibility of earlier work? | Organizer ruling required |

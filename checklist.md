@@ -12,6 +12,7 @@ Keep three methods separate: reproducible deterministic assertions; agent semant
 
 - [ ] Complete each critical task using only the keyboard, including validation errors and authentication.
 - [ ] Focus order is understandable and focus remains visible and not entirely obscured (2.4.11, AA).
+- [ ] Focus checks compare unfocused and keyboard-focused states, including when axe reports zero violations. Constant shadows and transparent outlines do not count as proof; visually inspect the actual indicator.
 - [ ] Keyboard users can enter, operate and leave every widget. Test arrow-key composites as well as Tab/Shift+Tab.
 - [ ] A working mechanism bypasses repeated navigation.
 - [ ] Dialogs receive appropriate initial focus, prevent background interaction and restore focus on closure. Distinguish a focus leak from an inescapable keyboard trap.
@@ -66,6 +67,7 @@ Run actual relevant combinations, such as NVDA with a tested Windows browser or 
 
 ## Incomplete results and documentation
 
+- [ ] Dynamic states have finished loading and transitioning before measurement. The exact invocation and any timing amendments are recorded and identical for baseline and candidate replays.
 - [ ] Every axe incomplete group (`rule × scenario`) has a traceable resolution, justified inapplicability or an explicit human-review owner.
 - [ ] Missing scenarios remain coverage failures. Best-practice findings are distinguished from normative failures.
 - [ ] All applicable criteria in the chosen standard have a status, even if this checklist does not name them.
