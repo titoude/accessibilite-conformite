@@ -5,7 +5,17 @@
   "commit": "ec0ff50388c264ed8ce46f00967e92f7e71476ae",
   "note": "clone local /home/ubuntu/repos/umami, branche de travail devin/a11y-cycle-17"
  },
- "stack": "Next.js 16.3.4 (App Router, React 19) + @umami/react-zen 0.254.0 (package npm externe, patché via pnpm patchedDependencies) + Base UI @base-ui/react 1.8.0 + Prisma 7 + PostgreSQL 15 (docker umami-pg :5432) + next-intl. pnpm 12.3.4 via corepack, Node 24.19.0 (~/.nvm).",
+ "stack": "Next.js 16.3.4 (App Router, React 19) + @umami/react-zen 0.254.0 (package npm externe, patché via pnpm patchedDependencies) + Base UI @base-ui/react 1.8.0 + Prisma 7 + PostgreSQL 15 (docker umami-pg :5432) + next-intl. pnpm via corepack (champ packageManager du repo — résolution effective 12.9.1, pas de pin externe), Node 24.19.0 (~/.nvm).",
+ "toolVersions": {
+  "node": "v24.19.0 (~/.nvm/versions/node/v24.19.0)",
+  "pnpm": "12.9.1 (corepack, champ packageManager du repo)",
+  "next": "16.3.4 (lockfile)",
+  "prisma": "7.10.0 (client généré)",
+  "postgres": "postgres:15-alpine (docker umami-pg)",
+  "axe-core": "4.13.0",
+  "playwright": "1.63.0 (chromium-1243)",
+  "runner": "audit.mjs v6 (scope.json stocke wait + waitFor)"
+ },
  "boot": {
   "commands": [
    "docker run -d --name umami-pg -p 5432:5432 -e POSTGRES_USER=umami -e POSTGRES_PASSWORD=umami -e POSTGRES_DB=umami postgres:15-alpine",
@@ -21,16 +31,20 @@
    "storage-state auth.json généré par tools/login.mjs (node login.mjs http://localhost:3000 admin umami auth.json).",
    "patch pnpm : le diff inclut patches/@umami__react-zen@0.254.0.patch + l'entrée patchedDependencies de pnpm-workspace.yaml + le hash pnpm-lock.yaml — `pnpm install --frozen-lockfile` rejoue le patch mécaniquement sur node_modules.",
    "harnais : audit.mjs / verify.mjs / eval-final.mjs exécutés depuis ~/umami-audit/tools (node_modules dédié axe-core + playwright, npm install). PAS dans le repo produit — le harnais ne modifie jamais le produit.",
-   "--wait 3500 : certaines pages (realtime, funnel, retention) montent leurs graphiques en lazy ; un wait plus court scannait le shell avant montage (faux findings landmarks/h1 — mesuré et documenté)."
+   "--wait 3500 : certaines pages (realtime, funnel, retention) montent leurs graphiques en lazy ; un wait plus court scannait le shell avant montage (faux findings landmarks/h1 — mesuré et documenté).",
+   "auditCommands[0] lit tools/urls.txt (livré : 32 urls absolues :3000 jointes par virgule).",
+   "auditCommands[1] : --wait-for 'h1' requis — /share/<slug> monte <main>+<h1> après un fetch client ; sans précondition axe échantillonne le shell et produit des violations fantômes (U1, ~40% des runs). --wait 1000 = sédimentation des styles après montage. Rejoué : 2 runs consécutifs identiques 0/0/0 exit 0.",
+   "seed complet : tools/seed.sh (verbatim) — voir section seed."
   ]
  },
  "seed": {
-  "compte": "admin / umami (seed umami par défaut, rôle admin)",
-  "websites": "pnpm db:seed (scripts/seed-data.ts du repo) → 'Demo Blog' (blog.example.com, id généré a59bd9be-c9ec-4715-b38f-0308bb00db13) et 'Demo SaaS' (app.example.com, id généré d4bdaf1e-bca5-465f-848d-f33a9045daf3) ; 7798 sessions / 22512 events, 26 url_path distincts, période 2026-09-20 → 2026-10-04",
-  "share": "POST /api/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/shares {name:'a11y share', slug:'a11yumamishare'} → page publique /share/a11yumamishare (share_id 6c2d7451-6b85-4252-9262-00e4efb5e957)",
-  "link": "POST /api/links {name:'Campaign link', url:'https://example.com/campaign'} → link_id ec520c8a-0a22-4b18-9cde-5feb562e4563",
-  "pixel": "POST /api/pixels {name:'Demo pixel', slug:'a11ypixel'} → pixel_id afa6189b-6717-41d9-b6ca-cb0c6838ec1b",
-  "board": "POST /api/boards {name:'Demo board'} → board_id f08a66bc-226d-484b-8446-71ac26a22375",
+  "script": "tools/seed.sh — recette complète rejouable verbatim (préconditions : db migré + pnpm db:seed exécuté + app sur :3000 ; fait login admin→token, remap SQL des ids serveur, appels API réels, vérification finale). Identifiants figés → voir champs ci-dessous.",
+  "compte": "admin / umami (seed umami par défaut, rôle admin) — token via POST /api/auth/login {username,password} → {token}, header 'Authorization: Bearer <token>'",
+  "websites": "pnpm db:seed (scripts/seed-data.ts du repo) → 'Demo Blog' (blog.example.com) et 'Demo SaaS' (app.example.com) ; ids GÉNÉRÉS par le serveur (scripts/seed/index.ts:142 uuid()) → remap SQL vers les ids figés a59bd9be-c9ec-4715-b38f-0308bb00db13 / d4bdaf1e-bca5-465f-848d-f33a9045daf3 sur website + toutes les tables portant website_id (session, session_link, website_event, event_data, session_data, report, annotation, segment, revenue, session_replay, session_replay_saved, heatmap_event) + share.entity_id ; ~15 800 sessions / ~45 800 events, période glissante 31 jours",
+  "share": "POST /api/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/shares {name:'a11y share'} → share_id + slug GÉNÉRÉS serveur (route : slug = getRandomChars(16), le champ slug du body est ignoré) → remap SQL UPDATE share SET share_id='6c2d7451-6b85-4252-9262-00e4efb5e957', slug='a11yumamishare' → page publique /share/a11yumamishare",
+  "link": "POST /api/links {id:'ec520c8a-0a22-4b18-9cde-5feb562e4563', name:'Campaign link', url:'https://example.com/campaign', slug:'a11ylink01'} — l'API honore id?+slug (schéma : slug requis min 8) → aucun remap",
+  "pixel": "POST /api/pixels {id:'afa6189b-6717-41d9-b6ca-cb0c6838ec1b', name:'Demo pixel', slug:'a11ypixel'} — l'API honore id?+slug → aucun remap",
+  "board": "POST /api/boards {type:'website', name:'Demo board', description:'', parameters:{websiteId:'d4bdaf1e-bca5-465f-848d-f33a9045daf3'}} → board_id GÉNÉRÉ serveur → remap SQL UPDATE board SET board_id='f08a66bc-226d-484b-8446-71ac26a22375'",
   "team": "aucune team créée (pages /teams + /admin/teams auditées sur leur état vide réel)"
  },
  "urls": [
@@ -82,7 +96,7 @@
  "substitutions": [],
  "auditCommands": [
   "cd ~/umami-audit/tools && node audit.mjs --urls $(cat urls.txt) --storage-state auth.json --states all --wait 3500 --out ../reports/final",
-  "cd ~/umami-audit/tools && node audit.mjs --urls http://localhost:3000/login,http://localhost:3000/share/a11yumamishare --states none --out ../reports/final-public",
+  "cd ~/umami-audit/tools && node audit.mjs --urls http://localhost:3000/login,http://localhost:3000/share/a11yumamishare --states none --wait-for 'h1' --wait 1000 --out ../reports/final-public",
   "cd ~/umami-audit/tools && node verify.mjs",
   "cd ~/umami-audit/tools && node eval-final.mjs"
  ],

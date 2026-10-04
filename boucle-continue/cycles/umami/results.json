@@ -37,10 +37,10 @@
   "scopeHash": "723c223bc12db842df8d74727191e831e46b40396fc3d2d6fe712d506fd60f9f",
   "scopeHashPublic": "b7db2d55b9f084187834c192175b7104c7177aa526986a3ac7aaac70944b8a81",
   "statesHash": "ab58a769e215651361df835976f0ed1d8c91efb624cb1d6df5c81d944652f637",
-  "note": "scopeHash identique baseline/final sur les deux périmètres — le périmètre figé n'a pas bougé"
+  "note": "scopeHash identique baseline/final sur les deux périmètres — le périmètre figé n'a pas bougé ; incomplets : le rapport livré en compte 59 (34 color-contrast + 22 aria-hidden-focus + 3 aria-valid-attr-value) — le rejeu auditeur en a compté 58 (33+22+3), un nœud color-contrast de moins : dispersion normale de timing sur lignes virtualisées, mêmes 3 familles, vérifié sur reports/final/report.json (59 réel dans l'artefact)"
  },
  "verify": "27/27 assertions PASS (0 échec)",
- "evalFinal": "15/15 PASS — 2 défauts réels découverts en évaluation finale et corrigés (label aria sur champ share-url en lecture seule du dialog ShareEditForm ; landmarks imbriqués du not-found de /console → not-found de groupe sans wrapper main)",
+ "evalFinal": "20/20 PASS (v2 : le script exécute 20 assertions — 18 opérationnelles + 2 préconditions assertées ajoutées en corrections_v2 ; le libellé « 15/15 » v1 était obsolète) — 2 défauts réels découverts en évaluation finale et corrigés (label aria sur champ share-url en lecture seule du dialog ShareEditForm ; landmarks imbriqués du not-found de /console → not-found de groupe sans wrapper main)",
  "rounds": 3,
  "corrections": [
   "Couche popup : <div id=a11y-popup-layer role=complementary aria-label='Popup layer'> ajouté dans <body> de src/app/layout.tsx + patch pnpm @umami/react-zen@0.254.0 (helper zenPopupContainer + prop container sur les 15 X.Portal des dist/index.{js,mjs} ; patch rejoué par pnpm install --frozen-lockfile via patchedDependencies) — les 484 violations region + les menus/popovers hors landmarks viennent de là",
@@ -83,7 +83,23 @@
  ],
  "installBuild": {
   "methode": "git clone ~/repos/umami → checkout ec0ff50388c264ed8ce46f00967e92f7e71476ae → git apply patch.diff → corepack pnpm install --frozen-lockfile → corepack pnpm build",
-  "resultat": "patch appliqué proprement (--check OK, 1 warning trailing whitespace), install --frozen-lockfile OK et rejoue le patch zen (zenPopupContainer ×16 dans chaque dist), prisma generate + check-db OK, tsup packages OK, next build --turbo ✓ 70/70 pages générées",
-  "verdict": "PASS"
+  "commandesRejouees": [
+   "git apply --check patch.diff → exit 0 (apply OK, 1 warning trailing whitespace)",
+   "corepack pnpm install --frozen-lockfile → exit 0 (pnpm 12.9.1 résolu par corepack ; rejoue le patch zen : patch_hash lockfile → dist index.js+index.mjs instrumentés, zenPopupContainer ×16/fichier)",
+   "corepack pnpm prisma generate → exit 0",
+   "corepack pnpm db:migrate → exit 0 (26 migrations)",
+   "corepack pnpm db:seed → exit 0 (2 sites, ~15 800 sessions)",
+   "corepack pnpm build → exit 0 (next --turbo, 70/70 pages générées)",
+   "corepack pnpm start → sert :3000 (200 sur /login)"
+  ],
+  "resultat": "toutes les commandes rejouées exit 0 ; pas de verdict auto-proclamé — la conclusion appartient à l'auditeur"
+ },
+ "corrections_v2": {
+  "contexte": "fixer v2 — réponse au verdict-auditeur.md PARTIAL (5 findings U1-U5). patch.diff inchangé ; patch-v2.diff produit pour U5 (seule différence : section index.mjs du patch pnpm — 2 props `container:` dupliquées retirées + hash lockfile recalculé). reports/final-public régénéré sous patch-v2 + nouvelle commande (2 runs identiques livrés) ; reports/final (périmètre auth) non régénéré : patch-v2 est fonctionnellement identique à v1 (prop dupliquée inerte, React last-wins, même valeur) — le rapport auth v1 reste valide.",
+  "U1_major": "commande publique figée sans sédimentation → auditCommands[1] gagne `--wait-for 'h1' --wait 1000` (le <h1>/<main> de /share/a11yumamishare ne monte qu'après fetch client — la précondition prouve le contenu monté avant scan). reports/final-public régénéré : 2 runs consécutifs sur le même serveur → report.json et scope.json identiques hors runId/generatedAt, 0 violation/0 erreur/0 incomplet, exit 0 ×2. scopeHashPublic inchangé b7db2d55… (hash = ids de scénarios, inchangés) ; statesHash null (—states none) ; scope.json stocke désormais wait+waitFor (runner v6).",
+  "U2": "tools/urls.txt livré — les 32 urls absolues http://localhost:3000 jointes par virgule que lit auditCommands[0] via $(cat urls.txt) ; reconstruction vérifiée : sha256 des ids de scénarios = scopeHash 723c223b… figé.",
+  "U3": "recette seed complète : tools/seed.sh rejouable verbatim (rejoué en séance — produit l'état figé exact). Documente : POST /api/websites/:id/shares ignore le slug du body (slug = getRandomChars(16) serveur → remap SQL share_id+slug) ; POST /api/links et /api/pixels honorent id?+slug (slug requis min 8 — aucun remap) ; POST /api/boards exige type (remap SQL board_id) ; website_id générés par db:seed → remap SQL sur les 13 tables portant website_id + share.entity_id. manifest.seed réécrit en conséquence.",
+  "U4": "manifest.toolVersions ajouté (pnpm 12.9.1 résolu par corepack — pas 12.3.4 ; node v24.19.0, prisma 7.10.0, axe-core 4.13.0, playwright 1.63.0/chromium-1243, runner audit.mjs v6) ; manifest.stack corrigé ; results.evalFinal 15/15→20/20 (18 assertions réelles + 2 préconditions assertées en v2) ; installBuild.verdict auto-proclamé remplacé par commandesRejouees + exit codes ; scope.json stocke wait+waitFor (audit.mjs v5→v6, cycle + canonique racine).",
+  "U5": "patch pnpm : 2 lignes `container:` dupliquées dans la section dist/index.mjs (Combobox.Portal, NavigationMenu.Portal — inoffensif, React last-wins) → corrigé dans patches/@umami__react-zen@0.254.0.patch ; hash lockfile recalculé par pnpm install (ade2a276…→e966f526…) → patch-v2.diff livré à côté de patch.diff (diff documentée : seuls le .patch et pnpm-lock.yaml changent) ; dist instrumenté ×16/fichier vérifié sans duplicat. Incomplets 58 vs 59 : le rapport final livré en contient 59 (34+22+3) — chiffre réel conservé, dispersion −1 nœud du rejeu documentée dans final.note. eval-final.mjs : les 2 `if (count())` sans garde (menu mobile 320px, combobox /sessions) → préconditions assertées ok() explicites (18→20 assertions, rejoué 20/20)."
  }
 }

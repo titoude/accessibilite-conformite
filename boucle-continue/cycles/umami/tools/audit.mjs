@@ -109,7 +109,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v5';
+const RUNNER_VERSION = 'audit.mjs v6';
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -276,7 +276,8 @@ function writeErrorReports(configErrors, crawlErrors) {
   writeJson('scope.json', {
     runId, runnerVersion: RUNNER_VERSION, generatedAt: now,
     baseUrl: baseUrl ?? null, depth, maxPages,
-    statesRequested: statesArg, storageState: !!storageState,
+    statesRequested: statesArg, wait: waitMs, waitFor,
+    storageState: !!storageState,
     total: 0, audited: 0, errored: 0, crawlErrors, configErrors,
     scopeHash, scenarios: [],
   });
@@ -514,6 +515,7 @@ async function run() {
   const scope = {
     runId, runnerVersion: RUNNER_VERSION, generatedAt: new Date().toISOString(),
     baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
+    wait: waitMs, waitFor,
     storageState: !!storageState,
     total: scopeEntries.length,
     audited: scopeEntries.filter(e => e.status === 'audited').length,

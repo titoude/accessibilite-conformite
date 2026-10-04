@@ -105,7 +105,9 @@ const mobileOk = await page.evaluate(() => {
 ok('reflow 320px: bouton menu nommé + pas de scroll horizontal', mobileOk.menuBtn && mobileOk.hScroll, JSON.stringify(mobileOk));
 // ouvrir le menu mobile : axe avec la nav ouverte
 const mobBtn = page.getByRole('button', { name: /menu/i }).first();
-if (await mobBtn.count()) {
+const mobCount = await mobBtn.count();
+ok('reflow 320px: déclencheur menu mobile présent (précondition)', mobCount >= 1, `count=${mobCount}`);
+if (mobCount) {
   await mobBtn.click();
   await page.waitForTimeout(1000);
   const mv = await runAxe(page);
@@ -118,7 +120,9 @@ await page.setViewportSize({ width: 1280, height: 800 });
 await page.goto(`${BASE}/websites/${WSID}/sessions`, { waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(3500);
 const sel = page.locator('[role="combobox"]').first();
-if (await sel.count()) {
+const selCount = await sel.count();
+ok('select site: combobox présent (précondition)', selCount >= 1, `count=${selCount}`);
+if (selCount) {
   await sel.click();
   await page.waitForTimeout(900);
   const lv = await runAxe(page);
