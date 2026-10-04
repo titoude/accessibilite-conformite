@@ -192,3 +192,9 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **Sondes incompletes au même viewport que le scan** : une sonde qui mesure à 1280px alors que l'audit axe a scanné à 375px ne prouve pas la même chose — les sondes héritent le viewport du rapport audité.
 - **Liste `rules` dans results.json** : la mettre à jour à chaque réécriture du rapport — une liste périmée laisse croire que des règles restent ouvertes.
 - **Étiquettes des groupes d'incompletes** : garder les identifiants axe exacts (`bgOverlap` vs `elmPartiallyObscured`) par groupe — les mélanges cassent la traçabilité.
+
+### Leçons — audit umami v1 (U1-U5)
+- **U1 — `--wait`/`--wait-for` obligatoire sur les pages à données asynchrones** : un « 0 violation » échantillonné sur le shell avant que le `<main>`/`<h1>` monte (fetch client) n'est pas reproductible — le score peut être un coup de chance. Les commandes figées dans manifest/auditCommands DOIVENT attendre un contenu stable (`--wait-for 'h1'` ou équivalent) sur les SPA qui rendent après fetch. Symétrique : un scan trop tôt peut aussi produire des violations fantômes (combobox encore vides).
+- **U2 — `urls.txt` livré comme artefact** quand les commandes le référencent (le scopeHash identique ne dispense pas du fichier).
+- **U3 — la recette seed doit être complète** : endpoints réels (POST /shares vs /links vs /boards), slugs et UUIDs générés serveur documentés (remaps SQL si nécessaire) — un auditeur ne doit pas redécouvrir l'API.
+- **U4 — métadonnées exactes** : `toolVersions` obligatoire, version de package manager réellement résolue (pas déclarée), compteurs d'assertions à jour, `installBuild.verdict` jamais auto-proclamé.
