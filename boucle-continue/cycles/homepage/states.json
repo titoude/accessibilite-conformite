@@ -11,5 +11,7 @@
     "quicklaunch-open": {
       "setup": "waitForSelector('ul li a[href]') + 1000ms hydratation + keyboard.type('home') + waitForSelector('dialog input') + 400ms (fin du fondu 300ms)"
     }
-  }
+  },
+  "setupSource": "const STATES = {\n  'quicklaunch': {\n    url: b => b,\n    setup: async page => {\n      await page.waitForSelector('ul li a[href]', { state: 'visible', timeout: 15000 });\n      await page.waitForTimeout(1000); // hydratation React : le keydown global n'existe qu'après mount\n      await page.keyboard.type('home');\n      await page.waitForSelector('dialog input', { state: 'visible', timeout: 15000 });\n      // fondu d'entrée de la modale (opacity 0→1, 300ms) : on mesure l'état\n      // stabilisé perçu par l'utilisateur, pas une frame intermédiaire\n      await page.waitForTimeout(400);\n    },\n  },\n  'dark-theme': {\n    url: b => b,\n    setup: async page => {\n      const btn = page.locator('button:has([class*=\"moon\" i]), button[aria-label*=\"theme\" i], button[title*=\"theme\" i]').first();\n      if (await btn.count()) { await btn.click(); await page.waitForTimeout(800); }\n      else { await page.evaluate(() => document.documentElement.classList.add('dark')); }\n    },\n  },\n};",
+  "note": "code exact des setups embarqué pour rejeu à l'octet (défaut auditeur corrigé)"
 }

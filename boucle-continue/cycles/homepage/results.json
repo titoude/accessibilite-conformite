@@ -10,10 +10,10 @@
   "baseline_rules": [
     "color-contrast",
     "landmark-one-main",
+    "meta-viewport",
     "page-has-heading-one",
-    "landmark-unique",
-    "aria-prohibited-attr",
-    "region"
+    "region",
+    "aria-dialog-name"
   ],
   "final_rules": [],
   "incomplete_unresolved": 3,
@@ -43,5 +43,18 @@
   "verify_mjs": "verify.mjs",
   "eval_final_mjs": "eval-final.mjs",
   "eval_findings": 0,
-  "notes": "1 reprise harnais (faux positif JIT Tailwind r1) + 1 vraie correction trouvée grâce aux scans pré-hydratation (vars --color-* indéfinies → flash noir/sombre) ; le fix :root + classes SSR dans _document supprime le flash pour tous les utilisateurs. Les 3 incomplets axe = combobox headlessui (fond composité)."
+  "notes": "1 reprise harnais (faux positif JIT Tailwind r1) + 1 vraie correction trouvée grâce aux scans pré-hydratation (vars --color-* indéfinies → flash noir/sombre) ; le fix :root + classes SSR dans _document supprime le flash pour tous les utilisateurs. Les 3 incomplets axe = combobox headlessui (fond composité).",
+  "baseline_rules_note": "corrigé après audit : la liste initiale citait 2 règles absentes du rapport et en omettait 2 — documentaire, pas les preuves",
+  "auditor": {
+    "session": "devin-558db76a56f64a21989cbf9e432059d2",
+    "verdict": "CONFIRMED — patch sain rejoué de zéro (sha256 égal, verify 13/13, eval 8/8, scan axe indépendant 0 violation sur scope figé, baseline rejouée par stash : 42 nœuds sur les mêmes 6 règles)",
+    "defects_reported": [
+      "baseline_rules mal retranscrit (corrigé)",
+      "eval-final.mjs T4 « bascule de thème » vacuous : ThemeToggle est div+SVG, jamais trouvé → PASS trivial (leçon protocole ajoutée)",
+      "statesHash baseline≠final : setups livrés en résumé, pas en code (corrigé : setupSource embarqué)",
+      "ThemeToggle non-focusable/non-activable clavier — gap WCAG 2.1.1 résiduel réel, hors portée axe, non corrigé (div+svg onClick)"
+    ],
+    "residual_gap_declared": "ThemeToggle + tout div onClick non clavier — invisible pour axe ; pattern ajouté à verify (onClick sans role/tabindex)",
+    "incomplete_unresolved": "3 color-contrast combobox (fond composité) — documentés, reproduits par l'auditeur"
+  }
 }

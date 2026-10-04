@@ -34,6 +34,6 @@ boucle DOIVENT choisir un dépôt absent de ce tableau.
 
 | # | Dépôt | Worker | Auditeur | Verdict | Notes |
 |---|-------|--------|----------|---------|-------|
-| 1 | gethomepage/homepage | session principale (slots SWE-2 saturés) | en attente slot | worker CONFIRMED | 53→0 ; vrai bug corrigé : vars --color-* + classes thème SSR (_document, theme.css) ; artefacts boucle-runs/homepage |
+| 1 | gethomepage/homepage | session principale | devin-558db76a : CONFIRMED (4 défauts doc/harnais corrigés + gap clavier résiduel déclaré) | worker+auditor CONFIRMED | 53→0 ; vrai bug corrigé : vars --color-* + classes thème SSR (_document, theme.css) ; artefacts boucle-runs/homepage |
 | 2 | actualbudget/actual @2e68845 | session principale | en attente slot | worker CONFIRMED | 123→0 en 3 rounds ; périmètre révisé déclaré (scope-compare.json) ; verify.mjs a attrapé 2 défauts invisibles pour axe (nav mobile sans label, boutons nommés par title-sur-enfant) ; install-build+typecheck PASS sur checkout propre ; artefacts boucle-runs/actual + cycles/actual |
 | 3 | gchq/CyberChef @609951a | session principale | devin-3a66a63a : PARTIAL→corrigé (hash provenance périmé, patch sain rejoué de zéro) | worker+auditor CONFIRMED | 578→0 en 4 rounds ; eval-final a attrapé 2 défauts invisibles pour axe : piège clavier 2.1.2 (Tab insère dans l'éditeur, Escape→blur ajouté) + outline:none global (focus-visible restauré) ; patch node_modules via le postinstall du projet ; install-build npm ci+build PASS ; artefacts boucle-runs/cyberchef + cycles/cyberchef |
