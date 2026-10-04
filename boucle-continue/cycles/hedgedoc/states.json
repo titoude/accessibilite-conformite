@@ -1,0 +1,5 @@
+{
+  "setupSource": "tools/audit.mjs:STATES",
+  "runner": "audit.mjs v5",
+  "block": "{\n  // Éditeur complet : session invitée + note 'demo' + bannière fermée.\n  'editor': {\n    url: b => b + '/n/demo',\n    setup: readyEditor,\n  },\n  // Menu déroulant « More options » (dropdown-toggle Bootstrap).\n  'editor-menu': {\n    url: b => b + '/n/demo',\n    setup: async page => {\n      await readyEditor(page);\n      await page.locator('button.dropdown-toggle[aria-label=\"More options\"]').first().click();\n      await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 15000 });\n      await page.waitForTimeout(600); // fin de la transition\n    },\n  },\n  // Panneau latéral « Note info » (slide-sidebar).\n  'editor-sidebar': {\n    url: b => b + '/n/demo',\n    setup: async page => {\n      await readyEditor(page);\n      await page.locator('button[class*=\"sidebar-button\"]', { hasText: 'Note info' }).first().click();\n      await page.waitForSelector('[class*=\"sidebar-menu_show\"]', { state: 'visible', timeout: 15000 });\n      await page.waitForTimeout(600);\n    },\n  },\n}"
+}

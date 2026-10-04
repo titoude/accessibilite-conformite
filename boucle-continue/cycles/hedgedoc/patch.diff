@@ -1,0 +1,787 @@
+diff --git a/frontend/global-styles/index.scss b/frontend/global-styles/index.scss
+index 7dbfa1b..f5e27a5 100644
+--- a/frontend/global-styles/index.scss
++++ b/frontend/global-styles/index.scss
+@@ -28,7 +28,24 @@
+ }
+ 
+ *:focus {
+-  outline: 0 !important;
++  outline: 0;
++}
++
++*:focus-visible {
++  outline: 2px solid var(--bs-primary);
++  outline-offset: 2px;
++  border-radius: 2px;
++}
++
++.btn-success {
++  --bs-btn-bg: #157347;
++  --bs-btn-border-color: #157347;
++  --bs-btn-hover-bg: #135c38;
++  --bs-btn-hover-border-color: #135c38;
++  --bs-btn-active-bg: #0f5132;
++  --bs-btn-active-border-color: #0f5132;
++  --bs-btn-disabled-bg: #157347;
++  --bs-btn-disabled-border-color: #157347;
+ }
+ 
+ .mt-1dot5 {
+diff --git a/frontend/locales/en.json b/frontend/locales/en.json
+index 37e6d3b..85cd7c8 100644
+--- a/frontend/locales/en.json
++++ b/frontend/locales/en.json
+@@ -295,7 +295,19 @@
+       "comment": "Comment",
+       "preferences": "Editor settings",
+       "emoji": "Open emoji picker",
+-      "more": "More options"
++      "more": "More options",
++      "toggleEditorPane": "Toggle editor pane",
++      "toggleViewPane": "Toggle view pane"
++    },
++    "pane": {
++      "title": "Editor pane",
++      "textbox": "Note content editor"
++    },
++    "sidebar": {
++      "title": "Document sidebar"
++    },
++    "renderer": {
++      "title": "Rendered document preview"
+     },
+     "documentBar": {
+       "menu": "Menu",
+@@ -511,9 +523,12 @@
+     }
+   },
+   "views": {
+-    "presentation": {},
++    "presentation": {
++      "presentNote": "Open this note as presentation"
++    },
+     "readOnly": {
+-      "editNote": "Edit this note"
++      "editNote": "Edit this note",
++      "viewNote": "Open this note in read-only view"
+     }
+   },
+   "appbar": {
+@@ -548,6 +563,7 @@
+     "close": "Close",
+     "save": "Save",
+     "delete": "Delete",
++    "skipToContent": "Skip to main content",
+     "or": "or",
+     "and": "and",
+     "avatarOf": "Avatar of '{{name}}'",
+@@ -726,6 +742,7 @@
+   },
+   "cheatsheet": {
+     "search": "Search for Cheatsheets",
++    "clearSearch": "Clear search",
+     "modal": {
+       "popup": "Open in new tab",
+       "title": "Cheatsheet",
+diff --git a/frontend/src/app/(editor)/about/page.tsx b/frontend/src/app/(editor)/about/page.tsx
+index 441cf11..311fb06 100644
+--- a/frontend/src/app/(editor)/about/page.tsx
++++ b/frontend/src/app/(editor)/about/page.tsx
+@@ -28,9 +28,9 @@ const AboutPage: NextPage = () => {
+       leftSide={
+         <EditorToRendererCommunicatorContextProvider>
+           <div className={'d-flex flex-column align-items-center mt-3'}>
+-            <h2>
++            <h1 className={'h2'}>
+               <Trans i18nKey='about.heading' />
+-            </h2>
++            </h1>
+             <div className={'mb-5'}>
+               <CustomBranding />
+             </div>
+diff --git a/frontend/src/app/(editor)/cheatsheet/page.tsx b/frontend/src/app/(editor)/cheatsheet/page.tsx
+index 3d37133..2bbd02d 100644
+--- a/frontend/src/app/(editor)/cheatsheet/page.tsx
++++ b/frontend/src/app/(editor)/cheatsheet/page.tsx
+@@ -8,10 +8,14 @@
+ import { CheatsheetContent } from '../../../components/cheatsheet/cheatsheet-content'
+ import type { NextPage } from 'next'
+ import { Container } from 'react-bootstrap'
++import { Trans } from 'react-i18next'
+ 
+ const CheatsheetPage: NextPage = () => {
+   return (
+     <Container>
++      <h1 className={'visually-hidden'}>
++        <Trans i18nKey='cheatsheet.modal.title' />
++      </h1>
+       <CheatsheetContent />
+     </Container>
+   )
+diff --git a/frontend/src/app/(editor)/layout.tsx b/frontend/src/app/(editor)/layout.tsx
+index 5540470..e38b6ec 100644
+--- a/frontend/src/app/(editor)/layout.tsx
++++ b/frontend/src/app/(editor)/layout.tsx
+@@ -18,6 +18,7 @@ import type { PropsWithChildren } from 'react'
+ import React from 'react'
+ import { getConfig } from '../../api/config'
+ import { MotdProvider } from '../../components/motd/motd-context'
++import { SkipToContent } from '../../components/layout/skip-to-content'
+ import { fetchMotd } from '../../components/global-dialogs/motd-modal/fetch-motd'
+ import { CachedMotdModal } from '../../components/global-dialogs/motd-modal/cached-motd-modal'
+ 
+@@ -47,9 +48,12 @@ export default async function RootLayout({ children, appBar }: RootLayoutProps)
+                     <DarkMode />
+                     <CachedMotdModal />
+                     <UiNotificationBoundary>
++                      <SkipToContent />
+                       <div className={'d-flex flex-column vh-100'}>
+                         {appBar}
+-                        {children}
++                        <main id='main-content' tabIndex={-1} className={'d-flex flex-column flex-grow-1 overflow-hidden'}>
++                          {children}
++                        </main>
+                       </div>
+                     </UiNotificationBoundary>
+                   </ApplicationLoader>
+diff --git a/frontend/src/app/(editor)/login/page.tsx b/frontend/src/app/(editor)/login/page.tsx
+index edaaeb9..a35c320 100644
+--- a/frontend/src/app/(editor)/login/page.tsx
++++ b/frontend/src/app/(editor)/login/page.tsx
+@@ -40,9 +40,9 @@ const LoginPage: NextPage = () => {
+         <EditorToRendererCommunicatorContextProvider>
+           <div className={'d-flex flex-column align-items-center mt-3'}>
+             <HedgeDocLogoVertical size={LogoSize.BIG} autoTextColor={true} />
+-            <h5>
++            <h1 className={'h5'}>
+               <Trans i18nKey='app.slogan' />
+-            </h5>
++            </h1>
+             <div className={'mb-5'}>
+               <CustomBranding />
+             </div>
+diff --git a/frontend/src/app/(render)/layout.tsx b/frontend/src/app/(render)/layout.tsx
+index 8afb489..e4492b7 100644
+--- a/frontend/src/app/(render)/layout.tsx
++++ b/frontend/src/app/(render)/layout.tsx
+@@ -8,6 +8,7 @@ import { ApplicationLoader } from '../../components/application-loader/applicati
+ import { BaseUrlContextProvider } from '../../components/common/base-url/base-url-context-provider'
+ import { FrontendConfigContextProvider } from '../../components/common/frontend-config-context/frontend-config-context-provider'
+ import { ExpectedOriginBoundary } from '../../components/layout/expected-origin-boundary'
++import { SkipToContent } from '../../components/layout/skip-to-content'
+ import { StoreProvider } from '../../redux/store-provider'
+ import { baseUrlFromEnvExtractor } from '../../utils/base-url-from-env-extractor'
+ import React from 'react'
+@@ -24,7 +25,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
+           <BaseUrlContextProvider baseUrls={baseUrls}>
+             <FrontendConfigContextProvider config={frontendConfig}>
+               <StoreProvider>
+-                <ApplicationLoader>{children}</ApplicationLoader>
++                <ApplicationLoader>
++                  <SkipToContent />
++                  <main id='main-content' tabIndex={-1}>{children}</main>
++                </ApplicationLoader>
+               </StoreProvider>
+             </FrontendConfigContextProvider>
+           </BaseUrlContextProvider>
+diff --git a/frontend/src/components/cheatsheet/cheatsheet-search.tsx b/frontend/src/components/cheatsheet/cheatsheet-search.tsx
+index c935ca2..522e5c0 100644
+--- a/frontend/src/components/cheatsheet/cheatsheet-search.tsx
++++ b/frontend/src/components/cheatsheet/cheatsheet-search.tsx
+@@ -34,6 +34,7 @@ export const CheatsheetSearch: React.FC<CheatsheetSearchProps> = ({ setVisibleEx
+     []
+   )
+   const placeholderText = useTranslatedText('cheatsheet.search')
++  const clearSearchLabel = useTranslatedText('cheatsheet.clearSearch')
+ 
+   const buildEntry = useCallback(
+     (i18nKey: string, extensionId: string) => {
+@@ -81,7 +82,7 @@ export const CheatsheetSearch: React.FC<CheatsheetSearchProps> = ({ setVisibleEx
+   return (
+     <InputGroup className='mb-3'>
+       <FormControl placeholder={placeholderText} aria-label={placeholderText} onChange={onChange} value={searchTerm} />
+-      <button className={styles.innerBtn} onClick={clearSearch}>
++      <button className={styles.innerBtn} onClick={clearSearch} aria-label={clearSearchLabel}>
+         <UiIcon icon={X} />
+       </button>
+     </InputGroup>
+diff --git a/frontend/src/components/common/copyable/copyable-field/copyable-field.tsx b/frontend/src/components/common/copyable/copyable-field/copyable-field.tsx
+index 6244807..53cab3e 100644
+--- a/frontend/src/components/common/copyable/copyable-field/copyable-field.tsx
++++ b/frontend/src/components/common/copyable/copyable-field/copyable-field.tsx
+@@ -49,7 +49,7 @@ export const CopyableField: React.FC<CopyableFieldProps> = ({ content, shareOrig
+ 
+   return (
+     <InputGroup className='my-3'>
+-      <FormControl readOnly={true} className={'text-center'} value={content} />
++      <FormControl readOnly={true} className={'text-center'} value={content} aria-label={content} />
+       <InputGroup.Text>
+         <CopyToClipboardButton variant={'outline-secondary'} content={content} />
+       </InputGroup.Text>
+diff --git a/frontend/src/components/common/modals/common-modal.tsx b/frontend/src/components/common/modals/common-modal.tsx
+index 84f618b..39f1eea 100644
+--- a/frontend/src/components/common/modals/common-modal.tsx
++++ b/frontend/src/components/common/modals/common-modal.tsx
+@@ -9,7 +9,7 @@ import { cypressId } from '../../../utils/cypress-attribute'
+ import { testId } from '../../../utils/test-id'
+ import { UiIcon } from '../icons/ui-icon'
+ import type { PropsWithChildren, ReactElement } from 'react'
+-import React, { Fragment, useMemo } from 'react'
++import React, { Fragment, useId, useMemo } from 'react'
+ import { Modal } from 'react-bootstrap'
+ import type { Icon } from 'react-bootstrap-icons'
+ import { Trans, useTranslation } from 'react-i18next'
+@@ -60,6 +60,7 @@ export const CommonModal: React.FC<PropsWithChildren<CommonModalProps>> = ({
+   ...props
+ }) => {
+   useTranslation()
++  const titleId = useId()
+ 
+   const titleElement = useMemo(() => {
+     return titleI18nKey !== undefined ? <Trans i18nKey={titleI18nKey} /> : <span>{title}</span>
+@@ -76,10 +77,11 @@ export const CommonModal: React.FC<PropsWithChildren<CommonModalProps>> = ({
+       onHide={onHide}
+       animation={true}
+       {...testId('commonModal')}
++      aria-labelledby={titleId}
+       dialogClassName={concatCssClasses(additionalClasses)}
+       size={modalSize}>
+       <Modal.Header closeButton={!!showCloseButton}>
+-        <Modal.Title>
++        <Modal.Title id={titleId}>
+           <UiIcon icon={titleIcon} nbsp={true} />
+           {titleElement}
+         </Modal.Title>
+diff --git a/frontend/src/components/common/renderer-iframe/renderer-iframe.tsx b/frontend/src/components/common/renderer-iframe/renderer-iframe.tsx
+index 6c34459..d5ba406 100644
+--- a/frontend/src/components/common/renderer-iframe/renderer-iframe.tsx
++++ b/frontend/src/components/common/renderer-iframe/renderer-iframe.tsx
+@@ -15,6 +15,7 @@ import { useEditorReceiveHandler } from '../../render-page/window-post-message-c
+ import type { RendererType } from '../../render-page/window-post-message-communicator/rendering-message'
+ import { CommunicationMessageType } from '../../render-page/window-post-message-communicator/rendering-message'
+ import { WaitSpinner } from '../wait-spinner/wait-spinner'
++import { useTranslatedText } from '../../../hooks/common/use-translated-text'
+ import { useEffectOnRenderTypeChange } from './hooks/use-effect-on-render-type-change'
+ import { useForceRenderPageUrlOnIframeLoadCallback } from './hooks/use-force-render-page-url-on-iframe-load-callback'
+ import { useSendAdditionalConfigurationToRenderer } from './hooks/use-send-additional-configuration-to-renderer'
+@@ -60,6 +61,7 @@ export const RendererIframe: React.FC<RendererIframeProps> = ({
+   showWaitSpinner = false
+ }) => {
+   const [rendererReady, setRendererReady] = useState<boolean>(false)
++  const rendererTitle = useTranslatedText('editor.renderer.title')
+   const frameReference = useRef<HTMLIFrameElement>(null)
+   const iframeCommunicator = useEditorToRendererCommunicator()
+   const log = useMemo(() => new Logger(`RendererIframe[${iframeCommunicator.getUuid()}]`), [iframeCommunicator])
+@@ -171,9 +173,31 @@ export const RendererIframe: React.FC<RendererIframeProps> = ({
+     }, [])
+   )
+ 
++  const [frameFocused, setFrameFocused] = useState(false)
++  useEffect(() => {
++    const onWindowBlur = (): void => {
++      if (document.activeElement === frameReference.current) {
++        setFrameFocused(true)
++      }
++    }
++    const onWindowFocus = (): void => setFrameFocused(false)
++    window.addEventListener('blur', onWindowBlur)
++    window.addEventListener('focus', onWindowFocus)
++    return () => {
++      window.removeEventListener('blur', onWindowBlur)
++      window.removeEventListener('focus', onWindowFocus)
++    }
++  }, [frameReference])
++
+   const frameClassNames = useMemo(
+-    () => concatCssClasses({ 'd-none': !rendererReady && showWaitSpinner }, 'border-0', styles.frame, frameClasses),
+-    [frameClasses, rendererReady, showWaitSpinner]
++    () =>
++      concatCssClasses(
++        { 'd-none': !rendererReady && showWaitSpinner, [styles.focused]: frameFocused },
++        'border-0',
++        styles.frame,
++        frameClasses
++      ),
++    [frameClasses, rendererReady, showWaitSpinner, frameFocused]
+   )
+ 
+   return (
+@@ -184,7 +208,7 @@ export const RendererIframe: React.FC<RendererIframeProps> = ({
+         style={{ height: `${frameHeight}px` }}
+         {...cypressId('documentIframe')}
+         onLoad={onIframeLoad}
+-        title='render'
++        title={rendererTitle}
+         {...(isTestMode
+           ? {}
+           : {
+diff --git a/frontend/src/components/common/renderer-iframe/style.module.scss b/frontend/src/components/common/renderer-iframe/style.module.scss
+index dc1bac9..3c5b237 100644
+--- a/frontend/src/components/common/renderer-iframe/style.module.scss
++++ b/frontend/src/components/common/renderer-iframe/style.module.scss
+@@ -8,6 +8,11 @@
+   color-scheme: initial;
+ }
+ 
++.focused {
++  outline: 2px solid var(--bs-primary);
++  outline-offset: 2px;
++}
++
+ @media print {
+   .frame {
+     height: auto !important;
+diff --git a/frontend/src/components/editor-page/editor-pane/editor-pane.tsx b/frontend/src/components/editor-page/editor-pane/editor-pane.tsx
+index 42b0733..fccd32a 100644
+--- a/frontend/src/components/editor-page/editor-pane/editor-pane.tsx
++++ b/frontend/src/components/editor-page/editor-pane/editor-pane.tsx
+@@ -40,6 +40,7 @@ import { markdown, markdownLanguage } from '@codemirror/lang-markdown'
+ import { languages } from '@codemirror/language-data'
+ import { lintGutter } from '@codemirror/lint'
+ import { oneDark } from '@codemirror/theme-one-dark'
++import { EditorView } from '@codemirror/view'
+ import ReactCodeMirror from '@uiw/react-codemirror'
+ import React, { useCallback, useEffect, useMemo } from 'react'
+ import { useUiNotifications } from '../../notifications/ui-notification-boundary'
+@@ -86,6 +87,12 @@ export const EditorPane: React.FC<EditorPaneProps> = ({ scrollState, onScroll, o
+   const syncAdapter = useYDocSyncClientAdapter(messageTransporter, realtimeDoc)
+   const yjsExtension = useCodeMirrorYjsExtension(realtimeDoc, syncAdapter)
+ 
++  const editorTextboxLabel = useTranslatedText('editor.pane.textbox')
++  const ariaAttributesExtension = useMemo(
++    () => EditorView.contentAttributes.of({ 'aria-label': editorTextboxLabel }),
++    [editorTextboxLabel]
++  )
++
+   useOnAliasesUpdated(messageTransporter)
+   useOnMetadataUpdated(messageTransporter)
+   useOnPermissionsUpdated(messageTransporter)
+@@ -113,9 +120,11 @@ export const EditorPane: React.FC<EditorPaneProps> = ({ scrollState, onScroll, o
+       updateViewContextExtension,
+       yjsExtension,
+       spellCheckExtension,
+-      indentationExtension
++      indentationExtension,
++      ariaAttributesExtension
+     ],
+     [
++      ariaAttributesExtension,
+       linterExtension,
+       remoteCursorsExtension,
+       autoCompletionExtension,
+@@ -153,6 +162,7 @@ export const EditorPane: React.FC<EditorPaneProps> = ({ scrollState, onScroll, o
+ 
+   const translateOptions = useMemo(() => ({ host: editorOrigin }), [editorOrigin])
+   const placeholderText = useTranslatedText('editor.placeholder', translateOptions)
++  const editorPaneLabel = useTranslatedText('editor.pane.title')
+ 
+   const userMayEdit = useMayEdit()
+   const verifyUserIsAllowedToType = useCallback(() => {
+@@ -168,7 +178,7 @@ export const EditorPane: React.FC<EditorPaneProps> = ({ scrollState, onScroll, o
+     // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
+     <div
+       role={'region'}
+-      aria-label={'Editor pane'}
++      aria-label={editorPaneLabel}
+       className={`d-flex flex-column h-100 position-relative`}
+       onTouchStart={onMakeScrollSource}
+       onMouseEnter={onMakeScrollSource}
+@@ -185,6 +195,7 @@ export const EditorPane: React.FC<EditorPaneProps> = ({ scrollState, onScroll, o
+         maxHeight={'100%'}
+         maxWidth={'100%'}
+         basicSetup={{ history: false }}
++        indentWithTab={false}
+         className={codeMirrorClassName}
+         theme={darkModeActivated ? oneDark : undefined}
+       />
+diff --git a/frontend/src/components/editor-page/editor-pane/extended-codemirror/codemirror.module.scss b/frontend/src/components/editor-page/editor-pane/extended-codemirror/codemirror.module.scss
+index 6c28b13..4fbf15b 100644
+--- a/frontend/src/components/editor-page/editor-pane/extended-codemirror/codemirror.module.scss
++++ b/frontend/src/components/editor-page/editor-pane/extended-codemirror/codemirror.module.scss
+@@ -21,6 +21,10 @@
+       display: none;
+     }
+ 
++    .cm-foldGutter span {
++      color: var(--bs-body-color);
++    }
++
+     .cm-diagnostic {
+       max-width: 400px;
+       padding: 10px;
+diff --git a/frontend/src/components/editor-page/editor-pane/tool-bar/toolbar-menu.tsx b/frontend/src/components/editor-page/editor-pane/tool-bar/toolbar-menu.tsx
+index a8bcbb1..4ac7ae1 100644
+--- a/frontend/src/components/editor-page/editor-pane/tool-bar/toolbar-menu.tsx
++++ b/frontend/src/components/editor-page/editor-pane/tool-bar/toolbar-menu.tsx
+@@ -24,7 +24,7 @@ export const ToolbarMenu: React.FC<PropsWithChildren> = ({ children }) => {
+       <Dropdown.Toggle variant={'outline-secondary'} className={styles.toggle} title={title} aria-label={title}>
+         <UiIcon icon={IconCaretDown} />
+       </Dropdown.Toggle>
+-      <Dropdown.Menu className={styles.menu} onClick={hideMenu}>
++      <Dropdown.Menu className={styles.menu} onClick={hideMenu} role={'group'}>
+         <div className={styles.entries}>{children}</div>
+       </Dropdown.Menu>
+     </Dropdown>
+diff --git a/frontend/src/components/editor-page/sidebar/sidebar.tsx b/frontend/src/components/editor-page/sidebar/sidebar.tsx
+index 33e116a..930812d 100644
+--- a/frontend/src/components/editor-page/sidebar/sidebar.tsx
++++ b/frontend/src/components/editor-page/sidebar/sidebar.tsx
+@@ -19,6 +19,7 @@ import { DocumentSidebarMenuSelection } from './types'
+ import React, { useCallback, useRef, useState } from 'react'
+ import { useClickAway } from 'react-use'
+ import { useIsOwner } from '../../../hooks/common/use-is-owner'
++import { useTranslatedText } from '../../../hooks/common/use-translated-text'
+ 
+ /**
+  * Renders the sidebar for the editor.
+@@ -41,9 +42,10 @@ export const Sidebar: React.FC = () => {
+   )
+ 
+   const selectionIsNotNone = selectedMenu !== DocumentSidebarMenuSelection.NONE
++  const sidebarLabel = useTranslatedText('editor.sidebar.title')
+ 
+   return (
+-    <div className={styles['slide-sidebar']} id={'editor-sidebar'}>
++    <div className={styles['slide-sidebar']} id={'editor-sidebar'} role={'complementary'} aria-label={sidebarLabel}>
+       <div ref={sideBarRef} className={`${styles['sidebar-inner']} ${selectionIsNotNone ? styles['show'] : ''}`}>
+         <UsersOnlineSidebarMenu
+           menuId={DocumentSidebarMenuSelection.USERS_ONLINE}
+diff --git a/frontend/src/components/editor-page/splitter/split-divider/split-divider.module.scss b/frontend/src/components/editor-page/splitter/split-divider/split-divider.module.scss
+index 990bb31..e1d2e5c 100644
+--- a/frontend/src/components/editor-page/splitter/split-divider/split-divider.module.scss
++++ b/frontend/src/components/editor-page/splitter/split-divider/split-divider.module.scss
+@@ -4,6 +4,12 @@
+  * SPDX-License-Identifier: AGPL-3.0-only
+  */
+ 
++.wrapper {
++  position: relative;
++  width: 5px;
++  display: flex;
++}
++
+ .divider {
+   width: 5px;
+   // This ensures that the handle area is thicker but the visual representation is still thin
+@@ -48,6 +54,9 @@
+   height: 35px;
+   z-index: 100000;
+   position: absolute;
++  top: 50%;
++  left: 50%;
++  translate: -50% -50%;
+   border-radius: 90px;
+   border: solid 1px var(--bs-gray-500);
+   background: var(--bs-body-bg);
+diff --git a/frontend/src/components/editor-page/splitter/split-divider/split-divider.tsx b/frontend/src/components/editor-page/splitter/split-divider/split-divider.tsx
+index 7bc22df..b4b06e3 100644
+--- a/frontend/src/components/editor-page/splitter/split-divider/split-divider.tsx
++++ b/frontend/src/components/editor-page/splitter/split-divider/split-divider.tsx
+@@ -5,6 +5,7 @@
+  */
+ import { concatCssClasses } from '../../../../utils/concat-css-classes'
+ import { testId } from '../../../../utils/test-id'
++import { useTranslatedText } from '../../../../hooks/common/use-translated-text'
+ import { UiIcon } from '../../../common/icons/ui-icon'
+ import styles from './split-divider.module.scss'
+ import type { MouseEvent, TouchEvent } from 'react'
+@@ -75,25 +76,31 @@ export const SplitDivider: React.FC<SplitDividerProps> = ({
+     [onGrab]
+   )
+ 
++  const toggleEditorPaneLabel = useTranslatedText('editor.editorToolbar.toggleEditorPane')
++  const toggleViewPaneLabel = useTranslatedText('editor.editorToolbar.toggleViewPane')
++
+   return (
+-    // oxlint-disable-next-line jsx_a11y/no-static-element-interactions
+-    <div
+-      className={styles.divider}
+-      id={'editor-splitter'}
+-      role={'separator'}
+-      aria-orientation={'vertical'}
+-      aria-valuemin={0}
+-      aria-valuemax={100}
+-      aria-valuenow={splitValue}
+-      tabIndex={0}
+-      {...testId('splitter-divider')}
+-      onMouseDown={onGrab}
+-      onTouchStart={onGrab}>
++    <div className={styles.wrapper}>
++      {/* oxlint-disable-next-line jsx_a11y/no-static-element-interactions */}
++      <div
++        className={styles.divider}
++        id={'editor-splitter'}
++        role={'separator'}
++        aria-orientation={'vertical'}
++        aria-valuemin={0}
++        aria-valuemax={100}
++        aria-valuenow={splitValue}
++        tabIndex={0}
++        {...testId('splitter-divider')}
++        onMouseDown={onGrab}
++        onTouchStart={onGrab}
++      />
+       {/* oxlint-disable-next-line jsx_a11y/no-static-element-interactions */}
+       <div className={className} onMouseDown={startResizingFromIndicator} onTouchStart={startResizingFromIndicator}>
+         <div className={styles.buttons}>
+           <Button
+             variant={focusLeft ? 'secondary' : 'light'}
++            aria-label={toggleEditorPaneLabel}
+             onClick={onLeftButtonClick}
+             onMouseDown={stopResizing}
+             onTouchStart={stopResizing}>
+@@ -107,6 +114,7 @@ export const SplitDivider: React.FC<SplitDividerProps> = ({
+           </span>
+           <Button
+             variant={focusRight ? 'secondary' : 'light'}
++            aria-label={toggleViewPaneLabel}
+             onClick={onRightButtonClick}
+             onMouseDown={stopResizing}
+             onTouchStart={stopResizing}>
+diff --git a/frontend/src/components/error-pages/common-error-page.tsx b/frontend/src/components/error-pages/common-error-page.tsx
+index 8dbdf19..bef27f3 100644
+--- a/frontend/src/components/error-pages/common-error-page.tsx
++++ b/frontend/src/components/error-pages/common-error-page.tsx
+@@ -35,9 +35,9 @@ export const CommonErrorPage: React.FC<PropsWithChildren<CommonErrorPageProps>>
+           <Trans i18nKey={titleI18nKey} />
+         </h1>
+         {descriptionI18nKey !== undefined && (
+-          <h3>
++          <h2 className={'h3'}>
+             <Trans i18nKey={descriptionI18nKey} />
+-          </h3>
++          </h2>
+         )}
+         {children}
+       </div>
+diff --git a/frontend/src/components/explore-page/explore-notes-section/notes-list/note-entry.tsx b/frontend/src/components/explore-page/explore-notes-section/notes-list/note-entry.tsx
+index c5a5e18..03d7489 100644
+--- a/frontend/src/components/explore-page/explore-notes-section/notes-list/note-entry.tsx
++++ b/frontend/src/components/explore-page/explore-notes-section/notes-list/note-entry.tsx
+@@ -84,12 +84,15 @@ export const NoteListEntry: React.FC<NoteListEntryProps> = ({
+   return (
+     <div className={'border-top border-bottom py-3 d-flex align-items-center'}>
+       <span className={'mx-2'}>
+-        <Link href={`/n/${primaryAlias}`}>
++        <Link href={`/n/${primaryAlias}`} aria-label={title !== '' ? title : fallbackUntitled}>
+           <NoteTypeIcon noteType={type} size={3} />
+         </Link>
+       </span>
+       <div className={'flex-grow-1'}>
+-        <Link href={`/n/${primaryAlias}`} className={'text-decoration-none'}>
++        <Link
++          href={`/n/${primaryAlias}`}
++          className={'text-decoration-none'}
++          aria-label={title !== '' ? title : fallbackUntitled}>
+           {title !== '' ? title : <i className={'fst-italic'}>{fallbackUntitled}</i>}
+         </Link>
+         {tags.length > 0 && <br />}
+diff --git a/frontend/src/components/explore-page/pinned-notes/pinned-notes.tsx b/frontend/src/components/explore-page/pinned-notes/pinned-notes.tsx
+index eb171de..ad75afe 100644
+--- a/frontend/src/components/explore-page/pinned-notes/pinned-notes.tsx
++++ b/frontend/src/components/explore-page/pinned-notes/pinned-notes.tsx
+@@ -84,7 +84,7 @@ export const PinnedNotes: React.FC = () => {
+           </div>
+           <Caret active={enableScrollRight} left={false} onClick={scrollToRightClick} />
+         </div>
+-        <div className={concatCssClasses('text-secondary', 'mb-4', { 'd-none': pinnedNoteCardsPresent })}>
++        <div className={concatCssClasses('mb-4', { 'd-none': pinnedNoteCardsPresent })}>
+           <p>
+             <Trans i18nKey={'explore.pinnedNotes.empty.line1'} />
+             <br />
+diff --git a/frontend/src/components/global-dialogs/settings-dialog/settings-button.tsx b/frontend/src/components/global-dialogs/settings-dialog/settings-button.tsx
+index 13bd5d0..c7ee3e4 100644
+--- a/frontend/src/components/global-dialogs/settings-dialog/settings-button.tsx
++++ b/frontend/src/components/global-dialogs/settings-dialog/settings-button.tsx
+@@ -4,6 +4,7 @@
+  * SPDX-License-Identifier: AGPL-3.0-only
+  */
+ import { useBooleanState } from '../../../hooks/common/use-boolean-state'
++import { useTranslatedText } from '../../../hooks/common/use-translated-text'
+ import { useOutlineButtonVariant } from '../../../hooks/dark-mode/use-outline-button-variant'
+ import { useSaveDarkModePreferenceToLocalStorage } from '../../../hooks/dark-mode/use-save-dark-mode-preference-to-local-storage'
+ import { cypressId } from '../../../utils/cypress-attribute'
+@@ -20,6 +21,7 @@ export type SettingsButtonProps = Omit<ButtonProps, 'onClick'>
+ export const SettingsButton: React.FC<SettingsButtonProps> = (props) => {
+   const [show, showModal, hideModal] = useBooleanState(false)
+   const buttonVariant = useOutlineButtonVariant()
++  const label = useTranslatedText('settings.title')
+   useSaveDarkModePreferenceToLocalStorage()
+ 
+   return (
+@@ -30,6 +32,7 @@ export const SettingsButton: React.FC<SettingsButtonProps> = (props) => {
+         onClick={showModal}
+         icon={IconGear}
+         variant={buttonVariant}
++        aria-label={label}
+       />
+       <SettingsModal show={show} onHide={hideModal} />
+     </Fragment>
+diff --git a/frontend/src/components/landing-layout/landing-layout.tsx b/frontend/src/components/landing-layout/landing-layout.tsx
+index e0f8ada..77947e4 100644
+--- a/frontend/src/components/landing-layout/landing-layout.tsx
++++ b/frontend/src/components/landing-layout/landing-layout.tsx
+@@ -16,7 +16,7 @@ export const LandingLayout: React.FC<PropsWithChildren> = ({ children }) => {
+   return (
+     <Container>
+       <div className={'d-flex flex-column justify-content-between flex-fill text-center'}>
+-        <main>{children}</main>
++        <div>{children}</div>
+       </div>
+     </Container>
+   )
+diff --git a/frontend/src/components/layout/app-bar/app-bar-elements/branding-element.tsx b/frontend/src/components/layout/app-bar/app-bar-elements/branding-element.tsx
+index ed059d9..3be1403 100644
+--- a/frontend/src/components/layout/app-bar/app-bar-elements/branding-element.tsx
++++ b/frontend/src/components/layout/app-bar/app-bar-elements/branding-element.tsx
+@@ -8,6 +8,7 @@ import { CustomBranding } from '../../../common/custom-branding/custom-branding'
+ import { HedgeDocLogoHorizontalGrey } from '../../../common/hedge-doc-logo/hedge-doc-logo-horizontal-grey'
+ import { LogoSize } from '../../../common/hedge-doc-logo/logo-size'
+ import { BrandingSeparatorDash } from './branding-separator-dash'
++import { useTranslatedText } from '../../../../hooks/common/use-translated-text'
+ import Link from 'next/link'
+ import React from 'react'
+ import { Navbar } from 'react-bootstrap'
+@@ -17,10 +18,14 @@ import { Navbar } from 'react-bootstrap'
+  */
+ export const BrandingElement: React.FC = () => {
+   const darkModeActivated = useDarkModeState()
++  const linkLabel = useTranslatedText('explore.title')
+ 
+   return (
+     <Navbar.Brand>
+-      <Link href='/explore/my' className='text-secondary text-decoration-none d-flex align-items-center'>
++      <Link
++        href='/explore/my'
++        className='text-secondary text-decoration-none d-flex align-items-center'
++        aria-label={linkLabel}>
+         <HedgeDocLogoHorizontalGrey
+           size={LogoSize.SMALL}
+           className={'w-auto'}
+diff --git a/frontend/src/components/layout/app-bar/app-bar-elements/help-dropdown/help-dropdown.tsx b/frontend/src/components/layout/app-bar/app-bar-elements/help-dropdown/help-dropdown.tsx
+index c04783d..53d7aa9 100644
+--- a/frontend/src/components/layout/app-bar/app-bar-elements/help-dropdown/help-dropdown.tsx
++++ b/frontend/src/components/layout/app-bar/app-bar-elements/help-dropdown/help-dropdown.tsx
+@@ -9,17 +9,17 @@ import { LegalSubmenu } from './submenues/legal-submenu'
+ import React from 'react'
+ import { Dropdown } from 'react-bootstrap'
+ import { QuestionLg as IconQuestion } from 'react-bootstrap-icons'
+-import { useTranslation } from 'react-i18next'
++import { useTranslatedText } from '../../../../../hooks/common/use-translated-text'
+ 
+ /**
+  * Renders the help dropdown in the app bar.
+  */
+ export const HelpDropdown: React.FC = () => {
+-  useTranslation()
++  const label = useTranslatedText('appbar.help.help.header')
+ 
+   return (
+     <Dropdown drop={'start'}>
+-      <Dropdown.Toggle size={'sm'} className={'h-100'}>
++      <Dropdown.Toggle size={'sm'} className={'h-100'} aria-label={label} title={label}>
+         <UiIcon icon={IconQuestion} />
+       </Dropdown.Toggle>
+       <Dropdown.Menu>
+diff --git a/frontend/src/components/layout/app-bar/app-bar-elements/note-title-element/note-title-element.tsx b/frontend/src/components/layout/app-bar/app-bar-elements/note-title-element/note-title-element.tsx
+index 526f1f5..856ebfd 100644
+--- a/frontend/src/components/layout/app-bar/app-bar-elements/note-title-element/note-title-element.tsx
++++ b/frontend/src/components/layout/app-bar/app-bar-elements/note-title-element/note-title-element.tsx
+@@ -21,13 +21,13 @@ export const NoteTitleElement: React.FC = () => {
+   const readOnlyLabel = useTranslatedText('appbar.editor.readOnly')
+ 
+   return (
+-    <span className={'m-0 text-truncate'}>
++    <h1 className={'m-0 text-truncate fs-6'}>
+       {!isWriteable && (
+         <span className={'text-secondary me-2'}>
+           <UiIcon icon={IconLock} className={'me-2'} title={readOnlyLabel} />
+         </span>
+       )}
+       {noteTitle}
+-    </span>
++    </h1>
+   )
+ }
+diff --git a/frontend/src/components/layout/skip-to-content.tsx b/frontend/src/components/layout/skip-to-content.tsx
+new file mode 100644
+index 0000000..d5020dc
+--- /dev/null
++++ b/frontend/src/components/layout/skip-to-content.tsx
+@@ -0,0 +1,20 @@
++'use client'
++
++/*
++ * SPDX-FileCopyrightText: 2025 The HedgeDoc developers (see AUTHORS file)
++ *
++ * SPDX-License-Identifier: AGPL-3.0-only
++ */
++import React from 'react'
++import { Trans } from 'react-i18next'
++
++/**
++ * Renders the skip link that lets keyboard users jump directly to the main content.
++ */
++export const SkipToContent: React.FC = () => {
++  return (
++    <a href='#main-content' className={'visually-hidden-focusable'}>
++      <Trans i18nKey='common.skipToContent' />
++    </a>
++  )
++}
+diff --git a/frontend/src/components/render-page/fullscreen-button/fullscreen-button.tsx b/frontend/src/components/render-page/fullscreen-button/fullscreen-button.tsx
+index 0e9438c..4e6c60c 100644
+--- a/frontend/src/components/render-page/fullscreen-button/fullscreen-button.tsx
++++ b/frontend/src/components/render-page/fullscreen-button/fullscreen-button.tsx
+@@ -19,6 +19,7 @@ import { useApplicationState } from '../../../hooks/common/use-application-state
+ import { NoteType } from '@hedgedoc/commons'
+ import { LinkType } from '../../editor-page/sidebar/specific-sidebar-entries/share-note-sidebar-entry/share-modal/note-url-field'
+ import { concatCssClasses } from '../../../utils/concat-css-classes'
++import { useTranslatedText } from '../../../hooks/common/use-translated-text'
+ 
+ interface FullscreenButtonProps {
+   linkToEditor: boolean
+@@ -38,34 +39,41 @@ export const FullscreenButton: React.FC<FullscreenButtonProps> = ({ linkToEditor
+ 
+   let correctLink: string | null
+   let icon: Icon | null
++  let linkLabelKey: string
+ 
+   if (linkToEditor) {
+     correctLink = noteLinks[LinkType.EDITOR]
+     icon = IconPencil
++    linkLabelKey = 'views.readOnly.editNote'
+   } else {
+     switch (noteType) {
+       case NoteType.SLIDE:
+         correctLink = noteLinks[LinkType.SLIDESHOW]
+         icon = IconCollectionPlay
++        linkLabelKey = 'views.presentation.presentNote'
+         break
+       case NoteType.DOCUMENT:
+       default:
+         correctLink = noteLinks[LinkType.DOCUMENT]
+         icon = IconArrowsFullscreen
++        linkLabelKey = 'views.readOnly.viewNote'
+     }
+   }
+ 
++  const linkLabel = useTranslatedText(linkLabelKey)
++
+   return (
+     <Link
+       href={correctLink}
+       passHref={true}
+       target={'_blank'}
++      aria-label={linkLabel}
+       className={concatCssClasses({
+         [styles['fullscreen-button']]: true,
+         [styles['editor']]: !linkToEditor,
+         [styles['readonly']]: linkToEditor
+       })}>
+-      <Button variant={'secondary'}>
++      <Button variant={'secondary'} aria-hidden={true} tabIndex={-1}>
+         <UiIcon icon={icon} />
+       </Button>
+     </Link>

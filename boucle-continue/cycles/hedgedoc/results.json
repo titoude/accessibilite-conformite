@@ -1,0 +1,52 @@
+{
+  "repo": "hedgedoc/hedgedoc",
+  "commitEpingle": "5dd94d5449e52835ab034d4da21773cad08ebf51",
+  "cycle": "boucle-4",
+  "runner": "audit.mjs v5",
+  "execution": {
+    "baseline": {
+      "violations": 42,
+      "occurrences": 91,
+      "regles": 11,
+      "erreurs": 0,
+      "incomplets": 17
+    },
+    "final": {
+      "violations": 0,
+      "occurrences": 0,
+      "regles": 0,
+      "erreurs": 0,
+      "incomplets": 6
+    },
+    "scopeHashIdentique": true,
+    "verify": "27/27 PASS",
+    "evalFinal": "9 PASS + 1 INFO (Escape->blur non requis : Tab sort = conforme 2.1.2)",
+    "installBuild": "pnpm install --frozen-lockfile OK + turbo build 6/6 sur checkout propre au commit épinglé + patch"
+  },
+  "incomplets_finaux": [
+    "frame-tested x3 (iframes sandboxées — hors portée axe)",
+    "frame-title-unique/documenté",
+    "résiduels"
+  ],
+  "needsHumanReview": [
+    "confinement modale react-bootstrap : recapture enforceFocus avec rebond occasionnel (comportement amont, non patché — oscillation constatée 1x/4 runs)",
+    "NVDA/VoiceOver réel, audiodescription, contrastes dark-mode complets"
+  ],
+  "causesRacines": [
+    "landmarks: aucun <main> (layout RSC), h1 absents (h5/h2 utilisés), double <main> landing+render",
+    "noms accessibles: boutons icônes sans label (settings/help/sidebar/splitter), liens icônes (logo, note-entry), champs aria sans nom (copyable-field), iframe sans title, cm-content sans aria-label, dialog sans aria-labelledby",
+    "nested-interactive: boutons dans role=separator (splitter) -> restructuration .wrapper/.middle",
+    "focus: *:focus{outline:0!important} global -> :focus-visible + outline; piège Tab CodeMirror (indentWithTab prop ReactCodeMirror); iframe Chrome ne matche pas :focus ni n'émet focus -> détection window.blur + activeElement",
+    "contraste: btn-success #26885a 4.19:1 -> vars CSS #157347 5.58:1",
+    "aria: role=separator avec enfants interactifs; dropdown-menu sans role pertinent -> role=group"
+  ],
+  "lecons": [
+    "RSC Next: pas de hooks/context dans layout serveur -> composant client wrapper (skip-to-content)",
+    "ApplicationLoader hydrate tard : axe peut scanner le shell sans main -> --wait-for '#main-content' obligatoire",
+    "ReactCodeMirror piège Tab via prop indentWithTab (défaut true), PAS basicSetup",
+    "iframe focusée : :focus jamais matché, aucun event focus/blur sur l'élément -> window.blur + document.activeElement",
+    "Dev Next : 'load' event peut expirer sous contention de compile -> pré-chauffer les routes",
+    "Modal portailée contenant iframe (motd) : la fermer avant toute mesure de tab-order"
+  ],
+  "generatedAt": "2026-10-04T11:07:28Z"
+}

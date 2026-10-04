@@ -1,0 +1,21 @@
+{
+  "depot": "hedgedoc/hedgedoc",
+  "commitEpingle": "dévelop (monorepo turbo; backend NestJS :3000 + frontend Next.js :3001; proxy :3002 route /api→3000, reste→3001 — même-origine exigée par le fetch CSRF codé en dur)",
+  "type": "SPA Next.js 14 (app router) + API NestJS ; éditeur CodeMirror 6 + iframe de rendu sandboxée",
+  "env": "sqlite /home/ubuntu/boucle-runs/hedgedoc/hedgedoc.sqlite ; invités activés ; login local activé",
+  "provisionnement": "session invitée créée par fetch in-page (register guest, idempotent : un nouvel invité par run, note 'demo' partagée via groupe _EVERYONE) ; note 'demo' créée via POST /api/private/notes/demo",
+  "basePages": ["/login", "/about", "/cheatsheet", "/explore/public", "/new", "/register"],
+  "scenarios": [
+    { "id": "/login", "motif": "page de connexion (form local + invité)" },
+    { "id": "/about", "motif": "page à propos (contenu statique)" },
+    { "id": "/cheatsheet", "motif": "aide-mémoire markdown (tableaux, listes)" },
+    { "id": "/explore/public", "motif": "liste des notes publiques" },
+    { "id": "/new", "motif": "création de note" },
+    { "id": "/register", "motif": "formulaire d'inscription local" },
+    { "id": "/n/demo [state:editor]", "motif": "éditeur complet (CM6 + toolbar + rendu sandboxé)" },
+    { "id": "/n/demo [state:editor-menu]", "motif": "dropdown 'More options' ouvert (menus Bootstrap)" },
+    { "id": "/n/demo [state:editor-sidebar]", "motif": "panneau latéral 'Note info' ouvert (slide-sidebar)" }
+  ],
+  "notes": "seule route doc du périmètre : /n/demo via alias déterministe 'demo'. Bannière Announcement à fermer (Dismiss) — bloque les clics. Deux iframes de rendu sandboxées.",
+  "gel": "manifeste figé AVANT la baseline"
+}
