@@ -1,61 +1,52 @@
-# Verdict auditeur indépendant — cycle 12 : navidrome/navidrome @ 95f67d2c
+# Verdict auditeur indépendant — cycle 12 : navidrome/navidrome @ 95f67d2c (v2)
 
-**Verdict : PARTIAL** (score axe reproduit à l'identique — baseline 204 occurrences / 13 règles, final 0/0/exit 0 — et patch sans astuce de harnais, MAIS un correctif (`disablePortal`) introduit une régression d'accessibilité réelle absorbée en `incomplete` sans décision, et `states.json` porte un statesHash périmé invérifiable)
+**Verdict : PARTIAL** (score v2 rejoué à l'identique — 0 viol./0 err./exit 0 sur 15 surfaces, scopeHash + statesHash identiques, verify 14/14 durci, eval 6/6, les findings v1 F1/F2/F4/F5/F7 réellement corrigés et vérifiés en live — MAIS `patch-v2.diff` livré ne peut pas produire l'app : 3 fichiers nouveaux absents du diff, `npm ci` échoue sur checkout propre)
 
-Auditeur : session Devin b7143e87 (cycle boucle-continue, branche `devin/boucle-continue`)
-Date : 2026-10-04 · Méthode : rejeu intégral sur machine propre — clone vierge @ `95f67d2c4ef391967327f0c7dccd5d0d8b02f62e`, `git apply` du `patch.diff` livré (sha256 `fe99bfa9…d3b`, conforme), outils du cycle non modifiés, seed 5 mp3 ffmpeg régénéré (IDs album/artiste identiques au manifeste : `69IwB2p7tQDejD3lowUIFo`, `6QiT23Pg8GAJHZop58uMKH`).
+Auditeur : session Devin b7143e87 (boucle-continue, branche `devin/boucle-continue`)
+Date : 2026-10-04 · Méthode : rejeu intégral — worktree vierge @ `95f67d2c4ef391967327f0c7dccd5d0d8b02f62e`, `git apply patch-v2.diff` (sha256 `3b2d2aab…89c3`, conforme à patch-v2.diff.sha256 + results.json + provenance), outils du cycle relus (audit.mjs, verify.mjs durcis — diff vérifié), même seed 5 mp3 ffmpeg, mêmes commandes boot.
 
-## Ce que j'ai rejoué moi-même
+## Ce que j'ai rejoué (build v2 reconstruit — voir finding 1)
 
 | Étape | Résultat |
 |---|---|
-| sha256 `patch.diff` livré vs recalculé | OK — conforme à `patch.diff.sha256` et `provenance.json` |
-| `git apply` sur clone propre @ 95f67d2c | OK (24 fichiers, +455/-111) |
-| `npm ci` (ui) + postinstall `patch-ra-a11y.mjs` | PASS — 20 remplacements appliqués, 6 patterns absents (variantes lib/esm, warnings identiques au log du worker) |
-| `npm run build` (vite) | PASS |
-| `go build -tags netgo,sqlite_fts5` | PASS (go 1.27.1) |
-| Boot `ND_MUSICFOLDER/ND_DATAFOLDER/ND_PORT=8089`, scan 5 pistes | PASS — ids déterministes conformes |
-| `login.mjs` → `auth.json` | PASS |
-| `audit.mjs` final : 10 urls + `--states all` | **0 règle / 0 occurrence / 0 erreur, exit 0** — conforme à `final/report.json` |
-| `audit.mjs` login (sans auth, `--states none`) | **0 / 0 / 0** — conforme à `final-login/report.json` |
-| `verify.mjs` | **14/14 PASS** — conforme à `results.json` |
-| `eval-final.mjs` | **6/6 PASS** — conforme à `results.json` |
-| `scopeHash` rejoué | `830a3798…ce60` = scopeHash du `final/report.json` livré — **identique** (mêmes 14 scénarios, ids à l'identique) |
-| install-build sur clone propre (ma session = le rejeu) | PASS — npm ci / npm build / go build tous exit 0 |
-| provenance.json | **19/19 fichiers conformes** (sha256 + bytes) |
+| sha256 `patch-v2.diff` | OK — `3b2d2aab…` conforme aux 3 emplacements |
+| `git apply` sur clone propre | OK (24 fichiers) — **mais patch incomplet, voir finding 1** |
+| `npm ci` + postinstall, `npm run build`, `go build -tags netgo,sqlite_fts5` | PASS (après restauration des 3 fichiers manquants) |
+| Boot `ND_PORT=8089`, scan 5 pistes, `login.mjs` | PASS |
+| `audit.mjs` v2 : 10 urls + `--states all` | **0 règle / 0 occurrence / 0 erreur, exit 0** — conforme à `reports/final-v2/report.json` |
+| `audit.mjs` login | **0/0/0, 6 incomplets** — conforme à `reports/final-login-v2/report.json` |
+| scopeHash / statesHash rejoués | `830a3798…ce60` / `6548828d…9d3c` — **identiques** au `scope.json` livré et au `states.json` régénéré (F2 résolu : le hash est désormais vérifiable de bout en bout) |
+| `verify.mjs` | **14/14 PASS** — dont la nouvelle assertion `menu … layer landmark + #root non masqué` (`{"items":9,"inPopupLayer":true,"rootHidden":null}`) |
+| `eval-final.mjs` | **6/6 PASS** |
+| provenance.json | **28/28 fichiers conformes** |
+| Profil d'incomplets | Identique au livré : `color-contrast` ×14, `aria-valid-attr-value` ×9 — et surtout **zéro `aria-hidden-focus`, zéro `bypass`** (les 6 incomplets des états-menu de la v1 ont disparu) |
 
-## Baseline rejouée sur build vanilla (worktree séparé, port 8090, même seed)
+## Findings v1 — statut vérifié en live
 
-Distribution **identique** au rapport livré : 197 occurrences sur les 10 pages applicatives (7/6/7/4/8/6/4/5/4/3 par page, mêmes règles par page) + 7 sur login (label ×2, landmark-one-main ×1, page-has-heading-one ×1, region ×3) = **204 occurrences / 13 règles**. La baseline du worker est honnête.
-
-## Incomplets : mêmes règles des deux côtés
-
-Mon run final : 14 scénarios → mêmes règles en incomplete que le rapport livré — `color-contrast` (14 pages), `aria-valid-attr-value` (6), et sur les 3 états à menu modal : `aria-hidden-focus` + `bypass` ×3. Seuls les comptes de nœuds diffèrent (299 vs ~216 — timing, non contradictoire).
-
-## Patch sain — lecture intégrale (1403 lignes, 24 fichiers)
-
-Pas de `display:none`, pas de suppression de DOM audité, pas d'aria décoratif déconnecté, pas de délai artificiel. Corrections réelles et mappables sur les règles de la baseline : `MenuItemLink` → `NavItemLink` maison (suppression de `role=menuitem` hors menu — aria-required-parent), SubMenu restructuré (ListItem non-button + ButtonBase + IconButtons frères — nested-interactive), `<main>` + h1 + labels liés sur login/signup, h5/h6 → h2/p sur les pages show, `srOnly` dans les labels de colonnes d'icônes (empty-table-header honeste), aria-labels sur les IconButtons nus, `component={'div'}` retiré du GridList (ul>li restauré — listitem), contrastes dark/light remontés (`#2979ff` 3.98:1 → `#3f51b5` 6.97:1 — vérifié en computed style), patch postinstall ra-ui-materialui idempotent (aria-label span → inputProps, th bulk nommé, h6 bulk-toolbar → p, h1 role=alert → div, SearchInput label). Mécanisme de patch de dépendance conforme à la leçon CyberChef n°4.
+- **F1 (major) — CORRIGÉ, mieux que le vanilla.** Sondes indépendantes sur les 3 états : `ul[role=menu]` (9 items) → ancêtre `#a11y-popup-layer[role=complementary][aria-label="Popup layer"]`, layer frère de `#root` au niveau body, `#root` `aria-hidden` = **null** à chaque état. Le ModalManager n'a plus de frère à masquer : rien n'est jamais `aria-hidden`, ni le contenu ni le menu — strictement meilleur que le vanilla (qui masquait tout `#root`) et que la v1 (qui masquait le menu). Effet de bord documenté réel : le menu désormais visible par axe a exposé `aria-required-children` amont (Card username/Divider dans `ul[role=menu]`) — déplacés hors du `MenuList`, `Logout` `role=group`. Résolu proprement.
+- **F2 (major) — CORRIGÉ.** `states.json.statesHash` = `6548828d…` reproduit à l'identique par mon run via l'`audit.mjs` livré ; `scope.json` présent dans `reports/final-v2/` et `reports/final-login-v2/` ; chaîne de traçabilité complète.
+- **F4 (minor) — CORRIGÉ.** `aria-controls="context-menu"` cible un id stable rendu par `keepMounted` → résout.
+- **F5 (minor) — CORRIGÉ.** verify.mjs : `h1:visible === 1` réel, sous-menu inspecte le bouton `aria-expanded="true"` réel, et le check menu exige `inPopupLayer && rootHidden !== 'true'` — l'assertion couvre exactement la régression F1.
+- **F7 (minor) — CORRIGÉ.** scope.json livrés.
+- **F3 (minor) — NON CORRIGÉ.** 39 hunks `"peer": true` de package-lock persistent dans patch-v2.diff (churn non-fonctionnel).
+- **F6 (minor) — CORRIGÉ en partie.** `aria-label="more"` → `translate('ra.action.open_menu')` sur les boutons du patch ; un `aria-label="more"` résiduel amont subsiste sur une tuile d'album (hors patch).
 
 ## Findings
 
-1. **[major] `disablePortal` rend les menus ouverts invisibles pour les technologies d'assistance — régression introduite par le patch, absorbée sans décision en `incomplete`.** Démontré en live sur le build patché : menu contextuel ouvert (`[role=menu]`, 9 items) → `document.getElementById('root').ariaHidden === "true"` ET le menu est **à l'intérieur** de `#root` (chaîne DOM : `menu < … < MAIN < … < div#root[aria-hidden]`). Sur le build vanilla, même `aria-hidden` sur `#root` mais le menu en portail au niveau `body` → accessible (mais hors landmarks — la vraie violation `region` que le fix visait). Le patch a donc échangé « menu accessible hors landmark » contre « menu dans un landmark entièrement masqué à l'AT » : fonctionnellement pire pour un utilisateur lecteur d'écran (menu inatteignable), tout en faisant disparaître la violation axe. axe le signale honnêtement comme `aria-hidden-focus` **incomplete** sur les 3 états menu — mais ni `results.json` ni le manifeste ne documentent ce compromis ni ne tranchent ces incomplets. Correct attendu : conserver le portail et rattacher le menu à un landmark/dialog (`role="dialog"` + nom, ou container dédié non-masqué), ou neutraliser l'`aria-hidden` du ModalManager quand le modal vit dans `#root`.
+1. **[critical] `patch-v2.diff` ne peut pas produire l'app auditée — 3 fichiers nouveaux absents du diff.** Le patch référence mais ne contient pas : `ui/bin/patch-ra-a11y.mjs` (appelé par le postinstall de `ui/package.json` que le patch ajoute), `ui/src/common/popupContainer.js` (importé par ContextMenus.jsx, SongContextMenu.jsx, UserMenu.jsx), `ui/src/layout/NavItemLink.jsx` (importé par Menu.jsx, PlaylistsSubMenu.jsx). Preuve : sur worktree vierge + patch-v2 seul, `npm ci` échoue — `MODULE_NOT_FOUND bin/patch-ra-a11y.mjs` (exit 1 au postinstall) ; même contourné, vite échouerait sur les imports `popupContainer`/`NavItemLink`. Cause probable : fichiers non trackés dans l'arbre du worker → invisibles pour `git diff`. `install-build.log` date de la v1 (17:32, pas régénéré) — la garantie « install-build sur clone propre » ne couvre pas la v2. J'ai vérifié le score en reconstruisant : les 2 fichiers repris verbatim de `patch.diff` v1 + `popupContainer` réécrit en 3 lignes (`export const popupContainer = () => document.getElementById('a11y-popup-layer')` — pattern standard du prop `container` MUI v4, à confirmer contre le fichier réel du worker). Le mécanisme est prouvé sain ; la chaîne d'artefacts, non. Correctif : régénérer patch-v2 en incluant les nouveaux fichiers (`git add -N` avant `git diff`, ou `git diff HEAD` après `git add`).
 
-2. **[major] `states.json` : `statesHash` non reproductible — méthadonnée périmée.** Déclaré `890fa714…3cf8` ; recalculé avec le `audit.mjs` livré (même origine `127.0.0.1:8089`, sérialisation `{name:{url,setup}}` telle que scope.json la produit) : `69b0e761…e2a9`. Aucune variante d'origine ni de sérialisation (source brute, setups seuls, labels scénario) ne reproduit le hash livré — il provient d'une révision antérieure d'`audit.mjs` (le `harnessFindings` du manifeste documente une itération `:visible`/hover sur les setups). Même classe que les findings CyberChef (leçon n°5) et paperless : métadonnées calculées avant l'édition finale. Aggravé par l'absence de `scope.json` dans les dossiers `baseline/`/`final/` livrés — le statesHash du run final n'existe nulle part où le vérifier (scopeHash, lui, survit dans report.json et matche).
+2. **[minor] `install-build.log` non rejoué pour la v2** — le log livré est celui de la v1 ; or c'est précisément ce rejeu qui aurait détecté le finding 1. `results.json.installBuild.onCleanCheckout: true` est une affirmation v1 recyclée.
 
-3. **[minor] Churn non-fonctionnel dans `patch.diff`.** 36 hunks de `package-lock.json` retirant seulement des drapeaux `"peer": true` (regénération par une version npm différente, sans changement de dépendance) — ~72 lignes de bruit. Le manifeste annonce « +451/-111 » pour +455/-111 réel (24 fichiers corrects).
+3. **[minor] `manifest.json` : notes et artefacts obsolètes.** `boot.notes` documente encore « disablePortal ajouté aux Menu/Popover » (supprimé en v2) et `artifacts.patch` pointe patch.diff v1 + « +451/-111 » — le lecteur applique la mauvaise version. `patch_v2` n'est décrit que dans results.json/errata.
 
-4. **[minor] `aria-controls="long-menu"` pendant** sur le bouton « more » (ContextMenus) : cible `#long-menu` absente du DOM quand le menu est fermé → `aria-valid-attr-value` incomplete sur 6 surfaces. Wart MUI amont (non introduit par le patch), mais jamais décidé.
+4. **[minor] Churn lockfile persistant** (F3 non traité) : 39 hunks `"peer": true` non fonctionnels.
 
-5. **[minor] `verify.mjs` : deux assertions faibles.** « exactement un h1 visible » teste `>= 1` (libellé trompeur, ne détecterait pas deux h1) ; le check sous-menu inspecte `btns[0]` du premier `[aria-expanded]` du document — pourrait passer sur un autre bouton que celui du sous-menu. Aucune n'est tautologique, toutes deux peuvent échouer — couverture insuffisante, pas triche.
+5. **[minor] Landmark vide permanent.** `#a11y-popup-layer[role=complementary]` est présent et vide tant qu'aucun menu n'est ouvert — un point de repère vide pour la navigation par landmarks (bruit AT mineur ; un `aria-hidden` bascule sur état vide l'éviterait).
 
-6. **[minor] i18n partielle.** `aria-label="more"` codé en dur (anglais) sur `MoreButton` ; les nouvelles clés (`contextMenu`, `starred`, `playlistConfig`, `saveQueue`) ne sont ajoutées qu'à `en.json` — les autres langues livrées affichent la clé brute ou l'anglais.
+6. **[minor] Résidus amont.** `aria-label="more"` codé en dur subsistant sur un bouton hors patch ; `aria-valid-attr-value` incomplete ×9 = `aria-controls` amont MUI/RA vers des menus non résolubles (`simple-menu`, ids générés) — même classe que le finding v1 n°4, non introduit par le patch, jamais arbitré.
 
-7. **[minor] Artefacts incomplets côté livrable.** `audit.mjs` écrit `scope.json` dans le dossier de sortie ; ni `baseline/` ni `final/` ne le contiennent — seuls report.json/report.md sont committés. Le scopeHash reste vérifiable via `report.json.scopeHash` (conforme), mais la traçabilité des états est perdue (voir finding 2).
-
-8. **[info] `bypass` incomplete ×3 états menu.** axe ne peut pas évaluer les bypass-blocks en contexte modal ouvert — attendu, non bloquant.
-
-9. **[info] Runner intègre.** `audit.mjs` octet-identique au cycle 11 hors carte `STATES` ; `RULE_TAGS` inchangés (wcag2a→22aa + best-practice) ; axe-core 4.13.0 dans les deux rapports ; exit codes 0/1/2 respectés ; `--strict-incomplete` non utilisé (cohérent avec le protocole actuel — voir finding 1 pour ce qu'il aurait révélé).
+7. **[info] Runner et outils intègres.** `audit.mjs` : seuls les sélecteurs d'états ont changé (durcissement `:not([aria-hidden])` légitime — cible les menus réellement ouverts, pas masquage) ; `RULE_TAGS` inchangés ; axe-core 4.13.0 ; verify.mjs plus strict qu'en v1, pas plus laxiste.
 
 ## Rationale du verdict
 
-CONFIRMED exige « score axe reproductible + patch sain ». Le score l'est — intégralement (baseline 204 à l'occurrence près, final 0 viol./0 err./exit 0, mêmes 14+1 scénarios, verify 14/14, eval 6/6, install-build propre, provenance 19/19). Mais le patch n'est pas entièrement sain : le `disablePortal` corrige `region` en rendant les menus inaccessibles à l'AT — défaut réel introduit par la correction, visible uniquement en `incomplete` axe, jamais arbitré. Ajouté au statesHash invérifiable (même classe que le mismatch de provenance du cycle 10), le verdict est **PARTIAL** — à convertir en CONFIRMED après (a) correction du portail/aria-hidden des menus et rescan des 3 états, (b) régénération de `states.json` depuis le `audit.mjs` livré et livraison des `scope.json` dans les rapports.
+Le travail de fond est excellent : les deux majors de la v1 sont corrigés proprement, le nouveau mécanisme est vérifiable et vérifiablement meilleur que l'amont, le score est parfaitement reproductible et la traçabilité states/scope est enfin bouclée. Mais le critère CONFIRMED exige « patch sain » au sens artefact : or `patch-v2.diff` livré seul ne build pas (npm ci exit 1) — la chaîne patch → app auditée est rompue pour tout reproducteur. Même classe que « provenance calculée avant l'édition finale », en plus grave : c'est le livrable central qui est incomplet. **PARTIAL** — à convertir en CONFIRMED dès que patch-v2.diff est régénéré avec les 3 fichiers (et install-build rejoué pour le prouver) ; le reste du cycle est déjà au niveau CONFIRMED.
