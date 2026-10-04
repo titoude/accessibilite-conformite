@@ -142,7 +142,8 @@ const STATES = {
       await page.waitForSelector('.MuiAppBar-root', { timeout: 15000 });
       await page.waitForTimeout(1500);
       await page.locator('.MuiAppBar-root button[aria-haspopup]').last().click();
-      await page.waitForSelector('.MuiPopover-paper .MuiMenuItem-root', { state: 'visible', timeout: 10000 });
+      // keepMounted laisse des popovers dormants (aria-hidden) : viser un menu réellement ouvert
+      await page.locator('.MuiPopover-root:not([aria-hidden="true"]) .MuiMenuItem-root').first().waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(600);
     },
   },
@@ -157,7 +158,7 @@ const STATES = {
       await row.hover();
       await page.waitForTimeout(400);
       await row.locator('button[aria-label*="actions" i]').click();
-      await page.waitForSelector('.MuiMenu-paper:visible', { state: 'visible', timeout: 10000 });
+      await page.locator('.MuiPopover-root:not([aria-hidden="true"]) .MuiMenu-paper').first().waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(600);
     },
   },
@@ -169,8 +170,8 @@ const STATES = {
       const tile = page.locator('.MuiGridListTile-root').first();
       await tile.hover();
       await page.waitForTimeout(400);
-      await tile.locator('button[aria-label="more"]').click();
-      await page.waitForSelector('.MuiMenu-paper:visible', { state: 'visible', timeout: 10000 });
+      await tile.locator('button[aria-haspopup="true"]').click();
+      await page.locator('.MuiPopover-root:not([aria-hidden="true"]) .MuiMenu-paper').first().waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(600);
     },
   },

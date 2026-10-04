@@ -56,5 +56,20 @@
  },
  "corrections_v2": {
   "structural_h1": "h1 ajoute sur Home(/,/explore,/?creator=*), MemoDetail, + aria-label sidebar (i18n common.sidebar) — couvre toutes les routes pas seulement les spots flagges"
- }
+ },
+ "patch_v3": {
+  "sha256": "e77b1a0e1fd05d6ab381ab81a4cfe78d13efeaf993933525342836d31451fb8d",
+  "delta_v2_v3": [
+   "import useTranslate trié (biome organizeImports)",
+   "common.sidebar traduit dans les 45 autres locales",
+   "verify.mjs : h1 >=1 au lieu de ==1 (robuste au seed markdown)",
+   "manifest : seed clarifié (?memoId=, titre sans #)"
+  ],
+  "verify_mjs": "12/12",
+  "eval_final_mjs": "6/6",
+  "lint": "tsc+biome 694 fichiers PASS",
+  "test": "vitest 1772/1772",
+  "final_v3_scan": "0 violation ×15 scénarios, exit 0, 106 incomplets"
+ },
+ "auditTiers": "PARTIAL→v3 soumis pour re-vérification (devin-15ad4322)"
 }

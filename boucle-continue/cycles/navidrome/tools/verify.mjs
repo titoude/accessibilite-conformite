@@ -40,7 +40,7 @@ page.on('pageerror', (e) => results.push({ name: 'pageerror', ok: false, detail:
 await page.goto(base + '/app/#/album/recentlyAdded?sort=recently_added&order=DESC&filter={}')
 await page.waitForSelector('.MuiGridList-root', { timeout: 15000 })
 await page.waitForTimeout(1500)
-check('app: exactement un h1 visible', (await page.locator('h1:visible').count()) >= 1)
+check('app: exactement un h1 visible', (await page.locator('h1:visible').count()) === 1)
 check('app: landmark <main>', (await page.locator('main').count()) > 0)
 check('app: bouton skip-nav présent (RA SkipNavigationButton)', await page.locator('.skip-nav-button').count() > 0)
 check('nav: landmark navigation nommé', await page.locator('[role="navigation"][aria-label], nav[aria-label]').count() > 0)
@@ -65,15 +65,13 @@ check('filtre: input recherche labellisé', await page.locator('input[aria-label
 await page.locator('text=Playlists').first().click()
 await page.waitForSelector('.MuiCollapse-entered', { timeout: 10000 })
 const sub = await page.evaluate(() => {
+  // le bouton qui contrôle le sous-menu réellement ouvert est aria-expanded="true"
   const btns = [...document.querySelectorAll('[aria-expanded]')]
-  const li = document.querySelector('nav [aria-expanded]')?.closest('li')
-  const nested = li ? [...li.querySelectorAll('li button, li [role="button"], li [role="menuitem"]')] : []
-  // un interactive enfant direct du header-button = nested-interactive
-  const header = btns[0]
+  const header = document.querySelector('[aria-expanded="true"]')
   const nestedInside = header ? header.querySelectorAll('button, [role="button"], a').length : -1
-  return { expanded: btns.length, nestedInside }
+  return { expanded: btns.length, headerFound: !!header, headerExpanded: header?.getAttribute('aria-expanded'), nestedInside }
 })
-check('sous-menu: bouton aria-expanded présent, sans interactif imbriqué', sub.expanded > 0 && sub.nestedInside === 0, JSON.stringify(sub))
+check('sous-menu: bouton aria-expanded présent, sans interactif imbriqué', sub.expanded > 0 && sub.headerFound && sub.nestedInside === 0, JSON.stringify(sub))
 
 // 8. menu contextuel d'une ligne : ouvert, role=menu, items, DANS un landmark (disablePortal)
 await page.goto(base + '/app/#/song')
@@ -82,16 +80,16 @@ await page.waitForTimeout(1500)
 const row = page.locator('tbody .MuiTableRow-root').last()
 await row.hover()
 await row.locator('button[aria-label*="actions" i]').click()
-await page.waitForSelector('.MuiMenu-paper:visible', { timeout: 10000 })
+await page.locator('.MuiPopover-root:not([aria-hidden="true"]) [role="menu"]').first().waitFor({ state: 'visible', timeout: 10000 })
 const menu = await page.evaluate(() => {
-  const m = document.querySelector('[role="menu"]')
+  const m = [...document.querySelectorAll('.MuiPopover-root:not([aria-hidden="true"]) [role="menu"]')][0]
   if (!m) return null
   const items = m.querySelectorAll('[role="menuitem"]').length
-  let p = m.parentElement, inLandmark = false
-  while (p) { if (/^(MAIN|NAV|HEADER|FOOTER|ASIDE)$/.test(p.tagName) || p.getAttribute('role') === 'dialog') { inLandmark = true; break } p = p.parentElement }
-  return { items, inLandmark }
+  const inPopupLayer = !!m.closest('#a11y-popup-layer[role="complementary"]')
+  const rootHidden = document.getElementById('root')?.getAttribute('aria-hidden')
+  return { items, inPopupLayer, rootHidden }
 })
-check('menu contexte: role=menu + items + rendu dans un landmark', menu && menu.items > 0 && menu.inLandmark, JSON.stringify(menu))
+check('menu contexte: role=menu + items + layer landmark + #root non masqué', menu && menu.items > 0 && menu.inPopupLayer && menu.rootHidden !== 'true', JSON.stringify(menu))
 await page.keyboard.press('Escape')
 
 // 9. hiérarchie de titres sur la page d'un album

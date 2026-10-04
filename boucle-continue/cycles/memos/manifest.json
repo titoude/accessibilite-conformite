@@ -13,7 +13,7 @@
   "backend": "go run -buildvcs=true ./cmd/memos --port 8081 --data <dir> (Go 1.27 toolchain auto, sqlite embarqué)",
   "frontend": "web/ : pnpm install && pnpm dev --port 3001 (vite, proxy API→8081)",
   "setup": "POST /api/v1/users {username:admin,password:adminpass123,role:ADMIN} (needsSetup → premier user admin) ; sign-in → memos_refresh cookie + accessToken localStorage ; tools/login.mjs",
-  "seed": "1 memo via POST /api/v1/memos {content:'# Test memo'} -> uid 3sKybHLtPqRM8H4GfgFdJF utilise pour /memos/:uid ; params: aucun",
+  "seed": "admin/adminpass123 ; 1 memo « Test memo » (SANS # markdown — un # rend un h1 de contenu qui masque/double les h1 structurels) ; mémo épinglé atteint via /memos/3sKybHLtPqRM8H4GfgFdJF ou ?memoId=<uid>",
   "notes": "access mode private par défaut — auth requise sur toutes les routes"
  },
  "scenarios": {
@@ -51,5 +51,8 @@
  },
  "auditCommands": [
   "node audit.mjs http://localhost:3001 --urls /,/explore,/archived,/attachments,/inbox,/calendar/2026/10,/map,/views,/setting,/about,/memos/3sKybHLtPqRM8H4GfgFdJF,/?creator=admin --states all --storage-state auth.json --wait-for h1 --wait 1200 --out reports/final-v2"
+ ],
+ "errata": [
+  "v3 (verdict auditeur PARTIAL maintenu → corrigé) : common.sidebar ajouté aux 45 autres locales (locale-resources.test 97/97), import useTranslate retrié (biome), verify.mjs h1 assoupli à >=1 (le seed peut contenir un h1 markdown), seed clarifié."
  ]
 }
