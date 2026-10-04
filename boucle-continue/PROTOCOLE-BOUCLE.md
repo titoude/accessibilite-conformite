@@ -45,6 +45,12 @@ indépendant, corriger la procédure à chaque faille trouvée, et tout document
   doit former son propre verdict.
 - Les artefacts voyagent via les attachments de session + structured_output
   (les sessions filles ont des VM séparées, rien n'est partagé).
+- **Seed littérale et réaliste** : le seed DOIT épingler les littéraux exacts
+  et couvrir le cas réel dominant — pour toute app de messages/contenu, un
+  message Markdown **contenant un lien** et du contenu réellement rendu
+  (jamais un shell vide). Défauts attrapés 3 fois par cette règle :
+  ntfy F1 (`a{color:#338574}` 4.42:1), gotify F1 (`.content & a` 2.49:1),
+  docmost M1 (« 0 violation » creux car la page docs était sans contenu).
 
 ## Fenêtre
 
