@@ -109,7 +109,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v5';
+const RUNNER_VERSION = 'audit.mjs v6';
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -125,11 +125,20 @@ const RUNNER_VERSION = 'audit.mjs v5';
  *     },
  *   },
  */
+// Précondition de montage build-agnostique : attendre le trigger du state
+// LUI-MÊME plutôt qu'un landmark (le build vanilla n'a pas de <main> —
+// c'est justement une des violations mesurées).
+const MOUNTED = () =>
+  document.getElementById('root')?.children.length > 0;
+const waitAppMounted = (page) =>
+  page.waitForFunction(MOUNTED, null, { timeout: 20000 });
+
 const STATES = {
   'user-menu': {
     url: (o) => o + '/home',
     setup: async (page) => {
-      await page.waitForSelector('main, .mantine-AppShell-main', { timeout: 20000 });
+      await waitAppMounted(page);
+      await page.waitForSelector('button[aria-haspopup="menu"]', { timeout: 20000 });
       await page.waitForTimeout(1500);
       await page.locator('button[aria-haspopup="menu"]').first().click();
       await page.waitForSelector('[role="menu"], .mantine-Menu-dropdown', { state: 'visible', timeout: 10000 });
@@ -139,7 +148,8 @@ const STATES = {
   'notifications': {
     url: (o) => o + '/home',
     setup: async (page) => {
-      await page.waitForSelector('main, .mantine-AppShell-main', { timeout: 20000 });
+      await waitAppMounted(page);
+      await page.waitForSelector('button[aria-haspopup="dialog"]', { timeout: 20000 });
       await page.waitForTimeout(1500);
       await page.locator('button[aria-haspopup="dialog"]').first().click();
       await page.waitForSelector('[role="dialog"], .mantine-Popover-dropdown', { state: 'visible', timeout: 10000 });
@@ -149,9 +159,11 @@ const STATES = {
   'command-palette': {
     url: (o) => o + '/home',
     setup: async (page) => {
-      await page.waitForSelector('main, .mantine-AppShell-main', { timeout: 20000 });
+      await waitAppMounted(page);
+      const searchBtn = page.locator('button').filter({ hasText: /search/i }).first();
+      await searchBtn.waitFor({ state: 'visible', timeout: 20000 });
       await page.waitForTimeout(1500);
-      await page.locator('button').filter({ hasText: /search/i }).first().click();
+      await searchBtn.click();
       await page.waitForSelector('.mantine-Spotlight-root input, [role="dialog"] input', { state: 'visible', timeout: 10000 });
       await page.waitForTimeout(400);
     },
@@ -159,7 +171,8 @@ const STATES = {
   'dark-mode': {
     url: (o) => o + '/docs/general/YE3rIig7Vn',
     setup: async (page) => {
-      await page.waitForSelector('main, .mantine-AppShell-main', { timeout: 20000 });
+      await waitAppMounted(page);
+      await page.waitForSelector('button:visible', { timeout: 20000 });
       await page.waitForTimeout(1500);
       const t = page.locator('button').filter({ hasText: /color scheme|toggle/i }).or(page.locator('button[aria-label*="scheme" i]')).first();
       await t.click();
@@ -305,6 +318,9 @@ async function run() {
 
   const axePath = require.resolve('axe-core/axe.min.js');
   const axeSource = readFileSync(axePath, 'utf8');
+  const axeVersion = JSON.parse(
+    readFileSync(require.resolve('axe-core/package.json'), 'utf8'),
+  ).version;
 
   // Injection d'axe : addScriptTag crée un élément <script> soumis à la CSP
   // de la page ; une CSP stricte (script-src 'self') le bloque. Repli :
@@ -485,6 +501,8 @@ async function run() {
   const scope = {
     runId, runnerVersion: RUNNER_VERSION, generatedAt: new Date().toISOString(),
     baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
+    waitMs, waitFor,
+    testEngine: { name: 'axe-core', version: axeVersion },
     storageState: !!storageState,
     total: scopeEntries.length,
     audited: scopeEntries.filter(e => e.status === 'audited').length,

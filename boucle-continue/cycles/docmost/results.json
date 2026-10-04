@@ -1,60 +1,77 @@
 {
- "baseline": {
-  "occurrences": 20,
-  "regles": 7,
-  "pages": 18,
-  "dontErreur": 2,
-  "note": "baseline mesurée APRÈS une première vague de corrections (couche popup + étendues thème + labels modales) — les scans préliminaires non persistés avaient aussi remonté aria-prohibited-attr, empty-table-header, aria-required-children (Menu), region via portails body. La baseline commitée sous-estime donc la non-conformité initiale ; l'auditeur re-dérive la sienne sur l'amont propre."
- },
- "final": {
-  "occurrences": 0,
-  "regles": 0,
-  "scans": 20,
-  "pages": 16,
-  "etats": 4,
-  "exit": 0,
-  "incomplets": 1,
-  "dontErreur": 1,
-  "noteErreur": "/p/docmost redirige vers /login (page privée non partagée) — comportement correct, enregistré en scope.json"
- },
- "verify": "19/19 assertions PASS (0 échec)",
- "evalFinal": "10/10 PASS — 3 findings réels découverts et corrigés (inputs /settings/security, contraste dark dimmed/avatar, h4→h2/h5→h3 sécurité, routes 404 substituées), 1 faux positif de harnais corrigé (coquille dialog cachée)",
- "corrections": [
-  "index.html : viewport standard + <div id=a11y-popup-layer role=complementary aria-label> après #root",
-  "theme.ts : étendues Mantine globales — Menu (withInitialFocusPlaceholder:false + portalProps), Modal/ModalRoot/Drawer/DrawerRoot/Popover/Portal portalProps → #a11y-popup-layer (couvre tous les portails partagés)",
-  "main.tsx : Notifications → portalProps #a11y-popup-layer",
-  "Modales (5 fichiers) : aria-label retiré de Modal.Root (atterrit sur le wrapper sans role → aria-prohibited-attr) ; nommage via <Modal.Title> (aria-labelledby auto)",
-  "avatar-uploader : Menu.Target div → UnstyledButton (aria-allowed-attr : haspopup/expanded exigent un role)",
-  "notification-popover : Tabs.Tab bidouille aria-controls → vrais Tabs.Panel direct/updates + TabPanelContent",
-  "notification-pref : Switch double label Mantine (label interne + label externe) → <Text id> + aria-labelledby (form-field-multiple-labels)",
-  "search-spotlight : title sur Spotlight.Root → dialog nommé",
-  "home/space-home/template-list/trash : h1 manquants (VisuallyHidden component=h1 ou Title order=1)",
-  "App.tsx : /settings index → Navigate /settings/account/profile",
-  "page-editor + title-editor : contenteditable → role=textbox (+aria-multiline contenu) pour aria-label légal",
-  "app-version : lien de version aria-label Release notes (lien vide quand version absente)",
-  "Table.Th vides (3 tableaux) : <VisuallyHidden>Action</VisuallyHidden> (empty-table-header)",
-  "docs.module.css + error-404.module.css : contrastes docs-shell/404 (light-dark())",
-  "trash-retention : NumberInput/Select aria-label ; allowed-domains : TagsInput aria-label (label)",
-  "security.tsx : h4→h2, h5→h3 (heading-order)",
-  "custom-avatar : placeholder -9 → light-dark(-9,-3) (contraste dark 1.55→ok)",
-  "a11y-overrides.css : --mantine-color-dimmed → dark-1 en :root[dark] (3.5→≥4.5 partout c=dimmed)"
- ],
- "decisionsIncomplets": [
-  {
-   "regle": "aria-valid-attr-value",
-   "scope": "/home [state:user-menu]",
-   "decision": "N-A / faux positif — aria-controls de Menu.Target pointe vers le dropdown réellement monté dans la couche popup (vérifié en DOM : id mantine-*-dropdown existe) ; axe marque incomplete hors contexte portal",
-   "preuve": "probe25 : target:true"
+  "version": "v2",
+  "baseline": {
+    "app": { "occurrences": 41, "regles": 13, "scans": 16, "pages": 12, "etats": 4, "erreurs": 0, "incomplets": 8 },
+    "public": { "occurrences": 9, "regles": 5, "pages": 4, "erreurs": 1, "incomplets": 2 },
+    "totalOccurrences": 50,
+    "note": "baseline rejouée en v2 sur worktree vanilla @2e0538c7 (pnpm install --frozen-lockfile, même audit.mjs v6, mêmes STATES, même backend/seed). scopeHash+statesHash+testEngine+waitMs identiques au final (scope-compare.json). Doc public RENDU par seed littérale : vanilla y mesure aria-allowed-attr×1 + aria-input-field-name×2 + color-contrast×3 — reproduit le point M1 de l'auditeur."
+  },
+  "final": {
+    "app": { "occurrences": 0, "regles": 0, "scans": 16, "pages": 12, "etats": 4, "erreurs": 0, "incomplets": 1 },
+    "public": { "occurrences": 0, "regles": 0, "pages": 4, "erreurs": 1, "incomplets": 2 },
+    "exit": "app=0 ; public=2 par design : l'exit du runner est 2 dès qu'une erreur de navigation est enregistrée — ici /p/docmost → /login?redirect=%2Fp%2Fdocmost (route privée non partagée, identique baseline/final, consigné en scope.json) ; les 2 incomplets sont décidés ci-dessous. Aucune violation sur les 3 pages réellement scannées, doc rendu inclus.",
+    "noteErreur": "/p/docmost redirige vers /login — comportement upstream correct, présent à l'identique en baseline"
+  },
+  "verify": "25/25 assertions PASS (0 échec) — §5b sonde le doc public rendu : titre, contenu (textLen=251, 3 headings), lien https://docmost.com/, éditeurs read-only role=textbox+aria-label, toc/lien contrastés ≥4.5 (5.21)",
+  "evalFinal": "10/10 PASS — check modale non-vacué : exige found && titleText && insideLayer ; 'Page history' mesuré avec labelledby réel (mantine-*-title)",
+  "correctionsV1conservees": [
+    "index.html : viewport standard + <div id=a11y-popup-layer role=complementary aria-label> après #root",
+    "theme.ts : étendues Mantine — Menu (withInitialFocusPlaceholder:false + portalProps), Modal/ModalRoot/Drawer/DrawerRoot/Popover/Portal portalProps → #a11y-popup-layer",
+    "main.tsx : Notifications → portalProps #a11y-popup-layer",
+    "avatar-uploader : Menu.Target div → UnstyledButton",
+    "notification-popover : vrais Tabs.Panel direct/updates + TabPanelContent",
+    "notification-pref : Switch → <Text id> + aria-labelledby",
+    "search-spotlight : title sur Spotlight.Root",
+    "h1 manquants : home/space-home/template-list/trash (VisuallyHidden component=h1 ou Title order=1)",
+    "App.tsx : /settings index → Navigate /settings/account/profile",
+    "page-editor + title-editor : contenteditable → role=textbox (+aria-multiline contenu)",
+    "app-version : aria-label Release notes",
+    "Table.Th vides (3 tableaux) : <VisuallyHidden>Action</VisuallyHidden>",
+    "docs.module.css + error-404.module.css : contrastes docs-shell/404",
+    "trash-retention + allowed-domains : aria-label",
+    "security.tsx : h4→h2, h5→h3",
+    "custom-avatar : placeholder -9 → light-dark(-9,-3)",
+    "a11y-overrides.css : --mantine-color-dimmed → dark-1 en :root[dark]",
+    "Modales : aria-label retiré de Modal.Root → nommage via <Modal.Title> (aria-labelledby auto)"
+  ],
+  "correctionsV2": [
+    "seed littérale (tools/seed.mjs) : setup workspace → allowPublicSpaces → création page 'Guide de démarrage' via API (sections Prérequis + Étapes, lien externe https://docmost.com) → slug fixé YE3rIig7Vn → publish public-space → probe page-info. /docs/general/YE3rIig7Vn sert désormais un doc réellement rendu (mesuré : textLen=251, 3 headings, 1 lien).",
+    "link-view.tsx (aria-allowed-attr) : Popover.Target pose sur <a> (role link — aria-haspopup/expanded/controls légaux dessus) ; span.linkWrapper rétrogradé en pur conteneur d'un seul enfant. Lien non-éditable rendu sans Popover.",
+    "readonly-page-editor.tsx (aria-input-field-name ×2) : éditeurs titre/contenu → editorProps.attributes { role:'textbox', 'aria-label': t('Page title')|t('Page content'), 'aria-multiline' } — role:textbox redéclaré explicitement car la déco ProseMirror réévalue les attributes bruts (le role injecté au constructeur tiptap est perdu).",
+    "drawio-view.tsx (M2) : nom accessible restauré — <VisuallyHidden><Modal.Title>{t('Diagram editor')}</Modal.Title></VisuallyHidden> dans Modal.Content (aria-labelledby auto) ; l'aria-label retiré de Modal.Root n'est pas réintroduit (atterrissait sur le wrapper sans role).",
+    "docs-theme.ts : preset public clair accent '#2b7af1' → '#1a66d6' (≈3.8:1 → ≥4.5:1).",
+    "docs.module.css : --docs-accent '#2b7af1' → '#1a66d6' ; --docs-muted var(--mantine-color-dimmed) → var(--mantine-color-gray-7) en mode clair uniquement (tocLink + muted mesurés 5.21).",
+    "audit.mjs v6 : waits d'états agnostiques (montage #root + sélecteurs de déclencheur réels : le landmark <main> attendu en v1 n'existe pas en vanilla — 3 états n'étaient plus rejouables en baseline) ; scope.json étendu : waitMs, waitFor, testEngine {name,version}."
+  ],
+  "decisionsIncomplets": [
+    {
+      "regle": "aria-valid-attr-value",
+      "scope": "/home [state:user-menu] (final-v2-app)",
+      "decision": "N-A — axe ne peut pas résoudre aria-controls vers le dropdown tant qu'il est démonté (Menu Mantine lazy-mount). Mesuré ouvert : le dropdown existe dans la couche popup et un autre aria-controls (tab notification) résout vers mantine-4h560xkps-panel-direct réel.",
+      "preuve": "verify.mjs PASS 'menu utilisateur monté dans la couche popup' + 'tab notification contrôle un tabpanel monté'"
+    },
+    {
+      "regle": "color-contrast",
+      "scope": "/login (final-v2-public)",
+      "decision": "N-A — <p> wordmark 'Docmost' : axe 'background indéterminé, partiellement obscurci'. Mesuré manuellement : rgb(0,0,0) sur rgb(255,255,255) = 21:1.",
+      "preuve": "probe Playwright elementsFromPoint + color-mix → ratio 21.00"
+    },
+    {
+      "regle": "color-contrast",
+      "scope": "/forgot-password (final-v2-public)",
+      "decision": "N-A — même <p> wordmark 'Docmost', même mesure 21:1.",
+      "preuve": "probe Playwright → ratio 21.00"
+    }
+  ],
+  "limites": [
+    "incomplets axe absorbés : 3 résiduels décidés ci-dessus",
+    "revue lecteur d'écran réelle non exécutée (checklist humaine à jouer)",
+    "modale drawio non déclenchée dynamiquement (nécessite un bloc drawio embarqué) — nommage par <Modal.Title>, mécanisme Mantine prouvé vivant sur 'Page history' (eval-final : labelledby réel)",
+    "eslint non rejoué : plugin @tanstack/eslint-plugin-query absent du node_modules dev (environnement, pas le patch)"
+  ],
+  "installBuild": {
+    "methode": "git worktree --detach @2e0538c7 (docmost-buildcheck) + git apply --check patch-v2.diff + git apply + pnpm install --frozen-lockfile + pnpm --filter @docmost/editor-ext build + tsc --noEmit apps/client + vite build apps/client",
+    "resultat": "apply --check OK, frozen install 3.3s, tsc --noEmit 0 erreur, vite build ✓ 1.72s",
+    "statut": "PASS"
   }
- ],
- "limites": [
-  "incomplets axe absorbés : 1 résiduel décidé ci-dessus",
-  "revue lecteur d'écran réelle non exécutée (checklist humaine à jouer)",
-  "eslint non rejoué : plugin @tanstack/eslint-plugin-query absent du node_modules dev (dépendance d'environnement, pas du patch)"
- ],
- "installBuild": {
-  "methode": "git worktree @2e0538c7 + git apply patch.diff + pnpm install --frozen-lockfile + build workspace @docmost/editor-ext + vite build apps/client",
-  "resultat": "patch appliqué proprement (--check), frozen install OK, tsc --noEmit 0 erreur, vite build ✓ 1.77s",
-  "verdict": "PASS"
- }
 }

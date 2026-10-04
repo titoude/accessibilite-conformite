@@ -39,29 +39,28 @@ for (const u of fresh) {
   ok(`axe 0 violation sur ${u} (hors périmètre verify)`, v.length === 0, v.map((x) => x.id).join(","));
 }
 
-// B. Modal page-history réelle ouverte : role dialog + nom calculé + focus piégé
+// B. Modal page-history réelle ouverte : role dialog + nom calculé + couche.
+// Chemin réel : bouton « Page actions » (Menu.Target) → item « Page history ».
 await page.goto(BASE + "/s/general/p/test-page-a11y-YE3rIig7Vn", { waitUntil: "domcontentloaded" });
 await page.waitForTimeout(3000);
-const hist = await page.evaluate(() => {
-  const btns = [...document.querySelectorAll("button")];
-  const b = btns.find((x) => /history|historique/i.test(x.textContent + " " + (x.getAttribute("aria-label") || "")));
-  if (b) { b.click(); return true; }
-  const mi = [...document.querySelectorAll("header button, [class*=menu] button")].find((x) => /page/i.test(x.getAttribute("aria-label") || "") || /options/i.test(x.getAttribute("aria-label") || ""));
-  return mi ? (mi.click(), "menu") : false;
-});
-await page.waitForTimeout(1500);
-if (hist === "menu") {
-  const item = await page.$('[role="menuitem"]:has-text("history"), [role="menuitem"]:has-text("istorique")');
-  if (item) { await item.click(); await page.waitForTimeout(1500); }
+const actionsBtn = await page.$('button[aria-label="Page actions"], button[aria-label*="actions" i]');
+if (actionsBtn) {
+  await actionsBtn.click();
+  await page.waitForSelector('[role="menu"]', { timeout: 8000 }).catch(() => {});
 }
+const histItem = await page.$('[role="menuitem"]:has-text("history"), [role="menuitem"]:has-text("istorique")');
+if (histItem) { await histItem.click(); await page.waitForSelector('[role="dialog"]', { timeout: 8000 }).catch(() => {}); }
+await page.waitForTimeout(1200);
 const dlg = await page.evaluate(() => {
   const ds = [...document.querySelectorAll('[role="dialog"]')].filter((d) => d.offsetHeight > 0);
   const d = ds[0];
   const lb = d?.getAttribute("aria-labelledby");
   return { found: !!d, labelledby: lb, titleText: lb ? document.getElementById(lb)?.textContent : null, insideLayer: d ? document.getElementById("a11y-popup-layer")?.contains(d) : false };
 });
-// Dialogues fermés restent montés mais invisibles : on ne juge qu'un dialog visible.
-ok("modal ouverte = role dialog nommée dans la couche", !dlg.found || (dlg.titleText && dlg.insideLayer), JSON.stringify(dlg));
+// Non-vacueux : FAIL si aucun dialog ne s'est ouvert (found:false = interaction
+// non produite → l'assertion ne doit PAS passer à vide) ; si ouvert, doit être
+// nommé ET monté dans la couche popup.
+ok("modal ouverte = role dialog nommée dans la couche", dlg.found && !!dlg.titleText && !!dlg.insideLayer, JSON.stringify(dlg));
 await page.keyboard.press("Escape");
 
 // C. Commentaires/mention dans l'éditeur (zone non testée) : axe sur l'éditeur en mode sombre

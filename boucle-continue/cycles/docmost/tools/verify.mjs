@@ -102,6 +102,56 @@ const editor = await page.evaluate(() => {
 ok("éditeur contenu role=textbox multiline nommé", editor.content?.role === "textbox" && !!editor.content?.label && editor.content?.multiline === "true", JSON.stringify(editor.content));
 ok("éditeur titre role=textbox nommé", editor.title?.role === "textbox" && !!editor.title?.label, JSON.stringify(editor.title));
 
+// 5b. Doc public RENDU (seed littérale) : contenu + lien + toc + éditeurs nommés
+await goto("/docs/general/YE3rIig7Vn", 3500);
+// le rendu est async : attendre le lien du seed, sinon on mesure un shell vide
+await page.waitForSelector('.ProseMirror a[href]', { timeout: 15000 });
+const pub = await page.evaluate(() => {
+  // plusieurs .ProseMirror existent (titre + contenu) : prendre le plus riche
+  const pms = [...document.querySelectorAll(".ProseMirror")];
+  const pm = pms.reduce((a, b) => (b.textContent.length > (a?.textContent?.length ?? 0) ? b : a), null);
+  const link = pm?.querySelector("a[href]");
+  const textboxes = [...document.querySelectorAll('[role="textbox"]')];
+  const stray = document.querySelector('[class*="linkWrapper"][aria-haspopup], [class*="linkWrapper"] [aria-haspopup], [class*="linkWrapper"][aria-expanded], [class*="linkWrapper"] [aria-expanded]');
+  const tocLinks = [...document.querySelectorAll('[class*="tocLink"]')];
+  // normalise toute couleur CSS (rgb(), oklch(), color(srgb …)) en canaux 0-255
+  // via color-mix — un regex naïf lit oklch(0.99 0 0) comme rgb(0.99,0,0).
+  const toRgb = (c) => {
+    const e = document.createElement("i");
+    e.style.color = `color-mix(in srgb, ${c} 100%, rgb(0,0,0) 0%)`;
+    document.body.append(e);
+    const out = getComputedStyle(e).color;
+    e.remove();
+    const rgb = out.match(/^rgb\(([^)]+)\)/);
+    if (rgb) return rgb[1].match(/\d+(\.\d+)?/g).slice(0, 3).map(Number);
+    const srgb = out.match(/^color\(srgb ([^)]+)\)/);
+    if (srgb) return srgb[1].trim().split(/\s+/).slice(0, 3).map((v) => parseFloat(v) * 255);
+    return null;
+  };
+  const lum = (rgb) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]); };
+  const ratio = (l1, l2) => (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+  const effBg = (el) => { let n = el; while (n && n !== document.documentElement) { const b = getComputedStyle(n).backgroundColor; if (b && !b.includes("0, 0, 0, 0") && b !== "rgba(0, 0, 0, 0)") return b; n = n.parentElement; } return "rgb(255,255,255)"; };
+  const cr = (el) => { if (!el) return null; const fg = toRgb(getComputedStyle(el).color), bg = toRgb(effBg(el)); return fg && bg ? ratio(lum(fg), lum(bg)) : null; };
+  return {
+    pmFound: !!pm,
+    pmCount: pms.length,
+    textLen: pm?.textContent?.trim().length ?? 0,
+    headingCount: pm ? pm.querySelectorAll("h1,h2,h3").length : 0,
+    linkHref: link?.getAttribute("href") ?? null,
+    linkText: link?.textContent?.trim() ?? "",
+    linkRatio: cr(link),
+    tb: textboxes.map((t) => ({ label: t.getAttribute("aria-label"), editable: t.getAttribute("contenteditable") })),
+    strayAria: !!stray,
+    tocCount: tocLinks.length,
+    tocRatio: tocLinks.length ? cr(tocLinks[0]) : null,
+  };
+});
+ok("doc public rend un contenu réel (seed littérale : titre+contenu+lien)", pub.pmFound && pub.textLen > 50 && pub.headingCount >= 1 && !!pub.linkHref && pub.linkText.length > 0, `textLen=${pub.textLen} headings=${pub.headingCount} link=${pub.linkHref}`);
+ok("éditeurs read-only publics nommés (role=textbox + aria-label)", pub.tb.length >= 2 && pub.tb.every((t) => !!t.label), JSON.stringify(pub.tb));
+ok("aucun wrapper de lien nu ne porte aria-haspopup/expanded", !pub.strayAria);
+ok("toc publique rendue et contrastée ≥4.5 (mode clair)", pub.tocCount >= 1 && pub.tocRatio >= 4.5, `${pub.tocCount} liens, ratio=${pub.tocRatio?.toFixed(2)}`);
+ok("lien du doc public contrasté ≥4.5 (mode clair)", pub.linkRatio !== null && pub.linkRatio >= 4.5, `ratio=${pub.linkRatio?.toFixed(2)}`);
+
 // 6. Switchs préférences : nom accessible calculé (aria-labelledby)
 await goto("/settings/account/preferences");
 const switches = await page.evaluate(() => {
@@ -138,14 +188,26 @@ await goto("/docs/general/YE3rIig7Vn");
 await page.evaluate(() => document.documentElement.setAttribute("data-mantine-color-scheme", "dark"));
 await page.waitForTimeout(800);
 const contrast = await page.evaluate(() => {
-  const toRgb = (c) => c.match(/\d+(\.\d+)?/g)?.slice(0, 3).map(Number) || [0, 0, 0];
-  const lum = ([r, g, b]) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
+  const toRgb = (c) => {
+    const e = document.createElement("i");
+    e.style.color = `color-mix(in srgb, ${c} 100%, rgb(0,0,0) 0%)`;
+    document.body.append(e);
+    const out = getComputedStyle(e).color;
+    e.remove();
+    const rgb = out.match(/^rgb\(([^)]+)\)/);
+    if (rgb) return rgb[1].match(/\d+(\.\d+)?/g).slice(0, 3).map(Number);
+    const srgb = out.match(/^color\(srgb ([^)]+)\)/);
+    if (srgb) return srgb[1].trim().split(/\s+/).slice(0, 3).map((v) => parseFloat(v) * 255);
+    return null;
+  };
+  const lum = (rgb) => { const f = (v) => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]); };
   const ratio = (l1, l2) => (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
   const el = document.querySelector('[class*="searchLabel"], [class*="searchKbd"]');
   if (!el) return { found: false };
   let n = el, bg = "rgb(255,255,255)";
   while (n && n !== document.documentElement) { const b = getComputedStyle(n).backgroundColor; if (!b.includes("0, 0, 0, 0") && b !== "rgba(0, 0, 0, 0)") { bg = b; break; } n = n.parentElement; }
-  return { found: true, ratio: ratio(lum(toRgb(getComputedStyle(el).color)), lum(toRgb(bg))) };
+  const fg = toRgb(getComputedStyle(el).color), bgc = toRgb(bg);
+  return { found: true, ratio: fg && bgc ? ratio(lum(fg), lum(bgc)) : null };
 });
 ok("contraste élément docs-shell en mode sombre ≥ 4.5", contrast.found && contrast.ratio >= 4.5, `ratio=${contrast.ratio?.toFixed(2)}`);
 
