@@ -1,0 +1,45 @@
+{
+  "slug": "navidrome",
+  "cycle": 12,
+  "measured": {
+    "baseline": {
+      "occurrences": 204,
+      "rules": [
+        "aria-required-parent", "button-name", "color-contrast", "label-title-only",
+        "listitem", "page-has-heading-one", "target-size", "empty-table-header",
+        "aria-prohibited-attr", "label", "empty-heading", "landmark-one-main", "region"
+      ],
+      "scanErrors": 0
+    },
+    "final": {
+      "occurrences": 0,
+      "rules": [],
+      "scanErrors": 0,
+      "exitCode": 0,
+      "surfaces": 15
+    },
+    "verify": { "assertions": 14, "passed": 14 },
+    "evalFinal": { "assertions": 6, "passed": 6 },
+    "installBuild": { "npmCi": 0, "npmBuild": 0, "goBuild": 0, "onCleanCheckout": true },
+    "rounds": 3,
+    "scopeGrowth": "4 états dynamiques ajoutés par rapport à la baseline (le run final couvre plus que la baseline)"
+  },
+  "causesRacines": [
+    "ra-ui-materialui : aria-label sur span (aria-prohibited-attr) → inputProps, th bulk vide, h6 bulk-toolbar, h1 role=alert, SearchInput sans label — corrigés par patch postinstall idempotent bin/patch-ra-a11y.mjs",
+    "SubMenu : ListItem button + IconButtons imbriqués (nested-interactive) → ListItem component=div + ButtonBase parent + IconButtons frères",
+    "NavItemLink : role=menuitem sur liens de nav (aria-required-parent) → nouveau composant NavLink sans role menuitem",
+    "MoreButton SongContextMenu : translate hors scope → crash ReferenceError → page d'erreur RA (empty-heading + aria-allowed-role) ; même bug dans SongList",
+    "Menus/Popover en portail <body> hors landmarks (region) → disablePortal",
+    "ArtworkAvatar label='' → th vide dans les listes → label srOnly",
+    "Thème Dark secondary=blue.A400 #2979ff (3.98:1) → #3f51b5 (6.97:1) ; Light primary→#1976d2",
+    "Login : inputs sans id/for, div.main, pas de h1 → <main>, labels liés, h1",
+    "Titres de pages h5/h6 sans h1 → restructuration h1(appbar)+h2(record)+p(métadonnées)",
+    "Sidebar sans landmark nav → role=navigation + aria-label sur Menu"
+  ],
+  "harnessFindings": [
+    "waitForSelector résout le 1er élément correspondant — les menus keepMounted cachés résolvaient en premier → timeout ; fix : filtrer par :visible",
+    "Boutons contextuels de lignes en visibility:hidden jusqu'au survol → hover obligatoire avant click",
+    "vue: premier Tab peut rester sur BODY après viewport resize → itérer jusqu'à un élément focusable",
+    "Chromium masque les erreurs quand un composant crash : une page « 404 interne » RA affiche un h1 vide → vérifier le contenu rendu, pas seulement la navigation"
+  ]
+}

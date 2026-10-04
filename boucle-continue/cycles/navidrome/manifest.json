@@ -1,0 +1,53 @@
+{
+  "cycle": 12,
+  "slug": "navidrome",
+  "repo": "navidrome/navidrome",
+  "url": "https://github.com/navidrome/navidrome",
+  "commit": "95f67d2c4ef391967327f0c7dccd5d0d8b02f62e",
+  "license": "GPL-3.0",
+  "product": "Serveur de streaming musical auto-hébergé — backend Go, UI react-admin v3 (ra-ui-materialui 3.19.12) + MUI v4 + Vite, hash-router, thème Dark par défaut",
+  "boot": {
+    "commands": [
+      "cd ui && npm ci && npm run build",
+      "go build -tags netgo,sqlite_fts5 -o navidrome .",
+      "ND_MUSICFOLDER=<dir>/music ND_DATAFOLDER=<dir>/data ND_PORT=8089 ./navidrome"
+    ],
+    "credentials": "admin/adminpass123 (créé au premier démarrage)",
+    "seed": "5 fichiers mp3 factices générés par ffmpeg (tonalités silencieuses) dans music/Artist1/Album1 et music/Artist2/Album2 ; le scanner les indexe en album '69IwB2p7tQDejD3lowUIFo' [Unknown Album] et artiste '6QiT23Pg8GAJHZop58uMKH' [Unknown Artist]",
+    "notes": [
+      "Patch LOCAL seulement : bin/patch-ra-a11y.mjs (postinstall) corrige les défauts internes de ra-ui-materialui qui ne sont pas surchargables depuis l'application (aria-label sur span, th vide, h6 bulk-toolbar, h1 role=alert, search sans label) — même méthode que le cycle CyberChef.",
+      "disablePortal ajouté aux Menu/Popover pour que les popovers rendent dans les landmarks au lieu d'un portail <body>.",
+      "Thème audité = Dark (défaut de l'app) ; light.js corrigé en symétrie."
+    ]
+  },
+  "scope": {
+    "login": ["/app/#/login"],
+    "urls": [
+      "/app/#/album/recentlyAdded?sort=recently_added&order=DESC&filter={}",
+      "/app/#/artist",
+      "/app/#/song",
+      "/app/#/playlist",
+      "/app/#/album/69IwB2p7tQDejD3lowUIFo/show",
+      "/app/#/artist/6QiT23Pg8GAJHZop58uMKH/show",
+      "/app/#/personal",
+      "/app/#/user",
+      "/app/#/transcoding",
+      "/app/#/about"
+    ],
+    "states": ["playlists-submenu", "user-menu", "song-context-menu", "album-context-menu"]
+  },
+  "auditCommands": [
+    "node tools/login.mjs  (écrit tools/auth.json)",
+    "node tools/audit.mjs http://127.0.0.1:8089 --keep-hash --urls \"<10 urls ci-dessus>\" --states all --storage-state tools/auth.json --wait-for \"#main-content, main, h1\" --wait 1500 --out final",
+    "node tools/audit.mjs http://127.0.0.1:8089 --keep-hash --urls \"/app/#/login\" --states none --wait-for \"input\" --wait 1500 --out final-login",
+    "node tools/verify.mjs http://127.0.0.1:8089   (14 assertions sémantiques des correctifs)",
+    "node tools/eval-final.mjs http://127.0.0.1:8089   (6 contrôles indépendants)"
+  ],
+  "artifacts": {
+    "baseline": "baseline/report.json + baseline-login/report.json (204 occurrences, 13 règles)",
+    "final": "final/report.json + final-login/report.json (0 occurrence, 0 erreur, exit 0)",
+    "patch": "patch.diff + patch.diff.sha256 (24 fichiers, +451/-111)",
+    "installBuild": "install-build.log — clone propre @95f67d2 + patch : npm ci / npm build / go build = exit 0",
+    "harness": "tools/ (audit.mjs avec 4 états, login.mjs, verify.mjs, eval-final.mjs)"
+  }
+}
