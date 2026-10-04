@@ -1,0 +1,49 @@
+{
+  "baseline_urls": [
+    "http://localhost:3001/",
+    "http://localhost:3001/explore",
+    "http://localhost:3001/archived",
+    "http://localhost:3001/attachments",
+    "http://localhost:3001/inbox",
+    "http://localhost:3001/calendar/2026/10",
+    "http://localhost:3001/map",
+    "http://localhost:3001/views",
+    "http://localhost:3001/setting",
+    "http://localhost:3001/about",
+    "http://localhost:3001/memos/3sKybHLtPqRM8H4GfgFdJF",
+    "http://localhost:3001/?creator=admin",
+    "http://localhost:3001/ [state:memo-editor]",
+    "http://localhost:3001/ [state:view-options]",
+    "http://localhost:3001/ [state:user-menu]"
+  ],
+  "final_urls": [
+    "http://localhost:3001/",
+    "http://localhost:3001/explore",
+    "http://localhost:3001/attachments",
+    "http://localhost:3001/archived",
+    "http://localhost:3001/views",
+    "http://localhost:3001/calendar/2026/10",
+    "http://localhost:3001/inbox",
+    "http://localhost:3001/setting",
+    "http://localhost:3001/about",
+    "http://localhost:3001/memos/3sKybHLtPqRM8H4GfgFdJF",
+    "http://localhost:3001/?creator=admin",
+    "http://localhost:3001/ [state:memo-editor]",
+    "http://localhost:3001/ [state:view-options]",
+    "http://localhost:3001/ [state:user-menu]"
+  ],
+  "substitutions": [
+    {
+      "baseline": "/memo-filters",
+      "final": "/views",
+      "raison": "/memo-filters ne correspond à aucune route (Routes.VIEWS=/views) — rendait le NotFound ; scope corrigé vers la route réelle + NotFound corrigé aussi (h1 ajouté)"
+    }
+  ],
+  "identique_sauf_substitutions": false,
+  "states_identiques": [
+    "memo-editor",
+    "view-options",
+    "user-menu"
+  ],
+  "wait_identique": "main + 1200ms"
+}

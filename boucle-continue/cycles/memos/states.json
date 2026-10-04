@@ -1,0 +1,25 @@
+{
+  "setupSource": "tools/audit.mjs — bloc STATES embarqué",
+  "source_extrait": "const STATES = {\n  'memo-editor': {\n    url: b => b + '/',\n    setup: async page => {\n      await page.waitForSelector('h1', { timeout: 15000 });\n      await page.waitForTimeout(1500);\n      await page.locator('button[aria-label=\"New memo\"]').first().click();\n      await page.waitForSelector('[role=\"dialog\"]', { state: 'visible', timeout: 15000 });\n      await page.waitForTimeout(600);\n    },\n  },\n  'view-options': {\n    url: b => b + '/',\n    setup: async page => {\n      await page.waitForSelector('h1', { timeout: 15000 });\n      await page.waitForTimeout(1500);\n      await page.locator('button[aria-label*=\"View options\"]').first().click();\n      await page.waitForSelector('[role=\"menu\"],[role=\"dialog\"],[data-radix-popper-content-wrapper]', { state: 'visible', timeout: 15000 });\n      await page.waitForTimeout(600);\n    },\n  },\n  'user-menu': {\n    url: b => b + '/',\n    setup: async page => {\n      await page.waitForSelector('h1', { timeout: 15000 });\n      await page.waitForTimeout(1500);\n      await page.locator('button[aria-label^=\"Switch space\"]').first().click();\n      await page.waitForSelector('[role=\"menu\"],[role=\"dialog\"],[data-radix-popper-content-wrapper]', { state: 'visible', timeout: 15000 });\n      await page.waitForTimeout(600);\n    },\n  },\n};",
+  "states": {
+    "memo-editor": {
+      "action": "clic button[aria-label=\"New memo\"].first()",
+      "assert": "[role=dialog] visible"
+    },
+    "view-options": {
+      "action": "clic button[aria-label*=\"View options\"].first()",
+      "assert": "menu/dialog visible"
+    },
+    "user-menu": {
+      "action": "clic button[aria-label^=\"Switch space\"].first()",
+      "assert": "menu/dialog visible"
+    }
+  },
+  "wait_for": "main",
+  "wait_ms": 1200,
+  "versions": {
+    "runner": "audit.mjs v3",
+    "playwright": "^1.5x (tools/node_modules)",
+    "axe-core": "4.x"
+  }
+}

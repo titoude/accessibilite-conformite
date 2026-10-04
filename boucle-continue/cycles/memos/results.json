@@ -1,0 +1,49 @@
+{
+  "depot": "usememos/memos",
+  "commit": "0d989707f82c33f74bb852edd8965ec88fcf041b",
+  "baseUrl": "http://localhost:3001",
+  "baseline": {
+    "regles": 8,
+    "occurrences": 157,
+    "erreurs": 0,
+    "incomplets": 151,
+    "scenarios": 15
+  },
+  "final": {
+    "regles": 0,
+    "occurrences": 0,
+    "erreurs": 0,
+    "incomplets": 102,
+    "scenarios": 14,
+    "exit": 0
+  },
+  "verdict": "CONFIRMED",
+  "verif_independante": {
+    "verify.mjs": "12/12",
+    "eval-final.mjs": "6/6",
+    "rescan_axe": {
+      "/": 0,
+      "/setting": 0,
+      "/calendar/2026/10": 0,
+      "/attachments": 0
+    }
+  },
+  "build": {
+    "pnpm_build": "PASS 9.37s",
+    "pnpm_lint": "PASS (tsc --skipLibCheck + biome 694 fichiers)",
+    "pnpm_test": "1772/1772"
+  },
+  "corrections": {
+    "meta-viewport ×15": "index.html user-scalable=no retiré",
+    "color-contrast ×116": "--muted-foreground oklch(0.5559→0.47) + 46 variantes alpha /NN→solide + excerpt cellule teintée≥level3→text-foreground",
+    "region ×14": "wrapper sidebar → role=complementary englobant poignée",
+    "aria-input-field-name ×6": "EditorView.contentAttributes aria-label=placeholder traduit",
+    "page-has-heading-one ×3": "h1 sr-only i18n sur /attachments /calendar /setting (+NotFound, /views en scope)",
+    "empty-table-header ×1": "th vide → span sr-only \"Actions\"",
+    "heading-order": "h3 section→h2, h4 sous-groupes→h3",
+    "aria-prohibited-attr ×1": "backdrop focus-mode div→button",
+    "aria-dialog-name ×1": "PopoverContent SpaceSwitcher aria-label"
+  },
+  "tests_mis_a_jour": "3 assertions de classe /70→solide + niveau de titre 4→3 (design non conforme figé — intention préservée)",
+  "incomplets_final": "102 — triés : alpha externe non mesurable, aria-controls dynamiques OK"
+}

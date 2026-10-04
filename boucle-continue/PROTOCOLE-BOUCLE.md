@@ -133,3 +133,12 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 7. **Le compte baseline est indicatif sur données démo aléatoires** — le gate compare les familles de règles + final=0, pas les occurrences au nœud près.
 8. **`scope.json` doit stocker waits + versions** (waitFor, wait, axe-core/playwright/node) — sans ça la config d'audit n'est pas auditable a posteriori. (Runner déjà versionné ; ajouter waitFor/wait.)
 9. **Fondu de modale échantillonné par axe** : pré-dismisser ou stabiliser les modales auto-ouvertes (MOTD/bannières) comme état préalable déclaré avant mesure.
+
+### Leçons harnais — cycle Memos (ajoutées au protocole)
+
+1. **Vérifier que chaque URL du manifeste est une vraie route avant gel :** `/memo-filters` déclaré n'existait pas (`Routes.VIEWS=/views`) — le scan mesurait le NotFound comme s'il était la page cible. Croiser les URLs déclarées avec la table de routage (ou un probe `curl` + assertion de contenu) AVANT le manifeste.
+2. **Variantes alpha utilitaires `text-x/NN` :** le balayage sed vers solide est valide, mais les tests qui figent le littéral de classe échouent — lancer `pnpm test`/suite repo tôt (pas seulement en fin de cycle) pour calibrer la vague.
+3. **Auth Connect/gRPC-gateway :** token en localStorage + cookie refresh extrait du header de métadonnées `Grpc-Metadata-Set-Cookie` (PAS `Set-Cookie`) — planté via `ctx.addCookies`.
+4. **CodeMirror :** nom accessible via `EditorView.contentAttributes.of({'aria-label'})` dans les extensions — pas d'attribut DOM manuel sur `.cm-content`.
+5. **Backdrop click-out `<div aria-label onClick>` :** convertir en vrai `<button>` — corrige aria-prohibited-attr ET rend le clic clavier/TA possible gratuitement.
+6. **Correction de hiérarchie de titres en cascade :** ajouter un h1 expose souvent h3→h2→h4→h3 en chaîne + pages d'erreur oubliées (NotFound) — re-scanner après chaque vague, pas une seule fois.
