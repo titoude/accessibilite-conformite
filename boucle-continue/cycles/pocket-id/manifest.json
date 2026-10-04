@@ -1,0 +1,59 @@
+{
+  "cycle": 20,
+  "project": "pocket-id/pocket-id",
+  "commit": "40cb14f89309286dcafaa62dac82a88a4b5ac583",
+  "framework": "SvelteKit 5 SPA (runes) + Go/gin, frontend embarqué go:embed",
+  "base_url": "http://localhost:1411",
+  "env": {
+    "APP_ENV": "test",
+    "ENCRYPTION_KEY": "test-encryption-key",
+    "DB_CONNECTION_STRING": "file:///home/ubuntu/boucle-runs/pocket-id/pocket-id.db",
+    "ANALYTICS_DISABLED": "true",
+    "binary": "pocket-id-e2e (build tag e2etest → POST /api/test/reset?skip-ldap=true)"
+  },
+  "auth": "tools/auth.json (WebAuthn virtuel CDP, passkey seed de tim/admin via login.mjs)",
+  "seed": "POST /api/test/reset?skip-ldap=true → 204 (tim admin + craig/eddy + 7 clients OIDC + 2 groupes + 1 API)",
+  "runs": [
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json",
+      "urls": [
+        "/settings/account",
+        "/settings/apps",
+        "/settings/audit-log",
+        "/settings/audit-log/global",
+        "/settings/admin/users",
+        "/settings/admin/users/f4b89dc2-62fb-46bf-9f5f-c34f4eafe93e",
+        "/settings/admin/user-groups",
+        "/settings/admin/user-groups/c7ae7c01-28a3-4f3c-9572-1ee734ea8368",
+        "/settings/admin/apis",
+        "/settings/admin/apis/f6a8b3c1-2d4e-4a6b-8c9d-0e1f2a3b4c5d",
+        "/settings/admin/api-keys",
+        "/settings/admin/oidc-clients",
+        "/settings/admin/oidc-clients/3654a746-35d4-4321-ac61-0bdcff2b4055",
+        "/settings/admin/application-configuration"
+      ],
+      "states": ["menu-compte", "menu-theme", "form-ajout-utilisateur", "form-cle-api", "mode-sombre", "nav-groupe-ouvert"]
+    },
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls": [
+        "/login",
+        "/login/alternative",
+        "/login/alternative/code",
+        "/login/alternative/device",
+        "/login/alternative/email",
+        "/signup",
+        "/device"
+      ],
+      "states": []
+    }
+  ],
+  "notes": [
+    "/settings redirige vers /settings/account — exclu",
+    "/logout nécessite auth + redirige — exclu du scope public",
+    "signup désactivé dans la config seed (page informative auditée quand même)",
+    "backend rebuild obligatoire après chaque changement frontend (go:embed)"
+  ]
+}

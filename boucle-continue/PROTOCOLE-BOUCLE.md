@@ -198,3 +198,12 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **U2 — `urls.txt` livré comme artefact** quand les commandes le référencent (le scopeHash identique ne dispense pas du fichier).
 - **U3 — la recette seed doit être complète** : endpoints réels (POST /shares vs /links vs /boards), slugs et UUIDs générés serveur documentés (remaps SQL si nécessaire) — un auditeur ne doit pas redécouvrir l'API.
 - **U4 — métadonnées exactes** : `toolVersions` obligatoire, version de package manager réellement résolue (pas déclarée), compteurs d'assertions à jour, `installBuild.verdict` jamais auto-proclamé.
+
+### Leçons — cycle 20 pocket-id (SvelteKit 5 + Go)
+
+- **`role="combobox"` : le texte affiché ne compte PAS comme nom accessible.** Les 4 filtres audit-log affichaient « All Users » — jugé « faux positif async » au premier scan, confirmé texte présent au probe... mais axe flag quand même : un combobox exige `aria-label`/`aria-labelledby` (le contenu = la valeur courante, pas un nom). **Toujours vérifier si le rôle impose un canal de nommage avant de déclarer un faux positif.**
+- **`<footer>` dans un `<section>` anonyme perd son rôle contentinfo** → axe flag `region` sur le footer lui-même. Un `<section>` sans nom accessible n'est pas un landmark mais casse la promotion du footer. Fix : `<section>` décoratif → `<div>`.
+- **Pattern portail→couche landmark généralisé** : docmost (Mantine popupContainer) → pocket-id : 6 wrappers `*-portal.svelte` bits-ui → `to="#a11y-popup-layer"` une ligne chacun, layer unique `role="complementary"` + `aria-label` dans le layout racine. Réutilisable sur tout kit bits-ui.
+- **`aria-controls` axe "unable to determine" sur contenu portalisé** : incomplet récurrent même quand l'id cible existe (vérifié live via `getElementById`). Triage N/A légitime après probe DOM — à documenter, pas à « corriger ».
+- **IDS en dur dupliqués entre formulaires** (`id="skip-cert-verify"` sur 2 forms différentes) → duplicate-id-aria quand les deux surfaces cohabitent dans le périmètre. Namespacer par domaine (`ldap-`, `smtp-`).
+- **WebTransport :1414 partagé** entre instances pocket-id — impossible d'en faire tourner deux en parallèle (sequentialiser les boots de validation).

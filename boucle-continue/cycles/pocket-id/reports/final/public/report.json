@@ -1,0 +1,158 @@
+{
+  "runId": "5a58a72f-aadc-4de7-82c7-50229620cdb7",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T23:08:04.590Z",
+  "baseUrl": "http://localhost:1411",
+  "pages": [
+    {
+      "url": "http://localhost:1411/device",
+      "requestedUrl": "http://localhost:1411/device",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "39.0pt (52px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-minus lucide-icon\" aria-hidden=\"true\"><!----><path d=\"M5 12h14\"></path><!----><!----></svg>",
+                      "target": [
+                        ".lucide-minus"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input data-slot=\"input-otp\" spellcheck=\"false\" data-bwignore=\"true\" data-lpignore=\"true\" data-1p-ignore=\"true\" aria-label=\"Code\" id=\"bits-c3-input\" autocomplete=\"one-time-code\" data-pin-input-input=\"\" inputmode=\"text\" maxlength=\"8\" data-pin-input-input...=\"0\" data-pin-input-input...=\"0\" ...>",
+              "target": [
+                "#bits-c3-input"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/device",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:1411/login",
+      "requestedUrl": "http://localhost:1411/login",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:1411/login/alternative",
+      "requestedUrl": "http://localhost:1411/login/alternative",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/login/alternative",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:1411/login/alternative/code",
+      "requestedUrl": "http://localhost:1411/login/alternative/code",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/login/alternative/code",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:1411/login/alternative/device",
+      "requestedUrl": "http://localhost:1411/login/alternative/device",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/login/alternative/device",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:1411/login/alternative/email",
+      "requestedUrl": "http://localhost:1411/login/alternative/email",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/login/alternative/email",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:1411/logout",
+      "requestedUrl": "http://localhost:1411/logout",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/login?redirect=%2Flogout",
+      "error": "redirection vers une page de connexion (http://localhost:1411/login?redirect=%2Flogout) — la page demandée n'a pas été auditée"
+    },
+    {
+      "url": "http://localhost:1411/signup",
+      "requestedUrl": "http://localhost:1411/signup",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:1411/signup",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "490baf0f21816fc2e6a679d68bd497e90fc9a0e3dedb51c504b3609c1777305c"
+}

@@ -1,0 +1,8 @@
+cycle 20 pocket-id — install-build sur clone propre
+clone /tmp/pid-clean @40cb14f89309286dcafaa62dac82a88a4b5ac583
+git apply patch.diff : 34 fichiers, +185/-119 — apply propre
+pnpm install --frozen-lockfile : OK (pnpm 11.28.3, node 24)
+pnpm run build : OK (adapter-static -> backend/frontend/dist)
+go build -o pocket-id-clean -tags e2etest ./cmd : OK (110 Mo)
+boot :1451 APP_ENV=test ENCRYPTION_KEY=test-encryption-key : /login 200
+POST /api/test/reset?skip-ldap=true : 204 (seed rejoue sur le build patché)

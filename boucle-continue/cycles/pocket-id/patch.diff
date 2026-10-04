@@ -1,0 +1,801 @@
+diff --git a/frontend/messages/en.json b/frontend/messages/en.json
+index 4e6c066..2afb239 100644
+--- a/frontend/messages/en.json
++++ b/frontend/messages/en.json
+@@ -100,6 +100,7 @@
+ 	"settings": "Settings",
+ 	"update_pocket_id": "Update Pocket ID",
+ 	"sqlite_storage_warning": "We detected that your SQLite database is stored on a network-attached drive like NFS, SMB, or FUSE. This is unsupported and can lead to your database getting corrupted. {#link href=|https://pocket-id.org/docs/configuration/environment-variables#sqlite|}See docs.{/link}",
++	"popup_layer": "Popup layer",
+ 	"powered_by": "Powered by",
+ 	"see_your_recent_account_activities": "See your account activities within the configured retention period.",
+ 	"time": "Time",
+@@ -348,6 +349,7 @@
+ 	"all_users": "All Users",
+ 	"all_events": "All Events",
+ 	"all_clients": "All Clients",
++	"location": "Location",
+ 	"all_locations": "All Locations",
+ 	"global_audit_log": "Global Audit Log",
+ 	"see_all_recent_account_activities": "View the account activities of all users during the set retention period.",
+diff --git a/frontend/src/lib/components/form/file-input.svelte b/frontend/src/lib/components/form/file-input.svelte
+index 53eb74c..d732e56 100644
+--- a/frontend/src/lib/components/form/file-input.svelte
++++ b/frontend/src/lib/components/form/file-input.svelte
+@@ -7,6 +7,7 @@
+ 
+ 	let {
+ 		id,
++		'aria-label': ariaLabel = undefined,
+ 		...restProps
+ 	}: HTMLInputAttributes & {
+ 		id: string;
+@@ -16,6 +17,7 @@
+ 
+ <button
+ 	type="button"
++	aria-label={ariaLabel ?? m.select_file()}
+ 	onclick={() => document.getElementById(id)?.click()}
+ 	class={cn(restProps.class)}
+ >
+diff --git a/frontend/src/lib/components/form/profile-picture-settings.svelte b/frontend/src/lib/components/form/profile-picture-settings.svelte
+index 0a21ee7..0639de3 100644
+--- a/frontend/src/lib/components/form/profile-picture-settings.svelte
++++ b/frontend/src/lib/components/form/profile-picture-settings.svelte
+@@ -100,7 +100,7 @@
+ 	</div>
+ 
+ 	<div class="grow">
+-		<h3 class="font-medium">{m.profile_picture()}</h3>
++		<h2 class="font-medium">{m.profile_picture()}</h2>
+ 		{#if isLdapUser && $appConfigStore.ldapEnabled}
+ 			<p class="text-muted-foreground text-sm">
+ 				{m.profile_picture_is_managed_by_ldap_server()}
+diff --git a/frontend/src/lib/components/form/searchable-select.svelte b/frontend/src/lib/components/form/searchable-select.svelte
+index 27cb154..e1c2c67 100644
+--- a/frontend/src/lib/components/form/searchable-select.svelte
++++ b/frontend/src/lib/components/form/searchable-select.svelte
+@@ -17,6 +17,7 @@
+ 		isLoading,
+ 		disableSearch = false,
+ 		selectText = m.select_an_option(),
++		triggerLabel,
+ 		...restProps
+ 	}: HTMLAttributes<HTMLButtonElement> & {
+ 		items: {
+@@ -29,6 +30,8 @@
+ 		isLoading?: boolean;
+ 		disableSearch?: boolean;
+ 		selectText?: string;
++		// Accessible name of the combobox trigger, which cannot derive one from its contents
++		triggerLabel: string;
+ 	} = $props();
+ 
+ 	let open = $state(false);
+@@ -68,6 +71,7 @@
+ 			<Button
+ 				variant="outline"
+ 				role="combobox"
++				aria-label={triggerLabel}
+ 				aria-expanded={open}
+ 				{...props}
+ 				class={restProps.class}
+diff --git a/frontend/src/lib/components/form/url-list-input.svelte b/frontend/src/lib/components/form/url-list-input.svelte
+index 7c1637e..c6b8b16 100644
+--- a/frontend/src/lib/components/form/url-list-input.svelte
++++ b/frontend/src/lib/components/form/url-list-input.svelte
+@@ -10,7 +10,8 @@
+ 		testIdPrefix = 'url',
+ 		disabled = false,
+ 		keepAtLeastOne = false,
+-		addLabel
++		addLabel,
++		inputLabel
+ 	}: {
+ 		urls: string[];
+ 		error?: string | null;
+@@ -19,6 +20,8 @@
+ 		keepAtLeastOne?: boolean;
+ 		// Names what the button adds, instead of the generic "Add" and "Add another"
+ 		addLabel?: string;
++		// Accessible name of each URL field, suffixed with the row number
++		inputLabel?: string;
+ 	} = $props();
+ 
+ 	function removeUrl(index: number) {
+@@ -38,6 +41,7 @@
+ 				<Input
+ 					class="font-mono text-[13px] md:text-[13px]"
+ 					aria-invalid={!!error}
++					aria-label={inputLabel ? `${inputLabel} ${i + 1}` : undefined}
+ 					data-testid={`${testIdPrefix}-${i + 1}`}
+ 					type="text"
+ 					inputmode="url"
+diff --git a/frontend/src/lib/components/header/header.svelte b/frontend/src/lib/components/header/header.svelte
+index d68f399..5afbc80 100644
+--- a/frontend/src/lib/components/header/header.svelte
++++ b/frontend/src/lib/components/header/header.svelte
+@@ -21,7 +21,7 @@
+ 	);
+ </script>
+ 
+-<div
++<header
+ 	class=" w-full {isAuthPage
+ 		? 'absolute top-0 z-10 mt-3 pr-2 lg:mt-8 lg:pr-3'
+ 		: 'bg-muted/40 dark:bg-background pt-3 '}"
+@@ -51,4 +51,4 @@
+ 			{/if}
+ 		</div>
+ 	</div>
+-</div>
++</header>
+diff --git a/frontend/src/lib/components/image-box.svelte b/frontend/src/lib/components/image-box.svelte
+index f605c3c..885ba26 100644
+--- a/frontend/src/lib/components/image-box.svelte
++++ b/frontend/src/lib/components/image-box.svelte
+@@ -16,6 +16,6 @@
+ 	{#if error}
+ 		<LucideImageOff class="text-muted-foreground p-5" />
+ 	{:else}
+-		<img {...props} class="aspect-square object-contain" onerror={() => (error = true)} />
++		<img alt="" {...props} class="aspect-square object-contain" onerror={() => (error = true)} />
+ 	{/if}
+ </div>
+diff --git a/frontend/src/lib/components/passkey-row.svelte b/frontend/src/lib/components/passkey-row.svelte
+index ef1146a..46c7fc8 100644
+--- a/frontend/src/lib/components/passkey-row.svelte
++++ b/frontend/src/lib/components/passkey-row.svelte
+@@ -62,15 +62,18 @@
+ 			<Tooltip.Provider>
+ 				<Tooltip.Root>
+ 					<Tooltip.Trigger>
+-						<Button
+-							onclick={onRename}
+-							size="icon"
+-							variant="ghost"
+-							class="size-8"
+-							aria-label={m.rename()}
+-						>
+-							<LucidePencil class="size-4" />
+-						</Button>
++						{#snippet child({ props })}
++							<Button
++								{...props}
++								onclick={onRename}
++								size="icon"
++								variant="ghost"
++								class="size-8"
++								aria-label={m.rename()}
++							>
++								<LucidePencil class="size-4" />
++							</Button>
++						{/snippet}
+ 					</Tooltip.Trigger>
+ 					<Tooltip.Content>{m.rename()}</Tooltip.Content>
+ 				</Tooltip.Root>
+@@ -80,15 +83,18 @@
+ 		<Tooltip.Provider>
+ 			<Tooltip.Root>
+ 				<Tooltip.Trigger>
+-					<Button
+-						onclick={onDelete}
+-						size="icon"
+-						variant="ghost"
+-						class="hover:bg-destructive/10 hover:text-destructive size-8"
+-						aria-label={m.delete()}
+-					>
+-						<LucideTrash class="size-4" />
+-					</Button>
++					{#snippet child({ props })}
++						<Button
++							{...props}
++							onclick={onDelete}
++							size="icon"
++							variant="ghost"
++							class="hover:bg-destructive/10 hover:text-destructive size-8"
++							aria-label={m.delete()}
++						>
++							<LucideTrash class="size-4" />
++						</Button>
++					{/snippet}
+ 				</Tooltip.Trigger>
+ 				<Tooltip.Content>{m.delete()}</Tooltip.Content>
+ 			</Tooltip.Root>
+diff --git a/frontend/src/lib/components/ui/alert-dialog/alert-dialog-portal.svelte b/frontend/src/lib/components/ui/alert-dialog/alert-dialog-portal.svelte
+index dd3ac7d..b08ab1f 100644
+--- a/frontend/src/lib/components/ui/alert-dialog/alert-dialog-portal.svelte
++++ b/frontend/src/lib/components/ui/alert-dialog/alert-dialog-portal.svelte
+@@ -4,4 +4,4 @@
+ 	let { ...restProps }: AlertDialogPrimitive.PortalProps = $props();
+ </script>
+ 
+-<AlertDialogPrimitive.Portal {...restProps} />
++<AlertDialogPrimitive.Portal to="#a11y-popup-layer" {...restProps} />
+diff --git a/frontend/src/lib/components/ui/alert/alert.svelte b/frontend/src/lib/components/ui/alert/alert.svelte
+index 774cd18..905de87 100644
+--- a/frontend/src/lib/components/ui/alert/alert.svelte
++++ b/frontend/src/lib/components/ui/alert/alert.svelte
+@@ -7,11 +7,12 @@
+ 			variant: {
+ 				default: 'bg-card text-card-foreground',
+ 				destructive:
+-					'bg-red-200 text-red-900 dark:bg-red-900 dark:text-red-100 *:[svg]:text-current',
++					'bg-red-200 text-red-900 dark:bg-red-900 dark:text-red-100 *:[svg]:text-current [&_[data-slot=alert-description]]:text-current',
+ 				success:
+-					'bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100 *:[svg]:text-current',
+-				info: 'bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100 *:[svg]:text-current',
+-				warning: 'bg-warning text-warning-foreground border-warning/40 *:[svg]:text-current'
++					'bg-green-100 text-green-900 dark:bg-green-900 dark:text-green-100 *:[svg]:text-current [&_[data-slot=alert-description]]:text-current',
++				info: 'bg-blue-100 text-blue-900 dark:bg-blue-900 dark:text-blue-100 *:[svg]:text-current [&_[data-slot=alert-description]]:text-current',
++				warning:
++					'bg-warning text-warning-foreground border-warning/40 *:[svg]:text-current [&_[data-slot=alert-description]]:text-current'
+ 			}
+ 		},
+ 		defaultVariants: {
+@@ -24,6 +25,7 @@
+ 
+ <script lang="ts">
+ 	import { cn, type WithElementRef } from '#lib/utils/style.js';
++	import { m } from '#lib/paraglide/messages.js';
+ 	import { LucideX } from '@lucide/svelte';
+ 	import { onMount } from 'svelte';
+ 	import type { HTMLAttributes } from 'svelte/elements';
+@@ -74,7 +76,11 @@
+ 	>
+ 		{@render children?.()}
+ 		{#if dismissibleId || onDismiss}
+-			<button onclick={dismiss} class="absolute top-2.5 right-3 text-current">
++			<button
++				onclick={dismiss}
++				aria-label={m.close()}
++				class="absolute top-2.5 right-3 text-current"
++			>
+ 				<LucideX class="size-4" />
+ 			</button>
+ 		{/if}
+diff --git a/frontend/src/lib/components/ui/avatar/avatar-image.svelte b/frontend/src/lib/components/ui/avatar/avatar-image.svelte
+index 9e86caa..5def44a 100644
+--- a/frontend/src/lib/components/ui/avatar/avatar-image.svelte
++++ b/frontend/src/lib/components/ui/avatar/avatar-image.svelte
+@@ -5,6 +5,7 @@
+ 	let {
+ 		ref = $bindable(null),
+ 		class: className,
++		alt = '',
+ 		...restProps
+ 	}: AvatarPrimitive.ImageProps = $props();
+ </script>
+@@ -13,5 +14,6 @@
+ 	bind:ref
+ 	data-slot="avatar-image"
+ 	class={cn('aspect-square size-full rounded-full object-cover', className)}
++	{alt}
+ 	{...restProps}
+ />
+diff --git a/frontend/src/lib/components/ui/dialog/dialog-portal.svelte b/frontend/src/lib/components/ui/dialog/dialog-portal.svelte
+index a60a85e..93aed4a 100644
+--- a/frontend/src/lib/components/ui/dialog/dialog-portal.svelte
++++ b/frontend/src/lib/components/ui/dialog/dialog-portal.svelte
+@@ -4,4 +4,4 @@
+ 	let { ...restProps }: DialogPrimitive.PortalProps = $props();
+ </script>
+ 
+-<DialogPrimitive.Portal {...restProps} />
++<DialogPrimitive.Portal to="#a11y-popup-layer" {...restProps} />
+diff --git a/frontend/src/lib/components/ui/dropdown-menu/dropdown-menu-portal.svelte b/frontend/src/lib/components/ui/dropdown-menu/dropdown-menu-portal.svelte
+index 089a25c..56b4699 100644
+--- a/frontend/src/lib/components/ui/dropdown-menu/dropdown-menu-portal.svelte
++++ b/frontend/src/lib/components/ui/dropdown-menu/dropdown-menu-portal.svelte
+@@ -4,4 +4,4 @@
+ 	let { ...restProps }: DropdownMenuPrimitive.PortalProps = $props();
+ </script>
+ 
+-<DropdownMenuPrimitive.Portal {...restProps} />
++<DropdownMenuPrimitive.Portal to="#a11y-popup-layer" {...restProps} />
+diff --git a/frontend/src/lib/components/ui/item/item-group.svelte b/frontend/src/lib/components/ui/item/item-group.svelte
+index 843b542..187382a 100644
+--- a/frontend/src/lib/components/ui/item/item-group.svelte
++++ b/frontend/src/lib/components/ui/item/item-group.svelte
+@@ -12,7 +12,6 @@
+ 
+ <div
+ 	bind:this={ref}
+-	role="list"
+ 	data-slot="item-group"
+ 	class={cn(
+ 		'group/item-group flex w-full flex-col gap-4 has-data-[size=sm]:gap-2.5 has-data-[size=xs]:gap-2',
+diff --git a/frontend/src/lib/components/ui/popover/popover-portal.svelte b/frontend/src/lib/components/ui/popover/popover-portal.svelte
+index 25efb87..dac26de 100644
+--- a/frontend/src/lib/components/ui/popover/popover-portal.svelte
++++ b/frontend/src/lib/components/ui/popover/popover-portal.svelte
+@@ -4,4 +4,4 @@
+ 	let { ...restProps }: PopoverPrimitive.PortalProps = $props();
+ </script>
+ 
+-<PopoverPrimitive.Portal {...restProps} />
++<PopoverPrimitive.Portal to="#a11y-popup-layer" {...restProps} />
+diff --git a/frontend/src/lib/components/ui/select/select-portal.svelte b/frontend/src/lib/components/ui/select/select-portal.svelte
+index 59c4b78..fdc9214 100644
+--- a/frontend/src/lib/components/ui/select/select-portal.svelte
++++ b/frontend/src/lib/components/ui/select/select-portal.svelte
+@@ -4,4 +4,4 @@
+ 	let { ...restProps }: SelectPrimitive.PortalProps = $props();
+ </script>
+ 
+-<SelectPrimitive.Portal {...restProps} />
++<SelectPrimitive.Portal to="#a11y-popup-layer" {...restProps} />
+diff --git a/frontend/src/lib/components/ui/tooltip/tooltip-portal.svelte b/frontend/src/lib/components/ui/tooltip/tooltip-portal.svelte
+index 7d328f0..5351c7b 100644
+--- a/frontend/src/lib/components/ui/tooltip/tooltip-portal.svelte
++++ b/frontend/src/lib/components/ui/tooltip/tooltip-portal.svelte
+@@ -4,4 +4,4 @@
+ 	let { ...restProps }: TooltipPrimitive.PortalProps = $props();
+ </script>
+ 
+-<TooltipPrimitive.Portal {...restProps} />
++<TooltipPrimitive.Portal to="#a11y-popup-layer" {...restProps} />
+diff --git a/frontend/src/routes/+layout.svelte b/frontend/src/routes/+layout.svelte
+index 8f95d6a..f6a9ac4 100644
+--- a/frontend/src/routes/+layout.svelte
++++ b/frontend/src/routes/+layout.svelte
+@@ -1,5 +1,6 @@
+ <script lang="ts">
+ 	import { beforeNavigate } from '$app/navigation';
++	import { page } from '$app/state';
+ 	import ConfirmDialog from '#lib/components/confirm-dialog/confirm-dialog.svelte';
+ 	import Error from '#lib/components/error.svelte';
+ 	import Header from '#lib/components/header/header.svelte';
+@@ -27,13 +28,22 @@
+ 	} = $props();
+ 
+ 	const { appConfig } = data;
++
++	// The settings layout provides its own <main>; every other page needs one here
++	const isSettingsPage = $derived(page.url.pathname.startsWith('/settings'));
+ </script>
+ 
+ {#if !appConfig}
+ 	<Error message={m.critical_error_occurred_contact_administrator()} showButton={false} />
+ {:else}
+ 	<Header />
+-	{@render children()}
++	{#if isSettingsPage}
++		{@render children()}
++	{:else}
++		<main class="min-h-dvh">
++			{@render children()}
++		</main>
++	{/if}
+ {/if}
+ <Toaster
+ 	toastOptions={{
+@@ -50,4 +60,5 @@
+ <NavigationProgress />
+ <ConfirmDialog />
+ <UnsavedChangesBar />
++<div id="a11y-popup-layer" role="complementary" aria-label={m.popup_layer()}></div>
+ <ModeWatcher disableTransitions={false} />
+diff --git a/frontend/src/routes/settings/+layout.svelte b/frontend/src/routes/settings/+layout.svelte
+index fe9073d..a7d4bb1 100644
+--- a/frontend/src/routes/settings/+layout.svelte
++++ b/frontend/src/routes/settings/+layout.svelte
+@@ -72,7 +72,7 @@
+ 	});
+ </script>
+ 
+-<section>
++<div>
+ 	<div
+ 		class="bg-muted/40 dark:bg-background flex min-h-[calc(100vh-86px)] w-full flex-col justify-between"
+ 	>
+@@ -104,16 +104,16 @@
+ 				{@render children()}
+ 			</div>
+ 		</main>
+-		<div class="animate-fade-in flex flex-col items-center" style="animation-delay: 400ms;">
++		<footer class="animate-fade-in flex flex-col items-center" style="animation-delay: 400ms;">
+ 			<p class="text-muted-foreground py-3 text-xs">
+ 				{m.powered_by()}
+ 				<a
+-					class="text-foreground transition-all hover:underline"
++					class="text-foreground underline transition-all"
+ 					href="https://github.com/pocket-id/pocket-id"
+ 					target="_blank">Pocket ID</a
+ 				>
+ 				({versionInformation.currentVersion})
+ 			</p>
+-		</div>
++		</footer>
+ 	</div>
+-</section>
++</div>
+diff --git a/frontend/src/routes/settings/admin/api-keys/+page.svelte b/frontend/src/routes/settings/admin/api-keys/+page.svelte
+index 981fab3..ef5792f 100644
+--- a/frontend/src/routes/settings/admin/api-keys/+page.svelte
++++ b/frontend/src/routes/settings/admin/api-keys/+page.svelte
+@@ -51,7 +51,12 @@
+ 					>{m.add_api_key()}</Button
+ 				>
+ 			{:else}
+-				<Button class="h-8 p-3" variant="ghost" onclick={() => (expandAddApiKey = false)}>
++				<Button
++					class="h-8 p-3"
++					variant="ghost"
++					aria-label={m.close()}
++					onclick={() => (expandAddApiKey = false)}
++				>
+ 					<LucideMinus class="size-5" />
+ 				</Button>
+ 			{/if}
+diff --git a/frontend/src/routes/settings/admin/api-keys/api-key-list.svelte b/frontend/src/routes/settings/admin/api-keys/api-key-list.svelte
+index b12e7ec..094bb37 100644
+--- a/frontend/src/routes/settings/admin/api-keys/api-key-list.svelte
++++ b/frontend/src/routes/settings/admin/api-keys/api-key-list.svelte
+@@ -115,7 +115,7 @@
+ 	<span
+ 		class={{
+ 			'flex items-center gap-2': true,
+-			'text-orange-300': expired
++			'text-orange-700 dark:text-orange-300': expired
+ 		}}
+ 		>{formatDate(item.expiresAt)}
+ 		{#if expired}
+diff --git a/frontend/src/routes/settings/admin/apis/+page.svelte b/frontend/src/routes/settings/admin/apis/+page.svelte
+index dc55c20..5e7d5e3 100644
+--- a/frontend/src/routes/settings/admin/apis/+page.svelte
++++ b/frontend/src/routes/settings/admin/apis/+page.svelte
+@@ -45,7 +45,12 @@
+ 						>{m.add_api()}</Button
+ 					>
+ 				{:else}
+-					<Button class="h-8 p-3" variant="ghost" onclick={() => (expandAddApi = false)}>
++					<Button
++						class="h-8 p-3"
++						variant="ghost"
++						aria-label={m.close()}
++						onclick={() => (expandAddApi = false)}
++					>
+ 						<LucideMinus class="size-5" />
+ 					</Button>
+ 				{/if}
+diff --git a/frontend/src/routes/settings/admin/apis/[id]/api-clients-tab.svelte b/frontend/src/routes/settings/admin/apis/[id]/api-clients-tab.svelte
+index 6aa89f2..9bd43ba 100644
+--- a/frontend/src/routes/settings/admin/apis/[id]/api-clients-tab.svelte
++++ b/frontend/src/routes/settings/admin/apis/[id]/api-clients-tab.svelte
+@@ -31,7 +31,7 @@
+ 		{ label: m.client(), key: 'client', cell: ClientCell },
+ 		{ label: m.user_delegated_access(), key: 'user-access', cell: UserAccessCell },
+ 		{ label: m.client_access(), key: 'client-access', cell: ClientAccessCell },
+-		{ label: '', key: 'actions', cell: ActionsCell }
++		{ label: m.actions(), key: 'actions', cell: ActionsCell }
+ 	];
+ 
+ 	async function fetchCallback(options: ListRequestOptions): Promise<Paginated<ClientRow>> {
+diff --git a/frontend/src/routes/settings/admin/application-configuration/application-image.svelte b/frontend/src/routes/settings/admin/application-configuration/application-image.svelte
+index 25888e2..1c103bc 100644
+--- a/frontend/src/routes/settings/admin/application-configuration/application-image.svelte
++++ b/frontend/src/routes/settings/admin/application-configuration/application-image.svelte
+@@ -58,63 +58,62 @@
+ 
+ <div class="flex flex-col items-start md:flex-row md:items-center" {...restProps}>
+ 	<Field.Label class="w-52" for={id}>{label}</Field.Label>
+-	<FileInput {id} variant="secondary" {accept} onchange={onImageChange}>
+-		<div
+-			class={cn('group/image relative flex items-center rounded transition-colors', {
+-				'bg-[#F5F5F5]': forceColorScheme === 'light',
+-				'bg-[#262626]': forceColorScheme === 'dark',
+-				'bg-muted': !forceColorScheme
+-			})}
+-		>
+-			{#if !isImageSet}
+-				<div
++	<div class="relative w-fit">
++		<FileInput {id} variant="secondary" {accept} onchange={onImageChange}>
++			<div
++				class={cn('group/image relative flex items-center rounded transition-colors', {
++					'bg-[#F5F5F5]': forceColorScheme === 'light',
++					'bg-[#262626]': forceColorScheme === 'dark',
++					'bg-muted': !forceColorScheme
++				})}
++			>
++				{#if !isImageSet}
++					<div
++						class={cn(
++							'flex h-full w-full items-center justify-center p-3 transition-opacity duration-200',
++							'group-hover/image:opacity-10 group-has-[button:hover]/image:opacity-100',
++							imageClass
++						)}
++					>
++						{#if fallback}
++							{@render fallback()}
++						{:else}
++							<LucideImageOff class="text-muted-foreground" />
++						{/if}
++					</div>
++				{:else}
++					<img
++						class={cn(
++							'h-full w-full rounded object-cover p-3 transition-opacity duration-200',
++							'group-hover/image:opacity-10 group-has-[button:hover]/image:opacity-100',
++							imageClass
++						)}
++						src={imageDataURL}
++						alt={label}
++						onerror={() => (isImageSet = false)}
++					/>
++				{/if}
++				<LucideUpload
+ 					class={cn(
+-						'flex h-full w-full items-center justify-center p-3 transition-opacity duration-200',
+-						'group-hover/image:opacity-10 group-has-[button:hover]/image:opacity-100',
+-						imageClass
++						'absolute top-1/2 left-1/2 size-5 -translate-x-1/2 -translate-y-1/2 transform font-medium opacity-0 transition-opacity duration-200',
++						'group-hover/image:opacity-100 group-has-[button:hover]/image:opacity-0',
++						{
++							'text-black': forceColorScheme === 'light',
++							'text-white': forceColorScheme === 'dark'
++						}
+ 					)}
+-				>
+-					{#if fallback}
+-						{@render fallback()}
+-					{:else}
+-						<LucideImageOff class="text-muted-foreground" />
+-					{/if}
+-				</div>
+-			{:else}
+-				<img
+-					class={cn(
+-						'h-full w-full rounded object-cover p-3 transition-opacity duration-200',
+-						'group-hover/image:opacity-10 group-has-[button:hover]/image:opacity-100',
+-						imageClass
+-					)}
+-					src={imageDataURL}
+-					alt={label}
+-					onerror={() => (isImageSet = false)}
+ 				/>
+-			{/if}
+-			<LucideUpload
+-				class={cn(
+-					'absolute top-1/2 left-1/2 size-5 -translate-x-1/2 -translate-y-1/2 transform font-medium opacity-0 transition-opacity duration-200',
+-					'group-hover/image:opacity-100 group-has-[button:hover]/image:opacity-0',
+-					{
+-						'text-black': forceColorScheme === 'light',
+-						'text-white': forceColorScheme === 'dark'
+-					}
+-				)}
+-			/>
+-			{#if isResetable && isImageSet}
+-				<Button
+-					size="icon"
+-					aria-label={`${m.reset_to_default()} ${label}`}
+-					onclick={(e) => {
+-						e.stopPropagation();
+-						onReset();
+-					}}
+-					class="absolute -top-2 -right-2 size-6 rounded-full shadow-md"
+-				>
+-					<LucideX class="size-3" />
+-				</Button>
+-			{/if}
+-		</div>
+-	</FileInput>
++			</div>
++		</FileInput>
++		{#if isResetable && isImageSet}
++			<Button
++				size="icon"
++				aria-label={`${m.reset_to_default()} ${label}`}
++				onclick={onReset}
++				class="absolute -top-2 -right-2 size-6 rounded-full shadow-md"
++			>
++				<LucideX class="size-3" />
++			</Button>
++		{/if}
++	</div>
+ </div>
+diff --git a/frontend/src/routes/settings/admin/application-configuration/forms/app-config-dynamic-clients-form.svelte b/frontend/src/routes/settings/admin/application-configuration/forms/app-config-dynamic-clients-form.svelte
+index 807d3d7..c9f61b9 100644
+--- a/frontend/src/routes/settings/admin/application-configuration/forms/app-config-dynamic-clients-form.svelte
++++ b/frontend/src/routes/settings/admin/application-configuration/forms/app-config-dynamic-clients-form.svelte
+@@ -34,6 +34,11 @@
+ 
+ <fieldset class="flex flex-col gap-5" disabled={$appConfigStore.uiConfigDisabled}>
+ 	<FormInput label={m.cimd_url_allowlist()} description={cimdUrlAllowlistDescription}>
+-		<UrlListInput bind:urls={cimdUrlAllowlist} testIdPrefix="cimd-url-allowlist" keepAtLeastOne />
++		<UrlListInput
++			bind:urls={cimdUrlAllowlist}
++			testIdPrefix="cimd-url-allowlist"
++			inputLabel={m.cimd_url_allowlist()}
++			keepAtLeastOne
++		/>
+ 	</FormInput>
+ </fieldset>
+diff --git a/frontend/src/routes/settings/admin/application-configuration/forms/app-config-email-form.svelte b/frontend/src/routes/settings/admin/application-configuration/forms/app-config-email-form.svelte
+index 532b968..ce1bd49 100644
+--- a/frontend/src/routes/settings/admin/application-configuration/forms/app-config-email-form.svelte
++++ b/frontend/src/routes/settings/admin/application-configuration/forms/app-config-email-form.svelte
+@@ -186,7 +186,7 @@
+ 				</Select.Root>
+ 			</Field.Field>
+ 			<SwitchWithLabel
+-				id="skip-cert-verify"
++				id="smtp-skip-cert-verify"
+ 				label={m.skip_certificate_verification()}
+ 				description={m.this_can_be_useful_for_selfsigned_certificates()}
+ 				bind:checked={$inputs.smtpSkipCertVerify.value}
+diff --git a/frontend/src/routes/settings/admin/application-configuration/forms/app-config-ldap-form.svelte b/frontend/src/routes/settings/admin/application-configuration/forms/app-config-ldap-form.svelte
+index ea5f962..a33b9f7 100644
+--- a/frontend/src/routes/settings/admin/application-configuration/forms/app-config-ldap-form.svelte
++++ b/frontend/src/routes/settings/admin/application-configuration/forms/app-config-ldap-form.svelte
+@@ -126,7 +126,7 @@
+ 				bind:input={$inputs.ldapUserGroupSearchFilter}
+ 			/>
+ 			<SwitchWithLabel
+-				id="skip-cert-verify"
++				id="ldap-skip-cert-verify"
+ 				label={m.skip_certificate_verification()}
+ 				description={m.this_can_be_useful_for_selfsigned_certificates()}
+ 				bind:checked={$inputs.ldapSkipCertVerify.value}
+diff --git a/frontend/src/routes/settings/admin/oidc-clients/[id]/+page.svelte b/frontend/src/routes/settings/admin/oidc-clients/[id]/+page.svelte
+index f5dda12..2ca83d7 100644
+--- a/frontend/src/routes/settings/admin/oidc-clients/[id]/+page.svelte
++++ b/frontend/src/routes/settings/admin/oidc-clients/[id]/+page.svelte
+@@ -185,7 +185,7 @@
+ 				</Tabs.Trigger>
+ 				<Tabs.Trigger value="credentials">
+ 					{m.credentials()}
+-					<Badge variant="secondary" class="text-muted-foreground h-4.5 px-1.5 text-[11px]">
++					<Badge variant="secondary" class="h-4.5 px-1.5 text-[11px]">
+ 						{credentialCount}
+ 					</Badge>
+ 				</Tabs.Trigger>
+diff --git a/frontend/src/routes/settings/admin/oidc-clients/oidc-callback-url-input.svelte b/frontend/src/routes/settings/admin/oidc-clients/oidc-callback-url-input.svelte
+index fe862c3..a11ec8a 100644
+--- a/frontend/src/routes/settings/admin/oidc-clients/oidc-callback-url-input.svelte
++++ b/frontend/src/routes/settings/admin/oidc-clients/oidc-callback-url-input.svelte
+@@ -12,6 +12,7 @@
+ 		error = $bindable(null),
+ 		disabled = false,
+ 		addLabel,
++		inputLabel = undefined,
+ 		...restProps
+ 	}: HTMLAttributes<HTMLDivElement> & {
+ 		label: string;
+@@ -20,6 +21,7 @@
+ 		error?: string | null;
+ 		disabled?: boolean;
+ 		addLabel?: string;
++		inputLabel?: string;
+ 		children?: Snippet;
+ 	} = $props();
+ </script>
+@@ -31,6 +33,7 @@
+ 			{error}
+ 			{disabled}
+ 			{addLabel}
++			inputLabel={inputLabel ?? label}
+ 			testIdPrefix="callback-url"
+ 		/>
+ 	</FormInput>
+diff --git a/frontend/src/routes/settings/admin/oidc-clients/oidc-client-preview-modal.svelte b/frontend/src/routes/settings/admin/oidc-clients/oidc-client-preview-modal.svelte
+index ac8a894..acb0313 100644
+--- a/frontend/src/routes/settings/admin/oidc-clients/oidc-client-preview-modal.svelte
++++ b/frontend/src/routes/settings/admin/oidc-clients/oidc-client-preview-modal.svelte
+@@ -155,6 +155,7 @@
+ 				<Field.Label>{m.user()}</Field.Label>
+ 				<SearchableSelect
+ 					class="w-full"
++					triggerLabel={m.user()}
+ 					selectText={m.select_user()}
+ 					isLoading={isUserSearchLoading}
+ 					items={users.map((user) => ({
+diff --git a/frontend/src/routes/settings/admin/users/+page.svelte b/frontend/src/routes/settings/admin/users/+page.svelte
+index 1aba5c1..dba2916 100644
+--- a/frontend/src/routes/settings/admin/users/+page.svelte
++++ b/frontend/src/routes/settings/admin/users/+page.svelte
+@@ -85,7 +85,12 @@
+ 						>
+ 					{/if}
+ 				{:else}
+-					<Button class="h-8 p-3" variant="ghost" onclick={() => (expandAddUser = false)}>
++					<Button
++						class="h-8 p-3"
++						variant="ghost"
++						aria-label={m.close()}
++						onclick={() => (expandAddUser = false)}
++					>
+ 						<LucideMinus class="size-5" />
+ 					</Button>
+ 				{/if}
+diff --git a/frontend/src/routes/settings/admin/users/user-form.svelte b/frontend/src/routes/settings/admin/users/user-form.svelte
+index 6bb21e3..7fd2c53 100644
+--- a/frontend/src/routes/settings/admin/users/user-form.svelte
++++ b/frontend/src/routes/settings/admin/users/user-form.svelte
+@@ -109,17 +109,20 @@
+ 							: m.mark_as_verified()}
+ 						<Tooltip.Root>
+ 							<Tooltip.Trigger>
+-								<Toggle
+-									bind:pressed={$inputs.emailVerified.value}
+-									aria-label={label}
+-									class="border-input hover:data-[state=on]:bg-accent flex h-9 items-center rounded-l-none border bg-yellow-100 px-2 py-1 shadow-xs data-[state=on]:bg-green-100 dark:bg-yellow-950 dark:data-[state=on]:bg-green-950"
+-								>
+-									{#if $inputs.emailVerified.value}
+-										<LucideMailCheck class="size-5 text-green-500 dark:text-green-600" />
+-									{:else}
+-										<LucideMailWarning class="size-5 text-yellow-500 dark:text-yellow-600" />
+-									{/if}
+-								</Toggle>
++								{#snippet child({ props })}
++									<Toggle
++										{...props}
++										bind:pressed={$inputs.emailVerified.value}
++										aria-label={label}
++										class="border-input hover:data-[state=on]:bg-accent flex h-9 items-center rounded-l-none border bg-yellow-100 px-2 py-1 shadow-xs data-[state=on]:bg-green-100 dark:bg-yellow-950 dark:data-[state=on]:bg-green-950"
++									>
++										{#if $inputs.emailVerified.value}
++											<LucideMailCheck class="size-5 text-green-500 dark:text-green-600" />
++										{:else}
++											<LucideMailWarning class="size-5 text-yellow-500 dark:text-yellow-600" />
++										{/if}
++									</Toggle>
++								{/snippet}
+ 							</Tooltip.Trigger>
+ 							<Tooltip.Content>{label}</Tooltip.Content>
+ 						</Tooltip.Root>
+diff --git a/frontend/src/routes/settings/apps/authorized-oidc-client-card.svelte b/frontend/src/routes/settings/apps/authorized-oidc-client-card.svelte
+index f28d282..71242e2 100644
+--- a/frontend/src/routes/settings/apps/authorized-oidc-client-card.svelte
++++ b/frontend/src/routes/settings/apps/authorized-oidc-client-card.svelte
+@@ -55,11 +55,11 @@
+ 			<div class="flex w-full justify-between gap-3">
+ 				<div class="h-20">
+ 					<div class="mb-1 flex items-start gap-2">
+-						<h3
++						<h2
+ 							class="text-foreground line-clamp-2 leading-tight font-semibold wrap-break-word break-all text-ellipsis"
+ 						>
+ 							{client.name}
+-						</h3>
++						</h2>
+ 					</div>
+ 					{#if client.launchURL}
+ 						<p
+diff --git a/frontend/src/routes/settings/audit-log/global/+page.svelte b/frontend/src/routes/settings/audit-log/global/+page.svelte
+index 9739242..830fb5e 100644
+--- a/frontend/src/routes/settings/audit-log/global/+page.svelte
++++ b/frontend/src/routes/settings/audit-log/global/+page.svelte
+@@ -50,6 +50,7 @@
+ 				{:then users}
+ 					<SearchableSelect
+ 						class="w-full"
++						triggerLabel={m.user()}
+ 						items={[
+ 							{ value: '', label: m.all_users() },
+ 							...Object.entries(users).map(([id, username]) => ({
+@@ -64,6 +65,7 @@
+ 			<div>
+ 				<SearchableSelect
+ 					class="w-full"
++					triggerLabel={m.event()}
+ 					items={[
+ 						{ value: '', label: m.all_events() },
+ 						...Object.entries(eventTypes).map(([value, label]) => ({
+@@ -78,6 +80,7 @@
+ 				<SearchableSelect
+ 					disableSearch={true}
+ 					class="w-full"
++					triggerLabel={m.location()}
+ 					items={[
+ 						{ value: '', label: m.all_locations() },
+ 						...Object.entries(locationTypes).map(([value, label]) => ({
+@@ -102,6 +105,7 @@
+ 				{:then clientNames}
+ 					<SearchableSelect
+ 						class="w-full"
++						triggerLabel={m.client()}
+ 						items={[
+ 							{ value: '', label: m.all_clients() },
+ 							...clientNames.map((name) => ({

@@ -1,0 +1,78 @@
+{
+  "cycle": 20,
+  "project": "pocket-id/pocket-id",
+  "commit": "40cb14f89309286dcafaa62dac82a88a4b5ac583",
+  "stack": "SvelteKit 5 SPA (runes) + Go/gin + sqlite, frontend go:embed dans le binaire backend",
+  "boot": "backend/pocket-id-e2e -tags e2etest, APP_ENV=test, ENCRYPTION_KEY=test-encryption-key, reset seed via POST /api/test/reset?skip-ldap=true",
+  "baseline": {
+    "auth": {
+      "rules": 10,
+      "occurrences": 125,
+      "incompletes": 4
+    },
+    "public": {
+      "rules": 3,
+      "occurrences": 45,
+      "incompletes": 1
+    }
+  },
+  "final": {
+    "auth": {
+      "rules": 0,
+      "occurrences": 0,
+      "incompletes": 2
+    },
+    "public": {
+      "rules": 0,
+      "occurrences": 0,
+      "incompletes": 1
+    }
+  },
+  "errors_honnetes": {
+    "public_logout": "redirect /login?redirect=/logout \u2014 identique baseline et final"
+  },
+  "incompletes_final": [
+    {
+      "page": "state:menu-compte/menu-theme",
+      "rule": "aria-valid-attr-value",
+      "decision": "N/A \u2014 aria-controls vers l'id du contenu menu resolu live (bitsc18/c17 existent dans #a11y-popup-layer) ; limite de determination d'axe a travers le portail"
+    },
+    {
+      "page": "/device",
+      "rule": "color-contrast",
+      "decision": "N/A \u2014 input OTP totalement transparent (color+bg rgba(0,0,0,0)) ; les chiffres visibles vivent dans les cellules Slot, pas sur le noeud input"
+    }
+  ],
+  "fixes": {
+    "files_modified": 34,
+    "insertions": 185,
+    "deletions": 119,
+    "familles": [
+      "image-alt (31) : avatar-image alt='' decoratif + image-box alt=''",
+      "region/landmarks (42+37+7) : header-><header>, powered-by-><footer> hors <section> anonyme, <main> sur pages non-settings, portails bits-ui -> #a11y-popup-layer role=complementary",
+      "button-name (16) : alert dismiss aria-label, ghost collapse x3, file-input select_file, combobox triggers triggerLabel (SearchableSelect + 4 usages)",
+      "nested-interactive (11) : Tooltip.Trigger child-snippet (passkey-row x2, user-form Toggle), bouton reset sorti du FileInput (application-image)",
+      "aria-required-children (8) : item-group role=list retire",
+      "color-contrast (6) : api-key expired orange-700/dark:orange-300, alert-description text-current sur variants teintes, badge compteur sans override muted",
+      "heading-order (6) : h3->h2 profile-picture + authorized-oidc-client-card",
+      "label (2) : url-list-input inputLabel (callback-urls + cimd)",
+      "empty-table-header (1) : api-clients-tab label m.actions()",
+      "link-in-text-block (2) : lien powered-by souligne",
+      "duplicate-id-aria : skip-cert-verify dedouble -> ldap-/smtp-"
+    ]
+  },
+  "verify": {
+    "script": "tools/verify.mjs",
+    "result": "17/17 PASS"
+  },
+  "eval_final": {
+    "script": "tools/eval-final.mjs",
+    "result": "10/10 PASS"
+  },
+  "install_build": "clone propre @40cb14f8 + git apply patch.diff (34f, +185/-119) -> pnpm --frozen-lockfile + vite build -> go build -tags e2etest -> binaire boote :1451, /login 200, reset 204",
+  "auditCommands": [
+    "node tools/audit.mjs http://localhost:1411 --urls $(paste -sd, tools/urls-auth.txt) --states all --storage-state tools/auth.json --wait 8000 --out reports/final/auth",
+    "node tools/audit.mjs http://localhost:1411 --urls /device,/login,/login/alternative,/login/alternative/code,/login/alternative/device,/login/alternative/email,/logout,/signup --states none --wait 6000 --out reports/final/public"
+  ],
+  "verdict_propose": "axe 0 violation reproducible sur 20 scenarios auth + 7/8 publics (logout=redirect attendu) ; verify 17/17 ; eval-final 10/10 ; install-build PASS"
+}
