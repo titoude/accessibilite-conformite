@@ -1,54 +1,61 @@
 {
-  "cycle": 8,
-  "repo": "filebrowser/filebrowser (archivé 2026-09-01)",
-  "commit": "833d908884d5c801f30f5c098d7977177eb3a36b",
-  "pinned": "833d908 (clone 2026-10-04)",
-  "baseUrl": "http://localhost:8082",
-  "tool_versions": {
-    "playwright": "1.63.0",
-    "axe-core": "4.13.0",
-    "node": "v24.19.0",
-    "go": "1.25.1",
-    "pnpm": "10.33.4"
-  },
-  "boot": {
-    "frontend": "frontend/ : pnpm install --frozen-lockfile && pnpm build (vue-tsc + vite)",
-    "backend": "go build -o filebrowser . (main.go à la racine, embed frontend/dist)",
-    "setup": "filebrowser -d fb.db -r /tmp/fb-root config init && users add admin adminpass123 --perm.admin ; tools/login.mjs POST /api/login → jwt localStorage",
-    "seed": "dossier docs/ + test.txt sous /tmp/fb-root",
-    "notes": "binaire embarque dist via go:embed — rebuild go requis après chaque build frontend"
-  },
-  "scenarios": {
-    "routes": [
-      "/files",
-      "/files/docs/",
-      "/settings/profile",
-      "/settings/shares",
-      "/settings/global",
-      "/settings/users",
-      "/settings/users/1",
-      "/403",
-      "/404",
-      "/500"
-    ],
-    "states": [
-      "info-panel",
-      "multiple-select",
-      "mobile-drawer"
-    ],
-    "horsPerimetre": [
-      "/share/:token (partage public)",
-      "editor/preview fichiers texte"
-    ]
-  },
-  "storageState": "tools/auth.json (jwt localStorage)",
-  "waitFor": "h2.message, main + 1000ms",
-  "auditCommands": [
-    "node audit.mjs http://localhost:8082 --urls /files,/files/docs/,/settings/profile,/settings/shares,/settings/global,/settings/users,/settings/users/1,/403,/404,/500 --states info-panel,multiple-select,mobile-drawer --storage-state auth.json --wait-for 'h2.message, main' --wait 1000 --out <dir>",
-    "node audit.mjs http://localhost:8082 --urls /login --states none --wait-for '.login, form, input' --wait 1000 --out <dir>"
+ "cycle": 8,
+ "repo": "filebrowser/filebrowser (archivé 2026-09-01)",
+ "commit": "833d908884d5c801f30f5c098d7977177eb3a36b",
+ "pinned": "833d908 (clone 2026-10-04)",
+ "baseUrl": "http://localhost:8082",
+ "tool_versions": {
+  "playwright": "1.63.0",
+  "axe-core": "4.13.0",
+  "node": "v24.19.0",
+  "go": "1.25.1",
+  "pnpm": "10.33.4"
+ },
+ "boot": {
+  "frontend": "frontend/ : pnpm install --frozen-lockfile && pnpm build (vue-tsc + vite)",
+  "backend": "go build -o filebrowser . (main.go à la racine, embed frontend/dist)",
+  "setup": "filebrowser -d fb.db -r /tmp/fb-root config init && users add admin adminpass123 --perm.admin ; tools/login.mjs POST /api/login → jwt localStorage",
+  "seed": "dossier docs/ + test.txt sous /tmp/fb-root",
+  "notes": "binaire embarque dist via go:embed — rebuild go requis après chaque build frontend"
+ },
+ "scenarios": {
+  "routes": [
+   "/files",
+   "/files/docs/",
+   "/settings/profile",
+   "/settings/shares",
+   "/settings/global",
+   "/settings/users",
+   "/settings/users/1",
+   "/403",
+   "/404",
+   "/500"
   ],
-  "substitutions": {
-    "/settings": "/settings/profile (redirect)",
-    "vue-number-input±": "input[type=number] natif (boutons innommables dans la dep)"
-  }
+  "states": [
+   "info-panel",
+   "multiple-select",
+   "mobile-drawer"
+  ],
+  "horsPerimetre": [
+   "/share/:token (partage public)",
+   "editor/preview fichiers texte"
+  ]
+ },
+ "storageState": "tools/auth.json (jwt localStorage)",
+ "waitFor": "h2.message, main + 1000ms",
+ "auditCommands": [
+  "node audit.mjs http://localhost:8082 --urls /files,/files/docs/,/settings/profile,/settings/shares,/settings/global,/settings/users,/settings/users/1,/403,/404,/500 --states info-panel,multiple-select,mobile-drawer --storage-state auth.json --wait-for 'h2.message, main' --wait 1000 --out <dir>",
+  "node audit.mjs http://localhost:8082 --urls /login --states none --wait-for '.login, form, input' --wait 1000 --out <dir>"
+ ],
+ "substitutions": {
+  "/settings": "/settings/profile (redirect)",
+  "vue-number-input±": "input[type=number] natif (boutons innommables dans la dep)"
+ },
+ "seed": {
+  "note_pinning": "test.txt doit être à la RACINE de fb-root (pas dans docs/) — l auditeur a reproduit 141 vs 145 occ en le rangeant dans docs/",
+  "files": [
+   "/fb-root/test.txt (racine)",
+   "/fb-root/docs/ (dossier vide)"
+  ]
+ }
 }
