@@ -1,0 +1,1153 @@
+diff --git a/src/main/resources/messages_en_GB.properties b/src/main/resources/messages_en_GB.properties
+index 6b29357..78971b6 100644
+--- a/src/main/resources/messages_en_GB.properties
++++ b/src/main/resources/messages_en_GB.properties
+@@ -1437,3 +1437,10 @@ cookieBanner.preferencesModal.necessary.description=These cookies are essential
+ cookieBanner.preferencesModal.analytics.title=Analytics
+ cookieBanner.preferencesModal.analytics.description=These cookies help us understand how our tools are being used, so we can focus on building the features our community values most. Rest assured—Stirling PDF cannot and will never track the content of the documents you work with.
+ 
++##### Accessibility #####
++a11y.viewerTitle=PDF viewer
++a11y.pageNumber=Page number
++a11y.zoom=Zoom level
++a11y.pipelineSelect=Select a pipeline
++a11y.homeTitle=Stirling PDF
++a11y.aboutTitle=About Stirling PDF
+diff --git a/src/main/resources/messages_en_US.properties b/src/main/resources/messages_en_US.properties
+index 2176814..fb307ee 100644
+--- a/src/main/resources/messages_en_US.properties
++++ b/src/main/resources/messages_en_US.properties
+@@ -1437,3 +1437,10 @@ cookieBanner.preferencesModal.necessary.description=These cookies are essential
+ cookieBanner.preferencesModal.analytics.title=Analytics
+ cookieBanner.preferencesModal.analytics.description=These cookies help us understand how our tools are being used, so we can focus on building the features our community values most. Rest assured—Stirling PDF cannot and will never track the content of the documents you work with.
+ 
++##### Accessibility #####
++a11y.viewerTitle=PDF viewer
++a11y.pageNumber=Page number
++a11y.zoom=Zoom level
++a11y.pipelineSelect=Select a pipeline
++a11y.homeTitle=Stirling PDF
++a11y.aboutTitle=About Stirling PDF
+diff --git a/src/main/resources/static/css/a11y.css b/src/main/resources/static/css/a11y.css
+new file mode 100644
+index 0000000..717a976
+--- /dev/null
++++ b/src/main/resources/static/css/a11y.css
+@@ -0,0 +1,84 @@
++/* Overrides d'accessibilite (WCAG 2.2 AA) — charges en dernier via fragments/common :: head */
++
++/* Liens : #0d6efd atteignait 3.2:1 sur #cddceb et 3.9:1 sur #edf0f5 */
++a {
++  color: #0a58ca;
++}
++
++a:hover,
++a:focus {
++  color: #084298;
++}
++
++/* Badge "Go Pro" : texte blanc sur #007bff = 3.97:1 */
++.go-pro-badge {
++  background-color: #0056b3;
++}
++
++.go-pro-link:hover .go-pro-badge,
++.go-pro-link:focus .go-pro-badge {
++  background-color: #003d80;
++}
++
++/* Lien "powered by" du footer : heritait un gris a 1.09:1 */
++.stirling-link {
++  color: #343a40;
++  text-decoration: underline;
++}
++
++.stirling-link:hover {
++  color: #0a58ca;
++}
++
++/* Liens du footer : cible de pointage >= 24px (WCAG 2.5.8) */
++.footer-link {
++  display: inline-block;
++  padding: 0.4rem 0.75rem;
++}
++
++/* Bouton submit des pages outil : mesure #c4cfd9 sur #2678be = 2.94:1 */
++#submitBtn.btn-primary {
++  background-color: #0056b3;
++  border-color: #0056b3;
++}
++
++#submitBtn.btn-primary:hover,
++#submitBtn.btn-primary:focus {
++  background-color: #00428a;
++  border-color: #00428a;
++}
++
++/* h1 issu de .tool-header : conserve le rendu visuel d'origine */
++h1.tool-header {
++  margin: 0 0 2rem;
++  font-size: inherit;
++  font-weight: inherit;
++  line-height: 1.4;
++}
++
++/* Titres de section de la home (h6 -> h2) : rendu conserve */
++h2.menu-title {
++  margin: 0.67em 0;
++  font-size: 0.67em;
++  font-weight: 700;
++}
++
++/* Liens footer : #0a58ca ne suffit pas sur #d4d4d7 (4.35:1) */
++body .footer-link {
++  color: #084298;
++}
++
++body .footer-link:hover,
++body .footer-link:focus {
++  color: #0a58ca;
++}
++
++/* navbar.css est recharge APRES a11y.css sur view-pdf : specifier */
++body .go-pro-badge {
++  background-color: #0056b3;
++}
++
++body .go-pro-link:hover .go-pro-badge,
++body .go-pro-link:focus .go-pro-badge {
++  background-color: #003d80;
++}
+diff --git a/src/main/resources/static/css/fileSelect.css b/src/main/resources/static/css/fileSelect.css
+index 88bef91..40a5f02 100644
+--- a/src/main/resources/static/css/fileSelect.css
++++ b/src/main/resources/static/css/fileSelect.css
+@@ -151,7 +151,7 @@
+ .file-info > div:nth-child(2) {
+   overflow: hidden;
+   text-overflow: ellipsis;
+-  color: grey;
++  color: #495057;
+ 
+   max-width: 60px;
+   font-size: 10px;
+diff --git a/src/main/resources/static/css/theme/theme.light.css b/src/main/resources/static/css/theme/theme.light.css
+index 269ccd6..8b76c82 100644
+--- a/src/main/resources/static/css/theme/theme.light.css
++++ b/src/main/resources/static/css/theme/theme.light.css
+@@ -53,25 +53,25 @@
+     --md-nav-section-color-opacity: 1;
+     --md-nav-on-section-color-opacity: 1;
+     --md-nav-section-color-sign: rgba(25, 101, 212, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-sign: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-sign: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-organize: rgba(120, 130, 255, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-organize: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-organize: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-convert: rgba(25, 177, 212, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-convert: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-convert: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-convertto: rgba(104, 220, 149, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-convertto: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-convertto: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-security: rgba(255, 120, 146, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-security: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-security: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-other: rgba(72, 189, 84, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-other: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-other: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-advance: rgba(245, 84, 84, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-advance: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-advance: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-image: rgba(212, 172, 25, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-image: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-image: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-word: rgba(61, 153, 245, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-word: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-word: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-section-color-ppt: rgba(255, 128, 0, var(--md-nav-section-color-opacity));
+-    --md-nav-on-section-color-ppt: rgba(255, 251, 254, var(--md-nav-on-section-color-opacity));
++    --md-nav-on-section-color-ppt: rgba(28, 27, 31, var(--md-nav-on-section-color-opacity));
+     --md-nav-color-on-seperator: rgb(174, 178, 179);
+     --md-nav-background: rgb(248 249 255);
+     --favourite-add: #25ab6c;
+diff --git a/src/main/resources/static/js/navbar.js b/src/main/resources/static/js/navbar.js
+index 1d8c0dc..4c173c3 100644
+--- a/src/main/resources/static/js/navbar.js
++++ b/src/main/resources/static/js/navbar.js
+@@ -49,16 +49,33 @@ window.tooltipSetup = () => {
+     const tooltipText = element.getAttribute('title');
+     element.removeAttribute('title');
+     element.setAttribute('data-title', tooltipText);
++    if (!element.getAttribute('aria-label') && !element.getAttribute('aria-labelledby') && !element.textContent.trim()) {
++      element.setAttribute('aria-label', tooltipText);
++    } else {
++      // L'attribut title fournissait la description accessible ; la
++      // conserver via aria-description maintenant qu'il est retiré.
++      element.setAttribute('aria-description', tooltipText);
++    }
+     const customTooltip = document.createElement('div');
+     customTooltip.className = 'btn-tooltip';
++    customTooltip.setAttribute('role', 'tooltip');
++    customTooltip.setAttribute('aria-hidden', 'true');
+     customTooltip.textContent = tooltipText;
+ 
+     document.body.appendChild(customTooltip);
+ 
+-    element.addEventListener('mouseenter', (event) => {
++    const showTooltip = (x, y) => {
+       customTooltip.style.display = 'block';
+-      customTooltip.style.left = `${event.pageX + 10}px`; // Position tooltip slightly away from the cursor
+-      customTooltip.style.top = `${event.pageY + 10}px`;
++      customTooltip.style.left = `${x + 10}px`; // Position tooltip slightly away from the cursor
++      customTooltip.style.top = `${y + 10}px`;
++    };
++    const hideTooltip = () => {
++      customTooltip.style.display = 'none';
++      customTooltip.setAttribute('aria-hidden', 'true');
++    };
++
++    element.addEventListener('mouseenter', (event) => {
++      showTooltip(event.pageX, event.pageY);
+     });
+ 
+     // Update the position of the tooltip as the user moves the mouse
+@@ -68,8 +85,23 @@ window.tooltipSetup = () => {
+     });
+ 
+     // Hide the tooltip when the mouse leaves
+-    element.addEventListener('mouseleave', () => {
+-      customTooltip.style.display = 'none';
++    element.addEventListener('mouseleave', hideTooltip);
++
++    // Same tooltip on keyboard focus, dismissed on blur or Escape. Quand
++    // l'élément n'est pas focusable (icône <div> dans un lien), le focus
++    // se fait sur l'ancêtre interactif le plus proche.
++    const focusTarget = element.tabIndex >= 0
++      ? element
++      : element.closest('a, button, input, select, textarea, [tabindex]') || element;
++    focusTarget.addEventListener('focus', () => {
++      const rect = element.getBoundingClientRect();
++      showTooltip(rect.left + window.scrollX, rect.bottom + window.scrollY);
++    });
++    focusTarget.addEventListener('blur', hideTooltip);
++    focusTarget.addEventListener('keydown', (event) => {
++      if (event.key === 'Escape') {
++        hideTooltip();
++      }
+     });
+   });
+ };
+diff --git a/src/main/resources/static/pdfjs-legacy/locale/en-US/viewer.ftl b/src/main/resources/static/pdfjs-legacy/locale/en-US/viewer.ftl
+index 8aea439..fa859a0 100644
+--- a/src/main/resources/static/pdfjs-legacy/locale/en-US/viewer.ftl
++++ b/src/main/resources/static/pdfjs-legacy/locale/en-US/viewer.ftl
+@@ -14,6 +14,7 @@ pdfjs-next-button-label = Next
+ # .title: Tooltip for the pageNumber input.
+ pdfjs-page-input =
+     .title = Page
++    .aria-label = Page number
+ 
+ # Variables:
+ #   $pagesCount (Number) - the total number of pages in the document
+@@ -33,6 +34,7 @@ pdfjs-zoom-in-button =
+ pdfjs-zoom-in-button-label = Zoom In
+ pdfjs-zoom-select =
+     .title = Zoom
++    .aria-label = Zoom level
+ pdfjs-presentation-mode-button =
+     .title = Switch to Presentation Mode
+ pdfjs-presentation-mode-button-label = Presentation Mode
+diff --git a/src/main/resources/templates/about.html b/src/main/resources/templates/about.html
+index 1ae7ede..a6cebf8 100644
+--- a/src/main/resources/templates/about.html
++++ b/src/main/resources/templates/about.html
+@@ -9,11 +9,12 @@
+       <div id="content-wrap">
+         <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+         <br><br>
+-        <div class="container">
++        <main class="container">
++          <h1 class="visually-hidden" th:text="#{a11y.aboutTitle}">About Stirling PDF</h1>
+           <div class="row justify-content-center">
+             <div class="col-md-6 bg-card"></div>
+           </div>
+-        </div>
++        </main>
+       </div>
+       <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+     </div>
+diff --git a/src/main/resources/templates/crop.html b/src/main/resources/templates/crop.html
+index 0617bf9..516c452 100644
+--- a/src/main/resources/templates/crop.html
++++ b/src/main/resources/templates/crop.html
+@@ -9,13 +9,13 @@
+       <div id="content-wrap">
+         <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+         <br><br>
+-        <div class="container">
++        <main class="container">
+           <div class="row justify-content-center">
+             <div class="col-md-6 bg-card">
+-              <div class="tool-header">
++              <h1 class="tool-header">
+                 <span class="material-symbols-rounded tool-header-icon organize">crop</span>
+                 <span class="tool-header-text" th:text="#{crop.header}"></span>
+-              </div>
++              </h1>
+               <form id="cropForm" th:action="@{'/api/v1/general/crop'}" method="post" enctype="multipart/form-data">
+                 <div th:replace="~{fragments/common :: fileSelector(name='fileInput', multipleInputsForSingleRequest=false, accept='application/pdf')}"></div>
+                 <input id="x" type="hidden" name="x">
+@@ -33,7 +33,7 @@
+           </div>
+           <script type="module" th:src="@{'/pdfjs-legacy/pdf.mjs'}"></script>
+           <script type="module" th:src="@{'/js/pages/crop.js'}"></script>
+-        </div>
++        </main>
+       </div>
+       <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+     </div>
+diff --git a/src/main/resources/templates/fragments/common.html b/src/main/resources/templates/fragments/common.html
+index 02d919b..1844e26 100644
+--- a/src/main/resources/templates/fragments/common.html
++++ b/src/main/resources/templates/fragments/common.html
+@@ -47,7 +47,7 @@
+              + '&appVersion=' + ${@appVersion} 
+              + '&licenseType=' + ${@license} 
+              + '&loginEnabled=' + ${@loginEnabled}"
+-     style="position: absolute; visibility: hidden;" />
++     style="position: absolute; visibility: hidden;" alt="" aria-hidden="true" />
+      
+   <!-- Custom -->
+   <link rel="stylesheet" th:href="@{'/css/general.css'}">
+@@ -74,6 +74,7 @@
+   <link rel="preload" th:href="@{'/fonts/google-symbol.woff2'}" as="font" type="font/woff2" crossorigin="anonymous">
+   <link rel="stylesheet" th:href="@{'/css/cookieconsent.css'}">
+   <link rel="stylesheet" th:href="@{'/css/cookieconsentCustomisation.css'}">
++  <link rel="stylesheet" th:href="@{'/css/a11y.css'}">
+   <script th:src="@{'/js/thirdParty/fontfaceobserver.standalone.js'}"></script>
+ 
+   <!-- Google MD Icons -->
+diff --git a/src/main/resources/templates/fragments/errorBannerPerPage.html b/src/main/resources/templates/fragments/errorBannerPerPage.html
+index cb07cce..40ac9bc 100644
+--- a/src/main/resources/templates/fragments/errorBannerPerPage.html
++++ b/src/main/resources/templates/fragments/errorBannerPerPage.html
+@@ -32,7 +32,7 @@
+                 <div class="modal-body">
+                   <div class="container">
+                     <div id="support-section">
+-                      <h1 class="display-2" th:text="#{oops}"></h1>
++                      <h2 class="display-2" th:text="#{oops}"></h2>
+                       <p class="lead" th:text="#{error.sorry}"></p>
+                       <br>
+                       <h2 th:text="#{error.needHelp}"></h2>
+diff --git a/src/main/resources/templates/fragments/featureGroupHeader.html b/src/main/resources/templates/fragments/featureGroupHeader.html
+index 7cdcb83..c7ecc0e 100644
+--- a/src/main/resources/templates/fragments/featureGroupHeader.html
++++ b/src/main/resources/templates/fragments/featureGroupHeader.html
+@@ -1,3 +1,3 @@
+ <div th:fragment="featureGroupHeader" class="feature-group-header">
+-  <h6 class="menu-title" th:text="${groupTitle}"></h6>
++  <h2 class="menu-title" th:text="${groupTitle}"></h2>
+ </div>
+\ No newline at end of file
+diff --git a/src/main/resources/templates/fragments/footer.html b/src/main/resources/templates/fragments/footer.html
+index 324f550..f007b43 100644
+--- a/src/main/resources/templates/fragments/footer.html
++++ b/src/main/resources/templates/fragments/footer.html
+@@ -1,4 +1,4 @@
+-<footer th:fragment="footer" id="footer" class="text-center pt-5">
++<footer th:fragment="footer" id="footer" class="text-center pt-5" th:attr="role=${footerRole}">
+   
+   <script type="module" th:src="@{'/js/thirdParty/cookieconsent-config.js'}"></script>
+   <div class="footer-center pb-4">
+diff --git a/src/main/resources/templates/fragments/multi-toolAdvert.html b/src/main/resources/templates/fragments/multi-toolAdvert.html
+index 681630a..23fe79a 100644
+--- a/src/main/resources/templates/fragments/multi-toolAdvert.html
++++ b/src/main/resources/templates/fragments/multi-toolAdvert.html
+@@ -1,4 +1,4 @@
+-<div th:fragment="multi-toolAdvert" class="mx-auto">
++<div th:fragment="multi-toolAdvert" class="mx-auto" role="complementary" aria-label="Multi-tool">
+   <div id="multi-toolAdvert" class="multi-toolAdvert">
+     <div>
+       <span th:utext="#{multiTool-advert.message(|/multi-tool|)}"></span>
+@@ -29,7 +29,7 @@
+     }
+ 
+     .multi-toolAdvert a {
+-      color: #007bff;
++      color: #0a58ca;
+       font-weight: bold;
+     }
+ 
+diff --git a/src/main/resources/templates/home.html b/src/main/resources/templates/home.html
+index 0bb9a2c..2de7b92 100644
+--- a/src/main/resources/templates/home.html
++++ b/src/main/resources/templates/home.html
+@@ -9,8 +9,9 @@
+ <body>
+   <div id="page-container">  
+         <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+-    <div style="transform-origin: top;"
++    <main style="transform-origin: top;"
+     id="scale-wrap">
++      <h1 class="visually-hidden" th:text="#{a11y.homeTitle}">Stirling PDF</h1>
+       <br class="d-md-none">
+       <!-- Features -->
+       <script th:src="@{'/js/homecard.js'}"></script>
+@@ -117,7 +118,7 @@
+             <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+ 
+       </div>
+-    </div>
++    </main>
+   </div>
+ 
+ 
+diff --git a/src/main/resources/templates/licenses.html b/src/main/resources/templates/licenses.html
+index 5aec42a..94e9ace 100644
+--- a/src/main/resources/templates/licenses.html
++++ b/src/main/resources/templates/licenses.html
+@@ -9,13 +9,13 @@
+       <div id="content-wrap">
+         <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+         <br><br>
+-        <div class="container">
++        <main class="container">
+           <div class="row justify-content-center">
+             <div class="col-md-8 bg-card">
+-              <div class="tool-header">
++              <h1 class="tool-header">
+                 <span class="material-symbols-rounded tool-header-icon organize">license</span>
+                 <span class="tool-header-text" th:text="#{licenses.header}">3rd Party licenses</span>
+-              </div>
++              </h1>
+               <table class="table table-striped">
+                 <thead>
+                   <tr>
+@@ -34,7 +34,7 @@
+               </table>
+             </div>
+           </div>
+-        </div>
++        </main>
+       </div>
+       <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+     </div>
+diff --git a/src/main/resources/templates/merge-pdfs.html b/src/main/resources/templates/merge-pdfs.html
+index d10b658..62fc437 100644
+--- a/src/main/resources/templates/merge-pdfs.html
++++ b/src/main/resources/templates/merge-pdfs.html
+@@ -13,13 +13,13 @@
+       <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+       <br><br>
+       <th:block th:insert="~{fragments/multi-toolAdvert.html :: multi-toolAdvert}"></th:block>
+-      <div class="container" id="dropContainer">
++      <main class="container" id="dropContainer">
+         <div class="row justify-content-center">
+           <div class="col-md-6 bg-card">
+-            <div class="tool-header">
++            <h1 class="tool-header">
+               <span class="material-symbols-rounded tool-header-icon organize">add_to_photos</span>
+               <span class="tool-header-text" th:text="#{merge.header}"></span>
+-            </div>
++            </h1>
+             <form th:action="@{'api/v1/general/merge-pdfs'}" method="post" enctype="multipart/form-data">
+               <div class="mb-3">
+                 <label th:text="#{multiPdfDropPrompt}" for="fileInput-input"></label>
+@@ -58,7 +58,7 @@
+             <script th:src="@{'/js/merge.js'}"></script>
+           </div>
+         </div>
+-      </div>
++      </main>
+     </div>
+     <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+   </div>
+diff --git a/src/main/resources/templates/multi-tool.html b/src/main/resources/templates/multi-tool.html
+index 173b928..faa5e5a 100644
+--- a/src/main/resources/templates/multi-tool.html
++++ b/src/main/resources/templates/multi-tool.html
+@@ -12,15 +12,15 @@
+     <div id="content-wrap">
+       <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+       <br><br>
+-      <div class="container">
++      <main class="container">
+         <div class="row justify-content-center">
+ 
+           <div class="col-md-12">
+             <div class="bg-card">
+-              <div class="tool-header">
++              <h1 class="tool-header">
+                 <span class="material-symbols-rounded tool-header-icon advance">construction</span>
+                 <span class="tool-header-text" th:text="#{multiTool.header}"></span>
+-              </div>
++              </h1>
+             <div class="mt-action-bar d-flex flex-wrap">
+               <div class="mt-filename">
+                 <input type="text" class="form-control" id="filename-input"
+@@ -124,7 +124,7 @@
+             </div>
+           </div>
+         </div>
+-      </div>
++      </main>
+     </div>
+     <div id="drag-container"></div>
+     <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+diff --git a/src/main/resources/templates/pdf-organizer.html b/src/main/resources/templates/pdf-organizer.html
+index 746a6ba..bd607c3 100644
+--- a/src/main/resources/templates/pdf-organizer.html
++++ b/src/main/resources/templates/pdf-organizer.html
+@@ -13,13 +13,13 @@
+       <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+       <br><br>
+       <th:block th:insert="~{fragments/multi-toolAdvert.html :: multi-toolAdvert}"></th:block>
+-      <div class="container">
++      <main class="container">
+         <div class="row justify-content-center">
+           <div class="col-md-6 bg-card">
+-            <div class="tool-header">
++            <h1 class="tool-header">
+               <span class="material-symbols-rounded tool-header-icon organize">format_list_bulleted</span>
+               <span class="tool-header-text" th:text="#{pdfOrganiser.header}"></span>
+-            </div>
++            </h1>
+ 
+             <form th:action="@{'/api/v1/general/rearrange-pages'}" method="post" enctype="multipart/form-data">
+               <div
+@@ -61,7 +61,7 @@
+             </script>
+           </div>
+         </div>
+-      </div>
++      </main>
+     </div>
+     <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+   </div>
+diff --git a/src/main/resources/templates/pipeline.html b/src/main/resources/templates/pipeline.html
+index 34abed1..64f3767 100644
+--- a/src/main/resources/templates/pipeline.html
++++ b/src/main/resources/templates/pipeline.html
+@@ -25,13 +25,13 @@
+       <div id="content-wrap">
+         <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+         <br /><br />
+-        <div class="container">
++        <main class="container">
+           <div class="row justify-content-center">
+             <div class="col-md-6 bg-card">
+-                <div class="tool-header">
++                <h1 class="tool-header">
+                   <span class="material-symbols-rounded tool-header-icon advance">family_history</span>
+                   <span class="tool-header-text" th:text="#{pipeline.header}"></span>
+-                </div>
++                </h1>
+                 <div class="text-end text-top">
+                   <button
+                     id="uploadPipelineBtn"
+@@ -49,7 +49,7 @@
+ 
+                 <div class="center-element">
+                   <div class="element-margin">
+-                    <select id="pipelineSelect" class="custom-select form-control">
++                    <select id="pipelineSelect" class="custom-select form-control" th:aria-label="#{a11y.pipelineSelect}">
+                       <option
+                         value='{"name":"Custom","pipeline":[],"_examples":{"outputDir":"{outputFolder}/{folderName}","outputFileName":"{filename}-{pipelineName}-{date}-{time}"},"outputDir":"{outputFolder}","outputFileName":"{filename}"}'
+                         th:text="#{pipeline.defaultOption}"
+@@ -196,7 +196,7 @@
+                 <script th:src="@{'/js/pipeline.js'}"></script>
+             </div>
+           </div>
+-        </div>
++        </main>
+       </div>
+       <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+     </div>
+diff --git a/src/main/resources/templates/rotate-pdf.html b/src/main/resources/templates/rotate-pdf.html
+index 3d54ce3..428f752 100644
+--- a/src/main/resources/templates/rotate-pdf.html
++++ b/src/main/resources/templates/rotate-pdf.html
+@@ -12,13 +12,13 @@
+       <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+       <br><br>
+       <th:block th:insert="~{fragments/multi-toolAdvert.html :: multi-toolAdvert}"></th:block>
+-      <div class="container">
++      <main class="container">
+         <div class="row justify-content-center">
+           <div class="col-md-6 bg-card">
+-            <div class="tool-header">
++            <h1 class="tool-header">
+               <span class="material-symbols-rounded tool-header-icon organize">rotate_right</span>
+               <span class="tool-header-text" th:text="#{rotate.header}"></span>
+-            </div>
++            </h1>
+ 
+             <form action="#" th:action="@{'/api/v1/general/rotate-pdf'}" th:object="${rotateForm}" method="post"
+               enctype="multipart/form-data">
+@@ -55,7 +55,7 @@
+             </form>
+           </div>
+         </div>
+-      </div>
++      </main>
+     </div>
+     <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+   </div>
+diff --git a/src/main/resources/templates/sign.html b/src/main/resources/templates/sign.html
+index ef815d1..623e6a1 100644
+--- a/src/main/resources/templates/sign.html
++++ b/src/main/resources/templates/sign.html
+@@ -29,13 +29,13 @@
+     <div id="content-wrap">
+       <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+       <br><br>
+-      <div class="container">
++      <main class="container">
+         <div class="row justify-content-center">
+           <div class="col-md-7 bg-card">
+-            <div class="tool-header">
++            <h1 class="tool-header">
+               <span class="material-symbols-rounded tool-header-icon sign">signature</span>
+               <span class="tool-header-text" th:text="#{sign.header}"></span>
+-            </div>
++            </h1>
+ 
+             <!-- pdf selector -->
+             <div
+@@ -153,7 +153,7 @@
+             <script th:src="@{'/js/sign/signature-canvas.js'}"></script>
+             <!-- draggables box -->
+             <div class="draggable-buttons-box ignore-rtl">
+-              <button class="btn btn-outline-secondary" th:title="#{sign.delete}"
++              <button class="btn btn-outline-secondary" th:aria-label="#{sign.delete}" th:title="#{sign.delete}"
+                 onclick="DraggableUtils.deleteDraggableCanvas(DraggableUtils.getLastInteracted())"
+                 style="border-color: #C02223; color: #C02223; background: rgba(255, 0, 0, 0.1)">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash"
+@@ -164,7 +164,7 @@
+                     d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z" />
+                 </svg>
+               </button>
+-              <button class="btn btn-outline-secondary" th:title="#{sign.addToAll}"
++              <button class="btn btn-outline-secondary" th:aria-label="#{sign.addToAll}" th:title="#{sign.addToAll}"
+                 onclick="DraggableUtils.addAllPagesDraggableCanvas(DraggableUtils.getLastInteracted())">
+                 <span class="material-symbols-rounded">
+                   content_copy
+@@ -179,19 +179,19 @@
+                     style="width: 6rem" />
+                 </div>
+               </div>
+-              <button id="ratioToggleBtn" th:title="#{sign.maintainRatio}" class="btn btn-outline-secondary"
++              <button id="ratioToggleBtn" th:aria-label="#{sign.maintainRatio}" th:title="#{sign.maintainRatio}" class="btn btn-outline-secondary"
+                 onclick="DraggableUtils.toggleMaintainRatio()">
+                 <span class="material-symbols-rounded">
+                   Aspect_Ratio
+                 </span>
+               </button>
+-              <button class="btn btn-outline-secondary" th:title="#{sign.first}" onclick="goToFirstOrLastPage(false)"
++              <button class="btn btn-outline-secondary" th:aria-label="#{sign.first}" th:title="#{sign.first}" onclick="goToFirstOrLastPage(false)"
+                 style="margin-left:auto">
+                 <span class="material-symbols-rounded">
+                   keyboard_double_arrow_left
+                 </span>
+               </button>
+-              <button class="btn btn-outline-secondary" th:title="#{sign.previous}" id="incrementPage"
++              <button class="btn btn-outline-secondary" th:aria-label="#{sign.previous}" th:title="#{sign.previous}" id="incrementPage"
+                 onclick="document.documentElement.getAttribute('dir')==='rtl' ? DraggableUtils.incrementPage() : DraggableUtils.decrementPage()">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                   class="bi bi-chevron-left" viewBox="0 0 16 16">
+@@ -199,7 +199,7 @@
+                     d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                 </svg>
+               </button>
+-              <button class="btn btn-outline-secondary" id="decrementPage" th:title="#{sign.next}"
++              <button class="btn btn-outline-secondary" id="decrementPage" th:aria-label="#{sign.next}" th:title="#{sign.next}"
+                 onclick="document.documentElement.getAttribute('dir')==='rtl' ? DraggableUtils.decrementPage() : DraggableUtils.incrementPage()">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                   class="bi bi-chevron-right" viewBox="0 0 16 16">
+@@ -207,12 +207,12 @@
+                     d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                 </svg>
+               </button>
+-              <button class="btn btn-outline-secondary" th:title="#{sign.last}" onclick="goToFirstOrLastPage(true)">
++              <button class="btn btn-outline-secondary" th:aria-label="#{sign.last}" th:title="#{sign.last}" onclick="goToFirstOrLastPage(true)">
+                 <span class="material-symbols-rounded">
+                   keyboard_double_arrow_right
+                 </span>
+               </button>
+-              <button id="download-pdf" th:title="#{downloadPdf}" class="btn btn-outline-secondary"
++              <button id="download-pdf" th:aria-label="#{downloadPdf}" th:title="#{downloadPdf}" class="btn btn-outline-secondary"
+                 style="border-color: green; color:#b2e3a8; background: rgba(24, 122, 5, 1)">
+                 <span class="material-symbols-rounded">
+                   download
+@@ -230,7 +230,7 @@
+ 
+           </div>
+         </div>
+-      </div>
++      </main>
+     </div>
+     <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
+   </div>
+diff --git a/src/main/resources/templates/view-pdf.html b/src/main/resources/templates/view-pdf.html
+index 5851e85..2bc1648 100644
+--- a/src/main/resources/templates/view-pdf.html
++++ b/src/main/resources/templates/view-pdf.html
+@@ -26,7 +26,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+ <head>
+   <th:block th:insert="~{fragments/common :: head(title=#{redact.title}, header=#{redact.header})}"></th:block>
+   <meta charset="utf-8">
+-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
++  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="google" content="notranslate">
+   <title>PDF.js viewer</title>
+ 
+@@ -45,29 +45,30 @@ See https://github.com/adobe-type-tools/cmap-resources
+   <script th:src="@{'/pdfjs-legacy/js/viewer.mjs'}" type="module"></script>
+ </head>
+ 
+-<body tabindex="1" style="overflow: hidden;">
++<body style="overflow: hidden;">
+   <th:block th:insert="~{fragments/navbar.html :: navbar}"></th:block>
+-  <div id="outerContainer">
++  <div id="outerContainer" role="main" aria-labelledby="viewerHeading">
++    <h1 id="viewerHeading" class="visually-hidden" th:text="#{a11y.viewerTitle}">PDF viewer</h1>
+     <div id="sidebarContainer">
+       <div id="toolbarSidebar">
+         <div id="toolbarSidebarLeft">
+           <div id="sidebarViewButtons" class="splitToolbarButton toggled" role="radiogroup">
+-            <button id="viewThumbnail" class="toolbarButton toggled" title="Show Thumbnails" tabindex="2"
++            <button id="viewThumbnail" class="toolbarButton toggled" title="Show Thumbnails"
+               data-l10n-id="pdfjs-thumbs-button" role="radio" aria-checked="true" aria-controls="thumbnailView">
+               <span data-l10n-id="pdfjs-thumbs-button-label">Thumbnails</span>
+             </button>
+             <button id="viewOutline" class="toolbarButton"
+-              title="Show Document Outline (double-click to expand/collapse all items)" tabindex="3"
++              title="Show Document Outline (double-click to expand/collapse all items)"
+               data-l10n-id="pdfjs-document-outline-button" role="radio" aria-checked="false"
+               aria-controls="outlineView">
+               <span data-l10n-id="pdfjs-document-outline-button-label">Document Outline</span>
+             </button>
+-            <button id="viewAttachments" class="toolbarButton" title="Show Attachments" tabindex="4"
++            <button id="viewAttachments" class="toolbarButton" title="Show Attachments"
+               data-l10n-id="pdfjs-attachments-button" role="radio" aria-checked="false" aria-controls="attachmentsView">
+               <span data-l10n-id="pdfjs-attachments-button-label">Attachments</span>
+             </button>
+             <button id="viewLayers" class="toolbarButton"
+-              title="Show Layers (double-click to reset all layers to the default state)" tabindex="5"
++              title="Show Layers (double-click to reset all layers to the default state)"
+               data-l10n-id="pdfjs-layers-button" role="radio" aria-checked="false" aria-controls="layersView">
+               <span data-l10n-id="pdfjs-layers-button-label">Layers</span>
+             </button>
+@@ -78,8 +79,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div id="outlineOptionsContainer">
+             <div class="verticalToolbarSeparator"></div>
+ 
+-            <button id="currentOutlineItem" class="toolbarButton" disabled="disabled" title="Find Current Outline Item"
+-              tabindex="6" data-l10n-id="pdfjs-current-outline-item-button">
++            <button id="currentOutlineItem" class="toolbarButton" disabled="disabled" title="Find Current Outline Item" data-l10n-id="pdfjs-current-outline-item-button">
+               <span data-l10n-id="pdfjs-current-outline-item-button-label">Current Outline Item</span>
+             </button>
+           </div>
+@@ -102,16 +102,15 @@ See https://github.com/adobe-type-tools/cmap-resources
+       <div class="findbar hidden doorHanger" id="findbar">
+         <div id="findbarInputContainer">
+           <span class="loadingInput end">
+-            <input id="findInput" class="toolbarField" title="Find" placeholder="Find in document…" tabindex="91"
++            <input id="findInput" class="toolbarField" title="Find" placeholder="Find in document…"
+               data-l10n-id="pdfjs-find-input" aria-invalid="false">
+           </span>
+           <div class="splitToolbarButton">
+-            <button id="findPrevious" class="toolbarButton" title="Find the previous occurrence of the phrase"
+-              tabindex="92" data-l10n-id="pdfjs-find-previous-button">
++            <button id="findPrevious" class="toolbarButton" title="Find the previous occurrence of the phrase" data-l10n-id="pdfjs-find-previous-button">
+               <span data-l10n-id="pdfjs-find-previous-button-label">Previous</span>
+             </button>
+             <div class="splitToolbarButtonSeparator"></div>
+-            <button id="findNext" class="toolbarButton" title="Find the next occurrence of the phrase" tabindex="93"
++            <button id="findNext" class="toolbarButton" title="Find the next occurrence of the phrase"
+               data-l10n-id="pdfjs-find-next-button">
+               <span data-l10n-id="pdfjs-find-next-button-label">Next</span>
+             </button>
+@@ -119,18 +118,18 @@ See https://github.com/adobe-type-tools/cmap-resources
+         </div>
+ 
+         <div id="findbarOptionsOneContainer">
+-          <input type="checkbox" id="findHighlightAll" class="toolbarField" tabindex="94">
++          <input type="checkbox" id="findHighlightAll" class="toolbarField">
+           <label for="findHighlightAll" class="toolbarLabel" data-l10n-id="pdfjs-find-highlight-checkbox">Highlight
+             All</label>
+-          <input type="checkbox" id="findMatchCase" class="toolbarField" tabindex="95">
++          <input type="checkbox" id="findMatchCase" class="toolbarField">
+           <label for="findMatchCase" class="toolbarLabel" data-l10n-id="pdfjs-find-match-case-checkbox-label">Match
+             Case</label>
+         </div>
+         <div id="findbarOptionsTwoContainer">
+-          <input type="checkbox" id="findMatchDiacritics" class="toolbarField" tabindex="96">
++          <input type="checkbox" id="findMatchDiacritics" class="toolbarField">
+           <label for="findMatchDiacritics" class="toolbarLabel"
+             data-l10n-id="pdfjs-find-match-diacritics-checkbox-label">Match Diacritics</label>
+-          <input type="checkbox" id="findEntireWord" class="toolbarField" tabindex="97">
++          <input type="checkbox" id="findEntireWord" class="toolbarField">
+           <label for="findEntireWord" class="toolbarLabel" data-l10n-id="pdfjs-find-entire-word-checkbox-label">Whole
+             Words</label>
+         </div>
+@@ -152,8 +151,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+               data-l10n-id="pdfjs-editor-free-highlight-thickness-input">Thickness</label>
+             <div class="thicknessPicker">
+               <input type="range" id="editorFreeHighlightThickness" class="editorParamsSlider"
+-                data-l10n-id="pdfjs-editor-free-highlight-thickness-title" value="12" min="8" max="24" step="1"
+-                tabindex="101">
++                data-l10n-id="pdfjs-editor-free-highlight-thickness-title" value="12" min="8" max="24" step="1">
+             </div>
+           </div>
+           <div id="editorHighlightVisibility">
+@@ -162,7 +160,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+               <label for="editorHighlightShowAll" class="editorParamsLabel"
+                 data-l10n-id="pdfjs-editor-highlight-show-all-button-label">Show all</label>
+               <button id="editorHighlightShowAll" class="toggle-button"
+-                data-l10n-id="pdfjs-editor-highlight-show-all-button" aria-pressed="true" tabindex="102"></button>
++                data-l10n-id="pdfjs-editor-highlight-show-all-button" aria-pressed="true"></button>
+             </div>
+           </div>
+         </div>
+@@ -173,13 +171,13 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div class="editorParamsSetter">
+             <label for="editorFreeTextColor" class="editorParamsLabel"
+               data-l10n-id="pdfjs-editor-free-text-color-input">Color</label>
+-            <input type="color" id="editorFreeTextColor" class="editorParamsColor" tabindex="103">
++            <input type="color" id="editorFreeTextColor" class="editorParamsColor">
+           </div>
+           <div class="editorParamsSetter">
+             <label for="editorFreeTextFontSize" class="editorParamsLabel"
+               data-l10n-id="pdfjs-editor-free-text-size-input">Size</label>
+             <input type="range" id="editorFreeTextFontSize" class="editorParamsSlider" value="10" min="5" max="100"
+-              step="1" tabindex="104">
++              step="1">
+           </div>
+         </div>
+       </div>
+@@ -189,26 +187,24 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div class="editorParamsSetter">
+             <label for="editorInkColor" class="editorParamsLabel"
+               data-l10n-id="pdfjs-editor-ink-color-input">Color</label>
+-            <input type="color" id="editorInkColor" class="editorParamsColor" tabindex="105">
++            <input type="color" id="editorInkColor" class="editorParamsColor">
+           </div>
+           <div class="editorParamsSetter">
+             <label for="editorInkThickness" class="editorParamsLabel"
+               data-l10n-id="pdfjs-editor-ink-thickness-input">Thickness</label>
+-            <input type="range" id="editorInkThickness" class="editorParamsSlider" value="1" min="1" max="20" step="1"
+-              tabindex="106">
++            <input type="range" id="editorInkThickness" class="editorParamsSlider" value="1" min="1" max="20" step="1">
+           </div>
+           <div class="editorParamsSetter">
+             <label for="editorInkOpacity" class="editorParamsLabel"
+               data-l10n-id="pdfjs-editor-ink-opacity-input">Opacity</label>
+-            <input type="range" id="editorInkOpacity" class="editorParamsSlider" value="100" min="1" max="100" step="1"
+-              tabindex="107">
++            <input type="range" id="editorInkOpacity" class="editorParamsSlider" value="100" min="1" max="100" step="1">
+           </div>
+         </div>
+       </div>
+ 
+       <div class="editorParamsToolbar hidden doorHangerRight" id="editorStampParamsToolbar">
+         <div class="editorParamsToolbarContainer">
+-          <button id="editorStampAddImage" class="secondaryToolbarButton" title="Add image" tabindex="108"
++          <button id="editorStampAddImage" class="secondaryToolbarButton" title="Add image"
+             data-l10n-id="pdfjs-editor-stamp-add-image-button">
+             <span class="editorParamsLabel" data-l10n-id="pdfjs-editor-stamp-add-image-button-label">Add image</span>
+           </button>
+@@ -217,51 +213,49 @@ See https://github.com/adobe-type-tools/cmap-resources
+ 
+       <div id="secondaryToolbar" class="secondaryToolbar hidden doorHangerRight">
+         <div id="secondaryToolbarButtonContainer">
+-          <button id="secondaryOpenFile" class="secondaryToolbarButton visibleMediumView" title="Open File"
+-            tabindex="51" data-l10n-id="pdfjs-open-file-button">
++          <button id="secondaryOpenFile" class="secondaryToolbarButton visibleMediumView" title="Open File" data-l10n-id="pdfjs-open-file-button">
+             <span data-l10n-id="pdfjs-open-file-button-label">Open</span>
+           </button>
+ 
+-          <button id="secondaryPrint" class="secondaryToolbarButton visibleMediumView" title="Print" tabindex="52"
++          <button id="secondaryPrint" class="secondaryToolbarButton visibleMediumView" title="Print"
+             data-l10n-id="pdfjs-print-button">
+             <span data-l10n-id="pdfjs-print-button-label">Print</span>
+           </button>
+ 
+-          <button id="secondaryDownload" class="secondaryToolbarButton visibleMediumView" title="Save" tabindex="53"
++          <button id="secondaryDownload" class="secondaryToolbarButton visibleMediumView" title="Save"
+             data-l10n-id="pdfjs-save-button">
+             <span data-l10n-id="pdfjs-save-button-label">Save</span>
+           </button>
+ 
+           <div class="horizontalToolbarSeparator"></div>
+ 
+-          <button id="presentationMode" class="secondaryToolbarButton" title="Switch to Presentation Mode" tabindex="54"
++          <button id="presentationMode" class="secondaryToolbarButton" title="Switch to Presentation Mode"
+             data-l10n-id="pdfjs-presentation-mode-button">
+             <span data-l10n-id="pdfjs-presentation-mode-button-label">Presentation Mode</span>
+           </button>
+ 
+-          <a href="#" id="viewBookmark" class="secondaryToolbarButton" title="Current Page (View URL from Current Page)"
+-            tabindex="55" data-l10n-id="pdfjs-bookmark-button">
++          <a href="#" id="viewBookmark" class="secondaryToolbarButton" title="Current Page (View URL from Current Page)" data-l10n-id="pdfjs-bookmark-button">
+             <span data-l10n-id="pdfjs-bookmark-button-label">Current Page</span>
+           </a>
+ 
+           <div id="viewBookmarkSeparator" class="horizontalToolbarSeparator"></div>
+ 
+-          <button id="firstPage" class="secondaryToolbarButton" title="Go to First Page" tabindex="56"
++          <button id="firstPage" class="secondaryToolbarButton" title="Go to First Page"
+             data-l10n-id="pdfjs-first-page-button">
+             <span data-l10n-id="pdfjs-first-page-button-label">Go to First Page</span>
+           </button>
+-          <button id="lastPage" class="secondaryToolbarButton" title="Go to Last Page" tabindex="57"
++          <button id="lastPage" class="secondaryToolbarButton" title="Go to Last Page"
+             data-l10n-id="pdfjs-last-page-button">
+             <span data-l10n-id="pdfjs-last-page-button-label">Go to Last Page</span>
+           </button>
+ 
+           <div class="horizontalToolbarSeparator"></div>
+ 
+-          <button id="pageRotateCw" class="secondaryToolbarButton" title="Rotate Clockwise" tabindex="58"
++          <button id="pageRotateCw" class="secondaryToolbarButton" title="Rotate Clockwise"
+             data-l10n-id="pdfjs-page-rotate-cw-button">
+             <span data-l10n-id="pdfjs-page-rotate-cw-button-label">Rotate Clockwise</span>
+           </button>
+-          <button id="pageRotateCcw" class="secondaryToolbarButton" title="Rotate Counterclockwise" tabindex="59"
++          <button id="pageRotateCcw" class="secondaryToolbarButton" title="Rotate Counterclockwise"
+             data-l10n-id="pdfjs-page-rotate-ccw-button">
+             <span data-l10n-id="pdfjs-page-rotate-ccw-button-label">Rotate Counterclockwise</span>
+           </button>
+@@ -269,11 +263,10 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div class="horizontalToolbarSeparator"></div>
+ 
+           <div id="cursorToolButtons" role="radiogroup">
+-            <button id="cursorSelectTool" class="secondaryToolbarButton toggled" title="Enable Text Selection Tool"
+-              tabindex="60" data-l10n-id="pdfjs-cursor-text-select-tool-button" role="radio" aria-checked="true">
++            <button id="cursorSelectTool" class="secondaryToolbarButton toggled" title="Enable Text Selection Tool" data-l10n-id="pdfjs-cursor-text-select-tool-button" role="radio" aria-checked="true">
+               <span data-l10n-id="pdfjs-cursor-text-select-tool-button-label">Text Selection Tool</span>
+             </button>
+-            <button id="cursorHandTool" class="secondaryToolbarButton" title="Enable Hand Tool" tabindex="61"
++            <button id="cursorHandTool" class="secondaryToolbarButton" title="Enable Hand Tool"
+               data-l10n-id="pdfjs-cursor-hand-tool-button" role="radio" aria-checked="false">
+               <span data-l10n-id="pdfjs-cursor-hand-tool-button-label">Hand Tool</span>
+             </button>
+@@ -282,19 +275,18 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div class="horizontalToolbarSeparator"></div>
+ 
+           <div id="scrollModeButtons" role="radiogroup">
+-            <button id="scrollPage" class="secondaryToolbarButton" title="Use Page Scrolling" tabindex="62"
++            <button id="scrollPage" class="secondaryToolbarButton" title="Use Page Scrolling"
+               data-l10n-id="pdfjs-scroll-page-button" role="radio" aria-checked="false">
+               <span data-l10n-id="pdfjs-scroll-page-button-label">Page Scrolling</span>
+             </button>
+-            <button id="scrollVertical" class="secondaryToolbarButton toggled" title="Use Vertical Scrolling"
+-              tabindex="63" data-l10n-id="pdfjs-scroll-vertical-button" role="radio" aria-checked="true">
++            <button id="scrollVertical" class="secondaryToolbarButton toggled" title="Use Vertical Scrolling" data-l10n-id="pdfjs-scroll-vertical-button" role="radio" aria-checked="true">
+               <span data-l10n-id="pdfjs-scroll-vertical-button-label">Vertical Scrolling</span>
+             </button>
+-            <button id="scrollHorizontal" class="secondaryToolbarButton" title="Use Horizontal Scrolling" tabindex="64"
++            <button id="scrollHorizontal" class="secondaryToolbarButton" title="Use Horizontal Scrolling"
+               data-l10n-id="pdfjs-scroll-horizontal-button" role="radio" aria-checked="false">
+               <span data-l10n-id="pdfjs-scroll-horizontal-button-label">Horizontal Scrolling</span>
+             </button>
+-            <button id="scrollWrapped" class="secondaryToolbarButton" title="Use Wrapped Scrolling" tabindex="65"
++            <button id="scrollWrapped" class="secondaryToolbarButton" title="Use Wrapped Scrolling"
+               data-l10n-id="pdfjs-scroll-wrapped-button" role="radio" aria-checked="false">
+               <span data-l10n-id="pdfjs-scroll-wrapped-button-label">Wrapped Scrolling</span>
+             </button>
+@@ -303,17 +295,16 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div class="horizontalToolbarSeparator"></div>
+ 
+           <div id="spreadModeButtons" role="radiogroup">
+-            <button id="spreadNone" class="secondaryToolbarButton toggled" title="Do not join page spreads"
+-              tabindex="66" data-l10n-id="pdfjs-spread-none-button" role="radio" aria-checked="true">
++            <button id="spreadNone" class="secondaryToolbarButton toggled" title="Do not join page spreads" data-l10n-id="pdfjs-spread-none-button" role="radio" aria-checked="true">
+               <span data-l10n-id="pdfjs-spread-none-button-label">No Spreads</span>
+             </button>
+             <button id="spreadOdd" class="secondaryToolbarButton"
+-              title="Join page spreads starting with odd-numbered pages" tabindex="67"
++              title="Join page spreads starting with odd-numbered pages"
+               data-l10n-id="pdfjs-spread-odd-button" role="radio" aria-checked="false">
+               <span data-l10n-id="pdfjs-spread-odd-button-label">Odd Spreads</span>
+             </button>
+             <button id="spreadEven" class="secondaryToolbarButton"
+-              title="Join page spreads starting with even-numbered pages" tabindex="68"
++              title="Join page spreads starting with even-numbered pages"
+               data-l10n-id="pdfjs-spread-even-button" role="radio" aria-checked="false">
+               <span data-l10n-id="pdfjs-spread-even-button-label">Even Spreads</span>
+             </button>
+@@ -321,7 +312,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+ 
+           <div class="horizontalToolbarSeparator"></div>
+ 
+-          <button id="documentProperties" class="secondaryToolbarButton" title="Document Properties…" tabindex="69"
++          <button id="documentProperties" class="secondaryToolbarButton" title="Document Properties…"
+             data-l10n-id="pdfjs-document-properties-button" aria-controls="documentPropertiesDialog">
+             <span data-l10n-id="pdfjs-document-properties-button-label">Document Properties…</span>
+           </button>
+@@ -332,93 +323,91 @@ See https://github.com/adobe-type-tools/cmap-resources
+         <div id="toolbarContainer">
+           <div id="toolbarViewer">
+             <div id="toolbarViewerLeft">
+-              <button id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar" tabindex="11"
++              <button id="sidebarToggle" class="toolbarButton" title="Toggle Sidebar"
+                 data-l10n-id="pdfjs-toggle-sidebar-button" aria-expanded="false" aria-controls="sidebarContainer">
+                 <span data-l10n-id="pdfjs-toggle-sidebar-button-label">Toggle Sidebar</span>
+               </button>
+               <div class="toolbarButtonSpacer"></div>
+-              <button id="viewFind" class="toolbarButton" title="Find in Document" tabindex="12"
++              <button id="viewFind" class="toolbarButton" title="Find in Document"
+                 data-l10n-id="pdfjs-findbar-button" aria-expanded="false" aria-controls="findbar">
+                 <span data-l10n-id="pdfjs-findbar-button-label">Find</span>
+               </button>
+               <div class="splitToolbarButton hiddenSmallView">
+-                <button class="toolbarButton" title="Previous Page" id="previous" tabindex="13"
++                <button class="toolbarButton" title="Previous Page" id="previous"
+                   data-l10n-id="pdfjs-previous-button">
+                   <span data-l10n-id="pdfjs-previous-button-label">Previous</span>
+                 </button>
+                 <div class="splitToolbarButtonSeparator"></div>
+-                <button class="toolbarButton" title="Next Page" id="next" tabindex="14"
++                <button class="toolbarButton" title="Next Page" id="next"
+                   data-l10n-id="pdfjs-next-button">
+                   <span data-l10n-id="pdfjs-next-button-label">Next</span>
+                 </button>
+               </div>
+               <span class="loadingInput start">
+-                <input type="number" id="pageNumber" class="toolbarField" title="Page" value="1" min="1" tabindex="15"
++                <input type="number" id="pageNumber" class="toolbarField" title="Page" th:aria-label="#{a11y.pageNumber}" value="1" min="1"
+                   data-l10n-id="pdfjs-page-input" autocomplete="off">
+               </span>
+               <span id="numPages" class="toolbarLabel"></span>
+             </div>
+             <div id="toolbarViewerRight">
+               <div id="editorModeButtons" class="splitToolbarButton toggled" role="radiogroup">
+-                <a id="backToHome" class="toolbarButton hiddenMediumView" title="Back to Main Page" role="radio"
+-                  aria-checked="false" tabindex="31" th:href="@{'/'}">
++                <a id="backToHome" class="toolbarButton hiddenMediumView" title="Back to Main Page" th:href="@{'/'}">
+                   <span data-l10n-id="pdfjs-open-file-button-label">Back to Main Page</span>
+                 </a>
+                 <button id="editorHighlight" class="toolbarButton hiddenMediumView" title="Highlight" role="radio"
+-                aria-checked="false" tabindex="32" aria-expanded="false" aria-controls="editorHighlightParamsToolbar">
++                aria-checked="false">
+                  <span data-l10n-id="pdfjs-editor-highlight-button-label">Highlight</span>
+                </button>
+-                <button id="openFile" class="toolbarButton hiddenMediumView" title="Open File" role="radio"
+-                  aria-checked="false" tabindex="33" data-l10n-id="pdfjs-open-file-button">
++                <button id="openFile" class="toolbarButton hiddenMediumView" title="Open File" data-l10n-id="pdfjs-open-file-button">
+                   <span data-l10n-id="pdfjs-open-file-button-label">Open</span>
+                 </button>
+-                <button id="print" class="toolbarButton hiddenMediumView" title="Print" role="radio"
+-                  aria-checked="false" tabindex="34" data-l10n-id="pdfjs-print-button">
++                <button id="print" class="toolbarButton hiddenMediumView" title="Print" data-l10n-id="pdfjs-print-button">
+                   <span data-l10n-id="pdfjs-print-button-label">Print</span>
+                 </button>
+-                <button id="download" class="toolbarButton hiddenMediumView" title="Save" role="radio"
+-                  aria-checked="false" tabindex="35" data-l10n-id="pdfjs-save-button">
++                <button id="download" class="toolbarButton hiddenMediumView" title="Save" data-l10n-id="pdfjs-save-button">
+                   <span data-l10n-id="pdfjs-save-button-label">Save</span>
+                 </button>
+                 <button id="editorStamp" class="toolbarButton hiddenMediumView" title="Add or edit images" role="radio"
+-                  aria-checked="false" aria-controls="editorStampParamsToolbar" tabindex="36"
++                  aria-checked="false" aria-controls="editorStampParamsToolbar"
+                   data-l10n-id="pdfjs-editor-stamp-button">
+                   <span data-l10n-id="pdfjs-editor-stamp-button-label">Add or edit images</span>
+                 </button>
++                <button id="editorFreeText" class="toolbarButton hiddenMediumView" title="Text" role="radio"
++                  aria-checked="false" data-l10n-id="pdfjs-editor-free-text-button">
++                  <span data-l10n-id="pdfjs-editor-free-text-button-label">Text</span>
++                </button>
++                <button id="editorInk" class="toolbarButton hiddenMediumView" title="Draw" role="radio"
++                  aria-checked="false" data-l10n-id="pdfjs-editor-ink-button">
++                  <span data-l10n-id="pdfjs-editor-ink-button-label">Draw</span>
++                </button>
+               </div>
+ 
+               <div id="editorModeSeparator" class="verticalToolbarSeparator"></div>
+-              <button id="editorFreeText" class="toolbarButton hiddenMediumView" title="Text" tabindex="41"
+-                data-l10n-id="pdfjs-editor-free-text-button">
+-                <span data-l10n-id="pdfjs-editor-free-text-button-label">Text</span>
+-              </button>
++              
+ 
+-              <button id="editorInk" class="toolbarButton hiddenMediumView" title="Draw" tabindex="42"
+-                data-l10n-id="pdfjs-editor-ink-button">
+-                <span data-l10n-id="pdfjs-editor-ink-button-label">Draw</span>
+-              </button>
++              
+ 
+               <div class="verticalToolbarSeparator hiddenMediumView"></div>
+ 
+-              <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools" tabindex="43"
++              <button id="secondaryToolbarToggle" class="toolbarButton" title="Tools"
+                 data-l10n-id="pdfjs-tools-button">
+                 <span data-l10n-id="pdfjs-tools-button-label">Tools</span>
+               </button>
+             </div>
+             <div id="toolbarViewerMiddle">
+               <div class="splitToolbarButton">
+-                <button id="zoomOut" class="toolbarButton" title="Zoom Out" tabindex="21"
++                <button id="zoomOut" class="toolbarButton" title="Zoom Out"
+                   data-l10n-id="pdfjs-zoom-out-button">
+                   <span data-l10n-id="pdfjs-zoom-out-button-label">Zoom Out</span>
+                 </button>
+                 <div class="splitToolbarButtonSeparator"></div>
+-                <button id="zoomIn" class="toolbarButton" title="Zoom In" tabindex="22"
++                <button id="zoomIn" class="toolbarButton" title="Zoom In"
+                   data-l10n-id="pdfjs-zoom-in-button">
+                   <span data-l10n-id="pdfjs-zoom-in-button-label">Zoom In</span>
+                 </button>
+               </div>
+               <span id="scaleSelectContainer" class="dropdownToolbarButton">
+-                <select id="scaleSelect" title="Zoom" tabindex="23" data-l10n-id="pdfjs-zoom-select">
++                <select id="scaleSelect" title="Zoom" th:aria-label="#{a11y.zoom}" data-l10n-id="pdfjs-zoom-select">
+                   <option id="pageAutoOption" title="" value="auto" selected="selected"
+                     data-l10n-id="pdfjs-page-scale-auto">Automatic Zoom</option>
+                   <option id="pageActualOption" title="" value="page-actual" data-l10n-id="pdfjs-page-scale-actual">
+@@ -458,10 +447,10 @@ See https://github.com/adobe-type-tools/cmap-resources
+         </div>
+       </div>
+ 
+-      <div id="viewerContainer" tabindex="0">
++      <div id="viewerContainer">
+         <div id="viewer" class="pdfViewer">
+         </div>
+-        <th:block th:insert="~{fragments/footer.html :: footer}"></th:block>
++        <th:block th:insert="~{fragments/footer.html :: footer}" th:with="footerRole='none'"></th:block>
+ 
+       </div>
+     </div> <!-- mainContainer -->
+@@ -561,7 +550,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+           <div id="addDescription">
+             <div class="radio">
+               <div class="radioButton">
+-                <input type="radio" id="descriptionButton" name="altTextOption" tabindex="0"
++                <input type="radio" id="descriptionButton" name="altTextOption"
+                   aria-describedby="descriptionAreaLabel" checked>
+                 <label for="descriptionButton" data-l10n-id="pdfjs-editor-alt-text-add-description-label">Add a
+                   description</label>
+@@ -575,8 +564,7 @@ See https://github.com/adobe-type-tools/cmap-resources
+             <div class="descriptionArea">
+               <textarea id="descriptionTextarea"
+                 placeholder="For example, “A young man sits down at a table to eat a meal”"
+-                aria-labelledby="descriptionAreaLabel" data-l10n-id="pdfjs-editor-alt-text-textarea"
+-                tabindex="0"></textarea>
++                aria-labelledby="descriptionAreaLabel" data-l10n-id="pdfjs-editor-alt-text-textarea"></textarea>
+             </div>
+           </div>
+           <div id="markAsDecorative">
+@@ -594,9 +582,9 @@ See https://github.com/adobe-type-tools/cmap-resources
+             </div>
+           </div>
+           <div id="buttons">
+-            <button id="altTextCancel" class="secondaryButton" tabindex="0"><span
++            <button id="altTextCancel" class="secondaryButton"><span
+                 data-l10n-id="pdfjs-editor-alt-text-cancel-button">Cancel</span></button>
+-            <button id="altTextSave" class="primaryButton" tabindex="0"><span
++            <button id="altTextSave" class="primaryButton"><span
+                 data-l10n-id="pdfjs-editor-alt-text-save-button">Save</span></button>
+           </div>
+         </div>

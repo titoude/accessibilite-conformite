@@ -1,0 +1,120 @@
+{
+  "cycle": 19,
+  "product": "Stirling-Tools/Stirling-PDF",
+  "tag": "v0.46.2",
+  "commit": "70349fb7e32551b0afa9ba8c5ae3d85bfcc30e48",
+  "date": "2026-10-04",
+  "stack": "Spring Boot 3.4.5 (Jetty) + Thymeleaf + Bootstrap 5 + jQuery — server-rendered, aucun framework SPA (ere Thymeleaf, avant le switch React de v1.x)",
+  "boot": {
+    "method": "./gradlew build -x test && java -jar build/libs/Stirling-PDF-0.46.2.jar --server.port=8110",
+    "port": 8110,
+    "note": "sécurité désactivée par défaut (settings.yml: security.enableLogin=false) → toutes les routes applicatives sont publiques"
+  },
+  "seed": {
+    "auth": "aucune (login désactivé)",
+    "contenu": "aucun contenu utilisateur à seeder — app outil sans entités persistées côté client",
+    "fichier_test": "PDF multi-pages généré localement (pdf-lib) pour alimenter viewer/organizer/crop",
+    "litteraux": [
+      "home: titre 'Stirling PDF' présent",
+      "merge-pdfs: formulaire fichiers + bouton 'Merge'",
+      "view-pdf: viewer pdf.js intégré",
+      "pdf-organizer: grille de pages déplaçables",
+      "navbar menu hamburger + dropdown langue"
+    ],
+    "note": "règle protocole « seed littérale » adaptée : pas de messages ici, le risque équivalent = tester un formulaire vide sans fichier chargé → les états incluent le PDF uploadé via l'UI"
+  },
+  "scope": {
+    "routes": [
+      {
+        "name": "home",
+        "url": "/",
+        "states": []
+      },
+      {
+        "name": "merge-pdfs",
+        "url": "/merge-pdfs",
+        "states": []
+      },
+      {
+        "name": "multi-tool",
+        "url": "/multi-tool",
+        "states": []
+      },
+      {
+        "name": "view-pdf",
+        "url": "/view-pdf",
+        "states": []
+      },
+      {
+        "name": "pdf-organizer",
+        "url": "/pdf-organizer",
+        "states": []
+      },
+      {
+        "name": "crop",
+        "url": "/crop",
+        "states": []
+      },
+      {
+        "name": "rotate-pdf",
+        "url": "/rotate-pdf",
+        "states": []
+      },
+      {
+        "name": "pipeline",
+        "url": "/pipeline",
+        "states": []
+      },
+      {
+        "name": "sign",
+        "url": "/sign",
+        "states": []
+      },
+      {
+        "name": "login",
+        "url": "/login",
+        "states": []
+      },
+      {
+        "name": "about",
+        "url": "/about",
+        "states": []
+      },
+      {
+        "name": "licenses",
+        "url": "/licenses",
+        "states": []
+      }
+    ],
+    "states": [
+      {
+        "name": "navbar-menu-ouvert",
+        "setup": "click hamburger",
+        "sur": "home"
+      },
+      {
+        "name": "langue-dropdown",
+        "setup": "click sélecteur langue",
+        "sur": "home"
+      },
+      {
+        "name": "fichier-charge-organizer",
+        "setup": "upload PDF via input file",
+        "sur": "pdf-organizer"
+      },
+      {
+        "name": "fichier-charge-viewer",
+        "setup": "upload PDF via input file",
+        "sur": "view-pdf"
+      }
+    ]
+  },
+  "auditCommands": {
+    "clone": "git clone https://github.com/Stirling-Tools/Stirling-PDF.git && git checkout 70349fb7e32551b0afa9ba8c5ae3d85bfcc30e48",
+    "build": "./gradlew build -x test",
+    "run": "java -jar build/libs/Stirling-PDF-0.46.2.jar --server.port=8110",
+    "baseline": "node tools/audit.mjs --urls ... (voir states.json)",
+    "final": "identique sur checkout patché"
+  },
+  "failure": null
+}

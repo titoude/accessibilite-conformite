@@ -1,0 +1,37 @@
+{
+  "product": "Stirling-Tools/Stirling-PDF",
+  "version": "v0.46.2",
+  "commit": "70349fb7e32551b0afa9ba8c5ae3d85bfcc30e48",
+  "rounds": 3,
+  "baseline_violations": 1036,
+  "baseline_rules": 11,
+  "final_violations": 0,
+  "final_rules": 0,
+  "scenarios": "18/18 baseline+final",
+  "errors": 0,
+  "verify": "32/32 PASS",
+  "eval_final": "22/22 PASS",
+  "install_build": "PASS",
+  "scope_compare": "scopeHash identique; statesHash différent (code états reconstruit en cours de cycle, couverture identique — documenté)",
+  "fixes": [
+    "a11y.css centralisé (liens, badge, footer, boutons, header h1)",
+    "<main>+<h1> sur 12 templates",
+    "theme.light.css: texte nav sections (10 rgba)",
+    "tooltipSetup: nom accessible + tooltip clavier/Escape + aria-description conservé",
+    "view-pdf: viewport, tabindex, roles radios éditeur, outerContainer role=main, footer role=none",
+    "sign/pipeline: aria-labels boutons",
+    "i18n a11y.* en_GB+en_US + viewer.ftl .aria-label",
+    "h6→h2 menu-title, h1→h2 dans helpModal",
+    "multi-toolAdvert: lien + role=complementary",
+    "fileSelect: contraste texte",
+    "pixel tracking: alt vide+aria-hidden",
+    "erreur footer paramétrée → th:with footerRole (SpEL-safe)"
+  ],
+  "defauts_harness_corriges": [
+    "runner: violation color-contrast transitoire pendant fade-in (attente animations ajoutée au runner v5)",
+    "pgrep self-kill: motif [S]tirling requis pour kills",
+    "eval: Escape nécessite focus réel — clic synthétique insuffisant",
+    "surveyModal: modale produit vole le focus au chargement — doit être fermée dans les états"
+  ],
+  "notes": "login color-contrast x2 vu une fois = flake animation confirmé non-reproductible. Aucun contenu utilisateur à seeder — app outil. 14 fonctionnalités désactivées (deps externes absentes) — périmètre couvre les routes servies."
+}

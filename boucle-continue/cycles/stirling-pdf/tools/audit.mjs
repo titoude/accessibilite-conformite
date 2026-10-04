@@ -125,7 +125,52 @@ const RUNNER_VERSION = 'audit.mjs v5';
  *     },
  *   },
  */
-const STATES = {};
+const STATES = {
+  'navbar-tools-menu-ouvert': {
+    url: (o) => o + '/merge-pdfs',
+    setup: async (page) => {
+      await page.locator('#navbarDropdown-1').click();
+      await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 10000 });
+    },
+  },
+  'navbar-langue-dropdown': {
+    url: (o) => o + '/',
+    setup: async (page) => {
+      await page.locator('#languageDropdown').click();
+      await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 10000 });
+    },
+  },
+  'navbar-favoris-dropdown': {
+    url: (o) => o + '/',
+    setup: async (page) => {
+      await page.locator('#navbarDropdown-5').click();
+      await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 10000 });
+    },
+  },
+  'navbar-collapse-mobile': {
+    url: (o) => o + '/',
+    setup: async (page) => {
+      await page.setViewportSize({ width: 375, height: 812 });
+      await page.locator('.navbar-toggler').click();
+      await page.waitForSelector('.navbar-collapse.show', { timeout: 10000 });
+      await page.setViewportSize({ width: 1280, height: 720 });
+    },
+  },
+  'fichier-charge-organizer': {
+    url: (o) => o + '/pdf-organizer',
+    setup: async (page) => {
+      await page.setInputFiles('input[type=file]', '/tmp/test3pages.pdf');
+      await page.waitForSelector('.selected-files', { state: 'visible', timeout: 20000 });
+    },
+  },
+  'fichier-charge-viewer': {
+    url: (o) => o + '/view-pdf',
+    setup: async (page) => {
+      await page.setInputFiles('input[type=file]', '/tmp/test3pages.pdf');
+      await page.waitForSelector('canvas', { timeout: 20000 });
+    },
+  },
+};
 
 if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
   configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");

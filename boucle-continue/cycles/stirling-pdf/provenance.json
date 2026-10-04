@@ -1,0 +1,40 @@
+{
+  "cycle": 19,
+  "product": "Stirling-Tools/Stirling-PDF",
+  "tag": "v0.46.2",
+  "commit": "70349fb7e32551b0afa9ba8c5ae3d85bfcc30e48",
+  "worker": "session principale devin-3cde6939fc0b489ab7c0d2ffa16c3255",
+  "date": "2026-10-04",
+  "runner": "audit.mjs v5+settleAnimations (attente fin animations finies avant axe.run)",
+  "axe": "axe-core 4.13",
+  "playwright": "1.63.0",
+  "scopeHash": "972e979beb175ccdbbc4227597763a5dfd76e9e5cdd247ada2c80daad06ff47b",
+  "artifacts": [
+    "manifest.json",
+    "states.json",
+    "patch.diff",
+    "reports/baseline/report.{json,md}",
+    "reports/final/report.{json,md}",
+    "reports/baseline/scope.json",
+    "reports/final/scope.json",
+    "scope-compare.json",
+    "tools/audit.mjs",
+    "tools/verify.mjs",
+    "tools/eval-final.mjs",
+    "provenance.json",
+    "install-build.txt"
+  ],
+  "install_build": {
+    "checkout": "clone --depth 1 --branch v0.46.2 → commit 70349fb7",
+    "patch": "git apply patch.diff — OK (23 fichiers, warnings trailing-whitespace sans impact)",
+    "build": "./gradlew build -x test → exit 0 (miroir maven-central ~/.gradle/init.d/mirror.gradle)",
+    "run": "java -jar → HTTP 200 sur / , a11y.css + h1 sr servis"
+  },
+  "decision": {
+    "scope_executed": "18/18 scénarios audités baseline ET final, 0 erreur",
+    "axe_score": "baseline 11 règles / 1036 occ / 94 incomplets → final 0 règle / 0 occ / 92 incomplets",
+    "findings_eval": "eval-final.mjs 22/22 PASS — 3 défauts réels trouvés et corrigés en cours de cycle (h1 « Oops! » de helpModal premier h1 sur toutes pages, pixel tracking sans alt, focus survey modal). verify.mjs 32/32 PASS.",
+    "install_build": "PASS checkout propre",
+    "incompletes": "92 résultats axe incomplets restants — color-contrast sur éléments non évaluables (canvas pdf.js, icônes material-symbols hors-écran, dropdowns fermés), aria-prohibited-attr sur wrappers Bootstrap — tous revus : icônes décoratives et états transitoires, pas de défaut résiduel mesurable par axe"
+  }
+}

@@ -303,7 +303,27 @@ async function run() {
     }
   };
 
+  // axe mesure les couleurs calculées — une transition en cours (fondu
+  // d'entrée, élévation d'un élément animé…) produit des violations
+  // color-contrast fantômes qui disparaissent au re-scan. On attend la fin
+  // des animations/transitions FINIES ; les animations infinies (spinner)
+  // ne bloquent pas le scan. Attente best-effort : un dépassement n'est
+  // pas une erreur, le scan reste valide.
+  const settleAnimations = async () => {
+    try {
+      await page.waitForFunction(
+        () => document.getAnimations().every((a) => {
+          if (a.playState !== 'running') return true;
+          const t = a.effect.getComputedTiming();
+          return a.transitionProperty == null && t.iterations === Infinity;
+        }),
+        { timeout: 4000, polling: 100 },
+      );
+    } catch { /* animations longues/infinies : le scan part quand même */ }
+  };
+
   const scanPage = async () => {
+    await settleAnimations();
     await injectAxe();
     return await page.evaluate(async (tags) => {
       return await window.axe.run(document, {

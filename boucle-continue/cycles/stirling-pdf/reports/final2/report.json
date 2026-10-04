@@ -1,0 +1,515 @@
+{
+  "runId": "ae8bc919-1d21-4377-b45d-1722fa23a23f",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T21:50:50.951Z",
+  "baseUrl": "http://localhost:8110",
+  "pages": [
+    {
+      "url": "http://localhost:8110/",
+      "requestedUrl": "http://localhost:8110/",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/merge-pdfs",
+      "requestedUrl": "http://localhost:8110/merge-pdfs",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/merge-pdfs\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/multi-tool",
+      "requestedUrl": "http://localhost:8110/multi-tool",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/multi-tool\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/view-pdf",
+      "requestedUrl": "http://localhost:8110/view-pdf",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input type=\"number\" id=\"pageNumber\" class=\"toolbarField\" aria-label=\"Page number\" value=\"1\" min=\"1\" data-l10n-id=\"pdfjs-page-input\" autocomplete=\"off\" max=\"1\" data-title=\"Page\" title=\"Page\">",
+              "target": [
+                "#pageNumber"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span id=\"numPages\" class=\"toolbarLabel\" data-l10n-id=\"pdfjs-of-pages\" data-l10n-args=\"{&quot;pagesCount&quot;:1}\">of ⁨1⁩</span>",
+              "target": [
+                "#numPages"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "20.0pt (26.6667px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"993\" height=\"1404\" style=\"width: 993px; height: 1404px;\">",
+                      "target": [
+                        "canvas[width=\"993\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: calc(var(--scale-factor)*151.75px); top: calc(var(--scale-factor)*59.16px); font-size: calc(var(--scale-factor)*16.00px); font-family: sans-serif; transform: scaleX(0.900207);\">Welcome to Stirling PDF Reader using PDF.js</span>",
+              "target": [
+                "#p1R_mc0 > span[dir=\"ltr\"][role=\"presentation\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "20.0pt (26.6667px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"993\" height=\"1404\" style=\"width: 993px; height: 1404px;\">",
+                      "target": [
+                        "canvas[width=\"993\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: calc(var(--scale-factor)*62.55px); top: calc(var(--scale-factor)*117.81px); font-size: calc(var(--scale-factor)*16.00px); font-family: sans-serif; transform: scaleX(0.904836);\">To open your PDF file, press the open File option</span>",
+              "target": [
+                "#p1R_mc1 > span[dir=\"ltr\"][role=\"presentation\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "20.0pt (26.6667px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"993\" height=\"1404\" style=\"width: 993px; height: 1404px;\">",
+                      "target": [
+                        "canvas[width=\"993\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: calc(var(--scale-factor)*417.10px); top: calc(var(--scale-factor)*117.81px); font-size: calc(var(--scale-factor)*16.00px); font-family: sans-serif; transform: scaleX(0.949598);\">at the right in the</span>",
+              "target": [
+                "#p1R_mc2 > span[dir=\"ltr\"][role=\"presentation\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "20.0pt (26.6667px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"993\" height=\"1404\" style=\"width: 993px; height: 1404px;\">",
+                      "target": [
+                        "canvas[width=\"993\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: calc(var(--scale-factor)*224.30px); top: calc(var(--scale-factor)*137.36px); font-size: calc(var(--scale-factor)*16.00px); font-family: sans-serif; transform: scaleX(0.933057);\">toolbar options above.</span>",
+              "target": [
+                "#p1R_mc3 > span[dir=\"ltr\"][role=\"presentation\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "20.0pt (26.6667px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"993\" height=\"1404\" style=\"width: 993px; height: 1404px;\">",
+                      "target": [
+                        "canvas[width=\"993\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: calc(var(--scale-factor)*66.95px); top: calc(var(--scale-factor)*176.46px); font-size: calc(var(--scale-factor)*16.00px); font-family: sans-serif; transform: scaleX(0.908536);\">If you want to leave, you can press the Back to Main Page button</span>",
+              "target": [
+                "#p1R_mc4 > span[dir=\"ltr\"][role=\"presentation\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "20.0pt (26.6667px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"993\" height=\"1404\" style=\"width: 993px; height: 1404px;\">",
+                      "target": [
+                        "canvas[width=\"993\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: calc(var(--scale-factor)*125.75px); top: calc(var(--scale-factor)*196.01px); font-size: calc(var(--scale-factor)*16.00px); font-family: sans-serif; transform: scaleX(0.93208);\">which it will return you back to the main page.</span>",
+              "target": [
+                "#p1R_mc6 > span[dir=\"ltr\"][role=\"presentation\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8110/view-pdf?lang=en_US",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8110/pdf-organizer",
+      "requestedUrl": "http://localhost:8110/pdf-organizer",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/pdf-organizer\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/crop",
+      "requestedUrl": "http://localhost:8110/crop",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/crop\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/rotate-pdf",
+      "requestedUrl": "http://localhost:8110/rotate-pdf",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/rotate-pdf\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/pipeline",
+      "requestedUrl": "http://localhost:8110/pipeline",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/pipeline\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/sign",
+      "requestedUrl": "http://localhost:8110/sign",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/sign\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/login",
+      "requestedUrl": "http://localhost:8110/login",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/login\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/about",
+      "requestedUrl": "http://localhost:8110/about",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/about\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/licenses",
+      "requestedUrl": "http://localhost:8110/licenses",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/licenses\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/merge-pdfs [state:navbar-tools-menu-ouvert]",
+      "requestedUrl": "http://localhost:8110/merge-pdfs",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/merge-pdfs\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/ [state:navbar-langue-dropdown]",
+      "requestedUrl": "http://localhost:8110/",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/ [state:navbar-favoris-dropdown]",
+      "requestedUrl": "http://localhost:8110/",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/ [state:navbar-collapse-mobile]",
+      "requestedUrl": "http://localhost:8110/",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/pdf-organizer [state:fichier-charge-organizer]",
+      "requestedUrl": "http://localhost:8110/pdf-organizer",
+      "violations": [],
+      "incomplete": [],
+      "error": "page.goto: Timeout 30000ms exceeded.\nCall log:\n  - navigating to \"http://localhost:8110/pdf-organizer\", waiting until \"load\"\n"
+    },
+    {
+      "url": "http://localhost:8110/view-pdf [state:fichier-charge-viewer]",
+      "requestedUrl": "http://localhost:8110/view-pdf",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input type=\"number\" id=\"pageNumber\" class=\"toolbarField\" aria-label=\"Page number\" value=\"1\" min=\"1\" data-l10n-id=\"pdfjs-page-input\" autocomplete=\"off\" max=\"3\" data-title=\"Page\" title=\"Page\">",
+              "target": [
+                "#pageNumber"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span id=\"numPages\" class=\"toolbarLabel\" data-l10n-id=\"pdfjs-of-pages\" data-l10n-args=\"{&quot;pagesCount&quot;:3}\">of ⁨3⁩</span>",
+              "target": [
+                "#numPages"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "30.0pt (40px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas role=\"presentation\" width=\"1020\" height=\"1320\" style=\"width: 1020px; height: 1320px;\"></canvas>",
+                      "target": [
+                        "div[aria-label=\"Page ⁨1⁩\"] > .canvasWrapper > canvas[width=\"1020\"][height=\"1320\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span role=\"presentation\" dir=\"ltr\" style=\"left: 11.76%; top: 6.61%; font-size: calc(var(--scale-factor)*24.00px); font-family: sans-serif; transform: scaleX(0.999863);\">Page 1</span>",
+              "target": [
+                "div[aria-label=\"Page ⁨1⁩\"] > .textLayer[data-main-rotation=\"0\"] > span[role=\"presentation\"][dir=\"ltr\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8110/view-pdf",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "972e979beb175ccdbbc4227597763a5dfd76e9e5cdd247ada2c80daad06ff47b"
+}

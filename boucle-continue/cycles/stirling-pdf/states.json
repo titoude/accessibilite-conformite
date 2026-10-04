@@ -1,0 +1,61 @@
+{
+  "baseUrl": "http://localhost:8080",
+  "routes": [
+    { "name": "home", "url": "/" },
+    { "name": "merge-pdfs", "url": "/merge-pdfs" },
+    { "name": "multi-tool", "url": "/multi-tool" },
+    { "name": "view-pdf", "url": "/view-pdf" },
+    { "name": "pdf-organizer", "url": "/pdf-organizer" },
+    { "name": "crop-pdf", "url": "/crop-pdf" },
+    { "name": "rotate-pdf", "url": "/rotate-pdf" },
+    { "name": "about", "url": "/about" },
+    { "name": "usage", "url": "/usage" }
+  ],
+  "states": [
+    {
+      "name": "navbar-tools-menu-ouvert",
+      "sur": "home",
+      "setup": [
+        { "action": "click", "selector": "#navbarDropdown-1" }
+      ]
+    },
+    {
+      "name": "navbar-langue-dropdown",
+      "sur": "home",
+      "setup": [
+        { "action": "click", "selector": "#languageDropdown" }
+      ]
+    },
+    {
+      "name": "navbar-favoris-dropdown",
+      "sur": "home",
+      "setup": [
+        { "action": "click", "selector": "#navbarDropdown-5" }
+      ]
+    },
+    {
+      "name": "navbar-collapse-mobile",
+      "sur": "home",
+      "viewport": { "width": 375, "height": 812 },
+      "setup": [
+        { "action": "click", "selector": ".navbar-toggler" }
+      ]
+    },
+    {
+      "name": "fichier-charge-organizer",
+      "sur": "pdf-organizer",
+      "setup": [
+        { "action": "setInputFiles", "selector": "input[type=file]", "file": "/tmp/test3pages.pdf" },
+        { "action": "waitFor", "selector": "#page-container .page-container, #allPagesContainer .page-container, .pdf-page-container, canvas", "timeout": 20000 }
+      ]
+    },
+    {
+      "name": "fichier-charge-viewer",
+      "sur": "view-pdf",
+      "setup": [
+        { "action": "setInputFiles", "selector": "input[type=file]", "file": "/tmp/test3pages.pdf" },
+        { "action": "waitFor", "selector": "canvas", "timeout": 20000 }
+      ]
+    }
+  ]
+}
