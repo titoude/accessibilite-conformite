@@ -187,3 +187,8 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 7. **pdf.js l10n supprime les aria-label posés en HTML** : les labels du viewer passent par `viewer.ftl` `.aria-label` (strings l10n), pas les attributs template — vérifier le rendu post-l10n.
 8. **Spotless/formatter peut reformater des fichiers non touchés** : `./gradlew build` réécrit 3 fichiers Java hors scope → retirer du patch (`git checkout`) pour garder le diff minimal.
 9. **`git status` des dépendances de build** : build jar inclut le code patché mais `build/libs` est gitignoré — le patch ne transporte que les sources ; l'auditeur rebuilder toujours (install-build rejoué).
+
+### Leçons — re-audit gotify v2 (G1-G3)
+- **Sondes incompletes au même viewport que le scan** : une sonde qui mesure à 1280px alors que l'audit axe a scanné à 375px ne prouve pas la même chose — les sondes héritent le viewport du rapport audité.
+- **Liste `rules` dans results.json** : la mettre à jour à chaque réécriture du rapport — une liste périmée laisse croire que des règles restent ouvertes.
+- **Étiquettes des groupes d'incompletes** : garder les identifiants axe exacts (`bgOverlap` vs `elmPartiallyObscured`) par groupe — les mélanges cassent la traçabilité.
