@@ -1,0 +1,42 @@
+{
+ "baseline": {
+  "occurrences": 48,
+  "regles": 14,
+  "urls": 6,
+  "dontErreur": 1,
+  "note": "/account : redirect anonyme → erreur attendue, retirée du scope final"
+ },
+ "final": {
+  "occurrences": 0,
+  "regles": 0,
+  "scans": 8,
+  "pages": 5,
+  "etats": 3,
+  "exit": 0,
+  "incomplets": 26
+ },
+ "corrections": [
+  "index.html : viewport (maximum-scale+user-scalable=no retirés) + div#a11y-popup-layer[role=complementary] frère de #root",
+  "theme.js : primary.main #338574→#2f7a69 (4.42→5.11 sur blanc)",
+  "Navigation : role=menubar retiré des 2 Drawers ; List component=nav→ul (landmark-unique + listitem) ; 7 ListItemButton + 6 Alert + UpgradeBanner wrappés dans ListItem ; Divider→ListItem>li (list rule) ; IconButton MoreVert sorti du ListItemButton → secondaryAction + aria-label",
+  "ActionBar : titre component=h1",
+  "App : AuthLayout wrappée dans <main> (login/signup/reset/email-verify)",
+  "Login/Signup/PasswordReset/EmailVerify : titre h6 visuel → component=h1",
+  "AvatarBox : Avatar alt=\"\" + lien logo aria-label + import useTranslation",
+  "Messaging : Paper → component=form aria-label (region)",
+  "Pref : roles row/cell retirés (fake-table) — aria-required-children/parent",
+  "Preferences+Account : h5 section titles → component=h2 (heading-order)",
+  "Preferences : 8 Selects aria-labelledby→labelId (combobox nom réel)",
+  "SubscribeDialog : div role=row retiré",
+  "PopupMenu+Account.Menu : container={popupContainer} — menus dans landmark (region) — nouveau fichier app/popupContainer.js"
+ ],
+ "install_build": {
+  "npm ci": "PASS",
+  "npm run lint (eslint)": "PASS 0 erreur",
+  "npm test (vitest)": "PASS 90/90",
+  "npm run build (vite)": "PASS",
+  "go build": "PASS"
+ },
+ "verify_mjs": "13/13",
+ "eval_final_mjs": "9/9"
+}

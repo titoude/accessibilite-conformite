@@ -1,0 +1,41 @@
+{
+ "cycle": 14,
+ "target": {
+  "repo": "binwiederhier/ntfy",
+  "commit": "8b95a3bbfd42d40a16293b6e2079b104bf6eb68d",
+  "note": "clone --depth 1 main"
+ },
+ "stack": "Go 1.x binaire unique + web React 19 (Vite, MUI v9) embarqué via go:embed server/site",
+ "boot": {
+  "command": "cd web && npm ci && npm run build && mv build/index.html build/app.html && mv build ../server/site && go build -o ntfy . && ./ntfy serve --listen-http :8090 --base-url http://127.0.0.1:8090 --cache-file ../data/cache.db --auth-file ../data/auth.db",
+  "notes": [
+   "go:embed docs : stub local server/docs/index.html créé (mkdocs non construit) — adaptation harnais locale, aucun code produit modifié pour l'audit",
+   "mode anonyme : enable_login=false → /account redirige vers / (retirée du périmètre)",
+   "port 8090"
+  ]
+ },
+ "seed": {
+  "topics": [
+   "testtopic : 2 messages publiés via curl POST /testtopic (1 texte, 1 markdown)"
+  ],
+  "auth": "aucune (anonyme) — la souscription web est créée par le setup de l'état subscription-popup (clic bouton Subscribe)"
+ },
+ "urls": [
+  "/",
+  "/testtopic",
+  "/settings",
+  "/login",
+  "/signup"
+ ],
+ "states": [
+  "subscription-popup",
+  "publish-dialog",
+  "subscribe-dialog"
+ ],
+ "auditCommands": [
+  "node audit.mjs http://127.0.0.1:8090 --urls '/,/testtopic,/settings,/login,/signup' --states all --wait-for 'main, #root *' --wait 1500 --out ../final",
+  "node verify.mjs http://127.0.0.1:8090",
+  "node eval-final.mjs http://127.0.0.1:8090"
+ ],
+ "auditTiers": null
+}
