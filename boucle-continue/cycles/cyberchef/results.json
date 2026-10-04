@@ -16,7 +16,7 @@
   },
   "rounds": 4,
   "families": [
-    "viewport meta bloquant (maximum-scale/user-scalable)",
+    "meta viewport ajoutée par prévention (aucune meta dans l'original — pas une violation axe mesurée, durcissement)",
     "landmarks absents (banner/nav/main/region)",
     "aria-allowed-role : role=button sur <li> d'opérations (110 occ)",
     "aria-input-field-name : contenteditable CodeMirror sans nom (20 occ)",
@@ -43,5 +43,12 @@
   "installBuild": "PASS npm ci + npm run build (eslint+webpack+zip)",
   "patchSha256": "9bd8b25d9c372c8ba97f521901750ee4b7dfd805dfb499169a42e8dda8820032",
   "scopeIdentical": true,
-  "verdict": "WORKER-CONFIRMED — score axe reproductible + preuves rejouables ; PAS une conformité WCAG complète (drag&drop non testé, NVDA non couvert)"
+  "verdict": "WORKER-CONFIRMED — score axe reproductible + preuves rejouables ; PAS une conformité WCAG complète (drag&drop non testé, NVDA non couvert)",
+  "auditor": {
+    "session": "devin-3a66a63af99b4d77b6406d24eafb63e8",
+    "verdict": "PARTIAL → corrigé : provenance.json hashait le patch avant dernière regénération (audit rejoué de zéro : patch sain, verify 13/13, eval 8/8, axe 0 rejoué, aucune triche)",
+    "residual_gaps_declared": [
+      "li.operation restent click-souris sans rôle/activation clavier (4.1.2, hors axe) — cohérent avec le N-A drag&drop"
+    ]
+  }
 }
