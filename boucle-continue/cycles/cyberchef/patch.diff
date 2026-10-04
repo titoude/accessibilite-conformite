@@ -1,0 +1,354 @@
+diff --git a/src/core/config/scripts/fixSnackBarMarkup.mjs b/src/core/config/scripts/fixSnackBarMarkup.mjs
+index eba011a..0d6d173 100644
+--- a/src/core/config/scripts/fixSnackBarMarkup.mjs
++++ b/src/core/config/scripts/fixSnackBarMarkup.mjs
+@@ -5,7 +5,7 @@
+  * before:
+  * <div id=snackbar-container/>
+  * after:
+- * <div id=snackbar-container>
++ * <div id=snackbar-container role=status aria-live=polite>
+  *
+  */
+ 
+@@ -20,9 +20,14 @@ const filePath = join(process.cwd(), "node_modules/snackbarjs/src/snackbar.js");
+ const content = readFileSync(filePath, "utf8");
+ 
+ // Replace self-closing div with standard opening div
+-const updated = content.replace(
+-    /<div id=snackbar-container\/>/g,
+-    "<div id=snackbar-container>"
+-);
++const updated = content
++    .replace(
++        /<div id=snackbar-container\/>/g,
++        "<div id=snackbar-container>"
++    )
++    .replace(
++        /<div id=snackbar-container>/g,
++        "<div id=snackbar-container role=status aria-live=polite>"
++    );
+ 
+ writeFileSync(filePath, updated, "utf8");
+diff --git a/src/web/HTMLIngredient.mjs b/src/web/HTMLIngredient.mjs
+index 9f61b75..76a95c6 100755
+--- a/src/web/HTMLIngredient.mjs
++++ b/src/web/HTMLIngredient.mjs
+@@ -34,7 +34,7 @@ class HTMLIngredient {
+         this.toggleValues = config.toggleValues;
+         this.ingId = this.app.nextIngId();
+         this.id = "ing-" + this.ingId;
+-        this.tabIndex = this.ingId + 2; // Input = 1, Search = 2
++        this.tabIndex = 0; // Ordre naturel du DOM — un tabindex positif casse 2.4.3
+         this.min = (typeof config.min === "number") ? config.min : "";
+         this.max = (typeof config.max === "number") ? config.max : "";
+         this.step = config.step || 1;
+diff --git a/src/web/HTMLOperation.mjs b/src/web/HTMLOperation.mjs
+index 0ba0ffc..440a9d2 100755
+--- a/src/web/HTMLOperation.mjs
++++ b/src/web/HTMLOperation.mjs
+@@ -60,7 +60,7 @@ class HTMLOperation {
+ 
+             html += ` data-container='body' data-toggle='popover' data-placement='right'
+                 data-content="${content}" data-html='true' data-trigger='hover'
+-                data-boundary='viewport' role='button'`;
++                data-boundary='viewport'`;
+         }
+ 
+         html += ">" + this.name;
+diff --git a/src/web/html/index.html b/src/web/html/index.html
+index 6ce8dd9..f4b4536 100755
+--- a/src/web/html/index.html
++++ b/src/web/html/index.html
+@@ -23,6 +23,7 @@
+ <html lang="en" class="classic">
+     <head>
+         <meta charset="UTF-8">
++        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <title>CyberChef</title>
+ 
+         <meta name="copyright" content="Crown Copyright 2016-<%= htmlWebpackPlugin.options.compileYear %>" />
+@@ -146,7 +147,7 @@
+             <i class="material-icons" aria-hidden="true">star</i>
+         </button>
+         <div tabindex="0" id="content-wrapper">
+-            <div id="banner" class="row">
++            <div id="banner" class="row" role="banner">
+                 <div class="col" style="text-align: left; padding-left: 10px;">
+                     <a href="#" data-toggle="modal" data-target="#download-modal" data-help-title="Downloading CyberChef" data-help="<p>CyberChef can be downloaded to run locally or hosted within your own network. It has no server-side component so all that is required is that the ZIP file is uncompressed and the files are accessible.</p><p>As a user, it is worth noting that unofficial versions of CyberChef could have been modified to introduce Input and/or Recipe exfiltration. We recommend always using the official, open source, up-to-date version of CyberChef hosted at <a href='https://gchq.github.io/CyberChef'>https://gchq.github.io/CyberChef</a> if accessible.</p><p>The Network tab in your browser's Developer console (F12) can be used to inspect the network requests made by a website. This can confirm that no data is uploaded when a CyberChef recipe is baked.</p>">Download CyberChef <i class="material-icons">file_download</i></a>
+                 </div>
+@@ -168,17 +169,17 @@
+                 </div>
+             </div>
+             <div id="workspace-wrapper">
+-                <div id="operations" class="split split-horizontal no-select">
++                <div id="operations" class="split split-horizontal no-select" role="navigation" aria-label="Operations">
+                     <div class="title no-select" data-help-title="Operations list" data-help="<p>The Operations list contains all the operations in CyberChef arranged into categories. Some operations may be present in multiple categories. You can search for operations using the search box.</p><p>To use an operation, either double click it, or drag it into the Recipe pane. You will then be able to configure its arguments (or 'Ingredients' in CyberChef terminology).</p>">
+                         Operations
+                         <span class="op-count"></span>
+                     </div>
+                     <input id="search" type="search" class="form-control" placeholder="Search..." autocomplete="off" tabindex="0" data-help-title="Searching for operations" data-help="<p>Use the search box to find useful operations.</p><p>Both operation names and descriptions are queried using a fuzzy matching algorithm.</p>" aria-owns="search-results">
+-                    <ul id="search-results" class="op-list"></ul>
++                    <ul id="search-results" class="op-list" hidden></ul>
+                     <div id="categories" class="panel-group no-select"></div>
+                 </div>
+ 
+-                <div id="recipe" class="split split-horizontal no-select" data-help-title="Recipe pane" data-help="<p>The Recipe pane is where your chosen Operations are configured. If you are a programmer, think of these as functions. If you are not a programmer, these are like steps in a cake recipe. The Input data will be processed based on the Operations in your Recipe.</p><ul><li>To reorder, simply drag and drop the Operations into the order your require</li><li>To remove an operation, either double click it, or drag it outside of the Recipe pane</li></ul><p>The arguments (or 'Ingredients' in CyberChef terminology) can be configured to change how an Operation processes the data.</p>">
++                <div id="recipe" class="split split-horizontal no-select" role="main" data-help-title="Recipe pane" data-help="<p>The Recipe pane is where your chosen Operations are configured. If you are a programmer, think of these as functions. If you are not a programmer, these are like steps in a cake recipe. The Input data will be processed based on the Operations in your Recipe.</p><ul><li>To reorder, simply drag and drop the Operations into the order your require</li><li>To remove an operation, either double click it, or drag it outside of the Recipe pane</li></ul><p>The arguments (or 'Ingredients' in CyberChef terminology) can be configured to change how an Operation processes the data.</p>">
+                     <div class="title no-select">
+                         Recipe
+                         <span class="pane-controls hide-on-maximised-output">
+@@ -221,7 +222,7 @@
+                     </div>
+                 </div>
+ 
+-                <div class="split split-horizontal" id="IO">
++                <div class="split split-horizontal" id="IO" role="region" aria-label="Input and output">
+                     <div id="input" class="split no-select" data-help-title="Input pane" data-help="<p>Input data can be entered by typing it in, pasting it in, dragging it in, or using the 'Load file' or 'Load folder' buttons.</p><p>CyberChef does its best to represent data as accurately as possible to ensure you know exactly what you are working with. Non-printable characters are represented using control character pictures, for example a null byte (0x00) is displayed like this: <span title='Control character null' aria-label='Control character null' class='cm-specialChar'>␀</span>.</p>">
+                         <div class="title no-select">
+                             <label for="input-text">Input</label>
+@@ -333,7 +334,7 @@
+                             <div id="output-text"></div>
+                             <div id="output-loader">
+                                 <div id="output-loader-animation">
+-                                    <object id="bombe" data="<%- require('../static/images/bombe.svg') %>" width="100%" height="100%" data-help-title="Loading animation" data-help="This loading animation shows an accurate representation of how rotors moved on The Bombe, an electro-mechanical device built at Bletchley Park in 1939 by Alan Turing with refinements by Gordon Welchman in 1940. The Bombe was used by the Government Code and Cipher School (the precursor to GCHQ) to discover daily settings of Enigma machines used by the German military in World War 2.<br><br>More information can be found on <a href='https://wikipedia.org/wiki/Bombe'>Wikipedia</a>."></object>
++                                    <object id="bombe" data="<%- require('../static/images/bombe.svg') %>" width="100%" height="100%" role="img" aria-label="Baking in progress" data-help-title="Loading animation" data-help="This loading animation shows an accurate representation of how rotors moved on The Bombe, an electro-mechanical device built at Bletchley Park in 1939 by Alan Turing with refinements by Gordon Welchman in 1940. The Bombe was used by the Government Code and Cipher School (the precursor to GCHQ) to discover daily settings of Enigma machines used by the German military in World War 2.<br><br>More information can be found on <a href='https://wikipedia.org/wiki/Bombe'>Wikipedia</a>."></object>
+                                 </div>
+                                 <div class="loading-msg"></div>
+                             </div>
+@@ -343,34 +344,34 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="save-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="save-modal" tabindex="-1" role="dialog" aria-labelledby="save-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content" data-help-proxy="#save">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Save recipe</h5>
++                        <h5 class="modal-title" id="save-modal-title">Save recipe</h5>
+                     </div>
+                     <div class="modal-body">
+                         <div class="form-group">
+-                            <ul class="nav nav-tabs" role="tablist">
+-                                <li class="nav-item">
++                            <ul class="nav nav-tabs" role="tablist" aria-label="Recipe format">
++                                <li class="nav-item" role="none">
+                                     <a class="nav-link active" href="#chef-format" role="tab" data-toggle="tab">Chef format</a>
+                                 </li>
+-                                <li class="nav-item">
++                                <li class="nav-item" role="none">
+                                     <a class="nav-link" href="#clean-json" role="tab" data-toggle="tab">Clean JSON</a>
+                                 </li>
+-                                <li class="nav-item">
++                                <li class="nav-item" role="none">
+                                     <a class="nav-link" href="#compact-json" role="tab" data-toggle="tab">Compact JSON</a>
+                                 </li>
+                             </ul>
+                             <div class="tab-content" id="save-texts">
+                                 <div role="tabpanel" class="tab-pane active" id="chef-format">
+-                                    <textarea class="form-control" id="save-text-chef" rows="5"></textarea>
++                                    <textarea class="form-control" id="save-text-chef" rows="5" aria-label="Recipe in Chef format"></textarea>
+                                 </div>
+                                 <div role="tabpanel" class="tab-pane" id="clean-json">
+-                                    <textarea class="form-control" id="save-text-clean" rows="5"></textarea>
++                                    <textarea class="form-control" id="save-text-clean" rows="5" aria-label="Recipe in clean JSON format"></textarea>
+                                 </div>
+                                 <div role="tabpanel" class="tab-pane" id="compact-json">
+-                                    <textarea class="form-control" id="save-text-compact" rows="5"></textarea>
++                                    <textarea class="form-control" id="save-text-compact" rows="5" aria-label="Recipe in compact JSON format"></textarea>
+                                 </div>
+                             </div>
+                         </div>
+@@ -403,11 +404,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="load-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="load-modal" tabindex="-1" role="dialog" aria-labelledby="load-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content" data-help-proxy="#load">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Load recipe</h5>
++                        <h5 class="modal-title" id="load-modal-title">Load recipe</h5>
+                     </div>
+                     <div class="modal-body">
+                         <div class="form-group">
+@@ -430,11 +431,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="options-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="options-modal" tabindex="-1" role="dialog" aria-labelledby="options-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content" data-help-proxy="#options">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Options</h5>
++                        <h5 class="modal-title" id="options-modal-title">Options</h5>
+                     </div>
+                     <div class="modal-body" id="options-body">
+                         <p style="font-weight: bold">Please note that these options will persist between sessions.</p>
+@@ -538,11 +539,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="favourites-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="favourites-modal" tabindex="-1" role="dialog" aria-labelledby="favourites-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content" data-help-proxy="a[data-target='#catFavourites']">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Edit Favourites</h5>
++                        <h5 class="modal-title" id="favourites-modal-title">Edit Favourites</h5>
+                     </div>
+                     <div class="modal-body" id="favourites-body">
+                         <ul>
+@@ -564,11 +565,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="support-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="support-modal" tabindex="-1" role="dialog" aria-labelledby="support-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content" data-help-proxy="#support">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">CyberChef - The Cyber Swiss Army Knife</h5>
++                        <h5 class="modal-title" id="support-modal-title">CyberChef - The Cyber Swiss Army Knife</h5>
+                     </div>
+                     <div class="modal-body">
+                         <img aria-hidden="true" class="about-img-left" src="<%- require('../static/images/cyberchef-128x128.png') %>" alt="CyberChef Logo"/>
+@@ -708,7 +709,7 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="confirm-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+@@ -727,11 +728,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="input-tab-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="input-tab-modal" tabindex="-1" role="dialog" aria-labelledby="input-tab-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Find Input Tab</h5>
++                        <h5 class="modal-title" id="input-tab-modal-title">Find Input Tab</h5>
+                     </div>
+                     <div class="modal-body" id="input-tab-body">
+                         <h6>Load Status</h6>
+@@ -786,11 +787,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="output-tab-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="output-tab-modal" tabindex="-1" role="dialog" aria-labelledby="output-tab-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Find Output Tab</h5>
++                        <h5 class="modal-title" id="output-tab-modal-title">Find Output Tab</h5>
+                     </div>
+                     <div class="modal-body" id="output-tab-body">
+                         <h6>Bake Status</h6>
+@@ -848,11 +849,11 @@
+             </div>
+         </div>
+ 
+-        <div class="modal fade" id="download-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="download-modal" tabindex="-1" role="dialog" aria-labelledby="download-modal-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content" data-help-proxy="a[data-target='#download-modal']">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">Download CyberChef</h5>
++                        <h5 class="modal-title" id="download-modal-title">Download CyberChef</h5>
+                     </div>
+                     <div class="modal-body">
+                         <p>
+@@ -886,7 +887,7 @@
+         </div>
+ 
+         <!-- The Help modal should be last to ensure it has the highest z-index -->
+-        <div class="modal fade" id="help-modal" tabindex="-1" role="dialog">
++        <div class="modal fade" id="help-modal" tabindex="-1" role="dialog" aria-labelledby="help-title">
+             <div class="modal-dialog modal-lg" role="document">
+                 <div class="modal-content">
+                     <div class="modal-header">
+diff --git a/src/web/stylesheets/utils/_overrides.css b/src/web/stylesheets/utils/_overrides.css
+index fec7d85..b8b7bd9 100755
+--- a/src/web/stylesheets/utils/_overrides.css
++++ b/src/web/stylesheets/utils/_overrides.css
+@@ -42,6 +42,18 @@ a:focus {
+     outline: none;
+ }
+ 
++a:focus-visible,
++button:focus-visible,
++[role=button]:focus-visible,
++input:focus-visible,
++select:focus-visible,
++textarea:focus-visible,
++[contenteditable]:focus-visible,
++[tabindex]:focus-visible {
++    outline: 2px solid var(--banner-url-colour, #1976d2);
++    outline-offset: 2px;
++}
++
+ .btn.btn-raised.btn-secondary {
+     color: var(--btn-default-font-colour);
+     background-color: var(--btn-default-bg-colour);
+diff --git a/src/web/waiters/InputWaiter.mjs b/src/web/waiters/InputWaiter.mjs
+index 4aa6bd2..8c5b15c 100644
+--- a/src/web/waiters/InputWaiter.mjs
++++ b/src/web/waiters/InputWaiter.mjs
+@@ -131,6 +131,11 @@ class InputWaiter {
+                 keymap.of([
+                     // Explicitly insert a tab rather than indenting the line
+                     { key: "Tab", run: insertTab },
++                    // Tab inserts text here, so Escape is the keyboard way out
++                    { key: "Escape", run: view => {
++                        view.contentDOM.blur();
++                        return true;
++                    } },
+                     // Explicitly insert a new line (using the current EOL char) rather
+                     // than messing around with indenting, which does not respect EOL chars
+                     { key: "Enter", run: insertNewline },
+@@ -183,6 +188,8 @@ class InputWaiter {
+             state: initialState,
+             parent: this.inputTextEl
+         });
++        this.inputEditorView.scrollDOM.tabIndex = 0;
++        this.inputEditorView.contentDOM.setAttribute("aria-label", "Input");
+     }
+ 
+     /**
+diff --git a/src/web/waiters/OperationsWaiter.mjs b/src/web/waiters/OperationsWaiter.mjs
+index 39075bd..72c440e 100755
+--- a/src/web/waiters/OperationsWaiter.mjs
++++ b/src/web/waiters/OperationsWaiter.mjs
+@@ -108,7 +108,10 @@ class OperationsWaiter {
+                     .join("");
+ 
+                 searchResultsEl.innerHTML = matchedOpsHtml;
++                searchResultsEl.hidden = false;
+                 searchResultsEl.dispatchEvent(this.manager.oplistcreate);
++            } else {
++                searchResultsEl.hidden = true;
+             }
+         }
+     }
+diff --git a/src/web/waiters/OutputWaiter.mjs b/src/web/waiters/OutputWaiter.mjs
+index 2b2cb09..addf09b 100755
+--- a/src/web/waiters/OutputWaiter.mjs
++++ b/src/web/waiters/OutputWaiter.mjs
+@@ -147,6 +147,8 @@ class OutputWaiter {
+             state: initialState,
+             parent: this.outputTextEl
+         });
++        this.outputEditorView.scrollDOM.tabIndex = 0;
++        this.outputEditorView.contentDOM.setAttribute("aria-label", "Output");
+     }
+ 
+     /**

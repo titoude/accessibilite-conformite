@@ -1,0 +1,14 @@
+{
+  "depot": "gchq/CyberChef",
+  "commitEpingle": "609951ac13967da6d497e0600c922f56bfd0b7af",
+  "type": "SPA mono-page (webpack dev :8080)",
+  "basePages": ["/"],
+  "scenarios": [
+    { "id": "/", "motif": "crawl racine (document de base)" },
+    { "id": "/ [state:app]", "motif": "interface stabilisée — liste d'opérations rendue" },
+    { "id": "/ [state:recipe]", "motif": "recette avec 'To Base64' — pane d'arguments (formulaires)" },
+    { "id": "/ [state:modal-save]", "motif": "modale 'Save recipe' ouverte (transition .fade → .show attendue)" }
+  ],
+  "notes": "CyberChef n'a qu'une route : tout le périmètre est dans les états. Input/Output sont des éditeurs CodeMirror-like (div contenteditable) — probable zone de violations riches.",
+  "gel": "manifeste figé AVANT la baseline"
+}

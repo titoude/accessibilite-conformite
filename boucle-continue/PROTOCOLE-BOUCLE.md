@@ -73,3 +73,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 5. **Deux landmarks de même rôle** doivent avoir des noms distingués — y
    compris ceux masqués par viewport (la nav mobile `display:none` compte
    pour axe aussi).
+
+### Leçons harnais — cycle CyberChef (ajoutées au protocole)
+
+1. **contenteditable.tabIndex === -1 n'est PAS une preuve de non-tabulabilité.** Les éléments `contenteditable` sans attribut tabindex restent dans l'ordre de tabulation naturel malgré la propriété -1. Assertion correcte : vraie tabulation Playwright (Tab jusqu'à `activeElement === cible`), jamais la propriété seule.
+2. **axe est aveugle aux pièges clavier et aux indicateurs de focus absents.** eval-final.mjs doit contenir : (a) boucle Tab réelle sur ≥15 tabulations en vérifiant outlineStyle/boxShadow sur `activeElement`, (b) test d'échappatoire (focus dans l'élément suspect → Escape/Tab → vérifier que le focus sort). CyberChef: `Tab→insertTab` = piège 2.1.2 réel trouvé ainsi.
+3. **Webpack dev-server ne recharge pas node_modules en watch.** Un correctif porté par un script postinstall n'apparaît dans le bundle qu'au rebuild complet → restart du serveur avant tout re-scan, sinon l'audit mesure l'ancien artefact (faux échec).
+4. **Patchs de dépendances : passer par le mécanisme du projet.** CyberChef possède `exec:fixSnackbarMarkup` (postinstall qui édite `node_modules/snackbarjs`). Étendre ce script = le fix s'applique aussi en `npm ci` → couvert par install-build et livrable.

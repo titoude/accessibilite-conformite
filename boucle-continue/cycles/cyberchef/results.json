@@ -1,0 +1,47 @@
+{
+  "cycle": 3,
+  "repo": "gchq/CyberChef",
+  "repoUrl": "https://github.com/gchq/CyberChef",
+  "commit": "609951ac13967da6d497e0600c922f56bfd0b7af",
+  "stack": "SPA monopage jQuery+webpack+CodeMirror 6+Bootstrap 3, hash-routes (recettes encodées dans l'URL)",
+  "baseline": {
+    "rules": 6,
+    "occurrences": 578,
+    "errors": 1
+  },
+  "final": {
+    "rules": 0,
+    "occurrences": 0,
+    "errors": 0
+  },
+  "rounds": 4,
+  "families": [
+    "viewport meta bloquant (maximum-scale/user-scalable)",
+    "landmarks absents (banner/nav/main/region)",
+    "aria-allowed-role : role=button sur <li> d'opérations (110 occ)",
+    "aria-input-field-name : contenteditable CodeMirror sans nom (20 occ)",
+    "list : <ul id=search-results> vide rendu (10 occ) → hidden togglé côté JS",
+    "tabindex positifs sur ingrédients (42 occ) → ordre naturel",
+    "scrollable-region-focusable : .cm-scroller tabindex=-1 de CodeMirror → 0",
+    "modales sans nom accessible (9 modales) → aria-labelledby sur titres",
+    "tablist <li> non présentiels → role=none",
+    "object-alt : <object> bombe sans alternative → role=img + aria-label",
+    "region : #snackbar-container hors landmark → patch postinstall role=status+aria-live (mécanisme fixSnackBarMarkup du projet)"
+  ],
+  "defects_found_by_eval_not_axe": [
+    "a:focus{outline:none} global → aucun indicateur de focus clavier (2.4.7) — invisible à axe",
+    "PIÈGE CLAVIER 2.1.2 : Tab dans .cm-content insère un \t (insertTab), impossible de ressortir → Escape→blur ajouté à la keymap"
+  ],
+  "harness_lessons": [
+    "contenteditable.tabIndex vaut -1 même quand l'élément EST dans l'ordre de tabulation — la propriété n'est pas une preuve, tester la tabulation réelle",
+    "axe ne voit ni les traps clavier ni les indicateurs de focus absents : eval-final doit tester Tab-réel (focus visible ET sortie du piège)",
+    "webpack dev ne re-lit pas node_modules patché en watch : un fix via postinstall exige un rebuild propre pour être testé — ou un restart du dev server",
+    "patchs de node_modules : préférer le mécanisme existant du projet (script postinstall) — il s'exécute aussi en npm ci → couvert par install-build"
+  ],
+  "verify": "13/13 PASS",
+  "eval": "8/8 PASS (1 N-A : drag&drop jQuery UI hors protocole clavier)",
+  "installBuild": "PASS npm ci + npm run build (eslint+webpack+zip)",
+  "patchSha256": "9bd8b25d9c372c8ba97f521901750ee4b7dfd805dfb499169a42e8dda8820032",
+  "scopeIdentical": true,
+  "verdict": "WORKER-CONFIRMED — score axe reproductible + preuves rejouables ; PAS une conformité WCAG complète (drag&drop non testé, NVDA non couvert)"
+}
