@@ -158,3 +158,13 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 3. **Assertion tautologique = FAIL de harnais** : `count() >= 0` est toujours vrai (verify.mjs ligne login). Toute assertion doit pouvoir échouer : vérifier l'effet (label[for]/aria-label effectif), jamais une existence ≥0.
 4. **La traversée clavier a besoin de sédimentation** : 3×Tab juste après waitForSelector lit `focused=BODY` (flake). Fix : `waitForTimeout(400)` + `blur()` + ≥150ms entre les Tab.
 5. **Cookies localhost ≠ 127.0.0.1** : un auth.json posé sur localhost n'authentifie pas les scans sur 127.0.0.1 — login.mjs et audit doivent viser le même host.
+
+### Leçons — audits Paperless + Memos (PARTIAL→corrigés)
+
+1. **Hydration Angular/SSR = fenêtre transitoire.** axe peut sérialiser le DOM mid-hydration (href/svg/attributs dynamiques absents → faux aria-prohibited-attr/link-name/page-has-heading-one). Règle : `--wait` ≥ 3-4s sur apps Angular SSR, et toute violation soupçonnée transitoire se confirme par re-scan avec attente (le vrai DOM est vérifié par sonde, pas supposé).
+2. **Wiring tab↔panel doit survivre à la navigation SPA**, pas seulement au reload : le compteur `domId` de ngbNav est global à l'app (jamais remis à zéro en nav client-side). Poser des `domId` explicites sur les items et dériver `panelDomId`/`aria-labelledby` de la même base — jamais d'`indexOf` recomputé côté panel.
+3. **`pnpm build` ≠ `ng build --configuration production`.** Le défaut peut sortir vers `dist/` (build dev) pendant que le serveur lit `static/frontend/` : vérifier que le bundle SERVI contient la chaîne du correctif (`grep` dans le fichier statique servi), et que la chaîne de service est complète (build prod → collectstatic → restart).
+4. **Seed entièrement spécifié** : contenu EXACT du document créé (ex. `{content:'# Test memo'}`) + uid/paramètres — pas juste « 1 memo ».
+5. **Routes canoniques dans le manifeste** : si `/calendar` redirige vers `/calendar/2026/10`, déclarer l'URL canonique (le runner exit-2 sinon) — et toute contradiction scope/horsPerimetre (ex. `/map` listé des deux côtés) = finding.
+6. **Correction structurelle > correction au spot flaggé** : un `page-has-heading-one` sur `/` se corrige pour TOUTES les routes couvertes par le même layout/composant (Home rend aussi /explore et /?creator=*), pas au seul URL du rapport.
+7. **`accessToken` SPA court** : un rescan > ~20 min après login peut expirer → relancer login.mjs avant de conclure, et traiter un passage soudain « tout redirige /auth » comme expiration, pas régression.

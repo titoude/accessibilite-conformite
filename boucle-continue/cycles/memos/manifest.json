@@ -1,27 +1,55 @@
 {
-  "cycle": 7,
-  "repo": "usememos/memos",
-  "commit": "0d989707f82c33f74bb852edd8965ec88fcf041b",
-  "pinned": "0d989707 (depth-1 clone 2026-10-04)",
-  "baseUrl": "http://localhost:3001",
-  "tool_versions": {"playwright": "1.63.0", "axe-core": "4.13.0", "node": "v24.19.0"},
-  "boot": {
-    "backend": "go run -buildvcs=true ./cmd/memos --port 8081 --data <dir> (Go 1.27 toolchain auto, sqlite embarqué)",
-    "frontend": "web/ : pnpm install && pnpm dev --port 3001 (vite, proxy API→8081)",
-    "setup": "POST /api/v1/users {username:admin,password:adminpass123,role:ADMIN} (needsSetup → premier user admin) ; sign-in → memos_refresh cookie + accessToken localStorage ; tools/login.mjs",
-    "seed": "1 memo 'Test memo' via POST /api/v1/memos (uid 3sKybHLtPqRM8H4GfgFdJF) pour /memos/:uid",
-    "notes": "access mode private par défaut — auth requise sur toutes les routes"
-  },
-  "scenarios": {
-    "routes": ["/", "/explore", "/archived", "/attachments", "/inbox", "/calendar", "/map", "/views", "/setting", "/about", "/memos/3sKybHLtPqRM8H4GfgFdJF", "/u/admin"],
-    "states": ["memo-editor", "view-options", "user-menu"],
-    "horsPerimetre": ["/auth, /auth/signup, /auth/admin, /auth/callback (pages de connexion)", "/memos/shares/:token (partage public)", "map dépendante de la localisation des memos"]
-  },
-  "storageState": "tools/auth.json (memos_refresh cookie + localStorage)",
-  "waitFor": "h1 + 1200ms sédimentation (leçons NPM/Tandoor)",
-  "etats": {
-    "memo-editor": "clic 'New memo' → dialog éditeur contenteditable",
-    "view-options": "clic 'Timeline · View options' → popover d'options",
-    "user-menu": "clic 'Switch space: admin' → menu espaces/utilisateur"
-  }
+ "cycle": 7,
+ "repo": "usememos/memos",
+ "commit": "0d989707f82c33f74bb852edd8965ec88fcf041b",
+ "pinned": "0d989707 (depth-1 clone 2026-10-04)",
+ "baseUrl": "http://localhost:3001",
+ "tool_versions": {
+  "playwright": "1.63.0",
+  "axe-core": "4.13.0",
+  "node": "v24.19.0"
+ },
+ "boot": {
+  "backend": "go run -buildvcs=true ./cmd/memos --port 8081 --data <dir> (Go 1.27 toolchain auto, sqlite embarqué)",
+  "frontend": "web/ : pnpm install && pnpm dev --port 3001 (vite, proxy API→8081)",
+  "setup": "POST /api/v1/users {username:admin,password:adminpass123,role:ADMIN} (needsSetup → premier user admin) ; sign-in → memos_refresh cookie + accessToken localStorage ; tools/login.mjs",
+  "seed": "1 memo via POST /api/v1/memos {content:'# Test memo'} -> uid 3sKybHLtPqRM8H4GfgFdJF utilise pour /memos/:uid ; params: aucun",
+  "notes": "access mode private par défaut — auth requise sur toutes les routes"
+ },
+ "scenarios": {
+  "routes": [
+   "/",
+   "/explore",
+   "/archived",
+   "/attachments",
+   "/inbox",
+   "/calendar/2026/10 (redirection canonique de /calendar)",
+   "/map",
+   "/views",
+   "/setting",
+   "/about",
+   "/memos/3sKybHLtPqRM8H4GfgFdJF",
+   "/?creator=admin (redirection canonique de /u/admin)"
+  ],
+  "states": [
+   "memo-editor",
+   "view-options",
+   "user-menu"
+  ],
+  "horsPerimetre": [
+   "/auth, /auth/signup, /auth/admin, /auth/callback (pages de connexion)",
+   "/memos/shares/:token (partage public)"
+  ],
+  "notes": "/map est DANS le perimetre et scanne (0 violation) ; couverture limitee : aucun memo n'a de localisation, la carte rend un etat vide"
+ },
+ "storageState": "tools/auth.json (memos_refresh cookie + localStorage)",
+ "waitFor": "h1 + 1200ms sédimentation (leçons NPM/Tandoor)",
+ "etats": {
+  "memo-editor": "clic 'New memo' → dialog éditeur contenteditable",
+  "view-options": "clic 'Timeline · View options' → popover d'options",
+  "user-menu": "clic 'Switch space: admin' → menu espaces/utilisateur"
+ },
+ "auditCommands": [
+  "node audit.mjs http://localhost:3001 --urls /,/explore,/archived,/attachments,/inbox,/calendar/2026/10,/map,/views,/setting,/about,/memos/3sKybHLtPqRM8H4GfgFdJF,/?creator=admin --states all --storage-state auth.json --wait-for h1 --wait 1200 --out reports/final-v2"
+ ]
 }

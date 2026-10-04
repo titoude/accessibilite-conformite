@@ -1,0 +1,1110 @@
+diff --git a/src-ui/src/app/components/admin/config/config.component.html b/src-ui/src/app/components/admin/config/config.component.html
+index 31e9aec..949270a 100644
+--- a/src-ui/src/app/components/admin/config/config.component.html
++++ b/src-ui/src/app/components/admin/config/config.component.html
+@@ -24,9 +24,9 @@
+                                         <div class="card bg-light">
+                                             <div class="card-body">
+                                                 <div class="card-title d-flex align-items-center flex-wrap">
+-                                                    <h6 class="mb-0">
++                                                    <h2 class="h6 mb-0">
+                                                       {{option.title}}
+-                                                    </h6>
++                                                    </h2>
+                                                     <a class="btn btn-sm btn-link" title="Read the documentation about this setting" i18n-title [href]="getDocsUrl(option.config_key)" target="_blank" referrerpolicy="no-referrer">
+                                                         <i-bs name="info-circle"></i-bs>
+                                                     </a>
+@@ -54,9 +54,9 @@
+                                                         @case (ConfigOptionType.Select) { <pngx-input-select [formControlName]="option.key" [error]="errors[option.key]" [items]="option.choices" [allowNull]="true"></pngx-input-select> }
+                                                         @case (ConfigOptionType.Number) { <pngx-input-number [formControlName]="option.key" [error]="errors[option.key]" [showAdd]="false"></pngx-input-number> }
+                                                         @case (ConfigOptionType.Boolean) { <pngx-input-switch [formControlName]="option.key" [error]="errors[option.key]" [showUnsetNote]="true" [horizontal]="true" title="Enable" i18n-title></pngx-input-switch> }
+-                                                        @case (ConfigOptionType.String) { <pngx-input-text [formControlName]="option.key" [error]="errors[option.key]"></pngx-input-text> }
+-                                                        @case (ConfigOptionType.JSON) { <pngx-input-text [formControlName]="option.key" [error]="errors[option.key]"></pngx-input-text> }
+-                                                        @case (ConfigOptionType.File) { <pngx-input-file [formControlName]="option.key" (upload)="uploadFile($event, option.key)" [error]="errors[option.key]"></pngx-input-file> }
++                                                        @case (ConfigOptionType.String) { <pngx-input-text [formControlName]="option.key" [error]="errors[option.key]" [ariaLabel]="option.title"></pngx-input-text> }
++                                                        @case (ConfigOptionType.JSON) { <pngx-input-text [formControlName]="option.key" [error]="errors[option.key]" [ariaLabel]="option.title"></pngx-input-text> }
++                                                        @case (ConfigOptionType.File) { <pngx-input-file [formControlName]="option.key" (upload)="uploadFile($event, option.key)" [error]="errors[option.key]" [ariaLabel]="option.title"></pngx-input-file> }
+                                                         @case (ConfigOptionType.Password) { <pngx-input-password [formControlName]="option.key" [error]="errors[option.key]" autocomplete="new-password"></pngx-input-password> }
+                                                     }
+                                                 </div>
+diff --git a/src-ui/src/app/components/admin/logs/logs.component.html b/src-ui/src/app/components/admin/logs/logs.component.html
+index 0596ec6..2642271 100644
+--- a/src-ui/src/app/components/admin/logs/logs.component.html
++++ b/src-ui/src/app/components/admin/logs/logs.component.html
+@@ -24,14 +24,16 @@
+   </div>
+ </pngx-page-header>
+ 
+-<ul ngbNav #nav="ngbNav" [activeId]="activeLog()" (activeIdChange)="activeLog.set($event); reloadLogs()" class="nav-tabs">
+-  @for (logFile of logFiles(); track logFile) {
+-    <li [ngbNavItem]="logFile">
+-      <a ngbNavLink>
+-        {{logFile}}.log
+-      </a>
+-    </li>
+-  }
++<div class="d-flex align-items-center border-bottom">
++  <ul ngbNav #nav="ngbNav" [activeId]="activeLog()" (activeIdChange)="activeLog.set($event); reloadLogs()" class="nav-tabs border-bottom-0">
++    @for (logFile of logFiles(); track logFile) {
++      <li [ngbNavItem]="logFile" [domId]="'log-nav-' + logFile">
++        <a ngbNavLink>
++          {{logFile}}.log
++        </a>
++      </li>
++    }
++  </ul>
+   @if (loading() || !logFiles().length) {
+     <div class="ps-2 d-flex align-items-center">
+       <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+@@ -40,9 +42,9 @@
+       }
+     </div>
+   }
+-</ul>
++</div>
+ 
+-<div #logContainer class="bg-dark text-light font-monospace log-container p-3" (scroll)="onScroll()">
++<div #logContainer class="bg-dark text-light font-monospace log-container p-3" (scroll)="onScroll()" role="tabpanel" tabindex="0" [attr.id]="'log-nav-' + activeLog() + '-panel'" [attr.aria-labelledby]="'log-nav-' + activeLog()">
+   @if (loading() && !logFiles().length) {
+     <div>
+       <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+diff --git a/src-ui/src/app/components/admin/logs/logs.component.scss b/src-ui/src/app/components/admin/logs/logs.component.scss
+index 25ab0b8..19218c2 100644
+--- a/src-ui/src/app/components/admin/logs/logs.component.scss
++++ b/src-ui/src/app/components/admin/logs/logs.component.scss
+@@ -1,5 +1,5 @@
+ .log-entry-10 {
+-  color: lightslategray !important;
++  color: #a4b2c1 !important;
+ }
+ 
+ .log-entry-30 {
+@@ -7,11 +7,11 @@
+ }
+ 
+ .log-entry-40 {
+-  color: red !important;
++  color: #ff8a80 !important;
+ }
+ 
+ .log-entry-50 {
+-  color: lightcoral !important;
++  color: #ffb3b3 !important;
+   font-weight: bold;
+ }
+ 
+diff --git a/src-ui/src/app/components/admin/settings/settings.component.html b/src-ui/src/app/components/admin/settings/settings.component.html
+index 4ff3e67..0cde057 100644
+--- a/src-ui/src/app/components/admin/settings/settings.component.html
++++ b/src-ui/src/app/components/admin/settings/settings.component.html
+@@ -43,14 +43,14 @@
+       <ng-template ngbNavContent>
+         <div class="row">
+           <div class="col-xl-6 pe-xl-5">
+-            <h5 i18n>Appearance</h5>
++            <h2 class="h5" i18n>Appearance</h2>
+             <div class="row mb-3">
+               <div class="col-md-3 col-form-label pt-0">
+-                <span i18n>Display language</span>
++                <label for="displayLanguage" i18n>Display language</label>
+               </div>
+               <div class="col">
+ 
+-                <select class="form-select" formControlName="displayLanguage">
++                <select class="form-select" formControlName="displayLanguage" id="displayLanguage">
+                   @for (lang of displayLanguageOptions; track lang) {
+                     <option [ngValue]="lang.code">{{lang.name}}@if (lang.code && currentLocale !== 'en-US') {
+                       <span> - {{lang.englishName}}</span>
+@@ -67,11 +67,11 @@
+ 
+             <div class="row mb-3">
+               <div class="col-md-3 col-form-label pt-0">
+-                <span i18n>Date display</span>
++                <label for="dateLocale" i18n>Date display</label>
+               </div>
+               <div class="col">
+ 
+-                <select class="form-select" formControlName="dateLocale">
++                <select class="form-select" formControlName="dateLocale" id="dateLocale">
+                   @for (lang of dateLocaleOptions; track lang) {
+                     <option [ngValue]="lang.code">{{lang.name}}@if (lang.code) {
+                       <span> - {{today | customDate:'shortDate':null:lang.code}}</span>
+@@ -157,7 +157,7 @@
+             </div>
+           </div>
+           <div class="col-xl-6 ps-xl-5">
+-            <h5 class="mt-3 mt-md-0" i18n>Global search</h5>
++            <h2 class="h5 mt-3 mt-md-0" i18n>Global search</h2>
+             <div class="row">
+               <div class="col">
+                 <pngx-input-check i18n-title title="Do not include advanced search results" formControlName="searchDbOnly"></pngx-input-check>
+@@ -176,7 +176,7 @@
+               </div>
+             </div>
+ 
+-            <h5 class="mt-3 mt-md-0" id="update-checking" i18n>Update checking</h5>
++            <h2 class="h5 mt-3 mt-md-0" id="update-checking" i18n>Update checking</h2>
+             <div class="row mb-3">
+               <div class="col d-flex flex-row align-items-start">
+                 <pngx-input-check i18n-title title="Enable update checking" formControlName="updateCheckingEnabled"></pngx-input-check>
+@@ -194,7 +194,7 @@
+               </div>
+             </div>
+ 
+-            <h5 class="mt-3" i18n>Saved Views</h5>
++            <h2 class="h5 mt-3" i18n>Saved Views</h2>
+             <div class="row">
+               <div class="col">
+                 <pngx-input-check i18n-title title="Show warning when closing saved views with unsaved changes" formControlName="savedViewsWarnOnUnsavedChange"></pngx-input-check>
+@@ -212,7 +212,7 @@
+       <ng-template ngbNavContent>
+         <div class="row">
+           <div class="col-xl-6 pe-xl-5">
+-            <h5 i18n>Documents</h5>
++            <h2 class="h5" i18n>Documents</h2>
+             <div class="row mb-3">
+               <div class="col-md-3 col-form-label pt-0">
+                 <label for="documentListItemPerPage" i18n>Items per page</label>
+@@ -227,7 +227,7 @@
+               </div>
+             </div>
+ 
+-            <h5 class="mt-3" i18n>Document editing</h5>
++            <h2 class="h5 mt-3" i18n>Document editing</h2>
+             <div class="row">
+               <div class="col">
+                 <pngx-input-check i18n-title title="Use PDF viewer provided by the browser" i18n-hint hint="This is usually faster for displaying large PDF documents, but it might not work on some browsers." formControlName="useNativePdfViewer"></pngx-input-check>
+@@ -303,7 +303,7 @@
+           </div>
+ 
+           <div class="col-xl-6 ps-xl-5">
+-            <h5 class="mt-3" i18n>Bulk editing</h5>
++            <h2 class="h5 mt-3" i18n>Bulk editing</h2>
+             <div class="row mb-3">
+               <div class="col">
+                 <pngx-input-check i18n-title title="Show confirmation dialogs" formControlName="bulkEditConfirmationDialogs"></pngx-input-check>
+@@ -311,7 +311,7 @@
+               </div>
+             </div>
+ 
+-            <h5 class="mt-3" i18n>PDF Editor</h5>
++            <h2 class="h5 mt-3" i18n>PDF Editor</h2>
+             <div class="row">
+               <div class="col-md-3 col-form-label pt-0">
+                 <label for="pdfEditorDefaultEditMode" i18n>Default editing mode</label>
+@@ -324,7 +324,7 @@
+               </div>
+             </div>
+ 
+-            <h5 class="mt-3" i18n>Notes</h5>
++            <h2 class="h5 mt-3" i18n>Notes</h2>
+             <div class="row mb-3">
+               <div class="col">
+                 <pngx-input-check i18n-title title="Enable notes" formControlName="notesEnabled"></pngx-input-check>
+@@ -339,7 +339,7 @@
+       <a ngbNavLink i18n>Permissions</a>
+       <ng-template ngbNavContent>
+ 
+-        <h5 i18n>Default Permissions</h5>
++        <h2 class="h5" i18n>Default Permissions</h2>
+ 
+         <div class="row mb-3">
+           <div class="col">
+@@ -421,7 +421,7 @@
+       <a ngbNavLink i18n>Notifications</a>
+       <ng-template ngbNavContent>
+ 
+-        <h5 i18n>Document processing</h5>
++        <h2 class="h5" i18n>Document processing</h2>
+ 
+         <div class="row">
+           <div class="col">
+diff --git a/src-ui/src/app/components/admin/trash/trash.component.html b/src-ui/src/app/components/admin/trash/trash.component.html
+index 8beb212..71e3e46 100644
+--- a/src-ui/src/app/components/admin/trash/trash.component.html
++++ b/src-ui/src/app/components/admin/trash/trash.component.html
+@@ -29,8 +29,9 @@
+         <thead>
+             <tr>
+             <th scope="col">
++                <span class="visually-hidden" i18n>Select</span>
+                 <div class="form-check m-0 ms-2 me-n2">
+-                <input type="checkbox" class="form-check-input" id="all-objects" [ngModel]="allToggled()" (ngModelChange)="allToggled.set($event)" [disabled]="documentsInTrash().length === 0" (click)="toggleAll($event); $event.stopPropagation();">
++                <input type="checkbox" class="form-check-input" id="all-objects" [ngModel]="allToggled()" (ngModelChange)="allToggled.set($event)" [disabled]="documentsInTrash().length === 0" (click)="toggleAll($event); $event.stopPropagation();" aria-label="Select all" i18n-aria-label>
+                 <label class="form-check-label" for="all-objects"></label>
+                 </div>
+             </th>
+@@ -69,7 +70,7 @@
+                         <button type="button" class="btn btn-link" id="actionsMenuMobile" (click)="$event.stopPropagation()" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+                             <i-bs name="three-dots-vertical"></i-bs>
+                         </button>
+-                        <div ngbDropdownMenu aria-labelledby="actionsMenuMobile">
++                        <div ngbDropdownMenu role="group" aria-labelledby="actionsMenuMobile">
+                             <button (click)="restore(document)" ngbDropdownItem i18n>Restore</button>
+                             <button (click)="delete(document)" ngbDropdownItem i18n>Delete</button>
+                         </div>
+diff --git a/src-ui/src/app/components/admin/users-groups/users-groups.component.html b/src-ui/src/app/components/admin/users-groups/users-groups.component.html
+index cdabad9..3a7a522 100644
+--- a/src-ui/src/app/components/admin/users-groups/users-groups.component.html
++++ b/src-ui/src/app/components/admin/users-groups/users-groups.component.html
+@@ -8,12 +8,12 @@
+ </pngx-page-header>
+ 
+ @if (canViewUsers && users()) {
+-  <h4 class="d-flex">
++  <h2 class="d-flex h4">
+     <ng-container i18n>Users</ng-container>
+     <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editUser()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.User }">
+       <i-bs name="plus-circle" class="me-1"></i-bs><ng-container i18n>Add User</ng-container>
+     </button>
+-  </h4>
++  </h2>
+   <ul class="list-group">
+     <li class="list-group-item">
+       <div class="row">
+@@ -46,12 +46,12 @@
+ }
+ 
+ @if (canViewGroups && groups()) {
+-  <h4 class="mt-4 d-flex">
++  <h2 class="mt-4 d-flex h4">
+     <ng-container i18n>Groups</ng-container>
+     <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editGroup()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.Group }">
+       <i-bs name="plus-circle" class="me-1"></i-bs><ng-container i18n>Add Group</ng-container>
+     </button>
+-  </h4>
++  </h2>
+   <ul class="list-group">
+     <li class="list-group-item">
+       <div class="row">
+diff --git a/src-ui/src/app/components/app-frame/app-frame.component.html b/src-ui/src/app/components/app-frame/app-frame.component.html
+index 942c6a1..bbdf51b 100644
+--- a/src-ui/src/app/components/app-frame/app-frame.component.html
++++ b/src-ui/src/app/components/app-frame/app-frame.component.html
+@@ -1,4 +1,4 @@
+-<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow-sm">
++<nav class="navbar navbar-dark fixed-top bg-primary flex-md-nowrap p-0 shadow-sm" aria-label="Header" i18n-aria-label>
+   <button class="navbar-toggler d-md-none collapsed border-0" type="button" data-toggle="collapse"
+     data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation"
+     (click)="closeMobileSearch(); toggleMenuCollapsed()">
+@@ -8,6 +8,7 @@
+     <a class="navbar-brand d-flex align-items-center me-0 ps-md-3 py-0"
+     [ngClass]="{ 'slim': slimSidebarEnabled, '' : !slimSidebarEnabled }"
+     routerLink="/dashboard"
++    aria-label="Paperless-ngx" i18n-aria-label
+     tourAnchor="tour.intro">
+       @if (!hasCustomBranding) {
+         <pngx-logo extra_classes="navbar-official-logo px-1" height="2.4rem"></pngx-logo>
+@@ -33,19 +34,19 @@
+       <pngx-global-search></pngx-global-search>
+     </div>
+   </div>
+-  <ul ngbNav class="order-sm-3">
++  <div class="nav order-sm-3">
+     @if (aiEnabled) {
+       <pngx-chat></pngx-chat>
+     }
+     <pngx-toasts-dropdown></pngx-toasts-dropdown>
+-    <li ngbDropdown class="nav-item dropdown">
++    <div ngbDropdown class="nav-item dropdown">
+       <button class="btn navbar-action border-0 me-1 me-md-2" id="userDropdown" ngbDropdownToggle aria-label="User menu" i18n-aria-label>
+         <i-bs width="1.3em" height="1.3em" name="person-circle"></i-bs>
+         <span class="small ms-2 d-none d-sm-inline">
+           {{this.settingsService.displayName}}
+         </span>
+       </button>
+-      <div ngbDropdownMenu class="dropdown-menu-end shadow me-2" aria-labelledby="userDropdown">
++      <div ngbDropdownMenu class="dropdown-menu-end shadow me-2" role="group" aria-labelledby="userDropdown">
+         <div class="d-sm-none">
+           <p class="small mb-0 px-3 text-muted" i18n>Logged in as {{this.settingsService.displayName}}</p>
+           <div class="dropdown-divider"></div>
+@@ -66,13 +67,13 @@
+           <i-bs class="me-2" name="question-circle"></i-bs><ng-container i18n>Documentation</ng-container>
+         </a>
+       </div>
+-    </li>
+-  </ul>
++    </div>
++  </div>
+ </nav>
+ 
+ <div class="container-fluid">
+   <div class="row">
+-    <nav id="sidebarMenu" class="d-md-block bg-light sidebar collapse"
++    <nav id="sidebarMenu" class="d-md-block bg-light sidebar collapse" aria-label="Sidebar" i18n-aria-label
+       [ngClass]="slimSidebarEnabled ? 'slim' : 'expanded'" [class.animating]="slimSidebarAnimating()"
+       [ngbCollapse]="isMenuCollapsed()">
+       @if (canSaveSettings) {
+@@ -109,7 +110,7 @@
+ 
+         <div class="nav-group mt-3 mb-1" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.SavedView }">
+           @if (savedViewService.sidebarViews?.length > 0) {
+-            <h6 class="sidebar-heading px-3 text-muted">
++            <h6 class="sidebar-heading px-3 text-body-emphasis">
+               <span i18n>Saved views</span>
+             </h6>
+             <ul class="nav flex-column mb-2" cdkDropList (cdkDropListDropped)="onDrop($event)">
+@@ -139,7 +140,7 @@
+               }
+             </ul>
+           } @else if (savedViewService.loading) {
+-            <h6 class="sidebar-heading px-3 text-muted">
++            <h6 class="sidebar-heading px-3 text-body-emphasis">
+               <span i18n>Saved views</span>
+               <div class="spinner-border spinner-border-sm fw-normal ms-2" role="status"></div>
+             </h6>
+@@ -148,7 +149,7 @@
+ 
+         <div class="nav-group mt-3 mb-1" *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.Document }">
+           @if (openDocuments.length > 0) {
+-            <h6 class="sidebar-heading px-3 text-muted">
++            <h6 class="sidebar-heading px-3 text-body-emphasis">
+               <span i18n>Open documents</span>
+             </h6>
+           }
+@@ -181,7 +182,7 @@
+         </div>
+ 
+         <div class="nav-group mt-3 mb-1">
+-          <h6 class="sidebar-heading px-3 text-muted">
++          <h6 class="sidebar-heading px-3 text-body-emphasis">
+             <span i18n>Manage</span>
+           </h6>
+           <ul class="nav flex-column mb-2">
+diff --git a/src-ui/src/app/components/app-frame/app-frame.component.scss b/src-ui/src/app/components/app-frame/app-frame.component.scss
+index 44bebd8..4621a19 100644
+--- a/src-ui/src/app/components/app-frame/app-frame.component.scss
++++ b/src-ui/src/app/components/app-frame/app-frame.component.scss
+@@ -97,7 +97,7 @@ main {
+ 
+ .sidebar li.nav-item span,
+ .sidebar .sidebar-heading span {
+-  transition: opacity .1s ease;
++  transition: none;
+ }
+ 
+ @media(min-width: 768px) {
+@@ -210,7 +210,6 @@ main {
+ 
+ @keyframes sidebar-nav-in {
+   from {
+-    opacity: 0;
+     transform: translateY(6px);
+   }
+ }
+diff --git a/src-ui/src/app/components/app-frame/global-search/global-search.component.html b/src-ui/src/app/components/app-frame/global-search/global-search.component.html
+index e274870..16e5883 100644
+--- a/src-ui/src/app/components/app-frame/global-search/global-search.component.html
++++ b/src-ui/src/app/components/app-frame/global-search/global-search.component.html
+@@ -6,6 +6,7 @@
+             <div class="form-control form-control-sm">
+                 <input class="bg-transparent border-0 w-100 h-100" #searchInput type="text" name="query"
+                     placeholder="Search" aria-label="Search" i18n-placeholder
++                    role="combobox" aria-autocomplete="list" aria-haspopup="listbox"
+                     autocomplete="off"
+                     spellcheck="false"
+                     [ngModel]="query()"
+diff --git a/src-ui/src/app/components/app-frame/toasts-dropdown/toasts-dropdown.component.html b/src-ui/src/app/components/app-frame/toasts-dropdown/toasts-dropdown.component.html
+index 1840d64..f91890d 100644
+--- a/src-ui/src/app/components/app-frame/toasts-dropdown/toasts-dropdown.component.html
++++ b/src-ui/src/app/components/app-frame/toasts-dropdown/toasts-dropdown.component.html
+@@ -1,12 +1,12 @@
+ 
+-<li ngbDropdown class="nav-item position-relative" (openChange)="onOpenChange($event)">
++<div ngbDropdown class="nav-item position-relative" (openChange)="onOpenChange($event)">
+   @if (toasts().length) {
+     <span class="notification-count badge rounded-pill z-3 pe-none bg-secondary position-absolute">{{ toasts().length }}</span>
+   }
+   <button class="btn navbar-action border-0" id="notificationsDropdown" ngbDropdownToggle aria-label="Notifications" i18n-aria-label>
+     <i-bs width="1.3em" height="1.3em" name="bell"></i-bs>
+   </button>
+-  <div ngbDropdownMenu class="dropdown-menu-end shadow p-3" aria-labelledby="notificationsDropdown">
++  <div ngbDropdownMenu role="group" class="dropdown-menu-end shadow p-3" aria-labelledby="notificationsDropdown">
+     <div class="btn-toolbar align-items-center" role="toolbar">
+       <h6 i18n>Notifications</h6>
+       <div class="btn-group ms-auto">
+@@ -25,4 +25,4 @@
+       }
+       </div>
+   </div>
+-</li>
++</div>
+diff --git a/src-ui/src/app/components/chat/chat/chat.component.html b/src-ui/src/app/components/chat/chat/chat.component.html
+index d8136fb..014e894 100644
+--- a/src-ui/src/app/components/chat/chat/chat.component.html
++++ b/src-ui/src/app/components/chat/chat/chat.component.html
+@@ -1,9 +1,9 @@
+ 
+-<li ngbDropdown class="nav-item" (openChange)="onOpenChange($event)">
++<div ngbDropdown class="nav-item" (openChange)="onOpenChange($event)">
+   <button class="btn navbar-action border-0" id="chatDropdown" ngbDropdownToggle aria-label="Chat" i18n-aria-label>
+     <i-bs width="1.3em" height="1.3em" name="chatSquareDots"></i-bs>
+   </button>
+-  <div ngbDropdownMenu class="dropdown-menu-end shadow p-3" aria-labelledby="chatDropdown">
++  <div ngbDropdownMenu role="group" class="dropdown-menu-end shadow p-3" aria-labelledby="chatDropdown">
+     <div class="chat-container bg-light p-2">
+       <div class="chat-messages font-monospace small">
+         @for (message of messages(); track message) {
+@@ -46,4 +46,4 @@
+       </form>
+     </div>
+   </div>
+-</li>
++</div>
+diff --git a/src-ui/src/app/components/common/custom-fields-dropdown/custom-fields-dropdown.component.html b/src-ui/src/app/components/common/custom-fields-dropdown/custom-fields-dropdown.component.html
+index a465478..92d25b1 100644
+--- a/src-ui/src/app/components/common/custom-fields-dropdown/custom-fields-dropdown.component.html
++++ b/src-ui/src/app/components/common/custom-fields-dropdown/custom-fields-dropdown.component.html
+@@ -2,7 +2,7 @@
+     <button type="button" class="btn btn-sm btn-outline-primary" id="customFieldsDropdown" [disabled]="disabled" ngbDropdownToggle aria-label="Custom Fields" i18n-aria-label>
+       <i-bs name="ui-radios"></i-bs><div class="d-none d-lg-inline ms-1"><ng-container i18n>Custom Fields</ng-container></div>
+     </button>
+-    <div ngbDropdownMenu aria-labelledby="customFieldsDropdown" class="shadow custom-fields-dropdown">
++    <div ngbDropdownMenu role="group" aria-labelledby="customFieldsDropdown" class="shadow custom-fields-dropdown">
+         <div class="list-group list-group-flush" (keydown)="listKeyDown($event)">
+             <div class="list-group-item">
+                 <div class="input-group input-group-sm">
+diff --git a/src-ui/src/app/components/common/custom-fields-query-dropdown/custom-fields-query-dropdown.component.html b/src-ui/src/app/components/common/custom-fields-query-dropdown/custom-fields-query-dropdown.component.html
+index 6923df1..768599e 100644
+--- a/src-ui/src/app/components/common/custom-fields-query-dropdown/custom-fields-query-dropdown.component.html
++++ b/src-ui/src/app/components/common/custom-fields-query-dropdown/custom-fields-query-dropdown.component.html
+@@ -6,7 +6,7 @@
+         <pngx-clearable-badge [selected]="isActive" (cleared)="reset()"></pngx-clearable-badge>
+       }
+     </button>
+-    <div [id]="dropdownMenuId" class="px-3 shadow" ngbDropdownMenu attr.aria-labelledby="dropdown_{{name}}">
++    <div [id]="dropdownMenuId" class="px-3 shadow" ngbDropdownMenu role="group" attr.aria-labelledby="dropdown_{{name}}">
+       <ng-container *ngTemplateOutlet="list; context: { queries: selectionModel.queries }"></ng-container>
+     </div>
+   </div>
+diff --git a/src-ui/src/app/components/common/dates-dropdown/dates-dropdown.component.html b/src-ui/src/app/components/common/dates-dropdown/dates-dropdown.component.html
+index 6c986f0..a02c1f2 100644
+--- a/src-ui/src/app/components/common/dates-dropdown/dates-dropdown.component.html
++++ b/src-ui/src/app/components/common/dates-dropdown/dates-dropdown.component.html
+@@ -3,7 +3,7 @@
+     <i-bs width="1em" height="1em" name="calendar-event-fill"></i-bs><div class="d-none d-sm-inline ms-1">{{title}}</div>
+     <pngx-clearable-badge [selected]="isActive" (cleared)="reset()"></pngx-clearable-badge><span class="visually-hidden">selected</span>
+   </button>
+-  <div [id]="dropdownMenuId" class="dropdown-menu date-dropdown shadow p-2" ngbDropdownMenu attr.aria-labelledby="dropdown{{title}}">
++  <div [id]="dropdownMenuId" class="dropdown-menu date-dropdown shadow p-2" ngbDropdownMenu role="group" attr.aria-labelledby="dropdown{{title}}">
+     <h6 class="dropdown-header border-bottom" i18n>Created</h6>
+     <div class="list-group list-group-flush">
+       <div class="list-group-item d-flex p-2 select-item" role="menuitem">
+diff --git a/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.html b/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.html
+index 97a4067..1bccc68 100644
+--- a/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.html
++++ b/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.html
+@@ -5,7 +5,7 @@
+       <pngx-clearable-badge [number]="selectionModel.totalCount" [selected]="selectionModel.selectionSize() > 0" (cleared)="reset()"></pngx-clearable-badge>
+     }
+   </button>
+-  <div class="dropdown-menu py-0 shadow" ngbDropdownMenu attr.aria-labelledby="dropdown_{{name}}">
++  <div class="dropdown-menu py-0 shadow" ngbDropdownMenu role="group" attr.aria-labelledby="dropdown_{{name}}">
+     <div class="list-group list-group-flush">
+       @if (!editing && manyToOne) {
+         <div class="list-group-item d-flex">
+diff --git a/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.ts b/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.ts
+index fdebc70..726bcb5 100644
+--- a/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.ts
++++ b/src-ui/src/app/components/common/filterable-dropdown/filterable-dropdown.component.ts
+@@ -716,7 +716,9 @@ export class FilterableDropdownComponent
+   extends LoadingComponentWithPermissions
+   implements OnInit
+ {
++  private static nextInstanceId = 0
+   public readonly FILTERABLE_BUTTON_HEIGHT_PX = 42
++  readonly instanceId = FilterableDropdownComponent.nextInstanceId++
+ 
+   private filterPipe = inject(FilterPipe)
+   private hotkeyService = inject(HotKeyService)
+@@ -839,7 +841,9 @@ export class FilterableDropdownComponent
+   }
+ 
+   get name(): string {
+-    return this.title ? this.title.replace(/\s/g, '_').toLowerCase() : null
++    return this.title
++      ? `${this.title.replace(/\s/g, '_').toLowerCase()}_${this.instanceId}`
++      : null
+   }
+ 
+   readonly modelIsDirty = signal(false)
+diff --git a/src-ui/src/app/components/common/filterable-dropdown/toggleable-dropdown-button/toggleable-dropdown-button.component.html b/src-ui/src/app/components/common/filterable-dropdown/toggleable-dropdown-button/toggleable-dropdown-button.component.html
+index 3951143..4267dc7 100644
+--- a/src-ui/src/app/components/common/filterable-dropdown/toggleable-dropdown-button/toggleable-dropdown-button.component.html
++++ b/src-ui/src/app/components/common/filterable-dropdown/toggleable-dropdown-button/toggleable-dropdown-button.component.html
+@@ -1,7 +1,6 @@
+ <button
+   class="list-group-item list-group-item-action d-flex align-items-center p-2 border-top-0 border-start-0 border-end-0 border-bottom"
+   [class.opacity-50]="opacifyCount && !hideCount && currentCount === 0"
+-  role="menuitem"
+   (click)="toggleItem($event)"
+   [disabled]="disabled">
+   <div class="selected-icon me-1">
+diff --git a/src-ui/src/app/components/common/input/abstract-input.ts b/src-ui/src/app/components/common/input/abstract-input.ts
+index 252da85..5fcd2ed 100644
+--- a/src-ui/src/app/components/common/input/abstract-input.ts
++++ b/src-ui/src/app/components/common/input/abstract-input.ts
+@@ -49,6 +49,9 @@ export class AbstractInputComponent<T> implements OnInit, ControlValueAccessor {
+   @Input()
+   title: string
+ 
++  @Input()
++  ariaLabel: string
++
+   @Input()
+   disabled = false
+ 
+diff --git a/src-ui/src/app/components/common/input/color/color.component.html b/src-ui/src/app/components/common/input/color/color.component.html
+index 90e5c3e..91b91c7 100644
+--- a/src-ui/src/app/components/common/input/color/color.component.html
++++ b/src-ui/src/app/components/common/input/color/color.component.html
+@@ -12,7 +12,7 @@
+       </div>
+     </ng-template>
+ 
+-    <input #inputField class="form-control" [class.is-invalid]="error" [id]="inputId" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" (change)="onChange(value)" [autoClose]="'outside'" [ngbPopover]="popContent" #colorPicker="ngbPopover" placement="bottom" popoverClass="shadow">
++    <input #inputField class="form-control" [class.is-invalid]="error" [id]="inputId" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" (change)="onChange(value)" [autoClose]="'outside'" [ngbPopover]="popContent" #colorPicker="ngbPopover" placement="bottom" popoverClass="shadow" [attr.aria-label]="ariaLabel || title || 'Color'" i18n-attr.aria-label>
+ 
+     <button class="btn btn-outline-secondary" type="button" (click)="randomize()" aria-label="Choose a random color" i18n-aria-label>
+       <i-bs name="dice5"></i-bs>
+diff --git a/src-ui/src/app/components/common/input/file/file.component.html b/src-ui/src/app/components/common/input/file/file.component.html
+index c23f31e..beb2d00 100644
+--- a/src-ui/src/app/components/common/input/file/file.component.html
++++ b/src-ui/src/app/components/common/input/file/file.component.html
+@@ -11,7 +11,7 @@
+           }
+         </div>
+         <div class="input-group" [class.col-md-9]="horizontal" [class.is-invalid]="error">
+-          <input #fileInput type="file" class="form-control" [id]="inputId" (change)="onFile($event)" [disabled]="disabled">
++          <input #fileInput type="file" class="form-control" [id]="inputId" (change)="onFile($event)" [disabled]="disabled" [attr.aria-label]="ariaLabel || null">
+           <button class="btn btn-outline-primary py-0" type="button" (click)="uploadClicked()" [disabled]="disabled || !file" i18n>Upload</button>
+         </div>
+         @if (filename) {
+diff --git a/src-ui/src/app/components/common/input/text/text.component.html b/src-ui/src/app/components/common/input/text/text.component.html
+index 95d4ad4..d1b5a73 100644
+--- a/src-ui/src/app/components/common/input/text/text.component.html
++++ b/src-ui/src/app/components/common/input/text/text.component.html
+@@ -11,7 +11,7 @@
+         }
+       </div>
+       <div class="position-relative" [class.col-md-9]="horizontal">
+-        <input #inputField type="text" class="form-control" [class.is-invalid]="error" [id]="inputId" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" (change)="onChange(value)" [disabled]="disabled" [autocomplete]="autocomplete" [placeholder]="placeholder">
++        <input #inputField type="text" class="form-control" [class.is-invalid]="error" [id]="inputId" [(ngModel)]="value" [ngModelOptions]="{standalone: true}" (change)="onChange(value)" [disabled]="disabled" [autocomplete]="autocomplete" [placeholder]="placeholder" [attr.aria-label]="ariaLabel || null">
+         @if (hint) {
+           <small class="form-text text-muted" [innerHTML]="hint"></small>
+         }
+diff --git a/src-ui/src/app/components/common/page-header/page-header.component.html b/src-ui/src/app/components/common/page-header/page-header.component.html
+index be0327e..c721de1 100644
+--- a/src-ui/src/app/components/common/page-header/page-header.component.html
++++ b/src-ui/src/app/components/common/page-header/page-header.component.html
+@@ -1,6 +1,6 @@
+ <div class="row pt-3 pb-2 align-items-center">
+   <div class="col-md text-truncate">
+-    <h3 class="d-flex align-items-center mb-2 mb-md-1" style="line-height: 1.4">
++    <h1 class="d-flex align-items-center mb-2 mb-md-1 h3" style="line-height: 1.4">
+       <span class="text-truncate">{{title()}}</span>
+       @if (id()) {
+         <span class="badge bg-primary text-primary-text-contrast ms-3 small fs-normal cursor-pointer" (click)="copyID()">
+@@ -29,7 +29,7 @@
+       @if (loading()) {
+         <output class="spinner-border spinner-border-sm fs-6 fw-normal" aria-hidden="true"><span class="visually-hidden" i18n>Loading...</span></output>
+       }
+-    </h3>
++    </h1>
+   </div>
+   <div class="btn-toolbar col col-md-auto gap-2">
+     <ng-content></ng-content>
+diff --git a/src-ui/src/app/components/common/permissions-filter-dropdown/permissions-filter-dropdown.component.html b/src-ui/src/app/components/common/permissions-filter-dropdown/permissions-filter-dropdown.component.html
+index 9230525..f4993ba 100644
+--- a/src-ui/src/app/components/common/permissions-filter-dropdown/permissions-filter-dropdown.component.html
++++ b/src-ui/src/app/components/common/permissions-filter-dropdown/permissions-filter-dropdown.component.html
+@@ -3,7 +3,7 @@
+     <i-bs name="person-fill-lock"></i-bs><div class="d-none d-sm-inline ms-1">{{title}}</div>
+     <pngx-clearable-badge [selected]="isActive" (cleared)="reset()"></pngx-clearable-badge><span class="visually-hidden">selected</span>
+   </button>
+-  <div [id]="dropdownMenuId" class="dropdown-menu permission-filter-dropdown shadow py-0 w-2" ngbDropdownMenu attr.aria-labelledby="dropdown{{title}}">
++  <div [id]="dropdownMenuId" class="dropdown-menu permission-filter-dropdown shadow py-0 w-2" ngbDropdownMenu role="group" attr.aria-labelledby="dropdown{{title}}">
+     <div class="list-group list-group-flush">
+       <button class="list-group-item list-group-item-action d-flex align-items-center p-2 border-top-0 border-start-0 border-end-0 border-bottom" role="menuitem" (click)="setFilter(OwnerFilterType.NONE)" [disabled]="disabled">
+         <div class="selected-icon me-1">
+diff --git a/src-ui/src/app/components/common/suggestions-dropdown/suggestions-dropdown.component.html b/src-ui/src/app/components/common/suggestions-dropdown/suggestions-dropdown.component.html
+index 8d0ce05..b6a4a6b 100644
+--- a/src-ui/src/app/components/common/suggestions-dropdown/suggestions-dropdown.component.html
++++ b/src-ui/src/app/components/common/suggestions-dropdown/suggestions-dropdown.component.html
+@@ -24,7 +24,7 @@
+           <span class="visually-hidden" i18n>Show suggestions</span>
+         </button>
+ 
+-        <div ngbDropdownMenu aria-labelledby="suggestionsDropdown" class="shadow suggestions-dropdown">
++        <div ngbDropdownMenu role="group" aria-labelledby="suggestionsDropdown" class="shadow suggestions-dropdown">
+           <div class="list-group list-group-flush small pb-0">
+             @if (novelSuggestions === 0 && reusableSuggestions === 0) {
+               <div class="list-group-item text-muted fst-italic">
+diff --git a/src-ui/src/app/components/dashboard/dashboard.component.html b/src-ui/src/app/components/dashboard/dashboard.component.html
+index b32ed11..186db83 100644
+--- a/src-ui/src/app/components/dashboard/dashboard.component.html
++++ b/src-ui/src/app/components/dashboard/dashboard.component.html
+@@ -16,7 +16,7 @@
+                   <div class="ms-n2 me-1">
+                     <i-bs name="grip-vertical"></i-bs>
+                   </div>
+-                  <h6 class="card-title mb-0"></h6>
++                  <h2 class="card-title h6 mb-0 visually-hidden" i18n>Loading</h2>
+                 </div>
+               </div>
+             </div>
+diff --git a/src-ui/src/app/components/dashboard/widgets/saved-view-widget/saved-view-widget.component.html b/src-ui/src/app/components/dashboard/widgets/saved-view-widget/saved-view-widget.component.html
+index d47ee7e..997b32b 100644
+--- a/src-ui/src/app/components/dashboard/widgets/saved-view-widget/saved-view-widget.component.html
++++ b/src-ui/src/app/components/dashboard/widgets/saved-view-widget/saved-view-widget.component.html
+@@ -14,7 +14,8 @@
+     <a class="btn-link text-decoration-none" header-buttons [routerLink]="[]" (click)="showAll()" i18n>Show all</a>
+   }
+ 
+-  <div content class="wrapper fade" [class.show]="show()">
++  @if (show()) {
++    <div content class="wrapper">
+   @if (error()) {
+     <div class="alert alert-danger mb-0" role="alert"><ng-container i18n>Error while loading documents</ng-container>: {{error()}}</div>
+   } @else if (displayMode() === DisplayMode.TABLE) {
+@@ -184,8 +185,9 @@
+       }
+     </div>
+   } @else {
+-    <p i18n class="text-center text-muted mb-0 fst-italic">No documents</p>
++    <p i18n class="text-center text-body-emphasis mb-0 fst-italic">No documents</p>
+   }
+ 
+-  </div>
++    </div>
++  }
+ </pngx-widget-frame>
+diff --git a/src-ui/src/app/components/dashboard/widgets/upload-file-widget/upload-file-widget.component.html b/src-ui/src/app/components/dashboard/widgets/upload-file-widget/upload-file-widget.component.html
+index 71ac615..6cd2969 100644
+--- a/src-ui/src/app/components/dashboard/widgets/upload-file-widget/upload-file-widget.component.html
++++ b/src-ui/src/app/components/dashboard/widgets/upload-file-widget/upload-file-widget.component.html
+@@ -4,9 +4,9 @@
+       <button type="button" class="btn btn-outline-dark bg-light shadow-sm w-100 h-100 pt-3 pb-3" (click)="fileUpload.click()">
+         <i-bs class="text-primary me-1" name="plus-circle"></i-bs>
+         <span class="text-primary" i18n>Upload documents</span>
+-        <div class="text-muted smaller fst-italic" i18n>or drop files anywhere</div>
++        <div class="text-body-emphasis smaller fst-italic" i18n>or drop files anywhere</div>
+       </button>
+-      <input type="file" class="visually-hidden" (change)="onFileSelected($event)" multiple #fileUpload>
++      <input type="file" class="visually-hidden" (change)="onFileSelected($event)" multiple #fileUpload aria-label="Select files to upload" i18n-aria-label>
+     </form>
+     @if (getStatus().length > 0) {
+     <div class="fixed-bottom p-2 p-md-4 d-flex justify-content-end pe-none consumer-status-list" [ngClass]="slimSidebarEnabled ? 'col-slim' : 'offset-sidebar-expanded'">
+diff --git a/src-ui/src/app/components/dashboard/widgets/welcome-widget/welcome-widget.component.html b/src-ui/src/app/components/dashboard/widgets/welcome-widget/welcome-widget.component.html
+index ee0b448..c5d2faf 100644
+--- a/src-ui/src/app/components/dashboard/widgets/welcome-widget/welcome-widget.component.html
++++ b/src-ui/src/app/components/dashboard/widgets/welcome-widget/welcome-widget.component.html
+@@ -3,14 +3,14 @@
+   <div class="d-flex align-items-start gap-3 gap-md-4 position-relative">
+     <pngx-brand-mark class="d-none d-sm-block flex-shrink-0 text-primary" width="3rem" height="3rem"></pngx-brand-mark>
+     <div class="flex-grow-1">
+-      <h4 class="alert-heading text-primary fw-semibold"><ng-container i18n>Paperless-ngx is running!</ng-container> 🎉</h4>
++      <h2 class="alert-heading h4 text-primary fw-semibold"><ng-container i18n>Paperless-ngx is running!</ng-container> 🎉</h2>
+       <div class="welcome-copy text-dark">
+         <p i18n>You're ready to start uploading documents! Explore the various features of this web app on your own, or start a quick tour using the button below.</p>
+         <p class="mb-0" i18n>More detail on how to use and configure Paperless-ngx is always available in the <a href="https://docs.paperless-ngx.com" target="_blank">documentation</a>.</p>
+       </div>
+       <hr class="opacity-100">
+       <div class="d-flex flex-column flex-sm-row align-items-sm-center gap-3">
+-        <p class="m-0 text-secondary"><em i18n>Thanks for being a part of the Paperless-ngx community!</em></p>
++        <p class="m-0 text-body-emphasis"><em i18n>Thanks for being a part of the Paperless-ngx community!</em></p>
+         <button class="btn btn-primary ms-sm-auto flex-shrink-0 align-self-start align-self-sm-auto" (click)="tourService.start()"><ng-container i18n>Start the tour</ng-container> &rarr;</button>
+       </div>
+     </div>
+diff --git a/src-ui/src/app/components/dashboard/widgets/widget-frame/widget-frame.component.html b/src-ui/src/app/components/dashboard/widgets/widget-frame/widget-frame.component.html
+index 17f0e5d..baae286 100644
+--- a/src-ui/src/app/components/dashboard/widgets/widget-frame/widget-frame.component.html
++++ b/src-ui/src/app/components/dashboard/widgets/widget-frame/widget-frame.component.html
+@@ -1,5 +1,6 @@
+ @if (!cardless()) {
+-  <div class="card bg-light fade" [class.show]="show()" cdkDrag [cdkDragDisabled]="!draggable()" cdkDragPreviewContainer="parent">
++  @if (show()) {
++  <div class="card bg-light" cdkDrag [cdkDragDisabled]="!draggable()" cdkDragPreviewContainer="parent">
+     <div class="card-header">
+       <div class="d-flex justify-content-between align-items-center">
+         <div class="d-flex align-items-center">
+@@ -8,12 +9,12 @@
+               <i-bs name="grip-vertical"></i-bs>
+             </div>
+           }
+-          <h6 class="card-title mb-0">
++          <h2 class="card-title h6 mb-0">
+             @if (titleIcon()) {
+               <i-bs class="me-2" [name]="titleIcon()"></i-bs>
+             }
+             {{title()}}
+-          </h6>
++          </h2>
+           <ng-content select="[title-badge]"></ng-content>
+           @if (badge() !== null && badge() !== undefined) {
+             <span class="badge bg-info text-dark ms-2">{{badge()}}</span>
+@@ -30,10 +31,13 @@
+       <ng-container [ngTemplateOutlet]="content"></ng-container>
+     </div>
+   </div>
++  }
+ } @else {
+-  <div class="fade" [class.show]="show()">
++  @if (show()) {
++  <div>
+     <ng-container [ngTemplateOutlet]="content"></ng-container>
+   </div>
++  }
+ }
+ 
+ <ng-template #content>
+diff --git a/src-ui/src/app/components/document-detail/document-detail.component.html b/src-ui/src/app/components/document-detail/document-detail.component.html
+index 64d0776..66966e7 100644
+--- a/src-ui/src/app/components/document-detail/document-detail.component.html
++++ b/src-ui/src/app/components/document-detail/document-detail.component.html
+@@ -65,7 +65,7 @@
+     <button class="btn btn-sm btn-outline-primary" id="actionsDropdown" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+       <i-bs name="three-dots"></i-bs><div class="d-none d-sm-inline ms-1"><ng-container i18n>Actions</ng-container></div>
+     </button>
+-    <div ngbDropdownMenu aria-labelledby="actionsDropdown" class="shadow">
++    <div ngbDropdownMenu role="group" aria-labelledby="actionsDropdown" class="shadow">
+       <button ngbDropdownItem (click)="reprocess()" [disabled]="!userCanEdit || !userIsOwner">
+         <i-bs width="1em" height="1em" name="arrow-counterclockwise" class="me-1"></i-bs><span i18n>Reprocess</span>
+       </button>
+@@ -94,7 +94,7 @@
+     <button class="btn btn-sm btn-outline-primary" id="sendDropdown" ngbDropdownToggle aria-label="Send" i18n-aria-label>
+       <i-bs name="send"></i-bs><div class="d-none d-sm-inline ms-1"><ng-container i18n>Send</ng-container></div>
+     </button>
+-    <div ngbDropdownMenu aria-labelledby="actionsDropdown" class="shadow">
++    <div ngbDropdownMenu role="group" aria-labelledby="sendDropdown" class="shadow">
+       <button ngbDropdownItem (click)="openShareLinks()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.ShareLink }">
+         <i-bs name="link" class="me-1"></i-bs><span i18n>Share Links</span>
+       </button>
+diff --git a/src-ui/src/app/components/document-list/bulk-editor/bulk-editor.component.html b/src-ui/src/app/components/document-list/bulk-editor/bulk-editor.component.html
+index df9d5c2..1acb9e4 100644
+--- a/src-ui/src/app/components/document-list/bulk-editor/bulk-editor.component.html
++++ b/src-ui/src/app/components/document-list/bulk-editor/bulk-editor.component.html
+@@ -85,7 +85,7 @@
+         <button class="btn btn-sm btn-outline-primary" id="dropdownSelect" [disabled]="!userCanEdit && !userCanAdd" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+           <i-bs name="three-dots"></i-bs><div class="d-none d-sm-inline ms-1"><ng-container i18n>Actions</ng-container></div>
+         </button>
+-        <div ngbDropdownMenu aria-labelledby="dropdownSelect" class="shadow">
++        <div ngbDropdownMenu role="group" aria-labelledby="dropdownSelect" class="shadow">
+           <button ngbDropdownItem (click)="reprocessSelected()" [disabled]="!userCanEditAll && !userCanEditAll">
+             <i-bs name="body-text" class="me-1"></i-bs><ng-container i18n>Reprocess</ng-container>
+           </button>
+@@ -113,7 +113,7 @@
+         <i-bs name="send"></i-bs><div class="d-none d-sm-inline ms-1"><ng-container i18n>Send</ng-container>
+         </div>
+       </button>
+-      <div ngbDropdownMenu aria-labelledby="dropdownSend" class="shadow">
++      <div ngbDropdownMenu role="group" aria-labelledby="dropdownSend" class="shadow">
+         @if (permissionService.currentUserCan(PermissionAction.Add, PermissionType.ShareLinkBundle)) {
+           <button ngbDropdownItem (click)="createShareLinkBundle()" [disabled]="!canSendSelection">
+             <i-bs name="link" class="me-1"></i-bs><ng-container i18n>Create a share link bundle</ng-container>
+@@ -151,8 +151,8 @@
+         <div class="d-none d-sm-inline ms-1"><ng-container i18n>Download</ng-container></div>
+       </button>
+       <div ngbDropdown class="me-2 d-flex btn-group" role="group">
+-        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle-split rounded-end" ngbDropdownToggle aria-label="Download options" i18n-aria-label></button>
+-        <div ngbDropdownMenu aria-labelledby="dropdownSelect" class="shadow">
++        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle-split rounded-end" id="downloadOptionsDropdown" ngbDropdownToggle aria-label="Download options" i18n-aria-label></button>
++        <div ngbDropdownMenu role="group" aria-labelledby="downloadOptionsDropdown" class="shadow">
+           <form [formGroup]="downloadForm" class="px-3 py-1">
+             <p class="mb-1" i18n>Include:</p>
+             <div class="form-group ps-3 mb-2">
+diff --git a/src-ui/src/app/components/document-list/document-list.component.html b/src-ui/src/app/components/document-list/document-list.component.html
+index d684864..364f223 100644
+--- a/src-ui/src/app/components/document-list/document-list.component.html
++++ b/src-ui/src/app/components/document-list/document-list.component.html
+@@ -6,7 +6,7 @@
+         <pngx-clearable-badge [selected]="list.hasSelection" [number]="list.selectedCount" (cleared)="list.selectNone()"></pngx-clearable-badge><span class="visually-hidden">selected</span>
+       }
+     </button>
+-    <div ngbDropdownMenu aria-labelledby="dropdownSelectMobile" class="shadow">
++    <div ngbDropdownMenu role="group" aria-labelledby="dropdownSelectMobile" class="shadow">
+       <button ngbDropdownItem (click)="list.selectNone()" i18n>Select none</button>
+       <button ngbDropdownItem (click)="list.selectPage()" i18n>Select page</button>
+       <button ngbDropdownItem (click)="list.selectAll()" i18n>Select all</button>
+@@ -34,7 +34,7 @@
+     <button class="btn btn-sm btn-outline-primary" id="dropdownDisplayFields" ngbDropdownToggle aria-label="Show" i18n-aria-label>
+       <i-bs name="card-heading"></i-bs><div class="d-none d-sm-inline ms-1"><ng-container i18n>Show</ng-container></div>
+     </button>
+-    <div ngbDropdownMenu aria-labelledby="dropdownDisplayFields" class="shadow">
++    <div ngbDropdownMenu role="group" aria-labelledby="dropdownDisplayFields" class="shadow">
+       <div class="px-3">
+         @for (field of settingsService.allDisplayFields(); track field.id) {
+           <div class="form-check my-1">
+@@ -48,15 +48,15 @@
+   <div class="btn-group flex-fill" role="group">
+     <input type="radio" class="btn-check" [(ngModel)]="list.displayMode" value="table" id="displayModeDetails" name="displayModeDetails">
+     <label for="displayModeDetails" class="btn btn-outline-primary btn-sm">
+-      <i-bs name="list-ul"></i-bs>
++      <i-bs name="list-ul"></i-bs><span class="visually-hidden" i18n>Table</span>
+     </label>
+     <input type="radio" class="btn-check" [(ngModel)]="list.displayMode" value="smallCards" id="displayModeSmall" name="displayModeSmall">
+     <label for="displayModeSmall" class="btn btn-outline-primary btn-sm">
+-      <i-bs name="grid"></i-bs>
++      <i-bs name="grid"></i-bs><span class="visually-hidden" i18n>Small cards</span>
+     </label>
+     <input type="radio" class="btn-check" [(ngModel)]="list.displayMode" value="largeCards" id="displayModeLarge" name="displayModeLarge">
+     <label for="displayModeLarge" class="btn btn-outline-primary btn-sm">
+-      <i-bs name="hdd-stack"></i-bs>
++      <i-bs name="hdd-stack"></i-bs><span class="visually-hidden" i18n>Large cards</span>
+     </label>
+   </div>
+ 
+@@ -64,15 +64,15 @@
+     <button class="btn btn-outline-primary btn-sm" id="dropdownBasic1" ngbDropdownToggle aria-label="Sort" i18n-aria-label>
+       <i-bs name="arrow-down-up"></i-bs><div class="d-none d-sm-inline ms-1"><ng-container i18n>Sort</ng-container></div>
+     </button>
+-    <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="shadow dropdown-menu-right">
++    <div ngbDropdownMenu role="group" aria-labelledby="dropdownBasic1" class="shadow dropdown-menu-right">
+       <div class="w-100 d-flex pb-2 mb-1 border-bottom">
+         <input type="radio" class="btn-check" [value]="false" [(ngModel)]="listSortReverse" id="listSortReverseFalse">
+         <label class="btn btn-outline-primary btn-sm mx-2 flex-fill" for="listSortReverseFalse">
+-          <i-bs name="sort-alpha-down"></i-bs>
++          <i-bs name="sort-alpha-down"></i-bs><span class="visually-hidden" i18n>Sort ascending</span>
+         </label>
+         <input type="radio" class="btn-check" [value]="true" [(ngModel)]="listSortReverse" id="listSortReverseTrue">
+         <label class="btn btn-outline-primary btn-sm me-2 flex-fill" for="listSortReverseTrue">
+-          <i-bs name="sort-alpha-up-alt"></i-bs>
++          <i-bs name="sort-alpha-up-alt"></i-bs><span class="visually-hidden" i18n>Sort descending</span>
+         </label>
+       </div>
+       <div>
+diff --git a/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.html b/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.html
+index a5e8897..2c4f9ef 100644
+--- a/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.html
++++ b/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.html
+@@ -23,6 +23,7 @@
+           </button>
+         }
+         <input #textFilterInput class="form-control form-control-sm" type="text"
++        aria-label="Filter" i18n-aria-label
+         [disabled]="textFilterInputDisabled"
+         [(ngModel)]="textFilter"
+         (keydown)="textFilterKeydown($event)"
+diff --git a/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.spec.ts b/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.spec.ts
+index 9bf88ae..22e3193 100644
+--- a/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.spec.ts
++++ b/src-ui/src/app/components/document-list/filter-editor/filter-editor.component.spec.ts
+@@ -658,7 +658,7 @@ describe('FilterEditorComponent', () => {
+     const dropdown = fixture.debugElement.query(
+       By.css('pngx-filterable-dropdown')
+     )
+-    const toggle = dropdown.nativeElement.querySelector('#dropdown_tags')
++    const toggle = dropdown.nativeElement.querySelector('[id^="dropdown_tags"]')
+     expect(toggle.classList.contains('btn-primary')).toBeFalsy()
+     expect(
+       dropdown.nativeElement.querySelector('pngx-clearable-badge')
+diff --git a/src-ui/src/app/components/file-drop/file-drop.component.html b/src-ui/src/app/components/file-drop/file-drop.component.html
+index fa03f25..d803d39 100644
+--- a/src-ui/src/app/components/file-drop/file-drop.component.html
++++ b/src-ui/src/app/components/file-drop/file-drop.component.html
+@@ -2,6 +2,8 @@
+     <ng-content select="[content]"></ng-content>
+ </div>
+ 
+-<div class="global-dropzone-overlay position-fixed top-0 start-0 bottom-0 end-0 text-center pe-none" [class.active]="fileIsOver() && !hidden()">
+-    <h2 class="pe-none position-absolute top-50 start-50 translate-middle" i18n>Drop files to begin upload</h2>
+-</div>
++@if (fileIsOver() && !hidden()) {
++    <div class="global-dropzone-overlay active position-fixed top-0 start-0 bottom-0 end-0 text-center pe-none" role="status">
++        <h2 class="pe-none position-absolute top-50 start-50 translate-middle" i18n>Drop files to begin upload</h2>
++    </div>
++}
+diff --git a/src-ui/src/app/components/manage/document-attributes/custom-fields/custom-fields.component.html b/src-ui/src/app/components/manage/document-attributes/custom-fields/custom-fields.component.html
+index 1952475..fc41e59 100644
+--- a/src-ui/src/app/components/manage/document-attributes/custom-fields/custom-fields.component.html
++++ b/src-ui/src/app/components/manage/document-attributes/custom-fields/custom-fields.component.html
+@@ -27,7 +27,7 @@
+                 <button type="button" class="btn btn-link" id="actionsMenuMobile" (click)="$event.stopPropagation()" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+                   <i-bs name="three-dots-vertical"></i-bs>
+                 </button>
+-                <div ngbDropdownMenu aria-labelledby="actionsMenuMobile">
++                <div ngbDropdownMenu role="group" aria-labelledby="actionsMenuMobile">
+                   <button (click)="editField(field)" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.CustomField }" ngbDropdownItem i18n>Edit</button>
+                   <button class="text-danger" (click)="deleteField(field)" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.CustomField }" ngbDropdownItem i18n>Delete</button>
+                   @if (field.document_count > 0) {
+diff --git a/src-ui/src/app/components/manage/document-attributes/document-attributes.component.html b/src-ui/src/app/components/manage/document-attributes/document-attributes.component.html
+index 50f3baa..3b0ff20 100644
+--- a/src-ui/src/app/components/manage/document-attributes/document-attributes.component.html
++++ b/src-ui/src/app/components/manage/document-attributes/document-attributes.component.html
+@@ -13,7 +13,7 @@
+           <pngx-clearable-badge [selected]="activeManagementList.hasSelection" [number]="activeManagementList.selectedCount" (cleared)="activeManagementList.selectNone()"></pngx-clearable-badge><span class="visually-hidden">selected</span>
+         }
+       </button>
+-      <div ngbDropdownMenu aria-labelledby="dropdownSelectMobile" class="shadow">
++      <div ngbDropdownMenu role="group" aria-labelledby="dropdownSelectMobile" class="shadow">
+         <button ngbDropdownItem (click)="activeManagementList.selectNone()" i18n>Select none</button>
+         <button ngbDropdownItem (click)="activeManagementList.selectPage(true)" i18n>Select page</button>
+         <button ngbDropdownItem (click)="activeManagementList.selectAll()" i18n>Select all</button>
+@@ -61,7 +61,7 @@
+ 
+ <ul ngbNav #nav="ngbNav" (navChange)="onNavChange($event)" [activeId]="activeNavID()" (activeIdChange)="activeNavID.set($event)" class="nav-underline">
+   @for (section of visibleSections; track section.id) {
+-    <li [ngbNavItem]="section.id">
++    <li [ngbNavItem]="section.id" [domId]="'attr-nav-' + section.id">
+       <a ngbNavLink >
+         <i-bs class="me-2" [name]="section.icon"></i-bs>{{ section.label }}
+       </a>
+@@ -69,7 +69,9 @@
+   }
+ </ul>
+ 
+-<div class="my-3">
++<div class="my-3" role="tabpanel"
++  [attr.id]="'attr-nav-' + activeSection?.id + '-panel'"
++  [attr.aria-labelledby]="'attr-nav-' + activeSection?.id">
+   <ng-container
+     [ngComponentOutlet]="activeSection?.component"
+     #activeOutlet="ngComponentOutlet"
+diff --git a/src-ui/src/app/components/manage/document-attributes/management-list/management-list.component.html b/src-ui/src/app/components/manage/document-attributes/management-list/management-list.component.html
+index 316cb40..ef8d9fa 100644
+--- a/src-ui/src/app/components/manage/document-attributes/management-list/management-list.component.html
++++ b/src-ui/src/app/components/manage/document-attributes/management-list/management-list.component.html
+@@ -30,8 +30,9 @@
+     <thead>
+       <tr>
+         <th>
++          <span class="visually-hidden" i18n>Select</span>
+           <div class="form-check m-0 ms-2 me-n2">
+-            <input type="checkbox" class="form-check-input" id="all-objects" [ngModel]="togggleAll()" [disabled]="data().length === 0" (change)="$event.target.checked ? selectPage() : clearSelection(); $event.stopPropagation();">
++            <input type="checkbox" class="form-check-input" id="all-objects" [ngModel]="togggleAll()" [disabled]="data().length === 0" (change)="$event.target.checked ? selectPage() : clearSelection(); $event.stopPropagation();" aria-label="Select all" i18n-aria-label>
+             <label class="form-check-label" for="all-objects"></label>
+           </div>
+         </th>
+@@ -116,7 +117,7 @@
+             <button type="button" class="btn btn-link" id="actionsMenuMobile" (click)="$event.stopPropagation()" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+               <i-bs name="three-dots-vertical"></i-bs>
+             </button>
+-            <div ngbDropdownMenu aria-labelledby="actionsMenuMobile">
++            <div ngbDropdownMenu role="group" aria-labelledby="actionsMenuMobile">
+               <button (click)="openEditDialog(object)" *pngxIfPermissions="{ action: PermissionAction.Change, type: permissionType }" ngbDropdownItem i18n>Edit</button>
+               <button class="text-danger" (click)="openDeleteDialog(object)" *pngxIfPermissions="{ action: PermissionAction.Delete, type: permissionType }" ngbDropdownItem i18n>Delete</button>
+               @if (getDocumentCount(object) > 0) {
+diff --git a/src-ui/src/app/components/manage/mail/mail.component.html b/src-ui/src/app/components/manage/mail/mail.component.html
+index 80a73c0..7a05477 100644
+--- a/src-ui/src/app/components/manage/mail/mail.component.html
++++ b/src-ui/src/app/components/manage/mail/mail.component.html
+@@ -8,7 +8,7 @@
+ </pngx-page-header>
+ 
+ <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailAccount }">
+-  <h4>
++  <h2 class="h4">
+     <ng-container i18n>Mail accounts</ng-container>
+     <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailAccount()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailAccount }">
+       <i-bs name="plus-circle" class="me-1"></i-bs><ng-container i18n>Add Account</ng-container>
+@@ -23,7 +23,7 @@
+         <i-bs name="microsoft" class="me-1"></i-bs><ng-container i18n>Connect Outlook Account</ng-container>
+       </a>
+     }
+-  </h4>
++  </h2>
+   <ul class="list-group">
+     <li class="list-group-item">
+       <div class="row">
+@@ -61,7 +61,7 @@
+                 <button type="button" class="btn btn-link" id="actionsMenuMobile" (click)="$event.stopPropagation()" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+                   <i-bs name="three-dots-vertical"></i-bs>
+                 </button>
+-                <div ngbDropdownMenu aria-labelledby="actionsMenuMobile">
++                <div ngbDropdownMenu role="group" aria-labelledby="actionsMenuMobile">
+                   <button (click)="editMailAccount(account)" [disabled]="!userCanEdit(account)" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailAccount }" ngbDropdownItem i18n>Edit</button>
+                   <button (click)="editPermissions(account)" *pngxIfOwner="account" ngbDropdownItem i18n>Permissions</button>
+                   <button (click)="deleteMailAccount(account)" [disabled]="!userIsOwner(account)" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailAccount }" ngbDropdownItem i18n>Delete</button>
+@@ -99,12 +99,12 @@
+ </ng-container>
+ 
+ <ng-container *pngxIfPermissions="{ action: PermissionAction.View, type: PermissionType.MailRule }">
+-  <h4 class="mt-4">
++  <h2 class="h4 mt-4">
+     <ng-container i18n>Mail rules</ng-container>
+     <button type="button" class="btn btn-sm btn-outline-primary ms-4" (click)="editMailRule()" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.MailRule }">
+       <i-bs name="plus-circle" class="me-1"></i-bs><ng-container i18n>Add Rule</ng-container>
+     </button>
+-  </h4>
++  </h2>
+   <ul class="list-group">
+     <li class="list-group-item">
+       <div class="row">
+@@ -149,7 +149,7 @@
+                 <button type="button" class="btn btn-link" id="actionsMenuMobile" (click)="$event.stopPropagation()" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+                   <i-bs name="three-dots-vertical"></i-bs>
+                 </button>
+-                <div ngbDropdownMenu aria-labelledby="actionsMenuMobile">
++                <div ngbDropdownMenu role="group" aria-labelledby="actionsMenuMobile">
+                   <button (click)="editMailRule(rule)" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.MailRule }" [disabled]="!userCanEdit(rule)" ngbDropdownItem i18n>Edit</button>
+                   <button (click)="editPermissions(rule)" *pngxIfOwner="rule" ngbDropdownItem i18n>Permissions</button>
+                   <button (click)="deleteMailRule(rule)" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.MailRule }" [disabled]="!userIsOwner(rule)" ngbDropdownItem i18n>Delete</button>
+diff --git a/src-ui/src/app/components/manage/workflows/workflows.component.html b/src-ui/src/app/components/manage/workflows/workflows.component.html
+index be9f251..3551e97 100644
+--- a/src-ui/src/app/components/manage/workflows/workflows.component.html
++++ b/src-ui/src/app/components/manage/workflows/workflows.component.html
+@@ -50,7 +50,7 @@
+               <button type="button" class="btn btn-link" id="actionsMenuMobile" (click)="$event.stopPropagation()" ngbDropdownToggle aria-label="Actions" i18n-aria-label>
+                 <i-bs name="three-dots-vertical"></i-bs>
+               </button>
+-              <div ngbDropdownMenu aria-labelledby="actionsMenuMobile">
++              <div ngbDropdownMenu role="group" aria-labelledby="actionsMenuMobile">
+                 <button (click)="editWorkflow(workflow)" *pngxIfPermissions="{ action: PermissionAction.Change, type: PermissionType.Workflow }" ngbDropdownItem i18n>Edit</button>
+                 <button (click)="deleteWorkflow(workflow)" *pngxIfPermissions="{ action: PermissionAction.Delete, type: PermissionType.Workflow }" ngbDropdownItem i18n>Delete</button>
+                 <button (click)="copyWorkflow(workflow)" *pngxIfPermissions="{ action: PermissionAction.Add, type: PermissionType.Workflow }" ngbDropdownItem i18n>Copy</button>
+diff --git a/src-ui/src/styles.scss b/src-ui/src/styles.scss
+index c135d34..b4b2883 100644
+--- a/src-ui/src/styles.scss
++++ b/src-ui/src/styles.scss
+@@ -229,7 +229,7 @@ table,
+ }
+ 
+ .btn-outline-secondary {
+-  color: var(--bs-secondary);
++  color: var(--bs-gray-700);
+ 
+   &:hover {
+     color: var(--bs-light);
+@@ -929,3 +929,20 @@ canvas.hiddenCanvasElement {
+     display: block;
+   }
+ }
++
++// WCAG 2.5.8 minimum target size
++.form-check-input {
++  width: 1.5rem;
++  height: 1.5rem;
++  margin-top: 0.125em;
++}
++.form-switch .form-check-input {
++  width: 2em;
++  height: 1.5rem;
++}
++
++// Content-section reveals render without the opacity transition so text is
++// never presented at a mid-fade opacity; modal dialogs keep their animation.
++.fade:not(.modal) {
++  transition: none;
++}
+diff --git a/src/documents/templates/paperless-ngx/base.html b/src/documents/templates/paperless-ngx/base.html
+index 4b9a911..a9104fc 100644
+--- a/src/documents/templates/paperless-ngx/base.html
++++ b/src/documents/templates/paperless-ngx/base.html
+@@ -17,7 +17,8 @@
+     </head>
+ 
+     <body class="text-center">
+-        <div class="position-absolute top-50 start-50 translate-middle">
++        <main class="position-absolute top-50 start-50 translate-middle">
++            <h1 class="visually-hidden">{% block heading %}Paperless-ngx{% endblock heading %}</h1>
+             <form class="form-accounts" id="form-account" method="post">
+                 {% csrf_token %}
+                 {% if not APP_LOGO and not APP_TITLE %}
+@@ -68,6 +69,6 @@
+             </form>
+             {% block after_form_content %}
+             {% endblock after_form_content %}
+-        </div>
++        </main>
+     </body>
+ </html>

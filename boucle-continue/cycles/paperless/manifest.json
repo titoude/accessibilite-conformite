@@ -1,37 +1,55 @@
 {
-  "cycle": 10,
-  "target": "paperless-ngx",
-  "repo": "https://github.com/paperless-ngx/paperless-ngx",
-  "base_commit": "8adbff1423af58575bc5a08eee7a6d833fd95651",
-  "stack": "Angular 19 SPA (src-ui) + Django 5 + whitenoise + allauth + valkey",
-  "boot": {
-    "commands": [
-      "pnpm install --frozen-lockfile (src-ui)",
-      "pnpm ng build --configuration production",
-      "uv run manage.py collectstatic --noinput",
-      "uv run manage.py runserver 127.0.0.1:8085"
-    ],
-    "notes": "collectstatic requis après build ET restart serveur (whitenoise indexe STATIC_ROOT au démarrage). valkey container paperless-redis :6379. env: boucle-runs/paperless/env.sh. superuser admin/adminpass123 (allauth)."
-  },
-  "scope": {
-    "pages": 15,
-    "states": [
-      "userMenu",
-      "tagsDropdown"
-    ],
-    "login_unauthed": "/accounts/login/"
-  },
-  "dates": {
-    "baseline": "2026-10-04",
-    "final": "2026-10-04"
-  },
-  "harness_local_adaptations": [
-    "STATES map dans tools/audit.mjs (userMenu/tagsDropdown) — spécifique au produit, documenté dans states.json",
-    "login scanné hors session: allauth redirige /accounts/login/ vers /dashboard quand authentifié"
+ "cycle": 10,
+ "target": "paperless-ngx",
+ "repo": "https://github.com/paperless-ngx/paperless-ngx",
+ "base_commit": "8adbff1423af58575bc5a08eee7a6d833fd95651",
+ "stack": "Angular 19 SPA (src-ui) + Django 5 + whitenoise + allauth + valkey",
+ "boot": {
+  "commands": [
+   "pnpm install --frozen-lockfile (src-ui)",
+   "pnpm ng build --configuration production",
+   "uv run manage.py collectstatic --noinput",
+   "uv run manage.py runserver 127.0.0.1:8085"
   ],
-  "honest_notes": [
-    "simplifications produit documentées: opacity retirée des animations d'entrée (sidebar-nav-in, .fade hors modal, pngx-entry-fade) — les fades causaient des flags contrast flakies à mi-transition; translate conservé",
-    "bug fonctionnel corrigé au passage: collision de name= des radios entre instances de filterable-dropdown (compteur d'instance statique)",
-    "/usersgroups et /tasks: rescans nécessaires (lazy-chunk timing) — scan initial possible sur le splash de chargement"
-  ]
+  "notes": "collectstatic requis après build ET restart serveur (whitenoise indexe STATIC_ROOT au démarrage). valkey container paperless-redis :6379. env: boucle-runs/paperless/env.sh. superuser admin/adminpass123 (allauth)."
+ },
+ "scope": {
+  "pages": 15,
+  "states": [
+   "userMenu",
+   "tagsDropdown"
+  ],
+  "login_unauthed": "/accounts/login/"
+ },
+ "dates": {
+  "baseline": "2026-10-04",
+  "final": "2026-10-04"
+ },
+ "harness_local_adaptations": [
+  "STATES map dans tools/audit.mjs (userMenu/tagsDropdown) — spécifique au produit, documenté dans states.json",
+  "login scanné hors session: allauth redirige /accounts/login/ vers /dashboard quand authentifié"
+ ],
+ "honest_notes": [
+  "simplifications produit documentées: opacity retirée des animations d'entrée (sidebar-nav-in, .fade hors modal, pngx-entry-fade) — les fades causaient des flags contrast flakies à mi-transition; translate conservé",
+  "bug fonctionnel corrigé au passage: collision de name= des radios entre instances de filterable-dropdown (compteur d'instance statique)",
+  "/usersgroups et /tasks: rescans nécessaires (lazy-chunk timing) — scan initial possible sur le splash de chargement"
+ ],
+ "auditCommands": [
+  "node audit.mjs http://127.0.0.1:8085 --urls /dashboard,/documents,/attributes/tags,/attributes/correspondents,/attributes/documenttypes,/savedviews,/workflows,/mail,/settings,/usersgroups,/tasks,/logs,/trash,/config,/share-links --states all --storage-state auth.json --wait 4000 --out reports/final-v2",
+  "node audit.mjs http://127.0.0.1:8085 --urls /accounts/login/ --states none --out reports/login-final"
+ ],
+ "errata": [
+  {
+   "version": "v2 (post-verdict auditeur PARTIAL)",
+   "fixes": [
+    "F1 wiring tab<->panel: domId explicites poses sur ngbNavItem ([domId]=log-nav-<logFile>/attr-nav-<section.id>), panels id/aria-labelledby derives -> coherent en navigation SPA (compteur ngbNav global ne reset pas)",
+    "F2 tabindex=0 sur tabpanel /logs (scrollable-region-focusable)",
+    "F3 couleurs logs log-entry-10/40/50 -> #a4b2c1/#ff8a80/#ffb3b3 (>=4.5:1 sur #212529)",
+    "F4 aria-labelledby dropdowns: actionsDropdown->sendDropdown, downloadOptionsDropdown id+label",
+    "F5 seed/auditCommands/provenance documentes"
+   ],
+   "rescan": "0 regle / 0 occurrence / 0 erreur sur 15 urls + 2 etats (sortie finale reports/final-v2)",
+   "lesson": "Angular SSR/hydration: le scan doit attendre hydratation complete (--wait 4000) sinon artefacts transitoires (href/svg/attributs dynamiques absents mid-hydration); build production obligatoire (--configuration production ecrit dans src/documents/static/frontend, pnpm build seul -> dist/) + collectstatic + restart"
+  }
+ ]
 }
