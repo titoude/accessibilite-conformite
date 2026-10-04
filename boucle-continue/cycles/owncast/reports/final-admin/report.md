@@ -1,0 +1,228 @@
+# Audit accessibilité — 2026-10-04
+
+**0 règle(s) violée(s), 0 occurrence(s), 25/25 scénario(s) audité(s), 0 erreur(s), 158 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `4ce8598af073`
+
+## Résultats incomplets à revoir (158)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://admin:abc123@localhost:8095/admin/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/access-tokens/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/actions/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/chat/emojis/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/chat/messages/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config/general/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config/server/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config-chat/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config-featured/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config-federation/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config-notify/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config-social-items/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/config-video/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/federation/actions/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/federation/followers/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/hardware-info/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/help/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/logs/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/plugins/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/plugins/configure/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/stream-health/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/upgrade/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/users/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/viewer-info/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+- http://admin:abc123@localhost:8095/admin/webhooks/
+  - `div[data-menu-id="rc-menu-uuid-chat"]`
+  - `div[data-menu-id="rc-menu-uuid-configuration"]`
+  - `div[data-menu-id="rc-menu-uuid-utilities"]`
+  - `div[data-menu-id="rc-menu-uuid-integrations"]`
+  - `div[data-menu-id="rc-menu-uuid-plugins-menu"]`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://admin:abc123@localhost:8095/admin/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/access-tokens/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/actions/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/chat/messages/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config/general/
+  - `div:nth-child(6) > .ant-btn-primary.ant-btn-color-primary.ant-btn-variant-solid > span`
+  - `.ͼ1o > .cm-scroller > .cm-gutters.cm-gutters-before[aria-hidden="true"] > .cm-lineNumbers.cm-gutter > .cm-activeLineGutter.cm-gutterElement`
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config/server/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config-chat/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config-featured/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config-federation/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config-notify/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config-social-items/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/config-video/
+  - `.ant-select-content > span`
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/federation/actions/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/federation/followers/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/hardware-info/
+  - `div[aria-label="CPU"] > .ant-progress-body.ant-progress-circle-gradient > .ant-progress-indicator > div > div:nth-child(2) > .ant-typography-secondary.ant-typography.owncast`
+  - `div[aria-label="CPU"] > .ant-progress-body.ant-progress-circle-gradient > .ant-progress-indicator > div > div:nth-child(3) > .ant-typography-secondary.ant-typography.owncast`
+  - `div[aria-label="Memory"] > .ant-progress-body.ant-progress-circle-gradient > .ant-progress-indicator > div > div:nth-child(2) > .ant-typography-secondary.ant-typography.owncast`
+  - `div[aria-label="Memory"] > .ant-progress-body.ant-progress-circle-gradient > .ant-progress-indicator > div > div:nth-child(3) > .ant-typography-secondary.ant-typography.owncast`
+  - `div[aria-label="Disk"] > .ant-progress-body.ant-progress-circle-gradient > .ant-progress-indicator > div > div:nth-child(2) > .ant-typography-secondary.ant-typography.owncast`
+  - `div[aria-label="Disk"] > .ant-progress-body.ant-progress-circle-gradient > .ant-progress-indicator > div > div:nth-child(3) > .ant-typography-secondary.ant-typography.owncast`
+- http://admin:abc123@localhost:8095/admin/help/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/plugins/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/stream-health/
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/upgrade/
+  - `p:nth-child(63)`
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/users/
+  - `.ant-select-content`
+  - `.ant-modal-body > p`
+- http://admin:abc123@localhost:8095/admin/webhooks/
+  - `.ant-modal-body > p`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://admin:abc123@localhost:8095/admin/chat/messages/
+  - `.ant-table-header > table`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://admin:abc123@localhost:8095/admin/config-featured/
+  - `a[href$="config-federation/"]`
+

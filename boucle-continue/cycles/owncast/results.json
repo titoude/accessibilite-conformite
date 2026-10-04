@@ -1,0 +1,62 @@
+{
+  "produit": "owncast/owncast",
+  "sha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
+  "baseSha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
+  "baseline": {
+    "rules": 18,
+    "occurrences": 136,
+    "errors": 0,
+    "scenarios": 29,
+    "detail": "reports/baseline-public (4 pages, 21 occ) + reports/baseline-admin (25 pages, 115 occ) ; règles : color-contrast 31, html-has-lang 30, region 21, heading-order 10, empty-table-header 9, target-size 6, image-alt 5, meta-viewport 4, aria-input-field-name 3, label 3, aria-progressbar-name 3, aria-required-parent 3, link-in-text-block 2, landmark-one-main 2, role-img-alt 1, aria-required-children 1, empty-heading 1, document-title 1"
+  },
+  "final": {
+    "rules": 0,
+    "occurrences": 0,
+    "errors": 0,
+    "scenarios": 36,
+    "detail": "reports/final-public (4 pages) + final-admin (25 pages) + final-states (6 états dynamiques + base) ; 175 incomplets tracés dans decisionsIncomplets"
+  },
+  "verifications": {
+    "audit_commands": "voir manifest.auditCommands — rejouées verbatim sur le build livré",
+    "verify": "verify.mjs : PASS public (6/6) + admin (14/14) — noms accessibles, contrastes mesurés, ids uniques, tablist propre, couche landmark",
+    "eval_final": "eval-final.mjs : PASS public (8/8) + admin (24 pages E1 h1+main+titre, E7-E10, 0 échec)",
+    "install_build": "voir install-build.log — checkout propre @ sha + patch.diff : npm ci + npm run build (31/31 pages) + go build + démarrage + seed + rescan spot"
+  },
+  "decisionsIncomplets": [
+    {
+      "regle": "aria-valid-attr-value",
+      "occurrences": 125,
+      "decision": "N-A structurel (justifié)",
+      "justification": "antd v6 positionne aria-controls vers des ids rc-menu-uuid-* rendus paresseusement (popup non montée au repos). L'id existe dès que le sous-menu est ouvert ; axe ne peut le vérifier à l'état fermé. Corriger exigerait de forcer le montage des popups antd — hors périmètre raisonnable ; pattern amont antd."
+    },
+    {
+      "regle": "color-contrast",
+      "occurrences": 34,
+      "decision": "mesuré conforme / indéterminé axe",
+      "justification": "axe signale 'background could not be determined' (dégradés antd-progress, gouttières CodeMirror, superposition modale). Ratios mesurés manuellement à l'état stable : texte modal #575c63 sur #2d3748 ≈ 5.5:1 ; .title-label # palette-4 sur fond sombre ≈ 7:1 (fix .owncast-title livré) ; gutter CodeMirror #575c63 (override livré)."
+    },
+    {
+      "regle": "video-caption",
+      "occurrences": 14,
+      "decision": "escaladé — responsabilité contenu amont",
+      "justification": "flux vidéo live injecté par le diffuseur (RTMP) : les sous-titres relèvent de la source. surface = player Owncast ; aucun track n'existe tant que la source n'en fournit pas. Documenté, pas corrigible côté UI seule."
+    },
+    {
+      "regle": "th-has-data-cells",
+      "occurrences": 1,
+      "decision": "N-A transitoire",
+      "justification": "table d'actions vide le temps du chargement (en-têtes présents, 0 lignes de données). État valide et transitoire."
+    },
+    {
+      "regle": "link-in-text-block",
+      "occurrences": 1,
+      "decision": "mesuré conforme / indéterminé axe",
+      "justification": "lien 'Federation settings' dans carte nav : axe ne détermine pas le contraste (fond composite). Ratio mesuré ≈ 9.7:1 au repos."
+    }
+  ],
+  "notes": [
+    "duplicate-id-aria (1 incomplete en v5) résolu : prop fieldId sur TextField + id unique field-goLiveMessage-discord",
+    "pas de run états en baseline : la couverture états est ajoutée en final (statesHash dans states.json)",
+    "results.json ne porte aucun verdict — l'audit tiers juge"
+  ]
+}

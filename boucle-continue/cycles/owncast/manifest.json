@@ -1,0 +1,49 @@
+{
+  "produit": "owncast/owncast",
+  "sha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
+  "seed": {
+    "command": "./test/ocTestStream.sh rtmp://127.0.0.1:1936/live/abc123",
+    "description": "pousse un flux RTMP de test ; ~10 s jusqu'à online:true sur /api/status",
+    "adminCredentials": "admin/abc123 (identifiants par défaut du dépôt, pas un secret)"
+  },
+  "auditCommands": [
+    "node audit.mjs http://localhost:8095 --urls /,/embed/chat/readonly/,/embed/chat/readwrite/,/embed/video/ --states none --wait 3000 --out reports/final-public",
+    "node audit.mjs \"http://admin:abc123@localhost:8095\" --urls /admin/,/admin/access-tokens/,/admin/actions/,/admin/chat/emojis/,/admin/chat/messages/,/admin/config/general/,/admin/config/server/,/admin/config-chat/,/admin/config-featured/,/admin/config-federation/,/admin/config-notify/,/admin/config-social-items/,/admin/config-video/,/admin/federation/actions/,/admin/federation/followers/,/admin/hardware-info/,/admin/help/,/admin/logs/,/admin/plugins/,/admin/plugins/configure/,/admin/stream-health/,/admin/upgrade/,/admin/users/,/admin/viewer-info/,/admin/webhooks/ --states none --wait 3000 --out reports/final-admin",
+    "node audit.mjs http://localhost:8095 --urls / --states all --wait 3000 --out reports/final-states"
+  ],
+  "verifyCommands": [
+    "node verify.mjs http://localhost:8095",
+    "node verify.mjs \"http://admin:abc123@localhost:8095\"",
+    "node eval-final.mjs http://localhost:8095",
+    "node eval-final.mjs \"http://admin:abc123@localhost:8095\""
+  ],
+  "substitutions": [
+    {
+      "quoi": "hôte+port et auth Basic",
+      "baseline": "http://admin:abc123@localhost:8095 et http://localhost:8095",
+      "a_remplacer_par": "<baseUrl> et <baseUrl-admin-avec-userinfo>",
+      "note": "les URL passées à --urls sont relatives ; l'auth Basic admin se transporte par userinfo dans l'URL de base"
+    }
+  ],
+  "boot": {
+    "notes": [
+      "npm non dans PATH : export PATH=\"$HOME/.nvm/versions/node/v24.19.0/bin:$PATH\" ; Go dans ~/go/bin",
+      "ordre de build owncast : cd web && npm run build → rm -rf ../static/web && mv out ../static/web → go build -o owncast . (ne jamais oublier la copie out→static/web : le binaire embed static/web)",
+      "static/web est TRACKÉ sur la branche épinglée mais c'est un artefact de build : l'AGENTS.md l'exclut des commits (CI le génère sur develop) — exclu de patch.diff",
+      "npm ci échoue au SHA épinglé : package-lock.json désynchronisé de package.json AMONT (@emnapi/runtime, devtools-protocol, proxy-agent manquants) — utiliser npm install (commande effective du dépôt)",
+      "démarrage : ./owncast -webserverport <port> -rtmpport <rtmp> ; admin Basic admin/abc123 sur /admin/ ; seed flux via ocTestStream.sh (dépendance ffmpeg)",
+      "ATTENTION pkill -f 'owncast -webserverport' tue son propre shell (le motif matche la ligne de commande) — utiliser : kill $(pgrep -x owncast | head -1)",
+      "FatalErrorStateModal (antd, fade-in ~1-3 s) s'affiche sur toute page admin si le health-check échoue : axe mesure les couleurs fondues par l'opacité en cours d'animation → faux contrastes ; --wait 3000 le couvre",
+      "Fediverse désactivé par défaut → public-follow-modal retourne tôt si #follow-button absent (skip explicite, pas silencieux)",
+      "les pages Markdown (notes de release /admin/upgrade/) injectent des titres arbitraires : remapper h1→h2 dans ReactMarkdown components pour préserver l'ordre des titres",
+      "antd Typography.Title sans level = h1 ; les titres de section doivent porter level={2}+ explicitement",
+      "antd v6 : role=tablist = .ant-tabs-nav (ses enfants incluent les wrappers .ant-tabs-nav-wrap contenant les tabs)"
+    ]
+  },
+  "artefacts": {
+    "patch": "patch.diff (sha256 calculé dans provenance.json ; exclut static/web — artefact de build — et web/next-env.d.ts — bruit de génération)",
+    "rapports": "reports/{baseline,final}-{public,admin} + reports/final-states (report.json|report.md|scope.json par run)",
+    "harnais": "tools/{audit.mjs,verify.mjs,eval-final.mjs,package.json,package-lock.json}",
+    "scope": "scope-compare.json (baseline vs final, URL normalisées sans hôte) + states.json (statesHash du run états)"
+  }
+}

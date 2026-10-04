@@ -1,0 +1,11 @@
+install-build — rejoué sur checkout propre (git worktree @cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a, /tmp/owncast-ib)
+1. git worktree add @ SHA épinglé : OK
+2. git apply patch.diff : OK (65 fichiers, 0 rejet)
+3. npm ci : ÉCHOUÉ — package-lock.json désynchronisé de package.json AMONT au SHA épinglé (manquants @emnapi/runtime, devtools-protocol, proxy-agent). Dérive upstream, pas liée au patch (patch.diff ne touche aucun lockfile).
+4. npm install (commande effective du dépôt) : OK, 0 vulnérabilité ajoutée signalée
+5. npm run build : OK — 31/31 pages exportées, generate-sw 672 fichiers
+6. rm -rf static/web && mv web/out static/web && go build : OK — owncast-ib (149.8 MB)
+7. démarrage -webserverport 8097 -rtmpport 1938 : OK — / → 200, /admin/ → 200 (Basic admin/abc123)
+8. seed ./test/ocTestStream.sh : OK — online:true après ~14 s
+9. rescan spot audit.mjs (2 URLs, --wait 3000) : 0 violation, 0 erreur
+VERDICT install-build : PASS (honnêteté : npm ci impossible à cause d'un lockfile amont désynchronisé ; npm install requis — noté dans manifest.boot.notes)
