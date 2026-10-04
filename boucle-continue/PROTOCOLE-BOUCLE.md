@@ -207,3 +207,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **`aria-controls` axe "unable to determine" sur contenu portalisé** : incomplet récurrent même quand l'id cible existe (vérifié live via `getElementById`). Triage N/A légitime après probe DOM — à documenter, pas à « corriger ».
 - **IDS en dur dupliqués entre formulaires** (`id="skip-cert-verify"` sur 2 forms différentes) → duplicate-id-aria quand les deux surfaces cohabitent dans le périmètre. Namespacer par domaine (`ldap-`, `smtp-`).
 - **WebTransport :1414 partagé** entre instances pocket-id — impossible d'en faire tourner deux en parallèle (sequentialiser les boots de validation).
+
+### Leçons — cycle 18 owncast v2 (sondes d'incomplets)
+
+- **Le fond « premier non-transparent » ment sur les overlays translucides** : `rgba(0,0,0,0.07)` sur un gutter CodeMirror donnait 2.48:1 en marchant naïvement les ancêtres — le composite réel (alpha blending sur toute la pile jusqu'au canvas) donne 6.66:1. **Une sonde de contraste doit empiler TOUS les fonds (y compris alpha<1) et les blender** ; sinon elle produit des faux défauts qu'on risque de « corriger » à tort.
+- **antd `aria-controls` lazy-mount : preuve par ouverture, pas par hover** : les popups inline des sous-menus ne se montent qu'après ouverture ET `locator.click()` Playwright ne déclenche pas le handler React — il faut `el.dispatchEvent(new MouseEvent('click',{bubbles:true}))`. Sonde livrée : `avant:false → après:true` pour chaque sous-menu prouve la décision N/A.
+- **Header-only table antd** : `.ant-table-header > table` ne contient jamais de td par construction (split header/body) → th-has-data-cells = N/A structurel, pas « transitoire » — la justification doit nommer le pattern, pas deviner l'état.
+- **Patch vs bundle embarqué** : `static/web` (go:embed) est git-tracké chez owncast mais exclu du patch (sources seules) — l'install-build doit rejouer `npm run build` → `web/out` → rsync → `go build`, sinon l'auditeur ne voit pas le fix dans le binaire.
