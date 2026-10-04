@@ -8,8 +8,8 @@
     "python": "uv venv --python 3.12 venv ; uv pip install -r requirements.txt SANS python-ldap/django-auth-ldap (pas de headers LDAP système, LDAP_AUTH opt-in — adaptation harnais locale documentée)",
     "backend": "env DEBUG=1 SECRET_KEY=dev-insecure-key ALLOWED_HOSTS='*' ; manage.py migrate ; createsuperuser admin@example.com/adminpass123 ; runserver 127.0.0.1:8000",
     "frontend": "vue3/ : yarn install --frozen-lockfile && yarn dev (vite :5173, chargé par Django en DEBUG via django-vite)",
-    "seed": "Space+Household+UserSpace(active)+UserPreference via shell (space 4) ; 1 recette 'Test Recipe' id=2 pour la route /recipe/:id",
-    "note": "user/space/household seed manuel requis sinon redirection /welcome ; recipe 'ingredient' créée sans unit (unit=None)"
+    "seed": "Space+Household+UserSpace(active)+UserPreference + userspace.user.groups.add('admin') — SANS groupe toutes les routes authentifiées rendent 'No Permissions' qui scanne à 0 fallacieux ; recette id=2 AVEC >=1 étape (r.steps.add(step)) ET >=1 ingrédient (step.ingredients.add(ing)) sinon /recipe/:id audite une page vide",
+    "note": "seed via manage.py shell sous django_scopes scopes_disabled ; Step.recipe est M2M (r.steps.add) ; Ingredient n'a pas de FK step (s.ingredients.add) ; auth.json cookies sur localhost (pas 127.0.0.1)"
   },
   "auth": "storageState tools/auth.json (login allauth /accounts/login/ : name=login + name=password)",
   "routes": [
@@ -26,11 +26,27 @@
     "/edit/recipe",
     "/pantry"
   ],
-  "states": ["nav-drawer", "user-menu"],
+  "states": [
+    "add-menu",
+    "user-menu"
+  ],
   "horsPerimetre": [
     "/welcome (onboarding — pages /welcome, /space-setup non auditées)",
     "admin Django /admin/",
     "openAPI/docs (docs d'API non produit)",
     "social auth (pas de providers configurés)"
+  ],
+  "errata": [
+    {
+      "verdict_auditeur": "PARTIAL (devin-024f50b09bfd400590a6d62d1775c453)",
+      "date": "2026-10-04",
+      "correctifs": [
+        "F1 patch-v2.diff: StepView aria-label $t(Done) ; IngredientsTable/Row v-checkbox-btn :aria-label food.name — /recipe/2 rescan 0 violation sur recette réaliste (étape+ingrédient)",
+        "F2 seed: groups.add(admin)+recette avec contenu documentés ci-dessus",
+        "F3 états manifeste corrigés: add-menu/user-menu",
+        "F4 verify.mjs: assertion login tautologique -> vérification réelle des labels",
+        "F5 eval-final.mjs: settle 400ms + blur + 150ms entre Tab"
+      ]
+    }
   ]
 }

@@ -85,9 +85,9 @@ if (await drawerBtn.count() > 0) {
 // 5. keyboard: tab reaches focusable content (basic focus traversal)
 await page.goto(base + '/', { waitUntil: 'domcontentloaded' })
 await page.waitForSelector('h1')
-await page.keyboard.press('Tab')
-await page.keyboard.press('Tab')
-await page.keyboard.press('Tab')
+await page.waitForTimeout(400)
+await page.evaluate(() => (document.activeElement || document.body).blur?.())
+for (let i = 0; i < 3; i++) { await page.keyboard.press('Tab'); await page.waitForTimeout(150) }
 const focused = await page.evaluate(() => document.activeElement?.tagName)
 ok('tab focus lands on an element', ['A', 'BUTTON', 'INPUT', 'DIV'].includes(focused), `focused=${focused}`)
 

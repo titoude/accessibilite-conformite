@@ -80,7 +80,13 @@ await page2.goto(base + '/accounts/login/', { waitUntil: 'domcontentloaded' })
 await page2.waitForTimeout(1000)
 ok('login has h1', await page2.locator('h1').count() >= 1)
 const loginInputs = await page2.locator('form input[name="login"]:not([aria-label])').count()
-ok('login inputs labeled', await page2.locator('input[name="login"][aria-label], input[name="login"] + label, label[for] + input[name="login"], #login_id, #id_login').count() >= 0 && true)
+const loginLabels = await page2.evaluate(() =>
+    [...document.querySelectorAll('input[name="login"], input[name="password"], input[type="text"], input[type="password"]')]
+      .filter(i => i.checkVisibility())
+      .map(i => !!(i.getAttribute('aria-label') || i.getAttribute('aria-labelledby') ||
+                   (i.id && document.querySelector(`label[for="${CSS.escape(i.id)}"]`)) ||
+                   i.closest('label'))))
+  ok('login inputs labeled', loginLabels.length > 0 && loginLabels.every(Boolean), JSON.stringify(loginLabels))
 
 await browser.close()
 console.log(`\n${pass} PASS, ${fail} FAIL`)
