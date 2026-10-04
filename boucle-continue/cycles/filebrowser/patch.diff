@@ -1,0 +1,541 @@
+diff --git a/frontend/src/App.vue b/frontend/src/App.vue
+index 543b50b..c85e218 100644
+--- a/frontend/src/App.vue
++++ b/frontend/src/App.vue
+@@ -1,6 +1,5 @@
+ <template>
+   <div>
+-    <h1 class="sr-only">{{ name }}</h1>
+     <router-view></router-view>
+   </div>
+ </template>
+diff --git a/frontend/src/components/Search.vue b/frontend/src/components/Search.vue
+index 57d5ba0..fe10607 100644
+--- a/frontend/src/components/Search.vue
++++ b/frontend/src/components/Search.vue
+@@ -40,7 +40,7 @@
+ 
+           <template v-if="prompt.length === 0">
+             <div class="boxes">
+-              <h3>{{ $t("search.types") }}</h3>
++              <h2>{{ $t("search.types") }}</h2>
+               <div>
+                 <div
+                   tabindex="0"
+diff --git a/frontend/src/components/files/ListingItem.vue b/frontend/src/components/files/ListingItem.vue
+index 143adda..d18233e 100644
+--- a/frontend/src/components/files/ListingItem.vue
++++ b/frontend/src/components/files/ListingItem.vue
+@@ -18,7 +18,7 @@
+     :data-dir="isDir"
+     :data-type="type"
+     :aria-label="name"
+-    :aria-selected="isSelected"
++    :aria-pressed="isSelected"
+     :data-ext="getExtension(name).toLowerCase()"
+     @contextmenu="contextMenu"
+   >
+diff --git a/frontend/src/components/settings/AceEditorTheme.vue b/frontend/src/components/settings/AceEditorTheme.vue
+index 68585a3..4eb734c 100644
+--- a/frontend/src/components/settings/AceEditorTheme.vue
++++ b/frontend/src/components/settings/AceEditorTheme.vue
+@@ -1,6 +1,7 @@
+ <template>
+   <select
+     name="selectAceEditorTheme"
++    :aria-label="$t('settings.aceEditorTheme')"
+     v-on:change="change"
+     :value="aceEditorTheme"
+   >
+diff --git a/frontend/src/components/settings/Languages.vue b/frontend/src/components/settings/Languages.vue
+index 6a60335..a1633c2 100644
+--- a/frontend/src/components/settings/Languages.vue
++++ b/frontend/src/components/settings/Languages.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <select name="selectLanguage" v-on:change="change" :value="locale">
++  <select name="selectLanguage" :aria-label="$t('settings.language')" v-on:change="change" :value="locale">
+     <option v-for="(language, value) in locales" :key="value" :value="value">
+       {{ language }}
+     </option>
+diff --git a/frontend/src/components/settings/Permissions.vue b/frontend/src/components/settings/Permissions.vue
+index 33296af..a455daa 100644
+--- a/frontend/src/components/settings/Permissions.vue
++++ b/frontend/src/components/settings/Permissions.vue
+@@ -4,41 +4,32 @@
+     <p class="small">{{ $t("settings.permissionsHelp") }}</p>
+ 
+     <p>
+-      <input type="checkbox" v-model="admin" />
+-      {{ $t("settings.administrator") }}
++      <label><input type="checkbox" v-model="admin"  /> {{ $t("settings.administrator") }}</label>
+     </p>
+ 
+     <p>
+-      <input type="checkbox" :disabled="admin" v-model="perm.create" />
+-      {{ $t("settings.perm.create") }}
++      <label><input type="checkbox" :disabled="admin" v-model="perm.create"  /> {{ $t("settings.perm.create") }}</label>
+     </p>
+     <p>
+-      <input type="checkbox" :disabled="admin" v-model="perm.delete" />
+-      {{ $t("settings.perm.delete") }}
++      <label><input type="checkbox" :disabled="admin" v-model="perm.delete"  /> {{ $t("settings.perm.delete") }}</label>
+     </p>
+     <p>
+-      <input
+-        type="checkbox"
++      <label><input type="checkbox"
+         :disabled="admin || perm.share"
+         v-model="perm.download"
+-      />
+-      {{ $t("settings.perm.download") }}
++       /> {{ $t("settings.perm.download") }}</label>
+     </p>
+     <p>
+-      <input type="checkbox" :disabled="admin" v-model="perm.modify" />
+-      {{ $t("settings.perm.modify") }}
++      <label><input type="checkbox" :disabled="admin" v-model="perm.modify"  /> {{ $t("settings.perm.modify") }}</label>
+     </p>
+     <p v-if="isExecEnabled">
+-      <input type="checkbox" :disabled="admin" v-model="perm.execute" />
+-      {{ $t("settings.perm.execute") }}
++      <label><input type="checkbox" :disabled="admin" v-model="perm.execute"  /> {{ $t("settings.perm.execute") }}</label>
+     </p>
+     <p>
+-      <input type="checkbox" :disabled="admin" v-model="perm.rename" />
+-      {{ $t("settings.perm.rename") }}
++      <label><input type="checkbox" :disabled="admin" v-model="perm.rename"  /> {{ $t("settings.perm.rename") }}</label>
+     </p>
+     <p>
+-      <input type="checkbox" :disabled="admin" v-model="perm.share" />
+-      {{ $t("settings.perm.share") }}
++      <label><input type="checkbox" :disabled="admin" v-model="perm.share"  /> {{ $t("settings.perm.share") }}</label>
+     </p>
+   </div>
+ </template>
+diff --git a/frontend/src/components/settings/Rules.vue b/frontend/src/components/settings/Rules.vue
+index e1e82b3..28a4ad5 100644
+--- a/frontend/src/components/settings/Rules.vue
++++ b/frontend/src/components/settings/Rules.vue
+@@ -1,8 +1,8 @@
+ <template>
+   <form class="rules small">
+     <div v-for="(rule, index) in rules" :key="index">
+-      <input type="checkbox" v-model="rule.regex" /><label>Regex</label>
+-      <input type="checkbox" v-model="rule.allow" /><label>Allow</label>
++      <label><input type="checkbox" v-model="rule.regex" /> Regex</label>
++      <label><input type="checkbox" v-model="rule.allow" /> Allow</label>
+ 
+       <input
+         @keypress.enter.prevent
+@@ -10,6 +10,7 @@
+         v-if="rule.regex"
+         v-model="rule.regexp.raw"
+         :placeholder="$t('settings.insertRegex')"
++        :aria-label="$t('settings.insertRegex')"
+       />
+       <input
+         @keypress.enter.prevent
+@@ -17,6 +18,7 @@
+         v-else
+         v-model="rule.path"
+         :placeholder="$t('settings.insertPath')"
++        :aria-label="$t('settings.insertPath')"
+       />
+ 
+       <button class="button button--red" @click="remove($event, index)">
+diff --git a/frontend/src/components/settings/Themes.vue b/frontend/src/components/settings/Themes.vue
+index 059070b..69393d8 100644
+--- a/frontend/src/components/settings/Themes.vue
++++ b/frontend/src/components/settings/Themes.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <select v-on:change="change" :value="theme">
++  <select :aria-label="t('settings.themes.title')" v-on:change="change" :value="theme">
+     <option value="">{{ t("settings.themes.default") }}</option>
+     <option value="light">{{ t("settings.themes.light") }}</option>
+     <option value="dark">{{ t("settings.themes.dark") }}</option>
+diff --git a/frontend/src/components/settings/UserForm.vue b/frontend/src/components/settings/UserForm.vue
+index c4f0e0c..bed6ac4 100644
+--- a/frontend/src/components/settings/UserForm.vue
++++ b/frontend/src/components/settings/UserForm.vue
+@@ -33,8 +33,7 @@
+       />
+     </p>
+     <p class="small" v-if="displayHomeDirectoryCheckbox">
+-      <input type="checkbox" v-model="createUserDirData" />
+-      {{ t("settings.createUserHomeDirectory") }}
++      <label><input type="checkbox" v-model="createUserDirData"  /> {{ t("settings.createUserHomeDirectory") }}</label>
+     </p>
+ 
+     <p>
+@@ -47,12 +46,12 @@
+     </p>
+ 
+     <p v-if="!isDefault && user.perm">
+-      <input
++      <label><input
+         type="checkbox"
+         :disabled="user.perm.admin"
+         v-model="user.lockPassword"
+       />
+-      {{ t("settings.lockPassword") }}
++      {{ t("settings.lockPassword") }}</label>
+     </p>
+ 
+     <permissions v-model:perm="user.perm" />
+diff --git a/frontend/src/css/_variables.css b/frontend/src/css/_variables.css
+index 85ad96e..8797b02 100644
+--- a/frontend/src/css/_variables.css
++++ b/frontend/src/css/_variables.css
+@@ -1,6 +1,6 @@
+ :root {
+-  --blue: #2196f3;
+-  --dark-blue: #1e88e5;
++  --blue: #1976d2;
++  --dark-blue: #1976d2;
+   --red: #f44336;
+   --dark-red: #d32f2f;
+   --moon-grey: #f2f2f2;
+@@ -17,7 +17,7 @@
+ 
+   --item-selected: white;
+ 
+-  --action: rgb(84, 110, 122);
++  --action: rgb(69, 90, 100);
+ 
+   --background: rgb(250, 250, 250);
+   --surfacePrimary: rgb(255, 255, 255);
+diff --git a/frontend/src/css/base.css b/frontend/src/css/base.css
+index 268289a..34b7598 100644
+--- a/frontend/src/css/base.css
++++ b/frontend/src/css/base.css
+@@ -192,3 +192,15 @@ body > div[style*="z-index: 9990"] {
+   outline: 1px solid #2195f32d;
+   outline-offset: 1px;
+ }
++
++.sr-only {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
++}
+diff --git a/frontend/src/css/dashboard.css b/frontend/src/css/dashboard.css
+index 48be3ee..fdd84dc 100644
+--- a/frontend/src/css/dashboard.css
++++ b/frontend/src/css/dashboard.css
+@@ -82,7 +82,14 @@ html[dir="rtl"] .dashboard #nav .wrapper {
+ 
+ .dashboard #nav ul li {
+   position: relative;
++  padding: 0;
++}
++
++.dashboard #nav ul li > a {
++  display: block;
+   padding: 1.5em 2em;
++  color: inherit;
++  text-decoration: none;
+   white-space: nowrap;
+   border-bottom: 2px solid transparent;
+   transition: 0.1s ease-in-out all;
+diff --git a/frontend/src/css/styles.css b/frontend/src/css/styles.css
+index bab7cd1..f776cf5 100644
+--- a/frontend/src/css/styles.css
++++ b/frontend/src/css/styles.css
+@@ -26,6 +26,7 @@
+ 
+ .link {
+   color: var(--blue);
++  text-decoration: underline;
+ }
+ 
+ #loading {
+@@ -377,7 +378,7 @@ html[dir="rtl"] .breadcrumbs .chevron {
+ .credits {
+   font-size: 0.6em;
+   margin: 3em 2.5em;
+-  color: #a5a5a5;
++  color: #636363;
+ }
+ 
+ .credits > span {
+diff --git a/frontend/src/views/Errors.vue b/frontend/src/views/Errors.vue
+index a895ea9..d7ccd72 100644
+--- a/frontend/src/views/Errors.vue
++++ b/frontend/src/views/Errors.vue
+@@ -2,10 +2,12 @@
+   <div>
+     <header-bar v-if="showHeader" showMenu showLogo />
+ 
+-    <h2 class="message">
+-      <i class="material-icons">{{ info.icon }}</i>
+-      <span>{{ t(info.message) }}</span>
+-    </h2>
++    <main>
++      <h1 class="message">
++        <i class="material-icons">{{ info.icon }}</i>
++        <span>{{ t(info.message) }}</span>
++      </h1>
++    </main>
+   </div>
+ </template>
+ 
+diff --git a/frontend/src/views/Layout.vue b/frontend/src/views/Layout.vue
+index 5a91bee..e254713 100644
+--- a/frontend/src/views/Layout.vue
++++ b/frontend/src/views/Layout.vue
+@@ -9,15 +9,16 @@
+     </div>
+     <sidebar></sidebar>
+     <main>
++      <h1 class="sr-only">{{ name }}</h1>
+       <router-view></router-view>
+       <shell
+         v-if="
+           enableExec && authStore.isLoggedIn && authStore.user?.perm.execute
+         "
+       />
++      <prompts></prompts>
++      <upload-files></upload-files>
+     </main>
+-    <prompts></prompts>
+-    <upload-files></upload-files>
+   </div>
+ </template>
+ 
+@@ -30,7 +31,7 @@ import Sidebar from "@/components/Sidebar.vue";
+ import Prompts from "@/components/prompts/Prompts.vue";
+ import Shell from "@/components/Shell.vue";
+ import UploadFiles from "@/components/prompts/UploadFiles.vue";
+-import { enableExec } from "@/utils/constants";
++import { enableExec, name } from "@/utils/constants";
+ import { computed, watch } from "vue";
+ import { useRoute } from "vue-router";
+ 
+diff --git a/frontend/src/views/Login.vue b/frontend/src/views/Login.vue
+index c7f64a5..809005d 100644
+--- a/frontend/src/views/Login.vue
++++ b/frontend/src/views/Login.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <div id="login" :class="{ recaptcha: recaptcha }">
++  <main id="login" :class="{ recaptcha: recaptcha }">
+     <form @submit="submit">
+       <img :src="logoURL" alt="File Browser" />
+       <h1>{{ name }}</h1>
+@@ -41,7 +41,7 @@
+         {{ createMode ? t("login.loginInstead") : t("login.createAnAccount") }}
+       </p>
+     </form>
+-  </div>
++  </main>
+ </template>
+ 
+ <script setup lang="ts">
+diff --git a/frontend/src/views/Settings.vue b/frontend/src/views/Settings.vue
+index 113d6af..b3ba26f 100644
+--- a/frontend/src/views/Settings.vue
++++ b/frontend/src/views/Settings.vue
+@@ -5,31 +5,23 @@
+     <div id="nav">
+       <div class="wrapper">
+         <ul>
+-          <router-link to="/settings/profile"
+-            ><li :class="{ active: $route.path === '/settings/profile' }">
+-              {{ t("settings.profileSettings") }}
+-            </li></router-link
+-          >
+-          <router-link to="/settings/shares" v-if="user?.perm.share"
+-            ><li :class="{ active: $route.path === '/settings/shares' }">
+-              {{ t("settings.shareManagement") }}
+-            </li></router-link
+-          >
+-          <router-link to="/settings/global" v-if="user?.perm.admin"
+-            ><li :class="{ active: $route.path === '/settings/global' }">
+-              {{ t("settings.globalSettings") }}
+-            </li></router-link
+-          >
+-          <router-link to="/settings/users" v-if="user?.perm.admin"
+-            ><li
+-              :class="{
+-                active:
+-                  $route.path === '/settings/users' || $route.name === 'User',
+-              }"
+-            >
+-              {{ t("settings.userManagement") }}
+-            </li></router-link
++          <li :class="{ active: $route.path === '/settings/profile' }">
++            <router-link to="/settings/profile">{{ t("settings.profileSettings") }}</router-link>
++          </li>
++          <li v-if="user?.perm.share" :class="{ active: $route.path === '/settings/shares' }">
++            <router-link to="/settings/shares">{{ t("settings.shareManagement") }}</router-link>
++          </li>
++          <li v-if="user?.perm.admin" :class="{ active: $route.path === '/settings/global' }">
++            <router-link to="/settings/global">{{ t("settings.globalSettings") }}</router-link>
++          </li>
++          <li
++            v-if="user?.perm.admin"
++            :class="{
++              active: $route.path === '/settings/users' || $route.name === 'User',
++            }"
+           >
++            <router-link to="/settings/users">{{ t("settings.userManagement") }}</router-link>
++          </li>
+         </ul>
+       </div>
+     </div>
+diff --git a/frontend/src/views/settings/Global.vue b/frontend/src/views/settings/Global.vue
+index 7a308cd..7726fe2 100644
+--- a/frontend/src/views/settings/Global.vue
++++ b/frontend/src/views/settings/Global.vue
+@@ -9,26 +9,24 @@
+ 
+         <div class="card-content">
+           <p>
+-            <input type="checkbox" v-model="settings.signup" />
+-            {{ t("settings.allowSignup") }}
++            <label><input type="checkbox" v-model="settings.signup"  /> {{ t("settings.allowSignup") }}</label>
+           </p>
+ 
+           <p>
+-            <input type="checkbox" v-model="settings.createUserDir" />
+-            {{ t("settings.createUserDir") }}
++            <label><input type="checkbox" v-model="settings.createUserDir"  /> {{ t("settings.createUserDir") }}</label>
+           </p>
+ 
+           <p>
+-            <input type="checkbox" v-model="settings.hideLoginButton" />
+-            {{ t("settings.hideLoginButton") }}
++            <label><input type="checkbox" v-model="settings.hideLoginButton"  /> {{ t("settings.hideLoginButton") }}</label>
+           </p>
+ 
+           <p>
+-            <label class="small">{{ t("settings.userHomeBasePath") }}</label>
++            <label class="small" for="userHomeBasePath">{{ t("settings.userHomeBasePath") }}</label>
+             <input
+               class="input input--block"
+               type="text"
+               v-model="settings.userHomeBasePath"
++              id="userHomeBasePath"
+             />
+           </p>
+ 
+@@ -36,11 +34,12 @@
+             <label for="minimumPasswordLength">{{
+               t("settings.minimumPasswordLength")
+             }}</label>
+-            <vue-number-input
+-              controls
++            <input
++              class="input input--block"
++              type="number"
+               v-model.number="settings.minimumPasswordLength"
+               id="minimumPasswordLength"
+-              :min="1"
++              min="1"
+             />
+           </p>
+ 
+@@ -56,6 +55,7 @@
+               type="text"
+               placeholder="bash -c, cmd /c, ..."
+               v-model="shellValue"
++              :aria-label="t('settings.executeOnShell')"
+             />
+           </div>
+ 
+@@ -76,21 +76,21 @@
+           </i18n-t>
+ 
+           <p>
+-            <input
++            <label><input
+               type="checkbox"
+               v-model="settings.branding.disableExternal"
+               id="branding-links"
+             />
+-            {{ t("settings.disableExternalLinks") }}
++            {{ t("settings.disableExternalLinks") }}</label>
+           </p>
+ 
+           <p>
+-            <input
++            <label><input
+               type="checkbox"
+               v-model="settings.branding.disableUsedPercentage"
+               id="branding-used-disk"
+             />
+-            {{ t("settings.disableUsedDiskPercentage") }}
++            {{ t("settings.disableUsedDiskPercentage") }}</label>
+           </p>
+ 
+           <p>
+@@ -145,11 +145,12 @@
+               <label for="tus-retryCount">{{
+                 t("settings.tusUploadsRetryCount")
+               }}</label>
+-              <vue-number-input
+-                controls
++              <input
++                class="input input--block"
++                type="number"
+                 v-model.number="settings.tus.retryCount"
+                 id="tus-retryCount"
+-                :min="0"
++                min="0"
+               />
+             </p>
+           </div>
+diff --git a/frontend/src/views/settings/Profile.vue b/frontend/src/views/settings/Profile.vue
+index ffb20f0..2b677e3 100644
+--- a/frontend/src/views/settings/Profile.vue
++++ b/frontend/src/views/settings/Profile.vue
+@@ -8,24 +8,16 @@
+ 
+         <div class="card-content">
+           <p>
+-            <input type="checkbox" name="hideDotfiles" v-model="hideDotfiles" />
+-            {{ t("settings.hideDotfiles") }}
++            <label><input type="checkbox" name="hideDotfiles" v-model="hideDotfiles"  /> {{ t("settings.hideDotfiles") }}</label>
+           </p>
+           <p>
+-            <input type="checkbox" name="singleClick" v-model="singleClick" />
+-            {{ t("settings.singleClick") }}
++            <label><input type="checkbox" name="singleClick" v-model="singleClick"  /> {{ t("settings.singleClick") }}</label>
+           </p>
+           <p>
+-            <input
+-              type="checkbox"
+-              name="redirectAfterCopyMove"
+-              v-model="redirectAfterCopyMove"
+-            />
+-            {{ t("settings.redirectAfterCopyMove") }}
++            <label><input type="checkbox" name="redirectAfterCopyMove" v-model="redirectAfterCopyMove" /> {{ t("settings.redirectAfterCopyMove") }}</label>
+           </p>
+           <p>
+-            <input type="checkbox" name="dateFormat" v-model="dateFormat" />
+-            {{ t("settings.setDateFormat") }}
++            <label><input type="checkbox" name="dateFormat" v-model="dateFormat"  /> {{ t("settings.setDateFormat") }}</label>
+           </p>
+           <h3>{{ t("settings.language") }}</h3>
+           <languages
+diff --git a/frontend/src/views/settings/Users.vue b/frontend/src/views/settings/Users.vue
+index 3d2e548..4e8688e 100644
+--- a/frontend/src/views/settings/Users.vue
++++ b/frontend/src/views/settings/Users.vue
+@@ -18,7 +18,7 @@
+               <th>{{ t("settings.username") }}</th>
+               <th>{{ t("settings.admin") }}</th>
+               <th>{{ t("settings.scope") }}</th>
+-              <th></th>
++              <th><span class="sr-only">Actions</span></th>
+             </tr>
+ 
+             <tr v-for="user in users" :key="user.id">

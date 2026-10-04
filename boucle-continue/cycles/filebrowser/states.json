@@ -1,0 +1,21 @@
+{
+  "states": {
+    "info-panel": {
+      "action": "clic #info (action bar) sur /files",
+      "assert": ".card.floating visible (info fichier)"
+    },
+    "multiple-select": {
+      "action": "clic #multiple-selection",
+      "assert": "#multiple-selection.active + checkboxes items"
+    },
+    "mobile-drawer": {
+      "action": "viewport 700x800 + clic .menu-button",
+      "assert": "nav.active visible (drawer mobile ≤736px)"
+    }
+  },
+  "setupSource": "tools/audit.mjs — const STATES {url,setup}",
+  "source_extrait": "\n  'info-panel': {\n    url: b => b + '/files',\n    setup: async page => {\n      await page.waitForSelector('main', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n      await page.locator('button.action[aria-label*=\"Info\"], button.action[aria-label*=\"info\"]').first().click();\n      await page.waitForSelector('.card.floating, #modal-background', { state: 'visible', timeout: 10000 });\n      await page.waitForTimeout(600);\n    },\n  },\n  'multiple-select': {\n    url: b => b + '/files',\n    setup: async page => {\n      await page.waitForSelector('main', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n      await page.locator('button.action[aria-label*=\"select multiple\"], button.action[aria-label*=\"Select multiple\"]').first().click();\n      await page.waitForSelector('#multiple-selection.active, .item input[type=\"checkbox\"]', { state: 'visible', timeout: 10000 });\n      await page.waitForTimeout(600);\n    },\n  },\n  'mobile-drawer': {\n    url: b => b + '/files',\n    setup: async page => {\n      await page.setViewportSize({ width: 700, height: 800 });\n      await page.waitForSelector('main', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n      await page.locator('.menu-button').first().click();\n      await page.waitForSelector('nav.active, #nav.active, #nav, .overlay', { state: 'visible', timeout: 10000 });\n      await page.waitForTimeout(600);\n    },\n  },",
+  "wait_for": "h2.message, main",
+  "wait_ms": 1000,
+  "notes": "3 itérations : mobile-drawer cassé viewport 900 (display:inherit à ≤736px, pas 1024)"
+}
