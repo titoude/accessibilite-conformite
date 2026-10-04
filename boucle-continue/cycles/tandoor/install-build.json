@@ -1,0 +1,13 @@
+{
+  "objet": "Preuve que patch.diff s'installe et se build sur un checkout propre du commit épinglé",
+  "checkout": "git clone --depth 1 TandoorRecipes/recipes @ 7d2e139eec08b3dc720b90fba3fa53811a4c5ebc",
+  "etapes": [
+    {"commande": "git apply cycle-artifacts/patch.diff", "resultat": "PASS — 44 fichiers modifiés + 1 nouveau (a11yShim.ts)"},
+    {"commande": "vue3/ yarn install --frozen-lockfile", "resultat": "PASS (1.53s)"},
+    {"commande": "vue3/ yarn build", "resultat": "PASS — PWA service-worker généré, 260 entrées precache (5038 KiB)"},
+    {"commande": "uv venv --python 3.12 && uv pip install -r requirements.txt SANS python-ldap/django-auth-ldap", "resultat": "PASS — adaptation harnais documentée dans manifest.json.boot (pas de headers LDAP système ; LDAP est opt-in produit)"},
+    {"commande": "manage.py check (DEBUG=1)", "resultat": "PASS — 0 issue, Django 5.2.16"}
+  ],
+  "verdict": "INSTALL-BUILD PASS",
+  "harnais_adaptations": ["requirements sans python-ldap/django-auth-ldap", "DEBUG=1 SECRET_KEY dev", "seed Space/Household/UserSpace/UserPreference + 1 recette via shell", "uv venv Python 3.12"]
+}

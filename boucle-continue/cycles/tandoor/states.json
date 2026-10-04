@@ -1,0 +1,17 @@
+{
+  "description": "Scénarios dynamiques audités (audit.mjs --states add-menu,user-menu) — déclarés dans manifest.json",
+  "setupSource": "tools/audit.mjs — carte STATES",
+  "states": {
+    "add-menu": {
+      "url": "/",
+      "setup": "readyApp() puis clic sur .v-app-bar .v-btn--icon (premier bouton icône = menu d'ajout), attente .v-menu .v-list visible (15s), +600ms de sédimentation",
+      "motif": "menu de création déplié — vérifie que le bouton '+' et le menu déroulant sont nommés/valides"
+    },
+    "user-menu": {
+      "url": "/",
+      "setup": "readyApp() puis clic sur .v-app-bar .v-avatar (activator du menu utilisateur), attente .v-menu .v-list visible (15s), +600ms",
+      "motif": "menu utilisateur déplié — avatar/boutons nommés, rôles du contenu téléporté hors .v-application"
+    }
+  },
+  "attentesCommunes": "--wait-for 'h1' + --wait 1200 sur chaque scénario (styles tardifs Vuetify — évite les faux positifs contraste fantômes, cf. cycles NginxProxyManager)"
+}

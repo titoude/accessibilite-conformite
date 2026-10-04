@@ -1,0 +1,40 @@
+{
+  "depot": "TandoorRecipes/recipes",
+  "commitEpingle": "7d2e139eec08b3dc720b90fba3fa53811a4c5ebc",
+  "statut": "SUCCÈS — axe 0 violation, vérif indépendante 15/15 PASS, éval finale 10/10 PASS, install-build PASS",
+  "baseline": { "login": { "regles": 5, "occurrences": 9 }, "app": { "regles": 14, "occurrences": 198, "incomplets": 175 }, "scenarios": 14 },
+  "final": { "regles": 0, "occurrences": 0, "erreurs": 0, "scenarios": 13, "incomplets": 162 },
+  "rounds": 12,
+  "perimetre": "scopeHash ET statesHash identiques baseline/final (02bf0e80de36 / e240f3f338) — 13 scénarios : 11 routes + états add-menu/user-menu ; baseline login séparée",
+  "famillesCorrigees": {
+    "aria-allowed-role (125)": "v-list injecte role=list + role=link sur items :to — pattern « div class=v-list » (le style sans l'injection de rôles) sur nav/tiroirs/menus ; compromis sémantique documenté : les liens restent valides dans le landmark nav",
+    "aria-required-parent (35)": "listitem sans parent list — même pattern",
+    "aria-valid-attr / aria-required-attr (17+)": "attrs ARIA tierces mal placées (aria-placeholder/multiselectable sur combobox, aria-controls/expanded sur .v-field non-combobox, aria-owns dangling, aria-dropeffect, aria-label sur div sans rôle) — MutationObserver a11yShim.ts",
+    "aria-required-children": "v-tabs ne peut contenir un v-menu ; v-list avec sous-enfants non-listitem → wrappers div",
+    "button-name / input-name": "labels sur 56+ v-btn icon-only, avatar→v-btn labellé, input[type=file], i.v-icon[role=button], multiselect-search",
+    "page-has-heading-one (12)": "h1 d-sr-only i18n sur toutes les pages",
+    "landmarks / bypass": "skip-link #main-content, v-main tabindex=-1, nav aria-labels (main/bottom/user)",
+    "color-contrast (47+)": "estompage Vuetify = opacity (pas color) → color #595959 + opacity:1 ; sélecteurs .x.x doubled-class contre les utilities !important ; NON préfixés .v-application (overlays téléportés) ; avatar blanc/primaire 3.12:1 → #9a6a48 (4.64:1)",
+    "templates Django": "lang, main landmark, skip-link, h1 login, contraste .btn app.min.css"
+  },
+  "leconsHarnais": [
+    "Vuetify calcule les rôles de v-list-item DANS le contexte VList — impossible d'avoir liens+listitem valides ensemble → div-wrapper est la seule sortie propre",
+    "Les overlays Vuetify téléportent hors de .v-application → sélecteurs de contraste non préfixés",
+    "Vuetify estompe via opacity composée, pas color → corriger color ET opacity sur l'élément ET ses conteneurs",
+    "Les utility classes Vuetify ont !important ET chargent après un <style> head → spécificité doublée .x.x requise",
+    "regex de template : <v-list([^>]*)> mange <v-list-item → corruption ; toujours (?=[\\s>]) en boundary ; un fichier corrompu = vite 500 = erreur de chargement dans l'audit",
+    "--wait-for 'h1' + --wait 1200 obligatoires : axe mesure les couleurs avant la fin des feuilles de style tardives (th fantômes)",
+    "Vite overlay persistant après erreur HMR peut fuiter dans le scan — rescanner après fix (2 violations fantômes détectées et écartées)"
+  ],
+  "artefacts": [
+    "manifest.json", "states.json", "provenance.json", "scope-compare.json",
+    "patch.diff", "patch.sha256", "verify.mjs", "eval-final.mjs",
+    "install-build.json", "reports/baseline-report.{md,json}", "reports/baseline-login-report.{md,json}", "reports/final-report.{md,json}", "reports/{baseline,final}-scope.json"
+  ],
+  "nonCouvert": "routes hors périmètre du manifeste : /welcome onboarding, /admin Django, openAPI docs, auth sociale ; thème sombre ; drag&drop ; 162 résultats axe incomplete (aria-controls dangling by-design sur menus non montés, fg '?' non mesurable sur dégradés) — triage documenté",
+  "triageIncomplets": {
+    "aria-controls (53)": "référence menu non monté au moment du scan — attribut optionnel, cible montée à l'ouverture ; conforme by-design",
+    "color-contrast fg '?' (~109)": "axe ne mesure pas le fg sur fond dégradé/image — revue manuelle : pas de texte sur ces nœuds décoratifs",
+    "autres (divers)": "résidus cv-* transitoires et attributs optionnels dangling — normalisés par a11yShim quand exigibles"
+  }
+}

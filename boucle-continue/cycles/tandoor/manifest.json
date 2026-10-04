@@ -1,0 +1,36 @@
+{
+  "cycle": 6,
+  "repo": "TandoorRecipes/recipes",
+  "commit": "7d2e139",
+  "pinned": "7d2e139 (depth-1 clone 2026-10-04)",
+  "baseUrl": "http://localhost:8000",
+  "boot": {
+    "python": "uv venv --python 3.12 venv ; uv pip install -r requirements.txt SANS python-ldap/django-auth-ldap (pas de headers LDAP système, LDAP_AUTH opt-in — adaptation harnais locale documentée)",
+    "backend": "env DEBUG=1 SECRET_KEY=dev-insecure-key ALLOWED_HOSTS='*' ; manage.py migrate ; createsuperuser admin@example.com/adminpass123 ; runserver 127.0.0.1:8000",
+    "frontend": "vue3/ : yarn install --frozen-lockfile && yarn dev (vite :5173, chargé par Django en DEBUG via django-vite)",
+    "seed": "Space+Household+UserSpace(active)+UserPreference via shell (space 4) ; 1 recette 'Test Recipe' id=2 pour la route /recipe/:id",
+    "note": "user/space/household seed manuel requis sinon redirection /welcome ; recipe 'ingredient' créée sans unit (unit=None)"
+  },
+  "auth": "storageState tools/auth.json (login allauth /accounts/login/ : name=login + name=password)",
+  "routes": [
+    "/accounts/login/",
+    "/",
+    "/advanced-search",
+    "/mealplan",
+    "/books",
+    "/shopping",
+    "/settings/account",
+    "/help",
+    "/list/recipe",
+    "/recipe/2",
+    "/edit/recipe",
+    "/pantry"
+  ],
+  "states": ["nav-drawer", "user-menu"],
+  "horsPerimetre": [
+    "/welcome (onboarding — pages /welcome, /space-setup non auditées)",
+    "admin Django /admin/",
+    "openAPI/docs (docs d'API non produit)",
+    "social auth (pas de providers configurés)"
+  ]
+}

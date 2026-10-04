@@ -1,0 +1,191 @@
+# Audit accessibilité — 2026-10-04
+
+**0 règle(s) violée(s), 0 occurrence(s), 13/13 scénario(s) audité(s), 0 erreur(s), 162 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `02bf0e80de36`
+
+## Résultats incomplets à revoir (162)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:8000/
+  - `button[aria-label="Create"]`
+  - `.me-2`
+  - `button[aria-controls="v-menu-v-17"]`
+  - `button[aria-controls="v-menu-v-19"]`
+- http://localhost:8000/advanced-search
+  - `button[aria-label="Create"]`
+  - `button[aria-label="User menu"]`
+  - `button[aria-controls="v-menu-v-19"]`
+  - `button[aria-controls="v-menu-v-21"]`
+- http://localhost:8000/mealplan
+  - `button[aria-label="Create"]`
+  - `.me-2`
+  - `.v-field--no-label`
+  - `#input-v-2`
+  - `.v-field--variant-filled[aria-controls="menu-v-10"][aria-haspopup="listbox"]`
+  - `.v-field--variant-filled[aria-controls="menu-v-16"][aria-haspopup="listbox"]`
+  - `.v-field--variant-filled[aria-controls="menu-v-22"][aria-haspopup="listbox"]`
+- http://localhost:8000/books
+  - `button[aria-controls="v-menu-v-11"]`
+  - `.me-2`
+- http://localhost:8000/shopping
+  - `button[aria-label="Create"]`
+  - `.me-2`
+  - `.me-4`
+  - `.me-0`
+  - `span[aria-controls="v-menu-v-22"]`
+  - `input`
+- http://localhost:8000/settings/account
+  - `button[aria-label="Create"]`
+  - `button[aria-label="User menu"]`
+- http://localhost:8000/help
+  - `button[aria-label="Create"]`
+  - `.me-2`
+- http://localhost:8000/list/recipe
+  - `button[aria-controls="v-menu-v-23"]`
+  - `.me-2`
+  - `button[aria-controls="v-menu-v-28"]`
+  - `button[aria-controls="v-menu-v-31"]`
+  - `.v-field--active`
+  - `#input-v-10`
+- http://localhost:8000/recipe/2
+  - `button[aria-label="Create"]`
+  - `button[aria-label="User menu"]`
+  - `div[aria-controls="v-menu-v-32"]`
+- http://localhost:8000/edit/recipe
+  - `button[aria-label="Create"]`
+  - `.me-2`
+  - `div[role="combobox"][aria-controls="menu-v-0-12"][aria-haspopup="menu"]`
+- http://localhost:8000/pantry
+  - `button[aria-controls="v-menu-v-28"]`
+  - `.me-2`
+  - `.v-field--variant-filled.v-field[aria-controls="menu-v-2"]`
+  - `.v-field--variant-filled.v-field[aria-controls="menu-v-7"]`
+  - `.v-field--active`
+  - `#input-v-15`
+- http://localhost:8000/ [state:add-menu]
+  - `button[aria-controls="v-menu-v-7"]`
+  - `.me-2`
+  - `button[aria-controls="v-menu-v-17"]`
+  - `button[aria-controls="v-menu-v-19"]`
+- http://localhost:8000/ [state:user-menu]
+  - `button[aria-label="Create"]`
+  - `.me-2`
+  - `button[aria-controls="v-menu-v-17"]`
+  - `button[aria-controls="v-menu-v-19"]`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8000/
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `.pr-0.pl-0.v-col:nth-child(1) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - `.pr-0.pl-0.v-col:nth-child(2) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - `.rounded-xl > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+- http://localhost:8000/advanced-search
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `#input-v-11`
+  - `.v-col-md-4.v-col-6.pa-0:nth-child(1) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - `.v-col-md-4.v-col-6.pa-0:nth-child(2) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+- http://localhost:8000/mealplan
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `#input-v-2`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.v-field--variant-filled[aria-controls="menu-v-10"][aria-haspopup="listbox"] > .v-field__field[data-no-activator=""] > .v-field__input[data-no-activator=""] > .v-select__selection > .v-select__selection-text`
+  - `.v-field--variant-filled[aria-controls="menu-v-16"][aria-haspopup="listbox"] > .v-field__field[data-no-activator=""] > .v-field__input[data-no-activator=""] > .v-select__selection > .v-select__selection-text`
+- http://localhost:8000/books
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `#input-v-2`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+- http://localhost:8000/shopping
+  - `.d-sm-block`
+  - `.v-chip--size-x-small > .v-chip__content[data-no-activator=""]`
+  - `.v-tab-item--selected > .v-btn__content[data-no-activator=""] > .d-md-block.d-none.ms-1`
+  - `button[value="recipes"] > .v-btn__content[data-no-activator=""] > .d-md-block.d-none.ms-1`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+- http://localhost:8000/settings/account
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `a[href$="account"] > .v-list-item__content[data-no-activator=""]`
+  - `.v-col:nth-child(1)`
+  - `.float-right > .v-btn__content[data-no-activator=""]`
+  - `.mt-2`
+  - `#input-v-6`
+  - `#input-v-9`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `a[href$="email/"] > .v-btn__content[data-no-activator=""]`
+  - … +7 autres
+- http://localhost:8000/help
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `a[href$="tandoor.dev"] > .v-btn__content[data-no-activator=""]`
+  - `.bg-info > .v-btn__content[data-no-activator=""]`
+  - `.v-alert__content`
+  - `.v-alert-title`
+  - `.bg-secondary > .v-btn__content[data-no-activator=""]`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+- http://localhost:8000/list/recipe
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `.v-btn--variant-flat > .v-btn__content[data-no-activator=""]`
+  - `#input-v-4`
+  - `.v-select__selection-text`
+- http://localhost:8000/recipe/2
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `#input-v-16`
+  - `#input-v-25`
+  - `#input-v-30`
+  - `.v-btn--slim > .v-btn__content[data-no-activator=""]`
+- http://localhost:8000/edit/recipe
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `.v-btn--variant-flat > .v-btn__content[data-no-activator=""]`
+  - `.v-tab-item--selected > .v-btn__content[data-no-activator=""]`
+  - `button[value="steps"] > .v-btn__content[data-no-activator=""]`
+  - `#input-v-0-6`
+  - `#input-v-0-9`
+  - `#input-v-0-14`
+  - `#input-v-0-18`
+  - `#input-v-0-23`
+  - … +6 autres
+- http://localhost:8000/pantry
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `#input-v-4`
+  - `#input-v-9`
+  - `.v-select__selection-text`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+- http://localhost:8000/ [state:add-menu]
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `.v-col:nth-child(1) > .v-list--density-compact.pt-0.pb-0 > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `.v-col:nth-child(2) > .v-list--density-compact.pt-0.pb-0 > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `.v-col:nth-child(3) > .v-list--density-compact.pt-0.pb-0 > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `.v-col:nth-child(4) > .v-list--density-compact.pt-0.pb-0 > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `h2`
+  - `.text-body-2`
+  - `.pr-0.pl-0.v-col:nth-child(1) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - `.pr-0.pl-0.v-col:nth-child(2) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - … +2 autres
+- http://localhost:8000/ [state:user-menu]
+  - `.d-sm-block`
+  - `.v-chip__content`
+  - `.v-col:nth-child(1) > .pt-0.pb-0.v-list--density-compact > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `.v-col:nth-child(2) > .pt-0.pb-0.v-list--density-compact > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `.v-col:nth-child(3) > .pt-0.pb-0.v-list--density-compact > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `.v-col:nth-child(4) > .pt-0.pb-0.v-list--density-compact > .text-center.v-list-item--variant-text.v-list-item > .v-list-item__content[data-no-activator=""] > .d-flex > .mt-auto.mb-auto.flex-grow-1`
+  - `h2`
+  - `.text-body-2`
+  - `.pr-0.pl-0.v-col:nth-child(1) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - `.pr-0.pl-0.v-col:nth-child(2) > .ml-3[data-v-f3575087=""] > .d-flex[data-v-f3575087=""] > .flex-grow-1.cursor-pointer[data-v-f3575087=""] > p`
+  - … +2 autres
+
