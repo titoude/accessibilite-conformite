@@ -1,0 +1,1640 @@
+diff --git a/web/components/admin/AutoplaySelector.tsx b/web/components/admin/AutoplaySelector.tsx
+index 7502b0fd13..5c17daa489 100644
+--- a/web/components/admin/AutoplaySelector.tsx
++++ b/web/components/admin/AutoplaySelector.tsx
+@@ -107,7 +107,7 @@ export const AutoplaySelector: FC<AutoplaySelectorProps> = () => {
+ 
+   return (
+     <>
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         <Translation translationKey={Localization.Admin.Autoplay.title} defaultText="Autoplay" />
+       </Title>
+       <div className="description">
+@@ -120,6 +120,7 @@ export const AutoplaySelector: FC<AutoplaySelectorProps> = () => {
+         <Select
+           defaultValue={selectedAutoplay}
+           value={selectedAutoplay}
++          aria-label="Autoplay"
+           style={{ width: '100%' }}
+           onChange={save}
+         >
+diff --git a/web/components/admin/Chart.tsx b/web/components/admin/Chart.tsx
+index df4601bd8a..3edc901955 100644
+--- a/web/components/admin/Chart.tsx
++++ b/web/components/admin/Chart.tsx
+@@ -169,6 +169,8 @@ export const Chart: FC<ChartProps> = ({
+         data={{ datasets: renderData }}
+         options={options as ChartOptions<'line'>}
+         height="70vh"
++        role="img"
++        aria-label={title ? `Line chart: ${title}` : 'Line chart'}
+       />
+       <Button
+         size="small"
+diff --git a/web/components/admin/ClientTable.tsx b/web/components/admin/ClientTable.tsx
+index ce80bfb942..b13fba09b3 100644
+--- a/web/components/admin/ClientTable.tsx
++++ b/web/components/admin/ClientTable.tsx
+@@ -90,7 +90,7 @@ export const ClientTable: FC<ClientTableProps> = ({ data }) => {
+       render: geo => (geo ? `${geo.regionName}, ${geo.countryCode}` : '-'),
+     },
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'block',
+       className: 'actions-col',
+       render: (_, row) => <BanUserButton user={row.user} isEnabled={!row.user.disabledAt} />,
+diff --git a/web/components/admin/CodecSelector.tsx b/web/components/admin/CodecSelector.tsx
+index d11715af88..a6cbba62cd 100644
+--- a/web/components/admin/CodecSelector.tsx
++++ b/web/components/admin/CodecSelector.tsx
+@@ -132,7 +132,7 @@ export const CodecSelector: FC<CodecSelectorProps> = () => {
+ 
+   return (
+     <>
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Video Codec
+       </Title>
+       <div className="description">
+@@ -162,6 +162,7 @@ export const CodecSelector: FC<CodecSelectorProps> = () => {
+           <Select
+             defaultValue={selectedCodec}
+             value={selectedCodec}
++            aria-label="Video codec"
+             style={{ width: '100%' }}
+             onChange={handleChange}
+           >
+diff --git a/web/components/admin/CurrentVariantsTable.tsx b/web/components/admin/CurrentVariantsTable.tsx
+index d486a0ee64..2d77c53523 100644
+--- a/web/components/admin/CurrentVariantsTable.tsx
++++ b/web/components/admin/CurrentVariantsTable.tsx
+@@ -161,7 +161,7 @@ export const CurrentVariantsTable: FC = () => {
+           : ENCODER_PRESET_TOOLTIPS[level]?.split(' ')[0] || 'Warning: please edit & reset',
+     },
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       dataIndex: '',
+       key: 'edit',
+       render: ({ key }: VideoVariant) => {
+@@ -213,7 +213,7 @@ export const CurrentVariantsTable: FC = () => {
+ 
+   return (
+     <>
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Stream output
+       </Title>
+ 
+diff --git a/web/components/admin/EditCustomJavascript.tsx b/web/components/admin/EditCustomJavascript.tsx
+index 565b4783b8..e9f9046c7f 100644
+--- a/web/components/admin/EditCustomJavascript.tsx
++++ b/web/components/admin/EditCustomJavascript.tsx
+@@ -79,7 +79,7 @@ export const EditCustomJavascript: FC = () => {
+ 
+   return (
+     <div className="edit-custom-css">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Customize your page with Javascript
+       </Title>
+ 
+@@ -98,7 +98,15 @@ export const EditCustomJavascript: FC = () => {
+         placeholder="/* Enter custom Javascript here */"
+         theme={bbedit}
+         height="200px"
+-        extensions={[javascript(), EditorView.lineWrapping]}
++        extensions={[
++          javascript(),
++          EditorView.lineWrapping,
++          EditorView.contentAttributes.of({
++            role: 'textbox',
++            'aria-label': 'Custom JavaScript',
++            'aria-multiline': 'true',
++          }),
++        ]}
+         onChange={onValueChange}
+       />
+ 
+diff --git a/web/components/admin/EditCustomStyles.tsx b/web/components/admin/EditCustomStyles.tsx
+index 9556b05f1d..00ee21c2e2 100644
+--- a/web/components/admin/EditCustomStyles.tsx
++++ b/web/components/admin/EditCustomStyles.tsx
+@@ -80,7 +80,7 @@ export const EditCustomStyles: FC = () => {
+ 
+   return (
+     <div className="edit-custom-css">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Customize your page styling with CSS
+       </Title>
+ 
+@@ -101,7 +101,15 @@ export const EditCustomStyles: FC = () => {
+         placeholder="/* Enter custom CSS here */"
+         theme={bbedit}
+         height="200px"
+-        extensions={[css(), EditorView.lineWrapping]}
++        extensions={[
++          css(),
++          EditorView.lineWrapping,
++          EditorView.contentAttributes.of({
++            role: 'textbox',
++            'aria-label': 'Custom styles',
++            'aria-multiline': 'true',
++          }),
++        ]}
+         onChange={onCSSValueChange}
+       />
+ 
+diff --git a/web/components/admin/EditValueArray.tsx b/web/components/admin/EditValueArray.tsx
+index 9d567aba6d..418be1495a 100644
+--- a/web/components/admin/EditValueArray.tsx
++++ b/web/components/admin/EditValueArray.tsx
+@@ -48,7 +48,7 @@ export const EditValueArray: FC<EditStringArrayProps> = ({
+ 
+   return (
+     <div className="edit-string-array-container">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         {title}
+       </Title>
+       <p className="description">{description}</p>
+diff --git a/web/components/admin/LogTable.tsx b/web/components/admin/LogTable.tsx
+index 48be4385ad..80201915bb 100644
+--- a/web/components/admin/LogTable.tsx
++++ b/web/components/admin/LogTable.tsx
+@@ -82,7 +82,7 @@ export const LogTable: FC<LogTableProps> = ({ logs, initialPageSize }) => {
+ 
+   return (
+     <div className="logs-section">
+-      <Title>{t(Localization.Admin.LogTable.logs)}</Title>
++      <Title level={2}>{t(Localization.Admin.LogTable.logs)}</Title>
+       <Table
+         size="middle"
+         dataSource={logs}
+diff --git a/web/components/admin/MainLayout.tsx b/web/components/admin/MainLayout.tsx
+index 3aa78b4e97..60c677a75c 100644
+--- a/web/components/admin/MainLayout.tsx
++++ b/web/components/admin/MainLayout.tsx
+@@ -427,12 +427,12 @@ export const MainLayout: FC<MainLayoutProps> = ({ children }) => {
+       )}
+ 
+       <Sider width={240} className="side-nav">
+-        <h1 className="owncast-title">
++        <div className="owncast-title">
+           <span className="logo-container">
+             <OwncastLogo variant="simple" />
+           </span>
+           <span className="title-label">Owncast Admin</span>
+-        </h1>
++        </div>
+         <Menu
+           mode="inline"
+           theme="dark"
+diff --git a/web/components/admin/Offline.tsx b/web/components/admin/Offline.tsx
+index 366c15f0f8..9629a147d7 100644
+--- a/web/components/admin/Offline.tsx
++++ b/web/components/admin/Offline.tsx
+@@ -156,7 +156,7 @@ export const Offline: FC<OfflineProps> = ({ logs = [], config }) => {
+               <OwncastLogo variant="simple" />
+             </span>
+             <div>
+-              <Title level={2}>{t('No stream is active')}</Title>
++              <Title level={1}>{t('No stream is active')}</Title>
+               <p>{t('You should start one.')}</p>
+             </div>
+           </div>
+diff --git a/web/components/admin/ResetYP.tsx b/web/components/admin/ResetYP.tsx
+index c9c5306de9..61651aef05 100644
+--- a/web/components/admin/ResetYP.tsx
++++ b/web/components/admin/ResetYP.tsx
+@@ -47,7 +47,7 @@ export const ResetYP: FC = () => {
+ 
+   return (
+     <>
+-      <Typography.Title level={3} className="section-title">
++      <Typography.Title level={2} className="section-title">
+         Reset Directory
+       </Typography.Title>
+       <p className="description">
+diff --git a/web/components/admin/SocialDropdown.tsx b/web/components/admin/SocialDropdown.tsx
+index 6837473ef2..af6819fa7a 100644
+--- a/web/components/admin/SocialDropdown.tsx
++++ b/web/components/admin/SocialDropdown.tsx
+@@ -32,6 +32,7 @@ export const SocialDropdown: FC<DropdownProps> = ({ iconList, selectedOption, on
+             style={{ width: 240 }}
+             className="social-dropdown"
+             placeholder="Social platform..."
++            aria-label="Social platform"
+             defaultValue={inititalSelected}
+             value={inititalSelected}
+             onSelect={handleSelected}
+diff --git a/web/components/admin/StatisticItem.tsx b/web/components/admin/StatisticItem.tsx
+index c338c57929..8e2ae4035b 100644
+--- a/web/components/admin/StatisticItem.tsx
++++ b/web/components/admin/StatisticItem.tsx
+@@ -55,6 +55,7 @@ const ProgressView: FC<StatisticItemProps> = ({
+       type="dashboard"
+       percent={value}
+       width={120}
++      aria-label={title || undefined}
+       strokeColor={{
+         '0%': color,
+         '90%': endColor,
+diff --git a/web/components/admin/TextField.tsx b/web/components/admin/TextField.tsx
+index e14218039e..196ac77f48 100644
+--- a/web/components/admin/TextField.tsx
++++ b/web/components/admin/TextField.tsx
+@@ -14,6 +14,7 @@ export const TEXTFIELD_TYPE_URL = 'url';
+ 
+ export type TextFieldProps = {
+   fieldName: string;
++  fieldId?: string;
+ 
+   onSubmit?: () => void;
+   onPressEnter?: () => void;
+@@ -40,6 +41,7 @@ export const TextField: FC<TextFieldProps> = ({
+   className = '',
+   disabled = false,
+   fieldName,
++  fieldId: fieldIdProp,
+   label = '',
+   maxLength = 255,
+   onBlur = () => {},
+@@ -124,7 +126,7 @@ export const TextField: FC<TextFieldProps> = ({
+     };
+   }
+ 
+-  const fieldId = `field-${fieldName}`;
++  const fieldId = fieldIdProp ?? `field-${fieldName}`;
+ 
+   const { type: statusType } = status || {};
+ 
+diff --git a/web/components/admin/VideoLatency.tsx b/web/components/admin/VideoLatency.tsx
+index cff2d63873..c671798b41 100644
+--- a/web/components/admin/VideoLatency.tsx
++++ b/web/components/admin/VideoLatency.tsx
+@@ -115,7 +115,7 @@ export const VideoLatency: FC = () => {
+ 
+   return (
+     <div className="config-video-latency-container">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Latency Buffer
+       </Title>
+       <p className="description">
+@@ -144,6 +144,7 @@ export const VideoLatency: FC = () => {
+           marks={SLIDER_MARKS}
+           defaultValue={selectedOption}
+           value={selectedOption}
++          ariaLabelForHandle="Latency buffer level"
+         />
+         <p className="selected-value-note">{SLIDER_COMMENTS[selectedOption]}</p>
+         <FormStatusIndicator status={submitStatus} />
+diff --git a/web/components/admin/VideoVariantForm.tsx b/web/components/admin/VideoVariantForm.tsx
+index 7e95cc5d28..4da59ede9a 100644
+--- a/web/components/admin/VideoVariantForm.tsx
++++ b/web/components/admin/VideoVariantForm.tsx
+@@ -190,6 +190,7 @@ export const VideoVariantForm: FC<VideoVariantFormProps> = ({
+                 defaultValue={dataState.cpuUsageLevel}
+                 value={dataState.cpuUsageLevel}
+                 disabled={dataState.videoPassthrough}
++                ariaLabelForHandle="CPU or GPU utilization level"
+               />
+               <p className="selected-value-note">{cpuUsageNote()}</p>
+             </div>
+@@ -227,6 +228,7 @@ export const VideoVariantForm: FC<VideoVariantFormProps> = ({
+                 min={VIDEO_BITRATE_DEFAULTS.min}
+                 max={VIDEO_BITRATE_DEFAULTS.max}
+                 marks={VIDEO_BITRATE_SLIDER_MARKS}
++                ariaLabelForHandle="Video bitrate"
+               />
+               <p style={{ marginTop: '40px' }}>{selectedVideoBRnote()}</p>
+             </div>
+@@ -349,6 +351,7 @@ export const VideoVariantForm: FC<VideoVariantFormProps> = ({
+                 max={FRAMERATE_DEFAULTS.max}
+                 marks={FRAMERATE_SLIDER_MARKS}
+                 disabled={dataState.videoPassthrough}
++                ariaLabelForHandle="Frame rate"
+               />
+               <p className="selected-value-note">{selectedFramerateNote()}</p>
+             </div>
+diff --git a/web/components/admin/config/general/AppearanceConfig.tsx b/web/components/admin/config/general/AppearanceConfig.tsx
+index 02f76a4b09..f9e7359e16 100644
+--- a/web/components/admin/config/general/AppearanceConfig.tsx
++++ b/web/components/admin/config/general/AppearanceConfig.tsx
+@@ -280,7 +280,7 @@ export default function Appearance() {
+   return (
+     <>
+       <Space direction="vertical">
+-        <Title>Customize Appearance</Title>
++        <Title level={2}>Customize Appearance</Title>
+         <Paragraph>The following colors are used across the user interface.</Paragraph>
+         {styleContributors.length > 0 && (
+           <Alert
+@@ -324,6 +324,7 @@ export default function Appearance() {
+                     min={0}
+                     max={20}
+                     tooltip={{ formatter: null }}
++                    ariaLabelForHandle="Corner roundness in pixels"
+                     onChange={v => {
+                       onBorderRadiusChange(v);
+                     }}
+diff --git a/web/components/admin/config/general/EditInstanceDetails.tsx b/web/components/admin/config/general/EditInstanceDetails.tsx
+index 23766959b2..faa0627aa0 100644
+--- a/web/components/admin/config/general/EditInstanceDetails.tsx
++++ b/web/components/admin/config/general/EditInstanceDetails.tsx
+@@ -193,7 +193,7 @@ export default function EditInstanceDetails() {
+ 
+   return (
+     <div className="edit-general-settings">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Configure Instance Details
+       </Title>
+       <br />
+@@ -247,6 +247,11 @@ export default function EditInstanceDetails() {
+             extensions={[
+               markdown({ base: markdownLanguage, codeLanguages: languages }),
+               EditorView.lineWrapping,
++              EditorView.contentAttributes.of({
++                role: 'textbox',
++                'aria-label': 'Offline message',
++                'aria-multiline': 'true',
++              }),
+             ]}
+           />
+         </div>
+diff --git a/web/components/admin/config/general/EditInstanceTags.tsx b/web/components/admin/config/general/EditInstanceTags.tsx
+index 53c231e343..9b6f392182 100644
+--- a/web/components/admin/config/general/EditInstanceTags.tsx
++++ b/web/components/admin/config/general/EditInstanceTags.tsx
+@@ -111,7 +111,7 @@ export default function EditInstanceTags() {
+ 
+   return (
+     <div className="tag-editor-container">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Add Tags
+       </Title>
+       <p className="description">
+diff --git a/web/components/admin/config/general/EditPageContent.tsx b/web/components/admin/config/general/EditPageContent.tsx
+index 6c9fe5c9fb..a910835f1e 100644
+--- a/web/components/admin/config/general/EditPageContent.tsx
++++ b/web/components/admin/config/general/EditPageContent.tsx
+@@ -81,7 +81,7 @@ export default function EditPageContent() {
+ 
+   return (
+     <div className="edit-page-content">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Custom Page Content
+       </Title>
+ 
+@@ -106,6 +106,11 @@ export default function EditPageContent() {
+         extensions={[
+           markdown({ base: markdownLanguage, codeLanguages: languages }),
+           EditorView.lineWrapping,
++          EditorView.contentAttributes.of({
++            role: 'textbox',
++            'aria-label': 'Custom page content',
++            'aria-multiline': 'true',
++          }),
+         ]}
+       />
+ 
+diff --git a/web/components/admin/config/general/EditSocialLinks.tsx b/web/components/admin/config/general/EditSocialLinks.tsx
+index c7072ad762..550304b67b 100644
+--- a/web/components/admin/config/general/EditSocialLinks.tsx
++++ b/web/components/admin/config/general/EditSocialLinks.tsx
+@@ -257,7 +257,7 @@ export default function EditSocialLinks() {
+       },
+     },
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       dataIndex: '',
+       key: 'edit',
+       render: (_, _record, index) => (
+@@ -329,7 +329,7 @@ export default function EditSocialLinks() {
+ 
+   return (
+     <div className="social-links-edit-container">
+-      <Title level={3} className="section-title">
++      <Title level={2} className="section-title">
+         Your Social Handles
+       </Title>
+       <p className="description">
+diff --git a/web/components/admin/config/server/StreamKeys.tsx b/web/components/admin/config/server/StreamKeys.tsx
+index a73a2350d8..4d6e2773bb 100644
+--- a/web/components/admin/config/server/StreamKeys.tsx
++++ b/web/components/admin/config/server/StreamKeys.tsx
+@@ -181,7 +181,7 @@ const StreamKeys = () => {
+       key: 'comment',
+     },
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'delete',
+       render: text => (
+         <Button
+diff --git a/web/components/admin/notification/browser.tsx b/web/components/admin/notification/browser.tsx
+index 692b8a9445..7df8435331 100644
+--- a/web/components/admin/notification/browser.tsx
++++ b/web/components/admin/notification/browser.tsx
+@@ -94,7 +94,7 @@ export const BrowserNotify = () => {
+ 
+   return (
+     <>
+-      <Title>Browser Alerts</Title>
++      <Title level={2}>Browser Alerts</Title>
+       <p className="description reduced-margins">
+         Viewers can opt into being notified when you go live with their browser.
+       </p>
+diff --git a/web/components/admin/notification/discord.tsx b/web/components/admin/notification/discord.tsx
+index f488d084fe..466259aecc 100644
+--- a/web/components/admin/notification/discord.tsx
++++ b/web/components/admin/notification/discord.tsx
+@@ -100,7 +100,7 @@ export const DiscordNotify = () => {
+ 
+   return (
+     <>
+-      <Title>Discord</Title>
++      <Title level={2}>Discord</Title>
+       <p className="description reduced-margins">
+         Let your Discord channel know each time you go live.
+       </p>
+@@ -133,6 +133,7 @@ export const DiscordNotify = () => {
+       <div style={{ display: formDataValues.enabled ? 'block' : 'none' }}>
+         <TextField
+           {...DISCORD_CONFIG_FIELDS.goLiveMessage}
++          fieldId="field-goLiveMessage-discord"
+           required
+           value={formDataValues.goLiveMessage}
+           onChange={handleFieldChange}
+diff --git a/web/components/admin/notification/federation.tsx b/web/components/admin/notification/federation.tsx
+index 9206990b0d..5c67c6f994 100644
+--- a/web/components/admin/notification/federation.tsx
++++ b/web/components/admin/notification/federation.tsx
+@@ -21,14 +21,14 @@ export const FediverseNotify = () => {
+ 
+   return (
+     <>
+-      <Title>Fediverse Social</Title>
++      <Title level={2}>Fediverse Social</Title>
+       <p className="description">
+         Enabling the Fediverse social features will not just alert people to when you go live, but
+         also enable other functionality.
+       </p>
+       <p>
+         Fediverse social features:{' '}
+-        <span style={{ color: federation.enabled ? 'green' : 'red' }}>
++        <span style={{ color: federation.enabled ? '#237804' : '#cf1322' }}>
+           {formDataValues.enabled ? 'Enabled' : 'Disabled'}
+         </span>
+       </p>
+diff --git a/web/components/admin/plugins/BrowseRegistry.tsx b/web/components/admin/plugins/BrowseRegistry.tsx
+index c6a0fa1f8d..e0847598c6 100644
+--- a/web/components/admin/plugins/BrowseRegistry.tsx
++++ b/web/components/admin/plugins/BrowseRegistry.tsx
+@@ -276,6 +276,7 @@ export const BrowseRegistry = ({
+           allowClear
+           className={s.filterSelect}
+           placeholder={t(Localization.Admin.Plugins.browseFilterCategory)}
++          aria-label={t(Localization.Admin.Plugins.browseFilterCategory)}
+           value={categoryFilter}
+           onChange={setCategoryFilter}
+           options={categoryOptions}
+@@ -286,6 +287,7 @@ export const BrowseRegistry = ({
+         allowClear
+         className={s.filterSelect}
+         placeholder={t(Localization.Admin.Plugins.browseFilterPermissions)}
++        aria-label={t(Localization.Admin.Plugins.browseFilterPermissions)}
+         value={permissionFilter}
+         onChange={setPermissionFilter}
+         options={permissionOptions}
+@@ -294,6 +296,7 @@ export const BrowseRegistry = ({
+         allowClear
+         className={s.filterSelect}
+         placeholder={t(Localization.Admin.Plugins.browseFilterAuthor)}
++        aria-label={t(Localization.Admin.Plugins.browseFilterAuthor)}
+         value={authorFilter}
+         onChange={setAuthorFilter}
+         options={authorOptions}
+diff --git a/web/components/admin/plugins/PluginsList.tsx b/web/components/admin/plugins/PluginsList.tsx
+index cb02290b15..6022db81a9 100644
+--- a/web/components/admin/plugins/PluginsList.tsx
++++ b/web/components/admin/plugins/PluginsList.tsx
+@@ -209,7 +209,7 @@ export const PluginsList = ({
+       },
+     },
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'actions',
+       render: (_: unknown, plugin: Plugin) => (
+         <Space>
+diff --git a/web/components/chat/ChatContainer/ChatContainer.tsx b/web/components/chat/ChatContainer/ChatContainer.tsx
+index 19b12af17a..879677072f 100644
+--- a/web/components/chat/ChatContainer/ChatContainer.tsx
++++ b/web/components/chat/ChatContainer/ChatContainer.tsx
+@@ -1,3 +1,4 @@
++import { useTranslation } from 'next-export-i18n';
+ import { Virtuoso } from 'react-virtuoso';
+ import { useState, useMemo, useRef, CSSProperties, FC, useEffect } from 'react';
+ import { ErrorBoundary, getErrorMessage } from 'react-error-boundary';
+@@ -21,6 +22,7 @@ import { ChatSocialMessage } from '../ChatSocialMessage/ChatSocialMessage';
+ import { ChatNameChangeMessage } from '../ChatNameChangeMessage/ChatNameChangeMessage';
+ import { User } from '../../../interfaces/user.model';
+ import { ComponentError } from '../../ui/ComponentError/ComponentError';
++import { Localization } from '../../../types/localization';
+ 
+ export type ChatContainerProps = {
+   messages: ChatMessage[];
+@@ -90,6 +92,7 @@ export const ChatContainer: FC<ChatContainerProps> = ({
+   inputEnabled,
+   inputDisabledPlaceholder,
+ }) => {
++  const { t } = useTranslation();
+   // If inputEnabled is explicitly set, use that; otherwise fall back to chatAvailable
+   const chatInputEnabled = inputEnabled !== undefined ? inputEnabled : chatAvailable;
+   const [showScrollToBottomButton, setShowScrollToBottomButton] = useState(false);
+@@ -366,6 +369,8 @@ export const ChatContainer: FC<ChatContainerProps> = ({
+     >
+       <div
+         aria-live="off"
++        role="complementary"
++        aria-label={t(Localization.Frontend.Chat.regionLabel)}
+         id="chat-container"
+         className={`${styles.chatContainer}${readonly ? ' readonly-chat' : ''}`}
+         style={desktop && { width: `${defaultChatWidth}px` }}
+diff --git a/web/components/chat/ChatTextField/ChatTextField.module.scss b/web/components/chat/ChatTextField/ChatTextField.module.scss
+index 64b91aa95c..1201fcfc20 100644
+--- a/web/components/chat/ChatTextField/ChatTextField.module.scss
++++ b/web/components/chat/ChatTextField/ChatTextField.module.scss
+@@ -72,6 +72,8 @@
+   background: none;
+   cursor: pointer;
+   padding: 0 0.25rem;
++  min-width: 24px;
++  min-height: 24px;
+ }
+ 
+ .sendButton {
+diff --git a/web/components/layouts/Main/Main.tsx b/web/components/layouts/Main/Main.tsx
+index 82c5d22fbd..b813e5f6f0 100644
+--- a/web/components/layouts/Main/Main.tsx
++++ b/web/components/layouts/Main/Main.tsx
+@@ -67,7 +67,7 @@ export const Main: FC = () => {
+         <link rel="authorization_endpoint" href="/api/auth/provider/indieauth" />
+         <meta
+           name="viewport"
+-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
++          content="width=device-width, initial-scale=1.0"
+         />
+         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+ 
+diff --git a/web/components/modals/NameChangeModal/NameChangeModal.tsx b/web/components/modals/NameChangeModal/NameChangeModal.tsx
+index 20a04eee76..f31efc7581 100644
+--- a/web/components/modals/NameChangeModal/NameChangeModal.tsx
++++ b/web/components/modals/NameChangeModal/NameChangeModal.tsx
+@@ -146,6 +146,7 @@ export const NameChangeModal: FC<NameChangeModalProps> = ({ closeModal }) => {
+           onChange={handleColorChange}
+           defaultValue={displayColor?.toString()}
+           className={styles.colorDropdown}
++          aria-label={t(Localization.Frontend.NameChangeModal.colorLabel)}
+         >
+           {colorOptions.map(e => (
+             <Option key={e.toString()} value={e.toString()} title={e.toString()}>
+diff --git a/web/components/theme/AntdProvider.tsx b/web/components/theme/AntdProvider.tsx
+index 1d621479dc..1811fbf7d2 100644
+--- a/web/components/theme/AntdProvider.tsx
++++ b/web/components/theme/AntdProvider.tsx
+@@ -165,5 +165,17 @@ export const AntdProvider: FC<AntdProviderProps> = ({ children }) => {
+     staticsTheme = theme;
+   }, [theme]);
+ 
+-  return <ConfigProvider theme={theme}>{children}</ConfigProvider>;
++  // Portaled overlays (Modal, Dropdown, Select, Tooltip, message,
++  // notification) default to document.body — outside every landmark.
++  // Route them into the complementary popup layer from _document so axe's
++  // 'region' rule sees overlay content inside a landmark.
++  const getPopupContainer = () =>
++    (typeof document !== 'undefined' && document.getElementById('a11y-popup-layer')) ||
++    document.body;
++
++  return (
++    <ConfigProvider theme={theme} getPopupContainer={getPopupContainer}>
++      {children}
++    </ConfigProvider>
++  );
+ };
+diff --git a/web/components/theme/antd-default-theme.json b/web/components/theme/antd-default-theme.json
+index 3a78d8d236..237438470b 100644
+--- a/web/components/theme/antd-default-theme.json
++++ b/web/components/theme/antd-default-theme.json
+@@ -1,5 +1,7 @@
+ {
+-  "cssVar": { "key": "owncast" },
++  "cssVar": {
++    "key": "owncast"
++  },
+   "token": {
+     "colorPrimary": "#6544e9",
+     "colorLink": "#6544e9",
+@@ -13,7 +15,10 @@
+     "colorTextSecondary": "#5d5f72",
+     "colorError": "#ff4b39",
+     "colorWarning": "#ffc655",
+-    "fontFamily": "var(--theme-text-body-font-family)"
++    "fontFamily": "var(--theme-text-body-font-family)",
++    "colorTextTertiary": "#5c5f6b",
++    "colorTextDescription": "#5c5f6b",
++    "colorTextQuaternary": "#737373"
+   },
+   "components": {
+     "Modal": {
+diff --git a/web/components/ui/Content/Content.tsx b/web/components/ui/Content/Content.tsx
+index 103b55d7f1..b23a46df00 100644
+--- a/web/components/ui/Content/Content.tsx
++++ b/web/components/ui/Content/Content.tsx
+@@ -258,7 +258,7 @@ export const Content: FC = () => {
+     : t(Localization.Frontend.chatDisabled);
+ 
+   return (
+-    <div className={styles.main}>
++    <main className={styles.main}>
+       <div className={styles.mainColumn}>
+         {appState.appLoading && (
+           <div
+@@ -420,6 +420,6 @@ export const Content: FC = () => {
+           Chat <MessageFilled />
+         </Button>
+       )}
+-    </div>
++    </main>
+   );
+ };
+diff --git a/web/components/ui/Header/Header.tsx b/web/components/ui/Header/Header.tsx
+index 00c4e1c582..7cd98a9f36 100644
+--- a/web/components/ui/Header/Header.tsx
++++ b/web/components/ui/Header/Header.tsx
+@@ -50,7 +50,7 @@ export const Header: FC<HeaderComponentProps> = ({ name, chatAvailable, chatDisa
+       </Link>
+       <div className={styles.logo}>
+         <div id="header-logo" className={styles.logoImage}>
+-          <Avatar src="/logo" size="large" shape="circle" className={styles.avatar} />
++          <Avatar src="/logo" size="large" shape="circle" className={styles.avatar} alt="" />
+         </div>
+         <h1 className={styles.title} id="global-header-text">
+           {name}
+diff --git a/web/components/ui/NotifyReminderPopup/NotifyReminderPopup.tsx b/web/components/ui/NotifyReminderPopup/NotifyReminderPopup.tsx
+index b0a82972fa..11a54c683d 100644
+--- a/web/components/ui/NotifyReminderPopup/NotifyReminderPopup.tsx
++++ b/web/components/ui/NotifyReminderPopup/NotifyReminderPopup.tsx
+@@ -49,16 +49,18 @@ export const NotifyReminderPopup: FC<NotifyReminderPopupProps> = ({
+   };
+ 
+   const content = (
+-    <div onClick={popupClicked} onKeyDown={popupClicked} role="menuitem" tabIndex={0}>
++    <div>
+       <button
+         type="button"
+-        aria-label="Follow"
++        aria-label="Close"
+         className={styles.closebutton}
+         onClick={popupClosed}
+       >
+         <CloseOutlined />
+       </button>
+-      <div className={styles.contentbutton}>{t('Click and never miss future streams!')}</div>
++      <button type="button" className={styles.contentbutton} onClick={popupClicked}>
++        {t('Click and never miss future streams!')}
++      </button>
+     </div>
+   );
+ 
+diff --git a/web/components/ui/OfflineBanner/OfflineBanner.module.scss b/web/components/ui/OfflineBanner/OfflineBanner.module.scss
+index 2e90235763..b8ef446685 100644
+--- a/web/components/ui/OfflineBanner/OfflineBanner.module.scss
++++ b/web/components/ui/OfflineBanner/OfflineBanner.module.scss
+@@ -61,12 +61,14 @@
+ .bodyText {
+   :global(.notify-link),
+   :global(.follow-link) {
+-    color: var(--theme-color-action);
++    // The banner sits on a dark surface: theme-color-action (#6544e9)
++    // only reaches 3.55:1 on black — use the light variant for WCAG 1.4.3.
++    color: var(--theme-color-palette-7);
+     text-decoration: underline;
+     cursor: pointer;
+ 
+     &:hover {
+-      color: var(--color-owncast-palette-7);
++      color: var(--color-owncast-palette-10);
+     }
+   }
+ 
+diff --git a/web/components/ui/Statusbar/Statusbar.tsx b/web/components/ui/Statusbar/Statusbar.tsx
+index 1ca71f61b5..27cab5c452 100644
+--- a/web/components/ui/Statusbar/Statusbar.tsx
++++ b/web/components/ui/Statusbar/Statusbar.tsx
+@@ -76,7 +76,9 @@ export const Statusbar: FC<StatusbarProps> = ({
+ 
+   return (
+     <div className={classNames(styles.statusbar, className)}>
+-      <span className={styles.onlineMessage}>{onlineMessage}</span>
++      <span className={styles.onlineMessage} role="status">
++        {onlineMessage}
++      </span>
+       <span className={styles.viewerCount}>{rightSideMessage}</span>
+     </div>
+   );
+diff --git a/web/i18n/en/translation.json b/web/i18n/en/translation.json
+index 988cd1b803..09c856be84 100644
+--- a/web/i18n/en/translation.json
++++ b/web/i18n/en/translation.json
+@@ -477,7 +477,8 @@
+ 			"moderatorNotification": "You are now a moderator.",
+ 			"nameChangeText": "is now known as",
+ 			"userJoined": "joined the chat.",
+-			"userLeft": "left the chat."
++			"userLeft": "left the chat.",
++			"regionLabel": "Chat"
+ 		},
+ 		"FollowModal": {
+ 			"description": "By following this stream you'll get notified on the Fediverse when it goes live. Now is a great time to",
+@@ -524,6 +525,7 @@
+ 		},
+ 		"chatDisabled": "Chat is disabled",
+ 		"chatEmbedTitle": "{{name}} Chat",
++		"videoEmbedTitle": "{{name}} Video",
+ 		"chatOffline": "Chat is offline",
+ 		"componentError": "Error: {{message}}",
+ 		"helloWorld": "Hello world",
+diff --git a/web/pages/_document.tsx b/web/pages/_document.tsx
+index 2c44221e31..bbf8fb8bd0 100644
+--- a/web/pages/_document.tsx
++++ b/web/pages/_document.tsx
+@@ -40,10 +40,16 @@ class InlineStylesHead extends Head {
+ 
+ export default function Document() {
+   return (
+-    <Html>
++    <Html lang="en">
+       <InlineStylesHead />
+       <body>
+         <Main />
++        {/* Landmark layer for portaled overlays (antd Modals, Dropdowns,
++            Selects, notifications). Portals default to document.body, which
++            sits outside every landmark and triggers axe 'region' +
++            'aria-hidden-focus' violations; routing them here keeps overlay
++            content inside an accessibility landmark. */}
++        <div id="a11y-popup-layer" role="complementary" aria-label="Popup layer" />
+         <NextScript />
+       </body>
+     </Html>
+diff --git a/web/pages/admin/access-tokens.tsx b/web/pages/admin/access-tokens.tsx
+index 528cf3a32d..da98e8ec9f 100644
+--- a/web/pages/admin/access-tokens.tsx
++++ b/web/pages/admin/access-tokens.tsx
+@@ -190,7 +190,7 @@ const AccessTokens = () => {
+ 
+   const columns = [
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'delete',
+       render: (_, record) => (
+         <Space size="middle">
+diff --git a/web/pages/admin/actions.tsx b/web/pages/admin/actions.tsx
+index a4d9848f81..366f19c6b9 100644
+--- a/web/pages/admin/actions.tsx
++++ b/web/pages/admin/actions.tsx
+@@ -153,6 +153,7 @@ const ActionModal = (props: Props) => {
+             value={actionType}
+             onChange={setActionType}
+             placeholder={t(Localization.Admin.Actions.selectActionType)}
++            aria-label={t(Localization.Admin.Actions.selectActionType)}
+             options={[
+               { label: t(Localization.Admin.Actions.linkOrEmbedUrl), value: 'url' },
+               { label: t(Localization.Admin.Actions.customHtml), value: 'html' },
+@@ -368,7 +369,7 @@ const Actions = () => {
+ 
+   const columns = [
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'delete-edit',
+       render: (_, record, index) => (
+         <Space size="middle">
+diff --git a/web/pages/admin/config-notify.tsx b/web/pages/admin/config-notify.tsx
+index a959ed9cdf..88fb56dde6 100644
+--- a/web/pages/admin/config-notify.tsx
++++ b/web/pages/admin/config-notify.tsx
+@@ -120,7 +120,7 @@ export default function ConfigNotify() {
+           className={`form-module ${enabled ? '' : 'disabled'}`}
+           style={{ margin: '5px', display: 'flex', flexDirection: 'column' }}
+         >
+-          <Title>Custom</Title>
++          <Title level={2}>Custom</Title>
+           <p className="description">Build your own notifications by using custom webhooks.</p>
+ 
+           <Link passHref href="/admin/webhooks">
+diff --git a/web/pages/admin/config/general/index.tsx b/web/pages/admin/config/general/index.tsx
+index 789c26fafd..98f2bb4e96 100644
+--- a/web/pages/admin/config/general/index.tsx
++++ b/web/pages/admin/config/general/index.tsx
+@@ -1,5 +1,5 @@
+ import { ReactElement } from 'react';
+-import { Tabs } from 'antd';
++import { Tabs, Typography } from 'antd';
+ 
+ import GeneralConfig from '../../../../components/admin/config/general/GeneralConfig';
+ import AppearanceConfig from '../../../../components/admin/config/general/AppearanceConfig';
+@@ -10,6 +10,9 @@ import { EditCustomJavascript } from '../../../../components/admin/EditCustomJav
+ export default function PublicFacingDetails() {
+   return (
+     <div className="config-public-details-page">
++      <Typography.Title level={1} className="visually-hidden">
++        General
++      </Typography.Title>
+       <Tabs
+         defaultActiveKey="1"
+         centered
+diff --git a/web/pages/admin/config/server/index.tsx b/web/pages/admin/config/server/index.tsx
+index 351d50c83d..b7aa3d17f8 100644
+--- a/web/pages/admin/config/server/index.tsx
++++ b/web/pages/admin/config/server/index.tsx
+@@ -1,5 +1,5 @@
+ import { ReactElement, useContext } from 'react';
+-import { Tabs } from 'antd';
++import { Tabs, Typography } from 'antd';
+ 
+ import StreamKeys from '../../../../components/admin/config/server/StreamKeys';
+ import ServerConfig from '../../../../components/admin/config/server/ServerConfig';
+@@ -16,6 +16,9 @@ export default function PublicFacingDetails() {
+ 
+   return (
+     <div className="config-public-details-page">
++      <Typography.Title level={1} className="visually-hidden">
++        Server
++      </Typography.Title>
+       <Tabs
+         defaultActiveKey="1"
+         centered
+diff --git a/web/pages/admin/federation/actions.tsx b/web/pages/admin/federation/actions.tsx
+index 1b938e2711..38a1de3794 100644
+--- a/web/pages/admin/federation/actions.tsx
++++ b/web/pages/admin/federation/actions.tsx
+@@ -127,7 +127,7 @@ export default function FediverseActions() {
+ 
+   return (
+     <div>
+-      <Title level={3}>Fediverse Actions</Title>
++      <Title level={1}>Fediverse Actions</Title>
+       <Paragraph>
+         Below is a list of actions that were taken by others in response to your posts as well as
+         people who requested to follow you.
+diff --git a/web/pages/admin/federation/followers.tsx b/web/pages/admin/federation/followers.tsx
+index 6f10d0b8b8..527e16ee74 100644
+--- a/web/pages/admin/federation/followers.tsx
++++ b/web/pages/admin/federation/followers.tsx
+@@ -1,5 +1,5 @@
+ import { useEffect, useState, useContext, ReactElement } from 'react';
+-import { Table, Avatar, Button, Tabs } from 'antd';
++import { Table, Avatar, Button, Tabs, Typography } from 'antd';
+ import { ColumnsType, SortOrder } from 'antd/lib/table/interface';
+ import { format } from 'date-fns';
+ import dynamic from 'next/dynamic';
+@@ -114,7 +114,7 @@ export default function FediverseFollowers() {
+ 
+   const columns: ColumnsType<Follower> = [
+     {
+-      title: '',
++      title: <span className="visually-hidden">Avatar</span>,
+       dataIndex: 'image',
+       key: 'image',
+       width: 90,
+@@ -407,6 +407,9 @@ export default function FediverseFollowers() {
+ 
+   return (
+     <div className="followers-section">
++      <Typography.Title level={1} className="visually-hidden">
++        Followers
++      </Typography.Title>
+       <Tabs defaultActiveKey="1" items={items} />
+     </div>
+   );
+diff --git a/web/pages/admin/help.tsx b/web/pages/admin/help.tsx
+index 6ad50bea8b..4b0be1af93 100644
+--- a/web/pages/admin/help.tsx
++++ b/web/pages/admin/help.tsx
+@@ -344,7 +344,7 @@ export default function Help() {
+       <Title level={2}>{t(Localization.Admin.Help.commonTasks)}</Title>
+       {taskGroups.map(group => (
+         <div key={group.title}>
+-          <Title level={4}>{group.title}</Title>
++          <Title level={3}>{group.title}</Title>
+           <Row gutter={[16, 16]} style={{ marginBottom: '16px' }}>
+             {group.tasks.map(task => (
+               <Col xs={24} lg={12} xl={8} key={task.title}>
+diff --git a/web/pages/admin/index.tsx b/web/pages/admin/index.tsx
+index 5ade449dad..f2652c2387 100644
+--- a/web/pages/admin/index.tsx
++++ b/web/pages/admin/index.tsx
+@@ -1,6 +1,6 @@
+ /* eslint-disable @next/next/no-css-tags */
+ import { useState, useEffect, useContext, ReactElement } from 'react';
+-import { Skeleton, Card, Statistic, Row, Col } from 'antd';
++import { Skeleton, Card, Statistic, Row, Col, Typography } from 'antd';
+ import { formatDistanceToNow, formatRelative } from 'date-fns';
+ import dynamic from 'next/dynamic';
+ import { useTranslation } from 'next-export-i18n';
+@@ -127,6 +127,9 @@ export default function Home() {
+ 
+   return (
+     <div className="home-container">
++      <Typography.Title level={1} className="visually-hidden">
++        {t('Owncast Admin')}
++      </Typography.Title>
+       <div className="sections-container">
+         <div className="online-status-section">
+           <Card size="small" type="inner" className="online-details-card">
+diff --git a/web/pages/admin/logs.tsx b/web/pages/admin/logs.tsx
+index 2b4a7c3573..b757379ff2 100644
+--- a/web/pages/admin/logs.tsx
++++ b/web/pages/admin/logs.tsx
+@@ -1,4 +1,5 @@
+ import { useState, useEffect, ReactElement } from 'react';
++import { Typography } from 'antd';
+ import { LogTable } from '../../components/admin/LogTable';
+ 
+ import { LOGS_ALL, fetchData } from '../../utils/apis';
+@@ -32,7 +33,14 @@ export default function Logs() {
+     };
+   }, []);
+ 
+-  return <LogTable logs={logs} initialPageSize={20} />;
++  return (
++    <>
++      <Typography.Title level={1} className="visually-hidden">
++        Logs
++      </Typography.Title>
++      <LogTable logs={logs} initialPageSize={20} />
++    </>
++  );
+ }
+ 
+ Logs.getLayout = function getLayout(page: ReactElement) {
+diff --git a/web/pages/admin/plugins.module.scss b/web/pages/admin/plugins.module.scss
+index 1998ccaa9b..9908ba0146 100644
+--- a/web/pages/admin/plugins.module.scss
++++ b/web/pages/admin/plugins.module.scss
+@@ -10,3 +10,14 @@
+ .errorAlert {
+   margin-bottom: 16px;
+ }
++
++.tabsWrap {
++  position: relative;
++}
++
++.tabActions {
++  position: absolute;
++  right: 0;
++  top: 4px;
++  z-index: 2;
++}
+diff --git a/web/pages/admin/plugins.tsx b/web/pages/admin/plugins.tsx
+index 8c28444aa6..c9771f26c5 100644
+--- a/web/pages/admin/plugins.tsx
++++ b/web/pages/admin/plugins.tsx
+@@ -324,10 +324,10 @@ const Plugins = () => {
+     />
+   );
+ 
+-  // Tab-bar actions for the Installed view: Upload + Refresh. Lives
+-  // in the AntD Tabs `tabBarExtraContent` slot so the buttons sit
+-  // inline with the tab labels on the right edge. We hide them on
+-  // the Browse tab since neither action applies there.
++  // Tab-bar actions for the Installed view: Upload + Refresh. Rendered
++  // outside the Tabs (positioned over the bar's right edge) because the
++  // tabBarExtraContent slot lands inside role=tablist, where non-tab
++  // children violate aria-required-children. Hidden on the Browse tab.
+   const installedActions = (
+     <Space>
+       <Upload {...uploadProps}>
+@@ -356,19 +356,21 @@ const Plugins = () => {
+         />
+       )}
+ 
+-      <Tabs
+-        activeKey={activeTab}
+-        onChange={setActiveTab}
+-        tabBarExtraContent={activeTab === 'installed' ? installedActions : undefined}
+-        items={[
+-          {
+-            key: 'installed',
+-            label: t(Localization.Admin.Plugins.tabInstalled),
+-            children: installedTab,
+-          },
+-          { key: 'browse', label: t(Localization.Admin.Plugins.tabBrowse), children: browseTab },
+-        ]}
+-      />
++      <div className={s.tabsWrap}>
++        {activeTab === 'installed' && <div className={s.tabActions}>{installedActions}</div>}
++        <Tabs
++          activeKey={activeTab}
++          onChange={setActiveTab}
++          items={[
++            {
++              key: 'installed',
++              label: t(Localization.Admin.Plugins.tabInstalled),
++              children: installedTab,
++            },
++            { key: 'browse', label: t(Localization.Admin.Plugins.tabBrowse), children: browseTab },
++          ]}
++        />
++      </div>
+ 
+       <InstallConfirmModal
+         plugin={pendingEnable}
+diff --git a/web/pages/admin/upgrade.tsx b/web/pages/admin/upgrade.tsx
+index de25f03d2e..f37dfe462e 100644
+--- a/web/pages/admin/upgrade.tsx
++++ b/web/pages/admin/upgrade.tsx
+@@ -5,7 +5,7 @@ import { getGithubRelease } from '../../utils/apis';
+ 
+ import { AdminLayout } from '../../components/layouts/AdminLayout';
+ 
+-const { Title } = Typography;
++const { Title, Paragraph } = Typography;
+ 
+ const AssetTable = assets => {
+   const data = Object.values(assets) as object[];
+@@ -64,12 +64,20 @@ const Logs = () => {
+ 
+   return (
+     <div className="upgrade-page">
+-      <Title level={2}>
+-        <a href={release.html_url}>{release.name}</a>
++      <Title level={1}>
++        <a href={release.html_url}>{release.name || 'Latest Owncast release'}</a>
+       </Title>
+-      <Title level={5}>{new Date(release.created_at).toDateString()}</Title>
+-      <ReactMarkdown>{release.body}</ReactMarkdown>
+-      <h3>Downloads</h3>
++      <Paragraph>
++        {release.created_at ? new Date(release.created_at).toDateString() : ''}
++      </Paragraph>
++      <ReactMarkdown
++        components={{
++          h1: 'h2',
++        }}
++      >
++        {release.body}
++      </ReactMarkdown>
++      <h2>Downloads</h2>
+       <AssetTable {...release.assets} />
+     </div>
+   );
+diff --git a/web/pages/admin/users.tsx b/web/pages/admin/users.tsx
+index 81e1dca9fc..f955fbe89a 100644
+--- a/web/pages/admin/users.tsx
++++ b/web/pages/admin/users.tsx
+@@ -191,7 +191,7 @@ export default function UsersAdmin() {
+       sortDirections: ['descend', 'ascend'] as SortOrder[],
+     },
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'actions',
+       className: 'actions-col',
+       // Stop clicks in the actions cell from also opening the row's detail modal.
+@@ -251,6 +251,7 @@ export default function UsersAdmin() {
+             setStatus(value);
+           }}
+           options={STATUS_OPTIONS}
++          aria-label="Filter users by status"
+           style={{ width: 160 }}
+         />
+       </Space>
+@@ -350,7 +351,7 @@ export default function UsersAdmin() {
+ 
+   return (
+     <div>
+-      <Typography.Title level={3}>
++      <Typography.Title level={1}>
+         <Translation translationKey={Localization.Admin.Users.pageTitle} defaultText="Users" />
+       </Typography.Title>
+       <Tabs
+diff --git a/web/pages/admin/viewer-info.tsx b/web/pages/admin/viewer-info.tsx
+index ec2cf93b22..e1b30e0ca9 100644
+--- a/web/pages/admin/viewer-info.tsx
++++ b/web/pages/admin/viewer-info.tsx
+@@ -174,25 +174,25 @@ export default function ViewersOverTime() {
+           />
+         )}
+ 
+-        <Dropdown menu={{ items }} trigger={['click']}>
+-          <button
+-            type="button"
+-            style={{
+-              position: 'absolute',
+-              top: '5px',
+-              right: '35px',
+-              background: 'transparent',
+-              border: 'unset',
+-            }}
+-          >
+-            {timeWindowStart.title} <DownOutlined />
+-          </button>
+-        </Dropdown>
+       </Spin>
++      <Dropdown menu={{ items }} trigger={['click']}>
++        <button
++          type="button"
++          style={{
++            position: 'absolute',
++            top: '5px',
++            right: '35px',
++            background: 'transparent',
++            border: 'unset',
++          }}
++        >
++          {timeWindowStart.title} <DownOutlined />
++        </button>
++      </Dropdown>
+       {/* Rendered whether or not a stream is live. Offline it is an empty
+           table, which is the honest answer to "who is watching" and keeps
+           the section from vanishing when a streamer goes looking for it. */}
+-      <Typography.Title level={3}>{t(Localization.Admin.PlaybackClients.title)}</Typography.Title>
++      <Typography.Title level={2}>{t(Localization.Admin.PlaybackClients.title)}</Typography.Title>
+       <Typography.Paragraph>
+         {t(Localization.Admin.PlaybackClients.description)}
+       </Typography.Paragraph>
+diff --git a/web/pages/admin/webhooks.tsx b/web/pages/admin/webhooks.tsx
+index 4a65a2383c..7d7ccc567e 100644
+--- a/web/pages/admin/webhooks.tsx
++++ b/web/pages/admin/webhooks.tsx
+@@ -255,7 +255,7 @@ const Webhooks = () => {
+ 
+   const columns = [
+     {
+-      title: '',
++      title: <span className="visually-hidden">Actions</span>,
+       key: 'delete',
+       render: (_, record) => (
+         <Space size="middle">
+diff --git a/web/pages/embed/chat/readonly/index.tsx b/web/pages/embed/chat/readonly/index.tsx
+index ecef5cc3e6..d1a1a3b921 100644
+--- a/web/pages/embed/chat/readonly/index.tsx
++++ b/web/pages/embed/chat/readonly/index.tsx
+@@ -39,16 +39,19 @@ export default function ReadOnlyChatEmbed() {
+         <ClientConfigStore />
+         <Theme />
+         {currentUser && (
+-          <ChatContainer
+-            messages={messages}
+-            usernameToHighlight={currentUser.displayName}
+-            chatUserId={currentUser.id}
+-            isModerator={false}
+-            showInput={false}
+-            height="100vh"
+-            chatAvailable={isChatAvailable}
+-            readonly
+-          />
++          <main>
++            <h1 className="visually-hidden">{pageTitle}</h1>
++            <ChatContainer
++              messages={messages}
++              usernameToHighlight={currentUser.displayName}
++              chatUserId={currentUser.id}
++              isModerator={false}
++              showInput={false}
++              height="100vh"
++              chatAvailable={isChatAvailable}
++              readonly
++            />
++          </main>
+         )}
+       </ErrorBoundary>
+     </div>
+diff --git a/web/pages/embed/chat/readwrite/index.tsx b/web/pages/embed/chat/readwrite/index.tsx
+index 4d866273f2..caa3047486 100644
+--- a/web/pages/embed/chat/readwrite/index.tsx
++++ b/web/pages/embed/chat/readwrite/index.tsx
+@@ -105,7 +105,8 @@ export default function ReadWriteChatEmbed() {
+           />
+           {currentUser && (
+             <div id="chat-container">
+-              <ChatContainer
++              <main>
++                <ChatContainer
+                 messages={messages}
+                 usernameToHighlight={currentUser.displayName}
+                 chatUserId={currentUser.id}
+@@ -115,7 +116,8 @@ export default function ReadWriteChatEmbed() {
+                 chatAvailable={isChatAvailable}
+                 inputEnabled={chatInputEnabled}
+                 inputDisabledPlaceholder={chatInputDisabledMessage}
+-              />
++                />
++              </main>
+             </div>
+           )}
+         </div>
+diff --git a/web/pages/embed/video/index.tsx b/web/pages/embed/video/index.tsx
+index e5d1ac4f90..1a0cd75394 100644
+--- a/web/pages/embed/video/index.tsx
++++ b/web/pages/embed/video/index.tsx
+@@ -2,7 +2,10 @@
+ import { useEffect } from 'react';
+ import { useAtomValue } from 'jotai';
+ import { useRouter } from 'next/router';
++import Head from 'next/head';
++import { useTranslation } from 'next-export-i18n';
+ import { Skeleton } from 'antd';
++import { Localization } from '../../../types/localization';
+ import {
+   clientConfigStateAtom,
+   ClientConfigStore,
+@@ -19,6 +22,7 @@ import { OfflineEmbed } from '../../../components/ui/OfflineEmbed/OfflineEmbed';
+ import { resolveAutoplaySetting } from '../../../utils/autoplay';
+ 
+ export default function VideoEmbed() {
++  const { t } = useTranslation();
+   const status = useAtomValue(serverStatusState);
+   const clientConfig = useAtomValue(clientConfigStateAtom);
+   const appState = useAtomValue(appStateAtom);
+@@ -85,12 +89,14 @@ export default function VideoEmbed() {
+         title={streamTitle || name}
+         autoplay={autoplayOverride}
+       />
+-      <Statusbar
+-        online={online}
+-        lastConnectTime={lastConnectTime}
+-        lastDisconnectTime={lastDisconnectTime}
+-        viewerCount={viewerCount}
+-      />
++      <footer>
++        <Statusbar
++          online={online}
++          lastConnectTime={lastConnectTime}
++          lastDisconnectTime={lastDisconnectTime}
++          viewerCount={viewerCount}
++        />
++      </footer>
+     </div>
+   );
+ 
+@@ -107,11 +113,19 @@ export default function VideoEmbed() {
+     return offlineState;
+   };
+ 
++  const pageTitle = name ? t(Localization.Frontend.videoEmbedTitle, { name }) : 'Owncast';
++
+   return (
+     <>
++      <Head>
++        <title>{pageTitle}</title>
++      </Head>
+       <ClientConfigStore />
+       <Theme />
+-      <div className="video-embed">{getView()}</div>
++      <main className="video-embed">
++        <h1 className="visually-hidden">{streamTitle || name || t(Localization.Frontend.videoEmbedTitle)}</h1>
++        {getView()}
++      </main>
+     </>
+   );
+ }
+diff --git a/web/public/styles/admin/main-layout.css b/web/public/styles/admin/main-layout.css
+index 7c91dc3424..d9d0e7fb29 100644
+--- a/web/public/styles/admin/main-layout.css
++++ b/web/public/styles/admin/main-layout.css
+@@ -17,7 +17,7 @@
+   background-color: unset;
+ }
+ 
+-.app-container h1.owncast-title {
++.app-container .owncast-title {
+   padding: 1rem;
+   padding-bottom: 4px;
+   display: flex;
+@@ -27,7 +27,7 @@
+   margin-top: unset;
+ }
+ 
+-.app-container h1.owncast-title .logo-container {
++.app-container .owncast-title .logo-container {
+   background-color: var(--theme-color-palette-4);
+   padding-top: 4px;
+   padding-right: 6px;
+@@ -37,7 +37,7 @@
+   height: 60px;
+ }
+ 
+-.app-container h1.owncast-title .title-label {
++.app-container .owncast-title .title-label {
+   display: inline-block;
+   margin-left: 1rem;
+   color: var(--theme-color-palette-4);
+diff --git a/web/styles/ant-overrides.scss b/web/styles/ant-overrides.scss
+index d9d61d60ec..f03f5e1dfb 100644
+--- a/web/styles/ant-overrides.scss
++++ b/web/styles/ant-overrides.scss
+@@ -62,3 +62,57 @@ th {
+     right: 0.35rem;
+   }
+ }
++
++// WCAG 2.5.8 — ensure the password visibility toggle has a >=24px target.
++.ant-input-password-icon {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++// WCAG 1.4.3 — antd's default description color (rgba(0,0,0,.45)) only reaches
++// 3.5:1 on light surfaces; the antd-default-theme.json token covers runtime,
++// this guards the pre-extracted stylesheet before hydration.
++.ant-card-meta-description,
++.ant-statistic-content-suffix,
++.ant-collapse-content {
++  color: #5c5f6b;
++}
++
++// WCAG 1.4.1 — links inside running text must be distinguishable without color.
++p a,
++li a,
++article a,
++.hash-link,
++.ant-card-meta-description a,
++.ant-empty-description a {
++  text-decoration: underline;
++}
++
++// WCAG 1.4.3 — CodeMirror placeholder text defaults to ~2.9:1.
++.cm-placeholder {
++  color: #5c5f6b;
++}
++
++// WCAG 2.5.8 — admin sider menu links fill the whole item row.
++.ant-menu-title-content a {
++  display: block;
++}
++
++// WCAG 1.4.3 — the switch's inner ON/OFF glyph on the grey track needs
++// pure white to reach 4.5:1 against the #737373 unchecked color.
++.ant-switch-inner {
++  color: #fff;
++}
++
++// CodeMirror placeholder on the editor's light gutter/line background.
++.cm-content .cm-placeholder,
++.cm-placeholder {
++  color: #575c63;
++}
++
++// Modal body copy and the table header filter trigger icon on light surfaces.
++.ant-modal-body > p,
++.ant-table .ant-dropdown-trigger,
++.ant-table-filter-trigger {
++  color: #575c63;
++}
+diff --git a/web/styles/antd.css b/web/styles/antd.css
+index b45f0c9c85..7c60f0b18b 100644
+--- a/web/styles/antd.css
++++ b/web/styles/antd.css
+@@ -5320,6 +5320,9 @@ span.ant-typography-ellipsis-single-line {
+   --ant-color-bg-elevated: #ffffff;
+   --ant-color-text: #12161d;
+   --ant-color-text-secondary: #5d5f72;
++  --ant-color-text-tertiary: #5c5f6b;
++  --ant-color-text-description: #5c5f6b;
++  --ant-color-text-quaternary: #737373;
+   --ant-blue-1: #e6f4ff;
+   --ant-blue-2: #bae0ff;
+   --ant-blue-3: #91caff;
+@@ -5451,8 +5454,6 @@ span.ant-typography-ellipsis-single-line {
+   --ant-lime-9: #3f6600;
+   --ant-lime-10: #254000;
+   --ant-color-shadow: #000;
+-  --ant-color-text-tertiary: rgba(0, 0, 0, 0.45);
+-  --ant-color-text-quaternary: rgba(0, 0, 0, 0.25);
+   --ant-color-fill: rgba(0, 0, 0, 0.15);
+   --ant-color-fill-secondary: rgba(0, 0, 0, 0.06);
+   --ant-color-fill-tertiary: rgba(0, 0, 0, 0.04);
+@@ -5585,16 +5586,15 @@ span.ant-typography-ellipsis-single-line {
+   --ant-color-bg-container-disabled: rgba(0, 0, 0, 0.04);
+   --ant-color-border-bg: #ffffff;
+   --ant-color-split: rgba(5, 5, 5, 0.06);
+-  --ant-color-text-placeholder: rgba(0, 0, 0, 0.25);
+-  --ant-color-text-disabled: rgba(0, 0, 0, 0.25);
++  --ant-color-text-placeholder: #737373;
++  --ant-color-text-disabled: #737373;
+   --ant-color-text-heading: #12161d;
+   --ant-color-text-label: #5d5f72;
+-  --ant-color-text-description: rgba(0, 0, 0, 0.45);
+   --ant-color-text-light-solid: #fff;
+   --ant-color-highlight: #ff4b39;
+   --ant-color-bg-text-hover: rgba(0, 0, 0, 0.06);
+   --ant-color-bg-text-active: rgba(0, 0, 0, 0.15);
+-  --ant-color-icon: rgba(0, 0, 0, 0.45);
++  --ant-color-icon: #5c5f6b;
+   --ant-color-icon-hover: #12161d;
+   --ant-color-error-outline: rgba(255, 72, 5, 0.06);
+   --ant-color-warning-outline: rgba(255, 205, 5, 0.06);
+@@ -6184,6 +6184,9 @@ span.ant-typography-ellipsis-single-line {
+   --ant-color-bg-elevated: #ffffff;
+   --ant-color-text: #12161d;
+   --ant-color-text-secondary: #5d5f72;
++  --ant-color-text-tertiary: #5c5f6b;
++  --ant-color-text-description: #5c5f6b;
++  --ant-color-text-quaternary: #737373;
+   --ant-blue-1: #e6f4ff;
+   --ant-blue-2: #bae0ff;
+   --ant-blue-3: #91caff;
+@@ -6315,8 +6318,6 @@ span.ant-typography-ellipsis-single-line {
+   --ant-lime-9: #3f6600;
+   --ant-lime-10: #254000;
+   --ant-color-shadow: #000;
+-  --ant-color-text-tertiary: rgba(0, 0, 0, 0.45);
+-  --ant-color-text-quaternary: rgba(0, 0, 0, 0.25);
+   --ant-color-fill: rgba(0, 0, 0, 0.15);
+   --ant-color-fill-secondary: rgba(0, 0, 0, 0.06);
+   --ant-color-fill-tertiary: rgba(0, 0, 0, 0.04);
+@@ -6449,16 +6450,15 @@ span.ant-typography-ellipsis-single-line {
+   --ant-color-bg-container-disabled: rgba(0, 0, 0, 0.04);
+   --ant-color-border-bg: #ffffff;
+   --ant-color-split: rgba(5, 5, 5, 0.06);
+-  --ant-color-text-placeholder: rgba(0, 0, 0, 0.25);
+-  --ant-color-text-disabled: rgba(0, 0, 0, 0.25);
++  --ant-color-text-placeholder: #737373;
++  --ant-color-text-disabled: #737373;
+   --ant-color-text-heading: #12161d;
+   --ant-color-text-label: #5d5f72;
+-  --ant-color-text-description: rgba(0, 0, 0, 0.45);
+   --ant-color-text-light-solid: #fff;
+   --ant-color-highlight: #ff4b39;
+   --ant-color-bg-text-hover: rgba(0, 0, 0, 0.06);
+   --ant-color-bg-text-active: rgba(0, 0, 0, 0.15);
+-  --ant-color-icon: rgba(0, 0, 0, 0.45);
++  --ant-color-icon: #5c5f6b;
+   --ant-color-icon-hover: #12161d;
+   --ant-color-error-outline: rgba(255, 72, 5, 0.06);
+   --ant-color-warning-outline: rgba(255, 205, 5, 0.06);
+@@ -12068,8 +12068,8 @@ textarea.ant-input-filled.ant-input-status-warning:not(.ant-input-disabled),
+   --ant-menu-item-hover-color: #12161d;
+   --ant-menu-color-item-text-hover-horizontal: #6544e9;
+   --ant-menu-horizontal-item-hover-color: #6544e9;
+-  --ant-menu-color-group-title: rgba(0, 0, 0, 0.45);
+-  --ant-menu-group-title-color: rgba(0, 0, 0, 0.45);
++  --ant-menu-color-group-title: #5c5f6b;
++  --ant-menu-group-title-color: #5c5f6b;
+   --ant-menu-color-item-text-selected: #6544e9;
+   --ant-menu-item-selected-color: #6544e9;
+   --ant-menu-sub-menu-item-selected-color: #6544e9;
+@@ -12093,8 +12093,8 @@ textarea.ant-input-filled.ant-input-status-warning:not(.ant-input-disabled),
+   --ant-menu-active-bar-height: 2px;
+   --ant-menu-color-active-bar-border-size: 1px;
+   --ant-menu-active-bar-border-width: 1px;
+-  --ant-menu-color-item-text-disabled: rgba(0, 0, 0, 0.25);
+-  --ant-menu-item-disabled-color: rgba(0, 0, 0, 0.25);
++  --ant-menu-color-item-text-disabled: #737373;
++  --ant-menu-item-disabled-color: #737373;
+   --ant-menu-color-danger-item-text: #ff4b39;
+   --ant-menu-danger-item-color: #ff4b39;
+   --ant-menu-color-danger-item-text-hover: #ff4b39;
+@@ -14165,7 +14165,7 @@ textarea.ant-input-number-filled.ant-input-number-status-warning:not(.ant-input-
+   --ant-select-multiple-item-height-sm: 16px;
+   --ant-select-multiple-item-height-lg: 32px;
+   --ant-select-multiple-selector-bg-disabled: rgba(0, 0, 0, 0.04);
+-  --ant-select-multiple-item-color-disabled: rgba(0, 0, 0, 0.25);
++  --ant-select-multiple-item-color-disabled: #737373;
+   --ant-select-multiple-item-border-color-disabled: transparent;
+   --ant-select-show-arrow-padding-inline-end: 18px;
+   --ant-select-hover-border-color: #8e6ef5;
+@@ -14492,7 +14492,7 @@ textarea.ant-input-number-filled.ant-input-number-status-warning:not(.ant-input-
+   --ant-slider-handle-color: #d6c4ff;
+   --ant-slider-handle-active-color: #6544e9;
+   --ant-slider-handle-active-outline-color: rgba(101, 68, 233, 0.2);
+-  --ant-slider-handle-color-disabled: #bfbfbf;
++  --ant-slider-handle-color-disabled: #737373;
+   --ant-slider-dot-border-color: #f0f0f0;
+   --ant-slider-dot-active-border-color: #d6c4ff;
+   --ant-slider-track-bg-disabled: rgba(0, 0, 0, 0.04);
+@@ -20210,10 +20210,10 @@ a:hover .ant-badge.ant-badge .ant-badge-color-gold {
+   --ant-table-filter-dropdown-bg: #ffffff;
+   --ant-table-expand-icon-bg: #ffffff;
+   --ant-table-selection-column-width: 32px;
+-  --ant-table-sticky-scroll-bar-bg: rgba(0, 0, 0, 0.25);
++  --ant-table-sticky-scroll-bar-bg: #737373;
+   --ant-table-sticky-scroll-bar-border-radius: 100px;
+   --ant-table-expand-icon-margin-top: 2.5px;
+-  --ant-table-header-icon-color: rgba(0, 0, 0, 0.29250000000000004);
++  --ant-table-header-icon-color: rgba(92, 95, 107, 0.65);
+   --ant-table-header-icon-hover-color: rgba(18, 22, 29, 0.65);
+   --ant-table-expand-icon-half-inner: 7px;
+   --ant-table-expand-icon-size: 17px;
+@@ -21154,7 +21154,7 @@ a:hover .ant-badge.ant-badge .ant-badge-color-gold {
+   --ant-pagination-item-active-color: #6544e9;
+   --ant-pagination-item-active-color-hover: #8e6ef5;
+   --ant-pagination-item-link-bg: #ffffff;
+-  --ant-pagination-item-active-color-disabled: rgba(0, 0, 0, 0.25);
++  --ant-pagination-item-active-color-disabled: #737373;
+   --ant-pagination-item-active-bg-disabled: rgba(0, 0, 0, 0.15);
+   --ant-pagination-item-input-bg: #ffffff;
+   --ant-pagination-mini-options-size-changer-top: 0px;
+@@ -22168,7 +22168,7 @@ a:hover .ant-badge.ant-badge .ant-badge-color-gold {
+   }
+ }
+ .owncast.ant-upload-wrapper {
+-  --ant-upload-actions-color: rgba(0, 0, 0, 0.45);
++  --ant-upload-actions-color: #5c5f6b;
+   --ant-upload-picture-card-size: 102px;
+ }
+ .ant-popover {
+@@ -22674,6 +22674,9 @@ a[disabled] {
+   --ant-color-bg-elevated: #ffffff;
+   --ant-color-text: #12161d;
+   --ant-color-text-secondary: #5d5f72;
++  --ant-color-text-tertiary: #5c5f6b;
++  --ant-color-text-description: #5c5f6b;
++  --ant-color-text-quaternary: #737373;
+   --ant-blue-1: #e6f4ff;
+   --ant-blue-2: #bae0ff;
+   --ant-blue-3: #91caff;
+@@ -22805,8 +22808,6 @@ a[disabled] {
+   --ant-lime-9: #3f6600;
+   --ant-lime-10: #254000;
+   --ant-color-shadow: #000;
+-  --ant-color-text-tertiary: rgba(0, 0, 0, 0.45);
+-  --ant-color-text-quaternary: rgba(0, 0, 0, 0.25);
+   --ant-color-fill: rgba(0, 0, 0, 0.15);
+   --ant-color-fill-secondary: rgba(0, 0, 0, 0.06);
+   --ant-color-fill-tertiary: rgba(0, 0, 0, 0.04);
+@@ -22939,16 +22940,15 @@ a[disabled] {
+   --ant-color-bg-container-disabled: rgba(0, 0, 0, 0.04);
+   --ant-color-border-bg: #ffffff;
+   --ant-color-split: rgba(5, 5, 5, 0.06);
+-  --ant-color-text-placeholder: rgba(0, 0, 0, 0.25);
+-  --ant-color-text-disabled: rgba(0, 0, 0, 0.25);
++  --ant-color-text-placeholder: #737373;
++  --ant-color-text-disabled: #737373;
+   --ant-color-text-heading: #12161d;
+   --ant-color-text-label: #5d5f72;
+-  --ant-color-text-description: rgba(0, 0, 0, 0.45);
+   --ant-color-text-light-solid: #fff;
+   --ant-color-highlight: #ff4b39;
+   --ant-color-bg-text-hover: rgba(0, 0, 0, 0.06);
+   --ant-color-bg-text-active: rgba(0, 0, 0, 0.15);
+-  --ant-color-icon: rgba(0, 0, 0, 0.45);
++  --ant-color-icon: #5c5f6b;
+   --ant-color-icon-hover: #12161d;
+   --ant-color-error-outline: rgba(255, 72, 5, 0.06);
+   --ant-color-warning-outline: rgba(255, 205, 5, 0.06);
+diff --git a/web/styles/globals.scss b/web/styles/globals.scss
+index 5b479e16fb..e4db38325c 100644
+--- a/web/styles/globals.scss
++++ b/web/styles/globals.scss
+@@ -139,3 +139,16 @@ body {
+   margin-right: 2px;
+   vertical-align: middle;
+ }
++
++// Accessible text that is only exposed to assistive technology.
++.visually-hidden {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
++}
+diff --git a/web/types/localization.ts b/web/types/localization.ts
+index ae7b84acd4..431949532a 100644
+--- a/web/types/localization.ts
++++ b/web/types/localization.ts
+@@ -10,6 +10,7 @@ export const Localization = {
+   Frontend: {
+     // Chat interface
+     chatEmbedTitle: 'Frontend.chatEmbedTitle',
++    videoEmbedTitle: 'Frontend.videoEmbedTitle',
+     chatOffline: 'Chat is offline',
+     chatDisabled: 'Chat is disabled',
+     chatWillBeAvailable: 'Chat will be available when the stream is live',
+@@ -125,6 +126,7 @@ export const Localization = {
+       nameChangeText: 'Frontend.Chat.nameChangeText',
+       moderatorNotification: 'Frontend.Chat.moderatorNotification',
+       authenticateToChat: 'Frontend.Chat.authenticateToChat',
++      regionLabel: 'Frontend.Chat.regionLabel',
+     },
+ 
+     // Follow modal component
