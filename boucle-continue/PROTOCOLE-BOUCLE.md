@@ -50,3 +50,26 @@ indépendant, corriger la procédure à chaque faille trouvée, et tout document
 
 Boucle active jusqu'à ~16h-17h Paris (14h-15h UTC) le 2026-10-04, ou arrêt
 utilisateur. À la fin : commit du registre + journal + rapport de boucle.
+
+## Leçons harnais accumulées (alimentent SKILL.md / audit.mjs)
+
+1. **Animations d'entrée** : axe mesure l'état en cours de transition (fade-in
+   ~300-950ms) → faux positifs contraste. Chaque état doit attendre un état
+   SÉDIMENTÉ (sélecteur stable + délai calibré), jamais seulement `load`.
+   Exemples : homepage (fade modale 300ms), actual (entrée welcome ~950ms).
+2. **Routes SPA dépendantes des données** : une route qui redirige vers un ID
+   généré (ex. `/reports` → `/reports/<dashboardId>`) n'est pas déterministe →
+   substitution déclarée dans le manifeste vers une route fixe équivalente
+   (`/reports/net-worth`), tracée dans `scope-compare.json`.
+3. **État applicatif requis** : certaines routes n'existent qu'après une action
+   (fichier démo ouvert, IndexedDB) → les états du harnais doivent être
+   idempotents (openDemo rejouable) car chaque run part d'un profil neuf.
+4. **axe ne voit pas tout** : un `verify.mjs` indépendant a attrapé des défauts
+   invisibles pour axe — navigation mobile `display:none` sans aria-label,
+   boutons nommés par un `title` posé sur un enfant non-focusable (title
+   n'entre pas dans le nom accessible du bouton). La vérification indépendante
+   doit inclure : nom accessible calculé des boutons, labels de landmarks
+   dupliqués, title-enfant ≠ nom du parent.
+5. **Deux landmarks de même rôle** doivent avoir des noms distingués — y
+   compris ceux masqués par viewport (la nav mobile `display:none` compte
+   pour axe aussi).
