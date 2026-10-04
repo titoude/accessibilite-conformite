@@ -10,6 +10,7 @@ modifiant BATCHES. Les résultats arrivent dans le journal du run.
 import asyncio
 import hashlib
 import json
+import os
 import re
 
 AUDIT_SCRIPT = r'''#!/usr/bin/env node
@@ -538,12 +539,16 @@ run().catch(e => {
 });
 '''
 
-BATCHES = [
-    # Agent 1 — périmètre douteux V1 (erreurs baseline, compteurs qui ne prouvaient pas l'identité)
-    ["miniflux/v2", "benbusby/whoogle-search", "FreshRSS/FreshRSS"],
-    # Agent 2 — idem + excalidraw (4 rounds en V1 = hors budget) + RaspAP (erreurs persistantes)
-    ["CorentinTh/it-tools", "RaspAP/raspap-webgui", "excalidraw/excalidraw"],
-]
+if os.environ.get("A11Y_CYCLE_REPOS"):
+    # Boucle continue : un seul lot, liste imposée par le coordinateur.
+    BATCHES = [json.loads(os.environ["A11Y_CYCLE_REPOS"])]
+else:
+    BATCHES = [
+        # Agent 1 — périmètre douteux V1 (erreurs baseline, compteurs qui ne prouvaient pas l'identité)
+        ["miniflux/v2", "benbusby/whoogle-search", "FreshRSS/FreshRSS"],
+        # Agent 2 — idem + excalidraw (4 rounds en V1 = hors budget) + RaspAP (erreurs persistantes)
+        ["CorentinTh/it-tools", "RaspAP/raspap-webgui", "excalidraw/excalidraw"],
+    ]
 
 # Contexte V1 par dépôt (revendications à re-tester — les patchs V1 sont perdus)
 V1_CONTEXT = {
