@@ -1,0 +1,2360 @@
+diff --git a/frontend/biome.json b/frontend/biome.json
+index e84969d..ce79aab 100644
+--- a/frontend/biome.json
++++ b/frontend/biome.json
+@@ -71,5 +71,17 @@
+ 				"noUselessElse": "error"
+ 			}
+ 		}
+-	}
+-}
++	},
++	"overrides": [
++		{
++			"includes": ["src/pages/Logs/LogLines.tsx"],
++			"linter": {
++				"rules": {
++					"a11y": {
++						"noNoninteractiveTabindex": "off"
++					}
++				}
++			}
++		}
++	]
++}
+\ No newline at end of file
+diff --git a/frontend/src/App.css b/frontend/src/App.css
+index ad335ca..e7cc6ee 100644
+--- a/frontend/src/App.css
++++ b/frontend/src/App.css
+@@ -1,118 +1,312 @@
+ :root {
+-	color-scheme: light dark;
++  color-scheme: light dark;
+ }
+ 
+ .light {
+-	color-scheme: light;
++  color-scheme: light;
+ }
+ .dark {
+-	color-scheme: dark;
++  color-scheme: dark;
+ }
+ 
+ .modal-backdrop {
+-	--tblr-backdrop-opacity: 0.8 !important;
++  --tblr-backdrop-opacity: 0.8 !important;
+ }
+ 
+ [data-bs-theme="dark"] .modal-content {
+-	--tblr-modal-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
++  --tblr-modal-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+ }
+ 
+ [data-bs-theme="dark"] .modal-backdrop {
+-	--tblr-backdrop-bg: #000 !important;
+-	--tblr-backdrop-opacity: 0.65 !important;
++  --tblr-backdrop-bg: #000 !important;
++  --tblr-backdrop-opacity: 0.65 !important;
+ }
+ 
+ .domain-name {
+-	font-family: monospace;
++  font-family: monospace;
+ }
+ 
+ .mr-1 {
+-	margin-right: 0.25rem;
++  margin-right: 0.25rem;
+ }
+ .ml-1 {
+-	margin-left: 0.25rem;
++  margin-left: 0.25rem;
+ }
+ 
+ .react-select-container {
+-	.react-select__control  {
+-		color: var(--tblr-body-color);
+-		background-color: var(--tblr-bg-forms);
+-		border: var(--tblr-border-width) solid var(--tblr-border-color);
+-
+-		.react-select__input {
+-			color: var(--tblr-body-color) !important;
+-		}
+-
+-		.react-select__single-value {
+-			color: var(--tblr-body-color);
+-		}
+-
+-		.react-select__multi-value {
+-			border: 1px solid var(--tblr-border-color);
+-			background-color: var(--tblr-bg-surface-tertiary);
+-			color: var(--tblr-secondary) !important;
+-
+-			.react-select__multi-value__label {
+-				color: var(--tblr-secondary) !important;
+-			}
+-		}
+-	}
+-
+-	.react-select__menu {
+-		background-color: var(--tblr-bg-forms);
+-
+-		.react-select__option {
+-			background: rgba(var(--tblr-primary-rgb), .04);
+-			color: inherit !important;
+-			&.react-select__option--is-focused {
+-				background: rgba(var(--tblr-primary-rgb), .1);
+-			}
+-
+-			&.react-select__option--is-focused.react-select__option--is-selected {
+-				background: rgba(var(--tblr-primary-rgb), .2);
+-			}
+-		}
+-	}
++  .react-select__control {
++    color: var(--tblr-body-color);
++    background-color: var(--tblr-bg-forms);
++    border: var(--tblr-border-width) solid var(--tblr-border-color);
++
++    .react-select__input {
++      color: var(--tblr-body-color) !important;
++    }
++
++    .react-select__single-value {
++      color: var(--tblr-body-color);
++    }
++
++    .react-select__multi-value {
++      border: 1px solid var(--tblr-border-color);
++      background-color: var(--tblr-bg-surface-tertiary);
++      color: var(--tblr-secondary) !important;
++
++      .react-select__multi-value__label {
++        color: var(--tblr-secondary) !important;
++      }
++    }
++  }
++
++  .react-select__menu {
++    background-color: var(--tblr-bg-forms);
++
++    .react-select__option {
++      background: rgba(var(--tblr-primary-rgb), 0.04);
++      color: inherit !important;
++      &.react-select__option--is-focused {
++        background: rgba(var(--tblr-primary-rgb), 0.1);
++      }
++
++      &.react-select__option--is-focused.react-select__option--is-selected {
++        background: rgba(var(--tblr-primary-rgb), 0.2);
++      }
++    }
++  }
+ }
+ 
+ .textareaMono {
+-	font-family: 'Courier New', Courier, monospace !important;
+-	resize: vertical;
++  font-family: "Courier New", Courier, monospace !important;
++  resize: vertical;
+ }
+ 
+ label.row {
+-	cursor: pointer;
++  cursor: pointer;
+ }
+ 
+ .input-group-select {
+-	display: flex;
+-	align-items: center;
+-	padding: 0;
+-	font-size: .875rem;
+-	font-weight: 400;
+-	line-height: 1.25rem;
+-	color: var(--tblr-gray-500);
+-	text-align: center;
+-	white-space: nowrap;
+-	background-color: var(--tblr-bg-surface-secondary);
+-	border: var(--tblr-border-width) solid var(--tblr-border-color);
+-	border-radius: var(--tblr-border-radius);
+-
+-	.form-select {
+-		border: none;
+-		background-color: var(--tblr-bg-surface-secondary);
+-		border-radius: var(--tblr-border-radius) 0 0 var(--tblr-border-radius);
+-	}
++  display: flex;
++  align-items: center;
++  padding: 0;
++  font-size: 0.875rem;
++  font-weight: 400;
++  line-height: 1.25rem;
++  color: var(--tblr-gray-500);
++  text-align: center;
++  white-space: nowrap;
++  background-color: var(--tblr-bg-surface-secondary);
++  border: var(--tblr-border-width) solid var(--tblr-border-color);
++  border-radius: var(--tblr-border-radius);
++
++  .form-select {
++    border: none;
++    background-color: var(--tblr-bg-surface-secondary);
++    border-radius: var(--tblr-border-radius) 0 0 var(--tblr-border-radius);
++  }
+ }
+ 
+ /* Fix for dropdown menus being clipped by table-responsive containers. */
+ .table-responsive .dropdown {
+-	position: static;
++  position: static;
+ }
+ 
+ /* Fix for Tabler scrollbar compensation */
+ @media (min-width: 992px) {
+-  :host, :root {
++  :host,
++  :root {
+     margin-left: 0;
+   }
+-}
+\ No newline at end of file
++}
++/* Contraste WCAG AA (≥4.5:1 vérifié par axe) sur les utilitaires Tabler teintés.
++   Le texte de bouton est #f9fafb : chaque teinte de fond est assombrie pour garder
++   la marge requise, y compris au survol (variante -darken). */
++
++/* Boutons d'action des modales (classes utilitaires bg-* portées sur .btn). */
++.btn.bg-lime {
++  --tblr-lime: #4b770e;
++}
++.btn.bg-yellow {
++  --tblr-yellow: #956000;
++}
++.btn.bg-cyan {
++  --tblr-cyan: #107686;
++}
++.btn.bg-teal {
++  --tblr-teal: #087c59;
++}
++.btn.bg-azure {
++  --tblr-azure: #306fa4;
++}
++.btn.bg-orange {
++  --tblr-orange: #b44b05;
++}
++.btn.bg-green {
++  --tblr-green: #207b2e;
++}
++.btn.bg-red {
++  --tblr-red: #c73535;
++}
++.btn.bg-pink {
++  --tblr-pink: #c72f64;
++}
++.btn.bg-blue {
++  --tblr-blue: #0569c6;
++}
++
++/* Variantes .btn-{couleur} complètes (boutons « Add » des tables, etc.). */
++.btn-lime {
++  --tblr-lime: #4b770e;
++  --tblr-lime-darken: #436b0c;
++}
++.btn-yellow {
++  --tblr-yellow: #956000;
++  --tblr-yellow-darken: #865700;
++}
++.btn-red {
++  --tblr-red: #c73535;
++  --tblr-red-darken: #b32f2f;
++}
++.btn-cyan {
++  --tblr-cyan: #107686;
++  --tblr-cyan-darken: #0f6a78;
++}
++.btn-blue {
++  --tblr-blue: #0569c6;
++  --tblr-blue-darken: #055eb2;
++}
++.btn-orange {
++  --tblr-orange: #b44b05;
++  --tblr-orange-darken: #a24304;
++}
++.btn-pink {
++  --tblr-pink: #c72f64;
++  --tblr-pink-darken: #b32a5a;
++}
++.btn-teal {
++  --tblr-teal: #087c59;
++  --tblr-teal-darken: #087050;
++}
++.btn-azure {
++  --tblr-azure: #306fa4;
++  --tblr-azure-darken: #2b6493;
++}
++.btn-green {
++  --tblr-green: #207b2e;
++  --tblr-green-darken: #1d6f2a;
++}
++.btn-purple {
++  --tblr-purple: #a53abe;
++  --tblr-purple-darken: #9435ab;
++}
++
++/* Texte teinté sur badges -lt : la teinte par défaut (ex. yellow #f59f00) tombe
++   sous 4.5:1 sur le fond clair du badge — on assombrit la même famille. */
++.badge.bg-yellow-lt,
++.badge.bg-lime-lt,
++.badge.bg-orange-lt,
++.badge.bg-cyan-lt,
++.badge.bg-teal-lt,
++.badge.bg-azure-lt,
++.badge.bg-green-lt,
++.badge.bg-red-lt,
++.badge.bg-pink-lt,
++.badge.bg-blue-lt,
++a.bg-yellow-lt,
++a.bg-lime-lt,
++a.bg-orange-lt,
++a.bg-cyan-lt,
++a.bg-teal-lt,
++a.bg-azure-lt,
++a.bg-green-lt,
++a.bg-red-lt,
++a.bg-pink-lt,
++a.bg-blue-lt {
++  --tblr-yellow: #956000;
++  --tblr-lime: #4b770e;
++  --tblr-orange: #b44b05;
++  --tblr-cyan: #107686;
++  --tblr-teal: #087c59;
++  --tblr-azure: #306fa4;
++  --tblr-green: #207b2e;
++  --tblr-red: #c73535;
++  --tblr-pink: #c72f64;
++  --tblr-blue: #0569c6;
++}
++
++/* Indicateurs .status-{couleur} (points + libellé) : mêmes teintes assombries. */
++.status.status-lime {
++  --tblr-status-color: #4b770e;
++}
++.status.status-yellow {
++  --tblr-status-color: #956000;
++}
++.status.status-orange {
++  --tblr-status-color: #b44b05;
++}
++.status.status-cyan {
++  --tblr-status-color: #107686;
++}
++.status.status-teal {
++  --tblr-status-color: #087c59;
++}
++.status.status-azure {
++  --tblr-status-color: #306fa4;
++}
++.status.status-green {
++  --tblr-status-color: #207b2e;
++}
++.status.status-red {
++  --tblr-status-color: #c73535;
++}
++.status.status-pink {
++  --tblr-status-color: #c72f64;
++}
++.status.status-blue {
++  --tblr-status-color: #0569c6;
++}
++
++/* Textes utilitaires .text-{couleur} trop clairs sur blanc. */
++.text-lime {
++  --tblr-lime: #4b770e;
++}
++.text-yellow {
++  --tblr-yellow: #956000;
++}
++.text-orange {
++  --tblr-orange: #b44b05;
++}
++.text-cyan {
++  --tblr-cyan: #107686;
++}
++.text-teal {
++  --tblr-teal: #087c59;
++}
++.text-azure {
++  --tblr-azure: #306fa4;
++}
++.text-green {
++  --tblr-green: #207b2e;
++}
++
++/* Bouton « Live » des logs (btn-success) et lien « update available ». */
++.btn-success {
++  --tblr-success: #207b2e;
++  --tblr-success-darken: #1d6f2a;
++}
++.link-warning {
++  --tblr-warning: #956000;
++}
++
++/* Muted text dans la navbar : la valeur text-secondary par défaut échoue à 4.5:1. */
++.navbar .text-secondary {
++  color: #57606c !important;
++}
++[data-bs-theme="dark"] .navbar .text-secondary {
++  color: #a5aeb8 !important;
++}
++
++/* Lignes de log en danger sur fond sombre du viewer (rouge trop sombre sur #111827). */
++.logBox .text-danger,
++pre .text-danger {
++  color: #ff7d7d !important;
++}
+diff --git a/frontend/src/Router.tsx b/frontend/src/Router.tsx
+index dc75565..79513c4 100644
+--- a/frontend/src/Router.tsx
++++ b/frontend/src/Router.tsx
+@@ -12,6 +12,7 @@ import {
+ } from "src/components";
+ import { useAuthState } from "src/context";
+ import { useHealth } from "src/hooks";
++import { T } from "src/locale";
+ 
+ const Setup = lazy(() => import("src/pages/Setup"));
+ const Login = lazy(() => import("src/pages/Login"));
+@@ -54,6 +55,9 @@ function Router() {
+ 	return (
+ 		<BrowserRouter>
+ 			<Page>
++				<a href="#main-content" className="visually-hidden-focusable">
++					<T id="a11y.skip-to-content" />
++				</a>
+ 				<div>
+ 					<SiteHeader />
+ 					<SiteMenu />
+diff --git a/frontend/src/components/Button.tsx b/frontend/src/components/Button.tsx
+index 6d02f93..42fd152 100644
+--- a/frontend/src/components/Button.tsx
++++ b/frontend/src/components/Button.tsx
+@@ -1,9 +1,8 @@
+ import cn from "classnames";
+-import type { ReactNode } from "react";
++import type { ButtonHTMLAttributes, ReactNode } from "react";
+ 
+-interface Props {
++interface Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "type" | "children" | "color" | "onClick"> {
+ 	children: ReactNode;
+-	className?: string;
+ 	type?: "button" | "submit";
+ 	actionType?: "primary" | "secondary" | "success" | "warning" | "danger" | "info" | "light" | "dark";
+ 	variant?: "ghost" | "outline" | "pill" | "square" | "action";
+@@ -25,6 +24,7 @@ interface Props {
+ 		| "teal"
+ 		| "cyan";
+ 	onClick?: () => void;
++	[key: string]: unknown;
+ }
+ function Button({
+ 	children,
+@@ -38,6 +38,7 @@ function Button({
+ 	fullWidth,
+ 	isLoading,
+ 	disabled,
++	...rest
+ }: Props) {
+ 	const myOnClick = () => {
+ 		!isLoading && onClick && onClick();
+@@ -55,7 +56,7 @@ function Button({
+ 	);
+ 
+ 	return (
+-		<button type={type || "button"} className={cns} onClick={myOnClick} disabled={disabled}>
++		<button type={type || "button"} className={cns} onClick={myOnClick} disabled={disabled} {...rest}>
+ 			{children}
+ 		</button>
+ 	);
+diff --git a/frontend/src/components/Form/AccessClientFields.tsx b/frontend/src/components/Form/AccessClientFields.tsx
+index bac4458..2168b03 100644
+--- a/frontend/src/components/Form/AccessClientFields.tsx
++++ b/frontend/src/components/Form/AccessClientFields.tsx
+@@ -80,7 +80,9 @@ export function AccessClientFields({ initialValues, name = "clients" }: Props) {
+ 								autoComplete="off"
+ 								value={client.address}
+ 								onChange={(e) => handleChange(idx, "address", e.target.value)}
+-								placeholder={intl.formatMessage({ id: "access-list.rule-source.placeholder" })}
++								placeholder={intl.formatMessage({
++									id: "access-list.rule-source.placeholder",
++								})}
+ 							/>
+ 						</div>
+ 					</div>
+diff --git a/frontend/src/components/Form/AccessField.tsx b/frontend/src/components/Form/AccessField.tsx
+index ef955a0..d6fff5b 100644
+--- a/frontend/src/components/Form/AccessField.tsx
++++ b/frontend/src/components/Form/AccessField.tsx
+@@ -98,6 +98,7 @@ export function AccessField({
+ 						<Select
+ 							className="react-select-container"
+ 							classNamePrefix="react-select"
++							inputId={id}
+ 							defaultValue={options.find((o) => o.value === field.value) || options[0]}
+ 							options={options}
+ 							components={{ Option }}
+diff --git a/frontend/src/components/Form/DNSProviderFields.tsx b/frontend/src/components/Form/DNSProviderFields.tsx
+index 1826548..aec2f23 100644
+--- a/frontend/src/components/Form/DNSProviderFields.tsx
++++ b/frontend/src/components/Form/DNSProviderFields.tsx
+@@ -54,10 +54,12 @@ export function DNSProviderFields({ showBoundaryBox = false }: Props) {
+ 							className="react-select-container"
+ 							classNamePrefix="react-select"
+ 							name={field.name}
+-							id="dnsProvider"
++							inputId="dnsProvider"
+ 							closeMenuOnSelect={true}
+ 							isClearable={false}
+-							placeholder={intl.formatMessage({ id: "certificates.dns.provider.placeholder" })}
++							placeholder={intl.formatMessage({
++								id: "certificates.dns.provider.placeholder",
++							})}
+ 							isLoading={isLoading}
+ 							isSearchable
+ 							onChange={handleChange}
+diff --git a/frontend/src/components/Form/DomainNamesField.tsx b/frontend/src/components/Form/DomainNamesField.tsx
+index bdba2f2..8f0a2c4 100644
+--- a/frontend/src/components/Form/DomainNamesField.tsx
++++ b/frontend/src/components/Form/DomainNamesField.tsx
+@@ -60,7 +60,7 @@ export function DomainNamesField({
+ 						className="react-select-container"
+ 						classNamePrefix="react-select"
+ 						name={field.name}
+-						id={id}
++						inputId={id}
+ 						closeMenuOnSelect={true}
+ 						isClearable={false}
+ 						isValidNewOption={validateDomain(isWildcardPermitted && dnsProviderWildcardSupported)}
+diff --git a/frontend/src/components/Form/LocationsFields.tsx b/frontend/src/components/Form/LocationsFields.tsx
+index a0f64c2..d5dd4bb 100644
+--- a/frontend/src/components/Form/LocationsFields.tsx
++++ b/frontend/src/components/Form/LocationsFields.tsx
+@@ -196,8 +196,12 @@ export function LocationsFields({ initialValues, name = "locations" }: Props) {
+ 									<span
+ 										className={cn("ms-2", "text-secondary", styles.marker)}
+ 										role="img"
+-										title={intl.formatMessage({ id: "location.advanced-config" })}
+-										aria-label={intl.formatMessage({ id: "location.advanced-config" })}
++										title={intl.formatMessage({
++											id: "location.advanced-config",
++										})}
++										aria-label={intl.formatMessage({
++											id: "location.advanced-config",
++										})}
+ 									>
+ 										<IconSettings size={16} />
+ 									</span>
+@@ -318,7 +322,9 @@ export function LocationsFields({ initialValues, name = "locations" }: Props) {
+ 										<div className="">
+ 											<CodeEditor
+ 												language="nginx"
+-												placeholder={intl.formatMessage({ id: "nginx-config.placeholder" })}
++												placeholder={intl.formatMessage({
++													id: "nginx-config.placeholder",
++												})}
+ 												padding={15}
+ 												data-color-mode="dark"
+ 												minHeight={170}
+diff --git a/frontend/src/components/Form/SSLCertificateField.tsx b/frontend/src/components/Form/SSLCertificateField.tsx
+index 6ab3ea9..d1c95ed 100644
+--- a/frontend/src/components/Form/SSLCertificateField.tsx
++++ b/frontend/src/components/Form/SSLCertificateField.tsx
+@@ -116,6 +116,7 @@ export function SSLCertificateField({
+ 						<Select
+ 							className="react-select-container"
+ 							classNamePrefix="react-select"
++							inputId={id}
+ 							defaultValue={options.find((o) => o.value === field.value) || options[0]}
+ 							options={options}
+ 							components={{ Option }}
+diff --git a/frontend/src/components/LocalePicker.tsx b/frontend/src/components/LocalePicker.tsx
+index 2d7dbb8..409b986 100644
+--- a/frontend/src/components/LocalePicker.tsx
++++ b/frontend/src/components/LocalePicker.tsx
+@@ -2,7 +2,7 @@ import cn from "classnames";
+ import { Flag } from "src/components";
+ import { useLocaleState } from "src/context";
+ import { useTheme } from "src/hooks";
+-import { changeLocale, getFlagCodeForLocale, localeOptions, T } from "src/locale";
++import { changeLocale, getFlagCodeForLocale, intl, localeOptions, T } from "src/locale";
+ import styles from "./LocalePicker.module.css";
+ 
+ interface Props {
+@@ -24,7 +24,12 @@ function LocalePicker({ menuAlign = "start" }: Props) {
+ 
+ 	return (
+ 		<div className="dropdown">
+-			<button type="button" className={cns} data-bs-toggle="dropdown">
++			<button
++				type="button"
++				className={cns}
++				data-bs-toggle="dropdown"
++				aria-label={intl.formatMessage({ id: "a11y.select-language" })}
++			>
+ 				<Flag countryCode={getFlagCodeForLocale(locale)} />
+ 			</button>
+ 			<div
+diff --git a/frontend/src/components/SiteContainer.tsx b/frontend/src/components/SiteContainer.tsx
+index 01a9cb5..f8f802c 100644
+--- a/frontend/src/components/SiteContainer.tsx
++++ b/frontend/src/components/SiteContainer.tsx
+@@ -2,5 +2,9 @@ interface Props {
+ 	children: React.ReactNode;
+ }
+ export function SiteContainer({ children }: Props) {
+-	return <div className="container-xl py-3 min-w-0 overflow-x-auto">{children}</div>;
++	return (
++		<main id="main-content" tabIndex={-1} className="container-xl py-3 min-w-0 overflow-x-auto">
++			{children}
++		</main>
++	);
+ }
+diff --git a/frontend/src/components/SiteMenu.tsx b/frontend/src/components/SiteMenu.tsx
+index c727475..13a2afa 100644
+--- a/frontend/src/components/SiteMenu.tsx
++++ b/frontend/src/components/SiteMenu.tsx
+@@ -11,7 +11,7 @@ import {
+ import cn from "classnames";
+ import React from "react";
+ import { HasPermission, NavLink } from "src/components";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import {
+ 	ACCESS_LISTS,
+ 	ADMIN,
+@@ -192,7 +192,7 @@ export function SiteMenu() {
+ 		}, 300);
+ 
+ 	return (
+-		<header className="navbar-expand-md">
++		<nav className="navbar-expand-md" aria-label={intl.formatMessage({ id: "a11y.main-navigation" })}>
+ 			<div className="collapse navbar-collapse" id="navbar-menu">
+ 				<div className="navbar">
+ 					<div className="container-xl">
+@@ -209,6 +209,6 @@ export function SiteMenu() {
+ 					</div>
+ 				</div>
+ 			</div>
+-		</header>
++		</nav>
+ 	);
+ }
+diff --git a/frontend/src/components/ThemeSwitcher.tsx b/frontend/src/components/ThemeSwitcher.tsx
+index 9cb6697..3b17380 100644
+--- a/frontend/src/components/ThemeSwitcher.tsx
++++ b/frontend/src/components/ThemeSwitcher.tsx
+@@ -2,6 +2,7 @@ import { IconMoon, IconSun } from "@tabler/icons-react";
+ import cn from "classnames";
+ import { Button } from "src/components";
+ import { useTheme } from "src/hooks";
++import { intl } from "src/locale";
+ import styles from "./ThemeSwitcher.module.css";
+ 
+ interface Props {
+@@ -17,8 +18,8 @@ function ThemeSwitcher({ className }: Props) {
+ 				className={cn("btn-ghost-dark", "hide-theme-dark", styles.lightBtn)}
+ 				data-bs-toggle="tooltip"
+ 				data-bs-placement="bottom"
+-				aria-label="Enable dark mode"
+-				data-bs-original-title="Enable dark mode"
++				aria-label={intl.formatMessage({ id: "user.switch-dark" })}
++				data-bs-original-title={intl.formatMessage({ id: "user.switch-dark" })}
+ 				onClick={() => setTheme("dark")}
+ 			>
+ 				<IconMoon width={24} />
+@@ -28,8 +29,8 @@ function ThemeSwitcher({ className }: Props) {
+ 				className={cn("btn-ghost-light", "hide-theme-light", styles.darkBtn)}
+ 				data-bs-toggle="tooltip"
+ 				data-bs-placement="bottom"
+-				aria-label="Enable dark mode"
+-				data-bs-original-title="Enable dark mode"
++				aria-label={intl.formatMessage({ id: "user.switch-light" })}
++				data-bs-original-title={intl.formatMessage({ id: "user.switch-light" })}
+ 				onClick={() => setTheme("light")}
+ 			>
+ 				<IconSun width={24} />
+diff --git a/frontend/src/locale/src/en.json b/frontend/src/locale/src/en.json
+index 11d09ea..3f0bd9b 100644
+--- a/frontend/src/locale/src/en.json
++++ b/frontend/src/locale/src/en.json
+@@ -56,6 +56,24 @@
+ 	"2fa.verify-enable": {
+ 		"defaultMessage": "Verify and Enable"
+ 	},
++	"a11y.actions": {
++		"defaultMessage": "Actions"
++	},
++	"a11y.help": {
++		"defaultMessage": "Help"
++	},
++	"a11y.main-navigation": {
++		"defaultMessage": "Main navigation"
++	},
++	"a11y.search": {
++		"defaultMessage": "Search"
++	},
++	"a11y.select-language": {
++		"defaultMessage": "Select language"
++	},
++	"a11y.skip-to-content": {
++		"defaultMessage": "Skip to main content"
++	},
+ 	"access-list": {
+ 		"defaultMessage": "Access List"
+ 	},
+diff --git a/frontend/src/modals/AccessListModal.tsx b/frontend/src/modals/AccessListModal.tsx
+index 79537f5..80b6228 100644
+--- a/frontend/src/modals/AccessListModal.tsx
++++ b/frontend/src/modals/AccessListModal.tsx
+@@ -86,7 +86,7 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	const toggleEnabled = cn(toggleClasses, "bg-cyan");
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-accesslist-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -109,7 +109,7 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 					{({ setFieldValue }: any) => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-accesslist-title" as="h2">
+ 									<T id={data?.id ? "object.edit" : "object.add"} tData={{ object: "access-list" }} />
+ 								</Modal.Title>
+ 							</Modal.Header>
+@@ -119,8 +119,12 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 								</Alert>
+ 								<div className="card m-0 border-0">
+ 									<div className="card-header">
+-										<ul className="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+-											<li className="nav-item" role="presentation">
++										<div
++											className="nav nav-tabs card-header-tabs"
++											data-bs-toggle="tabs"
++											role="tablist"
++										>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-details"
+ 													className="nav-link active"
+@@ -130,8 +134,8 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.details" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-auth"
+ 													className="nav-link"
+@@ -142,8 +146,8 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.authorizations" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-rules"
+ 													className="nav-link"
+@@ -154,8 +158,8 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.rules" />
+ 												</a>
+-											</li>
+-										</ul>
++											</div>
++										</div>
+ 									</div>
+ 									<div className="card-body">
+ 										<div className="tab-content">
+@@ -197,7 +201,7 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="satisfyAny" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					id="satisfyAny"
+ 																					className={
+@@ -215,7 +219,7 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																						);
+ 																					}}
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+@@ -229,7 +233,7 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="passAuth" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					id="passAuth"
+ 																					className={
+@@ -247,7 +251,7 @@ const AccessListModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																						);
+ 																					}}
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+diff --git a/frontend/src/modals/ChangePasswordModal.tsx b/frontend/src/modals/ChangePasswordModal.tsx
+index 48221e2..8574131 100644
+--- a/frontend/src/modals/ChangePasswordModal.tsx
++++ b/frontend/src/modals/ChangePasswordModal.tsx
+@@ -41,7 +41,7 @@ const ChangePasswordModal = EasyModal.create(({ id, visible, remove }: Props) =>
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-changepassword-title" show={visible} onHide={remove}>
+ 			<Formik
+ 				initialValues={
+ 					{
+@@ -55,7 +55,7 @@ const ChangePasswordModal = EasyModal.create(({ id, visible, remove }: Props) =>
+ 				{() => (
+ 					<Form>
+ 						<Modal.Header closeButton>
+-							<Modal.Title>
++							<Modal.Title id="npm-modal-changepassword-title" as="h2">
+ 								<T id="user.change-password" />
+ 							</Modal.Title>
+ 						</Modal.Header>
+@@ -102,7 +102,9 @@ const ChangePasswordModal = EasyModal.create(({ id, visible, remove }: Props) =>
+ 												autoComplete="new-password"
+ 												required
+ 												className={`form-control ${form.errors.new && form.touched.new ? "is-invalid" : ""}`}
+-												placeholder={intl.formatMessage({ id: "user.new-password" })}
++												placeholder={intl.formatMessage({
++													id: "user.new-password",
++												})}
+ 												{...field}
+ 											/>
+ 											<label htmlFor="new">
+@@ -127,7 +129,9 @@ const ChangePasswordModal = EasyModal.create(({ id, visible, remove }: Props) =>
+ 												autoComplete="new-password"
+ 												required
+ 												className={`form-control ${form.errors.confirm && form.touched.confirm ? "is-invalid" : ""}`}
+-												placeholder={intl.formatMessage({ id: "user.confirm-password" })}
++												placeholder={intl.formatMessage({
++													id: "user.confirm-password",
++												})}
+ 												{...field}
+ 											/>
+ 											{form.errors.confirm ? (
+diff --git a/frontend/src/modals/CustomCertificateModal.tsx b/frontend/src/modals/CustomCertificateModal.tsx
+index deab1c5..c13f88d 100644
+--- a/frontend/src/modals/CustomCertificateModal.tsx
++++ b/frontend/src/modals/CustomCertificateModal.tsx
+@@ -39,7 +39,10 @@ const CustomCertificateModal = EasyModal.create(({ visible, remove }: InnerModal
+ 			await validateCertificate(formData);
+ 
+ 			// Create certificate, as other without anything else
+-			const cert = await createCertificate({ niceName, provider } as Certificate);
++			const cert = await createCertificate({
++				niceName,
++				provider,
++			} as Certificate);
+ 
+ 			// Upload the certificates to the created certificate
+ 			await uploadCertificate(cert.id, formData);
+@@ -57,7 +60,7 @@ const CustomCertificateModal = EasyModal.create(({ visible, remove }: InnerModal
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-customcertificate-title" show={visible} onHide={remove}>
+ 			<Formik
+ 				initialValues={
+ 					{
+@@ -73,7 +76,7 @@ const CustomCertificateModal = EasyModal.create(({ visible, remove }: InnerModal
+ 				{() => (
+ 					<Form>
+ 						<Modal.Header closeButton>
+-							<Modal.Title>
++							<Modal.Title id="npm-modal-customcertificate-title" as="h2">
+ 								<T id="object.add" tData={{ object: "certificates.custom" }} />
+ 							</Modal.Title>
+ 						</Modal.Header>
+diff --git a/frontend/src/modals/DNSCertificateModal.tsx b/frontend/src/modals/DNSCertificateModal.tsx
+index bca8df8..045f7a1 100644
+--- a/frontend/src/modals/DNSCertificateModal.tsx
++++ b/frontend/src/modals/DNSCertificateModal.tsx
+@@ -36,7 +36,7 @@ const DNSCertificateModal = EasyModal.create(({ visible, remove }: InnerModalPro
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-dnscertificate-title" show={visible} onHide={remove}>
+ 			<Formik
+ 				initialValues={
+ 					{
+@@ -53,7 +53,7 @@ const DNSCertificateModal = EasyModal.create(({ visible, remove }: InnerModalPro
+ 				{() => (
+ 					<Form>
+ 						<Modal.Header closeButton>
+-							<Modal.Title>
++							<Modal.Title id="npm-modal-dnscertificate-title" as="h2">
+ 								<T id="object.add" tData={{ object: "lets-encrypt-via-dns" }} />
+ 							</Modal.Title>
+ 						</Modal.Header>
+diff --git a/frontend/src/modals/DeadHostModal.tsx b/frontend/src/modals/DeadHostModal.tsx
+index c9dce9a..223df6e 100644
+--- a/frontend/src/modals/DeadHostModal.tsx
++++ b/frontend/src/modals/DeadHostModal.tsx
+@@ -53,7 +53,7 @@ const DeadHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-deadhost-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -79,7 +79,7 @@ const DeadHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 					{() => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-deadhost-title" as="h2">
+ 									<T id={data?.id ? "object.edit" : "object.add"} tData={{ object: "dead-host" }} />
+ 								</Modal.Title>
+ 							</Modal.Header>
+@@ -89,8 +89,12 @@ const DeadHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 								</Alert>
+ 								<div className="card m-0 border-0">
+ 									<div className="card-header">
+-										<ul className="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+-											<li className="nav-item" role="presentation">
++										<div
++											className="nav nav-tabs card-header-tabs"
++											data-bs-toggle="tabs"
++											role="tablist"
++										>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-details"
+ 													className="nav-link active"
+@@ -100,8 +104,8 @@ const DeadHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.details" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-ssl"
+ 													className="nav-link"
+@@ -112,8 +116,8 @@ const DeadHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.ssl" />
+ 												</a>
+-											</li>
+-											<li className="nav-item ms-auto" role="presentation">
++											</div>
++											<div className="nav-item ms-auto" role="presentation">
+ 												<a
+ 													href="#tab-advanced"
+ 													className="nav-link"
+@@ -125,8 +129,8 @@ const DeadHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<IconSettings size={20} />
+ 												</a>
+-											</li>
+-										</ul>
++											</div>
++										</div>
+ 									</div>
+ 									<div className="card-body">
+ 										<div className="tab-content">
+diff --git a/frontend/src/modals/DeleteConfirmModal.tsx b/frontend/src/modals/DeleteConfirmModal.tsx
+index fb89f05..327a3d8 100644
+--- a/frontend/src/modals/DeleteConfirmModal.tsx
++++ b/frontend/src/modals/DeleteConfirmModal.tsx
+@@ -44,9 +44,11 @@ const DeleteConfirmModal = EasyModal.create(
+ 		};
+ 
+ 		return (
+-			<Modal show={visible} onHide={remove}>
++			<Modal aria-labelledby="npm-modal-deleteconfirm-title" show={visible} onHide={remove}>
+ 				<Modal.Header closeButton>
+-					<Modal.Title>{tTitle ? <T id={tTitle} /> : title ? title : null}</Modal.Title>
++					<Modal.Title id="npm-modal-deleteconfirm-title" as="h2">
++						{tTitle ? <T id={tTitle} /> : title ? title : null}
++					</Modal.Title>
+ 				</Modal.Header>
+ 				<Modal.Body>
+ 					<Alert variant="danger" show={!!error} onClose={() => setError(null)} dismissible>
+diff --git a/frontend/src/modals/EventDetailsModal.tsx b/frontend/src/modals/EventDetailsModal.tsx
+index 7cf6848..2a597ec 100644
+--- a/frontend/src/modals/EventDetailsModal.tsx
++++ b/frontend/src/modals/EventDetailsModal.tsx
+@@ -17,7 +17,7 @@ const EventDetailsModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	const { data, isLoading, error } = useAuditLog(id);
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-eventdetails-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -27,7 +27,7 @@ const EventDetailsModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 			{!isLoading && data && (
+ 				<>
+ 					<Modal.Header closeButton>
+-						<Modal.Title>
++						<Modal.Title id="npm-modal-eventdetails-title" as="h2">
+ 							<T id="action.view-details" />
+ 						</Modal.Title>
+ 					</Modal.Header>
+diff --git a/frontend/src/modals/HTTPCertificateModal.tsx b/frontend/src/modals/HTTPCertificateModal.tsx
+index d7ec751..f109f01 100644
+--- a/frontend/src/modals/HTTPCertificateModal.tsx
++++ b/frontend/src/modals/HTTPCertificateModal.tsx
+@@ -109,7 +109,7 @@ const HTTPCertificateModal = EasyModal.create(({ visible, remove }: InnerModalPr
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-httpcertificate-title" show={visible} onHide={remove}>
+ 			<Formik
+ 				initialValues={
+ 					{
+@@ -125,7 +125,7 @@ const HTTPCertificateModal = EasyModal.create(({ visible, remove }: InnerModalPr
+ 				{() => (
+ 					<Form>
+ 						<Modal.Header closeButton>
+-							<Modal.Title>
++							<Modal.Title id="npm-modal-httpcertificate-title" as="h2">
+ 								<T id="object.add" tData={{ object: "lets-encrypt-via-http" }} />
+ 							</Modal.Title>
+ 						</Modal.Header>
+@@ -168,9 +168,9 @@ const HTTPCertificateModal = EasyModal.create(({ visible, remove }: InnerModalPr
+ 								</div>
+ 								{testResults ? (
+ 									<div className="card-footer">
+-										<h5>
++										<h3>
+ 											<T id="certificates.http.test-results" />
+-										</h5>
++										</h3>
+ 										{parseTestResults()}
+ 									</div>
+ 								) : null}
+diff --git a/frontend/src/modals/HelpModal.tsx b/frontend/src/modals/HelpModal.tsx
+index f058161..57b1642 100644
+--- a/frontend/src/modals/HelpModal.tsx
++++ b/frontend/src/modals/HelpModal.tsx
+@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
+ import Modal from "react-bootstrap/Modal";
+ import ReactMarkdown from "react-markdown";
+ import { Button } from "src/components";
+-import { getLocale, T } from "src/locale";
++import { getLocale, intl, T } from "src/locale";
+ import { getHelpFile } from "src/locale/src/HelpDoc";
+ 
+ interface Props extends InnerModalProps {
+@@ -32,7 +32,7 @@ const HelpModal = EasyModal.create(({ section, color, visible, remove }: Props)
+ 	}, [lang, section]);
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-label={intl.formatMessage({ id: "a11y.help" })} show={visible} onHide={remove}>
+ 			<Modal.Body>
+ 				<ReactMarkdown>{markdownText}</ReactMarkdown>
+ 			</Modal.Body>
+diff --git a/frontend/src/modals/HostLogsModal.tsx b/frontend/src/modals/HostLogsModal.tsx
+index a0df04e..3591e20 100644
+--- a/frontend/src/modals/HostLogsModal.tsx
++++ b/frontend/src/modals/HostLogsModal.tsx
+@@ -19,14 +19,14 @@ const HostLogsModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	const { data, isLoading, error } = useProxyHostLogs(id, logType);
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove} size="lg" scrollable>
++		<Modal aria-labelledby="npm-modal-hostlogs-title" show={visible} onHide={remove} size="lg" scrollable>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+ 				</Alert>
+ 			)}
+ 			<Modal.Header closeButton>
+-				<Modal.Title>
++				<Modal.Title id="npm-modal-hostlogs-title" as="h2">
+ 					<T id="action.logs" />
+ 				</Modal.Title>
+ 			</Modal.Header>
+diff --git a/frontend/src/modals/PermissionsModal.tsx b/frontend/src/modals/PermissionsModal.tsx
+index d363de9..991bbca 100644
+--- a/frontend/src/modals/PermissionsModal.tsx
++++ b/frontend/src/modals/PermissionsModal.tsx
+@@ -133,7 +133,7 @@ const PermissionsModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	const isAdmin = data?.roles.indexOf("admin") !== -1;
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-permissions-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -158,7 +158,7 @@ const PermissionsModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 					{() => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-permissions-title" as="h2">
+ 									<T id="user.set-permissions" data={{ name: data?.name }} />
+ 								</Modal.Title>
+ 							</Modal.Header>
+diff --git a/frontend/src/modals/ProxyHostModal.tsx b/frontend/src/modals/ProxyHostModal.tsx
+index 3227be5..025d74a 100644
+--- a/frontend/src/modals/ProxyHostModal.tsx
++++ b/frontend/src/modals/ProxyHostModal.tsx
+@@ -60,7 +60,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-proxyhost-title" show={visible} onHide={remove}>
+ 			{!isLoading && (error || userError) && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || userError?.message || "Unknown error"}
+@@ -99,7 +99,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 					{() => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-proxyhost-title" as="h2">
+ 									<T id={data?.id ? "object.edit" : "object.add"} tData={{ object: "proxy-host" }} />
+ 								</Modal.Title>
+ 							</Modal.Header>
+@@ -109,8 +109,12 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 								</Alert>
+ 								<div className="card m-0 border-0">
+ 									<div className="card-header">
+-										<ul className="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+-											<li className="nav-item" role="presentation">
++										<div
++											className="nav nav-tabs card-header-tabs"
++											data-bs-toggle="tabs"
++											role="tablist"
++										>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-details"
+ 													className="nav-link active"
+@@ -120,8 +124,8 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.details" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-locations"
+ 													className="nav-link"
+@@ -132,8 +136,8 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.custom-locations" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-ssl"
+ 													className="nav-link"
+@@ -144,8 +148,8 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.ssl" />
+ 												</a>
+-											</li>
+-											<li className="nav-item ms-auto" role="presentation">
++											</div>
++											<div className="nav-item ms-auto" role="presentation">
+ 												<a
+ 													href="#tab-advanced"
+ 													className="nav-link"
+@@ -157,8 +161,8 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<IconSettings size={20} />
+ 												</a>
+-											</li>
+-										</ul>
++											</div>
++										</div>
+ 									</div>
+ 									<div className="card-body">
+ 										<div className="tab-content">
+@@ -255,9 +259,9 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												</div>
+ 												<AccessField />
+ 												<div className="my-3">
+-													<h4 className="py-2">
++													<h3 className="py-2">
+ 														<T id="options" />
+-													</h4>
++													</h3>
+ 													<div className="divide-y">
+ 														<div>
+ 															<label className="row" htmlFor="cachingEnabled">
+@@ -267,7 +271,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="cachingEnabled" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					{...field}
+ 																					id="cachingEnabled"
+@@ -276,7 +280,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																					})}
+ 																					type="checkbox"
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+@@ -290,7 +294,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="blockExploits" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					{...field}
+ 																					id="blockExploits"
+@@ -299,7 +303,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																					})}
+ 																					type="checkbox"
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+@@ -313,7 +317,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="allowWebsocketUpgrade" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					{...field}
+ 																					id="allowWebsocketUpgrade"
+@@ -322,7 +326,7 @@ const ProxyHostModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																					})}
+ 																					type="checkbox"
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+diff --git a/frontend/src/modals/RedirectionHostModal.tsx b/frontend/src/modals/RedirectionHostModal.tsx
+index 9a0d95c..3ee4d47 100644
+--- a/frontend/src/modals/RedirectionHostModal.tsx
++++ b/frontend/src/modals/RedirectionHostModal.tsx
+@@ -55,7 +55,7 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-redirectionhost-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -89,7 +89,7 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 					{() => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-redirectionhost-title" as="h2">
+ 									<T
+ 										id={data?.id ? "object.edit" : "object.add"}
+ 										tData={{ object: "redirection-host" }}
+@@ -102,8 +102,12 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 								</Alert>
+ 								<div className="card m-0 border-0">
+ 									<div className="card-header">
+-										<ul className="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+-											<li className="nav-item" role="presentation">
++										<div
++											className="nav nav-tabs card-header-tabs"
++											data-bs-toggle="tabs"
++											role="tablist"
++										>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-details"
+ 													className="nav-link active"
+@@ -113,8 +117,8 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 												>
+ 													<T id="column.details" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-ssl"
+ 													className="nav-link"
+@@ -125,8 +129,8 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 												>
+ 													<T id="column.ssl" />
+ 												</a>
+-											</li>
+-											<li className="nav-item ms-auto" role="presentation">
++											</div>
++											<div className="nav-item ms-auto" role="presentation">
+ 												<a
+ 													href="#tab-advanced"
+ 													className="nav-link"
+@@ -138,8 +142,8 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 												>
+ 													<IconSettings size={20} />
+ 												</a>
+-											</li>
+-										</ul>
++											</div>
++										</div>
+ 									</div>
+ 									<div className="card-body">
+ 										<div className="tab-content">
+@@ -257,9 +261,9 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 													)}
+ 												</Field>
+ 												<div className="my-3">
+-													<h4 className="py-2">
++													<h3 className="py-2">
+ 														<T id="options" />
+-													</h4>
++													</h3>
+ 													<div className="divide-y">
+ 														<div>
+ 															<label className="row" htmlFor="preservePath">
+@@ -269,7 +273,7 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 																<span className="col-auto">
+ 																	<Field name="preservePath" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					{...field}
+ 																					id="preservePath"
+@@ -278,7 +282,7 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 																					})}
+ 																					type="checkbox"
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+@@ -292,7 +296,7 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 																<span className="col-auto">
+ 																	<Field name="blockExploits" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					{...field}
+ 																					id="blockExploits"
+@@ -301,7 +305,7 @@ const RedirectionHostModal = EasyModal.create(({ id, visible, remove }: Props) =
+ 																					})}
+ 																					type="checkbox"
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+diff --git a/frontend/src/modals/RenewCertificateModal.tsx b/frontend/src/modals/RenewCertificateModal.tsx
+index 8f7cc63..fb26ea5 100644
+--- a/frontend/src/modals/RenewCertificateModal.tsx
++++ b/frontend/src/modals/RenewCertificateModal.tsx
+@@ -44,9 +44,13 @@ const RenewCertificateModal = EasyModal.create(({ id, visible, remove }: Props)
+ 	}, [id, data, isFresh, isSubmitting, remove, queryClient]);
+ 
+ 	return (
+-		<Modal show={visible} onHide={isSubmitting ? undefined : remove}>
++		<Modal
++			aria-labelledby="npm-modal-renewcertificate-title"
++			show={visible}
++			onHide={isSubmitting ? undefined : remove}
++		>
+ 			<Modal.Header closeButton={!isSubmitting}>
+-				<Modal.Title>
++				<Modal.Title id="npm-modal-renewcertificate-title" as="h2">
+ 					<T id="certificate.renew" />
+ 				</Modal.Title>
+ 			</Modal.Header>
+diff --git a/frontend/src/modals/SetPasswordModal.tsx b/frontend/src/modals/SetPasswordModal.tsx
+index ef6d99b..ebf324f 100644
+--- a/frontend/src/modals/SetPasswordModal.tsx
++++ b/frontend/src/modals/SetPasswordModal.tsx
+@@ -35,7 +35,7 @@ const SetPasswordModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-setpassword-title" show={visible} onHide={remove}>
+ 			<Formik
+ 				initialValues={
+ 					{
+@@ -47,7 +47,7 @@ const SetPasswordModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 				{() => (
+ 					<Form>
+ 						<Modal.Header closeButton>
+-							<Modal.Title>
++							<Modal.Title id="npm-modal-setpassword-title" as="h2">
+ 								<T id="user.set-password" />
+ 							</Modal.Title>
+ 						</Modal.Header>
+@@ -96,7 +96,9 @@ const SetPasswordModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 													type={showPassword ? "text" : "password"}
+ 													required
+ 													className={`form-control ${form.errors.new && form.touched.new ? "is-invalid" : ""}`}
+-													placeholder={intl.formatMessage({ id: "user.new-password" })}
++													placeholder={intl.formatMessage({
++														id: "user.new-password",
++													})}
+ 													{...field}
+ 												/>
+ 												<label htmlFor="new">
+diff --git a/frontend/src/modals/StreamModal.tsx b/frontend/src/modals/StreamModal.tsx
+index b87a259..41ade1e 100644
+--- a/frontend/src/modals/StreamModal.tsx
++++ b/frontend/src/modals/StreamModal.tsx
+@@ -46,7 +46,7 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-stream-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -71,7 +71,7 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 					{({ setFieldValue }: any) => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-stream-title" as="h2">
+ 									<T id={data?.id ? "object.edit" : "object.add"} tData={{ object: "stream" }} />
+ 								</Modal.Title>
+ 							</Modal.Header>
+@@ -82,8 +82,12 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 
+ 								<div className="card m-0 border-0">
+ 									<div className="card-header">
+-										<ul className="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+-											<li className="nav-item" role="presentation">
++										<div
++											className="nav nav-tabs card-header-tabs"
++											data-bs-toggle="tabs"
++											role="tablist"
++										>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-details"
+ 													className="nav-link active"
+@@ -93,8 +97,8 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.details" />
+ 												</a>
+-											</li>
+-											<li className="nav-item" role="presentation">
++											</div>
++											<div className="nav-item" role="presentation">
+ 												<a
+ 													href="#tab-ssl"
+ 													className="nav-link"
+@@ -105,8 +109,8 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 												>
+ 													<T id="column.ssl" />
+ 												</a>
+-											</li>
+-										</ul>
++											</div>
++										</div>
+ 									</div>
+ 									<div className="card-body">
+ 										<div className="tab-content">
+@@ -220,7 +224,7 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="tcpForwarding" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					id="tcpForwarding"
+ 																					className="form-check-input"
+@@ -240,7 +244,7 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																						}
+ 																					}}
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+@@ -254,7 +258,7 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																<span className="col-auto">
+ 																	<Field name="udpForwarding" type="checkbox">
+ 																		{({ field }: any) => (
+-																			<label className="form-check form-check-single form-switch">
++																			<span className="form-check form-check-single form-switch">
+ 																				<input
+ 																					id="udpForwarding"
+ 																					className="form-check-input"
+@@ -274,7 +278,7 @@ const StreamModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 																						}
+ 																					}}
+ 																				/>
+-																			</label>
++																			</span>
+ 																		)}
+ 																	</Field>
+ 																</span>
+diff --git a/frontend/src/modals/TwoFactorModal.tsx b/frontend/src/modals/TwoFactorModal.tsx
+index aa76d59..bf8d963 100644
+--- a/frontend/src/modals/TwoFactorModal.tsx
++++ b/frontend/src/modals/TwoFactorModal.tsx
+@@ -25,7 +25,10 @@ const TwoFactorModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	const [step, setStep] = useState<Step>("loading");
+ 	const [isEnabled, setIsEnabled] = useState(false);
+ 	const [backupCodesRemaining, setBackupCodesRemaining] = useState(0);
+-	const [setupData, setSetupData] = useState<{ secret: string; otpauthUrl: string } | null>(null);
++	const [setupData, setSetupData] = useState<{
++		secret: string;
++		otpauthUrl: string;
++	} | null>(null);
+ 	const [backupCodes, setBackupCodes] = useState<string[]>([]);
+ 	const [isSubmitting, setIsSubmitting] = useState(false);
+ 
+@@ -335,9 +338,9 @@ const TwoFactorModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-twofactor-title" show={visible} onHide={remove}>
+ 			<Modal.Header closeButton>
+-				<Modal.Title>
++				<Modal.Title id="npm-modal-twofactor-title" as="h2">
+ 					<T id="2fa.title" />
+ 				</Modal.Title>
+ 			</Modal.Header>
+diff --git a/frontend/src/modals/UserModal.tsx b/frontend/src/modals/UserModal.tsx
+index 06bc38c..3d4cf66 100644
+--- a/frontend/src/modals/UserModal.tsx
++++ b/frontend/src/modals/UserModal.tsx
+@@ -59,7 +59,7 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 	};
+ 
+ 	return (
+-		<Modal show={visible} onHide={remove}>
++		<Modal aria-labelledby="npm-modal-user-title" show={visible} onHide={remove}>
+ 			{!isLoading && error && (
+ 				<Alert variant="danger" className="m-3">
+ 					{error?.message || "Unknown error"}
+@@ -82,7 +82,7 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 					{() => (
+ 						<Form>
+ 							<Modal.Header closeButton>
+-								<Modal.Title>
++								<Modal.Title id="npm-modal-user-title" as="h2">
+ 									<T id={data?.id ? "object.edit" : "object.add"} tData={{ object: "user" }} />
+ 								</Modal.Title>
+ 							</Modal.Header>
+@@ -99,7 +99,9 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 														<input
+ 															id="name"
+ 															className={`form-control ${form.errors.name && form.touched.name ? "is-invalid" : ""}`}
+-															placeholder={intl.formatMessage({ id: "user.full-name" })}
++															placeholder={intl.formatMessage({
++																id: "user.full-name",
++															})}
+ 															{...field}
+ 														/>
+ 														<label htmlFor="name">
+@@ -125,7 +127,9 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 														<input
+ 															id="nickname"
+ 															className={`form-control ${form.errors.nickname && form.touched.nickname ? "is-invalid" : ""}`}
+-															placeholder={intl.formatMessage({ id: "user.nickname" })}
++															placeholder={intl.formatMessage({
++																id: "user.nickname",
++															})}
+ 															{...field}
+ 														/>
+ 														<label htmlFor="nickname">
+@@ -152,7 +156,9 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 													id="email"
+ 													type="email"
+ 													className={`form-control ${form.errors.email && form.touched.email ? "is-invalid" : ""}`}
+-													placeholder={intl.formatMessage({ id: "email-address" })}
++													placeholder={intl.formatMessage({
++														id: "email-address",
++													})}
+ 													{...field}
+ 												/>
+ 												<label htmlFor="email">
+@@ -171,9 +177,9 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 								</div>
+ 								{currentUser && data && currentUser?.id !== data?.id ? (
+ 									<div className="my-3">
+-										<h4 className="py-2">
++										<h3 className="py-2">
+ 											<T id="options" />
+-										</h4>
++										</h3>
+ 										<div className="divide-y">
+ 											<div>
+ 												<label className="row" htmlFor="isAdmin">
+@@ -183,14 +189,14 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 													<span className="col-auto">
+ 														<Field name="isAdmin" type="checkbox">
+ 															{({ field }: any) => (
+-																<label className="form-check form-check-single form-switch">
++																<span className="form-check form-check-single form-switch">
+ 																	<input
+ 																		{...field}
+ 																		id="isAdmin"
+ 																		className="form-check-input"
+ 																		type="checkbox"
+ 																	/>
+-																</label>
++																</span>
+ 															)}
+ 														</Field>
+ 													</span>
+@@ -204,14 +210,14 @@ const UserModal = EasyModal.create(({ id, visible, remove }: Props) => {
+ 													<span className="col-auto">
+ 														<Field name="isDisabled" type="checkbox">
+ 															{({ field }: any) => (
+-																<label className="form-check form-check-single form-switch">
++																<span className="form-check form-check-single form-switch">
+ 																	<input
+ 																		{...field}
+ 																		id="isDisabled"
+ 																		className="form-check-input"
+ 																		type="checkbox"
+ 																	/>
+-																</label>
++																</span>
+ 															)}
+ 														</Field>
+ 													</span>
+diff --git a/frontend/src/pages/Access/Table.tsx b/frontend/src/pages/Access/Table.tsx
+index 1783a2c..901e32a 100644
+--- a/frontend/src/pages/Access/Table.tsx
++++ b/frontend/src/pages/Access/Table.tsx
+@@ -59,12 +59,14 @@ export default function Table({ data, isFetching, isFiltered, onEdit, onDelete,
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Access/TableWrapper.tsx b/frontend/src/pages/Access/TableWrapper.tsx
+index 1e028f4..a5680cd 100644
+--- a/frontend/src/pages/Access/TableWrapper.tsx
++++ b/frontend/src/pages/Access/TableWrapper.tsx
+@@ -4,7 +4,7 @@ import Alert from "react-bootstrap/Alert";
+ import { deleteAccessList } from "src/api/backend";
+ import { Button, HasPermission, LoadingPage } from "src/components";
+ import { useAccessLists } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import { showAccessListModal, showDeleteConfirmModal, showHelpModal } from "src/modals";
+ import { ACCESS_LISTS, MANAGE } from "src/modules/Permissions";
+ import { showObjectSuccess } from "src/notifications";
+@@ -44,9 +44,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="access-lists" />
+-							</h2>
++							</h1>
+ 						</div>
+ 
+ 						<div className="col-md-auto col-sm-12">
+@@ -58,6 +58,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"
+@@ -65,7 +66,11 @@ export default function TableWrapper() {
+ 										/>
+ 									</div>
+ 								) : null}
+-								<Button size="sm" onClick={() => showHelpModal("AccessLists", "cyan")}>
++								<Button
++									size="sm"
++									aria-label={intl.formatMessage({ id: "a11y.help" })}
++									onClick={() => showHelpModal("AccessLists", "cyan")}
++								>
+ 									<IconHelp size={20} />
+ 								</Button>
+ 								<HasPermission section={ACCESS_LISTS} permission={MANAGE} hideError>
+diff --git a/frontend/src/pages/AuditLog/Table.tsx b/frontend/src/pages/AuditLog/Table.tsx
+index 886c922..67c565f 100644
+--- a/frontend/src/pages/AuditLog/Table.tsx
++++ b/frontend/src/pages/AuditLog/Table.tsx
+@@ -36,6 +36,7 @@ export default function Table({ data, isFetching, onSelectItem }: Props) {
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<button
+diff --git a/frontend/src/pages/AuditLog/TableWrapper.tsx b/frontend/src/pages/AuditLog/TableWrapper.tsx
+index a7d3967..8b8fa25 100644
+--- a/frontend/src/pages/AuditLog/TableWrapper.tsx
++++ b/frontend/src/pages/AuditLog/TableWrapper.tsx
+@@ -23,9 +23,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="auditlogs" />
+-							</h2>
++							</h1>
+ 						</div>
+ 					</div>
+ 				</div>
+diff --git a/frontend/src/pages/Certificates/Table.tsx b/frontend/src/pages/Certificates/Table.tsx
+index 2312a9b..7f6495e 100644
+--- a/frontend/src/pages/Certificates/Table.tsx
++++ b/frontend/src/pages/Certificates/Table.tsx
+@@ -98,12 +98,14 @@ export default function Table({ data, isFetching, onDelete, onRenew, onDownload,
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Certificates/TableWrapper.tsx b/frontend/src/pages/Certificates/TableWrapper.tsx
+index 14dfc41..42ee128 100644
+--- a/frontend/src/pages/Certificates/TableWrapper.tsx
++++ b/frontend/src/pages/Certificates/TableWrapper.tsx
+@@ -4,7 +4,7 @@ import Alert from "react-bootstrap/Alert";
+ import { deleteCertificate, downloadCertificate } from "src/api/backend";
+ import { Button, HasPermission, LoadingPage } from "src/components";
+ import { useCertificates } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import {
+ 	showCustomCertificateModal,
+ 	showDeleteConfirmModal,
+@@ -67,9 +67,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="certificates" />
+-							</h2>
++							</h1>
+ 						</div>
+ 						<div className="col-md-auto col-sm-12">
+ 							<div className="ms-auto d-flex flex-wrap btn-list">
+@@ -80,6 +80,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"
+@@ -87,7 +88,11 @@ export default function TableWrapper() {
+ 										/>
+ 									</div>
+ 								) : null}
+-								<Button size="sm" onClick={() => showHelpModal("Certificates", "pink")}>
++								<Button
++									size="sm"
++									aria-label={intl.formatMessage({ id: "a11y.help" })}
++									onClick={() => showHelpModal("Certificates", "pink")}
++								>
+ 									<IconHelp size={20} />
+ 								</Button>
+ 								<HasPermission section={CERTIFICATES} permission={MANAGE} hideError>
+diff --git a/frontend/src/pages/Dashboard/index.tsx b/frontend/src/pages/Dashboard/index.tsx
+index 5cb6486..a38b4fe 100644
+--- a/frontend/src/pages/Dashboard/index.tsx
++++ b/frontend/src/pages/Dashboard/index.tsx
+@@ -11,9 +11,9 @@ const Dashboard = () => {
+ 
+ 	return (
+ 		<div>
+-			<h2>
++			<h1>
+ 				<T id="dashboard" />
+-			</h2>
++			</h1>
+ 			<div className="row row-deck row-cards">
+ 				<div className="col-12 my-4">
+ 					<div className="row row-cards">
+diff --git a/frontend/src/pages/Login/index.tsx b/frontend/src/pages/Login/index.tsx
+index d65b2dc..626f1b7 100644
+--- a/frontend/src/pages/Login/index.tsx
++++ b/frontend/src/pages/Login/index.tsx
+@@ -31,9 +31,9 @@ function TwoFactorForm() {
+ 
+ 	return (
+ 		<>
+-			<h2 className="h2 text-center mb-4">
++			<h1 className="h1 text-center mb-4">
+ 				<T id="login.2fa-title" />
+-			</h2>
++			</h1>
+ 			<p className="text-secondary text-center mb-4">
+ 				<T id="login.2fa-description" />
+ 			</p>
+@@ -55,7 +55,9 @@ function TwoFactorForm() {
+ 											required
+ 											maxLength={20}
+ 											className={`form-control ${form.errors.code && form.touched.code ? "is-invalid" : ""}`}
+-											placeholder={intl.formatMessage({ id: "login.2fa-code-placeholder" })}
++											placeholder={intl.formatMessage({
++												id: "login.2fa-code-placeholder",
++											})}
+ 										/>
+ 										<div className="invalid-feedback">{form.errors.code}</div>
+ 									</label>
+@@ -100,9 +102,9 @@ function LoginForm() {
+ 
+ 	return (
+ 		<>
+-			<h2 className="h2 text-center mb-4">
++			<h1 className="h1 text-center mb-4">
+ 				<T id="login.title" />
+-			</h2>
++			</h1>
+ 			{formErr !== "" && <Alert variant="danger">{formErr}</Alert>}
+ 			<Formik
+ 				initialValues={
+@@ -180,7 +182,7 @@ export default function Login() {
+ 
+ 	return (
+ 		<Page className="page page-center">
+-			<div className="container container-tight py-4">
++			<main id="main-content" tabIndex={-1} className="container container-tight py-4">
+ 				<div className="d-flex justify-content-between align-items-center mb-4 ps-4 pe-3">
+ 					<img
+ 						className={styles.logo}
+@@ -196,7 +198,7 @@ export default function Login() {
+ 					<div className="card-body">{twoFactorChallenge ? <TwoFactorForm /> : <LoginForm />}</div>
+ 				</div>
+ 				<div className="text-center text-secondary mt-3">{getVersion()}</div>
+-			</div>
++			</main>
+ 		</Page>
+ 	);
+ }
+diff --git a/frontend/src/pages/Logs/LogLines.tsx b/frontend/src/pages/Logs/LogLines.tsx
+index 7e1d476..9b02686 100644
+--- a/frontend/src/pages/Logs/LogLines.tsx
++++ b/frontend/src/pages/Logs/LogLines.tsx
+@@ -1,6 +1,6 @@
+ import cn from "classnames";
+ import { useEffect, useRef } from "react";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import styles from "./LogViewer.module.css";
+ 
+ const LEVEL_PATTERN = /\b(ERROR|FATAL|WARN|SUCCESS|COMPLETE|DEBUG|INFO)\b/;
+@@ -65,7 +65,14 @@ export default function LogLines({ lines }: Props) {
+ 	}
+ 
+ 	return (
+-		<pre ref={containerRef} onScroll={handleScroll} className={styles.logBox}>
++		<pre
++			ref={containerRef}
++			onScroll={handleScroll}
++			className={styles.logBox}
++			tabIndex={0}
++			role="region"
++			aria-label={intl.formatMessage({ id: "logs.lines" })}
++		>
+ 			{lines.map((line, idx) => (
+ 				<span key={idx} className={cn(styles.logLine, levelClassName(line))}>
+ 					{line}
+diff --git a/frontend/src/pages/Logs/LogViewer.tsx b/frontend/src/pages/Logs/LogViewer.tsx
+index 728420c..2c6d38b 100644
+--- a/frontend/src/pages/Logs/LogViewer.tsx
++++ b/frontend/src/pages/Logs/LogViewer.tsx
+@@ -35,7 +35,11 @@ const decodeSelection = (value: string): Selection => {
+ 		return { type: value };
+ 	}
+ 	const [, hostType, hostId] = value.split(":");
+-	return { type: "host", hostType: hostType as LogHostType, hostId: Number(hostId) };
++	return {
++		type: "host",
++		hostType: hostType as LogHostType,
++		hostId: Number(hostId),
++	};
+ };
+ 
+ const formatBytes = (bytes: number): string => {
+@@ -107,9 +111,9 @@ export default function LogViewer() {
+ 			<div className="card-header">
+ 				<div className="row w-full g-2 align-items-center">
+ 					<div className="col-auto">
+-						<h2 className="mt-1 mb-0">
++						<h1 className="mt-1 mb-0">
+ 							<T id="logs" />
+-						</h2>
++						</h1>
+ 					</div>
+ 					{typeof tailQuery.data?.size === "number" && (
+ 						<div className="col-auto">
+@@ -119,6 +123,7 @@ export default function LogViewer() {
+ 					<div className="col-auto">
+ 						<select
+ 							className="form-select form-select-sm"
++							aria-label={intl.formatMessage({ id: "logs.source" })}
+ 							value={encodeSelection(selection)}
+ 							onChange={(e) => {
+ 								setSelection(decodeSelection(e.target.value));
+@@ -162,6 +167,7 @@ export default function LogViewer() {
+ 						<div className="col-auto">
+ 							<select
+ 								className="form-select form-select-sm"
++								aria-label={intl.formatMessage({ id: "logs.level" })}
+ 								value={level}
+ 								onChange={(e) => setLevel(e.target.value)}
+ 							>
+@@ -178,7 +184,9 @@ export default function LogViewer() {
+ 						<input
+ 							type="search"
+ 							className="form-control form-control-sm"
+-							placeholder={intl.formatMessage({ id: "logs.search-placeholder" })}
++							placeholder={intl.formatMessage({
++								id: "logs.search-placeholder",
++							})}
+ 							value={searchInput}
+ 							onChange={(e) => setSearchInput(e.target.value)}
+ 						/>
+@@ -186,6 +194,7 @@ export default function LogViewer() {
+ 					<div className="col-auto">
+ 						<select
+ 							className="form-select form-select-sm"
++							aria-label={intl.formatMessage({ id: "logs.lines" })}
+ 							value={lines}
+ 							onChange={(e) => setLines(Number(e.target.value))}
+ 						>
+diff --git a/frontend/src/pages/Nginx/DeadHosts/Table.tsx b/frontend/src/pages/Nginx/DeadHosts/Table.tsx
+index e5c1b18..2e90262 100644
+--- a/frontend/src/pages/Nginx/DeadHosts/Table.tsx
++++ b/frontend/src/pages/Nginx/DeadHosts/Table.tsx
+@@ -69,12 +69,14 @@ export default function Table({ data, isFetching, onEdit, onDelete, onDisableTog
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Nginx/DeadHosts/TableWrapper.tsx b/frontend/src/pages/Nginx/DeadHosts/TableWrapper.tsx
+index 07dd131..6f50b92 100644
+--- a/frontend/src/pages/Nginx/DeadHosts/TableWrapper.tsx
++++ b/frontend/src/pages/Nginx/DeadHosts/TableWrapper.tsx
+@@ -5,7 +5,7 @@ import Alert from "react-bootstrap/Alert";
+ import { deleteDeadHost, toggleDeadHost } from "src/api/backend";
+ import { Button, HasPermission, LoadingPage } from "src/components";
+ import { useDeadHosts } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import { showDeadHostModal, showDeleteConfirmModal, showHelpModal } from "src/modals";
+ import { DEAD_HOSTS, MANAGE } from "src/modules/Permissions";
+ import { showObjectSuccess } from "src/notifications";
+@@ -53,9 +53,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="dead-hosts" />
+-							</h2>
++							</h1>
+ 						</div>
+ 
+ 						<div className="col-md-auto col-sm-12">
+@@ -67,6 +67,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"
+@@ -74,7 +75,11 @@ export default function TableWrapper() {
+ 										/>
+ 									</div>
+ 								) : null}
+-								<Button size="sm" onClick={() => showHelpModal("DeadHosts", "red")}>
++								<Button
++									size="sm"
++									aria-label={intl.formatMessage({ id: "a11y.help" })}
++									onClick={() => showHelpModal("DeadHosts", "red")}
++								>
+ 									<IconHelp size={20} />
+ 								</Button>
+ 								<HasPermission section={DEAD_HOSTS} permission={MANAGE} hideError>
+diff --git a/frontend/src/pages/Nginx/ProxyHosts/Table.tsx b/frontend/src/pages/Nginx/ProxyHosts/Table.tsx
+index 7a9b4cd..748fe8a 100644
+--- a/frontend/src/pages/Nginx/ProxyHosts/Table.tsx
++++ b/frontend/src/pages/Nginx/ProxyHosts/Table.tsx
+@@ -101,12 +101,14 @@ export default function Table({
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Nginx/ProxyHosts/TableWrapper.tsx b/frontend/src/pages/Nginx/ProxyHosts/TableWrapper.tsx
+index 7845fb0..f3e77ae 100644
+--- a/frontend/src/pages/Nginx/ProxyHosts/TableWrapper.tsx
++++ b/frontend/src/pages/Nginx/ProxyHosts/TableWrapper.tsx
+@@ -5,7 +5,7 @@ import Alert from "react-bootstrap/Alert";
+ import { deleteProxyHost, toggleProxyHost } from "src/api/backend";
+ import { Button, HasPermission, LoadingPage } from "src/components";
+ import { useProxyHosts } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import { showDeleteConfirmModal, showHelpModal, showHostLogsModal, showProxyHostModal } from "src/modals";
+ import { MANAGE, PROXY_HOSTS } from "src/modules/Permissions";
+ import { showObjectSuccess } from "src/notifications";
+@@ -56,9 +56,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="proxy-hosts" />
+-							</h2>
++							</h1>
+ 						</div>
+ 						<div className="col-md-auto col-sm-12">
+ 							<div className="ms-auto d-flex flex-wrap btn-list">
+@@ -69,6 +69,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"
+@@ -76,7 +77,11 @@ export default function TableWrapper() {
+ 										/>
+ 									</div>
+ 								) : null}
+-								<Button size="sm" onClick={() => showHelpModal("ProxyHosts", "lime")}>
++								<Button
++									size="sm"
++									aria-label={intl.formatMessage({ id: "a11y.help" })}
++									onClick={() => showHelpModal("ProxyHosts", "lime")}
++								>
+ 									<IconHelp size={20} />
+ 								</Button>
+ 								<HasPermission section={PROXY_HOSTS} permission={MANAGE} hideError>
+diff --git a/frontend/src/pages/Nginx/RedirectionHosts/Table.tsx b/frontend/src/pages/Nginx/RedirectionHosts/Table.tsx
+index 2457a47..611d4da 100644
+--- a/frontend/src/pages/Nginx/RedirectionHosts/Table.tsx
++++ b/frontend/src/pages/Nginx/RedirectionHosts/Table.tsx
+@@ -90,12 +90,14 @@ export default function Table({ data, isFetching, onEdit, onDelete, onDisableTog
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Nginx/RedirectionHosts/TableWrapper.tsx b/frontend/src/pages/Nginx/RedirectionHosts/TableWrapper.tsx
+index 382b733..c4755e1 100644
+--- a/frontend/src/pages/Nginx/RedirectionHosts/TableWrapper.tsx
++++ b/frontend/src/pages/Nginx/RedirectionHosts/TableWrapper.tsx
+@@ -5,7 +5,7 @@ import Alert from "react-bootstrap/Alert";
+ import { deleteRedirectionHost, toggleRedirectionHost } from "src/api/backend";
+ import { Button, HasPermission, LoadingPage } from "src/components";
+ import { useRedirectionHosts } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import { showDeleteConfirmModal, showHelpModal, showRedirectionHostModal } from "src/modals";
+ import { MANAGE, REDIRECTION_HOSTS } from "src/modules/Permissions";
+ import { showObjectSuccess } from "src/notifications";
+@@ -56,9 +56,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="redirection-hosts" />
+-							</h2>
++							</h1>
+ 						</div>
+ 						<div className="col-md-auto col-sm-12">
+ 							<div className="ms-auto d-flex flex-wrap btn-list">
+@@ -69,6 +69,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"
+@@ -76,7 +77,11 @@ export default function TableWrapper() {
+ 										/>
+ 									</div>
+ 								) : null}
+-								<Button size="sm" onClick={() => showHelpModal("RedirectionHosts", "yellow")}>
++								<Button
++									size="sm"
++									aria-label={intl.formatMessage({ id: "a11y.help" })}
++									onClick={() => showHelpModal("RedirectionHosts", "yellow")}
++								>
+ 									<IconHelp size={20} />
+ 								</Button>
+ 								<HasPermission section={REDIRECTION_HOSTS} permission={MANAGE} hideError>
+diff --git a/frontend/src/pages/Nginx/Streams/Table.tsx b/frontend/src/pages/Nginx/Streams/Table.tsx
+index ec181b2..1b01418 100644
+--- a/frontend/src/pages/Nginx/Streams/Table.tsx
++++ b/frontend/src/pages/Nginx/Streams/Table.tsx
+@@ -100,12 +100,14 @@ export default function Table({ data, isFetching, isFiltered, onEdit, onDelete,
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Nginx/Streams/TableWrapper.tsx b/frontend/src/pages/Nginx/Streams/TableWrapper.tsx
+index ec9a8d4..4ea2741 100644
+--- a/frontend/src/pages/Nginx/Streams/TableWrapper.tsx
++++ b/frontend/src/pages/Nginx/Streams/TableWrapper.tsx
+@@ -5,7 +5,7 @@ import Alert from "react-bootstrap/Alert";
+ import { deleteStream, toggleStream } from "src/api/backend";
+ import { Button, HasPermission, LoadingPage } from "src/components";
+ import { useStreams } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import { showDeleteConfirmModal, showHelpModal, showStreamModal } from "src/modals";
+ import { MANAGE, STREAMS } from "src/modules/Permissions";
+ import { showObjectSuccess } from "src/notifications";
+@@ -58,9 +58,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="streams" />
+-							</h2>
++							</h1>
+ 						</div>
+ 						<div className="col-md-auto col-sm-12">
+ 							<div className="ms-auto d-flex flex-wrap btn-list">
+@@ -71,6 +71,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"
+@@ -78,7 +79,11 @@ export default function TableWrapper() {
+ 										/>
+ 									</div>
+ 								) : null}
+-								<Button size="sm" onClick={() => showHelpModal("Streams", "blue")}>
++								<Button
++									size="sm"
++									aria-label={intl.formatMessage({ id: "a11y.help" })}
++									onClick={() => showHelpModal("Streams", "blue")}
++								>
+ 									<IconHelp size={20} />
+ 								</Button>
+ 								<HasPermission section={STREAMS} permission={MANAGE} hideError>
+diff --git a/frontend/src/pages/Settings/Layout.tsx b/frontend/src/pages/Settings/Layout.tsx
+index a0a77db..6655c96 100644
+--- a/frontend/src/pages/Settings/Layout.tsx
++++ b/frontend/src/pages/Settings/Layout.tsx
+@@ -11,9 +11,9 @@ export default function Layout() {
+ 			<div className="card-table">
+ 				<div className="card-header">
+ 					<div className="row w-full">
+-						<h2 className="mt-1 mb-0">
++						<h1 className="mt-1 mb-0">
+ 							<T id="settings" />
+-						</h2>
++						</h1>
+ 					</div>
+ 				</div>
+ 				<div className="row g-0">
+diff --git a/frontend/src/pages/Setup/index.tsx b/frontend/src/pages/Setup/index.tsx
+index 4becf5f..0b55468 100644
+--- a/frontend/src/pages/Setup/index.tsx
++++ b/frontend/src/pages/Setup/index.tsx
+@@ -105,7 +105,9 @@ export default function Setup() {
+ 													<input
+ 														id="name"
+ 														className={`form-control ${form.errors.name && form.touched.name ? "is-invalid" : ""}`}
+-														placeholder={intl.formatMessage({ id: "user.full-name" })}
++														placeholder={intl.formatMessage({
++															id: "user.full-name",
++														})}
+ 														{...field}
+ 													/>
+ 													<label htmlFor="name">
+@@ -130,7 +132,9 @@ export default function Setup() {
+ 														id="email"
+ 														type="email"
+ 														className={`form-control ${form.errors.email && form.touched.email ? "is-invalid" : ""}`}
+-														placeholder={intl.formatMessage({ id: "email-address" })}
++														placeholder={intl.formatMessage({
++															id: "email-address",
++														})}
+ 														{...field}
+ 													/>
+ 													<label htmlFor="email">
+@@ -156,7 +160,9 @@ export default function Setup() {
+ 														type="password"
+ 														autoComplete="new-password"
+ 														className={`form-control ${form.errors.password && form.touched.password ? "is-invalid" : ""}`}
+-														placeholder={intl.formatMessage({ id: "user.new-password" })}
++														placeholder={intl.formatMessage({
++															id: "user.new-password",
++														})}
+ 														{...field}
+ 													/>
+ 													<label htmlFor="password">
+diff --git a/frontend/src/pages/Users/Table.tsx b/frontend/src/pages/Users/Table.tsx
+index a5a6105..50a5b8d 100644
+--- a/frontend/src/pages/Users/Table.tsx
++++ b/frontend/src/pages/Users/Table.tsx
+@@ -99,12 +99,14 @@ export default function Table({
+ 			}),
+ 			columnHelper.display({
+ 				id: "id",
++				header: () => <span className="visually-hidden">{intl.formatMessage({ id: "a11y.actions" })}</span>,
+ 				cell: (info: any) => {
+ 					return (
+ 						<span className="dropdown">
+ 							<button
+ 								type="button"
+ 								className="btn dropdown-toggle btn-action btn-sm px-1"
++								aria-label={intl.formatMessage({ id: "a11y.actions" })}
+ 								data-bs-boundary="viewport"
+ 								data-bs-toggle="dropdown"
+ 							>
+diff --git a/frontend/src/pages/Users/TableWrapper.tsx b/frontend/src/pages/Users/TableWrapper.tsx
+index 461ed6a..98b55ba 100644
+--- a/frontend/src/pages/Users/TableWrapper.tsx
++++ b/frontend/src/pages/Users/TableWrapper.tsx
+@@ -6,7 +6,7 @@ import { deleteUser, toggleUser } from "src/api/backend";
+ import { Button, LoadingPage } from "src/components";
+ import { useAuthState } from "src/context";
+ import { useUser, useUsers } from "src/hooks";
+-import { T } from "src/locale";
++import { intl, T } from "src/locale";
+ import { showDeleteConfirmModal, showPermissionsModal, showSetPasswordModal, showUserModal } from "src/modals";
+ import { showError, showObjectSuccess } from "src/notifications";
+ import Table from "./Table";
+@@ -69,9 +69,9 @@ export default function TableWrapper() {
+ 				<div className="card-header">
+ 					<div className="row w-full">
+ 						<div className="col">
+-							<h2 className="mt-1 mb-0">
++							<h1 className="mt-1 mb-0">
+ 								<T id="users" />
+-							</h2>
++							</h1>
+ 						</div>
+ 						{data?.length ? (
+ 							<div className="col-md-auto col-sm-12">
+@@ -82,6 +82,7 @@ export default function TableWrapper() {
+ 										</span>
+ 										<input
+ 											id="advanced-table-search"
++											aria-label={intl.formatMessage({ id: "a11y.search" })}
+ 											type="text"
+ 											className="form-control form-control-sm"
+ 											autoComplete="off"

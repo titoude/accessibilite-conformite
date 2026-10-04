@@ -1,0 +1,16 @@
+{
+  "cycle": 5,
+  "repo": "NginxProxyManager/nginx-proxy-manager",
+  "commit": "f64d43b",
+  "pinned": "f64d43b (depth-1 clone 2026-10-04)",
+  "baseUrl": "http://localhost:5173",
+  "boot": {
+    "backend": "backend/ : node index.js, DB_SQLITE_FILE=.../npm.sqlite, INITIAL_ADMIN_EMAIL/PASSWORD (config/default.json renommé .orig pour activer le chemin env)",
+    "frontend": "frontend/ : yarn dev (vite :5173), proxy /api->:3000 ajouté au vite.config (adaptation harnais local)",
+    "note": "yarn install --frozen-lockfile backend+frontend ; yarn locale-compile requis une fois (fichiers lang générés)"
+  },
+  "auth": "storageState tools/auth.json (POST /api/tokens admin@example.com, clé localStorage 'authentications')",
+  "routes": ["/login", "/", "/nginx/proxy", "/nginx/redirection", "/nginx/404", "/nginx/stream", "/certificates", "/access", "/users", "/audit-log", "/logs", "/settings"],
+  "states": ["add-host-modal", "user-menu"],
+  "horsPerimetre": ["/setup (wizard ignoré : admin créé via env — page devenue inaccessible, couverture déclarée)", "2FA / TOTP", "Let's Encrypt / nginx réel (backend tournant hors docker, warnings logrotate/ip_ranges connus)"]
+}

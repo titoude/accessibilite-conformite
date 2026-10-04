@@ -26,6 +26,7 @@ boucle DOIVENT choisir un dépôt absent de ce tableau.
 | dgtlmoon/changedetection.io | V1 | 0 violation axe |
 | gethomepage/homepage | boucle | 0 violation axe (53→0) — cycle en cours, audit sous-agent en attente slot |
 | healthchecks/healthchecks | V1 | 0 violation axe |
+| NginxProxyManager/nginx-proxy-manager | boucle c5 | 0 violation axe (113→0 app, 12→0 login) — audit sous-agent en attente slot |
 | tastejs/todomvc | task-pilot | pair PASS/PASS/PASS — pas d'avantage skill mesuré (1 paire) |
 | titoude/cdv-collect | run réel | PR #23 — 0 violation, 10 routes + 5 états |
 | titoude/TRAJECTOIRE- | run réel | PR #6 — 142→0 violations, 31 pages |
@@ -38,3 +39,4 @@ boucle DOIVENT choisir un dépôt absent de ce tableau.
 | 2 | actualbudget/actual @2e68845 | session principale | en attente slot | worker CONFIRMED | 123→0 en 3 rounds ; périmètre révisé déclaré (scope-compare.json) ; verify.mjs a attrapé 2 défauts invisibles pour axe (nav mobile sans label, boutons nommés par title-sur-enfant) ; install-build+typecheck PASS sur checkout propre ; artefacts boucle-runs/actual + cycles/actual |
 | 3 | gchq/CyberChef @609951a | session principale | devin-3a66a63a : PARTIAL→corrigé (hash provenance périmé, patch sain rejoué de zéro) | worker+auditor CONFIRMED | 578→0 en 4 rounds ; eval-final a attrapé 2 défauts invisibles pour axe : piège clavier 2.1.2 (Tab insère dans l'éditeur, Escape→blur ajouté) + outline:none global (focus-visible restauré) ; patch node_modules via le postinstall du projet ; install-build npm ci+build PASS ; artefacts boucle-runs/cyberchef + cycles/cyberchef |
 | 4 | hedgedoc/hedgedoc @5dd94d5 | session principale | en attente slot | worker CONFIRMED | 91→0 en 4 rounds (11 règles) ; verify.mjs 27/27 + eval-final ont attrapé 5 défauts invisibles pour axe : piège Tab CodeMirror (indentWithTab prop), outline:none global (focus-visible), focus iframe sans :focus ni events (window.blur+activeElement), skip-link sans tabindex sur main, btn-success 4.19:1 ; install pnpm frozen + turbo build 6/6 sur checkout propre ; artefacts boucle-runs/hedgedoc + cycles/hedgedoc |
+| 5 | NginxProxyManager/nginx-proxy-manager @f64d43b | session principale | en attente slot | worker CONFIRMED | 113→0 app + 12→0 login (13+5 règles) ; verify 96 assertions + eval-final (piège modale 25 Tab, skip-link réel, focus-visible) ; install yarn frozen + build PASS ; artifacts cycles/nginxproxymanager |

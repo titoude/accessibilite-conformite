@@ -1,0 +1,49 @@
+{
+  "repo": "NginxProxyManager/nginx-proxy-manager",
+  "commit": "f64d43b",
+  "cycle": 5,
+  "baseline": {
+    "login": {
+      "rules": 5,
+      "occurrences": 12,
+      "incomplete": 0
+    },
+    "app": {
+      "rules": 13,
+      "occurrences": 113,
+      "incomplete": 16
+    }
+  },
+  "final": {
+    "login": {
+      "rules": 0,
+      "occurrences": 0,
+      "incomplete": 0,
+      "errors": 0
+    },
+    "app": {
+      "rules": 0,
+      "occurrences": 0,
+      "incomplete": 182,
+      "errors": 0
+    }
+  },
+  "scopeIdentical": true,
+  "verify": "96 assertions PASS (verify.mjs)",
+  "evalFinal": "7 PASS + 1 INFO (eval-final.mjs : skip-link, focus-visible x8, modal trap x25 + Escape, user-menu clavier, onglets flèches)",
+  "incompleteDecision": "182 incompletes vérifiés conformes par sondes couleur calculée (logBox 15:1, logline 7.16:1, select 9.8:1) — batch reviewed-NA",
+  "installBuild": "PASS — git clone + checkout f64d43b + patch.diff + yarn install --frozen-lockfile + yarn locale-compile + yarn build (tsc && vite build)",
+  "harnessOnlyChanges": [
+    "frontend/vite.config.ts (proxy /api, exclu du patch)",
+    "backend/config/default.json renommé .orig",
+    "/data créé",
+    "env DB_SQLITE_FILE + INITIAL_ADMIN_*"
+  ],
+  "horsPerimetre": [
+    "/setup wizard (admin créé via env, page inaccessible)",
+    "2FA/TOTP",
+    "nginx réel hors docker"
+  ],
+  "verdictCalculated": "CONFIRMED (exécution complète + 0 violation + findings résolus + install-build PASS + périmètre identique)",
+  "note": "CONFIRMED vaut pour la reproductibilité du score axe, pas la conformité WCAG complète"
+}
