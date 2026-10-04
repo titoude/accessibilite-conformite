@@ -175,3 +175,15 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 5. **Routes canoniques dans le manifeste** : si `/calendar` redirige vers `/calendar/2026/10`, déclarer l'URL canonique (le runner exit-2 sinon) — et toute contradiction scope/horsPerimetre (ex. `/map` listé des deux côtés) = finding.
 6. **Correction structurelle > correction au spot flaggé** : un `page-has-heading-one` sur `/` se corrige pour TOUTES les routes couvertes par le même layout/composant (Home rend aussi /explore et /?creator=*), pas au seul URL du rapport.
 7. **`accessToken` SPA court** : un rescan > ~20 min après login peut expirer → relancer login.mjs avant de conclure, et traiter un passage soudain « tout redirige /auth » comme expiration, pas régression.
+
+### Leçons — cycle 19 Stirling-PDF (session principale, intégrées)
+
+1. **`pkill -f` s'auto-tue** : le motif match la cmdline du shell parent (bash -c « ... Stirling-PDF ... ») → le kill supprime le shell qui l'exécute. Fix : `pgrep -f '[S]tirling-PDF-0'` (crochet regex : la chaîne du motif ne se match plus elle-même). Même danger pour tout kill par motif de processus.
+2. **Fragment Thymeleaf paramétré casse tous les appelants** : `th:fragment="footer(role)"` = signature déclarée → les 25 `th:insert="footer"` sans paramètre échouent (« declares parameters, but fragment selection did not specify any parameters »). Pattern correct : fragment SANS paramètre + `th:with="footerRole='none'"` à l'appelant ciblé + `th:attr="role=${footerRole}"` dans le fragment (var indéfinie → null → attribut omis, SpEL-safe).
+3. **Flake color-contrast = scan pendant transition CSS** : axe lit les computed colors mid-fade-in → violations fantômes non reproductibles. Corrigé dans le **runner** (audit.mjs v5 : `settleAnimations()` attend la fin des animations/transitions finies, 4 s best-effort) — kit amélioré, pas le produit.
+4. **`element.focus()` et `.click()` synthétiques ne déplacent pas le focus réel** : Chromium ne focus pas un `<a>` sur click() JS, et focus() échoue sur élément caché. Tests clavier : `locator.click()` (vrai événement) puis `el.focus()` explicite.
+5. **`offsetParent` null ≠ invisible** : null pour `position:fixed` ET `display:none` — la visibilité réelle = `getComputedStyle(el).display !== 'none'` sur la chaîne d'ancêtres.
+6. **Modale auto-ouverte voleuse de focus** : Stirling ouvre `#surveyModal` au chargement → tout test Tab/clavier doit d'abord la dismisser (état préalable déclaré dans eval).
+7. **pdf.js l10n supprime les aria-label posés en HTML** : les labels du viewer passent par `viewer.ftl` `.aria-label` (strings l10n), pas les attributs template — vérifier le rendu post-l10n.
+8. **Spotless/formatter peut reformater des fichiers non touchés** : `./gradlew build` réécrit 3 fichiers Java hors scope → retirer du patch (`git checkout`) pour garder le diff minimal.
+9. **`git status` des dépendances de build** : build jar inclut le code patché mais `build/libs` est gitignoré — le patch ne transporte que les sources ; l'auditeur rebuilder toujours (install-build rejoué).
