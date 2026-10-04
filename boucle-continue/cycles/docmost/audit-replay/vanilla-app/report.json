@@ -1,12 +1,12 @@
 {
-  "runId": "a2a200b0-9c91-465f-8ff0-8184d87986a2",
-  "runnerVersion": "audit.mjs v5",
-  "generatedAt": "2026-10-04T20:09:05.713Z",
-  "baseUrl": "http://127.0.0.1:5176",
+  "runId": "a324b6ee-8d0c-4629-bebb-61c8fa54ff1f",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-04T22:33:48.826Z",
+  "baseUrl": "http://127.0.0.1:5175",
   "pages": [
     {
-      "url": "http://127.0.0.1:5176/home",
-      "requestedUrl": "http://127.0.0.1:5176/home",
+      "url": "http://127.0.0.1:5175/home",
+      "requestedUrl": "http://127.0.0.1:5175/home",
       "violations": [
         {
           "id": "page-has-heading-one",
@@ -43,15 +43,15 @@
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/home",
+      "finalUrl": "http://127.0.0.1:5175/home",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/s/general",
-      "requestedUrl": "http://127.0.0.1:5176/s/general",
+      "url": "http://127.0.0.1:5175/s/general",
+      "requestedUrl": "http://127.0.0.1:5175/s/general",
       "violations": [
         {
           "id": "page-has-heading-one",
@@ -88,15 +88,60 @@
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/s/general",
+      "finalUrl": "http://127.0.0.1:5175/s/general",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/settings/account/profile",
-      "requestedUrl": "http://127.0.0.1:5176/settings/account/profile",
+      "url": "http://127.0.0.1:5175/s/general/trash",
+      "requestedUrl": "http://127.0.0.1:5175/s/general/trash",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en-US\" data-mantine-color-scheme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/s/general/trash",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5175/s/general/p/test-page-a11y-YE3rIig7Vn",
+      "requestedUrl": "http://127.0.0.1:5175/s/general/p/test-page-a11y-YE3rIig7Vn",
       "violations": [
         {
           "id": "aria-allowed-attr",
@@ -129,27 +174,428 @@
               ],
               "none": [],
               "impact": "critical",
-              "html": "<div class=\"\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-gqpdtlnoo\" style=\"position: relative; display: inline-block;\">",
+              "html": "<span class=\"_linkWrapper_1f0ap_1\" aria-haspopup=\"dialog\" aria-expanded=\"false\" id=\"mantine-au6q5fiim\"><a href=\"https://docmost.com/\" spellcheck=\"false\" target=\"_blank\" rel=\"noopener noreferrer\"><span data-mark-view-content=\"\"><span>documentation Docmost</span></span></a></span>",
               "target": [
-                "#mantine-gqpdtlnoo"
+                "#mantine-au6q5fiim"
               ],
               "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
             }
           ]
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute cannot be used on a div with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Set up verification\" id=\"mantine-6lihyv7gh\" style=\"--modal-size: calc(32.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div>",
+              "target": [
+                "#mantine-6lihyv7gh"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a div with no valid role attribute."
+            },
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute cannot be used on a div with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Page history\" id=\"mantine-1m0tqq92e\" style=\"--modal-size: calc(87.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div>",
+              "target": [
+                "#mantine-1m0tqq92e"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a div with no valid role attribute."
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div><div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Set up verification\" id=\"mantine-6lihyv7gh\" style=\"--modal-size: calc(32.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div></div>",
+              "target": [
+                "div:nth-child(16)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div><div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Page history\" id=\"mantine-1m0tqq92e\" style=\"--modal-size: calc(87.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div></div>",
+              "target": [
+                "div:nth-child(18)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
         }
       ],
-      "incomplete": [],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div contenteditable=\"true\" aria-label=\"Page title\" translate=\"no\" class=\"tiptap ProseMirror ProseMirror-focused\" dir=\"auto\" tabindex=\"0\"><h1 dir=\"auto\">Test page a11y</h1></div>",
+              "target": [
+                ".ProseMirror-focused"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+            },
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div contenteditable=\"true\" aria-label=\"Page content\" translate=\"no\" class=\"tiptap ProseMirror\" dir=\"auto\" tabindex=\"0\">",
+              "target": [
+                "div[aria-label=\"Page content\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+            }
+          ]
+        }
+      ],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/account/profile",
+      "finalUrl": "http://127.0.0.1:5175/s/general/p/test-page-a11y-YE3rIig7Vn",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/settings/account/preferences",
-      "requestedUrl": "http://127.0.0.1:5176/settings/account/preferences",
-      "violations": [],
+      "url": "http://127.0.0.1:5175/settings/account/profile",
+      "requestedUrl": "http://127.0.0.1:5175/settings/account/profile",
+      "violations": [
+        {
+          "id": "aria-allowed-attr",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure an element's role supports its ARIA attributes",
+          "help": "Elements must only use supported ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-allowed-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-allowed-attr",
+                  "data": [
+                    "aria-expanded=\"false\""
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-qpn1xdk2m\" style=\"position: relative; display: inline-block;\">",
+              "target": [
+                "#mantine-qpn1xdk2m"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a class=\"mantine-focus-auto m...\" data-size=\"sm\" href=\"https://github.com/d...\" target=\"_blank\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/settings/account/profile",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5175/settings/account/preferences",
+      "requestedUrl": "http://127.0.0.1:5175/settings/account/preferences",
+      "violations": [
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a class=\"mantine-focus-auto m...\" data-size=\"sm\" href=\"https://github.com/d...\" target=\"_blank\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ],
       "incomplete": [
         {
           "id": "form-field-multiple-labels",
@@ -333,15 +779,15 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/account/preferences",
+      "finalUrl": "http://127.0.0.1:5175/settings/account/preferences",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/settings/members",
-      "requestedUrl": "http://127.0.0.1:5176/settings/members",
+      "url": "http://127.0.0.1:5175/settings/members",
+      "requestedUrl": "http://127.0.0.1:5175/settings/members",
       "violations": [
         {
           "id": "empty-table-header",
@@ -374,359 +820,94 @@
               "failureSummary": "Fix any of the following:\n  Element does not have text that is visible to screen readers"
             }
           ]
-        }
-      ],
-      "incomplete": [],
-      "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/members",
-      "testEngine": {
-        "name": "axe-core",
-        "version": "4.13.0"
-      }
-    },
-    {
-      "url": "http://127.0.0.1:5176/s/general/trash",
-      "requestedUrl": "http://127.0.0.1:5176/s/general/trash",
-      "violations": [
-        {
-          "id": "page-has-heading-one",
-          "impact": "moderate",
-          "tags": [
-            "cat.semantics",
-            "best-practice"
-          ],
-          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
-          "help": "Page should contain a level-one heading",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
-          "nodes": [
-            {
-              "any": [],
-              "all": [
-                {
-                  "id": "page-has-heading-one",
-                  "data": null,
-                  "relatedNodes": [],
-                  "impact": "moderate",
-                  "message": "Page must have a level-one heading"
-                }
-              ],
-              "none": [],
-              "impact": "moderate",
-              "html": "<html lang=\"en-US\" data-mantine-color-scheme=\"light\">",
-              "target": [
-                "html"
-              ],
-              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
-            }
-          ]
-        }
-      ],
-      "incomplete": [],
-      "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/s/general/trash",
-      "testEngine": {
-        "name": "axe-core",
-        "version": "4.13.0"
-      }
-    },
-    {
-      "url": "http://127.0.0.1:5176/templates",
-      "requestedUrl": "http://127.0.0.1:5176/templates",
-      "violations": [
-        {
-          "id": "page-has-heading-one",
-          "impact": "moderate",
-          "tags": [
-            "cat.semantics",
-            "best-practice"
-          ],
-          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
-          "help": "Page should contain a level-one heading",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
-          "nodes": [
-            {
-              "any": [],
-              "all": [
-                {
-                  "id": "page-has-heading-one",
-                  "data": null,
-                  "relatedNodes": [],
-                  "impact": "moderate",
-                  "message": "Page must have a level-one heading"
-                }
-              ],
-              "none": [],
-              "impact": "moderate",
-              "html": "<html lang=\"en-US\" data-mantine-color-scheme=\"light\">",
-              "target": [
-                "html"
-              ],
-              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
-            }
-          ]
-        }
-      ],
-      "incomplete": [],
-      "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/templates",
-      "testEngine": {
-        "name": "axe-core",
-        "version": "4.13.0"
-      }
-    },
-    {
-      "url": "http://127.0.0.1:5176/s/general/p/test-page-a11y-YE3rIig7Vn",
-      "requestedUrl": "http://127.0.0.1:5176/s/general/p/test-page-a11y-YE3rIig7Vn",
-      "violations": [
-        {
-          "id": "aria-allowed-attr",
-          "impact": "critical",
-          "tags": [
-            "cat.aria",
-            "wcag2a",
-            "wcag412",
-            "EN-301-549",
-            "EN-9.4.1.2",
-            "RGAAv4",
-            "RGAA-7.1.1"
-          ],
-          "description": "Ensure an element's role supports its ARIA attributes",
-          "help": "Elements must only use supported ARIA attributes",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-allowed-attr?application=axeAPI",
-          "nodes": [
-            {
-              "any": [],
-              "all": [
-                {
-                  "id": "aria-allowed-attr",
-                  "data": [
-                    "aria-expanded=\"false\""
-                  ],
-                  "relatedNodes": [],
-                  "impact": "critical",
-                  "message": "ARIA attribute is not allowed: aria-expanded=\"false\""
-                }
-              ],
-              "none": [],
-              "impact": "critical",
-              "html": "<span class=\"_linkWrapper_1f0ap_1\" aria-haspopup=\"dialog\" aria-expanded=\"false\" id=\"mantine-0e4jh4ldo\"><a href=\"https://example.com/\" spellcheck=\"false\" target=\"_blank\" rel=\"noopener noreferrer\"><span data-mark-view-content=\"\"><span>https://example.com</span></span></a></span>",
-              "target": [
-                "#mantine-0e4jh4ldo"
-              ],
-              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
-            }
-          ]
         },
         {
-          "id": "aria-prohibited-attr",
+          "id": "link-name",
           "impact": "serious",
           "tags": [
-            "cat.aria",
+            "cat.name-role-value",
             "wcag2a",
+            "wcag244",
             "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
             "EN-301-549",
+            "EN-9.2.4.4",
             "EN-9.4.1.2",
+            "ACT",
             "RGAAv4",
-            "RGAA-7.1.1"
+            "RGAA-6.2.1"
           ],
-          "description": "Ensure ARIA attributes are not prohibited for an element's role",
-          "help": "Elements must only use permitted ARIA attributes",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI",
-          "nodes": [
-            {
-              "any": [],
-              "all": [],
-              "none": [
-                {
-                  "id": "aria-prohibited-attr",
-                  "data": {
-                    "role": null,
-                    "nodeName": "div",
-                    "messageKey": "noRoleSingular",
-                    "prohibited": [
-                      "aria-label"
-                    ]
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "aria-label attribute cannot be used on a div with no valid role attribute."
-                }
-              ],
-              "impact": "serious",
-              "html": "<div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Set up verification\" id=\"mantine-iwx0k539v\" style=\"--modal-size: calc(32.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div>",
-              "target": [
-                "#mantine-iwx0k539v"
-              ],
-              "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a div with no valid role attribute."
-            },
-            {
-              "any": [],
-              "all": [],
-              "none": [
-                {
-                  "id": "aria-prohibited-attr",
-                  "data": {
-                    "role": null,
-                    "nodeName": "div",
-                    "messageKey": "noRoleSingular",
-                    "prohibited": [
-                      "aria-label"
-                    ]
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "aria-label attribute cannot be used on a div with no valid role attribute."
-                }
-              ],
-              "impact": "serious",
-              "html": "<div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Page history\" id=\"mantine-z6lecdzv9\" style=\"--modal-size: calc(87.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div>",
-              "target": [
-                "#mantine-z6lecdzv9"
-              ],
-              "failureSummary": "Fix all of the following:\n  aria-label attribute cannot be used on a div with no valid role attribute."
-            }
-          ]
-        },
-        {
-          "id": "region",
-          "impact": "moderate",
-          "tags": [
-            "cat.keyboard",
-            "best-practice",
-            "RGAAv4",
-            "RGAA-9.2.1"
-          ],
-          "description": "Ensure all page content is contained by landmarks",
-          "help": "All page content should be contained by landmarks",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI",
           "nodes": [
             {
               "any": [
                 {
-                  "id": "region",
-                  "data": {
-                    "isIframe": false
-                  },
+                  "id": "has-visible-text",
+                  "data": null,
                   "relatedNodes": [],
-                  "impact": "moderate",
-                  "message": "Some page content is not contained by landmarks"
-                }
-              ],
-              "all": [],
-              "none": [],
-              "impact": "moderate",
-              "html": "<div><div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Set up verification\" id=\"mantine-iwx0k539v\" style=\"--modal-size: calc(32.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div></div>",
-              "target": [
-                "div:nth-child(16)"
-              ],
-              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
-            },
-            {
-              "any": [
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
                 {
-                  "id": "region",
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
                   "data": {
-                    "isIframe": false
+                    "messageKey": "noAttr"
                   },
                   "relatedNodes": [],
-                  "impact": "moderate",
-                  "message": "Some page content is not contained by landmarks"
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
                 }
               ],
               "all": [],
-              "none": [],
-              "impact": "moderate",
-              "html": "<div><div class=\"m_9df02822 mantine-Modal-root\" aria-label=\"Page history\" id=\"mantine-z6lecdzv9\" style=\"--modal-size: calc(87.5rem * var(--mantine-scale)); --modal-y-offset: 5dvh; --mb-z-index: 200;\"></div></div>",
-              "target": [
-                "div:nth-child(18)"
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
               ],
-              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+              "impact": "serious",
+              "html": "<a class=\"mantine-focus-auto m...\" data-size=\"sm\" href=\"https://github.com/d...\" target=\"_blank\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
             }
           ]
         }
       ],
-      "incomplete": [
-        {
-          "id": "aria-prohibited-attr",
-          "impact": "serious",
-          "tags": [
-            "cat.aria",
-            "wcag2a",
-            "wcag412",
-            "EN-301-549",
-            "EN-9.4.1.2",
-            "RGAAv4",
-            "RGAA-7.1.1"
-          ],
-          "description": "Ensure ARIA attributes are not prohibited for an element's role",
-          "help": "Elements must only use permitted ARIA attributes",
-          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI",
-          "nodes": [
-            {
-              "any": [],
-              "all": [],
-              "none": [
-                {
-                  "id": "aria-prohibited-attr",
-                  "data": {
-                    "role": null,
-                    "nodeName": "div",
-                    "messageKey": "noRoleSingular",
-                    "prohibited": [
-                      "aria-label"
-                    ]
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "aria-label attribute is not well supported on a div with no valid role attribute."
-                }
-              ],
-              "impact": "serious",
-              "html": "<div contenteditable=\"true\" aria-label=\"Page title\" translate=\"no\" class=\"tiptap ProseMirror ProseMirror-focused\" dir=\"auto\" tabindex=\"0\"><h1 dir=\"auto\">Test page a11y</h1></div>",
-              "target": [
-                ".ProseMirror-focused"
-              ],
-              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
-            },
-            {
-              "any": [],
-              "all": [],
-              "none": [
-                {
-                  "id": "aria-prohibited-attr",
-                  "data": {
-                    "role": null,
-                    "nodeName": "div",
-                    "messageKey": "noRoleSingular",
-                    "prohibited": [
-                      "aria-label"
-                    ]
-                  },
-                  "relatedNodes": [],
-                  "impact": "serious",
-                  "message": "aria-label attribute is not well supported on a div with no valid role attribute."
-                }
-              ],
-              "impact": "serious",
-              "html": "<div contenteditable=\"true\" aria-label=\"Page content\" translate=\"no\" class=\"tiptap ProseMirror\" dir=\"auto\" tabindex=\"0\">",
-              "target": [
-                "div[aria-label=\"Page content\"]"
-              ],
-              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
-            }
-          ]
-        }
-      ],
+      "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/s/general/p/test-page-a11y-YE3rIig7Vn",
+      "finalUrl": "http://127.0.0.1:5175/settings/members",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/settings/security",
-      "requestedUrl": "http://127.0.0.1:5176/settings/security",
+      "url": "http://127.0.0.1:5175/settings/security",
+      "requestedUrl": "http://127.0.0.1:5175/settings/security",
       "violations": [
         {
           "id": "heading-order",
@@ -840,9 +1021,9 @@
               "all": [],
               "none": [],
               "impact": "critical",
-              "html": "<input inputmode=\"decimal\" class=\"m_8fb7ebe7 mantine-Input-input mantine-NumberInput-input\" data-variant=\"default\" data-disabled=\"true\" disabled=\"\" id=\"mantine-dlurtl1rd\" type=\"text\" value=\"1\">",
+              "html": "<input inputmode=\"decimal\" class=\"m_8fb7ebe7 mantine-Input-input mantine-NumberInput-input\" data-variant=\"default\" data-disabled=\"true\" disabled=\"\" id=\"mantine-m8zhszqhx\" type=\"text\" value=\"1\">",
               "target": [
-                "#mantine-dlurtl1rd"
+                "#mantine-m8zhszqhx"
               ],
               "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
             },
@@ -905,26 +1086,101 @@
               "all": [],
               "none": [],
               "impact": "critical",
-              "html": "<input class=\"m_8fb7ebe7 mantine-Input-input mantine-Select-input\" data-variant=\"default\" data-disabled=\"true\" readonly=\"\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" autocomplete=\"off\" disabled=\"\" id=\"mantine-xdrk7ucz8\" value=\"months\">",
+              "html": "<input class=\"m_8fb7ebe7 mantine-Input-input mantine-Select-input\" data-variant=\"default\" data-disabled=\"true\" readonly=\"\" role=\"combobox\" aria-haspopup=\"listbox\" aria-expanded=\"false\" autocomplete=\"off\" disabled=\"\" id=\"mantine-tqegnxugm\" value=\"months\">",
               "target": [
-                "#mantine-xdrk7ucz8"
+                "#mantine-tqegnxugm"
               ],
               "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a class=\"mantine-focus-auto m...\" data-size=\"sm\" href=\"https://github.com/d...\" target=\"_blank\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
             }
           ]
         }
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/security",
+      "finalUrl": "http://127.0.0.1:5175/settings/security",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/settings/workspace",
-      "requestedUrl": "http://127.0.0.1:5176/settings/workspace",
+      "url": "http://127.0.0.1:5175/settings/workspace",
+      "requestedUrl": "http://127.0.0.1:5175/settings/workspace",
       "violations": [
         {
           "id": "aria-allowed-attr",
@@ -957,38 +1213,101 @@
               ],
               "none": [],
               "impact": "critical",
-              "html": "<div class=\"\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-0pcj95ne8\" style=\"position: relative; display: inline-block;\">",
+              "html": "<div class=\"\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-xalfgnqua\" style=\"position: relative; display: inline-block;\">",
               "target": [
-                "#mantine-0pcj95ne8"
+                "#mantine-xalfgnqua"
               ],
               "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a class=\"mantine-focus-auto m...\" data-size=\"sm\" href=\"https://github.com/d...\" target=\"_blank\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
             }
           ]
         }
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/workspace",
+      "finalUrl": "http://127.0.0.1:5175/settings/workspace",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/settings/groups",
-      "requestedUrl": "http://127.0.0.1:5176/settings/groups",
-      "violations": [],
-      "incomplete": [],
-      "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/groups",
-      "testEngine": {
-        "name": "axe-core",
-        "version": "4.13.0"
-      }
-    },
-    {
-      "url": "http://127.0.0.1:5176/settings/sharing",
-      "requestedUrl": "http://127.0.0.1:5176/settings/sharing",
+      "url": "http://127.0.0.1:5175/settings/groups",
+      "requestedUrl": "http://127.0.0.1:5175/settings/groups",
       "violations": [
         {
           "id": "link-name",
@@ -1068,15 +1387,148 @@
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/settings/sharing",
+      "finalUrl": "http://127.0.0.1:5175/settings/groups",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/home [state:user-menu]",
-      "requestedUrl": "http://127.0.0.1:5176/home",
+      "url": "http://127.0.0.1:5175/settings/sharing",
+      "requestedUrl": "http://127.0.0.1:5175/settings/sharing",
+      "violations": [
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a class=\"mantine-focus-auto m...\" data-size=\"sm\" href=\"https://github.com/d...\" target=\"_blank\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/settings/sharing",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5175/templates",
+      "requestedUrl": "http://127.0.0.1:5175/templates",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en-US\" data-mantine-color-scheme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/templates",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5175/home [state:user-menu]",
+      "requestedUrl": "http://127.0.0.1:5175/home",
       "violations": [
         {
           "id": "aria-required-children",
@@ -1117,9 +1569,9 @@
               "all": [],
               "none": [],
               "impact": "critical",
-              "html": "<div class=\"m_38a85659 mantine-M...\" aria-labelledby=\"mantine-6dpk9l0w9\" id=\"mantine-6dpk9l0w9-dr...\" role=\"menu\" tabindex=\"-1\" aria-orientation=\"vertical\" data-menu-dropdown=\"true\" data-position=\"bottom-end\" style=\"--popover-shadow: va...\">",
+              "html": "<div class=\"m_38a85659 mantine-M...\" aria-labelledby=\"mantine-2ov8aj540\" id=\"mantine-2ov8aj540-dr...\" role=\"menu\" tabindex=\"-1\" aria-orientation=\"vertical\" data-menu-dropdown=\"true\" data-position=\"bottom-end\" style=\"--popover-shadow: va...\">",
               "target": [
-                "#mantine-6dpk9l0w9-dropdown"
+                "#mantine-2ov8aj540-dropdown"
               ],
               "failureSummary": "Fix any of the following:\n  Element has children which are not allowed: div[tabindex]"
             }
@@ -1218,34 +1670,34 @@
                   "id": "aria-valid-attr-value",
                   "data": {
                     "messageKey": "controlsWithinPopup",
-                    "needsReview": "aria-controls=\"mantine-6dpk9l0w9-dropdown\""
+                    "needsReview": "aria-controls=\"mantine-2ov8aj540-dropdown\""
                   },
                   "relatedNodes": [],
                   "impact": "critical",
-                  "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"mantine-6dpk9l0w9-dropdown\""
+                  "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"mantine-2ov8aj540-dropdown\""
                 }
               ],
               "none": [],
               "impact": "critical",
-              "html": "<button class=\"mantine-focus-auto m_87cf2631 mantine-UnstyledButton-root\" type=\"button\" aria-haspopup=\"menu\" aria-expanded=\"true\" id=\"mantine-6dpk9l0w9\" data-expanded=\"true\" aria-controls=\"mantine-6dpk9l0w9-dropdown\">",
+              "html": "<button class=\"mantine-focus-auto m_87cf2631 mantine-UnstyledButton-root\" type=\"button\" aria-haspopup=\"menu\" aria-expanded=\"true\" id=\"mantine-2ov8aj540\" data-expanded=\"true\" aria-controls=\"mantine-2ov8aj540-dropdown\">",
               "target": [
-                "#mantine-6dpk9l0w9"
+                "#mantine-2ov8aj540"
               ],
-              "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"mantine-6dpk9l0w9-dropdown\""
+              "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"mantine-2ov8aj540-dropdown\""
             }
           ]
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/home",
+      "finalUrl": "http://127.0.0.1:5175/home",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/home [state:notifications]",
-      "requestedUrl": "http://127.0.0.1:5176/home",
+      "url": "http://127.0.0.1:5175/home [state:notifications]",
+      "requestedUrl": "http://127.0.0.1:5175/home",
       "violations": [
         {
           "id": "aria-valid-attr-value",
@@ -1269,35 +1721,35 @@
                 {
                   "id": "aria-valid-attr-value",
                   "data": [
-                    "aria-controls=\"mantine-jjx6qqlja-panel-direct\""
+                    "aria-controls=\"mantine-znzru6fwa-panel-direct\""
                   ],
                   "relatedNodes": [],
                   "impact": "critical",
-                  "message": "Invalid ARIA attribute value: aria-controls=\"mantine-jjx6qqlja-panel-direct\""
+                  "message": "Invalid ARIA attribute value: aria-controls=\"mantine-znzru6fwa-panel-direct\""
                 }
               ],
               "none": [],
               "impact": "critical",
-              "html": "<button class=\"mantine-focus-auto m...\" data-variant=\"default\" data-active=\"true\" data-orientation=\"horizontal\" type=\"button\" role=\"tab\" id=\"mantine-jjx6qqlja-ta...\" aria-selected=\"true\" tabindex=\"0\" aria-controls=\"mantine-jjx6qqlja-pa...\">",
+              "html": "<button class=\"mantine-focus-auto m...\" data-variant=\"default\" data-active=\"true\" data-orientation=\"horizontal\" type=\"button\" role=\"tab\" id=\"mantine-znzru6fwa-ta...\" aria-selected=\"true\" tabindex=\"0\" aria-controls=\"mantine-znzru6fwa-pa...\">",
               "target": [
-                "#mantine-jjx6qqlja-tab-direct"
+                "#mantine-znzru6fwa-tab-direct"
               ],
-              "failureSummary": "Fix all of the following:\n  Invalid ARIA attribute value: aria-controls=\"mantine-jjx6qqlja-panel-direct\""
+              "failureSummary": "Fix all of the following:\n  Invalid ARIA attribute value: aria-controls=\"mantine-znzru6fwa-panel-direct\""
             }
           ]
         }
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/home",
+      "finalUrl": "http://127.0.0.1:5175/home",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/home [state:command-palette]",
-      "requestedUrl": "http://127.0.0.1:5176/home",
+      "url": "http://127.0.0.1:5175/home [state:command-palette]",
+      "requestedUrl": "http://127.0.0.1:5175/home",
       "violations": [
         {
           "id": "aria-dialog-name",
@@ -1339,7 +1791,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<section class=\"m_fd1ab0aa m_54c4453...\" data-modal-content=\"true\" role=\"dialog\" tabindex=\"-1\" aria-modal=\"true\" aria-describedby=\"mantine-0pjttd0k0-bo...\" style=\"transition-property:...\">",
+              "html": "<section class=\"m_fd1ab0aa m_54c4453...\" data-modal-content=\"true\" role=\"dialog\" tabindex=\"-1\" aria-modal=\"true\" aria-describedby=\"mantine-he3x4rkk1-bo...\" style=\"transition-property:...\">",
               "target": [
                 "section"
               ],
@@ -1350,15 +1802,15 @@
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/home",
+      "finalUrl": "http://127.0.0.1:5175/home",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
       }
     },
     {
-      "url": "http://127.0.0.1:5176/docs/general/YE3rIig7Vn [state:dark-mode]",
-      "requestedUrl": "http://127.0.0.1:5176/docs/general/YE3rIig7Vn",
+      "url": "http://127.0.0.1:5175/docs/general/YE3rIig7Vn [state:dark-mode]",
+      "requestedUrl": "http://127.0.0.1:5175/docs/general/YE3rIig7Vn",
       "violations": [
         {
           "id": "aria-allowed-attr",
@@ -1391,9 +1843,9 @@
               ],
               "none": [],
               "impact": "critical",
-              "html": "<span class=\"_linkWrapper_1f0ap_1\" aria-haspopup=\"dialog\" aria-expanded=\"false\" id=\"mantine-88edod3c2\"><a href=\"https://example.com/\" spellcheck=\"false\" target=\"_blank\" rel=\"noopener noreferrer\"><span data-mark-view-content=\"\"><span>https://example.com</span></span></a></span>",
+              "html": "<span class=\"_linkWrapper_1f0ap_1\" aria-haspopup=\"dialog\" aria-expanded=\"false\" id=\"mantine-qd0o2pu2u\"><a href=\"https://docmost.com/\" spellcheck=\"false\" target=\"_blank\" rel=\"noopener noreferrer\"><span data-mark-view-content=\"\"><span>documentation Docmost</span></span></a></span>",
               "target": [
-                "#mantine-88edod3c2"
+                "#mantine-qd0o2pu2u"
               ],
               "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
             }
@@ -1673,7 +2125,7 @@
               "all": [],
               "none": [],
               "impact": "serious",
-              "html": "<span>Updated 9 minutes ago</span>",
+              "html": "<span>Updated 5 minutes ago</span>",
               "target": [
                 "._byline_8faiy_642 > span"
               ],
@@ -1775,6 +2227,74 @@
               "all": [],
               "none": [],
               "impact": "serious",
+              "html": "<button type=\"button\" class=\"_tocLink_8faiy_484\" style=\"padding-left: 23px;\">Prérequis</button>",
+              "target": [
+                "._tocLink_8faiy_484:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#828282",
+                    "bgColor": "#242424",
+                    "contrastRatio": 4.03,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"_root_8faiy_1 public-typography\">",
+                      "target": [
+                        "._root_8faiy_1"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"_tocLink_8faiy_484\" style=\"padding-left: 23px;\">Étapes</button>",
+              "target": [
+                "._tocLink_8faiy_484:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#828282",
+                    "bgColor": "#242424",
+                    "contrastRatio": 4.03,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"_root_8faiy_1 public-typography\">",
+                      "target": [
+                        "._root_8faiy_1"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
               "html": "<a class=\"_editPageLink_8faiy_520\" rel=\"noopener\" href=\"/s/general/p/test-page-a11y-YE3rIig7Vn\" target=\"_blank\" data-discover=\"true\">",
               "target": [
                 "._editPageLink_8faiy_520"
@@ -1822,7 +2342,7 @@
       ],
       "incomplete": [],
       "httpStatus": 200,
-      "finalUrl": "http://127.0.0.1:5176/docs/general/YE3rIig7Vn",
+      "finalUrl": "http://127.0.0.1:5175/docs/general/YE3rIig7Vn",
       "testEngine": {
         "name": "axe-core",
         "version": "4.13.0"
@@ -1831,5 +2351,5 @@
   ],
   "configErrors": [],
   "crawlErrors": [],
-  "scopeHash": "aecacbb9ec3ec0044a3f7f3c0b7460c37c88526988e3929505a4a9ec45c163dd"
+  "scopeHash": "6b9d17268d76527548efb22a78fcb9624e09e13f96bcb089959cb68182dcece4"
 }
