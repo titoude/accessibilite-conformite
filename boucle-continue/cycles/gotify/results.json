@@ -1,0 +1,82 @@
+{
+ "slug": "gotify",
+ "cycle": 15,
+ "measured": {
+  "baseline": {
+   "occurrences": 79,
+   "occurrencesApp": 75,
+   "occurrencesLogin": 4,
+   "rules": [
+    "aria-command-name",
+    "aria-hidden-focus",
+    "button-name",
+    "color-contrast",
+    "empty-table-header",
+    "heading-order",
+    "image-alt",
+    "landmark-main-is-top-level",
+    "landmark-no-duplicate-main",
+    "landmark-one-main",
+    "landmark-unique",
+    "page-has-heading-one",
+    "region"
+   ],
+   "scanErrors": 0,
+   "surfaces": 19
+  },
+  "final": {
+   "occurrences": 0,
+   "rules": [],
+   "scanErrors": 0,
+   "exitCode": 0,
+   "surfaces": 19,
+   "incomplete": 14
+  },
+  "verify": {"assertions": 36, "passed": 36},
+  "evalFinal": {"assertions": 15, "passed": 15},
+  "installBuild": {
+   "gitApply": 0,
+   "yarnInstallFrozenLockfile": 0,
+   "yarnBuild": 0,
+   "goBuild": 0,
+   "onCleanCheckout": true,
+   "log": "install-build.log"
+  },
+  "rounds": 4,
+  "roundsDetail": [
+   "baseline : 79 occ / 13 règles (app 75 + login 4)",
+   "round2 (structure + noms + tables + contrast snackbar) : 13 occ / 2 règles — restait heading-order (subtitle1→h6) + color-contrast transitoire",
+   "round3 (+ --wait-for/--wait 1500 sédimentation, div role=group tooltip) : 12 occ / 1 règle — edit h6 non persistée (assert sur count avant écriture)",
+   "final : 0 occ / 0 règle / 0 erreur, exit 0, 14 incomplets axe"
+  ],
+  "scopeFidelity": "scopeHash identique baseline↔final (app 8f1daa57…, login a560a471…) ; statesHash identique (52f142ec…) — même périmètre figé, mêmes états"
+ },
+ "ecarts": [
+  "Baseline scannée sans --wait-for/--wait (omission) : rounds≥3 ajoutent la sédimentation 1500ms — périmètre INCHANGÉ (scopeHash identique), seules les conditions d'attente divergent",
+  "La violation color-contrast de #delete-all (baseline) était mesurée pendant la transition CSS 250ms disabled→enabled : disparue après sédimentation, sans modification produit",
+  "h5 avant h1 dans le heading flow ([5,1,2…]) : titre de site MUI variant→element, axe-clean mais sémantiquement résiduel — non bloqué, signalé",
+  "14 incomplets axe finaux : aria-controls vers menu portail (id non résoluble hors état), fonds non déterminables derrière modales/backdrop, th-has-data-cells plugins (résolu par empty-state mais axe recalcule hors état), aria-label sur [role=group] résiduels à revue manuelle"
+ ],
+ "causesRacines": [
+  "<main> imbriqués : DefaultPage rendait son propre <main> dans le <main> du Layout → landmark-main-is-top-level/no-duplicate-main/landmark-unique → DefaultPage devient <div>, Layout <main> unique + id=main-content",
+  "aucune h1 : titres de pages Typography variant=h4 (span d'affichage) → component=\"h1\" sur titre DefaultPage + PluginDetailView",
+  "IconButtons icône-seule sans nom (18 occ) → aria-label explicites (messages, applications×4, clients×2, users×2, upload, drawer close, plugin refresh, nav)",
+  "handle dnd-kit role=button sans nom (aria-command-name) → aria-label `Reorder ${app.name}`",
+  "en-têtes <th> vides ×8 (dont 1 colonne manquante : applications 9 th pour 10 colonnes) → textes masqués SR via common/visuallyHidden.ts + 10e th",
+  "menu/drawer/dialog/notistack en portail <body> hors landmarks (region) + Modal aria-hidden de #root (aria-hidden-focus, landmark-one-main) → #a11y-popup-layer[role=complementary] frère de #root + container={popupContainer()} sur Menu, Drawer temporaire, 10 Dialog, SnackbarProvider domRoot",
+  "snackbar notistack variant=info #2196f3 + texte blanc (3.68:1) → variant neutre #313131 (12:1) aux 2 enqueueSnackbar",
+  "Typography variant=subtitle1 rend <h6> (heading-order) → component=\"div\" (métadonnée, pas titre de section)",
+  "div[aria-label] autour des boutons disabled des tooltips (aria-prohibited-attr) → role=\"group\" (nom autorisé sur group)",
+  "navigation : liens <a> contenant ListItemButton (interactif imbriqué) → ListItemButton component={Link} ; 2 nav landmarks nommés distincts ; Avatar nav alt=\"\" ; bug image!==null rendait <img src=undefined> → image ?",
+  "table plugins sans data cells → ligne empty-state 'No plugins' colSpan",
+  "bouton détails plugin : <a><button> imbriqué → Button component={Link} + aria-label"
+ ],
+ "harnessFindings": [
+  "POST /message accepte le cookie client + champ appid → état snackbar-undo rejouable sans token hardcodé (GET /application ne renvoie pas token)",
+  "chaque POST /auth/local/login crée une ligne client → login.mjs purge les clients 'devin-audit' avant connexion (seed déterministe)",
+  "nav hash conserve le point de départ Tab de Chrome : le skip-link ne se teste qu'après reload réel",
+  "[role=dialog] sélectionne aussi le Drawer MUI → cibler .MuiDialog-root [role=dialog]",
+  "clone autosize des TextField multiline (aria-hidden, tabindex=-1) compté comme champ → filtrer aria-hidden+visibility+tabIndex",
+  "waitForSelector sur '.MuiDrawer-root .MuiDrawer-paper' résout le drawer permanent caché → viser '.MuiModal-root .MuiDrawer-paper' (drawer temporaire = Modal)"
+ ]
+}

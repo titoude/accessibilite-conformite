@@ -1,0 +1,922 @@
+diff --git a/ui/index.html b/ui/index.html
+index 6d88a28..2fb90e4 100644
+--- a/ui/index.html
++++ b/ui/index.html
+@@ -35,6 +35,7 @@
+     Gotify requires JavaScript.
+ </noscript>
+ <div id="root"></div>
++<div id="a11y-popup-layer" role="complementary"></div>
+ <script>window.config = %CONFIG%;</script>
+ <script type="module" src="/src/index.tsx"></script>
+ </body>
+diff --git a/ui/src/application/AddApplicationDialog.tsx b/ui/src/application/AddApplicationDialog.tsx
+index a3c197d..3e8bb38 100644
+--- a/ui/src/application/AddApplicationDialog.tsx
++++ b/ui/src/application/AddApplicationDialog.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogContentText from '@mui/material/DialogContentText';
+@@ -27,6 +28,7 @@ export const AddApplicationDialog = ({fClose, fOnSubmit}: IProps) => {
+ 
+     return (
+         <Dialog
++            container={popupContainer()}
+             open={true}
+             onClose={() => fClose(null)}
+             aria-labelledby="form-dialog-title"
+@@ -65,7 +67,7 @@ export const AddApplicationDialog = ({fClose, fOnSubmit}: IProps) => {
+             <DialogActions>
+                 <Button onClick={() => fClose(null)}>Cancel</Button>
+                 <Tooltip title={submitEnabled ? '' : 'name is required'}>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="create"
+                             disabled={!submitEnabled}
+diff --git a/ui/src/application/Applications.tsx b/ui/src/application/Applications.tsx
+index 048edc3..6573a44 100644
+--- a/ui/src/application/Applications.tsx
++++ b/ui/src/application/Applications.tsx
+@@ -38,6 +38,7 @@ import {observer} from 'mobx-react-lite';
+ import {makeStyles} from 'tss-react/mui';
+ import {ButtonBase, Tooltip} from '@mui/material';
+ import {TokenConfirmDialog} from '../common/TokenConfirmDialog';
++import {visuallyHidden} from '../common/visuallyHidden';
+ 
+ const useStyles = makeStyles()((theme) => ({
+     imageContainer: {
+@@ -126,15 +127,26 @@ const Applications = observer(() => {
+                         <Table id="app-table">
+                             <TableHead>
+                                 <TableRow>
+-                                    <TableCell padding="none" style={{width: 0}} />
+-                                    <TableCell padding="checkbox" style={{width: 80}} />
++                                    <TableCell padding="none" style={{width: 0}}>
++                                        <span style={visuallyHidden}>Reorder</span>
++                                    </TableCell>
++                                    <TableCell padding="checkbox" style={{width: 80}}>
++                                        <span style={visuallyHidden}>Image</span>
++                                    </TableCell>
+                                     <TableCell>Name</TableCell>
+                                     <TableCell>Description</TableCell>
+                                     <TableCell>Priority</TableCell>
+                                     <TableCell>Last Used</TableCell>
+                                     <TableCell>Created</TableCell>
+-                                    <TableCell />
+-                                    <TableCell />
++                                    <TableCell>
++                                        <span style={visuallyHidden}>Regenerate token</span>
++                                    </TableCell>
++                                    <TableCell>
++                                        <span style={visuallyHidden}>Edit</span>
++                                    </TableCell>
++                                    <TableCell>
++                                        <span style={visuallyHidden}>Delete</span>
++                                    </TableCell>
+                                 </TableRow>
+                             </TableHead>
+                             <SortableContext items={apps} strategy={verticalListSortingStrategy}>
+@@ -254,6 +266,7 @@ const Row = ({app, fRegenerateToken, fDelete, fUpload, fDeleteImage, fEdit}: IRo
+                 <div
+                     {...attributes}
+                     {...listeners}
++                    aria-label={`Reorder ${app.name}`}
+                     style={{
+                         cursor: 'grab',
+                         display: 'flex',
+@@ -278,7 +291,7 @@ const Row = ({app, fRegenerateToken, fDelete, fUpload, fDeleteImage, fEdit}: IRo
+                             />
+                         </ButtonBase>
+                     </Tooltip>
+-                    <IconButton onClick={fUpload} style={{height: 40}}>
++                    <IconButton onClick={fUpload} style={{height: 40}} aria-label="Upload image">
+                         <CloudUpload />
+                     </IconButton>
+                 </div>
+@@ -291,17 +304,24 @@ const Row = ({app, fRegenerateToken, fDelete, fUpload, fDeleteImage, fEdit}: IRo
+             </TableCell>
+             <TableCell title={app.createdAt}>{formatDate(app.createdAt)}</TableCell>
+             <TableCell align="right" padding="none">
+-                <IconButton onClick={fRegenerateToken} className="regenerate-token">
++                <IconButton
++                    onClick={fRegenerateToken}
++                    className="regenerate-token"
++                    aria-label="Regenerate token">
+                     <Key />
+                 </IconButton>
+             </TableCell>
+             <TableCell align="right" padding="none">
+-                <IconButton onClick={fEdit} className="edit">
++                <IconButton onClick={fEdit} className="edit" aria-label="Edit">
+                     <Edit />
+                 </IconButton>
+             </TableCell>
+             <TableCell align="right" padding="none">
+-                <IconButton onClick={fDelete} className="delete" disabled={app.internal}>
++                <IconButton
++                    onClick={fDelete}
++                    className="delete"
++                    disabled={app.internal}
++                    aria-label="Delete">
+                     <Delete />
+                 </IconButton>
+             </TableCell>
+diff --git a/ui/src/application/UpdateApplicationDialog.tsx b/ui/src/application/UpdateApplicationDialog.tsx
+index a4d13fa..9baadd3 100644
+--- a/ui/src/application/UpdateApplicationDialog.tsx
++++ b/ui/src/application/UpdateApplicationDialog.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogContentText from '@mui/material/DialogContentText';
+@@ -35,7 +36,12 @@ export const UpdateApplicationDialog = ({
+     };
+ 
+     return (
+-        <Dialog open={true} onClose={fClose} aria-labelledby="form-dialog-title" id="app-dialog">
++        <Dialog
++            open={true}
++            container={popupContainer()}
++            onClose={fClose}
++            aria-labelledby="form-dialog-title"
++            id="app-dialog">
+             <DialogTitle id="form-dialog-title">Update an application</DialogTitle>
+             <DialogContent>
+                 <DialogContentText>An application is allowed to send messages.</DialogContentText>
+@@ -70,7 +76,7 @@ export const UpdateApplicationDialog = ({
+             <DialogActions>
+                 <Button onClick={fClose}>Cancel</Button>
+                 <Tooltip title={submitEnabled ? '' : 'name is required'}>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="update"
+                             disabled={!submitEnabled}
+diff --git a/ui/src/client/AddClientDialog.tsx b/ui/src/client/AddClientDialog.tsx
+index cea0a12..c71d2f8 100644
+--- a/ui/src/client/AddClientDialog.tsx
++++ b/ui/src/client/AddClientDialog.tsx
+@@ -1,6 +1,7 @@
+ import React, {useState} from 'react';
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogTitle from '@mui/material/DialogTitle';
+@@ -24,6 +25,7 @@ const AddClientDialog = ({fClose, fOnSubmit}: IProps) => {
+ 
+     return (
+         <Dialog
++            container={popupContainer()}
+             open={true}
+             onClose={() => fClose(null)}
+             aria-labelledby="form-dialog-title"
+@@ -52,7 +54,7 @@ const AddClientDialog = ({fClose, fOnSubmit}: IProps) => {
+             <DialogActions>
+                 <Button onClick={() => fClose(null)}>Cancel</Button>
+                 <Tooltip placement={'bottom-start'} title={submitEnabled ? '' : 'name is required'}>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="create"
+                             disabled={!submitEnabled}
+diff --git a/ui/src/client/Clients.tsx b/ui/src/client/Clients.tsx
+index 829b189..5d5a501 100644
+--- a/ui/src/client/Clients.tsx
++++ b/ui/src/client/Clients.tsx
+@@ -19,6 +19,7 @@ import UpdateClientDialog from './UpdateClientDialog';
+ import ElevateClientDialog from './ElevateClientDialog';
+ import {IClient} from '../types';
+ import {LastUsedCell} from '../common/LastUsedCell';
++import {visuallyHidden} from '../common/visuallyHidden';
+ import {formatDate} from '../common/TimeAgoFormatter';
+ import {RemainingTime} from '../common/RemainingTime';
+ import {observer} from 'mobx-react-lite';
+@@ -59,9 +60,15 @@ const Clients = observer(() => {
+                                 <TableCell>Expires in</TableCell>
+                                 <TableCell>Last Used</TableCell>
+                                 <TableCell>Created</TableCell>
+-                                <TableCell />
+-                                <TableCell />
+-                                <TableCell />
++                                <TableCell>
++                                    <span style={visuallyHidden}>Elevate</span>
++                                </TableCell>
++                                <TableCell>
++                                    <span style={visuallyHidden}>Edit</span>
++                                </TableCell>
++                                <TableCell>
++                                    <span style={visuallyHidden}>Delete</span>
++                                </TableCell>
+                             </TableRow>
+                         </TableHead>
+                         <TableBody>
+@@ -178,12 +185,12 @@ const Row = ({
+             </Tooltip>
+         </TableCell>
+         <TableCell align="right" padding="none">
+-            <IconButton onClick={fEdit} className="edit">
++            <IconButton onClick={fEdit} className="edit" aria-label="Edit">
+                 <Edit />
+             </IconButton>
+         </TableCell>
+         <TableCell align="right" padding="none">
+-            <IconButton onClick={fDelete} className="delete">
++            <IconButton onClick={fDelete} className="delete" aria-label="Delete">
+                 <Delete />
+             </IconButton>
+         </TableCell>
+diff --git a/ui/src/client/ElevateClientDialog.tsx b/ui/src/client/ElevateClientDialog.tsx
+index fcc3552..66bea51 100644
+--- a/ui/src/client/ElevateClientDialog.tsx
++++ b/ui/src/client/ElevateClientDialog.tsx
+@@ -1,6 +1,7 @@
+ import React, {useState} from 'react';
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogTitle from '@mui/material/DialogTitle';
+@@ -46,7 +47,11 @@ const ElevateClientDialog = observer(({clientName, clientId, fClose}: IProps) =>
+     };
+ 
+     return (
+-        <Dialog open={true} onClose={handleClose} className="elevate-client-dialog">
++        <Dialog
++            open={true}
++            container={popupContainer()}
++            onClose={handleClose}
++            className="elevate-client-dialog">
+             <DialogTitle>Elevate Client: {clientName}</DialogTitle>
+             <DialogContent>
+                 {needsElevation ? (
+diff --git a/ui/src/client/UpdateClientDialog.tsx b/ui/src/client/UpdateClientDialog.tsx
+index f3459f3..7ba2a0b 100644
+--- a/ui/src/client/UpdateClientDialog.tsx
++++ b/ui/src/client/UpdateClientDialog.tsx
+@@ -1,6 +1,7 @@
+ import React, {useState} from 'react';
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogContentText from '@mui/material/DialogContentText';
+@@ -32,7 +33,12 @@ const UpdateClientDialog = ({
+     };
+ 
+     return (
+-        <Dialog open={true} onClose={fClose} aria-labelledby="form-dialog-title" id="client-dialog">
++        <Dialog
++            open={true}
++            container={popupContainer()}
++            onClose={fClose}
++            aria-labelledby="form-dialog-title"
++            id="client-dialog">
+             <DialogTitle id="form-dialog-title">Update a Client</DialogTitle>
+             <DialogContent>
+                 <DialogContentText>
+@@ -61,7 +67,7 @@ const UpdateClientDialog = ({
+             <DialogActions>
+                 <Button onClick={fClose}>Cancel</Button>
+                 <Tooltip title={submitEnabled ? '' : 'name is required'}>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="update"
+                             disabled={!submitEnabled}
+diff --git a/ui/src/common/ConfirmDialog.tsx b/ui/src/common/ConfirmDialog.tsx
+index 5f76211..c70f658 100644
+--- a/ui/src/common/ConfirmDialog.tsx
++++ b/ui/src/common/ConfirmDialog.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from './popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogContentText from '@mui/material/DialogContentText';
+@@ -34,6 +35,7 @@ const ConfirmDialog = observer(({title, text, fClose, fOnSubmit, requireElevated
+ 
+     return (
+         <Dialog
++            container={popupContainer()}
+             open={true}
+             onClose={handleClose}
+             aria-labelledby="form-dialog-title"
+diff --git a/ui/src/common/DefaultPage.tsx b/ui/src/common/DefaultPage.tsx
+index 40550e3..68864e9 100644
+--- a/ui/src/common/DefaultPage.tsx
++++ b/ui/src/common/DefaultPage.tsx
+@@ -14,16 +14,16 @@ const DefaultPage: FC<React.PropsWithChildren<IProps>> = ({
+     maxWidth = 700,
+     children,
+ }) => (
+-    <main style={{margin: '0 auto', maxWidth}}>
++    <div style={{margin: '0 auto', maxWidth}}>
+         <Grid container spacing={4}>
+             <Grid size={{xs: 12}} style={{display: 'flex', flexWrap: 'wrap'}}>
+-                <Typography variant="h4" style={{flex: 1, minWidth: 300}}>
++                <Typography component="h1" variant="h4" style={{flex: 1, minWidth: 300}}>
+                     {title}
+                 </Typography>
+                 {rightControl}
+             </Grid>
+             {children}
+         </Grid>
+-    </main>
++    </div>
+ );
+ export default DefaultPage;
+diff --git a/ui/src/common/TokenConfirmDialog.tsx b/ui/src/common/TokenConfirmDialog.tsx
+index 2e874b8..4b5cda4 100644
+--- a/ui/src/common/TokenConfirmDialog.tsx
++++ b/ui/src/common/TokenConfirmDialog.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from './popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogContentText from '@mui/material/DialogContentText';
+@@ -18,7 +19,11 @@ export const TokenConfirmDialog = ({token, fClose}: IProps) => {
+     const {snackManager} = useStores();
+ 
+     return (
+-        <Dialog open={true} aria-labelledby="form-dialog-title" id="token-dialog">
++        <Dialog
++            open={true}
++            container={popupContainer()}
++            aria-labelledby="form-dialog-title"
++            id="token-dialog">
+             <DialogTitle id="form-dialog-title">Token Confirmation</DialogTitle>
+             <DialogContent>
+                 <DialogContentText>Your token will only be shown once.</DialogContentText>
+diff --git a/ui/src/common/popupContainer.ts b/ui/src/common/popupContainer.ts
+new file mode 100644
+index 0000000..08c4d72
+--- /dev/null
++++ b/ui/src/common/popupContainer.ts
+@@ -0,0 +1,14 @@
++/**
++ * Élément hôte des overlays (Dialog, Menu, Drawer temporaire, snackbars).
++ *
++ * Frère de #root dans index.html : les modales MUI ne mettent en aria-hidden
++ * que leurs propres siblings — montés ici, ils ne masquent jamais #root et
++ * restent dans un landmark `complementary` (règle axe `region`).
++ */
++export const popupContainer = (): HTMLElement => {
++    const el = document.getElementById('a11y-popup-layer');
++    if (!el) {
++        throw new Error('#a11y-popup-layer absent du document');
++    }
++    return el;
++};
+diff --git a/ui/src/common/visuallyHidden.ts b/ui/src/common/visuallyHidden.ts
+new file mode 100644
+index 0000000..582fe6e
+--- /dev/null
++++ b/ui/src/common/visuallyHidden.ts
+@@ -0,0 +1,17 @@
++import {CSSProperties} from 'react';
++
++/**
++ * Rend un libellé invisible à l'écran mais lisible par les lecteurs d'écran.
++ * Utilisé pour les en-têtes de colonnes purement iconiques (axe `empty-table-header`).
++ */
++export const visuallyHidden: CSSProperties = {
++    border: 0,
++    clip: 'rect(0 0 0 0)',
++    height: 1,
++    margin: -1,
++    overflow: 'hidden',
++    padding: 0,
++    position: 'absolute',
++    whiteSpace: 'nowrap',
++    width: 1,
++};
+diff --git a/ui/src/layout/Header.tsx b/ui/src/layout/Header.tsx
+index f542955..bc4d783 100644
+--- a/ui/src/layout/Header.tsx
++++ b/ui/src/layout/Header.tsx
+@@ -20,6 +20,7 @@ import ListItemText from '@mui/material/ListItemText';
+ import React, {CSSProperties} from 'react';
+ import {Link} from 'react-router';
+ import {useMediaQuery} from '@mui/material';
++import {popupContainer} from '../common/popupContainer';
+ 
+ const useStyles = makeStyles()((theme: Theme) => ({
+     appBar: {
+@@ -159,6 +160,7 @@ const Buttons = ({
+             />
+             <Menu
+                 id="user-menu"
++                container={popupContainer()}
+                 anchorEl={anchorEl}
+                 open={userDropDown}
+                 onClose={() => setAnchorEl(null)}
+@@ -197,7 +199,7 @@ const ResponsiveButton: React.FC<{
+     const matches = useMediaQuery('(max-width:1000px)');
+     if (matches) {
+         return (
+-            <IconButton {...rest} size="large">
++            <IconButton {...rest} aria-label={label} size="large">
+                 {icon}
+             </IconButton>
+         );
+diff --git a/ui/src/layout/Layout.tsx b/ui/src/layout/Layout.tsx
+index ce12746..f855adc 100644
+--- a/ui/src/layout/Layout.tsx
++++ b/ui/src/layout/Layout.tsx
+@@ -25,6 +25,7 @@ import Settings from '../user/Settings';
+ import Users from '../user/Users';
+ import {observer} from 'mobx-react-lite';
+ import {ConnectionErrorBanner} from '../common/ConnectionErrorBanner';
++import {popupContainer} from '../common/popupContainer';
+ import {useStores} from '../stores';
+ import {SnackbarProvider} from 'notistack';
+ import LoadingSpinner from '../common/LoadingSpinner';
+@@ -42,6 +43,18 @@ const useStyles = makeStyles()((theme: Theme) => ({
+             padding: theme.spacing(1),
+         },
+     },
++    skipLink: {
++        position: 'absolute',
++        left: 8,
++        top: -64,
++        zIndex: theme.zIndex.tooltip + 1,
++        padding: theme.spacing(1, 2),
++        background: theme.palette.background.paper,
++        color: theme.palette.text.primary,
++        borderRadius: 4,
++        transition: 'top 0.15s ease-out',
++        '&:focus': {top: 8},
++    },
+ }));
+ 
+ const localStorageThemeKey = 'gotify-theme';
+@@ -96,6 +109,9 @@ const Layout = observer(() => {
+                 <HashRouter>
+                     {/* This forces all components to fully rerender including useEffects.
+                         The refreshKey is updated when store data was cleaned and pages should refetch their data. */}
++                    <a href="#main-content" className={classes.skipLink}>
++                        Skip to content
++                    </a>
+                     <div key={refreshKey}>
+                         {!connectionErrorMessage ? null : (
+                             <ConnectionErrorBanner
+@@ -121,7 +137,7 @@ const Layout = observer(() => {
+                                     navOpen={navOpen}
+                                     setNavOpen={setNavOpen}
+                                 />
+-                                <main className={classes.content}>
++                                <main className={classes.content} id="main-content" tabIndex={-1}>
+                                     <Routes>
+                                         <Route path="/login" element={<Login />} />
+                                         <Route path="/" element={authed(<Messages />)} />
+@@ -162,7 +178,7 @@ const Layout = observer(() => {
+                                 </main>
+                             </div>
+                             <ScrollUpButton />
+-                            <SnackbarProvider />
++                            <SnackbarProvider domRoot={popupContainer()} />
+                         </div>
+                     </div>
+                 </HashRouter>
+diff --git a/ui/src/layout/Navigation.tsx b/ui/src/layout/Navigation.tsx
+index c20f228..f885ef7 100644
+--- a/ui/src/layout/Navigation.tsx
++++ b/ui/src/layout/Navigation.tsx
+@@ -17,6 +17,7 @@ import {
+ import CloseIcon from '@mui/icons-material/Close';
+ import {makeStyles} from 'tss-react/mui';
+ import {useStores} from '../stores';
++import {popupContainer} from '../common/popupContainer';
+ 
+ const useStyles = makeStyles()((theme: Theme) => ({
+     root: {
+@@ -53,22 +54,22 @@ const Navigation = observer(({loggedIn, navOpen, setNavOpen}: IProps) => {
+         apps.length === 0
+             ? null
+             : apps.map((app) => (
+-                  <Link
++                  <ListItemButton
++                      component={Link}
+                       onClick={() => setNavOpen(false)}
+                       className={`${classes.link} item`}
+                       to={'/messages/' + app.id}
+                       key={app.id}>
+-                      <ListItemButton>
+-                          <ListItemAvatar style={{minWidth: 42}}>
+-                              <Avatar
+-                                  style={{width: 32, height: 32}}
+-                                  src={app.image}
+-                                  variant="square"
+-                              />
+-                          </ListItemAvatar>
+-                          <ListItemText primary={app.name} />
+-                      </ListItemButton>
+-                  </Link>
++                      <ListItemAvatar style={{minWidth: 42}}>
++                          <Avatar
++                              style={{width: 32, height: 32}}
++                              src={app.image}
++                              variant="square"
++                              alt=""
++                          />
++                      </ListItemAvatar>
++                      <ListItemText primary={app.name} />
++                  </ListItemButton>
+               ));
+ 
+     const placeholderItems = [
+@@ -80,18 +81,16 @@ const Navigation = observer(({loggedIn, navOpen, setNavOpen}: IProps) => {
+         </ListItemButton>,
+     ];
+ 
+-    return (
+-        <ResponsiveDrawer
+-            classes={{root: classes.root, paper: classes.drawerPaper}}
+-            navOpen={navOpen}
+-            setNavOpen={setNavOpen}
+-            id="message-navigation">
+-            <div className={classes.toolbar} />
+-            <Link className={classes.link} to="/" onClick={() => setNavOpen(false)}>
+-                <ListItemButton disabled={!loggedIn} className="all">
+-                    <ListItemText primary="All Messages" />
+-                </ListItemButton>
+-            </Link>
++    const navContent = (
++        <>
++            <ListItemButton
++                component={Link}
++                className={`${classes.link} all`}
++                to="/"
++                onClick={() => setNavOpen(false)}
++                disabled={!loggedIn}>
++                <ListItemText primary="All Messages" />
++            </ListItemButton>
+             <Divider />
+             <div>{loggedIn ? userApps : placeholderItems}</div>
+             <Divider />
+@@ -106,26 +105,51 @@ const Navigation = observer(({loggedIn, navOpen, setNavOpen}: IProps) => {
+                     </Button>
+                 ) : null}
+             </Typography>
+-        </ResponsiveDrawer>
++        </>
++    );
++
++    return (
++        <ResponsiveDrawer
++            classes={{root: classes.root, paper: classes.drawerPaper}}
++            toolbarClass={classes.toolbar}
++            navOpen={navOpen}
++            setNavOpen={setNavOpen}
++            navContent={navContent}
++        />
+     );
+ });
+ 
+ const ResponsiveDrawer: React.FC<
+-    DrawerProps & {navOpen: boolean; setNavOpen: (open: boolean) => void}
+-> = ({navOpen, setNavOpen, children, ...rest}) => (
++    Omit<DrawerProps, 'children'> & {
++        navOpen: boolean;
++        setNavOpen: (open: boolean) => void;
++        navContent: React.ReactNode;
++        toolbarClass: string;
++    }
++> = ({navOpen, setNavOpen, navContent, toolbarClass, ...rest}) => (
+     <>
+         <Drawer
+             sx={{display: {sm: 'none', xs: 'block'}}}
+             variant="temporary"
+             open={navOpen}
++            container={popupContainer()}
+             {...rest}>
+-            <IconButton onClick={() => setNavOpen(false)} size="large">
++            <div className={toolbarClass} />
++            <IconButton
++                onClick={() => setNavOpen(false)}
++                aria-label="Close navigation"
++                size="large">
+                 <CloseIcon />
+             </IconButton>
+-            {children}
++            <nav aria-label="Navigation mobile">{navContent}</nav>
+         </Drawer>
+-        <Drawer sx={{display: {xs: 'none', sm: 'block'}}} variant="permanent" {...rest}>
+-            {children}
++        <Drawer
++            sx={{display: {xs: 'none', sm: 'block'}}}
++            variant="permanent"
++            id="message-navigation"
++            {...rest}>
++            <div className={toolbarClass} />
++            <nav aria-label="Navigation">{navContent}</nav>
+         </Drawer>
+     </>
+ );
+diff --git a/ui/src/message/Message.tsx b/ui/src/message/Message.tsx
+index 9ea99f5..aa055be 100644
+--- a/ui/src/message/Message.tsx
++++ b/ui/src/message/Message.tsx
+@@ -229,7 +229,7 @@ const HeaderWide = ({
+     return (
+         <div className={classes.header}>
+             <div className={classes.imageWrapper}>
+-                {image !== null ? (
++                {image ? (
+                     <img
+                         src={config.get('url') + image}
+                         alt={`${appName} logo`}
+@@ -240,10 +240,10 @@ const HeaderWide = ({
+                 ) : null}
+             </div>
+             <div className={classes.headerTitle}>
+-                <Typography className="title" variant="h5" sx={{lineHeight: 1.2}}>
++                <Typography className="title" component="h2" variant="h5" sx={{lineHeight: 1.2}}>
+                     {title}
+                 </Typography>
+-                <Typography variant="subtitle1" sx={{fontSize: 12, opacity: 0.7}}>
++                <Typography component="div" variant="subtitle1" sx={{fontSize: 12, opacity: 0.7}}>
+                     {appName}
+                 </Typography>
+             </div>
+@@ -252,6 +252,7 @@ const HeaderWide = ({
+             </Typography>
+             <IconButton
+                 onClick={fDelete}
++                aria-label="Delete message"
+                 style={{padding: 14}}
+                 className={`${classes.trash} delete`}
+                 size="large">
+@@ -272,10 +273,10 @@ const HeaderSmall = ({
+     return (
+         <div className={classes.header}>
+             <div className={classes.headerTitle}>
+-                <Typography className="title" variant="h5" sx={{lineHeight: 1.2}}>
++                <Typography className="title" component="h2" variant="h5" sx={{lineHeight: 1.2}}>
+                     {title}
+                 </Typography>
+-                <Typography variant="subtitle1" sx={{fontSize: 12, opacity: 0.7}}>
++                <Typography component="div" variant="subtitle1" sx={{fontSize: 12, opacity: 0.7}}>
+                     {appName}
+                 </Typography>
+                 <Typography variant="body1" className={classes.date}>
+@@ -285,13 +286,14 @@ const HeaderSmall = ({
+             <div style={{display: 'flex', alignItems: 'end', flexDirection: 'column'}}>
+                 <IconButton
+                     onClick={fDelete}
++                    aria-label="Delete message"
+                     style={{padding: 14}}
+                     className={`${classes.trash} delete`}
+                     size="large">
+                     <Delete />
+                 </IconButton>
+                 <div style={{width: 30, height: 30}}>
+-                    {image !== null ? (
++                    {image ? (
+                         <img
+                             src={config.get('url') + image}
+                             alt={`${appName} logo`}
+diff --git a/ui/src/message/Messages.tsx b/ui/src/message/Messages.tsx
+index 02c582f..cce86f6 100644
+--- a/ui/src/message/Messages.tsx
++++ b/ui/src/message/Messages.tsx
+@@ -34,7 +34,6 @@ const Messages = observer(() => {
+     const deleteMessage = (message: IMessage) => {
+         const key = enqueueSnackbar({
+             message: 'Message deleted',
+-            variant: 'info',
+             action: () => (
+                 <Button
+                     color="inherit"
+diff --git a/ui/src/message/PushMessageDialog.tsx b/ui/src/message/PushMessageDialog.tsx
+index dd62b64..1995e24 100644
+--- a/ui/src/message/PushMessageDialog.tsx
++++ b/ui/src/message/PushMessageDialog.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogContentText from '@mui/material/DialogContentText';
+@@ -29,6 +30,7 @@ export const PushMessageDialog = ({appName, defaultPriority, fClose, fOnSubmit}:
+ 
+     return (
+         <Dialog
++            container={popupContainer()}
+             open={true}
+             onClose={fClose}
+             aria-labelledby="push-message-title"
+@@ -72,7 +74,7 @@ export const PushMessageDialog = ({appName, defaultPriority, fClose, fOnSubmit}:
+             <DialogActions>
+                 <Button onClick={fClose}>Cancel</Button>
+                 <Tooltip title={submitEnabled ? '' : 'message is required'}>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="send"
+                             disabled={!submitEnabled}
+diff --git a/ui/src/plugin/PluginDetailView.tsx b/ui/src/plugin/PluginDetailView.tsx
+index 5299ab4..4852e63 100644
+--- a/ui/src/plugin/PluginDetailView.tsx
++++ b/ui/src/plugin/PluginDetailView.tsx
+@@ -115,7 +115,7 @@ const PanelWrapper: React.FC<React.PropsWithChildren<IPanelWrapperProps>> = ({
+                     width: '100%',
+                     margin: '12px 0px',
+                 }}>
+-                <Typography variant="h5">
++                <Typography component="h1" variant="h5">
+                     {Icon ? (
+                         <span>
+                             <Icon />
+@@ -128,7 +128,8 @@ const PanelWrapper: React.FC<React.PropsWithChildren<IPanelWrapperProps>> = ({
+                             style={{float: 'right'}}
+                             onClick={() => {
+                                 refresh();
+-                            }}>
++                            }}
++                            aria-label="Refresh">
+                             <Refresh />
+                         </Button>
+                     ) : null}
+diff --git a/ui/src/plugin/Plugins.tsx b/ui/src/plugin/Plugins.tsx
+index 86b52b9..ffed246 100644
+--- a/ui/src/plugin/Plugins.tsx
++++ b/ui/src/plugin/Plugins.tsx
+@@ -36,6 +36,11 @@ const Plugins = observer(() => {
+                             </TableRow>
+                         </TableHead>
+                         <TableBody>
++                            {plugins.length === 0 ? (
++                                <TableRow>
++                                    <TableCell colSpan={6}>No plugins</TableCell>
++                                </TableRow>
++                            ) : null}
+                             {plugins.map((plugin: IPlugin) => (
+                                 <Row
+                                     key={plugin.token}
+@@ -84,11 +89,9 @@ const Row: React.FC<IRowProps> = observer(
+             </TableCell>
+             <TableCell title={createdAt}>{formatDate(createdAt)}</TableCell>
+             <TableCell align="right" padding="none">
+-                <Link to={'/plugins/' + id}>
+-                    <Button>
+-                        <Settings />
+-                    </Button>
+-                </Link>
++                <Button component={Link} to={'/plugins/' + id} aria-label={`Details for ${name}`}>
++                    <Settings />
++                </Button>
+             </TableCell>
+         </TableRow>
+     )
+diff --git a/ui/src/snack/SnackManager.ts b/ui/src/snack/SnackManager.ts
+index 06aacff..6d8c534 100644
+--- a/ui/src/snack/SnackManager.ts
++++ b/ui/src/snack/SnackManager.ts
+@@ -6,6 +6,6 @@ export interface SnackReporter {
+ 
+ export class SnackManager {
+     public snack: SnackReporter = (message: string): void => {
+-        enqueueSnackbar({message, variant: 'info'});
++        enqueueSnackbar({message});
+     };
+ }
+diff --git a/ui/src/user/AddEditUserDialog.tsx b/ui/src/user/AddEditUserDialog.tsx
+index 720b883..942dc26 100644
+--- a/ui/src/user/AddEditUserDialog.tsx
++++ b/ui/src/user/AddEditUserDialog.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogTitle from '@mui/material/DialogTitle';
+@@ -36,6 +37,7 @@ const AddEditUserDialog = ({
+     };
+     return (
+         <Dialog
++            container={popupContainer()}
+             open={true}
+             onClose={fClose}
+             aria-labelledby="form-dialog-title"
+@@ -89,7 +91,7 @@ const AddEditUserDialog = ({
+                                 : 'password is required'
+                             : 'username is required'
+                     }>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="save-create"
+                             disabled={!passPresent || !namePresent}
+diff --git a/ui/src/user/Register.tsx b/ui/src/user/Register.tsx
+index 5b8e32f..1aa09f0 100644
+--- a/ui/src/user/Register.tsx
++++ b/ui/src/user/Register.tsx
+@@ -1,5 +1,6 @@
+ import Button from '@mui/material/Button';
+ import Dialog from '@mui/material/Dialog';
++import {popupContainer} from '../common/popupContainer';
+ import DialogActions from '@mui/material/DialogActions';
+ import DialogContent from '@mui/material/DialogContent';
+ import DialogTitle from '@mui/material/DialogTitle';
+@@ -37,6 +38,7 @@ const RegistrationDialog = ({fClose, fOnSubmit, name: initialName = ''}: IProps)
+ 
+     return (
+         <Dialog
++            container={popupContainer()}
+             open={true}
+             onClose={fClose}
+             aria-labelledby="form-dialog-title"
+@@ -79,7 +81,7 @@ const RegistrationDialog = ({fClose, fOnSubmit, name: initialName = ''}: IProps)
+                                 : 'password is required'
+                             : 'username is required'
+                     }>
+-                    <div>
++                    <div role="group">
+                         <Button
+                             className="save-create"
+                             disabled={!passPresent || !namePresent}
+diff --git a/ui/src/user/Settings.tsx b/ui/src/user/Settings.tsx
+index ad3b0ae..b90b6f9 100644
+--- a/ui/src/user/Settings.tsx
++++ b/ui/src/user/Settings.tsx
+@@ -26,7 +26,7 @@ const Settings = observer(({themeMode, setTheme}: IProps) => {
+         <DefaultPage title="Settings" maxWidth={400}>
+             <Grid size={{xs: 12}}>
+                 <Paper elevation={6} sx={{padding: 2}}>
+-                    <Typography variant="h6" sx={{marginBottom: 2}}>
++                    <Typography component="h2" variant="h6" sx={{marginBottom: 2}}>
+                         Appearance
+                     </Typography>
+                     <FormControl fullWidth>
+@@ -46,7 +46,7 @@ const Settings = observer(({themeMode, setTheme}: IProps) => {
+             </Grid>
+             <Grid size={{xs: 12}}>
+                 <Paper elevation={6} sx={{padding: 2}}>
+-                    <Typography variant="h6" sx={{marginBottom: 2}}>
++                    <Typography component="h2" variant="h6" sx={{marginBottom: 2}}>
+                         Change Password
+                     </Typography>
+                     <ChangePasswordForm />
+@@ -92,7 +92,7 @@ const ChangePasswordForm = () => {
+                 fullWidth
+             />
+             <Tooltip title={pass.length !== 0 ? '' : 'Password is required'}>
+-                <div>
++                <div role="group">
+                     <Button
+                         className="change"
+                         type="submit"
+diff --git a/ui/src/user/Users.tsx b/ui/src/user/Users.tsx
+index aa4abea..e66c578 100644
+--- a/ui/src/user/Users.tsx
++++ b/ui/src/user/Users.tsx
+@@ -11,6 +11,7 @@ import Edit from '@mui/icons-material/Edit';
+ import React from 'react';
+ import ConfirmDialog from '../common/ConfirmDialog';
+ import DefaultPage from '../common/DefaultPage';
++import {visuallyHidden} from '../common/visuallyHidden';
+ import Button from '@mui/material/Button';
+ import AddEditDialog from './AddEditUserDialog';
+ import {IUser} from '../types';
+@@ -32,10 +33,10 @@ const UserRow: React.FC<IRowProps> = ({name, admin, createdAt, fDelete, fEdit})
+         <TableCell>{admin ? 'Yes' : 'No'}</TableCell>
+         <TableCell title={createdAt}>{formatDate(createdAt)}</TableCell>
+         <TableCell align="right" padding="none">
+-            <IconButton onClick={fEdit} className="edit" size="large">
++            <IconButton onClick={fEdit} className="edit" size="large" aria-label="Edit">
+                 <Edit />
+             </IconButton>
+-            <IconButton onClick={fDelete} className="delete" size="large">
++            <IconButton onClick={fDelete} className="delete" size="large" aria-label="Delete">
+                 <Delete />
+             </IconButton>
+         </TableCell>
+@@ -69,7 +70,9 @@ const Users = observer(() => {
+                                 <TableCell>Username</TableCell>
+                                 <TableCell>Admin</TableCell>
+                                 <TableCell>Created</TableCell>
+-                                <TableCell />
++                                <TableCell>
++                                    <span style={visuallyHidden}>Actions</span>
++                                </TableCell>
+                             </TableRow>
+                         </TableHead>
+                         <TableBody>
