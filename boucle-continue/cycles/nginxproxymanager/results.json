@@ -44,6 +44,21 @@
     "2FA/TOTP",
     "nginx réel hors docker"
   ],
-  "verdictCalculated": "CONFIRMED (exécution complète + 0 violation + findings résolus + install-build PASS + périmètre identique)",
-  "note": "CONFIRMED vaut pour la reproductibilité du score axe, pas la conformité WCAG complète"
+  "note": "CONFIRMED vaut pour la reproductibilité du score axe, pas la conformité WCAG complète",
+  "auditeur": {
+    "session": "devin-d7a49e6dd2b9457f9ae9012110cbe0c1",
+    "verdict": "CONFIRMED avec réserves intégrées (0 violation axe reproduit sur 14 scénarios ; réserves = précision des claims annexes)",
+    "findings": [
+      "eval-final \"Tab piégé\" FAIL reproduit : skip-link (ajouté par le patch) atteignable pendant modale @restart — vrai wart patch résiduel + assertion instable sur modales sans garde-focus",
+      "incomplete NON absorbé : placeholder react-select #react-select-3-placeholder mesuré 3,95:1 (<4,5) — claim \"182 incompletes conformes\" faux sur ce nœud ; gate axe inchangé",
+      "scope-comparison.json : statesHash incohérent avec les scope.json — doc de preuve auto-contradictoire, corrigé (régénéré ci-joint)",
+      "commandes d’audit absentes du manifeste (leçon audits-tiers #8 violée) — corrigé dans manifest.json.auditCommands",
+      "results.json contenait un auto-verdict — retiré ; le verdict appartient à l’auditeur"
+    ],
+    "probes_independantes": "selects 10,31:1 ; loglines 16,98:1 ; text-danger 7,16:1 ; dead-hosts 10,31:1 — conformes AA",
+    "residus_assumes": [
+      "placeholder react-select 3,95:1 (reste incomplete, non absorbé en PASS)",
+      "skip-link focusable pendant modale @restart"
+    ]
+  }
 }

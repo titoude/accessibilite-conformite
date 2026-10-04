@@ -142,3 +142,11 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 4. **CodeMirror :** nom accessible via `EditorView.contentAttributes.of({'aria-label'})` dans les extensions — pas d'attribut DOM manuel sur `.cm-content`.
 5. **Backdrop click-out `<div aria-label onClick>` :** convertir en vrai `<button>` — corrige aria-prohibited-attr ET rend le clic clavier/TA possible gratuitement.
 6. **Correction de hiérarchie de titres en cascade :** ajouter un h1 expose souvent h3→h2→h4→h3 en chaîne + pages d'erreur oubliées (NotFound) — re-scanner après chaque vague, pas une seule fois.
+
+### Recommandations protocole — audit NPM (devin-d7a49e6d, intégrées)
+
+1. **Jamais d'auto-verdict dans results.json** — le verdict appartient à l'auditeur ; le worker n'écrit que des mesures.
+2. **`incomplete-probes.json` rejouable obligatoire** pour tout claim « incompletes vérifiés » (sondes de couleurs calculées par nœud échantillonné, pas une affirmation globale).
+3. **`manifest.json.auditCommands[]` obligatoire** : invocations exactes (--urls, --states, --wait-for, --wait, --storage-state) pour chaque run — la reconstitution depuis la mémoire est interdite.
+4. **Assertion de piège-clavier tolérante au transitoire** : compter les tab-stops RÉSIDUELS hors modale (state post-loop), pas les transitoires intermédiaires — un skip-link focusable brièvement pendant la boucle modale = finding séparé (vrai wart) ≠ FAIL de l'assertion.
+5. **Contrôle de cohérence `scope-compare.statesHash == scope.json.statesHash`** régénéré depuis les artefacts livrés (jamais recopié de mémoire).

@@ -10,7 +10,35 @@
     "note": "yarn install --frozen-lockfile backend+frontend ; yarn locale-compile requis une fois (fichiers lang générés)"
   },
   "auth": "storageState tools/auth.json (POST /api/tokens admin@example.com, clé localStorage 'authentications')",
-  "routes": ["/login", "/", "/nginx/proxy", "/nginx/redirection", "/nginx/404", "/nginx/stream", "/certificates", "/access", "/users", "/audit-log", "/logs", "/settings"],
-  "states": ["add-host-modal", "user-menu"],
-  "horsPerimetre": ["/setup (wizard ignoré : admin créé via env — page devenue inaccessible, couverture déclarée)", "2FA / TOTP", "Let's Encrypt / nginx réel (backend tournant hors docker, warnings logrotate/ip_ranges connus)"]
+  "routes": [
+    "/login",
+    "/",
+    "/nginx/proxy",
+    "/nginx/redirection",
+    "/nginx/404",
+    "/nginx/stream",
+    "/certificates",
+    "/access",
+    "/users",
+    "/audit-log",
+    "/logs",
+    "/settings"
+  ],
+  "states": [
+    "add-host-modal",
+    "user-menu"
+  ],
+  "horsPerimetre": [
+    "/setup (wizard ignoré : admin créé via env — page devenue inaccessible, couverture déclarée)",
+    "2FA / TOTP",
+    "Let's Encrypt / nginx réel (backend tournant hors docker, warnings logrotate/ip_ranges connus)"
+  ],
+  "auditCommands": {
+    "baseline_login": "node audit.mjs http://localhost:81 --urls /login --states none --wait-for \"input\" --wait 1200 --out baseline/login",
+    "baseline_app": "node audit.mjs http://localhost:81 --urls <14 routes manifeste> --states <states.json> --storage-state auth.json --wait-for \"h1\" --wait 1200 --out baseline/app",
+    "final_app": "identique baseline_app vers final/app",
+    "verify": "node verify.mjs (BASE_URL=http://localhost:81)",
+    "eval_final": "node eval-final.mjs",
+    "runner": "tools/audit.mjs du cycle (résolution node_modules locale, lancé depuis tools/)"
+  }
 }
