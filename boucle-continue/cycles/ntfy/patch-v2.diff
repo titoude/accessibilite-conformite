@@ -1,0 +1,1111 @@
+diff --git a/web/index.html b/web/index.html
+index 5c26ff1c..1c460f59 100644
+--- a/web/index.html
++++ b/web/index.html
+@@ -5,7 +5,7 @@
+     <title>ntfy web</title>
+ 
+     <!-- Mobile view -->
+-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
++    <meta name="viewport" content="width=device-width,initial-scale=1" />
+     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+     <meta name="HandheldFriendly" content="true" />
+ 
+@@ -136,6 +136,7 @@
+       <img src="/static/images/ntfy-splash.svg" alt="" />
+     </div>
+     <div id="root"></div>
++    <div id="a11y-popup-layer" role="complementary" aria-label="Popup layer"></div>
+     <script src="/config.js"></script>
+     <script type="module" src="/src/index.jsx"></script>
+   </body>
+diff --git a/web/public/static/css/app.css b/web/public/static/css/app.css
+index 213859c0..c2b1d8a1 100644
+--- a/web/public/static/css/app.css
++++ b/web/public/static/css/app.css
+@@ -2,7 +2,7 @@
+ 
+ a,
+ a:visited {
+-  color: #338574;
++  color: #2f7a69;
+ }
+ 
+ a:hover {
+diff --git a/web/src/app/popupContainer.js b/web/src/app/popupContainer.js
+new file mode 100644
+index 00000000..29d5a2a1
+--- /dev/null
++++ b/web/src/app/popupContainer.js
+@@ -0,0 +1,7 @@
++// MUI portals default to document.body, which drops menus/popovers outside every
++// landmark (axe `region`) and, when a modal is open, outside the active tree.
++// Mounting them on this dedicated sibling layer keeps them inside a named
++// complementary landmark instead.
++const popupContainer = () => document.getElementById("a11y-popup-layer");
++
++export default popupContainer;
+diff --git a/web/src/components/Account.jsx b/web/src/components/Account.jsx
+index bd920622..e754080d 100644
+--- a/web/src/components/Account.jsx
++++ b/web/src/components/Account.jsx
+@@ -52,6 +52,7 @@ import ContentCopy from "@mui/icons-material/ContentCopy";
+ import Public from "@mui/icons-material/Public";
+ import AddIcon from "@mui/icons-material/Add";
+ import routes from "./routes";
++import popupContainer from "../app/popupContainer";
+ import { copyToClipboard, formatBytes, formatDate, formatDateTime, formatShortDuration, openUrl } from "../app/utils";
+ import accountApi, { LimitBasis, Role, SubscriptionInterval, SubscriptionStatus } from "../app/AccountApi";
+ import { Pref, PrefGroup } from "./Pref";
+@@ -85,8 +86,8 @@ const Account = () => {
+ const Basics = () => {
+   const { t } = useTranslation();
+   return (
+-    <Card sx={{ p: 3 }} aria-label={t("account_basics_title")}>
+-      <Typography variant="h5" sx={{ marginBottom: 2 }}>
++    <Card sx={{ p: 3 }} role="group" aria-label={t("account_basics_title")}>
++      <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+         {t("account_basics_title")}
+       </Typography>
+       <PrefGroup>
+@@ -192,7 +193,7 @@ const ChangePasswordDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
+       <DialogTitle>{t("account_basics_password_dialog_title")}</DialogTitle>
+       <DialogContent>
+         <TextField
+@@ -355,7 +356,7 @@ const AccountType = () => {
+           })}
+         </Alert>
+       )}
+-      <Portal>
++      <Portal container={popupContainer}>
+         <Snackbar
+           open={showPortalError}
+           autoHideDuration={3000}
+@@ -516,7 +517,7 @@ const Emails = () => {
+           </Alert>
+         )}
+       </div>
+-      <Menu anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={closeMenu}>
++      <Menu container={popupContainer} anchorEl={menuAnchor} open={Boolean(menuAnchor)} onClose={closeMenu}>
+         <MenuItem onClick={() => runMenuAction(handleCopy)}>
+           <ListItemIcon>
+             <ContentCopy fontSize="small" />
+@@ -547,7 +548,7 @@ const Emails = () => {
+         </MenuItem>
+       </Menu>
+       <AddEmailDialog key={`addEmailDialog${dialogKey}`} open={dialogOpen} onClose={handleDialogClose} />
+-      <Portal>
++      <Portal container={popupContainer}>
+         <Snackbar open={snack !== ""} autoHideDuration={3000} onClose={() => setSnack("")} message={snack} />
+       </Portal>
+     </Pref>
+@@ -584,7 +585,7 @@ const AddEmailDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
+       <DialogTitle>{t("account_basics_emails_dialog_title")}</DialogTitle>
+       <DialogContent>
+         {sent ? (
+@@ -699,7 +700,7 @@ const PhoneNumbers = () => {
+         </Box>
+       </div>
+       <AddPhoneNumberDialog key={`addPhoneNumberDialog${dialogKey}`} open={dialogOpen} onClose={handleDialogClose} />
+-      <Portal>
++      <Portal container={popupContainer}>
+         <Snackbar
+           open={snackOpen}
+           autoHideDuration={3000}
+@@ -774,7 +775,7 @@ const AddPhoneNumberDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
+       <DialogTitle>{t("account_basics_phone_numbers_dialog_title")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>{t("account_basics_phone_numbers_dialog_description")}</DialogContentText>
+@@ -847,8 +848,8 @@ const Stats = () => {
+   const normalize = (value, max) => Math.min((value / max) * 100, 100);
+ 
+   return (
+-    <Card sx={{ p: 3 }} aria-label={t("account_usage_title")}>
+-      <Typography variant="h5" sx={{ marginBottom: 2 }}>
++    <Card sx={{ p: 3 }} role="group" aria-label={t("account_usage_title")}>
++      <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+         {t("account_usage_title")}
+       </Typography>
+       <PrefGroup>
+@@ -1054,9 +1055,9 @@ const Tokens = () => {
+   };
+ 
+   return (
+-    <Card sx={{ padding: 1 }} aria-label={t("prefs_users_title")}>
++    <Card sx={{ padding: 1 }} role="group" aria-label={t("prefs_users_title")}>
+       <CardContent sx={{ paddingBottom: 1 }}>
+-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
++        <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+           {t("account_tokens_title")}
+         </Typography>
+         <Paragraph>
+@@ -1219,7 +1220,7 @@ const TokensTable = (props) => {
+           );
+         })}
+       </TableBody>
+-      <Portal>
++      <Portal container={popupContainer}>
+         <Snackbar
+           open={snackOpen}
+           autoHideDuration={3000}
+@@ -1261,7 +1262,7 @@ const TokenDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
+       <DialogTitle>{editMode ? t("account_tokens_dialog_title_edit") : t("account_tokens_dialog_title_create")}</DialogTitle>
+       <DialogContent>
+         <TextField
+@@ -1318,7 +1319,7 @@ const TokenDeleteDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose}>
+       <DialogTitle>{t("account_tokens_delete_dialog_title")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>
+@@ -1338,8 +1339,8 @@ const TokenDeleteDialog = (props) => {
+ const Delete = () => {
+   const { t } = useTranslation();
+   return (
+-    <Card sx={{ p: 3 }} aria-label={t("account_delete_title")}>
+-      <Typography variant="h5" sx={{ marginBottom: 2 }}>
++    <Card sx={{ p: 3 }} role="group" aria-label={t("account_delete_title")}>
++      <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+         {t("account_delete_title")}
+       </Typography>
+       <PrefGroup>
+@@ -1413,7 +1414,7 @@ const DeleteAccountDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} fullScreen={fullScreen}>
+       <DialogTitle>{t("account_delete_title")}</DialogTitle>
+       <DialogContent>
+         <Typography variant="body1">{t("account_delete_dialog_description")}</Typography>
+diff --git a/web/src/components/ActionBar.jsx b/web/src/components/ActionBar.jsx
+index 13483f9c..f4b150aa 100644
+--- a/web/src/components/ActionBar.jsx
++++ b/web/src/components/ActionBar.jsx
+@@ -42,7 +42,7 @@ const ActionBar = (props) => {
+ 
+   const getActionBarBackground = () => {
+     if (isLaunchedPWA) {
+-      return "#317f6f";
++      return "#2f7a69";
+     }
+ 
+     switch (theme.palette.mode) {
+@@ -51,7 +51,7 @@ const ActionBar = (props) => {
+ 
+       case "light":
+       default:
+-        return "linear-gradient(150deg, #338574 0%, #56bda8 100%)";
++        return "linear-gradient(150deg, #2f7a69 0%, #34806e 100%)";
+     }
+   };
+ 
+@@ -89,7 +89,7 @@ const ActionBar = (props) => {
+             height: "28px",
+           }}
+         />
+-        <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
++        <Typography variant="h6" noWrap component="h1" sx={{ flexGrow: 1 }}>
+           {title}
+         </Typography>
+         {isLaunchedPWA && <ReloadIcon />}
+diff --git a/web/src/components/App.jsx b/web/src/components/App.jsx
+index ea5fbc47..37060439 100644
+--- a/web/src/components/App.jsx
++++ b/web/src/components/App.jsx
+@@ -111,7 +111,11 @@ const updateTitle = (newNotificationsCount) => {
+ // Auth pages render synchronously, so the splash can be removed on mount.
+ const AuthLayout = () => {
+   useEffect(() => hideSplash(), []);
+-  return <Outlet />;
++  return (
++    <Box component="main" sx={{ minHeight: "100dvh" }}>
++      <Outlet />
++    </Box>
++  );
+ };
+ 
+ const Layout = () => {
+diff --git a/web/src/components/AvatarBox.jsx b/web/src/components/AvatarBox.jsx
+index 9f11f912..191eafbe 100644
+--- a/web/src/components/AvatarBox.jsx
++++ b/web/src/components/AvatarBox.jsx
+@@ -1,6 +1,7 @@
+ import * as React from "react";
+ import { Avatar, Box, styled } from "@mui/material";
+ import { useNavigate } from "react-router-dom";
++import { useTranslation } from "react-i18next";
+ import logo from "../img/ntfy-filled.svg";
+ import routes from "./routes";
+ import { fadeNavigate } from "../app/transition";
+@@ -18,7 +19,8 @@ const AvatarBoxContainer = styled(Box)`
+ `;
+ const AvatarBox = (props) => {
+   const navigate = useNavigate();
+-  const avatar = <Avatar sx={{ m: 2, width: 64, height: 64, borderRadius: 3 }} src={logo} variant="rounded" />;
++  const { t } = useTranslation();
++  const avatar = <Avatar sx={{ m: 2, width: 64, height: 64, borderRadius: 3 }} src={logo} alt="" variant="rounded" />;
+   // Fade back to the app instead of a hard cut. Let modifier-clicks (open in new tab, etc.) through.
+   const handleLogoClick = (ev) => {
+     if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) {
+@@ -33,7 +35,7 @@ const AvatarBox = (props) => {
+       {config.require_login ? (
+         avatar
+       ) : (
+-        <Box component="a" href={routes.app} onClick={handleLogoClick} sx={{ cursor: "pointer", lineHeight: 0 }}>
++        <Box component="a" href={routes.app} onClick={handleLogoClick} aria-label={t("nav_button_all_notifications")} sx={{ cursor: "pointer", lineHeight: 0 }}>
+           {avatar}
+         </Box>
+       )}
+diff --git a/web/src/components/EmailVerify.jsx b/web/src/components/EmailVerify.jsx
+index 37ad910c..a1c9355b 100644
+--- a/web/src/components/EmailVerify.jsx
++++ b/web/src/components/EmailVerify.jsx
+@@ -48,14 +48,14 @@ const EmailVerify = () => {
+       {status === STATUS_VERIFYING && (
+         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+           <CircularProgress size={24} />
+-          <Typography sx={{ typography: "h6" }}>{t("email_verify_progress_title")}</Typography>
++          <Typography component="h1" sx={{ typography: "h6" }}>{t("email_verify_progress_title")}</Typography>
+         </Box>
+       )}
+       {status === STATUS_SUCCESS && (
+         <>
+           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+             <CheckCircleOutlineIcon color="success" sx={{ fontSize: 28 }} />
+-            <Typography sx={{ typography: "h6" }}>{t("email_verify_success_title")}</Typography>
++            <Typography component="h1" sx={{ typography: "h6" }}>{t("email_verify_success_title")}</Typography>
+           </Box>
+           <Typography sx={{ mt: 1, textAlign: "center" }}>{t("email_verify_success_description")}</Typography>
+           <Button onClick={() => navigate(routes.account)} variant="contained" sx={{ mt: 2 }}>
+@@ -67,7 +67,7 @@ const EmailVerify = () => {
+         <>
+           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+             <ErrorOutlineIcon color="error" sx={{ fontSize: 28 }} />
+-            <Typography sx={{ typography: "h6" }}>{t("email_verify_error_title")}</Typography>
++            <Typography component="h1" sx={{ typography: "h6" }}>{t("email_verify_error_title")}</Typography>
+           </Box>
+           <Typography sx={{ mt: 1, textAlign: "center" }}>{t("email_verify_error_description")}</Typography>
+           <Button onClick={() => navigate(routes.account)} variant="contained" sx={{ mt: 2 }}>
+diff --git a/web/src/components/Login.jsx b/web/src/components/Login.jsx
+index 8fc4f626..bbe93e39 100644
+--- a/web/src/components/Login.jsx
++++ b/web/src/components/Login.jsx
+@@ -40,13 +40,13 @@ const Login = () => {
+   if (!config.enable_login) {
+     return (
+       <AvatarBox>
+-        <Typography sx={{ typography: "h6" }}>{t("login_disabled")}</Typography>
++        <Typography component="h1" sx={{ typography: "h6" }}>{t("login_disabled")}</Typography>
+       </AvatarBox>
+     );
+   }
+   return (
+     <AvatarBox>
+-      <Typography sx={{ typography: "h6" }}>{t("login_title")}</Typography>
++      <Typography component="h1" sx={{ typography: "h6" }}>{t("login_title")}</Typography>
+       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+         <TextField
+           margin="dense"
+diff --git a/web/src/components/Messaging.jsx b/web/src/components/Messaging.jsx
+index f3610fd0..262b4cff 100644
+--- a/web/src/components/Messaging.jsx
++++ b/web/src/components/Messaging.jsx
+@@ -6,6 +6,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+ import { useTranslation } from "react-i18next";
+ import PublishDialog from "./PublishDialog";
+ import api from "../app/Api";
++import popupContainer from "../app/popupContainer";
+ import Navigation from "./Navigation";
+ 
+ const Messaging = (props) => {
+@@ -89,6 +90,9 @@ const MessageBar = (props) => {
+   return (
+     <Paper
+       elevation={3}
++      component="form"
++      aria-label={t("message_bar_publish")}
++      onSubmit={(ev) => ev.preventDefault()}
+       sx={{
+         display: "flex",
+         position: "fixed",
+@@ -124,7 +128,7 @@ const MessageBar = (props) => {
+       <IconButton color="inherit" size="large" edge="end" onClick={handleSendClick} aria-label={t("message_bar_publish")}>
+         <SendIcon />
+       </IconButton>
+-      <Portal>
++      <Portal container={popupContainer}>
+         <Snackbar
+           open={snackOpen}
+           autoHideDuration={3000}
+diff --git a/web/src/components/Navigation.jsx b/web/src/components/Navigation.jsx
+index 3cd98546..233c15b1 100644
+--- a/web/src/components/Navigation.jsx
++++ b/web/src/components/Navigation.jsx
+@@ -10,6 +10,7 @@ import {
+   IconButton,
+   Link,
+   List,
++  ListItem,
+   ListItemButton,
+   ListItemIcon,
+   ListItemText,
+@@ -37,6 +38,7 @@ import CelebrationIcon from "@mui/icons-material/Celebration";
+ import SubscribeDialog from "./SubscribeDialog";
+ import { openUrl, topicDisplayName, topicUrl } from "../app/utils";
+ import routes from "./routes";
++import popupContainer from "../app/popupContainer";
+ import { ConnectionState } from "../app/Connection";
+ import subscriptionManager from "../app/SubscriptionManager";
+ import notifier from "../app/Notifier";
+@@ -58,10 +60,9 @@ const Navigation = (props) => {
+       {/* Mobile drawer; only shown if menu icon clicked (mobile open) and display is small */}
+       <Drawer
+         variant="temporary"
+-        role="menubar"
+         open={props.mobileDrawerOpen}
+         onClose={props.onMobileDrawerToggle}
+-        ModalProps={{ keepMounted: true }} // Better open performance on mobile.
++        ModalProps={{ keepMounted: true, container: popupContainer }} // Better open performance on mobile.
+         sx={{
+           display: { xs: "block", sm: "none" },
+           "& .MuiDrawer-paper": { boxSizing: "border-box", width: navWidth, backgroundImage: "none" },
+@@ -73,7 +74,6 @@ const Navigation = (props) => {
+       <Drawer
+         open
+         variant="permanent"
+-        role="menubar"
+         sx={{
+           display: { xs: "none", sm: "block" },
+           "& .MuiDrawer-paper": { boxSizing: "border-box", width: navWidth },
+@@ -140,71 +140,117 @@ const NavList = (props) => {
+   return (
+     <>
+       <Toolbar sx={{ display: { xs: "none", sm: "block" } }} />
+-      <List component="nav" sx={{ paddingTop: { xs: 0, sm: alertVisible ? 0 : "" } }}>
+-        {versionChanged && <VersionUpdateBanner />}
+-        {showNotificationPermissionRequired && <NotificationPermissionRequired />}
+-        {showNotificationPermissionDenied && <NotificationPermissionDeniedAlert />}
+-        {showNotificationBrowserNotSupportedBox && <NotificationBrowserNotSupportedAlert />}
+-        {showNotificationContextNotSupportedBox && <NotificationContextNotSupportedAlert />}
+-        {showNotificationIOSInstallRequired && <NotificationIOSInstallRequiredAlert />}
+-        {alertVisible && <Divider />}
+-        {!showSubscriptionsList && (
+-          <ListItemButton onClick={() => navigate(routes.app)} selected={location.pathname === config.app_root}>
+-            <ListItemIcon>
+-              <ChatBubble />
+-            </ListItemIcon>
+-            <ListItemText primary={t("nav_button_all_notifications")} />
+-          </ListItemButton>
++      <List sx={{ paddingTop: { xs: 0, sm: alertVisible ? 0 : "" } }}>
++        {versionChanged && (
++          <ListItem>
++            <VersionUpdateBanner />
++          </ListItem>
+         )}
+-        {showSubscriptionsList && (
+-          <>
+-            <ListSubheader>{t("nav_topics_title")}</ListSubheader>
++        {showNotificationPermissionRequired && (
++          <ListItem>
++            <NotificationPermissionRequired />
++          </ListItem>
++        )}
++        {showNotificationPermissionDenied && (
++          <ListItem>
++            <NotificationPermissionDeniedAlert />
++          </ListItem>
++        )}
++        {showNotificationBrowserNotSupportedBox && (
++          <ListItem>
++            <NotificationBrowserNotSupportedAlert />
++          </ListItem>
++        )}
++        {showNotificationContextNotSupportedBox && (
++          <ListItem>
++            <NotificationContextNotSupportedAlert />
++          </ListItem>
++        )}
++        {showNotificationIOSInstallRequired && (
++          <ListItem>
++            <NotificationIOSInstallRequiredAlert />
++          </ListItem>
++        )}
++        {alertVisible && (
++          <ListItem component="li" disablePadding>
++            <Divider sx={{ width: "100%" }} />
++          </ListItem>
++        )}
++        {!showSubscriptionsList && (
++          <ListItem disablePadding>
+             <ListItemButton onClick={() => navigate(routes.app)} selected={location.pathname === config.app_root}>
+               <ListItemIcon>
+                 <ChatBubble />
+               </ListItemIcon>
+               <ListItemText primary={t("nav_button_all_notifications")} />
+             </ListItemButton>
++          </ListItem>
++        )}
++        {showSubscriptionsList && (
++          <>
++            <ListSubheader>{t("nav_topics_title")}</ListSubheader>
++            <ListItem disablePadding>
++              <ListItemButton onClick={() => navigate(routes.app)} selected={location.pathname === config.app_root}>
++                <ListItemIcon>
++                  <ChatBubble />
++                </ListItemIcon>
++                <ListItemText primary={t("nav_button_all_notifications")} />
++              </ListItemButton>
++            </ListItem>
+             <SubscriptionList subscriptions={props.subscriptions} selectedSubscription={props.selectedSubscription} />
+-            <Divider sx={{ my: 1 }} />
++            <ListItem component="li" disablePadding>
++              <Divider sx={{ width: "100%", my: 1 }} />
++            </ListItem>
+           </>
+         )}
+         {session.exists() && (
+-          <ListItemButton onClick={handleAccountClick} selected={location.pathname === routes.account}>
++          <ListItem disablePadding>
++            <ListItemButton onClick={handleAccountClick} selected={location.pathname === routes.account}>
++              <ListItemIcon>
++                <Person />
++              </ListItemIcon>
++              <ListItemText primary={t("nav_button_account")} />
++            </ListItemButton>
++          </ListItem>
++        )}
++        <ListItem disablePadding>
++          <ListItemButton onClick={() => navigate(routes.settings)} selected={location.pathname === routes.settings}>
+             <ListItemIcon>
+-              <Person />
++              <SettingsIcon />
+             </ListItemIcon>
+-            <ListItemText primary={t("nav_button_account")} />
++            <ListItemText primary={t("nav_button_settings")} />
+           </ListItemButton>
+-        )}
+-        <ListItemButton onClick={() => navigate(routes.settings)} selected={location.pathname === routes.settings}>
+-          <ListItemIcon>
+-            <SettingsIcon />
+-          </ListItemIcon>
+-          <ListItemText primary={t("nav_button_settings")} />
+-        </ListItemButton>
+-        <ListItemButton onClick={() => openUrl("/docs")}>
+-          <ListItemIcon>
+-            <ArticleIcon />
+-          </ListItemIcon>
+-          <ListItemText primary={t("nav_button_documentation")} />
+-        </ListItemButton>
+-        <ListItemButton onClick={() => props.onPublishMessageClick()}>
+-          <ListItemIcon>
+-            <Send />
+-          </ListItemIcon>
+-          <ListItemText primary={t("nav_button_publish_message")} />
+-        </ListItemButton>
+-        <ListItemButton onClick={() => setSubscribeDialogOpen(true)}>
+-          <ListItemIcon>
+-            <AddIcon />
+-          </ListItemIcon>
+-          <ListItemText primary={t("nav_button_subscribe")} />
+-        </ListItemButton>
++        </ListItem>
++        <ListItem disablePadding>
++          <ListItemButton onClick={() => openUrl("/docs")}>
++            <ListItemIcon>
++              <ArticleIcon />
++            </ListItemIcon>
++            <ListItemText primary={t("nav_button_documentation")} />
++          </ListItemButton>
++        </ListItem>
++        <ListItem disablePadding>
++          <ListItemButton onClick={() => props.onPublishMessageClick()}>
++            <ListItemIcon>
++              <Send />
++            </ListItemIcon>
++            <ListItemText primary={t("nav_button_publish_message")} />
++          </ListItemButton>
++        </ListItem>
++        <ListItem disablePadding>
++          <ListItemButton onClick={() => setSubscribeDialogOpen(true)}>
++            <ListItemIcon>
++              <AddIcon />
++            </ListItemIcon>
++            <ListItemText primary={t("nav_button_subscribe")} />
++          </ListItemButton>
++        </ListItem>
+         {showUpgradeBanner && (
+           // The text background gradient didn't seem to do well with switching between light/dark mode,
+           // So adding a `key` forces React to replace the entire component when the theme changes
+-          <UpgradeBanner key={`upgrade-banner-${theme.palette.mode}`} mode={theme.palette.mode} />
++          <ListItem disablePadding>
++            <UpgradeBanner key={`upgrade-banner-${theme.palette.mode}`} mode={theme.palette.mode} />
++          </ListItem>
+         )}
+       </List>
+       <SubscribeDialog
+@@ -316,7 +362,23 @@ const SubscriptionItem = (props) => {
+ 
+   return (
+     <>
+-      <ListItemButton onClick={handleClick} selected={props.selected} aria-label={ariaLabel} aria-live="polite">
++      <ListItem
++        disablePadding
++        secondaryAction={
++          <IconButton
++            size="small"
++            aria-label={t("action_bar_toggle_action_menu")}
++            onMouseDown={(e) => e.stopPropagation()}
++            onClick={(e) => {
++              e.stopPropagation();
++              setMenuAnchorEl(e.currentTarget);
++            }}
++          >
++            <MoreVert fontSize="small" />
++          </IconButton>
++        }
++      >
++        <ListItemButton onClick={handleClick} selected={props.selected} aria-label={ariaLabel} aria-live="polite">
+         <ListItemIcon>{icon}</ListItemIcon>
+         <ListItemText
+           primary={displayName}
+@@ -355,20 +417,9 @@ const SubscriptionItem = (props) => {
+             </Tooltip>
+           </ListItemIcon>
+         )}
+-        <ListItemIcon edge="end" sx={{ minWidth: "26px" }}>
+-          <IconButton
+-            size="small"
+-            onMouseDown={(e) => e.stopPropagation()}
+-            onClick={(e) => {
+-              e.stopPropagation();
+-              setMenuAnchorEl(e.currentTarget);
+-            }}
+-          >
+-            <MoreVert fontSize="small" />
+-          </IconButton>
+-        </ListItemIcon>
+       </ListItemButton>
+-      <Portal>
++      </ListItem>
++      <Portal container={popupContainer}>
+         <SubscriptionPopup subscription={subscription} anchor={menuAnchorEl} onClose={() => setMenuAnchorEl(null)} />
+       </Portal>
+     </>
+diff --git a/web/src/components/Notifications.jsx b/web/src/components/Notifications.jsx
+index 316ebfa6..06938fe4 100644
+--- a/web/src/components/Notifications.jsx
++++ b/web/src/components/Notifications.jsx
+@@ -27,6 +27,7 @@ import { copyToClipboard, formatBytes, formatDateTime, maybeActionErrors, openUr
+ import { ACTION_BROADCAST, ACTION_COPY, ACTION_HTTP, ACTION_VIEW } from "../app/actions";
+ import { formatMessage, formatTitle, isImage } from "../app/notificationUtils";
+ import { LightboxBackdrop, Paragraph, VerticallyCenteredContainer } from "./styles";
++import popupContainer from "../app/popupContainer";
+ import subscriptionManager from "../app/SubscriptionManager";
+ import notifier from "../app/Notifier";
+ import priority1 from "../img/priority-1.svg";
+@@ -240,7 +241,7 @@ const NotificationItem = (props) => {
+               xmlns="http://www.w3.org/2000/svg"
+               aria-label={t("notifications_new_indicator")}
+             >
+-              <circle cx="50" cy="50" r="50" fill="#338574" />
++              <circle cx="50" cy="50" r="50" fill="#2f7a69" />
+             </svg>
+           )}
+         </Typography>
+@@ -407,7 +408,7 @@ const Image = (props) => {
+           cursor: "pointer",
+         }}
+       />
+-      <Modal open={open} onClose={() => setOpen(false)} slots={{ backdrop: LightboxBackdrop }}>
++      <Modal container={popupContainer} open={open} onClose={() => setOpen(false)} slots={{ backdrop: LightboxBackdrop }}>
+         <Fade in={open}>
+           <Box
+             component="img"
+@@ -572,7 +573,7 @@ const NoNotifications = (props) => {
+   const topicUrlResolved = topicUrl(props.subscription.baseUrl, props.subscription.topic);
+   return (
+     <VerticallyCenteredContainer maxWidth="xs">
+-      <Typography variant="h5" align="center" sx={{ paddingBottom: 1 }}>
++      <Typography variant="h5" component="h2" align="center" sx={{ paddingBottom: 1 }}>
+         <img src={logoOutline} height="64" width="64" alt={t("action_bar_logo_alt")} />
+         <br />
+         {t("notifications_none_for_topic_title")}
+@@ -598,7 +599,7 @@ const NoNotificationsWithoutSubscription = (props) => {
+   const topicUrlResolved = topicUrl(subscription.baseUrl, subscription.topic);
+   return (
+     <VerticallyCenteredContainer maxWidth="xs">
+-      <Typography variant="h5" align="center" sx={{ paddingBottom: 1 }}>
++      <Typography variant="h5" component="h2" align="center" sx={{ paddingBottom: 1 }}>
+         <img src={logoOutline} height="64" width="64" alt={t("action_bar_logo_alt")} />
+         <br />
+         {t("notifications_none_for_any_title")}
+@@ -622,7 +623,7 @@ const NoSubscriptions = () => {
+   const { t } = useTranslation();
+   return (
+     <VerticallyCenteredContainer maxWidth="xs">
+-      <Typography variant="h5" align="center" sx={{ paddingBottom: 1 }}>
++      <Typography variant="h5" component="h2" align="center" sx={{ paddingBottom: 1 }}>
+         <img src={logoOutline} height="64" width="64" alt={t("action_bar_logo_alt")} />
+         <br />
+         {t("notifications_no_subscriptions_title")}
+@@ -653,7 +654,7 @@ const Loading = () => {
+   const { t } = useTranslation();
+   return (
+     <VerticallyCenteredContainer>
+-      <Typography variant="h5" color="text.secondary" align="center" sx={{ paddingBottom: 1 }}>
++      <Typography variant="h5" component="h2" color="text.secondary" align="center" sx={{ paddingBottom: 1 }}>
+         <CircularProgress disableShrink sx={{ marginBottom: 1 }} />
+         <br />
+         {t("notifications_loading")}
+diff --git a/web/src/components/PasswordReset.jsx b/web/src/components/PasswordReset.jsx
+index 58a26fc6..0f7fdfff 100644
+--- a/web/src/components/PasswordReset.jsx
++++ b/web/src/components/PasswordReset.jsx
+@@ -48,7 +48,7 @@ const PasswordReset = () => {
+       <AvatarBox>
+         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+           <CheckCircleOutlineIcon color="success" sx={{ fontSize: 28 }} />
+-          <Typography sx={{ typography: "h6" }}>{t("reset_password_success_title")}</Typography>
++          <Typography component="h1" sx={{ typography: "h6" }}>{t("reset_password_success_title")}</Typography>
+         </Box>
+         <Typography sx={{ mt: 1, textAlign: "center" }}>{t("reset_password_success_description")}</Typography>
+         <Button onClick={() => navigate(routes.login)} variant="contained" sx={{ mt: 2 }}>
+@@ -60,7 +60,7 @@ const PasswordReset = () => {
+ 
+   return (
+     <AvatarBox>
+-      <Typography sx={{ typography: "h6" }}>{t("reset_password_title")}</Typography>
++      <Typography component="h1" sx={{ typography: "h6" }}>{t("reset_password_title")}</Typography>
+       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+         <TextField
+           margin="dense"
+diff --git a/web/src/components/PasswordResetRequest.jsx b/web/src/components/PasswordResetRequest.jsx
+index 85f1161c..7d11acb2 100644
+--- a/web/src/components/PasswordResetRequest.jsx
++++ b/web/src/components/PasswordResetRequest.jsx
+@@ -34,7 +34,7 @@ const PasswordResetRequest = () => {
+   if (!config.enable_reset_password) {
+     return (
+       <AvatarBox>
+-        <Typography sx={{ typography: "h6" }}>{t("reset_password_disabled")}</Typography>
++        <Typography component="h1" sx={{ typography: "h6" }}>{t("reset_password_disabled")}</Typography>
+         <Typography sx={{ mt: 2 }}>
+           <NavLink to={routes.login} variant="body1">
+             {t("reset_password_back_to_login")}
+@@ -49,7 +49,7 @@ const PasswordResetRequest = () => {
+       <AvatarBox>
+         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+           <CheckCircleOutlineIcon color="success" sx={{ fontSize: 28 }} />
+-          <Typography sx={{ typography: "h6" }}>{t("reset_password_sent_title")}</Typography>
++          <Typography component="h1" sx={{ typography: "h6" }}>{t("reset_password_sent_title")}</Typography>
+         </Box>
+         <Typography sx={{ mt: 1, textAlign: "center" }}>{t("reset_password_sent_description")}</Typography>
+         <Typography sx={{ mt: 2, mb: 4 }}>
+@@ -63,7 +63,7 @@ const PasswordResetRequest = () => {
+ 
+   return (
+     <AvatarBox>
+-      <Typography sx={{ typography: "h6" }}>{t("reset_password_request_title")}</Typography>
++      <Typography component="h1" sx={{ typography: "h6" }}>{t("reset_password_request_title")}</Typography>
+       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+         <Typography sx={{ mt: 1 }}>{t("reset_password_request_description")}</Typography>
+         <Typography sx={{ mt: 1, mb: 1.5, fontWeight: "bold" }}>{t("reset_password_request_primary_required")}</Typography>
+diff --git a/web/src/components/PopupMenu.jsx b/web/src/components/PopupMenu.jsx
+index dd950029..62111ebf 100644
+--- a/web/src/components/PopupMenu.jsx
++++ b/web/src/components/PopupMenu.jsx
+@@ -1,11 +1,13 @@
+ import { Fade, Menu } from "@mui/material";
+ import * as React from "react";
++import popupContainer from "../app/popupContainer";
+ 
+ const PopupMenu = (props) => {
+   const horizontal = props.horizontal ?? "left";
+   const arrow = horizontal === "right" ? { right: 19 } : { left: 19 };
+   return (
+     <Menu
++      container={popupContainer}
+       anchorEl={props.anchorEl}
+       open={props.open}
+       onClose={props.onClose}
+diff --git a/web/src/components/Pref.jsx b/web/src/components/Pref.jsx
+index 4da17381..c374bbdf 100644
+--- a/web/src/components/Pref.jsx
++++ b/web/src/components/Pref.jsx
+@@ -43,8 +43,8 @@ const PrefRow = styled("div")`
+ `;
+ 
+ export const Pref = (props) => (
+-  <PrefRow role="row" alignTop={props.alignTop}>
+-    <div role="cell" id={props.labelId ?? ""} aria-label={props.title}>
++  <PrefRow alignTop={props.alignTop}>
++    <div id={props.labelId ?? ""}>
+       <div>
+         <b>{props.title}</b>
+         {props.subtitle && <em> ({props.subtitle})</em>}
+@@ -55,6 +55,6 @@ export const Pref = (props) => (
+         </div>
+       )}
+     </div>
+-    <div role="cell">{props.children}</div>
++    <div>{props.children}</div>
+   </PrefRow>
+ );
+diff --git a/web/src/components/Preferences.jsx b/web/src/components/Preferences.jsx
+index 68ca43ca..43b6a20b 100644
+--- a/web/src/components/Preferences.jsx
++++ b/web/src/components/Preferences.jsx
+@@ -50,6 +50,7 @@ import { ReserveAddDialog, ReserveDeleteDialog, ReserveEditDialog } from "./Rese
+ import { UnauthorizedError } from "../app/errors";
+ import { subscribeTopic } from "./SubscribeDialog";
+ import notifier from "../app/Notifier";
++import popupContainer from "../app/popupContainer";
+ import { useIsLaunchedPWA, useNotificationPermissionListener } from "./hooks";
+ import { usePrefCache } from "./PrefCache";
+ 
+@@ -84,8 +85,8 @@ const Notifications = () => {
+   const pushPossible = useNotificationPermissionListener(() => notifier.pushPossible());
+ 
+   return (
+-    <Card sx={{ p: 3 }} aria-label={t("prefs_notifications_title")}>
+-      <Typography variant="h5" sx={{ marginBottom: 2 }}>
++    <Card sx={{ p: 3 }} role="group" aria-label={t("prefs_notifications_title")}>
++      <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+         {t("prefs_notifications_title")}
+       </Typography>
+       <PrefGroup>
+@@ -122,7 +123,7 @@ const Sound = () => {
+     <Pref labelId={labelId} title={t("prefs_notifications_sound_title")} description={description}>
+       <div style={{ display: "flex", width: "100%" }}>
+         <FormControl fullWidth variant="standard" sx={{ margin: 1 }}>
+-          <Select value={sound} onChange={handleChange} aria-labelledby={labelId}>
++          <Select value={sound} onChange={handleChange} labelId={labelId}>
+             <MenuItem value="none">{t("prefs_notifications_sound_no_sound")}</MenuItem>
+             {Object.entries(sounds).map((s) => (
+               <MenuItem key={s[0]} value={s[0]}>
+@@ -172,7 +173,7 @@ const MinPriority = () => {
+   return (
+     <Pref labelId={labelId} title={t("prefs_notifications_min_priority_title")} description={description}>
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={minPriority} onChange={handleChange} aria-labelledby={labelId}>
++        <Select value={minPriority} onChange={handleChange} labelId={labelId}>
+           <MenuItem value={1}>{t("prefs_notifications_min_priority_any")}</MenuItem>
+           <MenuItem value={2}>{t("prefs_notifications_min_priority_low_and_higher")}</MenuItem>
+           <MenuItem value={3}>{t("prefs_notifications_min_priority_default_and_higher")}</MenuItem>
+@@ -217,7 +218,7 @@ const DeleteAfter = () => {
+   return (
+     <Pref labelId={labelId} title={t("prefs_notifications_delete_after_title")} description={description}>
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={deleteAfter} onChange={handleChange} aria-labelledby={labelId}>
++        <Select value={deleteAfter} onChange={handleChange} labelId={labelId}>
+           <MenuItem value={0}>{t("prefs_notifications_delete_after_never")}</MenuItem>
+           <MenuItem value={10800}>{t("prefs_notifications_delete_after_three_hours")}</MenuItem>
+           <MenuItem value={86400}>{t("prefs_notifications_delete_after_one_day")}</MenuItem>
+@@ -248,7 +249,7 @@ const Theme = () => {
+   return (
+     <Pref labelId={labelId} title={t("prefs_appearance_theme_title")}>
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={theme} onChange={handleChange} aria-labelledby={labelId}>
++        <Select value={theme} onChange={handleChange} labelId={labelId}>
+           <MenuItem value={THEME.SYSTEM}>
+             {t("prefs_system_default")}
+             <FormatExample>{prefersDarkMode ? t("prefs_appearance_theme_dark") : t("prefs_appearance_theme_light")}</FormatExample>
+@@ -278,7 +279,7 @@ const DateFormat = () => {
+   return (
+     <Pref labelId={labelId} title={t("prefs_appearance_date_format_title")}>
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={dateFormat} onChange={handleChange} aria-labelledby={labelId}>
++        <Select value={dateFormat} onChange={handleChange} labelId={labelId}>
+           <MenuItem value={DATE_FORMAT.SYSTEM}>
+             {t("prefs_system_default")}
+             <FormatExample>{formatDate(EXAMPLE_TIMESTAMP, DATE_FORMAT.SYSTEM)}</FormatExample>
+@@ -320,7 +321,7 @@ const TimeFormat = () => {
+   return (
+     <Pref labelId={labelId} title={t("prefs_appearance_time_format_title")}>
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={fixedTo24h ? TIME_FORMAT.H24 : timeFormat} onChange={handleChange} disabled={fixedTo24h} aria-labelledby={labelId}>
++        <Select value={fixedTo24h ? TIME_FORMAT.H24 : timeFormat} onChange={handleChange} disabled={fixedTo24h} labelId={labelId}>
+           <MenuItem value={TIME_FORMAT.SYSTEM}>
+             {t("prefs_system_default")}
+             <FormatExample>{formatTime(EXAMPLE_TIMESTAMP, TIME_FORMAT.SYSTEM)}</FormatExample>
+@@ -354,7 +355,7 @@ const WebPushEnabled = () => {
+       description={enabled ? t("prefs_notifications_web_push_enabled_description") : t("prefs_notifications_web_push_disabled_description")}
+     >
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={enabled ?? false} onChange={handleChange} aria-labelledby={labelId}>
++        <Select value={enabled ?? false} onChange={handleChange} labelId={labelId}>
+           <MenuItem value>{t("prefs_notifications_web_push_enabled", { server: shortUrl(config.base_url) })}</MenuItem>
+           <MenuItem value={false}>{t("prefs_notifications_web_push_disabled")}</MenuItem>
+         </Select>
+@@ -385,9 +386,9 @@ const Users = () => {
+     }
+   };
+   return (
+-    <Card sx={{ padding: 1 }} aria-label={t("prefs_users_title")}>
++    <Card sx={{ padding: 1 }} role="group" aria-label={t("prefs_users_title")}>
+       <CardContent sx={{ paddingBottom: 1 }}>
+-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
++        <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+           {t("prefs_users_title")}
+         </Typography>
+         <Paragraph>
+@@ -546,7 +547,7 @@ const UserDialog = (props) => {
+     }
+   }, [editMode, props.user]);
+   return (
+-    <Dialog open={props.open} onClose={props.onCancel} fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onCancel} fullScreen={fullScreen}>
+       <DialogTitle>{editMode ? t("prefs_users_dialog_title_edit") : t("prefs_users_dialog_title_add")}</DialogTitle>
+       <DialogContent>
+         {!editMode && (
+@@ -602,8 +603,8 @@ const UserDialog = (props) => {
+ const Appearance = () => {
+   const { t } = useTranslation();
+   return (
+-    <Card sx={{ p: 3 }} aria-label={t("prefs_appearance_title")}>
+-      <Typography variant="h5" sx={{ marginBottom: 2 }}>
++    <Card sx={{ p: 3 }} role="group" aria-label={t("prefs_appearance_title")}>
++      <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+         {t("prefs_appearance_title")}
+       </Typography>
+       <PrefGroup>
+@@ -664,7 +665,7 @@ const Language = () => {
+   return (
+     <Pref labelId={labelId} title={title}>
+       <FormControl fullWidth variant="standard" sx={{ m: 1 }}>
+-        <Select value={lang} onChange={handleChange} aria-labelledby={labelId}>
++        <Select value={lang} onChange={handleChange} labelId={labelId}>
+           <MenuItem value="en">English</MenuItem>
+           <MenuItem value="ar">العربية</MenuItem>
+           <MenuItem value="id">Bahasa Indonesia</MenuItem>
+@@ -719,9 +720,9 @@ const Reservations = () => {
+   };
+ 
+   return (
+-    <Card sx={{ padding: 1 }} aria-label={t("prefs_reservations_title")}>
++    <Card sx={{ padding: 1 }} role="group" aria-label={t("prefs_reservations_title")}>
+       <CardContent sx={{ paddingBottom: 1 }}>
+-        <Typography variant="h5" sx={{ marginBottom: 2 }}>
++        <Typography variant="h5" component="h2" sx={{ marginBottom: 2 }}>
+           {t("prefs_reservations_title")}
+         </Typography>
+         <Paragraph>{t("prefs_reservations_description")}</Paragraph>
+diff --git a/web/src/components/PublishDialog.jsx b/web/src/components/PublishDialog.jsx
+index 8bae0261..4250a4b3 100644
+--- a/web/src/components/PublishDialog.jsx
++++ b/web/src/components/PublishDialog.jsx
+@@ -38,6 +38,7 @@ import userManager from "../app/UserManager";
+ import session from "../app/Session";
+ import routes from "./routes";
+ import accountApi from "../app/AccountApi";
++import popupContainer from "../app/popupContainer";
+ import { UnauthorizedError } from "../app/errors";
+ import AccountContext from "./AccountContext";
+ 
+@@ -292,7 +293,7 @@ const PublishDialog = (props) => {
+   return (
+     <>
+       {dropZone && <DropArea onDrop={handleAttachFileDrop} onDragLeave={handleAttachFileDragLeave} />}
+-      <Dialog maxWidth="md" open={open} onClose={props.onClose} fullScreen={fullScreen}>
++      <Dialog container={popupContainer} maxWidth="md" open={open} onClose={props.onClose} fullScreen={fullScreen}>
+         <DialogTitle>
+           {baseUrl && topic
+             ? t("publish_dialog_title_topic", {
+diff --git a/web/src/components/ReserveDialogs.jsx b/web/src/components/ReserveDialogs.jsx
+index f1febdd9..f6324ee0 100644
+--- a/web/src/components/ReserveDialogs.jsx
++++ b/web/src/components/ReserveDialogs.jsx
+@@ -24,6 +24,7 @@ import DialogFooter from "./DialogFooter";
+ import session from "../app/Session";
+ import routes from "./routes";
+ import accountApi, { Permission } from "../app/AccountApi";
++import popupContainer from "../app/popupContainer";
+ import ReserveTopicSelect from "./ReserveTopicSelect";
+ import { TopicReservedError, UnauthorizedError } from "../app/errors";
+ 
+@@ -58,7 +59,7 @@ export const ReserveAddDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
+       <DialogTitle>{t("prefs_reservations_dialog_title_add")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>{t("prefs_reservations_dialog_description")}</DialogContentText>
+@@ -112,7 +113,7 @@ export const ReserveEditDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
+       <DialogTitle>{t("prefs_reservations_dialog_title_edit")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>{t("prefs_reservations_dialog_description")}</DialogContentText>
+@@ -150,7 +151,7 @@ export const ReserveDeleteDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
+       <DialogTitle>{t("prefs_reservations_dialog_title_delete")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>{t("reservation_delete_dialog_description")}</DialogContentText>
+diff --git a/web/src/components/Signup.jsx b/web/src/components/Signup.jsx
+index 4421bdb6..2e21f419 100644
+--- a/web/src/components/Signup.jsx
++++ b/web/src/components/Signup.jsx
+@@ -47,14 +47,14 @@ const Signup = () => {
+   if (!config.enable_signup) {
+     return (
+       <AvatarBox>
+-        <Typography sx={{ typography: "h6" }}>{t("signup_disabled")}</Typography>
++        <Typography component="h1" sx={{ typography: "h6" }}>{t("signup_disabled")}</Typography>
+       </AvatarBox>
+     );
+   }
+ 
+   return (
+     <AvatarBox>
+-      <Typography sx={{ typography: "h6" }}>{t("signup_title")}</Typography>
++      <Typography component="h1" sx={{ typography: "h6" }}>{t("signup_title")}</Typography>
+       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+         <TextField
+           margin="dense"
+diff --git a/web/src/components/SubscribeDialog.jsx b/web/src/components/SubscribeDialog.jsx
+index 13dbdd9f..cfe22331 100644
+--- a/web/src/components/SubscribeDialog.jsx
++++ b/web/src/components/SubscribeDialog.jsx
+@@ -24,6 +24,7 @@ import poller from "../app/Poller";
+ import DialogFooter from "./DialogFooter";
+ import session from "../app/Session";
+ import routes from "./routes";
++import popupContainer from "../app/popupContainer";
+ import accountApi, { Permission, Role } from "../app/AccountApi";
+ import ReserveTopicSelect from "./ReserveTopicSelect";
+ import AccountContext from "./AccountContext";
+@@ -64,7 +65,7 @@ const SubscribeDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onCancel} fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onCancel} fullScreen={fullScreen}>
+       {!showLoginPage && (
+         <SubscribePage
+           baseUrl={baseUrl}
+@@ -168,7 +169,7 @@ const SubscribePage = (props) => {
+       <DialogTitle>{t("subscribe_dialog_subscribe_title")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>{t("subscribe_dialog_subscribe_description")}</DialogContentText>
+-        <div style={{ display: "flex", paddingBottom: "8px" }} role="row">
++        <div style={{ display: "flex", paddingBottom: "8px" }}>
+           <TextField
+             autoFocus
+             margin="dense"
+diff --git a/web/src/components/SubscriptionPopup.jsx b/web/src/components/SubscriptionPopup.jsx
+index 1bb4f493..08f49498 100644
+--- a/web/src/components/SubscriptionPopup.jsx
++++ b/web/src/components/SubscriptionPopup.jsx
+@@ -37,6 +37,7 @@ import routes from "./routes";
+ import PopupMenu from "./PopupMenu";
+ import { formatDateTime, shuffle } from "../app/utils";
+ import api from "../app/Api";
++import popupContainer from "../app/popupContainer";
+ import AccountContext from "./AccountContext";
+ import { usePrefCache } from "./PrefCache";
+ import { ReserveAddDialog, ReserveDeleteDialog, ReserveEditDialog } from "./ReserveDialogs";
+@@ -252,7 +253,7 @@ export const SubscriptionPopup = (props) => {
+           {t("action_bar_unsubscribe")}
+         </MenuItem>
+       </PopupMenu>
+-      <Portal>
++      <Portal container={popupContainer}>
+         <Snackbar
+           open={showPublishError}
+           autoHideDuration={3000}
+@@ -316,7 +317,7 @@ const DisplayNameDialog = (props) => {
+   };
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onClose} maxWidth="sm" fullWidth fullScreen={fullScreen}>
+       <DialogTitle>{t("display_name_dialog_title")}</DialogTitle>
+       <DialogContent>
+         <DialogContentText>{t("display_name_dialog_description")}</DialogContentText>
+diff --git a/web/src/components/UpgradeDialog.jsx b/web/src/components/UpgradeDialog.jsx
+index 319aa578..1ceecf0c 100644
+--- a/web/src/components/UpgradeDialog.jsx
++++ b/web/src/components/UpgradeDialog.jsx
+@@ -30,6 +30,7 @@ import { NavLink } from "react-router-dom";
+ import { UnauthorizedError } from "../app/errors";
+ import { formatBytes, formatNumber, formatPrice, formatDate } from "../app/utils";
+ import AccountContext from "./AccountContext";
++import popupContainer from "../app/popupContainer";
+ import { usePrefCache } from "./PrefCache";
+ import routes from "./routes";
+ import session from "../app/Session";
+@@ -42,7 +43,7 @@ const NoFeature = (props) => <FeatureItem feature={false}>{props.children}</Feat
+ const FeatureItem = (props) => (
+   <ListItem disableGutters sx={{ m: 0, p: 0 }}>
+     <ListItemIcon sx={{ minWidth: "24px" }}>
+-      {props.feature && <Check fontSize="small" sx={{ color: "#338574" }} />}
++      {props.feature && <Check fontSize="small" sx={{ color: "#2f7a69" }} />}
+       {!props.feature && <Close fontSize="small" sx={{ color: "gray" }} />}
+     </ListItemIcon>
+     <ListItemText sx={{ mt: "2px", mb: "2px" }} primary={<Typography variant="body1">{props.children}</Typography>} />
+@@ -173,7 +174,7 @@ const UpgradeDialog = (props) => {
+   }
+ 
+   return (
+-    <Dialog open={props.open} onClose={props.onCancel} maxWidth="lg" fullScreen={fullScreen}>
++    <Dialog container={popupContainer} open={props.open} onClose={props.onCancel} maxWidth="lg" fullScreen={fullScreen}>
+       <DialogTitle>
+         <div style={{ display: "flex", flexDirection: "row" }}>
+           <div style={{ flexGrow: 1 }}>{t("account_upgrade_dialog_title")}</div>
+@@ -317,8 +318,8 @@ const TierCard = (props) => {
+   let labelStyle;
+   let labelText;
+   if (props.selected) {
+-    cardStyle = { background: "#eee", border: "3px solid #338574" };
+-    labelStyle = { background: "#338574", color: "white" };
++    cardStyle = { background: "#eee", border: "3px solid #2f7a69" };
++    labelStyle = { background: "#2f7a69", color: "white" };
+     labelText = t("account_upgrade_dialog_tier_selected_label");
+   } else if (props.current) {
+     cardStyle = { border: "3px solid #eee" };
+diff --git a/web/src/components/theme.js b/web/src/components/theme.js
+index f930e853..f1dc2523 100644
+--- a/web/src/components/theme.js
++++ b/web/src/components/theme.js
+@@ -38,7 +38,7 @@ export const lightTheme = {
+   palette: {
+     mode: "light",
+     primary: {
+-      main: "#338574",
++      main: "#2f7a69",
+     },
+     secondary: {
+       main: "#6cead0",

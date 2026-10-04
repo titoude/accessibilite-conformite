@@ -39,5 +39,53 @@
   "clean_checkout_replay": "PASS (npm ci 619 pkg, vite build, go build 76MB) — patch inclut web/src/app/popupContainer.js via git add -N"
  },
  "verify_mjs": "13/13",
- "eval_final_mjs": "9/9"
+ "eval_final_mjs": "9/9",
+ "patch_v2": {
+  "sha256": "b3a4dbe24b0c1be37ab56faa3af0f7072bc4f66e0484cf94c6fa328562a4a427",
+  "fichier": "patch-v2.diff (24 fichiers, cumulatif : v1 + v2)",
+  "motif": "verdict auditeur devin-b116fc50 PARTIAL → correction F1-F6",
+  "delta_v1_v2": [
+   "F1/F3 — app.css : a{ color #338574 → #2f7a69 } (4.42→5.11 sur blanc ; tout <a> brut, ex. lien dans message markdown publié). ActionBar : gradient light AppBar #338574→#56bda8 remplacé par #2f7a69→#34806e (le stop clair était 2.27:1 sous texte blanc — axe le marquait 'bgGradient' indéterminé) ; fond PWA #317f6f→#2f7a69. UpgradeDialog : 3× #338574→#2f7a69 (icône Check + fond de label à texte blanc + bordure). Notifications : cercle fill #338574→#2f7a69.",
+   "F5 — container={popupContainer} étendu à TOUS les overlays modaux : 6 Dialogs Account + 1 SubscribeDialog + 1 PublishDialog + 3 ReserveDialogs + 1 UpgradeDialog + 1 Dialog Preferences (users) + 1 DisplayNameDialog (SubscriptionPopup) + Drawer temporaire Navigation (ModalProps.container) + Modal lightbox Notifications + 7 <Portal> nus (Snackbar/SubscriptionPopup). Vérifié en DOM live : publish-dialog et subscribe-dialog ouverts → .MuiDialog-root dans #a11y-popup-layer, #root SANS aria-hidden (avant : aria-hidden=true), focus piégé dans le dialog.",
+   "F3 — aria-prohibited-attr : Pref label div délestée de son aria-label (le labelId→Select utilise le texte, l'attribut était redondant) ; 8 Card aria-label → role=\"group\" (nom porté par un rôle réel). 10 incompletes v1 éliminés à la source.",
+   "F6 — verify.mjs réécrit : item nav/diag localisés par nom accessible calculé (getByRole name: /action menu/, /subscribe to topic/) au lieu de 'nav li'.last() ; nav requis total>=1 ; h1 exige texte non vide ; nom du lien logo et des combobox CALCULÉS (résolution aria-labelledby + innerText) ; ajout des assertions F1 (lien markdown requis + ratio mesuré) et F5 (dialog dans layer + #root non masqué). 17 assertions. eval-final.mjs durci pareil (10 assertions). audit.mjs STATES durcis pareil.",
+   "F2/F4 — manifest.json : seed avec littéraux exacts (2 commandes curl verbatim dont le markdown AVEC LIEN), credentials explicites, boot.commands séparés (go build à la racine), toolVersions épinglés (node v24.19.0, npm 10.8.3, go1.26.0), auditCommands verbatim incluant la commande BASELINE et FINAL-LOGIN."
+  ],
+  "final_v2_scan": {
+   "occurrences": 0,
+   "scans": 8,
+   "exit": 0,
+   "incomplets": 11,
+   "scopeHash": "87a3c173343ff9d508a0b5532f93c4f21906da6f6703703ce17b8250188b975c (identique v1)",
+   "login": "final-login-v2 : /login + /signup, 0 violation, 0 incomplet"
+  },
+  "verify_mjs_v2": "17/17",
+  "eval_final_mjs_v2": "10/10"
+ },
+ "decisionsIncomplets": {
+  "v1_26": [
+   {"regle": "aria-hidden-focus", "occurrences": 2, "cible": "#root pendant publish-dialog et subscribe-dialog", "decision": "résolu", "preuve": "F5 : dialogs montés dans #a11y-popup-layer → MUI ne masque plus #root ; incomplet absent du rescan final-v2 (DOM live : rootAriaHidden=null, dialogInLayer=true)"},
+   {"regle": "aria-prohibited-attr", "occurrences": 10, "cible": "/settings : 4 Card[aria-label] + 6 div[id=pref*][aria-label]", "decision": "résolu", "preuve": "aria-label retiré des Pref (redondant avec le texte référencé par labelId) ; role=\"group\" ajouté aux Card (nom porté par un rôle) ; incomplets absents du rescan"},
+   {"regle": "color-contrast bgGradient", "occurrences": 5, "cible": "h1 sur /, /testtopic, /settings + 2 états", "decision": "résolu", "preuve": "le gradient clair masquait un vrai défaut (stop #56bda8 = 2.27:1 sous blanc) → gradient remplacé #2f7a69→#34806e ; les h1 restent flaggés 'bgGradient' par axe (limite de l'outil), sonde = 4.71:1 pire stop"},
+   {"regle": "color-contrast overlapped", "occurrences": 3, "cible": "labels publish-dialog + DialogContentText + ListItemText sous backdrop", "decision": "résolu", "preuve": "les labels sous la modal disparaissent du rescan une fois le dialog dans le layer ; le dernier ('Subscribe to topic' sous backdrop) mesuré 21:1 — N-A justifié"},
+   {"regle": "color-contrast shortTextContent", "occurrences": 3, "cible": "badge MuiBadge invisible aria-hidden='true' ('0')", "decision": "N-A", "preuve": "élément aria-hidden, non visible, contenu non-textuel ; mesuré 5.11:1 de toute façon (incomplete-probes.json)"}
+  ],
+  "v2_11": [
+   {"regle": "color-contrast bgGradient", "occurrences": 6, "cible": "h1 sur les 3 pages + 3 états", "decision": "N-A avec preuve", "preuve": "incomplete-probes.json : fg #fff, stops du gradient mesurés 5.11 et 4.71 (min 4.71 ≥ 4.5) — axe ne sait pas évaluer un dégradé"},
+   {"regle": "color-contrast shortTextContent", "occurrences": 4, "cible": "MuiBadge-badge aria-hidden='true' contenant '0'", "decision": "N-A avec preuve", "preuve": "aria-hidden + invisible + pas de texte réel ; ratio mesuré 5.11"},
+   {"regle": "color-contrast bgOverlap", "occurrences": 1, "cible": "'Subscribe to topic' sous le backdrop du dialog", "decision": "N-A avec preuve", "preuve": "recouvert par la modale (comportement modal attendu) ; ratio réel mesuré 21:1"}
+  ]
+ },
+ "installBuild": {
+  "patch_v2_sur_checkout_propre_8b95a3bb": {
+   "git apply": "PASS",
+   "npm ci": "PASS 619 paquets",
+   "npm run lint": "PASS 0 erreur",
+   "npm test": "PASS 90/90",
+   "npm run build (vite)": "PASS",
+   "go build racine": "PASS binaire 76 493 960 o",
+   "versions": "node v24.19.0, npm 10.8.3, go1.26.0",
+   "log": "reports/final-v2/install-build-v2.log (annexé)"
+  }
+ }
 }

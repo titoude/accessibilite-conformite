@@ -6,19 +6,39 @@
   "note": "clone --depth 1 main"
  },
  "stack": "Go 1.x binaire unique + web React 19 (Vite, MUI v9) embarqué via go:embed server/site",
+ "toolVersions": {
+  "node": "v24.19.0 (~/.nvm/versions/node/v24.19.0/bin)",
+  "npm": "10.8.3",
+  "go": "go1.26.0 linux/amd64 (~/go/bin)",
+  "axe-core": "^4.13.0",
+  "playwright": "^1.63.0 (chromium headless shell 153)"
+ },
  "boot": {
-  "command": "cd web && npm ci && npm run build && mv build/index.html build/app.html && mv build ../server/site && go build -o ntfy . && ./ntfy serve --listen-http :8090 --base-url http://127.0.0.1:8090 --cache-file ../data/cache.db --auth-file ../data/auth.db",
+  "commands": [
+   "cd web && npm ci && npm run build && mv build/index.html build/app.html && mv build ../server/site",
+   "mkdir -p server/docs && printf '<!doctype html><title>docs stub</title>' > server/docs/index.html   # go:embed docs exige le fichier ; adaptation harnais locale, aucun code produit modifié",
+   "go build -o ntfy .   # à la RACINE du repo (pas depuis web/)",
+   "./ntfy serve --listen-http :8090 --base-url http://127.0.0.1:8090 --cache-file cache.db --auth-file auth.db"
+  ],
   "notes": [
-   "go:embed docs : stub local server/docs/index.html créé (mkdocs non construit) — adaptation harnais locale, aucun code produit modifié pour l'audit",
    "mode anonyme : enable_login=false → /account redirige vers / (retirée du périmètre)",
    "port 8090"
   ]
  },
  "seed": {
   "topics": [
-   "testtopic : 2 messages publiés via curl POST /testtopic (1 texte, 1 markdown)"
+   "testtopic"
   ],
-  "auth": "aucune (anonyme) — la souscription web est créée par le setup de l'état subscription-popup (clic bouton Subscribe)"
+  "commands": [
+   "curl -s -X POST -d 'Test notification body' http://127.0.0.1:8090/testtopic",
+   "curl -s -X POST -H 'Markdown: yes' -d 'Message **markdown** avec [lien test](https://ntfy.sh) pour audit contraste' http://127.0.0.1:8090/testtopic"
+  ],
+  "messages": [
+   "texte brut : 'Test notification body'",
+   "markdown : 'Message **markdown** avec [lien test](https://ntfy.sh) pour audit contraste' — contient UN LIEN <a> brut couvrant la règle app.css a{color}"
+  ],
+  "credentials": "aucune (anonyme) — la souscription web est créée par le setup de l'état subscription-popup (clic bouton Subscribe)",
+  "note": "le littéral markdown est obligatoire : sans lien dans le message, /testtopic ne rend aucun <a> de contenu et la violation couleur de lien brute est invisible"
  },
  "urls": [
   "/",
@@ -33,9 +53,12 @@
   "subscribe-dialog"
  ],
  "auditCommands": [
-  "node audit.mjs http://127.0.0.1:8090 --urls '/,/testtopic,/settings,/login,/signup' --states all --wait-for 'main, #root *' --wait 1500 --out ../final",
+  "BASELINE (vanilla, avant patch) : node audit.mjs http://127.0.0.1:8090 --urls '/,/testtopic,/settings,/login,/signup,/account' --states none --wait-for 'main, #root *' --wait 1500 --out ../baseline   (note : /account retirée du scope final — redirect anonyme ; 1 erreur de page attendue en baseline)",
+  "FINAL : node audit.mjs http://127.0.0.1:8090 --urls '/,/testtopic,/settings,/login,/signup' --states all --wait-for 'main, #root *' --wait 1500 --out ../final",
+  "FINAL-LOGIN : node audit.mjs http://127.0.0.1:8090 --urls '/login,/signup' --states none --wait-for 'main, #root *' --wait 1500 --out ../final-login",
   "node verify.mjs http://127.0.0.1:8090",
-  "node eval-final.mjs http://127.0.0.1:8090"
+  "node eval-final.mjs http://127.0.0.1:8090",
+  "node incomplete-probes.mjs http://127.0.0.1:8090 <final>/report.json <final>/incomplete-probes.json   (v2 : sonde par noeud des incomplets)"
  ],
  "auditTiers": null
 }

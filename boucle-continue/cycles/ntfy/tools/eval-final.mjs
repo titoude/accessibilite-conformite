@@ -1,5 +1,7 @@
 // eval-final.mjs — assertions sur des comportements NON couverts par verify.mjs
 // (évaluateur final indépendant, tests inutilisés).
+// Règle : élément requis absent = FAIL ; noms accessibles calculés, pas déduits
+// de la présence d'un attribut.
 // Usage: node eval-final.mjs <baseUrl>
 import { chromium } from 'playwright';
 
@@ -17,10 +19,10 @@ for (const path of ['/', '/testtopic', '/settings', '/login']) {
   await page.waitForTimeout(1200);
   const order = await page.evaluate(() => [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].filter(h => h.offsetParent !== null).map(h => +h.tagName[1]));
   const skips = order.filter((l, i) => i > 0 && l - order[i - 1] > 1).length;
-  check(`${path}: ordre des titres sans saut`, skips === 0, JSON.stringify(order));
+  check(`${path}: ordre des titres sans saut`, order.length > 0 && skips === 0, JSON.stringify(order));
 }
 
-// 2. images du contenu : alt présent ou aria-hidden
+// 2. images du contenu : alt présent ou aria-hidden — au moins une image trouvée
 await page.goto(BASE + '/login', { waitUntil: 'domcontentloaded' });
 await page.waitForSelector('main', { timeout: 15000 });
 await page.waitForTimeout(1000);
@@ -28,7 +30,7 @@ const imgs = await page.evaluate(() => {
   const bad = [...document.querySelectorAll('main img')].filter(i => !i.hasAttribute('alt') && i.getAttribute('aria-hidden') !== 'true');
   return { bad: bad.length, total: document.querySelectorAll('main img').length };
 });
-check('login: images avec alt ou masquées', imgs.bad === 0, JSON.stringify(imgs));
+check('login: images présentes, toutes avec alt ou masquées', imgs.total > 0 && imgs.bad === 0, JSON.stringify(imgs));
 
 // 3. lang de la page
 await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
@@ -39,27 +41,46 @@ check('html: attribut lang non vide', !!lang, `lang=${lang}`);
 await page.goto(BASE + '/', { waitUntil: 'domcontentloaded' });
 await page.waitForSelector('nav', { timeout: 15000 });
 await page.waitForTimeout(1200);
-await page.locator('nav li').last().click();
-await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
-await page.keyboard.press('Escape');
-await page.waitForTimeout(500);
-const after = await page.evaluate(() => ({
-  dialogGone: !document.querySelector('.MuiDialog-root [role="dialog"]'),
-  focusTag: document.activeElement.tagName,
-  focusInBody: document.activeElement === document.body,
-}));
-check('dialog: Echap ferme, focus récupéré par un élément focusable', after.dialogGone && !after.focusInBody, JSON.stringify(after));
+const subscribeItem = page.locator('nav').getByRole('button', { name: /subscribe to topic/i }).first();
+const subFound = await subscribeItem.count() > 0;
+check('dialog: item nav "Subscribe to topic" localisé par nom accessible', subFound, `count=${await subscribeItem.count()}`);
+if (subFound) {
+  await subscribeItem.click();
+  await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(500);
+  const after = await page.evaluate(() => ({
+    dialogGone: !document.querySelector('.MuiDialog-root [role="dialog"]'),
+    focusTag: document.activeElement.tagName,
+    focusInBody: document.activeElement === document.body,
+  }));
+  check('dialog: Echap ferme, focus récupéré par un élément focusable', after.dialogGone && !after.focusInBody, JSON.stringify(after));
 
-// 5. champs de saisie : label accessible réel dans le dialog abonnement
-await page.locator('nav li').last().click();
-await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
-const fields = await page.evaluate(() => {
-  const inputs = [...document.querySelectorAll('.MuiDialog-root input, .MuiDialog-root textarea')].filter(i => i.offsetParent !== null && i.type !== 'hidden');
-  return inputs.map(i => !!(i.getAttribute('aria-label') || i.getAttribute('aria-labelledby') || (i.id && document.querySelector(`label[for="${i.id}"]`)))).every(Boolean);
-});
-check('dialog: chaque champ visible a un nom accessible', fields === true, `all=${fields}`);
-await page.keyboard.press('Escape');
-await page.waitForTimeout(400);
+  // 5. champs de saisie : nom accessible CALCULÉ réel dans le dialog abonnement
+  await subscribeItem.click();
+  await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
+  const fields = await page.evaluate(() => {
+    const inputs = [...document.querySelectorAll('.MuiDialog-root input, .MuiDialog-root textarea')].filter(i => i.offsetParent !== null && i.type !== 'hidden');
+    const nameOf = (i) => {
+      const al = i.getAttribute('aria-label');
+      if (al && al.trim()) return al.trim();
+      const lb = i.getAttribute('aria-labelledby');
+      if (lb) return lb.split(/\s+/).map(id => (document.getElementById(id)?.innerText || '').trim()).join(' ').trim();
+      if (i.id) {
+        const l = document.querySelector(`label[for="${i.id}"]`);
+        if (l && l.innerText.trim()) return l.innerText.trim();
+      }
+      return '';
+    };
+    return { total: inputs.length, unnamed: inputs.filter(i => !nameOf(i)).map(i => i.outerHTML.slice(0, 80)) };
+  });
+  check('dialog: chaque champ visible a un nom accessible calculé', fields.total > 0 && fields.unnamed.length === 0, JSON.stringify(fields));
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(400);
+} else {
+  results.push({ name: 'dialog: Echap ferme, focus récupéré', ok: false, detail: 'dialog non ouvert' });
+  results.push({ name: 'dialog: champs nommés', ok: false, detail: 'dialog non ouvert' });
+}
 
 // 6. reflow 320px : pas de scroll horizontal sur /
 await page.setViewportSize({ width: 320, height: 800 });

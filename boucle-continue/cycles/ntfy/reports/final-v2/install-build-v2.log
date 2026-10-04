@@ -1,0 +1,37 @@
+### clone frais + checkout
+git clone https://github.com/binwiederhier/ntfy ntfy-clean
+git checkout 8b95a3bb
+HEAD = 8b95a3bbfd42d40a16293b6e2079b104bf6eb68d Merge pull request #1991 from binwiederhier/db-context-delegates
+
+### git apply patch-v2.diff (24 fichiers, cumulatif v1+v2)
+ web/src/components/UpgradeDialog.jsx        |    9 +
+ web/src/components/theme.js                 |    2 
+ 24 files changed, 223 insertions(+), 144 deletions(-)
+
+### node/npm/go
+v24.19.0
+10.8.3
+go version go1.26.0 linux/amd64
+### npm ci
+npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 619 packages in 4s
+### lint
+
+> ntfy@1.0.0 lint
+> eslint --report-unused-disable-directives --ext .js,.jsx ./src/
+
+### test
+
+ Test Files  7 passed (7)
+      Tests  90 passed (90)
+   Start at  20:04:44
+   Duration  313ms (transform 632ms, setup 99ms, import 800ms, tests 86ms, environment 1ms)
+
+### vite build
+precache  68 entries (2604.53 KiB)
+files generated
+  build/sw.js
+  build/sw.js.map
+### go build
+-rwxr-xr-x 1 ubuntu ubuntu 76493960 Oct  4 20:04 ntfy

@@ -137,8 +137,9 @@ const STATES = {
         await subBtn.click();
         await page.waitForTimeout(1500);
       }
-      // Ouvrir le menu contextuel de l'item d'abonnement dans la nav
-      const btn = page.locator('nav li button[aria-label]').last();
+      // Ouvrir le menu contextuel de l'item d'abonnement — bouton localisé par
+      // son nom accessible (aria-label résolu), jamais par position .last()
+      const btn = page.locator('nav').getByRole('button', { name: /action menu/i }).first();
       await btn.waitFor({ state: 'visible', timeout: 10000 });
       await btn.click();
       await page.locator('.MuiPopover-root:not([aria-hidden="true"]) .MuiMenuItem-root, .MuiPopover-root:not([aria-hidden="true"]) [role="menuitem"]').first().waitFor({ state: 'visible', timeout: 10000 });
@@ -160,7 +161,7 @@ const STATES = {
     setup: async (page) => {
       await page.waitForSelector('nav', { timeout: 15000 });
       await page.waitForTimeout(1500);
-      await page.locator('nav li').last().click();
+      await page.locator('nav').getByRole('button', { name: /subscribe to topic/i }).first().click();
       await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(600);
     },
