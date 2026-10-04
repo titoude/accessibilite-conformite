@@ -1,0 +1,26 @@
+{
+  "baseline": { "dir": "baseline", "scopeHash": "e77c109c04cc10ab…" },
+  "final":    { "dir": "final",    "scopeHash": "3ea21f0f219b28ec…" },
+  "memeHash": false,
+  "statut": "PÉRIMÈTRE RÉVISÉ EN COURS DE CYCLE (déclaré, justifié)",
+  "detail": {
+    "scenarios_baseline": [
+      "/ (crawl racine)",
+      "/budget (scan direct — erreur « document final diffère », redirection SPA faute de fichier ouvert)",
+      "/accounts (idem, erreur)",
+      "/reports (idem, erreur + redirect data-dépendant découvert)",
+      "/accounts [state:demo-nav] → /accounts",
+      "/accounts [state:demo-modal]"
+    ],
+    "scenarios_final": [
+      "/ (crawl racine)",
+      "/ [state:welcome] (attente fin animation)",
+      "/budget [state:demo-budget]",
+      "/accounts [state:demo-accounts]",
+      "/reports/net-worth [state:demo-report-networth]",
+      "/accounts [state:demo-modal]"
+    ],
+    "comparaison": "Couverture finale ≥ baseline sur chaque route : /budget et /accounts étaient en ERREUR en baseline (redirect vers /), ils sont désormais audités via démo. /reports racine est non déterministe (redirect dashboardId) → remplacé par /reports/net-worth (route fixe, même surface). Le crawl racine / est conservé. Aucune route auditée en baseline n'a disparu : seule la substitution déclarée /reports→/reports/net-worth.",
+    "lecon": "Manifeste figé avant baseline exige de résoudre la navigation AVANT de figer le périmètre — nécessite une phase de découverte (probe) qui teste les routes et détecte les redirects data-dépendants."
+  }
+}

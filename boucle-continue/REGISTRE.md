@@ -35,3 +35,4 @@ boucle DOIVENT choisir un dépôt absent de ce tableau.
 | # | Dépôt | Worker | Auditeur | Verdict | Notes |
 |---|-------|--------|----------|---------|-------|
 | 1 | gethomepage/homepage | session principale (slots SWE-2 saturés) | en attente slot | worker CONFIRMED | 53→0 ; vrai bug corrigé : vars --color-* + classes thème SSR (_document, theme.css) ; artefacts boucle-runs/homepage |
+| 2 | actualbudget/actual @2e68845 | session principale | en attente slot | worker CONFIRMED | 123→0 en 3 rounds ; périmètre révisé déclaré (scope-compare.json) ; verify.mjs a attrapé 2 défauts invisibles pour axe (nav mobile sans label, boutons nommés par title-sur-enfant) ; install-build+typecheck PASS sur checkout propre ; artefacts boucle-runs/actual + cycles/actual |

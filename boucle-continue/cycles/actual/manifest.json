@@ -1,0 +1,65 @@
+{
+  "repo": "actualbudget/actual",
+  "commit_sha": "2e68845ede21d416d29e62251dfb68ea9c5a96e5",
+  "frozen_at": "avant tout audit — référence de périmètre",
+  "base_url": "http://localhost:3001",
+  "tool_versions": {"playwright": "1.63.0", "axe-core": "4.13.0", "node": "v24.19.0"},
+  "serveur": "yarn start:browser (vite dev, port 3001)",
+  "viewport": {"width": 1280, "height": 800},
+  "roles": ["public non authentifié — mode local/demo, pas de sync server"],
+  "scenarios": [
+    {
+      "id": "welcome",
+      "route": "/",
+      "state": "écran d'accueil Welcome stabilisé (après animation d'entrée ~950ms)",
+      "expectations": [
+        "boutons avec noms accessibles",
+        "hiérarchie de titres",
+        "contraste AA",
+        "meta viewport sans blocage de zoom (déjà suspect : maximum-scale=1, user-scalable=no)"
+      ]
+    },
+    {
+      "id": "demo-budget",
+      "route": "/ puis clic 'Try the demo'",
+      "state": "fichier de démo chargé — écran budget principal",
+      "preconditions": "le bouton Try the demo existe",
+      "expectations": [
+        "tableau de budget navigable",
+        "landmarks et titres",
+        "contraste",
+        "aucun piège clavier"
+      ]
+    },
+    {
+      "id": "demo-nav",
+      "route": "lien 'All accounts' / sidebar → /accounts",
+      "state": "navigation latérale + liste de transactions",
+      "expectations": ["liens sidebar nommés", "liste navigable", "contraste"]
+    },
+    {
+      "id": "demo-report-networth",
+      "route": "/reports/net-worth",
+      "state": "page de rapport Net Worth",
+      "note": "/reports racine redirige vers un dashboardId dépendant des données → route déterministe déclarée à la place",
+      "expectations": ["contenu du rapport lisible", "contraste"]
+    },
+    {
+      "id": "demo-modal",
+      "route": "depuis le budget — ouvrir une boîte de dialogue (menu/settings ou cellule)",
+      "state": "première modale accessible rencontrée",
+      "expectations": [
+        "role dialog + nom accessible",
+        "focus piégé dans la modale",
+        "Échap ferme"
+      ]
+    }
+  ],
+  "excluded": [
+    "mode sync server (requiert backend)",
+    "desktop electron",
+    "exports/imports de fichiers (non testables sans fichiers)",
+    "routes /api internes vite"
+  ],
+  "expected_outcome": "0 violation axe sur chaque scénario + findings humains documentés"
+}

@@ -1,0 +1,22 @@
+{
+  "checkout": "/tmp/actual-clean — worktree git au commit épinglé 2e68845 (propre)",
+  "patchApplique": "git apply a11y-audit/patch.diff — OK, 15 fichiers",
+  "installVerrouillee": {
+    "commande": "yarn install --immutable (yarn 4.17.1)",
+    "resultat": "PASS en 22s"
+  },
+  "build": {
+    "commande": "yarn lage build --scope @actual-app/web --include-dependencies",
+    "resultat": "PASS — web 34.5s, core, crdt, plugins-service, sync-server",
+    "echecsHorsPerimetre": [
+      "mobile-client : xcodebuild/CocoaPods absents (build iOS impossible sous Linux)",
+      "desktop-electron : aarch64-linux-gnu-gcc absent (rebuild node-gyp natif pour packaging electron)"
+    ],
+    "note": "les deux échecs sont des outils de plateforme manquants, sans rapport avec le patch (aucun fichier touché dans mobile-client ni desktop-electron)"
+  },
+  "typecheck": {
+    "commande": "yarn lage typecheck",
+    "resultat": "PASS — 7/7 workspaces (web 18.1s)"
+  },
+  "verdict": "INSTALLABLE ET COMPILABLE — le patch s'applique sur un checkout propre, l'install verrouillée passe, le build web et le typecheck passent"
+}

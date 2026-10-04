@@ -1,0 +1,30 @@
+{
+  "depot": "actualbudget/actual",
+  "commitEpingle": "2e68845ede21d416d29e62251dfb68ea9c5a96e5",
+  "statut": "SUCCÈS — axe 0 violation, vérif indépendante PASS, éval finale 0 finding, install-build PASS",
+  "baseline": { "regles": 7, "occurrences": 123, "erreurs": 0, "scenarios": 5 },
+  "final": { "regles": 0, "occurrences": 0, "erreurs": 0, "scenarios": 6, "incomplets": 35 },
+  "rounds": 3,
+  "revisionsPerimetre": "périmètre révisé en cours de cycle (scope-compare.json) : /reports non déterministe → /reports/net-worth ; routes SPA auditées via états démo (IndexedDB) ; état welcome ajouté (animation d'entrée ~950ms = faux positifs contraste)",
+  "famillesCorrigees": {
+    "meta-viewport (1.4.4/1.4.10)": "maximum-scale=1 user-scalable=no → zoom autorisé, viewport-fit=cover",
+    "landmarks (1.3.1)": "role=main unique au wrapper app + retrait du doublon Page.tsx ; navigation sidebar + mobile avec aria-label distincts",
+    "page-has-heading-one (1.3.1)": "h1 visuellement masqué dépendant de la route (PageHeading i18n)",
+    "button-name (4.1.2)": "aria-label sur boutons-icônes catégorie/groupe/menu budget + Today/Previous/Next month (title sur enfant ne nomme pas le bouton)",
+    "target-size (2.5.8)": "min 24×24 sur les boutons d'options et de notes",
+    "color-contrast (1.4.3)": "tokens thème clair : pageTextSubdued navy300→navy600, noticeTextLight green500→green800, tableTextSubdued navy100→navy600, tableTextInactive navy500→navy600, numberPositive green700→green800 ; badges preview errorText→errorTextDarker / warningText→warningTextDark ; textes payee/split → tableTextInactive",
+    "tag pills (1.4.3)": "useTagCSS réécrit : choix blanc/noir par ratio WCAG calculé au lieu d'une heuristique de luminosité AERT"
+  },
+  "leconsHarnais": [
+    "axe mesure pendant les animations d'entrée → état de sédimentation obligatoire (welcome +1200ms, modal +400ms)",
+    "routes SPA avec donnée requise : scan URL direct impossible → états démo idempotents (IndexedDB persiste le fichier)",
+    "route redirigeant vers un ID data-dépendant → substitution déclarée vers route déterministe dans le manifeste",
+    "un verify.mjs indépendant attrape ce qu'axe rate : 2e navigation sans label + boutons nommés par title-sur-enfant (invisibles pour axe)"
+  ],
+  "artefacts": [
+    "manifest.json", "states.json", "provenance.json", "scope-compare.json",
+    "patch.diff", "patch.sha256", "verify.mjs", "eval-final.mjs",
+    "install-build.json", "reports/baseline-report.{md,json}", "reports/final-report.{md,json}"
+  ],
+  "nonCouvert": "thème sombre non audité ; interactions profondes (drag&drop budget, imports) hors périmètre ; 35 résultats axe incomplete (iframes vides, nested-interactive à revue humaine)"
+}

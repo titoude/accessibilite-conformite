@@ -1,0 +1,29 @@
+{
+  "description": "Scénarios audités (audit.mjs --states all) — déclarés dans manifest.json",
+  "states": {
+    "welcome": {
+      "url": "/",
+      "setup": "Attendre le bouton « Start budgeting » visible + 1200ms (fin de l'animation d'entrée ~950ms)",
+      "motif": "axe mesure pendant le fade-in → faux positifs contraste sans cette attente"
+    },
+    "demo-budget": {
+      "url": "/budget",
+      "setup": "Ouvrir le budget de démo (« Try the demo ») puis naviguer /budget + 1500ms"
+    },
+    "demo-accounts": {
+      "url": "/accounts",
+      "setup": "Idem, naviguer /accounts + 1500ms"
+    },
+    "demo-report-networth": {
+      "url": "/reports/net-worth",
+      "setup": "Ouvrir la démo puis goto /reports/net-worth + attente lien budget + 1500ms",
+      "motif": "/reports racine redirige vers un dashboardId dépendant des données → route déterministe choisie"
+    },
+    "demo-modal": {
+      "url": "/accounts",
+      "setup": "Démo ouverte, clic « Add account », attendre role=dialog visible + 400ms (fin transition modale)"
+    }
+  },
+  "basePages": ["/"],
+  "note": "Le budget de démo persiste en IndexedDB → openDemo est idempotent ; chaque run part d'un profil Playwright neuf."
+}
