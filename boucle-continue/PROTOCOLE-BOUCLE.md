@@ -214,3 +214,11 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **antd `aria-controls` lazy-mount : preuve par ouverture, pas par hover** : les popups inline des sous-menus ne se montent qu'après ouverture ET `locator.click()` Playwright ne déclenche pas le handler React — il faut `el.dispatchEvent(new MouseEvent('click',{bubbles:true}))`. Sonde livrée : `avant:false → après:true` pour chaque sous-menu prouve la décision N/A.
 - **Header-only table antd** : `.ant-table-header > table` ne contient jamais de td par construction (split header/body) → th-has-data-cells = N/A structurel, pas « transitoire » — la justification doit nommer le pattern, pas deviner l'état.
 - **Patch vs bundle embarqué** : `static/web` (go:embed) est git-tracké chez owncast mais exclu du patch (sources seules) — l'install-build doit rejouer `npm run build` → `web/out` → rsync → `go build`, sinon l'auditeur ne voit pas le fix dans le binaire.
+
+### Leçons — cycle 20 pocket-id (audit → warts documentaires)
+- **Assertions « à vide »** : un test qui compte `>= N` éléments labellisés n'importe où sur une page passe sur n'importe quel contenu (ici les boutons de pagination faisaient passer le check des collapse). Cibler l'élément précis corrigé — filtrage icon-only + bonne page — et le rejouer **avant** de livrer (un auditeur relit le code des tests, pas juste le PASS/FAIL).
+- **auditCommands → manifest.json** (convention), pas results.json.
+- **provenance.json = TOUS les fichiers livrés**, intrants de rejeu compris (states.json, package.json, auth.json, report.md, scope.json).
+- **manifest.notes doit correspondre au scope exécuté** : « exclu » vs « scénario à erreur attendue » ≠ pareil.
+- **Jamais d'auto-verdict dans results.json** (NPM#1) — même avec « proposé » : laisser l'auditeur conclure.
+- **Nettoyer tools/package.json** : aucune dépendance inutilisée.

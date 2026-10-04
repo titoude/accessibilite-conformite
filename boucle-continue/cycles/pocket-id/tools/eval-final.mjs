@@ -95,7 +95,7 @@ await page.getByRole('button', { name: /my account|mon compte/i }).click().catch
 await page.waitForTimeout(800).catch(() => {});
 const menuSomewhere = await page.evaluate(() =>
   !!document.querySelector('#a11y-popup-layer [role="menu"], #a11y-popup-layer [role="listbox"]'));
-ok('portails vivent dans la couche landmark', layerHasContent && menuSomewhere || menuSomewhere || !layerHasContent);
+ok('portails vivent dans la couche landmark', layerHasContent && menuSomewhere);
 await page.keyboard.press('Escape');
 
 // 10. Page publique : /login a exactement un h1 et un main

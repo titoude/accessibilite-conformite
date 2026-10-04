@@ -50,7 +50,7 @@ ok('file-input boutons labellisés', fiBad === 0, `${fiBad} non labellisés`);
 // --- url-list inputs aria-label ---
 const cb = await page.evaluate(() =>
   [...document.querySelectorAll('[data-testid^="cimd-url-allowlist-"]')].map(i => i.getAttribute('aria-label')));
-ok('champs CIMD urls labellisés', cb.length > 0 && cb.every(l => l && l.includes('1') || !!l), JSON.stringify(cb));
+ok('champs CIMD urls labellisés', cb.length > 0 && cb.every(l => l && l.trim().length > 3 && !/^\d+$/.test(l.trim())), JSON.stringify(cb));
 
 // --- duplicate id ---
 await go('/settings/admin/application-configuration');
@@ -59,11 +59,18 @@ ok('ids skip-cert uniques', await page.evaluate(() => {
   return ids.length === new Set(ids).size;
 }));
 
-// --- ghost collapse buttons ---
-await go('/settings/admin/users');
-ok('bouton collapse users labellisé', await page.evaluate(() => {
-  const b = [...document.querySelectorAll('button.ghost, button')].find(x => x.className.includes('h-8') && x.querySelector('svg'));
-  return [...document.querySelectorAll('button')].filter(x => x.getAttribute('aria-label')).length >= 3;
+// --- ghost collapse buttons (patchés aria-label={m.close()} sur apis + api-keys) ---
+await go('/settings/admin/apis');
+await page.waitForTimeout(1500).catch(() => {});
+const apisAdd = await page.evaluate(() => {
+  const b = [...document.querySelectorAll('button')].find(x => /add api|ajouter une api/i.test(x.innerText || ''));
+  if (b) b.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  return !!b;
+});
+await page.waitForTimeout(800).catch(() => {});
+ok('bouton collapse apis labellisé (après expand)', apisAdd && await page.evaluate(() => {
+  const iconOnly = [...document.querySelectorAll('button')].filter(x => x.className.includes('h-8') && x.querySelector('svg') && !(x.innerText || '').trim());
+  return iconOnly.length > 0 && iconOnly.every(x => (x.getAttribute('aria-label') || '').trim().length > 0);
 }));
 
 // --- heading order : h2 pas h3 sur profile-picture ---

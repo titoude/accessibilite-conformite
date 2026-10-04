@@ -29,18 +29,18 @@
     }
   },
   "errors_honnetes": {
-    "public_logout": "redirect /login?redirect=/logout \u2014 identique baseline et final"
+    "public_logout": "redirect /login?redirect=/logout — identique baseline et final"
   },
   "incompletes_final": [
     {
       "page": "state:menu-compte/menu-theme",
       "rule": "aria-valid-attr-value",
-      "decision": "N/A \u2014 aria-controls vers l'id du contenu menu resolu live (bitsc18/c17 existent dans #a11y-popup-layer) ; limite de determination d'axe a travers le portail"
+      "decision": "N/A — aria-controls vers l'id du contenu menu resolu live (bitsc18/c17 existent dans #a11y-popup-layer) ; limite de determination d'axe a travers le portail"
     },
     {
       "page": "/device",
       "rule": "color-contrast",
-      "decision": "N/A \u2014 input OTP totalement transparent (color+bg rgba(0,0,0,0)) ; les chiffres visibles vivent dans les cellules Slot, pas sur le noeud input"
+      "decision": "N/A — input OTP totalement transparent (color+bg rgba(0,0,0,0)) ; les chiffres visibles vivent dans les cellules Slot, pas sur le noeud input"
     }
   ],
   "fixes": {
@@ -70,9 +70,14 @@
     "result": "10/10 PASS"
   },
   "install_build": "clone propre @40cb14f8 + git apply patch.diff (34f, +185/-119) -> pnpm --frozen-lockfile + vite build -> go build -tags e2etest -> binaire boote :1451, /login 200, reset 204",
-  "auditCommands": [
-    "node tools/audit.mjs http://localhost:1411 --urls $(paste -sd, tools/urls-auth.txt) --states all --storage-state tools/auth.json --wait 8000 --out reports/final/auth",
-    "node tools/audit.mjs http://localhost:1411 --urls /device,/login,/login/alternative,/login/alternative/code,/login/alternative/device,/login/alternative/email,/logout,/signup --states none --wait 6000 --out reports/final/public"
-  ],
-  "verdict_propose": "axe 0 violation reproducible sur 20 scenarios auth + 7/8 publics (logout=redirect attendu) ; verify 17/17 ; eval-final 10/10 ; install-build PASS"
+  "corrections_post_audit_warts": {
+    "note": "Warts auditeur W1-W7 corrigés après verdict CONFIRMED (3e0c3b5)",
+    "w1": "auditCommands déplacés de results.json vers manifest.json (convention NPM#3)",
+    "w2": "note /logout corrigée — INCLUS comme scénario à erreur attendue, pas exclu",
+    "w3": "provenance.json étendu à TOUS les fichiers livrés (29, incluant states.json/package.json/auth.json/report.md/scope.json)",
+    "w4": "eval-final #9 durci : layerHasContent && menuSomewhere (était tautologique) — rejoué live :1411 10/10",
+    "w5": "verify durci + rejoué live 17/17 : CIMD exige label>3 non-numérique ; boutons collapse visent le vrai élément patché (icon-only h-8 sur /settings/admin/apis après expand — l'assertion originale passait à vide sur les boutons de pagination de /users)",
+    "w6": "verdict_propose retiré de results.json (auto-verdict interdit NPM#1)",
+    "w7": "pdf-lib retiré de tools/package.json"
+  }
 }

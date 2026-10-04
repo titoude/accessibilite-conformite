@@ -33,7 +33,14 @@
         "/settings/admin/oidc-clients/3654a746-35d4-4321-ac61-0bdcff2b4055",
         "/settings/admin/application-configuration"
       ],
-      "states": ["menu-compte", "menu-theme", "form-ajout-utilisateur", "form-cle-api", "mode-sombre", "nav-groupe-ouvert"]
+      "states": [
+        "menu-compte",
+        "menu-theme",
+        "form-ajout-utilisateur",
+        "form-cle-api",
+        "mode-sombre",
+        "nav-groupe-ouvert"
+      ]
     },
     {
       "name": "public",
@@ -52,8 +59,12 @@
   ],
   "notes": [
     "/settings redirige vers /settings/account — exclu",
-    "/logout nécessite auth + redirige — exclu du scope public",
+    "/logout nécessite auth et redirige vers /login?redirect=%2Flogout — INCLUS dans le scope public comme scénario à erreur attendue (identique baseline/final)",
     "signup désactivé dans la config seed (page informative auditée quand même)",
     "backend rebuild obligatoire après chaque changement frontend (go:embed)"
+  ],
+  "auditCommands": [
+    "node tools/audit.mjs http://localhost:1411 --urls $(paste -sd, tools/urls-auth.txt) --states all --storage-state tools/auth.json --wait 8000 --out reports/final/auth",
+    "node tools/audit.mjs http://localhost:1411 --urls /device,/login,/login/alternative,/login/alternative/code,/login/alternative/device,/login/alternative/email,/logout,/signup --states none --wait 6000 --out reports/final/public"
   ]
 }
