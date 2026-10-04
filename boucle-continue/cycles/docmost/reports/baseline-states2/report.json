@@ -1,0 +1,289 @@
+{
+  "runId": "b3a31365-4f87-4320-a09d-29960ac51c68",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T19:01:27.467Z",
+  "baseUrl": "http://127.0.0.1:5175",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:5175/home",
+      "requestedUrl": "http://127.0.0.1:5175/home",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en-US\" data-mantine-color-scheme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/home",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5175/home [state:command-palette]",
+      "requestedUrl": "http://127.0.0.1:5175/home",
+      "violations": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<section class=\"m_fd1ab0aa m_54c4453...\" data-modal-content=\"true\" role=\"dialog\" tabindex=\"-1\" aria-modal=\"true\" aria-describedby=\"mantine-5jf22hosp-bo...\" style=\"transition-property:...\">",
+              "target": [
+                "section"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/home",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:5175/docs/general/YE3rIig7Vn [state:dark-mode]",
+      "requestedUrl": "http://127.0.0.1:5175/docs/general/YE3rIig7Vn",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#828282",
+                    "bgColor": "#242424",
+                    "contrastRatio": 4.03,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"_searchButton_8faiy_142\">",
+                      "target": [
+                        "._searchButton_8faiy_142"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"_searchLabel_8faiy_176\">Search</span>",
+              "target": [
+                "._searchLabel_8faiy_176"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#828282",
+                    "bgColor": "#242424",
+                    "contrastRatio": 4.03,
+                    "fontSize": "8.3pt (11px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"_searchButton_8faiy_142\">",
+                      "target": [
+                        "._searchButton_8faiy_142"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"_searchKbd_8faiy_181\" aria-hidden=\"true\">Ctrl K</span>",
+              "target": [
+                "._searchKbd_8faiy_181"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 8.3pt (11px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#828282",
+                    "bgColor": "#242424",
+                    "contrastRatio": 4.03,
+                    "fontSize": "13.5pt (18px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"_root_8faiy_1 public-typography\">",
+                      "target": [
+                        "._root_8faiy_1"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"mantine-focus-auto _description_1ha5n_6 m_b6d8b162 mantine-Text-root\" data-size=\"lg\" style=\"--text-fz: var(--mantine-font-size-lg); --text-lh: var(--mantine-line-height-lg); color: var(--mantine-color-dimmed); text-align: center;\">Sorry, we can't find the page you are looking for.</p>",
+              "target": [
+                "p"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.03 (foreground color: #828282, background color: #242424, font size: 13.5pt (18px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-portal=\"true\" data-mantine-shared-portal-node=\"true\">",
+              "target": [
+                "div[data-portal=\"true\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:5175/docs/general/YE3rIig7Vn",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "6dc3ab3e467393d2094dea7562cc87002ecaaf6fd1ae1d4399a2a2a5190456a0"
+}

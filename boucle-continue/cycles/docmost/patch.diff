@@ -1,0 +1,705 @@
+diff --git a/apps/client/index.html b/apps/client/index.html
+index 28679e40..7c48a429 100644
+--- a/apps/client/index.html
++++ b/apps/client/index.html
+@@ -4,7 +4,7 @@
+     <meta charset="UTF-8" />
+     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+     <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <title>Docmost</title>
+     <meta name="theme-color" content="#1f1f1f" media="(prefers-color-scheme: dark)" />
+     <meta name="theme-color" content="#f6f7f9" media="(prefers-color-scheme: light)" />
+@@ -18,6 +18,7 @@
+   </head>
+   <body>
+     <div id="root"></div>
++    <div id="a11y-popup-layer" role="complementary" aria-label="Popup layer"></div>
+ 
+     <!--window-config-->
+ 
+diff --git a/apps/client/src/App.tsx b/apps/client/src/App.tsx
+index e4238a0a..598af0f5 100644
+--- a/apps/client/src/App.tsx
++++ b/apps/client/src/App.tsx
+@@ -163,6 +163,7 @@ export default function App() {
+           <Route path={"/base/:pageId"} element={<BasePage />} />
+ 
+           <Route path={"/settings"}>
++            <Route index element={<Navigate to="/settings/account/profile" replace />} />
+             <Route path={"account/profile"} element={<AccountSettings />} />
+             <Route
+               path={"account/preferences"}
+diff --git a/apps/client/src/components/common/avatar-uploader.tsx b/apps/client/src/components/common/avatar-uploader.tsx
+index d7ac5f40..624a6721 100644
+--- a/apps/client/src/components/common/avatar-uploader.tsx
++++ b/apps/client/src/components/common/avatar-uploader.tsx
+@@ -1,5 +1,5 @@
+ import React, { useRef } from "react";
+-import { Menu, Box, Loader } from "@mantine/core";
++import { Menu, Box, Loader, UnstyledButton } from "@mantine/core";
+ import { useTranslation } from "react-i18next";
+ import { IconTrash, IconUpload } from "@tabler/icons-react";
+ import { CustomAvatar } from "@/components/ui/custom-avatar.tsx";
+@@ -125,14 +125,15 @@ export default function AvatarUploader({
+ 
+       <Menu shadow="md" width={200} withArrow disabled={disabled || isLoading}>
+         <Menu.Target>
+-          <Box style={{ position: "relative", display: "inline-block" }}>
++          <UnstyledButton
++            aria-label={ariaLabel}
++            style={{ position: "relative", display: "inline-block" }}
++          >
+             <CustomAvatar
+-              component="button"
+               size={size}
+               avatarUrl={currentImageUrl}
+               name={fallbackName}
+-              aria-label={ariaLabel}
+-              aria-haspopup="menu"
++              aria-hidden="true"
+               style={{
+                 cursor: disabled || isLoading ? "default" : "pointer",
+                 opacity: isLoading ? 0.6 : 1,
+@@ -154,7 +155,7 @@ export default function AvatarUploader({
+                 <Loader size="sm" />
+               </Box>
+             )}
+-          </Box>
++          </UnstyledButton>
+         </Menu.Target>
+ 
+         <Menu.Dropdown>
+diff --git a/apps/client/src/components/settings/app-version.tsx b/apps/client/src/components/settings/app-version.tsx
+index 5ba9ce2a..ad88ffa6 100644
+--- a/apps/client/src/components/settings/app-version.tsx
++++ b/apps/client/src/components/settings/app-version.tsx
+@@ -49,6 +49,7 @@ export default function AppVersion() {
+             mr={45}
+             href="https://github.com/docmost/docmost/releases"
+             target="_blank"
++            aria-label={t("Release notes")}
+           >
+             {appVersion?.currentVersion && <>v{appVersion?.currentVersion}</>}
+           </Text>
+diff --git a/apps/client/src/components/ui/custom-avatar.tsx b/apps/client/src/components/ui/custom-avatar.tsx
+index 6ec30781..a3a243ce 100644
+--- a/apps/client/src/components/ui/custom-avatar.tsx
++++ b/apps/client/src/components/ui/custom-avatar.tsx
+@@ -64,7 +64,7 @@ export const CustomAvatar = React.forwardRef<
+     isInitials && variant !== "filled"
+       ? {
+           placeholder: {
+-            color: `var(--mantine-color-${hue}-9)`,
++            color: `light-dark(var(--mantine-color-${hue}-9), var(--mantine-color-${hue}-3))`,
+           },
+         }
+       : undefined;
+diff --git a/apps/client/src/components/ui/error-404.module.css b/apps/client/src/components/ui/error-404.module.css
+index 6f16db0e..77428128 100644
+--- a/apps/client/src/components/ui/error-404.module.css
++++ b/apps/client/src/components/ui/error-404.module.css
+@@ -8,6 +8,10 @@
+   margin: auto;
+   margin-top: var(--mantine-spacing-xl);
+   margin-bottom: calc(1.5 * var(--mantine-spacing-xl));
++  color: light-dark(
++    var(--mantine-color-gray-7),
++    var(--mantine-color-dark-0)
++  ) !important;
+ }
+ 
+ .title {
+diff --git a/apps/client/src/ee/page-verification/components/page-verification-modal.tsx b/apps/client/src/ee/page-verification/components/page-verification-modal.tsx
+index a27d3a29..eeb50db9 100644
+--- a/apps/client/src/ee/page-verification/components/page-verification-modal.tsx
++++ b/apps/client/src/ee/page-verification/components/page-verification-modal.tsx
+@@ -47,7 +47,6 @@ export function PageVerificationModal({
+     <Modal
+       opened={opened}
+       onClose={onClose}
+-      aria-label={status === "none" ? t("Set up verification") : t("Verify page")}
+       title={
+         <Group gap="xs">
+           <IconShieldCheck
+diff --git a/apps/client/src/ee/security/components/allowed-domains.tsx b/apps/client/src/ee/security/components/allowed-domains.tsx
+index 8c22b001..dbb192be 100644
+--- a/apps/client/src/ee/security/components/allowed-domains.tsx
++++ b/apps/client/src/ee/security/components/allowed-domains.tsx
+@@ -65,6 +65,7 @@ export default function AllowedDomains() {
+       <form onSubmit={form.onSubmit(handleSubmit)}>
+         <TagsInput
+           mt="sm"
++          aria-label={t("Allowed email domains")}
+           description={t(
+             "Enter valid domain names separated by comma or space",
+           )}
+diff --git a/apps/client/src/ee/security/components/trash-retention.tsx b/apps/client/src/ee/security/components/trash-retention.tsx
+index 27397029..d35e8898 100644
+--- a/apps/client/src/ee/security/components/trash-retention.tsx
++++ b/apps/client/src/ee/security/components/trash-retention.tsx
+@@ -110,6 +110,7 @@ export default function TrashRetention() {
+       <Tooltip label={upgradeLabel} disabled={hasRetention}>
+         <Group gap="xs" wrap="nowrap" maw={320}>
+           <NumberInput
++            aria-label={t("Retention period")}
+             value={retentionAmount}
+             onChange={(val) => setRetentionAmount(val)}
+             min={1}
+@@ -119,6 +120,7 @@ export default function TrashRetention() {
+             disabled={!hasRetention}
+           />
+           <Select
++            aria-label={t("Retention unit")}
+             data={[
+               { value: "days", label: t("days") },
+               { value: "months", label: t("months") },
+diff --git a/apps/client/src/ee/security/pages/security.tsx b/apps/client/src/ee/security/pages/security.tsx
+index de3a7073..d54445fc 100644
+--- a/apps/client/src/ee/security/pages/security.tsx
++++ b/apps/client/src/ee/security/pages/security.tsx
+@@ -77,7 +77,7 @@ export default function Security() {
+       <TrashRetention />
+       <Divider my="lg" />
+ 
+-      <Title order={4} my="lg">
++      <Title order={2} my="lg">
+         {t("Single sign-on (SSO)")}
+       </Title>
+ 
+@@ -104,7 +104,7 @@ export default function Security() {
+         <>
+           <Divider my="xl" />
+ 
+-          <Title order={4} my="lg">
++          <Title order={2} my="lg">
+             {t("SCIM provisioning")}
+           </Title>
+ 
+@@ -128,7 +128,7 @@ export default function Security() {
+               <Divider my="lg" />
+ 
+               <Group justify="space-between" mb="md">
+-                <Title order={5}>{t("SCIM tokens")}</Title>
++                <Title order={3}>{t("SCIM tokens")}</Title>
+                 <Tooltip
+                   label={t(
+                     "You have reached the maximum of {{max}} SCIM tokens. Delete an existing token to create a new one.",
+diff --git a/apps/client/src/ee/template/components/template-preview-modal.tsx b/apps/client/src/ee/template/components/template-preview-modal.tsx
+index 02df9124..68a1e4ac 100644
+--- a/apps/client/src/ee/template/components/template-preview-modal.tsx
++++ b/apps/client/src/ee/template/components/template-preview-modal.tsx
+@@ -26,7 +26,7 @@ export default function TemplatePreviewModal({
+   const title = template?.title || t("Untitled");
+ 
+   return (
+-    <Modal.Root size={1200} opened={opened} onClose={onClose} aria-label={title}>
++    <Modal.Root size={1200} opened={opened} onClose={onClose}>
+       <Modal.Overlay />
+       <Modal.Content style={{ overflow: "hidden" }}>
+         <Modal.Header>
+@@ -44,7 +44,7 @@ export default function TemplatePreviewModal({
+               onClick={onUse}
+               loading={useLoading}
+               disabled={useLoading}
+-            >
++      >
+               {t("Use template")}
+             </Button>
+             {onEdit && (
+diff --git a/apps/client/src/ee/template/pages/template-list.tsx b/apps/client/src/ee/template/pages/template-list.tsx
+index 7fc74030..88428053 100644
+--- a/apps/client/src/ee/template/pages/template-list.tsx
++++ b/apps/client/src/ee/template/pages/template-list.tsx
+@@ -105,7 +105,7 @@ export default function TemplateList() {
+ 
+       <Container size="900" pt="xl">
+         <Group justify="space-between" mb="xl">
+-          <Title order={3}>{t("Templates")}</Title>
++          <Title order={1} size="h3">{t("Templates")}</Title>
+           {canCreateTemplate && (
+             <Button
+               leftSection={<IconPlus size={16} />}
+diff --git a/apps/client/src/features/auth/components/auth-layout.tsx b/apps/client/src/features/auth/components/auth-layout.tsx
+index e893c5a7..88dc6355 100644
+--- a/apps/client/src/features/auth/components/auth-layout.tsx
++++ b/apps/client/src/features/auth/components/auth-layout.tsx
+@@ -9,18 +9,20 @@ type AuthLayoutProps = {
+ export function AuthLayout({ children }: AuthLayoutProps) {
+   return (
+     <>
+-      <Group justify="center" gap={8} className={classes.logo}>
+-        <img
+-          src="/icons/favicon-32x32.png"
+-          alt="Docmost"
+-          width={22}
+-          height={22}
+-        />
+-        <Text size="28px" fw={700} style={{ userSelect: "none" }}>
+-          Docmost
+-        </Text>
+-      </Group>
+-      <main>{children}</main>
++      <main>
++        <Group justify="center" gap={8} className={classes.logo}>
++          <img
++            src="/icons/favicon-32x32.png"
++            alt="Docmost"
++            width={22}
++            height={22}
++          />
++          <Text size="28px" fw={700} style={{ userSelect: "none" }}>
++            Docmost
++          </Text>
++        </Group>
++        {children}
++      </main>
+     </>
+   );
+ }
+diff --git a/apps/client/src/features/auth/components/forgot-password-form.tsx b/apps/client/src/features/auth/components/forgot-password-form.tsx
+index cdb249c9..fc7c5e7e 100644
+--- a/apps/client/src/features/auth/components/forgot-password-form.tsx
++++ b/apps/client/src/features/auth/components/forgot-password-form.tsx
+@@ -39,7 +39,7 @@ export function ForgotPasswordForm() {
+     <AuthLayout>
+     <Container size={420} className={classes.container}>
+       <Box p="xl" className={classes.containerBox}>
+-        <Title order={2} ta="center" fw={500} mb="md">
++        <Title order={1} size="h2" ta="center" fw={500} mb="md">
+           {t("Forgot password")}
+         </Title>
+ 
+diff --git a/apps/client/src/features/editor/components/drawio/drawio-view.tsx b/apps/client/src/features/editor/components/drawio/drawio-view.tsx
+index 534f42fe..f3628b27 100644
+--- a/apps/client/src/features/editor/components/drawio/drawio-view.tsx
++++ b/apps/client/src/features/editor/components/drawio/drawio-view.tsx
+@@ -141,9 +141,7 @@ export default function DrawioView(props: NodeViewProps) {
+         opened={opened}
+         onClose={handleClose}
+         fullScreen
+-        closeOnEscape={false}
+-        aria-label={t("Diagram editor")}
+-      >
++        closeOnEscape={false}>
+         <Modal.Overlay />
+         <Modal.Content style={{ overflow: "hidden" }}>
+           <Modal.Body pos="relative">
+@@ -202,7 +200,7 @@ export default function DrawioView(props: NodeViewProps) {
+             variant="transparent"
+             color="gray"
+             aria-label={t("Edit diagram")}
+-          >
++      >
+             <IconEdit size={18} />
+           </ActionIcon>
+ 
+diff --git a/apps/client/src/features/editor/page-editor.tsx b/apps/client/src/features/editor/page-editor.tsx
+index 8e6e1036..749efcd6 100644
+--- a/apps/client/src/features/editor/page-editor.tsx
++++ b/apps/client/src/features/editor/page-editor.tsx
+@@ -276,6 +276,8 @@ function CollabPageEditor({
+         scrollMargin: 80,
+         attributes: {
+           "aria-label": t("Page content"),
++          role: "textbox",
++          "aria-multiline": "true",
+         },
+         handleDOMEvents: {
+           keydown: (_view, event) => {
+@@ -534,6 +536,8 @@ function StaticPageEditor({
+       editorProps={{
+         attributes: {
+           "aria-label": ariaLabel,
++          role: "textbox",
++          "aria-multiline": "true",
+         },
+       }}
+     />
+diff --git a/apps/client/src/features/editor/title-editor.tsx b/apps/client/src/features/editor/title-editor.tsx
+index 26925b15..1c45c416 100644
+--- a/apps/client/src/features/editor/title-editor.tsx
++++ b/apps/client/src/features/editor/title-editor.tsx
+@@ -92,6 +92,7 @@ export function TitleEditor({
+     editorProps: {
+       attributes: {
+         "aria-label": t("Page title"),
++        role: "textbox",
+       },
+       handleDOMEvents: {
+         keydown: (_view, event) => {
+diff --git a/apps/client/src/features/notification/components/notification-popover.tsx b/apps/client/src/features/notification/components/notification-popover.tsx
+index 5a5068de..b1a55923 100644
+--- a/apps/client/src/features/notification/components/notification-popover.tsx
++++ b/apps/client/src/features/notification/components/notification-popover.tsx
+@@ -174,22 +174,45 @@ export function NotificationPopover() {
+             <Tabs.Tab value="direct">{t("Direct")}</Tabs.Tab>
+             <Tabs.Tab value="updates">{t("Updates")}</Tabs.Tab>
+           </Tabs.List>
+-        </Tabs>
+ 
+-        <ScrollArea.Autosize
+-          mah={500}
+-          type="auto"
+-          offsetScrollbars
+-          scrollbarSize={6}
+-          style={{ overscrollBehavior: "contain" }}
+-        >
+-          <NotificationList
+-            tab={tab}
+-            filter={filter}
+-            onNavigate={() => setOpened(false)}
+-          />
+-        </ScrollArea.Autosize>
++          <Tabs.Panel value="direct">
++            <TabPanelContent
++              tab="direct"
++              filter={filter}
++              onNavigate={() => setOpened(false)}
++            />
++          </Tabs.Panel>
++          <Tabs.Panel value="updates">
++            <TabPanelContent
++              tab="updates"
++              filter={filter}
++              onNavigate={() => setOpened(false)}
++            />
++          </Tabs.Panel>
++        </Tabs>
+       </Popover.Dropdown>
+     </Popover>
+   );
+ }
++
++function TabPanelContent({
++  tab,
++  filter,
++  onNavigate,
++}: {
++  tab: NotificationTab;
++  filter: NotificationFilter;
++  onNavigate: () => void;
++}) {
++  return (
++    <ScrollArea.Autosize
++      mah={500}
++      type="auto"
++      offsetScrollbars
++      scrollbarSize={6}
++      style={{ overscrollBehavior: "contain" }}
++    >
++      <NotificationList tab={tab} filter={filter} onNavigate={onNavigate} />
++    </ScrollArea.Autosize>
++  );
++}
+diff --git a/apps/client/src/features/page-history/components/history-modal.tsx b/apps/client/src/features/page-history/components/history-modal.tsx
+index 05768638..9f5133d8 100644
+--- a/apps/client/src/features/page-history/components/history-modal.tsx
++++ b/apps/client/src/features/page-history/components/history-modal.tsx
+@@ -21,9 +21,7 @@ export default function HistoryModal({ pageId, pageTitle }: Props) {
+       <Modal.Root
+         opened={isModalOpen}
+         onClose={() => setModalOpen(false)}
+-        fullScreen
+-        aria-label={t("Page history")}
+-      >
++        fullScreen>
+         <Modal.Overlay />
+         <Modal.Content style={{ overflow: "hidden" }}>
+           <Modal.Header>
+@@ -49,9 +47,7 @@ export default function HistoryModal({ pageId, pageTitle }: Props) {
+     <Modal.Root
+       size={1400}
+       opened={isModalOpen}
+-      onClose={() => setModalOpen(false)}
+-      aria-label={t("Page history")}
+-    >
++      onClose={() => setModalOpen(false)}>
+       <Modal.Overlay />
+       <Modal.Content style={{ overflow: "hidden" }}>
+         <Modal.Header>
+diff --git a/apps/client/src/features/page/trash/components/trash-page-content-modal.tsx b/apps/client/src/features/page/trash/components/trash-page-content-modal.tsx
+index 6d1a2b4e..0fc22caf 100644
+--- a/apps/client/src/features/page/trash/components/trash-page-content-modal.tsx
++++ b/apps/client/src/features/page/trash/components/trash-page-content-modal.tsx
+@@ -23,7 +23,7 @@ export default function TrashPageContentModal({
+   const title = pageTitle || t("Untitled");
+ 
+   return (
+-    <Modal.Root size={1200} opened={opened} onClose={onClose} aria-label={t("Preview")}>
++    <Modal.Root size={1200} opened={opened} onClose={onClose}>
+       <Modal.Overlay />
+       <Modal.Content style={{ overflow: "hidden" }}>
+         <Modal.Header>
+diff --git a/apps/client/src/features/page/trash/components/trash.tsx b/apps/client/src/features/page/trash/components/trash.tsx
+index 6863e892..d4454a3f 100644
+--- a/apps/client/src/features/page/trash/components/trash.tsx
++++ b/apps/client/src/features/page/trash/components/trash.tsx
+@@ -92,7 +92,7 @@ export default function Trash() {
+     <Container size="lg" py="lg">
+       <Stack gap="md">
+         <Group justify="space-between" mb="md">
+-          <Title order={2}>{t("Trash")}</Title>
++          <Title order={1} size="h2">{t("Trash")}</Title>
+         </Group>
+ 
+         <TrashBanner />
+diff --git a/apps/client/src/features/public-space/components/docs/docs.module.css b/apps/client/src/features/public-space/components/docs/docs.module.css
+index d9582464..8f4f695a 100644
+--- a/apps/client/src/features/public-space/components/docs/docs.module.css
++++ b/apps/client/src/features/public-space/components/docs/docs.module.css
+@@ -21,7 +21,7 @@
+   --docs-nav-fg: oklch(47% 0 0);
+   --docs-muted: var(--mantine-color-dimmed);
+   --docs-hover: var(--mantine-color-default-hover);
+-  --docs-faint: var(--mantine-color-gray-6);
++  --docs-faint: var(--mantine-color-gray-7);
+   --docs-border: var(--mantine-color-gray-2);
+   --docs-header-bg: color-mix(in srgb, var(--docs-bg) 78%, transparent);
+ }
+@@ -30,7 +30,8 @@
+   --docs-bg: var(--mantine-color-body);
+   --docs-fg: oklch(90% 0 0);
+   --docs-nav-fg: oklch(72% 0 0);
+-  --docs-faint: var(--mantine-color-dark-2);
++  --docs-muted: var(--mantine-color-dark-0);
++  --docs-faint: var(--mantine-color-dark-0);
+   --docs-border: var(--mantine-color-dark-5);
+ }
+ 
+diff --git a/apps/client/src/features/search/components/search-spotlight.tsx b/apps/client/src/features/search/components/search-spotlight.tsx
+index 4e797765..e1fd3336 100644
+--- a/apps/client/src/features/search/components/search-spotlight.tsx
++++ b/apps/client/src/features/search/components/search-spotlight.tsx
+@@ -150,6 +150,7 @@ export function SearchSpotlight({ spaceId }: SearchSpotlightProps) {
+   return (
+     <>
+       <Spotlight.Root
++        title={t("Search")}
+         size="xl"
+         maxHeight={600}
+         onSpotlightOpen={handleSpotlightOpen}
+diff --git a/apps/client/src/features/space/components/space-members.tsx b/apps/client/src/features/space/components/space-members.tsx
+index cf431d04..c6e578b1 100644
+--- a/apps/client/src/features/space/components/space-members.tsx
++++ b/apps/client/src/features/space/components/space-members.tsx
+@@ -7,6 +7,7 @@ import {
+   Menu,
+   ActionIcon,
+   ScrollArea,
++  VisuallyHidden,
+ } from "@mantine/core";
+ import React, { useCallback, useEffect, useRef, useState } from "react";
+ import { IconDots } from "@tabler/icons-react";
+@@ -143,7 +144,7 @@ export default function SpaceMembersList({
+               <Table.Tr>
+                 <Table.Th>{t("Member")}</Table.Th>
+                 <Table.Th>{t("Role")}</Table.Th>
+-                <Table.Th aria-label={t("Action")} />
++                <Table.Th><VisuallyHidden>{t("Action")}</VisuallyHidden></Table.Th>
+               </Table.Tr>
+             </Table.Thead>
+ 
+diff --git a/apps/client/src/features/user/components/notification-pref.tsx b/apps/client/src/features/user/components/notification-pref.tsx
+index cce519f9..78a642c9 100644
+--- a/apps/client/src/features/user/components/notification-pref.tsx
++++ b/apps/client/src/features/user/components/notification-pref.tsx
+@@ -65,6 +65,7 @@ function NotificationToggle({
+ }) {
+   const { t } = useTranslation();
+   const switchId = useId();
++  const labelId = useId();
+   const descriptionId = useId();
+   const [user, setUser] = useAtom(userAtom);
+   const [checked, setChecked] = useState(
+@@ -85,7 +86,7 @@ function NotificationToggle({
+   return (
+     <ResponsiveSettingsRow>
+       <ResponsiveSettingsContent>
+-        <Text component="label" htmlFor={switchId} size="md" style={{ cursor: "pointer" }}>
++        <Text id={labelId} size="md">
+           {t(label)}
+         </Text>
+         <Text id={descriptionId} size="sm" c="dimmed">
+@@ -98,6 +99,7 @@ function NotificationToggle({
+           id={switchId}
+           checked={checked}
+           onChange={handleChange}
++          aria-labelledby={labelId}
+           aria-describedby={descriptionId}
+         />
+       </ResponsiveSettingsControl>
+diff --git a/apps/client/src/features/workspace/components/members/components/workspace-invites-table.tsx b/apps/client/src/features/workspace/components/members/components/workspace-invites-table.tsx
+index 54159c98..bd85ac44 100644
+--- a/apps/client/src/features/workspace/components/members/components/workspace-invites-table.tsx
++++ b/apps/client/src/features/workspace/components/members/components/workspace-invites-table.tsx
+@@ -1,4 +1,4 @@
+-import { Group, Table, Avatar, Text, Alert } from "@mantine/core";
++import { Group, Table, Avatar, Text, Alert, VisuallyHidden} from "@mantine/core";
+ import { useWorkspaceInvitationsQuery } from "@/features/workspace/queries/workspace-query.ts";
+ import React from "react";
+ import { getUserRoleLabel } from "@/features/workspace/types/user-role-data.ts";
+@@ -34,7 +34,7 @@ export default function WorkspaceInvitesTable() {
+               <Table.Th>{t("Email")}</Table.Th>
+               <Table.Th>{t("Role")}</Table.Th>
+               <Table.Th>{t("Date")}</Table.Th>
+-              <Table.Th aria-label={t("Action")} />
++              <Table.Th><VisuallyHidden>{t("Action")}</VisuallyHidden></Table.Th>
+             </Table.Tr>
+           </Table.Thead>
+ 
+diff --git a/apps/client/src/features/workspace/components/members/components/workspace-members-table.tsx b/apps/client/src/features/workspace/components/members/components/workspace-members-table.tsx
+index 6423ebdd..9c0c29e4 100644
+--- a/apps/client/src/features/workspace/components/members/components/workspace-members-table.tsx
++++ b/apps/client/src/features/workspace/components/members/components/workspace-members-table.tsx
+@@ -1,4 +1,4 @@
+-import { Group, Table, Text, Badge } from "@mantine/core";
++import { Group, Table, Text, Badge, VisuallyHidden} from "@mantine/core";
+ import {
+   useChangeMemberRoleMutation,
+   useWorkspaceMembersQuery,
+@@ -61,7 +61,7 @@ export default function WorkspaceMembersTable() {
+               <Table.Th>{t("User")}</Table.Th>
+               <Table.Th>{t("Status")}</Table.Th>
+               <Table.Th>{t("Role")}</Table.Th>
+-              <Table.Th aria-label={t("Action")} />
++              <Table.Th><VisuallyHidden>{t("Action")}</VisuallyHidden></Table.Th>
+             </Table.Tr>
+           </Table.Thead>
+ 
+diff --git a/apps/client/src/main.tsx b/apps/client/src/main.tsx
+index 5dbf6b81..31fbe7d8 100644
+--- a/apps/client/src/main.tsx
++++ b/apps/client/src/main.tsx
+@@ -51,7 +51,12 @@ root.render(
+     <MantineProvider theme={theme} cssVariablesResolver={mantineCssResolver}>
+       <ModalsProvider>
+         <QueryClientProvider client={queryClient}>
+-          <Notifications position="bottom-center" limit={3} zIndex={10000} />
++          <Notifications
++            position="bottom-center"
++            limit={3}
++            zIndex={10000}
++            portalProps={{ target: "#a11y-popup-layer" }}
++          />
+           <HelmetProvider>
+             <PostHogProvider client={posthog}>
+               <App />
+diff --git a/apps/client/src/pages/dashboard/home.tsx b/apps/client/src/pages/dashboard/home.tsx
+index 20d127be..0fb5bcc8 100644
+--- a/apps/client/src/pages/dashboard/home.tsx
++++ b/apps/client/src/pages/dashboard/home.tsx
+@@ -1,4 +1,4 @@
+-import { Container, Space } from "@mantine/core";
++import { Container, Space, VisuallyHidden } from "@mantine/core";
+ import HomeTabs from "@/features/home/components/home-tabs";
+ import HomeAiPrompt from "@/features/home/components/home-ai-prompt";
+ import SpaceCarousel from "@/features/space/components/space-carousel.tsx";
+@@ -12,6 +12,7 @@ export default function Home() {
+     <>
+       <DocumentTitle title={t("Home")} />
+       <Container size={"900"} pt="xl">
++        <VisuallyHidden component="h1">{t("Home")}</VisuallyHidden>
+         <HomeAiPrompt />
+ 
+         <Space h="xl" />
+diff --git a/apps/client/src/pages/space/space-home.tsx b/apps/client/src/pages/space/space-home.tsx
+index 8b349edd..af014f61 100644
+--- a/apps/client/src/pages/space/space-home.tsx
++++ b/apps/client/src/pages/space/space-home.tsx
+@@ -1,4 +1,4 @@
+-import {Container} from "@mantine/core";
++import {Container, VisuallyHidden} from "@mantine/core";
+ import SpaceHomeTabs from "@/features/space/components/space-home-tabs.tsx";
+ import SpacePublicNotice from "@/features/public-space/components/space-public-notice.tsx";
+ import {useParams} from "react-router-dom";
+@@ -13,7 +13,8 @@ export default function SpaceHome() {
+         <>
+             <DocumentTitle title={space?.name || 'Overview'} />
+             <Container size={"900"} pt="xl">
+-                {space && <SpacePublicNotice space={space} />}
++                {space && <VisuallyHidden component="h1">{space.name}</VisuallyHidden>}
++            {space && <SpacePublicNotice space={space} />}
+                 {space && <SpaceHomeTabs/>}
+             </Container>
+         </>
+diff --git a/apps/client/src/styles/a11y-overrides.css b/apps/client/src/styles/a11y-overrides.css
+index 5114b586..a53413a6 100644
+--- a/apps/client/src/styles/a11y-overrides.css
++++ b/apps/client/src/styles/a11y-overrides.css
+@@ -71,3 +71,13 @@
+ #main-content:focus-visible {
+   outline: none;
+ }
++
++/* Mantine's dark-scheme dimmed text (dark.3, #a3a3a3→~#828282 effective on
++ * dark surfaces) measures ~3.5-4.0:1 on the app's #2e2e2e backgrounds — below
++ * WCAG AA 4.5:1 for regular text (WCAG 1.4.3). One global bump to dark.1
++ * keeps the subdued look while restoring contrast everywhere c="dimmed" is
++ * used (comment placeholders, table captions, secondary text).
++ */
++:root[data-mantine-color-scheme="dark"] {
++  --mantine-color-dimmed: var(--mantine-color-dark-1);
++}
+diff --git a/apps/client/src/theme.ts b/apps/client/src/theme.ts
+index 61ec8fbd..f5536cf4 100644
+--- a/apps/client/src/theme.ts
++++ b/apps/client/src/theme.ts
+@@ -1,6 +1,13 @@
+ import {
+   Badge,
+   createTheme,
++  Drawer,
++  DrawerRoot,
++  Menu,
++  Modal,
++  ModalRoot,
++  Popover,
++  Portal,
+   CSSVariablesResolver,
+   MantineColorsTuple,
+   Tabs,
+@@ -55,6 +62,42 @@ export const theme = createTheme({
+             : { width: "max-content", maxWidth: "100%" },
+       }),
+     }),
++    Menu: Menu.extend({
++      defaultProps: {
++        withInitialFocusPlaceholder: false,
++        portalProps: { target: "#a11y-popup-layer" },
++      },
++    }),
++    Modal: Modal.extend({
++      defaultProps: {
++        portalProps: { target: "#a11y-popup-layer" },
++      },
++    }),
++    ModalRoot: ModalRoot.extend({
++      defaultProps: {
++        portalProps: { target: "#a11y-popup-layer" },
++      },
++    }),
++    Drawer: Drawer.extend({
++      defaultProps: {
++        portalProps: { target: "#a11y-popup-layer" },
++      },
++    }),
++    DrawerRoot: DrawerRoot.extend({
++      defaultProps: {
++        portalProps: { target: "#a11y-popup-layer" },
++      },
++    }),
++    Popover: Popover.extend({
++      defaultProps: {
++        portalProps: { target: "#a11y-popup-layer" },
++      },
++    }),
++    Portal: Portal.extend({
++      defaultProps: {
++        target: "#a11y-popup-layer",
++      },
++    }),
+     Tabs: Tabs.extend({
+       vars: (theme, props) => ({
+         root: {

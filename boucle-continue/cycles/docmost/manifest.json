@@ -1,0 +1,78 @@
+{
+ "cycle": 16,
+ "target": {
+  "repo": "docmost/docmost",
+  "commit": "2e0538c7",
+  "note": "clone local existant /home/ubuntu/boucle-runs/docmost/target"
+ },
+ "stack": "NestJS (monorepo pnpm) + client React 19/Vite 7 + Mantine 8 + tiptap, PostgreSQL :5435, Redis :6382 — tous les deux déjà en service local",
+ "boot": {
+  "command": "MAIL_DRIVER=log PORT=3010 pnpm dev (racine du repo) → API nest :3010 + vite client :5175",
+  "notes": [
+   "env : .env racine existant (postgres :5435, redis :6382, APP_URL http://localhost:3010) — MAIL_DRIVER accepte uniquement smtp|postmark ; laissé non défini (emails non testés)",
+   "storage-state auth.json généré par tools/login.mjs (admin@test.local / adminpass123)",
+   "base auditée : vite :5175 (client SPA) — l'API :3010 n'est pas une surface axe",
+   "--wait 3500 : les pages EE settings se chargent en lazy chunk ; un wait court scannait le shell avant montage (faux findings h1/landmark — mesuré et documenté)"
+  ]
+ },
+ "seed": {
+  "workspace": "workspace Docmost déjà provisionné, compte admin@test.local (adminpass123), rôle Owner",
+  "space": "espace slug 'general' (spaceId 01a10844-49e8-7ad9-b035-50a386227c00)",
+  "page": "/s/general/p/test-page-a11y-YE3rIig7Vn créée pour l'éditeur ; /docs/general/YE3rIig7Vn = vue publique shell"
+ },
+ "urls": [
+  "/home",
+  "/s/general",
+  "/s/general/trash",
+  "/s/general/p/test-page-a11y-YE3rIig7Vn",
+  "/settings/account/profile",
+  "/settings/account/preferences",
+  "/settings/members",
+  "/settings/security",
+  "/settings/workspace",
+  "/settings/groups",
+  "/settings/sharing",
+  "/templates"
+ ],
+ "urlsPublic": [
+  "/login",
+  "/forgot-password",
+  "/docs/general/YE3rIig7Vn",
+  "/p/docmost"
+ ],
+ "states": [
+  "user-menu",
+  "notifications",
+  "command-palette",
+  "dark-mode"
+ ],
+ "substitutions": [
+  {
+   "route": "/",
+   "remplaceePar": "/home",
+   "motif": "/ redirige vers /home — le contrôle de navigation du runner exige l'URL réelle"
+  },
+  {
+   "route": "/settings/workspace/general",
+   "remplaceePar": "/settings/workspace",
+   "motif": "route inexistante (Error404 intermittent — h1/lazy) ; route réelle /settings/workspace"
+  },
+  {
+   "route": "/settings/shares",
+   "remplaceePar": "/settings/sharing",
+   "motif": "route inexistante ; route réelle /settings/sharing"
+  },
+  {
+   "route": "/p/docmost",
+   "remplaceePar": "erreur enregistrée, conservée",
+   "motif": "redirection /login?redirect=%2Fp%2Fdocmost — page privée sans share : comportement correct, scope.json la garde en statut error"
+  }
+ ],
+ "auditCommands": [
+  "node audit.mjs http://127.0.0.1:5175 --urls '/home,/s/general,/settings/account/profile,/settings/account/preferences,/settings/members,/s/general/trash,/templates,/s/general/p/test-page-a11y-YE3rIig7Vn,/settings/security,/settings/workspace,/settings/groups,/settings/sharing' --states all --storage-state auth.json --wait 3500 --out reports/final",
+  "node audit.mjs http://127.0.0.1:5175 --urls '/login,/forgot-password,/docs/general/YE3rIig7Vn,/p/docmost' --states none --wait 3500 --out reports/final-public",
+  "node verify.mjs http://127.0.0.1:5175",
+  "node eval-final.mjs http://127.0.0.1:5175"
+ ],
+ "auditTiers": null
+}
