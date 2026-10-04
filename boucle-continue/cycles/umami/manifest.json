@@ -1,0 +1,90 @@
+{
+ "cycle": 17,
+ "target": {
+  "repo": "umami/umami",
+  "commit": "ec0ff50388c264ed8ce46f00967e92f7e71476ae",
+  "note": "clone local /home/ubuntu/repos/umami, branche de travail devin/a11y-cycle-17"
+ },
+ "stack": "Next.js 16.3.4 (App Router, React 19) + @umami/react-zen 0.254.0 (package npm externe, patché via pnpm patchedDependencies) + Base UI @base-ui/react 1.8.0 + Prisma 7 + PostgreSQL 15 (docker umami-pg :5432) + next-intl. pnpm 12.3.4 via corepack, Node 24.19.0 (~/.nvm).",
+ "boot": {
+  "commands": [
+   "docker run -d --name umami-pg -p 5432:5432 -e POSTGRES_USER=umami -e POSTGRES_PASSWORD=umami -e POSTGRES_DB=umami postgres:15-alpine",
+   "cd umami && printf 'DATABASE_URL=postgresql://umami:umami@localhost:5432/umami\\nAPP_SECRET=<64 hex aléatoire>\\nDATABASE_TYPE=postgresql\\n' > .env",
+   "corepack enable && corepack pnpm install --frozen-lockfile",
+   "corepack pnpm db:migrate",
+   "corepack pnpm db:seed          # script du repo : crée 'Demo Blog' + 'Demo SaaS' + ~30 jours de sessions/events",
+   "corepack pnpm build",
+   "(PORT=3000 setsid nohup corepack pnpm start > /tmp/umami-server.log 2>&1 < /dev/null &)"
+  ],
+  "notes": [
+   "admin/umami créé par défaut au premier boot (compte seed intégré à umami).",
+   "storage-state auth.json généré par tools/login.mjs (node login.mjs http://localhost:3000 admin umami auth.json).",
+   "patch pnpm : le diff inclut patches/@umami__react-zen@0.254.0.patch + l'entrée patchedDependencies de pnpm-workspace.yaml + le hash pnpm-lock.yaml — `pnpm install --frozen-lockfile` rejoue le patch mécaniquement sur node_modules.",
+   "harnais : audit.mjs / verify.mjs / eval-final.mjs exécutés depuis ~/umami-audit/tools (node_modules dédié axe-core + playwright, npm install). PAS dans le repo produit — le harnais ne modifie jamais le produit.",
+   "--wait 3500 : certaines pages (realtime, funnel, retention) montent leurs graphiques en lazy ; un wait plus court scannait le shell avant montage (faux findings landmarks/h1 — mesuré et documenté)."
+  ]
+ },
+ "seed": {
+  "compte": "admin / umami (seed umami par défaut, rôle admin)",
+  "websites": "pnpm db:seed (scripts/seed-data.ts du repo) → 'Demo Blog' (blog.example.com, id généré a59bd9be-c9ec-4715-b38f-0308bb00db13) et 'Demo SaaS' (app.example.com, id généré d4bdaf1e-bca5-465f-848d-f33a9045daf3) ; 7798 sessions / 22512 events, 26 url_path distincts, période 2026-09-20 → 2026-10-04",
+  "share": "POST /api/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/shares {name:'a11y share', slug:'a11yumamishare'} → page publique /share/a11yumamishare (share_id 6c2d7451-6b85-4252-9262-00e4efb5e957)",
+  "link": "POST /api/links {name:'Campaign link', url:'https://example.com/campaign'} → link_id ec520c8a-0a22-4b18-9cde-5feb562e4563",
+  "pixel": "POST /api/pixels {name:'Demo pixel', slug:'a11ypixel'} → pixel_id afa6189b-6717-41d9-b6ca-cb0c6838ec1b",
+  "board": "POST /api/boards {name:'Demo board'} → board_id f08a66bc-226d-484b-8446-71ac26a22375",
+  "team": "aucune team créée (pages /teams + /admin/teams auditées sur leur état vide réel)"
+ },
+ "urls": [
+  "/dashboard",
+  "/dashboard/edit",
+  "/websites",
+  "/boards",
+  "/boards/f08a66bc-226d-484b-8446-71ac26a22375",
+  "/links",
+  "/links/ec520c8a-0a22-4b18-9cde-5feb562e4563",
+  "/pixels",
+  "/pixels/afa6189b-6717-41d9-b6ca-cb0c6838ec1b",
+  "/teams",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/realtime",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/sessions",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/events",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/breakdown",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/funnels",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/retention",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/utm",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/revenue",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/segments",
+  "/websites/d4bdaf1e-bca5-465f-848d-f33a9045daf3/settings",
+  "/settings/profile",
+  "/settings/preferences",
+  "/settings/security",
+  "/settings/teams",
+  "/settings/websites",
+  "/settings/api-keys",
+  "/admin/users",
+  "/admin/teams",
+  "/admin/websites",
+  "/admin/security",
+  "/console/d4bdaf1e-bca5-465f-848d-f33a9045daf3"
+ ],
+ "urlsPublic": [
+  "/login",
+  "/share/a11yumamishare"
+ ],
+ "states": [
+  "user-menu",
+  "mobile-nav",
+  "add-website",
+  "date-range",
+  "dark-mode",
+  "website-select"
+ ],
+ "substitutions": [],
+ "auditCommands": [
+  "cd ~/umami-audit/tools && node audit.mjs --urls $(cat urls.txt) --storage-state auth.json --states all --wait 3500 --out ../reports/final",
+  "cd ~/umami-audit/tools && node audit.mjs --urls http://localhost:3000/login,http://localhost:3000/share/a11yumamishare --states none --out ../reports/final-public",
+  "cd ~/umami-audit/tools && node verify.mjs",
+  "cd ~/umami-audit/tools && node eval-final.mjs"
+ ],
+ "auditTiers": "en attente"
+}

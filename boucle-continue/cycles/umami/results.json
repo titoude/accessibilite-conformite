@@ -1,0 +1,89 @@
+{
+ "baseline": {
+  "occurrences": 1774,
+  "regles": 17,
+  "detail": "périmètre authentifié : 1387 occ / 17 règles (38 scénarios : 32 urls + 6 états) ; périmètre public : 387 occ / 7 règles (2 pages : /login + /share/a11yumamishare)",
+  "pages": 40,
+  "dontErreur": 0,
+  "top": {
+   "region": 484,
+   "aria-command-name": 336,
+   "target-size": 169,
+   "button-name": 129,
+   "image-redundant-alt": 104,
+   "color-contrast": 44,
+   "image-alt": 38,
+   "landmark-one-main": 33,
+   "page-has-heading-one": 33,
+   "empty-table-header": 7,
+   "link-name": 4,
+   "aria-required-children": 1,
+   "scrollable-region-focusable": 1,
+   "label": 1,
+   "aria-toggle-field-name": 1,
+   "aria-dialog-name": 1,
+   "landmark-unique": 1
+  }
+ },
+ "final": {
+  "occurrences": 0,
+  "regles": 0,
+  "scans": 40,
+  "pages": 34,
+  "etats": 6,
+  "exit": 0,
+  "incomplets": 59,
+  "dontErreur": 0,
+  "scopeHash": "723c223bc12db842df8d74727191e831e46b40396fc3d2d6fe712d506fd60f9f",
+  "scopeHashPublic": "b7db2d55b9f084187834c192175b7104c7177aa526986a3ac7aaac70944b8a81",
+  "statesHash": "ab58a769e215651361df835976f0ed1d8c91efb624cb1d6df5c81d944652f637",
+  "note": "scopeHash identique baseline/final sur les deux périmètres — le périmètre figé n'a pas bougé"
+ },
+ "verify": "27/27 assertions PASS (0 échec)",
+ "evalFinal": "15/15 PASS — 2 défauts réels découverts en évaluation finale et corrigés (label aria sur champ share-url en lecture seule du dialog ShareEditForm ; landmarks imbriqués du not-found de /console → not-found de groupe sans wrapper main)",
+ "rounds": 3,
+ "corrections": [
+  "Couche popup : <div id=a11y-popup-layer role=complementary aria-label='Popup layer'> ajouté dans <body> de src/app/layout.tsx + patch pnpm @umami/react-zen@0.254.0 (helper zenPopupContainer + prop container sur les 15 X.Portal des dist/index.{js,mjs} ; patch rejoué par pnpm install --frozen-lockfile via patchedDependencies) — les 484 violations region + les menus/popovers hors landmarks viennent de là",
+  "Landmarks : App.tsx (Column role=main id=main-content), SideNav role=navigation + aria-label navigation principale, ShareNav (role=navigation sur la barre, suppression du banner imbriqué), headers role=banner, not-found racine as=main + nouveau (main)/not-found.tsx sans wrapper (le layout groupe fournit déjà role=main)",
+  "Titres : h1 ajoutés/VisuallyHidden sur dashboard, websites, boards, links, pixels, teams, settings/*, admin/*, pages site (detail/realtime/sessions/events/breakdown/funnels/retention/utm/revenue/segments/settings), /console → notFound() au lieu de page vide",
+  "Noms de boutons : aria-label i18n (labels.* en-US) sur boutons icônes Partout — navs, tables admin/teams/websites, métriques, filtres, date-range picker (unit/month/year/selectDate), preferences (language/timezone), board (select/edit component), refresh/details/more/menu/profile",
+  "Noms de commandes/liens : menu items, WebsiteMenu, action selects, liens vides (logo, external), tracking code field, share-url read-only fields (ShareEditForm + SimpleShareEditForm)",
+  "Images : alt décoratif vide ou descriptif (avatars, logos, favicons site, heatmap placeholders) — image-alt + image-redundant-alt",
+  "Contrastes : classes couleur corrigées dans les sources (text-muted→contraste suffisant, badges, liens dimmed, placeholder, icônes) — jamais de style test-only",
+  "Tableaux : <th> vides → contenu VisuallyHidden (empty-table-header ×7)",
+  "Target-size : hit areas élargies (icônes nav, boutons quiet, liens inline, checkboxes/radios) — min 24px",
+  "Divers : aria-required-children (listitem role ajouté), scrollable-region-focusable (tabIndex=0 sur région scrollable), label/aria-toggle-field-name (champs nommés), aria-dialog-name (dialogs nommés via label visible), landmark-unique (nav doublée distinguée)",
+  "Console : /console/[websiteId] sans feature activée → notFound() au lieu d'une page blanche"
+ ],
+ "decisionsIncomplets": [
+  {
+   "regle": "aria-hidden-focus",
+   "occurrences": 22,
+   "decision": "N-A / faux positif — sentinels FocusGuard injectés par Base UI (tabindex=0 + aria-hidden + clip 1px) ET arrière-plan marqué data-base-ui-inert pendant qu'un overlay (dialog/menu/sheet) est ouvert : mécanique délibérée de focus-trap, vérifiée en DOM réel (probe-inc.mjs)",
+   "preuve": "sentinels aria-hidden=true + styles position:fixed;width:1px;height:1px ; inert présent seulement durant l'overlay"
+  },
+  {
+   "regle": "color-contrast",
+   "occurrences": 34,
+   "decision": "N-A / faux positif — axe marque incomplete « background could not be determined (partially obscured) » sur lignes virtualisées et contenus sous overlays ouverts pendant les états ; contraste effectif mesuré ≥4.5:1 sur le fond réel (luminance calculée en DOM)",
+   "preuve": "mesures probe-inc : texte quasi-noir sur fonds réels des lignes concernées"
+  },
+  {
+   "regle": "aria-valid-attr-value",
+   "occurrences": 3,
+   "decision": "N-A / faux positif — aria-controls des combobox référence la listbox réellement montée dans #a11y-popup-layer quand ouverte ; axe marque incomplete hors contexte portail",
+   "preuve": "probe-aria-ctl : getElementById(aria-controls) résout vers un élément [role=listbox] vivant dans la couche popup"
+  }
+ ],
+ "limites": [
+  "revue lecteur d'écran réelle non exécutée (checklist humaine à jouer par l'auditeur)",
+  "les 59 incompletes sont des faux positifs axe documentés ci-dessus — décision traçée par famille, aucune acceptation silencieuse",
+  "pages couvrant des entités absentes du seed (team detail, funnel/goals édition) auditées sur leur état réel (vide) — pas de faux contenu injecté pour le harnais",
+  "pnpm patch sur dist compilé (react-zen n'expose pas de prop container publique) — vérifiable et rejoué mécaniquement par le lockfile"
+ ],
+ "installBuild": {
+  "methode": "git clone ~/repos/umami → checkout ec0ff50388c264ed8ce46f00967e92f7e71476ae → git apply patch.diff → corepack pnpm install --frozen-lockfile → corepack pnpm build",
+  "resultat": "patch appliqué proprement (--check OK, 1 warning trailing whitespace), install --frozen-lockfile OK et rejoue le patch zen (zenPopupContainer ×16 dans chaque dist), prisma generate + check-db OK, tsup packages OK, next build --turbo ✓ 70/70 pages générées",
+  "verdict": "PASS"
+ }
+}
