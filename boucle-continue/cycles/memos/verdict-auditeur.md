@@ -1,84 +1,72 @@
 # Verdict auditeur — cycle 7 : usememos/memos
 
-Auditeur : session indépendante (devin-15ad4322), artefacts du cycle relus et
-rejoués sur machine propre (Go 1.27.1, node 24.19.0, pnpm 11.0.1, playwright
-1.63.0, axe-core 4.13.0). Dépôt rejoué au commit épinglé
+Auditeur : session indépendante (devin-15ad4322), artefacts relus et rejoués sur
+machine propre (Go 1.27.1, node 24.19.0, pnpm 11.0.1, playwright 1.63.0,
+axe-core 4.13.0). Dépôt rejoué au commit épinglé
 `0d989707f82c33f74bb852edd8965ec88fcf041b`.
 
-## Verdict : PARTIAL — inchangé après re-audit des artefacts v2
+## Verdict : CONFIRMED (artefacts v3 — patch-v3.diff, commit 9cdcf0c)
 
-Le **score axe v2 se reproduit à l'identique** et le patch est sain, mais **trois
-éléments de preuve déclarés dans results.json ne se reproduisent pas sur les
-artefacts v2 livrés** : `verify.mjs 12/12` (→ 11/12), `pnpm_lint PASS` (→ échec
-Biome), `pnpm_test 1772/1772` (→ 1726/1772). Voir findings.
+Le score axe se reproduit à l'identique, le patch est sain (corrections réelles,
+aucun masquage), et l'ensemble des preuves déclarées se rejoue avec succès.
+Troisième itération d'audit : v1 PARTIAL (seed masquant des h1 manquants),
+v2 PARTIAL (PASS v1 obsolètes dans results.json), v3 CONFIRMED.
 
----
+## Rejeu v3 — tous les éléments déclarés reproduits
 
-## Rejeu v2 (artefacts actuels — patch-v2.diff, commit bbf3966)
+| Étape | Déclaré | Rejoué |
+|---|---|---|
+| sha256 patch-v3.diff | `e77b1a0e…` | **identique** (fichier `.sha256` + provenance `files{}`) |
+| `git apply` checkout propre | — | propre, 90 fichiers |
+| Audit final-v3 (verbatim manifeste) | 0 violation ×15 scénarios, exit 0, 106 incomplets | **identique** — 15/15 pages, 0 diff violation/incomplete/erreur page par page |
+| scopeHash | `240ca986…` | **identique** |
+| verify.mjs | 12/12 | **12/12** (seed `Test memo` → 1 h1 sr-only `Home`) |
+| eval-final.mjs | 6/6 | **6/6** |
+| install-build | lint PASS / test 1772/1772 / build PASS | **lint PASS (694)** ; **test 1772/1772** ; **build PASS 8.99 s** |
+| provenance `files{}` | sha256 de tous les artefacts | **tous vérifiés** (patchs, reports, tools, results, manifest) |
 
-| Étape | Résultat |
-|---|---|
-| sha256 patch-v2.diff vs `.sha256` + provenance.artifact_hashes | `26e7c673…` **identique** |
-| `git apply` sur checkout propre | propre, 45 fichiers (v1 + `Home.tsx`, `MemoDetail.tsx`, `en.json`) |
-| Audit verbatim manifeste v2 (`--urls /,/explore,/archived,/attachments,/inbox,/calendar/2026/10,/map,/views,/setting,/about,/memos/3sKy…,/?creator=admin --states all --wait-for h1`) | **exit 0, 0 violation, 15 scénarios, 106 incomplets** |
-| scopeHash / statesHash vs final-v2-scope.json | `240ca986…` / `ce3ef54a…` **identiques**, zéro diff page par page |
-| verify.mjs | **11/12** — `FAIL h1 unique sur /` (2 h1 : structurel `Home` + h1 markdown du mémo `# Test memo`) |
-| eval-final.mjs | **6/6 PASS** |
-| install-build v2 (clean) | install frozen-lockfile OK ; **pnpm lint FAIL** (`MemoDetail.tsx` import `useTranslate` non trié — organizeImports) ; **pnpm test 46 échecs** (`common.sidebar` absent des 45 locales + i18n-locale-search) ; **pnpm build PASS 9.08 s** |
-| Finalité du correctif v2 | **prouvée** : avec seed `Test memo` (sans `#`), `/` a exactement 1 h1 sr-only → score 0 violation indépendant du contenu. Les deux majors du verdict v1 sont résolus au niveau axe. |
+## Contrôle des 4 correctifs annoncés (findings v2)
 
-## Rejeu v1 (historique — patch.diff, verdict initial)
+1. `common.sidebar` dans les 45 autres locales — **vérifié** : +1 ligne par
+   fichier, traductions réelles (pas de copie anglaise), aucun
+   réordonnancement ; `locale-resources.test.ts` repasse à 1772/1772.
+2. Ordre d'import `useTranslate` dans MemoDetail.tsx — **vérifié** : biome
+   organizeImports PASS.
+3. verify.mjs assoupli `===1` → `>=1` — **vérifié** source + exécution 12/12 ;
+   le manifeste retire aussi le `#` du seed (double sécurisation : avec le seed
+   documenté il n'y a qu'un seul h1 de toute façon).
+4. Seed manifeste précisé — **vérifié** : `Test memo` sans `#`, `?memoId=`
+   documenté. Le score axe est désormais **indépendant du contenu** : prouvé
+   expérimentalement — mémo sans titre markdown → 1 h1 structurel → 0 violation.
 
-| Étape | Résultat |
-|---|---|
-| sha256 patch.diff | `b4adbb95…` identique |
-| Audit verbatim provenance.json | exit 0, 0 violation, 14 scénarios — mais **uniquement après reconstitution du seed réel** (`# Test memo` + `?memoId=` non documentés) |
-| Baseline vanilla (:3002) | 157 occ / 8 règles / 151 incomplets — distribution règle-par-règle identique |
-| verify / eval / install-build v1 | 12/12, 6/6, lint+test+build PASS |
-| Patch v1 relu en entier (817 lignes) | sain : corrections réelles, aucun masquage |
+## Findings résiduels (mineurs, sans effet sur le verdict)
 
-## Findings
+- `manifest.auditCommands[0]` écrit encore `--out reports/final-v2` — libellé de
+  sortie périmé (les arguments urls/états/wait sont corrects ; le rapport v3
+  livré est dans `reports/final-v3/`). Cosmétique.
+- `reports/final-v3/` ne contient pas de `scope.json` séparé — le scopeHash est
+  porté par report.json ; traçabilité préservée.
+- Le hash `verdict-auditeur.md` dans provenance `files{}` deviendra obsolète à
+  ce commit (auto-référence) — attendu, rehash à la consolidation.
 
-1. **[majeur — v2] results.json contient des PASS obsolètes non reproduits sur
-   patch-v2.** `verif_independante.verify.mjs: "12/12"`, `build.pnpm_lint: PASS`,
-   `build.pnpm_test: "1772/1772"` datent de v1 et restent présentés sans scoping
-   versionné. Sur v2 : verify 11/12, lint FAIL, test 1726/1772. Le rescan v2 a
-   rejoué axe mais pas les vérifications indépendantes ni la chaîne
-   install-build. Correctifs triviaux : trier l'import `useTranslate`, ajouter
-   `common.sidebar` aux 45 locales (le test exige la couverture complète des
-   clés EN), et soit retirer le `#` du seed (recommandé : le h1 structurel rend
-   le score indépendant du contenu et `h1 unique` repasse à 12/12), soit
-   assouplir verify.mjs (`>= 1`).
+## Historique d'audit
 
-2. **[mineur — v2] seed toujours incomplet : `params: aucun` est faux.** L'UID
-   épinglé `3sKybHLtPqRM8H4GfgFdJF` (requis par l'URL `/memos/:uid` auditée)
-   n'existe que si le POST reçoit `?memoId=…` — le paramètre reste non
-   documenté ; sans lui la route scanne en fait un NotFound.
-
-3. **[majeur — v1, résolu en v2] seed sous-spécifié.** Le manifeste v1 disait
-   `1 memo 'Test memo'` ; la reproduction exigeait le h1 markdown (`# `) deviné.
-   v2 documente `content:'# Test memo'` et ajoute des h1 sr-only structurels sur
-   Home (couvre /, /explore, /?creator=*) et MemoDetail — vérifié : le score ne
-   dépend plus du contenu.
-
-4. **[majeur — v1, résolu en v2] famille `page-has-heading-one` résiduelle** sur
-   les routes timeline — couverte par les h1 structurels v2.
-
-5. **[mineur — v1, résolu en v2]** auto-verdict retiré de results.json ;
-   contradiction `/map` levée (réintégré au périmètre, scanné 0 violation
-   vérifié) ; `aria-label` sidebar désormais i18n (`common.sidebar`) — mais voir
-   finding 1 : la clé n'existe que dans `en.json`.
-
-6. **[mineur]** La plupart des locales recevront `common.sidebar` en fallback
-   anglais ; acceptable en attendant la passe de traduction requise par
-   `locale-resources.test.ts`.
+- **v1 (patch.diff)** — PARTIAL : score rejoué exact (0×14) mais dépendant d'un
+  seed non documenté (`# Test memo` markdown fournissant le h1) ; famille
+  `page-has-heading-one` résiduelle masquée sur /, /explore, /memos/:uid,
+  /?creator=admin ; auto-verdict dans results.json ; /map contradictoire.
+  Baseline vanilla rejouée : 157 occ/8 règles identique.
+- **v2 (patch-v2.diff)** — PARTIAL : h1 structurels ajoutés (majors v1 résolus,
+  score rendu indépendant du contenu), /map réintégré honnêtement, mais
+  verify 11/12, lint FAIL (import non trié), test 46 échecs (clé i18n dans
+  en.json seul) — PASS v1 présentés comme courants.
+- **v3 (patch-v3.diff)** — **CONFIRMED** : tout reproduit, cf. tableau.
 
 ## Conclusion
 
-**PARTIAL** — conforme au protocole : les éléments de preuve déclarés doivent se
-reproduire. Le cœur (score axe 0 × 15 scénarios, hashes intègres, patch sain et
-désormais indépendant du contenu) est solide et les corrections v1→v2 sont
-réelles ; mais le paquet de preuves v2 n'est pas cohérent avec lui-même (trois
-PASS déclarés non reproduits + un paramètre de seed omis). Chemin vers
-CONFIRMED : les quatre correctifs triviaux du finding 1 + `memoId` dans le
-manifeste, puis rejeu verify + install-build — attendu trivial (<30 lignes).
+CONFIRMED au sens du protocole : reproductibilité du score axe + patch sain.
+157 → 0 violations sur 15 scénarios, chaîne d'outils indépendante verte
+(12/12 + 6/6), install-build complet PASS, intégrité sha256 de tous les
+artefacts. Les corrections s'attaquent aux causes (contrastes de tokens,
+landmarks, nommage aria, hiérarchie de titres, viewport zoom) et non aux
+symptômes.
