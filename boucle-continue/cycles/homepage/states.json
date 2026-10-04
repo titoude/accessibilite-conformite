@@ -1,0 +1,15 @@
+{
+  "_note": "résumé fonctionnel ; le code exact utilisé est tools/audit.mjs STATES (copié dans harnais/audit-states.js)",
+  "states": {
+    "index-light": {
+      "url": "$BASE",
+      "setup": null
+    },
+    "index-dark": {
+      "setup": "click theme toggle ou fallback classList.add('dark') + settle 800ms"
+    },
+    "quicklaunch-open": {
+      "setup": "waitForSelector('ul li a[href]') + 1000ms hydratation + keyboard.type('home') + waitForSelector('dialog input') + 400ms (fin du fondu 300ms)"
+    }
+  }
+}

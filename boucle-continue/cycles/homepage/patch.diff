@@ -1,0 +1,140 @@
+diff --git a/next.config.js b/next.config.js
+index dcd133b..39645a9 100644
+--- a/next.config.js
++++ b/next.config.js
+@@ -4,6 +4,7 @@ const { i18n } = require("./next-i18next.config");
+ const nextConfig = {
+   reactStrictMode: true,
+   output: "standalone",
++  devIndicators: false,
+   // for serverSideTranslations
+   outputFileTracingIncludes: {
+     "/**": ["./next-i18next.config.js"],
+diff --git a/src/components/quicklaunch.jsx b/src/components/quicklaunch.jsx
+index f6e12c4..9f55471 100644
+--- a/src/components/quicklaunch.jsx
++++ b/src/components/quicklaunch.jsx
+@@ -286,6 +286,7 @@ export default function QuickLaunch({ servicesAndBookmarks, searchString, setSea
+         }}
+         role="dialog"
+         aria-modal="true"
++        aria-label={t("quicklaunch.search")}
+         aria-hidden={!isOpen}
+       >
+         <div className="fixed inset-0 bg-gray-500 opacity-50" />
+@@ -341,13 +342,13 @@ export default function QuickLaunch({ servicesAndBookmarks, searchString, setSea
+                               </div>
+                             )}
+                             {r.description && (
+-                              <span className="text-xs text-theme-600 text-light">
++                              <span className="text-xs text-theme-600 dark:text-theme-300 text-light">
+                                 {searchDescriptions && r.priority < 2 ? highlightText(r.description) : r.description}
+                               </span>
+                             )}
+                           </div>
+                         </div>
+-                        <div className="text-xs text-theme-600 font-bold pointer-events-none">
++                        <div className="text-xs text-theme-600 dark:text-theme-300 font-bold pointer-events-none">
+                           {t(`quicklaunch.${r.type ? r.type.toLowerCase() : "bookmark"}`)}
+                         </div>
+                       </button>
+diff --git a/src/components/services/item.jsx b/src/components/services/item.jsx
+index 05757fd..7ec8114 100644
+--- a/src/components/services/item.jsx
++++ b/src/components/services/item.jsx
+@@ -74,7 +74,7 @@ export default function Item({ service, groupName, useEqualHeights }) {
+             >
+               <div className="flex-1 px-2 py-2 text-sm text-left z-10 service-name">
+                 {service.name}
+-                <p className="text-theme-500 dark:text-theme-300 text-xs font-light service-description">
++                <p className="text-theme-600 dark:text-theme-300 text-xs font-light service-description">
+                   {service.description}
+                 </p>
+               </div>
+@@ -83,7 +83,7 @@ export default function Item({ service, groupName, useEqualHeights }) {
+             <div className="flex-1 flex items-center justify-between rounded-r-md service-title-text">
+               <div className="flex-1 px-2 py-2 text-sm text-left z-10 service-name">
+                 {service.name}
+-                <p className="text-theme-500 dark:text-theme-300 text-xs font-light service-description">
++                <p className="text-theme-600 dark:text-theme-300 text-xs font-light service-description">
+                   {service.description}
+                 </p>
+               </div>
+diff --git a/src/pages/_app.jsx b/src/pages/_app.jsx
+index 14ce3b8..b829a7c 100644
+--- a/src/pages/_app.jsx
++++ b/src/pages/_app.jsx
+@@ -83,7 +83,7 @@ function MyApp({ Component, pageProps }) {
+           {/* https://nextjs.org/docs/messages/no-document-viewport-meta */}
+           <meta
+             name="viewport"
+-            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
++            content="width=device-width, initial-scale=1.0"
+           />
+         </Head>
+         <ColorProvider>
+diff --git a/src/pages/_document.jsx b/src/pages/_document.jsx
+index ece38ae..1aeda04 100644
+--- a/src/pages/_document.jsx
++++ b/src/pages/_document.jsx
+@@ -2,7 +2,7 @@ import { Head, Html, Main, NextScript } from "next/document";
+ 
+ export default function Document() {
+   return (
+-    <Html>
++    <Html className="dark scheme-dark theme-slate">
+       <Head>
+         <meta name="mobile-web-app-capable" content="yes" />
+         <link rel="manifest" href="/site.webmanifest?v=4" crossOrigin="use-credentials" />
+diff --git a/src/pages/index.jsx b/src/pages/index.jsx
+index 304e2ff..d4dce1c 100644
+--- a/src/pages/index.jsx
++++ b/src/pages/index.jsx
+@@ -461,7 +461,7 @@ function Home({ initialSettings }) {
+           isOpen={searching}
+           setSearching={setSearching}
+         />
+-        <div
++        <header
+           id="information-widgets"
+           className={classNames(
+             "flex flex-row flex-wrap justify-between z-20",
+@@ -504,11 +504,14 @@ function Home({ initialSettings }) {
+               </>
+             )}
+           </div>
+-        </div>
++        </header>
+ 
+-        {servicesAndBookmarksGroups}
++        <main>
++          <h1 className="sr-only">{initialSettings.title || "Homepage"}</h1>
++          {servicesAndBookmarksGroups}
++        </main>
+ 
+-        <div id="footer" className="flex flex-col mt-auto p-8 w-full">
++        <footer id="footer" className="flex flex-col mt-auto p-8 w-full">
+           <div id="style" className="flex w-full justify-end">
+             {!settings?.color && <ColorToggle />}
+             <Revalidate />
+@@ -519,7 +522,7 @@ function Home({ initialSettings }) {
+           <div id="version" className="flex mt-4 w-full justify-end">
+             {!settings.hideVersion && <Version disableUpdateCheck={settings.disableUpdateCheck} />}
+           </div>
+-        </div>
++        </footer>
+       </div>
+     </>
+   );
+diff --git a/src/styles/theme.css b/src/styles/theme.css
+index 32a5fc9..07e9322 100644
+--- a/src/styles/theme.css
++++ b/src/styles/theme.css
+@@ -28,6 +28,7 @@
+   color: rgb(120, 120, 120);
+ }
+ 
++:root,
+ .theme-slate {
+   --color-50: 248 250 252;
+   --color-100: 241 245 249;
