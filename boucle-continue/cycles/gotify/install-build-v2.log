@@ -1,0 +1,59 @@
+=== install-build v2 — cycle 15 gotify — rejeu sur checkout propre ===
+date: 2026-10-04T21:40:24Z
+patch: patch-v2.diff sha256 83b4ec046ab32ac7fcf35af891301180cd91749a5395ac4b9e17af823183da11
+
+--- clone propre ---
+checkout: f77d8a0ce8973aa3612b4e04f6b965794a2a51c5
+status pre-apply: 0 fichiers modifiés
+
+--- git apply patch-v2.diff ---
+ ui/src/user/Register.tsx                       |    4 +
+ ui/src/user/Settings.tsx                       |    6 +-
+ ui/src/user/Users.tsx                          |    9 ++
+ 26 files changed, 232 insertions(+), 84 deletions(-)
+git apply --check: OK
+git apply: exit 0
+status post-apply: 26 fichiers touchés
+ M ui/index.html
+ M ui/src/application/AddApplicationDialog.tsx
+ M ui/src/application/Applications.tsx
+ M ui/src/application/UpdateApplicationDialog.tsx
+ M ui/src/client/AddClientDialog.tsx
+ M ui/src/client/Clients.tsx
+ M ui/src/client/ElevateClientDialog.tsx
+ M ui/src/client/UpdateClientDialog.tsx
+ M ui/src/common/ConfirmDialog.tsx
+ M ui/src/common/DefaultPage.tsx
+ M ui/src/common/TokenConfirmDialog.tsx
+ M ui/src/layout/Header.tsx
+ M ui/src/layout/Layout.tsx
+ M ui/src/layout/Navigation.tsx
+ M ui/src/message/Message.tsx
+ M ui/src/message/Messages.tsx
+ M ui/src/message/PushMessageDialog.tsx
+ M ui/src/plugin/PluginDetailView.tsx
+ M ui/src/plugin/Plugins.tsx
+ M ui/src/snack/SnackManager.ts
+ M ui/src/user/AddEditUserDialog.tsx
+ M ui/src/user/Register.tsx
+ M ui/src/user/Settings.tsx
+ M ui/src/user/Users.tsx
+?? ui/src/common/popupContainer.ts
+?? ui/src/common/visuallyHidden.ts
+--- yarn install --frozen-lockfile ---
+warning Workspaces can only be enabled in private projects.
+warning Workspaces can only be enabled in private projects.
+[4/4] Building fresh packages...
+Done in 6.10s.
+yarn install: exit 0
+--- yarn build (tsc + vite -> ui/build) ---
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 775ms
+Done in 4.60s.
+yarn build: exit 0
+--- go build ---
+go version go1.26.0 linux/amd64
+go build: exit 0
+-rwxr-xr-x 1 ubuntu ubuntu 62411280 Oct  4 21:40 ./gotify

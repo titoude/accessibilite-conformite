@@ -1,58 +1,74 @@
 {
- "cycle": 15,
- "slug": "gotify",
- "repo": "gotify/server",
- "url": "https://github.com/gotify/server",
- "commit": "f77d8a0ce8973aa3612b4e04f6b965794a2a51c5",
- "license": "MIT",
- "product": "Serveur de notifications push auto-hébergé — backend Go, UI React 19 + MUI v9 + Vite, HashRouter (#/), mobx, snackbars notistack",
- "boot": {
-  "commands": [
-   "cd ui && yarn install --frozen-lockfile && yarn build   (tsc + vite → ui/build, embarqué par //go:embed)",
-   "go build -o ./gotify .",
-   "GOTIFY_SERVER_PORT=8095 GOTIFY_SERVER_LISTENADDR=127.0.0.1 GOTIFY_DATABASE_CONNECTION=<dir>/gotify.db GOTIFY_UPLOADEDIMAGESDIR=<dir>/images GOTIFY_PLUGINSDIR=<dir>/plugins GOTIFY_REGISTRATION=true GOTIFY_DEFAULTUSER_NAME=admin GOTIFY_DEFAULTUSER_PASS=<pass> ./gotify serve"
+  "cycle": 15,
+  "slug": "gotify",
+  "repo": "gotify/server",
+  "url": "https://github.com/gotify/server",
+  "commit": "f77d8a0ce8973aa3612b4e04f6b965794a2a51c5",
+  "license": "MIT",
+  "product": "Serveur de notifications push auto-hébergé — backend Go, UI React 19 + MUI v9 + Vite, HashRouter (#/), mobx, snackbars notistack",
+  "boot": {
+    "commands": [
+      "cd ui && yarn install --frozen-lockfile && yarn build   (tsc + vite → ui/build, embarqué par //go:embed)",
+      "go build -o ./gotify .",
+      "GOTIFY_SERVER_PORT=8095 GOTIFY_SERVER_LISTENADDR=127.0.0.1 GOTIFY_DATABASE_CONNECTION=<dir>/gotify.db GOTIFY_UPLOADEDIMAGESDIR=<dir>/images GOTIFY_PLUGINSDIR=<dir>/plugins GOTIFY_REGISTRATION=true GOTIFY_DEFAULTUSER_NAME=admin GOTIFY_DEFAULTUSER_PASS=gotify-admin-audit ./gotify serve"
+    ],
+    "credentials": "admin/gotify-admin-audit (créé au premier démarrage via GOTIFY_DEFAULTUSER_*) ; session de tests = cookie client 'gotify-client-token' (POST /auth/local/login, Basic auth + champ name)",
+    "seed": {
+      "script": "tools/seed.sh <baseUrl> <adminPass> <outAuth.json> — verbatim, ordre figé → ids déterministes",
+      "literals": [
+        "user : POST /user -u admin:gotify-admin-audit -d '{\"name\":\"bob\",\"pass\":\"bob-audit-pass\",\"admin\":false}' → bob id=2",
+        "session : node tools/login.mjs <base> admin gotify-admin-audit <outAuth.json> → purge+crée client 'devin-audit' (id=1), écrit le storage-state Playwright",
+        "app : POST /application -d '{\"name\":\"Monitoring\",\"description\":\"Alertes infrastructure\"}' → id=1",
+        "client UI : POST /client -d '{\"name\":\"Firefox-Desktop\"}' → id=2",
+        "message texte : POST /message -d '{\"appid\":1,\"title\":\"Sauvegarde nightly\",\"message\":\"Sauvegarde du serveur terminée sans erreur à 03:12.\",\"priority\":0}' → id=1",
+        "message markdown AVEC LIENS : POST /message -d '{\"appid\":1,\"title\":\"Déploiement prod\",\"message\":\"Build [#482](https://ci.example.internal/builds/482) déployé en production — voir le [changelog complet](https://ci.example.internal/changelog).\",\"priority\":8,\"extras\":{\"client::display\":{\"contentType\":\"text/markdown\"}}}' → id=2, rendu <a href> ×2 dans .content"
+      ]
+    },
+    "notes": [
+      "Go 1.26.0 installé dans ~/goroot (exigé par GO_VERSION du repo) ; Node 24 via ~/.nvm (yarn 1.22 classic)",
+      "Écoute forcée sur 127.0.0.1 (loopback seul) — cookies de session valides car audit et login visent le même hôte",
+      "GOTIFY_REGISTRATION=true pour couvrir l'état register-dialog ; GOTIFY_DEFAULTUSER_* crée l'admin au 1er boot",
+      "login.mjs purge les clients nommés 'devin-audit' avant chaque session → seed déterministe (sinon chaque login crée une ligne client)",
+      "Thème audité = light (défaut système du navigateur headless)",
+      "Aucun plugin .so uploadé : /#/plugins/:id déclaré non scanné (route inatteignable sans plugin)",
+      "Suite e2e puppeteer du repo non rejouée (harnais lourd, instable sous headless) — vérification couverte par verify.mjs/eval-final.mjs",
+      "Le message markdown contient DEUX liens ([builds/482], [changelog]) — le seed couvre le contraste des liens de contenu (finding F1 du cycle)"
+    ]
+  },
+  "scope": {
+    "login": ["/#/login"],
+    "urls": ["/#/", "/#/messages/1", "/#/applications", "/#/clients", "/#/users", "/#/settings", "/#/plugins"],
+    "states": [
+      "user-menu",
+      "nav-drawer-mobile",
+      "add-app-dialog",
+      "update-app-dialog",
+      "add-client-dialog",
+      "elevate-client-dialog",
+      "add-user-dialog",
+      "push-message-dialog",
+      "confirm-delete-all",
+      "snackbar-undo"
+    ],
+    "statesLogin": ["register-dialog"]
+  },
+  "auditCommands": [
+    "./tools/seed.sh http://127.0.0.1:8095 gotify-admin-audit ./auth.json   (seed verbatim + écrit le storage-state Playwright)",
+    "node tools/audit.mjs http://127.0.0.1:8095 --keep-hash --storage-state ./auth.json --urls /#/,/#/messages/1,/#/applications,/#/clients,/#/users,/#/settings,/#/plugins --states user-menu,nav-drawer-mobile,add-app-dialog,update-app-dialog,add-client-dialog,elevate-client-dialog,add-user-dialog,push-message-dialog,confirm-delete-all,snackbar-undo --wait-for '#main-content' --wait 1500 --out ../reports/final-v2/app",
+    "node tools/audit.mjs http://127.0.0.1:8095 --keep-hash --urls /#/login --states register-dialog --wait-for 'input' --wait 1500 --out ../reports/final-v2/login",
+    "baseline : mêmes commandes contre le binaire vanilla avec --wait-for 'main' (vanilla n'a pas #main-content — asymétrie documentée, même wait 1500)",
+    "node tools/verify.mjs http://127.0.0.1:8095 ./auth.json   (36 assertions sémantiques des correctifs)",
+    "node tools/eval-final.mjs http://127.0.0.1:8095 ./auth.json   (15 contrôles indépendants)",
+    "node tools/incomplete-probes.mjs http://127.0.0.1:8095 <report.json> <out.json> [auth.json]   (sonde rejouable des noeuds 'incomplete')"
   ],
-  "credentials": "admin/<pass créé au premier démarrage via GOTIFY_DEFAULTUSER_*> ; session de tests = cookie client 'gotify-client-token' (POST /auth/local/login, Basic auth + champ name)",
-  "seed": "SQLite : user non-admin 'bob', 1 application 'Monitoring' (id=1, defaultPriority), 1 client 'Firefox-Desktop' (id=2), 2 messages (id=1 texte plein, id=2 markdown priority 8) — assez pour que les tables/messages/states aient du contenu réel",
-  "notes": [
-   "Go 1.26.0 installé dans ~/goroot (exigé par GO_VERSION du repo) ; Node 24 via ~/.nvm (yarn 1.22 classic)",
-   "Écoute forcée sur 127.0.0.1 (loopback seul) — cookies de session valides car audit et login visent le même hôte",
-   "GOTIFY_REGISTRATION=true pour couvrir l'état register-dialog ; GOTIFY_DEFAULTUSER_* crée l'admin au 1er boot",
-   "login.mjs purge les clients nommés 'devin-audit' avant chaque session → seed déterministe (sinon chaque login crée une ligne client)",
-   "Thème audité = light (défaut système du navigateur headless)",
-   "Aucun plugin .so uploadé : /#/plugins/:id déclaré non scanné (route inatteignable sans plugin)",
-   "Suite e2e puppeteer du repo non rejouée (harnais lourd, instable sous headless) — vérification couverte par verify.mjs/eval-final.mjs"
-  ]
- },
- "scope": {
-  "login": ["/#/login"],
-  "urls": ["/#/", "/#/messages/1", "/#/applications", "/#/clients", "/#/users", "/#/settings", "/#/plugins"],
-  "states": [
-   "user-menu",
-   "nav-drawer-mobile",
-   "add-app-dialog",
-   "update-app-dialog",
-   "add-client-dialog",
-   "elevate-client-dialog",
-   "add-user-dialog",
-   "push-message-dialog",
-   "confirm-delete-all",
-   "snackbar-undo"
-  ],
-  "statesLogin": ["register-dialog"]
- },
- "auditCommands": [
-  "node tools/login.mjs http://127.0.0.1:8095 admin <pass> ./auth.json   (écrit le storage-state Playwright)",
-  "node tools/audit.mjs http://127.0.0.1:8095 --keep-hash --storage-state ./auth.json --urls /#/,/#/messages/1,/#/applications,/#/clients,/#/users,/#/settings,/#/plugins --states user-menu,nav-drawer-mobile,add-app-dialog,update-app-dialog,add-client-dialog,elevate-client-dialog,add-user-dialog,push-message-dialog,confirm-delete-all,snackbar-undo --wait-for '#main-content' --wait 1500 --out ../reports/final/app",
-  "node tools/audit.mjs http://127.0.0.1:8095 --keep-hash --urls /#/login --states register-dialog --wait-for 'input' --wait 1500 --out ../reports/final/login",
-  "node tools/verify.mjs http://127.0.0.1:8095 ./auth.json   (36 assertions sémantiques des correctifs)",
-  "node tools/eval-final.mjs http://127.0.0.1:8095 ./auth.json   (15 contrôles indépendants)"
- ],
- "artifacts": {
-  "baseline": "reports/baseline/{app,login}/{scope,report}.{json,md} — 79 occurrences / 13 règles (app 75, login 4), 0 erreur",
-  "final": "reports/final/{app,login}/{scope,report}.{json,md} — 0 violation, 0 erreur, exit 0 (14 incomplets axe)",
-  "patch": "patch.diff + patch.diff.sha256 (26 fichiers UI, incl. 2 nouveaux : common/popupContainer.ts, common/visuallyHidden.ts)",
-  "installBuild": "install-build.log — clone propre @f77d8a0 + git apply patch.diff : yarn install --frozen-lockfile / yarn build / go build = exit 0",
-  "harness": "tools/ (audit.mjs v5 adapté : 10 états + login.mjs + verify.mjs + eval-final.mjs)"
- }
+  "artifacts": {
+    "baseline": "reports/baseline/{app,login}/{scope,report}.{json,md} — v1 : 79 occurrences / 13 règles (app 75, login 4), seed sans liens",
+    "baselineV2": "reports/baseline-v2/{app,login}/{scope,report}.{json,md} — 100 occurrences / 13 règles (app 96, login 4) sous seed liens, drawer audité à 375px",
+    "final": "reports/final/{app,login}/{scope,report}.{json,md} — v1 : 0 violation, exit 0",
+    "finalV2": "reports/final-v2/{app,login}/{scope,report}.{json,md} + incomplete-probes.json — 0 violation / 0 erreur / exit 0 sous seed liens (20 incomplets sondés)",
+    "patch": "patch.diff (v1) + patch-v2.diff + .sha256 — 26 fichiers UI, incl. 2 nouveaux : common/popupContainer.ts, common/visuallyHidden.ts",
+    "installBuild": "install-build.log (v1) + install-build-v2.log — clone propre @f77d8a0 tracé + git apply patch-v2.diff : yarn install --frozen-lockfile / yarn build / go build = exit 0",
+    "scopeCompare": "scope-compare.json — baseline-v2 ↔ final-v2 recalculé depuis les scope.json livrés",
+    "harness": "tools/ (audit.mjs v6 : viewport mobile honnête + waitFor/waitMs tracés, seed.sh, login.mjs, verify.mjs sonde SnackbarContent, eval-final.mjs règle 1er titre h1, incomplete-probes.mjs)"
+  }
 }

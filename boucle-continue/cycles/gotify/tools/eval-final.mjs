@@ -21,7 +21,8 @@ const goto = async (path) => {
     await page.waitForTimeout(1200);
 };
 
-// 1. ordre des titres : jamais de saut > 1 niveau
+// 1. ordre des titres : le PREMIER titre visible doit être h1, puis jamais de
+// saut > 1 niveau. ([5,1,2,2] — h5 de marque avant le h1 — doit échouer.)
 for (const path of ['/#/', '/#/messages/1', '/#/applications', '/#/clients', '/#/users', '/#/settings', '/#/plugins', '/#/login']) {
     await goto(path);
     const order = await page.evaluate(() =>
@@ -30,7 +31,7 @@ for (const path of ['/#/', '/#/messages/1', '/#/applications', '/#/clients', '/#
             .map((h) => +h.tagName[1])
     );
     const skips = order.filter((l, i) => i > 0 && l - order[i - 1] > 1).length;
-    check(`${path}: ordre des titres sans saut`, skips === 0, JSON.stringify(order));
+    check(`${path}: premier titre h1, ordre sans saut`, order.length > 0 && order[0] === 1 && skips === 0, JSON.stringify(order));
 }
 
 // 2. attribut lang non vide

@@ -109,7 +109,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v5';
+const RUNNER_VERSION = 'audit.mjs v6';
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -147,7 +147,8 @@ const STATES = {
       await page.locator('header .MuiIconButton-root').first().click();
       await page.locator('.MuiModal-root .MuiDrawer-paper').first().waitFor({ state: 'visible', timeout: 10000 });
       await page.waitForTimeout(600);
-      await page.setViewportSize({ width: 1280, height: 720 });
+      // pas de restore viewport : le scan court à 375px — l'état drawer n'existe
+      // qu'en mobile ; restaurer 1280px rendrait les CSS calculées artificielles
     },
   },
   'add-app-dialog': {
@@ -585,6 +586,7 @@ async function run() {
     runId, runnerVersion: RUNNER_VERSION, generatedAt: new Date().toISOString(),
     baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
     storageState: !!storageState,
+    waitFor: waitFor ?? null, waitMs,
     total: scopeEntries.length,
     audited: scopeEntries.filter(e => e.status === 'audited').length,
     errored: scopeEntries.filter(e => e.status === 'error').length,

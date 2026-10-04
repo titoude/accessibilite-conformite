@@ -1,82 +1,98 @@
 {
- "slug": "gotify",
- "cycle": 15,
- "measured": {
-  "baseline": {
-   "occurrences": 79,
-   "occurrencesApp": 75,
-   "occurrencesLogin": 4,
-   "rules": [
-    "aria-command-name",
-    "aria-hidden-focus",
-    "button-name",
-    "color-contrast",
-    "empty-table-header",
-    "heading-order",
-    "image-alt",
-    "landmark-main-is-top-level",
-    "landmark-no-duplicate-main",
-    "landmark-one-main",
-    "landmark-unique",
-    "page-has-heading-one",
-    "region"
-   ],
-   "scanErrors": 0,
-   "surfaces": 19
+  "slug": "gotify",
+  "cycle": 15,
+  "version": "v2 — corrections des findings de l'audit tiers (F1-F8), rejeu complet sous seed littérale avec liens",
+  "measured": {
+    "baseline": {
+      "occurrences": 100,
+      "occurrencesApp": 96,
+      "occurrencesLogin": 4,
+      "rules": [
+        "aria-command-name",
+        "aria-dialog-name",
+        "aria-hidden-focus",
+        "button-name",
+        "color-contrast",
+        "empty-table-header",
+        "heading-order",
+        "image-alt",
+        "landmark-main-is-top-level",
+        "landmark-no-duplicate-main",
+        "landmark-one-main",
+        "landmark-unique",
+        "page-has-heading-one",
+        "region"
+      ],
+      "scanErrors": 0,
+      "surfaces": 19,
+      "note": "rejeu v2 : seed avec message markdown contenant 2 liens réels (+ color-contrast liens) ; nav-drawer-mobile audité au viewport 375px réel (aria-dialog-name exposé sur le drawer temporaire)"
+    },
+    "final": {
+      "occurrences": 0,
+      "rules": [],
+      "scanErrors": 0,
+      "exitCode": 0,
+      "surfaces": 19,
+      "incomplete": 20,
+      "incompleteDetail": "tous sondés dans reports/final-v2/{app,login}/incomplete-probes.json — aucun défaut réel (voir ecarts)"
+    },
+    "verify": {"assertions": 36, "passed": 36},
+    "evalFinal": {"assertions": 15, "passed": 15},
+    "installBuild": {
+      "gitApply": 0,
+      "yarnInstallFrozenLockfile": 0,
+      "yarnBuild": 0,
+      "goBuild": 0,
+      "onCleanCheckout": true,
+      "log": "install-build-v2.log"
+    },
+    "rounds": 5,
+    "roundsDetail": [
+      "baseline v1 : 79 occ / 13 règles (app 75 + login 4), seed sans liens",
+      "round2 (structure + noms + tables + contrast snackbar) : 13 occ / 2 règles",
+      "round3 (+ --wait-for/--wait 1500 sédimentation, div role=group tooltip) : 12 occ / 1 règle",
+      "final v1 : 0 occ / 0 règle / 0 erreur, exit 0 — mais seed sans lien réel (F1 manqué)",
+      "v2 : baseline rejouée sous seed liens → 100 occ / 13 règles ; patch étendu (liens #bf360c, h5→div, dialog drawer nommé) → final-v2 : 0 occ / exit 0"
+    ],
+    "scopeFidelity": "scopeHash identique baseline-v2↔final-v2 (app 8f1daa57…, login a560a471…) ; statesHash identique entre les deux runs (app 525df048…, login 687b71b6…) — même périmètre figé, mêmes états joués. statesHash app ≠ v1 (52f142ec…) : le setup nav-drawer-mobile a perdu son restore viewport artificiel (audit au vrai 375px)."
   },
-  "final": {
-   "occurrences": 0,
-   "rules": [],
-   "scanErrors": 0,
-   "exitCode": 0,
-   "surfaces": 19,
-   "incomplete": 14
-  },
-  "verify": {"assertions": 36, "passed": 36},
-  "evalFinal": {"assertions": 15, "passed": 15},
-  "installBuild": {
-   "gitApply": 0,
-   "yarnInstallFrozenLockfile": 0,
-   "yarnBuild": 0,
-   "goBuild": 0,
-   "onCleanCheckout": true,
-   "log": "install-build.log"
-  },
-  "rounds": 4,
-  "roundsDetail": [
-   "baseline : 79 occ / 13 règles (app 75 + login 4)",
-   "round2 (structure + noms + tables + contrast snackbar) : 13 occ / 2 règles — restait heading-order (subtitle1→h6) + color-contrast transitoire",
-   "round3 (+ --wait-for/--wait 1500 sédimentation, div role=group tooltip) : 12 occ / 1 règle — edit h6 non persistée (assert sur count avant écriture)",
-   "final : 0 occ / 0 règle / 0 erreur, exit 0, 14 incomplets axe"
+  "ecarts": [
+    "Baseline --wait-for 'main' vs final '#main-content' : le vanilla n'a pas de #main-content (ajouté par le patch) — seul le sélecteur diffère, --wait 1500 identique, périmètre INCHANGÉ (scopeHash identique). waitFor/waitMs désormais tracés dans scope.json.",
+    "État nav-drawer-mobile : scan au viewport mobile réel 375×720 (v1 restaurait artificiellement 1280px avant axe — F7). À 375px, axe a exposé 1 aria-dialog-name réel (drawer temporaire role=dialog sans nom) → corrigé produit (slotProps.paper aria-label), final-v2 = 0 violation.",
+    "La violation color-contrast de #delete-all (baseline) était mesurée pendant la transition CSS 250ms disabled→enabled : disparue après sédimentation, sans modification produit.",
+    "INCOMPLETS — 20 noeuds sondés (incomplete-probes.json, sonde rejouable) :",
+    "  groupe A (13) — bgOverlap sous surface modale : éléments recouverts par MuiDialog-container / MuiBackdrop-root pendant l'état (boutons primaires #create-app, #create-client, #create-user, #push-message, #delete-all, #register : ratio réel 4,6:1 ; inputs #username/#password sous register-dialog, cellules .css-*/.MuiTypography-caption sous dialogs : 21:1). Décision : artefact d'état modal — l'overlap axe est le comportement attendu d'une modale ouverte, pas un défaut de contraste.",
+    "  groupe B (6) — bgOverlap sans recouvrement : .MuiSelect-select + input password settings, #username/#password login, .MuiTypography-caption « You've reached the end » (nav-drawer, snackbar-undo) — coveredBy null, fond remonté #fff (Paper/body), ratio mesuré 21:1. Décision : faux positif axe (bgOverlap) — contraste réel maximal.",
+    "  groupe C (1) — aria-valid-attr-value controlsWithinPopup : #user-menu-button porte aria-controls=\"user-menu\" ; sonde : l'id 'user-menu' existe dans le DOM quand le menu est ouvert (ariaControlsResolved=true, menu monté en portail). Décision : limitation axe — il ne peut pas déterminer la résolution temporelle d'un id monté dynamiquement ; le comportement est correct.",
+    "h5 avant h1 dans le heading flow (résidu signalé en v1) : RÉSOLU — titre de site Typography component='div', premier titre de chaque page = h1 (eval-final le vérifie : [5,1,2,2] échouerait désormais)."
   ],
-  "scopeFidelity": "scopeHash identique baseline↔final (app 8f1daa57…, login a560a471…) ; statesHash identique (52f142ec…) — même périmètre figé, mêmes états"
- },
- "ecarts": [
-  "Baseline scannée sans --wait-for/--wait (omission) : rounds≥3 ajoutent la sédimentation 1500ms — périmètre INCHANGÉ (scopeHash identique), seules les conditions d'attente divergent",
-  "La violation color-contrast de #delete-all (baseline) était mesurée pendant la transition CSS 250ms disabled→enabled : disparue après sédimentation, sans modification produit",
-  "h5 avant h1 dans le heading flow ([5,1,2…]) : titre de site MUI variant→element, axe-clean mais sémantiquement résiduel — non bloqué, signalé",
-  "14 incomplets axe finaux : aria-controls vers menu portail (id non résoluble hors état), fonds non déterminables derrière modales/backdrop, th-has-data-cells plugins (résolu par empty-state mais axe recalcule hors état), aria-label sur [role=group] résiduels à revue manuelle"
- ],
- "causesRacines": [
-  "<main> imbriqués : DefaultPage rendait son propre <main> dans le <main> du Layout → landmark-main-is-top-level/no-duplicate-main/landmark-unique → DefaultPage devient <div>, Layout <main> unique + id=main-content",
-  "aucune h1 : titres de pages Typography variant=h4 (span d'affichage) → component=\"h1\" sur titre DefaultPage + PluginDetailView",
-  "IconButtons icône-seule sans nom (18 occ) → aria-label explicites (messages, applications×4, clients×2, users×2, upload, drawer close, plugin refresh, nav)",
-  "handle dnd-kit role=button sans nom (aria-command-name) → aria-label `Reorder ${app.name}`",
-  "en-têtes <th> vides ×8 (dont 1 colonne manquante : applications 9 th pour 10 colonnes) → textes masqués SR via common/visuallyHidden.ts + 10e th",
-  "menu/drawer/dialog/notistack en portail <body> hors landmarks (region) + Modal aria-hidden de #root (aria-hidden-focus, landmark-one-main) → #a11y-popup-layer[role=complementary] frère de #root + container={popupContainer()} sur Menu, Drawer temporaire, 10 Dialog, SnackbarProvider domRoot",
-  "snackbar notistack variant=info #2196f3 + texte blanc (3.68:1) → variant neutre #313131 (12:1) aux 2 enqueueSnackbar",
-  "Typography variant=subtitle1 rend <h6> (heading-order) → component=\"div\" (métadonnée, pas titre de section)",
-  "div[aria-label] autour des boutons disabled des tooltips (aria-prohibited-attr) → role=\"group\" (nom autorisé sur group)",
-  "navigation : liens <a> contenant ListItemButton (interactif imbriqué) → ListItemButton component={Link} ; 2 nav landmarks nommés distincts ; Avatar nav alt=\"\" ; bug image!==null rendait <img src=undefined> → image ?",
-  "table plugins sans data cells → ligne empty-state 'No plugins' colSpan",
-  "bouton détails plugin : <a><button> imbriqué → Button component={Link} + aria-label"
- ],
- "harnessFindings": [
-  "POST /message accepte le cookie client + champ appid → état snackbar-undo rejouable sans token hardcodé (GET /application ne renvoie pas token)",
-  "chaque POST /auth/local/login crée une ligne client → login.mjs purge les clients 'devin-audit' avant connexion (seed déterministe)",
-  "nav hash conserve le point de départ Tab de Chrome : le skip-link ne se teste qu'après reload réel",
-  "[role=dialog] sélectionne aussi le Drawer MUI → cibler .MuiDialog-root [role=dialog]",
-  "clone autosize des TextField multiline (aria-hidden, tabindex=-1) compté comme champ → filtrer aria-hidden+visibility+tabIndex",
-  "waitForSelector sur '.MuiDrawer-root .MuiDrawer-paper' résout le drawer permanent caché → viser '.MuiModal-root .MuiDrawer-paper' (drawer temporaire = Modal)"
- ]
+  "causesRacines": [
+    "<main> imbriqués : DefaultPage rendait son propre <main> dans le <main> du Layout → landmark-main-is-top-level/no-duplicate-main/landmark-unique → DefaultPage devient <div>, Layout <main> unique + id=main-content",
+    "aucune h1 : titres de pages Typography variant=h4 (span d'affichage) → component=\"h1\" sur titre DefaultPage + PluginDetailView ; titre de site variant=h5 → component=\"div\" (v2)",
+    "IconButtons icône-seule sans nom (18 occ) → aria-label explicites (messages, applications×4, clients×2, users×2, upload, drawer close, plugin refresh, nav)",
+    "handle dnd-kit role=button sans nom (aria-command-name) → aria-label `Reorder ${app.name}`",
+    "en-têtes <th> vides ×8 (dont 1 colonne manquante : applications 9 th pour 10 colonnes) → textes masqués SR via common/visuallyHidden.ts + 10e th",
+    "menu/drawer/dialog/notistack en portail <body> hors landmarks (region) + Modal aria-hidden de #root (aria-hidden-focus, landmark-one-main) → #a11y-popup-layer[role=complementary] frère de #root + container={popupContainer()} sur Menu, Drawer temporaire, 10 Dialog, SnackbarProvider domRoot",
+    "snackbar notistack variant=info #2196f3 + texte blanc (3.68:1) → variant neutre #313131 (12:1) aux 2 enqueueSnackbar ; sonde verify mesure la vraie surface SnackbarContent (13,01:1)",
+    "liens de contenu message .content & a #ff7f50 = 2,49:1 sur carte #fff (WCAG 1.4.3, finding F1) → #bf360c = 5,60:1 en light ; #ff7f50 conservé en dark = 6,60:1 sur #1f1f1f",
+    "drawer temporaire role=dialog sans nom accessible (aria-dialog-name, exposé au viewport mobile réel) → slotProps.paper aria-label 'Navigation mobile' aligné sur le <nav> interne",
+    "Typography variant=subtitle1 rend <h6> (heading-order) → component=\"div\" (métadonnée, pas titre de section)",
+    "div[aria-label] autour des boutons disabled des tooltips (aria-prohibited-attr) → role=\"group\" (nom autorisé sur group)",
+    "navigation : liens <a> contenant ListItemButton (interactif imbriqué) → ListItemButton component={Link} ; 2 nav landmarks nommés distincts ; Avatar nav alt=\"\" ; bug image!==null rendait <img src=undefined> → image ?",
+    "table plugins sans data cells → ligne empty-state 'No plugins' colSpan",
+    "bouton détails plugin : <a><button> imbriqué → Button component={Link} + aria-label"
+  ],
+  "harnessFindings": [
+    "POST /message accepte le cookie client + champ appid → état snackbar-undo rejouable sans token hardcodé (GET /application ne renvoie pas token)",
+    "chaque POST /auth/local/login crée une ligne client → login.mjs purge les clients 'devin-audit' avant connexion (seed déterministe)",
+    "nav hash conserve le point de départ Tab de Chrome : le skip-link ne se teste qu'après reload réel",
+    "[role=dialog] sélectionne aussi le Drawer MUI → cibler .MuiDialog-root [role=dialog]",
+    "clone autosize des TextField multiline (aria-hidden, tabindex=-1) compté comme champ → filtrer aria-hidden+visibility+tabIndex",
+    "waitForSelector sur '.MuiDrawer-root .MuiDrawer-paper' résout le drawer permanent caché → viser '.MuiModal-root .MuiDrawer-paper' (drawer temporaire = Modal)",
+    "scopeHash/statesHash embarquent l'origine complète → baseline et final DOIVENT partager le même port (8095)",
+    "kill <pid> explicite plutôt que pkill -f : le pattern matche le wrapper bash -c de la commande elle-même",
+    "un goto hash-only est une nav SPA sans reload → les sondes passent par about:blank entre états (portaux résiduels)",
+    "le drawer temporaire n'existe qu'au viewport mobile : auditer au vrai 375px expose des défauts qu'un restore 1280px masquait (aria-dialog-name)",
+    "serveur obsolète détecté en comparant l'hash index-<hash>.js servi vs le bundle du build courant"
+  ]
 }

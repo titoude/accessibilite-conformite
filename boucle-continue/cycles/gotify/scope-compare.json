@@ -1,0 +1,87 @@
+{
+ "app": {
+  "baseline": {
+   "urls": [
+    "http://127.0.0.1:8095/#/",
+    "http://127.0.0.1:8095/#/messages/1",
+    "http://127.0.0.1:8095/#/applications",
+    "http://127.0.0.1:8095/#/clients",
+    "http://127.0.0.1:8095/#/users",
+    "http://127.0.0.1:8095/#/settings",
+    "http://127.0.0.1:8095/#/plugins",
+    "http://127.0.0.1:8095/#/applications [state:user-menu]",
+    "http://127.0.0.1:8095/#/ [state:nav-drawer-mobile]",
+    "http://127.0.0.1:8095/#/applications [state:add-app-dialog]",
+    "http://127.0.0.1:8095/#/applications [state:update-app-dialog]",
+    "http://127.0.0.1:8095/#/clients [state:add-client-dialog]",
+    "http://127.0.0.1:8095/#/clients [state:elevate-client-dialog]",
+    "http://127.0.0.1:8095/#/users [state:add-user-dialog]",
+    "http://127.0.0.1:8095/#/messages/1 [state:push-message-dialog]",
+    "http://127.0.0.1:8095/#/ [state:confirm-delete-all]",
+    "http://127.0.0.1:8095/#/ [state:snackbar-undo]"
+   ],
+   "scopeHash": "8f1daa57494527281e2450693d224c1b285daf6d68b5cad2668a1b9c2f73b137",
+   "statesHash": "525df0481c3c91b45d219fa059ecd72edfa9089939f9bbb10361d0fb008d1162",
+   "waitFor": "main",
+   "waitMs": 1500,
+   "audited": 17,
+   "total": 17
+  },
+  "final": {
+   "urls": [
+    "http://127.0.0.1:8095/#/",
+    "http://127.0.0.1:8095/#/messages/1",
+    "http://127.0.0.1:8095/#/applications",
+    "http://127.0.0.1:8095/#/clients",
+    "http://127.0.0.1:8095/#/users",
+    "http://127.0.0.1:8095/#/settings",
+    "http://127.0.0.1:8095/#/plugins",
+    "http://127.0.0.1:8095/#/applications [state:user-menu]",
+    "http://127.0.0.1:8095/#/ [state:nav-drawer-mobile]",
+    "http://127.0.0.1:8095/#/applications [state:add-app-dialog]",
+    "http://127.0.0.1:8095/#/applications [state:update-app-dialog]",
+    "http://127.0.0.1:8095/#/clients [state:add-client-dialog]",
+    "http://127.0.0.1:8095/#/clients [state:elevate-client-dialog]",
+    "http://127.0.0.1:8095/#/users [state:add-user-dialog]",
+    "http://127.0.0.1:8095/#/messages/1 [state:push-message-dialog]",
+    "http://127.0.0.1:8095/#/ [state:confirm-delete-all]",
+    "http://127.0.0.1:8095/#/ [state:snackbar-undo]"
+   ],
+   "scopeHash": "8f1daa57494527281e2450693d224c1b285daf6d68b5cad2668a1b9c2f73b137",
+   "statesHash": "525df0481c3c91b45d219fa059ecd72edfa9089939f9bbb10361d0fb008d1162",
+   "waitFor": "#main-content",
+   "waitMs": 1500,
+   "audited": 17,
+   "total": 17
+  },
+  "identical": true
+ },
+ "login": {
+  "baseline": {
+   "urls": [
+    "http://127.0.0.1:8095/#/login",
+    "http://127.0.0.1:8095/#/login [state:register-dialog]"
+   ],
+   "scopeHash": "a560a4719efe7e30b3b8bc4b50d17657781172ee7186c0e352b8116f46db15ba",
+   "statesHash": "687b71b67eaf71150337c588e28d717ba869233105b2b7e0fdad4cff3150988a",
+   "waitFor": "input",
+   "waitMs": 1500,
+   "audited": 2,
+   "total": 2
+  },
+  "final": {
+   "urls": [
+    "http://127.0.0.1:8095/#/login",
+    "http://127.0.0.1:8095/#/login [state:register-dialog]"
+   ],
+   "scopeHash": "a560a4719efe7e30b3b8bc4b50d17657781172ee7186c0e352b8116f46db15ba",
+   "statesHash": "687b71b67eaf71150337c588e28d717ba869233105b2b7e0fdad4cff3150988a",
+   "waitFor": "input",
+   "waitMs": 1500,
+   "audited": 2,
+   "total": 2
+  },
+  "identical": true
+ },
+ "note": "Recalculé DEPUIS reports/{baseline-v2,final-v2}/*/scope.json livrés. Même ensemble de scénarios (scopeHash identique) et mêmes setups d'états (statesHash identique) entre baseline-v2 et final-v2 — la seule asymétrie est le sélecteur --wait-for : 'main' sur vanilla (pas de #main-content avant le patch) vs '#main-content' sur patché ; --wait 1500 identique. v2 vs v1 : seed enrichi d'un message markdown avec 2 liens réels et nav-drawer-mobile audité au viewport mobile réel (375px, sans restore artificiel) → statesHash app 525df048… remplace 52f142ec… de la v1."
+}

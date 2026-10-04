@@ -177,12 +177,26 @@ const snackbarContrast = await page.evaluate(() => {
         return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
     };
     const rgb = (s) => (s.match(/[\d.]+/g) || []).map(Number);
-    const sn = document.querySelector('#notistack-snackbar') || document.querySelector('[class*="notistack"]');
+    // La surface réelle = SnackbarContent (fond solide). #notistack-snackbar
+    // est une enveloppe au fond transparent : on part du texte rendu et on
+    // remonte la chaîne d'ancêtres jusqu'à la première couleur solide.
+    const sn =
+        document.querySelector('.MuiSnackbarContent-message, [class*="SnackbarContent-message"]') ||
+        document.querySelector('#notistack-snackbar') ||
+        document.querySelector('[class*="notistack"]');
     if (!sn) return {found: false};
-    const f = rgb(getComputedStyle(sn).color), b = rgb(getComputedStyle(sn).backgroundColor);
-    return {found: true, fg: f, bg: b, ratio: Math.round(((Math.max(lum(...f), lum(...b)) + 0.05) / (Math.min(lum(...f), lum(...b)) + 0.05)) * 100) / 100};
+    const f = rgb(getComputedStyle(sn).color);
+    let bg = null, bgNode = null, node = sn;
+    while (node && node !== document.documentElement) {
+        const cs = getComputedStyle(node);
+        const c = rgb(cs.backgroundColor);
+        if (c.length >= 4 ? c[3] > 0 : c.length === 3) {bg = c; bgNode = node.tagName + '.' + String(node.className).split(' ')[0]; break;}
+        node = node.parentElement;
+    }
+    if (!bg) return {found: true, fg: f, bg: null, transparentChain: true};
+    return {found: true, fg: f, bg, bgNode, ratio: Math.round(((Math.max(lum(...f), lum(...bg)) + 0.05) / (Math.min(lum(...f), lum(...bg)) + 0.05)) * 100) / 100};
 });
-check('snackbar: fond contraste >= 4.5:1', snackbarContrast.found && snackbarContrast.ratio >= 4.5, JSON.stringify(snackbarContrast));
+check('snackbar: fond contraste >= 4.5:1 (surface SnackbarContent)', snackbarContrast.found && !snackbarContrast.transparentChain && snackbarContrast.ratio >= 4.5, JSON.stringify(snackbarContrast));
 await undo.click();
 await page.waitForTimeout(600);
 const stillThere = await page.locator('.message', {hasText: 'verify-undo-body'}).count();

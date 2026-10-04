@@ -1,0 +1,528 @@
+{
+  "runId": "8df0d47e-1783-4eaa-848a-506d71984406",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-04T21:31:42.797Z",
+  "baseUrl": "http://127.0.0.1:8095",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:8095/#/login",
+      "requestedUrl": "http://127.0.0.1:8095/#/login",
+      "violations": [
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main style=\"margin: 0px auto; max-width: 250px;\">",
+              "target": [
+                ".css-1dyj36-content > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main style=\"margin: 0px auto; max-width: 250px;\">",
+                      "target": [
+                        ".css-1dyj36-content > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"css-1dyj36-content\">",
+              "target": [
+                ".css-1dyj36-content"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main style=\"margin: 0px auto; max-width: 250px;\">",
+                      "target": [
+                        ".css-1dyj36-content > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"css-1dyj36-content\">",
+              "target": [
+                ".css-1dyj36-content"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-invalid=\"false\" autocomplete=\"username\" id=\"username\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"text\" value=\"\" name=\"username\">",
+              "target": [
+                "#username"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-invalid=\"false\" autocomplete=\"current-password\" id=\"password\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"password\" value=\"\" name=\"password\">",
+              "target": [
+                "#password"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:8095/#/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://127.0.0.1:8095/#/login [state:register-dialog]",
+      "requestedUrl": "http://127.0.0.1:8095/#/login",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-hidden-focus?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a class=\"css-15uqq7h-link\" href=\"#/\" data-discover=\"true\"><h5 class=\"MuiTypography-root MuiTypography-h5 css-1l19qul-titleName\">Gotify</h5></a>",
+                      "target": [
+                        ".css-w08i4i-title > a[href=\"#/\"][data-discover=\"true\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a href=\"https://github.com/gotify/server/releases/tag/vunknown\" class=\"css-15uqq7h-link\"><span class=\"MuiTypography-root MuiTypography-button css-1gijycu\">@unknown</span></a>",
+                      "target": [
+                        ".css-w08i4i-title > a:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<a class=\"css-15uqq7h-link\" href=\"#/\" data-discover=\"true\">",
+                      "target": [
+                        ".MuiPaper-elevation0 > a[href=\"#/\"][data-discover=\"true\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button class=\"MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-iafu2n\" tabindex=\"0\" type=\"button\" id=\"register\">Register<span class=\"MuiTouchRipple-root css-4mb1j7\"></span></button>",
+                      "target": [
+                        "#register"
+                      ]
+                    },
+                    {
+                      "html": "<input aria-invalid=\"false\" autocomplete=\"username\" id=\"username\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"text\" value=\"\" name=\"username\">",
+                      "target": [
+                        "#username"
+                      ]
+                    },
+                    {
+                      "html": "<input aria-invalid=\"false\" autocomplete=\"current-password\" id=\"password\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"password\" value=\"\" name=\"password\">",
+                      "target": [
+                        "#password"
+                      ]
+                    },
+                    {
+                      "html": "<button class=\"MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeLarge MuiButton-colorPrimary login css-9zro62\" tabindex=\"0\" type=\"submit\" style=\"margin-top: 15px; margin-bottom: 5px;\"><span class=\"MuiButton-loadingWrapper\" style=\"display: contents;\"></span>Login</button>",
+                      "target": [
+                        ".MuiButton-sizeLarge"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"root\" aria-hidden=\"true\">",
+              "target": [
+                "#root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on a div with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div aria-label=\"username is required\" class=\"\"><button class=\"MuiButtonBase-root Mui-disabled MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary save-create css-iafu2n\" tabindex=\"-1\" type=\"button\" disabled=\"\">Register</button></div>",
+              "target": [
+                "div[aria-label=\"username is required\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on a div with no valid role attribute."
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-sizeMedium MuiButton-colorPrimary css-iafu2n\" tabindex=\"0\" type=\"button\" id=\"register\">Register<span class=\"MuiTouchRipple-root css-4mb1j7\"></span></button>",
+              "target": [
+                "#register"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-invalid=\"false\" autocomplete=\"username\" id=\"username\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"text\" value=\"\" name=\"username\">",
+              "target": [
+                "#username"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-invalid=\"false\" autocomplete=\"current-password\" id=\"password\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"password\" value=\"\" name=\"password\">",
+              "target": [
+                "#password"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-invalid=\"false\" autocomplete=\"username\" id=\"register-username\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"text\" value=\"\" name=\"username\">",
+              "target": [
+                "#register-username"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-invalid=\"false\" autocomplete=\"new-password\" id=\"register-password\" class=\"MuiInputBase-input MuiOutlinedInput-input css-1pk1fka\" type=\"password\" value=\"\" name=\"password\">",
+              "target": [
+                "#register-password"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:8095/#/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "a560a4719efe7e30b3b8bc4b50d17657781172ee7186c0e352b8116f46db15ba"
+}
