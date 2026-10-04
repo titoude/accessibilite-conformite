@@ -1,0 +1,612 @@
+diff --git a/client/assets/tailwind.css b/client/assets/tailwind.css
+index 7883f32..a450b8c 100644
+--- a/client/assets/tailwind.css
++++ b/client/assets/tailwind.css
+@@ -63,7 +63,7 @@
+   --color-accent: #1ad691;
+   --color-error: #ff5252;
+   --color-info: #2196f3;
+-  --color-success: #4caf50;
++  --color-success: #2e7d32;
+   --color-warning: #fb8c00;
+   --color-darkgreen: rgb(34, 127, 35);
+   --color-black-50: #bbbbbb;
+diff --git a/client/components/app/Appbar.vue b/client/components/app/Appbar.vue
+index 428ae6e..af24ec7 100644
+--- a/client/components/app/Appbar.vue
++++ b/client/components/app/Appbar.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <div class="w-full h-16 bg-primary relative">
++  <header class="w-full h-16 bg-primary relative">
+     <div id="appbar" role="toolbar" aria-label="Appbar" class="absolute top-0 bottom-0 left-0 w-full h-full px-2 md:px-6 py-1 z-60">
+       <div class="flex h-full items-center">
+         <nuxt-link to="/">
+@@ -7,7 +7,7 @@
+         </nuxt-link>
+ 
+         <nuxt-link to="/">
+-          <h1 class="text-xl mr-6 hidden lg:block hover:underline">audiobookshelf</h1>
++          <p class="text-xl mr-6 hidden lg:block hover:underline">audiobookshelf</p>
+         </nuxt-link>
+ 
+         <ui-libraries-dropdown class="mr-2" />
+@@ -52,7 +52,7 @@
+         </nuxt-link>
+       </div>
+       <div v-show="numMediaItemsSelected" class="absolute top-0 left-0 w-full h-full px-4 bg-primary flex items-center">
+-        <h1 class="text-lg md:text-2xl px-4">{{ $getString('MessageItemsSelected', [numMediaItemsSelected]) }}</h1>
++        <h2 class="text-lg md:text-2xl px-4">{{ $getString('MessageItemsSelected', [numMediaItemsSelected]) }}</h2>
+         <div class="grow" />
+         <ui-btn v-if="!isPodcastLibrary && selectedMediaItemsArePlayable" color="bg-success" :padding-x="4" small class="flex items-center h-9 mr-2" @click="playSelectedItems">
+           <span class="material-symbols fill text-2xl -ml-2 pr-1 text-white">play_arrow</span>
+@@ -80,7 +80,7 @@
+         </ui-tooltip>
+       </div>
+     </div>
+-  </div>
++  </header>
+ </template>
+ 
+ <script>
+diff --git a/client/components/app/MediaPlayerContainer.vue b/client/components/app/MediaPlayerContainer.vue
+index 1a2b1d3..09c007e 100644
+--- a/client/components/app/MediaPlayerContainer.vue
++++ b/client/components/app/MediaPlayerContainer.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <div v-if="streamLibraryItem" id="mediaPlayerContainer" class="w-full fixed bottom-0 left-0 right-0 h-48 lg:h-40 z-50 bg-primary px-2 lg:px-4 pb-1 lg:pb-4 pt-2">
++  <div v-if="streamLibraryItem" id="mediaPlayerContainer" role="region" :aria-label="$strings.LabelMediaPlayer" class="w-full fixed bottom-0 left-0 right-0 h-48 lg:h-40 z-50 bg-primary px-2 lg:px-4 pb-1 lg:pb-4 pt-2">
+     <div class="absolute left-2 top-2 lg:left-4 cursor-pointer">
+       <covers-book-cover expand-on-click :library-item="streamLibraryItem" :width="bookCoverWidth" :book-cover-aspect-ratio="coverAspectRatio" />
+     </div>
+diff --git a/client/components/app/SettingsContent.vue b/client/components/app/SettingsContent.vue
+index ffe0c8d..377ce4d 100644
+--- a/client/components/app/SettingsContent.vue
++++ b/client/components/app/SettingsContent.vue
+@@ -2,7 +2,7 @@
+   <div class="bg-bg rounded-md shadow-lg border border-white/5 p-2 sm:p-4 mb-8">
+     <div class="flex items-center mb-2">
+       <slot name="header-prefix"></slot>
+-      <h1 class="text-xl">{{ headerText }}</h1>
++      <h2 class="text-xl">{{ headerText }}</h2>
+ 
+       <slot name="header-items"></slot>
+     </div>
+diff --git a/client/components/app/SideRail.vue b/client/components/app/SideRail.vue
+index 9fa7661..09a203d 100644
+--- a/client/components/app/SideRail.vue
++++ b/client/components/app/SideRail.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <div role="toolbar" aria-orientation="vertical" aria-label="Library Sidebar" class="w-20 bg-bg h-full fixed left-0 box-shadow-side z-50" style="min-width: 80px" :style="{ top: offsetTop + 'px' }">
++  <aside aria-label="Library Sidebar" class="w-20 bg-bg h-full fixed left-0 box-shadow-side z-50" style="min-width: 80px" :style="{ top: offsetTop + 'px' }">
+     <!-- ugly little workaround to cover up the shadow overlapping the bookshelf toolbar -->
+     <div v-if="isShowingBookshelfToolbar" class="absolute top-0 -right-4 w-4 bg-bg h-10 pointer-events-none" />
+ 
+@@ -111,7 +111,7 @@
+     </div>
+ 
+     <modals-changelog-view-modal v-model="showChangelogModal" :versionData="versionData" />
+-  </div>
++  </aside>
+ </template>
+ 
+ <script>
+diff --git a/client/components/cards/BookMatchCard.vue b/client/components/cards/BookMatchCard.vue
+index 09b963c..2646e32 100644
+--- a/client/components/cards/BookMatchCard.vue
++++ b/client/components/cards/BookMatchCard.vue
+@@ -9,7 +9,7 @@
+       </div>
+       <div v-if="!isPodcast" class="px-2 md:px-4 grow">
+         <div class="flex items-center">
+-          <h1 class="text-sm md:text-base">{{ book.title }}</h1>
++          <h2 class="text-sm md:text-base">{{ book.title }}</h2>
+           <div class="grow" />
+           <p class="text-sm md:text-base">{{ book.publishedYear }}</p>
+         </div>
+@@ -36,9 +36,9 @@
+         </div>
+       </div>
+       <div v-else class="px-4 grow">
+-        <h1>
++        <h2>
+           <div class="flex items-center">{{ book.title }}<widgets-explicit-indicator v-if="book.explicit" /></div>
+-        </h1>
++        </h2>
+         <p class="text-base text-gray-300 whitespace-nowrap truncate">{{ $getString('LabelByAuthor', [book.author]) }}</p>
+         <p v-if="book.genres" class="text-xs text-gray-400 leading-5">{{ book.genres.join(', ') }}</p>
+         <p class="text-xs text-gray-400 leading-5">{{ book.trackCount }} Episodes</p>
+diff --git a/client/components/controls/GlobalSearch.vue b/client/components/controls/GlobalSearch.vue
+index 6f3a819..d13cb4d 100644
+--- a/client/components/controls/GlobalSearch.vue
++++ b/client/components/controls/GlobalSearch.vue
+@@ -2,9 +2,9 @@
+   <div class="">
+     <div class="w-full relative sm:w-80">
+       <form role="search" @submit.prevent="submitSearch">
+-        <ui-text-input ref="input" v-model="search" :placeholder="$strings.PlaceholderSearch" @input="inputUpdate" @focus="focussed" @blur="blurred" class="w-full h-8 text-sm" />
++        <ui-text-input ref="input" v-model="search" :placeholder="$strings.PlaceholderSearch" :aria-label="$strings.PlaceholderSearch" @input="inputUpdate" @focus="focussed" @blur="blurred" class="w-full h-8 text-sm" />
+       </form>
+-      <button :aria-hidden="!search" class="absolute top-0 right-0 bottom-0 h-full flex items-center px-2 text-gray-400 cursor-pointer" @click="clickClear">
++      <button :aria-hidden="!search" :tabindex="search ? 0 : -1" :aria-label="search ? $strings.ButtonClose : null" class="absolute top-0 right-0 bottom-0 h-full flex items-center px-2 text-gray-400 cursor-pointer" @click="clickClear">
+         <span v-if="!search" class="material-symbols" style="font-size: 1.2rem">&#xe8b6;</span>
+         <span v-else class="material-symbols" style="font-size: 1.2rem">close</span>
+       </button>
+diff --git a/client/components/covers/BookCover.vue b/client/components/covers/BookCover.vue
+index e55d38c..907fe8e 100644
+--- a/client/components/covers/BookCover.vue
++++ b/client/components/covers/BookCover.vue
+@@ -5,7 +5,7 @@
+         <div class="absolute cover-bg" ref="coverBg" />
+       </div>
+ 
+-      <img v-if="libraryItem" ref="cover" :src="fullCoverUrl" loading="lazy" draggable="false" @error="imageError" @load="imageLoaded" class="w-full h-full absolute top-0 left-0 z-10 duration-300 transition-opacity" :style="{ opacity: imageReady ? '1' : '0' }" :class="showCoverBg ? 'object-contain' : 'object-fill'" @click="clickCover" />
++      <img v-if="libraryItem" ref="cover" :src="fullCoverUrl" :alt="title" loading="lazy" draggable="false" @error="imageError" @load="imageLoaded" class="w-full h-full absolute top-0 left-0 z-10 duration-300 transition-opacity" :style="{ opacity: imageReady ? '1' : '0' }" :class="showCoverBg ? 'object-contain' : 'object-fill'" @click="clickCover" />
+ 
+       <div v-show="loading && libraryItem" class="absolute top-0 left-0 h-full w-full flex items-center justify-center">
+         <p class="text-center" :style="{ fontSize: 0.75 * sizeMultiplier + 'rem' }">{{ title }}</p>
+@@ -17,7 +17,7 @@
+ 
+     <div v-if="imageFailed" class="absolute top-0 left-0 right-0 bottom-0 w-full h-full bg-red-100" :style="{ padding: placeholderCoverPadding + 'rem' }">
+       <div class="w-full h-full border-2 border-error flex flex-col items-center justify-center">
+-        <img src="/Logo.png" loading="lazy" class="mb-2" :style="{ height: 64 * sizeMultiplier + 'px' }" />
++        <img src="/Logo.png" loading="lazy" alt="" class="mb-2" :style="{ height: 64 * sizeMultiplier + 'px' }" />
+         <p class="text-center text-error" :style="{ fontSize: titleFontSize + 'rem' }">Invalid Cover</p>
+       </div>
+     </div>
+diff --git a/client/components/modals/changelog/ViewModal.vue b/client/components/modals/changelog/ViewModal.vue
+index 939ee71..4a4db7a 100644
+--- a/client/components/modals/changelog/ViewModal.vue
++++ b/client/components/modals/changelog/ViewModal.vue
+@@ -2,7 +2,7 @@
+   <modals-modal v-model="show" name="changelog" :width="800" :height="'unset'">
+     <template #outer>
+       <div class="absolute top-0 left-0 p-5 w-2/3 overflow-hidden">
+-        <h1 class="text-3xl text-white truncate">Changelog</h1>
++        <h2 class="text-3xl text-white truncate">Changelog</h2>
+       </div>
+     </template>
+     <div class="px-8 py-6 w-full rounded-lg bg-bg shadow-lg border border-black-300 relative overflow-y-scroll" style="max-height: 80vh">
+diff --git a/client/components/modals/collections/AddCreateModal.vue b/client/components/modals/collections/AddCreateModal.vue
+index 5cec225..8c8ee95 100644
+--- a/client/components/modals/collections/AddCreateModal.vue
++++ b/client/components/modals/collections/AddCreateModal.vue
+@@ -9,8 +9,8 @@
+     <div ref="container" class="w-full rounded-lg bg-bg box-shadow-md overflow-y-auto overflow-x-hidden" style="max-height: 80vh">
+       <div v-if="show" class="w-full h-full">
+         <div class="py-4 px-4">
+-          <h1 v-if="!showBatchCollectionModal" class="text-2xl">{{ $strings.LabelAddToCollection }}</h1>
+-          <h1 v-else class="text-2xl">{{ $getString('LabelAddToCollectionBatch', [selectedBookIds.length]) }}</h1>
++          <h2 v-if="!showBatchCollectionModal" class="text-2xl">{{ $strings.LabelAddToCollection }}</h2>
++          <h2 v-else class="text-2xl">{{ $getString('LabelAddToCollectionBatch', [selectedBookIds.length]) }}</h2>
+         </div>
+         <div class="w-full overflow-y-auto overflow-x-hidden max-h-96">
+           <transition-group name="list-complete" tag="div">
+diff --git a/client/components/modals/item/EditModal.vue b/client/components/modals/item/EditModal.vue
+index 232c322..8e8b561 100644
+--- a/client/components/modals/item/EditModal.vue
++++ b/client/components/modals/item/EditModal.vue
+@@ -2,7 +2,7 @@
+   <modals-modal v-model="show" name="edit-book" :width="800" :height="height" :processing="processing" :content-margin-top="marginTop">
+     <template #outer>
+       <div class="absolute top-0 left-0 p-4 landscape:px-4 landscape:py-2 md:portrait:p-5 lg:p-5 w-2/3 overflow-hidden pointer-events-none">
+-        <h1 class="text-xl md:portrait:text-3xl md:landscape:text-lg lg:text-3xl text-white truncate pointer-events-none">{{ title }}</h1>
++        <h2 class="text-xl md:portrait:text-3xl md:landscape:text-lg lg:text-3xl text-white truncate pointer-events-none">{{ title }}</h2>
+       </div>
+     </template>
+     <div role="tablist" class="absolute -top-10 left-0 z-10 w-full flex">
+diff --git a/client/components/modals/playlists/AddCreateModal.vue b/client/components/modals/playlists/AddCreateModal.vue
+index 9aa68bd..48a5f11 100644
+--- a/client/components/modals/playlists/AddCreateModal.vue
++++ b/client/components/modals/playlists/AddCreateModal.vue
+@@ -9,8 +9,8 @@
+     <div ref="container" class="w-full rounded-lg bg-bg box-shadow-md overflow-y-auto overflow-x-hidden" style="max-height: 80vh">
+       <div v-if="show" class="w-full h-full">
+         <div class="py-4 px-4">
+-          <h1 v-if="!isBatch" class="text-2xl">{{ $strings.LabelAddToPlaylist }}</h1>
+-          <h1 v-else class="text-2xl">{{ $getString('LabelAddToPlaylistBatch', [selectedPlaylistItems.length]) }}</h1>
++          <h2 v-if="!isBatch" class="text-2xl">{{ $strings.LabelAddToPlaylist }}</h2>
++          <h2 v-else class="text-2xl">{{ $getString('LabelAddToPlaylistBatch', [selectedPlaylistItems.length]) }}</h2>
+         </div>
+         <div class="w-full overflow-y-auto overflow-x-hidden max-h-96">
+           <transition-group name="list-complete" tag="div">
+diff --git a/client/components/stats/DailyListeningChart.vue b/client/components/stats/DailyListeningChart.vue
+index 55752fc..0c91528 100644
+--- a/client/components/stats/DailyListeningChart.vue
++++ b/client/components/stats/DailyListeningChart.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div class="w-96 my-6 mx-auto">
+-    <h1 class="text-2xl mb-4">{{ $strings.HeaderStatsMinutesListeningChart }}</h1>
++    <h2 class="text-2xl mb-4">{{ $strings.HeaderStatsMinutesListeningChart }}</h2>
+     <div class="relative w-96 h-72">
+       <div class="absolute top-0 left-0">
+         <template v-for="lbl in yAxisLabels">
+diff --git a/client/components/stats/YearInReviewBanner.vue b/client/components/stats/YearInReviewBanner.vue
+index 62776bc..6a3414e 100644
+--- a/client/components/stats/YearInReviewBanner.vue
++++ b/client/components/stats/YearInReviewBanner.vue
+@@ -7,7 +7,7 @@
+     </div>
+ 
+     <div class="flex items-center">
+-      <h1 class="hidden md:block text-xl font-semibold">{{ $getString('HeaderYearReview', [yearInReviewYear]) }}</h1>
++      <h2 class="hidden md:block text-xl font-semibold">{{ $getString('HeaderYearReview', [yearInReviewYear]) }}</h2>
+       <div class="hidden md:block grow" />
+       <ui-btn class="w-full md:w-auto" @click.stop="clickShowYearInReview">{{ showYearInReview ? $strings.LabelYearReviewHide : $strings.LabelYearReviewShow }}</ui-btn>
+     </div>
+diff --git a/client/components/tables/BackupsTable.vue b/client/components/tables/BackupsTable.vue
+index f769abd..05690e9 100644
+--- a/client/components/tables/BackupsTable.vue
++++ b/client/components/tables/BackupsTable.vue
+@@ -11,7 +11,7 @@
+           <th>{{ $strings.LabelFile }}</th>
+           <th class="hidden sm:table-cell w-32 md:w-56">{{ $strings.LabelDatetime }}</th>
+           <th class="hidden sm:table-cell w-20 md:w-28">{{ $strings.LabelSize }}</th>
+-          <th class="w-36"></th>
++          <th class="w-36"><span class="sr-only">{{ $strings.LabelActions || "Actions" }}</span></th>
+         </tr>
+         <tr v-for="backup in backups" :key="backup.id" :class="!backup.serverVersion ? 'bg-error/10' : ''">
+           <td>
+diff --git a/client/components/tables/CustomMetadataProviderTable.vue b/client/components/tables/CustomMetadataProviderTable.vue
+index a47c26d..5fb097b 100644
+--- a/client/components/tables/CustomMetadataProviderTable.vue
++++ b/client/components/tables/CustomMetadataProviderTable.vue
+@@ -5,7 +5,7 @@
+         <th>{{ $strings.LabelName }}</th>
+         <th>URL</th>
+         <th>Authorization Header Value</th>
+-        <th class="w-12"></th>
++        <th class="w-12"><span class="sr-only">{{ $strings.LabelActions || "Actions" }}</span></th>
+       </tr>
+       <tr v-for="provider in providers" :key="provider.id">
+         <td class="text-sm">{{ provider.name }}</td>
+diff --git a/client/components/tables/UsersTable.vue b/client/components/tables/UsersTable.vue
+index c717101..b3d43cd 100644
+--- a/client/components/tables/UsersTable.vue
++++ b/client/components/tables/UsersTable.vue
+@@ -8,7 +8,7 @@
+           <th class="hidden lg:table-cell">{{ $strings.LabelActivity }}</th>
+           <th class="w-32 hidden sm:table-cell">{{ $strings.LabelLastSeen }}</th>
+           <th class="w-32 hidden sm:table-cell">{{ $strings.LabelCreatedAt }}</th>
+-          <th class="w-32"></th>
++          <th class="w-32"><span class="sr-only">{{ $strings.LabelActions || "Actions" }}</span></th>
+         </tr>
+         <tr v-for="user in users" :key="user.id" class="cursor-pointer" :class="user.isActive ? '' : 'bg-error/10!'" @click="$router.push(`/config/users/${user.id}`)">
+           <td>
+@@ -41,10 +41,10 @@
+           <td class="py-0">
+             <div class="w-full flex justify-left">
+               <!-- Dont show edit for non-root users -->
+-              <div v-if="user.type !== 'root' || userIsRoot" class="h-8 w-8 flex items-center justify-center text-white/50 hover:text-white/100 cursor-pointer" @click.stop="editUser(user)">
++              <div v-if="user.type !== 'root' || userIsRoot" class="h-8 w-8 flex items-center justify-center text-white/70 hover:text-white/100 cursor-pointer" @click.stop="editUser(user)">
+                 <button type="button" :aria-label="$getString('ButtonUserEdit', [user.username])" class="material-symbols text-base">edit</button>
+               </div>
+-              <div v-show="user.type !== 'root' && user.id !== currentUserId" class="h-8 w-8 flex items-center justify-center text-white/50 hover:text-error cursor-pointer" @click.stop="deleteUserClick(user)">
++              <div v-show="user.type !== 'root' && user.id !== currentUserId" class="h-8 w-8 flex items-center justify-center text-white/70 hover:text-error cursor-pointer" @click.stop="deleteUserClick(user)">
+                 <button type="button" :aria-label="$getString('ButtonUserDelete', [user.username])" class="material-symbols text-base">delete</button>
+               </div>
+             </div>
+diff --git a/client/components/ui/MultiSelect.vue b/client/components/ui/MultiSelect.vue
+index 3dcfb04..49834a3 100644
+--- a/client/components/ui/MultiSelect.vue
++++ b/client/components/ui/MultiSelect.vue
+@@ -3,9 +3,9 @@
+     <label :for="identifier" class="px-1 text-sm font-semibold" :class="disabled ? 'text-gray-400' : ''">{{ label }}</label>
+     <div ref="wrapper" class="relative">
+       <form @submit.prevent="submitForm">
+-        <div ref="inputWrapper" role="list" style="min-height: 36px" class="flex-wrap relative w-full shadow-xs flex items-center border border-gray-600 rounded-sm px-2 py-1" :class="wrapperClass" @click.stop.prevent="clickWrapper" @mouseup.stop.prevent @mousedown.prevent>
++        <div ref="inputWrapper" role="group" style="min-height: 36px" class="flex-wrap relative w-full shadow-xs flex items-center border border-gray-600 rounded-sm px-2 py-1" :class="wrapperClass" @click.stop.prevent="clickWrapper" @mouseup.stop.prevent @mousedown.prevent>
+           <!-- Use index in v-for and key in case the same key exists multiple times -->
+-          <div v-for="(item, idx) in selected" :key="item + '-' + idx" role="listitem" class="rounded-full px-2 py-1 mx-0.5 my-0.5 text-xs bg-bg flex flex-nowrap break-all items-center relative">
++          <div v-for="(item, idx) in selected" :key="item + '-' + idx"  class="rounded-full px-2 py-1 mx-0.5 my-0.5 text-xs bg-bg flex flex-nowrap break-all items-center relative">
+             <div v-if="!disabled" class="w-full h-full rounded-full absolute top-0 left-0 px-1 bg-bg/75 flex items-center justify-end opacity-0 hover:opacity-100" :class="{ 'opacity-100': inputFocused }">
+               <button v-if="showEdit" type="button" :aria-label="$strings.ButtonEdit" class="material-symbols text-white hover:text-warning cursor-pointer" style="font-size: 1.1rem" @click.stop="editItem(item)">edit</button>
+               <button type="button" :aria-label="$strings.ButtonRemove" class="material-symbols text-white hover:text-error focus:text-error cursor-pointer" style="font-size: 1.1rem" @click.stop="removeItem(item, idx)" @keydown.enter.stop.prevent="removeItem(item, idx)" @focus="setInputFocused(true)" @blur="setInputFocused(false)" tabindex="0">close</button>
+diff --git a/client/components/ui/MultiSelectQueryInput.vue b/client/components/ui/MultiSelectQueryInput.vue
+index 4bc434c..264346a 100644
+--- a/client/components/ui/MultiSelectQueryInput.vue
++++ b/client/components/ui/MultiSelectQueryInput.vue
+@@ -3,8 +3,8 @@
+     <label :for="identifier" class="px-1 text-sm font-semibold" :class="disabled ? 'text-gray-400' : ''">{{ label }}</label>
+     <div ref="wrapper" class="relative">
+       <form @submit.prevent="submitForm">
+-        <div ref="inputWrapper" role="list" style="min-height: 36px" class="flex-wrap relative w-full shadow-xs flex items-center border border-gray-600 rounded-sm px-2 py-0.5" :class="wrapperClass" @click.stop.prevent="clickWrapper" @mouseup.stop.prevent @mousedown.prevent>
+-          <div v-for="item in selected" :key="item.id" role="listitem" class="rounded-full px-2 py-0.5 m-0.5 text-xs bg-bg flex flex-nowrap whitespace-nowrap items-center justify-center relative min-w-12">
++        <div ref="inputWrapper" role="group" style="min-height: 36px" class="flex-wrap relative w-full shadow-xs flex items-center border border-gray-600 rounded-sm px-2 py-0.5" :class="wrapperClass" @click.stop.prevent="clickWrapper" @mouseup.stop.prevent @mousedown.prevent>
++          <div v-for="item in selected" :key="item.id"  class="rounded-full px-2 py-0.5 m-0.5 text-xs bg-bg flex flex-nowrap whitespace-nowrap items-center justify-center relative min-w-12">
+             <div v-if="!disabled" class="w-full h-full rounded-full absolute top-0 left-0 opacity-0 hover:opacity-100 px-1 bg-bg/75 flex items-center justify-end cursor-pointer" :class="{ 'opacity-100': inputFocused }">
+               <button v-if="showEdit" type="button" :aria-label="$strings.ButtonEdit" class="material-symbols text-base text-white hover:text-warning focus:text-warning mr-1" @click.stop="editItem(item)" @keydown.enter.stop.prevent="editItem(item)" @focus="setInputFocused(true)" @blur="setInputFocused(false)" tabindex="0">edit</button>
+               <button type="button" :aria-label="$strings.ButtonRemove" class="material-symbols text-white hover:text-error focus:text-error" style="font-size: 1.1rem" @click.stop="removeItem(item.id)" @keydown.enter.stop="removeItem(item.id)" @focus="setInputFocused(true)" @blur="setInputFocused(false)" tabindex="0">close</button>
+diff --git a/client/components/ui/TextInput.vue b/client/components/ui/TextInput.vue
+index cd3bc6d..258f7c0 100644
+--- a/client/components/ui/TextInput.vue
++++ b/client/components/ui/TextInput.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div ref="wrapper" class="relative">
+-    <input :id="inputId" :name="inputName" ref="input" v-model="inputValue" :type="actualType" :step="step" :min="min" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :autocomplete="autocomplete" dir="auto" class="rounded-sm bg-primary text-gray-200 focus:bg-bg focus:outline-hidden border h-full w-full" :class="classList" @keyup="keyup" @change="change" @focus="focused" @blur="blurred" />
++    <input :id="inputId" :name="inputName" ref="input" v-model="inputValue" :type="actualType" :aria-label="ariaLabel" :step="step" :min="min" :readonly="readonly" :disabled="disabled" :placeholder="placeholder" :autocomplete="autocomplete" dir="auto" class="rounded-sm bg-primary text-gray-200 focus:bg-bg focus:outline-hidden border h-full w-full" :class="classList" @keyup="keyup" @change="change" @focus="focused" @blur="blurred" />
+     <div v-if="clearable && inputValue" class="absolute top-0 right-0 h-full px-2 flex items-center justify-center">
+       <span class="material-symbols text-gray-300 cursor-pointer" style="font-size: 1.1rem" @click.stop.prevent="clear">close</span>
+     </div>
+@@ -35,6 +35,7 @@ export default {
+     noSpinner: Boolean,
+     textCenter: Boolean,
+     clearable: Boolean,
++    ariaLabel: String,
+     inputId: String,
+     inputName: String,
+     showCopy: Boolean,
+diff --git a/client/components/ui/ToggleSwitch.vue b/client/components/ui/ToggleSwitch.vue
+index a2d41c9..b2fa4fa 100644
+--- a/client/components/ui/ToggleSwitch.vue
++++ b/client/components/ui/ToggleSwitch.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <button :aria-labelledby="labeledBy" :aria-label="label" role="checkbox" type="button" class="border rounded-full border-black-100 flex items-center cursor-pointer justify-start" :style="{ width: buttonWidth + 'px' }" :aria-checked="toggleValue" :class="className" @click="clickToggle">
++    <button :aria-labelledby="labeledBy" :aria-label="label" role="checkbox" type="button" class="border rounded-full border-black-100 flex items-center cursor-pointer justify-start" :style="{ width: buttonWidth + 'px' }" :aria-checked="toggleValue ? 'true' : 'false'" :class="className" @click="clickToggle">
+       <span class="rounded-full border border-black-50 shadow-sm transform transition-transform duration-100" :style="{ width: cursorHeightWidth + 'px', height: cursorHeightWidth + 'px' }" :class="switchClassName"></span>
+     </button>
+   </div>
+diff --git a/client/layouts/default.vue b/client/layouts/default.vue
+index 75753b2..a2be6c0 100644
+--- a/client/layouts/default.vue
++++ b/client/layouts/default.vue
+@@ -3,9 +3,9 @@
+     <app-appbar />
+ 
+     <app-side-rail v-if="isShowingSideRail" class="hidden md:block" />
+-    <div id="app-content" class="h-full" :class="{ 'has-siderail': isShowingSideRail }">
++    <main id="app-content" class="h-full" :class="{ 'has-siderail': isShowingSideRail }">
+       <Nuxt :key="currentLang" />
+-    </div>
++    </main>
+ 
+     <app-media-player-container ref="mediaPlayerContainer" />
+ 
+diff --git a/client/layouts/error.vue b/client/layouts/error.vue
+index 513b51a..2f40ea8 100644
+--- a/client/layouts/error.vue
++++ b/client/layouts/error.vue
+@@ -6,7 +6,7 @@
+           <img src="~static/icon.svg" alt="Audiobookshelf Logo" class="w-10 min-w-10 h-10" />
+         </nuxt-link>
+         <nuxt-link to="/">
+-          <h1 class="text-xl ml-4 hover:underline">audiobookshelf</h1>
++          <p class="text-xl ml-4 hover:underline">audiobookshelf</p>
+         </nuxt-link>
+       </div>
+     </div>
+diff --git a/client/pages/account.vue b/client/pages/account.vue
+index c371a96..36d7ce9 100644
+--- a/client/pages/account.vue
++++ b/client/pages/account.vue
+@@ -78,7 +78,7 @@
+               <th class="text-left">{{ $strings.LabelDeviceInfo }}</th>
+               <th class="text-left hidden sm:table-cell w-36">{{ $strings.LabelIpAddress }}</th>
+               <th class="text-left w-30 sm:w-40">{{ $strings.LabelLastUpdate }}</th>
+-              <th class="w-12"></th>
++              <th class="w-12"><span class="sr-only">{{ $strings.LabelActions || "Actions" }}</span></th>
+             </tr>
+             <tr v-for="session in authSessions" :key="session.id">
+               <td class="max-w-0">
+diff --git a/client/pages/config/authentication.vue b/client/pages/config/authentication.vue
+index 4f47ce3..cf60e4a 100644
+--- a/client/pages/config/authentication.vue
++++ b/client/pages/config/authentication.vue
+@@ -3,7 +3,7 @@
+     <app-settings-content :header-text="$strings.HeaderAuthentication">
+       <div class="w-full border border-white/10 rounded-xl p-4 my-4 bg-primary/25">
+         <div class="flex items-center">
+-          <ui-checkbox v-model="showCustomLoginMessage" checkbox-bg="bg" />
++          <ui-checkbox v-model="showCustomLoginMessage" checkbox-bg="bg" :aria-label="$strings.HeaderCustomMessageOnLogin" />
+           <p class="text-lg pl-4">{{ $strings.HeaderCustomMessageOnLogin }}</p>
+         </div>
+         <transition name="slide">
+@@ -15,13 +15,13 @@
+ 
+       <div class="w-full border border-white/10 rounded-xl p-4 my-4 bg-primary/25">
+         <div class="flex items-center">
+-          <ui-checkbox v-model="enableLocalAuth" checkbox-bg="bg" />
++          <ui-checkbox v-model="enableLocalAuth" checkbox-bg="bg" :aria-label="$strings.HeaderPasswordAuthentication" />
+           <p class="text-lg pl-4">{{ $strings.HeaderPasswordAuthentication }}</p>
+         </div>
+       </div>
+       <div class="w-full border border-white/10 rounded-xl p-4 my-4 bg-primary/25">
+         <div class="flex items-center">
+-          <ui-checkbox v-model="enableOpenIDAuth" checkbox-bg="bg" />
++          <ui-checkbox v-model="enableOpenIDAuth" checkbox-bg="bg" :aria-label="$strings.HeaderOpenIDConnectAuthentication" />
+           <p class="text-lg pl-4">{{ $strings.HeaderOpenIDConnectAuthentication }}</p>
+           <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
+             <a href="https://audiobookshelf.org/docs/documentation/server-management/oidc-authentication" target="_blank" class="inline-flex">
+diff --git a/client/pages/config/backups.vue b/client/pages/config/backups.vue
+index ae8c1a9..1df3c22 100644
+--- a/client/pages/config/backups.vue
++++ b/client/pages/config/backups.vue
+@@ -25,7 +25,7 @@
+       </div>
+ 
+       <div class="flex items-center py-2">
+-        <ui-toggle-switch v-model="enableBackups" small :disabled="updatingServerSettings" @input="updateBackupsSettings" />
++        <ui-toggle-switch v-model="enableBackups" small :disabled="updatingServerSettings" :label="$strings.LabelBackupsEnableAutomaticBackups" @input="updateBackupsSettings" />
+         <ui-tooltip :text="$strings.LabelBackupsEnableAutomaticBackupsHelp">
+           <p class="pl-4 text-lg">{{ $strings.LabelBackupsEnableAutomaticBackups }} <span class="material-symbols icon-text">info</span></p>
+         </ui-tooltip>
+@@ -53,7 +53,7 @@
+       </div>
+ 
+       <div class="flex items-center py-2">
+-        <ui-text-input type="number" v-model="backupsToKeep" no-spinner :disabled="updatingServerSettings" :padding-x="1" text-center class="w-10" @change="updateBackupsSettings" />
++        <ui-text-input type="number" v-model="backupsToKeep" no-spinner :disabled="updatingServerSettings" :aria-label="$strings.LabelBackupsNumberToKeep" :padding-x="1" text-center class="w-10" @change="updateBackupsSettings" />
+ 
+         <ui-tooltip :text="$strings.LabelBackupsNumberToKeepHelp">
+           <p class="pl-4 text-lg">{{ $strings.LabelBackupsNumberToKeep }} <span class="material-symbols icon-text">info</span></p>
+@@ -61,7 +61,7 @@
+       </div>
+ 
+       <div class="flex items-center py-2">
+-        <ui-text-input type="number" v-model="maxBackupSize" no-spinner :disabled="updatingServerSettings" :padding-x="1" text-center class="w-10" @change="updateBackupsSettings" />
++        <ui-text-input type="number" v-model="maxBackupSize" no-spinner :disabled="updatingServerSettings" :aria-label="$strings.LabelBackupsMaxBackupSize" :padding-x="1" text-center class="w-10" @change="updateBackupsSettings" />
+ 
+         <ui-tooltip :text="$strings.LabelBackupsMaxBackupSizeHelp">
+           <p class="pl-4 text-lg">{{ $strings.LabelBackupsMaxBackupSize }} <span class="material-symbols icon-text">info</span></p>
+diff --git a/client/pages/config/index.vue b/client/pages/config/index.vue
+index 7fb84d4..f47bef4 100644
+--- a/client/pages/config/index.vue
++++ b/client/pages/config/index.vue
+@@ -169,7 +169,7 @@
+         {{ $strings.MessageReportBugsAndContribute }}
+         <a class="underline" href="https://github.com/advplyr/audiobookshelf" target="_blank">github</a>
+       </p>
+-      <a href="https://github.com/advplyr/audiobookshelf" target="_blank" class="text-white hover:text-gray-200 hover:scale-150 hover:rotate-6 transform duration-500">
++      <a href="https://github.com/advplyr/audiobookshelf" target="_blank" aria-label="github" class="text-white hover:text-gray-200 hover:scale-150 hover:rotate-6 transform duration-500">
+         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" width="24" height="24" viewBox="0 0 24 24">
+           <path
+             d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+@@ -180,7 +180,7 @@
+         {{ $strings.MessageJoinUsOn }}
+         <a class="underline" href="https://discord.gg/HQgCbd6E75" target="_blank">discord</a>
+       </p>
+-      <a href="https://discord.gg/HQgCbd6E75" target="_blank" class="text-white hover:text-gray-200 hover:scale-150 hover:rotate-6 transform duration-500">
++      <a href="https://discord.gg/HQgCbd6E75" target="_blank" aria-label="discord" class="text-white hover:text-gray-200 hover:scale-150 hover:rotate-6 transform duration-500">
+         <svg width="31" height="24" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
+           <g clip-path="url(#clip0)">
+             <path
+diff --git a/client/pages/library/_library/bookshelf/_id.vue b/client/pages/library/_library/bookshelf/_id.vue
+index 72cfba4..0b52563 100644
+--- a/client/pages/library/_library/bookshelf/_id.vue
++++ b/client/pages/library/_library/bookshelf/_id.vue
+@@ -1,5 +1,6 @@
+ <template>
+   <div class="page" :class="streamLibraryItem ? 'streaming' : ''">
++    <h1 class="sr-only">{{ libraryName }}</h1>
+     <app-book-shelf-toolbar :page="id || ''" />
+     <app-lazy-bookshelf :page="id || ''" />
+   </div>
+@@ -33,7 +34,8 @@ export default {
+ 
+     return {
+       id: params.id || '',
+-      libraryId
++      libraryId,
++      libraryName: library.name
+     }
+   },
+   data() {
+diff --git a/client/pages/library/_library/index.vue b/client/pages/library/_library/index.vue
+index f235028..fb34060 100644
+--- a/client/pages/library/_library/index.vue
++++ b/client/pages/library/_library/index.vue
+@@ -1,5 +1,6 @@
+ <template>
+   <div class="page" :class="streamLibraryItem ? 'streaming' : ''">
++    <h1 class="sr-only">{{ library.name }}</h1>
+     <app-book-shelf-toolbar is-home />
+     <app-book-shelf-categorized />
+   </div>
+diff --git a/client/pages/library/_library/stats.vue b/client/pages/library/_library/stats.vue
+index 0fcc2a4..6d33ed7 100644
+--- a/client/pages/library/_library/stats.vue
++++ b/client/pages/library/_library/stats.vue
+@@ -1,13 +1,14 @@
+ <template>
+   <div class="page relative" :class="streamLibraryItem ? 'streaming' : ''">
+     <app-book-shelf-toolbar page="library-stats" is-home />
++    <h1 class="sr-only">{{ libraryName }}</h1>
+     <div id="bookshelf" class="w-full h-full px-1 py-4 md:p-8 relative overflow-y-auto">
+       <div class="w-full max-w-4xl mx-auto">
+         <stats-preview-icons v-if="totalItems" :library-stats="libraryStats" />
+ 
+         <div class="flex lg:flex-row flex-wrap justify-between flex-col mt-8">
+           <div class="w-80 my-6 mx-auto">
+-            <h1 class="text-2xl mb-4">{{ $strings.HeaderStatsTop5Genres }}</h1>
++            <h2 class="text-2xl mb-4">{{ $strings.HeaderStatsTop5Genres }}</h2>
+             <p v-if="!top5Genres.length">{{ $strings.MessageNoGenres }}</p>
+             <template v-for="genre in top5Genres">
+               <div :key="genre.genre" class="w-full py-2">
+@@ -25,7 +26,7 @@
+             </template>
+           </div>
+           <div v-if="isBookLibrary" class="w-80 my-6 mx-auto">
+-            <h1 class="text-2xl mb-4">{{ $strings.HeaderStatsTop10Authors }}</h1>
++            <h2 class="text-2xl mb-4">{{ $strings.HeaderStatsTop10Authors }}</h2>
+             <p v-if="!top10Authors.length">{{ $strings.MessageNoAuthors }}</p>
+             <template v-for="(author, index) in top10Authors">
+               <div :key="author.id" class="w-full py-2">
+@@ -44,7 +45,7 @@
+             </template>
+           </div>
+           <div class="w-80 my-6 mx-auto">
+-            <h1 class="text-2xl mb-4">{{ $strings.HeaderStatsLongestItems }}</h1>
++            <h2 class="text-2xl mb-4">{{ $strings.HeaderStatsLongestItems }}</h2>
+             <p v-if="!top10LongestItems.length">{{ $strings.MessageNoItems }}</p>
+             <template v-for="(ab, index) in top10LongestItems">
+               <div :key="index" class="w-full py-2">
+@@ -63,7 +64,7 @@
+             </template>
+           </div>
+           <div class="w-80 my-6 mx-auto">
+-            <h1 class="text-2xl mb-4">{{ $strings.HeaderStatsLargestItems }}</h1>
++            <h2 class="text-2xl mb-4">{{ $strings.HeaderStatsLargestItems }}</h2>
+             <p v-if="!top10LargestItems.length">{{ $strings.MessageNoItems }}</p>
+             <template v-for="(ab, index) in top10LargestItems">
+               <div :key="index" class="w-full py-2">
+@@ -100,7 +101,7 @@ export default {
+     if (!library) {
+       return redirect(`/oops?message=Library "${libraryId}" not found`)
+     }
+-    return {}
++    return { libraryName: library.name }
+   },
+   data() {
+     return {
+diff --git a/client/pages/login.vue b/client/pages/login.vue
+index cec150e..57a848c 100644
+--- a/client/pages/login.vue
++++ b/client/pages/login.vue
+@@ -1,13 +1,13 @@
+ <template>
+   <div id="page-wrapper" class="w-full h-screen overflow-y-auto">
+-    <div class="absolute z-0 top-0 left-0 px-6 py-3">
++    <header class="absolute z-0 top-0 left-0 px-6 py-3">
+       <div class="flex items-center">
+         <img src="~static/icon.svg" alt="Audiobookshelf Logo" class="w-10 min-w-10 h-10" />
+         <h1 class="text-xl ml-4 hidden lg:block hover:underline">audiobookshelf</h1>
+       </div>
+-    </div>
++    </header>
+ 
+-    <div class="relative z-10 w-full flex h-full items-center justify-center">
++    <main class="relative z-10 w-full flex h-full items-center justify-center">
+       <div v-if="criticalError" class="w-full max-w-md rounded-sm border border-error/25 bg-error/10 p-4">
+         <p class="text-center text-lg font-semibold">{{ $strings.MessageServerCouldNotBeReached }}</p>
+       </div>
+@@ -50,11 +50,11 @@
+           </div>
+ 
+           <form v-show="login_local" @submit.prevent="submitForm">
+-            <label class="text-xs text-gray-300 uppercase">{{ $strings.LabelUsername }}</label>
+-            <ui-text-input v-model.trim="username" autocomplete="username" :disabled="processing" class="mb-3 w-full" inputName="username" />
++            <label for="login-username" class="text-xs text-gray-300 uppercase">{{ $strings.LabelUsername }}</label>
++            <ui-text-input v-model.trim="username" autocomplete="username" :disabled="processing" class="mb-3 w-full" inputId="login-username" inputName="username" />
+ 
+-            <label class="text-xs text-gray-300 uppercase">{{ $strings.LabelPassword }}</label>
+-            <ui-text-input v-model.trim="password" type="password" autocomplete="current-password" :disabled="processing" class="w-full mb-3" inputName="password" />
++            <label for="login-password" class="text-xs text-gray-300 uppercase">{{ $strings.LabelPassword }}</label>
++            <ui-text-input v-model.trim="password" type="password" autocomplete="current-password" :disabled="processing" class="w-full mb-3" inputId="login-password" inputName="password" />
+             <div class="w-full flex justify-end py-3">
+               <ui-btn type="submit" :disabled="processing" color="bg-primary" class="leading-none">{{ processing ? 'Checking...' : $strings.ButtonSubmit }}</ui-btn>
+             </div>
+@@ -69,7 +69,7 @@
+           </div>
+         </div>
+       </div>
+-    </div>
++    </main>
+   </div>
+ </template>
+ 
