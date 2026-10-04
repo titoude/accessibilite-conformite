@@ -1,0 +1,73 @@
+{
+  "repo": "gethomepage/homepage",
+  "commit_sha": "666869ca0c9b57f079ffac06533070fa6e4b5970",
+  "frozen_at": "avant tout audit — référence de périmètre",
+  "base_url": "http://localhost:30030",
+  "tool_versions": {
+    "playwright": "1.63.0",
+    "axe-core": "4.13.0",
+    "node": "v24.19.0"
+  },
+  "viewport": {
+    "width": 1280,
+    "height": 800
+  },
+  "roles": [
+    "public non authentifié (pas d'auth configurée dans le squelette)"
+  ],
+  "data": "config/ copié depuis src/skeleton (3 groupes de services, bookmarks, widgets)",
+  "scenarios": [
+    {
+      "id": "index-light",
+      "route": "/",
+      "state": "chargement initial, thème clair",
+      "preconditions": "config skeleton présente",
+      "expectations": [
+        "structure de titres et landmarks navigables",
+        "cartes de services focusables avec noms accessibles",
+        "contraste texte >= 4.5:1 (thème clair)",
+        "aucun piège clavier"
+      ]
+    },
+    {
+      "id": "index-dark",
+      "route": "/?theme=dark ou toggle",
+      "state": "thème sombre après bascule",
+      "preconditions": "toggle thème accessible au clavier",
+      "expectations": [
+        "contraste thème sombre",
+        "persistance du focus après bascule"
+      ]
+    },
+    {
+      "id": "quicklaunch-open",
+      "route": "/ + frappe clavier ou bouton",
+      "state": "palette quicklaunch ouverte (dialog aria-modal)",
+      "preconditions": "dialog s'ouvre via interaction clavier",
+      "expectations": [
+        "focus placé dans le dialog à l'ouverture",
+        "piège de focus dans le dialog",
+        "Escape ferme et restaure le focus",
+        "résultats de recherche annoncés/navigables"
+      ]
+    },
+    {
+      "id": "widgets-bar",
+      "route": "/",
+      "state": "widgets info (datetime/search/weather…) rendus",
+      "preconditions": "widgets.yaml skeleton",
+      "expectations": [
+        "widgets sans violations axe",
+        "texte lisible"
+      ]
+    }
+  ],
+  "excluded": [
+    "routes /api/* (API JSON, hors périmètre UI)",
+    "pages d'auth (pas de provider auth configuré)"
+  ],
+  "expected_outcome": "0 violation axe sur chaque scénario + checklist non-automatable documentée",
+  "revision": "états audités = 3 (index-light, quicklaunch-open, index-dark) ; widgets-bar absorbé dans index-light (même rendu) ; le code exact des setups a évolué pendant le débogage — vérité = harnais/audit.mjs + states.json ; voir provenance.json",
+  "scopeHash_baseline": "15098e198a1bbb52585352b05b9c4f583533210570eae07e0b1936ab339d0a13",
+  "scopeHash_final": "15098e198a1bbb52585352b05b9c4f583533210570eae07e0b1936ab339d0a13"
+}

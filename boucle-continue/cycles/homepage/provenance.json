@@ -1,0 +1,27 @@
+{
+  "repo": "gethomepage/homepage",
+  "clone": "https://github.com/gethomepage/homepage.git",
+  "pinned_sha": "666869ca0c9b57f079ffac06533070fa6e4b5970",
+  "worker": "session principale Devin (sous-agents indisponibles — plafond SWE-2)",
+  "env": {
+    "node": "v24.19.0",
+    "pnpm": "10.34.5",
+    "playwright": "1.63.0",
+    "axe-core": "4.13.0",
+    "os": "linux"
+  },
+  "serveur": "pnpm dev, PORT=30030",
+  "timeline": [
+    "baseline : 6 règles / 53 occurrences / 4 incomplets (run préservé dans baseline/)",
+    "échecs de setup préservés : baseline-setup-erreurs/",
+    "round 1 : viewport, devIndicators, landmarks+h1, aria-label dialog, contrastes dark:",
+    "final-r1 : faux positifs JIT Tailwind (classes dark: pas encore compilées) — diagnostiqué, pas masqué",
+    "final-r3 : vrai bug trouvé — variables --color-* indéfinies avant hydratation (flash texte noir sur sombre) → :root = palette slate + classes thème SSR dans _document",
+    "final-r4 : 3 flags transitoires du fondu 300ms de la modale → harnais attend l'état stabilisé (règle : mesurer ce que l'utilisateur perçoit)",
+    "final : 0 violation, périmètre complet, exit 0",
+    "verify.mjs 13/13 PASS (dont fixes initiaux : offsetParent corrigé en aria-hidden, exclusion NEXT_DATA)",
+    "eval-final.mjs 8/8 PASS (clavier, reflow 320px, zoom 200%, bascule thème)",
+    "install-build : clone propre au SHA épinglé + patch → pnpm install --frozen-lockfile OK → next build OK"
+  ],
+  "states_sha256": "5ad50ee7d5af5cbc476fffad90d15d7780bfb5203534ecee570a80d560fc5daa"
+}

@@ -24,6 +24,7 @@ boucle DOIVENT choisir un dépôt absent de ce tableau.
 | requarks/wiki (wiki.js) | V1 | 0 violation axe |
 | rommapp/romm | V1 | 0 violation axe |
 | dgtlmoon/changedetection.io | V1 | 0 violation axe |
+| gethomepage/homepage | boucle | 0 violation axe (53→0) — cycle en cours, audit sous-agent en attente slot |
 | healthchecks/healthchecks | V1 | 0 violation axe |
 | tastejs/todomvc | task-pilot | pair PASS/PASS/PASS — pas d'avantage skill mesuré (1 paire) |
 | titoude/cdv-collect | run réel | PR #23 — 0 violation, 10 routes + 5 états |
@@ -33,4 +34,4 @@ boucle DOIVENT choisir un dépôt absent de ce tableau.
 
 | # | Dépôt | Worker | Auditeur | Verdict | Notes |
 |---|-------|--------|----------|---------|-------|
-| — | (en attente du premier cycle) | | | | |
+| 1 | gethomepage/homepage | session principale (slots SWE-2 saturés) | en attente slot | worker CONFIRMED | 53→0 ; vrai bug corrigé : vars --color-* + classes thème SSR (_document, theme.css) ; artefacts boucle-runs/homepage |

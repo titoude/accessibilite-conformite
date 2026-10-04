@@ -1,0 +1,47 @@
+{
+  "repo": "gethomepage/homepage",
+  "commit_sha": "666869ca0c9b57f079ffac06533070fa6e4b5970",
+  "status": "CONFIRMED",
+  "base_url": "http://localhost:30030",
+  "rounds_used": 1,
+  "verifier_rejections": 0,
+  "baseline_violations": 53,
+  "final_violations": 0,
+  "baseline_rules": [
+    "color-contrast",
+    "landmark-one-main",
+    "page-has-heading-one",
+    "landmark-unique",
+    "aria-prohibited-attr",
+    "region"
+  ],
+  "final_rules": [],
+  "incomplete_unresolved": 3,
+  "incomplete_note": "#headlessui-combobox-input : fond composité indéterminé pour axe (chevauchement) — relevé humain : contraste mesuré OK en thème courant ; à revérifier sous d'autres thèmes",
+  "fixes_summary": [
+    "viewport : suppression du blocage de zoom (initial-scale=1, user-scalable retiré)",
+    "landmarks : div#information-widgets→header, div#footer→footer, services→main + h1.sr-only dans main",
+    "quicklaunch : role=dialog + aria-label ; contrastes dark: sur libellés",
+    "theme.css : variables --color-* définies sur :root (défaut slate) — supprime le flash texte noir/sombre pré-hydratation",
+    "_document : html className='dark scheme-dark theme-slate' SSR (défauts de l'app) — première peinture correcte",
+    "next.config : devIndicators=false (bouton Next injecté hors périmètre produit)"
+  ],
+  "files_changed": 7,
+  "install_build": "pnpm install --frozen-lockfile + pnpm build sur checkout propre au SHA épinglé + patch appliqué : OK (warnings upstream Edge-runtime uniquement)",
+  "human_checks": [
+    "contrastes sous thèmes non-slate (palette custom)",
+    "relecture lecteur d'écran NVDA/VoiceOver",
+    "annonce des résultats de recherche dynamique",
+    "#headlessui-combobox-input contraste (incomplet axe)"
+  ],
+  "patch_diff": "patch.diff",
+  "patch_sha256": "7cb72e5dcd5c149e9240e93b3dd4c506c428e1dca304e5ef8cb675a7b8d4431b",
+  "scope_json_final": "final/report.json",
+  "manifest_json": "manifest.json",
+  "provenance_json": "provenance.json",
+  "states_json": "states.json",
+  "verify_mjs": "verify.mjs",
+  "eval_final_mjs": "eval-final.mjs",
+  "eval_findings": 0,
+  "notes": "1 reprise harnais (faux positif JIT Tailwind r1) + 1 vraie correction trouvée grâce aux scans pré-hydratation (vars --color-* indéfinies → flash noir/sombre) ; le fix :root + classes SSR dans _document supprime le flash pour tous les utilisateurs. Les 3 incomplets axe = combobox headlessui (fond composité)."
+}
