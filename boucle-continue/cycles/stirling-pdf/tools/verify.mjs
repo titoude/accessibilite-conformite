@@ -64,6 +64,13 @@ const tooltip = await page.evaluate(() => {
 ok("boutons icône navbar ont un nom accessible", tooltip.iconOnly === 0 || tooltip.named === tooltip.iconOnly, `${tooltip.named}/${tooltip.iconOnly} nommés`);
 
 // 3. Tooltip affiché au focus clavier (effet métier, pas seulement :hover)
+// Précondition réaliste : une modale produit peut être ouverte (analytics au
+// boot froid, survey aux seuils de pages vues) et piége le focus — un
+// utilisateur la ferme avant de naviguer : Escape réel d'abord.
+if (await page.locator(".modal.show").count()) {
+  await page.keyboard.press("Escape");
+  await page.waitForTimeout(700);
+}
 const tipFocus = await page.evaluate(async () => {
   const el = [...document.querySelectorAll("[data-title]")].find((e) => {
     const t = e.tabIndex >= 0 ? e : e.closest("a,button,[tabindex]");
@@ -161,6 +168,51 @@ ok("organizer : fichier chargé visible (.selected-files)", sel.sel && sel.info,
 // 12. Viewport : maximum-scale non bridé (1.4.10)
 const vp = await page.evaluate(() => document.querySelector('meta[name=viewport]')?.getAttribute("content") || "");
 ok("viewport sans maximum-scale réducteur", !/maximum-scale\s*=\s*[01](\.0+)?\b/.test(vp), vp);
+
+// 13. Modale analytics (correctif v2, finding F1) — deux modes, jamais vacu :
+//   - boot FROID : th:if @analyticsPrompt rend #analyticsModal, home.js l'affiche →
+//     on exige titre h2, role=dialog, aria-labelledby résolu, et aucune rupture
+//     heading-order dans la séquence des titres (modale incluse) ;
+//   - boot CHAUD : la modale n'est pas montée → on vérifie que la suppression est
+//     cohérente (window.analyticsPromptBoolean === false). Si la modale devait
+//     être rendue (prompt=true) et qu'elle ne l'est pas, c'est un FAIL.
+await goto("/");
+const am = await page.evaluate(() => {
+  const res = { prompt: window.analyticsPromptBoolean === true, rendered: false };
+  const m = document.getElementById("analyticsModal");
+  if (!m) return res;
+  res.rendered = true;
+  const dlg = m.getAttribute("role") === "dialog" ? m : m.querySelector('[role="dialog"]');
+  const labelEl = m.querySelector("#analyticsModalLabel");
+  const by = (dlg || m).getAttribute("aria-labelledby");
+  const byTarget = by ? document.getElementById(by) : null;
+  res.role = dlg ? "dialog" : null;
+  res.labelTag = labelEl ? labelEl.tagName : null;
+  res.labelledby = by;
+  res.labelResolves = !!(byTarget && byTarget.textContent.trim());
+  // heading-order : aucun saut > +1 niveau. Visibilité mesurée à la sémantique
+  // axe (checkVisibility : display:none/visibility:hidden exclus, titres
+  // sr-only inclus). Les titres des modales RENDUES sont audités même masqués :
+  // une modale qui s'ouvre expose son titre d'un coup — un mauvais niveau là
+  // est une violation latente, c'est exactement la classe du finding F1.
+  const hs = [...document.querySelectorAll("h1,h2,h3,h4,h5,h6")]
+    .filter((h) => {
+      if (h.closest(".modal")) return true;
+      return h.checkVisibility ? h.checkVisibility({ checkVisibilityCSS: true }) : h.offsetParent !== null;
+    })
+    .map((h) => +h.tagName[1]);
+  res.jump = null;
+  for (let i = 1; i < hs.length; i++) if (hs[i] > hs[i - 1] + 1) { res.jump = `h${hs[i - 1]}→h${hs[i]}`; break; }
+  res.levels = hs.join("");
+  return res;
+});
+ok(
+  "modale analytics : titre h2 + role=dialog + aria-labelledby + ordre des titres",
+  am.rendered
+    ? am.role === "dialog" && am.labelTag === "H2" && am.labelResolves && am.jump === null
+    : am.prompt === false,
+  JSON.stringify(am),
+);
 
 await browser.close();
 console.log(`\n${failures} échec(s)`);

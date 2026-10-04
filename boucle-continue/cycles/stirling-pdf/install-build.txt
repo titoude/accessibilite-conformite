@@ -1,7 +1,8 @@
 install-build stirling-pdf v0.46.2
 checkout: git clone --depth 1 --branch v0.46.2 → 70349fb7e32551b0afa9ba8c5ae3d85bfcc30e48
-patch: git apply patch.diff → OK 23 fichiers (2 warnings trailing-whitespace informatifs)
-build: ./gradlew build -x test → exit 0, jar 46MB produit
-run: java -jar ... --server.port=8111 → HTTP 200 sur /
-verify: a11y.css + h1.visually-hidden servis dans le HTML
+patch: git apply patch-v2.diff → OK 26 fichiers (cumulatif v1+v2, s'applique seul sur clone propre @HEAD)
+build: ./gradlew build -x test → exit 0, jar 158 344 280 o (~151 Mo) produit
+run: java -jar ... --server.port=8110 → HTTP 200 sur / (boot ~20 s ; configs/ écrit dans le cwd java → cold boot = configs/ absent)
+verify: a11y.css + h1.visually-hidden servis dans le HTML ; modale analytics : h2 + role=dialog + aria-labelledby au boot froid
+note: « jar 46MB » (v1) était faux — taille réelle 158 344 279 o ≈ 151 Mo, corrigé
 verdict: PASS

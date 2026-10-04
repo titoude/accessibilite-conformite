@@ -2,14 +2,14 @@
   "product": "Stirling-Tools/Stirling-PDF",
   "version": "v0.46.2",
   "commit": "70349fb7e32551b0afa9ba8c5ae3d85bfcc30e48",
-  "rounds": 3,
+  "rounds": 5,
   "baseline_violations": 1036,
   "baseline_rules": 11,
   "final_violations": 0,
   "final_rules": 0,
-  "scenarios": "18/18 baseline+final",
+  "scenarios": "18/18 baseline+final, puis v2 froid+chaud",
   "errors": 0,
-  "verify": "32/32 PASS",
+  "verify": "32/32 PASS (32 assertions réelles — v1 en comptait 31 malgré la mention « 32/32 », corrigé)",
   "eval_final": "22/22 PASS",
   "install_build": "PASS",
   "scope_compare": "scopeHash identique; statesHash différent (code états reconstruit en cours de cycle, couverture identique — documenté)",
@@ -33,5 +33,28 @@
     "eval: Escape nécessite focus réel — clic synthétique insuffisant",
     "surveyModal: modale produit vole le focus au chargement — doit être fermée dans les états"
   ],
-  "notes": "login color-contrast x2 vu une fois = flake animation confirmé non-reproductible. Aucun contenu utilisateur à seeder — app outil. 14 fonctionnalités désactivées (deps externes absentes) — périmètre couvre les routes servies."
+  "notes": "login color-contrast x2 vu une fois = flake animation confirmé non-reproductible. Aucun contenu utilisateur à seeder — app outil. 14 fonctionnalités désactivées (deps externes absentes) — périmètre couvre les routes servies.",
+  "corrections_v2": {
+    "contexte": "auditeur PARTIAL — finding F1 : au premier boot (configs/ absent), settings.yml naît avec system.enableAnalytics=null → bean @analyticsPrompt=true → #analyticsModal affichée → heading-order ×4 sur #analyticsModalLabel (h5 sous h1) sur / + 3 états navbar",
+    "correctifs_produit": [
+      "modale analytics : <h5 class=\"modal-title\" id=\"analyticsModalLabel\"> → <h2 class=\"modal-title fs-5\"> (home.html) — role=dialog + aria-labelledby déjà corrects",
+      "même classe de défaut corrigée partout (modale ouverte = heading latent) : surveyModalLabel (home.html), settingsModalLabel (navbar.html), helpModalLabel (errorBannerPerPage.html), loginsModalLabel (login.html), addUserModalLabel (adminSettings.html), previewFileName (sign.html) — h5→h2 fs-5",
+      "<h4 class=\"alert-heading\"> → <h2 class=\"alert-heading fs-4\"> (errorBannerPerPage.html)",
+      "résiduel réel détecté par les sondes : #closeMultiToolAdvert « × » blanc sur encart clair = 1.14:1 → color:inherit → 18.3:1 mesuré (multi-toolAdvert.html)"
+    ],
+    "verify": "assertion 13 ajoutée — modale analytics : si rendue exige role=dialog + label H2 + aria-labelledby résolu + aucun saut heading-order (sémantique visibilité axe, titres de modales rendues audités même masqués) ; si absente exige analyticsPromptBoolean===false",
+    "resultats": {
+      "froid": "configs/ supprimé → boot, modale armée+affichée → 0 violation / 83 incomplets / verify 32/32 / eval 22/22",
+      "chaud": "0 violation / 89 incomplets / verify 32/32 / eval 22/22",
+      "incomplets_sondes": "83 nœuds sondés à froid dont 13 dans la modale — tous ≥18.3:1 mesurés réels (motifs bgOverlap/elmPartiallyObscuring = artefacts positionnels modale ouverte)"
+    },
+    "warts_corriges": [
+      "provenance.json régénéré avec carte sha256 par fichier (artefacts + patchs)",
+      "states.json réécrit : 6 états réels audit.mjs + 12 routes manifest (était périmé)",
+      "manifest.scope.states resynchronisé avec audit.mjs + boot.notes documente cold/warm",
+      "incomplete-probes.mjs réécrit : STATES stirling réels (était copie ntfy), BASE :8110, attente page corrigée",
+      "comptes honnêtes : verify v1=31 assertions réelles (v2=32 avec +1 modale), jar=158 344 279 o ≈ 151 Mo (pas 46MB)",
+      "REGISTRE : baseline_rules corrigé (region/select-name réels, pas heading-order/image-alt)"
+    ]
+  }
 }

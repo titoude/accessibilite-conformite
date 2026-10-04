@@ -8,7 +8,12 @@
   "boot": {
     "method": "./gradlew build -x test && java -jar build/libs/Stirling-PDF-0.46.2.jar --server.port=8110",
     "port": 8110,
-    "note": "sécurité désactivée par défaut (settings.yml: security.enableLogin=false) → toutes les routes applicatives sont publiques"
+    "note": "sécurité désactivée par défaut (settings.yml: security.enableLogin=false) → toutes les routes applicatives sont publiques",
+    "notes": [
+      "boot FROID (configs/ absent du répertoire de travail) : settings.yml est généré avec system.enableAnalytics=null → bean @analyticsPrompt=true → #analyticsModal auto-affichée sur / (corrigée en v2 : titre h2). Supprimer configs/ entre les boots pour forcer le chemin premier boot.",
+      "boot CHAUD : enableAnalytics a une valeur (true après InitialSetup, ou true/false après choix utilisateur) → la modale n'est pas rendue (th:if).",
+      "configs/ est écrit dans le répertoire de travail du process java — lancer depuis un répertoire dédié permet de contrôler froid/chaud."
+    ]
   },
   "seed": {
     "auth": "aucune (login désactivé)",
@@ -88,23 +93,33 @@
     ],
     "states": [
       {
-        "name": "navbar-menu-ouvert",
-        "setup": "click hamburger",
+        "name": "navbar-tools-menu-ouvert",
+        "setup": "click #navbarDropdown-1 → .dropdown-menu.show",
+        "sur": "merge-pdfs"
+      },
+      {
+        "name": "navbar-langue-dropdown",
+        "setup": "click #languageDropdown → .dropdown-menu.show",
         "sur": "home"
       },
       {
-        "name": "langue-dropdown",
-        "setup": "click sélecteur langue",
+        "name": "navbar-favoris-dropdown",
+        "setup": "click #navbarDropdown-5 → .dropdown-menu.show",
+        "sur": "home"
+      },
+      {
+        "name": "navbar-collapse-mobile",
+        "setup": "viewport 375×812 → click .navbar-toggler → .navbar-collapse.show",
         "sur": "home"
       },
       {
         "name": "fichier-charge-organizer",
-        "setup": "upload PDF via input file",
+        "setup": "upload /tmp/test3pages.pdf → .selected-files visible",
         "sur": "pdf-organizer"
       },
       {
         "name": "fichier-charge-viewer",
-        "setup": "upload PDF via input file",
+        "setup": "upload /tmp/test3pages.pdf → canvas rendu",
         "sur": "view-pdf"
       }
     ]

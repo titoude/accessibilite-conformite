@@ -1,44 +1,53 @@
 {
-  "baseUrl": "http://localhost:8080",
+  "baseUrl": "http://localhost:8110",
+  "note": "régénéré pour correspondre à STATES dans tools/audit.mjs et aux 12 routes du manifest (remplace le brouillon périmé :8080/9 routes)",
   "routes": [
     { "name": "home", "url": "/" },
     { "name": "merge-pdfs", "url": "/merge-pdfs" },
     { "name": "multi-tool", "url": "/multi-tool" },
     { "name": "view-pdf", "url": "/view-pdf" },
     { "name": "pdf-organizer", "url": "/pdf-organizer" },
-    { "name": "crop-pdf", "url": "/crop-pdf" },
+    { "name": "crop", "url": "/crop" },
     { "name": "rotate-pdf", "url": "/rotate-pdf" },
+    { "name": "pipeline", "url": "/pipeline" },
+    { "name": "sign", "url": "/sign" },
+    { "name": "login", "url": "/login" },
     { "name": "about", "url": "/about" },
-    { "name": "usage", "url": "/usage" }
+    { "name": "licenses", "url": "/licenses" }
   ],
   "states": [
     {
       "name": "navbar-tools-menu-ouvert",
-      "sur": "home",
+      "sur": "merge-pdfs",
       "setup": [
-        { "action": "click", "selector": "#navbarDropdown-1" }
+        { "action": "click", "selector": "#navbarDropdown-1" },
+        { "action": "waitFor", "selector": ".dropdown-menu.show", "timeout": 10000 }
       ]
     },
     {
       "name": "navbar-langue-dropdown",
       "sur": "home",
       "setup": [
-        { "action": "click", "selector": "#languageDropdown" }
+        { "action": "click", "selector": "#languageDropdown" },
+        { "action": "waitFor", "selector": ".dropdown-menu.show", "timeout": 10000 }
       ]
     },
     {
       "name": "navbar-favoris-dropdown",
       "sur": "home",
       "setup": [
-        { "action": "click", "selector": "#navbarDropdown-5" }
+        { "action": "click", "selector": "#navbarDropdown-5" },
+        { "action": "waitFor", "selector": ".dropdown-menu.show", "timeout": 10000 }
       ]
     },
     {
       "name": "navbar-collapse-mobile",
       "sur": "home",
-      "viewport": { "width": 375, "height": 812 },
       "setup": [
-        { "action": "click", "selector": ".navbar-toggler" }
+        { "action": "viewport", "width": 375, "height": 812 },
+        { "action": "click", "selector": ".navbar-toggler" },
+        { "action": "waitFor", "selector": ".navbar-collapse.show", "timeout": 10000 },
+        { "action": "viewport", "width": 1280, "height": 720 }
       ]
     },
     {
@@ -46,7 +55,7 @@
       "sur": "pdf-organizer",
       "setup": [
         { "action": "setInputFiles", "selector": "input[type=file]", "file": "/tmp/test3pages.pdf" },
-        { "action": "waitFor", "selector": "#page-container .page-container, #allPagesContainer .page-container, .pdf-page-container, canvas", "timeout": 20000 }
+        { "action": "waitFor", "selector": ".selected-files", "timeout": 20000 }
       ]
     },
     {

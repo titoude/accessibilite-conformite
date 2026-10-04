@@ -1,4 +1,4 @@
-// incomplete-probes.mjs — sonde rejouable des noeuds 'incomplete' axe du run final-v2.
+// incomplete-probes.mjs — sonde rejouable des noeuds 'incomplete' axe du run final.
 // Pour chaque noeud incomplet du report.json livré, remesure en DOM live :
 //   - couleur de texte calculée (fg)
 //   - fond effectif (couleur solide la plus proche, ou stops du dégradé)
@@ -8,41 +8,46 @@
 import { chromium } from 'playwright';
 import { readFileSync, writeFileSync } from 'node:fs';
 
-const BASE = process.argv[2] || 'http://127.0.0.1:8090';
+const BASE = process.argv[2] || 'http://127.0.0.1:8110';
 const REPORT = process.argv[3];
 const OUT = process.argv[4] || 'incomplete-probes.json';
 
 const report = JSON.parse(readFileSync(REPORT, 'utf8'));
 
-// Mêmes setups d'états que audit.mjs (dupliqués pour rejouabilité indépendante)
+// Mêmes setups d'états que STATES dans audit.mjs (dupliqués pour rejouabilité
+// indépendante) — chaque état repart d'un document neuf (goto cible d'abord).
 const STATE_SETUPS = {
-  'subscription-popup': async (page, o) => {
-    await page.goto(o + '/testtopic', { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('main', { timeout: 15000 });
-    await page.waitForTimeout(1500);
-    const subBtn = page.locator('main button').filter({ hasText: /subscribe/i }).first();
-    if (await subBtn.count()) { await subBtn.click(); await page.waitForTimeout(1500); }
-    const btn = page.locator('nav li button[aria-label]').last();
-    await btn.waitFor({ state: 'visible', timeout: 10000 });
-    await btn.click();
-    await page.locator('.MuiPopover-root:not([aria-hidden="true"]) .MuiMenuItem-root').first().waitFor({ state: 'visible', timeout: 10000 });
-    await page.waitForTimeout(600);
+  'navbar-tools-menu-ouvert': async (page, o) => {
+    await page.goto(o + '/merge-pdfs', { waitUntil: 'load' });
+    await page.locator('#navbarDropdown-1').click();
+    await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 10000 });
   },
-  'publish-dialog': async (page, o) => {
-    await page.goto(o + '/testtopic', { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('main', { timeout: 15000 });
-    await page.waitForTimeout(1500);
-    await page.locator('form button').first().click();
-    await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
-    await page.waitForTimeout(600);
+  'navbar-langue-dropdown': async (page, o) => {
+    await page.goto(o + '/', { waitUntil: 'load' });
+    await page.locator('#languageDropdown').click();
+    await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 10000 });
   },
-  'subscribe-dialog': async (page, o) => {
-    await page.goto(o + '/', { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('nav', { timeout: 15000 });
-    await page.waitForTimeout(1500);
-    await page.locator('nav li').last().click();
-    await page.locator('.MuiDialog-root [role="dialog"]').first().waitFor({ state: 'visible', timeout: 10000 });
-    await page.waitForTimeout(600);
+  'navbar-favoris-dropdown': async (page, o) => {
+    await page.goto(o + '/', { waitUntil: 'load' });
+    await page.locator('#navbarDropdown-5').click();
+    await page.waitForSelector('.dropdown-menu.show', { state: 'visible', timeout: 10000 });
+  },
+  'navbar-collapse-mobile': async (page, o) => {
+    await page.goto(o + '/', { waitUntil: 'load' });
+    await page.setViewportSize({ width: 375, height: 812 });
+    await page.locator('.navbar-toggler').click();
+    await page.waitForSelector('.navbar-collapse.show', { timeout: 10000 });
+    await page.setViewportSize({ width: 1280, height: 720 });
+  },
+  'fichier-charge-organizer': async (page, o) => {
+    await page.goto(o + '/pdf-organizer', { waitUntil: 'load' });
+    await page.setInputFiles('input[type=file]', '/tmp/test3pages.pdf');
+    await page.waitForSelector('.selected-files', { state: 'visible', timeout: 20000 });
+  },
+  'fichier-charge-viewer': async (page, o) => {
+    await page.goto(o + '/view-pdf', { waitUntil: 'load' });
+    await page.setInputFiles('input[type=file]', '/tmp/test3pages.pdf');
+    await page.waitForSelector('canvas', { timeout: 20000 });
   },
 };
 
@@ -94,8 +99,9 @@ for (const p of report.pages) {
   const url = m[1], state = m[2] || null;
   if (state && STATE_SETUPS[state]) await STATE_SETUPS[state](page, BASE);
   else {
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
-    await page.waitForSelector('main, #root', { timeout: 15000 });
+    await page.goto(url, { waitUntil: 'load' });
+    // landmark main : <main> (12 pages) ou [role=main] (view-pdf outerContainer)
+    await page.waitForSelector('main, [role="main"], body', { timeout: 15000 });
     await page.waitForTimeout(1500);
   }
   for (const inc of p.incomplete || []) {
