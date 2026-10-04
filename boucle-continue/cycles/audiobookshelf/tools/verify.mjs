@@ -19,8 +19,8 @@ ok('landmarks library', await page.evaluate(() => {
   const header = document.querySelector('header');
   const aside = document.querySelector('aside[aria-label]');
   const nav = document.querySelector('aside [role="navigation"], nav');
-  const h1 = document.querySelectorAll('h1').length;
-  return mains.length === 1 && !!header && !!aside && !!nav && h1 === 1;
+  const h1s = [...document.querySelectorAll('h1')];
+  return mains.length === 1 && !!header && !!aside && !!nav && h1s.length === 1 && h1s[0].textContent.trim().length > 0;
 }, ));
 
 // 2. pas de contenu hors landmarks (règle region)
@@ -67,7 +67,15 @@ ok('item cover alt', await page.evaluate(() => {
 }));
 ok('item single h1', await page.evaluate(() => {
   const h1s = [...document.querySelectorAll('h1')].filter(h => h.offsetParent !== null);
-  return h1s.length === 1;
+  return h1s.length === 1 && h1s[0].textContent.trim().length > 0;
+}));
+
+// 6b. h1 de bibliothèque : existe ET contient du texte (régression asyncData destructurage)
+await page.goto(BASE + LIB + '/', { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(3000);
+ok('library h1 non vide', await page.evaluate(() => {
+  const h1 = document.querySelector('h1');
+  return !!h1 && h1.textContent.trim().length > 0;
 }));
 
 // 7. liens icones nommés (github/discord config index)

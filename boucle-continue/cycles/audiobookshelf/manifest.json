@@ -1,60 +1,64 @@
 {
-  "cycle": 11,
-  "repo": "advplyr/audiobookshelf",
-  "base_commit": "2a0507ffc69b876141fd3a8f4c1a2678701bc2d3",
-  "stack": "Node/Express + Nuxt 2 (Vue 2) static generate ; base path /audiobookshelf",
-  "baseUrl": "http://127.0.0.1:8088/audiobookshelf",
-  "tool_versions": {
-    "playwright": "1.63.0",
-    "axe-core": "4.13.0",
-    "node": "v24.19.0"
-  },
-  "boot": {
-    "commands": [
-      "git clone https://github.com/advplyr/audiobookshelf target && cd target && git checkout 2a0507f",
-      "cd target && npm install && npm run build:server (→ dist-server/ à la racine)",
-      "cd target/client && npm install && npx nuxt generate (→ dist/)",
-      "PORT=8088 CONFIG_PATH=<dir>/config METADATA_PATH=<dir>/metadata node dist-server/index.js"
-    ],
-    "setup": "premier démarrage : créer user root/rootpass123 via /audiobookshelf/login (init) ; créer 1 library 'books' + 1 item 'Test Book - Auteur Démo' (fichier audio minimal uploadé via API) ; tools/login.mjs écrit auth.json (même host que les scans : 127.0.0.1)",
-    "seed": "1 library (id d1028418-a9db-4434-ac99-6bd380d90b89) + 1 book item (id 0cd6cfaa-b722-49a4-809c-89ce758b1f07) ; aucun état dynamique déclaré (states.json = {})"
-  },
-  "scope": {
-    "pages": [
-      "/audiobookshelf/library/d1028418-a9db-4434-ac99-6bd380d90b89/",
-      "/audiobookshelf/item/0cd6cfaa-b722-49a4-809c-89ce758b1f07/",
-      "/audiobookshelf/config/",
-      "/audiobookshelf/config/users/",
-      "/audiobookshelf/config/backups/",
-      "/audiobookshelf/config/libraries/",
-      "/audiobookshelf/config/authentication/",
-      "/audiobookshelf/account/",
-      "/audiobookshelf/config/stats/",
-      "/audiobookshelf/upload/"
-    ],
-    "login_unauthed": "/audiobookshelf/login/",
-    "horsPerimetre": [
-      "/audiobookshelf/ et /audiobookshelf/batch/ : alias qui redirigent côté client vers /library/<id> — le document final diffère du demandé par construction",
-      "pages readers (ebook/comic) : nécessitent un upload réussi d'un vrai fichier — hors seed minimal",
-      "états dynamiques : aucun déclaré (states.json = {}) — modales de l'app non couvertes par le scan axe"
-    ]
-  },
-  "auditCommands": [
-    "node audit.mjs http://127.0.0.1:8088/audiobookshelf --urls <10 pages ci-dessus> --states none --storage-state auth.json --wait 2500 --out final-v2",
-    "node audit.mjs http://127.0.0.1:8088/audiobookshelf --urls /audiobookshelf/login/ --states none --wait 2500 --out login-final"
+ "cycle": 11,
+ "repo": "advplyr/audiobookshelf",
+ "base_commit": "2a0507ffc69b876141fd3a8f4c1a2678701bc2d3",
+ "stack": "Node/Express + Nuxt 2 (Vue 2) static generate ; base path /audiobookshelf",
+ "baseUrl": "http://127.0.0.1:8088/audiobookshelf",
+ "tool_versions": {
+  "playwright": "1.63.0",
+  "axe-core": "4.13.0",
+  "node": "v24.19.0"
+ },
+ "boot": {
+  "commands": [
+   "git clone https://github.com/advplyr/audiobookshelf target && cd target && git checkout 2a0507f",
+   "cd target && npm install && npm run build:server (→ dist-server/ à la racine)",
+   "cd target/client && npm install && npx nuxt generate (→ dist/)",
+   "PORT=8088 CONFIG_PATH=<dir>/config METADATA_PATH=<dir>/metadata node dist-server/index.js"
   ],
-  "verify": "tools/verify.mjs : 14/14 — landmarks (main+header+aside/nav nommé), region coverage, aria-checked 'true'/'false', inputs labellisés, th non vides, cover alt, h1 unique visible, liens icônes nommés, --color-success #2e7d32, login landmarks+labels",
-  "evalFinal": "tools/eval-final.mjs : 6/6 — login réel root→library, items library, item rendu, toggle bascule aria-checked, landmarks SPA persistants, 0 erreur page",
-  "harness_local_adaptations": [
-    "--urls doit recevoir les chemins COMPLETS préfixés /audiobookshelf/... (résolution contre l'ORIGIN, pas le baseUrl path)",
-    "--wait 2500-4000 : hydratation Nuxt 2 ; sans attente axe sérialise des DOM mid-hydration (faux positifs transitoires main/link-name)",
-    "auth.json et scans sur le MÊME host 127.0.0.1 (leçon cookie-host memos)",
-    "/config/stats et /upload redirectent /login de façon flaky sous scan séquentiel rapide — re-scan ciblé confirme la page réelle (probe + rescan 0 violation)"
+  "setup": "premier démarrage : créer user root/rootpass123 via /audiobookshelf/login (init) ; créer 1 library 'books' + 1 item 'Test Book - Auteur Démo' (fichier audio minimal uploadé via API) ; tools/login.mjs écrit auth.json (même host que les scans : 127.0.0.1)",
+  "seed": "1 library (id d1028418-a9db-4434-ac99-6bd380d90b89) + 1 book item (id 0cd6cfaa-b722-49a4-809c-89ce758b1f07) ; aucun état dynamique déclaré (states.json = {})",
+  "notes": "v2 : SettingsContent.page-heading (h1 page-titre/h2 contenus multiples) ; asyncData destructurage data.library (libraries/fetch retourne {library,...} pas library) ; verify.mjs h1 exige textContent non vide ; relogin avant chaque scan authentifié (JWT expire mi-run → redirect détecté, re-scan ciblé)."
+ },
+ "scope": {
+  "pages": [
+   "/audiobookshelf/library/d1028418-a9db-4434-ac99-6bd380d90b89/",
+   "/audiobookshelf/item/0cd6cfaa-b722-49a4-809c-89ce758b1f07/",
+   "/audiobookshelf/config/",
+   "/audiobookshelf/config/users/",
+   "/audiobookshelf/config/backups/",
+   "/audiobookshelf/config/libraries/",
+   "/audiobookshelf/config/authentication/",
+   "/audiobookshelf/account/",
+   "/audiobookshelf/config/stats/",
+   "/audiobookshelf/upload/"
   ],
-  "notes_honnetes": [
-    "Vue 2 supprime les bindings d'attributs falsy : :aria-checked=\"!!v\" ne rend rien quand false — utiliser la chaîne 'true'/'false'",
-    "Vue 2 dans les templates : les corrections du composant ToggleSwitch rendent role=checkbox + aria-checked chaîne (sémantique case-à-cocher native à bascule, acceptée)",
-    "hiérarchie h1 restructurée : 1 h1 par page (titre de page ou nom de bibliothèque sr-only), titres de modales/cartes/stats rétrogradés h2, logo Appbar → p",
-    "baseline 148 occ / 11 règles → final 0 violation / 0 erreur ; incomplets : 148 au dernier run (décisions : résolus/escaladés documentés dans results.json)"
+  "login_unauthed": "/audiobookshelf/login/",
+  "horsPerimetre": [
+   "/audiobookshelf/ et /audiobookshelf/batch/ : alias qui redirigent côté client vers /library/<id> — le document final diffère du demandé par construction",
+   "pages readers (ebook/comic) : nécessitent un upload réussi d'un vrai fichier — hors seed minimal",
+   "états dynamiques : aucun déclaré (states.json = {}) — modales de l'app non couvertes par le scan axe"
   ]
+ },
+ "auditCommands": [
+  "node login.mjs  # relogin OBLIGATOIRE avant chaque scan authentifié (JWT expire en cours de run)",
+  "node audit.mjs http://127.0.0.1:8088/audiobookshelf --urls <10 pages> --states none --storage-state auth.json --wait 2500 --out final",
+  "node audit.mjs http://127.0.0.1:8088/audiobookshelf --urls /audiobookshelf/login/ --states none --wait 2500 --out login",
+  "node verify.mjs && node eval-final.mjs"
+ ],
+ "verify": "tools/verify.mjs : 14/14 — landmarks (main+header+aside/nav nommé), region coverage, aria-checked 'true'/'false', inputs labellisés, th non vides, cover alt, h1 unique visible, liens icônes nommés, --color-success #2e7d32, login landmarks+labels",
+ "evalFinal": "tools/eval-final.mjs : 6/6 — login réel root→library, items library, item rendu, toggle bascule aria-checked, landmarks SPA persistants, 0 erreur page",
+ "harness_local_adaptations": [
+  "--urls doit recevoir les chemins COMPLETS préfixés /audiobookshelf/... (résolution contre l'ORIGIN, pas le baseUrl path)",
+  "--wait 2500-4000 : hydratation Nuxt 2 ; sans attente axe sérialise des DOM mid-hydration (faux positifs transitoires main/link-name)",
+  "auth.json et scans sur le MÊME host 127.0.0.1 (leçon cookie-host memos)",
+  "/config/stats et /upload redirectent /login de façon flaky sous scan séquentiel rapide — re-scan ciblé confirme la page réelle (probe + rescan 0 violation)"
+ ],
+ "notes_honnetes": [
+  "Vue 2 supprime les bindings d'attributs falsy : :aria-checked=\"!!v\" ne rend rien quand false — utiliser la chaîne 'true'/'false'",
+  "Vue 2 dans les templates : les corrections du composant ToggleSwitch rendent role=checkbox + aria-checked chaîne (sémantique case-à-cocher native à bascule, acceptée)",
+  "hiérarchie h1 restructurée : 1 h1 par page (titre de page ou nom de bibliothèque sr-only), titres de modales/cartes/stats rétrogradés h2, logo Appbar → p",
+  "baseline 148 occ / 11 règles → final 0 violation / 0 erreur ; incomplets : 148 au dernier run (décisions : résolus/escaladés documentés dans results.json)"
+ ],
+ "revision": "v2 — corrections suite audit tiers b090b634 (PARTIAL → corrigé)"
 }

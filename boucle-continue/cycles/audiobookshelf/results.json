@@ -1,45 +1,65 @@
 {
-  "depot": "advplyr/audiobookshelf",
-  "commit": "2a0507ffc69b876141fd3a8f4c1a2678701bc2d3",
-  "baseUrl": "http://127.0.0.1:8088/audiobookshelf",
-  "baseline": {
-    "regles": 11,
-    "occurrences": 148,
-    "erreurs": 0,
-    "scenarios": 11,
-    "rapport": "reports/baseline-report.json"
-  },
-  "final": {
-    "regles": 0,
-    "occurrences": 0,
-    "erreurs": 0,
-    "scenarios": 11,
-    "exit": 0,
-    "rapports": [
-      "reports/final-report.json (10 pages canoniques authentifiées)",
-      "reports/final-stats-upload-report.json (/config/stats + /upload — re-scan ciblé après redirect flaky)",
-      "reports/final-upload-report.json (/upload seul, --wait 4000)",
-      "reports/login-final-report.json (login non authentifié)"
-    ]
-  },
-  "verif_independante": {
-    "verify.mjs": "14/14",
-    "eval-final.mjs": "6/6"
-  },
-  "build": {
-    "npm_run_build_server": "PASS (dist-server/)",
-    "nuxt_generate": "PASS (client/dist, 22 routes générées)"
-  },
-  "corrections": {
-    "landmarks": "<main id=app-content> (layout default), <header> Appbar, <aside aria-label> SideRail + nav interne, role=region MediaPlayerContainer, header+main sur login",
-    "hierarchie_h1": "1 h1 par page : titre de page ou nom de bibliothèque (sr-only index+bookshelf+stats) ; h1 composants → h2 (Appbar×2, SettingsContent, YearInReviewBanner, DailyListeningChart, EditModal, AddCreateModal×2, Changelog ViewModal, BookMatchCard×2, error.vue logo→p, stats.vue ×4)",
-    "noms_accessibles": "aria-labels : SideRail nav, MediaPlayerContainer region, GlobalSearch input+clear btn, checkboxes auth ×3, toggles/inputs backups, liens github/discord config, TextInput nouveau prop ariaLabel",
-    "aria_checked": "ToggleSwitch aria-checked rendu 'true'/'false' (Vue 2 drop les bindings falsy)",
-    "tables": "th vides → <span class=sr-only>Actions</span> (BackupsTable, UsersTable, CustomMetadataProviderTable, account sessions)",
-    "images": "BookCover img :alt=title, Logo.png alt=''",
-    "roles": "MultiSelect/MultiSelectQueryInput role=list→group (+listitem retiré)",
-    "login_form": "labels for/login-username|password + inputId correspondants",
-    "contraste": "--color-success #4caf50→#2e7d32 (≥4.5:1), UsersTable text-white/50→/70"
-  },
-  "note": "pas d'auto-verdict — statut déterminé par l'auditeur tiers"
+ "depot": "advplyr/audiobookshelf",
+ "commit": "2a0507ffc69b876141fd3a8f4c1a2678701bc2d3",
+ "baseUrl": "http://127.0.0.1:8088/audiobookshelf",
+ "baseline": {
+  "regles": 11,
+  "occurrences": 148,
+  "erreurs": 1,
+  "scenarios": 11,
+  "rapport": "reports/baseline-report.json",
+  "note_erreurs": "/config/stats/ redirigée vers login (auth expirée mi-run) — baseline sous-comptée d'au moins 1 page"
+ },
+ "final": {
+  "regles": 0,
+  "occurrences": 0,
+  "erreurs": 0,
+  "scenarios": 11,
+  "exit": 0,
+  "rapports": [
+   "reports/final-report.json (10 pages — relogin pré-scan ; /account/ a expiré mi-run → re-scan immédiat séparé)",
+   "reports/final-account-retry-report.json (/account/ seul, 0 violation)",
+   "reports/login-final-report.json (login non authentifié)"
+  ],
+  "note_auth": "JWT web expire en cours de run → redirection login détectée par le runner (exit 2 sur le lot) ; relogin + re-scan ciblé = méthode validée"
+ },
+ "verif_independante": {
+  "verify.mjs": "15/15 (h1 non vide ajouté — blind spot auditeur)",
+  "eval-final.mjs": "6/6"
+ },
+ "build": {
+  "npm_run_build_server": "PASS (dist-server/)",
+  "nuxt_generate": "PASS (client/dist, 22 routes générées)"
+ },
+ "corrections": {
+  "landmarks": "<main id=app-content> (layout default), <header> Appbar, <aside aria-label> SideRail + nav interne, role=region MediaPlayerContainer, header+main sur login",
+  "hierarchie_h1": "1 h1 par page : titre de page ou nom de bibliothèque (sr-only index+bookshelf+stats) ; h1 composants → h2 (Appbar×2, SettingsContent, YearInReviewBanner, DailyListeningChart, EditModal, AddCreateModal×2, Changelog ViewModal, BookMatchCard×2, error.vue logo→p, stats.vue ×4)",
+  "noms_accessibles": "aria-labels : SideRail nav, MediaPlayerContainer region, GlobalSearch input+clear btn, checkboxes auth ×3, toggles/inputs backups, liens github/discord config, TextInput nouveau prop ariaLabel",
+  "aria_checked": "ToggleSwitch aria-checked rendu 'true'/'false' (Vue 2 drop les bindings falsy)",
+  "tables": "th vides → <span class=sr-only>Actions</span> (BackupsTable, UsersTable, CustomMetadataProviderTable, account sessions)",
+  "images": "BookCover img :alt=title, Logo.png alt=''",
+  "roles": "MultiSelect/MultiSelectQueryInput role=list→group (+listitem retiré)",
+  "login_form": "labels for/login-username|password + inputId correspondants",
+  "contraste": "--color-success #4caf50→#2e7d32 (≥4.5:1), UsersTable text-white/50→/70"
+ },
+ "note": "pas d'auto-verdict — statut déterminé par l'auditeur tiers",
+ "correction_v2_auditeur_b090b634": {
+  "constats": [
+   "page-has-heading-one ×6 (/config/, /config/users/, /config/backups/, /config/libraries/, /config/authentication/, /upload/) — h1→h2 demotion sans h1 de remplacement",
+   "empty-heading ×1 (/library/<id>/ — h1 sr-only vide : asyncData attendait l'objet library mais libraries/fetch retourne {library,filterdata,…}",
+   "provenance « exit 0/0 erreurs » incohérente avec les rapports (2 pages en erreur)",
+   "breakdown REGISTRE erroné (copié d'un autre dépôt)",
+   "verify.mjs comptait les h1 sans vérifier leur texte (blind spot)"
+  ],
+  "corrections": [
+   "SettingsContent : prop page-heading → h1 sur la page-titre, h2 sinon ; passé sur les 13 pages config mono-contenu + stats (h1 interne demoté h2) + 1er contenu d'email.vue",
+   "h1 sr-only ajouté upload/index.vue ($strings.ButtonUpload)",
+   "users/_id/index.vue : 3 h1 de section → h2 (username reste le h1)",
+   "_library/index.vue : libraryName via getter getCurrentLibraryName (plus de dépendance au retour de fetch) ; _library/stats.vue : destructurage data.library",
+   "verify.mjs : assertion h1 exige textContent non vide + cas dédié /library/<id>/",
+   "REGISTRE : breakdown corrigée sur les vrais chiffres du baseline-report",
+   "manifest auditCommands : login.mjs relancé immédiatement avant chaque scan authentifié"
+  ],
+  "statut": "corrigé — 0 violation reproduite sur 10 pages + login, verify 15/15, eval 6/6"
+ }
 }

@@ -61,7 +61,7 @@ index 1a2b1d3..09c007e 100644
        <covers-book-cover expand-on-click :library-item="streamLibraryItem" :width="bookCoverWidth" :book-cover-aspect-ratio="coverAspectRatio" />
      </div>
 diff --git a/client/components/app/SettingsContent.vue b/client/components/app/SettingsContent.vue
-index ffe0c8d..377ce4d 100644
+index ffe0c8d..e6a8ec1 100644
 --- a/client/components/app/SettingsContent.vue
 +++ b/client/components/app/SettingsContent.vue
 @@ -2,7 +2,7 @@
@@ -69,10 +69,20 @@ index ffe0c8d..377ce4d 100644
      <div class="flex items-center mb-2">
        <slot name="header-prefix"></slot>
 -      <h1 class="text-xl">{{ headerText }}</h1>
-+      <h2 class="text-xl">{{ headerText }}</h2>
++      <component :is="pageHeading ? 'h1' : 'h2'" class="text-xl">{{ headerText }}</component>
  
        <slot name="header-items"></slot>
      </div>
+@@ -18,7 +18,8 @@ export default {
+   props: {
+     headerText: String,
+     description: String,
+-    note: String
++    note: String,
++    pageHeading: Boolean
+   },
+   methods: {}
+ }
 diff --git a/client/components/app/SideRail.vue b/client/components/app/SideRail.vue
 index 9fa7661..09a203d 100644
 --- a/client/components/app/SideRail.vue
@@ -394,12 +404,27 @@ index c371a96..36d7ce9 100644
              </tr>
              <tr v-for="session in authSessions" :key="session.id">
                <td class="max-w-0">
+diff --git a/client/pages/config/api-keys/index.vue b/client/pages/config/api-keys/index.vue
+index 88208a9..ebdd54b 100644
+--- a/client/pages/config/api-keys/index.vue
++++ b/client/pages/config/api-keys/index.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderApiKeys">
++    <app-settings-content page-heading :header-text="$strings.HeaderApiKeys">
+       <template #header-items>
+         <div v-if="numApiKeys" class="mx-2 px-1.5 rounded-lg bg-primary/50 text-gray-300/90 text-sm inline-flex items-center justify-center">
+           <span>{{ numApiKeys }}</span>
 diff --git a/client/pages/config/authentication.vue b/client/pages/config/authentication.vue
-index 4f47ce3..cf60e4a 100644
+index 4f47ce3..fea3c75 100644
 --- a/client/pages/config/authentication.vue
 +++ b/client/pages/config/authentication.vue
-@@ -3,7 +3,7 @@
-     <app-settings-content :header-text="$strings.HeaderAuthentication">
+@@ -1,9 +1,9 @@
+ <template>
+   <div id="authentication-settings">
+-    <app-settings-content :header-text="$strings.HeaderAuthentication">
++    <app-settings-content page-heading :header-text="$strings.HeaderAuthentication">
        <div class="w-full border border-white/10 rounded-xl p-4 my-4 bg-primary/25">
          <div class="flex items-center">
 -          <ui-checkbox v-model="showCustomLoginMessage" checkbox-bg="bg" />
@@ -424,9 +449,17 @@ index 4f47ce3..cf60e4a 100644
            <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
              <a href="https://audiobookshelf.org/docs/documentation/server-management/oidc-authentication" target="_blank" class="inline-flex">
 diff --git a/client/pages/config/backups.vue b/client/pages/config/backups.vue
-index ae8c1a9..1df3c22 100644
+index ae8c1a9..3c6d3b4 100644
 --- a/client/pages/config/backups.vue
 +++ b/client/pages/config/backups.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderBackups" :description="$strings.MessageBackupsDescription">
++    <app-settings-content page-heading :header-text="$strings.HeaderBackups" :description="$strings.MessageBackupsDescription">
+       <div v-if="backupLocation" class="mb-4 max-w-full overflow-hidden">
+         <div class="flex items-center mb-0.5">
+           <span class="material-symbols text-2xl text-black-50 mr-2">folder</span>
 @@ -25,7 +25,7 @@
        </div>
  
@@ -454,10 +487,30 @@ index ae8c1a9..1df3c22 100644
  
          <ui-tooltip :text="$strings.LabelBackupsMaxBackupSizeHelp">
            <p class="pl-4 text-lg">{{ $strings.LabelBackupsMaxBackupSize }} <span class="material-symbols icon-text">info</span></p>
+diff --git a/client/pages/config/email.vue b/client/pages/config/email.vue
+index 075593a..d7acc1c 100644
+--- a/client/pages/config/email.vue
++++ b/client/pages/config/email.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderEmailSettings" :description="''">
++    <app-settings-content page-heading :header-text="$strings.HeaderEmailSettings" :description="''">
+       <template #header-items>
+         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
+           <a href="https://audiobookshelf.org/docs/documentation/libraries/book-library/ebooks" target="_blank" class="inline-flex">
 diff --git a/client/pages/config/index.vue b/client/pages/config/index.vue
-index 7fb84d4..f47bef4 100644
+index 7fb84d4..abd359d 100644
 --- a/client/pages/config/index.vue
 +++ b/client/pages/config/index.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderSettings">
++    <app-settings-content page-heading :header-text="$strings.HeaderSettings">
+       <div class="lg:flex">
+         <div class="flex-1">
+           <div class="pt-4">
 @@ -169,7 +169,7 @@
          {{ $strings.MessageReportBugsAndContribute }}
          <a class="underline" href="https://github.com/advplyr/audiobookshelf" target="_blank">github</a>
@@ -476,6 +529,155 @@ index 7fb84d4..f47bef4 100644
          <svg width="31" height="24" viewBox="0 0 71 55" fill="none" xmlns="http://www.w3.org/2000/svg">
            <g clip-path="url(#clip0)">
              <path
+diff --git a/client/pages/config/item-metadata-utils/custom-metadata-providers.vue b/client/pages/config/item-metadata-utils/custom-metadata-providers.vue
+index 4cd538f..05c96b2 100644
+--- a/client/pages/config/item-metadata-utils/custom-metadata-providers.vue
++++ b/client/pages/config/item-metadata-utils/custom-metadata-providers.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div class="relative">
+-    <app-settings-content :header-text="$strings.HeaderCustomMetadataProviders">
++    <app-settings-content page-heading :header-text="$strings.HeaderCustomMetadataProviders">
+       <template #header-prefix>
+         <nuxt-link to="/config/item-metadata-utils" class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer hover:bg-white/10 text-center mr-2">
+           <span class="material-symbols text-2xl">arrow_back</span>
+diff --git a/client/pages/config/item-metadata-utils/index.vue b/client/pages/config/item-metadata-utils/index.vue
+index c7dab27..4cbfe23 100644
+--- a/client/pages/config/item-metadata-utils/index.vue
++++ b/client/pages/config/item-metadata-utils/index.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderItemMetadataUtils">
++    <app-settings-content page-heading :header-text="$strings.HeaderItemMetadataUtils">
+       <nuxt-link to="/config/item-metadata-utils/tags" class="block w-full rounded-sm bg-primary/40 hover:bg-primary/60 text-gray-300 hover:text-white p-4 mt-6 mb-2">
+         <div class="flex justify-between">
+           <p>{{ $strings.HeaderManageTags }}</p>
+diff --git a/client/pages/config/libraries.vue b/client/pages/config/libraries.vue
+index 28ca9a5..20d0682 100644
+--- a/client/pages/config/libraries.vue
++++ b/client/pages/config/libraries.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderLibraries">
++    <app-settings-content page-heading :header-text="$strings.HeaderLibraries">
+       <template #header-items>
+         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
+           <a href="https://audiobookshelf.org/docs/documentation/libraries/common-content/overview" target="_blank" class="inline-flex">
+diff --git a/client/pages/config/log.vue b/client/pages/config/log.vue
+index 5a9c03c..5ce6e92 100644
+--- a/client/pages/config/log.vue
++++ b/client/pages/config/log.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderLogs" :description="$strings.MessageLogsDescription">
++    <app-settings-content page-heading :header-text="$strings.HeaderLogs" :description="$strings.MessageLogsDescription">
+       <template #header-items>
+         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
+           <a href="https://audiobookshelf.org/docs/documentation/server-management/server-logs" target="_blank" class="inline-flex">
+diff --git a/client/pages/config/notifications.vue b/client/pages/config/notifications.vue
+index 4617477..3cc61f9 100644
+--- a/client/pages/config/notifications.vue
++++ b/client/pages/config/notifications.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderAppriseNotificationSettings" :description="$strings.MessageAppriseDescription">
++    <app-settings-content page-heading :header-text="$strings.HeaderAppriseNotificationSettings" :description="$strings.MessageAppriseDescription">
+       <form @submit.prevent="submitForm">
+         <ui-text-input-with-label ref="apiUrlInput" v-model="appriseApiUrl" :disabled="savingSettings" label="Apprise API Url" class="mb-2" />
+ 
+diff --git a/client/pages/config/rss-feeds.vue b/client/pages/config/rss-feeds.vue
+index 6aae0df..93c461b 100644
+--- a/client/pages/config/rss-feeds.vue
++++ b/client/pages/config/rss-feeds.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderRSSFeeds">
++    <app-settings-content page-heading :header-text="$strings.HeaderRSSFeeds">
+       <template #header-items>
+         <ui-tooltip :text="$strings.LabelClickForMoreInfo" class="inline-flex ml-2">
+           <a href="https://audiobookshelf.org/docs/documentation/libraries/common-content/public-shares#rss-feed" target="_blank" class="inline-flex">
+diff --git a/client/pages/config/sessions.vue b/client/pages/config/sessions.vue
+index 4341ea0..9781727 100644
+--- a/client/pages/config/sessions.vue
++++ b/client/pages/config/sessions.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderListeningSessions">
++    <app-settings-content page-heading :header-text="$strings.HeaderListeningSessions">
+       <div class="flex justify-end mb-2">
+         <ui-dropdown v-model="selectedUser" :items="userItems" :label="$strings.LabelFilterByUser" small class="max-w-48" @input="updateUserFilter" />
+       </div>
+diff --git a/client/pages/config/stats.vue b/client/pages/config/stats.vue
+index 137ac5a..2c5ecb6 100644
+--- a/client/pages/config/stats.vue
++++ b/client/pages/config/stats.vue
+@@ -3,7 +3,7 @@
+     <!-- Year in review banner shown at the top in December and January -->
+     <stats-year-in-review-banner v-if="showYearInReviewBanner" />
+ 
+-    <app-settings-content :header-text="$strings.HeaderYourStats" class="mb-4!">
++    <app-settings-content :header-text="$strings.HeaderYourStats" class="mb-4!" page-heading>
+       <div class="flex justify-center">
+         <div class="flex p-2">
+           <div class="hidden sm:block">
+@@ -39,7 +39,7 @@
+         <stats-daily-listening-chart :listening-stats="listeningStats" class="origin-top-left transform scale-75 lg:scale-100" />
+         <div class="w-80 my-6 mx-auto">
+           <div class="flex mb-4 items-center">
+-            <h1 class="text-2xl">{{ $strings.HeaderStatsRecentSessions }}</h1>
++            <h2 class="text-2xl">{{ $strings.HeaderStatsRecentSessions }}</h2>
+             <div class="grow" />
+             <ui-btn v-if="isAdminOrUp" :to="`/config/users/${user.id}/sessions`" class="text-xs" :padding-x="1.5" :padding-y="1">{{ $strings.ButtonViewAll }}</ui-btn>
+           </div>
+diff --git a/client/pages/config/users/_id/index.vue b/client/pages/config/users/_id/index.vue
+index 34a0fc8..57bce4a 100644
+--- a/client/pages/config/users/_id/index.vue
++++ b/client/pages/config/users/_id/index.vue
+@@ -20,7 +20,7 @@
+       </div>
+       <div class="w-full h-px bg-white/10 my-2" />
+       <div class="py-2">
+-        <h1 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderListeningStats }}</h1>
++        <h2 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderListeningStats }}</h2>
+         <div class="flex items-center">
+           <p class="text-sm text-gray-300">{{ listeningSessions.total }} {{ $strings.HeaderListeningSessions }}</p>
+           <ui-btn :to="`/config/users/${user.id}/sessions`" class="text-xs mx-2" :padding-x="1.5" :padding-y="1">{{ $strings.ButtonViewAll }}</ui-btn>
+@@ -35,7 +35,7 @@
+         </p>
+ 
+         <div v-if="latestSession" class="mt-4">
+-          <h1 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderLastListeningSession }}</h1>
++          <h2 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderLastListeningSession }}</h2>
+           <p class="text-sm text-gray-300">
+             <strong>{{ latestSession.displayTitle }}</strong> {{ $dateDistanceFromNow(latestSession.updatedAt) }} for <span class="font-mono text-base">{{ $elapsedPrettyExtended(this.latestSession.timeListening) }}</span>
+           </p>
+@@ -43,7 +43,7 @@
+       </div>
+       <div class="w-full h-px bg-white/10 my-2" />
+       <div class="py-2">
+-        <h1 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderSavedMediaProgress }}</h1>
++        <h2 class="text-lg mb-2 text-white/90 px-2 sm:px-0">{{ $strings.HeaderSavedMediaProgress }}</h2>
+ 
+         <table v-if="mediaProgress.length" class="userAudiobooksTable">
+           <tr class="bg-primary/40">
+diff --git a/client/pages/config/users/index.vue b/client/pages/config/users/index.vue
+index ff9d049..d73a554 100644
+--- a/client/pages/config/users/index.vue
++++ b/client/pages/config/users/index.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div>
+-    <app-settings-content :header-text="$strings.HeaderUsers">
++    <app-settings-content page-heading :header-text="$strings.HeaderUsers">
+       <template #header-items>
+         <div v-if="numUsers" class="mx-2 px-1.5 rounded-lg bg-primary/50 text-gray-300/90 text-sm inline-flex items-center justify-center">
+           <span>{{ numUsers }}</span>
 diff --git a/client/pages/library/_library/bookshelf/_id.vue b/client/pages/library/_library/bookshelf/_id.vue
 index 72cfba4..0b52563 100644
 --- a/client/pages/library/_library/bookshelf/_id.vue
@@ -498,18 +700,45 @@ index 72cfba4..0b52563 100644
    },
    data() {
 diff --git a/client/pages/library/_library/index.vue b/client/pages/library/_library/index.vue
-index f235028..fb34060 100644
+index f235028..8e4b9ed 100644
 --- a/client/pages/library/_library/index.vue
 +++ b/client/pages/library/_library/index.vue
 @@ -1,5 +1,6 @@
  <template>
    <div class="page" :class="streamLibraryItem ? 'streaming' : ''">
-+    <h1 class="sr-only">{{ library.name }}</h1>
++    <h1 class="sr-only">{{ libraryName }}</h1>
      <app-book-shelf-toolbar is-home />
      <app-book-shelf-categorized />
    </div>
+@@ -9,13 +10,11 @@
+ export default {
+   async asyncData({ store, params, redirect }) {
+     const libraryId = params.library
+-    const library = await store.dispatch('libraries/fetch', libraryId)
+-    if (!library) {
++    const data = await store.dispatch('libraries/fetch', libraryId)
++    if (!data || !data.library) {
+       return redirect(`/oops?message=Library "${libraryId}" not found`)
+     }
+-    return {
+-      library
+-    }
++    return {}
+   },
+   data() {
+     return {}
+@@ -23,6 +22,9 @@ export default {
+   computed: {
+     streamLibraryItem() {
+       return this.$store.state.streamLibraryItem
++    },
++    libraryName() {
++      return this.$store.getters['libraries/getCurrentLibraryName']
+     }
+   },
+   methods: {},
 diff --git a/client/pages/library/_library/stats.vue b/client/pages/library/_library/stats.vue
-index 0fcc2a4..6d33ed7 100644
+index 0fcc2a4..2c7331a 100644
 --- a/client/pages/library/_library/stats.vue
 +++ b/client/pages/library/_library/stats.vue
 @@ -1,13 +1,14 @@
@@ -555,12 +784,18 @@ index 0fcc2a4..6d33ed7 100644
              <p v-if="!top10LargestItems.length">{{ $strings.MessageNoItems }}</p>
              <template v-for="(ab, index) in top10LargestItems">
                <div :key="index" class="w-full py-2">
-@@ -100,7 +101,7 @@ export default {
-     if (!library) {
+@@ -96,11 +97,11 @@ export default {
+     }
+ 
+     const libraryId = params.library
+-    const library = await store.dispatch('libraries/fetch', libraryId)
+-    if (!library) {
++    const data = await store.dispatch('libraries/fetch', libraryId)
++    if (!data || !data.library) {
        return redirect(`/oops?message=Library "${libraryId}" not found`)
      }
 -    return {}
-+    return { libraryName: library.name }
++    return { libraryName: data.library.name }
    },
    data() {
      return {
@@ -610,3 +845,15 @@ index cec150e..57a848c 100644
    </div>
  </template>
  
+diff --git a/client/pages/upload/index.vue b/client/pages/upload/index.vue
+index adc21ff..125873d 100644
+--- a/client/pages/upload/index.vue
++++ b/client/pages/upload/index.vue
+@@ -1,6 +1,7 @@
+ <template>
+   <div id="page-wrapper" class="page p-1 sm:p-6 overflow-y-auto" :class="streamLibraryItem ? 'streaming' : ''">
+     <div class="w-full max-w-6xl mx-auto">
++      <h1 class="sr-only">{{ $strings.ButtonUpload }}</h1>
+       <!-- Library & folder picker -->
+       <div class="flex flex-wrap my-6 md:-mx-2">
+         <div class="w-full md:w-1/5 px-2">
