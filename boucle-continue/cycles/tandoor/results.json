@@ -2,8 +2,25 @@
   "depot": "TandoorRecipes/recipes",
   "commitEpingle": "7d2e139eec08b3dc720b90fba3fa53811a4c5ebc",
   "statut": "SUCCÈS — axe 0 violation, vérif indépendante 15/15 PASS, éval finale 10/10 PASS, install-build PASS",
-  "baseline": { "login": { "regles": 5, "occurrences": 9 }, "app": { "regles": 14, "occurrences": 198, "incomplets": 175 }, "scenarios": 14 },
-  "final": { "regles": 0, "occurrences": 0, "erreurs": 0, "scenarios": 13, "incomplets": 162 },
+  "baseline": {
+    "login": {
+      "regles": 5,
+      "occurrences": 9
+    },
+    "app": {
+      "regles": 14,
+      "occurrences": 198,
+      "incomplets": 175
+    },
+    "scenarios": 14
+  },
+  "final": {
+    "regles": 0,
+    "occurrences": 0,
+    "erreurs": 0,
+    "scenarios": 13,
+    "incomplets": 162
+  },
   "rounds": 12,
   "perimetre": "scopeHash ET statesHash identiques baseline/final (02bf0e80de36 / e240f3f338) — 13 scénarios : 11 routes + états add-menu/user-menu ; baseline login séparée",
   "famillesCorrigees": {
@@ -27,14 +44,31 @@
     "Vite overlay persistant après erreur HMR peut fuiter dans le scan — rescanner après fix (2 violations fantômes détectées et écartées)"
   ],
   "artefacts": [
-    "manifest.json", "states.json", "provenance.json", "scope-compare.json",
-    "patch.diff", "patch.sha256", "verify.mjs", "eval-final.mjs",
-    "install-build.json", "reports/baseline-report.{md,json}", "reports/baseline-login-report.{md,json}", "reports/final-report.{md,json}", "reports/{baseline,final}-scope.json"
+    "manifest.json",
+    "states.json",
+    "provenance.json",
+    "scope-compare.json",
+    "patch.diff",
+    "patch.sha256",
+    "verify.mjs",
+    "eval-final.mjs",
+    "install-build.json",
+    "reports/baseline-report.{md,json}",
+    "reports/baseline-login-report.{md,json}",
+    "reports/final-report.{md,json}",
+    "reports/{baseline,final}-scope.json"
   ],
   "nonCouvert": "routes hors périmètre du manifeste : /welcome onboarding, /admin Django, openAPI docs, auth sociale ; thème sombre ; drag&drop ; 162 résultats axe incomplete (aria-controls dangling by-design sur menus non montés, fg '?' non mesurable sur dégradés) — triage documenté",
   "triageIncomplets": {
     "aria-controls (53)": "référence menu non monté au moment du scan — attribut optionnel, cible montée à l'ouverture ; conforme by-design",
     "color-contrast fg '?' (~109)": "axe ne mesure pas le fg sur fond dégradé/image — revue manuelle : pas de texte sur ces nœuds décoratifs",
     "autres (divers)": "résidus cv-* transitoires et attributs optionnels dangling — normalisés par a11yShim quand exigibles"
+  },
+  "auditTiers": {
+    "statut": "en attente — verdict à intégrer après rejeu",
+    "verdictsPrecedents": {
+      "actual": "CONFIRMED — findings intégrés au protocole (harnais complet à commiter, scope-compare depuis artefacts, règle-7 rétro, boucle Tab modale, baseline indicative sur données démo)",
+      "hedgedoc": "CONFIRMED — réserves : --wait-for asymétrique baseline (sélecteur post-patch), fondu de modale échantillonné, routes déclarées non scannées à tracer avec motif, fragilités boot documentées, scope.json ne stocke pas waits/versions"
+    }
   }
 }

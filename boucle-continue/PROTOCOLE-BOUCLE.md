@@ -121,3 +121,15 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 8. **`--wait-for 'h1' + --wait 1200` obligatoires sur apps à styles tardifs :** axe mesure les couleurs calculées avant que la cascade tardive (thème, utilities) se sédimente — faux positifs fantômes reproductibles (`th` #c0c0c0 jamais visibles). Confirme la leçon NPM #3 à grande échelle.
 9. **Overlay d'erreur vite persistant fuit dans le scan.** Après une erreur HMR, `vite-error-overlay` reste monté et compte comme violations `region`/`scrollable-region-focusable` — rescanner sur page fraîche avant de conclure (2 fantômes écartés ce cycle).
 10. **`aria-label` sur un div sans rôle = `aria-prohibited-attr`** (cycle courant : `.cv-wrapper` de vue-simple-calendar) — retirer le label ou poser un rôle porteur (group/listbox) si la sémantique le justifie.
+
+### Leçons issues des audits tiers (cycles 2 + 4 — verdicts CONFIRMED)
+
+1. **Commiter le harnais COMPLET par cycle** — `tools/audit.mjs` avec sa carte STATES figée (la prose states.json ne suffit pas au rejeu), verify.mjs, eval-final.mjs, login.mjs, package.json. Rétro-appliqué à tandoor.
+2. **`scope-compare.json` se génère DEPUIS LES ARTEFACTS** (baseline-scope.json vs final-scope.json), jamais de mémoire — un récit de baseline reconstruit peut contredire l'artefact commité.
+3. **`--wait-for` est asymétrique baseline/final** quand le sélecteur n'existe qu'après patch (ex: `#main-content` créé par le fix). Règle : en baseline, attendre un sélecteur présent d'origine ou `--wait` seul, et le déclarer dans le manifeste.
+4. **Toute route déclarée au manifeste mais non scannée est enregistrée avec motif** (non-déterministe, redirection data-dépendante…) — le scope.json/scope-compare doit porter la substitution ET la raison.
+5. **Règle 7 rétro-active sur verify/eval** : assertion conditionnée à `if (await el.count())` = pass vacuole → élément attendu absent = FAIL ou N-A déclaré. (Règle déjà appliquée dans les harnais tandoor.)
+6. **Boucle Tab de modale assertée** quand le manifeste promet un piège de focus (leçon CyberChef #2, généralisée).
+7. **Le compte baseline est indicatif sur données démo aléatoires** — le gate compare les familles de règles + final=0, pas les occurrences au nœud près.
+8. **`scope.json` doit stocker waits + versions** (waitFor, wait, axe-core/playwright/node) — sans ça la config d'audit n'est pas auditable a posteriori. (Runner déjà versionné ; ajouter waitFor/wait.)
+9. **Fondu de modale échantillonné par axe** : pré-dismisser ou stabiliser les modales auto-ouvertes (MOTD/bannières) comme état préalable déclaré avant mesure.
