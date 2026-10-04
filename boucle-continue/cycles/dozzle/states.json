@@ -1,0 +1,10 @@
+{
+  "setupSource": "const STATES = {\n  'dark-dashboard': {\n    url: b => b + '/',\n    setup: async page => {\n      await page.evaluate(() => localStorage.setItem('vueuse-color-scheme', 'dark'));\n      await page.reload();\n      await page.waitForSelector('main, [role=\"main\"]', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n    },\n  },\n  'dark-settings': {\n    url: b => b + '/settings',\n    setup: async page => {\n      await page.evaluate(() => localStorage.setItem('vueuse-color-scheme', 'dark'));\n      await page.reload();\n      await page.waitForSelector('main, [role=\"main\"]', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n    },\n  },\n  'search-modal': {\n    url: b => b + '/',\n    setup: async page => {\n      await page.waitForSelector('main, [role=\"main\"]', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n      await page.keyboard.press('Control+k');\n      await page.waitForSelector('dialog[open]', { state: 'visible', timeout: 10000 });\n      await page.waitForTimeout(600);\n    },\n  },\n  'mobile': {\n    url: b => b + '/',\n    setup: async page => {\n      await page.setViewportSize({ width: 390, height: 800 });\n      await page.waitForSelector('main, [role=\"main\"]', { timeout: 15000 });\n      await page.waitForTimeout(1200);\n    },\n  },\n  'pinned-logs': {\n    url: b => b + '/container/0b8bb5aa3e7f?columns=3020dc9b6f19',\n    setup: async page => {\n      await page.setViewportSize({ width: 1280, height: 800 });\n      await page.waitForSelector('main, [role=\"main\"]', { timeout: 15000 });\n      await page.waitForSelector('[role=\"complementary\"]', { timeout: 10000 });\n      await page.waitForFunction(() => document.querySelectorAll('.splitpanes__pane').length >= 3, undefined, { timeout: 10000 });\n      await page.waitForTimeout(1200);\n    },\n  },\n};",
+  "states": [
+    "dark-dashboard",
+    "dark-settings",
+    "search-modal",
+    "mobile",
+    "pinned-logs"
+  ]
+}

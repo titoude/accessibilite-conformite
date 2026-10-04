@@ -1,0 +1,640 @@
+{
+  "runId": "df8dc378-340e-404e-9d02-deb3d96b88fb",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T14:37:20.451Z",
+  "baseUrl": "http://localhost:8084",
+  "pages": [
+    {
+      "url": "http://localhost:8084/",
+      "requestedUrl": "http://localhost:8084/",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#7a7a7a",
+                    "bgColor": "#f5f5f5",
+                    "contrastRatio": 3.93,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<html lang=\"en\" class=\"bg-base-200 text-base-content light\" data-theme=\"light\">",
+                      "target": [
+                        "html"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-v-f6637955=\"\" class=\"shrink-0 font-normal tabular-nums opacity-80\">2</span>",
+              "target": [
+                ".font-normal"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "messageKey": "nonBmp"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element content contains only non-text characters"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<kbd class=\"kbd kbd-xs\">⌘</kbd>",
+              "target": [
+                "kbd:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8084/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8084/settings",
+      "requestedUrl": "http://localhost:8084/settings",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#7a7a7a",
+                    "bgColor": "#f5f5f5",
+                    "contrastRatio": 3.93,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<html lang=\"en\" class=\"bg-base-200 text-base-content light\" data-theme=\"light\">",
+                      "target": [
+                        "html"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-v-f6637955=\"\" class=\"shrink-0 font-normal tabular-nums opacity-80\">2</span>",
+              "target": [
+                ".opacity-80"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<a data-v-7b11ca56=\"\" aria-current=\"location\" href=\"/settings#about\" class=\"router-link-active router-link-exact-active menu-active\">",
+                      "target": [
+                        ".menu-active"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-v-7b11ca56=\"\" class=\"flex-1\">About</span>",
+              "target": [
+                ".menu-active > .flex-1[data-v-7b11ca56=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<a data-v-7b11ca56=\"\" href=\"https://github.com/amir20/dozzle\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn btn-sm\">",
+                      "target": [
+                        ".btn-sm[rel=\"noopener noreferrer\"][target=\"_blank\"]:nth-child(1)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a data-v-7b11ca56=\"\" href=\"https://github.com/amir20/dozzle\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn btn-sm\">",
+              "target": [
+                ".btn-sm[rel=\"noopener noreferrer\"][target=\"_blank\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<a data-v-7b11ca56=\"\" href=\"https://github.com/sponsors/amir20\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn btn-sm\">",
+                      "target": [
+                        ".btn-sm[rel=\"noopener noreferrer\"][target=\"_blank\"]:nth-child(2)"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a data-v-7b11ca56=\"\" href=\"https://github.com/sponsors/amir20\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"btn btn-sm\">",
+              "target": [
+                ".btn-sm[rel=\"noopener noreferrer\"][target=\"_blank\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"btn flex-nowrap\">Auto <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+                      "target": [
+                        "#appearance > .card.card-border.divide-base-content\\/10 > .min-h-13.py-3\\.5.px-4:nth-child(2) > .gap-2.shrink-0.items-center > .popover-anchor > .flex-nowrap.btn[type=\"button\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"btn flex-nowrap\">Auto <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+              "target": [
+                "#appearance > .card.card-border.divide-base-content\\/10 > .min-h-13.py-3\\.5.px-4:nth-child(2) > .gap-2.shrink-0.items-center > .popover-anchor > .flex-nowrap.btn[type=\"button\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"btn flex-nowrap\">Auto <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+                      "target": [
+                        ".min-h-13.py-3\\.5.px-4:nth-child(7) > .gap-2.shrink-0.items-center > .popover-anchor:nth-child(1) > .flex-nowrap.btn[type=\"button\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"btn flex-nowrap\">Auto <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+              "target": [
+                ".min-h-13.py-3\\.5.px-4:nth-child(7) > .gap-2.shrink-0.items-center > .popover-anchor:nth-child(1) > .flex-nowrap.btn[type=\"button\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"btn flex-nowrap\">Auto <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+                      "target": [
+                        ".popover-anchor:nth-child(3) > .flex-nowrap.btn[type=\"button\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"btn flex-nowrap\">Auto <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+              "target": [
+                ".popover-anchor:nth-child(3) > .flex-nowrap.btn[type=\"button\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"btn flex-nowrap\">At least 2 <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+                      "target": [
+                        "#sidebar > .card.card-border.divide-base-content\\/10 > .min-h-13.py-3\\.5.px-4:nth-child(2) > .gap-2.shrink-0.items-center > .popover-anchor > .flex-nowrap.btn[type=\"button\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"btn flex-nowrap\">At least 2 <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+              "target": [
+                "#sidebar > .card.card-border.divide-base-content\\/10 > .min-h-13.py-3\\.5.px-4:nth-child(2) > .gap-2.shrink-0.items-center > .popover-anchor > .flex-nowrap.btn[type=\"button\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"btn flex-nowrap\">Delayed <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+                      "target": [
+                        ".min-h-13.py-3\\.5.px-4:nth-child(1) > .gap-2.shrink-0.items-center > .popover-anchor > .flex-nowrap.btn[type=\"button\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"btn flex-nowrap\">Delayed <svg viewBox=\"0 0 32 32\" width=\"1.2em\" height=\"1.2em\"><path fill=\"currentColor\" d=\"m24 12l-8 10l-8-10z\"></path></svg></button>",
+              "target": [
+                ".min-h-13.py-3\\.5.px-4:nth-child(1) > .gap-2.shrink-0.items-center > .popover-anchor > .flex-nowrap.btn[type=\"button\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<a href=\"https://cloud.dozzle.dev\" target=\"_blank\" rel=\"noreferrer noopener\" class=\"btn btn-sm\">Learn more</a>",
+                      "target": [
+                        ".mt-3.gap-2.flex > a[href$=\"cloud.dozzle.dev\"][rel=\"noreferrer noopener\"][target=\"_blank\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://cloud.dozzle.dev\" target=\"_blank\" rel=\"noreferrer noopener\" class=\"btn btn-sm\">Learn more</a>",
+              "target": [
+                ".mt-3.gap-2.flex > a[href$=\"cloud.dozzle.dev\"][rel=\"noreferrer noopener\"][target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"btn btn-primary btn-sm\">",
+                      "target": [
+                        ".mt-3.gap-2.flex > .btn-primary.btn-sm.btn"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"btn btn-primary btn-sm\">",
+              "target": [
+                ".mt-3.gap-2.flex > .btn-primary.btn-sm.btn"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8084/settings",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8084/notifications",
+      "requestedUrl": "http://localhost:8084/notifications",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#7a7a7a",
+                    "bgColor": "#f5f5f5",
+                    "contrastRatio": 3.93,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<html lang=\"en\" class=\"bg-base-200 text-base-content light\" data-theme=\"light\">",
+                      "target": [
+                        "html"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-v-f6637955=\"\" class=\"shrink-0 font-normal tabular-nums opacity-80\">2</span>",
+              "target": [
+                ".font-normal"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "messageKey": "nonBmp"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element content contains only non-text characters"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<kbd class=\"kbd kbd-xs\">⌘</kbd>",
+              "target": [
+                "kbd:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button role=\"tab\" class=\"tab gap-2 tab-active\">Alerts <span class=\"text-base-content/80 font-mono text-xs\">0</span><!----></button>",
+                      "target": [
+                        ".tab-active"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"text-base-content/80 font-mono text-xs\">0</span>",
+              "target": [
+                ".tab-active > .font-mono.text-xs.text-base-content\\/80"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"btn btn-primary btn-sm\"><svg viewBox=\"0 0 24 24\" width=\"1.2em\" height=\"1.2em\" class=\"size-4\"><path fill=\"currentColor\" d=\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z\"></path></svg> Add alert</button>",
+                      "target": [
+                        ".flex-wrap > .btn-primary.btn.btn-sm"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"btn btn-primary btn-sm\"><svg viewBox=\"0 0 24 24\" width=\"1.2em\" height=\"1.2em\" class=\"size-4\"><path fill=\"currentColor\" d=\"M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6z\"></path></svg> Add alert</button>",
+              "target": [
+                ".flex-wrap > .btn-primary.btn.btn-sm"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8084/notifications",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "c0f4d61be86bc2bb86f5d25c6b9a961f3ad0c4ed96052d8ff074e7756baf397b"
+}

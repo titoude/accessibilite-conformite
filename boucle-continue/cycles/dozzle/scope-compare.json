@@ -1,0 +1,32 @@
+{
+  "baseline": {
+    "urls": [
+      "http://localhost:8083/",
+      "http://localhost:8083/settings",
+      "http://localhost:8083/notifications",
+      "http://localhost:8083/container/a11y-web",
+      "http://localhost:8083/container/a11y-db",
+      "http://localhost:8083/login"
+    ],
+    "scopeHash": "b294107c5c64dde3830e066fb5a604ebe6649f0e390db26302fb4d5e3ca8886d",
+    "statesHash": null
+  },
+  "final": {
+    "urls": [
+      "http://localhost:8083/",
+      "http://localhost:8083/container/0b8bb5aa3e7f",
+      "http://localhost:8083/settings",
+      "http://localhost:8083/notifications",
+      "http://localhost:8083/ [state:dark-dashboard]",
+      "http://localhost:8083/settings [state:dark-settings]",
+      "http://localhost:8083/ [state:search-modal]",
+      "http://localhost:8083/ [state:mobile]",
+      "http://localhost:8083/container/0b8bb5aa3e7f?columns=3020dc9b6f19 [state:pinned-logs]",
+      "http://localhost:8083/login"
+    ],
+    "scopeHash": "7d797c9a89108ebbacfcf162dd3aceb153fdec323d063683a02c4aefd88ddd72",
+    "statesHash": "6bcb64433078058d5c0d20b7fd2bdbc89b234f8d17392683045121dd1d96a264"
+  },
+  "identical": false,
+  "note": "Périmètre volontairement corrigé en cours de cycle : (1) baseline scannait /container/a11y-web et /container/a11y-db — des routes par NOM qui répondent 200 avec la page NotFound (faux PASS potentiel) ; remplacées par les routes par ID /container/0b8bb5aa3e7f (page conteneur réelle). (2) /stats, scanné en mid-cycle, est aussi une 404 SPA — remplacé par /notifications. (3) Les 5 états dynamiques (dark x2, search-modal, mobile, pinned-logs via ?columns=<id>) ont été ajoutés après la baseline — statuts énumérés dans states.json. (4) /login auditée sans storageState (contexte authentifié la redirige vers /)."
+}

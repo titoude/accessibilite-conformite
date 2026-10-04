@@ -1,0 +1,77 @@
+{
+  "runId": "40c04ff7-3d08-420d-b9b1-505f989866de",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T14:26:04.410Z",
+  "baseUrl": "http://localhost:8083",
+  "pages": [
+    {
+      "url": "http://localhost:8083/login",
+      "requestedUrl": "http://localhost:8083/login",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"btn btn-primary mt-1 h-12 font-medium shadow-none\" type=\"submit\"><!----> Login</button>",
+                      "target": [
+                        "button"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"btn btn-primary mt-1 h-12 font-medium shadow-none\" type=\"submit\"><!----> Login</button>",
+              "target": [
+                "button"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8083/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "49e44f184b4ebd4b03dfa21c83741f1151bd6e77c5fcc895a82567b357925a46"
+}

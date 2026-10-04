@@ -125,7 +125,61 @@ const RUNNER_VERSION = 'audit.mjs v5';
  *     },
  *   },
  */
-const STATES = {};
+// Tandoor : SPA Vue3+vuetify authentifiée (storageState), servie par Django.
+// Hydratation tardive : attendre la v-app-bar avant tout clic.
+const readyApp = async page => {
+  await page.waitForSelector('.v-app-bar', { state: 'visible', timeout: 60000 });
+  await page.waitForTimeout(1500);
+};
+
+const STATES = {
+  'dark-dashboard': {
+    url: b => b + '/',
+    setup: async page => {
+      await page.evaluate(() => localStorage.setItem('vueuse-color-scheme', 'dark'));
+      await page.reload();
+      await page.waitForSelector('main, [role="main"]', { timeout: 15000 });
+      await page.waitForTimeout(1200);
+    },
+  },
+  'dark-settings': {
+    url: b => b + '/settings',
+    setup: async page => {
+      await page.evaluate(() => localStorage.setItem('vueuse-color-scheme', 'dark'));
+      await page.reload();
+      await page.waitForSelector('main, [role="main"]', { timeout: 15000 });
+      await page.waitForTimeout(1200);
+    },
+  },
+  'search-modal': {
+    url: b => b + '/',
+    setup: async page => {
+      await page.waitForSelector('main, [role="main"]', { timeout: 15000 });
+      await page.waitForTimeout(1200);
+      await page.keyboard.press('Control+k');
+      await page.waitForSelector('dialog[open]', { state: 'visible', timeout: 10000 });
+      await page.waitForTimeout(600);
+    },
+  },
+  'mobile': {
+    url: b => b + '/',
+    setup: async page => {
+      await page.setViewportSize({ width: 390, height: 800 });
+      await page.waitForSelector('main, [role="main"]', { timeout: 15000 });
+      await page.waitForTimeout(1200);
+    },
+  },
+  'pinned-logs': {
+    url: b => b + '/container/0b8bb5aa3e7f?columns=3020dc9b6f19',
+    setup: async page => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.waitForSelector('main, [role="main"]', { timeout: 15000 });
+      await page.waitForSelector('[role="complementary"]', { timeout: 10000 });
+      await page.waitForFunction(() => document.querySelectorAll('.splitpanes__pane').length >= 3, undefined, { timeout: 10000 });
+      await page.waitForTimeout(1200);
+    },
+  },
+};
 
 if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
   configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
@@ -265,10 +319,8 @@ async function run() {
   const axeSource = readFileSync(axePath, 'utf8');
 
   // Injection d'axe : addScriptTag crée un élément <script> soumis à la CSP
-  // de la page ; une CSP stricte (script-src 'self') le bloque. Repli :
-  // évaluer la source axe directement dans le contexte de la page (CDP,
-  // non soumis à la CSP), puis prouver que l'injection a marché — sinon
-  // axe.run() est indéfini et le « 0 violation » serait un faux PASS.
+  // de la page (CSP strict 'self' → blocage silencieux). page.evaluate passe
+  // par CDP et n'est pas soumis à la CSP — repli obligatoire.
   const injectAxe = async () => {
     try {
       await page.addScriptTag({ content: axeSource });

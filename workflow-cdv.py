@@ -287,8 +287,24 @@ async function run() {
   const axePath = require.resolve('axe-core/axe.min.js');
   const axeSource = readFileSync(axePath, 'utf8');
 
+  // Injection d'axe : addScriptTag crée un élément <script> soumis à la CSP
+  // de la page ; une CSP stricte (script-src 'self') le bloque. Repli :
+  // évaluer la source axe directement dans le contexte de la page (CDP,
+  // non soumis à la CSP), puis prouver que l'injection a marché — sinon
+  // axe.run() est indéfini et le « 0 violation » serait un faux PASS.
+  const injectAxe = async () => {
+    try {
+      await page.addScriptTag({ content: axeSource });
+    } catch {
+      await page.evaluate(axeSource);
+    }
+    if (typeof (await page.evaluate(() => window.axe && window.axe.version)) !== 'string') {
+      throw new Error("injection axe impossible (CSP ?) — scan invalide, pas un PASS");
+    }
+  };
+
   const scanPage = async () => {
-    await page.addScriptTag({ content: axeSource });
+    await injectAxe();
     return await page.evaluate(async (tags) => {
       return await window.axe.run(document, {
         runOnly: { type: 'tag', values: tags },

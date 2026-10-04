@@ -1,0 +1,47 @@
+{
+  "repo": "amir20/dozzle",
+  "commit": "b99f7f4",
+  "date": "2026-10-04",
+  "baseline": {
+    "app": {
+      "pages": 5,
+      "violRules": 29,
+      "violOcc": 162,
+      "errors": 0,
+      "incomplete": 5
+    },
+    "login": {
+      "pages": 1,
+      "violRules": 3,
+      "violOcc": 5,
+      "errors": 0,
+      "incomplete": 1
+    }
+  },
+  "final": {
+    "app": {
+      "pages": 9,
+      "violRules": 0,
+      "violOcc": 0,
+      "errors": 0,
+      "incomplete": 9
+    },
+    "login": {
+      "pages": 1,
+      "violRules": 0,
+      "violOcc": 0,
+      "errors": 0,
+      "incomplete": 1
+    }
+  },
+  "mid_cycle_evidence": "mid-cycle/ (scan7 = re-scan avec routes par ID : 6r/217occ ; scan10-11 = 0r/0occ)",
+  "verify": "tools/verify.mjs — 11/11 PASS x4 runs consécutifs (single-main, splitter-in-aside drag+keyboard+aria-valuenow, h1 desktop+mobile, search-modal, pinned complementary, log-actions, dark theme, login form)",
+  "eval_final": "tools/eval-final.mjs — 6/6 PASS (dashboard links, container logs, settings, mobile tabbar, collapse-nav avec restauration, zéro erreur JS)",
+  "install_build": "0 règle / 0 occurrence / 0 erreur sur /,/settings,/notifications (install-build-report.json)",
+  "incomplete_triage": {
+    "elmPartiallyObscured": "~516 → lignes de logs tronquées par le scroll (axe marque le parent html) — N-A inhérent à un viewer scrollable ; la part causée par le ::before du splitter a été éliminée via pl-[5px] sur le pane",
+    "color-contrast": "éléments sur dégradés/kbd/btn daisyUI — axe ne peut pas calculer le fond → revue manuelle N-A documentée",
+    "autres": "bgImage/bgOverlap/pseudoContent/nonBmp(⌘)/shortTextContent — limites axe connues, N-A"
+  },
+  "deviations": "aucune modification du produit pour satisfaire le harnais ; corrections de scope documentées dans scope-compare.json"
+}

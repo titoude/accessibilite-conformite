@@ -1,0 +1,22 @@
+{
+  "repo": "amir20/dozzle",
+  "commit": "b99f7f4",
+  "branch": "master",
+  "app": "Dozzle — visionneuse de logs Docker temps réel (Vue3+Vite+TS frontend, Go backend, dist/ embarqué via go:embed)",
+  "boot": {
+    "commands": "bun install --frozen-lockfile && bun run build && openssl genpkey -algorithm Ed25519 -out shared_key.pem && openssl req -x509 -new -key shared_key.pem -out shared_cert.pem -subj /CN=localhost && go build -ldflags \"-s -w\" -o dozzle . && ./dozzle --addr :8083 --auth-provider simple --enable-actions --disable-setup-wizard",
+    "notes": "Adaptations harnais LOCALES uniquement : (1) deux conteneurs alpine seedés 'a11y-web' (0b8bb5aa3e7f) et 'a11y-db' (3020dc9b6f19) émettant des logs — les routes conteneur sont par ID hex, pas par nom ; (2) utilisateur admin généré via 'dozzle generate admin' ; (3) login via le vrai formulaire → cookie jwt HttpOnly → storageState (login.mjs) ; (4) certificats dev régénérés via les règles Makefile du repo. AUCUNE modification du produit pour satisfaire le harnais."
+  },
+  "auditCommands": [
+    "node audit.mjs http://localhost:8083 --urls /,/container/0b8bb5aa3e7f,/settings,/notifications --states all --storage-state auth.json --out final",
+    "node audit.mjs http://localhost:8083 --urls /login --states none --out final-login",
+    "node verify.mjs ; node eval-final.mjs  (depuis tools/ avec auth.json regénéré par login.mjs)"
+  ],
+  "leçons": [
+    "404-as-page : les routes SPA par nom renvoient 200 + contenu NotFound → toujours vérifier finalUrl + titre dans report.json avant de conclure au PASS",
+    "waitForSelector union-selector : 'dialog[open], .modal' peut matcher un élément caché — attendre le sélecteur exact",
+    "état serveur persistant : eval-final doit restaurer ce qu'il modifie (collapseNav a pollué le profil → splitter nav absent au scan suivant)",
+    "viewport leak : un state mobile qui réduit la fenêtre casse le state suivant si le viewport n'est pas restauré",
+    "skeleton loaders dans <ul> : enfants <div>/<span> illégaux → <li> (test existant préservé)"
+  ]
+}
