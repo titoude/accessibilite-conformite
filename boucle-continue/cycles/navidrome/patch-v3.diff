@@ -1,0 +1,1508 @@
+diff --git a/ui/bin/patch-ra-a11y.mjs b/ui/bin/patch-ra-a11y.mjs
+new file mode 100644
+index 0000000..a44cd5d
+--- /dev/null
++++ b/ui/bin/patch-ra-a11y.mjs
+@@ -0,0 +1,131 @@
++// Postinstall patch: accessibility fixes inside ra-ui-materialui (react-admin v3).
++// React-admin renders some controls with incorrect ARIA wiring that cannot be
++// overridden from application code:
++//   - Datagrid select-all / row checkboxes put aria-label on the <span> wrapper
++//     (aria-label on a role-less span is prohibited) while the <input> stays
++//     unlabeled -> move the label into inputProps.
++//   - Loading-skeleton checkboxes ship completely unlabeled inputs.
++//   - The page title renders as h6 text instead of an h1 (page-has-heading-one).
++//   - SearchInput labels the search field with placeholder text only
++//     (label-title-only) -> give the input an aria-label, overridable via props.
++// Applied to both the CommonJS (lib/) and ESM (esm/) builds the bundler may use.
++// Idempotent: each replacement is a no-op when already applied.
++import fs from 'node:fs'
++import path from 'node:path'
++import { fileURLToPath } from 'node:url'
++
++const uiDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
++const raDir = path.join(uiDir, 'node_modules', 'ra-ui-materialui')
++
++let patched = 0
++let skipped = 0
++
++const edit = (relPath, pairs) => {
++  const file = path.join(raDir, relPath)
++  if (!fs.existsSync(file)) {
++    skipped++
++    return
++  }
++  let src = fs.readFileSync(file, 'utf8')
++  for (const [find, replace] of pairs) {
++    if (src.includes(replace)) continue
++    if (!src.includes(find)) {
++      console.warn(`[patch-ra-a11y] pattern not found in ${relPath}: ${find.slice(0, 80)}`)
++      continue
++    }
++    src = src.split(find).join(replace)
++    patched++
++  }
++  fs.writeFileSync(file, src)
++}
++
++const headerCheckbox = [
++  [
++    `"aria-label": translate('ra.action.select_all', {`,
++    `inputProps: { 'aria-label': translate('ra.action.select_all', {`,
++  ],
++  [
++    `}), className: "select-all"`,
++    `}) }, className: "select-all"`,
++  ],
++]
++
++const rowCheckbox = [
++  [
++    `"aria-label": translate('ra.action.select_row', {`,
++    `inputProps: { 'aria-label': translate('ra.action.select_row', {`,
++  ],
++  [
++    `}), color: "primary", className: "select-item "`,
++    `}) }, color: "primary", className: "select-item "`,
++  ],
++]
++
++const loadingCheckboxes = () => [
++  [
++    `React.createElement(Checkbox, { className: "select-all", color: "primary", checked: false })`,
++    `React.createElement(Checkbox, { className: "select-all", color: "primary", checked: false, inputProps: { 'aria-label': 'Select all' } })`,
++  ],
++  [
++    `React.createElement(core_1.Checkbox, { className: "select-all", color: "primary", checked: false })`,
++    `React.createElement(core_1.Checkbox, { className: "select-all", color: "primary", checked: false, inputProps: { 'aria-label': 'Select all' } })`,
++  ],
++]
++
++for (const build of ['lib', 'esm']) {
++  edit(`${build}/list/datagrid/DatagridHeader.js`, headerCheckbox)
++  // The bulk-select header cell contains only a checkbox -> empty-table-header.
++  // Give the <th> itself an accessible name.
++  edit(`${build}/list/datagrid/DatagridHeader.js`, [
++    [
++      `React.createElement(TableCell, { padding: "checkbox", className: classes.headerCell },`,
++      `React.createElement(TableCell, { padding: "checkbox", className: classes.headerCell, 'aria-label': translate('ra.action.select_all', { _: 'Select all' }) },`,
++    ],
++    [
++      `React.createElement(core_1.TableCell, { padding: "checkbox", className: classes.headerCell },`,
++      `React.createElement(core_1.TableCell, { padding: "checkbox", className: classes.headerCell, 'aria-label': translate('ra.action.select_all', { _: 'Select all' }) },`,
++    ],
++  ])
++  edit(`${build}/list/datagrid/DatagridRow.js`, rowCheckbox)
++  edit(`${build}/list/datagrid/DatagridLoading.js`, loadingCheckboxes())
++
++  // h1 on the page title rendered by the AppBar
++  edit(`${build}/layout/AppBar.js`, [
++    [
++      `{ variant: "h6", color: "inherit", className: classes.title, id: "react-admin-title" }`,
++      `{ variant: "h6", component: "h1", color: "inherit", className: classes.title, id: "react-admin-title" }`,
++    ],
++  ])
++
++  // Error screen: h1 with role="alert" is an invalid role on a heading —
++  // a div keeps the same live-region announcement.
++  edit(`${build}/layout/Error.js`, [
++    [
++      `React.createElement("h1", { className: classes.title, role: "alert" }`,
++      `React.createElement("div", { className: classes.title, role: "alert" }`,
++    ],
++  ])
++
++  // Bulk toolbar: "N items selected" uses variant=subtitle1 which renders an
++  // <h6> and breaks the page's heading order. component="p" keeps the style.
++  edit(`${build}/list/BulkActionsToolbar.js`, [
++    [
++      `React.createElement(Typography, { color: "inherit", variant: "subtitle1" }`,
++      `React.createElement(Typography, { component: "p", color: "inherit", variant: "subtitle1" }`,
++    ],
++    [
++      `React.createElement(Typography_1.default, { color: "inherit", variant: "subtitle1" }`,
++      `React.createElement(Typography_1.default, { component: "p", color: "inherit", variant: "subtitle1" }`,
++    ],
++  ])
++
++  // aria-label on the global search input (placeholder-only label today)
++  edit(`${build}/input/SearchInput.js`, [
++    [
++      `placeholder: translate('ra.action.search'), InputProps: {`,
++      `placeholder: translate('ra.action.search'), inputProps: { 'aria-label': translate('ra.action.search') }, InputProps: {`,
++    ],
++  ])
++}
++
++console.log(`[patch-ra-a11y] ${patched} replacement(s) applied, ${skipped} file(s) missing`)
+diff --git a/ui/index.html b/ui/index.html
+index 8277518..2d555ff 100644
+--- a/ui/index.html
++++ b/ui/index.html
+@@ -41,6 +41,7 @@
+   <body>
+     <noscript>You need to enable JavaScript to run this app.</noscript>
+     <div id="root"></div>
++    <div id="a11y-popup-layer" role="complementary" aria-label="Popup layer"></div>
+     <!--
+       This HTML file is a template.
+       If you open it directly in the browser, you will see an empty page.
+diff --git a/ui/package-lock.json b/ui/package-lock.json
+index 0feab6e..ff43cfd 100644
+--- a/ui/package-lock.json
++++ b/ui/package-lock.json
+@@ -129,7 +129,6 @@
+       "resolved": "https://registry.npmjs.org/@babel/core/-/core-7.29.0.tgz",
+       "integrity": "sha512-CGOfOJqWjg2qW/Mb6zNsDm+u5vFQ8DxXfbM09z69p5Z6+mE1ikP2jUXw+j42Pf1XTYED2Rni5f95npYeuwMDQA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/code-frame": "^7.29.0",
+         "@babel/generator": "^7.29.0",
+@@ -1744,7 +1743,6 @@
+         }
+       ],
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": ">=18"
+       },
+@@ -1768,7 +1766,6 @@
+         }
+       ],
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": ">=18"
+       }
+@@ -2474,7 +2471,6 @@
+       "resolved": "https://registry.npmjs.org/@jsonforms/core/-/core-2.5.2.tgz",
+       "integrity": "sha512-tl64cLC2dUrGvu2nTHRDEA5Yv3RfwzMCIlVaoSUSq44LakKLGJdkPl8j/fb07llpFqz0a7gEAmy/8gLdmwgaLQ==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@types/json-schema": "^7.0.3",
+         "ajv": "^6.10.2",
+@@ -2528,7 +2524,6 @@
+       "resolved": "https://registry.npmjs.org/@jsonforms/react/-/react-2.5.2.tgz",
+       "integrity": "sha512-kZf2fq4urIBlFTCiBX95eKg8uojkyJj7FVDtIV739aVkJjE5+ihn1+kG1qLxYSxlGC7S24i12BZJzRetSRihBQ==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "lodash": "^4.17.15",
+         "object-hash": "^2.0.0"
+@@ -2544,7 +2539,6 @@
+       "integrity": "sha512-tr7xekNlM9LjA6pagJmL8QCgZXaubWUwkJnoYcMKd4gw/t4XiyvnTkjdGrUVicyB2BsdaAv1tvow45bPM4sSwQ==",
+       "deprecated": "Material UI v4 doesn't receive active development since September 2021. See the guide https://mui.com/material-ui/migration/migration-v4/ to upgrade to v5.",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.4.4",
+         "@material-ui/styles": "^4.11.5",
+@@ -2591,7 +2585,6 @@
+       "resolved": "https://registry.npmjs.org/@material-ui/icons/-/icons-4.11.3.tgz",
+       "integrity": "sha512-IKHlyx6LDh8n19vzwH5RtHIOHl9Tu90aAAxcbWME6kp4dmvODM3UvOHJeMIDzUbd4muuJKHmlNoBN+mDY4XkBA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.4.4"
+       },
+@@ -3315,7 +3308,6 @@
+       "resolved": "https://registry.npmjs.org/@types/hoist-non-react-statics/-/hoist-non-react-statics-3.3.7.tgz",
+       "integrity": "sha512-PQTyIulDkIDro8P+IHbKCsw7U2xxBYflVzW/FgWdCAePD9xGSidgA76/GeJ6lBKoblyhf9pBY763gbrN+1dI8g==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "hoist-non-react-statics": "^3.3.0"
+       },
+@@ -3368,7 +3360,6 @@
+       "integrity": "sha512-A1sre26ke7HDIuY/M23nd9gfB+nrmhtYyMINbjI1zHJxYteKR6qSMX56FsmjMcDb3SMcjJg5BiRRgOCC/yBD0g==",
+       "devOptional": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "undici-types": "~7.16.0"
+       }
+@@ -3390,7 +3381,6 @@
+       "resolved": "https://registry.npmjs.org/@types/react/-/react-17.0.91.tgz",
+       "integrity": "sha512-xauZca6qMeCU3Moy0KxCM9jtf1vyk6qRYK39Ryf3afUqwgNUjRIGoDdS9BcGWgAMGSg1hvP4XcmlYrM66PtqeA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@types/prop-types": "*",
+         "@types/scheduler": "^0.16",
+@@ -3560,7 +3550,6 @@
+       "integrity": "sha512-tbsV1jPne5CkFQCgPBcDOt30ItF7aJoZL997JSF7MhGQqOeT3svWRYxiqlfA5RUdlHN6Fi+EI9bxqbdyAUZjYQ==",
+       "dev": true,
+       "license": "BSD-2-Clause",
+-      "peer": true,
+       "dependencies": {
+         "@typescript-eslint/scope-manager": "6.21.0",
+         "@typescript-eslint/types": "6.21.0",
+@@ -3894,7 +3883,6 @@
+       "resolved": "https://registry.npmjs.org/acorn/-/acorn-8.16.0.tgz",
+       "integrity": "sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==",
+       "license": "MIT",
+-      "peer": true,
+       "bin": {
+         "acorn": "bin/acorn"
+       },
+@@ -4579,7 +4567,6 @@
+         }
+       ],
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "baseline-browser-mapping": "^2.10.12",
+         "caniuse-lite": "^1.0.30001782",
+@@ -4955,7 +4942,6 @@
+       "resolved": "https://registry.npmjs.org/connected-react-router/-/connected-react-router-6.9.3.tgz",
+       "integrity": "sha512-4ThxysOiv/R2Dc4Cke1eJwjKwH1Y51VDwlOrOfs1LjpdYOVvCNjNkZDayo7+sx42EeGJPQUNchWkjAIJdXGIOQ==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "lodash.isequalwith": "^4.4.0",
+         "prop-types": "^15.7.2"
+@@ -5836,7 +5822,6 @@
+       "deprecated": "This version is no longer supported. Please see https://eslint.org/version-support for other options.",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@eslint-community/eslint-utils": "^4.2.0",
+         "@eslint-community/regexpp": "^4.6.1",
+@@ -6420,7 +6405,6 @@
+       "resolved": "https://registry.npmjs.org/final-form/-/final-form-4.20.10.tgz",
+       "integrity": "sha512-TL48Pi1oNHeMOHrKv1bCJUrWZDcD3DIG6AGYVNOnyZPr7Bd/pStN0pL+lfzF5BNoj/FclaoiaLenk4XUIFVYng==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.10.0"
+       },
+@@ -6437,7 +6421,6 @@
+       "resolved": "https://registry.npmjs.org/final-form-arrays/-/final-form-arrays-3.1.0.tgz",
+       "integrity": "sha512-TWBvun+AopgBLw9zfTFHBllnKMVNEwCEyDawphPuBGGqNsuhGzhT7yewHys64KFFwzIs6KEteGLpKOwvTQEscQ==",
+       "license": "MIT",
+-      "peer": true,
+       "peerDependencies": {
+         "final-form": "^4.20.8"
+       }
+@@ -6852,7 +6835,6 @@
+       "integrity": "sha512-Tz23LR9T9jOGVZm2x1EPdXqwA37G/owYMxRwU0E4miurAtFsPMQ1d2Jc2okUaSjZqAFz2oEn3FLXC5a0a+siyA==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@types/node": ">=20.0.0",
+         "@types/whatwg-mimetype": "^3.0.2",
+@@ -6966,7 +6948,6 @@
+       "resolved": "https://registry.npmjs.org/history/-/history-4.10.1.tgz",
+       "integrity": "sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.1.2",
+         "loose-envify": "^1.2.0",
+@@ -8569,7 +8550,6 @@
+       "resolved": "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz",
+       "integrity": "sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==",
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": "*"
+       }
+@@ -9318,7 +9298,6 @@
+       "resolved": "https://registry.npmjs.org/prop-types/-/prop-types-15.8.1.tgz",
+       "integrity": "sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "loose-envify": "^1.4.0",
+         "object-assign": "^4.1.1",
+@@ -9410,7 +9389,6 @@
+       "resolved": "https://registry.npmjs.org/ra-core/-/ra-core-3.19.12.tgz",
+       "integrity": "sha512-E0cM6OjEUtccaR+dR5mL1MLiVVYML0Yf7aPhpLEq4iue73X3+CKcLztInoBhWgeevPbFQwgAtsXhlpedeyrNNg==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "classnames": "~2.3.1",
+         "date-fns": "^1.29.0",
+@@ -9825,7 +9803,6 @@
+       "resolved": "https://registry.npmjs.org/react/-/react-17.0.2.tgz",
+       "integrity": "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "loose-envify": "^1.1.0",
+         "object-assign": "^4.1.1"
+@@ -9907,7 +9884,6 @@
+       "resolved": "https://registry.npmjs.org/react-dom/-/react-dom-17.0.2.tgz",
+       "integrity": "sha512-s4h96KtLDUQlsENhMn1ar8t2bEa+q/YAtj8pPPdIjPDGBDIVNsrD9aXNWqspUe6AzKCIG0C1HZZLqLV7qpOBGA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "loose-envify": "^1.1.0",
+         "object-assign": "^4.1.1",
+@@ -9980,7 +9956,6 @@
+       "resolved": "https://registry.npmjs.org/react-final-form/-/react-final-form-6.5.9.tgz",
+       "integrity": "sha512-x3XYvozolECp3nIjly+4QqxdjSSWfcnpGEL5K8OBT6xmGrq5kBqbA6+/tOqoom9NwqIPPbxPNsOViFlbKgowbA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.15.4"
+       },
+@@ -9998,7 +9973,6 @@
+       "resolved": "https://registry.npmjs.org/react-final-form-arrays/-/react-final-form-arrays-3.1.4.tgz",
+       "integrity": "sha512-siVFAolUAe29rMR6u8VwepoysUcUdh6MLV2OWnCtKpsPRUdT9VUgECjAPaVMAH2GROZNiVB9On1H9MMrm9gdpg==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.19.4"
+       },
+@@ -10104,7 +10078,6 @@
+       "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-7.2.9.tgz",
+       "integrity": "sha512-Gx4L3uM182jEEayZfRbI/G11ZpYdNAnBs70lFVMNdHJI76XYtR+7m0MN+eAs7UHBPhWXcnFPaS+9owSCJQHNpQ==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.15.4",
+         "@types/react-redux": "^7.1.20",
+@@ -10140,7 +10113,6 @@
+       "resolved": "https://registry.npmjs.org/react-router/-/react-router-5.3.4.tgz",
+       "integrity": "sha512-Ys9K+ppnJah3QuaRiLxk+jDWOR1MekYQrlytiXxC1RyfbdsZkS5pvKAzCCr031xHixZwpnsYNT5xysdFHQaYsA==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.12.13",
+         "history": "^4.9.0",
+@@ -10161,7 +10133,6 @@
+       "resolved": "https://registry.npmjs.org/react-router-dom/-/react-router-dom-5.3.4.tgz",
+       "integrity": "sha512-m4EqFMHv/Ih4kpcBCONHbkT68KoAeHN4p3lAGoNryfHi0dMy0kCzEZakiKRsvg5wHZ/JLrLW8o8KomWiz/qbYQ==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.12.13",
+         "history": "^4.9.0",
+@@ -10343,7 +10314,6 @@
+       "resolved": "https://registry.npmjs.org/redux/-/redux-4.2.1.tgz",
+       "integrity": "sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@babel/runtime": "^7.9.2"
+       }
+@@ -10353,7 +10323,6 @@
+       "resolved": "https://registry.npmjs.org/redux-saga/-/redux-saga-1.4.2.tgz",
+       "integrity": "sha512-QLIn/q+7MX/B+MkGJ/K6R3//60eJ4QNy65eqPsJrfGezbxdh1Jx+37VRKE2K4PsJnNET5JufJtgWdT30WBa+6w==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@redux-saga/core": "^1.4.2"
+       }
+@@ -10613,7 +10582,6 @@
+       "integrity": "sha512-FAfGj5Ferzyna11iUwGdkYus/Y9d/H75PEpsseP5DZOsEsyPvP/Q7mJiSXhUYSEmyfHPaZyC8EsJCjqzDbtcfg==",
+       "devOptional": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@types/estree": "1.0.8"
+       },
+@@ -11543,7 +11511,6 @@
+       "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": ">=12"
+       },
+@@ -11765,7 +11732,6 @@
+       "integrity": "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw==",
+       "dev": true,
+       "license": "Apache-2.0",
+-      "peer": true,
+       "bin": {
+         "tsc": "bin/tsc",
+         "tsserver": "bin/tsserver"
+@@ -12010,7 +11976,6 @@
+       "integrity": "sha512-Bby3NOsna2jsjfLVOHKes8sGwgl4TT0E6vvpYgnAYDIF/tie7MRaFthmKuHx1NSXjiTueXH3do80FMQgvEktRg==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "esbuild": "^0.27.0",
+         "fdir": "^6.5.0",
+@@ -12135,7 +12100,6 @@
+       "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "engines": {
+         "node": ">=12"
+       },
+@@ -12149,7 +12113,6 @@
+       "integrity": "sha512-xjR1dMTVHlFLh98JE3i/f/WePqJsah4A0FK9cc8Ehp9Udk0AZk6ccpIZhh1qJ/yxVWRZ+Q54ocnD8TXmkhspGg==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@vitest/expect": "4.1.2",
+         "@vitest/mocker": "4.1.2",
+@@ -12669,7 +12632,6 @@
+       "resolved": "https://registry.npmjs.org/ajv/-/ajv-8.18.0.tgz",
+       "integrity": "sha512-PlXPeEWMXMZ7sPYOHqmDyCJzcfNrUr3fGNKtezX14ykXOEIvyK81d+qydx89KY5O71FKMPaQ2vBfBFI5NHR63A==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "fast-deep-equal": "^3.1.3",
+         "fast-uri": "^3.0.1",
+@@ -12779,7 +12741,6 @@
+       "resolved": "https://registry.npmjs.org/rollup/-/rollup-2.80.0.tgz",
+       "integrity": "sha512-cIFJOD1DESzpjOBl763Kp1AH7UE/0fcdHe6rZXUdQ9c50uvgigvW97u3IcSeBwOkgqL/PXPBktBCh0KEu5L8XQ==",
+       "license": "MIT",
+-      "peer": true,
+       "bin": {
+         "rollup": "dist/bin/rollup"
+       },
+diff --git a/ui/package.json b/ui/package.json
+index b020121..4bddbb9 100644
+--- a/ui/package.json
++++ b/ui/package.json
+@@ -13,7 +13,7 @@
+     "lint": "eslint . --ext ts,tsx,js,jsx --report-unused-disable-directives --max-warnings 0",
+     "prettier": "prettier --write ./src",
+     "check-formatting": "prettier -c ./src",
+-    "postinstall": "bin/update-workbox.sh"
++    "postinstall": "bin/update-workbox.sh && node bin/patch-ra-a11y.mjs"
+   },
+   "dependencies": {
+     "@jsonforms/core": "^2.5.2",
+@@ -86,4 +86,4 @@
+       "rollup": "npm:@rollup/wasm-node"
+     }
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/ui/src/album/AlbumDetails.jsx b/ui/src/album/AlbumDetails.jsx
+index 8d636a0..ce11ffa 100644
+--- a/ui/src/album/AlbumDetails.jsx
++++ b/ui/src/album/AlbumDetails.jsx
+@@ -271,6 +271,7 @@ const AlbumDetails = (props) => {
+         <div className={classes.details}>
+           <CardContent className={classes.content}>
+             <Typography
++              component={'h2'}
+               variant={isDesktop ? 'h5' : 'h6'}
+               className={classes.recordName}
+             >
+@@ -284,10 +285,12 @@ const AlbumDetails = (props) => {
+                 color="primary"
+               />
+             </Typography>
+-            <Typography component={'h6'} className={classes.recordArtist}>
+-              {record?.tags?.['albumversion']}
+-            </Typography>
+-            <Typography component={'h6'} className={classes.recordArtist}>
++            {record?.tags?.['albumversion'] && (
++              <Typography component={'p'} className={classes.recordArtist}>
++                {record.tags['albumversion']}
++              </Typography>
++            )}
++            <Typography component={'p'} className={classes.recordArtist}>
+               <ArtistLinkField record={record} />
+             </Typography>
+             <Typography component={'div'} className={classes.recordMeta}>
+diff --git a/ui/src/album/AlbumGridView.jsx b/ui/src/album/AlbumGridView.jsx
+index 2e4cb10..917ed76 100644
+--- a/ui/src/album/AlbumGridView.jsx
++++ b/ui/src/album/AlbumGridView.jsx
+@@ -73,6 +73,14 @@ const useStyles = makeStyles(
+       overflow: 'hidden',
+       whiteSpace: 'nowrap',
+       textOverflow: 'ellipsis',
++      display: 'inline-flex',
++      alignItems: 'center',
++      minHeight: '24px',
++      '& a': {
++        display: 'inline-flex',
++        alignItems: 'center',
++        minHeight: '24px',
++      },
+     },
+     link: {
+       position: 'relative',
+@@ -85,7 +93,9 @@ const useStyles = makeStyles(
+     },
+     albumLink: {
+       position: 'relative',
+-      display: 'block',
++      display: 'flex',
++      alignItems: 'center',
++      minHeight: '24px',
+       textDecoration: 'none',
+     },
+     albumContainer: {},
+@@ -215,7 +225,6 @@ const LoadedAlbumGrid = ({ ids, data, basePath, width }) => {
+   return (
+     <div className={classes.root}>
+       <GridList
+-        component={'div'}
+         cellHeight={'auto'}
+         cols={getColsForWidth(width)}
+         spacing={20}
+diff --git a/ui/src/album/AlbumSongs.jsx b/ui/src/album/AlbumSongs.jsx
+index 8a7fd2a..7972c93 100644
+--- a/ui/src/album/AlbumSongs.jsx
++++ b/ui/src/album/AlbumSongs.jsx
+@@ -6,6 +6,7 @@ import {
+   NumberField,
+   TextField,
+   useListContext,
++  useTranslate,
+   useVersion,
+ } from 'react-admin'
+ import clsx from 'clsx'
+@@ -59,6 +60,17 @@ const useStyles = makeStyles(
+       flexWrap: 'wrap',
+     },
+     noResults: { padding: 20 },
++    srOnly: {
++      position: 'absolute',
++      width: '1px',
++      height: '1px',
++      padding: 0,
++      margin: '-1px',
++      overflow: 'hidden',
++      clip: 'rect(0, 0, 0, 0)',
++      whiteSpace: 'nowrap',
++      border: 0,
++    },
+     columnIcon: {
+       marginLeft: '3px',
+       marginTop: '-2px',
+@@ -89,6 +101,7 @@ const useStyles = makeStyles(
+ 
+ const AlbumSongs = (props) => {
+   const { data, ids } = props
++  const translate = useTranslate()
+   const isDesktop = useMediaQuery((theme) => theme.breakpoints.up('md'))
+   const classes = useStyles({ isDesktop })
+   const dispatch = useDispatch()
+@@ -199,10 +212,15 @@ const AlbumSongs = (props) => {
+               className={classes.contextMenu}
+               label={
+                 config.enableFavourites && (
+-                  <FavoriteBorderIcon
+-                    fontSize={'small'}
+-                    className={classes.columnIcon}
+-                  />
++                  <>
++                    <FavoriteBorderIcon
++                      fontSize={'small'}
++                      className={classes.columnIcon}
++                    />
++                    <span className={classes.srOnly}>
++                      {translate('resources.song.fields.starred')}
++                    </span>
++                  </>
+                 )
+               }
+             />
+diff --git a/ui/src/artist/ArtistList.jsx b/ui/src/artist/ArtistList.jsx
+index f414722..20705f2 100644
+--- a/ui/src/artist/ArtistList.jsx
++++ b/ui/src/artist/ArtistList.jsx
+@@ -42,6 +42,17 @@ const useStyles = makeStyles({
+     marginTop: '-2px',
+     verticalAlign: 'text-top',
+   },
++  srOnly: {
++    position: 'absolute',
++    width: '1px',
++    height: '1px',
++    padding: 0,
++    margin: '-1px',
++    overflow: 'hidden',
++    clip: 'rect(0, 0, 0, 0)',
++    whiteSpace: 'nowrap',
++    border: 0,
++  },
+   row: {
+     '& td': {
+       paddingTop: '4px !important',
+@@ -129,6 +140,7 @@ const ArtistDatagrid = (props) => (
+ const ArtistListView = ({ hasShow, hasEdit, hasList, width, ...rest }) => {
+   const { filterValues } = rest
+   const classes = useStyles()
++  const translate = useTranslate()
+   const handleArtistLink = useGetHandleArtistClick(width)
+   const history = useHistory()
+   const isXsmall = useMediaQuery((theme) => theme.breakpoints.down('xs'))
+@@ -193,12 +205,17 @@ const ArtistListView = ({ hasShow, hasEdit, hasList, width, ...rest }) => {
+         sortable={config.enableFavourites}
+         className={classes.contextMenu}
+         label={
+-          config.enableFavourites && (
+-            <FavoriteBorderIcon
+-              fontSize={'small'}
+-              className={classes.contextHeader}
+-            />
+-          )
++          <>
++            {config.enableFavourites && (
++              <FavoriteBorderIcon
++                fontSize={'small'}
++                className={classes.contextHeader}
++              />
++            )}
++            <span className={classes.srOnly}>
++              {translate('resources.artist.fields.starred')}
++            </span>
++          </>
+         }
+       />
+     </ArtistDatagrid>
+diff --git a/ui/src/artist/DesktopArtistDetails.jsx b/ui/src/artist/DesktopArtistDetails.jsx
+index 9269dc8..e852f60 100644
+--- a/ui/src/artist/DesktopArtistDetails.jsx
++++ b/ui/src/artist/DesktopArtistDetails.jsx
+@@ -104,7 +104,7 @@ const DesktopArtistDetails = ({ artistInfo, record, biography }) => {
+         <div className={classes.details}>
+           <CardContent className={classes.content}>
+             <Typography
+-              component="h5"
++              component="h2"
+               variant="h5"
+               className={classes.artistName}
+             >
+diff --git a/ui/src/artist/MobileArtistDetails.jsx b/ui/src/artist/MobileArtistDetails.jsx
+index 0925b6f..1f98022 100644
+--- a/ui/src/artist/MobileArtistDetails.jsx
++++ b/ui/src/artist/MobileArtistDetails.jsx
+@@ -106,7 +106,7 @@ const MobileArtistDetails = ({ biography, record }) => {
+           </Card>
+           <div className={classes.details}>
+             <Typography
+-              component="h5"
++              component="h2"
+               variant="h5"
+               className={classes.artistName}
+             >
+diff --git a/ui/src/audioplayer/PlayerToolbar.jsx b/ui/src/audioplayer/PlayerToolbar.jsx
+index 4812141..1d3c6f9 100644
+--- a/ui/src/audioplayer/PlayerToolbar.jsx
++++ b/ui/src/audioplayer/PlayerToolbar.jsx
+@@ -1,6 +1,6 @@
+ import React, { useCallback } from 'react'
+ import { useDispatch } from 'react-redux'
+-import { useGetOne } from 'react-admin'
++import { useGetOne, useTranslate } from 'react-admin'
+ import { GlobalHotKeys } from 'react-hotkeys'
+ import IconButton from '@material-ui/core/IconButton'
+ import { useMediaQuery } from '@material-ui/core'
+@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
+ 
+ const PlayerToolbar = ({ id, isRadio }) => {
+   const dispatch = useDispatch()
++  const translate = useTranslate()
+   const { data, loading } = useGetOne('song', id, { enabled: !!id && !isRadio })
+   const [toggleLove, toggling] = useToggleLove('song', data)
+   const isDesktop = useMediaQuery('(min-width:810px)')
+@@ -84,6 +85,7 @@ const PlayerToolbar = ({ id, isRadio }) => {
+       disabled={isRadio}
+       data-testid="save-queue-button"
+       className={buttonClass}
++      aria-label={translate('player.saveQueue')}
+     >
+       <RiSaveLine className={!isDesktop ? classes.mobileIcon : undefined} />
+     </IconButton>
+diff --git a/ui/src/common/ArtworkAvatar.jsx b/ui/src/common/ArtworkAvatar.jsx
+index 7691050..f743d1e 100644
+--- a/ui/src/common/ArtworkAvatar.jsx
++++ b/ui/src/common/ArtworkAvatar.jsx
+@@ -37,4 +37,22 @@ export const ArtworkAvatar = ({ record: recordProp, variant = 'circular' }) => {
+   )
+ }
+ 
+-ArtworkAvatar.defaultProps = { label: '', sortable: false }
++const srOnlyLabel = (
++  <span
++    style={{
++      position: 'absolute',
++      width: '1px',
++      height: '1px',
++      padding: 0,
++      margin: '-1px',
++      overflow: 'hidden',
++      clip: 'rect(0, 0, 0, 0)',
++      whiteSpace: 'nowrap',
++      border: 0,
++    }}
++  >
++    Artwork
++  </span>
++)
++
++ArtworkAvatar.defaultProps = { label: srOnlyLabel, sortable: false }
+diff --git a/ui/src/common/ContextMenus.jsx b/ui/src/common/ContextMenus.jsx
+index 4407392..b1376c9 100644
+--- a/ui/src/common/ContextMenus.jsx
++++ b/ui/src/common/ContextMenus.jsx
+@@ -31,6 +31,7 @@ import config from '../config'
+ import { formatBytes } from '../utils'
+ import { artistDownloadSize } from './artist'
+ import { useRefreshMetadata } from './useRefreshMetadata'
++import { popupContainer } from './popupContainer'
+ 
+ const useStyles = makeStyles({
+   noWrap: {
+@@ -42,6 +43,7 @@ const useStyles = makeStyles({
+ })
+ 
+ const MoreButton = ({ record, onClick, info, ...rest }) => {
++  const translate = useTranslate()
+   const handleClick = record.missing
+     ? (e) => {
+         e.preventDefault()
+@@ -50,7 +52,12 @@ const MoreButton = ({ record, onClick, info, ...rest }) => {
+       }
+     : onClick
+   return (
+-    <IconButton onClick={handleClick} size={'small'} {...rest}>
++    <IconButton
++      onClick={handleClick}
++      size={'small'}
++      aria-label={translate('ra.action.open_menu')}
++      {...rest}
++    >
+       {record?.missing ? (
+         <MdQuestionMark fontSize={'large'} />
+       ) : (
+@@ -214,7 +221,7 @@ const ContextMenu = ({
+         record={record}
+         onClick={handleClick}
+         info={options.info}
+-        aria-label="more"
++        aria-label={translate('ra.action.open_menu')}
+         aria-controls="context-menu"
+         aria-haspopup="true"
+         className={classes.menu}
+@@ -223,6 +230,7 @@ const ContextMenu = ({
+         id="context-menu"
+         anchorEl={anchorEl}
+         keepMounted
++        container={popupContainer}
+         open={open}
+         onClose={handleOnClose}
+       >
+diff --git a/ui/src/common/LoveButton.jsx b/ui/src/common/LoveButton.jsx
+index 128b375..26b390e 100644
+--- a/ui/src/common/LoveButton.jsx
++++ b/ui/src/common/LoveButton.jsx
+@@ -8,7 +8,7 @@ import clsx from 'clsx'
+ import { useToggleLove } from './useToggleLove'
+ import { useDateLocale } from '../i18n/useDateLocale'
+ import { formatDateTime } from '../utils/formatters'
+-import { useRecordContext } from 'react-admin'
++import { useRecordContext, useTranslate } from 'react-admin'
+ import config from '../config'
+ import { isDateSet } from '../utils/validations'
+ 
+@@ -43,6 +43,7 @@ export const LoveButton = ({
+   const classes = useStyles({ color, visible, loved: record.starred })
+   const [toggleLove, loading] = useToggleLove(resource, record)
+   const locale = useDateLocale()
++  const translate = useTranslate()
+ 
+   const handleToggleLove = useCallback(
+     (e) => {
+@@ -67,6 +68,7 @@ export const LoveButton = ({
+           ? formatDateTime(record.starredAt, locale)
+           : undefined
+       }
++      aria-label={translate('resources.song.fields.starred')}
+       {...rest}
+     >
+       {record.starred ? (
+diff --git a/ui/src/common/SongContextMenu.jsx b/ui/src/common/SongContextMenu.jsx
+index ac5b10e..8fddcf8 100644
+--- a/ui/src/common/SongContextMenu.jsx
++++ b/ui/src/common/SongContextMenu.jsx
+@@ -27,6 +27,7 @@ import config from '../config'
+ import { playSimilar } from './playbackActions.js'
+ import { formatBytes } from '../utils'
+ import { useRedirect } from 'react-admin'
++import { popupContainer } from './popupContainer'
+ 
+ const useStyles = makeStyles({
+   noWrap: {
+@@ -35,6 +36,7 @@ const useStyles = makeStyles({
+ })
+ 
+ const MoreButton = ({ record, onClick, info }) => {
++  const translate = useTranslate()
+   const handleClick = record.missing
+     ? (e) => {
+         info.action(record)
+@@ -42,7 +44,11 @@ const MoreButton = ({ record, onClick, info }) => {
+       }
+     : onClick
+   return (
+-    <IconButton onClick={handleClick} size={'small'}>
++    <IconButton
++      onClick={handleClick}
++      size={'small'}
++      aria-label={translate('resources.song.actions.contextMenu')}
++    >
+       {record?.missing ? (
+         <MdQuestionMark fontSize={'large'} />
+       ) : (
+@@ -249,6 +255,7 @@ export const SongContextMenu = ({
+       <Menu
+         id={'menu' + record.id}
+         anchorEl={anchorEl}
++        container={popupContainer}
+         open={open}
+         onClose={handleMainMenuClose}
+       >
+@@ -278,6 +285,7 @@ export const SongContextMenu = ({
+       </Menu>
+       <Menu
+         anchorEl={playlistAnchorEl}
++        container={popupContainer}
+         open={Boolean(playlistAnchorEl)}
+         onClose={handlePlaylistClose}
+         anchorOrigin={{
+diff --git a/ui/src/common/popupContainer.js b/ui/src/common/popupContainer.js
+new file mode 100644
+index 0000000..e0c6b60
+--- /dev/null
++++ b/ui/src/common/popupContainer.js
+@@ -0,0 +1,5 @@
++// Couche portail dédiée : frère de #root (index.html), repère landmark
++// (role=complementary) pour que les menus popover restent dans un landmark
++// sans être masqués par l'aria-hidden que le ModalManager applique aux
++// frères du conteneur — avec ce container, seul le layer est managé.
++export const popupContainer = () => document.getElementById('a11y-popup-layer')
+diff --git a/ui/src/i18n/en.json b/ui/src/i18n/en.json
+index f694ea7..68caf3d 100644
+--- a/ui/src/i18n/en.json
++++ b/ui/src/i18n/en.json
+@@ -51,7 +51,8 @@
+         "download": "Download",
+         "playNext": "Play Next",
+         "info": "Get Info",
+-        "instantMix": "Instant Mix"
++        "instantMix": "Instant Mix",
++        "contextMenu": "Song actions"
+       }
+     },
+     "album": {
+@@ -118,7 +119,8 @@
+         "rating": "Rating",
+         "genre": "Genre",
+         "role": "Role",
+-        "missing": "Missing"
++        "missing": "Missing",
++        "starred": "Favourite"
+       },
+       "roles": {
+         "albumartist": "Album Artist |||| Album Artists",
+@@ -695,7 +697,8 @@
+     "playlists": "Playlists",
+     "onlyFavourites": "Only show favourites",
+     "sharedPlaylists": "Shared Playlists",
+-    "about": "About"
++    "about": "About",
++    "playlistConfig": "Manage playlists"
+   },
+   "player": {
+     "playListsText": "Play Queue",
+@@ -720,7 +723,8 @@
+       "orderLoop": "Repeat",
+       "singleLoop": "Repeat One",
+       "shufflePlay": "Shuffle"
+-    }
++    },
++    "saveQueue": "Save current queue"
+   },
+   "about": {
+     "links": {
+@@ -781,4 +785,4 @@
+       "toggle_love": "Add this track to favourites"
+     }
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/ui/src/layout/Login.jsx b/ui/src/layout/Login.jsx
+index a7763cf..9db25e6 100644
+--- a/ui/src/layout/Login.jsx
++++ b/ui/src/layout/Login.jsx
+@@ -54,10 +54,19 @@ const useStyles = makeStyles(
+       height: '6.3em',
+     },
+     systemName: {
+-      marginTop: '1em',
++      margin: '1em 0 0 0',
+       display: 'flex',
+       justifyContent: 'center',
+       color: '#3f51b5', //theme.palette.grey[500]
++      fontSize: '1em',
++      fontWeight: 400,
++    },
++    welcomeTitle: {
++      margin: '1em 0 0 0',
++      fontSize: '1em',
++      fontWeight: 'inherit',
++      width: '100%',
++      textAlign: 'center',
+     },
+     welcome: {
+       marginTop: '1em',
+@@ -98,6 +107,7 @@ const renderInput = ({
+ }) => (
+   <TextField
+     error={!!(touched && error)}
++    id={inputProps.id || inputProps.name}
+     inputProps={{
+       // mobile keyboards: suppress capitalization and correction for login related fields
+       autocapitalize: 'none',
+@@ -120,12 +130,12 @@ const FormLogin = ({ loading, handleSubmit, validate }) => {
+       validate={validate}
+       render={({ handleSubmit }) => (
+         <form onSubmit={handleSubmit} noValidate>
+-          <div className={classes.main}>
++          <main className={classes.main}>
+             <Card className={classes.card}>
+               <div className={classes.avatar}>
+                 <img src={Logo} className={classes.icon} alt={'logo'} />
+               </div>
+-              <div className={classes.systemName}>
++              <h1 className={classes.systemName}>
+                 <a
+                   href="https://www.navidrome.org"
+                   target="_blank"
+@@ -134,7 +144,7 @@ const FormLogin = ({ loading, handleSubmit, validate }) => {
+                 >
+                   Navidrome
+                 </a>
+-              </div>
++              </h1>
+               {config.welcomeMessage && (
+                 <div
+                   className={classes.welcome}
+@@ -179,7 +189,7 @@ const FormLogin = ({ loading, handleSubmit, validate }) => {
+               </CardActions>
+             </Card>
+             <Notification />
+-          </div>
++          </main>
+         </form>
+       )}
+     />
+@@ -252,13 +262,15 @@ const FormSignUp = ({ loading, handleSubmit, validate }) => {
+       validate={validate}
+       render={({ handleSubmit }) => (
+         <form onSubmit={handleSubmit} noValidate>
+-          <div className={classes.main}>
++          <main className={classes.main}>
+             <Card className={classes.card}>
+               <div className={classes.avatar}>
+                 <img src={Logo} className={classes.icon} alt={'logo'} />
+               </div>
+               <div className={classes.welcome}>
+-                {translate('ra.auth.welcome1')}
++                <h1 className={classes.welcomeTitle}>
++                  {translate('ra.auth.welcome1')}
++                </h1>
+               </div>
+               <div className={classes.welcome}>
+                 {translate('ra.auth.welcome2')}
+@@ -309,7 +321,7 @@ const FormSignUp = ({ loading, handleSubmit, validate }) => {
+               <InsightsNotice url={INSIGHTS_DOC_URL} />
+             </Card>
+             <Notification />
+-          </div>
++          </main>
+         </form>
+       )}
+     />
+diff --git a/ui/src/layout/Logout.jsx b/ui/src/layout/Logout.jsx
+index e973aa7..c8fdc9e 100644
+--- a/ui/src/layout/Logout.jsx
++++ b/ui/src/layout/Logout.jsx
+@@ -8,7 +8,7 @@ const Logout = (props) => {
+   const handleClick = useCallback(() => dispatch(clearQueue()), [dispatch])
+ 
+   return (
+-    <span onClick={handleClick}>
++    <span onClick={handleClick} role="group">
+       <RALogout {...props} />
+     </span>
+   )
+diff --git a/ui/src/layout/Menu.jsx b/ui/src/layout/Menu.jsx
+index 45f40b2..cbe31c5 100644
+--- a/ui/src/layout/Menu.jsx
++++ b/ui/src/layout/Menu.jsx
+@@ -2,7 +2,8 @@ import React, { useState } from 'react'
+ import { useSelector } from 'react-redux'
+ import { Divider, makeStyles } from '@material-ui/core'
+ import clsx from 'clsx'
+-import { useTranslate, MenuItemLink, getResources } from 'react-admin'
++import { useTranslate, getResources } from 'react-admin'
++import NavItemLink from './NavItemLink'
+ import ViewListIcon from '@material-ui/icons/ViewList'
+ import AlbumIcon from '@material-ui/icons/Album'
+ import SubMenu from './SubMenu'
+@@ -64,8 +65,8 @@ const Menu = ({ dense = false }) => {
+     setState((state) => ({ ...state, [menu]: !state[menu] }))
+   }
+ 
+-  const renderResourceMenuItemLink = (resource) => (
+-    <MenuItemLink
++  const renderResourceNavItemLink = (resource) => (
++    <NavItemLink
+       key={resource.name}
+       to={`/${resource.name}`}
+       activeClassName={classes.active}
+@@ -76,7 +77,7 @@ const Menu = ({ dense = false }) => {
+     />
+   )
+ 
+-  const renderAlbumMenuItemLink = (type, al) => {
++  const renderAlbumNavItemLink = (type, al) => {
+     const resource = resources.find((r) => r.name === 'album')
+     if (!resource) {
+       return null
+@@ -89,7 +90,7 @@ const Menu = ({ dense = false }) => {
+     })
+ 
+     return (
+-      <MenuItemLink
++      <NavItemLink
+         key={albumListAddress}
+         to={albumListAddress}
+         activeClassName={classes.active}
+@@ -107,6 +108,10 @@ const Menu = ({ dense = false }) => {
+ 
+   return (
+     <div
++      role="navigation"
++      aria-label={translate('ra.navigation.page_header', {
++        _: 'Main navigation',
++      })}
+       className={clsx(classes.root, {
+         [classes.open]: open,
+         [classes.closed]: !open,
+@@ -122,13 +127,13 @@ const Menu = ({ dense = false }) => {
+         dense={dense}
+       >
+         {Object.keys(albumLists).map((type) =>
+-          renderAlbumMenuItemLink(type, albumLists[type]),
++          renderAlbumNavItemLink(type, albumLists[type]),
+         )}
+       </SubMenu>
+-      {resources.filter(subItems(undefined)).map(renderResourceMenuItemLink)}
++      {resources.filter(subItems(undefined)).map(renderResourceNavItemLink)}
+       {config.devSidebarPlaylists && open ? (
+         <>
+-          <Divider />
++          <Divider role="separator" />
+           <PlaylistsSubMenu
+             state={state}
+             setState={setState}
+@@ -137,7 +142,7 @@ const Menu = ({ dense = false }) => {
+           />
+         </>
+       ) : (
+-        resources.filter(subItems('playlist')).map(renderResourceMenuItemLink)
++        resources.filter(subItems('playlist')).map(renderResourceNavItemLink)
+       )}
+     </div>
+   )
+diff --git a/ui/src/layout/NavItemLink.jsx b/ui/src/layout/NavItemLink.jsx
+new file mode 100644
+index 0000000..a3b9a77
+--- /dev/null
++++ b/ui/src/layout/NavItemLink.jsx
+@@ -0,0 +1,106 @@
++import React, { forwardRef, useCallback } from 'react'
++import PropTypes from 'prop-types'
++import classnames from 'classnames'
++import { useDispatch, useSelector } from 'react-redux'
++import { NavLink } from 'react-router-dom'
++import { setSidebarVisibility } from 'react-admin'
++import {
++  ListItem,
++  ListItemIcon,
++  Tooltip,
++  useMediaQuery,
++} from '@material-ui/core'
++import { makeStyles } from '@material-ui/core/styles'
++
++// Same contract as react-admin's MenuItemLink, but renders a plain
++// navigation link instead of role="menuitem": the sidebar is a nav
++// landmark of links, not an ARIA menu (menuitem requires a menu parent).
++const NavLinkRef = forwardRef((props, ref) => (
++  <NavLink innerRef={ref} {...props} />
++))
++
++const useStyles = makeStyles(
++  (theme) => ({
++    root: {
++      color: theme.palette.text.secondary,
++    },
++    active: {
++      color: theme.palette.text.primary,
++    },
++    icon: { minWidth: theme.spacing(5) },
++  }),
++  { name: 'NDNavItemLink' },
++)
++
++const NavItemLink = forwardRef(
++  (
++    {
++      classes: classesOverride,
++      className,
++      primaryText,
++      leftIcon,
++      onClick,
++      sidebarIsOpen,
++      tooltipProps,
++      ...rest
++    },
++    ref,
++  ) => {
++    const classes = useStyles({ classes: classesOverride })
++    const dispatch = useDispatch()
++    const isSmall = useMediaQuery((theme) => theme.breakpoints.down('sm'))
++    const open = useSelector((state) => state.admin.ui.sidebarOpen)
++
++    const handleMenuTap = useCallback(
++      (e) => {
++        if (isSmall) {
++          dispatch(setSidebarVisibility(false))
++        }
++        onClick && onClick(e)
++      },
++      [dispatch, isSmall, onClick],
++    )
++
++    const renderNavItem = () => (
++      <ListItem
++        button
++        component={NavLinkRef}
++        className={classnames(classes.root, className)}
++        activeClassName={classes.active}
++        ref={ref}
++        {...rest}
++        onClick={handleMenuTap}
++      >
++        {leftIcon && (
++          <ListItemIcon className={classes.icon}>
++            {React.cloneElement(leftIcon, {
++              titleAccess: primaryText,
++            })}
++          </ListItemIcon>
++        )}
++        {primaryText}
++      </ListItem>
++    )
++
++    return open ? (
++      renderNavItem()
++    ) : (
++      <Tooltip title={primaryText} placement="right" {...tooltipProps}>
++        {renderNavItem()}
++      </Tooltip>
++    )
++  },
++)
++
++NavItemLink.propTypes = {
++  classes: PropTypes.object,
++  className: PropTypes.string,
++  leftIcon: PropTypes.element,
++  onClick: PropTypes.func,
++  primaryText: PropTypes.node,
++  staticContext: PropTypes.object,
++  to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
++  sidebarIsOpen: PropTypes.bool,
++}
++
++export default NavItemLink
+diff --git a/ui/src/layout/PlaylistsSubMenu.jsx b/ui/src/layout/PlaylistsSubMenu.jsx
+index f332f68..6f5337e 100644
+--- a/ui/src/layout/PlaylistsSubMenu.jsx
++++ b/ui/src/layout/PlaylistsSubMenu.jsx
+@@ -1,7 +1,7 @@
+ import React, { useCallback, useMemo, useState } from 'react'
+ import { useDispatch, useSelector } from 'react-redux'
+ import {
+-  MenuItemLink,
++  
+   useDataProvider,
+   useNotify,
+   useQueryWithStore,
+@@ -16,6 +16,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder'
+ import { BiListUl } from 'react-icons/bi'
+ import { useDrop } from 'react-dnd'
+ import SubMenu from './SubMenu'
++import NavItemLink from './NavItemLink'
+ import { canChangeTracks, OverflowTooltip, useRefreshOnEvents } from '../common'
+ import { DraggableTypes } from '../consts'
+ import { setSidebarPlaylistsOnlyFavourites } from '../actions'
+@@ -41,7 +42,7 @@ const PlaylistMenuItemLink = ({ pls, sidebarIsOpen }) => {
+   }))
+ 
+   return (
+-    <MenuItemLink
++    <NavItemLink
+       to={`/playlist/${pls.id}/show`}
+       primaryText={
+         <OverflowTooltip title={pls.name} placement="right">
+@@ -154,6 +155,7 @@ const PlaylistsSubMenu = ({ state, setState, sidebarIsOpen, dense }) => {
+         dense={dense}
+         actionIcon={<BiListUl />}
+         onAction={onPlaylistConfig}
++        actionTitle={translate('menu.playlistConfig')}
+         onSecondaryAction={
+           config.enableFavourites ? handleToggleFavourites : undefined
+         }
+diff --git a/ui/src/layout/SubMenu.jsx b/ui/src/layout/SubMenu.jsx
+index ee1bf34..9d29623 100644
+--- a/ui/src/layout/SubMenu.jsx
++++ b/ui/src/layout/SubMenu.jsx
+@@ -3,14 +3,14 @@ import { useDispatch } from 'react-redux'
+ import ExpandMore from '@material-ui/icons/ExpandMore'
+ import ArrowRightOutlined from '@material-ui/icons/ArrowRightOutlined'
+ import List from '@material-ui/core/List'
+-import MenuItem from '@material-ui/core/MenuItem'
++import ListItem from '@material-ui/core/ListItem'
+ import ListItemIcon from '@material-ui/core/ListItemIcon'
+ import Typography from '@material-ui/core/Typography'
+ import Collapse from '@material-ui/core/Collapse'
+ import Tooltip from '@material-ui/core/Tooltip'
+ import { makeStyles } from '@material-ui/core/styles'
+ import { setSidebarVisibility, useTranslate } from 'react-admin'
+-import { IconButton, useMediaQuery } from '@material-ui/core'
++import { ButtonBase, IconButton, useMediaQuery } from '@material-ui/core'
+ 
+ const useStyles = makeStyles(
+   (theme) => ({
+@@ -33,6 +33,16 @@ const useStyles = makeStyles(
+     menuHeader: {
+       width: '100%',
+     },
++    headerButton: {
++      flexGrow: 1,
++      display: 'flex',
++      alignItems: 'center',
++      justifyContent: 'flex-start',
++      minWidth: 0,
++      padding: '6px 0',
++      color: 'inherit',
++      textAlign: 'left',
++    },
+     headerText: {
+       flexGrow: 1,
+     },
+@@ -58,6 +68,7 @@ const SubMenu = ({
+   dense,
+   onAction,
+   actionIcon,
++  actionTitle,
+   onSecondaryAction,
+   secondaryActionIcon,
+   secondaryActionTitle,
+@@ -84,22 +95,23 @@ const SubMenu = ({
+ 
+   const header = (
+     <div className={classes.headerWrapper}>
+-      <MenuItem
+-        dense={dense}
+-        button
+-        className={classes.menuHeader}
+-        onClick={handleToggle}
+-      >
+-        <ListItemIcon className={classes.icon}>
+-          {isOpen ? <ExpandMore /> : icon}
+-        </ListItemIcon>
+-        <Typography
+-          variant="inherit"
+-          color="textSecondary"
+-          className={classes.headerText}
++      <ListItem dense={dense} component="div" className={classes.menuHeader}>
++        <ButtonBase
++          className={classes.headerButton}
++          onClick={handleToggle}
++          aria-expanded={isOpen}
+         >
+-          {translate(name)}
+-        </Typography>
++          <ListItemIcon className={classes.icon}>
++            {isOpen ? <ExpandMore /> : icon}
++          </ListItemIcon>
++          <Typography
++            variant="inherit"
++            color="textSecondary"
++            className={classes.headerText}
++          >
++            {translate(name)}
++          </Typography>
++        </ButtonBase>
+         {onSecondaryAction && sidebarIsOpen && (
+           <IconButton
+             size={'small'}
+@@ -116,13 +128,15 @@ const SubMenu = ({
+         {onAction && sidebarIsOpen && (
+           <IconButton
+             size={'small'}
++            title={actionTitle || translate('ra.action.open')}
++            aria-label={actionTitle || translate('ra.action.open')}
+             className={isDesktop ? classes.actionIcon : null}
+             onClick={handleOnClick}
+           >
+             {actionIcon}
+           </IconButton>
+         )}
+-      </MenuItem>
++      </ListItem>
+     </div>
+   )
+ 
+diff --git a/ui/src/layout/UserMenu.jsx b/ui/src/layout/UserMenu.jsx
+index e331855..13271d9 100644
+--- a/ui/src/layout/UserMenu.jsx
++++ b/ui/src/layout/UserMenu.jsx
+@@ -25,6 +25,7 @@ import config from '../config'
+ import authProvider from '../authProvider'
+ import { startEventStream } from '../eventStream'
+ import { useDispatch } from 'react-redux'
++import { popupContainer } from '../common/popupContainer'
+ 
+ const useStyles = makeStyles((theme) => ({
+   user: {},
+@@ -95,6 +96,7 @@ const UserMenu = (props) => {
+       <Popover
+         id="menu-appbar"
+         anchorEl={anchorEl}
++        container={popupContainer}
+         anchorOrigin={{
+           vertical: 'bottom',
+           horizontal: 'right',
+@@ -106,15 +108,15 @@ const UserMenu = (props) => {
+         open={open}
+         onClose={handleClose}
+       >
++        {loaded && (
++          <Card elevation={0} className={classes.username} role="presentation">
++            <CardContent className={classes.usernameWrap}>
++              <Typography variant={'button'}>{identity.fullName}</Typography>
++            </CardContent>
++          </Card>
++        )}
++        <Divider />
+         <MenuList>
+-          {loaded && (
+-            <Card elevation={0} className={classes.username}>
+-              <CardContent className={classes.usernameWrap}>
+-                <Typography variant={'button'}>{identity.fullName}</Typography>
+-              </CardContent>
+-            </Card>
+-          )}
+-          <Divider />
+           {Children.map(children, (menuItem) =>
+             isValidElement(menuItem)
+               ? cloneElement(menuItem, {
+diff --git a/ui/src/song/SongList.jsx b/ui/src/song/SongList.jsx
+index 6b7bfaf..7786dda 100644
+--- a/ui/src/song/SongList.jsx
++++ b/ui/src/song/SongList.jsx
+@@ -45,6 +45,17 @@ const useStyles = makeStyles({
+     marginTop: '-2px',
+     verticalAlign: 'text-top',
+   },
++  srOnly: {
++    position: 'absolute',
++    width: '1px',
++    height: '1px',
++    padding: 0,
++    margin: '-1px',
++    overflow: 'hidden',
++    clip: 'rect(0, 0, 0, 0)',
++    whiteSpace: 'nowrap',
++    border: 0,
++  },
+   row: {
+     '&:hover': {
+       '& $contextMenu': {
+@@ -131,6 +142,7 @@ const SongFilter = (props) => {
+ }
+ 
+ const SongList = (props) => {
++  const translate = useTranslate()
+   const classes = useStyles()
+   const dispatch = useDispatch()
+   const isXsmall = useMediaQuery((theme) => theme.breakpoints.down('xs'))
+@@ -240,10 +252,15 @@ const SongList = (props) => {
+               className={classes.contextMenu}
+               label={
+                 config.enableFavourites && (
+-                  <FavoriteBorderIcon
+-                    fontSize={'small'}
+-                    className={classes.contextHeader}
+-                  />
++                  <>
++                    <FavoriteBorderIcon
++                      fontSize={'small'}
++                      className={classes.contextHeader}
++                    />
++                    <span className={classes.srOnly}>
++                      {translate('resources.song.fields.starred')}
++                    </span>
++                  </>
+                 )
+               }
+             />
+diff --git a/ui/src/themes/dark.js b/ui/src/themes/dark.js
+index 15d8aa3..2309c80 100644
+--- a/ui/src/themes/dark.js
++++ b/ui/src/themes/dark.js
+@@ -1,4 +1,3 @@
+-import blue from '@material-ui/core/colors/blue'
+ import stylesheet from './dark.css.js'
+ 
+ export default {
+@@ -7,7 +6,13 @@ export default {
+     primary: {
+       main: '#90caf9',
+     },
+-    secondary: blue,
++    // blue.A400 (#2979ff) gives 3.98:1 vs white AppBar text; #3f51b5 reaches 6.97:1.
++    secondary: {
++      light: '#5f5fc4',
++      dark: '#001064',
++      main: '#3f51b5',
++      contrastText: '#fff',
++    },
+     type: 'dark',
+   },
+   overrides: {
+diff --git a/ui/src/themes/light.js b/ui/src/themes/light.js
+index 63a32bf..b4d4ba5 100644
+--- a/ui/src/themes/light.js
++++ b/ui/src/themes/light.js
+@@ -3,6 +3,10 @@ import stylesheet from './light.css.js'
+ export default {
+   themeName: 'Light',
+   palette: {
++    primary: {
++      // #2979ff (MUI default) is 3.98:1 against white AppBar text; #1976d2 reaches 4.6:1.
++      main: '#1976d2',
++    },
+     secondary: {
+       light: '#5f5fc4',
+       dark: '#001064',

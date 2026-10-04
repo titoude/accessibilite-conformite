@@ -19,6 +19,19 @@ index 5c26ff1..1c460f5 100644
      <script src="/config.js"></script>
      <script type="module" src="/src/index.jsx"></script>
    </body>
+diff --git a/web/src/app/popupContainer.js b/web/src/app/popupContainer.js
+new file mode 100644
+index 0000000..29d5a2a
+--- /dev/null
++++ b/web/src/app/popupContainer.js
+@@ -0,0 +1,7 @@
++// MUI portals default to document.body, which drops menus/popovers outside every
++// landmark (axe `region`) and, when a modal is open, outside the active tree.
++// Mounting them on this dedicated sibling layer keeps them inside a named
++// complementary landmark instead.
++const popupContainer = () => document.getElementById("a11y-popup-layer");
++
++export default popupContainer;
 diff --git a/web/src/components/Account.jsx b/web/src/components/Account.jsx
 index bd92062..8b1214c 100644
 --- a/web/src/components/Account.jsx
