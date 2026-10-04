@@ -1,0 +1,34 @@
+{
+ "cycle": 13,
+ "produit": "vikunja",
+ "repo": "https://code.vikunja.io/vikunja (miroir github.com/go-vikunja/vikunja)",
+ "commit": "04373954353c22b78f552044ad551e1407a92f24",
+ "stack": "Go 1.27 API + frontend Vue 3/TS (pnpm) — dist embarqué via go:embed",
+ "boot": {
+  "clone": "git worktree/commit épinglé",
+  "install": "cd frontend && pnpm install --frozen-lockfile && pnpm build ; go build -o vikunja .",
+  "run": "VIKUNJA_SERVICE_PUBLICURL=http://127.0.0.1:3456/ VIKUNJA_DATABASE_TYPE=sqlite VIKUNJA_DATABASE_PATH=…/vikunja.db VIKUNJA_FILES_BASEPATH=…/files ./vikunja",
+  "notes": [
+   "Écoute sur :3456 par défaut (VIKUNJA_SERVICE_PORT ignoré, VIKUNJA_SERVICE_INTERFACE pour changer le port)",
+   "publicurl obligatoire quand CORS activé",
+   "JWT invalidé à chaque redémarrage — relogin API obligatoire après restart",
+   "login par POST /api/v1/login long_token=true — le token de la page de login est invalidé par rotation du refresh"
+  ],
+  "seed": "admin/adminpass123 via POST /api/v1/register ; projet 2 « Projet démo » (tâches 1-3) ; vues 9=list/10=gantt/11=table/12=kanban ; DB seedée copiée pour le clone propre"
+ },
+ "tools": {
+  "runner": "tools/audit.mjs (runner v4 mission, STATES adaptés vikunja)",
+  "login": "tools/login.mjs (API long_token)",
+  "verify": "tools/verify.mjs (22 assertions)",
+  "eval": "tools/eval-final.mjs (7 contrôles indépendants)"
+ },
+ "auditCommands": [
+  "node tools/login.mjs http://127.0.0.1:3457 admin adminpass123 auth-3457.json  # apres chaque restart",
+  "node audit.mjs http://127.0.0.1:3457 --urls /,/projects,/projects/2/9,/projects/2/10,/projects/2/11,/projects/2/12,/tasks/1,/labels,/teams,/filters/new,/user/settings/general --states all --storage-state auth-3457.json --wait 2000 --out reports/baseline",
+  "node audit.mjs http://127.0.0.1:3457 --urls /login --states none --wait 2000 --out reports/baseline-login",
+  "node tools/verify.mjs http://127.0.0.1:3457 auth-3457.json",
+  "node tools/eval-final.mjs http://127.0.0.1:3457 auth-3457.json"
+ ],
+ "patch": "patch.diff (17 fichiers, +50/-28) — sha256: 3d9588a45ecc3732f536382ca4c9c06d3e0d4be21478a5f9f652d919b8a643dc",
+ "environnement": "node v24.19.0 (nvm), go1.27.0, playwright pinned, chromium headless, pas de Docker"
+}

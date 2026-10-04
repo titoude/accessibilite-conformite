@@ -1,0 +1,199 @@
+{
+  "runId": "95ffbf7e-ac83-4ab3-9d8e-0558e4a634e5",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T17:58:01.300Z",
+  "baseUrl": "http://127.0.0.1:3457",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:3457/login",
+      "requestedUrl": "http://127.0.0.1:3457/login",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<section data-v-2fc399e1=\"\" class=\"image\"><!----><h2 data-v-2fc399e1=\"\" class=\"image-title\">Welcome Back!</h2></section>",
+              "target": [
+                "section"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        },
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258"
+          ],
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "target-size",
+                  "data": {
+                    "minSize": 24,
+                    "width": 20,
+                    "height": 24
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Target has insufficient size (20px by 24px, should be at least 24px by 24px)"
+                },
+                {
+                  "id": "target-offset",
+                  "data": {
+                    "closestOffset": 20,
+                    "minOffset": 24
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input data-v-056d12d9=\"\" id=\"password\" class=\"input\" name=\"password\" placeholder=\"Your password\" required=\"\" type=\"password\" autocomplete=\"current-password\" aria-invalid=\"true\" aria-describedby=\"password-error\">",
+                      "target": [
+                        "#password"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 20px instead of at least 24px."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-056d12d9=\"\" type=\"button\" class=\"base-button base-button--type-button password-field-type-toggle v-popper--has-tooltip\" aria-label=\"Show the password\">",
+              "target": [
+                ".password-field-type-toggle"
+              ],
+              "failureSummary": "Fix any of the following:\n  Target has insufficient size (20px by 24px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 20px instead of at least 24px."
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "30.0pt (40px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<section data-v-2fc399e1=\"\" class=\"image\"><!----><h2 data-v-2fc399e1=\"\" class=\"image-title\">Welcome Back!</h2></section>",
+                      "target": [
+                        "section"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h2 data-v-2fc399e1=\"\" class=\"image-title\">Welcome Back!</h2>",
+              "target": [
+                ".image-title"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:3457/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "a182f9a55136411088c6bcfc4d37637c44251983b44ffa634ed342cb9954d633"
+}

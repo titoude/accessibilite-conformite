@@ -1,0 +1,105 @@
+{
+ "cycle": 13,
+ "produit": "vikunja",
+ "statut_execution": "complet",
+ "baseline": {
+  "surfaces": 11,
+  "etats": 4,
+  "violations_occ": 55,
+  "violations_regles": 6,
+  "detail": {
+   "color-contrast": 40,
+   "target-size": 5,
+   "list": 2,
+   "aria-required-parent": 3,
+   "aria-prohibited-attr": 3,
+   "link-in-text-block": 2
+  },
+  "login": {
+   "violations_occ": 3,
+   "violations_regles": 3
+  },
+  "total_occ": 58,
+  "total_regles": 9
+ },
+ "final": {
+  "surfaces": 11,
+  "etats": 4,
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": 32,
+  "login": {
+   "violations_occ": 0
+  }
+ },
+ "final_clean_clone": {
+  "violations_occ": 0,
+  "note": "patch.diff appliqué sur clone propre + install verrouillée + build + re-scan complet"
+ },
+ "verify_mjs": "22/22 assertions",
+ "eval_final_mjs": "7/7 contrôles indépendants",
+ "install_build": "OK — pnpm install --frozen-lockfile + pnpm build + go build sur clone propre (install-build.log)",
+ "causes_racines": [
+  {
+   "famille": "contrastes",
+   "files": [
+    "navigation.scss (--primary→--primary-dark actif)",
+    "PoweredByLink (--grey-300→--text-muted)",
+    "SingleTaskInProject (--grey-400→--text-muted)",
+    "Heading.vue task-id",
+    "AddTask icon",
+    "ListTeams/ListLabels (has-text-grey→text-muted inline)",
+    "theme.scss (.has-text-danger→--danger-text !important, couvre tous les has-text-danger)",
+    "liens Create a label/team (--primary-dark)"
+   ],
+   "occ_couvertes": 40
+  },
+  {
+   "famille": "target-size",
+   "files": [
+    "Password.vue toggle 24px",
+    "QuickAddMagic trigger 24px"
+   ],
+   "occ_couvertes": 5
+  },
+  {
+   "famille": "aria table gantt",
+   "files": [
+    "GanttChart (wrapper sans rôle)",
+    "GanttTimelineHeader role=rowgroup + id",
+    "GanttChartBody aria-owns → header dans le grid"
+   ],
+   "occ_couvertes": 6
+  },
+  {
+   "famille": "list",
+   "files": [
+    "ProjectList.vue items dans <li>"
+   ],
+   "occ_couvertes": 2
+  },
+  {
+   "famille": "landmarks/h1 login",
+   "files": [
+    "NoAuthWrapper section role=complementary + h1"
+   ],
+   "occ_couvertes": 3
+  },
+  {
+   "famille": "link-in-text-block",
+   "files": [
+    "ListLabels/ListTeams underline + --primary-dark"
+   ],
+   "occ_couvertes": 2
+  }
+ ],
+ "incomplets": "32 résultats incomplete (aria, tabindex, etc.) — groupés par règle : nécessitent revue humaine, listés dans reports/*/report.json",
+ "lecons_harnais": [
+  "JWT Vikunja invalidé à chaque restart (secret par process) — login API long_token obligatoire",
+  "le token de la page de login UI est tué par la rotation de refresh — ne JAMAIS le capturer via UI",
+  "Escape déjà géré par Dropdown.vue — vérifier la VISIBILITÉ (v-show) pas la présence DOM",
+  "title= constitue un nom accessible — une assertion « aria-label|textContent seulement » donne des faux positifs",
+  "plusieurs composants peuvent porter role=grid (datepicker inline) — scoper les sélecteurs par composant"
+ ]
+}

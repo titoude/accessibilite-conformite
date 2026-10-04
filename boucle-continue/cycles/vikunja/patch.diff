@@ -1,0 +1,278 @@
+diff --git a/frontend/src/components/gantt/GanttChart.vue b/frontend/src/components/gantt/GanttChart.vue
+index 9fa165d..c5475bb 100644
+--- a/frontend/src/components/gantt/GanttChart.vue
++++ b/frontend/src/components/gantt/GanttChart.vue
+@@ -44,7 +44,7 @@
+ 								width: `${band.width}px`,
+ 							}"
+ 						/>
+-						<div class="gantt-rows">
++						<div class="gantt-rows" role="rowgroup">
+ 							<GanttRow
+ 								v-for="(rowId, index) in ganttRows"
+ 								:id="rowId"
+diff --git a/frontend/src/components/gantt/GanttChartBody.vue b/frontend/src/components/gantt/GanttChartBody.vue
+index bda0f48..7b82af4 100644
+--- a/frontend/src/components/gantt/GanttChartBody.vue
++++ b/frontend/src/components/gantt/GanttChartBody.vue
+@@ -1,6 +1,7 @@
+ <template>
+ 	<GanttChartPrimitive
+ 		ref="primitiveRef"
++		aria-owns="gantt-timeline-header"
+ 		:rows="rows"
+ 		:cells-by-row="cellsByRow"
+ 		@update:focused="$emit('update:focused', $event)"
+diff --git a/frontend/src/components/gantt/GanttTimelineHeader.vue b/frontend/src/components/gantt/GanttTimelineHeader.vue
+index 4f60ed2..a87809d 100644
+--- a/frontend/src/components/gantt/GanttTimelineHeader.vue
++++ b/frontend/src/components/gantt/GanttTimelineHeader.vue
+@@ -1,7 +1,8 @@
+ <template>
+ 	<div
++		id="gantt-timeline-header"
+ 		class="gantt-timeline"
+-		role="columnheader"
++		role="rowgroup"
+ 		:aria-label="$t('project.gantt.timelineHeader')"
+ 	>
+ 		<!-- Upper timeunit for months -->
+diff --git a/frontend/src/components/home/PoweredByLink.vue b/frontend/src/components/home/PoweredByLink.vue
+index ed4048f..2d61ba7 100644
+--- a/frontend/src/components/home/PoweredByLink.vue
++++ b/frontend/src/components/home/PoweredByLink.vue
+@@ -22,7 +22,7 @@ const computedUrl = computed(() => `${poweredByUrl}&utm_medium=${props.utmMedium
+ 
+ <style lang="scss">
+ .menu-bottom-link {
+-	color: var(--grey-300);
++	color: var(--text-muted);
+ 	text-align: center;
+ 	display: block;
+ 	padding-block-start: 1rem;
+diff --git a/frontend/src/components/input/Password.vue b/frontend/src/components/input/Password.vue
+index 199b4f2..879fc5a 100644
+--- a/frontend/src/components/input/Password.vue
++++ b/frontend/src/components/input/Password.vue
+@@ -95,5 +95,11 @@ function handleInput(e: Event) {
+ 	inset-block-start: 50%;
+ 	inset-inline-end: 1rem;
+ 	transform: translateY(-50%);
++	min-width: 24px;
++	min-height: 24px;
++	display: inline-flex;
++	align-items: center;
++	justify-content: center;
++	padding: 0;
+ }
+ </style>
+diff --git a/frontend/src/components/input/editor/TipTap.vue b/frontend/src/components/input/editor/TipTap.vue
+index 7c37021..f2f9f0f 100644
+--- a/frontend/src/components/input/editor/TipTap.vue
++++ b/frontend/src/components/input/editor/TipTap.vue
+@@ -351,6 +351,8 @@ const editor = useEditor({
+ 	onUpdate: bubbleNow,
+ 	editorProps: {
+ 		attributes: {
++			'role': 'textbox',
++			'aria-multiline': 'true',
+ 			'aria-label': props.placeholder || t('input.editor.label'),
+ 		},
+ 	},
+diff --git a/frontend/src/components/misc/NoAuthWrapper.vue b/frontend/src/components/misc/NoAuthWrapper.vue
+index 9e0ffbd..c1f2cff 100644
+--- a/frontend/src/components/misc/NoAuthWrapper.vue
++++ b/frontend/src/components/misc/NoAuthWrapper.vue
+@@ -9,13 +9,15 @@
+ 			<section
+ 				class="image"
+ 				:class="{ 'has-message': motd !== '' }"
++				role="complementary"
++				:aria-label="$t('misc.welcomeBack')"
+ 			>
+ 				<Message v-if="motd !== ''">
+ 					{{ motd }}
+ 				</Message>
+-				<h2 class="image-title">
++				<h1 class="image-title">
+ 					{{ $t("misc.welcomeBack") }}
+-				</h2>
++				</h1>
+ 			</section>
+ 			<main
+ 				id="main-content"
+diff --git a/frontend/src/components/project/views/ProjectList.vue b/frontend/src/components/project/views/ProjectList.vue
+index a1000f4..25e3401 100644
+--- a/frontend/src/components/project/views/ProjectList.vue
++++ b/frontend/src/components/project/views/ProjectList.vue
+@@ -70,21 +70,23 @@
+ 						@end="saveTaskPosition"
+ 					>
+ 						<template #item="{element: t, index}">
+-							<SingleTaskInProject
+-								:ref="(el) => setTaskRef(el as InstanceType<typeof SingleTaskInProject> | null, index)"
+-								:show-list-color="false"
+-								:can-mark-as-done="canWrite || isPseudoProject"
+-								:the-task="t"
+-								:all-tasks="allTasks"
+-								@taskUpdated="updateTasks"
+-							>
+-								<span
+-									v-if="canDragTasks && isPositionSorting"
+-									class="icon handle"
++							<li>
++								<SingleTaskInProject
++									:ref="(el) => setTaskRef(el as InstanceType<typeof SingleTaskInProject> | null, index)"
++									:show-list-color="false"
++									:can-mark-as-done="canWrite || isPseudoProject"
++									:the-task="t"
++									:all-tasks="allTasks"
++									@taskUpdated="updateTasks"
+ 								>
+-									<Icon icon="grip-lines" />
+-								</span>
+-							</SingleTaskInProject>
++									<span
++										v-if="canDragTasks && isPositionSorting"
++										class="icon handle"
++									>
++										<Icon icon="grip-lines" />
++									</span>
++								</SingleTaskInProject>
++							</li>
+ 						</template>
+ 					</draggable>
+ 
+diff --git a/frontend/src/components/tasks/AddTask.vue b/frontend/src/components/tasks/AddTask.vue
+index e7c29bb..f40d918 100644
+--- a/frontend/src/components/tasks/AddTask.vue
++++ b/frontend/src/components/tasks/AddTask.vue
+@@ -296,7 +296,7 @@ defineExpose({
+ 	}
+ 
+ 	.icon {
+-		color: var(--grey-300);
++		color: var(--text-muted);
+ 	}
+ 
+ 	.task-icon, 
+diff --git a/frontend/src/components/tasks/partials/Heading.vue b/frontend/src/components/tasks/partials/Heading.vue
+index bec6e1d..dfd7779 100644
+--- a/frontend/src/components/tasks/partials/Heading.vue
++++ b/frontend/src/components/tasks/partials/Heading.vue
+@@ -210,7 +210,7 @@ async function cancel(element: HTMLInputElement) {
+ }
+ 
+ .title.task-id {
+-	color: var(--grey-400);
++	color: var(--text-muted);
+ 	white-space: nowrap;
+ }
+ 
+diff --git a/frontend/src/components/tasks/partials/QuickAddMagic.vue b/frontend/src/components/tasks/partials/QuickAddMagic.vue
+index ca2984a..6f51a0a 100644
+--- a/frontend/src/components/tasks/partials/QuickAddMagic.vue
++++ b/frontend/src/components/tasks/partials/QuickAddMagic.vue
+@@ -11,6 +11,7 @@
+ 			<BaseButton
+ 				v-tooltip="$t('task.quickAddMagic.hint')"
+ 				class="icon is-small show-helper-text quick-add-magic-trigger-btn"
++				style="min-width: 24px; min-height: 24px"
+ 				:aria-label="$t('task.quickAddMagic.hint')"
+ 				:class="{'is-highlighted': highlightHintIcon}"
+ 				@click="open"
+diff --git a/frontend/src/components/tasks/partials/SingleTaskInProject.vue b/frontend/src/components/tasks/partials/SingleTaskInProject.vue
+index 71aa945..8df4d1c 100644
+--- a/frontend/src/components/tasks/partials/SingleTaskInProject.vue
++++ b/frontend/src/components/tasks/partials/SingleTaskInProject.vue
+@@ -469,7 +469,7 @@ defineExpose({
+ 
+ 	.task-project {
+ 		inline-size: auto;
+-		color: var(--grey-400);
++		color: var(--text-muted);
+ 		font-size: .9rem;
+ 		white-space: nowrap;
+ 	}
+diff --git a/frontend/src/styles/theme/navigation.scss b/frontend/src/styles/theme/navigation.scss
+index 9d844b8..19b98c5 100644
+--- a/frontend/src/styles/theme/navigation.scss
++++ b/frontend/src/styles/theme/navigation.scss
+@@ -106,7 +106,7 @@
+         width: 100%;
+ 
+         &.router-link-exact-active {
+-          color: var(--primary);
++          color: var(--primary-dark);
+         }
+ 
+         .icon {
+@@ -116,7 +116,7 @@
+         }
+ 
+         &.router-link-exact-active .icon:not(.handle) {
+-          color: var(--primary);
++          color: var(--primary-dark);
+         }
+ 
+         .handle {
+diff --git a/frontend/src/styles/theme/theme.scss b/frontend/src/styles/theme/theme.scss
+index 2470ad9..f330cbf 100644
+--- a/frontend/src/styles/theme/theme.scss
++++ b/frontend/src/styles/theme/theme.scss
+@@ -124,3 +124,9 @@ button.table {
+   border: 1px solid var(--grey-200);
+   box-shadow: var(--shadow-sm);
+ }
++
++// WCAG 1.4.3: Bulma's .has-text-danger (#ff4136) is only 3.46:1 on white.
++// --danger-text (hsl 348/86/40) is the repo's own AA-safe token for danger text.
++.has-text-danger {
++	color: var(--danger-text) !important;
++}
+diff --git a/frontend/src/views/labels/ListLabels.vue b/frontend/src/views/labels/ListLabels.vue
+index c43a18c..c0c84fe 100644
+--- a/frontend/src/views/labels/ListLabels.vue
++++ b/frontend/src/views/labels/ListLabels.vue
+@@ -18,10 +18,10 @@
+ 			</p>
+ 			<p
+ 				v-else
+-				class="has-text-centered has-text-grey is-italic"
++				class="has-text-centered is-italic" style="color: var(--text-muted)"
+ 			>
+ 				{{ $t('label.newCTA') }}
+-				<RouterLink :to="{name:'labels.create'}">
++				<RouterLink :to="{name:'labels.create'}" style="text-decoration: underline; color: var(--primary-dark)">
+ 					{{ $t('label.create.title') }}.
+ 				</RouterLink>
+ 			</p>
+diff --git a/frontend/src/views/tasks/TaskDetailView.vue b/frontend/src/views/tasks/TaskDetailView.vue
+index dab1144..449e54e 100644
+--- a/frontend/src/views/tasks/TaskDetailView.vue
++++ b/frontend/src/views/tasks/TaskDetailView.vue
+@@ -599,6 +599,7 @@
+ 							icon="trash-alt"
+ 							:shadow="false"
+ 							class="is-danger is-outlined has-no-border"
++							style="color: var(--danger-text)"
+ 							@click="showDeleteModal = true"
+ 						>
+ 							{{ $t('task.detail.actions.delete') }}
+diff --git a/frontend/src/views/teams/ListTeams.vue b/frontend/src/views/teams/ListTeams.vue
+index d1bd1c8..52d3982 100644
+--- a/frontend/src/views/teams/ListTeams.vue
++++ b/frontend/src/views/teams/ListTeams.vue
+@@ -32,10 +32,10 @@
+ 		</Card>
+ 		<p
+ 			v-else-if="!isFetching"
+-			class="has-text-centered has-text-grey is-italic"
++			class="has-text-centered is-italic" style="color: var(--text-muted)"
+ 		>
+ 			{{ $t('team.noTeams') }}
+-			<RouterLink :to="{name: 'teams.create'}">
++			<RouterLink :to="{name: 'teams.create'}" style="text-decoration: underline; color: var(--primary-dark)">
+ 				{{ $t('team.create.title') }}.
+ 			</RouterLink>
+ 		</p>

@@ -1,0 +1,76 @@
+{
+  "runId": "52f7861c-218e-44c5-a2de-304b28f1d4c0",
+  "runnerVersion": "audit.mjs v5",
+  "generatedAt": "2026-10-04T17:55:38.711Z",
+  "baseUrl": "http://127.0.0.1:3456",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:3456/login",
+      "requestedUrl": "http://127.0.0.1:3456/login",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "30.0pt (40px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<section data-v-b706af6c=\"\" class=\"image\" role=\"complementary\" aria-label=\"Welcome Back!\"><!----><h1 data-v-b706af6c=\"\" class=\"image-title\">Welcome Back!</h1></section>",
+                      "target": [
+                        "section"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h1 data-v-b706af6c=\"\" class=\"image-title\">Welcome Back!</h1>",
+              "target": [
+                "h1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:3456/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "76db41653f988375c42ee5494ebe470f1f3c4522edc9c7fcd227ee92f70ce03f"
+}
