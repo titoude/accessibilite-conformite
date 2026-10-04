@@ -606,6 +606,11 @@ RESULT_SCHEMA = {
                     "patch_diff": {"type": "string", "description": "le patch.diff COMPLET en texte (pas une référence) — l'évaluateur indépendant le rejoue sur clone propre"},
                     "patch_sha256": {"type": "string", "description": "sha256 hex du patch_diff — l'évaluateur revérifie l'identité"},
                     "scope_json_final": {"type": "string", "description": "contenu du scope.json final en texte"},
+                    "manifest_json": {"type": "string", "description": "contenu du manifest.json figé (écrit avant audit) en texte"},
+                    "provenance_json": {"type": "string", "description": "contenu du provenance.json (commandes exactes de rejeu) en texte"},
+                    "states_json": {"type": "string", "description": "contenu du states.json (scénarios exécutés) en texte"},
+                    "verify_mjs": {"type": "string", "description": "contenu du verify.mjs du vérificateur en texte"},
+                    "eval_final_mjs": {"type": "string", "description": "contenu de l'eval-final.mjs en texte"},
                     "human_checks": {"type": "array", "items": {"type": "string"}},
                     "duration_min": {"type": "integer", "description": "minutes CUMULÉES d'agent (tous sous-agents inclus)"},
                     "failure": {"type": ["string", "null"], "description": "null JSON si aucun échec — jamais la chaîne 'null'. Sinon : unrunnable|rounds_exhausted|verifier_loop|partial|blocked|review_required"},
@@ -691,6 +696,10 @@ Puis, pour chaque dépôt :""" + """
    du projet) + build/lint du projet → install_build. Un patch qui casse la
    lockfile ou le build est un FAIL de livraison, pas un détail.
    Liste tout dans artifacts. AUCUN secret/credential dans les fichiers joints.
+   Copie aussi le CONTENU texte complet de manifest.json, provenance.json,
+   states.json, verify.mjs et eval-final.mjs dans les champs manifest_json,
+   provenance_json, states_json, verify_mjs, eval_final_mjs — le coordinateur
+   n'a pas accès à ta VM, ces champs sont le seul transport des preuves.
    EN PLUS, dans ta réponse structurée : patch_diff = le patch COMPLET en texte
    (pas une référence — l'évaluateur indépendant le rejoue), patch_sha256 =
    sha256 hex de ce diff, scope_json_final = contenu du scope.json final.
