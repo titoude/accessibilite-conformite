@@ -1,0 +1,37 @@
+{
+  "cycle": 10,
+  "target": "paperless-ngx",
+  "repo": "https://github.com/paperless-ngx/paperless-ngx",
+  "base_commit": "8adbff1423af58575bc5a08eee7a6d833fd95651",
+  "stack": "Angular 19 SPA (src-ui) + Django 5 + whitenoise + allauth + valkey",
+  "boot": {
+    "commands": [
+      "pnpm install --frozen-lockfile (src-ui)",
+      "pnpm ng build --configuration production",
+      "uv run manage.py collectstatic --noinput",
+      "uv run manage.py runserver 127.0.0.1:8085"
+    ],
+    "notes": "collectstatic requis après build ET restart serveur (whitenoise indexe STATIC_ROOT au démarrage). valkey container paperless-redis :6379. env: boucle-runs/paperless/env.sh. superuser admin/adminpass123 (allauth)."
+  },
+  "scope": {
+    "pages": 15,
+    "states": [
+      "userMenu",
+      "tagsDropdown"
+    ],
+    "login_unauthed": "/accounts/login/"
+  },
+  "dates": {
+    "baseline": "2026-10-04",
+    "final": "2026-10-04"
+  },
+  "harness_local_adaptations": [
+    "STATES map dans tools/audit.mjs (userMenu/tagsDropdown) — spécifique au produit, documenté dans states.json",
+    "login scanné hors session: allauth redirige /accounts/login/ vers /dashboard quand authentifié"
+  ],
+  "honest_notes": [
+    "simplifications produit documentées: opacity retirée des animations d'entrée (sidebar-nav-in, .fade hors modal, pngx-entry-fade) — les fades causaient des flags contrast flakies à mi-transition; translate conservé",
+    "bug fonctionnel corrigé au passage: collision de name= des radios entre instances de filterable-dropdown (compteur d'instance statique)",
+    "/usersgroups et /tasks: rescans nécessaires (lazy-chunk timing) — scan initial possible sur le splash de chargement"
+  ]
+}
