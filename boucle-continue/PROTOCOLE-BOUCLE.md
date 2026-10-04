@@ -150,3 +150,11 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 3. **`manifest.json.auditCommands[]` obligatoire** : invocations exactes (--urls, --states, --wait-for, --wait, --storage-state) pour chaque run — la reconstitution depuis la mémoire est interdite.
 4. **Assertion de piège-clavier tolérante au transitoire** : compter les tab-stops RÉSIDUELS hors modale (state post-loop), pas les transitoires intermédiaires — un skip-link focusable brièvement pendant la boucle modale = finding séparé (vrai wart) ≠ FAIL de l'assertion.
 5. **Contrôle de cohérence `scope-compare.statesHash == scope.json.statesHash`** régénéré depuis les artefacts livrés (jamais recopié de mémoire).
+
+### Leçons — audit Tandoor (devin-024f50b0, PARTIAL→corrigé)
+
+1. **Le seed DOIT produire du contenu sur les routes data-dépendantes.** `/recipe/2` scannait « 0 violation » parce que la recette n'avait ni étape ni ingrédient — page quasi vide. Règle : pour chaque route `:id`, le seed rend ≥1 item complet de chaque composant listé (étape, ingrédient, ligne de table) et le manifeste l'explicite. Preuve croisée : si la baseline d'une route cœur est anormalement basse, suspecter un seed vide.
+2. **Les étapes d'auth appartiennent au manifeste au détail près** : `userspace.groups.add('admin')` omis → tout le scope rendait « No Permissions » à 0 violation — un rejeu littéral produisait un faux-PASS global. Lister TOUTES les commandes de seed, groupe/permission compris.
+3. **Assertion tautologique = FAIL de harnais** : `count() >= 0` est toujours vrai (verify.mjs ligne login). Toute assertion doit pouvoir échouer : vérifier l'effet (label[for]/aria-label effectif), jamais une existence ≥0.
+4. **La traversée clavier a besoin de sédimentation** : 3×Tab juste après waitForSelector lit `focused=BODY` (flake). Fix : `waitForTimeout(400)` + `blur()` + ≥150ms entre les Tab.
+5. **Cookies localhost ≠ 127.0.0.1** : un auth.json posé sur localhost n'authentifie pas les scans sur 127.0.0.1 — login.mjs et audit doivent viser le même host.
