@@ -1,0 +1,94 @@
+{
+  "cycle": 22,
+  "project": "PrivateBin/PrivateBin",
+  "commit": "c77f5f1ba0e9dab499cad22d5d13c65b29e20dc6",
+  "framework": "PHP 8.3 server-rendered (apache), template tpl/bootstrap5.php unique, client monolithique js/privatebin.js ; pas de base de données (modèle Filesystem, data/)",
+  "base_url": "http://localhost:8080",
+  "toolVersions": {
+    "node": "v24.19.0 (~/.nvm)",
+    "axe-core": "4.10.x (tools/package.json)",
+    "playwright": "1.x (chromium, tools/package.json)",
+    "runner": "audit.mjs v6 (copie de /audit.mjs du repo, carte STATES figée dans tools/audit.mjs)",
+    "php": "8.3 (image docker php:8.3-apache)"
+  },
+  "boot": {
+    "commands": [
+      "git clone https://github.com/PrivateBin/PrivateBin.git target && cd target && git checkout c77f5f1ba0e9dab499cad22d5d13c65b29e20dc6",
+      "mkdir -p data && chmod 777 data",
+      "docker run -d --name privatebin -p 8080:80 -v $PWD/target:/var/www/html php:8.3-apache",
+      "curl -fsS http://localhost:8080/ >/dev/null"
+    ],
+    "notes": [
+      "Aucun conf.php : toutes les valeurs par défaut de lib/Configuration.php s'appliquent (discussion=true, password=true, qrcode=true, email=true, fileupload=false, languageselection=false, templateselection=false, compression=zlib).",
+      "Avertissement HTTP désactivé de fait : localhost est un secure context, #httpnotice/#insecurecontextnotice restent cachés (legacy.js isSecureContext).",
+      "Le modèle Filesystem écrit data/<2>/<2>/<id>.php ; le dossier data/ doit être inscriptible par www-data du conteneur."
+    ]
+  },
+  "seed": {
+    "script": "tools/seed.mjs — recette complète rejouable : `node tools/seed.mjs http://localhost:8080`",
+    "determinisme": "id = hash('fnv1a64', ct) côté serveur ; clés/IV/sels figés dans le script → ciphertexts, ids et fragments d'URL identiques à chaque replay (y compris install-build). 4 pastes + 2 commentaires emboîtés, POST JSON réels, 12 s entre écritures (trafic limiter 10 s/IP, échecs compris).",
+    "litteraux": {
+      "paste discussion": "Rapport hebdo — point bloquant sur le proxy inverse. Voir le ticket https://github.com/PrivateBin/PrivateBin/issues/2044 … (lien réel, linkifié par urls2links) ; discussion ouverte + 2 commentaires (camille → ines en réponse, le 2e contient un lien)",
+      "paste markdown": "**Notes de mise en production** + liste + lien https://privatebin.info/docs/ (rendu showdown : strong/ul/li/a)",
+      "paste password": "mot de passe 'a11y-privatebin' — la modale #passwordmodal s'ouvre au chargement",
+      "paste burn": "burnafterreading — #loadconfirmmodal s'ouvre avant tout fetch ; jamais confirmée (non destructif, rejouable)"
+    },
+    "details": "clés maîtresses 32 octets fixes ; compression zlib = deflateRawSync (wasm NO_ZLIB_HEADER) ; AAD = JSON.stringify(adata) ; fragment = base58(clé 32 octets) ; burn = préfixe '#-'"
+  },
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls": [
+        "/",
+        "/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+        "/?872e378729d0e06d#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2D",
+        "/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E",
+        "/?09d52e8dde9aaba1#-7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2F",
+        "/?dddddddddddddddd",
+        "/?34f395b60e6f7082"
+      ],
+      "states": [
+        "password-unlock",
+        "qr-modal",
+        "email-modal",
+        "navbar-mobile",
+        "preview-tab",
+        "dark-mode",
+        "comment-reply"
+      ]
+    }
+  ],
+  "urls_notes": {
+    "/": "éditeur de paste (textarea + options navbar + tabs Editor/Preview)",
+    "?34f395b60e6f7082#…": "paste plaintext, discussion ouverte, 2 commentaires emboîtés — rendu déchiffré",
+    "?872e378729d0e06d#…": "paste markdown rendu (strong/ul/li/a showdown)",
+    "?14997909a623b3a1#…": "paste protégé — #passwordmodal ouverte (déchiffrement impossible sans mot de passe)",
+    "?09d52e8dde9aaba1#-…": "paste burn-after-reading — #loadconfirmmodal ouverte, jamais confirmée",
+    "?dddddddddddddddd": "id 16-hex valide inexistant → #errormessage 'Document does not exist' (état 404)",
+    "?34f395b60e6f7082": "id valide sans clé → erreur client 'Cannot decrypt document'"
+  },
+  "states_notes": {
+    "password-unlock": "paste password : saisir 'a11y-privatebin' + submit → contenu déchiffré rendu",
+    "qr-modal": "sur le paste discussion : clic #qrcodelink → #qrcodemodal visible (kjua rendu)",
+    "email-modal": "sur le paste discussion : clic #emaillink → #emailconfirmmodal visible (choix timezone)",
+    "navbar-mobile": "home viewport 390×844 : clic .navbar-toggler → #navbar.show",
+    "preview-tab": "home : saisie markdown dans #message → clic #messagepreview → aperçu rendu",
+    "dark-mode": "home : clic #bd-theme → html[data-bs-theme=dark]",
+    "comment-reply": "paste discussion : clic Reply du 1er commentaire → #replytemplate cloné (textarea + nickname)"
+  },
+  "notes": [
+    "fileupload=false (défaut) : dropdown 'Attach a file' jamais rendu — hors scope.",
+    "languageselection/templateselection=false : menus langue/thème absents du DOM — hors scope.",
+    "urlshortener désactivé : bouton Shorten URL + alerte associée absents — hors scope.",
+    "Le fragment # (clé de déchiffrement) est OBLIGATOIRE : --keep-hash sur tous les scans.",
+    "--wait 4000 fixe : les pages pastes déchiffrent via WebCrypto+fetch avant rendu ; pas de --wait-for global (le signal 'prêt' diffère par page : #sendbutton vs #prettymessage vs modales)."
+  ],
+  "auditCommands": [
+    "cd tools && node audit.mjs http://localhost:8080 --keep-hash --urls $(paste -sd, urls.txt) --states all --wait 4000 --out ../reports/baseline",
+    "cd tools && node audit.mjs http://localhost:8080 --keep-hash --urls $(paste -sd, urls.txt) --states all --wait 4000 --out ../reports/final",
+    "cd tools && node verify.mjs http://localhost:8080",
+    "cd tools && node eval-final.mjs http://localhost:8080"
+  ],
+  "auditCwd": "tools/ (deps résolues via createRequire(cwd/package.json) — node_modules vit dans tools/)"
+}

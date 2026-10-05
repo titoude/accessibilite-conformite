@@ -1,0 +1,248 @@
+diff --git a/css/bootstrap5/privatebin.css b/css/bootstrap5/privatebin.css
+index 50871a76..802575cb 100644
+--- a/css/bootstrap5/privatebin.css
++++ b/css/bootstrap5/privatebin.css
+@@ -57,6 +57,13 @@ html[dir="rtl"] #deletelink, html[dir="rtl"] #qrcodemodalClose {
+ 	padding-right: 30px;
+ }
+ 
++/* bootstrap's default link color (#0d6efd) does not reach a 4.5:1 contrast
++   ratio on the light card/plaintext backgrounds (#f8f9fa) — use the darker
++   hover shade for generated content links. Dark theme keeps #6ea8fe. */
++[data-bs-theme=light] #prettyprint a, [data-bs-theme=light] #plaintext a {
++	--bs-link-color-rgb: var(--bs-link-hover-color-rgb);
++}
++
+ #sendbutton svg {
+ 	transform: translateY(1.5px);
+ }
+diff --git a/js/privatebin.js b/js/privatebin.js
+index 817fa37e..dbccdb3f 100644
+--- a/js/privatebin.js
++++ b/js/privatebin.js
+@@ -2375,6 +2375,8 @@ window.PrivateBin = (function () {
+ 
+             messageEdit.setAttribute('aria-selected', 'true');
+             messagePreview.setAttribute('aria-selected', 'false');
++            messageEdit.setAttribute('tabindex', '0');
++            messagePreview.setAttribute('tabindex', '-1');
+ 
+             PasteViewer.hide();
+ 
+@@ -2409,6 +2411,8 @@ window.PrivateBin = (function () {
+ 
+             messageEdit.setAttribute('aria-selected', 'false');
+             messagePreview.setAttribute('aria-selected', 'true');
++            messageEdit.setAttribute('tabindex', '-1');
++            messagePreview.setAttribute('tabindex', '0');
+ 
+             // hide input as now preview is shown
+             message.classList.add('hidden');
+@@ -2556,6 +2560,37 @@ window.PrivateBin = (function () {
+                 messagePreview.addEventListener('click', viewPreview);
+                 messagePreviewParent = messagePreview.parentElement;
+             }
++
++            // ARIA tablist keyboard support: arrow keys move focus between
++            // tabs, Home/End jump to first/last tab.
++            const handleTabKeydown = function (event) {
++                const tabs = [messageEdit, messagePreview].filter(t => t);
++                const idx = tabs.indexOf(event.currentTarget);
++                if (idx < 0) {
++                    return;
++                }
++                let next = -1;
++                if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
++                    next = (idx + 1) % tabs.length;
++                } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
++                    next = (idx - 1 + tabs.length) % tabs.length;
++                } else if (event.key === 'Home') {
++                    next = 0;
++                } else if (event.key === 'End') {
++                    next = tabs.length - 1;
++                }
++                if (next >= 0 && next !== idx) {
++                    event.preventDefault();
++                    tabs[next].focus();
++                    tabs[next].click();
++                }
++            };
++            if (messageEdit) {
++                messageEdit.addEventListener('keydown', handleTabKeydown);
++            }
++            if (messagePreview) {
++                messagePreview.addEventListener('keydown', handleTabKeydown);
++            }
+         };
+ 
+         return me;
+diff --git a/lib/Configuration.php b/lib/Configuration.php
+index 1731288e..fb338936 100644
+--- a/lib/Configuration.php
++++ b/lib/Configuration.php
+@@ -124,7 +124,7 @@ class Configuration
+             'js/kjua-0.10.0.js'      => 'sha512-BYj4xggowR7QD150VLSTRlzH62YPfhpIM+b/1EUEr7RQpdWAGKulxWnOvjFx1FUlba4m6ihpNYuQab51H6XlYg==',
+             'js/legacy.js'           => 'sha512-pRofxsrf5UItjiP22Dcjh3FAcBjF/n7h8U9/W5xqJk17U0N2U1oajhXypq/omo9jhwS1iVGOhWrRepoPeFns+w==',
+             'js/prettify.js'         => 'sha512-puO0Ogy++IoA2Pb9IjSxV1n4+kQkKXYAEUtVzfZpQepyDPyXk8hokiYDS7ybMogYlyyEIwMLpZqVhCkARQWLMg==',
+-            'js/privatebin.js'       => 'sha512-HedKxoytOeYbMzjcN3x7/FW01Moba3U9SZI7Yi3V7CkO7B2wsvmgr8kGeurHW0hZssKxGA/3UZ+3tNdsO4o/UA==',
++            'js/privatebin.js'       => 'sha512-z7LaXgl+hHlqScYDu5LmlzJlEOuEDz/2zZndYpJ/g6SZ0D7b8IGhUTFB1aMagvGLY4eaSv50OlK6Y+pvLMy9kg==',
+             'js/purify-3.4.12.js'    => 'sha512-Akf6HnAJZm0sWWWI4gp2GYff0NDnHUB02XJE5S7Hdq/Z5xtMjkuFacsDA8ZtViv1gi+onBxMhEMIaGyQeGxBng==',
+             'js/showdown-2.1.0.js'   => 'sha512-WYXZgkTR0u/Y9SVIA4nTTOih0kXMEd8RRV6MLFdL6YU8ymhR528NLlYQt1nlJQbYz4EW+ZsS0fx1awhiQJme1Q==',
+             'js/zlib-1.3.2.js'       => 'sha512-RAhJgxg9siMIA8ky4c10Rc2zUgnK80olHB8Tt1IOYWY4Eh1WmrviQkDn+sgBlb38ZHq3tzufGC41kP360gmosQ==',
+diff --git a/tpl/bootstrap5.php b/tpl/bootstrap5.php
+index 409cd981..9a68bda1 100644
+--- a/tpl/bootstrap5.php
++++ b/tpl/bootstrap5.php
+@@ -75,13 +75,13 @@ endif;
+ 		<meta property="og:image:height" content="180" />
+ 	</head>
+ 	<body role="document" data-compression="<?php echo rawurlencode($COMPRESSION); ?>" class="d-flex flex-column h-100">
+-		<div id="passwordmodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true">
++		<div id="passwordmodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="passwordmodal-title">
+ 			<div class="modal-dialog" role="document">
+ 				<div class="modal-content">
+ 					<div class="modal-body">
+ 						<form id="passwordform" role="form">
+ 							<div class="mb-3">
+-								<label for="passworddecrypt"><svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="img/bootstrap-icons.svg#eye" /></svg> <?php echo I18n::_('Please enter the password for this document:') ?></label>
++								<label for="passworddecrypt" id="passwordmodal-title"><svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="img/bootstrap-icons.svg#eye" /></svg> <?php echo I18n::_('Please enter the password for this document:') ?></label>
+ 								<div class="input-group">
+ 									<input id="passworddecrypt" type="password" class="form-control input-password" placeholder="<?php echo I18n::_('Enter password') ?>" required="required" />
+ 									<button class="btn btn-outline-secondary toggle-password" type="button" title="<?php echo I18n::_('Show password'); ?>" aria-label="<?php echo I18n::_('Show password'); ?>">
+@@ -95,11 +95,11 @@ endif;
+ 				</div>
+ 			</div>
+ 		</div>
+-		<div id="loadconfirmmodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true">
++		<div id="loadconfirmmodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="loadconfirmmodal-title">
+ 			<div class="modal-dialog" role="document">
+ 				<div class="modal-content">
+ 					<div class="modal-header">
+-						<h5 class="modal-title"><?php echo I18n::_('This secret message can only be displayed once. Would you like to see it now?') ?></h5>
++						<h2 class="modal-title h5" id="loadconfirmmodal-title"><?php echo I18n::_('This secret message can only be displayed once. Would you like to see it now?') ?></h2>
+ 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo I18n::_('Close') ?>"></button>
+ 					</div>
+ 					<div class="modal-body text-center">
+@@ -111,15 +111,15 @@ endif;
+ <?php
+ if ($QRCODE) :
+ ?>
+-		<div id="qrcodemodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true">
++		<div id="qrcodemodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="qrcodemodal-title">
+ 			<div class="modal-dialog" role="document">
+ 				<div class="modal-content">
+ 					<div class="modal-header">
+-						<h5 class="modal-title"><?php echo I18n::_('QR code') ?></h5>
++						<h2 class="modal-title h5" id="qrcodemodal-title"><?php echo I18n::_('QR code') ?></h2>
+ 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo I18n::_('Close') ?>"></button>
+ 					</div>
+ 					<div class="modal-body">
+-						<div class="mx-auto" id="qrcode-display"></div>
++						<div class="mx-auto" id="qrcode-display" role="img" aria-label="<?php echo I18n::_('QR code containing the URL to this paste'); ?>"></div>
+ 					</div>
+ 				</div>
+ 			</div>
+@@ -128,11 +128,11 @@ if ($QRCODE) :
+ endif;
+ if ($EMAIL) :
+ ?>
+-		<div id="emailconfirmmodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true">
++		<div id="emailconfirmmodal" tabindex="-1" class="modal fade" role="dialog" aria-hidden="true" aria-labelledby="emailconfirmmodal-title">
+ 			<div class="modal-dialog" role="document">
+ 				<div class="modal-content">
+ 					<div class="modal-header">
+-						<h5 class="modal-title"><?php echo I18n::_('Recipient may become aware of your timezone, convert time to UTC?') ?></h5>
++						<h2 class="modal-title h5" id="emailconfirmmodal-title"><?php echo I18n::_('Recipient may become aware of your timezone, convert time to UTC?') ?></h2>
+ 						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<?php echo I18n::_('Close') ?>"></button>
+ 					</div>
+ 					<div class="modal-body row">
+@@ -151,9 +151,9 @@ endif;
+ ?>
+ 		<nav class="navbar navbar-expand-lg bg-body-tertiary text-nowrap mb-3">
+ 			<div class="container-fluid">
+-				<a class="reloadlink navbar-brand" href="">
++				<h1 class="navbar-brand mb-0"><a class="reloadlink" href="">
+ 					<img alt="<?php echo I18n::_($NAME); ?>" src="img/icon.svg" height="38" />
+-				</a>
++				</a></h1>
+ 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo I18n::_('Toggle navigation'); ?>">
+ 					<span class="navbar-toggler-icon"></span>
+ 				</button>
+@@ -465,21 +465,23 @@ if (!empty($URLSHORTENER)) :
+ endif;
+ ?>
+ 				</div>
+-				<ul id="editorTabs" class="nav nav-tabs hidden">
+-					<li role="presentation" class="nav-item me-1"><a class="nav-link active" role="tab" id="messageedit" href="#"><?php echo I18n::_('Editor'); ?></a></li>
+-					<li role="presentation" class="nav-item me-1"><a class="nav-link" role="tab" id="messagepreview" href="#"><?php echo I18n::_('Preview'); ?></a></li>
+-					<li role="presentation" class="nav-item ms-auto">
+-						<button id="sendbutton" type="button" tabindex="2" class="hidden btn btn-primary d-flex justify-content-center align-items-center gap-1" title="<?php echo I18n::_('Hit %s+s to create the document, storing it on %s', I18n::getCopyHotkey(), I18n::_($NAME)); ?>" aria-keyshortcuts="Control+S Meta+S">
++				<div class="d-flex w-100">
++					<ul id="editorTabs" class="nav nav-tabs hidden flex-fill" role="tablist" aria-label="<?php echo I18n::_('Paste editor view'); ?>">
++						<li role="presentation" class="nav-item me-1"><a class="nav-link active" role="tab" id="messageedit" href="#" aria-selected="true" aria-controls="editorpanel" tabindex="0"><?php echo I18n::_('Editor'); ?></a></li>
++						<li role="presentation" class="nav-item me-1"><a class="nav-link" role="tab" id="messagepreview" href="#" aria-selected="false" aria-controls="prettymessage" tabindex="-1"><?php echo I18n::_('Preview'); ?></a></li>
++					</ul>
++					<div class="nav-item ms-auto">
++						<button id="sendbutton" type="button" class="hidden btn btn-primary d-flex justify-content-center align-items-center gap-1" title="<?php echo I18n::_('Hit %s+s to create the document, storing it on %s', I18n::getCopyHotkey(), I18n::_($NAME)); ?>" aria-keyshortcuts="Control+S Meta+S">
+ 							<svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="img/bootstrap-icons.svg#cloud-upload" /></svg> <?php echo I18n::_('Create'), PHP_EOL; ?>
+ 						</button>
+-					</li>
+-				</ul>
++					</div>
++				</div>
+ 			</section>
+ 			<section class="container-fluid">
+ 				<article>
+ 					<div id="placeholder" class="col-md-12 hidden"><?php echo I18n::_('+++ no document text +++'); ?></div>
+ 					<div id="attachmentPreview" class="col-md-12 text-center hidden"></div>
+-					<h6 id="copyShortcutHint" class="col-md-12 nav justify-content-between align-items-center mb-2 hidden">
++					<h2 id="copyShortcutHint" class="h6 col-md-12 nav justify-content-between align-items-center mb-2 hidden">
+ 						<small id="copyShortcutHintText" class="d-none d-md-inline">
+ 							<?php
+ 								echo I18n::_("To copy document press on the copy button or use the clipboard shortcut <kbd>%s</kbd>+<kbd>c</kbd>", I18n::getCopyHotkey())
+@@ -487,13 +489,13 @@ endif;
+ 						</small>
+ 						<button type="button" id="copyShortcutHintBtn" class="btn btn-secondary ms-auto"><?php echo I18n::_('Copy'); ?></button>
+ 					</h6>
+-					<div id="prettymessage" class="card col-md-12 hidden">
++					<div id="prettymessage" class="card col-md-12 hidden" role="tabpanel" aria-labelledby="messagepreview">
+ 						<pre id="prettyprint" class="card-body col-md-12 prettyprint linenums:1"></pre>
+ 					</div>
+ 					<div id="plaintext" class="col-md-12 hidden"></div>
+-					<p class="col-md-12"><textarea id="message" name="message" cols="80" rows="25" aria-label="<?php echo I18n::_('Document text'); ?>" tabindex="1" class="form-control hidden"></textarea></p>
++					<p class="col-md-12" id="editorpanel" role="tabpanel" aria-labelledby="messageedit"><textarea id="message" name="message" cols="80" rows="25" aria-label="<?php echo I18n::_('Document text'); ?>" class="form-control hidden"></textarea></p>
+ 					<p class="col-md-12 form-check form-switch">
+-						<input id="messagetab" type="checkbox" tabindex="3" class="form-check-input" checked="checked" />
++						<input id="messagetab" type="checkbox" class="form-check-input" checked="checked" />
+ 						<label for="messagetab" class="form-check-label">
+ 							<?php echo I18n::_('Tabulator key serves as character (Hit <kbd>Ctrl</kbd>+<kbd>m</kbd> or <kbd>Esc</kbd> to toggle)'), PHP_EOL; ?>
+ 						</label>
+@@ -502,7 +504,7 @@ endif;
+ 			</section>
+ 			<section class="container-fluid">
+ 				<div id="discussion" class="hidden">
+-					<h4><?php echo I18n::_('Discussion'); ?></h4>
++					<h2 class="h4"><?php echo I18n::_('Discussion'); ?></h2>
+ 					<div id="commentcontainer"></div>
+ 				</div>
+ 			</section>
+@@ -516,7 +518,7 @@ endif;
+ 		</main>
+ 		<footer class="container-fluid mt-auto">
+ 			<div class="row">
+-				<h5 class="col-md-5 col-xs-8"><?php echo I18n::_($NAME); ?> <small>- <?php echo I18n::_('Because ignorance is bliss'); ?></small></h5>
++				<h2 class="h5 col-md-5 col-xs-8"><?php echo I18n::_($NAME); ?> <small>- <?php echo I18n::_('Because ignorance is bliss'); ?></small></h2>
+ 				<p class="col-md-1 col-xs-4 text-center"><?php echo $VERSION; ?></p>
+ 				<p id="aboutbox" class="col-md-6 col-xs-12">
+ 					<?php echo sprintf(
+@@ -543,8 +545,8 @@ endif;
+ 					<button class="btn btn-secondary btn-sm"><?php echo I18n::_('Add comment'); ?></button>
+ 				</p>
+ 				<div id="replytemplate" class="reply hidden">
+-					<input type="text" id="nickname" class="form-control my-2" title="<?php echo I18n::_('Optional nickname…'); ?>" placeholder="<?php echo I18n::_('Optional nickname…'); ?>" />
+-					<textarea id="replymessage" class="replymessage form-control" cols="80" rows="7"></textarea><br />
++					<label class="form-label my-2"><?php echo I18n::_('Optional nickname…'); ?><input type="text" id="nickname" class="form-control" title="<?php echo I18n::_('Optional nickname…'); ?>" placeholder="<?php echo I18n::_('Optional nickname…'); ?>" /></label>
++					<label class="form-label"><?php echo I18n::_('Your comment'); ?><textarea id="replymessage" class="replymessage form-control" cols="80" rows="7"></textarea></label><br />
+ 					<div id="replystatus" role="alert" class="statusmessage hidden alert">
+ 						<svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="img/bootstrap-icons.svg#info-circle" /></svg>
+ 					</div>

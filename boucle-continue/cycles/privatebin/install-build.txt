@@ -1,0 +1,17 @@
+INSTALL-BUILD CYCLE 22 — rejoue complète sur clone propre
+=========================================================
+1. git clone https://github.com/PrivateBin/PrivateBin.git target (~/ib/target)
+2. git checkout c77f5f1ba0e9dab499cad22d5d13c65b29e20dc6
+3. git apply patch.diff                                    → 4 fichiers modifiés, propre
+4. mkdir -p data && chmod 777 data
+5. docker rm -f privatebin ; docker run -d --name privatebin-ib -p 8080:80 -v $PWD:/var/www/html php:8.3-apache
+6. curl http://localhost:8080/                             → 200
+7. node tools/seed.mjs http://localhost:8080               → data/ vierge : 6 POST, 12s intervalle (trafic limiter)
+   ids REPRODUITS (déterminisme fnv1a64) :
+   plaintext-discussion 34f395b60e6f7082, markdown 872e378729d0e06d,
+   password 14997909a623b3a1, burn 09d52e8dde9aaba1,
+   commentaires 307aafd6a70e53f1 + a4cdc6286e2bfd5d — identiques au seed d'origine
+8. node audit.mjs http://localhost:8080 --keep-hash --urls $(paste -sd, urls.txt) --states all --wait 4000 --out ../reports/install-build
+   → 0 règles violées / 0 occurrences / 0 erreurs / 15 incomplets / exit 0 (14/14 scénarios, scopeHash identique)
+9. node verify.mjs http://localhost:8080                   → 24/24 assertions
+10. node eval-final.mjs http://localhost:8080              → 9/9 contrôles indépendants

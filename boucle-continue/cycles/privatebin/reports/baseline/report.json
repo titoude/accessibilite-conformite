@@ -1,0 +1,2635 @@
+{
+  "runId": "719570d2-3a56-48b0-b6e0-77da173e9175",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-05T00:30:01.968Z",
+  "baseUrl": "http://localhost:8080",
+  "pages": [
+    {
+      "url": "http://localhost:8080/",
+      "requestedUrl": "http://localhost:8080/",
+      "violations": [
+        {
+          "id": "aria-required-parent",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require parent roles are contained by them",
+          "help": "Certain ARIA roles must be contained by particular parents",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-parent?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link active\" role=\"tab\" id=\"messageedit\" href=\"#\">Editor</a>",
+              "target": [
+                "#messageedit"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link\" role=\"tab\" id=\"messagepreview\" href=\"#\">Preview</a>",
+              "target": [
+                "#messagepreview"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            }
+          ]
+        },
+        {
+          "id": "list",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "only-listitems",
+                  "data": {
+                    "values": "[role=presentation]"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link active\" role=\"tab\" id=\"messageedit\" href=\"#\">Editor</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link\" role=\"tab\" id=\"messagepreview\" href=\"#\">Preview</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item ms-auto\">",
+                      "target": [
+                        ".ms-auto.nav-item[role=\"presentation\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "List element has direct children that are not allowed: [role=presentation]"
+                }
+              ],
+              "impact": "serious",
+              "html": "<ul id=\"editorTabs\" class=\"nav nav-tabs\">",
+              "target": [
+                "#editorTabs"
+              ],
+              "failureSummary": "Fix all of the following:\n  List element has direct children that are not allowed: [role=presentation]"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button id=\"sendbutton\" type=\"button\" tabindex=\"2\" class=\"btn btn-primary d-flex justify-content-center align-items-center gap-1\" title=\"Hit Ctrl+s to create the document, storing it on PrivateBin\" aria-keyshortcuts=\"Control+S Meta+S\">",
+              "target": [
+                "#sendbutton"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            },
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<textarea id=\"message\" name=\"message\" cols=\"80\" rows=\"25\" aria-label=\"Document text\" tabindex=\"1\" class=\"form-control\"></textarea>",
+              "target": [
+                "#message"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            },
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+                      "target": [
+                        "#pasteExpiration"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+              "target": [
+                "#pasteExpiration"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+                      "target": [
+                        "#pasteFormatter"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+              "target": [
+                "#pasteFormatter"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p id=\"aboutbox\" class=\"col-md-6 col-xs-12\">",
+              "target": [
+                "#aboutbox"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body role=\"document\" data-compression=\"zlib\" class=\"d-flex flex-column h-100\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<i>in the browser</i>",
+              "target": [
+                "i"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "requestedUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#0d6efd",
+                    "bgColor": "#f8f9fa",
+                    "contrastRatio": 4.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<pre id=\"prettyprint\" class=\"card-body col-md-12 linenums:1\" style=\"white-space: pre-wrap; word-break: normal;\">",
+                      "target": [
+                        "#prettyprint"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://github.com/PrivateBin/PrivateBin/issues/2044\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://github.com/PrivateBin/PrivateBin/issues/2044</a>",
+              "target": [
+                "#prettyprint > a[target=\"_blank\"][rel=\"nofollow noopener noreferrer\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?872e378729d0e06d#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2D",
+      "requestedUrl": "http://localhost:8080/?872e378729d0e06d#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2D",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?872e378729d0e06d#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2D",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E",
+      "requestedUrl": "http://localhost:8080/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E",
+      "violations": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"passwordmodal\" tabindex=\"-1\" class=\"modal fade show\" role=\"dialog\" aria-modal=\"true\" style=\"display: block;\">",
+              "target": [
+                "#passwordmodal"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?09d52e8dde9aaba1#-7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2F",
+      "requestedUrl": "http://localhost:8080/?09d52e8dde9aaba1#-7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2F",
+      "violations": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"loadconfirmmodal\" tabindex=\"-1\" class=\"modal fade show\" role=\"dialog\" aria-modal=\"true\" style=\"display: block;\">",
+              "target": [
+                "#loadconfirmmodal"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "15.0pt (20px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h5 class=\"modal-title\">This secret message can only be displayed once. Would you like to see it now?</h5>",
+              "target": [
+                "#loadconfirmmodal > .modal-dialog[role=\"document\"] > .modal-content > .modal-header > .modal-title"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?09d52e8dde9aaba1#-7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2F",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?dddddddddddddddd",
+      "requestedUrl": "http://localhost:8080/?dddddddddddddddd",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?dddddddddddddddd",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?34f395b60e6f7082",
+      "requestedUrl": "http://localhost:8080/?34f395b60e6f7082",
+      "violations": [
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?34f395b60e6f7082",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E [state:password-unlock]",
+      "requestedUrl": "http://localhost:8080/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#0d6efd",
+                    "bgColor": "#f8f9fa",
+                    "contrastRatio": 4.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<pre id=\"prettyprint\" class=\"card-body col-md-12 linenums:1\" style=\"white-space: pre-wrap; word-break: normal;\">",
+                      "target": [
+                        "#prettyprint"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://privatebin.info/\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://privatebin.info/</a>",
+              "target": [
+                "a[target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?14997909a623b3a1#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2E",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C [state:qr-modal]",
+      "requestedUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "violations": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"qrcodemodal\" tabindex=\"-1\" class=\"modal fade show\" role=\"dialog\" aria-modal=\"true\" style=\"display: block;\">",
+              "target": [
+                "#qrcodemodal"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#0d6efd",
+                    "bgColor": "#f8f9fa",
+                    "contrastRatio": 4.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<pre id=\"prettyprint\" class=\"card-body col-md-12 linenums:1\" style=\"white-space: pre-wrap; word-break: normal;\">",
+                      "target": [
+                        "#prettyprint"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://github.com/PrivateBin/PrivateBin/issues/2044\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://github.com/PrivateBin/PrivateBin/issues/2044</a>",
+              "target": [
+                "#prettyprint > a[target=\"_blank\"][rel=\"nofollow noopener noreferrer\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C [state:email-modal]",
+      "requestedUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "violations": [
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div id=\"emailconfirmmodal\" tabindex=\"-1\" class=\"modal fade show\" role=\"dialog\" aria-modal=\"true\" style=\"display: block;\">",
+              "target": [
+                "#emailconfirmmodal"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#0d6efd",
+                    "bgColor": "#f8f9fa",
+                    "contrastRatio": 4.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<pre id=\"prettyprint\" class=\"card-body col-md-12 linenums:1\" style=\"white-space: pre-wrap; word-break: normal;\">",
+                      "target": [
+                        "#prettyprint"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://github.com/PrivateBin/PrivateBin/issues/2044\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://github.com/PrivateBin/PrivateBin/issues/2044</a>",
+              "target": [
+                "#prettyprint > a[target=\"_blank\"][rel=\"nofollow noopener noreferrer\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "15.0pt (20px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h5 class=\"modal-title\">Recipient may become aware of your timezone, convert time to UTC?</h5>",
+              "target": [
+                "#emailconfirmmodal > .modal-dialog[role=\"document\"] > .modal-content > .modal-header > .modal-title"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button id=\"emailconfirm-timezone-current\" type=\"button\" class=\"btn btn-danger\"><svg width=\"16\" height=\"16\" fill=\"currentColor\" aria-hidden=\"true\"><use href=\"img/bootstrap-icons.svg#clock\"></use></svg> Use Current Timezone</button>",
+              "target": [
+                "#emailconfirm-timezone-current"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/ [state:preview-tab]",
+      "requestedUrl": "http://localhost:8080/",
+      "violations": [
+        {
+          "id": "aria-required-parent",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require parent roles are contained by them",
+          "help": "Certain ARIA roles must be contained by particular parents",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-parent?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link\" role=\"tab\" id=\"messageedit\" href=\"#\" aria-selected=\"false\">Editor</a>",
+              "target": [
+                "#messageedit"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link active\" role=\"tab\" id=\"messagepreview\" href=\"#\" aria-selected=\"true\">Preview</a>",
+              "target": [
+                "#messagepreview"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#0d6efd",
+                    "bgColor": "#f8f9fa",
+                    "contrastRatio": 4.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<pre id=\"prettyprint\" class=\"card-body col-md-12 linenums:1\" style=\"white-space: pre-wrap; word-break: normal;\">**Aperçu** avec un lien <a href=\"https://example.com/test\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://example.com/test</a> et *de l'italique*.</pre>",
+                      "target": [
+                        "#prettyprint"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://example.com/test\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://example.com/test</a>",
+              "target": [
+                "a[href$=\"test\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "list",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "only-listitems",
+                  "data": {
+                    "values": "[role=presentation]"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link\" role=\"tab\" id=\"messageedit\" href=\"#\" aria-selected=\"false\">Editor</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1 active\"><a class=\"nav-link active\" role=\"tab\" id=\"messagepreview\" href=\"#\" aria-selected=\"true\">Preview</a></li>",
+                      "target": [
+                        ".active.me-1[role=\"presentation\"]"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item ms-auto\">",
+                      "target": [
+                        ".ms-auto.nav-item[role=\"presentation\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "List element has direct children that are not allowed: [role=presentation]"
+                }
+              ],
+              "impact": "serious",
+              "html": "<ul id=\"editorTabs\" class=\"nav nav-tabs\">",
+              "target": [
+                "#editorTabs"
+              ],
+              "failureSummary": "Fix all of the following:\n  List element has direct children that are not allowed: [role=presentation]"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button id=\"sendbutton\" type=\"button\" tabindex=\"2\" class=\"btn btn-primary d-flex justify-content-center align-items-center gap-1\" title=\"Hit Ctrl+s to create the document, storing it on PrivateBin\" aria-keyshortcuts=\"Control+S Meta+S\">",
+              "target": [
+                "#sendbutton"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+                      "target": [
+                        "#pasteExpiration"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+              "target": [
+                "#pasteExpiration"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+                      "target": [
+                        "#pasteFormatter"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+              "target": [
+                "#pasteFormatter"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C [state:comment-reply]",
+      "requestedUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#0d6efd",
+                    "bgColor": "#f8f9fa",
+                    "contrastRatio": 4.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<pre id=\"prettyprint\" class=\"card-body col-md-12 linenums:1\" style=\"white-space: pre-wrap; word-break: normal;\">",
+                      "target": [
+                        "#prettyprint"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://github.com/PrivateBin/PrivateBin/issues/2044\" target=\"_blank\" rel=\"nofollow noopener noreferrer\">https://github.com/PrivateBin/PrivateBin/issues/2044</a>",
+              "target": [
+                "#prettyprint > a[target=\"_blank\"][rel=\"nofollow noopener noreferrer\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 4.26 (foreground color: #0d6efd, background color: #f8f9fa, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "label-title-only",
+          "impact": "serious",
+          "tags": [
+            "cat.forms",
+            "best-practice"
+          ],
+          "description": "Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes",
+          "help": "Form elements should have a visible label",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/label-title-only?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "title-only",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Only title used to generate label for form element"
+                }
+              ],
+              "impact": "serious",
+              "html": "<input type=\"text\" id=\"nickname\" class=\"form-control my-2\" title=\"Optional nickname…\" placeholder=\"Optional nickname…\">",
+              "target": [
+                "#reply > .my-2[type=\"text\"][title=\"Optional nickname…\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Only title used to generate label for form element"
+            }
+          ]
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "description": "Ensure every form element has a label",
+          "help": "Form elements must have labels",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "non-empty-placeholder",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no placeholder attribute"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<textarea id=\"replymessage\" class=\"replymessage form-control\" cols=\"80\" rows=\"7\"></textarea>",
+              "target": [
+                "#reply > .replymessage[rows=\"7\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body role=\"document\" data-compression=\"zlib\" class=\"d-flex flex-column h-100\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"commentdata\">Confirmé, le correctif proxy est mergé. Je clôture le point.</div>",
+              "target": [
+                "#comment_a4cdc6286e2bfd5d > .commentdata"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/?34f395b60e6f7082#7YQ46ok4m43aCrE7PWMWZYGWUqewWyV3mgMJ6HiWFU2C",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/ [state:navbar-mobile]",
+      "requestedUrl": "http://localhost:8080/",
+      "violations": [
+        {
+          "id": "aria-required-parent",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require parent roles are contained by them",
+          "help": "Certain ARIA roles must be contained by particular parents",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-parent?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link active\" role=\"tab\" id=\"messageedit\" href=\"#\">Editor</a>",
+              "target": [
+                "#messageedit"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link\" role=\"tab\" id=\"messagepreview\" href=\"#\">Preview</a>",
+              "target": [
+                "#messagepreview"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            }
+          ]
+        },
+        {
+          "id": "list",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "only-listitems",
+                  "data": {
+                    "values": "[role=presentation]"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link active\" role=\"tab\" id=\"messageedit\" href=\"#\">Editor</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link\" role=\"tab\" id=\"messagepreview\" href=\"#\">Preview</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item ms-auto\">",
+                      "target": [
+                        ".ms-auto.nav-item[role=\"presentation\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "List element has direct children that are not allowed: [role=presentation]"
+                }
+              ],
+              "impact": "serious",
+              "html": "<ul id=\"editorTabs\" class=\"nav nav-tabs\">",
+              "target": [
+                "#editorTabs"
+              ],
+              "failureSummary": "Fix all of the following:\n  List element has direct children that are not allowed: [role=presentation]"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"light\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button id=\"sendbutton\" type=\"button\" tabindex=\"2\" class=\"btn btn-primary d-flex justify-content-center align-items-center gap-1\" title=\"Hit Ctrl+s to create the document, storing it on PrivateBin\" aria-keyshortcuts=\"Control+S Meta+S\">",
+              "target": [
+                "#sendbutton"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            },
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<textarea id=\"message\" name=\"message\" cols=\"80\" rows=\"25\" aria-label=\"Document text\" tabindex=\"1\" class=\"form-control\"></textarea>",
+              "target": [
+                "#message"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            },
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+                      "target": [
+                        "#pasteExpiration"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+              "target": [
+                "#pasteExpiration"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+                      "target": [
+                        "#pasteFormatter"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+              "target": [
+                "#pasteFormatter"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/ [state:dark-mode]",
+      "requestedUrl": "http://localhost:8080/",
+      "violations": [
+        {
+          "id": "aria-required-parent",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require parent roles are contained by them",
+          "help": "Certain ARIA roles must be contained by particular parents",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-required-parent?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link active\" role=\"tab\" id=\"messageedit\" href=\"#\">Editor</a>",
+              "target": [
+                "#messageedit"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a class=\"nav-link\" role=\"tab\" id=\"messagepreview\" href=\"#\">Preview</a>",
+              "target": [
+                "#messagepreview"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            }
+          ]
+        },
+        {
+          "id": "list",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "only-listitems",
+                  "data": {
+                    "values": "[role=presentation]"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link active\" role=\"tab\" id=\"messageedit\" href=\"#\">Editor</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item me-1\"><a class=\"nav-link\" role=\"tab\" id=\"messagepreview\" href=\"#\">Preview</a></li>",
+                      "target": [
+                        ".me-1.nav-item[role=\"presentation\"]:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<li role=\"presentation\" class=\"nav-item ms-auto\">",
+                      "target": [
+                        ".ms-auto.nav-item[role=\"presentation\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "List element has direct children that are not allowed: [role=presentation]"
+                }
+              ],
+              "impact": "serious",
+              "html": "<ul id=\"editorTabs\" class=\"nav nav-tabs\">",
+              "target": [
+                "#editorTabs"
+              ],
+              "failureSummary": "Fix all of the following:\n  List element has direct children that are not allowed: [role=presentation]"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"h-100\" data-bs-theme=\"dark\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "tabindex",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "best-practice"
+          ],
+          "description": "Ensure tabindex attribute values are not greater than 0",
+          "help": "Elements should not have tabindex greater than zero",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button id=\"sendbutton\" type=\"button\" tabindex=\"2\" class=\"btn btn-primary d-flex justify-content-center align-items-center gap-1\" title=\"Hit Ctrl+s to create the document, storing it on PrivateBin\" aria-keyshortcuts=\"Control+S Meta+S\">",
+              "target": [
+                "#sendbutton"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            },
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<textarea id=\"message\" name=\"message\" cols=\"80\" rows=\"25\" aria-label=\"Document text\" tabindex=\"1\" class=\"form-control\"></textarea>",
+              "target": [
+                "#message"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            },
+            {
+              "any": [
+                {
+                  "id": "tabindex",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has a tabindex greater than 0"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input id=\"messagetab\" type=\"checkbox\" tabindex=\"3\" class=\"form-check-input\" checked=\"checked\">",
+              "target": [
+                "#messagetab"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a tabindex greater than 0"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+                      "target": [
+                        "#pasteExpiration"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteExpiration\" name=\"pasteExpiration\" class=\"form-select\">",
+              "target": [
+                "#pasteExpiration"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+                      "target": [
+                        "#pasteFormatter"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select id=\"pasteFormatter\" name=\"pasteFormatter\" class=\"form-select\">\n\t\t\t\t\t\t\t\t<option value=\"plaintext\" selected=\"selected\">Plain Text</option>\n\t\t\t\t\t\t\t\t<option value=\"syntaxhighlighting\">Source Code</option>\n\t\t\t\t\t\t\t\t<option value=\"markdown\">Markdown</option>\n\t\t\t\t\t\t\t</select>",
+              "target": [
+                "#pasteFormatter"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body role=\"document\" data-compression=\"zlib\" class=\"d-flex flex-column h-100\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p id=\"aboutbox\" class=\"col-md-6 col-xs-12\">",
+              "target": [
+                "#aboutbox"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body role=\"document\" data-compression=\"zlib\" class=\"d-flex flex-column h-100\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"https://privatebin.info/\">project page</a>",
+              "target": [
+                "a[href$=\"privatebin.info/\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "79a62c3ec780bd86d10b10ecbd026f1ccc881c4258fb2bd5b0caac59ec06f022"
+}
