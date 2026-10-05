@@ -1,75 +1,89 @@
 {
- "produit": "owncast/owncast",
- "sha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
- "baseSha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
- "baseline": {
-  "rules": 17,
-  "occurrences": 107,
-  "errors": 0,
-  "scenarios": 29,
-  "detail": "reports/baseline-public (4 pages, 18 occ) + reports/baseline-admin (25 pages, 89 occ) ; règles : color-contrast 31, html-has-lang 29, heading-order 10, empty-table-header 9, region 7, target-size 3, aria-input-field-name 3, aria-progressbar-name 3, image-alt 2, link-in-text-block 2, label 2, landmark-one-main 1, meta-viewport 1, document-title 1, role-img-alt 1, aria-required-children 1, empty-heading 1",
-  "correction_v2": "comptes corrigés d'après les report.json versionnés (audit tiers O2 : 136/18 → 107/17 réels)"
- },
- "final": {
-  "rules": 0,
-  "occurrences": 0,
-  "errors": 0,
-  "scenarios": 36,
-  "detail": "reports/final-public (4 pages) + final-admin (25 pages) + final-states (6 états dynamiques + base) ; 175 incomplets tracés dans decisionsIncomplets"
- },
- "verifications": {
-  "audit_commands": "voir manifest.auditCommands — rejouées verbatim sur le build livré",
-  "verify": "verify.mjs : PASS public (6/6) + admin (14/14) — noms accessibles, contrastes mesurés, ids uniques, tablist propre, couche landmark",
-  "eval_final": "eval-final.mjs : PASS public (8/8) + admin (24 pages E1 h1+main+titre, E7-E10, 0 échec)",
-  "install_build": "voir install-build.log — checkout propre @ sha + patch.diff : npm ci + npm run build (31/31 pages) + go build + démarrage + seed + rescan spot"
- },
- "decisionsIncomplets": [
-  {
-   "regle": "aria-valid-attr-value",
-   "occurrences": 125,
-   "decision": "N-A structurel (justifié)",
-   "justification": "antd v6 positionne aria-controls vers des ids rc-menu-uuid-* rendus paresseusement (popup non montée au repos). L'id existe dès que le sous-menu est ouvert ; axe ne peut le vérifier à l'état fermé. Corriger exigerait de forcer le montage des popups antd — hors périmètre raisonnable ; pattern amont antd."
+  "produit": "owncast/owncast",
+  "sha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
+  "baseSha": "cd64bdf44f11998e71e6c4e9ac522ea4a8f2dd1a",
+  "baseline": {
+    "rules": 17,
+    "occurrences": 107,
+    "errors": 0,
+    "scenarios": 29,
+    "detail": "reports/baseline-public (4 pages, 18 occ) + reports/baseline-admin (25 pages, 89 occ) ; règles : color-contrast 31, html-has-lang 29, heading-order 10, empty-table-header 9, region 7, target-size 3, aria-input-field-name 3, aria-progressbar-name 3, image-alt 2, link-in-text-block 2, label 2, landmark-one-main 1, meta-viewport 1, document-title 1, role-img-alt 1, aria-required-children 1, empty-heading 1",
+    "correction_v2": "comptes corrigés d'après les report.json versionnés (audit tiers O2 : 136/18 → 107/17 réels)"
   },
-  {
-   "regle": "color-contrast",
-   "occurrences": 34,
-   "decision": "mesuré conforme / indéterminé axe",
-   "justification": "axe signale 'background could not be determined' (dégradés antd-progress, gouttières CodeMirror, superposition modale). Ratios mesurés manuellement à l'état stable : texte modal #575c63 sur #2d3748 ≈ 5.5:1 ; .title-label # palette-4 sur fond sombre ≈ 7:1 (fix .owncast-title livré) ; gutter CodeMirror #575c63 (override livré)."
+  "final": {
+    "rules": 0,
+    "occurrences": 0,
+    "errors": 0,
+    "scenarios": 36,
+    "detail": "reports/final-public (4 pages) + final-admin (25 pages) + final-states (6 états dynamiques + base) ; 175 incomplets tracés dans decisionsIncomplets"
   },
-  {
-   "regle": "video-caption",
-   "occurrences": 14,
-   "decision": "escaladé — responsabilité contenu amont",
-   "justification": "flux vidéo live injecté par le diffuseur (RTMP) : les sous-titres relèvent de la source. surface = player Owncast ; aucun track n'existe tant que la source n'en fournit pas. Documenté, pas corrigible côté UI seule."
+  "verifications": {
+    "audit_commands": "voir manifest.auditCommands — rejouées verbatim sur le build livré",
+    "verify": "verify.mjs : PASS public (6/6) + admin (14/14) — noms accessibles, contrastes mesurés, ids uniques, tablist propre, couche landmark",
+    "eval_final": "eval-final.mjs : PASS public (8/8) + admin (24 pages E1 h1+main+titre, E7-E10, 0 échec)",
+    "install_build": "voir install-build.log — checkout propre @ sha + patch.diff : npm ci + npm run build (31/31 pages) + go build + démarrage + seed + rescan spot"
   },
-  {
-   "regle": "th-has-data-cells",
-   "occurrences": 1,
-   "decision": "N-A structurel (justifié)",
-   "justification": "pattern antd table split : la table signalée est la table d'en-tête (.ant-table-header > table) qui ne contient par construction que des th ; les lignes de données vivent dans la table sœur .ant-table-body. 0 ligne au moment du scan (dataset vide) mais la structure reste valide quand des lignes existent."
+  "decisionsIncomplets": [
+    {
+      "regle": "aria-valid-attr-value",
+      "occurrences": 125,
+      "decision": "N-A structurel (justifié)",
+      "justification": "antd v6 positionne aria-controls vers des ids rc-menu-uuid-* rendus paresseusement (popup non montée au repos). L'id existe dès que le sous-menu est ouvert ; axe ne peut le vérifier à l'état fermé. Corriger exigerait de forcer le montage des popups antd — hors périmètre raisonnable ; pattern amont antd."
+    },
+    {
+      "regle": "color-contrast",
+      "occurrences": 34,
+      "decision": "mesuré conforme / indéterminé axe",
+      "justification": "axe signale 'background could not be determined' (dégradés antd-progress, gouttières CodeMirror, superposition modale). Ratios mesurés manuellement à l'état stable : texte modal #575c63 sur #2d3748 ≈ 5.5:1 ; .title-label # palette-4 sur fond sombre ≈ 7:1 (fix .owncast-title livré) ; gutter CodeMirror #575c63 (override livré)."
+    },
+    {
+      "regle": "video-caption",
+      "occurrences": 14,
+      "decision": "escaladé — responsabilité contenu amont",
+      "justification": "flux vidéo live injecté par le diffuseur (RTMP) : les sous-titres relèvent de la source. surface = player Owncast ; aucun track n'existe tant que la source n'en fournit pas. Documenté, pas corrigible côté UI seule."
+    },
+    {
+      "regle": "th-has-data-cells",
+      "occurrences": 1,
+      "decision": "N-A structurel (justifié)",
+      "justification": "pattern antd table split : la table signalée est la table d'en-tête (.ant-table-header > table) qui ne contient par construction que des th ; les lignes de données vivent dans la table sœur .ant-table-body. 0 ligne au moment du scan (dataset vide) mais la structure reste valide quand des lignes existent."
+    },
+    {
+      "regle": "link-in-text-block",
+      "occurrences": 1,
+      "decision": "mesuré conforme / indéterminé axe",
+      "justification": "lien 'Federation settings' dans carte nav : axe ne détermine pas le contraste (fond composite). Ratio mesuré ≈ 9.7:1 au repos."
+    }
+  ],
+  "notes": [
+    "duplicate-id-aria (1 incomplete en v5) résolu : prop fieldId sur TextField + id unique field-goLiveMessage-discord",
+    "pas de run états en baseline : la couverture états est ajoutée en final (statesHash dans states.json)",
+    "results.json ne porte aucun verdict — l'audit tiers juge"
+  ],
+  "corrections_v2": {
+    "commit_findings": "findings audit tiers devin-a4e57512 (verdict-auditeur.md) : O1 heading-order résiduel, O2 comptes baseline, O3 sondes incomplets absentes",
+    "patch_v2": "patch-v2.diff (65 fichiers, apply --check propre @ cd64bdf4) — ajoute web/pages/admin/upgrade.tsx h3→h2 Downloads",
+    "O1_fix": "web/pages/admin/upgrade.tsx : <h3>Downloads</h3> → <h2>Downloads</h2>. Vérifié live sur build patché : DOM rendu H1→H2 (api.github.com 403 rate-limit mais le composant affiche le fallback 'Latest Owncast release'), audit /admin/upgrade/ → 0 violation, 2 incomplets.",
+    "O2_fix": "baseline recalculée depuis reports/baseline-*/report.json : 17 règles / 107 occurrences / 29 pages (pub 18 + adm 89). La valeur 136/18 était une erreur de transcription.",
+    "O3_fix": "tools/incomplete-probes.mjs livré + sorties rejouées dans reports/probes/ : admin 158 noeuds (aria-controls lazy-mount PROUVÉ pour les 5 sous-menus : id absent au repos, résolu après ouverture — 16/125 déjà résolus au repos car popup antd déjà monté ; contrastes composites réels 5.47–18.13:1 ; table antd header-only), public 3 noeuds, states 14 noeuds (#video : 0 track, pas de menu captions — pistes relèvent de la source RTMP).",
+    "verify_live": {
+      "date": "2026-10-05",
+      "base": "http://admin:abc123@localhost:8095",
+      "resultat": "audit.mjs /admin/upgrade/ → 0 violation, H1→H2 confirmé en DOM"
+    }
   },
-  {
-   "regle": "link-in-text-block",
-   "occurrences": 1,
-   "decision": "mesuré conforme / indéterminé axe",
-   "justification": "lien 'Federation settings' dans carte nav : axe ne détermine pas le contraste (fond composite). Ratio mesuré ≈ 9.7:1 au repos."
+  "corrections_post_audit_n1": {
+    "note": "N1 du re-audit v2 (verdict-auditeur-v2.md) corrigé : verify.mjs ne produit plus de PASS à vide",
+    "changes": [
+      "helper na() ajouté — un élément non testé émet N-A, jamais PASS",
+      "check overlay réécrit : la modale antd réellement présente DOIT être dans #a11y-popup-layer (assertion dure live : .ant-modal-root dans la couche — vérifié) ; dropdown = N-A si aucun trigger rendu (users table vide)",
+      "ancien #user-menu n'existait nulle part : le check ne s'exécutait jamais (skip silencieux permanent)",
+      "skip silencieux du switch → N-A",
+      "résumé : 'X échec(s), Y N-A' au lieu de PASS implicites"
+    ],
+    "replayed_live": {
+      "base": "http://admin:abc123@localhost:8095",
+      "result": "15 PASS, 0 échec, 2 N-A"
+    }
   }
- ],
- "notes": [
-  "duplicate-id-aria (1 incomplete en v5) résolu : prop fieldId sur TextField + id unique field-goLiveMessage-discord",
-  "pas de run états en baseline : la couverture états est ajoutée en final (statesHash dans states.json)",
-  "results.json ne porte aucun verdict — l'audit tiers juge"
- ],
- "corrections_v2": {
-  "commit_findings": "findings audit tiers devin-a4e57512 (verdict-auditeur.md) : O1 heading-order résiduel, O2 comptes baseline, O3 sondes incomplets absentes",
-  "patch_v2": "patch-v2.diff (65 fichiers, apply --check propre @ cd64bdf4) — ajoute web/pages/admin/upgrade.tsx h3→h2 Downloads",
-  "O1_fix": "web/pages/admin/upgrade.tsx : <h3>Downloads</h3> → <h2>Downloads</h2>. Vérifié live sur build patché : DOM rendu H1→H2 (api.github.com 403 rate-limit mais le composant affiche le fallback 'Latest Owncast release'), audit /admin/upgrade/ → 0 violation, 2 incomplets.",
-  "O2_fix": "baseline recalculée depuis reports/baseline-*/report.json : 17 règles / 107 occurrences / 29 pages (pub 18 + adm 89). La valeur 136/18 était une erreur de transcription.",
-  "O3_fix": "tools/incomplete-probes.mjs livré + sorties rejouées dans reports/probes/ : admin 158 noeuds (aria-controls lazy-mount PROUVÉ pour les 5 sous-menus : id absent au repos, résolu après ouverture — 16/125 déjà résolus au repos car popup antd déjà monté ; contrastes composites réels 5.47–18.13:1 ; table antd header-only), public 3 noeuds, states 14 noeuds (#video : 0 track, pas de menu captions — pistes relèvent de la source RTMP).",
-  "verify_live": {
-   "date": "2026-10-05",
-   "base": "http://admin:abc123@localhost:8095",
-   "resultat": "audit.mjs /admin/upgrade/ → 0 violation, H1→H2 confirmé en DOM"
-  }
- }
 }

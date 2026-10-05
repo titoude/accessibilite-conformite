@@ -222,3 +222,9 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **manifest.notes doit correspondre au scope exécuté** : « exclu » vs « scénario à erreur attendue » ≠ pareil.
 - **Jamais d'auto-verdict dans results.json** (NPM#1) — même avec « proposé » : laisser l'auditeur conclure.
 - **Nettoyer tools/package.json** : aucune dépendance inutilisée.
+
+
+### Leçons — cycle 18 owncast v2 (re-audit → N1-N6)
+- **Un élément non testé émet N-A, jamais PASS** : `if (el) ok(...)` est un skip silencieux permanent si l'élément n'existe jamais — le `#user-menu` du verify owncast n'existait sur AUCUNE page, le check n'a donc jamais rien prouvé. Helper `na()` obligatoire ; résumé `X échec(s), Y N-A`.
+- **Tester l'overlay qui existe**, pas un sélecteur imaginé : vérifier dans le DOM live quel overlay est réellement présent (ici `.ant-modal-root` dans `#a11y-popup-layer`) et en faire l'assertion dure.
+- **Sélecteurs = réalité DOM vérifiée** : avant d'écrire `await page.$(sel)`, prouver que `sel` existe dans la page/état testé — sinon le garde-fou `if` le rend caduc.

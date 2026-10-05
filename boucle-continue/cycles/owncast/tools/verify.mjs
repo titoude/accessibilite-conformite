@@ -8,10 +8,14 @@ import { chromium } from "playwright";
 const BASE = process.argv[2] || "http://localhost:8095";
 const IS_ADMIN = BASE.includes("admin:") || BASE.includes("@");
 
-let failures = 0;
+let failures = 0, naCount = 0;
 const ok = (name, cond, detail = "") => {
   console.log(`${cond ? "PASS" : "FAIL"} ${name}${detail ? " — " + detail : ""}`);
   if (!cond) failures++;
+};
+const na = (name, detail = "") => {
+  console.log(`N-A ${name}${detail ? " — " + detail : ""}`);
+  naCount++;
 };
 
 const browser = await chromium.launch();
@@ -54,22 +58,36 @@ const portals = await page.evaluate(() => {
 });
 ok("aucun portail antd orphelin hors de la couche", portals.stray === 0, `${portals.stray}`);
 
-// dropdown utilisateur : les overlays antd se montent dans la couche
-const userMenu = await page.$("#user-menu");
-if (userMenu) {
-  await userMenu.click();
-  await page.waitForTimeout(1000);
-  const inLayer = await page.evaluate(() => {
-    const l = document.getElementById("a11y-popup-layer");
-    return { dd: !!l?.querySelector(".ant-dropdown"), modal: 0 };
-  });
-  ok("dropdown utilisateur monté dans la couche landmark", inLayer.dd);
-  await page.keyboard.press("Escape");
-}
-
 // ---------- admin ----------
 if (IS_ADMIN) {
+  // dropdown utilisateur : les overlays antd se montent dans la couche (le trigger vit sur les pages admin)
   await goto("/admin/users/");
+  // overlay réellement présent (modale FatalError si stream/API down) : doit vivre dans la couche
+  const modalInLayer = await page.evaluate(() => {
+    const l = document.getElementById("a11y-popup-layer");
+    const any = !!document.querySelector(".ant-modal");
+    return { any, inL: !!(l && l.querySelector(".ant-modal")) };
+  });
+  if (modalInLayer.any) {
+    ok("modale antd montée dans la couche landmark", modalInLayer.inL);
+  } else {
+    na("aucune modale antd ouverte — montage dans la couche non testé ici");
+  }
+  // dropdown : trigger seulement si des données le rendent (users table non vide)
+  const userMenu = await page.$(".ant-dropdown-trigger");
+  if (userMenu) {
+    await userMenu.click();
+    await page.waitForTimeout(1000);
+    const inLayer = await page.evaluate(() => {
+      const l = document.getElementById("a11y-popup-layer");
+      return !!l?.querySelector(".ant-dropdown");
+    });
+    ok("dropdown monté dans la couche landmark", inLayer);
+    await page.keyboard.press("Escape");
+  } else {
+    na("aucun .ant-dropdown-trigger rendu (table users vide) — overlay dropdown non testé");
+  }
+
   const modal = await page.evaluate(() => {
     const t = document.querySelector(".ant-modal-title");
     const h = document.querySelector(".ant-modal-header");
@@ -100,7 +118,7 @@ if (IS_ADMIN) {
     ok("titre de modale contrasté (≥4.5:1)", ratio(modal.title, modal.header) >= 4.5, `${modal.title} sur ${modal.header} = ${ratio(modal.title, modal.header).toFixed(2)}`);
     ok("corps de modale contrasté (≥4.5:1)", ratio(modal.body, modal.bodyBg) >= 4.5, `${modal.body} sur ${modal.bodyBg} = ${ratio(modal.body, modal.bodyBg).toFixed(2)}`);
   } else {
-    ok("modale FatalError absente (serveur joignable) ou contrastée", true);
+    na("modale FatalError absente (stream actif) — contraste non testé", "N-A");
   }
 
   const sw = await page.evaluate(() => {
@@ -111,6 +129,7 @@ if (IS_ADMIN) {
     return { fg: hx(getComputedStyle(el).color), bg: hx(getComputedStyle(track).backgroundColor) };
   });
   if (sw) ok("libellé interne du switch contrasté (≥4.5:1)", ratio(sw.fg, sw.bg) >= 4.5, `${sw.fg} sur ${sw.bg} = ${ratio(sw.fg, sw.bg).toFixed(2)}`);
+  else na("aucun switch antd sur la page — contraste non testé");
 
   const cols = await page.evaluate(() => {
     return [...document.querySelectorAll("th")].filter((th) => !th.textContent.trim() && !th.querySelector("[class*=visually-hidden], [class*=sr-only]")).map((th) => th.className);
@@ -169,5 +188,5 @@ if (IS_ADMIN) {
 }
 
 await browser.close();
-console.log(`\n${failures} échec(s)`);
+console.log(`\n${failures} échec(s), ${naCount} N-A`);
 process.exit(failures ? 1 : 0);
