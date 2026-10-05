@@ -29,5 +29,5 @@
         "dark-mode",
         "mobile-dashboard"
     ],
-    "note": "24 états, tous exécutés dans v2-auth. Chaque setup attend un sélecteur MONTÉ (SPA : le DOM arrive après connexion socket.io). dark-mode et mobile-dashboard mutent localStorage/viewport et tournent EN DERNIER par construction. Les 6 états modales (create-group, tags-add, monitor-setting, badge-link, incident-manage, screenshot) couvrent les surfaces relevées au verdict v1 ; incident-manage crée+supprime un incident éphémère à chaque run (non-idempotent, symétrique)."
+    "note": "24 états, tous exécutés dans v2-auth. Chaque setup attend un sélecteur MONTÉ (SPA : le DOM arrive après connexion socket.io). dark-mode et mobile-dashboard mutent localStorage/viewport et tournent EN DERNIER par construction. Les 6 états modales (create-group, tags-add, monitor-setting, badge-link, incident-manage, screenshot) couvrent les surfaces relevées au verdict v1 ; incident-manage crée un incident puis ouvre sa modale de gestion (+1 incident/run : la suppression n'est pas confirmée — la modale reste ouverte pour le scan ; non-idempotent, symétrique)."
 }

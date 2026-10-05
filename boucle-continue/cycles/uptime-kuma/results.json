@@ -37,7 +37,9 @@
         "états temps réel : monitors seedés PAUSÉS — les compteurs/heartbeat n'évoluent pas entre baseline et final ; les textes de durée (incident age) peuvent différer entre runs (indicatif).",
         "v2 post-audit : +2 fichiers patch (CopyableInput.vue, app.scss déjà dedans) — le diff v2 couvre 72 fichiers src + AccessibleMultiselect.vue nouveau ; les comptes exacts sont ceux de git apply --stat rejoué par l'auditeur, pas les chiffres v1.",
         "aria-label amont « open modal to  » (i18n {0} non substitué sur le bouton + du select Monitor Group) : défaut amont réel, NON corrigé dans le patch (hors périmètre minimal — le bouton reste nommable, juste mal labellé). Documenté pour l'auditeur.",
-        "incident-manage-dialog est non-idempotent : chaque run crée+supprime un incident. Symétrique baseline/final mais les incidents de debug manuels traînent en base si on joue le state sans le seed frais — l'auditeur re-seed avant rejeu."
+        "incident-manage-dialog est non-idempotent : chaque run crée un incident (la modale de gestion s'ouvre sans confirmer la suppression — +1 incident/run). Symétrique baseline/final mais les incidents de debug manuels traînent en base si on joue le state sans le seed frais — l'auditeur re-seed avant rejeu.",
+        "wart v2 persistant assumé : login.mjs non rejouable verbatim sur vanilla (l'id du wrapper cible est ajouté par le patch — sur vanilla, adapter le sélecteur du champ).",
+        "gap amont hors axe (inchangé, documenté) : le <a> copier de CopyableInput n'a pas de href — non atteignable au clavier ; axe ne le voit pas, reste un vrai manque 2.1.1 amont."
     ],
     "corrections_post_audit_warts": [
         {

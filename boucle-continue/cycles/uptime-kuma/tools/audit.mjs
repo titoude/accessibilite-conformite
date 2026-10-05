@@ -304,8 +304,8 @@ const STATES = {
   'incident-manage-dialog': {
     url: b => `${b}/status/demo`,
     setup: async page => {
-      // crée un incident éphémère (créé+supprimé à chaque run — symétrique
-      // baseline/final, mais non-idempotent en valeur absolue : documenté)
+      // crée un incident puis ouvre sa modale (+1 incident/run : la suppression
+      // n'est pas confirmée — non-idempotent, symétrique : documenté)
       await page.waitForSelector('button:has-text("Edit Status Page")', { timeout: 20000 });
       await page.locator('button:has-text("Edit Status Page")').click();
       await page.waitForSelector('[data-testid="create-incident-button"]', { timeout: 15000 });

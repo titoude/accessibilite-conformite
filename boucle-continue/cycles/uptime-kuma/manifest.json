@@ -14,7 +14,7 @@
     "first_boot_notes": "premier accès = setup wizard obligatoire (création compte admin) : POST /setup-state enregistre le compte puis redirige /login. Sans compte, tout URL redirige vers /setup."
   },
   "seed": {
-    "script": "tools/seed.mjs — crée admin admin/Admin12345! via l'API socket.io (le wizard n'accepte que la première création), 3 monitors PAUSÉS (Groupe Production /group, Test HTTP /http, Ping Localhost /ping — actifs:false pour figer les compteurs realtime), 1 tag 'prod' #DC2626, 1 status page slug 'demo', 1 maintenance",
+    "script": "tools/seed.mjs — crée admin admin/Admin12345! via l'API socket.io (le wizard n'accepte que la première création), 4 monitors PAUSÉS (Groupe Production /group, Test HTTP /http, Ping Localhost /ping, Real Browser /real-browser id=4 — actifs:false pour figer les compteurs realtime ; le real-browser sert la surface ScreenshotDialog ajoutée post-audit F2), 1 tag 'prod' #DC2626, 1 status page slug 'demo', 1 maintenance",
     "content": "les monitors pausés n'émettent pas de beats : compteurs, durées et badges figés (leçon gatus : baseline flottante sur données qui croissent → états figés + documentés)",
     "determinism": "les états socket.io poussent des événements (status heartbeat, uptime%) même pausés — les scans portent --wait 400 et les états attendent des sélecteurs MONTÉS ; la durée d'incident/journal peut croître entre runs → occurrences indicatives seulement pour les textes temporels"
   },
