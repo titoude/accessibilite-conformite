@@ -258,3 +258,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **Ratios documentés = recomputés, pas copiés** : 12.63/8.07 écrits vs 15.43/7.42 mesurés sur les mêmes paires — toujours recomputer la formule WCAG sur les paires finales documentées.
 - **label[for] sur groupes multi-inputs** : inputs `id={name}-{i}` → `for={name}` pend ; prop `for_id` pointant le premier input (`{name}-0`).
 - **WASM ne change rien** : DOM monté par Yew scannable pareil — attendre un sélecteur post-mount (h1/main table), rebuild wasm-pack réel rejouable (~44 s), déploiement par `docker cp pkg/` quand l'image sert depuis le disque.
+
+### Leçons — cycle 23 bookstack (re-audit → CONFIRMED + W1-W5, Laravel/MySQL)
+- **URL servie en XHR ≠ page** : /templates rend un fragment Blade nu (0 octet GET direct, consommé par template-manager.js) — retrait de scope légitime SI prouvé par GET direct + markup couvert via l'include sur /edit. Le manifeste figé garde la trace du retrait motivé.
+- **`|| true` dans un ok() = mesure, pas assertion** : regex+`|true` affiche la valeur sans jamais échouer — assertion = ratio calculé vs seuil.
+- **storageState/scripts d'auth = chemins relatifs au script** : écrire à côté du fichier (import.meta.url), pas au CWD — sinon l'auditCommands verbatim écrit/lit des chemins différents. Le storageState commité est lié à l'APP_KEY/serveur de l'instance — à régénérer par instance.
+- **Backdrop seul ne suffit pas** : axe `partiallyObscured` n'occulte que les cibles tabbables → `inert` sur le contenu derrière (main, footer) + retrait à la fermeture — vérifié live par l'auditeur.
+- **Les résidus hors-scope existent** : menus transitoires non audités gardent des #999 — élargir la relecture du patch aux sélecteurs muted génériques même hors pages scannées.

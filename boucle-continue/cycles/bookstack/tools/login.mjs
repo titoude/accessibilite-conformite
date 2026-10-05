@@ -20,6 +20,6 @@ if (ok === 0) {
   console.error('échec login : pas de menu profil après /login');
   process.exit(1);
 }
-await context.storageState({ path: 'auth.json' });
-console.log('auth.json écrit — connecté en admin@admin.com');
+await context.storageState({ path: new URL('./auth.json', import.meta.url).pathname });
+console.log('tools/auth.json écrit — connecté en admin@admin.com');
 await browser.close();

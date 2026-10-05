@@ -152,7 +152,20 @@ const ph = await page.evaluate(() => {
     return i ? getComputedStyle(i, '::placeholder').color : null
 })
 if (!ph) note('placeholder', 'aucun input trouvé')
-else ok('placeholder >= #757575', /117, 117, 117|115, 115, 115/.test(ph) || true, ph)
+else {
+    const phRatio = await page.evaluate(() => {
+        const i = document.querySelector('input[type="search"], input[placeholder], #header-search-box-input')
+        const lum = c => { const v = c.map(x => { x /= 255; return x <= .04045 ? x / 12.92 : Math.pow((x + .055) / 1.055, 2.4) }); return .2126 * v[0] + .7152 * v[1] + .0722 * v[2] }
+        const rgb = s => (s.match(/[\d.]+/g) || []).map(Number)
+        const fg = lum(rgb(getComputedStyle(i, '::placeholder').color).slice(0, 3))
+        let bgc = rgb(getComputedStyle(i).backgroundColor)
+        if ((bgc[3] ?? 1) < 1 || !bgc.length) bgc = [255, 255, 255]
+        bgc = bgc.slice(0, 3)
+        const bg = lum(bgc)
+        return (Math.max(fg, bg) + .05) / (Math.min(fg, bg) + .05)
+    })
+    ok('placeholder contraste >= 4.5:1', phRatio >= 4.5, `${phRatio.toFixed(2)}:1`)
+}
 
 ok('aucune erreur console', errors.length === 0, errors[0])
 
