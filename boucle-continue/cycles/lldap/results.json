@@ -12,7 +12,7 @@
     "surfaces": 12,
     "etats": 4,
     "violations_occ": 139,
-    "violations_regles": 9,
+    "violations_regles": 8,
     "detail": {
       "color-contrast": 42,
       "link-name": 48,
@@ -91,7 +91,7 @@
       ]
     }
   ],
-  "incomplets": "2 résultats incomplete : color-contrast 'bgImage' sur <select class=form-select> (chevron SVG Bootstrap). Résolus manuellement : color/background-color calculés mesurés — light rgb(33,37,41)/rgb(255,255,255) = 12.63:1 ; dark rgb(177,177,177)/rgb(34,34,34) = 8.07:1 — ≥ 4.5 dans les 2 thèmes (eval-final.mjs K/L).",
+  "incomplets": "2 résultats incomplete : color-contrast 'bgImage' sur <select class=form-select> (chevron SVG Bootstrap). Résolus manuellement : color/background-color calculés mesurés — light rgb(33,37,41)/rgb(255,255,255) = 15.43:1 ; dark rgb(177,177,177)/rgb(34,34,34) = 7.42:1 — ≥ 4.5 dans les 2 thèmes (eval-final.mjs K/L).",
   "lecons_harnais": [
     "WASM/Yew : le DOM rendu par wasm se scanne normalement — le --wait-for doit attendre un sélecteur MONTÉ (table/form/h1 post-GraphQL 'Loading...'), pas seulement #app",
     "le conteneur sert app/pkg/ depuis le disque : docker cp des artefacts wasm-pack suffit à déployer le frontend patché, rebuild image inutile",
@@ -100,5 +100,11 @@
     "yew_form::CheckBox ne rend aucun id → les label[for] pendent ; réécrire les composants form avec id explicite plutôt que patcher le vendor",
     "autocomplete=field_name (défaut yew_form wrapper) produit des tokens invalides — 'off' est le défaut correct",
     "aria-label sur <i> (icône font, pas de rôle) ne nomme pas le bouton parent — poser le label sur l'élément interactif"
+  ],
+  "corrections_post_audit_warts": [
+    "W1 « 9 règles »→8 règles violées distinctes (report.md lui-même : 8) ; la 9e famille corrigée est duplicate-id-aria flaggée incomplete ×6 — famille réellement corrigée mais pas une règle violée. Champ corrigé.",
+    "W2 ratios selects documentés 12.63/8.07 → recomputés sur les mêmes paires = 15.43:1 light / 7.42:1 dark (formule WCAG identique eval-final) ; couleurs exactes, conclusion ≥4.5 inchangée. Champ corrigé.",
+    "W3 label[for] pendant sur ListAttributeInput : AttributeLabel gagne prop optionnelle for_id ; la liste passe for_id={name}-0 → le label pointe le premier input réel (inputs id={name}-{i}). patch.diff régénéré pour attribute_input.rs, apply re-vérifié @99c510a7.",
+    "W4 states.json prose légère — cohérente avec les setups audit.mjs, nit accepté."
   ]
 }

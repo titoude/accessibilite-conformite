@@ -348,7 +348,7 @@ index 254424d..da82a12 100644
                      type="button"
                      class="btn-close"
 diff --git a/app/src/components/form/attribute_input.rs b/app/src/components/form/attribute_input.rs
-index 66a5dc0..603d186 100644
+index 66a5dc0..85dbe4d 100644
 --- a/app/src/components/form/attribute_input.rs
 +++ b/app/src/components/form/attribute_input.rs
 @@ -14,6 +14,10 @@ struct AttributeInputProps {
@@ -371,7 +371,25 @@ index 66a5dc0..603d186 100644
              class="form-control"
              value={props.value.clone()} />
      }
-@@ -77,7 +83,7 @@ fn attribute_label(props: &AttributeLabelProps) -> Html {
+@@ -47,6 +53,8 @@ struct AttributeLabelProps {
+     pub name: String,
+     #[prop_or(false)]
+     pub required: bool,
++    #[prop_or(None)]
++    pub for_id: Option<String>,
+ }
+ #[function_component(AttributeLabel)]
+ fn attribute_label(props: &AttributeLabelProps) -> Html {
+@@ -65,7 +73,7 @@ fn attribute_label(props: &AttributeLabelProps) -> Html {
+     );
+ 
+     html! {
+-        <label for={props.name.clone()}
++        <label for={props.for_id.clone().unwrap_or_else(|| props.name.clone())}
+             class="form-label col-4 col-form-label"
+             >
+             {props.name[0..1].to_uppercase() + &props.name[1..].replace('_', " ")}
+@@ -77,7 +85,7 @@ fn attribute_label(props: &AttributeLabelProps) -> Html {
                  data-bs-placement="right"
                  title={props.name.clone()}
                  ref={tooltip_ref}>
@@ -380,7 +398,18 @@ index 66a5dc0..603d186 100644
              </button>
          </label>
      }
-@@ -175,12 +181,15 @@ impl Component for ListAttributeInput {
+@@ -168,19 +176,25 @@ impl Component for ListAttributeInput {
+         let link = &ctx.link();
+         html! {
+             <div class="row mb-3">
+-                <AttributeLabel name={props.name.clone()} required={props.required} />
++                <AttributeLabel
++                    name={props.name.clone()}
++                    required={props.required}
++                    for_id={format!("{}-0", props.name)} />
+                 <div class="col-8">
+                 {self.indices.iter().map(|&i| html! {
+                     <div class="input-group mb-2" key={i}>
                      <AttributeInput
                          attribute_type={props.attribute_type}
                          name={props.name.clone()}

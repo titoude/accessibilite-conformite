@@ -252,3 +252,9 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **Baseline sur données croissantes = compte indicatif** : Execution History +1 ligne/min → occurrences contrastes flottantes entre worker et auditeur (162 vs 145, delta circonscrit à la page concernée). Pour une baseline strictement reproductible : figer le seed ou exclure les listes auto-incrémentées du compte.
 - **Sonde de recouvrement multi-points** : `elementsFromPoint` au centre du nœud remonte le parent quand l'overlay ne couvre qu'un coin — échantillonner une grille (3×3) et vérifier le recouvrement de boîtes réel avant de nommer un `coveredBy`.
 - **Incomplets transitoires = famille, pas compte** : « N seconds ago » recouvert ou non selon la largeur du texte → documenter la famille + sonder chaque occurrence trouvée, compter est secondaire.
+
+### Leçons — cycle 26 lldap (re-audit → CONFIRMED + W1-W4, stack WASM)
+- **« N règles » = compter le report.md, pas la mémoire** : la 9e famille corrigée était un *incomplete* (duplicate-id-aria), pas une règle violée — 8 règles réelles. Les comptes du results.json se recalculent depuis les rapports livrés, jamais de mémoire.
+- **Ratios documentés = recomputés, pas copiés** : 12.63/8.07 écrits vs 15.43/7.42 mesurés sur les mêmes paires — toujours recomputer la formule WCAG sur les paires finales documentées.
+- **label[for] sur groupes multi-inputs** : inputs `id={name}-{i}` → `for={name}` pend ; prop `for_id` pointant le premier input (`{name}-0`).
+- **WASM ne change rien** : DOM monté par Yew scannable pareil — attendre un sélecteur post-mount (h1/main table), rebuild wasm-pack réel rejouable (~44 s), déploiement par `docker cp pkg/` quand l'image sert depuis le disque.
