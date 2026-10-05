@@ -91,6 +91,26 @@
     "reports/incomplete-probes.json"
   ],
   "auditTiers": {
-    "statut": "en attente — verdict à intégrer après rejeu indépendant"
-  }
+    "verdict": "CONFIRMED (verdict-auditeur.md) — rejeu indépendant complet : baseline 1157/1157 bit-exacte, final 0 viol 213 inc, scopeHash identique, install-build gui.files.go 5 821 220 B bit-identique, verify 26/26 + 1 N-A, sondes 213/213",
+    "findings_residuels": "3 réels hors axe (2.1.1 accordéon, 1.4.1 liens Help, duplicate-id dormant) + couverture de sonde — tous corrigés dans corrections_post_audit_warts",
+    "session": "devin-e9fee71217104445b432087597191063"
+  },
+  "corrections_post_audit_warts": [
+    {
+      "verdict_v1": "CONFIRMED avec 3 findings résiduels + 3 warts (verdict-auditeur.md)",
+      "fixes": [
+        "F1 2.1.1 : tabindex déplacé des h4 vers les 11 .panel-heading[role=button] + handler keydown Enter/Espace → trigger(click) dans app.js — accordéon #advanced désormais opérable au clavier",
+        "F2 1.4.1 : sélecteur de soulignement élargi à .modal-body a:not(.btn) — couvre les 12 liens Help adjacents aux labels et tout lien futur en contexte texte",
+        "F3 duplicate-id : id/label share-template dédupliqués par suffixe scope (sharedwith-{{id}}-s{{$id}}) — unique même quand folder.id est vide",
+        "F4 sonde : incomplete-probes.mjs rejoue désormais le setup de chaque état (STATES extrait d'audit.mjs, source unique) au lieu de sonder l'URL nue — les 124 items jamais re-mesurés le sont désormais ; sondes ajoutées pour link-in-text-block et th-has-data-cells",
+        "W1 provenance : re-hash complet régénéré (le manifest post-édition est couvert)",
+        "W2 seed.sh : ports st2/st3 paramétrables (ST2_GUI_PORT, ST2_LISTEN_PORT, ST3_GUI_PORT, ST3_LISTEN_PORT — défauts 8484/22001/8485/22002) — plus de collision avec un GUI auditeur"
+      ],
+      "verify_v2": "verify.mjs gagne 5 assertions dures codifiant les findings : en-têtes accordéon focusables, Entrée ouvre panneau 1, Espace ouvre panneau 2, 0 doublon sharedwith-* mesuré dans #editDevice/Sharing ouvert, liens d aide soulignés",
+      "residuel_assume": [
+        "l'élément <share-template id=\"\"> hôte garde un id vide quand folder.id est vide (id vide ≠ doublon axe ; l'attribut alimente le binding @id) — documenté",
+        "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
+      ]
+    }
+  ]
 }

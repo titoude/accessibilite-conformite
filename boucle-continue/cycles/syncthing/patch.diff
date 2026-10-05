@@ -23,10 +23,10 @@ index 5b27328..713115c 100644
 +  background-color: #145f93;
 +}
 diff --git a/gui/default/assets/css/overrides.css b/gui/default/assets/css/overrides.css
-index d4db975..17ef731 100644
+index d4db97582..ab8363c0c 100644
 --- a/gui/default/assets/css/overrides.css
 +++ b/gui/default/assets/css/overrides.css
-@@ -565,4 +565,49 @@ html[lang|="ko"] i {
+@@ -565,4 +565,47 @@ html[lang|="ko"] i {
  .select-on-click {
      -webkit-user-select: all;
      user-select: all;
@@ -60,9 +60,7 @@ index d4db975..17ef731 100644
 +.text-warning, .text-warning:hover { color: #745e1e; }
 +/* -- correction a11y : liens dans du texte doivent se distinguer par
 +   autre chose que la couleur (WCAG 1.4.1) → soulignement. -- */
-+.modal-body p > a:not(.btn),
-+.modal-body .small > a:not(.btn),
-+.modal-body ul:not(.dropdown-menu) li > a:not(.btn) {
++.modal-body a:not(.btn) {
 +  text-decoration: underline;
 +}
 +
@@ -385,10 +383,10 @@ index a1d13d6..63f77f9 100644
        <div ng-transclude></div>
      </div>
 diff --git a/gui/default/syncthing/app.js b/gui/default/syncthing/app.js
-index 2731445..0de964e 100644
+index 2731445cd..eef82f032 100644
 --- a/gui/default/syncthing/app.js
 +++ b/gui/default/syncthing/app.js
-@@ -46,6 +46,34 @@ syncthing.config(function ($httpProvider, $translateProvider, LocaleServiceProvi
+@@ -46,6 +46,43 @@ syncthing.config(function ($httpProvider, $translateProvider, LocaleServiceProvi
      $httpProvider.defaults.xsrfCookieName = 'CSRF-Token-' + metadata.deviceIDShort;
  });
  
@@ -398,6 +396,15 @@ index 2731445..0de964e 100644
 +    // control only. Remove it once each expand/collapse transition settles.
 +    $(document).on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (event) {
 +        $(event.target).removeAttr('aria-expanded');
++    });
++
++    // role=button accordion headings are divs — Bootstrap collapse binds
++    // click only, so Enter/Space on a focused heading toggles its panel.
++    $(document).on('keydown', '.panel-heading[role="button"][data-toggle="collapse"]', function (event) {
++        if (event.key === 'Enter' || event.key === ' ') {
++            event.preventDefault();
++            $(this).trigger('click');
++        }
 +    });
 +
 +    // The fixed-top navbar lets open dropdown menus overlap the page
@@ -653,7 +660,7 @@ index 39e8f50..3e970f4 100644
            </div>
          </div>
 diff --git a/gui/default/syncthing/settings/advancedSettingsModalView.html b/gui/default/syncthing/settings/advancedSettingsModalView.html
-index 074a35f..b341716 100644
+index 074a35fb2..8648e414f 100644
 --- a/gui/default/syncthing/settings/advancedSettingsModalView.html
 +++ b/gui/default/syncthing/settings/advancedSettingsModalView.html
 @@ -6,17 +6,17 @@
@@ -665,8 +672,9 @@ index 074a35f..b341716 100644
  
        <div class="panel panel-default">
 -        <div class="panel-heading" role="tab" id="guiHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#guiConfig" aria-expanded="false" aria-controls="guiConfig" style="cursor: pointer;">
-+        <div class="panel-heading" role="button" id="guiHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#guiConfig" aria-expanded="false" aria-controls="guiConfig" style="cursor: pointer;">
-           <h4 class="panel-title" translate tabindex="0">GUI</h4>
+-          <h4 class="panel-title" translate tabindex="0">GUI</h4>
++        <div class="panel-heading" role="button" tabindex="0" id="guiHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#guiConfig" aria-expanded="false" aria-controls="guiConfig" style="cursor: pointer;">
++          <h4 class="panel-title" translate>GUI</h4>
          </div>
 -        <div id="guiConfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="guiHeading">
 +        <div id="guiConfig" class="panel-collapse collapse" role="region" aria-labelledby="guiHeading">
@@ -683,8 +691,9 @@ index 074a35f..b341716 100644
  
        <div class="panel panel-default">
 -        <div class="panel-heading" role="tab" id="optionsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#optionsConfig" aria-expanded="false" aria-controls="optionsConfig" style="cursor: pointer;">
-+        <div class="panel-heading" role="button" id="optionsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#optionsConfig" aria-expanded="false" aria-controls="optionsConfig" style="cursor: pointer;">
-           <h4 class="panel-title" tabindex="0" translate>Options</h4>
+-          <h4 class="panel-title" tabindex="0" translate>Options</h4>
++        <div class="panel-heading" role="button" tabindex="0" id="optionsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#optionsConfig" aria-expanded="false" aria-controls="optionsConfig" style="cursor: pointer;">
++          <h4 class="panel-title" translate>Options</h4>
          </div>
 -        <div id="optionsConfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="optionsHeading">
 +        <div id="optionsConfig" class="panel-collapse collapse" role="region" aria-labelledby="optionsHeading">
@@ -701,8 +710,9 @@ index 074a35f..b341716 100644
  
        <div class="panel panel-default">
 -        <div class="panel-heading" role="tab" id="ldapHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#ldapConfig" aria-expanded="false" aria-controls="ldapConfig" style="cursor: pointer;">
-+        <div class="panel-heading" role="button" id="ldapHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#ldapConfig" aria-expanded="false" aria-controls="ldapConfig" style="cursor: pointer;">
-           <h4 class="panel-title" tabindex="0" translate>LDAP</h4>
+-          <h4 class="panel-title" tabindex="0" translate>LDAP</h4>
++        <div class="panel-heading" role="button" tabindex="0" id="ldapHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#ldapConfig" aria-expanded="false" aria-controls="ldapConfig" style="cursor: pointer;">
++          <h4 class="panel-title" translate>LDAP</h4>
          </div>
 -        <div id="ldapConfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="ldapHeading">
 +        <div id="ldapConfig" class="panel-collapse collapse" role="region" aria-labelledby="ldapHeading">
@@ -714,12 +724,12 @@ index 074a35f..b341716 100644
                  <div class="col-sm-8">
                    <input ng-if="type == 'list'" id="ldapInput{{$index}}" class="form-control" type="text" ng-model="advancedConfig.ldap[key]" ng-list />
                    <input ng-if="type != 'list'" id="ldapInput{{$index}}" class="form-control" type="{{type}}" ng-model="advancedConfig.ldap[key]" />
-@@ -66,13 +66,13 @@
+@@ -66,25 +66,25 @@
        </div>
  
        <div class="panel panel-default">
 -        <div class="panel-heading" role="tab" id="advancedFoldersHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedFolders" aria-expanded="false" aria-controls="advancedFolders" style="cursor: pointer;">
-+        <div class="panel-heading" role="button" id="advancedFoldersHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedFolders" aria-expanded="false" aria-controls="advancedFolders" style="cursor: pointer;">
++        <div class="panel-heading" role="button" tabindex="0" id="advancedFoldersHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedFolders" aria-expanded="false" aria-controls="advancedFolders" style="cursor: pointer;">
            <h4 class="panel-title" translate>Folders</h4>
          </div>
 -        <div id="advancedFolders" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedFoldersHeading">
@@ -727,11 +737,13 @@ index 074a35f..b341716 100644
            <div class="panel-body less-padding">
              <div class="panel panel-default" ng-repeat="folder in advancedConfig.folders" ng-init="folderIndex = $index">
 -              <div class="panel-heading" role="tab" id="folder{{folderIndex}}Heading" data-toggle="collapse" data-parent="#advancedFolders" href="#folder{{folderIndex}}Config" aria-expanded="false" aria-controls="folder{{folderIndex}}Config" style="cursor: pointer;">
-+              <div class="panel-heading" role="button" id="folder{{folderIndex}}Heading" data-toggle="collapse" data-parent="#advancedFolders" href="#folder{{folderIndex}}Config" aria-expanded="false" aria-controls="folder{{folderIndex}}Config" style="cursor: pointer;">
-                 <h4 ng-if="folder.label.length == 0" class="panel-title" tabindex="0">
+-                <h4 ng-if="folder.label.length == 0" class="panel-title" tabindex="0">
++              <div class="panel-heading" role="button" tabindex="0" id="folder{{folderIndex}}Heading" data-toggle="collapse" data-parent="#advancedFolders" href="#folder{{folderIndex}}Config" aria-expanded="false" aria-controls="folder{{folderIndex}}Config" style="cursor: pointer;">
++                <h4 ng-if="folder.label.length == 0" class="panel-title">
                    <span translate>Folder</span> "{{folder.id}}"
                  </h4>
-@@ -80,11 +80,11 @@
+-                <h4 ng-if="folder.label.length != 0" class="panel-title" tabindex="0">
++                <h4 ng-if="folder.label.length != 0" class="panel-title">
                    <span translate>Folder</span> "{{folder.label}}" ({{folder.id}})
                  </h4>
                </div>
@@ -750,16 +762,18 @@ index 074a35f..b341716 100644
  
        <div class="panel panel-default">
 -        <div class="panel-heading" role="tab" id="advancedDevicesHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDevices" aria-expanded="false" aria-controls="advancedDevices" style="cursor: pointer;">
-+        <div class="panel-heading" role="button" id="advancedDevicesHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDevices" aria-expanded="false" aria-controls="advancedDevices" style="cursor: pointer;">
-           <h4 class="panel-title" tabindex="0" translate>Devices</h4>
+-          <h4 class="panel-title" tabindex="0" translate>Devices</h4>
++        <div class="panel-heading" role="button" tabindex="0" id="advancedDevicesHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDevices" aria-expanded="false" aria-controls="advancedDevices" style="cursor: pointer;">
++          <h4 class="panel-title" translate>Devices</h4>
          </div>
 -        <div id="advancedDevices" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDevicesHeading">
 +        <div id="advancedDevices" class="panel-collapse collapse" role="region" aria-labelledby="advancedDevicesHeading">
            <div class="panel-body less-padding">
              <div class="panel panel-default" ng-repeat="device in advancedConfig.devices" ng-init="deviceIndex = $index">
 -              <div class="panel-heading" role="tab" id="device{{deviceIndex}}Heading" data-toggle="collapse" data-parent="#advancedDevices" href="#device{{deviceIndex}}Config" aria-expanded="false" aria-controls="device{{deviceIndex}}Config" style="cursor: pointer;">
-+              <div class="panel-heading" role="button" id="device{{deviceIndex}}Heading" data-toggle="collapse" data-parent="#advancedDevices" href="#device{{deviceIndex}}Config" aria-expanded="false" aria-controls="device{{deviceIndex}}Config" style="cursor: pointer;">
-                 <h4 class="panel-title" tabindex="0">
+-                <h4 class="panel-title" tabindex="0">
++              <div class="panel-heading" role="button" tabindex="0" id="device{{deviceIndex}}Heading" data-toggle="collapse" data-parent="#advancedDevices" href="#device{{deviceIndex}}Config" aria-expanded="false" aria-controls="device{{deviceIndex}}Config" style="cursor: pointer;">
++                <h4 class="panel-title">
                    <span translate>Device</span> "{{deviceName(device)}}"
                  </h4>
                </div>
@@ -778,8 +792,9 @@ index 074a35f..b341716 100644
  
        <div class="panel panel-default">
 -        <div class="panel-heading" role="tab" id="advancedDefaultsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDefaults" aria-expanded="false" aria-controls="advancedDefaults" style="cursor: pointer;">
-+        <div class="panel-heading" role="button" id="advancedDefaultsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDefaults" aria-expanded="false" aria-controls="advancedDefaults" style="cursor: pointer;">
-           <h4 class="panel-title" tabindex="0" translate>Defaults</h4>
+-          <h4 class="panel-title" tabindex="0" translate>Defaults</h4>
++        <div class="panel-heading" role="button" tabindex="0" id="advancedDefaultsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDefaults" aria-expanded="false" aria-controls="advancedDefaults" style="cursor: pointer;">
++          <h4 class="panel-title" translate>Defaults</h4>
          </div>
 -        <div id="advancedDefaults" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultsHeading">
 +        <div id="advancedDefaults" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultsHeading">
@@ -787,8 +802,9 @@ index 074a35f..b341716 100644
  
              <div class="panel panel-default">
 -              <div class="panel-heading" role="tab" id="advancedDefaultFolderHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultFolder" aria-expanded="false" aria-controls="advancedDefaultFolder" style="cursor: pointer;">
-+              <div class="panel-heading" role="button" id="advancedDefaultFolderHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultFolder" aria-expanded="false" aria-controls="advancedDefaultFolder" style="cursor: pointer;">
-                 <h4 class="panel-title" tabindex="0" translate>Default Folder</h4>
+-                <h4 class="panel-title" tabindex="0" translate>Default Folder</h4>
++              <div class="panel-heading" role="button" tabindex="0" id="advancedDefaultFolderHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultFolder" aria-expanded="false" aria-controls="advancedDefaultFolder" style="cursor: pointer;">
++                <h4 class="panel-title" translate>Default Folder</h4>
                </div>
 -              <div id="advancedDefaultFolder" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultFolderHeading">
 +              <div id="advancedDefaultFolder" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultFolderHeading">
@@ -804,8 +820,9 @@ index 074a35f..b341716 100644
              </div>
              <div class="panel panel-default">
 -              <div class="panel-heading" role="tab" id="advancedDefaultDeviceHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultDevice" aria-expanded="false" aria-controls="advancedDefaultDevice" style="cursor: pointer;">
-+              <div class="panel-heading" role="button" id="advancedDefaultDeviceHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultDevice" aria-expanded="false" aria-controls="advancedDefaultDevice" style="cursor: pointer;">
-                 <h4 class="panel-title" tabindex="0" translate>Default Device</h4>
+-                <h4 class="panel-title" tabindex="0" translate>Default Device</h4>
++              <div class="panel-heading" role="button" tabindex="0" id="advancedDefaultDeviceHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultDevice" aria-expanded="false" aria-controls="advancedDefaultDevice" style="cursor: pointer;">
++                <h4 class="panel-title" translate>Default Device</h4>
                </div>
 -              <div id="advancedDefaultDevice" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultDeviceHeading">
 +              <div id="advancedDefaultDevice" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultDeviceHeading">
@@ -821,8 +838,9 @@ index 074a35f..b341716 100644
              </div>
              <div class="panel panel-default">
 -              <div class="panel-heading" role="tab" id="advancedDefaultIgnoresHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultIgnores" aria-expanded="false" aria-controls="advancedDefaultIgnores" style="cursor: pointer;">
-+              <div class="panel-heading" role="button" id="advancedDefaultIgnoresHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultIgnores" aria-expanded="false" aria-controls="advancedDefaultIgnores" style="cursor: pointer;">
-                 <h4 class="panel-title" tabindex="0" translate>Default Ignore Patterns</h4>
+-                <h4 class="panel-title" tabindex="0" translate>Default Ignore Patterns</h4>
++              <div class="panel-heading" role="button" tabindex="0" id="advancedDefaultIgnoresHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultIgnores" aria-expanded="false" aria-controls="advancedDefaultIgnores" style="cursor: pointer;">
++                <h4 class="panel-title" translate>Default Ignore Patterns</h4>
                </div>
 -              <div id="advancedDefaultIgnores" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultIgnoresHeading">
 +              <div id="advancedDefaultIgnores" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultIgnoresHeading">
@@ -973,3 +991,16 @@ index 8a6183d..2783687 100644
 +    color: #5d4e08;
 +    background-color: #fff;
 +}
+diff --git a/gui/default/syncthing/core/editShareTemplate.html b/gui/default/syncthing/core/editShareTemplate.html
+index 62072db0f..019f1588c 100644
+--- a/gui/default/syncthing/core/editShareTemplate.html
++++ b/gui/default/syncthing/core/editShareTemplate.html
+@@ -1,6 +1,6 @@
+ <div class="col-md-6 checkbox">
+-  <label for="sharedwith-{{id}}">
+-    <input id="sharedwith-{{id}}" ng-model="selected[id]" type="checkbox" />
++  <label for="sharedwith-{{id}}-s{{$id}}">
++    <input id="sharedwith-{{id}}-s{{$id}}" ng-model="selected[id]" type="checkbox" />
+     <span tooltip data-original-title="{{id}}">
+       <span ng-switch="remoteState">
+         <span ng-switch-when="notSharing">{{label}}<sup>1</sup></span>

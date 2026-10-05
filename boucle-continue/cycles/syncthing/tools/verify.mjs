@@ -129,7 +129,65 @@ ok('aucun role="tab" orphelin dans #advanced', await page.locator('#advanced [ro
 const unnamedLinks = await page.locator('#advanced a[target="_blank"]:not([aria-label]):has(> span.fas:only-child, > span.fas)').evaluateAll(
   els => els.filter(a => !a.textContent.trim()).length);
 ok('liens documentation advanced nommés (aria-label)', unnamedLinks === 0, `${unnamedLinks} sans nom`);
+
+// accordéon #advanced : role=button doit être focusable ET opérable au clavier
+// (finding auditeur : tabindex sur h4 sans handler — Enter/Espace n'ouvrait rien)
+const accordionHeads = await page.locator('#advancedAccordion .panel-heading[role="button"][data-toggle="collapse"]').count();
+ok('en-têtes accordéon présents', accordionHeads > 0, `${accordionHeads} en-têtes`);
+const focusableHeads = await page.locator('#advancedAccordion .panel-heading[role="button"][tabindex="0"]').count();
+ok('en-têtes accordéon focusables (tabindex=0 sur le role=button)', focusableHeads === accordionHeads, `${focusableHeads}/${accordionHeads}`);
+const firstHead = page.locator('#advancedAccordion .panel-heading[role="button"]').first();
+await firstHead.focus();
+await page.keyboard.press('Enter');
+await page.waitForTimeout(600); // transition bootstrap collapse
+const openedByEnter = await page.evaluate(() => {
+  const h = document.querySelector('#advancedAccordion .panel-heading[role="button"]');
+  const target = h && document.querySelector(h.getAttribute('href'));
+  return !!(target && target.classList.contains('in'));
+});
+ok('Entrée ouvre le premier panneau accordéon', openedByEnter);
+// refermer puis tester Espace sur le 2e en-tête
+await firstHead.click();
+await page.waitForTimeout(600);
+const secondHead = page.locator('#advancedAccordion .panel-heading[role="button"]').nth(1);
+await secondHead.focus();
+await page.keyboard.press(' ');
+await page.waitForTimeout(600);
+const openedBySpace = await page.evaluate(() => {
+  const hs = document.querySelectorAll('#advancedAccordion .panel-heading[role="button"]');
+  const target = hs[1] && document.querySelector(hs[1].getAttribute('href'));
+  return !!(target && target.classList.contains('in'));
+});
+ok('Espace ouvre le second panneau accordéon', openedBySpace);
+await secondHead.click();
+await page.waitForTimeout(400);
+
+// liens Help adjacents aux labels : soulignés (1.4.1 — pas couleur seule)
+const helpUnderlined = await page.evaluate(() => {
+  const links = [...document.querySelectorAll('#advanced a[target="_blank"], .modal.in a[href*="syncthing.net"], .modal.in a[target="_blank"]')]
+    .filter(a => a.textContent.trim().length > 0);
+  if (!links.length) return -1;
+  return links.filter(a => getComputedStyle(a).textDecorationLine.includes('underline')).length;
+});
+ok('liens d aide des modales soulignés', helpUnderlined > 0, `${helpUnderlined} souligné(s)`);
 await closeModal(page, '#advanced');
+
+// ids dupliqués share-template (finding auditeur : 3× input#sharedwith- quand
+// folder.id vide — rendu paresseux, mesuré dans #editDevice ouvert, onglet Sharing)
+await page.locator('button.panel-heading[data-target^="#device-"]').first().click();
+await page.locator('button[ng-click*="editDeviceExisting"]').first().click();
+await page.waitForSelector('#editDevice.in', { timeout: 10000 });
+const sharingTab = page.locator('#editDevice a[data-toggle="tab"][href="#device-sharing"]');
+if (await sharingTab.count()) { await sharingTab.click(); await page.waitForTimeout(400); }
+const shareIds = await page.evaluate(() =>
+  [...document.querySelectorAll('#editDevice input[id^="sharedwith-"]')].map(i => i.id));
+if (shareIds.length === 0) {
+  console.log('N-A  aucun input sharedwith-* rendu dans l onglet Sharing (pas de dossiers partagés)');
+} else {
+  const dups = shareIds.length - new Set(shareIds).size;
+  ok('pas d id dupliqué sharedwith-*', dups === 0, `${shareIds.length} inputs, ${dups} doublon(s)`);
+}
+await closeModal(page, '#editDevice');
 
 // settings : labels/selects
 await page.locator('li.action-menu:has(.fa-cog) > a.dropdown-toggle').click();

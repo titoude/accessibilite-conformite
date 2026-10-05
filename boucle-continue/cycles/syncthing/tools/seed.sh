@@ -13,6 +13,12 @@ BASE=${3:-http://127.0.0.1:8384}
 BIN=${SYNCTHING_BIN:-$HOME/work/syncthing/syncthing}
 ST2_HOME=$DATA/st2-home
 ST2_DATA=$DATA/st2-data
+# Ports des instances auxiliaires — surcharger si l'instance auditée en occupe un
+# (wart audit : valeurs en dur collisionnaient avec un GUI auditeur sur :8484).
+ST2_GUI_PORT=${ST2_GUI_PORT:-8484}
+ST2_LISTEN_PORT=${ST2_LISTEN_PORT:-22001}
+ST3_GUI_PORT=${ST3_GUI_PORT:-8485}
+ST3_LISTEN_PORT=${ST3_LISTEN_PORT:-22002}
 
 # Device ID distant épinglé — généré une fois via `syncthing generate` (valide,
 # jamais en ligne → "Disconnected" dans le panneau Remote Devices).
@@ -125,18 +131,18 @@ cat > "$ST2_DATA/shared-docs/guide.md" <<'MD'
 Voir https://docs.syncthing.net/ pour la réplication.
 MD
 
-# Config st2 : GUI :8484, écoute :22001, ajoute st1 + dossier partagé.
+# Config st2 : GUI $ST2_GUI_PORT, écoute $ST2_LISTEN_PORT, ajoute st1 + dossier partagé.
 api2() { curl -fsS -H "X-API-Key: $ST2_APIKEY" -H 'Content-Type: application/json' "$@"; }
-"$BIN" cli -H "$ST2_HOME" --gui-address "http://127.0.0.1:8484" config gui-addresses set "http://127.0.0.1:8484" 2>/dev/null || true
+"$BIN" cli -H "$ST2_HOME" --gui-address "http://127.0.0.1:${ST2_GUI_PORT}" config gui-addresses set "http://127.0.0.1:${ST2_GUI_PORT}" 2>/dev/null || true
 
 # Édition directe du config.xml st2 (instance arrêtée) : ports + device st1 + folder.
-python3 - "$ST2_HOME/config.xml" "$ST1_ID" "$ST2_DATA/shared-docs" <<'PY'
+python3 - "$ST2_HOME/config.xml" "$ST1_ID" "$ST2_DATA/shared-docs" "$ST2_GUI_PORT" "$ST2_LISTEN_PORT" <<'PY'
 import re, sys
-p, st1id, folder = sys.argv[1], sys.argv[2], sys.argv[3]
+p, st1id, folder, gui_port, listen_port = sys.argv[1:6]
 cfg = open(p).read()
 # ports d'écoute distincts de st1
-cfg = cfg.replace('<listenAddress>default</listenAddress>', '<listenAddress>tcp://:22001</listenAddress><listenAddress>quic://:22001</listenAddress>')
-cfg = re.sub(r'<address>(127\.0\.0\.1|localhost):8384</address>', '<address>127.0.0.1:8484</address>', cfg)
+cfg = cfg.replace('<listenAddress>default</listenAddress>', f'<listenAddress>tcp://:{listen_port}</listenAddress><listenAddress>quic://:{listen_port}</listenAddress>')
+cfg = re.sub(r'<address>(127\.0\.0\.1|localhost):8384</address>', f'<address>127.0.0.1:{gui_port}</address>', cfg)
 # device st1 connu de st2, adresse loopback explicite (pas de découverte requise)
 dev = f'<device id="{st1id}" name="devin-box" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy=""><address>tcp://127.0.0.1:22000</address><paused>false</paused></device>'
 cfg = cfg.replace('</devices>', dev + '\n    </devices>', 1) if '</devices>' in cfg else re.sub(r'(<device [^>]+>.*?</device>)', r'\1\n    ' + dev, cfg, count=1, flags=re.S)
@@ -184,12 +190,12 @@ if [ ! -f "$ST3_HOME/config.xml" ]; then
 fi
 ST3_ID=$(grep -oP '(?<=<device id=")[^"]+' "$ST3_HOME/config.xml" | head -1)
 # Port d'écoute distinct + device st1 (loopback explicite).
-python3 - "$ST3_HOME/config.xml" "$ST1_ID" <<'PY'
+python3 - "$ST3_HOME/config.xml" "$ST1_ID" "$ST3_GUI_PORT" "$ST3_LISTEN_PORT" <<'PY'
 import re, sys
-p, st1id = sys.argv[1], sys.argv[2]
+p, st1id, gui_port, listen_port = sys.argv[1:5]
 cfg = open(p).read()
-cfg = cfg.replace('<listenAddress>default</listenAddress>', '<listenAddress>tcp://:22002</listenAddress><listenAddress>quic://:22002</listenAddress>')
-cfg = re.sub(r'<address>(127\.0\.0\.1|localhost):8384</address>', '<address>127.0.0.1:8485</address>', cfg)
+cfg = cfg.replace('<listenAddress>default</listenAddress>', f'<listenAddress>tcp://:{listen_port}</listenAddress><listenAddress>quic://:{listen_port}</listenAddress>')
+cfg = re.sub(r'<address>(127\.0\.0\.1|localhost):8384</address>', f'<address>127.0.0.1:{gui_port}</address>', cfg)
 dev = f'<device id="{st1id}" name="devin-box" compression="metadata" introducer="false" skipIntroductionRemovals="false" introducedBy=""><address>tcp://127.0.0.1:22000</address><paused>false</paused></device>'
 cfg = re.sub(r'(<device [^>]+>.*?</device>)', r'\1\n    ' + dev, cfg, count=1, flags=re.S)
 open(p, 'w').write(cfg)

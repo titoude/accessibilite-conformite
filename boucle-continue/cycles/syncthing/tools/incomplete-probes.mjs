@@ -40,6 +40,23 @@ for (const p of report.pages || [])
     for (const n of inc.nodes || [])
       incompletes.push({ page: p.url, rule: inc.id, target: Array.isArray(n.target) ? n.target.join(',') : n.target, reason: n.failureSummary || '' });
 
+// STATES est extrait d'audit.mjs (source unique) : le setup de chaque état est
+// REJOUÉ avant la mesure — sans cela les items des états dynamiques étaient
+// classés « élément absent » sans jamais avoir été re-mesurés dans leur état.
+let STATES = {};
+try {
+  const auditSrc = readFileSync(join(DIR, 'audit.mjs'), 'utf8');
+  const m = auditSrc.match(/const STATES = \{/);
+  if (m) {
+    let depth = 0, end = -1;
+    for (let i = m.index + m[0].length - 1; i < auditSrc.length; i++) {
+      if (auditSrc[i] === '{') depth++;
+      else if (auditSrc[i] === '}') { depth--; if (!depth) { end = i + 1; break; } }
+    }
+    if (end > 0) STATES = eval(`(${auditSrc.slice(m.index + 'const STATES = '.length, end)})`);
+  }
+} catch (e) { console.log(`extraction STATES impossible (${e.message}) — les états ne seront pas rejoués`); }
+
 console.log(`${incompletes.length} item(s) incomplete dans ${REPORT}`);
 const results = [];
 if (incompletes.length) {
@@ -57,6 +74,26 @@ if (incompletes.length) {
     const state = (pageUrl.match(/state:([a-z0-9-]+)/) || [])[1];
     await page.goto(url, { waitUntil: 'load' }).catch(() => {});
     await page.waitForTimeout(2500);
+    let stateOk = true;
+    if (state && STATES[state]) {
+      try { await STATES[state].setup(page); await page.waitForTimeout(800); }
+      catch (e) {
+        stateOk = false;
+        for (const it of items) {
+          const probe = { ...it, verdict: 'N-A', detail: `setup de l état ${state} en échec au rejeu : ${String(e).slice(0, 120)}` };
+          results.push(probe);
+          console.log(`  [${state}] ${it.rule} ${it.target.slice(0, 60)} → N-A ${probe.detail}`);
+        }
+      }
+    } else if (state) {
+      stateOk = false;
+      for (const it of items) {
+        const probe = { ...it, verdict: 'N-A', detail: `état ${state} introuvable dans STATES — setup non rejoué` };
+        results.push(probe);
+        console.log(`  [${state}] ${it.rule} ${it.target.slice(0, 60)} → N-A ${probe.detail}`);
+      }
+    }
+    if (!stateOk) continue;
     for (const it of items) {
       const probe = { ...it, verdict: 'N-A', detail: '' };
       try {
@@ -83,6 +120,22 @@ if (incompletes.length) {
             probe.verdict = (rect.width >= 24 && rect.height >= 24) ? 'RESOLVED' : 'N-A';
             if (probe.verdict === 'N-A') probe.detail += ' — <24px, exige un gap ≥24px non superposé non mesurable sans voisinage';
           } else probe.detail = 'pas de bounding box (invisible)';
+        } else if (it.rule === 'link-in-text-block') {
+          const deco = await el.evaluate(node => {
+            const cs = getComputedStyle(node);
+            return { deco: cs.textDecorationLine || cs.textDecoration, border: cs.borderBottomStyle, outline: cs.outlineStyle };
+          });
+          const distinguished = /underline|overline|line-through/.test(deco.deco) || (deco.border && deco.border !== 'none') || (deco.outline && deco.outline !== 'none');
+          probe.detail = `decoration=${deco.deco} borderBottom=${deco.border} outline=${deco.outline}`;
+          probe.verdict = distinguished ? 'RESOLVED' : 'CONFIRMED_VIOLATION';
+        } else if (it.rule === 'th-has-data-cells') {
+          const cells = await el.evaluate(node => {
+            const table = node.closest('table');
+            return table ? table.querySelectorAll('td').length : -1;
+          });
+          probe.detail = cells < 0 ? 'hors <table>' : `${cells} <td> dans la table`;
+          probe.verdict = cells > 0 ? 'RESOLVED' : 'N-A';
+          if (cells === 0) probe.detail += ' — aucune cellule de données, structure à revoir manuellement';
         } else {
           probe.detail = `règle ${it.rule} : pas de sonde implémentée — revue manuelle requise`;
         }
