@@ -290,6 +290,17 @@ const openSettings = async page => {
   await page.waitForSelector(MODAL('#settings'), { timeout: 10000 });
 };
 
+// Bascule le thème en sombre si ce n'est pas déjà fait — idempotent : un état
+// *-dark rejoué seul (sans theme-dark avant) arme le sombre une seule fois.
+const ensureDark = async page => {
+  const gui = await getJson(page, '/rest/config/gui');
+  if (gui.theme === 'dark') return;
+  gui.theme = 'dark';
+  await putJson(page, '/rest/config/gui', gui);
+  await restartSyncthing(page);
+  await waitThemeApplied(page, 'rgb(39, 39, 39)', 'dark');
+};
+
 const STATES = {
   'usage-report-open': {
     url: b => `${b}/`,
@@ -708,6 +719,58 @@ const STATES = {
       await restartSyncthing(page);
       // rgb(39,39,39) = #272727, fond body du thème dark.
       await waitThemeApplied(page, 'rgb(39, 39, 39)', 'dark');
+    },
+  },
+
+  // États modale×sombre : le finding v3 a montré que les ~20 modales n'étaient
+  // scannées qu'en clair (39 occ color-contrast résiduelles en dark). Un état
+  // par famille de composants : tabs, arbre fancytree, accordéon, dropdown.
+  'settings-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      await openSettings(page);
+      await page.waitForSelector(TAB('#settings-general'), { timeout: 10000 });
+    },
+  },
+  'edit-device-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      await openEditDevice(page, 'desktop-bob');
+      await page.waitForSelector(TAB('#device-general'), { timeout: 10000 });
+    },
+  },
+  'edit-folder-sharing-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      await openEditFolder(page, 'Main Sync');
+      await page.locator('#editFolder a[href="#folder-sharing"]').click();
+      await page.waitForSelector(TAB('#folder-sharing'), { timeout: 10000 });
+    },
+  },
+  'advanced-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      await actionsMenuClick(page, 'Advanced');
+      await page.waitForSelector(MODAL('#advanced'), { timeout: 15000 });
+      await page.locator('#advanced #optionsHeading').click();
+      await page.waitForSelector('#advanced #optionsConfig.in', { timeout: 10000 });
+    },
+  },
+  'actions-menu-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      await page.locator('li.action-menu:has(.fa-cog) > a.dropdown-toggle').click();
+      await page.waitForSelector('li.action-menu:has(.fa-cog).open ul.dropdown-menu', { timeout: 5000 });
     },
   },
   'mobile-home': {

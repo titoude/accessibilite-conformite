@@ -230,6 +230,64 @@ const lightCss = await page.evaluate(async () => {
 });
 ok('light/theme.css contient les correctifs contraste', /#1d6fa5/.test(lightCss) && /#1d7a35/.test(lightCss));
 
+// —— mesure LIVE des contrastes en thème sombre (finding v3 : les modales
+// n'étaient auditées qu'en clair). Arme dark via REST + restart, ouvre
+// #settings, mesure les paires réelles, restaure light.
+const ratio_ = p => { const f = x => { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); }; const l = c => 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); return (Math.max(l(p.fg), l(p.bg)) + 0.05) / (Math.min(l(p.fg), l(p.bg)) + 0.05); };
+const putTheme = async name => page.evaluate(async n => {
+  const m = document.cookie.match(/CSRF-Token-([A-Z0-9]+)=([^;]+)/);
+  const h = { 'Content-Type': 'application/json' };
+  if (m) h[`X-CSRF-Token-${m[1]}`] = m[2];
+  const g = await (await fetch('/rest/config/gui', { headers: h })).json();
+  g.theme = n;
+  const w = await fetch('/rest/config/gui', { method: 'PUT', headers: h, body: JSON.stringify(g) });
+  await fetch('/rest/system/restart', { method: 'POST', headers: h }).catch(() => {});
+  return w.ok;
+}, name);
+ok('PUT theme=dark accepté', await putTheme('dark'));
+for (let i = 0; i < 40; i++) {
+  await page.waitForTimeout(1000);
+  await page.goto(`${BASE}/`, { waitUntil: 'load' }).catch(() => {});
+  const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor).catch(() => '');
+  if (bg === 'rgb(39, 39, 39)') break;
+  if (i === 39) ok('thème sombre appliqué', false, 'body jamais rgb(39,39,39)');
+}
+await page.waitForSelector('button.panel-heading[data-target^="#folder-"]', { timeout: 20000 });
+await page.locator('li.action-menu:has(.fa-cog) > a.dropdown-toggle').click();
+await page.locator('li.action-menu:has(.fa-cog) ul.dropdown-menu a', { hasText: 'Settings' }).first().click();
+await page.waitForSelector('#settings.in', { timeout: 10000 });
+const darkPairs = await page.evaluate(() => {
+  const rgb = s => { const m = s && s.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)/); return m ? [+m[1], +m[2], +m[3]] : null; };
+  const lum = c => { const f = x => { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); }; return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); };
+  const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
+  const effBg = el => { // fond opaque le plus proche
+    let n = el;
+    while (n && n !== document.body) {
+      const c = rgb(getComputedStyle(n).backgroundColor);
+      if (c && getComputedStyle(n).backgroundColor !== 'rgba(0, 0, 0, 0)') return c;
+      n = n.parentElement;
+    }
+    return rgb(getComputedStyle(document.body).backgroundColor);
+  };
+  const pick = sel => { const el = document.querySelector(sel); return el ? { fg: rgb(getComputedStyle(el).color), bg: effBg(el) } : null; };
+  return {
+    navTab: pick('#settings .nav-tabs > li.active > a'),
+    btnPrimary: pick('#settings .btn-primary') || pick('.modal.in .btn-primary'),
+  };
+});
+ok('dark : onglet actif nav-tabs ≥4.5:1', darkPairs.navTab && ratio_(darkPairs.navTab) >= 4.5,
+   darkPairs.navTab ? `${ratio_(darkPairs.navTab).toFixed(2)}:1` : 'sélecteur absent');
+ok('dark : .btn-primary ≥4.5:1', darkPairs.btnPrimary && ratio_(darkPairs.btnPrimary) >= 4.5,
+   darkPairs.btnPrimary ? `${ratio_(darkPairs.btnPrimary).toFixed(2)}:1` : 'sélecteur absent');
+await closeModal(page, '#settings');
+ok('restauration theme=light acceptée', await putTheme('light'));
+for (let i = 0; i < 40; i++) {
+  await page.waitForTimeout(1000);
+  await page.goto(`${BASE}/`, { waitUntil: 'load' }).catch(() => {});
+  const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor).catch(() => '');
+  if (bg === 'rgb(255, 255, 255)') break;
+}
+
 // login page : titre présent
 const page2 = await (await browser.newContext()).newPage();
 await page2.goto(`${BASE}/`, { waitUntil: 'load' });

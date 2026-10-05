@@ -48,6 +48,11 @@
    { "id": "actions-menu-open", "kind": "dropdown", "deterministic": true },
    { "id": "lang-menu-open", "kind": "dropdown", "deterministic": true },
    { "id": "theme-dark", "kind": "theme", "deterministic": true, "setup": "PUT config/gui theme=dark + RESTART + attente body bg rgb(39,39,39)" },
+   { "id": "settings-dark", "kind": "modal+theme", "target": "#settings", "deterministic": true, "setup": "ensureDark (idempotent) + modale Settings" },
+   { "id": "edit-device-dark", "kind": "modal+theme", "target": "#editDevice", "deterministic": true, "setup": "ensureDark + modale editDevice desktop-bob" },
+   { "id": "edit-folder-sharing-dark", "kind": "modal+theme", "target": "#editFolder", "deterministic": true, "setup": "ensureDark + onglet Sharing (arbre fancytree)" },
+   { "id": "advanced-dark", "kind": "modal+theme", "target": "#advanced", "deterministic": true, "setup": "ensureDark + accordéon options" },
+   { "id": "actions-menu-dark", "kind": "dropdown+theme", "deterministic": true, "setup": "ensureDark + dropdown Actions ouvert" },
    { "id": "mobile-home", "kind": "viewport", "deterministic": true, "setup": "theme=light + RESTART + viewport 390x844 (navbar xs ; light explicite car default suit prefers-color-scheme)" }
   ],
   "excluded": [

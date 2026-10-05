@@ -144,6 +144,23 @@ if (incompletes.length) {
       console.log(`  [${state || 'page'}] ${it.rule} ${it.target.slice(0, 60)} → ${probe.verdict} ${probe.detail}`);
     }
   }
+
+  // Les états *-dark laissent theme=dark dans la config serveur : restaurer
+  // explicitement le clair — sinon le prochain run part d'une instance mutée.
+  try {
+    const restored = await page.evaluate(async () => {
+      const m = document.cookie.match(/CSRF-Token-([A-Z0-9]+)=([^;]+)/);
+      const h = { 'Content-Type': 'application/json' };
+      if (m) h[`X-CSRF-Token-${m[1]}`] = m[2];
+      const r = await fetch('/rest/config/gui', { headers: h });
+      const gui = await r.json();
+      if (gui.theme !== 'dark') return 'pas-en-sombre';
+      gui.theme = 'light';
+      const w = await fetch('/rest/config/gui', { method: 'PUT', headers: h, body: JSON.stringify(gui) });
+      return w.ok ? 'clair-restauré' : `HTTP ${w.status}`;
+    });
+    console.log(`thème après run : ${restored}`);
+  } catch (e) { console.log(`restauration thème échouée : ${String(e).slice(0, 100)}`); }
   await browser.close();
 }
 const out = { report: REPORT, count: results.length, results };
