@@ -49,7 +49,12 @@
     "/-/admin, /-/admin/users, /-/admin/users/2",
     "/a11yorg/demo-repo/issues/1 (commentaire + sidebar), /issues/2 (label+milestone), /issues/new (éditeur)",
     "/a11yorg/demo-repo/pulls/5, /pulls/5/files (diff + review)",
-    "/a11yorg/demo-repo/settings, /projects, /actions"
+    "/a11yorg/demo-repo/settings, /projects, /actions",
+    "/-/admin/self_check",
+    "/-/admin/monitor/stacktrace",
+    "/-/admin/emails",
+    "/-/admin/repos",
+    "/a11yorg/demo-repo/watchers"
    ],
    "states": [
     "navbar-user-dropdown",
@@ -85,7 +90,7 @@
   "états d'erreur non déterministes : 500 (aucun endpoint crashable à la demande dans gitea), rate-limit (désactivé par défaut) — documenté comme non atteignable",
   "fork-repo-modal : ne se rend que si l'utilisateur a déjà forké (modale 'already forked' dormante dans le DOM — inline display:none ; le fork réel POST mute les données → non déterministe sans fork pré-seedé ; surface à risque documentée)",
   "rendus dynamiques dépendant de données non seedées : notifications non lues (compteur tw-hidden), stopwatch actif, message MOTD admin — les conteneurs vides sont scannés dans les pages concernées",
-  "wiki edit/new (?action=_new|_edit|_pages|_revisions), repo/compare, blame, render, watch/star/forks/stargazers/watchers : variantes de templates couverts par les pages voisines (même layout repo) — limitation de scope déclarée"
+  "wiki edit/new (?action=_new|_edit|_pages|_revisions), repo/compare, blame, render, watch/star/forks/stargazers : variantes de templates couverts par les pages voisines (même layout repo) — limitation de scope déclarée"
  ],
  "auditCommands": [
   "cd boucle-continue/cycles/gitea/tools && npm install && npx playwright install chromium",
@@ -98,7 +103,7 @@
   "node audit.mjs http://localhost:3233 --urls <mêmes listes> --storage-state auth-3233.json --wait 500 --out ../reports/install-build-*",
   "node verify.mjs http://localhost:3232 auth.json",
   "node eval-final.mjs http://localhost:3232 auth.json",
-  "node incomplete-probes.mjs http://localhost:3232 auth.json > ../reports/incomplete-probes.json"
+  "node incomplete-probes.mjs http://localhost:3232 --storage-state auth.json --out ../reports/incomplete-probes.json   (sans --out : sortie datée incomplete-probes-<runId>.json, ne touche pas le rapport commité)"
  ],
  "wait_rationale": "SSR + JS d'init léger (fomantic dropdowns, tippy) : le DOM est complet au 'load' ; --wait 500 couvre les transitions fomantic (~200-300ms) qui produiraient des flags color-contrast mid-animation (settleAnimations dans le runner aussi)",
  "toolVersions": {

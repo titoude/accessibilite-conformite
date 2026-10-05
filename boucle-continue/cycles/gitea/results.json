@@ -87,11 +87,12 @@
    "incomplets": 125
   },
   "auth": {
-   "pages": 50,
+   "pages": 55,
    "violations_occ": 0,
    "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 817
+   "incomplets": 857,
+   "note_scope": "v2 : +5 urls auditées (self_check, monitor/stacktrace, emails, repos, watchers) — résiduels amont intégrés au patch (leçon 20)"
   },
   "total_occ": 0
  },
@@ -104,19 +105,20 @@
   "auth": {
    "violations_occ": 0,
    "erreurs": 0,
-   "incomplets": 817
+   "incomplets": 858
   },
-  "note": "git apply 0 rejet + npm ci + webpack + go build + boot :3233 + re-scan (install-build.log)"
+  "note": "v2 : clone vierge @SHA + patch.diff v2 (git apply 0 rejet, 273 fichiers) + npm ci + webpack + go build + boot :3402 + re-scan 78 scénarios"
  },
  "incomplete_probes": {
-  "sondes": 942,
-  "conformes": 942,
+  "sondes": 982,
+  "conformes": 982,
   "non_conformes": 0,
-  "non_retrouvees": 0
+  "non_retrouvees": 0,
+  "note": "v2 : sortie via --out ../reports/incomplete-probes.json (W1), origines réécrites sur :3401 pour TOUTES les urls (W3), unfound = found:false (W2)"
  },
- "verify_mjs": "51/51 assertions",
+ "verify_mjs": "58/58 assertions (v2 : +7 assertions contrat clavier APG menu-button section 3b)",
  "eval_final_mjs": "30/30 contrôles indépendants",
- "install_build": "OK — clone vierge @SHA + patch.diff + build réel + boot :3233 + 73 scénarios 0 viol/0 err (reports/install-build.log)",
+ "install_build": "OK — clone vierge @SHA + patch.diff v2 + build réel + boot :3402 + 78 scénarios 0 viol/0 err",
  "score": {
   "baseline_occ": 1456,
   "final_occ": 0,
@@ -179,6 +181,40 @@
   "Les états mutants (delete-issue, delete-user, block-user, lock) sont rejoués UNE fois, non-idempotents documentés.",
   "N-A explicites : skip-link absent (non requis), prefers-reduced-motion (transitions 0.1s natives), menu items .disabled non visibles sur /issues pour l'admin.",
   "Session cookie gitea en mémoire : auth.json régénéré après CHAQUE restart (sinon scans anonymes silencieux).",
-  "les 942 incomplètes sont résolues par sondes exhaustives (composite alpha top→down), pas ignorées."
- ]
+  "les 942 incomplètes sont résolues par sondes exhaustives (composite alpha top→down), pas ignorées.",
+  "v2 : le clic destructif « Clear labels » sur Enter existe AUSSI en vanilla amont (mesuré :3400, label_ids 1→\"\" + focus BODY) — v2 le neutralise, amélioration stricte sur les deux états.",
+  "v2 : scan final 0 viol sur scope ÉTENDU (55 pages auth) — les 5 urls résiduelles v1 sont maintenant dans le périmètre, pas hors-champ.",
+  "v2 : install-build-auth incomplets = 858 vs 857 final-auth — variance d'un nœud incomplet entre instances (axe non déterministe sur un compteur), violations identiques 0."
+ ],
+ "auditTiers": "PARTIAL v1 → v2 fixes",
+ "corrections_post_audit_warts": {
+  "verdict_source": "verdict-auditeur.md PARTIAL (commit 2a7ee8c)",
+  "F5_regression_clavier": {
+   "fichier": "web_src/js/modules/fomantic/dropdown.ts",
+   "fix": "keydown menu-button : Enter/Espace/ArrowDown/ArrowUp ouvrent le menu fermé via dropdown('show') (fomantic keydown n'ouvre que sur downArrow et jamais sur Enter ; le focus interne ne déclenche plus showOnFocus) ; clic .item.selected déplacé derrière garde isMenuVisible() (jamais d'activation quand l'intention est « ouvrir ») ; Escape → poll-borné 2s restaure focus sur le trigger (fomantic masque le menu synchronement avant notre handler — la condition teste l'origine de l'événement, pas l'état)",
+   "mesures_live": "reports/keyboard-f5-v2.md — :3401 v2 vs :3400 vanilla : Enter/Espace/ArrowDown ouvrent navbar+sidebar, flèches naviguent .item.selected, Escape referme+restaure trigger, label_ids inchangé (pas de clear-labels). Rejoué dans verify.mjs section 3b : 58/58."
+  },
+  "F1_h1_vide": {
+   "fichiers": [
+    "templates/{admin,user/settings,org/settings,repo/settings}/layout_head.tmpl ×4 (h1 + aria-label conditionnels {{if .ctxData.Title}})",
+    "routers/web/admin/admin.go SelfCheck : ctx.Data[\"Title\"] = ctx.Tr(\"admin.self_check\")"
+   ],
+   "mesure_live": "h1.tw-sr-only = « Self Check » + role=main aria-label + <title> sur /-/admin/self_check :3401"
+  },
+  "residuels_amont": {
+   "trace_tabs.tmpl": "input[name=seconds] → aria-label tool.raw_seconds (/-/admin/monitor/stacktrace)",
+   "emails/list.tmpl": "lien show-modal change-email → aria-label (admin.emails.change_email_header) ; lien delete → aria-label (admin.emails.delete)",
+   "repo/list.tmpl": "delete-button → aria-label 'repo.settings.delete: <name>'",
+   "user_cards.tmpl": "lien avatar (alt vide) → aria-label DisplayName (/watchers)",
+   "scope": "urls-auth.txt +5 : /-/admin/self_check, /-/admin/monitor/stacktrace, /-/admin/emails, /-/admin/repos, /a11yorg/demo-repo/watchers ; watchers sorti de la liste 'excluded' du manifest"
+  },
+  "warts": {
+   "W1": "incomplete-probes.mjs : sortie par défaut reports/incomplete-probes-<runId>.json (ne clobère plus le rapport hashé) ; --out explicite pour la régénération commitée (auditCommands documenté)",
+   "W2": "compteur unfound : filtre r.found===false (avant : r.pass===null && r.found===false ratait les pass:undefined)",
+   "W3": "origine réécrite sur BASE pour TOUTES les urls (état ou non) — leçon 15 appliquée aux pages non-état",
+   "W4": "seed.mjs : asArr() sur tous les .body (erreurs API = objet non tableau) ; issues?state=all (l'issue fermée est vue, pas recréée → PR index stable #5) ; fermeture par titre+number (pas d'index codé en dur) ; POST pulls : retry borné + re-vérif GET (le 404 post-création est un quirk gitea — la PR existe)",
+   "W5": "incomplete-probes.mjs : drapeaux --storage-state/--out/--reports documentés + positionnels conservés ; flags inconnus → exit 2"
+  },
+  "execution": "toutes les preuves rejouées sur instance réelle patchée v2 (:3401) + clone vierge (:3402) ; mesures clavier vrai clavier Playwright"
+ }
 }

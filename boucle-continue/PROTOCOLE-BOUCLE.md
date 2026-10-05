@@ -311,3 +311,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 ### Leçons — cycle 30 nocodb (audit CONFIRMED → fixes v2 exécutés)
 
 22. **Constantes d'IDs en dur = défaut de portabilité, dans TOUS les outils** : paramétrer audit.mjs ne suffit pas — verify/eval/sondes crashaient verbatim sur un clone frais (NC_WS/NC_* → env avec défauts, convention partagée + nc-env-install.sh écrit par gen-urls). Corollaire : tout eval qui navigue doit garder une assertion d'URL finale AVANT les assertions de contenu (pathname attendu sinon FAIL 'page redirigé') — un PASS mesuré sur un document redirigé est un faux PASS. Et les payloads API « documentés » peuvent être des no-ops silencieux (200 + rien persisté : {"attrs":{...}} et PATCH /forms/:id meta) — vérifier l'effet lu par re-GET, pas le code retour.
+
+
+### Leçons — cycle 32 gitea (audit PARTIAL → fixer v2, régression clavier)
+
+23. **Afficher le contrat ARIA APG EXIGE de le livrer.** Poser `role=button`/`aria-haspopup`/`aria-expanded` sur un déclencheur annonce Enter/Espace/flèches — si le tabindex est retiré de la racine et donné à un enfant sans activation native, aucun scanner ne le voit : axe mesure 0 violation pendant que le widget est mort au clavier (WCAG 2.1.1). Règle : TOUT changement de tabindex/rôle sur un widget interactif doit être éprouvé au vrai clavier (Enter, Espace, ArrowDown/Up, Escape, focus restauré) dans verify.mjs — une assertion DOM par intention, pas par état. Et l'activation d'item (`.item.selected`) ne doit exister que derrière la garde « menu ouvert » : Enter menu fermé = intention « ouvrir », jamais « activer » (sinon Enter clique « Clear labels » — destructif).
+24. **État synchrone du framework ≠ état vu par ton handler.** Fomantic masque le menu synchronement dans SON keydown enregistré plus tôt sur le même élément : `isMenuVisible()` est déjà faux quand le listener ajouté tourne → le code de restauration de focus est mort sans erreur. Règle : tester l'ORIGINE de l'événement (target dans le widget), pas l'état résultant, puis poll borné pour la restauration (le blur tardif du framework arrive après la fermeture).
+

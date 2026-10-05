@@ -158,6 +158,104 @@ if (dd.found) {
     na('dropdown: racine NON focusable', 'aucun .issue-sidebar-combo .ui.dropdown sur issues/1');
 }
 
+// ── 3b. Contrat clavier APG menu-button (régression F5 auditée) ─────────────
+// Le patch retire tabindex de la racine .ui.dropdown : le trigger interne doit
+// recevoir Enter/Espace/ArrowDown => OUVERTURE (comme vanilla), flèches =>
+// navigation dans le menu ouvert, Escape => fermeture + focus restauré.
+// Le clic .item.selected ne doit JAMAIS être déclenché sur un menu fermé
+// (« Clear labels » destructif mesuré par l'auditeur : focus tombait sur BODY).
+
+// 3b-i. Navbar user dropdown : Enter ouvre
+await page.goto(`${base}/`, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(800);
+const navKb = await (async () => {
+    const triggerSel = '#navbar .dropdown:has(.user-menu) > .text, #navbar .dropdown:has(.user-menu) [tabindex="0"]';
+    const tr = await page.$(triggerSel);
+    if (!tr) return { found: false };
+    await tr.focus();
+    await page.waitForTimeout(300);
+    const before = await page.evaluate(() => document.activeElement === document.body);
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(700);
+    const opened = await page.evaluate(() => {
+        const d = document.querySelector('#navbar .dropdown:has(.user-menu)');
+        const m = d?.querySelector(':scope > .menu');
+        const vis = m && (m.classList.contains('visible') || (getComputedStyle(m).display !== 'none' && m.getClientRects().length > 0));
+        const trg = d?.querySelector(':scope > .text, [tabindex="0"]');
+        return { open: !!vis, expanded: trg?.getAttribute('aria-expanded'), focusInBody: document.activeElement === document.body };
+    });
+    // navigation flèche dans le menu ouvert : un .item reçoit .selected
+    await page.keyboard.press('ArrowDown');
+    await page.waitForTimeout(400);
+    const navigated = await page.evaluate(() => {
+        const d = document.querySelector('#navbar .dropdown:has(.user-menu)');
+        return !!(d && d.querySelector('.menu.visible .item.selected, .menu.visible .item.active'));
+    });
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(700);
+    const closed = await page.evaluate(() => {
+        const d = document.querySelector('#navbar .dropdown:has(.user-menu)');
+        const m = d?.querySelector(':scope > .menu');
+        const vis = m && (m.classList.contains('visible') || (getComputedStyle(m).display !== 'none' && m.getClientRects().length > 0));
+        return { closed: !vis, focusBack: !document.activeElement || document.activeElement === document.body ? false : !!(d && d.contains(document.activeElement)) };
+    });
+    return { found: true, before, opened, navigated, closed };
+})();
+if (navKb.found) {
+    ok('clavier navbar: Enter OUVRE le menu (menu-button)', navKb.opened.open && !navKb.opened.focusInBody, JSON.stringify(navKb.opened));
+    ok('clavier navbar: aria-expanded=true une fois ouvert', navKb.opened.expanded === 'true', String(navKb.opened.expanded));
+    ok('clavier navbar: flèches naviguent les items (item.selected)', navKb.navigated, String(navKb.navigated));
+    ok('clavier navbar: Escape referme + focus restauré sur trigger', navKb.closed.closed && navKb.closed.focusBack, JSON.stringify(navKb.closed));
+} else {
+    na('clavier navbar: Enter ouvre', 'trigger navbar introuvable');
+}
+
+// 3b-ii. Sidebar combo labels : Enter ouvre SANS cliquer « Clear labels »
+await page.goto(`${base}/a11yorg/demo-repo/issues/1`, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(800);
+const sideKb = await (async () => {
+    const comboSel = '.issue-sidebar-combo:has(input[name="label_ids"]) .ui.dropdown';
+    const tr = await page.$(comboSel + ' > a, ' + comboSel + ' [tabindex="0"]');
+    if (!tr) return { found: false };
+    await tr.focus();
+    await page.waitForTimeout(300);
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(800);
+    const afterEnter = await page.evaluate(() => {
+        const d = document.querySelector('.issue-sidebar-combo:has(input[name="label_ids"]) .ui.dropdown');
+        const m = d?.querySelector(':scope > .menu, .menu');
+        const vis = m && (m.classList.contains('visible') || (getComputedStyle(m).display !== 'none' && m.getClientRects().length > 0));
+        const inp = document.querySelector('.issue-sidebar-combo input[name="label_ids"]');
+        return { open: !!vis, focusBody: document.activeElement === document.body,
+                 focusInsideMenu: !!(m && m.contains(document.activeElement)),
+                 labelIds: inp ? inp.value : null };
+    });
+    await page.keyboard.press('ArrowDown');
+    await page.waitForTimeout(400);
+    const nav2 = await page.evaluate(() => {
+        const d = document.querySelector('.issue-sidebar-combo:has(input[name="label_ids"]) .ui.dropdown');
+        return !!(d && d.querySelector('.item.selected, .item.active'));
+    });
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(800);
+    const closed2 = await page.evaluate(() => {
+        const d = document.querySelector('.issue-sidebar-combo:has(input[name="label_ids"]) .ui.dropdown');
+        const m = d?.querySelector(':scope > .menu, .menu');
+        const vis = m && (m.classList.contains('visible') || (getComputedStyle(m).display !== 'none' && m.getClientRects().length > 0));
+        return { closed: !vis,
+                 focusBack: !!(d && d.contains(document.activeElement)) && document.activeElement !== document.body };
+    });
+    return { found: true, afterEnter, nav2, closed2 };
+})();
+if (sideKb.found) {
+    ok('clavier sidebar: Enter OUVRE (PAS de clear-labels — focus ne tombe pas sur BODY)',
+       sideKb.afterEnter.open && !sideKb.afterEnter.focusBody, JSON.stringify(sideKb.afterEnter));
+    ok('clavier sidebar: flèches naviguent dans le menu ouvert', sideKb.nav2, String(sideKb.nav2));
+    ok('clavier sidebar: Escape referme + focus restauré', sideKb.closed2.closed && sideKb.closed2.focusBack, JSON.stringify(sideKb.closed2));
+} else {
+    na('clavier sidebar: Enter ouvre', 'combo labels introuvable');
+}
+
 // ── 4. Combobox : input.search role=combobox + attrs ────────────────────────
 await page.goto(`${base}/a11yorg/demo-repo`, { waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(600);

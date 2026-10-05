@@ -13,8 +13,17 @@
  * Les états dynamiques sont rejoués via les STATES de audit.mjs (source unique).
  *
  * Usage: node incomplete-probes.mjs <baseUrl> [auth.json] [reportDir...]
+ *        node incomplete-probes.mjs <baseUrl> [--storage-state <auth.json>]
+ *              [--out <fichier.json>] [--reports <dir...>]
  *   défaut des rapports: ../reports/final-public + ../reports/final-auth
- * Sortie: ../reports/incomplete-probes.json + code 1 si un nœud reste non conforme.
+ *   --storage-state : fichier storageState playwright (alias de l'argument
+ *                     positionnel [auth.json] — les deux formes sont reçues).
+ *   --out           : destination du rapport JSON. Défaut =
+ *                     ../reports/incomplete-probes-<runId>.json pour ne PAS
+ *                     écraser le rapport commité+hashé ; la régénération du
+ *                     livrable se fait explicitement avec
+ *                     --out ../reports/incomplete-probes.json (auditCommands).
+ * Sortie: fichier --out + code 1 si un nœud reste non conforme.
  */
 import { createRequire } from 'node:module';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -25,10 +34,33 @@ const { chromium } = require('playwright');
 const HERE = dirname(fileURLToPath(import.meta.url));
 const { STATES } = await import('./audit.mjs');
 
-const base = process.argv[2] || 'http://localhost:3232';
-const authPath = process.argv[3] || resolve(HERE, 'auth.json');
-const reportDirs = process.argv.slice(4).length ? process.argv.slice(4)
-    : [resolve(HERE, '../reports/final-public'), resolve(HERE, '../reports/final-auth')];
+// args : <base> positionnel, puis soit positionnels [authPath] [reportDir...]
+// soit drapeaux nommés --storage-state/--out/--reports (mélange interdit pour
+// éviter l'ambiguïté d'un flag pris pour un chemin positionnel).
+const args = process.argv.slice(2);
+const base = args[0] && !args[0].startsWith('--') ? args[0] : 'http://localhost:3232';
+const runId = new Date().toISOString().replace(/[:.]/g, '-');
+let authPath = resolve(HERE, 'auth.json');
+let outPath = resolve(HERE, `../reports/incomplete-probes-${runId}.json`);
+let reportDirs = [resolve(HERE, '../reports/final-public'), resolve(HERE, '../reports/final-auth')];
+{
+  const rest = args.slice(base === args[0] ? 1 : 0);
+  const flagged = rest.some(a => a.startsWith('--'));
+  if (flagged) {
+    const dirs = [];
+    for (let i = 0; i < rest.length; i++) {
+      const a = rest[i];
+      if (a === '--storage-state') authPath = resolve(rest[++i]);
+      else if (a === '--out') outPath = resolve(rest[++i]);
+      else if (a === '--reports') { while (rest[i + 1] && !rest[i + 1].startsWith('--')) dirs.push(resolve(rest[++i])); }
+      else { console.error(`argument inconnu: ${a}`); process.exit(2); }
+    }
+    if (dirs.length) reportDirs = dirs;
+  } else {
+    if (rest[0]) authPath = resolve(rest[0]);
+    if (rest.length > 1) reportDirs = rest.slice(1).map(d => resolve(d));
+  }
+}
 
 const PROBE_HELPERS = `
 const parse = (c) => {
@@ -151,10 +183,12 @@ const results = [];
 let probed = 0, passCount = 0, failCount = 0;
 for (const [key, t] of targets) {
     const page = t.authed ? authPage : anonPage;
-    const u = new URL(t.url);
-    // l'état remplace l'URL si la définition STATES en porte une
+    // l'état remplace l'URL si la définition STATES en porte une ; sinon
+    // l'URL enregistrée est réécrite sur l'origine du run courant (leçon 15 :
+    // les rapports peuvent venir d'une autre instance/port).
     const st = t.state && STATES[t.state] ? STATES[t.state] : null;
-    const targetUrl = st?.url ? st.url(base) : t.url;
+    const rel = new URL(t.url, base);
+    const targetUrl = st?.url ? st.url(base) : `${base}${rel.pathname}${rel.search}${rel.hash}`;
     try {
         await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
         await page.waitForTimeout(600);
@@ -175,8 +209,10 @@ for (const [key, t] of targets) {
 }
 
 const fails = results.filter(r => r.pass === false);
-const unfound = results.filter(r => r.pass === null && r.found === false);
-writeFileSync(resolve(HERE, '../reports/incomplete-probes.json'),
+// « non retrouvée » = nœud absent du DOM au re-sondage — compter tous les
+// found:false, pas seulement ceux dont pass est littéralement null.
+const unfound = results.filter(r => r.found === false);
+writeFileSync(outPath,
     JSON.stringify({ generatedAt: new Date().toISOString(), base, probed, pass: passCount, fail: failCount, unfound: unfound.length, results }, null, 2));
-console.log(`\n${probed} sondes -> reports/incomplete-probes.json : ${passCount} conformes, ${failCount} NON CONFORMES, ${unfound.length} non retrouvées`);
+console.log(`\n${probed} sondes -> ${outPath} : ${passCount} conformes, ${failCount} NON CONFORMES, ${unfound.length} non retrouvées`);
 process.exit(failCount > 0 ? 1 : 0);

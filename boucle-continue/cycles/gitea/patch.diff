@@ -1,5 +1,5 @@
 diff --git a/options/locale/locale_en-US.ini b/options/locale/locale_en-US.ini
-index c026c818c..304539218 100644
+index c026c818c5..3045392185 100644
 --- a/options/locale/locale_en-US.ini
 +++ b/options/locale/locale_en-US.ini
 @@ -83,6 +83,7 @@ milestones = Milestones
@@ -28,8 +28,20 @@ index c026c818c..304539218 100644
  activity.git_stats_exclude_merges = Excluding merges,
  activity.git_stats_author_1 = %d author
  activity.git_stats_author_n = %d authors
+diff --git a/routers/web/admin/admin.go b/routers/web/admin/admin.go
+index 0cd13acf60..daa67153b5 100644
+--- a/routers/web/admin/admin.go
++++ b/routers/web/admin/admin.go
+@@ -194,6 +194,7 @@ func DashboardPost(ctx *context.Context) {
+ }
+ 
+ func SelfCheck(ctx *context.Context) {
++	ctx.Data["Title"] = ctx.Tr("admin.self_check")
+ 	ctx.Data["PageIsAdminSelfCheck"] = true
+ 
+ 	ctx.Data["StartupProblems"] = setting.StartupProblems
 diff --git a/templates/admin/applications/list.tmpl b/templates/admin/applications/list.tmpl
-index cbb66b160..5b98d704b 100644
+index cbb66b1605..5b98d704be 100644
 --- a/templates/admin/applications/list.tmpl
 +++ b/templates/admin/applications/list.tmpl
 @@ -1,8 +1,8 @@
@@ -44,7 +56,7 @@ index cbb66b160..5b98d704b 100644
  	</div>
  {{template "admin/layout_footer" .}}
 diff --git a/templates/admin/auth/edit.tmpl b/templates/admin/auth/edit.tmpl
-index 15683307e..4b7bd0884 100644
+index 15683307ed..4b7bd08844 100644
 --- a/templates/admin/auth/edit.tmpl
 +++ b/templates/admin/auth/edit.tmpl
 @@ -1,8 +1,8 @@
@@ -84,7 +96,7 @@ index 15683307e..4b7bd0884 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "admin.auths.delete_auth_title"}}
 diff --git a/templates/admin/auth/list.tmpl b/templates/admin/auth/list.tmpl
-index a1e72b742..1dfb0c927 100644
+index a1e72b742f..1dfb0c9270 100644
 --- a/templates/admin/auth/list.tmpl
 +++ b/templates/admin/auth/list.tmpl
 @@ -1,11 +1,11 @@
@@ -102,7 +114,7 @@ index a1e72b742..1dfb0c927 100644
  			<table class="ui very basic striped table unstackable">
  				<thead>
 diff --git a/templates/admin/auth/new.tmpl b/templates/admin/auth/new.tmpl
-index be4995c78..cd79d89a1 100644
+index be4995c784..cd79d89a18 100644
 --- a/templates/admin/auth/new.tmpl
 +++ b/templates/admin/auth/new.tmpl
 @@ -1,8 +1,8 @@
@@ -140,7 +152,7 @@ index be4995c78..cd79d89a1 100644
  				<li>Bitbucket</li>
  				<span>{{ctx.Locale.Tr "admin.auths.tip.bitbucket" "https://bitbucket.org/account/user/{your-username}/oauth-consumers/new"}}</span>
 diff --git a/templates/admin/config.tmpl b/templates/admin/config.tmpl
-index 806347c72..8ffea5a3a 100644
+index 806347c720..8ffea5a3a3 100644
 --- a/templates/admin/config.tmpl
 +++ b/templates/admin/config.tmpl
 @@ -1,8 +1,8 @@
@@ -275,7 +287,7 @@ index 806347c72..8ffea5a3a 100644
  			<dl class="admin-dl-horizontal">
  				{{if .Loggers.xorm.IsEnabled}}
 diff --git a/templates/admin/config_settings.tmpl b/templates/admin/config_settings.tmpl
-index 6b9bb8275..7fa80adbb 100644
+index 6b9bb8275c..7fa80adbbb 100644
 --- a/templates/admin/config_settings.tmpl
 +++ b/templates/admin/config_settings.tmpl
 @@ -1,7 +1,7 @@
@@ -301,7 +313,7 @@ index 6b9bb8275..7fa80adbb 100644
  	<form class="ui form form-fetch-action" method="post" action="{{AppSubUrl}}/-/admin/config?key={{.SystemConfig.Repository.OpenWithEditorApps.DynKey}}">
  		<div class="field">
 diff --git a/templates/admin/cron.tmpl b/templates/admin/cron.tmpl
-index 309cbce81..2a0b589a8 100644
+index 309cbce814..2a0b589a8f 100644
 --- a/templates/admin/cron.tmpl
 +++ b/templates/admin/cron.tmpl
 @@ -1,14 +1,14 @@
@@ -323,7 +335,7 @@ index 309cbce81..2a0b589a8 100644
  						<th>{{ctx.Locale.Tr "admin.monitor.schedule"}}</th>
  						<th>{{ctx.Locale.Tr "admin.monitor.next"}}</th>
 diff --git a/templates/admin/dashboard.tmpl b/templates/admin/dashboard.tmpl
-index 2426a43b1..3e4c3f840 100644
+index 2426a43b15..3e4c3f8407 100644
 --- a/templates/admin/dashboard.tmpl
 +++ b/templates/admin/dashboard.tmpl
 @@ -5,9 +5,9 @@
@@ -351,7 +363,7 @@ index 2426a43b1..3e4c3f840 100644
  		<div class="ui attached table segment">
  			<div class="no-loading-indicator tw-hidden"></div>
 diff --git a/templates/admin/emails/list.tmpl b/templates/admin/emails/list.tmpl
-index b4335aeee..c267552cb 100644
+index b4335aeeec..7708d7579d 100644
 --- a/templates/admin/emails/list.tmpl
 +++ b/templates/admin/emails/list.tmpl
 @@ -1,8 +1,8 @@
@@ -374,6 +386,24 @@ index b4335aeee..c267552cb 100644
  					</tr>
  				</thead>
  				<tbody>
+@@ -50,7 +50,7 @@
+ 							<td>{{svg (Iif .IsPrimary "octicon-check" "octicon-x")}}</td>
+ 							<td>
+ 								{{if .CanChange}}
+-									<a class="show-modal" href data-modal="#change-email-modal" data-modal-uid="{{.UID}}"
++									<a class="show-modal" href data-modal="#change-email-modal" aria-label="{{ctx.Locale.Tr "admin.emails.change_email_header"}}" data-modal-uid="{{.UID}}"
+ 										data-modal-email="{{.Email}}"
+ 										data-modal-primary="{{if .IsPrimary}}1{{else}}0{{end}}"
+ 										data-modal-activate="{{if .IsActivated}}0{{else}}1{{end}}">
+@@ -61,7 +61,7 @@
+ 								{{end}}
+ 							</td>
+ 							<td>
+-								<a class="link-action negative" href data-url="{{$.Link}}/delete?id={{.ID}}&uid={{.UID}}"
++								<a class="link-action negative" href data-url="{{$.Link}}/delete?id={{.ID}}&uid={{.UID}}" aria-label="{{ctx.Locale.Tr "admin.emails.delete"}}"
+ 									data-modal-confirm-header="{{ctx.Locale.Tr "admin.emails.delete"}}"
+ 									data-modal-confirm-content="{{ctx.Locale.Tr "admin.emails.delete_desc"}}"
+ 								>{{svg "octicon-trash"}}</a>
 @@ -76,7 +76,7 @@
  
  		{{template "base/paginate" .}}
@@ -384,18 +414,19 @@ index b4335aeee..c267552cb 100644
  				{{ctx.Locale.Tr "admin.emails.change_email_header"}}
  			</div>
 diff --git a/templates/admin/layout_head.tmpl b/templates/admin/layout_head.tmpl
-index 7cc6624d5..9307fdc93 100644
+index 7cc6624d50..6e00f1e244 100644
 --- a/templates/admin/layout_head.tmpl
 +++ b/templates/admin/layout_head.tmpl
 @@ -1,5 +1,6 @@
  {{template "base/head" .ctxData}}
- <div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
-+	<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>
+-<div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
++<div role="main"{{if .ctxData.Title}} aria-label="{{.ctxData.Title}}"{{end}} class="page-content {{.pageClass}}">
++	{{if .ctxData.Title}}<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>{{end}}
  	<div class="ui container fluid padded flex-container">
  		{{template "admin/navbar" .ctxData}}
  		<div class="flex-container-main">
 diff --git a/templates/admin/notice.tmpl b/templates/admin/notice.tmpl
-index a4c9dc53f..c973cc0af 100644
+index a4c9dc53fb..c973cc0afd 100644
 --- a/templates/admin/notice.tmpl
 +++ b/templates/admin/notice.tmpl
 @@ -1,12 +1,12 @@
@@ -433,7 +464,7 @@ index a4c9dc53f..c973cc0af 100644
  	<div class="content"><pre></pre></div>
  </div>
 diff --git a/templates/admin/org/list.tmpl b/templates/admin/org/list.tmpl
-index 137c42b45..3342f725a 100644
+index 137c42b45d..3342f725af 100644
 --- a/templates/admin/org/list.tmpl
 +++ b/templates/admin/org/list.tmpl
 @@ -1,11 +1,11 @@
@@ -460,7 +491,7 @@ index 137c42b45..3342f725a 100644
  				</thead>
  				<tbody>
 diff --git a/templates/admin/packages/list.tmpl b/templates/admin/packages/list.tmpl
-index 0c6889b59..324ce31cd 100644
+index 0c6889b599..324ce31cdc 100644
 --- a/templates/admin/packages/list.tmpl
 +++ b/templates/admin/packages/list.tmpl
 @@ -1,6 +1,6 @@
@@ -490,7 +521,7 @@ index 0c6889b59..324ce31cd 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "packages.settings.delete"}}
 diff --git a/templates/admin/queue.tmpl b/templates/admin/queue.tmpl
-index 1be35cf76..8adced47f 100644
+index 1be35cf765..8adced47f2 100644
 --- a/templates/admin/queue.tmpl
 +++ b/templates/admin/queue.tmpl
 @@ -1,8 +1,8 @@
@@ -514,7 +545,7 @@ index 1be35cf76..8adced47f 100644
  			</thead>
  			<tbody>
 diff --git a/templates/admin/queue_manage.tmpl b/templates/admin/queue_manage.tmpl
-index dc0196fc6..c7d16c8bf 100644
+index dc0196fc6a..c7d16c8bf0 100644
 --- a/templates/admin/queue_manage.tmpl
 +++ b/templates/admin/queue_manage.tmpl
 @@ -1,8 +1,8 @@
@@ -541,7 +572,7 @@ index dc0196fc6..c7d16c8bf 100644
  			<p>{{ctx.Locale.Tr "admin.monitor.queue.settings.desc"}}</p>
  			<form method="post" action="{{.Link}}/set">
 diff --git a/templates/admin/repo/list.tmpl b/templates/admin/repo/list.tmpl
-index 762013af4..591430712 100644
+index 762013af47..f110c171c0 100644
 --- a/templates/admin/repo/list.tmpl
 +++ b/templates/admin/repo/list.tmpl
 @@ -1,11 +1,11 @@
@@ -558,6 +589,15 @@ index 762013af4..591430712 100644
  		<div class="ui attached segment">
  			{{template "shared/repo_search" .}}
  		</div>
+@@ -84,7 +84,7 @@
+ 							<td>{{FileSize .LFSSize}}</td>
+ 							<td>{{DateUtils.AbsoluteShort .UpdatedUnix}}</td>
+ 							<td>{{DateUtils.AbsoluteShort .CreatedUnix}}</td>
+-							<td><a class="delete-button" href="" data-url="{{$.Link}}/delete?page={{$.Page.Paginater.Current}}&sort={{$.SortType}}" data-id="{{.ID}}" data-name="{{.Name}}">{{svg "octicon-trash"}}</a></td>
++							<td><a class="delete-button" href="" data-url="{{$.Link}}/delete?page={{$.Page.Paginater.Current}}&sort={{$.SortType}}" data-id="{{.ID}}" data-name="{{.Name}}" aria-label="{{ctx.Locale.Tr "repo.settings.delete"}}: {{.Name}}">{{svg "octicon-trash"}}</a></td>
+ 						</tr>
+ 					{{else}}
+ 						<tr><td class="tw-text-center" colspan="12">{{ctx.Locale.Tr "no_results_found"}}</td></tr>
 @@ -96,7 +96,7 @@
  		{{template "base/paginate" .}}
  	</div>
@@ -568,7 +608,7 @@ index 762013af4..591430712 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.settings.delete"}}
 diff --git a/templates/admin/repo/unadopted.tmpl b/templates/admin/repo/unadopted.tmpl
-index 6f26fa529..ccdb32e37 100644
+index 6f26fa5291..ccdb32e376 100644
 --- a/templates/admin/repo/unadopted.tmpl
 +++ b/templates/admin/repo/unadopted.tmpl
 @@ -1,11 +1,11 @@
@@ -604,7 +644,7 @@ index 6f26fa529..ccdb32e37 100644
  											<span class="label">{{ctx.Locale.Tr "repo.delete_preexisting"}}</span>
  										</div>
 diff --git a/templates/admin/self_check.tmpl b/templates/admin/self_check.tmpl
-index a7f43f4e1..bb05b54c1 100644
+index a7f43f4e12..bb05b54c1e 100644
 --- a/templates/admin/self_check.tmpl
 +++ b/templates/admin/self_check.tmpl
 @@ -1,9 +1,9 @@
@@ -620,7 +660,7 @@ index a7f43f4e1..bb05b54c1 100644
  	{{if .StartupProblems}}
  	<div class="ui attached segment self-check-problem">
 diff --git a/templates/admin/stacktrace.tmpl b/templates/admin/stacktrace.tmpl
-index c5dde6b30..ff605daa3 100644
+index c5dde6b30c..ff605daa33 100644
 --- a/templates/admin/stacktrace.tmpl
 +++ b/templates/admin/stacktrace.tmpl
 @@ -3,10 +3,10 @@
@@ -637,7 +677,7 @@ index c5dde6b30..ff605daa3 100644
  	{{if .ProcessStacks}}
  	<div class="ui attached segment">
 diff --git a/templates/admin/stats.tmpl b/templates/admin/stats.tmpl
-index 04fa862a8..aea1411bb 100644
+index 04fa862a85..aea1411bbf 100644
 --- a/templates/admin/stats.tmpl
 +++ b/templates/admin/stats.tmpl
 @@ -1,8 +1,8 @@
@@ -651,8 +691,21 @@ index 04fa862a8..aea1411bb 100644
  	<div class="ui attached table segment">
  		<table class="ui very basic striped table unstackable">
  			{{range $statsKey := .StatsKeys}}
+diff --git a/templates/admin/trace_tabs.tmpl b/templates/admin/trace_tabs.tmpl
+index 5066c9c41b..ce698cf484 100644
+--- a/templates/admin/trace_tabs.tmpl
++++ b/templates/admin/trace_tabs.tmpl
+@@ -11,7 +11,7 @@
+ 	<form target="_blank" action="{{AppSubUrl}}/-/admin/monitor/diagnosis" class="ui form">
+ 		<div class="ui inline field">
+ 			<button class="ui primary small button">{{ctx.Locale.Tr "admin.monitor.download_diagnosis_report"}}</button>
+-			<input name="seconds" size="3" maxlength="3" value="10"> {{ctx.Locale.Tr "tool.raw_seconds"}}
++			<input name="seconds" size="3" maxlength="3" value="10" aria-label="{{ctx.Locale.Tr "tool.raw_seconds"}}"> {{ctx.Locale.Tr "tool.raw_seconds"}}
+ 		</div>
+ 	</form>
+ </div>
 diff --git a/templates/admin/user/edit.tmpl b/templates/admin/user/edit.tmpl
-index c04d33266..9936e8147 100644
+index c04d332660..9936e81479 100644
 --- a/templates/admin/user/edit.tmpl
 +++ b/templates/admin/user/edit.tmpl
 @@ -1,8 +1,8 @@
@@ -697,7 +750,7 @@ index c04d33266..9936e8147 100644
  				<p class="help">{{ctx.Locale.Tr "admin.users.purge_help"}}</p>
  			</div>
 diff --git a/templates/admin/user/list.tmpl b/templates/admin/user/list.tmpl
-index eb3f6cd72..41fec6b50 100644
+index eb3f6cd720..41fec6b50e 100644
 --- a/templates/admin/user/list.tmpl
 +++ b/templates/admin/user/list.tmpl
 @@ -1,11 +1,11 @@
@@ -724,7 +777,7 @@ index eb3f6cd72..41fec6b50 100644
  				</thead>
  				<tbody>
 diff --git a/templates/admin/user/new.tmpl b/templates/admin/user/new.tmpl
-index b04ebc4b6..1a1b3deb0 100644
+index b04ebc4b60..1a1b3deb0c 100644
 --- a/templates/admin/user/new.tmpl
 +++ b/templates/admin/user/new.tmpl
 @@ -1,8 +1,8 @@
@@ -739,7 +792,7 @@ index b04ebc4b6..1a1b3deb0 100644
  			<form class="ui form" action="{{.Link}}" method="post">
  				{{template "base/disable_form_autofill"}}
 diff --git a/templates/admin/user/view.tmpl b/templates/admin/user/view.tmpl
-index 31616ffbf..3a804d2a9 100644
+index 31616ffbf9..3a804d2a97 100644
 --- a/templates/admin/user/view.tmpl
 +++ b/templates/admin/user/view.tmpl
 @@ -3,34 +3,34 @@
@@ -786,7 +839,7 @@ index 31616ffbf..3a804d2a9 100644
  		{{template "explore/user_list" .}}
  	</div>
 diff --git a/templates/base/footer_content.tmpl b/templates/base/footer_content.tmpl
-index 60eb2fe1f..d1b4bf235 100644
+index 60eb2fe1f8..d1b4bf2355 100644
 --- a/templates/base/footer_content.tmpl
 +++ b/templates/base/footer_content.tmpl
 @@ -1,5 +1,5 @@
@@ -798,7 +851,7 @@ index 60eb2fe1f..d1b4bf235 100644
  			<a target="_blank" rel="noopener noreferrer" href="https://about.gitea.com">{{ctx.Locale.Tr "powered_by" "Gitea"}}</a>
  		{{end}}
 diff --git a/templates/base/head_navbar.tmpl b/templates/base/head_navbar.tmpl
-index 35e14d38d..c35e51719 100644
+index 35e14d38d3..c35e51719a 100644
 --- a/templates/base/head_navbar.tmpl
 +++ b/templates/base/head_navbar.tmpl
 @@ -190,7 +190,7 @@
@@ -811,7 +864,7 @@ index 35e14d38d..c35e51719 100644
  				<a class="stopwatch-link tw-flex tw-items-center tw-gap-2 muted" href="{{$activeStopwatch.IssueLink}}">
  					{{svg "octicon-issue-opened" 16}}
 diff --git a/templates/base/head_script.tmpl b/templates/base/head_script.tmpl
-index 7c931e740..cc9b34452 100644
+index 7c931e7404..cc9b34452f 100644
 --- a/templates/base/head_script.tmpl
 +++ b/templates/base/head_script.tmpl
 @@ -35,6 +35,10 @@ If you introduce mistakes in it, Gitea JavaScript code wouldn't run correctly.
@@ -826,7 +879,7 @@ index 7c931e740..cc9b34452 100644
  			network_error: {{ctx.Locale.Tr "error.network_error"}},
  			remove_label_str: {{ctx.Locale.Tr "remove_label_str"}},
 diff --git a/templates/devtest/fomantic-modal.tmpl b/templates/devtest/fomantic-modal.tmpl
-index 838c6893a..53afa9793 100644
+index 838c6893a4..53afa9793b 100644
 --- a/templates/devtest/fomantic-modal.tmpl
 +++ b/templates/devtest/fomantic-modal.tmpl
 @@ -1,7 +1,7 @@
@@ -864,7 +917,7 @@ index 838c6893a..53afa9793 100644
  		<div class="header">dangerous action dialog</div>
  		<div class="content">hello, this is the modal dialog content, this is a dangerous operation</div>
 diff --git a/templates/explore/code.tmpl b/templates/explore/code.tmpl
-index 039933fa2..6f551fe8b 100644
+index 039933fa2d..6f551fe8b5 100644
 --- a/templates/explore/code.tmpl
 +++ b/templates/explore/code.tmpl
 @@ -1,5 +1,6 @@
@@ -875,7 +928,7 @@ index 039933fa2..6f551fe8b 100644
  	<div class="ui container">
  		{{template "shared/search/code/search" .}}
 diff --git a/templates/explore/repos.tmpl b/templates/explore/repos.tmpl
-index 53742bf0d..255285f92 100644
+index 53742bf0d9..255285f926 100644
 --- a/templates/explore/repos.tmpl
 +++ b/templates/explore/repos.tmpl
 @@ -1,5 +1,6 @@
@@ -886,7 +939,7 @@ index 53742bf0d..255285f92 100644
  	<div class="ui container">
  		{{template "shared/repo_search" .}}
 diff --git a/templates/explore/users.tmpl b/templates/explore/users.tmpl
-index e9046125c..fa8ebbb66 100644
+index e9046125c6..fa8ebbb66b 100644
 --- a/templates/explore/users.tmpl
 +++ b/templates/explore/users.tmpl
 @@ -1,5 +1,6 @@
@@ -897,7 +950,7 @@ index e9046125c..fa8ebbb66 100644
  	<div class="ui container">
  		{{template "explore/search" .}}
 diff --git a/templates/install.tmpl b/templates/install.tmpl
-index 0aec52f27..faca53ad6 100644
+index 0aec52f27b..faca53ad68 100644
 --- a/templates/install.tmpl
 +++ b/templates/install.tmpl
 @@ -1,10 +1,11 @@
@@ -960,7 +1013,7 @@ index 0aec52f27..faca53ad6 100644
  						</div>
  						<div class="tw-mt-4 tw-mb-2 tw-text-center">
 diff --git a/templates/org/create.tmpl b/templates/org/create.tmpl
-index 2d6dca544..5647bfd53 100644
+index 2d6dca5440..5647bfd538 100644
 --- a/templates/org/create.tmpl
 +++ b/templates/org/create.tmpl
 @@ -1,10 +1,11 @@
@@ -978,7 +1031,7 @@ index 2d6dca544..5647bfd53 100644
  			<form class="ui form left-right-form" action="{{.Link}}" method="post">
  				{{.CsrfTokenHtml}}
 diff --git a/templates/org/home.tmpl b/templates/org/home.tmpl
-index cffdfabfa..9ab1cec28 100644
+index cffdfabfaa..9ab1cec282 100644
 --- a/templates/org/home.tmpl
 +++ b/templates/org/home.tmpl
 @@ -1,5 +1,6 @@
@@ -1002,7 +1055,7 @@ index cffdfabfa..9ab1cec28 100644
  						{{$isMember := .IsOrganizationMember}}
  						{{range .Members}}
 diff --git a/templates/org/member/members.tmpl b/templates/org/member/members.tmpl
-index 4388dc952..ce4f984db 100644
+index 4388dc9520..ce4f984db7 100644
 --- a/templates/org/member/members.tmpl
 +++ b/templates/org/member/members.tmpl
 @@ -1,5 +1,6 @@
@@ -1031,7 +1084,7 @@ index 4388dc952..ce4f984db 100644
  		{{ctx.Locale.Tr "org.members.remove"}}
  	</div>
 diff --git a/templates/org/projects/list.tmpl b/templates/org/projects/list.tmpl
-index 80dde1c4d..fc41ef2dd 100644
+index 80dde1c4d2..fc41ef2ddb 100644
 --- a/templates/org/projects/list.tmpl
 +++ b/templates/org/projects/list.tmpl
 @@ -1,6 +1,7 @@
@@ -1051,7 +1104,7 @@ index 80dde1c4d..fc41ef2dd 100644
  			<div class="ui stackable grid">
  				<div class="ui four wide column">
 diff --git a/templates/org/projects/new.tmpl b/templates/org/projects/new.tmpl
-index c021c5a0f..effcf19dd 100644
+index c021c5a0fe..effcf19dde 100644
 --- a/templates/org/projects/new.tmpl
 +++ b/templates/org/projects/new.tmpl
 @@ -1,6 +1,7 @@
@@ -1071,7 +1124,7 @@ index c021c5a0f..effcf19dd 100644
  		<div class="ui stackable grid">
  			<div class="ui four wide column">
 diff --git a/templates/org/projects/view.tmpl b/templates/org/projects/view.tmpl
-index 1bfbc8d8b..73f5e42e7 100644
+index 1bfbc8d8b4..73f5e42e7d 100644
 --- a/templates/org/projects/view.tmpl
 +++ b/templates/org/projects/view.tmpl
 @@ -1,5 +1,6 @@
@@ -1082,7 +1135,7 @@ index 1bfbc8d8b..73f5e42e7 100644
  		{{template "org/header" .}}
  	{{else}}
 diff --git a/templates/org/settings/applications.tmpl b/templates/org/settings/applications.tmpl
-index df5f4e9db..993942641 100644
+index df5f4e9dbc..9939426418 100644
 --- a/templates/org/settings/applications.tmpl
 +++ b/templates/org/settings/applications.tmpl
 @@ -1,8 +1,8 @@
@@ -1097,7 +1150,7 @@ index df5f4e9db..993942641 100644
  				{{template "user/settings/applications_oauth2_list" .}}
  			</div>
 diff --git a/templates/org/settings/delete.tmpl b/templates/org/settings/delete.tmpl
-index e1ef471e3..4c48396bc 100644
+index e1ef471e34..4c48396bc1 100644
 --- a/templates/org/settings/delete.tmpl
 +++ b/templates/org/settings/delete.tmpl
 @@ -1,9 +1,9 @@
@@ -1122,18 +1175,19 @@ index e1ef471e3..4c48396bc 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "org.settings.delete_org_title"}}
 diff --git a/templates/org/settings/layout_head.tmpl b/templates/org/settings/layout_head.tmpl
-index 31dad2c14..4907a9edd 100644
+index 31dad2c141..aa5efeb7b7 100644
 --- a/templates/org/settings/layout_head.tmpl
 +++ b/templates/org/settings/layout_head.tmpl
 @@ -1,5 +1,6 @@
  {{template "base/head" .ctxData}}
- <div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
-+	<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>
+-<div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
++<div role="main"{{if .ctxData.Title}} aria-label="{{.ctxData.Title}}"{{end}} class="page-content {{.pageClass}}">
++	{{if .ctxData.Title}}<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>{{end}}
  	{{template "org/header" .ctxData}}
  	<div class="ui container flex-container">
  		{{template "org/settings/navbar" .ctxData}}
 diff --git a/templates/org/settings/options.tmpl b/templates/org/settings/options.tmpl
-index 76315f3ea..b2e0f2bbe 100644
+index 76315f3eac..b2e0f2bbeb 100644
 --- a/templates/org/settings/options.tmpl
 +++ b/templates/org/settings/options.tmpl
 @@ -1,8 +1,8 @@
@@ -1148,7 +1202,7 @@ index 76315f3ea..b2e0f2bbe 100644
  					<form class="ui form" action="{{.Link}}" method="post">
  						{{.CsrfTokenHtml}}
 diff --git a/templates/org/team/invite.tmpl b/templates/org/team/invite.tmpl
-index 1167828d1..a6c9cbdd9 100644
+index 1167828d14..a6c9cbdd9f 100644
 --- a/templates/org/team/invite.tmpl
 +++ b/templates/org/team/invite.tmpl
 @@ -1,5 +1,6 @@
@@ -1159,7 +1213,7 @@ index 1167828d1..a6c9cbdd9 100644
  		{{template "base/alert" .}}
  		<div class="ui centered card">
 diff --git a/templates/org/team/members.tmpl b/templates/org/team/members.tmpl
-index 5433f0153..a7fd622b7 100644
+index 5433f01530..a7fd622b77 100644
 --- a/templates/org/team/members.tmpl
 +++ b/templates/org/team/members.tmpl
 @@ -1,5 +1,6 @@
@@ -1188,7 +1242,7 @@ index 5433f0153..a7fd622b7 100644
  		{{ctx.Locale.Tr "org.members.remove"}}
  	</div>
 diff --git a/templates/org/team/new.tmpl b/templates/org/team/new.tmpl
-index 67529ddfb..62518482e 100644
+index 67529ddfba..62518482e1 100644
 --- a/templates/org/team/new.tmpl
 +++ b/templates/org/team/new.tmpl
 @@ -1,5 +1,6 @@
@@ -1208,7 +1262,7 @@ index 67529ddfb..62518482e 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "org.teams.delete_team_title"}}
 diff --git a/templates/org/team/repositories.tmpl b/templates/org/team/repositories.tmpl
-index 4f4667ca8..a9a52cfd2 100644
+index 4f4667ca8b..a9a52cfd25 100644
 --- a/templates/org/team/repositories.tmpl
 +++ b/templates/org/team/repositories.tmpl
 @@ -1,5 +1,6 @@
@@ -1219,7 +1273,7 @@ index 4f4667ca8..a9a52cfd2 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/org/team/sidebar.tmpl b/templates/org/team/sidebar.tmpl
-index 8390bf0ac..2a3dff264 100644
+index 8390bf0acd..2a3dff264d 100644
 --- a/templates/org/team/sidebar.tmpl
 +++ b/templates/org/team/sidebar.tmpl
 @@ -1,5 +1,5 @@
@@ -1248,7 +1302,7 @@ index 8390bf0ac..2a3dff264 100644
  		{{ctx.Locale.Tr "org.teams.leave"}}
  	</div>
 diff --git a/templates/org/team/teams.tmpl b/templates/org/team/teams.tmpl
-index 432df1074..244f790ee 100644
+index 432df10749..244f790eea 100644
 --- a/templates/org/team/teams.tmpl
 +++ b/templates/org/team/teams.tmpl
 @@ -1,5 +1,6 @@
@@ -1268,7 +1322,7 @@ index 432df1074..244f790ee 100644
  		{{ctx.Locale.Tr "org.teams.leave"}}
  	</div>
 diff --git a/templates/package/content/alpine.tmpl b/templates/package/content/alpine.tmpl
-index 5c144b977..3da5d8406 100644
+index 5c144b9779..3da5d84068 100644
 --- a/templates/package/content/alpine.tmpl
 +++ b/templates/package/content/alpine.tmpl
 @@ -1,5 +1,5 @@
@@ -1313,7 +1367,7 @@ index 5c144b977..3da5d8406 100644
  			{{.PackageDescriptor.Metadata.Description}}
  		</div>
 diff --git a/templates/package/content/arch.tmpl b/templates/package/content/arch.tmpl
-index 1c568cbb7..a14a920aa 100644
+index 1c568cbb78..a14a920aae 100644
 --- a/templates/package/content/arch.tmpl
 +++ b/templates/package/content/arch.tmpl
 @@ -1,5 +1,5 @@
@@ -1353,7 +1407,7 @@ index 1c568cbb7..a14a920aa 100644
  	{{end}}
  {{end}}
 diff --git a/templates/package/content/cargo.tmpl b/templates/package/content/cargo.tmpl
-index 8b51074af..f0365b613 100644
+index 8b51074af4..f0365b613d 100644
 --- a/templates/package/content/cargo.tmpl
 +++ b/templates/package/content/cargo.tmpl
 @@ -1,5 +1,5 @@
@@ -1389,7 +1443,7 @@ index 8b51074af..f0365b613 100644
  			{{range .PackageDescriptor.Metadata.Keywords}}
  				{{.}}
 diff --git a/templates/package/content/chef.tmpl b/templates/package/content/chef.tmpl
-index b3713808f..be689cb05 100644
+index b3713808f6..be689cb053 100644
 --- a/templates/package/content/chef.tmpl
 +++ b/templates/package/content/chef.tmpl
 @@ -1,5 +1,5 @@
@@ -1418,7 +1472,7 @@ index b3713808f..be689cb05 100644
  			<table class="ui single line very basic table">
  				<thead>
 diff --git a/templates/package/content/composer.tmpl b/templates/package/content/composer.tmpl
-index 456982086..d33fcb9bc 100644
+index 4569820869..d33fcb9bc0 100644
 --- a/templates/package/content/composer.tmpl
 +++ b/templates/package/content/composer.tmpl
 @@ -1,5 +1,5 @@
@@ -1455,7 +1509,7 @@ index 456982086..d33fcb9bc 100644
  			{{range .PackageDescriptor.Metadata.Keywords}}
  				{{.}}
 diff --git a/templates/package/content/conan.tmpl b/templates/package/content/conan.tmpl
-index b68a45fde..d1ac6a842 100644
+index b68a45fde3..d1ac6a842a 100644
 --- a/templates/package/content/conan.tmpl
 +++ b/templates/package/content/conan.tmpl
 @@ -1,5 +1,5 @@
@@ -1483,7 +1537,7 @@ index b68a45fde..d1ac6a842 100644
  			{{range .PackageDescriptor.Metadata.Keywords}}
  				{{.}}
 diff --git a/templates/package/content/conda.tmpl b/templates/package/content/conda.tmpl
-index 031b51aa1..456ca09b3 100644
+index 031b51aa10..456ca09b30 100644
 --- a/templates/package/content/conda.tmpl
 +++ b/templates/package/content/conda.tmpl
 @@ -1,5 +1,5 @@
@@ -1503,7 +1557,7 @@ index 031b51aa1..456ca09b3 100644
  			{{if .PackageDescriptor.Metadata.Description}}{{.PackageDescriptor.Metadata.Description}}{{else}}{{.PackageDescriptor.Metadata.Summary}}{{end}}
  		</div>
 diff --git a/templates/package/content/container.tmpl b/templates/package/content/container.tmpl
-index 7d89f8c6e..e8ef6519c 100644
+index 7d89f8c6e2..e8ef6519c0 100644
 --- a/templates/package/content/container.tmpl
 +++ b/templates/package/content/container.tmpl
 @@ -1,5 +1,5 @@
@@ -1548,7 +1602,7 @@ index 7d89f8c6e..e8ef6519c 100644
  			<table class="ui very basic compact table">
  				<thead>
 diff --git a/templates/package/content/cran.tmpl b/templates/package/content/cran.tmpl
-index ae58e6f33..545e7eab3 100644
+index ae58e6f334..545e7eab37 100644
 --- a/templates/package/content/cran.tmpl
 +++ b/templates/package/content/cran.tmpl
 @@ -1,5 +1,5 @@
@@ -1576,7 +1630,7 @@ index ae58e6f33..545e7eab3 100644
  			<table class="ui single line very basic table">
  				<tbody>
 diff --git a/templates/package/content/debian.tmpl b/templates/package/content/debian.tmpl
-index 73b825783..06d38fc13 100644
+index 73b8257835..06d38fc13c 100644
 --- a/templates/package/content/debian.tmpl
 +++ b/templates/package/content/debian.tmpl
 @@ -1,5 +1,5 @@
@@ -1629,7 +1683,7 @@ index 73b825783..06d38fc13 100644
  			<table class="ui single line very basic table">
  				<tbody>
 diff --git a/templates/package/content/generic.tmpl b/templates/package/content/generic.tmpl
-index 2fd952105..deb03e7e2 100644
+index 2fd952105f..deb03e7e26 100644
 --- a/templates/package/content/generic.tmpl
 +++ b/templates/package/content/generic.tmpl
 @@ -1,5 +1,5 @@
@@ -1640,7 +1694,7 @@ index 2fd952105..deb03e7e2 100644
  		<div class="ui form">
  			<div class="field">
 diff --git a/templates/package/content/go.tmpl b/templates/package/content/go.tmpl
-index 80d1ab231..70471e5f1 100644
+index 80d1ab231a..70471e5f1e 100644
 --- a/templates/package/content/go.tmpl
 +++ b/templates/package/content/go.tmpl
 @@ -1,5 +1,5 @@
@@ -1651,7 +1705,7 @@ index 80d1ab231..70471e5f1 100644
  		<div class="ui form">
  			<div class="field">
 diff --git a/templates/package/content/helm.tmpl b/templates/package/content/helm.tmpl
-index da846e934..678e8ec76 100644
+index da846e934d..678e8ec765 100644
 --- a/templates/package/content/helm.tmpl
 +++ b/templates/package/content/helm.tmpl
 @@ -1,5 +1,5 @@
@@ -1688,7 +1742,7 @@ index da846e934..678e8ec76 100644
  			{{range .PackageDescriptor.Metadata.Keywords}}
  				{{.}}
 diff --git a/templates/package/content/maven.tmpl b/templates/package/content/maven.tmpl
-index e98fc5369..da28be5cf 100644
+index e98fc53692..da28be5cf3 100644
 --- a/templates/package/content/maven.tmpl
 +++ b/templates/package/content/maven.tmpl
 @@ -1,9 +1,9 @@
@@ -1721,7 +1775,7 @@ index e98fc5369..da28be5cf 100644
  			<div class="ui list">
  				{{range .PackageDescriptor.Metadata.Dependencies}}
 diff --git a/templates/package/content/npm.tmpl b/templates/package/content/npm.tmpl
-index bb024348d..b2d1d3f66 100644
+index bb024348d0..b2d1d3f66c 100644
 --- a/templates/package/content/npm.tmpl
 +++ b/templates/package/content/npm.tmpl
 @@ -1,5 +1,5 @@
@@ -1768,7 +1822,7 @@ index bb024348d..b2d1d3f66 100644
  			{{range .PackageDescriptor.Metadata.Keywords}}
  				{{.}}
 diff --git a/templates/package/content/nuget.tmpl b/templates/package/content/nuget.tmpl
-index 4a4ea8ca4..e33ebbb95 100644
+index 4a4ea8ca43..e33ebbb959 100644
 --- a/templates/package/content/nuget.tmpl
 +++ b/templates/package/content/nuget.tmpl
 @@ -1,5 +1,5 @@
@@ -1796,7 +1850,7 @@ index 4a4ea8ca4..e33ebbb95 100644
  			<table class="ui single line very basic table">
  				<thead>
 diff --git a/templates/package/content/pub.tmpl b/templates/package/content/pub.tmpl
-index 2f63cde3a..fbdee6c36 100644
+index 2f63cde3a6..fbdee6c364 100644
 --- a/templates/package/content/pub.tmpl
 +++ b/templates/package/content/pub.tmpl
 @@ -1,5 +1,5 @@
@@ -1816,7 +1870,7 @@ index 2f63cde3a..fbdee6c36 100644
  		{{if .PackageDescriptor.Metadata.Readme}}<div class="ui attached segment">{{ctx.RenderUtils.MarkdownToHtml .PackageDescriptor.Metadata.Readme}}</div>{{end}}
  	{{end}}
 diff --git a/templates/package/content/pypi.tmpl b/templates/package/content/pypi.tmpl
-index 2a22a6ed7..3a5426d36 100644
+index 2a22a6ed71..3a5426d36b 100644
 --- a/templates/package/content/pypi.tmpl
 +++ b/templates/package/content/pypi.tmpl
 @@ -1,5 +1,5 @@
@@ -1845,7 +1899,7 @@ index 2a22a6ed7..3a5426d36 100644
  			{{ctx.Locale.Tr "packages.pypi.requires"}}: {{.PackageDescriptor.Metadata.RequiresPython}}
  		</div>
 diff --git a/templates/package/content/rpm.tmpl b/templates/package/content/rpm.tmpl
-index 3faa8a0dc..d0f7e54c8 100644
+index 3faa8a0dc7..d0f7e54c87 100644
 --- a/templates/package/content/rpm.tmpl
 +++ b/templates/package/content/rpm.tmpl
 @@ -1,5 +1,5 @@
@@ -1880,7 +1934,7 @@ index 3faa8a0dc..d0f7e54c8 100644
  		{{if .PackageDescriptor.Metadata.Description}}<div class="ui attached segment">{{.PackageDescriptor.Metadata.Description}}</div>{{end}}
  	{{end}}
 diff --git a/templates/package/content/rubygems.tmpl b/templates/package/content/rubygems.tmpl
-index 610dfc785..1ead13c49 100644
+index 610dfc7856..1ead13c49d 100644
 --- a/templates/package/content/rubygems.tmpl
 +++ b/templates/package/content/rubygems.tmpl
 @@ -1,5 +1,5 @@
@@ -1913,7 +1967,7 @@ index 610dfc785..1ead13c49 100644
  			<div class="ui list">
  				{{template "package/content/rubygems_dependencies" dict "root" $ "dependencies" .PackageDescriptor.Metadata.RuntimeDependencies "title" (ctx.Locale.Tr "packages.rubygems.dependencies.runtime")}}
 diff --git a/templates/package/content/swift.tmpl b/templates/package/content/swift.tmpl
-index aacbc8398..75d2553e2 100644
+index aacbc83980..75d2553e26 100644
 --- a/templates/package/content/swift.tmpl
 +++ b/templates/package/content/swift.tmpl
 @@ -1,5 +1,5 @@
@@ -1941,7 +1995,7 @@ index aacbc8398..75d2553e2 100644
  			{{range .PackageDescriptor.Metadata.Keywords}}
  				{{.}}
 diff --git a/templates/package/content/vagrant.tmpl b/templates/package/content/vagrant.tmpl
-index 7666284b8..62d906724 100644
+index 7666284b87..62d9067249 100644
 --- a/templates/package/content/vagrant.tmpl
 +++ b/templates/package/content/vagrant.tmpl
 @@ -1,5 +1,5 @@
@@ -1961,7 +2015,7 @@ index 7666284b8..62d906724 100644
  	{{end}}
  {{end}}
 diff --git a/templates/package/settings.tmpl b/templates/package/settings.tmpl
-index 4b8773477..a5905a3d7 100644
+index 4b8773477b..a5905a3d71 100644
 --- a/templates/package/settings.tmpl
 +++ b/templates/package/settings.tmpl
 @@ -1,5 +1,6 @@
@@ -2005,7 +2059,7 @@ index 4b8773477..a5905a3d7 100644
  							{{ctx.Locale.Tr "packages.settings.delete"}}
  						</div>
 diff --git a/templates/package/shared/cargo.tmpl b/templates/package/shared/cargo.tmpl
-index 765223146..766f522c5 100644
+index 7652231465..766f522c55 100644
 --- a/templates/package/shared/cargo.tmpl
 +++ b/templates/package/shared/cargo.tmpl
 @@ -1,6 +1,6 @@
@@ -2018,7 +2072,7 @@ index 765223146..766f522c5 100644
  	<div class="ui form">
  		<div class="field">
 diff --git a/templates/package/shared/cleanup_rules/edit.tmpl b/templates/package/shared/cleanup_rules/edit.tmpl
-index 138a90791..253e4b774 100644
+index 138a90791c..253e4b7749 100644
 --- a/templates/package/shared/cleanup_rules/edit.tmpl
 +++ b/templates/package/shared/cleanup_rules/edit.tmpl
 @@ -1,4 +1,4 @@
@@ -2028,7 +2082,7 @@ index 138a90791..253e4b774 100644
  	<form class="ui form" action="{{.Link}}" method="post">
  		{{.CsrfTokenHtml}}
 diff --git a/templates/package/shared/cleanup_rules/list.tmpl b/templates/package/shared/cleanup_rules/list.tmpl
-index 6505c8f9a..681afd75b 100644
+index 6505c8f9a5..681afd75b7 100644
 --- a/templates/package/shared/cleanup_rules/list.tmpl
 +++ b/templates/package/shared/cleanup_rules/list.tmpl
 @@ -1,9 +1,9 @@
@@ -2044,7 +2098,7 @@ index 6505c8f9a..681afd75b 100644
  	<div class="flex-list">
  		{{range .CleanupRules}}
 diff --git a/templates/package/shared/cleanup_rules/preview.tmpl b/templates/package/shared/cleanup_rules/preview.tmpl
-index bb2354c94..e30c0e43e 100644
+index bb2354c944..e30c0e43e0 100644
 --- a/templates/package/shared/cleanup_rules/preview.tmpl
 +++ b/templates/package/shared/cleanup_rules/preview.tmpl
 @@ -1,4 +1,4 @@
@@ -2054,7 +2108,7 @@ index bb2354c94..e30c0e43e 100644
  	<p>{{ctx.Locale.Tr "packages.owner.settings.cleanuprules.preview.overview" (len .VersionsToRemove)}}</p>
  </div>
 diff --git a/templates/package/view.tmpl b/templates/package/view.tmpl
-index 9067f4429..7d90aed36 100644
+index 9067f44296..7d90aed363 100644
 --- a/templates/package/view.tmpl
 +++ b/templates/package/view.tmpl
 @@ -1,6 +1,7 @@
@@ -2074,7 +2128,7 @@ index 9067f4429..7d90aed36 100644
  		<div class="ui stackable grid">
  			<div class="ui four wide column">
 diff --git a/templates/post-install.tmpl b/templates/post-install.tmpl
-index 0c9aa35c9..111a23f78 100644
+index 0c9aa35c90..111a23f789 100644
 --- a/templates/post-install.tmpl
 +++ b/templates/post-install.tmpl
 @@ -1,5 +1,6 @@
@@ -2085,7 +2139,7 @@ index 0c9aa35c9..111a23f78 100644
  		<!-- the "cup" has a handler, so move it a little leftward to make it visually in the center -->
  		<div class="tw-ml-[-30px]"><img width="160" src="{{AssetUrlPrefix}}/img/loading.png" alt aria-hidden="true"></div>
 diff --git a/templates/projects/list.tmpl b/templates/projects/list.tmpl
-index f6d549a63..ed1fd2af4 100644
+index f6d549a634..ed1fd2af48 100644
 --- a/templates/projects/list.tmpl
 +++ b/templates/projects/list.tmpl
 @@ -81,7 +81,7 @@
@@ -2098,7 +2152,7 @@ index f6d549a63..ed1fd2af4 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.projects.deletion"}}
 diff --git a/templates/projects/view.tmpl b/templates/projects/view.tmpl
-index 7e89db000..d0b68ba08 100644
+index 7e89db0005..d0b68ba08e 100644
 --- a/templates/projects/view.tmpl
 +++ b/templates/projects/view.tmpl
 @@ -123,7 +123,7 @@
@@ -2111,7 +2165,7 @@ index 7e89db000..d0b68ba08 100644
  	<div class="content">
  		<form class="ui form ignore-dirty" method="post" data-action-base-link="{{$.Link}}">
 diff --git a/templates/repo/actions/list.tmpl b/templates/repo/actions/list.tmpl
-index 7d782c0ad..2650ce600 100644
+index 7d782c0ade..2650ce6004 100644
 --- a/templates/repo/actions/list.tmpl
 +++ b/templates/repo/actions/list.tmpl
 @@ -1,5 +1,6 @@
@@ -2123,7 +2177,7 @@ index 7d782c0ad..2650ce600 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/actions/view.tmpl b/templates/repo/actions/view.tmpl
-index bde579f88..7b1d4f624 100644
+index bde579f882..7b1d4f624f 100644
 --- a/templates/repo/actions/view.tmpl
 +++ b/templates/repo/actions/view.tmpl
 @@ -1,6 +1,7 @@
@@ -2136,7 +2190,7 @@ index bde579f88..7b1d4f624 100644
  	{{template "repo/actions/view_component" (dict
  		"RunIndex" .RunIndex
 diff --git a/templates/repo/activity.tmpl b/templates/repo/activity.tmpl
-index a19fb6626..8f5f0674c 100644
+index a19fb66261..8f5f0674c4 100644
 --- a/templates/repo/activity.tmpl
 +++ b/templates/repo/activity.tmpl
 @@ -1,5 +1,6 @@
@@ -2147,7 +2201,7 @@ index a19fb6626..8f5f0674c 100644
  	<div class="ui container flex-container">
  		<div class="flex-container-nav">
 diff --git a/templates/repo/blame.tmpl b/templates/repo/blame.tmpl
-index 9596fe837..f44ee1942 100644
+index 9596fe837a..f44ee1942d 100644
 --- a/templates/repo/blame.tmpl
 +++ b/templates/repo/blame.tmpl
 @@ -11,7 +11,7 @@
@@ -2178,7 +2232,7 @@ index 9596fe837..f44ee1942 100644
  					<a class="item ref-in-new-issue" role="menuitem" data-url-issue-new="{{.RepoLink}}/issues/new" data-url-param-body-link="{{.Repository.Link}}/src/commit/{{PathEscape .CommitID}}/{{PathEscapeSegments .TreePath}}{{if $.HasSourceRenderedToggle}}?display=source{{end}}" rel="nofollow noindex">{{ctx.Locale.Tr "repo.issues.context.reference_issue"}}</a>
  				{{end}}
 diff --git a/templates/repo/branch/list.tmpl b/templates/repo/branch/list.tmpl
-index fffe3a08c..9a7a8dff0 100644
+index fffe3a08cc..9a7a8dff0c 100644
 --- a/templates/repo/branch/list.tmpl
 +++ b/templates/repo/branch/list.tmpl
 @@ -1,18 +1,19 @@
@@ -2245,7 +2299,7 @@ index fffe3a08c..9a7a8dff0 100644
  		{{ctx.Locale.Tr "repo.settings.rename_branch"}}
  	</div>
 diff --git a/templates/repo/cite/cite_modal.tmpl b/templates/repo/cite/cite_modal.tmpl
-index fb251442c..27cdfcadc 100644
+index fb251442ca..27cdfcadc4 100644
 --- a/templates/repo/cite/cite_modal.tmpl
 +++ b/templates/repo/cite/cite_modal.tmpl
 @@ -1,4 +1,4 @@
@@ -2255,7 +2309,7 @@ index fb251442c..27cdfcadc 100644
  		{{ctx.Locale.Tr "repo.cite_this_repo"}}
  	</div>
 diff --git a/templates/repo/clone_panel.tmpl b/templates/repo/clone_panel.tmpl
-index e23bc8a19..c27987f02 100644
+index e23bc8a19a..c27987f02b 100644
 --- a/templates/repo/clone_panel.tmpl
 +++ b/templates/repo/clone_panel.tmpl
 @@ -3,7 +3,7 @@
@@ -2292,7 +2346,7 @@ index e23bc8a19..c27987f02 100644
  		{{end}}
  	{{end}}
 diff --git a/templates/repo/commit_page.tmpl b/templates/repo/commit_page.tmpl
-index fb0a63eff..eaae0b5f9 100644
+index fb0a63eff7..eaae0b5f9b 100644
 --- a/templates/repo/commit_page.tmpl
 +++ b/templates/repo/commit_page.tmpl
 @@ -1,6 +1,7 @@
@@ -2362,7 +2416,7 @@ index fb0a63eff..eaae0b5f9 100644
  											{{ctx.Locale.Tr "repo.tag.create_tag_operation"}}
  										</div>
 diff --git a/templates/repo/commit_statuses.tmpl b/templates/repo/commit_statuses.tmpl
-index 1bbfb3310..a048bb0d4 100644
+index 1bbfb33105..a048bb0d42 100644
 --- a/templates/repo/commit_statuses.tmpl
 +++ b/templates/repo/commit_statuses.tmpl
 @@ -8,7 +8,7 @@
@@ -2375,7 +2429,7 @@ index 1bbfb3310..a048bb0d4 100644
  	</div>
  {{end}}
 diff --git a/templates/repo/commits.tmpl b/templates/repo/commits.tmpl
-index 07c6b5f61..6f290553f 100644
+index 07c6b5f618..6f290553fb 100644
 --- a/templates/repo/commits.tmpl
 +++ b/templates/repo/commits.tmpl
 @@ -1,5 +1,6 @@
@@ -2386,7 +2440,7 @@ index 07c6b5f61..6f290553f 100644
  	<div class="ui container">
  		{{template "repo/sub_menu" .}}
 diff --git a/templates/repo/commits_list.tmpl b/templates/repo/commits_list.tmpl
-index bfe426225..e7303ee99 100644
+index bfe426225a..e7303ee99c 100644
 --- a/templates/repo/commits_list.tmpl
 +++ b/templates/repo/commits_list.tmpl
 @@ -6,7 +6,7 @@
@@ -2399,7 +2453,7 @@ index bfe426225..e7303ee99 100644
  		</thead>
  		<tbody class="commit-list">
 diff --git a/templates/repo/commits_list_small.tmpl b/templates/repo/commits_list_small.tmpl
-index ee94ad7e5..098569a74 100644
+index ee94ad7e58..098569a743 100644
 --- a/templates/repo/commits_list_small.tmpl
 +++ b/templates/repo/commits_list_small.tmpl
 @@ -6,7 +6,7 @@
@@ -2412,7 +2466,7 @@ index ee94ad7e5..098569a74 100644
  			{{ctx.AvatarUtils.AvatarByEmail .Author.Email .Author.Name 20}}
  		{{end}}
 diff --git a/templates/repo/commits_table.tmpl b/templates/repo/commits_table.tmpl
-index a0c5eacdd..93fd39409 100644
+index a0c5eacdd4..93fd394092 100644
 --- a/templates/repo/commits_table.tmpl
 +++ b/templates/repo/commits_table.tmpl
 @@ -1,4 +1,4 @@
@@ -2431,7 +2485,7 @@ index a0c5eacdd..93fd39409 100644
  {{if .PageIsCommits}}
  	<div class="ui attached segment">
 diff --git a/templates/repo/create.tmpl b/templates/repo/create.tmpl
-index ada7e0c09..050b0fdca 100644
+index ada7e0c092..050b0fdca9 100644
 --- a/templates/repo/create.tmpl
 +++ b/templates/repo/create.tmpl
 @@ -1,9 +1,10 @@
@@ -2448,7 +2502,7 @@ index ada7e0c09..050b0fdca 100644
  			{{template "base/alert" .}}
  			{{template "repo/create_helper" .}}
 diff --git a/templates/repo/diff/box.tmpl b/templates/repo/diff/box.tmpl
-index 8909243aa..0c67c5150 100644
+index 8909243aa2..0c67c5150b 100644
 --- a/templates/repo/diff/box.tmpl
 +++ b/templates/repo/diff/box.tmpl
 @@ -67,7 +67,7 @@
@@ -2521,7 +2575,7 @@ index 8909243aa..0c67c5150 100644
  				{{end}}
  			</div>
 diff --git a/templates/repo/diff/compare.tmpl b/templates/repo/diff/compare.tmpl
-index 4e8ad1326..6ec6efcb2 100644
+index 4e8ad1326c..6ec6efcb2a 100644
 --- a/templates/repo/diff/compare.tmpl
 +++ b/templates/repo/diff/compare.tmpl
 @@ -1,5 +1,6 @@
@@ -2532,7 +2586,7 @@ index 4e8ad1326..6ec6efcb2 100644
  
  	<div class="ui container fluid padded">
 diff --git a/templates/repo/diff/csv_diff.tmpl b/templates/repo/diff/csv_diff.tmpl
-index 0f46da306..c34af92b4 100644
+index 0f46da306e..c34af92b4a 100644
 --- a/templates/repo/diff/csv_diff.tmpl
 +++ b/templates/repo/diff/csv_diff.tmpl
 @@ -13,7 +13,7 @@
@@ -2545,7 +2599,7 @@ index 0f46da306..c34af92b4 100644
  									<th class="modified"><span class="removed-code">{{.LeftCell}}</span> <span class="added-code">{{.RightCell}}</span></th>
  								{{else if eq $cell.Type 3}}
 diff --git a/templates/repo/diff/new_review.tmpl b/templates/repo/diff/new_review.tmpl
-index 3bb01a139..dac49be1f 100644
+index 3bb01a139a..dac49be1f4 100644
 --- a/templates/repo/diff/new_review.tmpl
 +++ b/templates/repo/diff/new_review.tmpl
 @@ -9,7 +9,7 @@
@@ -2558,7 +2612,7 @@ index 3bb01a139..dac49be1f 100644
  		<form class="ui form form-fetch-action" action="{{.Link}}/reviews/submit" method="post">
  			{{.CsrfTokenHtml}}
 diff --git a/templates/repo/diff/stats.tmpl b/templates/repo/diff/stats.tmpl
-index d0dff1bd0..bff15f869 100644
+index d0dff1bd09..bff15f8691 100644
 --- a/templates/repo/diff/stats.tmpl
 +++ b/templates/repo/diff/stats.tmpl
 @@ -1,5 +1,5 @@
@@ -2569,7 +2623,7 @@ index d0dff1bd0..bff15f869 100644
  	<div class="diff-stats-add-bar" style="width: {{Eval 100 "*" .file.Addition "/" "(" .file.Addition "+" .file.Deletion "+" 0.0 ")"}}%"></div>
  </span>
 diff --git a/templates/repo/diff/whitespace_dropdown.tmpl b/templates/repo/diff/whitespace_dropdown.tmpl
-index cf695791c..75a97afd6 100644
+index cf695791ca..75a97afd62 100644
 --- a/templates/repo/diff/whitespace_dropdown.tmpl
 +++ b/templates/repo/diff/whitespace_dropdown.tmpl
 @@ -3,25 +3,25 @@
@@ -2603,7 +2657,7 @@ index cf695791c..75a97afd6 100644
  			</label>
  		</a>
 diff --git a/templates/repo/editor/cherry_pick.tmpl b/templates/repo/editor/cherry_pick.tmpl
-index f9c9eef5a..74c2b8553 100644
+index f9c9eef5aa..74c2b8553c 100644
 --- a/templates/repo/editor/cherry_pick.tmpl
 +++ b/templates/repo/editor/cherry_pick.tmpl
 @@ -1,5 +1,6 @@
@@ -2614,7 +2668,7 @@ index f9c9eef5a..74c2b8553 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/editor/delete.tmpl b/templates/repo/editor/delete.tmpl
-index 2c0c2fc79..152e3dafd 100644
+index 2c0c2fc792..152e3dafd6 100644
 --- a/templates/repo/editor/delete.tmpl
 +++ b/templates/repo/editor/delete.tmpl
 @@ -1,5 +1,6 @@
@@ -2625,7 +2679,7 @@ index 2c0c2fc79..152e3dafd 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/editor/edit.tmpl b/templates/repo/editor/edit.tmpl
-index ae8a60c20..f5b8f4f00 100644
+index ae8a60c20c..f5b8f4f00f 100644
 --- a/templates/repo/editor/edit.tmpl
 +++ b/templates/repo/editor/edit.tmpl
 @@ -1,5 +1,6 @@
@@ -2636,7 +2690,7 @@ index ae8a60c20..f5b8f4f00 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/editor/patch.tmpl b/templates/repo/editor/patch.tmpl
-index 33a7c2a89..a52f78570 100644
+index 33a7c2a89d..a52f78570c 100644
 --- a/templates/repo/editor/patch.tmpl
 +++ b/templates/repo/editor/patch.tmpl
 @@ -1,5 +1,6 @@
@@ -2647,7 +2701,7 @@ index 33a7c2a89..a52f78570 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/editor/upload.tmpl b/templates/repo/editor/upload.tmpl
-index 572502040..b4543c014 100644
+index 5725020406..b4543c0148 100644
 --- a/templates/repo/editor/upload.tmpl
 +++ b/templates/repo/editor/upload.tmpl
 @@ -1,5 +1,6 @@
@@ -2658,7 +2712,7 @@ index 572502040..b4543c014 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/empty.tmpl b/templates/repo/empty.tmpl
-index 32b5c8401..60dc6643a 100644
+index 32b5c8401b..60dc6643a1 100644
 --- a/templates/repo/empty.tmpl
 +++ b/templates/repo/empty.tmpl
 @@ -1,5 +1,6 @@
@@ -2678,7 +2732,7 @@ index 32b5c8401..60dc6643a 100644
  						<div class="item">
  							<h3>{{ctx.Locale.Tr "repo.clone_this_repo"}} <small>{{ctx.Locale.Tr "repo.clone_helper" "http://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository"}}</small></h3>
 diff --git a/templates/repo/find/files.tmpl b/templates/repo/find/files.tmpl
-index ce242796b..b9c65a06e 100644
+index ce242796be..b9c65a06ef 100644
 --- a/templates/repo/find/files.tmpl
 +++ b/templates/repo/find/files.tmpl
 @@ -1,5 +1,6 @@
@@ -2689,7 +2743,7 @@ index ce242796b..b9c65a06e 100644
  	<div class="ui container">
  		<div class="tw-flex tw-items-center">
 diff --git a/templates/repo/forks.tmpl b/templates/repo/forks.tmpl
-index 725b67c65..48bdce375 100644
+index 725b67c651..48bdce3754 100644
 --- a/templates/repo/forks.tmpl
 +++ b/templates/repo/forks.tmpl
 @@ -1,5 +1,6 @@
@@ -2700,7 +2754,7 @@ index 725b67c65..48bdce375 100644
  	<div class="ui container">
  		<h2 class="ui dividing header">
 diff --git a/templates/repo/graph.tmpl b/templates/repo/graph.tmpl
-index 93cb5903c..3d11b9010 100644
+index 93cb5903cf..3d11b90107 100644
 --- a/templates/repo/graph.tmpl
 +++ b/templates/repo/graph.tmpl
 @@ -1,5 +1,6 @@
@@ -2711,7 +2765,7 @@ index 93cb5903c..3d11b9010 100644
  	<div class="ui container">
  		<div id="git-graph-container" class="ui segment{{if eq .Mode "monochrome"}} monochrome{{end}}">
 diff --git a/templates/repo/header.tmpl b/templates/repo/header.tmpl
-index 929f41b93..39d6233d1 100644
+index 929f41b93f..39d6233d17 100644
 --- a/templates/repo/header.tmpl
 +++ b/templates/repo/header.tmpl
 @@ -98,7 +98,7 @@
@@ -2724,7 +2778,7 @@ index 929f41b93..39d6233d1 100644
  								{{ctx.Locale.Tr "repo.already_forked" .Name}}
  							</div>
 diff --git a/templates/repo/home.tmpl b/templates/repo/home.tmpl
-index f86b90502..f70e0ac2a 100644
+index f86b90502d..f70e0ac2ae 100644
 --- a/templates/repo/home.tmpl
 +++ b/templates/repo/home.tmpl
 @@ -1,6 +1,7 @@
@@ -2736,7 +2790,7 @@ index f86b90502..f70e0ac2a 100644
  	<div class="ui container {{if or .TreeNames .IsBlame}}fluid padded{{end}}">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/home_sidebar_bottom.tmpl b/templates/repo/home_sidebar_bottom.tmpl
-index f66faf6d1..ed7a44a22 100644
+index f66faf6d10..ed7a44a22f 100644
 --- a/templates/repo/home_sidebar_bottom.tmpl
 +++ b/templates/repo/home_sidebar_bottom.tmpl
 @@ -39,7 +39,7 @@
@@ -2749,7 +2803,7 @@ index f66faf6d1..ed7a44a22 100644
  					</div>
  					<div class="language-stats-details">
 diff --git a/templates/repo/issue/choose.tmpl b/templates/repo/issue/choose.tmpl
-index e3314f426..ce9233305 100644
+index e3314f4260..ce92333054 100644
 --- a/templates/repo/issue/choose.tmpl
 +++ b/templates/repo/issue/choose.tmpl
 @@ -1,5 +1,6 @@
@@ -2760,7 +2814,7 @@ index e3314f426..ce9233305 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/issue/filters.tmpl b/templates/repo/issue/filters.tmpl
-index 409ec876e..7971312cd 100644
+index 409ec876e6..7971312cd7 100644
 --- a/templates/repo/issue/filters.tmpl
 +++ b/templates/repo/issue/filters.tmpl
 @@ -1,7 +1,7 @@
@@ -2773,7 +2827,7 @@ index 409ec876e..7971312cd 100644
  		{{template "repo/issue/openclose" .}}
  		<!-- Total Tracked Time -->
 diff --git a/templates/repo/issue/labels.tmpl b/templates/repo/issue/labels.tmpl
-index 317fe0900..28974b35e 100644
+index 317fe09000..28974b35eb 100644
 --- a/templates/repo/issue/labels.tmpl
 +++ b/templates/repo/issue/labels.tmpl
 @@ -1,5 +1,6 @@
@@ -2784,7 +2838,7 @@ index 317fe0900..28974b35e 100644
  	<div class="ui container">
  		<div class="issue-navbar tw-mb-4">
 diff --git a/templates/repo/issue/labels/label_edit_modal.tmpl b/templates/repo/issue/labels/label_edit_modal.tmpl
-index bee635908..2d5b30949 100644
+index bee6359081..2d5b309499 100644
 --- a/templates/repo/issue/labels/label_edit_modal.tmpl
 +++ b/templates/repo/issue/labels/label_edit_modal.tmpl
 @@ -1,4 +1,4 @@
@@ -2794,7 +2848,7 @@ index bee635908..2d5b30949 100644
  		data-text-new-label="{{ctx.Locale.Tr "repo.issues.new_label"}}"
  		data-text-edit-label="{{ctx.Locale.Tr "repo.issues.label_modify"}}"
 diff --git a/templates/repo/issue/labels/label_list.tmpl b/templates/repo/issue/labels/label_list.tmpl
-index cc231971e..c05829156 100644
+index cc231971e0..c05829156a 100644
 --- a/templates/repo/issue/labels/label_list.tmpl
 +++ b/templates/repo/issue/labels/label_list.tmpl
 @@ -1,4 +1,4 @@
@@ -2813,7 +2867,7 @@ index cc231971e..c05829156 100644
  <div class="ui attached segment">
  	{{if and (not $.PageIsOrgSettingsLabels) (or $.CanWriteIssues $.CanWritePulls) (eq .NumLabels 0) (not $.Repository.IsArchived)}}
 diff --git a/templates/repo/issue/list.tmpl b/templates/repo/issue/list.tmpl
-index 0ab761e03..078c17221 100644
+index 0ab761e038..078c172216 100644
 --- a/templates/repo/issue/list.tmpl
 +++ b/templates/repo/issue/list.tmpl
 @@ -1,5 +1,6 @@
@@ -2824,7 +2878,7 @@ index 0ab761e03..078c17221 100644
  	<div class="ui container">
  	{{template "base/alert" .}}
 diff --git a/templates/repo/issue/milestone_issues.tmpl b/templates/repo/issue/milestone_issues.tmpl
-index 591820080..0eb544064 100644
+index 591820080f..0eb5440649 100644
 --- a/templates/repo/issue/milestone_issues.tmpl
 +++ b/templates/repo/issue/milestone_issues.tmpl
 @@ -1,5 +1,6 @@
@@ -2835,7 +2889,7 @@ index 591820080..0eb544064 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/issue/milestone_new.tmpl b/templates/repo/issue/milestone_new.tmpl
-index 9bcced6f5..f5e2a41ad 100644
+index 9bcced6f54..f5e2a41ad1 100644
 --- a/templates/repo/issue/milestone_new.tmpl
 +++ b/templates/repo/issue/milestone_new.tmpl
 @@ -1,5 +1,6 @@
@@ -2846,7 +2900,7 @@ index 9bcced6f5..f5e2a41ad 100644
  	<div class="ui container">
  		<div class="issue-navbar">
 diff --git a/templates/repo/issue/milestones.tmpl b/templates/repo/issue/milestones.tmpl
-index 5701c1faa..90738637e 100644
+index 5701c1faa6..90738637e0 100644
 --- a/templates/repo/issue/milestones.tmpl
 +++ b/templates/repo/issue/milestones.tmpl
 @@ -1,5 +1,6 @@
@@ -2866,7 +2920,7 @@ index 5701c1faa..90738637e 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "repo.milestones.deletion"}}
 diff --git a/templates/repo/issue/new.tmpl b/templates/repo/issue/new.tmpl
-index ccd45fdeb..c4c8626e1 100644
+index ccd45fdebe..c4c8626e14 100644
 --- a/templates/repo/issue/new.tmpl
 +++ b/templates/repo/issue/new.tmpl
 @@ -1,5 +1,6 @@
@@ -2877,7 +2931,7 @@ index ccd45fdeb..c4c8626e1 100644
  	<div class="ui container">
  		{{template "repo/issue/new_form" .}}
 diff --git a/templates/repo/issue/new_form.tmpl b/templates/repo/issue/new_form.tmpl
-index 941320087..74d428905 100644
+index 9413200870..74d428905b 100644
 --- a/templates/repo/issue/new_form.tmpl
 +++ b/templates/repo/issue/new_form.tmpl
 @@ -8,6 +8,7 @@
@@ -2889,7 +2943,7 @@ index 941320087..74d428905 100644
  								value="{{if .TitleQuery}}{{.TitleQuery}}{{else if .IssueTemplateTitle}}{{.IssueTemplateTitle}}{{else}}{{.title}}{{end}}"
  						>
 diff --git a/templates/repo/issue/sidebar/due_date.tmpl b/templates/repo/issue/sidebar/due_date.tmpl
-index e6e19f6f8..305f0b896 100644
+index e6e19f6f86..305f0b8961 100644
 --- a/templates/repo/issue/sidebar/due_date.tmpl
 +++ b/templates/repo/issue/sidebar/due_date.tmpl
 @@ -22,8 +22,8 @@
@@ -2904,7 +2958,7 @@ index e6e19f6f8..305f0b896 100644
  	{{end}}
  </div>
 diff --git a/templates/repo/issue/sidebar/issue_dependencies.tmpl b/templates/repo/issue/sidebar/issue_dependencies.tmpl
-index bbae01195..a930f8700 100644
+index bbae011958..a930f8700b 100644
 --- a/templates/repo/issue/sidebar/issue_dependencies.tmpl
 +++ b/templates/repo/issue/sidebar/issue_dependencies.tmpl
 @@ -118,7 +118,7 @@
@@ -2917,7 +2971,7 @@ index bbae01195..a930f8700 100644
  						</button>
  					</div>
 diff --git a/templates/repo/issue/sidebar/issue_management.tmpl b/templates/repo/issue/sidebar/issue_management.tmpl
-index 8876a5054..cd9e3625d 100644
+index 8876a5054e..cd9e3625d0 100644
 --- a/templates/repo/issue/sidebar/issue_management.tmpl
 +++ b/templates/repo/issue/sidebar/issue_management.tmpl
 @@ -25,7 +25,7 @@
@@ -2939,7 +2993,7 @@ index 8876a5054..cd9e3625d 100644
  			{{if .Issue.IsPull}}
  				{{ctx.Locale.Tr "repo.pulls.delete.title"}}
 diff --git a/templates/repo/issue/sidebar/reference_link.tmpl b/templates/repo/issue/sidebar/reference_link.tmpl
-index ad7c0f6bc..837ef8a54 100644
+index ad7c0f6bc0..837ef8a544 100644
 --- a/templates/repo/issue/sidebar/reference_link.tmpl
 +++ b/templates/repo/issue/sidebar/reference_link.tmpl
 @@ -2,5 +2,5 @@
@@ -2950,7 +3004,7 @@ index ad7c0f6bc..837ef8a54 100644
 +	<button class="ui compact tiny icon button" data-clipboard-text="{{$issueReferenceLink}}" data-tooltip-content="{{ctx.Locale.Tr "copy"}}">{{svg "octicon-copy" 14}}</button>
  </div>
 diff --git a/templates/repo/issue/sidebar/reviewer_list.tmpl b/templates/repo/issue/sidebar/reviewer_list.tmpl
-index 9cb11ec7e..376d45810 100644
+index 9cb11ec7ee..376d458109 100644
 --- a/templates/repo/issue/sidebar/reviewer_list.tmpl
 +++ b/templates/repo/issue/sidebar/reviewer_list.tmpl
 @@ -106,7 +106,7 @@
@@ -2963,7 +3017,7 @@ index 9cb11ec7e..376d45810 100644
  			{{ctx.Locale.Tr "repo.issues.dismiss_review"}}
  		</div>
 diff --git a/templates/repo/issue/sidebar/stopwatch_timetracker.tmpl b/templates/repo/issue/sidebar/stopwatch_timetracker.tmpl
-index 0176aede7..f39493785 100644
+index 0176aede7a..f394937856 100644
 --- a/templates/repo/issue/sidebar/stopwatch_timetracker.tmpl
 +++ b/templates/repo/issue/sidebar/stopwatch_timetracker.tmpl
 @@ -42,7 +42,7 @@
@@ -2985,7 +3039,7 @@ index 0176aede7..f39493785 100644
  				<form method="post" class="ui form form-fetch-action" action="{{.Issue.Link}}/times/add">
  					<div class="content flex-text-block">
 diff --git a/templates/repo/issue/view.tmpl b/templates/repo/issue/view.tmpl
-index 1ef9e735b..f8831c608 100644
+index 1ef9e735bd..f8831c6082 100644
 --- a/templates/repo/issue/view.tmpl
 +++ b/templates/repo/issue/view.tmpl
 @@ -1,5 +1,6 @@
@@ -2996,7 +3050,7 @@ index 1ef9e735b..f8831c608 100644
  	<div class="ui container">
  		{{template "repo/issue/view_title" .}}
 diff --git a/templates/repo/issue/view_content.tmpl b/templates/repo/issue/view_content.tmpl
-index dae3c4ee6..193f2dbc4 100644
+index dae3c4ee6a..193f2dbc41 100644
 --- a/templates/repo/issue/view_content.tmpl
 +++ b/templates/repo/issue/view_content.tmpl
 @@ -8,12 +8,12 @@
@@ -3050,7 +3104,7 @@ index dae3c4ee6..193f2dbc4 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.branch.delete" .HeadTarget}}
 diff --git a/templates/repo/issue/view_content/comments.tmpl b/templates/repo/issue/view_content/comments.tmpl
-index 8f49bcf07..f31471e13 100644
+index 8f49bcf07e..f31471e13e 100644
 --- a/templates/repo/issue/view_content/comments.tmpl
 +++ b/templates/repo/issue/view_content/comments.tmpl
 @@ -21,12 +21,12 @@
@@ -3114,7 +3168,7 @@ index 8f49bcf07..f31471e13 100644
  									</a>
  								{{end}}
 diff --git a/templates/repo/issue/view_content/context_menu.tmpl b/templates/repo/issue/view_content/context_menu.tmpl
-index 749a2fa0d..1585ee518 100644
+index 749a2fa0dd..1585ee518b 100644
 --- a/templates/repo/issue/view_content/context_menu.tmpl
 +++ b/templates/repo/issue/view_content/context_menu.tmpl
 @@ -1,5 +1,5 @@
@@ -3138,7 +3192,7 @@ index 749a2fa0d..1585ee518 100644
  			{{end}}
  		{{end}}
 diff --git a/templates/repo/issue/view_content/reference_issue_dialog.tmpl b/templates/repo/issue/view_content/reference_issue_dialog.tmpl
-index 0b28bdc81..acd23931a 100644
+index 0b28bdc811..acd23931a7 100644
 --- a/templates/repo/issue/view_content/reference_issue_dialog.tmpl
 +++ b/templates/repo/issue/view_content/reference_issue_dialog.tmpl
 @@ -1,4 +1,4 @@
@@ -3165,7 +3219,7 @@ index 0b28bdc81..acd23931a 100644
  			<div class="flex-text-block tw-justify-end">
  				<button class="ui primary button">{{ctx.Locale.Tr "repo.issues.create"}}</button>
 diff --git a/templates/repo/migrate/codebase.tmpl b/templates/repo/migrate/codebase.tmpl
-index f4de8ff23..6da935ef0 100644
+index f4de8ff236..6da935ef0c 100644
 --- a/templates/repo/migrate/codebase.tmpl
 +++ b/templates/repo/migrate/codebase.tmpl
 @@ -1,5 +1,6 @@
@@ -3176,7 +3230,7 @@ index f4de8ff23..6da935ef0 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/migrate/codecommit.tmpl b/templates/repo/migrate/codecommit.tmpl
-index 275a2aef0..eca065b2d 100644
+index 275a2aef09..eca065b2d4 100644
 --- a/templates/repo/migrate/codecommit.tmpl
 +++ b/templates/repo/migrate/codecommit.tmpl
 @@ -1,5 +1,6 @@
@@ -3187,7 +3241,7 @@ index 275a2aef0..eca065b2d 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/migrate/git.tmpl b/templates/repo/migrate/git.tmpl
-index 41139d4fd..ed660c863 100644
+index 41139d4fd6..ed660c863b 100644
 --- a/templates/repo/migrate/git.tmpl
 +++ b/templates/repo/migrate/git.tmpl
 @@ -1,5 +1,6 @@
@@ -3198,7 +3252,7 @@ index 41139d4fd..ed660c863 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/migrate/gitbucket.tmpl b/templates/repo/migrate/gitbucket.tmpl
-index c89aa6c74..091253327 100644
+index c89aa6c744..091253327d 100644
 --- a/templates/repo/migrate/gitbucket.tmpl
 +++ b/templates/repo/migrate/gitbucket.tmpl
 @@ -1,9 +1,10 @@
@@ -3215,7 +3269,7 @@ index c89aa6c74..091253327 100644
  			{{template "base/alert" .}}
  			<form class="ui form left-right-form" action="{{.Link}}" method="post">
 diff --git a/templates/repo/migrate/gitea.tmpl b/templates/repo/migrate/gitea.tmpl
-index 55cf61a77..6c4e7fa5c 100644
+index 55cf61a77f..6c4e7fa5c2 100644
 --- a/templates/repo/migrate/gitea.tmpl
 +++ b/templates/repo/migrate/gitea.tmpl
 @@ -1,5 +1,6 @@
@@ -3226,7 +3280,7 @@ index 55cf61a77..6c4e7fa5c 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/migrate/github.tmpl b/templates/repo/migrate/github.tmpl
-index 86b585b86..a2ede6f99 100644
+index 86b585b861..a2ede6f992 100644
 --- a/templates/repo/migrate/github.tmpl
 +++ b/templates/repo/migrate/github.tmpl
 @@ -1,9 +1,10 @@
@@ -3243,7 +3297,7 @@ index 86b585b86..a2ede6f99 100644
  			{{template "base/alert" .}}
  			<form class="ui form left-right-form" action="{{.Link}}" method="post">
 diff --git a/templates/repo/migrate/gitlab.tmpl b/templates/repo/migrate/gitlab.tmpl
-index edd69f002..b91658d5e 100644
+index edd69f0027..b91658d5eb 100644
 --- a/templates/repo/migrate/gitlab.tmpl
 +++ b/templates/repo/migrate/gitlab.tmpl
 @@ -1,5 +1,6 @@
@@ -3254,7 +3308,7 @@ index edd69f002..b91658d5e 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/migrate/gogs.tmpl b/templates/repo/migrate/gogs.tmpl
-index 9149c4323..53c9e1490 100644
+index 9149c43239..53c9e1490c 100644
 --- a/templates/repo/migrate/gogs.tmpl
 +++ b/templates/repo/migrate/gogs.tmpl
 @@ -1,5 +1,6 @@
@@ -3265,7 +3319,7 @@ index 9149c4323..53c9e1490 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/migrate/migrate.tmpl b/templates/repo/migrate/migrate.tmpl
-index 79ac5cc8a..2f15b5702 100644
+index 79ac5cc8a1..2f15b57020 100644
 --- a/templates/repo/migrate/migrate.tmpl
 +++ b/templates/repo/migrate/migrate.tmpl
 @@ -1,5 +1,6 @@
@@ -3276,7 +3330,7 @@ index 79ac5cc8a..2f15b5702 100644
  		<div class="column">
  			{{template "repo/migrate/helper" .}}
 diff --git a/templates/repo/migrate/migrating.tmpl b/templates/repo/migrate/migrating.tmpl
-index e73e3a979..5ca24347b 100644
+index e73e3a9790..5ca24347b0 100644
 --- a/templates/repo/migrate/migrating.tmpl
 +++ b/templates/repo/migrate/migrating.tmpl
 @@ -1,5 +1,6 @@
@@ -3305,7 +3359,7 @@ index e73e3a979..5ca24347b 100644
  		{{ctx.Locale.Tr "repo.migrate.cancel_migrating_title"}}
  	</div>
 diff --git a/templates/repo/migrate/onedev.tmpl b/templates/repo/migrate/onedev.tmpl
-index a25ccf943..e1adbf47a 100644
+index a25ccf9438..e1adbf47a0 100644
 --- a/templates/repo/migrate/onedev.tmpl
 +++ b/templates/repo/migrate/onedev.tmpl
 @@ -1,5 +1,6 @@
@@ -3316,7 +3370,7 @@ index a25ccf943..e1adbf47a 100644
  		<h3 class="ui top attached header">
  			{{ctx.Locale.Tr "repo.migrate.migrate" .service.Title}}
 diff --git a/templates/repo/packages.tmpl b/templates/repo/packages.tmpl
-index 14e32c125..10e075cfb 100644
+index 14e32c125b..10e075cfb8 100644
 --- a/templates/repo/packages.tmpl
 +++ b/templates/repo/packages.tmpl
 @@ -1,5 +1,6 @@
@@ -3327,7 +3381,7 @@ index 14e32c125..10e075cfb 100644
  	<div class="ui container">
  	{{template "package/shared/list" .}}
 diff --git a/templates/repo/projects/list.tmpl b/templates/repo/projects/list.tmpl
-index 9eae401fa..87be940fb 100644
+index 9eae401fa2..87be940fb2 100644
 --- a/templates/repo/projects/list.tmpl
 +++ b/templates/repo/projects/list.tmpl
 @@ -1,5 +1,6 @@
@@ -3338,7 +3392,7 @@ index 9eae401fa..87be940fb 100644
  	<div class="ui container">
  		{{template "projects/list" .}}
 diff --git a/templates/repo/projects/new.tmpl b/templates/repo/projects/new.tmpl
-index 67abfe24b..b9b57093d 100644
+index 67abfe24be..b9b57093d8 100644
 --- a/templates/repo/projects/new.tmpl
 +++ b/templates/repo/projects/new.tmpl
 @@ -1,5 +1,6 @@
@@ -3349,7 +3403,7 @@ index 67abfe24b..b9b57093d 100644
  	<div class="ui container">
  	{{template "projects/new" .}}
 diff --git a/templates/repo/projects/view.tmpl b/templates/repo/projects/view.tmpl
-index 1acaaf8b4..edb827f07 100644
+index 1acaaf8b4b..edb827f079 100644
 --- a/templates/repo/projects/view.tmpl
 +++ b/templates/repo/projects/view.tmpl
 @@ -1,5 +1,6 @@
@@ -3360,7 +3414,7 @@ index 1acaaf8b4..edb827f07 100644
  	<div class="ui container padded">
  		<div class="flex-text-block tw-justify-end tw-mb-4">
 diff --git a/templates/repo/pulls/commits.tmpl b/templates/repo/pulls/commits.tmpl
-index bf6e8128d..7b8af098b 100644
+index bf6e8128d4..7b8af098bd 100644
 --- a/templates/repo/pulls/commits.tmpl
 +++ b/templates/repo/pulls/commits.tmpl
 @@ -1,5 +1,6 @@
@@ -3371,7 +3425,7 @@ index bf6e8128d..7b8af098b 100644
  	<div class="ui container">
  		{{template "repo/issue/view_title" .}}
 diff --git a/templates/repo/pulls/files.tmpl b/templates/repo/pulls/files.tmpl
-index e7baa484a..dce5a243c 100644
+index e7baa484a1..dce5a243cb 100644
 --- a/templates/repo/pulls/files.tmpl
 +++ b/templates/repo/pulls/files.tmpl
 @@ -1,5 +1,6 @@
@@ -3382,7 +3436,7 @@ index e7baa484a..dce5a243c 100644
  	<div class="ui container fluid padded">
  		{{template "repo/issue/view_title" .}}
 diff --git a/templates/repo/pulls/fork.tmpl b/templates/repo/pulls/fork.tmpl
-index 0d775ed6a..f7702187d 100644
+index 0d775ed6a0..f7702187de 100644
 --- a/templates/repo/pulls/fork.tmpl
 +++ b/templates/repo/pulls/fork.tmpl
 @@ -1,9 +1,10 @@
@@ -3399,7 +3453,7 @@ index 0d775ed6a..f7702187d 100644
  			{{template "base/alert" .}}
  			<form class="ui form form-fetch-action left-right-form" action="{{.Link}}" method="post">
 diff --git a/templates/repo/pulls/tab_menu.tmpl b/templates/repo/pulls/tab_menu.tmpl
-index a0ecdf96c..c94c421a7 100644
+index a0ecdf96cd..c94c421a7b 100644
 --- a/templates/repo/pulls/tab_menu.tmpl
 +++ b/templates/repo/pulls/tab_menu.tmpl
 @@ -18,7 +18,7 @@
@@ -3412,7 +3466,7 @@ index a0ecdf96c..c94c421a7 100644
  			</span>
  		</span>
 diff --git a/templates/repo/pulse.tmpl b/templates/repo/pulse.tmpl
-index cbafee9ba..e7a8c525f 100644
+index cbafee9ba9..e7a8c525fc 100644
 --- a/templates/repo/pulse.tmpl
 +++ b/templates/repo/pulse.tmpl
 @@ -19,20 +19,20 @@
@@ -3574,7 +3628,7 @@ index cbafee9ba..e7a8c525f 100644
  		{{range .Activity.UnresolvedIssues}}
  			<p class="desc">
 diff --git a/templates/repo/release/list.tmpl b/templates/repo/release/list.tmpl
-index 882ffe40b..d9c6e03ce 100644
+index 882ffe40b7..d9c6e03ce7 100644
 --- a/templates/repo/release/list.tmpl
 +++ b/templates/repo/release/list.tmpl
 @@ -1,5 +1,6 @@
@@ -3608,7 +3662,7 @@ index 882ffe40b..d9c6e03ce 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "repo.release.delete_tag"}}
 diff --git a/templates/repo/release/new.tmpl b/templates/repo/release/new.tmpl
-index f61a8ef9e..9b4898c11 100644
+index f61a8ef9e7..9b4898c114 100644
 --- a/templates/repo/release/new.tmpl
 +++ b/templates/repo/release/new.tmpl
 @@ -1,5 +1,6 @@
@@ -3628,7 +3682,7 @@ index f61a8ef9e..9b4898c11 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "repo.release.deletion"}}
 diff --git a/templates/repo/search.tmpl b/templates/repo/search.tmpl
-index 3f5b22b0c..66735871b 100644
+index 3f5b22b0ce..66735871b1 100644
 --- a/templates/repo/search.tmpl
 +++ b/templates/repo/search.tmpl
 @@ -1,5 +1,6 @@
@@ -3639,7 +3693,7 @@ index 3f5b22b0c..66735871b 100644
  	<div class="ui container">
  		{{template "shared/search/code/search" .}}
 diff --git a/templates/repo/settings/branches.tmpl b/templates/repo/settings/branches.tmpl
-index ef4732540..90057d91f 100644
+index ef4732540b..90057d91f0 100644
 --- a/templates/repo/settings/branches.tmpl
 +++ b/templates/repo/settings/branches.tmpl
 @@ -5,9 +5,9 @@
@@ -3679,7 +3733,7 @@ index ef4732540..90057d91f 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.settings.protected_branch_deletion"}}
 diff --git a/templates/repo/settings/collaboration.tmpl b/templates/repo/settings/collaboration.tmpl
-index 09226b5b5..e1ccbc2d4 100644
+index 09226b5b5b..e1ccbc2d46 100644
 --- a/templates/repo/settings/collaboration.tmpl
 +++ b/templates/repo/settings/collaboration.tmpl
 @@ -1,8 +1,8 @@
@@ -3715,7 +3769,7 @@ index 09226b5b5..e1ccbc2d4 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.settings.collaborator_deletion"}}
 diff --git a/templates/repo/settings/deploy_keys.tmpl b/templates/repo/settings/deploy_keys.tmpl
-index 5eb2a47e5..245bbdccf 100644
+index 5eb2a47e5a..245bbdccfc 100644
 --- a/templates/repo/settings/deploy_keys.tmpl
 +++ b/templates/repo/settings/deploy_keys.tmpl
 @@ -1,6 +1,6 @@
@@ -3745,7 +3799,7 @@ index 5eb2a47e5..245bbdccf 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.settings.deploy_key_deletion"}}
 diff --git a/templates/repo/settings/githook_edit.tmpl b/templates/repo/settings/githook_edit.tmpl
-index e20f51b92..e676340fa 100644
+index e20f51b922..e676340fa5 100644
 --- a/templates/repo/settings/githook_edit.tmpl
 +++ b/templates/repo/settings/githook_edit.tmpl
 @@ -1,8 +1,8 @@
@@ -3760,7 +3814,7 @@ index e20f51b92..e676340fa 100644
  			<p>{{ctx.Locale.Tr "repo.settings.githook_edit_desc"}}</p>
  			<form class="ui form" action="{{.Link}}" method="post">
 diff --git a/templates/repo/settings/githooks.tmpl b/templates/repo/settings/githooks.tmpl
-index 9b17af140..2e903b9f3 100644
+index 9b17af1406..2e903b9f34 100644
 --- a/templates/repo/settings/githooks.tmpl
 +++ b/templates/repo/settings/githooks.tmpl
 @@ -1,8 +1,8 @@
@@ -3775,18 +3829,19 @@ index 9b17af140..2e903b9f3 100644
  			<div class="ui list flex-items-block">
  				<div class="item"><span>{{ctx.Locale.Tr "repo.settings.githooks_desc"}}</span></div>
 diff --git a/templates/repo/settings/layout_head.tmpl b/templates/repo/settings/layout_head.tmpl
-index efec9bf87..d52743f32 100644
+index efec9bf874..48cf6757b8 100644
 --- a/templates/repo/settings/layout_head.tmpl
 +++ b/templates/repo/settings/layout_head.tmpl
 @@ -1,5 +1,6 @@
  {{template "base/head" .ctxData}}
- <div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
-+	<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>
+-<div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
++<div role="main"{{if .ctxData.Title}} aria-label="{{.ctxData.Title}}"{{end}} class="page-content {{.pageClass}}">
++	{{if .ctxData.Title}}<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>{{end}}
  	{{template "repo/header" .ctxData}}
  	<div class="ui container flex-container">
  		{{template "repo/settings/navbar" .ctxData}}
 diff --git a/templates/repo/settings/lfs.tmpl b/templates/repo/settings/lfs.tmpl
-index 4b46aeed9..ea561a59d 100644
+index 4b46aeed95..ea561a59de 100644
 --- a/templates/repo/settings/lfs.tmpl
 +++ b/templates/repo/settings/lfs.tmpl
 @@ -1,12 +1,12 @@
@@ -3814,7 +3869,7 @@ index 4b46aeed9..ea561a59d 100644
  					{{ctx.Locale.Tr "repo.settings.lfs_delete" .Oid}}
  				</div>
 diff --git a/templates/repo/settings/lfs_file.tmpl b/templates/repo/settings/lfs_file.tmpl
-index 7698f77b2..a76e190ee 100644
+index 7698f77b2a..a76e190ee4 100644
 --- a/templates/repo/settings/lfs_file.tmpl
 +++ b/templates/repo/settings/lfs_file.tmpl
 @@ -1,7 +1,7 @@
@@ -3836,7 +3891,7 @@ index 7698f77b2..a76e190ee 100644
  				{{template "repo/unicode_escape_prompt" dict "EscapeStatus" .EscapeStatus "root" $}}
  				<div class="file-view {{if .IsPlainText}}plain-text{{else if .IsTextFile}}code-view{{end}}">
 diff --git a/templates/repo/settings/lfs_file_find.tmpl b/templates/repo/settings/lfs_file_find.tmpl
-index 59f1bb10c..7136b6a3a 100644
+index 59f1bb10cf..7136b6a3aa 100644
 --- a/templates/repo/settings/lfs_file_find.tmpl
 +++ b/templates/repo/settings/lfs_file_find.tmpl
 @@ -1,9 +1,9 @@
@@ -3852,7 +3907,7 @@ index 59f1bb10c..7136b6a3a 100644
  				<tbody>
  					{{range .Results}}
 diff --git a/templates/repo/settings/lfs_locks.tmpl b/templates/repo/settings/lfs_locks.tmpl
-index dfbae0633..dd98bc05c 100644
+index dfbae0633e..dd98bc05ca 100644
 --- a/templates/repo/settings/lfs_locks.tmpl
 +++ b/templates/repo/settings/lfs_locks.tmpl
 @@ -1,9 +1,9 @@
@@ -3868,7 +3923,7 @@ index dfbae0633..dd98bc05c 100644
  				<form class="ui form ignore-dirty" method="post">
  					{{$.CsrfTokenHtml}}
 diff --git a/templates/repo/settings/lfs_pointers.tmpl b/templates/repo/settings/lfs_pointers.tmpl
-index 4cfc0fc67..96e8f2f9f 100644
+index 4cfc0fc673..96e8f2f9f6 100644
 --- a/templates/repo/settings/lfs_pointers.tmpl
 +++ b/templates/repo/settings/lfs_pointers.tmpl
 @@ -1,6 +1,6 @@
@@ -3898,7 +3953,7 @@ index 4cfc0fc67..96e8f2f9f 100644
  				</thead>
  				<tbody>
 diff --git a/templates/repo/settings/options.tmpl b/templates/repo/settings/options.tmpl
-index 4d6160461..31eee7b4a 100644
+index 4d61604612..31eee7b4ad 100644
 --- a/templates/repo/settings/options.tmpl
 +++ b/templates/repo/settings/options.tmpl
 @@ -1,8 +1,8 @@
@@ -4072,7 +4127,7 @@ index 4d6160461..31eee7b4a 100644
  				{{if .Repository.IsArchived}}
  					{{ctx.Locale.Tr "repo.settings.unarchive.header"}}
 diff --git a/templates/repo/settings/protected_branch.tmpl b/templates/repo/settings/protected_branch.tmpl
-index 3c311c18c..483330650 100644
+index 3c311c18c3..4833306501 100644
 --- a/templates/repo/settings/protected_branch.tmpl
 +++ b/templates/repo/settings/protected_branch.tmpl
 @@ -1,15 +1,15 @@
@@ -4131,7 +4186,7 @@ index 3c311c18c..483330650 100644
  					<div class="field">
  						<div class="ui radio checkbox">
 diff --git a/templates/repo/settings/public_access.tmpl b/templates/repo/settings/public_access.tmpl
-index c1c198bcc..7a49bc1d4 100644
+index c1c198bcce..7a49bc1d49 100644
 --- a/templates/repo/settings/public_access.tmpl
 +++ b/templates/repo/settings/public_access.tmpl
 @@ -1,8 +1,8 @@
@@ -4146,7 +4201,7 @@ index c1c198bcc..7a49bc1d4 100644
  		<p>
  			{{ctx.Locale.Tr "repo.settings.public_access_desc"}}
 diff --git a/templates/repo/settings/push_mirror_sync_modal.tmpl b/templates/repo/settings/push_mirror_sync_modal.tmpl
-index 3bd624fab..d3961d9a2 100644
+index 3bd624fab7..d3961d9a2c 100644
 --- a/templates/repo/settings/push_mirror_sync_modal.tmpl
 +++ b/templates/repo/settings/push_mirror_sync_modal.tmpl
 @@ -1,4 +1,4 @@
@@ -4156,7 +4211,7 @@ index 3bd624fab..d3961d9a2 100644
  		{{ctx.Locale.Tr "repo.settings.mirror_settings.push_mirror.edit_sync_time"}}
  	</div>
 diff --git a/templates/repo/settings/tags.tmpl b/templates/repo/settings/tags.tmpl
-index 12ec9102b..4e19d2f16 100644
+index 12ec9102b7..4e19d2f162 100644
 --- a/templates/repo/settings/tags.tmpl
 +++ b/templates/repo/settings/tags.tmpl
 @@ -5,9 +5,9 @@
@@ -4181,7 +4236,7 @@ index 12ec9102b..4e19d2f16 100644
  							<tbody>
  								{{range .ProtectedTags}}
 diff --git a/templates/repo/settings/webhook/base_list.tmpl b/templates/repo/settings/webhook/base_list.tmpl
-index a63771b97..414afeeda 100644
+index a63771b97e..414afeeda8 100644
 --- a/templates/repo/settings/webhook/base_list.tmpl
 +++ b/templates/repo/settings/webhook/base_list.tmpl
 @@ -1,4 +1,4 @@
@@ -4200,7 +4255,7 @@ index a63771b97..414afeeda 100644
  	<div class="ui list flex-items-block">
  		<div class="item"><span>{{.Description}}</span></div>
 diff --git a/templates/repo/settings/webhook/delete_modal.tmpl b/templates/repo/settings/webhook/delete_modal.tmpl
-index 9955ed3a2..c6b1a3ac5 100644
+index 9955ed3a2f..c6b1a3ac55 100644
 --- a/templates/repo/settings/webhook/delete_modal.tmpl
 +++ b/templates/repo/settings/webhook/delete_modal.tmpl
 @@ -1,4 +1,4 @@
@@ -4210,7 +4265,7 @@ index 9955ed3a2..c6b1a3ac5 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.settings.webhook_deletion"}}
 diff --git a/templates/repo/settings/webhook/history.tmpl b/templates/repo/settings/webhook/history.tmpl
-index ea3c03781..33e116bbc 100644
+index ea3c037813..33e116bbce 100644
 --- a/templates/repo/settings/webhook/history.tmpl
 +++ b/templates/repo/settings/webhook/history.tmpl
 @@ -1,6 +1,6 @@
@@ -4259,7 +4314,7 @@ index ea3c03781..33e116bbc 100644
  							{{else}}
  								-
 diff --git a/templates/repo/settings/webhook/settings.tmpl b/templates/repo/settings/webhook/settings.tmpl
-index 16ad263e4..6809a5ce2 100644
+index 16ad263e42..6809a5ce2b 100644
 --- a/templates/repo/settings/webhook/settings.tmpl
 +++ b/templates/repo/settings/webhook/settings.tmpl
 @@ -1,6 +1,6 @@
@@ -4271,7 +4326,7 @@ index 16ad263e4..6809a5ce2 100644
  		<div class="field">
  			<div class="ui radio non-events checkbox">
 diff --git a/templates/repo/tag/list.tmpl b/templates/repo/tag/list.tmpl
-index 9789943b4..3b5f590b3 100644
+index 9789943b49..3b5f590b34 100644
 --- a/templates/repo/tag/list.tmpl
 +++ b/templates/repo/tag/list.tmpl
 @@ -1,14 +1,15 @@
@@ -4312,8 +4367,21 @@ index 9789943b4..3b5f590b3 100644
  	<div class="header">
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.release.delete_tag"}}
+diff --git a/templates/repo/user_cards.tmpl b/templates/repo/user_cards.tmpl
+index 360aeaf619..e12932bf51 100644
+--- a/templates/repo/user_cards.tmpl
++++ b/templates/repo/user_cards.tmpl
+@@ -17,7 +17,7 @@ At the moment, no JS initialization would re-trigger (fortunately there is no JS
+ 	<ul class="list">
+ 		{{range .Cards}}
+ 			<li class="item ui segment">
+-				<a href="{{.HomeLink}}">
++				<a href="{{.HomeLink}}" aria-label="{{.DisplayName}}">
+ 					{{ctx.AvatarUtils.Avatar . 48}}
+ 				</a>
+ 				<h3 class="name"><a href="{{.HomeLink}}">{{.DisplayName}}</a></h3>
 diff --git a/templates/repo/view.tmpl b/templates/repo/view.tmpl
-index c3d562003..6b345dc42 100644
+index c3d562003d..6b345dc423 100644
 --- a/templates/repo/view.tmpl
 +++ b/templates/repo/view.tmpl
 @@ -1,5 +1,6 @@
@@ -4324,7 +4392,7 @@ index c3d562003..6b345dc42 100644
  	<div class="ui container {{if or .TreeNames .IsBlame}}fluid padded{{end}}">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/view_file.tmpl b/templates/repo/view_file.tmpl
-index dbcfa79aa..7da8585c5 100644
+index dbcfa79aa8..7da8585c50 100644
 --- a/templates/repo/view_file.tmpl
 +++ b/templates/repo/view_file.tmpl
 @@ -23,7 +23,7 @@
@@ -4379,7 +4447,7 @@ index dbcfa79aa..7da8585c5 100644
  						<a class="item ref-in-new-issue" role="menuitem" data-url-issue-new="{{.RepoLink}}/issues/new" data-url-param-body-link="{{.Repository.Link}}/src/commit/{{PathEscape .CommitID}}/{{PathEscapeSegments .TreePath}}{{if $.HasSourceRenderedToggle}}?display=source{{end}}" rel="nofollow noindex">{{ctx.Locale.Tr "repo.issues.context.reference_issue"}}</a>
  					{{end}}
 diff --git a/templates/repo/watchers.tmpl b/templates/repo/watchers.tmpl
-index 1828544c8..c0094a085 100644
+index 1828544c8c..c0094a0859 100644
 --- a/templates/repo/watchers.tmpl
 +++ b/templates/repo/watchers.tmpl
 @@ -1,5 +1,6 @@
@@ -4390,7 +4458,7 @@ index 1828544c8..c0094a085 100644
  	<div class="ui container">
  		{{template "repo/user_cards" .}}
 diff --git a/templates/repo/wiki/new.tmpl b/templates/repo/wiki/new.tmpl
-index 5ebccc69e..680c98993 100644
+index 5ebccc69e9..680c98993d 100644
 --- a/templates/repo/wiki/new.tmpl
 +++ b/templates/repo/wiki/new.tmpl
 @@ -1,5 +1,6 @@
@@ -4401,7 +4469,7 @@ index 5ebccc69e..680c98993 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/repo/wiki/pages.tmpl b/templates/repo/wiki/pages.tmpl
-index 5ceb8a4d5..352ff5f6f 100644
+index 5ceb8a4d5b..352ff5f6f5 100644
 --- a/templates/repo/wiki/pages.tmpl
 +++ b/templates/repo/wiki/pages.tmpl
 @@ -1,5 +1,6 @@
@@ -4412,7 +4480,7 @@ index 5ceb8a4d5..352ff5f6f 100644
  	<div class="ui container">
  		<h2 class="ui header tw-flex tw-items-center tw-justify-between">
 diff --git a/templates/repo/wiki/revision.tmpl b/templates/repo/wiki/revision.tmpl
-index 108e37893..57024eab1 100644
+index 108e378937..57024eab17 100644
 --- a/templates/repo/wiki/revision.tmpl
 +++ b/templates/repo/wiki/revision.tmpl
 @@ -1,5 +1,6 @@
@@ -4439,7 +4507,7 @@ index 108e37893..57024eab1 100644
  				{{template "repo/commits_list" .}}
  			{{end}}
 diff --git a/templates/repo/wiki/start.tmpl b/templates/repo/wiki/start.tmpl
-index 1b3c3d538..f6c0aa93a 100644
+index 1b3c3d538a..f6c0aa93ab 100644
 --- a/templates/repo/wiki/start.tmpl
 +++ b/templates/repo/wiki/start.tmpl
 @@ -1,5 +1,6 @@
@@ -4450,7 +4518,7 @@ index 1b3c3d538..f6c0aa93a 100644
  	<div class="ui container">
  		<div class="ui center segment tw-py-8">
 diff --git a/templates/repo/wiki/view.tmpl b/templates/repo/wiki/view.tmpl
-index 89befcd7c..772c46a76 100644
+index 89befcd7c5..772c46a767 100644
 --- a/templates/repo/wiki/view.tmpl
 +++ b/templates/repo/wiki/view.tmpl
 @@ -1,5 +1,6 @@
@@ -4470,7 +4538,7 @@ index 89befcd7c..772c46a76 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "repo.wiki.delete_page_button"}}
 diff --git a/templates/shared/actions/runner_edit.tmpl b/templates/shared/actions/runner_edit.tmpl
-index d452d69f7..9de073cb3 100644
+index d452d69f7a..9de073cb3b 100644
 --- a/templates/shared/actions/runner_edit.tmpl
 +++ b/templates/shared/actions/runner_edit.tmpl
 @@ -1,7 +1,7 @@
@@ -4505,7 +4573,7 @@ index d452d69f7..9de073cb3 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "actions.runners.delete_runner_header"}}
 diff --git a/templates/shared/actions/runner_list.tmpl b/templates/shared/actions/runner_list.tmpl
-index 43321a8dc..5ea7d54f2 100644
+index 43321a8dc5..5ea7d54f24 100644
 --- a/templates/shared/actions/runner_list.tmpl
 +++ b/templates/shared/actions/runner_list.tmpl
 @@ -1,6 +1,6 @@
@@ -4526,7 +4594,7 @@ index 43321a8dc..5ea7d54f2 100644
  		<form class="ui form ignore-dirty" id="user-list-search-form" action="{{$.Link}}">
  			{{template "shared/search/combo" dict "Value" .Keyword "Placeholder" (ctx.Locale.Tr "search.runner_kind")}}
 diff --git a/templates/shared/search/code/results.tmpl b/templates/shared/search/code/results.tmpl
-index 8a08f5c25..5da4431b1 100644
+index 8a08f5c25c..5da4431b16 100644
 --- a/templates/shared/search/code/results.tmpl
 +++ b/templates/shared/search/code/results.tmpl
 @@ -12,7 +12,7 @@
@@ -4548,7 +4616,7 @@ index 8a08f5c25..5da4431b1 100644
  				{{template "shared/searchfile" dict "RepoLink" $repo.Link "SearchResult" .}}
  			</div>
 diff --git a/templates/shared/secrets/add_list.tmpl b/templates/shared/secrets/add_list.tmpl
-index a4ef2e538..88016903f 100644
+index a4ef2e5384..88016903f8 100644
 --- a/templates/shared/secrets/add_list.tmpl
 +++ b/templates/shared/secrets/add_list.tmpl
 @@ -1,4 +1,4 @@
@@ -4576,14 +4644,14 @@ index a4ef2e538..88016903f 100644
  	<form class="ui form form-fetch-action" method="post">
  		<div class="content">
 diff --git a/templates/shared/user/avatarlink.tmpl b/templates/shared/user/avatarlink.tmpl
-index 5e3ed7a68..82385158d 100644
+index 5e3ed7a68c..82385158d4 100644
 --- a/templates/shared/user/avatarlink.tmpl
 +++ b/templates/shared/user/avatarlink.tmpl
 @@ -1 +1 @@
 -<a class="avatar"{{if gt .user.ID 0}} href="{{.user.HomeLink}}"{{end}}>{{ctx.AvatarUtils.Avatar .user}}</a>
 +<a class="avatar" aria-label="{{.user.GetDisplayName}}"{{if gt .user.ID 0}} href="{{.user.HomeLink}}"{{end}}>{{ctx.AvatarUtils.Avatar .user}}</a>
 diff --git a/templates/shared/user/block_user_dialog.tmpl b/templates/shared/user/block_user_dialog.tmpl
-index e1fa93994..ffd0a4578 100644
+index e1fa939945..ffd0a45781 100644
 --- a/templates/shared/user/block_user_dialog.tmpl
 +++ b/templates/shared/user/block_user_dialog.tmpl
 @@ -1,4 +1,4 @@
@@ -4593,7 +4661,7 @@ index e1fa93994..ffd0a4578 100644
  	<div class="content">
  		<div class="ui warning message">{{ctx.Locale.Tr "user.block.info"}}</div>
 diff --git a/templates/shared/user/blocked_users.tmpl b/templates/shared/user/blocked_users.tmpl
-index a4c74c46a..3c1378dc5 100644
+index a4c74c46ac..3c1378dc5a 100644
 --- a/templates/shared/user/blocked_users.tmpl
 +++ b/templates/shared/user/blocked_users.tmpl
 @@ -1,6 +1,6 @@
@@ -4627,7 +4695,7 @@ index a4c74c46a..3c1378dc5 100644
  	<div class="content">
  		<form class="ui form" action="{{$.Link}}" method="post">
 diff --git a/templates/shared/user/profile_big_avatar.tmpl b/templates/shared/user/profile_big_avatar.tmpl
-index 91f04e0b5..5db29ef40 100644
+index 91f04e0b53..5db29ef406 100644
 --- a/templates/shared/user/profile_big_avatar.tmpl
 +++ b/templates/shared/user/profile_big_avatar.tmpl
 @@ -21,7 +21,7 @@
@@ -4640,7 +4708,7 @@ index 91f04e0b5..5db29ef40 100644
  		</div>
  	</div>
 diff --git a/templates/shared/variables/variable_list.tmpl b/templates/shared/variables/variable_list.tmpl
-index 2edca431c..b0f6ac4bf 100644
+index 2edca431c1..b0f6ac4bff 100644
 --- a/templates/shared/variables/variable_list.tmpl
 +++ b/templates/shared/variables/variable_list.tmpl
 @@ -1,4 +1,4 @@
@@ -4668,7 +4736,7 @@ index 2edca431c..b0f6ac4bf 100644
  	<form class="ui form form-fetch-action" method="post">
  		<div class="content">
 diff --git a/templates/status/404.tmpl b/templates/status/404.tmpl
-index e83dcf463..4033a1629 100644
+index e83dcf463b..4033a16299 100644
 --- a/templates/status/404.tmpl
 +++ b/templates/status/404.tmpl
 @@ -1,5 +1,6 @@
@@ -4679,7 +4747,7 @@ index e83dcf463..4033a1629 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/swagger/ui.tmpl b/templates/swagger/ui.tmpl
-index 9935ab9c5..b604aadc0 100644
+index 9935ab9c5a..b604aadc07 100644
 --- a/templates/swagger/ui.tmpl
 +++ b/templates/swagger/ui.tmpl
 @@ -5,8 +5,11 @@
@@ -4697,7 +4765,7 @@ index 9935ab9c5..b604aadc0 100644
  	</body>
  </html>
 diff --git a/templates/user/auth/activate.tmpl b/templates/user/auth/activate.tmpl
-index 7f8ff0eb5..90155ae3c 100644
+index 7f8ff0eb5a..90155ae3c6 100644
 --- a/templates/user/auth/activate.tmpl
 +++ b/templates/user/auth/activate.tmpl
 @@ -1,5 +1,6 @@
@@ -4708,7 +4776,7 @@ index 7f8ff0eb5..90155ae3c 100644
  		<div class="column">
  			<form class="ui form ignore-dirty tw-max-w-2xl tw-m-auto" action="{{AppSubUrl}}/user/activate" method="post">
 diff --git a/templates/user/auth/activate_prompt.tmpl b/templates/user/auth/activate_prompt.tmpl
-index 237244df8..24e586b22 100644
+index 237244df8c..24e586b221 100644
 --- a/templates/user/auth/activate_prompt.tmpl
 +++ b/templates/user/auth/activate_prompt.tmpl
 @@ -1,5 +1,6 @@
@@ -4719,7 +4787,7 @@ index 237244df8..24e586b22 100644
  		<div class="column">
  			<h2 class="ui top attached header">
 diff --git a/templates/user/auth/change_passwd.tmpl b/templates/user/auth/change_passwd.tmpl
-index e05f46fa6..e7f565fb5 100644
+index e05f46fa6b..e7f565fb51 100644
 --- a/templates/user/auth/change_passwd.tmpl
 +++ b/templates/user/auth/change_passwd.tmpl
 @@ -1,5 +1,6 @@
@@ -4730,7 +4798,7 @@ index e05f46fa6..e7f565fb5 100644
  		{{template "user/auth/change_passwd_inner" .}}
  	</div>
 diff --git a/templates/user/auth/change_passwd_inner.tmpl b/templates/user/auth/change_passwd_inner.tmpl
-index 01bbf500e..68bed80f0 100644
+index 01bbf500e5..68bed80f0a 100644
 --- a/templates/user/auth/change_passwd_inner.tmpl
 +++ b/templates/user/auth/change_passwd_inner.tmpl
 @@ -1,9 +1,9 @@
@@ -4746,7 +4814,7 @@ index 01bbf500e..68bed80f0 100644
  			<form class="ui form tw-max-w-2xl tw-m-auto" action="{{.ChangePasscodeLink}}" method="post">
  			{{.CsrfTokenHtml}}
 diff --git a/templates/user/auth/forgot_passwd.tmpl b/templates/user/auth/forgot_passwd.tmpl
-index 55bcf6301..83cfa4ebb 100644
+index 55bcf63018..83cfa4ebb0 100644
 --- a/templates/user/auth/forgot_passwd.tmpl
 +++ b/templates/user/auth/forgot_passwd.tmpl
 @@ -1,5 +1,6 @@
@@ -4757,7 +4825,7 @@ index 55bcf6301..83cfa4ebb 100644
  		<div class="column">
  			<form class="ui form ignore-dirty" action="{{.Link}}" method="post">
 diff --git a/templates/user/auth/grant.tmpl b/templates/user/auth/grant.tmpl
-index e56241b0f..15ae6dcde 100644
+index e56241b0f8..15ae6dcdef 100644
 --- a/templates/user/auth/grant.tmpl
 +++ b/templates/user/auth/grant.tmpl
 @@ -1,9 +1,10 @@
@@ -4774,7 +4842,7 @@ index e56241b0f..15ae6dcde 100644
  			{{template "base/alert" .}}
  			<p>
 diff --git a/templates/user/auth/grant_error.tmpl b/templates/user/auth/grant_error.tmpl
-index 7a4521d33..88c72db23 100644
+index 7a4521d331..88c72db23e 100644
 --- a/templates/user/auth/grant_error.tmpl
 +++ b/templates/user/auth/grant_error.tmpl
 @@ -1,5 +1,6 @@
@@ -4785,7 +4853,7 @@ index 7a4521d33..88c72db23 100644
  		<h1 class="ui top attached header">
  			{{ctx.Locale.Tr "auth.authorization_failed"}}
 diff --git a/templates/user/auth/link_account.tmpl b/templates/user/auth/link_account.tmpl
-index d244ce38c..7e2c56a50 100644
+index d244ce38c2..7e2c56a50b 100644
 --- a/templates/user/auth/link_account.tmpl
 +++ b/templates/user/auth/link_account.tmpl
 @@ -1,5 +1,6 @@
@@ -4796,7 +4864,7 @@ index d244ce38c..7e2c56a50 100644
  		<div class="overflow-menu-items tw-justify-center">
  			<!-- TODO handle .ShowRegistrationButton once other login bugs are fixed -->
 diff --git a/templates/user/auth/prohibit_login.tmpl b/templates/user/auth/prohibit_login.tmpl
-index 962ddfa98..aef989d48 100644
+index 962ddfa98c..aef989d48a 100644
 --- a/templates/user/auth/prohibit_login.tmpl
 +++ b/templates/user/auth/prohibit_login.tmpl
 @@ -1,5 +1,6 @@
@@ -4807,7 +4875,7 @@ index 962ddfa98..aef989d48 100644
  		<div class="column">
  			<form class="ui form tw-max-w-2xl tw-m-auto">
 diff --git a/templates/user/auth/reset_passwd.tmpl b/templates/user/auth/reset_passwd.tmpl
-index 37a23b3e5..e2bdb3e23 100644
+index 37a23b3e55..e2bdb3e236 100644
 --- a/templates/user/auth/reset_passwd.tmpl
 +++ b/templates/user/auth/reset_passwd.tmpl
 @@ -1,5 +1,6 @@
@@ -4830,7 +4898,7 @@ index 37a23b3e5..e2bdb3e23 100644
  							{{if .scratch_code}}
  							<div class="required inline field {{if .Err_Token}}error{{end}}">
 diff --git a/templates/user/auth/signin.tmpl b/templates/user/auth/signin.tmpl
-index 75e1bb27f..8a0b1381c 100644
+index 75e1bb27f9..8a0b1381c9 100644
 --- a/templates/user/auth/signin.tmpl
 +++ b/templates/user/auth/signin.tmpl
 @@ -1,5 +1,6 @@
@@ -4841,7 +4909,7 @@ index 75e1bb27f..8a0b1381c 100644
  		{{/* these styles are quite tricky and should also apply to the signup and link_account pages */}}
  		<div class="column tw-flex tw-flex-col tw-gap-4 tw-max-w-2xl tw-m-auto">
 diff --git a/templates/user/auth/signin_inner.tmpl b/templates/user/auth/signin_inner.tmpl
-index 5552363a0..963973d2d 100644
+index 5552363a0a..963973d2df 100644
 --- a/templates/user/auth/signin_inner.tmpl
 +++ b/templates/user/auth/signin_inner.tmpl
 @@ -2,35 +2,35 @@
@@ -4896,7 +4964,7 @@ index 5552363a0..963973d2d 100644
  						{{ctx.Locale.Tr "auth.oauth_signin_submit"}}
  					{{else}}
 diff --git a/templates/user/auth/signin_openid.tmpl b/templates/user/auth/signin_openid.tmpl
-index 20c7bdc92..693f55ef2 100644
+index 20c7bdc924..693f55ef20 100644
 --- a/templates/user/auth/signin_openid.tmpl
 +++ b/templates/user/auth/signin_openid.tmpl
 @@ -1,5 +1,6 @@
@@ -4920,7 +4988,7 @@ index 20c7bdc92..693f55ef2 100644
  					<form class="ui form tw-m-auto" action="{{.Link}}" method="post">
  						{{.CsrfTokenHtml}}
 diff --git a/templates/user/auth/signup.tmpl b/templates/user/auth/signup.tmpl
-index 1ce3934f8..8fac81802 100644
+index 1ce3934f84..8fac81802a 100644
 --- a/templates/user/auth/signup.tmpl
 +++ b/templates/user/auth/signup.tmpl
 @@ -1,5 +1,6 @@
@@ -4931,7 +4999,7 @@ index 1ce3934f8..8fac81802 100644
  		<div class="column tw-flex tw-flex-col tw-gap-4 tw-max-w-2xl tw-m-auto">
  			{{template "user/auth/signup_inner" .}}
 diff --git a/templates/user/auth/signup_inner.tmpl b/templates/user/auth/signup_inner.tmpl
-index d66568199..a0b526dae 100644
+index d66568199d..a0b526dae5 100644
 --- a/templates/user/auth/signup_inner.tmpl
 +++ b/templates/user/auth/signup_inner.tmpl
 @@ -1,11 +1,11 @@
@@ -4949,7 +5017,7 @@ index d66568199..a0b526dae 100644
  		<form class="ui form" action="{{.SignUpLink}}" method="post">
  			{{.CsrfTokenHtml}}
 diff --git a/templates/user/auth/signup_openid_connect.tmpl b/templates/user/auth/signup_openid_connect.tmpl
-index 67e99b2f8..8a7ffa3e7 100644
+index 67e99b2f89..8a7ffa3e7f 100644
 --- a/templates/user/auth/signup_openid_connect.tmpl
 +++ b/templates/user/auth/signup_openid_connect.tmpl
 @@ -1,11 +1,12 @@
@@ -4968,7 +5036,7 @@ index 67e99b2f8..8a7ffa3e7 100644
  			<form class="ui form left-right-form" action="{{.Link}}" method="post">
  				{{.CsrfTokenHtml}}
 diff --git a/templates/user/auth/signup_openid_register.tmpl b/templates/user/auth/signup_openid_register.tmpl
-index df6268d15..1034b27ef 100644
+index df6268d151..1034b27ef7 100644
 --- a/templates/user/auth/signup_openid_register.tmpl
 +++ b/templates/user/auth/signup_openid_register.tmpl
 @@ -1,11 +1,12 @@
@@ -4987,7 +5055,7 @@ index df6268d15..1034b27ef 100644
  					<p>
  						{{ctx.Locale.Tr "auth.openid_register_desc"}}
 diff --git a/templates/user/auth/twofa.tmpl b/templates/user/auth/twofa.tmpl
-index d24523917..fa2f088be 100644
+index d245239171..fa2f088bea 100644
 --- a/templates/user/auth/twofa.tmpl
 +++ b/templates/user/auth/twofa.tmpl
 @@ -1,12 +1,13 @@
@@ -5007,7 +5075,7 @@ index d24523917..fa2f088be 100644
  					{{template "base/alert" .}}
  					<div class="required field">
 diff --git a/templates/user/auth/twofa_scratch.tmpl b/templates/user/auth/twofa_scratch.tmpl
-index 23ad77f2a..fe26fb1b3 100644
+index 23ad77f2a9..fe26fb1b32 100644
 --- a/templates/user/auth/twofa_scratch.tmpl
 +++ b/templates/user/auth/twofa_scratch.tmpl
 @@ -1,12 +1,13 @@
@@ -5027,7 +5095,7 @@ index 23ad77f2a..fe26fb1b3 100644
  					{{template "base/alert" .}}
  					<div class="required field">
 diff --git a/templates/user/auth/webauthn.tmpl b/templates/user/auth/webauthn.tmpl
-index 158ad0a54..50b10a25d 100644
+index 158ad0a546..50b10a25dc 100644
 --- a/templates/user/auth/webauthn.tmpl
 +++ b/templates/user/auth/webauthn.tmpl
 @@ -1,12 +1,13 @@
@@ -5047,7 +5115,7 @@ index 158ad0a54..50b10a25d 100644
  				<p>{{ctx.Locale.Tr "webauthn_sign_in"}}</p>
  			</div>
 diff --git a/templates/user/code.tmpl b/templates/user/code.tmpl
-index ff6c69d61..c274da5ee 100644
+index ff6c69d615..c274da5ee6 100644
 --- a/templates/user/code.tmpl
 +++ b/templates/user/code.tmpl
 @@ -1,6 +1,7 @@
@@ -5067,7 +5135,7 @@ index ff6c69d61..c274da5ee 100644
  			<div class="ui stackable grid">
  				<div class="ui four wide column">
 diff --git a/templates/user/dashboard/dashboard.tmpl b/templates/user/dashboard/dashboard.tmpl
-index 666dd7807..4b663bda7 100644
+index 666dd78073..4b663bda72 100644
 --- a/templates/user/dashboard/dashboard.tmpl
 +++ b/templates/user/dashboard/dashboard.tmpl
 @@ -1,5 +1,6 @@
@@ -5078,7 +5146,7 @@ index 666dd7807..4b663bda7 100644
  	<div class="ui container flex-container">
  		<div class="flex-container-main">
 diff --git a/templates/user/dashboard/issues.tmpl b/templates/user/dashboard/issues.tmpl
-index 54c96a3aa..1b141d09b 100644
+index 54c96a3aa5..1b141d09b5 100644
 --- a/templates/user/dashboard/issues.tmpl
 +++ b/templates/user/dashboard/issues.tmpl
 @@ -1,5 +1,6 @@
@@ -5089,7 +5157,7 @@ index 54c96a3aa..1b141d09b 100644
  	<div class="ui container">
  		{{template "base/alert" .}}
 diff --git a/templates/user/dashboard/milestones.tmpl b/templates/user/dashboard/milestones.tmpl
-index 15b1b9e30..3c10de199 100644
+index 15b1b9e30b..3c10de199a 100644
 --- a/templates/user/dashboard/milestones.tmpl
 +++ b/templates/user/dashboard/milestones.tmpl
 @@ -1,5 +1,6 @@
@@ -5100,7 +5168,7 @@ index 15b1b9e30..3c10de199 100644
  	<div class="ui container">
  		<div class="flex-container">
 diff --git a/templates/user/notification/notification_div.tmpl b/templates/user/notification/notification_div.tmpl
-index 9af2cd53b..8c743de6d 100644
+index 9af2cd53b3..8c743de6d9 100644
 --- a/templates/user/notification/notification_div.tmpl
 +++ b/templates/user/notification/notification_div.tmpl
 @@ -1,4 +1,5 @@
@@ -5110,7 +5178,7 @@ index 9af2cd53b..8c743de6d 100644
  		{{$notificationUnreadCount := call .NotificationUnreadCount ctx}}
  		<div class="tw-flex tw-items-center tw-justify-between tw-mb-[--page-spacing]">
 diff --git a/templates/user/notification/notification_subscriptions.tmpl b/templates/user/notification/notification_subscriptions.tmpl
-index 6ef53ab65..76b4e43c7 100644
+index 6ef53ab654..76b4e43c7d 100644
 --- a/templates/user/notification/notification_subscriptions.tmpl
 +++ b/templates/user/notification/notification_subscriptions.tmpl
 @@ -1,5 +1,6 @@
@@ -5121,7 +5189,7 @@ index 6ef53ab65..76b4e43c7 100644
  		<div class="ui compact small menu small-menu-items">
  			<a href="{{AppSubUrl}}/notifications/subscriptions" class="{{if eq .Status 1}}active {{end}}item">
 diff --git a/templates/user/overview/package_versions.tmpl b/templates/user/overview/package_versions.tmpl
-index 0ac2db0d8..31207f6e1 100644
+index 0ac2db0d86..31207f6e13 100644
 --- a/templates/user/overview/package_versions.tmpl
 +++ b/templates/user/overview/package_versions.tmpl
 @@ -1,6 +1,7 @@
@@ -5141,7 +5209,7 @@ index 0ac2db0d8..31207f6e1 100644
  			<div class="ui stackable grid">
  				<div class="ui four wide column">
 diff --git a/templates/user/overview/packages.tmpl b/templates/user/overview/packages.tmpl
-index bb2238b91..ebf7e461d 100644
+index bb2238b919..ebf7e461d3 100644
 --- a/templates/user/overview/packages.tmpl
 +++ b/templates/user/overview/packages.tmpl
 @@ -1,6 +1,7 @@
@@ -5161,7 +5229,7 @@ index bb2238b91..ebf7e461d 100644
  			<div class="ui stackable grid">
  				<div class="ui four wide column">
 diff --git a/templates/user/profile.tmpl b/templates/user/profile.tmpl
-index e5c3412dd..57bf003a9 100644
+index e5c3412ddd..57bf003a91 100644
 --- a/templates/user/profile.tmpl
 +++ b/templates/user/profile.tmpl
 @@ -1,5 +1,6 @@
@@ -5172,7 +5240,7 @@ index e5c3412dd..57bf003a9 100644
  		<div class="ui stackable grid">
  			<div class="ui four wide column">
 diff --git a/templates/user/settings/account.tmpl b/templates/user/settings/account.tmpl
-index 2c01c88d4..c9db01228 100644
+index 2c01c88d47..c9db012282 100644
 --- a/templates/user/settings/account.tmpl
 +++ b/templates/user/settings/account.tmpl
 @@ -1,8 +1,8 @@
@@ -5229,7 +5297,7 @@ index 2c01c88d4..c9db01228 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "settings.email_deletion"}}
 diff --git a/templates/user/settings/appearance.tmpl b/templates/user/settings/appearance.tmpl
-index 362f73bcb..7a044897c 100644
+index 362f73bcb8..7a044897cc 100644
 --- a/templates/user/settings/appearance.tmpl
 +++ b/templates/user/settings/appearance.tmpl
 @@ -2,9 +2,9 @@
@@ -5269,7 +5337,7 @@ index 362f73bcb..7a044897c 100644
  			<p class="help">
  				{{ctx.Locale.Tr "settings.hidden_comment_types_description"}}
 diff --git a/templates/user/settings/applications.tmpl b/templates/user/settings/applications.tmpl
-index 501f238c7..bcae55539 100644
+index 501f238c7a..bcae55539f 100644
 --- a/templates/user/settings/applications.tmpl
 +++ b/templates/user/settings/applications.tmpl
 @@ -1,8 +1,8 @@
@@ -5302,7 +5370,7 @@ index 501f238c7..bcae55539 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "settings.access_token_deletion"}}
 diff --git a/templates/user/settings/applications_oauth2.tmpl b/templates/user/settings/applications_oauth2.tmpl
-index 866a1f87d..6255dcef0 100644
+index 866a1f87d3..6255dcef09 100644
 --- a/templates/user/settings/applications_oauth2.tmpl
 +++ b/templates/user/settings/applications_oauth2.tmpl
 @@ -1,6 +1,6 @@
@@ -5315,7 +5383,7 @@ index 866a1f87d..6255dcef0 100644
  {{template "user/settings/applications_oauth2_list" .}}
  
 diff --git a/templates/user/settings/applications_oauth2_edit_form.tmpl b/templates/user/settings/applications_oauth2_edit_form.tmpl
-index 944729117..a492b86a6 100644
+index 944729117c..a492b86a6f 100644
 --- a/templates/user/settings/applications_oauth2_edit_form.tmpl
 +++ b/templates/user/settings/applications_oauth2_edit_form.tmpl
 @@ -1,6 +1,6 @@
@@ -5328,7 +5396,7 @@ index 944729117..a492b86a6 100644
  	<p>{{ctx.Locale.Tr "settings.oauth2_application_create_description"}}</p>
  </div>
 diff --git a/templates/user/settings/applications_oauth2_list.tmpl b/templates/user/settings/applications_oauth2_list.tmpl
-index 418d8e9cf..ad6711c22 100644
+index 418d8e9cfc..ad6711c22e 100644
 --- a/templates/user/settings/applications_oauth2_list.tmpl
 +++ b/templates/user/settings/applications_oauth2_list.tmpl
 @@ -35,7 +35,7 @@
@@ -5350,7 +5418,7 @@ index 418d8e9cf..ad6711c22 100644
  			{{.CsrfTokenHtml}}
  			<div class="field {{if .Err_AppName}}error{{end}}">
 diff --git a/templates/user/settings/grants_oauth2.tmpl b/templates/user/settings/grants_oauth2.tmpl
-index 3f0f79c2f..45163fc7e 100644
+index 3f0f79c2f3..45163fc7e3 100644
 --- a/templates/user/settings/grants_oauth2.tmpl
 +++ b/templates/user/settings/grants_oauth2.tmpl
 @@ -1,6 +1,6 @@
@@ -5372,7 +5440,7 @@ index 3f0f79c2f..45163fc7e 100644
  			{{svg "octicon-shield" 16 "tw-mr-1"}}
  			{{ctx.Locale.Tr "settings.revoke_oauth2_grant"}}
 diff --git a/templates/user/settings/keys_gpg.tmpl b/templates/user/settings/keys_gpg.tmpl
-index e44a838b2..3a96acadc 100644
+index e44a838b25..3a96acadc1 100644
 --- a/templates/user/settings/keys_gpg.tmpl
 +++ b/templates/user/settings/keys_gpg.tmpl
 @@ -1,9 +1,9 @@
@@ -5406,7 +5474,7 @@ index e44a838b2..3a96acadc 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.gpg_key_deletion"}}
 diff --git a/templates/user/settings/keys_principal.tmpl b/templates/user/settings/keys_principal.tmpl
-index cf335f726..065dc5eb2 100644
+index cf335f726d..065dc5eb23 100644
 --- a/templates/user/settings/keys_principal.tmpl
 +++ b/templates/user/settings/keys_principal.tmpl
 @@ -1,5 +1,5 @@
@@ -5447,7 +5515,7 @@ index cf335f726..065dc5eb2 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.ssh_principal_deletion"}}
 diff --git a/templates/user/settings/keys_ssh.tmpl b/templates/user/settings/keys_ssh.tmpl
-index 9d62d4ab0..9c174672b 100644
+index 9d62d4ab08..9c174672ba 100644
 --- a/templates/user/settings/keys_ssh.tmpl
 +++ b/templates/user/settings/keys_ssh.tmpl
 @@ -1,11 +1,11 @@
@@ -5483,18 +5551,19 @@ index 9d62d4ab0..9c174672b 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.ssh_key_deletion"}}
 diff --git a/templates/user/settings/layout_head.tmpl b/templates/user/settings/layout_head.tmpl
-index dce496e7f..9195de948 100644
+index dce496e7fa..fc43ddc801 100644
 --- a/templates/user/settings/layout_head.tmpl
 +++ b/templates/user/settings/layout_head.tmpl
 @@ -1,5 +1,6 @@
  {{template "base/head" .ctxData}}
- <div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
-+	<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>
+-<div role="main" aria-label="{{.ctxData.Title}}" class="page-content {{.pageClass}}">
++<div role="main"{{if .ctxData.Title}} aria-label="{{.ctxData.Title}}"{{end}} class="page-content {{.pageClass}}">
++	{{if .ctxData.Title}}<h1 class="tw-sr-only">{{.ctxData.Title}}</h1>{{end}}
  	<div class="ui container flex-container">
  		{{template "user/settings/navbar" .ctxData}}
  		<div class="flex-container-main">
 diff --git a/templates/user/settings/organization.tmpl b/templates/user/settings/organization.tmpl
-index 16c27b52c..6f6746150 100644
+index 16c27b52cd..6f67461509 100644
 --- a/templates/user/settings/organization.tmpl
 +++ b/templates/user/settings/organization.tmpl
 @@ -1,13 +1,13 @@
@@ -5523,7 +5592,7 @@ index 16c27b52c..6f6746150 100644
  		{{ctx.Locale.Tr "org.members.leave"}}
  	</div>
 diff --git a/templates/user/settings/packages.tmpl b/templates/user/settings/packages.tmpl
-index 80853eab1..ceb4344e0 100644
+index 80853eab14..ceb4344e04 100644
 --- a/templates/user/settings/packages.tmpl
 +++ b/templates/user/settings/packages.tmpl
 @@ -3,9 +3,9 @@
@@ -5539,7 +5608,7 @@ index 80853eab1..ceb4344e0 100644
  			<div class="ui form">
  				<div class="field">
 diff --git a/templates/user/settings/profile.tmpl b/templates/user/settings/profile.tmpl
-index 03c3c18f2..74c221180 100644
+index 03c3c18f28..74c221180c 100644
 --- a/templates/user/settings/profile.tmpl
 +++ b/templates/user/settings/profile.tmpl
 @@ -1,8 +1,8 @@
@@ -5566,7 +5635,7 @@ index 03c3c18f2..74c221180 100644
  			<form class="ui form" action="{{.Link}}/avatar" method="post" enctype="multipart/form-data">
  				{{.CsrfTokenHtml}}
 diff --git a/templates/user/settings/repos.tmpl b/templates/user/settings/repos.tmpl
-index 4aed8070d..98e37ae77 100644
+index 4aed8070de..98e37ae771 100644
 --- a/templates/user/settings/repos.tmpl
 +++ b/templates/user/settings/repos.tmpl
 @@ -1,8 +1,8 @@
@@ -5608,7 +5677,7 @@ index 4aed8070d..98e37ae77 100644
  		{{svg "octicon-trash"}}
  		{{ctx.Locale.Tr "settings.remove_account_link"}}
 diff --git a/templates/user/settings/security/accountlinks.tmpl b/templates/user/settings/security/accountlinks.tmpl
-index 082084454..ed510e6b9 100644
+index 0820844547..ed510e6b9d 100644
 --- a/templates/user/settings/security/accountlinks.tmpl
 +++ b/templates/user/settings/security/accountlinks.tmpl
 @@ -1,6 +1,6 @@
@@ -5638,7 +5707,7 @@ index 082084454..ed510e6b9 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.remove_account_link"}}
 diff --git a/templates/user/settings/security/openid.tmpl b/templates/user/settings/security/openid.tmpl
-index 87ba953e7..17563d104 100644
+index 87ba953e79..17563d1048 100644
 --- a/templates/user/settings/security/openid.tmpl
 +++ b/templates/user/settings/security/openid.tmpl
 @@ -1,6 +1,6 @@
@@ -5660,7 +5729,7 @@ index 87ba953e7..17563d104 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.openid_deletion"}}
 diff --git a/templates/user/settings/security/twofa.tmpl b/templates/user/settings/security/twofa.tmpl
-index adebce426..34fc613e5 100644
+index adebce4265..34fc613e53 100644
 --- a/templates/user/settings/security/twofa.tmpl
 +++ b/templates/user/settings/security/twofa.tmpl
 @@ -1,6 +1,6 @@
@@ -5682,7 +5751,7 @@ index adebce426..34fc613e5 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.twofa_disable"}}
 diff --git a/templates/user/settings/security/twofa_enroll.tmpl b/templates/user/settings/security/twofa_enroll.tmpl
-index d6bfadf08..6a701d6b6 100644
+index d6bfadf084..6a701d6b6f 100644
 --- a/templates/user/settings/security/twofa_enroll.tmpl
 +++ b/templates/user/settings/security/twofa_enroll.tmpl
 @@ -1,8 +1,8 @@
@@ -5697,7 +5766,7 @@ index d6bfadf08..6a701d6b6 100644
  			<p>{{ctx.Locale.Tr "settings.scan_this_image"}}</p>
  			<img src="{{.QrUri}}" alt="{{.TwofaSecret}}">
 diff --git a/templates/user/settings/security/webauthn.tmpl b/templates/user/settings/security/webauthn.tmpl
-index 149b7eb5c..c4c577028 100644
+index 149b7eb5cc..c4c5770287 100644
 --- a/templates/user/settings/security/webauthn.tmpl
 +++ b/templates/user/settings/security/webauthn.tmpl
 @@ -1,4 +1,4 @@
@@ -5716,7 +5785,7 @@ index 149b7eb5c..c4c577028 100644
  			{{svg "octicon-trash"}}
  			{{ctx.Locale.Tr "settings.webauthn_delete_key"}}
 diff --git a/templates/webhook/new.tmpl b/templates/webhook/new.tmpl
-index 8ef33df25..7bb4c741f 100644
+index 8ef33df25b..7bb4c741ff 100644
 --- a/templates/webhook/new.tmpl
 +++ b/templates/webhook/new.tmpl
 @@ -1,4 +1,4 @@
@@ -5735,7 +5804,7 @@ index 8ef33df25..7bb4c741f 100644
  	{{template "repo/settings/webhook/gitea" .ctxData}}
  	{{template "repo/settings/webhook/gogs" .ctxData}}
 diff --git a/web_src/css/base.css b/web_src/css/base.css
-index 3afddb725..a2aa7807a 100644
+index 3afddb725f..a2aa7807ad 100644
 --- a/web_src/css/base.css
 +++ b/web_src/css/base.css
 @@ -1210,3 +1210,26 @@ the "!important" is necessary to override Fomantic UI menu item styles, meanwhil
@@ -5766,7 +5835,7 @@ index 3afddb725..a2aa7807a 100644
 +	font-size: 1.07142857rem;
 +}
 diff --git a/web_src/css/chroma/light.css b/web_src/css/chroma/light.css
-index c1e4cb354..4f509fb06 100644
+index c1e4cb3545..4f509fb067 100644
 --- a/web_src/css/chroma/light.css
 +++ b/web_src/css/chroma/light.css
 @@ -1,44 +1,44 @@
@@ -5882,7 +5951,7 @@ index c1e4cb354..4f509fb06 100644
 +.chroma .w { color: #6e6e6e; } /* TextWhitespace */
  .chroma .err {/* not styled because Chroma uses it on too many things like JSX */} /* Error */
 diff --git a/web_src/css/helpers.css b/web_src/css/helpers.css
-index 42d06e2e6..1d11e8430 100644
+index 42d06e2e66..1d11e84306 100644
 --- a/web_src/css/helpers.css
 +++ b/web_src/css/helpers.css
 @@ -58,3 +58,154 @@ Gitea's private styles use `g-` prefix.
@@ -6041,7 +6110,7 @@ index 42d06e2e6..1d11e8430 100644
 +  color: var(--color-text-light-3) !important;
 +}
 diff --git a/web_src/css/modules/button.css b/web_src/css/modules/button.css
-index b105bb5de..98327ed39 100644
+index b105bb5de2..98327ed396 100644
 --- a/web_src/css/modules/button.css
 +++ b/web_src/css/modules/button.css
 @@ -199,11 +199,11 @@
@@ -6068,7 +6137,7 @@ index b105bb5de..98327ed39 100644
  }
  
 diff --git a/web_src/css/modules/label.css b/web_src/css/modules/label.css
-index 1e42668aa..000029a69 100644
+index 1e42668aa1..000029a69e 100644
 --- a/web_src/css/modules/label.css
 +++ b/web_src/css/modules/label.css
 @@ -156,12 +156,12 @@ a.ui.ui.ui.basic.red.label:hover {
@@ -6102,7 +6171,7 @@ index 1e42668aa..000029a69 100644
  .ui.ui.ui.basic.yellow.label {
    background: transparent;
 diff --git a/web_src/css/standalone/swagger.css b/web_src/css/standalone/swagger.css
-index c32e39203..19c00c929 100644
+index c32e392036..19c00c9290 100644
 --- a/web_src/css/standalone/swagger.css
 +++ b/web_src/css/standalone/swagger.css
 @@ -40,3 +40,19 @@ body {
@@ -6126,7 +6195,7 @@ index c32e39203..19c00c929 100644
 +  border-color: #0b4d32 !important;
 +}
 diff --git a/web_src/css/themes/theme-gitea-dark.css b/web_src/css/themes/theme-gitea-dark.css
-index 5ddee0a74..610593871 100644
+index 5ddee0a746..6105938712 100644
 --- a/web_src/css/themes/theme-gitea-dark.css
 +++ b/web_src/css/themes/theme-gitea-dark.css
 @@ -7,31 +7,34 @@ gitea-theme-meta-info {
@@ -6217,7 +6286,7 @@ index 5ddee0a74..610593871 100644
    --color-timeline: #343c44;
    --color-input-text: var(--color-text-dark);
 diff --git a/web_src/css/themes/theme-gitea-light.css b/web_src/css/themes/theme-gitea-light.css
-index 1a4183c0d..3b8bc98ed 100644
+index 1a4183c0d2..3b8bc98ed5 100644
 --- a/web_src/css/themes/theme-gitea-light.css
 +++ b/web_src/css/themes/theme-gitea-light.css
 @@ -7,31 +7,34 @@ gitea-theme-meta-info {
@@ -6399,7 +6468,7 @@ index 1a4183c0d..3b8bc98ed 100644
    --color-timeline: #d0d7de;
    --color-input-text: var(--color-text-dark);
 diff --git a/web_src/js/components/DashboardRepoList.vue b/web_src/js/components/DashboardRepoList.vue
-index af11d28bb..879d610dd 100644
+index af11d28bba..879d610dd6 100644
 --- a/web_src/js/components/DashboardRepoList.vue
 +++ b/web_src/js/components/DashboardRepoList.vue
 @@ -351,7 +351,7 @@ export default defineComponent({
@@ -6439,7 +6508,7 @@ index af11d28bb..879d610dd 100644
          <div class="empty-repo-or-org">
            <svg-icon name="octicon-organization" :size="24"/>
 diff --git a/web_src/js/components/DiffCommitSelector.vue b/web_src/js/components/DiffCommitSelector.vue
-index 5e1f7b52e..5dce731f0 100644
+index 5e1f7b52ec..5dce731f0d 100644
 --- a/web_src/js/components/DiffCommitSelector.vue
 +++ b/web_src/js/components/DiffCommitSelector.vue
 @@ -222,15 +222,14 @@ export default defineComponent({
@@ -6461,7 +6530,7 @@ index 5e1f7b52e..5dce731f0 100644
        <div v-if="!isLoading" class="item" :id="uniqueIdShowAll" ref="showAllChanges" role="menuitem" @keydown.enter="showAllChanges()" @click="showAllChanges()">
          <div class="gt-ellipsis">
 diff --git a/web_src/js/components/RepoActivityTopAuthors.vue b/web_src/js/components/RepoActivityTopAuthors.vue
-index 77b85bd7e..7c95384b3 100644
+index 77b85bd7e2..7c95384b39 100644
 --- a/web_src/js/components/RepoActivityTopAuthors.vue
 +++ b/web_src/js/components/RepoActivityTopAuthors.vue
 @@ -44,6 +44,24 @@ const graphWidth = computed(() => {
@@ -6513,7 +6582,7 @@ index 77b85bd7e..7c95384b3 100644
                :x="`${opt.bar.midPoint - 10}px`"
                :y="`${opt.bar.yLabel}px`"
 diff --git a/web_src/js/features/comp/ComboMarkdownEditor.ts b/web_src/js/features/comp/ComboMarkdownEditor.ts
-index d3773a89c..26c79c5a2 100644
+index d3773a89c4..26c79c5a2f 100644
 --- a/web_src/js/features/comp/ComboMarkdownEditor.ts
 +++ b/web_src/js/features/comp/ComboMarkdownEditor.ts
 @@ -137,7 +137,13 @@ export class ComboMarkdownEditor {
@@ -6548,7 +6617,7 @@ index d3773a89c..26c79c5a2 100644
      });
  
 diff --git a/web_src/js/features/comp/ConfirmModal.ts b/web_src/js/features/comp/ConfirmModal.ts
-index 1ce490ec2..fc2670e0e 100644
+index 1ce490ec2e..fc2670e0e7 100644
 --- a/web_src/js/features/comp/ConfirmModal.ts
 +++ b/web_src/js/features/comp/ConfirmModal.ts
 @@ -9,7 +9,7 @@ export function confirmModal({header = '', content = '', confirmButtonColor = 'p
@@ -6561,7 +6630,7 @@ index 1ce490ec2..fc2670e0e 100644
          <div class="content">${htmlEscape(content)}</div>
          <div class="actions">
 diff --git a/web_src/js/features/dropzone.ts b/web_src/js/features/dropzone.ts
-index b2ba7651c..2c0b94c78 100644
+index b2ba7651c4..2c0b94c781 100644
 --- a/web_src/js/features/dropzone.ts
 +++ b/web_src/js/features/dropzone.ts
 @@ -93,6 +93,8 @@ export async function initDropzone(dropzoneEl: HTMLElement) {
@@ -6574,7 +6643,7 @@ index b2ba7651c..2c0b94c78 100644
      file.uuid = resp.uuid;
      fileUuidDict[file.uuid] = {submitted: false};
 diff --git a/web_src/js/features/file-fold.ts b/web_src/js/features/file-fold.ts
-index 74b36c009..967b9f86f 100644
+index 74b36c0096..967b9f86fd 100644
 --- a/web_src/js/features/file-fold.ts
 +++ b/web_src/js/features/file-fold.ts
 @@ -7,6 +7,7 @@ import {svg} from '../svg.ts';
@@ -6586,7 +6655,7 @@ index 74b36c009..967b9f86f 100644
    if (newFold && fileContentBox.getBoundingClientRect().top < 0) {
      fileContentBox.scrollIntoView();
 diff --git a/web_src/js/features/repo-common.ts b/web_src/js/features/repo-common.ts
-index ebb6881c6..f782ff5c1 100644
+index ebb6881c67..f782ff5c10 100644
 --- a/web_src/js/features/repo-common.ts
 +++ b/web_src/js/features/repo-common.ts
 @@ -134,14 +134,19 @@ function initClonePanelButton(btn: HTMLButtonElement) {
@@ -6611,7 +6680,7 @@ index ebb6881c6..f782ff5c1 100644
  
  export function initRepoCloneButtons() {
 diff --git a/web_src/js/features/repo-issue.ts b/web_src/js/features/repo-issue.ts
-index 213c8fcfa..8fa64dd61 100644
+index 213c8fcfad..8fa64dd61a 100644
 --- a/web_src/js/features/repo-issue.ts
 +++ b/web_src/js/features/repo-issue.ts
 @@ -310,6 +310,7 @@ export function initRepoPullRequestReview() {
@@ -6634,7 +6703,7 @@ index 213c8fcfa..8fa64dd61 100644
  
    addDelegatedEventListener(document, 'click', '.add-code-comment', async (el, e) => {
 diff --git a/web_src/js/markup/anchors.ts b/web_src/js/markup/anchors.ts
-index a0d49911f..03884bf19 100644
+index a0d49911fe..03884bf19c 100644
 --- a/web_src/js/markup/anchors.ts
 +++ b/web_src/js/markup/anchors.ts
 @@ -37,6 +37,8 @@ export function initMarkupAnchors(): void {
@@ -6647,7 +6716,7 @@ index a0d49911f..03884bf19 100644
        heading.prepend(a);
      }
 diff --git a/web_src/js/markup/codecopy.ts b/web_src/js/markup/codecopy.ts
-index b37aa3a23..fbeac9c49 100644
+index b37aa3a236..fbeac9c491 100644
 --- a/web_src/js/markup/codecopy.ts
 +++ b/web_src/js/markup/codecopy.ts
 @@ -5,6 +5,7 @@ export function makeCodeCopyButton(): HTMLButtonElement {
@@ -6659,7 +6728,7 @@ index b37aa3a23..fbeac9c49 100644
  }
  
 diff --git a/web_src/js/modules/fomantic/dropdown.ts b/web_src/js/modules/fomantic/dropdown.ts
-index 02fee5a26..eb7d3169e 100644
+index 02fee5a267..e2fcf22435 100644
 --- a/web_src/js/modules/fomantic/dropdown.ts
 +++ b/web_src/js/modules/fomantic/dropdown.ts
 @@ -48,7 +48,8 @@ function ariaDropdownFn(this: any, ...args: Parameters<FomanticInitFunction>) {
@@ -6831,8 +6900,64 @@ index 02fee5a26..eb7d3169e 100644
      if (menuVisible) {
        focusable.setAttribute('aria-activedescendant', active.id);
      } else if ((dropdown as any)[ariaPatchKey].listPopupRole === 'menu') {
+@@ -227,7 +305,21 @@ function attachDomEvents(dropdown: HTMLElement, focusable: HTMLElement, menu: HT
+ 
+   dropdown.addEventListener('keydown', (e: KeyboardEvent) => {
+     // here it must use keydown event before dropdown's keyup handler, otherwise there is no Enter event in our keyup handler
+-    if (e.key === 'Enter') {
++    const isMenuButton = (dropdown as any)[ariaPatchKey].focusableRole !== 'combobox';
++    if (isMenuButton && !isMenuVisible() && !menu.contains(e.target as Node) &&
++        (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
++      // ARIA APG menu-button contract: with the popup closed, Enter / Space /
++      // Arrow keys must OPEN it — in vanilla the .ui.dropdown root itself was
++      // the focusable button handled by Fomantic's own keydown. Removing its
++      // tabindex must not make the widget unreachable by keyboard, and it must
++      // never fall through to the ".item.selected" activation below (the
++      // intent is "open", not "activate the remembered item").
++      e.preventDefault();
++      $(dropdown).dropdown('show');
++      deferredRefreshAriaActiveItem();
++      return;
++    }
++    if (e.key === 'Enter' && isMenuVisible()) {
+       const elItem = menu.querySelector<HTMLElement>(':scope > .item.selected, .menu > .item.selected');
+       // if the selected item is clickable, then trigger the click event.
+       // we can not click any item without check, because Fomantic code might also handle the Enter event. that would result in double click.
+@@ -236,6 +328,32 @@ function attachDomEvents(dropdown: HTMLElement, focusable: HTMLElement, menu: HT
+         elItem.click();
+       }
+     }
++    // Fomantic's own keydown runs before this listener and may have already
++    // hidden the menu synchronously — check the key press origin (inside the
++    // widget: trigger or popup), not the menu state, which is already gone.
++    if (e.key === 'Escape' && dropdown.contains(e.target as Node) &&
++        (menu.contains(e.target as Node) || e.target === focusable || focusable.contains(e.target as Node))) {
++      // The menu-button contract requires focus back on the trigger once the
++      // popup is gone. The hide transition runs ~300ms and blurring the
++      // element drops focus to <body> — poll until focus has settled back.
++      const t0 = performance.now();
++      let settled = 0;
++      const restore = () => {
++        if (performance.now() - t0 > 2000) return;
++        if (isMenuVisible()) { setTimeout(restore, 50); return; }
++        const ae = document.activeElement;
++        // keep polling a few ticks after the first restore: a late blur from
++        // the widget internals must not leave the focus stranded on <body>.
++        if (ae === focusable) {
++          if (++settled >= 3) return;
++        } else {
++          settled = 0;
++          if (menu.contains(ae) || ae === document.body) focusable.focus();
++        }
++        setTimeout(restore, 50);
++      };
++      setTimeout(restore, 60);
++    }
+   });
+ 
+   // use setTimeout to run the refreshAria in next tick (to make sure the Fomantic UI code has finished its work)
 diff --git a/web_src/js/modules/fomantic/modal.ts b/web_src/js/modules/fomantic/modal.ts
-index 6a2c55889..59929343d 100644
+index 6a2c558890..59929343d9 100644
 --- a/web_src/js/modules/fomantic/modal.ts
 +++ b/web_src/js/modules/fomantic/modal.ts
 @@ -1,5 +1,6 @@
@@ -6905,7 +7030,7 @@ index 6a2c55889..59929343d 100644
    }
    return ret;
 diff --git a/web_src/js/modules/tippy.ts b/web_src/js/modules/tippy.ts
-index f7a4b3723..2a966e0d7 100644
+index f7a4b3723b..2a966e0d71 100644
 --- a/web_src/js/modules/tippy.ts
 +++ b/web_src/js/modules/tippy.ts
 @@ -73,6 +73,12 @@ function attachTooltip(target: Element, content: Content = null): Instance {
@@ -6948,7 +7073,7 @@ index f7a4b3723..2a966e0d7 100644
      if (content) {
        el.setAttribute('aria-label', content);
 diff --git a/web_src/js/modules/toast.ts b/web_src/js/modules/toast.ts
-index 36e232174..b361332ca 100644
+index 36e2321743..b361332cae 100644
 --- a/web_src/js/modules/toast.ts
 +++ b/web_src/js/modules/toast.ts
 @@ -74,7 +74,11 @@ function showToast(message: string, level: Intent, {gravity, position, duration,

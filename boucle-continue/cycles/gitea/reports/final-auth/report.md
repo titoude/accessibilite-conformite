@@ -1,22 +1,22 @@
 # Audit accessibilité — 2026-10-05
 
-**0 règle(s) violée(s), 0 occurrence(s), 50/50 scénario(s) audité(s), 0 erreur(s), 817 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 55/55 scénario(s) audité(s), 0 erreur(s), 857 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `3de048d7cc57`
+Périmètre : scope.json — hash `6baa4bdee1a9`
 
-## Résultats incomplets à revoir (817)
+## Résultats incomplets à revoir (857)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### aria-valid-attr-value — ARIA attributes must conform to valid values
 
-- http://localhost:3232/
+- http://localhost:3401/
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
   - `.octicon-filter`
   - `.flex-text-inline`
-- http://localhost:3232/issues
+- http://localhost:3401/issues
   - `span[aria-controls="_aria_auto_id_6"]`
   - `span[aria-controls="_aria_auto_id_10"]`
   - `span[aria-haspopup="listbox"]`
@@ -25,7 +25,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `svg[aria-controls="_aria_auto_id_3"]`
   - `.tw-whitespace-nowrap`
   - `.flex-text-inline`
-- http://localhost:3232/pulls
+- http://localhost:3401/pulls
   - `span[aria-controls="_aria_auto_id_6"]`
   - `span[aria-controls="_aria_auto_id_10"]`
   - `span[aria-haspopup="listbox"]`
@@ -34,23 +34,23 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `svg[aria-controls="_aria_auto_id_3"]`
   - `.tw-whitespace-nowrap`
   - `span[aria-controls="_aria_auto_id_36"]`
-- http://localhost:3232/milestones
+- http://localhost:3401/milestones
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
   - `span[aria-controls="_aria_auto_id_17"]`
   - `.flex-text-inline`
-- http://localhost:3232/notifications
+- http://localhost:3401/notifications
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `.flex-text-inline`
-- http://localhost:3232/explore/repos
+- http://localhost:3401/explore/repos
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_12"]`
   - `span[aria-controls="_aria_auto_id_24"]`
   - `span[aria-controls="_aria_auto_id_37"]`
-- http://localhost:3232/repo/create
+- http://localhost:3401/repo/create
   - `span[aria-controls="_aria_auto_id_14"]`
   - `span[aria-controls="_aria_auto_id_18"]`
   - `span[aria-controls="_aria_auto_id_10"]`
@@ -61,58 +61,58 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `div[aria-controls="_aria_auto_id_331"]`
   - `div[aria-controls="_aria_auto_id_333"]`
   - `.flex-text-inline`
-- http://localhost:3232/org/create
+- http://localhost:3401/org/create
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_8"]`
   - `.flex-text-inline`
-- http://localhost:3232/user/settings
+- http://localhost:3401/user/settings
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_8"]`
   - `div[aria-controls="_aria_auto_id_16"]`
   - `.flex-text-inline`
-- http://localhost:3232/user/settings/account
+- http://localhost:3401/user/settings/account
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `.flex-text-inline`
-- http://localhost:3232/user/settings/security
+- http://localhost:3401/user/settings/security
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `.flex-text-inline`
-- http://localhost:3232/user/settings/applications
+- http://localhost:3401/user/settings/applications
   - `span[aria-controls="_aria_auto_id_2"]`
   - `span[aria-controls="_aria_auto_id_6"]`
   - `.flex-text-inline`
-- http://localhost:3232/user/settings/keys
+- http://localhost:3401/user/settings/keys
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `.flex-text-inline`
-- http://localhost:3232/user/settings/appearance
+- http://localhost:3401/user/settings/appearance
   - `span[aria-controls="_aria_auto_id_14"]`
   - `span[aria-controls="_aria_auto_id_18"]`
   - `svg[aria-controls="_aria_auto_id_33"]`
   - `.flex-text-inline`
-- http://localhost:3232/-/admin
+- http://localhost:3401/-/admin
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `.flex-text-inline`
-- http://localhost:3232/-/admin/users
+- http://localhost:3401/-/admin/users
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_12"]`
   - `span[aria-controls="_aria_auto_id_24"]`
   - `.flex-text-inline`
-- http://localhost:3232/-/admin/users/2
+- http://localhost:3401/-/admin/users/2
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_12"]`
-- http://localhost:3232/-/admin/users/2/edit
+- http://localhost:3401/-/admin/users/2/edit
   - `span[aria-controls="_aria_auto_id_9"]`
   - `span[aria-controls="_aria_auto_id_13"]`
   - `div[aria-controls="_aria_auto_id_21"]`
   - `div[aria-controls="_aria_auto_id_23"]`
   - `svg[aria-controls="_aria_auto_id_27"]`
   - `.flex-text-inline`
-- http://localhost:3232/a11yorg/demo-repo/issues/1
+- http://localhost:3401/a11yorg/demo-repo/issues/1
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -124,7 +124,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/2
+- http://localhost:3401/a11yorg/demo-repo/issues/2
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -136,7 +136,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_14"]`
   - `a[aria-controls="_aria_auto_id_49"]`
   - … +2 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/new
+- http://localhost:3401/a11yorg/demo-repo/issues/new
   - `span[aria-controls="_aria_auto_id_17"]`
   - `span[aria-controls="_aria_auto_id_21"]`
   - `.branch-dropdown-button`
@@ -145,7 +145,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_10"]`
   - `a[aria-controls="_aria_auto_id_13"]`
   - `span[aria-controls="_aria_auto_id_35"]`
-- http://localhost:3232/a11yorg/demo-repo/pulls/5
+- http://localhost:3401/a11yorg/demo-repo/pulls/5
   - `span[aria-controls="_aria_auto_id_23"]`
   - `span[aria-controls="_aria_auto_id_27"]`
   - `a[aria-controls="_aria_auto_id_38"]`
@@ -157,27 +157,27 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_18"]`
   - `a[aria-controls="_aria_auto_id_52"]`
   - … +2 autres
-- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+- http://localhost:3401/a11yorg/demo-repo/pulls/5/files
   - `span[aria-controls="_aria_auto_id_3"]`
   - `span[aria-controls="_aria_auto_id_7"]`
   - `.gitea-whitespace`
   - `svg[aria-controls="_aria_auto_id_23"]`
   - `button[data-tooltip-content="Filter by commit"]`
   - `span[aria-controls="_aria_auto_id_27"]`
-- http://localhost:3232/a11yorg/demo-repo/settings
+- http://localhost:3401/a11yorg/demo-repo/settings
   - `span[aria-controls="_aria_auto_id_35"]`
   - `span[aria-controls="_aria_auto_id_39"]`
   - `span[aria-controls="_aria_auto_id_57"]`
-- http://localhost:3232/a11yorg/demo-repo/projects
+- http://localhost:3401/a11yorg/demo-repo/projects
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_12"]`
   - `span[aria-controls="_aria_auto_id_18"]`
-- http://localhost:3232/a11yorg/demo-repo/actions
+- http://localhost:3401/a11yorg/demo-repo/actions
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_12"]`
-- http://localhost:3232/a11yorg/demo-repo/issues/4
+- http://localhost:3401/a11yorg/demo-repo/issues/4
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -189,35 +189,58 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_14"]`
   - `a[aria-controls="_aria_auto_id_49"]`
   - … +2 autres
-- http://localhost:3232/ [state:navbar-user-dropdown]
+- http://localhost:3401/-/admin/self_check
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3401/-/admin/monitor/stacktrace
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3401/-/admin/emails
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+  - `.flex-text-inline`
+- http://localhost:3401/-/admin/repos
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+  - `span[aria-controls="_aria_auto_id_24"]`
+  - `.flex-text-inline`
+- http://localhost:3401/a11yorg/demo-repo/watchers
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+- http://localhost:3401/ [state:navbar-user-dropdown]
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
   - `.octicon-filter`
   - `.flex-text-inline`
-- http://localhost:3232/ [state:navbar-create-dropdown]
+- http://localhost:3401/ [state:navbar-create-dropdown]
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
   - `.octicon-filter`
   - `.flex-text-inline`
-- http://localhost:3232/ [state:footer-language-dropdown]
+- http://localhost:3401/ [state:footer-language-dropdown]
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
   - `.octicon-filter`
   - `.flex-text-inline`
-- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+- http://localhost:3401/a11yorg/demo-repo [state:repo-clone-panel]
   - `span[aria-controls="_aria_auto_id_1"]`
   - `span[aria-controls="_aria_auto_id_5"]`
   - `button[aria-controls="_aria_auto_id_13"]`
   - `span[aria-controls="_aria_auto_id_17"]`
-- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+- http://localhost:3401/a11yorg/demo-repo [state:repo-branch-dropdown]
   - `span[aria-controls="_aria_auto_id_1"]`
   - `span[aria-controls="_aria_auto_id_5"]`
   - `button[aria-controls="_aria_auto_id_13"]`
   - `span[aria-controls="_aria_auto_id_17"]`
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -229,7 +252,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -241,7 +264,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -253,7 +276,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -265,7 +288,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -277,7 +300,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -289,7 +312,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -301,7 +324,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -313,7 +336,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +5 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:reaction-picker]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -325,28 +348,28 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
   - `span[aria-controls="_aria_auto_id_3"]`
   - `span[aria-controls="_aria_auto_id_7"]`
   - `.gitea-whitespace`
   - `svg[aria-controls="_aria_auto_id_23"]`
   - `button[data-tooltip-content="Filter by commit"]`
   - `span[aria-controls="_aria_auto_id_27"]`
-- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
   - `span[aria-controls="_aria_auto_id_3"]`
   - `span[aria-controls="_aria_auto_id_7"]`
   - `.gitea-whitespace`
   - `svg[aria-controls="_aria_auto_id_23"]`
   - `button[data-tooltip-content="Filter by commit"]`
   - `span[aria-controls="_aria_auto_id_27"]`
-- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+- http://localhost:3401/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
   - `span[aria-controls="_aria_auto_id_3"]`
   - `span[aria-controls="_aria_auto_id_7"]`
   - `.gitea-whitespace`
   - `svg[aria-controls="_aria_auto_id_23"]`
   - `button[data-tooltip-content="Filter by commit"]`
   - `span[aria-controls="_aria_auto_id_27"]`
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -358,7 +381,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +5 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
   - `span[aria-controls="_aria_auto_id_19"]`
   - `span[aria-controls="_aria_auto_id_23"]`
   - `a[aria-controls="_aria_auto_id_31"]`
@@ -370,26 +393,26 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - … +4 autres
-- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+- http://localhost:3401/-/admin/users/2/edit [state:admin-delete-user-modal]
   - `span[aria-controls="_aria_auto_id_9"]`
   - `span[aria-controls="_aria_auto_id_13"]`
   - `div[aria-controls="_aria_auto_id_21"]`
   - `div[aria-controls="_aria_auto_id_23"]`
   - `svg[aria-controls="_aria_auto_id_27"]`
   - `.flex-text-inline`
-- http://localhost:3232/alice [state:block-user-modal]
+- http://localhost:3401/alice [state:block-user-modal]
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-controls="_aria_auto_id_12"]`
   - `span[aria-controls="_aria_auto_id_24"]`
   - `.flex-text-inline`
-- http://localhost:3232/ [state:navbar-mobile]
+- http://localhost:3401/ [state:navbar-mobile]
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
   - `.octicon-filter`
   - `.flex-text-inline`
-- http://localhost:3232/ [state:dark-theme]
+- http://localhost:3401/ [state:dark-theme]
   - `span[aria-controls="_aria_auto_id_0"]`
   - `span[aria-controls="_aria_auto_id_4"]`
   - `span[aria-haspopup="listbox"]`
@@ -398,7 +421,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
-- http://localhost:3232/
+- http://localhost:3401/
   - `.vch__month__label[x="48"][y="10"]`
   - `text[x="108"]`
   - `text[x="156"]`
@@ -410,25 +433,25 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `text[x="468"]`
   - `text[x="516"]`
   - … +5 autres
-- http://localhost:3232/repo/create
+- http://localhost:3401/repo/create
   - `#repo_template_search > .default.text`
   - `.inline.field:nth-child(1) > .selection.search.dropdown > .default.text`
   - `.multiple > .default.text`
   - `#non_template > .inline.field:nth-child(3) > .help`
   - `.inline.field:nth-child(4) > .selection.search.dropdown > .default.text`
-- http://localhost:3232/a11yorg/demo-repo/issues/1
+- http://localhost:3401/a11yorg/demo-repo/issues/1
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +9 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/2
+- http://localhost:3401/a11yorg/demo-repo/issues/2
   - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `a[href$="#issue-2"] > relative-time`
   - `.role-label`
@@ -439,30 +462,30 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `span[data-text="Preview"]`
   - `input[aria-controls="_aria_auto_id_0"]`
   - `#new-dependency-drop-list > .default.text`
-- http://localhost:3232/a11yorg/demo-repo/pulls/5
+- http://localhost:3401/a11yorg/demo-repo/pulls/5
   - `.comment-header-left > .grey.muted-links.text`
   - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `a[href$="#issue-5"] > relative-time`
   - `.role-label`
-  - `a[href$="about.gitea.com"][rel="nofollow"]`
-  - `p > strong`
-  - `#issuecomment-3 > .grey.muted-links.text`
-  - `#issuecomment-3 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `#issuecomment-4 > .grey.muted-links.text`
+  - `#issuecomment-4 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > relative-time`
   - `.tw-font-mono > .muted`
-  - … +7 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.commit-id-short`
+  - `.button-text`
+  - … +5 autres
+- http://localhost:3401/a11yorg/demo-repo/issues/4
   - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-4"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-4"] > relative-time[datetime="2026-10-05T08:47:53Z"][title="Oct 5, 2026, 8:47 AM UTC"]`
   - `.role-label`
-  - `#issuecomment-4 > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `#issuecomment-5 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T08:48:28Z"]`
   - `span[data-text="Write"]`
   - `span[data-text="Preview"]`
   - `#status-button`
   - `input[aria-controls="_aria_auto_id_0"]`
   - `#new-dependency-drop-list > .default.text`
-- http://localhost:3232/ [state:navbar-user-dropdown]
+- http://localhost:3401/ [state:navbar-user-dropdown]
   - `.vch__month__label[x="48"][y="10"]`
   - `text[x="108"]`
   - `text[x="156"]`
@@ -474,7 +497,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `text[x="468"]`
   - `text[x="516"]`
   - … +7 autres
-- http://localhost:3232/ [state:navbar-create-dropdown]
+- http://localhost:3401/ [state:navbar-create-dropdown]
   - `.vch__month__label[x="48"][y="10"]`
   - `text[x="108"]`
   - `text[x="156"]`
@@ -486,7 +509,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `text[x="468"]`
   - `text[x="516"]`
   - … +6 autres
-- http://localhost:3232/ [state:footer-language-dropdown]
+- http://localhost:3401/ [state:footer-language-dropdown]
   - `.vch__month__label[x="48"][y="10"]`
   - `text[x="108"]`
   - `text[x="156"]`
@@ -498,65 +521,65 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `text[x="468"]`
   - `text[x="516"]`
   - … +5 autres
-- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+- http://localhost:3401/a11yorg/demo-repo [state:repo-clone-panel]
   - `button[aria-controls="_aria_auto_id_13"]`
   - `.archive-link.item[rel="nofollow"]:nth-child(1)`
   - `.archive-link.item[rel="nofollow"]:nth-child(2)`
   - `.commit-id-short`
-- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+- http://localhost:3401/a11yorg/demo-repo [state:repo-branch-dropdown]
   - `.commit-id-short`
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +15 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +10 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +13 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +9 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `.active[data-tab-for="markdown-writer"][data-tab="markdown-writer-2"] > .resize-for-semibold[data-text="Write"]`
   - `.item[data-tab-for="markdown-previewer"][data-tab="markdown-previewer-2"] > .resize-for-semibold[data-text="Preview"]`
@@ -565,84 +588,84 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.tw-justify-end.flex-text-block > .primary.button[type="submit"]`
   - `#issuecomment-1 > .grey.muted-links.text`
   - … +16 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +7 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +9 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +6 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:reaction-picker]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +9 autres
-- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
   - `.viewed-file-form`
   - `span[aria-controls="_aria_auto_id_27"]`
   - `a[href$="licenses.txt"]`
   - `a[href$="swagger"]`
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +5 autres
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `a[href$="#issue-1"] > relative-time`
   - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
   - `a[rel="nofollow"]`
   - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
   - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
-  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
-  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
-  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `.grey.muted-links.text > relative-time`
+  - `#issuecomment-3 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issuecomment-3"] > relative-time`
   - `div[data-tooltip-content="This user is the author."]`
   - … +5 autres
-- http://localhost:3232/ [state:navbar-mobile]
+- http://localhost:3401/ [state:navbar-mobile]
   - `.vch__month__label[x="48"][y="10"]`
   - `text[x="108"]`
   - `text[x="156"]`
@@ -653,8 +676,8 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `text[x="420"]`
   - `text[x="468"]`
   - `text[x="516"]`
-  - … +5 autres
-- http://localhost:3232/ [state:dark-theme]
+  - … +6 autres
+- http://localhost:3401/ [state:dark-theme]
   - `.vch__month__label[x="48"][y="10"]`
   - `text[x="108"]`
   - `text[x="156"]`
@@ -669,7 +692,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### aria-allowed-role — ARIA role should be appropriate for the element
 
-- http://localhost:3232/explore/repos
+- http://localhost:3401/explore/repos
   - `#_aria_auto_id_13`
   - `#_aria_auto_id_14`
   - `#_aria_auto_id_15`
@@ -681,9 +704,9 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#_aria_auto_id_21`
   - `#_aria_auto_id_22`
   - … +13 autres
-- http://localhost:3232/user/settings/appearance
+- http://localhost:3401/user/settings/appearance
   - `select`
-- http://localhost:3232/-/admin/users
+- http://localhost:3401/-/admin/users
   - `#_aria_auto_id_14`
   - `#_aria_auto_id_15`
   - `#_aria_auto_id_16`
@@ -694,10 +717,22 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#_aria_auto_id_21`
   - `#_aria_auto_id_22`
   - `#_aria_auto_id_23`
-- http://localhost:3232/a11yorg/demo-repo/settings
+- http://localhost:3401/a11yorg/demo-repo/settings
   - `select[name="projects_mode"]`
   - `select[name="pulls_default_merge_style"]`
-- http://localhost:3232/alice [state:block-user-modal]
+- http://localhost:3401/-/admin/repos
+  - `#_aria_auto_id_13`
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - … +13 autres
+- http://localhost:3401/alice [state:block-user-modal]
   - `#_aria_auto_id_13`
   - `#_aria_auto_id_14`
   - `#_aria_auto_id_15`
@@ -712,15 +747,15 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### th-has-data-cells — Table headers in a data table must refer to data cells
 
-- http://localhost:3232/a11yorg/demo-repo/settings
+- http://localhost:3401/a11yorg/demo-repo/settings
   - `table`
 
 ### target-size — All touch targets must be 24px large, or leave sufficient space
 
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
   - `a[aria-controls="_aria_auto_id_8"]`
   - `a[aria-controls="_aria_auto_id_11"]`
   - `a[aria-controls="_aria_auto_id_14"]`
-- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+- http://localhost:3401/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
   - `form[hx-sync="this:replace"] > .fluid`
 

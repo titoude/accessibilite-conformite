@@ -98,7 +98,8 @@ if (!ok(hasBranch)) {
 // ── labels + milestone + issues + release + wiki ─────────────────────────────
 // labels : POST ne déduplique PAS par nom (201 + nouvel id à chaque run) —
 // check explicite par nom pour rester idempotent.
-const existingLabels = new Set((await api('GET', '/repos/a11yorg/demo-repo/labels')).body?.map(l => l.name));
+const asArr = v => Array.isArray(v) ? v : []; // l'API rend un objet erreur, pas un tableau : garder Set/map sûrs
+const existingLabels = new Set(asArr((await api('GET', '/repos/a11yorg/demo-repo/labels')).body).map(l => l.name));
 const mkLabel = async l => {
   if (existingLabels.has(l.name)) { console.log(`skip label « ${l.name} »`); return; }
   await ensure('POST', '/repos/a11yorg/demo-repo/labels', l);
@@ -106,8 +107,10 @@ const mkLabel = async l => {
 await mkLabel({ name: 'bug', color: '#ee0701', description: 'Quelque chose ne fonctionne pas' });
 await mkLabel({ name: 'documentation', color: '#0052cc', description: 'Améliorations de doc' });
 await ensure('POST', '/repos/a11yorg/demo-repo/milestones', { title: 'v1.0', description: 'Première version', due_on: '2027-01-01T00:00:00Z' }, '/repos/a11yorg/demo-repo/milestones?state=open');
-const issues = await api('GET', '/repos/a11yorg/demo-repo/issues?type=issues');
-const titles = new Set((issues.body || []).map(i => i.title));
+// state=all : sinon l'issue fermée est invisible au run suivant → recréée
+// (doublon + décalage de la séquence issue/PR partagée, pulls/5 → pulls/6).
+const issues = await api('GET', '/repos/a11yorg/demo-repo/issues?type=issues&state=all');
+const titles = new Set(asArr(issues.body).map(i => i.title));
 const mkIssue = async (t, b, extra = {}) => {
   if (titles.has(t)) { console.log(`skip issue « ${t} »`); return; }
   await ensure('POST', '/repos/a11yorg/demo-repo/issues', { title: t, body: b, ...extra });
@@ -116,16 +119,18 @@ await mkIssue('Corriger le bouton de suppression', 'Le bouton ne réagit pas au 
 await mkIssue('Documenter l’installation', 'Il manque une section sur SQLite.', { labels: [2], milestone: 1 });
 await mkIssue('Améliorer le contraste des badges', 'Les badges gris sont peu lisibles en thème sombre.');
 // `state` est ignoré au POST (quirk API connue) → create puis PATCH close.
+// L'index n'est PAS supposé : on retrouve l'issue par son titre (idempotent).
 await mkIssue('Fermer la faille connue', 'Corrigée dans le dernier commit.');
-const closedIssue = await api('GET', '/repos/a11yorg/demo-repo/issues/4');
-if (ok(closedIssue) && closedIssue.body.state === 'open') {
-  await ensure('PATCH', '/repos/a11yorg/demo-repo/issues/4', { state: 'closed' });
+const closedTarget = asArr((await api('GET', '/repos/a11yorg/demo-repo/issues?type=issues&state=all')).body)
+  .find(i => i.title === 'Fermer la faille connue');
+if (closedTarget && closedTarget.state === 'open') {
+  await ensure('PATCH', `/repos/a11yorg/demo-repo/issues/${closedTarget.number}`, { state: 'closed' });
 }
 
 // commentaire seedé sur l'issue #1 — requis pour la surface
 // « menu contextuel d'un commentaire » (item Delete absent de la description).
 const comments = await api('GET', '/repos/a11yorg/demo-repo/issues/1/comments');
-if (!(comments.body || []).some(c => c.body?.includes('audit a11y'))) {
+if (!asArr(comments.body).some(c => c.body?.includes('audit a11y'))) {
   await ensure('POST', '/repos/a11yorg/demo-repo/issues/1/comments', {
     body: 'Commentaire figé du seed pour audit a11y — avec **gras** et `code`.',
   });
@@ -133,12 +138,22 @@ if (!(comments.body || []).some(c => c.body?.includes('audit a11y'))) {
 
 // PR APRÈS les issues : la séquence issue/PR est partagée → index #5 figé
 // (les urls pulls/5 du manifest en dépendent). Ne pas déplacer ce bloc.
-const prs = await api('GET', '/repos/a11yorg/demo-repo/pulls?state=all');
-if (!(prs.body || []).some(p => p.title === 'Ajouter la fonctionnalité X')) {
-  await ensure('POST', '/repos/a11yorg/demo-repo/pulls', {
-    title: 'Ajouter la fonctionnalité X', head: 'feature-x', base: 'main',
-    body: 'PR de démonstration avec un [lien](https://about.gitea.com) et du texte **gras**.',
-  });
+const prExists = async () => asArr((await api('GET', '/repos/a11yorg/demo-repo/pulls?state=all')).body)
+  .some(p => p.title === 'Ajouter la fonctionnalité X');
+if (!(await prExists())) {
+  // POST /pulls peut renvoyer 404 alors que la PR est bien créée (quirk gitea :
+  // le re-chargement post-création échoue — la PR existe côté GET). Après un
+  // échec, re-vérifier par GET plutôt que de re-poster.
+  let prOk = false;
+  for (let attempt = 0; attempt < 4 && !prOk; attempt++) {
+    const r = await api('POST', '/repos/a11yorg/demo-repo/pulls', {
+      title: 'Ajouter la fonctionnalité X', head: 'feature-x', base: 'main',
+      body: 'PR de démonstration avec un [lien](https://about.gitea.com) et du texte **gras**.',
+    });
+    prOk = ok(r) || r.status === 409 || r.status === 422 || (await prExists());
+    if (!prOk) { console.log(`retry POST pulls (${r.status})`); await new Promise(s => setTimeout(s, 1500)); }
+  }
+  if (!prOk) { console.error('FAIL POST /pulls après retries'); process.exitCode = 1; }
 } else console.log('skip (PR existe)');
 
 await ensure('POST', '/repos/a11yorg/demo-repo/releases', {
