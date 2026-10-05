@@ -1,0 +1,27 @@
+install-build uptime-kuma — cycle 29
+====================================
+
+1. Clone propre : git clone https://github.com/louislam/uptime-kuma ~/work/uk-install-build
+   -> checkout @ c98982ac60eccb74cdab1d04c30e18057895ce87 (tag 2.5.5)
+
+2. git apply ../cycles/uptime-kuma/patch.diff
+   -> 0 rejet ; 71 fichiers modifiés (+606/-222, sha256 f30466dd77b3ceb12ebad654e1375c567191943aee4c6122585de7726c00fef8)
+
+3. export NVM_DIR=$HOME/.nvm && source nvm.sh (node v24.19.0)
+   npm ci            -> deps installées (premier run du cycle)
+   npm run build     -> dist/ ; bundle index-BBXzlFvr.js — OCTET-IDENTIQUE au
+                        bundle du clone de travail (build vite déterministe)
+
+4. Boot instance replay :
+   UPTIME_KUMA_DB_TYPE=sqlite DATA_DIR=$HOME/work/uk-data-replay PORT=3002 npm run start-server
+   (instance auteur reste sur :3001 ; DB replay re-seedée : seed.mjs +
+    login admin/Admin12345! -> auth-3002.json — localStorage est per-origine)
+
+5. Rescans (verbatim auditCommands du manifest, base :3002) :
+   - install-build-auth   : 42/42 scénarios — 0 violation, 0 erreur, 61 incomplets
+                          (identiques au run de travail : même liste de cibles)
+   - install-build-public :  2/2 scénarios  — 0 violation, 0 erreur, 0 incomplet
+   - verify.mjs :3002     : 22/22 assertions OK (2 N-A)
+   - eval-final.mjs :3002 : 13/13 contrôles OK (4 N-A)
+
+Résultat : patch transportable + build déterministe + 0 violation rejouée.

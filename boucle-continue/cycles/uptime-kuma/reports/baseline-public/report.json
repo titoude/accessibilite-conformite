@@ -1,0 +1,563 @@
+{
+  "runId": "d6514e4e-3647-4c5e-bbef-134e266b6813",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-05T03:03:21.781Z",
+  "baseUrl": "http://localhost:3001",
+  "pages": [
+    {
+      "url": "http://localhost:3001/dashboard",
+      "requestedUrl": "http://localhost:3001/dashboard",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#5cdd8b",
+                    "contrastRatio": 1.72,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-v-e060387e=\"\" class=\"w-100 btn btn-primary\" type=\"submit\">Log in</button>",
+                      "target": [
+                        "button"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 1.72 (foreground color: #ffffff, background color: #5cdd8b, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-e060387e=\"\" class=\"w-100 btn btn-primary\" type=\"submit\">Log in</button>",
+              "target": [
+                "button"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.72 (foreground color: #ffffff, background color: #5cdd8b, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "object-alt",
+          "impact": "serious",
+          "tags": [
+            "cat.text-alternatives",
+            "wcag2a",
+            "wcag111",
+            "section508",
+            "section508.22.a",
+            "EN-301-549",
+            "EN-9.1.1.1",
+            "RGAAv4",
+            "RGAA-1.1.6"
+          ],
+          "description": "Ensure <object> elements have alternative text",
+          "help": "<object> elements must have alternative text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/object-alt?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<object data-v-257b3f2f=\"\" class=\"bi me-2 ms-4\" width=\"40\" height=\"40\" data=\"/icon.svg\"></object>",
+              "target": [
+                "object"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3001/dashboard",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:3001/status/demo",
+      "requestedUrl": "http://localhost:3001/status/demo",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#5cdd8b",
+                    "contrastRatio": 1.72,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-v-d323db95=\"\" class=\"badge rounded-pill bg-primary\" title=\"24 hours\">98.33%</span>",
+                      "target": [
+                        ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(1) > .row[data-v-d323db95=\"\"] > .col-9.small-padding.col-xl-6 > .info[data-v-d323db95=\"\"] > .badge.rounded-pill.bg-primary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 1.72 (foreground color: #ffffff, background color: #5cdd8b, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-v-d323db95=\"\" class=\"badge rounded-pill bg-primary\" title=\"24 hours\">98.33%</span>",
+              "target": [
+                ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(1) > .row[data-v-d323db95=\"\"] > .col-9.small-padding.col-xl-6 > .info[data-v-d323db95=\"\"] > .badge.rounded-pill.bg-primary"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.72 (foreground color: #ffffff, background color: #5cdd8b, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#aaaaaa",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.32,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body class=\"light\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div data-v-add91a45=\"\">59m</div>",
+              "target": [
+                ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(1) > .row[data-v-d323db95=\"\"] > .col-3.col-xl-6[data-v-d323db95=\"\"] > .wrap[data-v-add91a45=\"\"][data-v-d323db95=\"\"] > .justify-content-between.align-items-center.word > div[data-v-add91a45=\"\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#aaaaaa",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.32,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body class=\"light\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div data-v-add91a45=\"\">4m ago</div>",
+              "target": [
+                ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(1) > .row[data-v-d323db95=\"\"] > .col-3.col-xl-6[data-v-d323db95=\"\"] > .wrap[data-v-add91a45=\"\"][data-v-d323db95=\"\"] > .justify-content-between.align-items-center.word > div[data-v-add91a45=\"\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#5cdd8b",
+                    "contrastRatio": 1.72,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<span data-v-d323db95=\"\" class=\"badge rounded-pill bg-primary\" title=\"24 hours\">100%</span>",
+                      "target": [
+                        ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(2) > .row[data-v-d323db95=\"\"] > .col-9.small-padding.col-xl-6 > .info[data-v-d323db95=\"\"] > .badge.rounded-pill.bg-primary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 1.72 (foreground color: #ffffff, background color: #5cdd8b, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span data-v-d323db95=\"\" class=\"badge rounded-pill bg-primary\" title=\"24 hours\">100%</span>",
+              "target": [
+                ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(2) > .row[data-v-d323db95=\"\"] > .col-9.small-padding.col-xl-6 > .info[data-v-d323db95=\"\"] > .badge.rounded-pill.bg-primary"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 1.72 (foreground color: #ffffff, background color: #5cdd8b, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#aaaaaa",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.32,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body class=\"light\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div data-v-add91a45=\"\">59m</div>",
+              "target": [
+                ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(2) > .row[data-v-d323db95=\"\"] > .col-3.col-xl-6[data-v-d323db95=\"\"] > .wrap[data-v-add91a45=\"\"][data-v-d323db95=\"\"] > .justify-content-between.align-items-center.word > div[data-v-add91a45=\"\"]:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#aaaaaa",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.32,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<body class=\"light\">",
+                      "target": [
+                        "body"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div data-v-add91a45=\"\">4m ago</div>",
+              "target": [
+                ".item[data-testid=\"monitor\"][data-draggable=\"true\"]:nth-child(2) > .row[data-v-d323db95=\"\"] > .col-3.col-xl-6[data-v-d323db95=\"\"] > .wrap[data-v-add91a45=\"\"][data-v-d323db95=\"\"] > .justify-content-between.align-items-center.word > div[data-v-add91a45=\"\"]:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.32 (foreground color: #aaaaaa, background color: #ffffff, font size: 9.0pt (12px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<span data-v-7d4a7f28=\"\" data-v-f7f7a66a=\"\" contenteditable=\"false\">Status Démo</span>",
+              "target": [
+                "h1 > span[data-v-7d4a7f28=\"\"][contenteditable=\"false\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-f7f7a66a=\"\" class=\"shadow-box list p-4 overall-status mb-4\">",
+              "target": [
+                ".list"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-f7f7a66a=\"\" class=\"alert-heading p-2\" data-testid=\"description\"><p>Page de statut publique du seed a11y</p>\n</div>",
+              "target": [
+                "div[data-testid=\"description\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<span data-v-7d4a7f28=\"\" data-v-d323db95=\"\" contenteditable=\"false\" class=\"collapse-toggle\" data-testid=\"group-name\">Services publics</span>",
+              "target": [
+                "span[data-testid=\"group-name\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-d323db95=\"\" class=\"shadow-box monitor-list mt-4 position-relative\">",
+              "target": [
+                ".mt-4"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3001/status/demo",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "a98146c7355194090a0fcf755d870379cd9e007350e441d89b12601e6e49faf4"
+}

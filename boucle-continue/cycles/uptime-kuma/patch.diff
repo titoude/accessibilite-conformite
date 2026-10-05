@@ -1,0 +1,2384 @@
+diff --git a/src/assets/app.scss b/src/assets/app.scss
+index 37fc4504..b71d03ef 100644
+--- a/src/assets/app.scss
++++ b/src/assets/app.scss
+@@ -127,19 +127,58 @@ optgroup {
+ }
+ 
+ .btn-primary {
+-    color: white;
++    color: $dark-font-color2;
+ 
+     &:hover,
+     &:active,
+     &:focus,
+     &.active {
+-        color: white;
++        color: $dark-font-color2;
+         background-color: $highlight;
+         border-color: $highlight;
+     }
++}
+ 
+-    .dark & {
++.btn-outline-primary {
++    color: $primary-text;
++    border-color: $primary-text;
++    --bs-btn-active-color: #{$dark-font-color2};
++    --bs-btn-active-bg: #{$primary};
++    --bs-btn-active-border-color: #{$primary};
++
++    &:hover,
++    &:active,
++    &:focus,
++    &.active,
++    &:disabled,
++    &.disabled {
+         color: $dark-font-color2;
++        background-color: $primary;
++        border-color: $primary;
++    }
++
++    .dark & {
++        color: $primary;
++        border-color: $primary;
++    }
++}
++
++.btn-outline-danger {
++    color: $danger-text;
++    border-color: $danger-text;
++
++    &:hover,
++    &:active,
++    &:focus,
++    &.active {
++        color: white;
++        background-color: $danger-text;
++        border-color: $danger-text;
++    }
++
++    .dark & {
++        color: #e0616c;
++        border-color: #e0616c;
+     }
+ }
+ 
+@@ -157,24 +196,24 @@ optgroup {
+ }
+ 
+ .btn-warning {
+-    color: white;
++    color: $dark-font-color2;
+ 
+     &:hover,
+     &:active,
+     &:focus,
+     &.active {
+-        color: white;
++        color: $dark-font-color2;
+     }
+ }
+ 
+ .btn-info {
+-    color: white;
++    color: $dark-font-color2;
+ 
+     &:hover,
+     &:active,
+     &:focus,
+     &.active {
+-        color: white;
++        color: $dark-font-color2;
+     }
+ }
+ 
+@@ -503,7 +542,11 @@ optgroup {
+         transition: all ease-in-out 0.15s;
+ 
+         &.disabled {
+-            opacity: 0.3;
++            color: #616161;
++
++            .dark & {
++                color: #8e9299;
++            }
+         }
+ 
+         .info {
+@@ -595,7 +638,11 @@ optgroup {
+ }
+ 
+ .spinner {
+-    color: $primary;
++    color: $primary-text;
++
++    .dark & {
++        color: $primary;
++    }
+ }
+ 
+ .prism-editor__textarea {
+@@ -608,7 +655,7 @@ optgroup {
+     }
+ }
+ 
+-h5.settings-subheading::after {
++.settings-subheading::after {
+     content: "";
+     display: block;
+     width: 50%;
+@@ -671,6 +718,186 @@ $shadow-box-padding: 20px;
+     cursor: zoom-in;
+ }
+ 
++/*
++ * Accessibility: color contrast
++ */
++:root {
++    --secondary-text: #{$muted-text};
++}
++
++.dark {
++    --secondary-text: #{$secondary-text};
++}
++
++::placeholder {
++    color: #767676;
++    opacity: 1;
++}
++
++.dark ::placeholder {
++    color: #8e9299;
++    opacity: 1;
++}
++
++.btn-success {
++    color: $dark-font-color2;
++}
++
++.btn-outline-info {
++    color: $info-text;
++    border-color: $info-text;
++    --bs-btn-active-color: #fff;
++    --bs-btn-active-bg: #{$info-text};
++    --bs-btn-active-border-color: #{$info-text};
++
++    &:hover,
++    &:active,
++    &:focus,
++    &.active {
++        color: white;
++        background-color: $info-text;
++        border-color: $info-text;
++    }
++}
++
++.bg-primary {
++    color: $dark-font-color2 !important;
++
++    .form-text,
++    .form-check-label,
++    .text-muted {
++        color: rgba(2, 11, 5, 0.82) !important;
++    }
++}
++
++.bg-danger {
++    color: white;
++    background-color: $danger-text !important;
++
++    .form-text,
++    .form-check-label,
++    .text-muted {
++        color: rgba(255, 255, 255, 0.9) !important;
++    }
++}
++
++.bg-success {
++    color: white;
++    background-color: $success-text !important;
++
++    .form-text,
++    .form-check-label,
++    .text-muted {
++        color: rgba(255, 255, 255, 0.9) !important;
++    }
++}
++
++.bg-warning,
++.bg-info {
++    color: $dark-font-color2;
++
++    .form-text,
++    .form-check-label,
++    .text-muted {
++        color: rgba(2, 11, 5, 0.82) !important;
++    }
++}
++
++.text-primary,
++.link-primary {
++    color: $primary-text !important;
++}
++
++.text-danger {
++    color: $danger-text !important;
++}
++
++.text-warning {
++    color: $warning-text !important;
++}
++
++.text-success {
++    color: $success-text !important;
++}
++
++.text-info {
++    color: $info-text !important;
++}
++
++.nav-pills .nav-link.active,
++.nav-pills .show > .nav-link {
++    color: $dark-font-color2;
++}
++
++.page-link {
++    color: $primary-text;
++}
++
++.page-item.active .page-link {
++    color: $dark-font-color2;
++}
++
++.dropdown-item.active,
++.dropdown-item:active {
++    color: $dark-font-color2;
++}
++
++.list-group-item.active {
++    color: $dark-font-color2;
++    border-color: $primary;
++}
++
++.dark {
++    .text-primary,
++    .link-primary {
++        color: $primary !important;
++    }
++
++    .text-danger {
++        color: #e0616c !important;
++    }
++
++    .text-warning {
++        color: $warning !important;
++    }
++
++    .text-success {
++        color: $primary !important;
++    }
++
++    .text-info {
++        color: #0dcaf0 !important;
++    }
++
++    .btn-outline-primary {
++        color: $primary;
++        border-color: $primary;
++
++        &:hover,
++        &:active,
++        &:focus,
++        &.active {
++            color: $dark-font-color2;
++            background-color: $primary;
++            border-color: $primary;
++        }
++    }
++
++    .btn-outline-danger {
++        color: #e0616c;
++        border-color: #e0616c;
++
++        &:hover,
++        &:active,
++        &:focus,
++        &.active {
++            color: white;
++            background-color: $danger-text;
++            border-color: $danger-text;
++        }
++    }
++}
++
+ // Localization
+ 
+ @import "localization.scss";
+diff --git a/src/assets/multiselect.scss b/src/assets/multiselect.scss
+index bb24db76..e8717e39 100644
+--- a/src/assets/multiselect.scss
++++ b/src/assets/multiselect.scss
+@@ -33,6 +33,7 @@
+     margin-bottom: 0;
+     padding: 6px 26px 6px 10px;
+     background: $primary !important;
++    color: $dark-font-color2;
+ }
+ 
+ .multiselect__placeholder {
+@@ -41,7 +42,8 @@
+     padding-top: 0;
+     padding-bottom: 0;
+     margin-bottom: 0;
+-    opacity: 0.67;
++    color: #757575;
++    opacity: 1;
+ }
+ 
+ .multiselect__input,
+@@ -55,6 +57,10 @@
+         color: $dark-font-color2;
+     }
+ 
++    .multiselect__placeholder {
++        color: #8e9299;
++    }
++
+     .multiselect__tags {
+         background-color: $dark-bg2;
+         border-color: $dark-border-color;
+diff --git a/src/assets/vars.scss b/src/assets/vars.scss
+index 7250de14..1aebe3ae 100644
+--- a/src/assets/vars.scss
++++ b/src/assets/vars.scss
+@@ -1,10 +1,16 @@
+ $primary: #5cdd8b;
++$primary-text: #0f6c3a;
+ $danger: #dc3545;
++$danger-text: #b02a37;
+ $warning: #f8a306;
++$warning-text: #8c5f00;
++$success-text: #157a4c;
++$info-text: #087990;
+ $maintenance: #1747f5;
+ $link-color: #111;
+ $border-radius: 50rem;
+ $secondary-text: #aaa;
++$muted-text: #757575;
+ 
+ $highlight: #7ce8a4;
+ $highlight-white: #e7faec;
+diff --git a/src/components/APIKeyDialog.vue b/src/components/APIKeyDialog.vue
+index ec56c68c..805d16d0 100644
+--- a/src/components/APIKeyDialog.vue
++++ b/src/components/APIKeyDialog.vue
+@@ -1,12 +1,12 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="keyaddmodal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="keyaddmodal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="api-key-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">
++                        <h2 id="api-key-dialog-title" class="modal-title">
+                             {{ $t("Add API Key") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+                     <div class="modal-body">
+@@ -18,7 +18,7 @@
+ 
+                         <!-- Expiry -->
+                         <div class="my-3">
+-                            <label class="form-label">{{ $t("Expiry date") }}</label>
++                            <label class="form-label" for="dp-input-api-key-expiry">{{ $t("Expiry date") }}</label>
+                             <div class="d-flex flex-row align-items-center">
+                                 <div class="col-6">
+                                     <Datepicker
+@@ -30,6 +30,7 @@
+                                         modelType="yyyy-MM-dd HH:mm:ss"
+                                         :required="!noExpire"
+                                         :disabled="noExpire"
++                                        uid="api-key-expiry"
+                                     />
+                                 </div>
+                                 <div class="col-6 ms-3">
+@@ -54,13 +55,13 @@
+                 </div>
+             </div>
+         </div>
+-        <div ref="keymodal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="keymodal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="api-key-added-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">
++                        <h2 id="api-key-added-dialog-title" class="modal-title fs-5">
+                             {{ $t("Key Added") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+ 
+diff --git a/src/components/AccessibleMultiselect.vue b/src/components/AccessibleMultiselect.vue
+new file mode 100644
+index 00000000..5d956d37
+--- /dev/null
++++ b/src/components/AccessibleMultiselect.vue
+@@ -0,0 +1,63 @@
++<template>
++    <VueMultiselect ref="inner" v-bind="$attrs" :id="resolvedId">
++        <template v-for="(_, name) in $slots" #[name]="slotData">
++            <slot :name="name" v-bind="slotData || {}" />
++        </template>
++    </VueMultiselect>
++</template>
++
++<script>
++import VueMultiselect from "vue-multiselect";
++
++/**
++ * Wrapper around vue-multiselect that repairs the ARIA wiring the library
++ * omits: the root combobox div gets aria-expanded (kept in sync with the
++ * open/closed state via the multiselect--active class) and aria-controls
++ * (mirroring aria-owns). The remove-tag icon's tabindex="1" is rewritten
++ * to tabindex="0" so it stays focusable without hijacking tab order.
++ */
++export default {
++    components: {
++        VueMultiselect,
++    },
++    inheritAttrs: false,
++    data() {
++        return {
++            // vue-multiselect builds its listbox id as `listbox-${id}`; with
++            // id=null every instance shares "listbox-null" (duplicate-id-aria).
++            resolvedId: this.$attrs.id ?? `ms-${self.crypto && self.crypto.randomUUID ? self.crypto.randomUUID().slice(0, 8) : Math.random().toString(36).slice(2, 10)}`,
++        };
++    },
++    mounted() {
++        const root = this.$refs.inner && this.$refs.inner.$el ? this.$refs.inner.$el : this.$el;
++
++        const sync = () => {
++            const owns = root.getAttribute("aria-owns");
++            if (owns && !root.getAttribute("aria-controls")) {
++                root.setAttribute("aria-controls", owns);
++            }
++            const open = root.classList.contains("multiselect--active");
++            if (root.getAttribute("aria-expanded") !== String(open)) {
++                root.setAttribute("aria-expanded", String(open));
++            }
++            root.querySelectorAll('.multiselect__tag-icon[tabindex="1"]').forEach(icon => {
++                icon.setAttribute("tabindex", "0");
++            });
++        };
++
++        this._ariaObserver = new MutationObserver(sync);
++        this._ariaObserver.observe(root, {
++            attributes: true,
++            attributeFilter: [ "class" ],
++            subtree: true,
++            childList: true,
++        });
++        sync();
++    },
++    beforeUnmount() {
++        if (this._ariaObserver) {
++            this._ariaObserver.disconnect();
++        }
++    },
++};
++</script>
+diff --git a/src/components/BadgeLinkGeneratorDialog.vue b/src/components/BadgeLinkGeneratorDialog.vue
+index 066d9208..410eb8da 100644
+--- a/src/components/BadgeLinkGeneratorDialog.vue
++++ b/src/components/BadgeLinkGeneratorDialog.vue
+@@ -1,11 +1,11 @@
+ <template>
+-    <div ref="BadgeGeneratorModal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++    <div ref="BadgeGeneratorModal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="badge-link-generator-dialog-title" data-bs-backdrop="static">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+-                    <h5 class="modal-title">
++                    <h2 id="badge-link-generator-dialog-title" class="modal-title">
+                         {{ $t("Badge Link Generator", [monitor.name]) }}
+-                    </h5>
++                    </h2>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                 </div>
+                 <div class="modal-body">
+diff --git a/src/components/CertificateInfo.vue b/src/components/CertificateInfo.vue
+index 8c964569..869b209a 100644
+--- a/src/components/CertificateInfo.vue
++++ b/src/components/CertificateInfo.vue
+@@ -1,6 +1,6 @@
+ <template>
+     <div>
+-        <h4>{{ $t("Certificate Info") }}</h4>
++        <h2 class="fs-4">{{ $t("Certificate Info") }}</h2>
+         {{ $t("Certificate Chain:") }}
+         <div v-if="valid" class="rounded d-inline-flex ms-2 text-white tag-valid">
+             {{ $t("Valid") }}
+diff --git a/src/components/Confirm.vue b/src/components/Confirm.vue
+index ced6082a..db751a15 100644
+--- a/src/components/Confirm.vue
++++ b/src/components/Confirm.vue
+@@ -1,11 +1,11 @@
+ <template>
+-    <div ref="modal" class="modal fade" tabindex="-1">
++    <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" :aria-labelledby="titleId">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+-                    <h5 id="exampleModalLabel" class="modal-title">
++                    <h2 :id="titleId" class="modal-title">
+                         {{ title || $t("Confirm") }}
+-                    </h5>
++                    </h2>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                 </div>
+                 <div class="modal-body">
+@@ -53,9 +53,24 @@ export default {
+     emits: ["yes", "no"],
+     data: () => ({
+         modal: null,
++        previousFocus: null,
++        // Unique per instance — a page can mount several Confirm dialogs,
++        // each needing a distinct aria-labelledby target.
++        titleId: "confirm-dialog-title-" + (self.crypto && self.crypto.randomUUID ? self.crypto.randomUUID().slice(0, 8) : Math.random().toString(36).slice(2, 10)),
+     }),
+     mounted() {
+         this.modal = new Modal(this.$refs.modal);
++        // Restore focus to the element that had it when the dialog opened
++        // (WCAG 2.4.3 — Bootstrap Modal does not do this by itself).
++        this.$refs.modal.addEventListener("show.bs.modal", () => {
++            this.previousFocus = document.activeElement;
++        });
++        this.$refs.modal.addEventListener("hidden.bs.modal", () => {
++            if (this.previousFocus && this.previousFocus.isConnected) {
++                this.previousFocus.focus();
++            }
++            this.previousFocus = null;
++        });
+     },
+     methods: {
+         /**
+diff --git a/src/components/CreateGroupDialog.vue b/src/components/CreateGroupDialog.vue
+index 62091202..81bcdc0e 100644
+--- a/src/components/CreateGroupDialog.vue
++++ b/src/components/CreateGroupDialog.vue
+@@ -1,11 +1,11 @@
+ <template>
+-    <div ref="modal" class="modal fade" tabindex="-1">
++    <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="create-group-dialog-title">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+-                    <h5 class="modal-title">
++                    <h2 id="create-group-dialog-title" class="modal-title">
+                         {{ $t("New Group") }}
+-                    </h5>
++                    </h2>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                 </div>
+                 <div class="modal-body">
+diff --git a/src/components/DockerHostDialog.vue b/src/components/DockerHostDialog.vue
+index 09a0ed9a..57efb1b4 100644
+--- a/src/components/DockerHostDialog.vue
++++ b/src/components/DockerHostDialog.vue
+@@ -1,12 +1,12 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="docker-host-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 id="exampleModalLabel" class="modal-title">
++                        <h2 id="docker-host-dialog-title" class="modal-title">
+                             {{ $t("Setup Docker Host") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+                     <div class="modal-body">
+diff --git a/src/components/HeartbeatBar.vue b/src/components/HeartbeatBar.vue
+index 8774a4fc..59ecf6b2 100644
+--- a/src/components/HeartbeatBar.vue
++++ b/src/components/HeartbeatBar.vue
+@@ -835,7 +835,7 @@ export default {
+ }
+ 
+ .word {
+-    color: $secondary-text;
++    color: var(--secondary-text);
+     font-size: 12px;
+ }
+ 
+diff --git a/src/components/HiddenInput.vue b/src/components/HiddenInput.vue
+index 5c7b463a..bc733326 100644
+--- a/src/components/HiddenInput.vue
++++ b/src/components/HiddenInput.vue
+@@ -1,6 +1,7 @@
+ <template>
+     <div class="input-group mb-3">
+         <input
++            :id="$attrs.id"
+             ref="input"
+             v-model="model"
+             :type="visibility"
+@@ -12,12 +13,24 @@
+             :readonly="readonly"
+         />
+ 
+-        <a v-if="visibility == 'password'" class="btn btn-outline-primary" @click="showInput()">
+-            <font-awesome-icon icon="eye" />
+-        </a>
+-        <a v-if="visibility == 'text'" class="btn btn-outline-primary" @click="hideInput()">
+-            <font-awesome-icon icon="eye-slash" />
+-        </a>
++        <button
++            v-if="visibility == 'password'"
++            type="button"
++            class="btn btn-outline-primary"
++            :aria-label="$t('Show password')"
++            @click="showInput()"
++        >
++            <font-awesome-icon icon="eye" aria-hidden="true" />
++        </button>
++        <button
++            v-if="visibility == 'text'"
++            type="button"
++            class="btn btn-outline-primary"
++            :aria-label="$t('Hide password')"
++            @click="hideInput()"
++        >
++            <font-awesome-icon icon="eye-slash" aria-hidden="true" />
++        </button>
+     </div>
+ </template>
+ 
+@@ -55,6 +68,7 @@ export default {
+         },
+     },
+     emits: ["update:modelValue"],
++    inheritAttrs: false,
+     data() {
+         return {
+             visibility: "password",
+diff --git a/src/components/IncidentEditForm.vue b/src/components/IncidentEditForm.vue
+index 08597dfb..7a28a711 100644
+--- a/src/components/IncidentEditForm.vue
++++ b/src/components/IncidentEditForm.vue
+@@ -8,7 +8,7 @@
+         <strong>{{ $t("Title") }}:</strong>
+         <Editable
+             :model-value="modelValue.title"
+-            tag="h4"
++            tag="div"
+             :contenteditable="true"
+             :noNL="true"
+             class="alert-heading"
+diff --git a/src/components/IncidentHistory.vue b/src/components/IncidentHistory.vue
+index d756b7f7..ec5f6015 100644
+--- a/src/components/IncidentHistory.vue
++++ b/src/components/IncidentHistory.vue
+@@ -20,7 +20,7 @@
+                 <div class="incident-style-indicator" :class="`bg-${incident.style}`"></div>
+                 <div class="incident-body">
+                     <div class="incident-header d-flex justify-content-between align-items-start">
+-                        <h5 class="incident-title mb-0">{{ incident.title }}</h5>
++                        <h3 class="incident-title mb-0 fs-5">{{ incident.title }}</h3>
+                         <div v-if="editMode" class="incident-actions">
+                             <button
+                                 v-if="incident.active"
+diff --git a/src/components/IncidentManageModal.vue b/src/components/IncidentManageModal.vue
+index ebe5d06c..e0e6afa0 100644
+--- a/src/components/IncidentManageModal.vue
++++ b/src/components/IncidentManageModal.vue
+@@ -1,11 +1,11 @@
+ <template>
+-    <div ref="modal" class="modal fade" tabindex="-1">
++    <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="incident-manage-modal-title">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+-                    <h5 class="modal-title">
++                    <h2 id="incident-manage-modal-title" class="modal-title">
+                         {{ $t("Edit Incident") }}
+-                    </h5>
++                    </h2>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body">
+diff --git a/src/components/Login.vue b/src/components/Login.vue
+index 6c1fdba3..1c6de2c9 100644
+--- a/src/components/Login.vue
++++ b/src/components/Login.vue
+@@ -1,6 +1,7 @@
+ <template>
+     <div class="form-container">
+         <div class="form">
++            <h1 class="visually-hidden">{{ $t("Login") }}</h1>
+             <form aria-label="Login Form" class="pt-3" @submit.prevent="submit">
+                 <div v-if="!tokenRequired" class="form-floating">
+                     <input
+@@ -16,6 +17,7 @@
+                 </div>
+ 
+                 <div v-if="!tokenRequired" class="mt-3">
++                    <label for="floatingPassword" class="form-label">{{ $t("Password") }}</label>
+                     <HiddenInput
+                         id="floatingPassword"
+                         v-model="password"
+diff --git a/src/components/MonitorList.vue b/src/components/MonitorList.vue
+index b85728f8..6dbac052 100644
+--- a/src/components/MonitorList.vue
++++ b/src/components/MonitorList.vue
+@@ -732,7 +732,7 @@ export default {
+ .selected-count {
+     white-space: nowrap;
+     font-size: 0.9em;
+-    color: $primary;
++    color: $primary-text;
+ 
+     .dark & {
+         color: $dark-font-color;
+diff --git a/src/components/MonitorSettingDialog.vue b/src/components/MonitorSettingDialog.vue
+index 24bd812d..8b5996d1 100644
+--- a/src/components/MonitorSettingDialog.vue
++++ b/src/components/MonitorSettingDialog.vue
+@@ -1,11 +1,11 @@
+ <template>
+-    <div ref="MonitorSettingDialog" class="modal fade" tabindex="-1">
++    <div ref="MonitorSettingDialog" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="monitor-setting-dialog-title">
+         <div class="modal-dialog">
+             <div class="modal-content">
+                 <div class="modal-header">
+-                    <h5 class="modal-title">
++                    <h2 id="monitor-setting-dialog-title" class="modal-title">
+                         {{ $t("Monitor Setting", [monitor.name]) }}
+-                    </h5>
++                    </h2>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                 </div>
+                 <div class="modal-body">
+diff --git a/src/components/NotificationDialog.vue b/src/components/NotificationDialog.vue
+index 9402a554..24a992f5 100644
+--- a/src/components/NotificationDialog.vue
++++ b/src/components/NotificationDialog.vue
+@@ -1,12 +1,12 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="notification-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 id="exampleModalLabel" class="modal-title">
++                        <h2 id="notification-dialog-title" class="modal-title fs-5">
+                             {{ $t("Setup Notification") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+                     <div class="modal-body">
+@@ -115,8 +115,8 @@
+                             <hr class="dropdown-divider mb-4" />
+ 
+                             <div class="form-check form-switch">
+-                                <input v-model="notification.isDefault" class="form-check-input" type="checkbox" />
+-                                <label class="form-check-label">{{ $t("Default enabled") }}</label>
++                                <input id="chk-notificationdialog-1" v-model="notification.isDefault" class="form-check-input" type="checkbox" />
++                                <label for="chk-notificationdialog-1" class="form-check-label">{{ $t("Default enabled") }}</label>
+                             </div>
+                             <div class="form-text">
+                                 {{ $t("enableDefaultNotificationDescription") }}
+@@ -125,8 +125,8 @@
+                             <br />
+ 
+                             <div class="form-check form-switch">
+-                                <input v-model="notification.applyExisting" class="form-check-input" type="checkbox" />
+-                                <label class="form-check-label">{{ $t("Apply on all existing monitors") }}</label>
++                                <input id="chk-notificationdialog-2" v-model="notification.applyExisting" class="form-check-input" type="checkbox" />
++                                <label for="chk-notificationdialog-2" class="form-check-label">{{ $t("Apply on all existing monitors") }}</label>
+                             </div>
+                         </div>
+                     </div>
+diff --git a/src/components/ProxyDialog.vue b/src/components/ProxyDialog.vue
+index ab0a0ed1..01d946c2 100644
+--- a/src/components/ProxyDialog.vue
++++ b/src/components/ProxyDialog.vue
+@@ -1,12 +1,12 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="proxy-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 id="exampleModalLabel" class="modal-title">
++                        <h2 id="proxy-dialog-title" class="modal-title">
+                             {{ $t("Setup Proxy") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+                     <div class="modal-body">
+diff --git a/src/components/PublicGroupList.vue b/src/components/PublicGroupList.vue
+index 6701217e..24577a22 100644
+--- a/src/components/PublicGroupList.vue
++++ b/src/components/PublicGroupList.vue
+@@ -358,7 +358,11 @@ export default {
+ }
+ 
+ .link-active {
+-    color: $primary;
++    color: $primary-text;
++
++    .dark & {
++        color: $primary;
++    }
+ }
+ 
+ .flip-list-move {
+diff --git a/src/components/RemoteBrowserDialog.vue b/src/components/RemoteBrowserDialog.vue
+index 988dc326..a559a789 100644
+--- a/src/components/RemoteBrowserDialog.vue
++++ b/src/components/RemoteBrowserDialog.vue
+@@ -1,12 +1,12 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="remote-browser-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 id="exampleModalLabel" class="modal-title">
++                        <h2 id="remote-browser-dialog-title" class="modal-title">
+                             {{ $t("Add a Remote Browser") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+                     <div class="modal-body">
+diff --git a/src/components/ScreenshotDialog.vue b/src/components/ScreenshotDialog.vue
+index c9999c0a..bf916eee 100644
+--- a/src/components/ScreenshotDialog.vue
++++ b/src/components/ScreenshotDialog.vue
+@@ -1,11 +1,11 @@
+ <template>
+-    <div ref="modal" class="modal fade" tabindex="-1">
++    <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="screenshot-dialog-title">
+         <div class="modal-dialog modal-xl modal-dialog-centered">
+             <div class="modal-content">
+                 <div class="modal-header">
+-                    <h5 class="modal-title">
++                    <h2 id="screenshot-dialog-title" class="modal-title">
+                         {{ $t("Browser Screenshot") }}
+-                    </h5>
++                    </h2>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                 </div>
+                 <div class="modal-body"></div>
+diff --git a/src/components/Tag.vue b/src/components/Tag.vue
+index 3bc89b4d..995bc9e1 100644
+--- a/src/components/Tag.vue
++++ b/src/components/Tag.vue
+@@ -10,7 +10,7 @@
+             'tag-scrollable': scrollable,
+             'tag-constrained': constrained,
+         }"
+-        :style="{ backgroundColor: item.color, fontSize: size == 'sm' ? '0.7em' : '1em' }"
++        :style="{ backgroundColor: item.color, color: textColor, fontSize: size == 'sm' ? '0.7em' : '1em' }"
+     >
+         <span class="tag-text">{{ displayText }}</span>
+         <span v-if="remove != null" class="ps-1 btn-remove" @click="remove(item)">
+@@ -71,6 +71,25 @@ export default {
+                 return `${this.item.name}: ${this.item.value}`;
+             }
+         },
++        /**
++         * Text color that keeps at least 4.5:1 contrast on the tag's
++         * background color: dark text on light tags, white on dark tags.
++         * @returns {string} CSS color
++         */
++        textColor() {
++            const hex = (this.item.color || "").replace("#", "");
++            if (!/^[0-9a-f]{6}$/i.test(hex)) {
++                return "#fff";
++            }
++            const channel = (i) => {
++                const c = parseInt(hex.substring(i, i + 2), 16) / 255;
++                return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
++            };
++            const luminance = 0.2126 * channel(0) + 0.7152 * channel(2) + 0.0722 * channel(4);
++            const white = (1.05) / (luminance + 0.05);
++            const dark = (luminance + 0.05) / (0.003 + 0.05);
++            return white >= dark ? "#fff" : "#020b05";
++        },
+     },
+ };
+ </script>
+@@ -78,11 +97,6 @@ export default {
+ <style lang="scss" scoped>
+ .tag-wrapper {
+     color: white;
+-    opacity: 0.85;
+-
+-    .dark & {
+-        opacity: 1;
+-    }
+ }
+ 
+ .tag-text {
+diff --git a/src/components/TagEditDialog.vue b/src/components/TagEditDialog.vue
+index 95fc091c..f8073162 100644
+--- a/src/components/TagEditDialog.vue
++++ b/src/components/TagEditDialog.vue
+@@ -1,12 +1,12 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tag-edit-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 id="exampleModalLabel" class="modal-title">
++                        <h2 id="tag-edit-dialog-title" class="modal-title">
+                             {{ $t("Edit Tag") }}
+-                        </h5>
++                        </h2>
+                         <button type="button" class="btn-close" data-bs-dismiss="modal" :aria-label="$t('Close')" />
+                     </div>
+                     <div class="modal-body">
+@@ -61,7 +61,7 @@
+                                     </vue-multiselect>
+                                 </div>
+                                 <div class="col-4 ps-1">
+-                                    <input id="tag-color-hex" v-model="tag.color" type="text" class="form-control" />
++                                    <input id="tag-color-hex" v-model="tag.color" type="text" class="form-control" :aria-label="$t('ariaTagColorHex')" />
+                                 </div>
+                             </div>
+                         </div>
+@@ -82,6 +82,7 @@
+                                     <button
+                                         type="button"
+                                         class="btn-rm-monitor btn btn-outline-danger ms-2 py-1"
++                                        :aria-label="$t('ariaRemoveMonitorFromTag')"
+                                         @click.stop.prevent="removeMonitor(monitor.id)"
+                                     >
+                                         <font-awesome-icon class="" icon="times" />
+@@ -147,7 +148,7 @@
+ import { Modal } from "bootstrap";
+ import Confirm from "./Confirm.vue";
+ import Tag from "./Tag.vue";
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "./AccessibleMultiselect.vue";
+ import { colorOptions } from "../util-frontend";
+ import { getMonitorRelativeURL } from "../util.ts";
+ 
+diff --git a/src/components/TagsManager.vue b/src/components/TagsManager.vue
+index 1b6d17c9..05577e2a 100644
+--- a/src/components/TagsManager.vue
++++ b/src/components/TagsManager.vue
+@@ -1,6 +1,6 @@
+ <template>
+     <div>
+-        <h4 class="mt-5 mb-3">{{ $t("Tags") }}</h4>
++        <h2 class="mt-5 mb-3 fs-4">{{ $t("Tags") }}</h2>
+         <div v-if="selectedTags.length > 0" class="mb-2 p-1">
+             <tag
+                 v-for="item in selectedTags"
+@@ -24,11 +24,11 @@
+                 {{ $t("Add") }}
+             </button>
+         </div>
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" :aria-label="$t('Tags')" data-bs-backdrop="static" data-bs-keyboard="false">
+             <div class="modal-dialog modal-dialog-centered">
+                 <div class="modal-content">
+                     <div class="modal-body">
+-                        <h4 v-if="stagedForBatchAdd.length > 0">{{ $t("Add Tags") }}</h4>
++                        <h2 v-if="stagedForBatchAdd.length > 0" class="fs-4">{{ $t("Add Tags") }}</h2>
+                         <div
+                             v-if="stagedForBatchAdd.length > 0"
+                             class="mb-3 staging-area"
+@@ -175,7 +175,7 @@
+ 
+ <script>
+ import { Modal } from "bootstrap";
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "./AccessibleMultiselect.vue";
+ import { colorOptions } from "../util-frontend";
+ import Tag from "../components/Tag.vue";
+ 
+diff --git a/src/components/ToggleSection.vue b/src/components/ToggleSection.vue
+index a1b47e94..8f01e193 100644
+--- a/src/components/ToggleSection.vue
++++ b/src/components/ToggleSection.vue
+@@ -1,11 +1,11 @@
+ <template>
+     <div class="my-3 py-3">
+-        <h5 @click="isOpen = !isOpen">
++        <h2 class="fs-5" @click="isOpen = !isOpen">
+             <div class="w-50 d-flex justify-content-between align-items-center pe-2">
+                 <span class="pb-2">{{ heading }}</span>
+                 <font-awesome-icon icon="chevron-down" class="animated" :class="{ open: isOpen }" />
+             </div>
+-        </h5>
++        </h2>
+         <transition name="slide-fade-up">
+             <div v-if="isOpen" class="mt-3">
+                 <slot></slot>
+diff --git a/src/components/Tooltip.vue b/src/components/Tooltip.vue
+index febc4884..80a5e55f 100644
+--- a/src/components/Tooltip.vue
++++ b/src/components/Tooltip.vue
+@@ -166,7 +166,7 @@ export default {
+             }
+ 
+             &.status-empty {
+-                color: $secondary-text;
++                color: var(--secondary-text);
+             }
+         }
+ 
+diff --git a/src/components/TwoFADialog.vue b/src/components/TwoFADialog.vue
+index f4ece101..717c0440 100644
+--- a/src/components/TwoFADialog.vue
++++ b/src/components/TwoFADialog.vue
+@@ -1,14 +1,14 @@
+ <template>
+     <form @submit.prevent="submit">
+-        <div ref="modal" class="modal fade" tabindex="-1" data-bs-backdrop="static">
++        <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="twofa-dialog-title" data-bs-backdrop="static">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+-                        <h5 class="modal-title">
++                        <h2 id="twofa-dialog-title" class="modal-title">
+                             {{ $t("Setup 2FA") }}
+                             <span v-if="twoFAStatus == true" class="badge bg-primary">{{ $t("Active") }}</span>
+                             <span v-if="twoFAStatus == false" class="badge bg-primary">{{ $t("Inactive") }}</span>
+-                        </h5>
++                        </h2>
+                         <button
+                             :disabled="processing"
+                             type="button"
+@@ -39,11 +39,11 @@
+                             <p v-if="showURI && twoFAStatus == false" class="text-break mt-2">{{ uri }}</p>
+ 
+                             <div v-if="!(uri && twoFAStatus == false)" class="mb-3">
+-                                <label for="current-password" class="form-label">
++                                <label for="twofa-current-password" class="form-label">
+                                     {{ $t("Current Password") }}
+                                 </label>
+                                 <input
+-                                    id="current-password"
++                                    id="twofa-current-password"
+                                     v-model="currentPassword"
+                                     type="password"
+                                     class="form-control"
+diff --git a/src/components/notifications/360messenger.vue b/src/components/notifications/360messenger.vue
+index 74c5e91c..213eccbf 100644
+--- a/src/components/notifications/360messenger.vue
++++ b/src/components/notifications/360messenger.vue
+@@ -68,12 +68,12 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input
++            <input id="chk-360messenger-1"
+                 v-model="$parent.notification.Whatsapp360messengerUseTemplate"
+                 class="form-check-input"
+                 type="checkbox"
+             />
+-            <label class="form-check-label">{{ $t("360messengerCustomMessageTemplate") }}</label>
++            <label for="chk-360messenger-1" class="form-check-label">{{ $t("360messengerCustomMessageTemplate") }}</label>
+         </div>
+ 
+         <div class="form-text">
+@@ -97,7 +97,7 @@
+ <script>
+ import HiddenInput from "../HiddenInput.vue";
+ import TemplatedTextarea from "../TemplatedTextarea.vue";
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "../AccessibleMultiselect.vue";
+ 
+ export default {
+     components: {
+diff --git a/src/components/notifications/DingDing.vue b/src/components/notifications/DingDing.vue
+index 888f60a1..79896c7a 100644
+--- a/src/components/notifications/DingDing.vue
++++ b/src/components/notifications/DingDing.vue
+@@ -101,7 +101,7 @@
+ 
+ <script lang="ts">
+ import HiddenInput from "../HiddenInput.vue";
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "../AccessibleMultiselect.vue";
+ 
+ export default {
+     components: {
+diff --git a/src/components/notifications/Evolution.vue b/src/components/notifications/Evolution.vue
+index 7ba44f7e..ef42dce9 100644
+--- a/src/components/notifications/Evolution.vue
++++ b/src/components/notifications/Evolution.vue
+@@ -57,8 +57,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.evolutionUseCustomMessage" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("evolutionCustomMessageTitle") }}</label>
++            <input id="chk-evolution-1" v-model="$parent.notification.evolutionUseCustomMessage" class="form-check-input" type="checkbox" />
++            <label for="chk-evolution-1" class="form-check-label">{{ $t("evolutionCustomMessageTitle") }}</label>
+         </div>
+         <div class="form-text">{{ $t("evolutionCustomMessageDesc") }}</div>
+     </div>
+diff --git a/src/components/notifications/HaloPSA.vue b/src/components/notifications/HaloPSA.vue
+index 605b4e15..06c1d1c5 100644
+--- a/src/components/notifications/HaloPSA.vue
++++ b/src/components/notifications/HaloPSA.vue
+@@ -5,6 +5,7 @@
+             <span class="test-danger">*</span>
+         </label>
+         <HiddenInput
++            id="halopsa-webhook-url"
+             v-model="$parent.notification.halowebhookurl"
+             :maxlength="500"
+             placeholder="https://your-instance.halopsa.com/api/v1/webhook"
+diff --git a/src/components/notifications/LunaSea.vue b/src/components/notifications/LunaSea.vue
+index 11681f5b..4c57a6bc 100644
+--- a/src/components/notifications/LunaSea.vue
++++ b/src/components/notifications/LunaSea.vue
+@@ -25,11 +25,11 @@
+             <input id="lunasea-device" v-model="$parent.notification.lunaseaDevice" type="text" class="form-control" />
+         </div>
+         <div v-if="$parent.notification.lunaseaTarget === 'user'">
+-            <label for="lunasea-device" class="form-label">
++            <label for="lunasea-user-id" class="form-label">
+                 {{ $t("lunaseaUserID") }}
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+-            <input id="lunasea-device" v-model="$parent.notification.lunaseaUserID" type="text" class="form-control" />
++            <input id="lunasea-user-id" v-model="$parent.notification.lunaseaUserID" type="text" class="form-control" />
+         </div>
+     </div>
+ </template>
+diff --git a/src/components/notifications/Matrix.vue b/src/components/notifications/Matrix.vue
+index 9bb89cce..11490761 100644
+--- a/src/components/notifications/Matrix.vue
++++ b/src/components/notifications/Matrix.vue
+@@ -50,8 +50,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.matrixUseTemplate" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("matrixUseTemplate") }}</label>
++            <input id="chk-matrix-1" v-model="$parent.notification.matrixUseTemplate" class="form-check-input" type="checkbox" />
++            <label for="chk-matrix-1" class="form-check-label">{{ $t("matrixUseTemplate") }}</label>
+         </div>
+ 
+         <div class="form-text">
+diff --git a/src/components/notifications/Max.vue b/src/components/notifications/Max.vue
+index a6abf5ae..0d8619d5 100644
+--- a/src/components/notifications/Max.vue
++++ b/src/components/notifications/Max.vue
+@@ -30,8 +30,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.maxUseTemplate" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("maxUseTemplate") }}</label>
++            <input id="chk-max-1" v-model="$parent.notification.maxUseTemplate" class="form-check-input" type="checkbox" />
++            <label for="chk-max-1" class="form-check-label">{{ $t("maxUseTemplate") }}</label>
+         </div>
+         <div class="form-text">
+             {{ $t("maxUseTemplateDescription") }}
+diff --git a/src/components/notifications/Milky.vue b/src/components/notifications/Milky.vue
+index 307c9c44..1ab9ea9b 100644
+--- a/src/components/notifications/Milky.vue
++++ b/src/components/notifications/Milky.vue
+@@ -5,7 +5,7 @@
+                 {{ $t("milkyHttpAddress") }}
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+-            <input id="HttpUrl" v-model="$parent.notification.httpAddr" type="text" class="form-control" required />
++            <input id="milky-http-addr" v-model="$parent.notification.httpAddr" type="text" class="form-control" required />
+         </div>
+         <div class="mb-3">
+             <label for="milky-access-token" class="form-label">
+@@ -13,7 +13,7 @@
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+             <input
+-                id="HttpUrl"
++                id="milky-access-token"
+                 v-model="$parent.notification.accessToken"
+                 type="password"
+                 class="form-control"
+@@ -37,7 +37,7 @@
+                 {{ $t("milkyUserOrGroupId") }}
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+-            <input id="secretKey" v-model="$parent.notification.recieverId" type="text" class="form-control" required />
++            <input id="milky-reciever-id" v-model="$parent.notification.recieverId" type="text" class="form-control" required />
+         </div>
+ 
+         <div class="form-text">
+diff --git a/src/components/notifications/NextcloudTalk.vue b/src/components/notifications/NextcloudTalk.vue
+index 23819728..ad7ae3cd 100644
+--- a/src/components/notifications/NextcloudTalk.vue
++++ b/src/components/notifications/NextcloudTalk.vue
+@@ -36,15 +36,15 @@
+ 
+         <div class="mb-3">
+             <div class="form-check form-switch">
+-                <input v-model="$parent.notification.sendSilentUp" class="form-check-input" type="checkbox" />
+-                <label class="form-check-label">{{ $t("Send UP silently") }}</label>
++                <input id="chk-nextcloudtalk-1" v-model="$parent.notification.sendSilentUp" class="form-check-input" type="checkbox" />
++                <label for="chk-nextcloudtalk-1" class="form-check-label">{{ $t("Send UP silently") }}</label>
+             </div>
+         </div>
+ 
+         <div class="mb-3">
+             <div class="form-check form-switch">
+-                <input v-model="$parent.notification.sendSilentDown" class="form-check-input" type="checkbox" />
+-                <label class="form-check-label">{{ $t("Send DOWN silently") }}</label>
++                <input id="chk-nextcloudtalk-2" v-model="$parent.notification.sendSilentDown" class="form-check-input" type="checkbox" />
++                <label for="chk-nextcloudtalk-2" class="form-check-label">{{ $t("Send DOWN silently") }}</label>
+             </div>
+         </div>
+ 
+diff --git a/src/components/notifications/OneBot.vue b/src/components/notifications/OneBot.vue
+index 5369957d..d5651af4 100644
+--- a/src/components/notifications/OneBot.vue
++++ b/src/components/notifications/OneBot.vue
+@@ -5,14 +5,14 @@
+                 {{ $t("onebotHttpAddress") }}
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+-            <input id="HttpUrl" v-model="$parent.notification.httpAddr" type="text" class="form-control" required />
++            <input id="onebot-http-addr" v-model="$parent.notification.httpAddr" type="text" class="form-control" required />
+         </div>
+         <div class="mb-3">
+             <label for="onebot-access-token" class="form-label">
+                 AccessToken
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+-            <input id="HttpUrl" v-model="$parent.notification.accessToken" type="text" class="form-control" required />
++            <input id="onebot-access-token" v-model="$parent.notification.accessToken" type="text" class="form-control" required />
+             <div class="form-text">
+                 <p>{{ $t("onebotSafetyTips") }}</p>
+             </div>
+@@ -31,7 +31,7 @@
+                 {{ $t("onebotUserOrGroupId") }}
+                 <span style="color: red"><sup>*</sup></span>
+             </label>
+-            <input id="secretKey" v-model="$parent.notification.recieverId" type="text" class="form-control" required />
++            <input id="onebot-reciever-id" v-model="$parent.notification.recieverId" type="text" class="form-control" required />
+         </div>
+ 
+         <div class="form-text">
+diff --git a/src/components/notifications/Onesender.vue b/src/components/notifications/Onesender.vue
+index af2ed1d4..869c0458 100644
+--- a/src/components/notifications/Onesender.vue
++++ b/src/components/notifications/Onesender.vue
+@@ -42,6 +42,7 @@
+     </div>
+     <div v-else class="form-text">{{ $t("groupOnesenderDesc") }}</div>
+     <div class="mb-3">
++        <label for="type-receiver-onesender" class="form-label">{{ $t("onesenderReceiverLabel") }}</label>
+         <input
+             id="type-receiver-onesender"
+             v-model="$parent.notification.onesenderReceiver"
+@@ -52,8 +53,9 @@
+         />
+     </div>
+     <div class="mb-3">
++        <label for="onesender-computed-receiver" class="form-label">{{ $t("onesenderComputedReceiverLabel") }}</label>
+         <input
+-            id="type-receiver-onesender"
++            id="onesender-computed-receiver"
+             v-model="computedReceiverResult"
+             type="text"
+             class="form-control"
+diff --git a/src/components/notifications/OpenWa.vue b/src/components/notifications/OpenWa.vue
+index 19813535..d5f19cbd 100644
+--- a/src/components/notifications/OpenWa.vue
++++ b/src/components/notifications/OpenWa.vue
+@@ -52,8 +52,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.openwaUseCustomMessage" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("openwaCustomMessageTitle") }}</label>
++            <input id="chk-openwa-1" v-model="$parent.notification.openwaUseCustomMessage" class="form-check-input" type="checkbox" />
++            <label for="chk-openwa-1" class="form-check-label">{{ $t("openwaCustomMessageTitle") }}</label>
+         </div>
+         <div class="form-text">{{ $t("openwaCustomMessageDesc") }}</div>
+     </div>
+diff --git a/src/components/notifications/SMTP.vue b/src/components/notifications/SMTP.vue
+index f78a4bb3..c47f6fd5 100644
+--- a/src/components/notifications/SMTP.vue
++++ b/src/components/notifications/SMTP.vue
+@@ -185,8 +185,8 @@
+ 
+         <div class="mb-3">
+             <div class="form-check form-switch">
+-                <input v-model="showAdditionalHeadersField" class="form-check-input" type="checkbox" />
+-                <label class="form-check-label">{{ $t("smtpAdditionalHeadersTitle") }}</label>
++                <input id="chk-smtp-1" v-model="showAdditionalHeadersField" class="form-check-input" type="checkbox" />
++                <label for="chk-smtp-1" class="form-check-label">{{ $t("smtpAdditionalHeadersTitle") }}</label>
+             </div>
+             <i18n-t
+                 v-if="showAdditionalHeadersField"
+diff --git a/src/components/notifications/Signal.vue b/src/components/notifications/Signal.vue
+index 1535b4c6..bbf0bded 100644
+--- a/src/components/notifications/Signal.vue
++++ b/src/components/notifications/Signal.vue
+@@ -55,8 +55,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.signalUseTemplate" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("signalUseTemplate") }}</label>
++            <input id="chk-signal-1" v-model="$parent.notification.signalUseTemplate" class="form-check-input" type="checkbox" />
++            <label for="chk-signal-1" class="form-check-label">{{ $t("signalUseTemplate") }}</label>
+         </div>
+ 
+         <div class="form-text">
+diff --git a/src/components/notifications/Slack.vue b/src/components/notifications/Slack.vue
+index 9f641325..31c6f09f 100644
+--- a/src/components/notifications/Slack.vue
++++ b/src/components/notifications/Slack.vue
+@@ -49,8 +49,8 @@
+ 
+         <div class="mb-3">
+             <div class="form-check form-switch">
+-                <input v-model="$parent.notification.slackUseTemplate" class="form-check-input" type="checkbox" />
+-                <label class="form-check-label">{{ $t("slackUseTemplate") }}</label>
++                <input id="chk-slack-1" v-model="$parent.notification.slackUseTemplate" class="form-check-input" type="checkbox" />
++                <label for="chk-slack-1" class="form-check-label">{{ $t("slackUseTemplate") }}</label>
+             </div>
+             <div class="form-text">
+                 {{ $t("slackUseTemplateDescription") }}
+diff --git a/src/components/notifications/Teams.vue b/src/components/notifications/Teams.vue
+index 4820d83e..a82e8cb9 100644
+--- a/src/components/notifications/Teams.vue
++++ b/src/components/notifications/Teams.vue
+@@ -20,8 +20,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.teamsEnableTags" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("teamsEnableTags") }}</label>
++            <input id="chk-teams-1" v-model="$parent.notification.teamsEnableTags" class="form-check-input" type="checkbox" />
++            <label for="chk-teams-1" class="form-check-label">{{ $t("teamsEnableTags") }}</label>
+         </div>
+ 
+         <div class="form-text">
+diff --git a/src/components/notifications/TechulusPush.vue b/src/components/notifications/TechulusPush.vue
+index ca7e3cd4..b9024ca8 100644
+--- a/src/components/notifications/TechulusPush.vue
++++ b/src/components/notifications/TechulusPush.vue
+@@ -54,8 +54,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.pushTimeSensitive" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("Time Sensitive (iOS Only)") }}</label>
++            <input id="chk-techuluspush-1" v-model="$parent.notification.pushTimeSensitive" class="form-check-input" type="checkbox" />
++            <label for="chk-techuluspush-1" class="form-check-label">{{ $t("Time Sensitive (iOS Only)") }}</label>
+         </div>
+         <div class="form-text">
+             {{
+diff --git a/src/components/notifications/Telegram.vue b/src/components/notifications/Telegram.vue
+index cc0797b9..a58cc2f8 100644
+--- a/src/components/notifications/Telegram.vue
++++ b/src/components/notifications/Telegram.vue
+@@ -70,8 +70,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.telegramUseTemplate" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("telegramUseTemplate") }}</label>
++            <input id="chk-telegram-1" v-model="$parent.notification.telegramUseTemplate" class="form-check-input" type="checkbox" />
++            <label for="chk-telegram-1" class="form-check-label">{{ $t("telegramUseTemplate") }}</label>
+         </div>
+ 
+         <div class="form-text">
+@@ -110,8 +110,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.telegramSendSilently" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("telegramSendSilently") }}</label>
++            <input id="chk-telegram-2" v-model="$parent.notification.telegramSendSilently" class="form-check-input" type="checkbox" />
++            <label for="chk-telegram-2" class="form-check-label">{{ $t("telegramSendSilently") }}</label>
+         </div>
+ 
+         <div class="form-text">
+@@ -121,8 +121,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.telegramProtectContent" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("telegramProtectContent") }}</label>
++            <input id="chk-telegram-3" v-model="$parent.notification.telegramProtectContent" class="form-check-input" type="checkbox" />
++            <label for="chk-telegram-3" class="form-check-label">{{ $t("telegramProtectContent") }}</label>
+         </div>
+ 
+         <div class="form-text">
+diff --git a/src/components/notifications/Teltonika.vue b/src/components/notifications/Teltonika.vue
+index a93d0e25..eb8ff56d 100644
+--- a/src/components/notifications/Teltonika.vue
++++ b/src/components/notifications/Teltonika.vue
+@@ -20,8 +20,8 @@
+     </div>
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.teltonikaUnsafeTls" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("teltonikaUnsafeTls") }}</label>
++            <input id="chk-teltonika-1" v-model="$parent.notification.teltonikaUnsafeTls" class="form-check-input" type="checkbox" />
++            <label for="chk-teltonika-1" class="form-check-label">{{ $t("teltonikaUnsafeTls") }}</label>
+         </div>
+         <i18n-t keypath="teltonikaUnsafeTlsDescription" tag="div" class="form-text"></i18n-t>
+     </div>
+diff --git a/src/components/notifications/Threema.vue b/src/components/notifications/Threema.vue
+index fc249ccf..62e49d0c 100644
+--- a/src/components/notifications/Threema.vue
++++ b/src/components/notifications/Threema.vue
+@@ -8,11 +8,11 @@
+         </select>
+     </div>
+     <div v-if="$parent.notification.threemaRecipientType === 'identity'" class="mb-3">
+-        <label class="form-label" for="threema-recipient">
++        <label class="form-label" for="threema-identity">
+             {{ $t("threemaRecipient") }} {{ $t("threemaRecipientTypeIdentity") }}
+         </label>
+         <input
+-            id="threema-recipient"
++            id="threema-identity"
+             v-model="$parent.notification.threemaRecipient"
+             class="form-control"
+             minlength="8"
+@@ -26,11 +26,11 @@
+         </div>
+     </div>
+     <div v-else-if="$parent.notification.threemaRecipientType === 'phone'" class="mb-3">
+-        <label class="form-label" for="threema-recipient">
++        <label class="form-label" for="threema-phone">
+             {{ $t("threemaRecipient") }} {{ $t("threemaRecipientTypePhone") }}
+         </label>
+         <input
+-            id="threema-recipient"
++            id="threema-phone"
+             v-model="$parent.notification.threemaRecipient"
+             class="form-control"
+             maxlength="15"
+@@ -43,11 +43,11 @@
+         </div>
+     </div>
+     <div v-else-if="$parent.notification.threemaRecipientType === 'email'" class="mb-3">
+-        <label class="form-label" for="threema-recipient">
++        <label class="form-label" for="threema-email">
+             {{ $t("threemaRecipient") }} {{ $t("threemaRecipientTypeEmail") }}
+         </label>
+         <input
+-            id="threema-recipient"
++            id="threema-email"
+             v-model="$parent.notification.threemaRecipient"
+             class="form-control"
+             maxlength="254"
+diff --git a/src/components/notifications/VK.vue b/src/components/notifications/VK.vue
+index 507d7465..9940527c 100644
+--- a/src/components/notifications/VK.vue
++++ b/src/components/notifications/VK.vue
+@@ -33,8 +33,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.vkDontParseLinks" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("vkDontParseLinks") }}</label>
++            <input id="chk-vk-1" v-model="$parent.notification.vkDontParseLinks" class="form-check-input" type="checkbox" />
++            <label for="chk-vk-1" class="form-check-label">{{ $t("vkDontParseLinks") }}</label>
+         </div>
+         <div class="form-text">
+             {{ $t("vkDontParseLinksDescription") }}
+diff --git a/src/components/notifications/VKTeams.vue b/src/components/notifications/VKTeams.vue
+index 1df6e599..868ea187 100644
+--- a/src/components/notifications/VKTeams.vue
++++ b/src/components/notifications/VKTeams.vue
+@@ -43,8 +43,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="$parent.notification.vkteamsUseTemplate" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("VKTeams Use Template") }}</label>
++            <input id="chk-vkteams-1" v-model="$parent.notification.vkteamsUseTemplate" class="form-check-input" type="checkbox" />
++            <label for="chk-vkteams-1" class="form-check-label">{{ $t("VKTeams Use Template") }}</label>
+         </div>
+         <div class="form-text">
+             {{ $t("VKTeams Use Template Description") }}
+diff --git a/src/components/notifications/Webhook.vue b/src/components/notifications/Webhook.vue
+index 128688f4..d906d6fd 100644
+--- a/src/components/notifications/Webhook.vue
++++ b/src/components/notifications/Webhook.vue
+@@ -61,8 +61,8 @@
+ 
+     <div class="mb-3">
+         <div class="form-check form-switch">
+-            <input v-model="showAdditionalHeadersField" class="form-check-input" type="checkbox" />
+-            <label class="form-check-label">{{ $t("webhookAdditionalHeadersTitle") }}</label>
++            <input id="chk-webhook-1" v-model="showAdditionalHeadersField" class="form-check-input" type="checkbox" />
++            <label for="chk-webhook-1" class="form-check-label">{{ $t("webhookAdditionalHeadersTitle") }}</label>
+         </div>
+         <div class="form-text">{{ $t("webhookAdditionalHeadersDesc") }}</div>
+         <textarea
+diff --git a/src/components/settings/About.vue b/src/components/settings/About.vue
+index 0ae4b22f..936150d2 100644
+--- a/src/components/settings/About.vue
++++ b/src/components/settings/About.vue
+@@ -1,7 +1,7 @@
+ <template>
+     <div class="d-flex justify-content-center align-items-center">
+         <div class="logo d-flex flex-column justify-content-center align-items-center">
+-            <object class="my-4" width="200" height="200" data="/icon.svg" />
++            <object class="my-4" width="200" height="200" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+             <div class="fs-4 fw-bold">Uptime Kuma</div>
+             <div>{{ $t("versionIs", { version: $root.info.version }) }}</div>
+             <div class="frontend-version">{{ $t("frontendVersionIs", { version: $root.frontendVersion }) }}</div>
+@@ -75,10 +75,10 @@ export default {
+ 
+ .frontend-version {
+     font-size: 0.9em;
+-    color: #cccccc;
++    color: #767676;
+ 
+     .dark & {
+-        color: #333333;
++        color: #8e9299;
+     }
+ }
+ </style>
+diff --git a/src/components/settings/Appearance.vue b/src/components/settings/Appearance.vue
+index c500c299..6eafb5b1 100644
+--- a/src/components/settings/Appearance.vue
++++ b/src/components/settings/Appearance.vue
+@@ -160,7 +160,7 @@ export default {};
+ .btn-check:active + .btn-outline-primary,
+ .btn-check:checked + .btn-outline-primary,
+ .btn-check:hover + .btn-outline-primary {
+-    color: #fff;
++    color: $dark-font-color2;
+ 
+     .dark & {
+         color: #000;
+diff --git a/src/components/settings/General.vue b/src/components/settings/General.vue
+index 5e93d8ad..a45042bf 100644
+--- a/src/components/settings/General.vue
++++ b/src/components/settings/General.vue
+@@ -16,10 +16,10 @@
+ 
+             <!-- Server Timezone -->
+             <div class="mb-4">
+-                <label for="timezone" class="form-label">
++                <label for="serverTimezone" class="form-label">
+                     {{ $t("Server Timezone") }}
+                 </label>
+-                <select id="timezone" v-model="settings.serverTimezone" class="form-select">
++                <select id="serverTimezone" v-model="settings.serverTimezone" class="form-select">
+                     <option value="UTC">UTC</option>
+                     <option v-for="(timezone, index) in timezoneList" :key="index" :value="timezone.value">
+                         {{ timezone.name }}
+@@ -189,13 +189,13 @@
+ 
+             <!-- Chrome Executable -->
+             <div class="mb-4">
+-                <label class="form-label" for="primaryBaseURL">
++                <label class="form-label" for="chromeExecutable">
+                     {{ $t("chromeExecutable") }}
+                 </label>
+ 
+                 <div class="input-group mb-3">
+                     <input
+-                        id="primaryBaseURL"
++                        id="chromeExecutable"
+                         v-model="settings.chromeExecutable"
+                         class="form-control"
+                         name="primaryBaseURL"
+diff --git a/src/components/settings/Notifications.vue b/src/components/settings/Notifications.vue
+index 6db2518e..4882ace5 100644
+--- a/src/components/settings/Notifications.vue
++++ b/src/components/settings/Notifications.vue
+@@ -22,7 +22,7 @@
+         </div>
+ 
+         <div class="my-4 pt-4">
+-            <h5 class="my-4 settings-subheading">{{ $t("monitorToastMessagesLabel") }}</h5>
++            <h2 class="my-4 settings-subheading fs-5">{{ $t("monitorToastMessagesLabel") }}</h2>
+             <p>{{ $t("monitorToastMessagesDescription") }}</p>
+ 
+             <div class="my-4">
+@@ -55,7 +55,7 @@
+         </div>
+ 
+         <div class="my-4 pt-4">
+-            <h5 class="my-4 settings-subheading">{{ $t("settingsCertificateExpiry") }}</h5>
++            <h2 class="my-4 settings-subheading fs-5">{{ $t("settingsCertificateExpiry") }}</h2>
+             <p>{{ $t("certificationExpiryDescription") }}</p>
+             <p>{{ $t("notificationDescription") }}</p>
+             <div class="mt-1 mb-3 ps-2 cert-exp-days col-12 col-xl-6">
+@@ -93,7 +93,7 @@
+         </div>
+ 
+         <div class="my-4 pt-4">
+-            <h5 class="my-4 settings-subheading">{{ $t("settingsDomainExpiry") }}</h5>
++            <h2 class="my-4 settings-subheading fs-5">{{ $t("settingsDomainExpiry") }}</h2>
+             <p>{{ $t("domainExpiryDescription") }}</p>
+             <p>{{ $t("notificationDescription") }}</p>
+             <div class="mt-1 mb-3 ps-2 cert-exp-days col-12 col-xl-6">
+diff --git a/src/components/settings/RemoteBrowsers.vue b/src/components/settings/RemoteBrowsers.vue
+index 863328c5..a5567dc0 100644
+--- a/src/components/settings/RemoteBrowsers.vue
++++ b/src/components/settings/RemoteBrowsers.vue
+@@ -20,7 +20,7 @@
+         </div>
+ 
+         <div class="my-4 pt-4">
+-            <h5 class="my-4 settings-subheading">{{ $t("What is a Remote Browser?") }}</h5>
++            <h2 class="my-4 settings-subheading fs-5">{{ $t("What is a Remote Browser?") }}</h2>
+             <p>
+                 {{ $t("remoteBrowsersDescription") }}
+                 <a href="https://hub.docker.com/r/browserless/chrome">{{ $t("self-hosted container") }}</a>
+diff --git a/src/components/settings/ReverseProxy.vue b/src/components/settings/ReverseProxy.vue
+index d4ad8db8..41e63ea8 100644
+--- a/src/components/settings/ReverseProxy.vue
++++ b/src/components/settings/ReverseProxy.vue
+@@ -1,6 +1,6 @@
+ <template>
+     <div>
+-        <h4 class="mt-4">Cloudflare Tunnel</h4>
++        <h2 class="mt-4 fs-4">Cloudflare Tunnel</h2>
+ 
+         <div class="my-3">
+             <div>
+@@ -96,7 +96,7 @@
+             </div>
+         </div>
+ 
+-        <h4 class="mt-4">{{ $t("Other Software") }}</h4>
++        <h2 class="mt-4 fs-4">{{ $t("Other Software") }}</h2>
+         <div>
+             {{ $t("For example: nginx, Apache and Traefik.") }}
+             <br />
+@@ -107,7 +107,7 @@
+             .
+         </div>
+ 
+-        <h4 class="my-4">{{ $t("HTTP Headers") }}</h4>
++        <h2 class="my-4 fs-4">{{ $t("HTTP Headers") }}</h2>
+         <div class="my-3">
+             <label class="form-label">
+                 {{ $t("Trust Proxy") }}
+diff --git a/src/components/settings/Security.vue b/src/components/settings/Security.vue
+index a4777218..32a61aad 100644
+--- a/src/components/settings/Security.vue
++++ b/src/components/settings/Security.vue
+@@ -14,7 +14,7 @@
+                     </button>
+                 </p>
+ 
+-                <h5 class="my-4 settings-subheading">{{ $t("Change Password") }}</h5>
++                <h2 class="my-4 settings-subheading fs-5">{{ $t("Change Password") }}</h2>
+                 <form class="mb-3" @submit.prevent="savePassword">
+                     <div class="mb-3">
+                         <label for="current-password" class="form-label">
+@@ -71,9 +71,9 @@
+             </template>
+ 
+             <div v-if="!settings.disableAuth" class="mt-5 mb-3">
+-                <h5 class="my-4 settings-subheading">
++                <h2 class="my-4 settings-subheading fs-5">
+                     {{ $t("Two Factor Authentication") }}
+-                </h5>
++                </h2>
+                 <div class="mb-4">
+                     <button class="btn btn-primary me-2" type="button" @click="$refs.TwoFADialog.show()">
+                         {{ $t("2FA Settings") }}
+@@ -83,7 +83,7 @@
+ 
+             <div class="my-4">
+                 <!-- Advanced -->
+-                <h5 class="my-4 settings-subheading">{{ $t("Advanced") }}</h5>
++                <h2 class="my-4 settings-subheading fs-5">{{ $t("Advanced") }}</h2>
+ 
+                 <div class="mb-4">
+                     <button
+diff --git a/src/components/settings/Tags.vue b/src/components/settings/Tags.vue
+index eb1730ec..35f4af4d 100644
+--- a/src/components/settings/Tags.vue
++++ b/src/components/settings/Tags.vue
+@@ -28,6 +28,7 @@
+                     <button
+                         type="button"
+                         class="btn-rm-tag btn btn-outline-danger ms-2 py-1"
++                        :aria-label="$t('ariaDeleteTag')"
+                         :disabled="processing"
+                         @click.stop="deleteConfirm(index)"
+                     >
+diff --git a/src/lang/en.json b/src/lang/en.json
+index 279e6d29..5d6e4a73 100644
+--- a/src/lang/en.json
++++ b/src/lang/en.json
+@@ -597,6 +597,10 @@
+     "ariaCloneMaintenance": "Create a copy of this maintenance schedule",
+     "ariaEditMaintenance": "Edit this maintenance schedule",
+     "ariaDeleteMaintenance": "Delete this maintenance schedule",
++    "ariaDeleteTag": "Delete this tag",
++    "ariaRemoveMonitorFromTag": "Remove this monitor from the tag",
++    "ariaTagColorHex": "Tag color in hexadecimal",
++    "ariaResetLogo": "Reset logo to default",
+     "Date and Time": "Date and Time",
+     "DateTime Range": "DateTime Range",
+     "loadingError": "Cannot fetch the data, please try again later.",
+@@ -1629,5 +1633,11 @@
+     "Pattern Code ID": "Pattern Code ID",
+     "Amoot SMS pattern help": "Enter the Pattern Code ID from your Amoot SMS panel. {0}",
+     "Create an Amoot SMS pattern": "Create an Amoot SMS pattern",
+-    "Use Own Line for Pattern": "Use Own Line for Pattern"
++    "Use Own Line for Pattern": "Use Own Line for Pattern",
++    "Main navigation": "Main navigation",
++    "Show password": "Show password",
++    "Hide password": "Hide password",
++    "Status page settings": "Status page settings",
++    "onesenderReceiverLabel": "Receiver",
++    "onesenderComputedReceiverLabel": "Computed receiver"
+ }
+diff --git a/src/layouts/Layout.vue b/src/layouts/Layout.vue
+index 70480cd9..0571a6f4 100644
+--- a/src/layouts/Layout.vue
++++ b/src/layouts/Layout.vue
+@@ -18,7 +18,7 @@
+                 to="/dashboard"
+                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+             >
+-                <object class="bi me-2 ms-4" width="40" height="40" data="/icon.svg" />
++                <object class="bi me-2 ms-4" width="40" height="40" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+                 <span class="fs-4 title">{{ $t("Uptime Kuma") }}</span>
+             </router-link>
+ 
+@@ -47,10 +47,10 @@
+                 </li>
+                 <li v-if="$root.loggedIn" class="nav-item">
+                     <div class="dropdown dropdown-profile-pic">
+-                        <div class="nav-link" data-bs-toggle="dropdown">
++                        <button type="button" class="nav-link border-0" data-bs-toggle="dropdown" aria-haspopup="true">
+                             <div class="profile-pic">{{ $root.usernameFirstChar }}</div>
+                             <font-awesome-icon icon="angle-down" />
+-                        </div>
++                        </button>
+ 
+                         <!-- Header's Dropdown Menu -->
+                         <ul class="dropdown-menu">
+@@ -120,7 +120,7 @@
+         <!-- Mobile header -->
+         <header v-else class="d-flex flex-wrap justify-content-center pt-2 pb-2 mb-3">
+             <router-link to="/dashboard" class="d-flex align-items-center text-dark text-decoration-none">
+-                <object class="bi" width="40" height="40" data="/icon.svg" />
++                <object class="bi" width="40" height="40" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+                 <span class="fs-4 title ms-2">Uptime Kuma</span>
+             </router-link>
+         </header>
+@@ -132,7 +132,7 @@
+ 
+         <!-- Mobile Only -->
+         <div v-if="$root.isMobile" style="width: 100%; height: calc(60px + env(safe-area-inset-bottom))" />
+-        <nav v-if="$root.isMobile && $root.loggedIn" class="bottom-nav">
++        <nav v-if="$root.isMobile && $root.loggedIn" class="bottom-nav" :aria-label="$t('Main navigation')">
+             <router-link to="/dashboard" class="nav-link">
+                 <div><font-awesome-icon icon="tachometer-alt" /></div>
+                 {{ $t("Home") }}
+@@ -243,7 +243,7 @@ export default {
+ .nav-link {
+     &:hover {
+         background-color: $primary;
+-        color: #fff;
++        color: $dark-font-color2;
+ 
+         .dark & {
+             background-color: $primary;
+@@ -288,8 +288,12 @@ export default {
+ 
+         &.router-link-exact-active,
+         &.active {
+-            color: $primary;
++            color: $primary-text;
+             font-weight: bold;
++
++            .dark & {
++                color: $primary;
++            }
+         }
+ 
+         div {
+@@ -383,7 +387,7 @@ main {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+-        color: white;
++        color: $dark-font-color2;
+         background-color: $primary;
+         width: 24px;
+         height: 24px;
+diff --git a/src/pages/DashboardHome.vue b/src/pages/DashboardHome.vue
+index 344d4c25..ef4c549d 100644
+--- a/src/pages/DashboardHome.vue
++++ b/src/pages/DashboardHome.vue
+@@ -8,29 +8,29 @@
+             <div class="shadow-box big-padding text-center mb-3">
+                 <div class="row">
+                     <div class="col">
+-                        <h3>{{ $t("Up") }}</h3>
++                        <h2 class="fs-3">{{ $t("Up") }}</h2>
+                         <span class="num" :class="$root.stats.up === 0 && 'text-secondary'">
+                             {{ $root.stats.up }}
+                         </span>
+                     </div>
+                     <div class="col">
+-                        <h3>{{ $t("Down") }}</h3>
++                        <h2 class="fs-3">{{ $t("Down") }}</h2>
+                         <span class="num" :class="$root.stats.down > 0 ? 'text-danger' : 'text-secondary'">
+                             {{ $root.stats.down }}
+                         </span>
+                     </div>
+                     <div class="col">
+-                        <h3>{{ $t("Maintenance") }}</h3>
++                        <h2 class="fs-3">{{ $t("Maintenance") }}</h2>
+                         <span class="num" :class="$root.stats.maintenance > 0 ? 'text-maintenance' : 'text-secondary'">
+                             {{ $root.stats.maintenance }}
+                         </span>
+                     </div>
+                     <div class="col">
+-                        <h3>{{ $t("Unknown") }}</h3>
++                        <h2 class="fs-3">{{ $t("Unknown") }}</h2>
+                         <span class="num text-secondary">{{ $root.stats.unknown }}</span>
+                     </div>
+                     <div class="col">
+-                        <h3>{{ $t("pauseDashboardHome") }}</h3>
++                        <h2 class="fs-3">{{ $t("pauseDashboardHome") }}</h2>
+                         <span class="num text-secondary">{{ $root.stats.pause }}</span>
+                     </div>
+                 </div>
+@@ -310,7 +310,11 @@ export default {
+ 
+ .num {
+     font-size: 30px;
+-    color: $primary;
++    color: $primary-text;
++
++    .dark & {
++        color: $primary;
++    }
+     font-weight: bold;
+     display: block;
+ }
+diff --git a/src/pages/Details.vue b/src/pages/Details.vue
+index 3cdc5946..fe284a49 100644
+--- a/src/pages/Details.vue
++++ b/src/pages/Details.vue
+@@ -211,7 +211,7 @@
+                         v-if="monitor.type !== 'group'"
+                         class="col-12 col-sm col row d-flex align-items-center d-sm-block"
+                     >
+-                        <h4 class="col-4 col-sm-12">{{ pingTitle() }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ pingTitle() }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">({{ $t("Current") }})</p>
+                         <span class="col-4 col-sm-12 num">
+                             <a href="#" @click.prevent="showPingChartBox = !showPingChartBox">
+@@ -223,7 +223,7 @@
+                         v-if="monitor.type !== 'group'"
+                         class="col-12 col-sm col row d-flex align-items-center d-sm-block"
+                     >
+-                        <h4 class="col-4 col-sm-12">{{ pingTitle(true) }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ pingTitle(true) }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">({{ $t("hours", 24) }})</p>
+                         <span class="col-4 col-sm-12 num">
+                             <CountUp :value="avgPing" />
+@@ -232,7 +232,7 @@
+ 
+                     <!-- Uptime (24-hour) -->
+                     <div class="col-12 col-sm col row d-flex align-items-center d-sm-block">
+-                        <h4 class="col-4 col-sm-12">{{ $t("Uptime") }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ $t("Uptime") }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">({{ $t("hours", 24) }})</p>
+                         <span class="col-4 col-sm-12 num">
+                             <Uptime :monitor="monitor" type="24" />
+@@ -241,7 +241,7 @@
+ 
+                     <!-- Uptime (30-day) -->
+                     <div class="col-12 col-sm col row d-flex align-items-center d-sm-block">
+-                        <h4 class="col-4 col-sm-12">{{ $t("Uptime") }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ $t("Uptime") }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">({{ $t("days", 30) }})</p>
+                         <span class="col-4 col-sm-12 num">
+                             <Uptime :monitor="monitor" type="720" />
+@@ -250,7 +250,7 @@
+ 
+                     <!-- Uptime (1-year) -->
+                     <div class="col-12 col-sm col row d-flex align-items-center d-sm-block">
+-                        <h4 class="col-4 col-sm-12">{{ $t("Uptime") }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ $t("Uptime") }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">({{ $t("years", 1) }})</p>
+                         <span class="col-4 col-sm-12 num">
+                             <Uptime :monitor="monitor" type="1y" />
+@@ -258,7 +258,7 @@
+                     </div>
+ 
+                     <div v-if="tlsInfo" class="col-12 col-sm col row d-flex align-items-center d-sm-block">
+-                        <h4 class="col-4 col-sm-12">{{ $t("Cert Exp.") }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ $t("Cert Exp.") }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">
+                             (
+                             <Datetime :value="tlsInfo.certInfo.validTo" date-only />
+@@ -277,7 +277,7 @@
+                         </span>
+                     </div>
+                     <div v-if="domainInfo" class="col-12 col-sm col row d-flex align-items-center d-sm-block">
+-                        <h4 class="col-4 col-sm-12">{{ $t("labelDomainExpiry") }}</h4>
++                        <h2 class="col-4 col-sm-12 fs-4">{{ $t("labelDomainExpiry") }}</h2>
+                         <p class="col-4 col-sm-12 mb-0 mb-sm-2">
+                             (
+                             <Datetime :value="domainInfo.expiresOn" date-only />
+@@ -923,11 +923,16 @@ export default {
+ }
+ 
+ .url {
+-    color: $primary;
++    color: $primary-text;
+     margin-bottom: 20px;
+     font-weight: bold;
+ 
+     a {
++        color: $primary-text;
++    }
++
++    .dark &,
++    .dark & a {
+         color: $primary;
+     }
+ }
+@@ -938,7 +943,7 @@ export default {
+ }
+ 
+ .word {
+-    color: $secondary-text;
++    color: var(--secondary-text);
+     font-size: 14px;
+ }
+ 
+@@ -952,7 +957,7 @@ table {
+ 
+ .stats p {
+     font-size: 13px;
+-    color: $secondary-text;
++    color: var(--secondary-text);
+ }
+ 
+ .stats {
+@@ -1028,7 +1033,7 @@ table {
+     display: inline-flex;
+     font-size: 0.7em;
+     margin-left: 0.3em;
+-    color: $secondary-text;
++    color: var(--secondary-text);
+     flex-direction: row;
+     flex-wrap: nowrap;
+ 
+diff --git a/src/pages/EditMaintenance.vue b/src/pages/EditMaintenance.vue
+index 4376d6c7..cc9371e7 100644
+--- a/src/pages/EditMaintenance.vue
++++ b/src/pages/EditMaintenance.vue
+@@ -78,7 +78,7 @@
+                                         class="form-check-input"
+                                         type="checkbox"
+                                     />
+-                                    <label class="form-check-label" for="show-powered-by">
++                                    <label class="form-check-label" for="show-on-all-pages">
+                                         {{ $t("All Status Pages") }}
+                                     </label>
+                                 </div>
+@@ -259,9 +259,10 @@
+                             >
+                                 <!-- Maintenance Time Window of a Day -->
+                                 <div class="my-3">
+-                                    <label class="form-label">{{ $t("Maintenance Time Window of a Day") }}</label>
++                                    <label class="form-label" for="dp-input-maintenance-time-range">{{ $t("Maintenance Time Window of a Day") }}</label>
+                                     <Datepicker
+                                         v-model="maintenance.timeRange"
++                                        uid="maintenance-time-range"
+                                         :dark="$root.isDark"
+                                         timePicker
+                                         disableTimeRangeValidation
+@@ -305,8 +306,9 @@
+ 
+                                     <div class="row">
+                                         <div class="col">
+-                                            <div class="mb-2">{{ $t("startDateTime") }}</div>
++                                            <label for="maintenance-start-date" class="mb-2">{{ $t("startDateTime") }}</label>
+                                             <input
++                                                id="maintenance-start-date"
+                                                 v-model="maintenance.dateRange[0]"
+                                                 type="datetime-local"
+                                                 max="9999-12-31T23:59"
+@@ -316,8 +318,9 @@
+                                         </div>
+ 
+                                         <div class="col">
+-                                            <div class="mb-2">{{ $t("endDateTime") }}</div>
++                                            <label for="maintenance-end-date" class="mb-2">{{ $t("endDateTime") }}</label>
+                                             <input
++                                                id="maintenance-end-date"
+                                                 v-model="maintenance.dateRange[1]"
+                                                 type="datetime-local"
+                                                 max="9999-12-31T23:59"
+@@ -443,7 +446,7 @@
+ </template>
+ 
+ <script>
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "../components/AccessibleMultiselect.vue";
+ import Datepicker from "@vuepic/vue-datepicker";
+ import { timezoneList } from "../util-frontend";
+ import cronstrue from "cronstrue/i18n";
+diff --git a/src/pages/EditMonitor.vue b/src/pages/EditMonitor.vue
+index 1ac73ce0..4f5046b9 100644
+--- a/src/pages/EditMonitor.vue
++++ b/src/pages/EditMonitor.vue
+@@ -944,7 +944,7 @@
+ 
+                             <!-- NTP Configuration -->
+                             <template v-if="monitor.type === 'ntp'">
+-                                <h4 class="mt-4">{{ $t("ntpThresholdsTitle") }}</h4>
++                                <h2 class="mt-4 fs-4">{{ $t("ntpThresholdsTitle") }}</h2>
+ 
+                                 <div class="my-3">
+                                     <label for="ntp-stratum-threshold" class="form-label">
+@@ -1902,10 +1902,8 @@
+                                 />
+                                 <label class="form-check-label" for="cache-bust">
+                                     <i18n-t
+-                                        tag="label"
++                                        tag="span"
+                                         keypath="cacheBusterParam"
+-                                        class="form-check-label"
+-                                        for="cache-bust"
+                                     >
+                                         <code>uptime_kuma_cachebuster</code>
+                                     </i18n-t>
+@@ -2708,12 +2706,12 @@
+                                 </div>
+ 
+                                 <!-- HTTP Auth -->
+-                                <h4 class="mt-5 mb-2">{{ $t("Authentication") }}</h4>
++                                <h2 class="mt-5 mb-2 fs-4">{{ $t("Authentication") }}</h2>
+ 
+                                 <!-- Method -->
+                                 <div class="my-3">
+-                                    <label for="method" class="form-label">{{ $t("Method") }}</label>
+-                                    <select id="method" v-model="monitor.authMethod" class="form-select">
++                                    <label for="auth-method" class="form-label">{{ $t("Method") }}</label>
++                                    <select id="auth-method" v-model="monitor.authMethod" class="form-select">
+                                         <option :value="null">
+                                             {{ $t("None") }}
+                                         </option>
+@@ -2922,8 +2920,8 @@
+ 
+                                 <!-- Method -->
+                                 <div class="my-3">
+-                                    <label for="method" class="form-label">{{ $t("Method") }}</label>
+-                                    <select id="method" v-model="monitor.method" class="form-select">
++                                    <label for="globalping-method" class="form-label">{{ $t("Method") }}</label>
++                                    <select id="globalping-method" v-model="monitor.method" class="form-select">
+                                         <option value="HEAD">HEAD</option>
+                                         <option value="GET">GET</option>
+                                         <option value="OPTIONS">OPTIONS</option>
+@@ -2942,12 +2940,12 @@
+                                 </div>
+ 
+                                 <!-- HTTP Auth -->
+-                                <h4 class="mt-5 mb-2">{{ $t("Authentication") }}</h4>
++                                <h2 class="mt-5 mb-2 fs-4">{{ $t("Authentication") }}</h2>
+ 
+                                 <!-- Method -->
+                                 <div class="my-3">
+-                                    <label for="method" class="form-label">{{ $t("Method") }}</label>
+-                                    <select id="method" v-model="monitor.authMethod" class="form-select">
++                                    <label for="globalping-auth-method" class="form-label">{{ $t("Method") }}</label>
++                                    <select id="globalping-auth-method" v-model="monitor.authMethod" class="form-select">
+                                         <option :value="null">
+                                             {{ $t("None") }}
+                                         </option>
+@@ -3314,7 +3312,7 @@
+ </template>
+ 
+ <script>
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "../components/AccessibleMultiselect.vue";
+ import { useToast } from "vue-toastification";
+ import ActionSelect from "../components/ActionSelect.vue";
+ import CopyableInput from "../components/CopyableInput.vue";
+diff --git a/src/pages/NotFound.vue b/src/pages/NotFound.vue
+index 1fbd006f..0b3cb7a7 100644
+--- a/src/pages/NotFound.vue
++++ b/src/pages/NotFound.vue
+@@ -6,7 +6,7 @@
+                 to="/"
+                 class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
+             >
+-                <object class="bi me-2 ms-4" width="40" height="40" data="/icon.svg" />
++                <object class="bi me-2 ms-4" width="40" height="40" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+                 <span class="fs-4 title">Uptime Kuma</span>
+             </router-link>
+         </header>
+@@ -14,7 +14,7 @@
+         <!-- Mobile header -->
+         <header v-else class="d-flex flex-wrap justify-content-center pt-2 pb-2 mb-3">
+             <router-link to="/dashboard" class="d-flex align-items-center text-dark text-decoration-none">
+-                <object class="bi" width="40" height="40" data="/icon.svg" />
++                <object class="bi" width="40" height="40" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+                 <span class="fs-4 title ms-2">Uptime Kuma</span>
+             </router-link>
+         </header>
+@@ -67,7 +67,11 @@ export default {
+ 
+ .go-back {
+     text-decoration: none;
+-    color: $primary !important;
++    color: $primary-text !important;
++
++    .dark & {
++        color: $primary !important;
++    }
+ }
+ 
+ .content {
+diff --git a/src/pages/Settings.vue b/src/pages/Settings.vue
+index b8cc4274..a1778753 100644
+--- a/src/pages/Settings.vue
++++ b/src/pages/Settings.vue
+@@ -250,7 +250,7 @@ export default {
+ }
+ 
+ footer {
+-    color: $secondary-text;
++    color: var(--secondary-text);
+     font-size: 13px;
+     margin-top: 20px;
+     padding-bottom: 30px;
+diff --git a/src/pages/Setup.vue b/src/pages/Setup.vue
+index 0e5b09a4..3381e1f3 100644
+--- a/src/pages/Setup.vue
++++ b/src/pages/Setup.vue
+@@ -3,7 +3,7 @@
+         <div class="form">
+             <form @submit.prevent="submit">
+                 <div>
+-                    <object width="64" height="64" data="/icon.svg" />
++                    <object width="64" height="64" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+                     <div style="font-size: 28px; font-weight: bold; margin-top: 5px">Uptime Kuma</div>
+                 </div>
+ 
+diff --git a/src/pages/SetupDatabase.vue b/src/pages/SetupDatabase.vue
+index 264bf828..3e0bcf0e 100644
+--- a/src/pages/SetupDatabase.vue
++++ b/src/pages/SetupDatabase.vue
+@@ -2,7 +2,7 @@
+     <div v-if="show" class="form-container">
+         <form @submit.prevent="submit">
+             <div>
+-                <object width="64" height="64" data="/icon.svg" />
++                <object width="64" height="64" data="/icon.svg" aria-hidden="true" tabindex="-1" />
+                 <div style="font-size: 28px; font-weight: bold; margin-top: 5px">Uptime Kuma</div>
+             </div>
+ 
+@@ -81,18 +81,18 @@
+                 <template v-if="dbConfig.type === 'mariadb'">
+                     <div v-if="!isProvidedMariaDBSocket" class="form-floating mt-3 short">
+                         <input
+-                            id="floatingInput"
++                            id="db-hostname"
+                             v-model="dbConfig.hostname"
+                             type="text"
+                             class="form-control"
+                             required
+                         />
+-                        <label for="floatingInput">{{ $t("Hostname") }}</label>
++                        <label for="db-hostname">{{ $t("Hostname") }}</label>
+                     </div>
+ 
+                     <div v-if="!isProvidedMariaDBSocket" class="form-floating mt-3 short">
+-                        <input id="floatingInput" v-model="dbConfig.port" type="text" class="form-control" required />
+-                        <label for="floatingInput">{{ $t("Port") }}</label>
++                        <input id="db-port" v-model="dbConfig.port" type="text" class="form-control" required />
++                        <label for="db-port">{{ $t("Port") }}</label>
+                     </div>
+ 
+                     <div v-if="isProvidedMariaDBSocket" class="mt-1 short text-start">
+@@ -105,29 +105,29 @@
+ 
+                     <div class="form-floating mt-3 short">
+                         <input
+-                            id="floatingInput"
++                            id="db-username"
+                             v-model="dbConfig.username"
+                             type="text"
+                             class="form-control"
+                             required
+                         />
+-                        <label for="floatingInput">{{ $t("Username") }}</label>
++                        <label for="db-username">{{ $t("Username") }}</label>
+                     </div>
+ 
+                     <div class="form-floating mt-3 short">
+                         <input
+-                            id="floatingInput"
++                            id="db-password"
+                             v-model="dbConfig.password"
+                             type="password"
+                             class="form-control"
+                             required
+                         />
+-                        <label for="floatingInput">{{ $t("Password") }}</label>
++                        <label for="db-password">{{ $t("Password") }}</label>
+                     </div>
+ 
+                     <div class="form-floating mt-3 short">
+-                        <input id="floatingInput" v-model="dbConfig.dbName" type="text" class="form-control" required />
+-                        <label for="floatingInput">{{ $t("dbName") }}</label>
++                        <input id="db-name" v-model="dbConfig.dbName" type="text" class="form-control" required />
++                        <label for="db-name">{{ $t("dbName") }}</label>
+                     </div>
+ 
+                     <div class="mt-3 short text-start">
+diff --git a/src/pages/StatusPage.vue b/src/pages/StatusPage.vue
+index 178f1bc5..1078ed69 100644
+--- a/src/pages/StatusPage.vue
++++ b/src/pages/StatusPage.vue
+@@ -1,7 +1,7 @@
+ <template>
+     <div v-if="loadedTheme" class="container mt-3">
+         <!-- Sidebar for edit mode -->
+-        <div v-if="enableEditMode" class="sidebar" data-testid="edit-sidebar">
++        <aside v-if="enableEditMode" class="sidebar" data-testid="edit-sidebar" :aria-label="$t('Status page settings')">
+             <div class="sidebar-body">
+                 <div class="my-3">
+                     <label for="slug" class="form-label">{{ $t("Slug") }}</label>
+@@ -204,14 +204,16 @@
+ 
+                 <!-- Custom CSS -->
+                 <div class="my-3">
+-                    <div class="mb-1">{{ $t("Custom CSS") }}</div>
+-                    <prism-editor
++                    <label class="d-block">
++                        <div class="mb-1">{{ $t("Custom CSS") }}</div>
++                        <prism-editor
+                         v-model="config.customCSS"
+                         class="css-editor"
+                         data-testid="custom-css-input"
+                         :highlight="highlighter"
+                         line-numbers
+                     ></prism-editor>
++                    </label>
+                 </div>
+ 
+                 <div class="danger-zone">
+@@ -234,10 +236,10 @@
+                     {{ $t("Discard") }}
+                 </button>
+             </div>
+-        </div>
++        </aside>
+ 
+         <!-- Main Status Page -->
+-        <div :class="{ edit: enableEditMode }" class="main">
++        <main :class="{ edit: enableEditMode }" class="main">
+             <!-- Logo & Title -->
+             <h1 class="mb-4 title-flex">
+                 <!-- Logo -->
+@@ -246,9 +248,10 @@
+                         v-if="editMode"
+                         type="button"
+                         class="p-0 bg-transparent border-0 small-reset-btn reset-top-left"
++                        :aria-label="$t('ariaResetLogo')"
+                         @click.stop="resetToDefaultImage"
+                     >
+-                        <font-awesome-icon icon="times" class="text-danger" />
++                        <font-awesome-icon icon="times" class="text-danger" aria-hidden="true" />
+                     </button>
+                     <img :src="logoURL" alt class="logo me-2" :class="logoClass" />
+                     <font-awesome-icon v-if="enableEditMode" class="icon-upload" icon="upload" />
+@@ -328,7 +331,7 @@
+                     :class="'bg-' + activeIncident.style"
+                     data-testid="incident"
+                 >
+-                    <h4 class="alert-heading" data-testid="incident-title">{{ activeIncident.title }}</h4>
++                    <h2 class="alert-heading fs-4" data-testid="incident-title">{{ activeIncident.title }}</h2>
+                     <!-- eslint-disable vue/no-v-html -->
+                     <div
+                         class="content"
+@@ -418,7 +421,7 @@
+                     class="shadow-box alert mb-4 p-3 bg-maintenance mt-4 position-relative"
+                     role="alert"
+                 >
+-                    <h4 class="alert-heading">{{ maintenance.title }}</h4>
++                    <h2 class="alert-heading fs-4">{{ maintenance.title }}</h2>
+                     <!-- eslint-disable-next-line vue/no-v-html-->
+                     <div class="content" v-html="maintenanceHTML(maintenance.description)"></div>
+                     <MaintenanceTime :maintenance="maintenance" />
+@@ -509,7 +512,7 @@
+                         :key="dateKey"
+                         class="incident-date-group mb-4"
+                     >
+-                        <h4 class="incident-date-header">{{ dateKey }}</h4>
++                        <h2 class="incident-date-header fs-4">{{ dateKey }}</h2>
+                         <div class="shadow-box incident-list-box">
+                             <IncidentHistory
+                                 :incidents="dateGroup"
+@@ -583,7 +586,7 @@
+                     </div>
+                 </div>
+             </footer>
+-        </div>
++        </main>
+ 
+         <Confirm
+             ref="confirmDelete"
+@@ -633,7 +636,7 @@ import {
+     MAINTENANCE,
+ } from "../util.ts";
+ import Tag from "../components/Tag.vue";
+-import VueMultiselect from "vue-multiselect";
++import VueMultiselect from "../components/AccessibleMultiselect.vue";
+ 
+ const toast = useToast();
+ dayjs.extend(duration);
+@@ -1501,7 +1504,11 @@ export default {
+     font-size: 25px;
+ 
+     .ok {
+-        color: $primary;
++        color: $primary-text;
++
++        .dark & {
++            color: $primary;
++        }
+     }
+ 
+     .warning {

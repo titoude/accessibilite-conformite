@@ -1,0 +1,27 @@
+{
+ "statesHash": "b769d38c651543e79e7dddce566a65ea1cc804574bffe3c99b3a2ae5cc6b89ef",
+ "statesRequested": [
+  "all"
+ ],
+ "keys": [
+  "user-menu-dropdown",
+  "monitor-list-filter-status",
+  "monitor-list-filter-tags",
+  "delete-monitor-confirm",
+  "clear-events-confirm",
+  "notification-dialog",
+  "proxy-dialog",
+  "docker-host-dialog",
+  "remote-browser-dialog",
+  "api-key-dialog",
+  "tag-edit-dialog",
+  "twofa-dialog",
+  "monitor-type-docker",
+  "monitor-type-keyword",
+  "status-page-edit",
+  "incident-create",
+  "dark-mode",
+  "mobile-dashboard"
+ ],
+ "note": "18 états, tous exécutés dans baseline-auth, postfix-auth et install-build-auth. Chaque setup attend un sélecteur MONTÉ (SPA : le DOM arrive après connexion socket.io). dark-mode et mobile-dashboard mutent localStorage/viewport et tournent EN DERNIER par construction. La seed fige le temps réel : 3 monitors PAUSÉS (aucun beat), tag/status page/maintenance déterministes — voir tools/seed.mjs et manifest.seed."
+}

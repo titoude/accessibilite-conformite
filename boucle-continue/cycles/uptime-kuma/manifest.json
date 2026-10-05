@@ -1,0 +1,101 @@
+{
+  "cycle": 29,
+  "project": "louislam/uptime-kuma",
+  "commit": "c98982ac60eccb74cdab1d04c30e18057895ce87",
+  "commit_date": "2026-09-16T21:19:51+08:00",
+  "branch_upstream": "master (tag 2.5.5)",
+  "framework": "Vue 3.5 SPA + vite 5.4 (build -> dist/) + socket.io 4.8 realtime + Bootstrap 5.3 + express (server/uptime-kuma-server.js). Le server Node sert dist/index.html MIS EN CACHE AU BOOT (this.indexHTML = fs.readFileSync) : toute reconstruction vite EXIGE un restart du server pour servir le nouveau bundle.",
+  "served_source": "SPA montée côté client : la route change le DOM sans navigation (vue-router en mode history ; les URLs du manifeste sont les chemins, le serveur fallback toujours index.html). Le contenu n'existe qu'après connexion socket.io + fetchs API.",
+  "base_url": "http://localhost:3001",
+  "boot": {
+    "deps": "node via nvm (export NVM_DIR=$HOME/.nvm && source nvm.sh) — npm ci && npm run build (vite -> dist/)",
+    "run": "UPTIME_KUMA_DB_TYPE=sqlite DATA_DIR=$HOME/work/uk-data PORT=3001 npm run start-server (process 'uptime-kuma')",
+    "alternative_docker": "docker run -d -p 3001:3001 -v uptime-kuma:/app/data louislam/uptime-kuma:1 (image officielle — non patchable ; utilisée seulement pour vérifier la parity de boot, pas pour l'audit)",
+    "first_boot_notes": "premier accès = setup wizard obligatoire (création compte admin) : POST /setup-state enregistre le compte puis redirige /login. Sans compte, tout URL redirige vers /setup."
+  },
+  "seed": {
+    "script": "tools/seed.mjs — crée admin admin/Admin12345! via l'API socket.io (le wizard n'accepte que la première création), 3 monitors PAUSÉS (Groupe Production /group, Test HTTP /http, Ping Localhost /ping — actifs:false pour figer les compteurs realtime), 1 tag 'prod' #DC2626, 1 status page slug 'demo', 1 maintenance",
+    "content": "les monitors pausés n'émettent pas de beats : compteurs, durées et badges figés (leçon gatus : baseline flottante sur données qui croissent → états figés + documentés)",
+    "determinism": "les états socket.io poussent des événements (status heartbeat, uptime%) même pausés — les scans portent --wait 400 et les états attendent des sélecteurs MONTÉS ; la durée d'incident/journal peut croître entre runs → occurrences indicatives seulement pour les textes temporels"
+  },
+  "auth": "localStorage 'token' JWT post-login (admin/Admin12345! via tools/login.mjs) — storageState par origine : auth.json pour :3001, auth-3002.json pour :3002 (localStorage non partagé entre ports)",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls_file": "tools/urls-public.txt",
+      "urls": [
+        "http://localhost:3001/dashboard (non authentifié -> redirect /login : formulaire connexion)",
+        "http://localhost:3001/status/demo (status page publique de la seed)"
+      ],
+      "states": []
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json",
+      "urls_file": "tools/urls-auth.txt",
+      "urls": [
+        "/dashboard (liste monitors + barre user)",
+        "/dashboard/1, /dashboard/2, /dashboard/3 (détails monitor group/http/ping de la seed)",
+        "/add (formulaire ajout monitor — type par défaut http)",
+        "/edit/2, /clone/2 (édition/clonage du monitor http)",
+        "/manage-status-page, /add-status-page (gestion status pages)",
+        "/maintenance, /add-maintenance, /maintenance/edit/1 (maintenances)",
+        "/settings/general, appearance, notifications, reverse-proxy, tags, monitor-history, docker-hosts, remote-browsers, security, api-keys, proxies, about (13 sections settings)"
+      ],
+      "states": [
+        "user-menu-dropdown", "monitor-list-filter-status", "monitor-list-filter-tags",
+        "delete-monitor-confirm", "clear-events-confirm",
+        "notification-dialog", "proxy-dialog", "docker-host-dialog", "remote-browser-dialog",
+        "api-key-dialog", "tag-edit-dialog", "twofa-dialog",
+        "monitor-type-docker", "monitor-type-keyword",
+        "status-page-edit", "incident-create",
+        "dark-mode", "mobile-dashboard"
+      ]
+    }
+  ],
+  "excluded": [
+    "/list : dans la baseline (43 scénarios) puis retirée — vue-router redirige /list -> /dashboard, le DOM audité était celui du dashboard post-redirect (couverture doublonnée, pas de contenu propre) — voir scope-compare.json",
+    "/status-page : route absente en 2.5.5 (404 SPA rendue 'NotFound' interne) — retirée des urls public ; les vraies status pages vivent sous /status/<slug>",
+    "API JSON (/api/*, socket.io polling) : non-HTML",
+    "/upload/*, /icon.svg, favicon : assets binaires",
+    "logout : action destructive de session, pas de contenu",
+    "pages nécessitant des ressources externes réelles (notification providers non configurés, proxy docker distant) : les DIALOGS de configuration sont couverts par les états même sans backend joignable",
+    "monitor types autres que http/docker/keyword sur /add : le DOM du formulaire varie peu (même famille de champs) ; 3 types représentatifs audités en état, les ~20 autres partagent les composants (limitation documentée)"
+  ],
+  "auditCommands": [
+    "cd boucle-continue/cycles/uptime-kuma/tools && npm install && npx playwright install chromium",
+    "node login.mjs http://localhost:3001   (regénère auth.json ; auth-3002.json = même procédé sur :3002)",
+    "node audit.mjs http://localhost:3001 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait 400 --out ../reports/baseline-public",
+    "node audit.mjs http://localhost:3001 --urls \"$(paste -sd, urls-auth.txt)\" --states all --storage-state auth.json --wait 400 --keep-hash --out ../reports/baseline-auth",
+    "node audit.mjs http://localhost:3001 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait 400 --out ../reports/postfix-public",
+    "node audit.mjs http://localhost:3001 --urls \"$(paste -sd, urls-auth.txt)\" --states all --storage-state auth.json --wait 400 --keep-hash --out ../reports/postfix-auth",
+    "node audit.mjs http://localhost:3002 --urls \"$(paste -sd, urls-auth.txt)\" --states all --storage-state auth-3002.json --wait 400 --keep-hash --out ../reports/install-build-auth",
+    "node audit.mjs http://localhost:3002 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait 400 --out ../reports/install-build-public",
+    "node verify.mjs http://localhost:3001 auth.json   (22 assertions DURES ; rejoué aussi sur :3002/auth-3002.json)",
+    "node eval-final.mjs http://localhost:3001 auth.json   (13 contrôles indépendants ; rejoué aussi sur :3002)",
+    "node incomplete-probes.mjs http://localhost:3001 auth.json > ../reports/incomplete-probes.json  (7 sondes)"
+  ],
+  "wait_rationale": "SPA realtime socket.io : DOM monté après connexion — chaque état attend son sélecteur (pas d'attente aveugle). --wait 400 = sédimentation des transitions .slide-fade (0.2s opacity) qui causaient des flags color-contrast transitoires mid-fade (vérifié : des incomplets disparaissaient au rescan suivant). Les compteurs realtime sont figés par la seed (monitors pausés).",
+  "toolVersions": {
+    "node": "v24.19.0",
+    "playwright": "^1.55 (npm i du cycle)",
+    "axe-core": "^4.10 (npm i du cycle)",
+    "audit.mjs": "copie canonique racine + STATES uptime-kuma (18 états)",
+    "vite": "5.4.x (uptime-kuma 2.5.5)",
+    "vue": "3.5.x",
+    "bootstrap": "5.3.x"
+  },
+  "notes": [
+    "PIÈGE SERVEUR VÉRIFIÉ : uptime-kuma-server.js cache dist/index.html au boot — après `npm run build` le server sert l'ANCIEN bundle jusqu'au restart. Découvert 2 fois (fixes invisibles au rescan). Rituel : build -> kill 'uptime-kuma' -> start-server -> vérifier le hash index-*.js servi == dist/index.html",
+    "viewport 1280x720 runner ; état mobile-dashboard à 390x844",
+    "auth localStorage est PER-ORIGINE : le rejeu install-build :3002 exige son propre storageState (auth-3002.json regénéré via login.mjs)",
+    "ordre des états volontaire : dark-mode et mobile-dashboard (mutations localStorage/viewport) en dernier",
+    "install-build : clone propre @c98982ac + git apply patch.diff (0 rejet, 71 fichiers) + npm ci + npm run build -> index-BBXzlFvr.js OCTET-IDENTIQUE au clone de travail (build vite déterministe) + boot :3002 + rescan : 0 violation, 61 incomplets identiques",
+    "les 61 incomplets restants sont TOUS des color-contrast où axe ne peut pas déterminer l'arrière-plan : 48 'element contains an image node' (icônes FA à l'intérieur du texte, flèche SVG native des <select class=form-select>), 12 'unable to determine ratio' (racines vue-multiselect sans texte propre — le texte vit dans les enfants), 1 'content too short' (.num.text-secondary compteur ~vide) — les 7 sondes manuelles (recomputing WCAG, composition de TOUTES les couches bg) mesurent 4.69 à 21.00 : aucune violation cachée (reports/incomplete-probes.json)",
+    "correctifs sources dans src/ (Vue + scss) : patch.diff transporte UNIQUEMENT les sources — dist/ n'est pas commité upstream, le rejeu rebuild via npm run build (prouvé déterministe)",
+    "leçon appliquée : AccessibleMultiselect.vue (nouveau wrapper) injecte un :id unique par instance (vue-multiselect id=null par défaut -> aria-owns='listbox-null' dupliqué ×N) + MutationObserver qui resynchronise aria-expanded/aria-controls/tabindex du tag-icon — corrigé dans la source, pas dans le runner",
+    "Confirm.vue : Bootstrap Modal ne restaure PAS le focus au trigger — capture de document.activeElement sur show.bs.modal + restauration sur hidden.bs.modal (eval-final mesurait focus=BODY post-fermeture : bug produit réel corrigé)",
+    "les modales Bootstrap reçoivent role=dialog + aria-modal=true + aria-labelledby vers un id unique par instance (titreId uuid) — 14 dialogs corrigés"
+  ]
+}
