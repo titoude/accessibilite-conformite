@@ -1,0 +1,20 @@
+import { createRequire } from 'node:module';
+import { resolve } from 'node:path';
+import { writeFileSync } from 'node:fs';
+const require = createRequire(resolve(process.cwd(), 'package.json'));
+const { chromium } = require('playwright');
+const b = await chromium.launch();
+const page = await b.newPage();
+await page.goto('http://localhost:8080/signup', { waitUntil: 'load' });
+await page.waitForSelector('#form_item_email', { timeout: 20000 });
+await page.fill('#form_item_email', 'a11y-worker@example.com');
+await page.fill('#form_item_password', 'Worker-Pass-30!');
+await page.click('button[type=submit]');
+await page.waitForTimeout(8000);
+console.log('URL après signup:', page.url());
+console.log((await page.evaluate(() => document.body.innerText.slice(0, 800))));
+// storage state
+const state = await page.context().storageState();
+writeFileSync('auth.json', JSON.stringify(state, null, 2));
+console.log('auth.json écrit — cookies:', state.cookies.map(c => c.name).join(', '), '| localStorage origins:', state.origins.length);
+await b.close();

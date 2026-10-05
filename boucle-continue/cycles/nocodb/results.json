@@ -1,0 +1,143 @@
+{
+ "cycle": 30,
+ "produit": "nocodb",
+ "statut_execution": "complet",
+ "baseline": {
+  "surfaces": 20,
+  "etats": 10,
+  "public": { "violations_occ": 48, "violations_regles": 10, "incomplets": 7 },
+  "auth": { "violations_occ": 347, "violations_regles": 20, "incomplets": 14 },
+  "total_occ": 395,
+  "total_regles": 20,
+  "detail": {
+   "button-name": 183,
+   "color-contrast": 59,
+   "html-has-lang": 31,
+   "region": 27,
+   "image-alt": 22,
+   "page-has-heading-one": 12,
+   "landmark-main-is-top-level": 9,
+   "label": 10,
+   "aria-required-children": 7,
+   "landmark-no-duplicate-main": 6,
+   "landmark-unique": 6,
+   "aria-valid-attr-value": 4,
+   "heading-order": 3,
+   "scrollable-region-focusable": 3,
+   "aria-dialog-name": 3,
+   "aria-required-parent": 3,
+   "aria-input-field-name": 2,
+   "aria-required-attr": 2,
+   "aria-allowed-attr": 2,
+   "empty-table-header": 1
+  }
+ },
+ "final": {
+  "surfaces": 20,
+  "etats": 10,
+  "public": { "violations_occ": 0, "violations_regles": 0, "erreurs": 0, "incomplets": 5 },
+  "auth": { "violations_occ": 0, "violations_regles": 0, "erreurs": 0, "incomplets": 7 },
+  "verify_mjs": "43/43 assertions",
+  "eval_final_mjs": "26/26 contrôles indépendants (A-K, état froid)"
+ },
+ "final_clean_clone": {
+  "violations_occ": 0,
+  "incomplets": 12,
+  "note": "patch.diff appliqué sur worktree propre @00ab4886 (0 rejet) + sdk workspace build + pnpm install --frozen-lockfile + nuxt generate + conteneur frais :8082 reseedé → rescan auth 0v/7inc/0err + public 0v/5inc/0err (install-build.log, reports/install-build-auth|install-build-public/)"
+ },
+ "install_build": "OK avec note — pnpm install --frozen-lockfile exige les deps workspace compilées avant (postinstall nuxt prepare importe nocodb-sdk) : `pnpm --filter=nocodb-sdk --filter=nocodb-sdk-v2 run build` puis re-install ; ordre bootstrap normal du repo, détaillé dans install-build.log",
+ "causes_racines": [
+  {
+   "famille": "button-name (183 occ)",
+   "files": [
+    "components/cell/*/index.vue + Editor.vue (wrappers label → boutons icône nommés)",
+    "components/nc/Select.vue, PaginationV2.vue (icônes expand/navigation)",
+    "components/dashboard/Sidebar|TreeView|topbar (boutons icône)",
+    ".patches/ant-design-vue@3.2.20.patch (vc-select clear/expand, vc-tooltip déclencheurs)"
+   ]
+  },
+  {
+   "famille": "landmarks + h1 (region 27, landmark-* 21, page-has-heading-one 12)",
+   "files": [
+    "layouts/{default,base,shared-view}.vue (a-layout→divs, bannière unique, mains non imbriqués)",
+    "layouts/default.vue (h1 sr-only de repli) + composables/usePageH1.ts + components/nc/PageHeader.vue (suppression du double h1 sur pages à NcPageHeader)",
+    "app.vue"
+   ]
+  },
+  {
+   "famille": "html-has-lang (31 occ)",
+   "files": ["app.vue (useHead htmlAttrs lang)"]
+  },
+  {
+   "famille": "menus/dropdowns ARIA (aria-required-children, -parent, allowed-attr, valid-attr-value)",
+   "files": [
+    "components/nc/Menu/{index,Item}.vue (markNonItemChildren : skip role/li/focusable avant role=none)",
+    "components/dashboard/Sidebar/{UserInfo,UserInfoMenu,EEMenuOption}.vue + topbar/UserInfo.vue (a[role=menuitem], trigger role=button+aria-expanded/haspopup+clavier)",
+    "components/dashboard/TreeView/Project/CreateNewMenu.vue (combo div au lieu de li[role=group])",
+    "pages/account|admin, MiniSidebar/CreateNewActionMenu"
+   ]
+  },
+  {
+   "famille": "color-contrast (59 occ)",
+   "files": [
+    "utils/colorsUtils.ts (remap tokens themeVariables.content : brand[500]→brand[600], gray[400]→gray[500])",
+    "assets/css/{variables.css,theme-overrides.scss,global.css,ant-design-components/ant-form.scss}",
+    "components/dashboard/HomeSidebar/index.vue (badge count), sidebar Node titles"
+   ]
+  },
+  {
+   "famille": "champs sans nom (label 10, aria-input-field-name 2)",
+   "files": [
+    "components/smartsheet/Form.vue (textarea titre de form :aria-label)",
+    "components/cell/*/Editor.vue, roles/SelectorV2.vue, project/AccessSettings.vue, dlg/share-and-collaborate/View.vue"
+   ]
+  },
+  {
+   "famille": "dialogs (aria-dialog-name 3)",
+   "files": [".patches/ant-design-vue@3.2.20.patch (vc-dialog aria-label + sentinelles focus-trap sans aria-hidden)", "components/nc/Modal.vue"]
+  },
+  {
+   "famille": "tables (empty-table-header, structure th/cells)",
+   "files": ["components/nc/Table.vue (tables split header/body fusionnées : wrapper role=table, 2 role=rowgroup, th→columnheader, td→cell, extraRow wrappé en td[colspan])", "components/account/UserList.vue, workspace/CollaboratorsList.vue, settings/DataSources.vue (ariaLabel prop)"]
+  },
+  {
+   "famille": "image-alt (22 occ)",
+   "files": ["components/feed/Recents/Card.vue (img :alt)", "listes admin/account (avatars)", "général icons décoratifs → aria-hidden"]
+  },
+  {
+   "famille": "heading-order (3 occ)",
+   "files": ["components/feed/Recents/Card.vue (plugin rehype demoteHeadingsToH3 sur le markdown + h2 sr-only)"]
+  },
+  {
+   "famille": "scrollable-region-focusable (3 occ)",
+   "files": ["components/smartsheet/KanbanOptimized.vue (régions colonnes focusables)"]
+  },
+  {
+   "famille": "ids dupliqués SVG (détecté via eval-final, hors axe)",
+   "files": ["utils/iconUtils.ts scopeSvgIds (suffixe par <svg> les id de defs + réécrit url(#)/href)", "components/general/Icon.vue (onMounted scope sur $el)", "components/feed/{Social,Recents/Card}.vue (wrappers scopés)"]
+  }
+ ],
+ "incomplets_decisions": {
+  "public (5)": "scaling-btn SIGN IN/SIGN UP/SEND EMAIL : composite alpha ::before+gradient → 4.68 mesuré (voir reports/final/public/incomplete-probes.json)",
+  "auth (7)": "th-has-data-cells ×3 : tables NcTable split — fusion ARIA vérifiée (wrap role=table, body soeur siblingRows>0, th=columnheader) ; contrastes : nc-tbl-title 1.42 occulté par overlay menu ouvert (state create-new-menu — non actionnable, texte couvert par définition), Try NocoDB Cloud 4.87, Version tooltip 7.78, user-menu email 4.87 — tous ≥4.5 ou masqués par état transitoire (incomplete-probes.json)",
+  "outil": "tools/incomplete-probes.mjs rejoue chaque noeud du report live avec composite alpha (jamais rgba<1 opaque)"
+ },
+ "surprises": [
+  "image docker : le SPA est servi statiquement ; patcher = rebuild nuxt generate + docker cp dans un conteneur frais (index.html ← 200.html)",
+  "enum ViewTypes inversé vs doc publique : FORM=1 GALLERY=2 GRID=3 KANBAN=4",
+  "antd lazy-mount : clic réel dispatchEvent requis pour monter les dropdowns (leçon protocole confirmée)",
+  "vc-dialog rend 2 sentinelles tabindex=0 aria-hidden → presentation/conflict retiré dans le pnpm patch",
+  "usePageH1 : le layout doit céder son h1 de repli quand NcPageHeader fournit le sien (route-scoped useState)",
+  "onboarding gate is_new_user redirige tout — PATCH /api/v1/user/profile pour débloquer un compte frais",
+  "storage-state lié au port (rewrite origins pour :8081)",
+  "--urls ne splitte que sur virgules — cat file produit une méga-URL (brûlé une fois)"
+ ],
+ "points_chauds_auditeur": [
+  "tables split NcTable : la structure ARIA fusionnée est intentionnelle — axe ne voit pas à travers les éléments <table> DOM ; la sonde montre wrap role=table + 2 rowgroups + siblingRows>0",
+  "nc-tbl-title 1.42 : contraste mesuré sur titre COUVERT par le menu ouvert (state) — vérifier que la lecture axe incomplete est bien 'element obscured' et non un vrai échec",
+  "scopeSvgIds : suffixe déterministe -nci<N> ; vérifier qu'aucun url(#) ne pointe vers un id non suffixé (live : search '[id]' vs url(#X) orphelines)",
+  "page /wd10yk1f/members auditée en baseline, absente du final (route renommée ?settings=members + /settings/members) — comparer par path",
+  "install-build : l'échec initial de pnpm install (sdk non buildé) est dans le log — c'est l'ordre bootstrap normal, pas un défaut du patch"
+ ],
+ "verdict": "PAS de verdict auto : l'auditeur indépendant rejoue et tranche."
+}

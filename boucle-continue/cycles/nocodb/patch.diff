@@ -1,0 +1,3304 @@
+diff --git a/packages/nc-gui/.patches/ant-design-vue@3.2.20.patch b/packages/nc-gui/.patches/ant-design-vue@3.2.20.patch
+index 81a2987..73bb5b0 100644
+--- a/packages/nc-gui/.patches/ant-design-vue@3.2.20.patch
++++ b/packages/nc-gui/.patches/ant-design-vue@3.2.20.patch
+@@ -11,6 +11,44 @@ index b82d75140e62213973551b10a852a2ce194f3e83..c2c00a079518d3ded4f89cd831b63fd1
+              instance.update();
+            }
+          });
++diff --git a/es/menu/src/SubMenu.js b/es/menu/src/SubMenu.js
++index 08f7723459a9b09a3671687cf644c1b52d75110b..3e5e02c01caecd1beb2cbadc791e2c06b4901f33 100644
++--- a/es/menu/src/SubMenu.js
+++++ b/es/menu/src/SubMenu.js
++@@ -222,9 +222,10 @@ export default defineComponent({
++         "ref": elementRef,
++         "title": typeof title === 'string' ? title : null,
++         "data-menu-id": key,
+++        "role": "menuitem",
++         "aria-expanded": open.value,
++         "aria-haspopup": true,
++-        "aria-controls": popupId,
+++        "aria-controls": open.value ? popupId : null,
++         "aria-disabled": mergedDisabled.value,
++         "onClick": onInternalTitleClick,
++         "onFocus": onInternalFocus
++diff --git a/es/vc-dialog/Content.js b/es/vc-dialog/Content.js
++index 41bca9500a45c7d1453796e24f51b184a5586ef3..5b5003f7721398821928b2a7f6b41bbfaf5b1d21 100644
++--- a/es/vc-dialog/Content.js
+++++ b/es/vc-dialog/Content.js
++@@ -147,15 +147,13 @@ export default defineComponent({
++           }), [_createVNode("div", {
++             "tabindex": 0,
++             "ref": sentinelStartRef,
++-            "style": sentinelStyle,
++-            "aria-hidden": "true"
+++            "style": sentinelStyle
++           }, null), modalRender ? modalRender({
++             originVNode: content
++           }) : content, _createVNode("div", {
++             "tabindex": 0,
++             "ref": sentinelEndRef,
++-            "style": sentinelStyle,
++-            "aria-hidden": "true"
+++            "style": sentinelStyle
++           }, null)]), [[_vShow, visible]]) : null];
++         }
++       });
+ diff --git a/es/vc-select/OptionList.js b/es/vc-select/OptionList.js
+ index a93021fd63f8c5aeda5e9486952f72d3695de18c..f35ac48f5590c8801b6a15615e4836548d075956 100644
+ --- a/es/vc-select/OptionList.js
+@@ -28,6 +66,77 @@ index a93021fd63f8c5aeda5e9486952f72d3695de18c..f35ac48f5590c8801b6a15615e483654
+                event.stopPropagation();
+              }
+            }
++diff --git a/es/vc-select/Selector/Input.js b/es/vc-select/Selector/Input.js
++index c9fef2c54f25d2ac0c6a291a9e9f27e7e114e3e3..4f85047c35ad1f53343c3b96eb73a34aff4d1c01 100644
++--- a/es/vc-select/Selector/Input.js
+++++ b/es/vc-select/Selector/Input.js
++@@ -112,12 +112,12 @@ var Input = defineComponent({
++         autofocus: autofocus,
++         class: classNames("".concat(prefixCls, "-selection-search-input"), (_inputNode = inputNode) === null || _inputNode === void 0 ? void 0 : (_inputNode$props = _inputNode.props) === null || _inputNode$props === void 0 ? void 0 : _inputNode$props.class),
++         role: 'combobox',
++-        'aria-expanded': open,
+++        'aria-expanded': open ? 'true' : 'false',
++         'aria-haspopup': 'listbox',
++-        'aria-owns': "".concat(id, "_list"),
+++        'aria-owns': open ? "".concat(id, "_list") : null,
++         'aria-autocomplete': 'list',
++-        'aria-controls': "".concat(id, "_list"),
++-        'aria-activedescendant': activeDescendantId
+++        'aria-controls': open ? "".concat(id, "_list") : null,
+++        'aria-activedescendant': open ? activeDescendantId : null
++       }, attrs), {}, {
++         value: editable ? value : '',
++         readonly: !editable,
++diff --git a/es/vc-tooltip/src/Content.js b/es/vc-tooltip/src/Content.js
++index 0dd176f73d3638e06ae0b5275d70db9a96a09992..88a7a0739782b1d8be6f3c28504e72b4e4517886 100644
++--- a/es/vc-tooltip/src/Content.js
+++++ b/es/vc-tooltip/src/Content.js
++@@ -21,6 +21,7 @@ export default defineComponent({
++         "class": "".concat(props.prefixCls, "-inner"),
++         "id": props.id,
++         "role": "tooltip",
+++        "aria-live": "polite",
++         "style": props.overlayInnerStyle
++       }, [(_slots$overlay = slots.overlay) === null || _slots$overlay === void 0 ? void 0 : _slots$overlay.call(slots)]);
++     };
++diff --git a/lib/menu/src/SubMenu.js b/lib/menu/src/SubMenu.js
++index aa66a65aae02e723496e734d260ccb3449810834..f2d335fa9c65ad3bbb957647ef31715f2c3d4685 100644
++--- a/lib/menu/src/SubMenu.js
+++++ b/lib/menu/src/SubMenu.js
++@@ -232,9 +232,10 @@ var _default2 = (0, _vue.defineComponent)({
++         "ref": elementRef,
++         "title": typeof title === 'string' ? title : null,
++         "data-menu-id": key,
+++        "role": "menuitem",
++         "aria-expanded": open.value,
++         "aria-haspopup": true,
++-        "aria-controls": popupId,
+++        "aria-controls": open.value ? popupId : null,
++         "aria-disabled": mergedDisabled.value,
++         "onClick": onInternalTitleClick,
++         "onFocus": onInternalFocus
++diff --git a/lib/vc-dialog/Content.js b/lib/vc-dialog/Content.js
++index e7d30f46466fe65d3887cf770f7d3f96f43fe799..9a9fc9db6a8f443d38b269921b2dbfb59bfd2007 100644
++--- a/lib/vc-dialog/Content.js
+++++ b/lib/vc-dialog/Content.js
++@@ -156,15 +156,13 @@ var _default2 = (0, _vue.defineComponent)({
++           }), [(0, _vue.createVNode)("div", {
++             "tabindex": 0,
++             "ref": sentinelStartRef,
++-            "style": sentinelStyle,
++-            "aria-hidden": "true"
+++            "style": sentinelStyle
++           }, null), modalRender ? modalRender({
++             originVNode: content
++           }) : content, (0, _vue.createVNode)("div", {
++             "tabindex": 0,
++             "ref": sentinelEndRef,
++-            "style": sentinelStyle,
++-            "aria-hidden": "true"
+++            "style": sentinelStyle
++           }, null)]), [[_vue.vShow, visible]]) : null];
++         }
++       });
+ diff --git a/lib/vc-select/OptionList.js b/lib/vc-select/OptionList.js
+ index 067cf56330322759fcd481e0a8b33537a050e162..f2e81a179533cda3ef97151a2b78250ef952821a 100644
+ --- a/lib/vc-select/OptionList.js
+@@ -45,3 +154,36 @@ index 067cf56330322759fcd481e0a8b33537a050e162..f2e81a179533cda3ef97151a2b78250e
+                event.stopPropagation();
+              }
+            }
++diff --git a/lib/vc-select/Selector/Input.js b/lib/vc-select/Selector/Input.js
++index 620c9d16fdff25af0879e5174856cdaad0cfea94..8660296a4635d21fe34bb1eb5fb4d2f627f3a324 100644
++--- a/lib/vc-select/Selector/Input.js
+++++ b/lib/vc-select/Selector/Input.js
++@@ -119,12 +119,12 @@ var Input = (0, _vue.defineComponent)({
++         autofocus: autofocus,
++         class: (0, _classNames.default)("".concat(prefixCls, "-selection-search-input"), (_inputNode = inputNode) === null || _inputNode === void 0 ? void 0 : (_inputNode$props = _inputNode.props) === null || _inputNode$props === void 0 ? void 0 : _inputNode$props.class),
++         role: 'combobox',
++-        'aria-expanded': open,
+++        'aria-expanded': open ? 'true' : 'false',
++         'aria-haspopup': 'listbox',
++-        'aria-owns': "".concat(id, "_list"),
+++        'aria-owns': open ? "".concat(id, "_list") : null,
++         'aria-autocomplete': 'list',
++-        'aria-controls': "".concat(id, "_list"),
++-        'aria-activedescendant': activeDescendantId
+++        'aria-controls': open ? "".concat(id, "_list") : null,
+++        'aria-activedescendant': open ? activeDescendantId : null
++       }, attrs), {}, {
++         value: editable ? value : '',
++         readonly: !editable,
++diff --git a/lib/vc-tooltip/src/Content.js b/lib/vc-tooltip/src/Content.js
++index 7a81c6ff204b7bf9f7cf5e40f145d1fb99b6884d..64c15de98194ed524abcf077b147e697e2725ee5 100644
++--- a/lib/vc-tooltip/src/Content.js
+++++ b/lib/vc-tooltip/src/Content.js
++@@ -27,6 +27,7 @@ var _default = (0, _vue.defineComponent)({
++         "class": "".concat(props.prefixCls, "-inner"),
++         "id": props.id,
++         "role": "tooltip",
+++        "aria-live": "polite",
++         "style": props.overlayInnerStyle
++       }, [(_slots$overlay = slots.overlay) === null || _slots$overlay === void 0 ? void 0 : _slots$overlay.call(slots)]);
++     };
+diff --git a/packages/nc-gui/app.vue b/packages/nc-gui/app.vue
+index 10cc7fd..a0c2093 100644
+--- a/packages/nc-gui/app.vue
++++ b/packages/nc-gui/app.vue
+@@ -5,6 +5,16 @@ const router = useRouter()
+ 
+ useUpdateChecker()
+ 
++// Advertise the document language to assistive tech. `lang` must exist
++// before first paint; sync it with the active i18n locale afterwards.
++const { locale } = useI18n()
++
++useHead(() => ({
++  htmlAttrs: {
++    lang: locale.value || 'en',
++  },
++}))
++
+ const route = router.currentRoute
+ 
+ // Shared/public pages route external link clicks through the /leaving interstitial.
+diff --git a/packages/nc-gui/assets/css/global.css b/packages/nc-gui/assets/css/global.css
+index 11946cc..9bce178 100644
+--- a/packages/nc-gui/assets/css/global.css
++++ b/packages/nc-gui/assets/css/global.css
+@@ -40,3 +40,17 @@ For Drag and Drop
+ .flex.hidden {
+   display: none;
+ }
++
++/*
++WCAG AA: EE plan badges ship inline text colours under 4.5:1 on their tinted
++backgrounds (Business #C44DA0 on #FFF0FB = 3.89:1, Scale #5B5DEF on #EEEFEFD =
++4.32:1). The badge component itself is not in this tree, so the fix lands by
++class against those same tint backgrounds.
++*/
++.nc-upgrade-badge.Business-badge {
++  color: #a7357e !important; /* 5.53:1 on #FFF0FB */
++}
++
++.nc-upgrade-badge.Scale-badge {
++  color: #4b4fd6 !important; /* 5.43:1 on #EEEFEFD */
++}
+diff --git a/packages/nc-gui/assets/css/theme-overrides.scss b/packages/nc-gui/assets/css/theme-overrides.scss
+index b8c6aaa..ab0ca0a 100644
+--- a/packages/nc-gui/assets/css/theme-overrides.scss
++++ b/packages/nc-gui/assets/css/theme-overrides.scss
+@@ -132,6 +132,12 @@ body {
+   @apply text-nc-content-gray-muted;
+ }
+ 
++// WCAG AA: antd's default error red (#ff4d4f on white = 3.26:1) is below 4.5:1.
++// The two-class selector must outrank antd's route-chunked component styles.
++.ant-form-item .ant-form-item-explain-error {
++  color: var(--nc-content-red-dark, #a8071a);
++}
++
+ // ant tabs
+ .ant-tabs-tab-btn:active,
+ .ant-tabs-tab-btn:focus,
+diff --git a/packages/nc-gui/assets/css/variables.css b/packages/nc-gui/assets/css/variables.css
+index c80791d..8a13f96 100644
+--- a/packages/nc-gui/assets/css/variables.css
++++ b/packages/nc-gui/assets/css/variables.css
+@@ -927,9 +927,13 @@
+   --nc-content-gray-subtle: var(--color-gray-700);
+   --nc-content-gray-subtle2: var(--color-gray-600);
+   --nc-content-gray-muted: var(--color-gray-500);
+-  --nc-content-gray-disabled: var(--color-gray-400);
++  /* AA: gray-400 is below 4.5:1 on white — disabled text still needs it.
++     light: #6a7184 (4.9:1) / dark: #989ca5 (6:1) */
++  --nc-content-gray-disabled: var(--color-gray-500);
+ 
+-  --nc-content-brand: var(--color-brand-500);
++  /* AA: brand-500 (#3366ff) is 4.2:1 on brand-50 tint; brand-600 keeps the
++     brand hue at >=6:1 on white and tint backgrounds (dark theme unaffected). */
++  --nc-content-brand: var(--color-brand-600);
+   --nc-content-brand-hover: var(--color-gray-300);
+   --nc-content-brand-disabled: var(--color-brand-600);
+ 
+diff --git a/packages/nc-gui/components.d.ts b/packages/nc-gui/components.d.ts
+index f8716fe..47482ed 100644
+--- a/packages/nc-gui/components.d.ts
++++ b/packages/nc-gui/components.d.ts
+@@ -33,8 +33,6 @@ declare module 'vue' {
+     AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
+     AInputSearch: typeof import('ant-design-vue/es')['InputSearch']
+     ALayout: typeof import('ant-design-vue/es')['Layout']
+-    ALayoutContent: typeof import('ant-design-vue/es')['LayoutContent']
+-    ALayoutFooter: typeof import('ant-design-vue/es')['LayoutFooter']
+     ALayoutHeader: typeof import('ant-design-vue/es')['LayoutHeader']
+     ALayoutSider: typeof import('ant-design-vue/es')['LayoutSider']
+     AList: typeof import('ant-design-vue/es')['List']
+@@ -74,8 +72,6 @@ declare module 'vue' {
+     MaterialSymbolsCloseRounded: typeof import('~icons/material-symbols/close-rounded')['default']
+     MaterialSymbolsDeleteOutlineRounded: typeof import('~icons/material-symbols/delete-outline-rounded')['default']
+     MaterialSymbolsKeyboardArrowDownRounded: typeof import('~icons/material-symbols/keyboard-arrow-down-rounded')['default']
+-    MaterialSymbolsLockOutline: typeof import('~icons/material-symbols/lock-outline')['default']
+-    MaterialSymbolsPublic: typeof import('~icons/material-symbols/public')['default']
+     MaterialSymbolsRocketLaunchOutline: typeof import('~icons/material-symbols/rocket-launch-outline')['default']
+     MaterialSymbolsTranslate: typeof import('~icons/material-symbols/translate')['default']
+     MaterialSymbolsWarning: typeof import('~icons/material-symbols/warning')['default']
+diff --git a/packages/nc-gui/components/account/Token.vue b/packages/nc-gui/components/account/Token.vue
+index 77c3035..bbbc29c 100644
+--- a/packages/nc-gui/components/account/Token.vue
++++ b/packages/nc-gui/components/account/Token.vue
+@@ -216,7 +216,7 @@ const onCreateCancel = () => {
+         <!-- Account page keeps its own heading; in the shell the header band names the pane. -->
+         <template v-if="!lockedBaseId">
+           <div class="flex gap-4 items-baseline justify-between">
+-            <h6 class="text-xl text-left font-bold my-0 text-nc-content-gray" data-rec="true">{{ $t('title.apiTokens') }}</h6>
++            <h2 class="text-xl text-left font-bold my-0 text-nc-content-gray" data-rec="true">{{ $t('title.apiTokens') }}</h2>
+             <NcButton
+               class="!rounded-md"
+               data-testid="nc-token-create"
+diff --git a/packages/nc-gui/components/account/UserList.vue b/packages/nc-gui/components/account/UserList.vue
+index ff5e5c7..37fe4d3 100644
+--- a/packages/nc-gui/components/account/UserList.vue
++++ b/packages/nc-gui/components/account/UserList.vue
+@@ -412,6 +412,7 @@ const columns = computed(() => {
+                   </template>
+                   <button
+                     v-e="['c:admin:user:billable-detail']"
++                    :aria-label="showBillableLabel ? $t('tooltip.paidUserBadgeTooltip') : $t('msg.info.editorSeatExplainer')"
+                     class="nc-billable-badge flex items-center border-none p-0 bg-transparent cursor-pointer"
+                     data-testid="nc-billable-badge"
+                     @click="openSeatDetail(el)"
+@@ -438,7 +439,7 @@ const columns = computed(() => {
+               </div>
+               <div v-if="column.key === 'action'" class="flex items-center gap-2">
+                 <NcDropdown :trigger="['click']" placement="bottomRight">
+-                  <NcButton size="xsmall" type="ghost">
++                  <NcButton size="xsmall" type="ghost" :aria-label="`${el.email || el.display_name || ''} ${$t('labels.actions').toLowerCase()}`">
+                     <MdiDotsVertical
+                       class="text-nc-content-gray-subtle2 h-5.5 w-5.5 rounded outline-0 p-0.5 nc-workspace-menu transform transition-transform !text-gray-400 cursor-pointer hover:(!text-nc-content-inverted-secondary-disabled bg-nc-bg-gray-light)"
+                     />
+@@ -502,7 +503,7 @@ const columns = computed(() => {
+                 <div class="text-sm text-nc-content-gray-subtle">
+                   {{ $t('placeholder.inviteYourTeamLabel') }}
+                 </div>
+-                <img src="~assets/img/placeholder/invite-team.png" class="!w-[30rem] flex-none" />
++                <img src="~assets/img/placeholder/invite-team.png" :alt="$t('activity.inviteTeam')" class="!w-[30rem] flex-none" />
+               </div>
+             </template>
+ 
+diff --git a/packages/nc-gui/components/cell/Colour/Editor.vue b/packages/nc-gui/components/cell/Colour/Editor.vue
+index b4a2b7d..7ef7f5e 100644
+--- a/packages/nc-gui/components/cell/Colour/Editor.vue
++++ b/packages/nc-gui/components/cell/Colour/Editor.vue
+@@ -123,6 +123,7 @@ watch(isOpen, (open) => {
+ 
+     <!-- Editable text input for manual hex entry -->
+     <input
++      :aria-label="column?.title"
+       v-if="showHex"
+       :value="props.modelValue || ''"
+       :disabled="readOnly"
+diff --git a/packages/nc-gui/components/cell/Currency/Editor.vue b/packages/nc-gui/components/cell/Currency/Editor.vue
+index 5968494..fc66598 100644
+--- a/packages/nc-gui/components/cell/Currency/Editor.vue
++++ b/packages/nc-gui/components/cell/Currency/Editor.vue
+@@ -138,6 +138,7 @@ onMounted(() => {
+   </div>
+   <!-- eslint-disable vue/use-v-on-exact -->
+   <input
++    :aria-label="column?.title"
+     v-if="inputType === 'number'"
+     :ref="focus"
+     v-model="vModel"
+@@ -160,6 +161,7 @@ onMounted(() => {
+     @contextmenu.stop
+   />
+   <input
++    :aria-label="column?.title"
+     v-else
+     :ref="focus"
+     :value="currency"
+diff --git a/packages/nc-gui/components/cell/Currency/index.vue b/packages/nc-gui/components/cell/Currency/index.vue
+index 0da472b..5b24342 100644
+--- a/packages/nc-gui/components/cell/Currency/index.vue
++++ b/packages/nc-gui/components/cell/Currency/index.vue
+@@ -145,6 +145,7 @@ const showInputField = computed(
+   </div>
+   <!-- eslint-disable vue/use-v-on-exact -->
+   <input
++    :aria-label="column?.title"
+     v-if="showInputField && inputType === 'number'"
+     :ref="focus"
+     v-model="vModel"
+@@ -167,6 +168,7 @@ const showInputField = computed(
+     @contextmenu.stop
+   />
+   <input
++    :aria-label="column?.title"
+     v-else-if="showInputField"
+     :ref="focus"
+     :value="currency"
+diff --git a/packages/nc-gui/components/cell/Date/Editor.vue b/packages/nc-gui/components/cell/Date/Editor.vue
+index 8673236..2445159 100644
+--- a/packages/nc-gui/components/cell/Date/Editor.vue
++++ b/packages/nc-gui/components/cell/Date/Editor.vue
+@@ -390,6 +390,7 @@ onMounted(() => {
+       class="nc-date-picker h-full flex items-center justify-between ant-picker-input relative"
+     >
+       <input
++        :aria-label="columnMeta?.title"
+         v-if="!rawReadOnly"
+         ref="datePickerRef"
+         type="text"
+diff --git a/packages/nc-gui/components/cell/Date/index.vue b/packages/nc-gui/components/cell/Date/index.vue
+index cfa446a..fa867cd 100644
+--- a/packages/nc-gui/components/cell/Date/index.vue
++++ b/packages/nc-gui/components/cell/Date/index.vue
+@@ -346,6 +346,7 @@ const currentDate = ($event) => {
+       class="nc-date-picker h-full flex items-center justify-between ant-picker-input relative"
+     >
+       <input
++        :aria-label="columnMeta?.title"
+         v-if="!rawReadOnly"
+         ref="datePickerRef"
+         type="text"
+diff --git a/packages/nc-gui/components/cell/DateTime/Editor.vue b/packages/nc-gui/components/cell/DateTime/Editor.vue
+index 3ac2809..39eca9c 100644
+--- a/packages/nc-gui/components/cell/DateTime/Editor.vue
++++ b/packages/nc-gui/components/cell/DateTime/Editor.vue
+@@ -538,6 +538,7 @@ const minimizeMaxWidth = computed(() => {
+           }"
+         >
+           <input
++            :aria-label="column?.title"
+             v-if="!rawReadOnly"
+             ref="datePickerRef"
+             :value="localState?.format(dateFormat) ?? ''"
+@@ -568,6 +569,7 @@ const minimizeMaxWidth = computed(() => {
+           ]"
+         >
+           <input
++            :aria-label="column?.title"
+             v-if="!rawReadOnly"
+             ref="timePickerRef"
+             :value="cellValue"
+diff --git a/packages/nc-gui/components/cell/DateTime/index.vue b/packages/nc-gui/components/cell/DateTime/index.vue
+index 5ee9ad8..9f3f775 100644
+--- a/packages/nc-gui/components/cell/DateTime/index.vue
++++ b/packages/nc-gui/components/cell/DateTime/index.vue
+@@ -507,6 +507,7 @@ const minimizeMaxWidth = computed(() => {
+           }"
+         >
+           <input
++            :aria-label="column?.title"
+             v-if="!rawReadOnly"
+             ref="datePickerRef"
+             :value="localState?.format(dateFormat) ?? ''"
+@@ -538,6 +539,7 @@ const minimizeMaxWidth = computed(() => {
+           ]"
+         >
+           <input
++            :aria-label="column?.title"
+             v-if="!rawReadOnly"
+             ref="timePickerRef"
+             :value="cellValue"
+diff --git a/packages/nc-gui/components/cell/Decimal/Editor.vue b/packages/nc-gui/components/cell/Decimal/Editor.vue
+index 39de6bb..77c40af 100644
+--- a/packages/nc-gui/components/cell/Decimal/Editor.vue
++++ b/packages/nc-gui/components/cell/Decimal/Editor.vue
+@@ -63,6 +63,7 @@ onMounted(() => {
+   <CellDecimalInput
+     v-model="vModel"
+     :placeholder="placeholder"
++    :aria-label="column?.title"
+     :is-focus-on-mounted="!isExpandedFormOpen && !isEditColumn && !isForm"
+     :style="{
+       ...(!isForm && !isExpandedFormOpen && { 'margin-top': '1px' }),
+diff --git a/packages/nc-gui/components/cell/Decimal/index.vue b/packages/nc-gui/components/cell/Decimal/index.vue
+index ae84e31..d8e169f 100644
+--- a/packages/nc-gui/components/cell/Decimal/index.vue
++++ b/packages/nc-gui/components/cell/Decimal/index.vue
+@@ -132,6 +132,7 @@ const focus: VNodeRef = (el) =>
+ <template>
+   <!-- eslint-disable vue/use-v-on-exact -->
+   <input
++    :aria-label="column?.title"
+     v-if="!readOnly && editEnabled"
+     :ref="focus"
+     v-model="vModel"
+diff --git a/packages/nc-gui/components/cell/Duration/Editor.vue b/packages/nc-gui/components/cell/Duration/Editor.vue
+index e838876..59e3a14 100644
+--- a/packages/nc-gui/components/cell/Duration/Editor.vue
++++ b/packages/nc-gui/components/cell/Duration/Editor.vue
+@@ -99,6 +99,7 @@ onMounted(() => {
+     <input
+       :ref="focus"
+       v-model="localState"
++      :aria-label="column?.title"
+       class="nc-cell-field w-full !border-none !outline-none py-1"
+       :placeholder="durationPlaceholder"
+       :disabled="readOnly"
+diff --git a/packages/nc-gui/components/cell/Duration/index.vue b/packages/nc-gui/components/cell/Duration/index.vue
+index 94fde30..fc345e6 100644
+--- a/packages/nc-gui/components/cell/Duration/index.vue
++++ b/packages/nc-gui/components/cell/Duration/index.vue
+@@ -102,6 +102,7 @@ const focus: VNodeRef = (el) =>
+       v-if="!readOnly && editEnabled"
+       :ref="focus"
+       v-model="localState"
++      :aria-label="column?.title"
+       class="nc-cell-field w-full !border-none !outline-none py-1"
+       :placeholder="durationPlaceholder"
+       @blur="submitDuration"
+diff --git a/packages/nc-gui/components/cell/Email/Editor.vue b/packages/nc-gui/components/cell/Email/Editor.vue
+index 1af76a4..e4c5e4d 100644
+--- a/packages/nc-gui/components/cell/Email/Editor.vue
++++ b/packages/nc-gui/components/cell/Email/Editor.vue
+@@ -94,7 +94,8 @@ const formFieldAutocomplete = inject(FormFieldAutocompleteInj, ref(undefined))
+     v-bind="$attrs"
+     :ref="focus"
+     v-model="vModel"
+-    class="nc-cell-field w-full outline-none py-1"
++    :aria-label="column?.title"
++      class="nc-cell-field w-full outline-none py-1"
+     :class="{
+       'nc-text-transparent': showClicableLink,
+     }"
+diff --git a/packages/nc-gui/components/cell/Email/index.vue b/packages/nc-gui/components/cell/Email/index.vue
+index 9b1c543..8dd25cc 100644
+--- a/packages/nc-gui/components/cell/Email/index.vue
++++ b/packages/nc-gui/components/cell/Email/index.vue
+@@ -81,7 +81,8 @@ watch(
+     v-if="!readOnly && editEnabled"
+     :ref="focus"
+     v-model="vModel"
+-    class="nc-cell-field w-full outline-none py-1"
++    :aria-label="column?.title"
++      class="nc-cell-field w-full outline-none py-1"
+     @blur="editEnabled = false"
+     @keydown.down.stop
+     @keydown.left.stop
+diff --git a/packages/nc-gui/components/cell/Float/Editor.vue b/packages/nc-gui/components/cell/Float/Editor.vue
+index e0c8538..974bbab 100644
+--- a/packages/nc-gui/components/cell/Float/Editor.vue
++++ b/packages/nc-gui/components/cell/Float/Editor.vue
+@@ -20,6 +20,8 @@ const editEnabled = inject(EditModeInj, ref(false))
+ 
+ const isEditColumn = inject(EditColumnInj, ref(false))
+ 
++const column = inject(ColumnInj)
++
+ const readOnly = inject(ReadonlyInj, ref(false))
+ 
+ const _vModel = useVModel(props, 'modelValue', emits)
+@@ -48,6 +50,7 @@ const focus: VNodeRef = (el) =>
+ <template>
+   <!-- eslint-disable vue/use-v-on-exact -->
+   <input
++    :aria-label="column?.title"
+     :ref="focus"
+     v-model="vModel"
+     class="nc-cell-field outline-none px-1 border-none w-full h-full"
+diff --git a/packages/nc-gui/components/cell/Float/index.vue b/packages/nc-gui/components/cell/Float/index.vue
+index 2e38974..620be59 100644
+--- a/packages/nc-gui/components/cell/Float/index.vue
++++ b/packages/nc-gui/components/cell/Float/index.vue
+@@ -22,6 +22,8 @@ const editEnabled = inject(EditModeInj, ref(false))
+ 
+ const isEditColumn = inject(EditColumnInj, ref(false))
+ 
++const column = inject(ColumnInj)
++
+ const _vModel = useVModel(props, 'modelValue', emits)
+ 
+ const vModel = computed({
+@@ -48,6 +50,7 @@ const focus: VNodeRef = (el) =>
+ <template>
+   <!-- eslint-disable vue/use-v-on-exact -->
+   <input
++    :aria-label="column?.title"
+     v-if="editEnabled"
+     :ref="focus"
+     v-model="vModel"
+diff --git a/packages/nc-gui/components/cell/MultiSelect/Editor.vue b/packages/nc-gui/components/cell/MultiSelect/Editor.vue
+index ca33cbf..e959259 100644
+--- a/packages/nc-gui/components/cell/MultiSelect/Editor.vue
++++ b/packages/nc-gui/components/cell/MultiSelect/Editor.vue
+@@ -378,6 +378,7 @@ onMounted(() => {
+       v-model:value="vModel"
+       mode="multiple"
+       class="w-full overflow-hidden"
++      :aria-label="column?.title"
+       :bordered="false"
+       clear-icon
+       :show-search="!isMobileMode"
+diff --git a/packages/nc-gui/components/cell/Percent/Editor.vue b/packages/nc-gui/components/cell/Percent/Editor.vue
+index 7336ccd..980c72a 100644
+--- a/packages/nc-gui/components/cell/Percent/Editor.vue
++++ b/packages/nc-gui/components/cell/Percent/Editor.vue
+@@ -141,6 +141,7 @@ onMounted(() => {
+     <template v-if="showInput" #default>
+       <!-- eslint-disable vue/use-v-on-exact -->
+       <input
++        :aria-label="column?.title"
+         :ref="focus"
+         v-model="vModel"
+         class="nc-cell-field w-full !border-none !outline-none focus:ring-0 h-full min-h-[18px]"
+@@ -165,6 +166,7 @@ onMounted(() => {
+   <div v-else>
+     <!-- eslint-disable vue/use-v-on-exact -->
+     <input
++      :aria-label="column?.title"
+       :ref="focus"
+       v-model="vModel"
+       class="nc-cell-field w-full !border-none !outline-none focus:ring-0 py-1"
+diff --git a/packages/nc-gui/components/cell/Percent/index.vue b/packages/nc-gui/components/cell/Percent/index.vue
+index fcca901..7d8c1a1 100644
+--- a/packages/nc-gui/components/cell/Percent/index.vue
++++ b/packages/nc-gui/components/cell/Percent/index.vue
+@@ -159,6 +159,7 @@ const onTabPress = (e: KeyboardEvent) => {
+   >
+     <!-- eslint-disable vue/use-v-on-exact -->
+     <input
++      :aria-label="column?.title"
+       v-if="!readOnly && editEnabled && (isExpandedFormOpen ? expandedEditEnabled || !percentMeta.is_progress : true)"
+       :ref="focus"
+       v-model="vModel"
+diff --git a/packages/nc-gui/components/cell/PhoneNumber/Editor.vue b/packages/nc-gui/components/cell/PhoneNumber/Editor.vue
+index 96b5a6d..a0f7fa2 100644
+--- a/packages/nc-gui/components/cell/PhoneNumber/Editor.vue
++++ b/packages/nc-gui/components/cell/PhoneNumber/Editor.vue
+@@ -79,7 +79,8 @@ const formFieldAutocomplete = inject(FormFieldAutocompleteInj, ref(undefined))
+     v-bind="$attrs"
+     :ref="focus"
+     v-model="vModel"
+-    class="nc-cell-field w-full outline-none py-1"
++    :aria-label="column?.title"
++      class="nc-cell-field w-full outline-none py-1"
+     :class="{
+       'nc-text-transparent': showClicableLink,
+     }"
+diff --git a/packages/nc-gui/components/cell/PhoneNumber/index.vue b/packages/nc-gui/components/cell/PhoneNumber/index.vue
+index 5358b2f..174f9ec 100644
+--- a/packages/nc-gui/components/cell/PhoneNumber/index.vue
++++ b/packages/nc-gui/components/cell/PhoneNumber/index.vue
+@@ -71,7 +71,8 @@ watch(
+     v-if="!readOnly && editEnabled"
+     :ref="focus"
+     v-model="vModel"
+-    class="nc-cell-field w-full outline-none py-1"
++    :aria-label="column?.title"
++      class="nc-cell-field w-full outline-none py-1"
+     @blur="editEnabled = false"
+     @keydown.down.stop
+     @keydown.left.stop
+diff --git a/packages/nc-gui/components/cell/RichText.vue b/packages/nc-gui/components/cell/RichText.vue
+index 1dffb6c..beafdb7 100644
+--- a/packages/nc-gui/components/cell/RichText.vue
++++ b/packages/nc-gui/components/cell/RichText.vue
+@@ -31,6 +31,8 @@ const props = withDefaults(
+     isFormField?: boolean
+     autofocus?: boolean
+     placeholder?: string
++    /** Accessible name for the editable area (role="textbox"). */
++    ariaLabel?: string
+     renderAsText?: boolean
+     hiddenBubbleMenuOptions?: RichTextBubbleMenuOptions[]
+     hideMention?: boolean
+@@ -240,6 +242,16 @@ const editor = useEditor({
+   // text — the exact bug the server's single-seeder grant exists to prevent.
+   content: collab ? '' : vModel.value,
+   extensions: getTiptapExtensions(),
++  editorProps: {
++    attributes: {
++      // A read-only editor is rendered content, not an input: tiptap still sets
++      // role="textbox" which demands a name it does not have. 'none' restores it.
++      // An editable area only becomes a textbox when it also carries its name —
++      // a bare div with aria-label and no role is itself an aria violation.
++      ...(props.readOnly ? { role: 'none' } : {}),
++      ...(props.ariaLabel && !props.readOnly ? { role: 'textbox', 'aria-label': props.ariaLabel } : {}),
++    },
++  },
+   onUpdate: ({ editor }) => {
+     hasLocalEdits.value = true
+     // The server writes this cell while a confirmed session is live; see
+diff --git a/packages/nc-gui/components/cell/RichText/SelectedBubbleMenu.vue b/packages/nc-gui/components/cell/RichText/SelectedBubbleMenu.vue
+index 59c3934..e041ec0 100644
+--- a/packages/nc-gui/components/cell/RichText/SelectedBubbleMenu.vue
++++ b/packages/nc-gui/components/cell/RichText/SelectedBubbleMenu.vue
+@@ -456,6 +456,7 @@ const menuEntries = computed<MenuEntry[]>(() => {
+           :class="{ 'is-active': entry.isActive() }"
+           :disabled="entry.disabled()"
+           :tabindex="tabIndex"
++          :aria-label="entry.tooltip"
+           @click="entry.action"
+         >
+           <GeneralIcon :icon="entry.icon" />
+@@ -588,7 +589,7 @@ const menuEntries = computed<MenuEntry[]>(() => {
+ 
+       <!-- Close -->
+       <div v-else-if="entry.type === 'close'" class="!sticky right-0 pr-0.5 bg-nc-bg-default">
+-        <NcButton type="text" size="small" @click="emits('close')">
++        <NcButton type="text" size="small" :aria-label="$t('general.close')" @click="emits('close')">
+           <GeneralIcon icon="close" />
+         </NcButton>
+       </div>
+diff --git a/packages/nc-gui/components/cell/SingleSelect/Editor.vue b/packages/nc-gui/components/cell/SingleSelect/Editor.vue
+index 337d084..28bb2ed 100644
+--- a/packages/nc-gui/components/cell/SingleSelect/Editor.vue
++++ b/packages/nc-gui/components/cell/SingleSelect/Editor.vue
+@@ -347,6 +347,7 @@ onMounted(() => {
+       v-model:value="vModel"
+       class="w-full overflow-hidden"
+       :class="{ 'caret-transparent': !hasEditRoles }"
++      :aria-label="column?.title"
+       :allow-clear="!column.rqd && editAllowed"
+       :bordered="false"
+       :open="isOpen && editAllowed"
+diff --git a/packages/nc-gui/components/cell/Text/Editor.vue b/packages/nc-gui/components/cell/Text/Editor.vue
+index f7ab60d..b16d829 100644
+--- a/packages/nc-gui/components/cell/Text/Editor.vue
++++ b/packages/nc-gui/components/cell/Text/Editor.vue
+@@ -13,6 +13,8 @@ const editEnabled = inject(EditModeInj, ref(false))
+ 
+ const isEditColumn = inject(EditColumnInj, ref(false))
+ 
++const column = inject(ColumnInj)
++
+ const isCanvasInjected = inject(IsCanvasInjectionInj, false)
+ const isUnderLookup = inject(IsUnderLookupInj, ref(false))
+ 
+@@ -61,6 +63,7 @@ function updateInput(e: any) {
+     :ref="focus"
+     :value="vModel"
+     :autocomplete="formFieldAutocomplete"
++    :aria-label="column?.title"
+     class="nc-cell-field h-full w-full outline-none py-1 bg-transparent"
+     @input="updateInput"
+     @blur="editEnabled = false"
+diff --git a/packages/nc-gui/components/cell/Text/index.vue b/packages/nc-gui/components/cell/Text/index.vue
+index 48618fe..f63d7c3 100644
+--- a/packages/nc-gui/components/cell/Text/index.vue
++++ b/packages/nc-gui/components/cell/Text/index.vue
+@@ -15,6 +15,8 @@ const editEnabled = inject(EditModeInj, ref(false))
+ 
+ const isEditColumn = inject(EditColumnInj, ref(false))
+ 
++const column = inject(ColumnInj)
++
+ const rowHeight = inject(RowHeightInj, ref(undefined))
+ 
+ const readOnly = inject(ReadonlyInj, ref(false))
+@@ -41,6 +43,7 @@ const textareaValue = computed({
+       v-if="!isExpandedFormOpen"
+       :ref="focus"
+       v-model="vModel"
++      :aria-label="column?.title"
+       class="nc-cell-field h-full w-full outline-none py-1 bg-transparent"
+       @blur="editEnabled = false"
+       @keydown.down.stop
+diff --git a/packages/nc-gui/components/cell/TextArea.vue b/packages/nc-gui/components/cell/TextArea.vue
+index 1cc7e0b..19228c9 100644
+--- a/packages/nc-gui/components/cell/TextArea.vue
++++ b/packages/nc-gui/components/cell/TextArea.vue
+@@ -787,6 +787,7 @@ useResizeObserver(inputWrapperRef, () => {
+           ref="textAreaRef"
+           v-model="vModel"
+           :rows="isForm ? 5 : 4"
++          :aria-label="column?.title"
+           class="nc-inline-textarea h-full w-full !outline-none nc-scrollbar-thin"
+           :class="{
+             'p-2': editEnabled || isUnderFormula,
+diff --git a/packages/nc-gui/components/cell/Time/Editor.vue b/packages/nc-gui/components/cell/Time/Editor.vue
+index 3affcfe..1be404a 100644
+--- a/packages/nc-gui/components/cell/Time/Editor.vue
++++ b/packages/nc-gui/components/cell/Time/Editor.vue
+@@ -362,6 +362,7 @@ onMounted(() => {
+       class="nc-time-picker h-full flex items-center justify-between ant-picker-input relative"
+     >
+       <input
++        :aria-label="column?.title"
+         v-if="!rawReadOnly"
+         ref="datePickerRef"
+         type="text"
+diff --git a/packages/nc-gui/components/cell/Time/index.vue b/packages/nc-gui/components/cell/Time/index.vue
+index edc0539..c8962d5 100644
+--- a/packages/nc-gui/components/cell/Time/index.vue
++++ b/packages/nc-gui/components/cell/Time/index.vue
+@@ -343,6 +343,7 @@ const cellValue = computed(() => localState.value?.format(parseProp(column.value
+       class="nc-time-picker h-full flex items-center justify-between ant-picker-input relative"
+     >
+       <input
++        :aria-label="column?.title"
+         v-if="!rawReadOnly"
+         ref="datePickerRef"
+         type="text"
+diff --git a/packages/nc-gui/components/cell/Url/Editor.vue b/packages/nc-gui/components/cell/Url/Editor.vue
+index f3efc61..2041202 100644
+--- a/packages/nc-gui/components/cell/Url/Editor.vue
++++ b/packages/nc-gui/components/cell/Url/Editor.vue
+@@ -96,6 +96,7 @@ const formFieldAutocomplete = inject(FormFieldAutocompleteInj, ref(undefined))
+       v-model="vModel"
+       inputmode="url"
+       :autocomplete="formFieldAutocomplete"
++      :aria-label="column?.title"
+       class="nc-cell-field outline-none w-full py-1 bg-transparent h-full"
+       :class="{
+         'nc-text-transparent': showClicableLink,
+diff --git a/packages/nc-gui/components/cell/Url/index.vue b/packages/nc-gui/components/cell/Url/index.vue
+index b66468f..e279dbe 100644
+--- a/packages/nc-gui/components/cell/Url/index.vue
++++ b/packages/nc-gui/components/cell/Url/index.vue
+@@ -86,6 +86,7 @@ watch(
+       v-if="!readOnly && editEnabled"
+       :ref="focus"
+       v-model="vModel"
++      :aria-label="column?.title"
+       class="nc-cell-field outline-none w-full py-1 bg-transparent h-full"
+       @blur="editEnabled = false"
+       @keydown.down.stop
+diff --git a/packages/nc-gui/components/cell/User/Editor.vue b/packages/nc-gui/components/cell/User/Editor.vue
+index b77d451..0a53b3a 100644
+--- a/packages/nc-gui/components/cell/User/Editor.vue
++++ b/packages/nc-gui/components/cell/User/Editor.vue
+@@ -455,6 +455,7 @@ onMounted(() => {
+       mode="multiple"
+       class="w-full overflow-hidden"
+       :placeholder="isEditColumn ? $t('labels.optional') : ''"
++      :aria-label="column?.title"
+       :bordered="false"
+       clear-icon
+       :show-search="!isMobileMode"
+diff --git a/packages/nc-gui/components/cell/Year/Editor.vue b/packages/nc-gui/components/cell/Year/Editor.vue
+index c04ad50..1919a20 100644
+--- a/packages/nc-gui/components/cell/Year/Editor.vue
++++ b/packages/nc-gui/components/cell/Year/Editor.vue
+@@ -312,6 +312,7 @@ onMounted(() => {
+       class="nc-year-picker flex items-center justify-between ant-picker-input relative"
+     >
+       <input
++        :aria-label="column?.title"
+         v-if="!rawReadOnly"
+         ref="datePickerRef"
+         type="text"
+diff --git a/packages/nc-gui/components/cell/Year/index.vue b/packages/nc-gui/components/cell/Year/index.vue
+index eb6b5f9..eac6806 100644
+--- a/packages/nc-gui/components/cell/Year/index.vue
++++ b/packages/nc-gui/components/cell/Year/index.vue
+@@ -295,6 +295,7 @@ function handleSelectDate(value?: dayjs.Dayjs) {
+       class="nc-year-picker flex items-center justify-between ant-picker-input relative"
+     >
+       <input
++        :aria-label="column?.title"
+         v-if="!rawReadOnly"
+         ref="datePickerRef"
+         type="text"
+diff --git a/packages/nc-gui/components/dashboard/HomeSidebar/index.vue b/packages/nc-gui/components/dashboard/HomeSidebar/index.vue
+index 712b0cb..a35f24a 100644
+--- a/packages/nc-gui/components/dashboard/HomeSidebar/index.vue
++++ b/packages/nc-gui/components/dashboard/HomeSidebar/index.vue
+@@ -132,7 +132,8 @@ function onNavClick(item: NavItem) {
+         >
+           {{ item.label }}
+           <template #extraRight>
+-            <span v-if="item.count !== undefined" class="text-bodySm text-nc-content-gray-muted mr-1.5">
++            <!-- muted (#6a7184) on the active row's brand-50 tint measured 4.4:1 — subtle2 clears AA -->
++            <span v-if="item.count !== undefined" class="text-bodySm text-nc-content-gray-subtle2 mr-1.5">
+               {{ item.count }}
+             </span>
+           </template>
+@@ -143,7 +144,12 @@ function onNavClick(item: NavItem) {
+     <!-- Bottom section: User info + notification bell -->
+     <div class="flex-none border-t-1 border-nc-border-gray-light px-2 py-1.5">
+       <div class="flex items-center gap-0.5">
+-        <NcDropdown v-model:visible="isUserMenuOpen" placement="topLeft" overlay-class-name="!min-w-56">
++        <NcDropdown
++          v-model:visible="isUserMenuOpen"
++          placement="topLeft"
++          overlay-class-name="!min-w-56"
++          :aria-label="`${$t('labels.account')} ${$t('labels.actions').toLowerCase()}`"
++        >
+           <div
+             class="flex items-center gap-2 px-2 py-1 rounded-md cursor-pointer flex-1 min-w-0 transition-colors"
+             :class="{
+diff --git a/packages/nc-gui/components/dashboard/MiniSidebar/CreateNewActionMenu.vue b/packages/nc-gui/components/dashboard/MiniSidebar/CreateNewActionMenu.vue
+index 9acc838..fae4f52 100644
+--- a/packages/nc-gui/components/dashboard/MiniSidebar/CreateNewActionMenu.vue
++++ b/packages/nc-gui/components/dashboard/MiniSidebar/CreateNewActionMenu.vue
+@@ -225,6 +225,7 @@ const hasDocumentCreateAccess = computed(() => {
+       placement="rightBottom"
+       overlay-class-name="!min-w-48 nc-create-new-dropdown"
+       :align="{ offset: [12, 3] }"
++      :aria-label="$t('labels.createNew')"
+     >
+       <div class="w-full py-1 flex items-center justify-center">
+         <NcTooltip :title="$t('labels.createNew')" placement="right" :arrow="false" :disabled="isVisibleCreateNew">
+diff --git a/packages/nc-gui/components/dashboard/Sidebar/EEMenuOption.vue b/packages/nc-gui/components/dashboard/Sidebar/EEMenuOption.vue
+index 8eb9fca..1bb89d5 100644
+--- a/packages/nc-gui/components/dashboard/Sidebar/EEMenuOption.vue
++++ b/packages/nc-gui/components/dashboard/Sidebar/EEMenuOption.vue
+@@ -12,14 +12,19 @@ const saveBackRoute = () => {
+ 
+ <template>
+   <template v-if="orgRoles?.[OrgUserRoles.SUPER_ADMIN]">
++    <!-- the link itself is the menuitem (styled like a-menu-item li) -->
+     <nuxt-link
+       v-e="['c:user:admin-panel']"
+       to="/admin"
+-      class="!no-underline"
++      class="ant-dropdown-menu-item nc-menu-item !no-underline"
+       data-testid="nc-sidebar-instance-admin-panel"
++      role="menuitem"
++      tabindex="-1"
+       @click="saveBackRoute"
+     >
+-      <NcMenuItem> <GeneralIcon class="menu-icon" icon="controlPanel" /> {{ $t('labels.adminPanel') }} </NcMenuItem>
++      <span class="ant-dropdown-menu-title-content">
++        <div class="nc-menu-item-inner"><GeneralIcon class="menu-icon" icon="controlPanel" /> {{ $t('labels.adminPanel') }}</div>
++      </span>
+     </nuxt-link>
+   </template>
+   <span v-else></span>
+diff --git a/packages/nc-gui/components/dashboard/Sidebar/HeaderWrapper.vue b/packages/nc-gui/components/dashboard/Sidebar/HeaderWrapper.vue
+index 32a99d6..4ad5284 100644
+--- a/packages/nc-gui/components/dashboard/Sidebar/HeaderWrapper.vue
++++ b/packages/nc-gui/components/dashboard/Sidebar/HeaderWrapper.vue
+@@ -65,6 +65,7 @@ function onSearch() {
+             size="small"
+             class="!text-nc-content-gray-muted !md:(hover:bg-nc-bg-gray-medium) !rounded-md"
+             :class="{ '!bg-nc-bg-gray-medium': isSessionSearch && isSessionSearchOpen }"
++            :aria-label="$t('labels.quickSearch')"
+             data-testid="nc-sidebar-search-btn"
+             data-tour="sidebar-search"
+             @click="onSearch"
+@@ -90,6 +91,7 @@ function onSearch() {
+             :type="isMobileMode ? 'secondary' : 'text'"
+             :size="isMobileMode ? 'medium' : 'small'"
+             class="nc-sidebar-left-toggle-icon !text-nc-content-gray-subtle !hover:text-nc-content-gray !xs:(h-10.5 max-h-10.5 max-w-10.5) !md:(hover:bg-nc-bg-gray-medium) !rounded-md"
++            :aria-label="isLeftSidebarOpen ? $t('title.hideSidebar') : $t('title.showSidebar')"
+             @click="isLeftSidebarOpen = !isLeftSidebarOpen"
+           >
+             <div class="flex items-center text-inherit">
+diff --git a/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue b/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue
+index 10b5f62..68ea19f 100644
+--- a/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue
++++ b/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue
+@@ -35,7 +35,7 @@ onMounted(() => {
+     }"
+   >
+     <div class="flex items-center justify-center h-13">
+-      <NcDropdown
++      <NcDropdown :aria-label="`${$t('labels.account')} ${$t('labels.actions').toLowerCase()}`"
+         v-model:visible="isMenuOpen"
+         placement="rightBottom"
+         overlay-class-name="!min-w-44 md:!min-w-64 nc-user-menu-dropdown"
+@@ -55,9 +55,16 @@ onMounted(() => {
+             :class="{
+               'nc-mini-sidebar-ws-item flex-none': isMiniSidebar,
+             }"
++            role="button"
++            tabindex="0"
++            aria-haspopup="menu"
++            :aria-expanded="isMenuOpen"
++            :aria-label="$t('labels.account')"
+             data-testid="nc-sidebar-userinfo"
+             data-tour="sidebar-userinfo"
+             :data-email="user?.email"
++            @keydown.enter.prevent="isMenuOpen = !isMenuOpen"
++            @keydown.space.prevent="isMenuOpen = !isMenuOpen"
+           >
+             <div
+               v-if="isMiniSidebar"
+diff --git a/packages/nc-gui/components/dashboard/Sidebar/UserInfoMenu.vue b/packages/nc-gui/components/dashboard/Sidebar/UserInfoMenu.vue
+index 91e5416..456e06e 100644
+--- a/packages/nc-gui/components/dashboard/Sidebar/UserInfoMenu.vue
++++ b/packages/nc-gui/components/dashboard/Sidebar/UserInfoMenu.vue
+@@ -156,11 +156,22 @@ const openKeyboardShortcutDialog = () => {
+       <DashboardSidebarEEMenuOption v-if="isEeUI" />
+ 
+       <!-- API Tokens -->
+-      <nuxt-link v-e="['c:user:api-tokens']" class="!no-underline" to="/account/tokens" @click="saveBackRoute">
+-        <NcMenuItem>
+-          <GeneralIcon icon="ncKey2" class="menu-icon mt-0.5" />
+-          <span class="menu-btn">{{ $t('title.apiTokens') }}</span>
+-        </NcMenuItem>
++      <!-- the link itself is the menuitem (styled like a-menu-item li): wrapping
++           NcMenuItem inside it would nest menuitem-in-link which axe rejects -->
++      <nuxt-link
++        v-e="['c:user:api-tokens']"
++        class="ant-dropdown-menu-item nc-menu-item !no-underline"
++        role="menuitem"
++        tabindex="-1"
++        to="/account/tokens"
++        @click="saveBackRoute"
++      >
++        <span class="ant-dropdown-menu-title-content">
++          <div class="nc-menu-item-inner">
++            <GeneralIcon icon="ncKey2" class="menu-icon mt-0.5" />
++            <span class="menu-btn">{{ $t('title.apiTokens') }}</span>
++          </div>
++        </span>
+       </nuxt-link>
+ 
+       <NcDivider />
+@@ -209,7 +220,9 @@ const openKeyboardShortcutDialog = () => {
+       <!-- Account Settings -->
+       <nuxt-link
+         v-e="['c:user:settings']"
+-        class="!no-underline"
++        class="ant-dropdown-menu-item nc-menu-item !no-underline"
++        role="menuitem"
++        tabindex="-1"
+         :to="accountUrl"
+         @click="
+           () => {
+@@ -218,16 +231,18 @@ const openKeyboardShortcutDialog = () => {
+           }
+         "
+       >
+-        <NcMenuItem>
+-          <GeneralIcon icon="ncSettings" class="menu-icon" />
+-          <div class="flex-1 flex flex-col">
+-            <div>{{ $t('title.accountSettings') }}</div>
+-            <NcTooltip show-on-truncate-only class="truncate text-bodySm text-nc-content-gray-muted max-w-68">
+-              <template #title>{{ user?.email }}</template>
+-              {{ user?.email }}
+-            </NcTooltip>
++        <span class="ant-dropdown-menu-title-content">
++          <div class="nc-menu-item-inner">
++            <GeneralIcon icon="ncSettings" class="menu-icon" />
++            <div class="flex-1 flex flex-col">
++              <div>{{ $t('title.accountSettings') }}</div>
++              <NcTooltip show-on-truncate-only class="truncate text-bodySm text-nc-content-gray-muted max-w-68">
++                <template #title>{{ user?.email }}</template>
++                {{ user?.email }}
++              </NcTooltip>
++            </div>
+           </div>
+-        </NcMenuItem>
++        </span>
+       </nuxt-link>
+     </template>
+ 
+@@ -297,7 +312,8 @@ const openKeyboardShortcutDialog = () => {
+   @apply inline-flex items-center justify-center
+     min-w-4.5 h-4.5 px-1
+     text-[10px] font-medium leading-none
+-    text-nc-content-gray-muted
++    // muted (#6a7184) on the gray-light chip measured 4.43:1 — under AA for 10px text
++    text-nc-content-gray-subtle2
+     bg-nc-bg-gray-light
+     border-1 border-nc-border-gray-medium
+     rounded;
+diff --git a/packages/nc-gui/components/dashboard/Sidebar/Version.vue b/packages/nc-gui/components/dashboard/Sidebar/Version.vue
+index bf2685f..40d4d34 100644
+--- a/packages/nc-gui/components/dashboard/Sidebar/Version.vue
++++ b/packages/nc-gui/components/dashboard/Sidebar/Version.vue
+@@ -4,7 +4,9 @@ const { appInfo } = useGlobal()
+ 
+ <template>
+   <div>
+-    <div class="flex items-center text-xs text-nc-content-gray-disabled px-3 py-1">
++    <!-- subtle2 (#4A5268 ≈7.1:1): the version string is readable text, not a
++         disabled control, so gray-disabled (#6A7184 ≈4.4:1) fails WCAG AA. -->
++    <div class="flex items-center text-xs text-nc-content-gray-subtle2 px-3 py-1">
+       <span>Version {{ appInfo.version }}</span>
+     </div>
+   </div>
+diff --git a/packages/nc-gui/components/dashboard/TreeView/Project/CreateNewMenu.vue b/packages/nc-gui/components/dashboard/TreeView/Project/CreateNewMenu.vue
+index 16f144a..3cfc0cc 100644
+--- a/packages/nc-gui/components/dashboard/TreeView/Project/CreateNewMenu.vue
++++ b/packages/nc-gui/components/dashboard/TreeView/Project/CreateNewMenu.vue
+@@ -29,12 +29,16 @@ const showBaseOption = (source: SourceType) => {
+ 
+ <template>
+   <NcMenu variant="large" data-testid="nc-home-create-new-menu" @click="vVisible = false">
+-    <NcMenuItem inner-class="w-full" class="nc-menu-item-combo" data-testid="create-new-table" @click="emits('newTable')">
+-      <div class="w-full flex items-center">
+-        <div class="flex-1 flex items-center gap-2 cursor-pointer">
++    <!-- composite row: the row wraps two owned menuitems, so it is a plain
++         presentational div — `group` is not a legal role on li, and a menuitem
++         cannot nest another menuitem -->
++    <div class="nc-menu-item-combo w-full flex items-center" data-testid="create-new-table">
++      <NcMenuItem inner-class="w-full" class="flex-1 !mx-0" @click="emits('newTable')">
++        <div class="flex items-center gap-2">
+           <GeneralIcon icon="table" class="!w-4 !h-4" />
+           {{ $t('objects.table') }}
+         </div>
++      </NcMenuItem>
+         <template v-if="source && showBaseOption(source)">
+           <div class="px-1 cursor-default flex items-center h-9 -my-2" @click.stop>
+             <div class="h-7 w-px flex-none bg-nc-border-gray-medium" />
+@@ -50,7 +54,9 @@ const showBaseOption = (source: SourceType) => {
+             :popup-offset="[8, -2]"
+           >
+             <template #title>
+-              <div class="w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer group-hover:text-nc-content-brand">
++              <!-- icon-only trigger: keep a text alternative or the menuitem is unnamed -->
++              <span class="sr-only">{{ $t('labels.importOptions') }}</span>
++              <div class="w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer group-hover:text-nc-content-brand" aria-hidden="true">
+                 <GeneralIcon icon="ncChevronRight" />
+               </div>
+             </template>
+@@ -62,8 +68,7 @@ const showBaseOption = (source: SourceType) => {
+             </template>
+           </DashboardTreeViewBaseOptions>
+         </template>
+-      </div>
+-    </NcMenuItem>
++    </div>
+   </NcMenu>
+ </template>
+ 
+diff --git a/packages/nc-gui/components/dashboard/TreeView/Table/Node.vue b/packages/nc-gui/components/dashboard/TreeView/Table/Node.vue
+index 2b1f4f3..ca2741b 100644
+--- a/packages/nc-gui/components/dashboard/TreeView/Table/Node.vue
++++ b/packages/nc-gui/components/dashboard/TreeView/Table/Node.vue
+@@ -565,6 +565,8 @@ const isMmTable = computed(() => !!table.value?.mm)
+                   type="text"
+                   size="xxsmall"
+                   class="nc-table-chevron-btn !absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-10 text-nc-content-gray-subtle2 hover:text-nc-content-gray !rounded-md !xs:hidden"
++                  :aria-label="isExpanded ? $t('general.collapse') : $t('general.expand')"
++                  :aria-expanded="isExpanded"
+                   @click.stop="onExpand"
+                 >
+                   <GeneralIcon
+@@ -928,6 +930,7 @@ const isMmTable = computed(() => !!table.value?.mm)
+                 type="text"
+                 size="xxsmall"
+                 class="nc-sidebar-node-btn nc-sidebar-expand text-nc-content-gray-subtle2 hover:text-nc-content-gray"
++                :aria-label="$t('activity.createView')"
+                 :class="{
+                   '!opacity-100 !visible': isOptionsOpen || isCreateViewMenuOpen,
+                 }"
+diff --git a/packages/nc-gui/components/dashboard/settings/DataSources.vue b/packages/nc-gui/components/dashboard/settings/DataSources.vue
+index 2b789d9..70104d5 100644
+--- a/packages/nc-gui/components/dashboard/settings/DataSources.vue
++++ b/packages/nc-gui/components/dashboard/settings/DataSources.vue
+@@ -501,7 +501,7 @@ const handleClickRow = (source: SourceType, tab?: string) => {
+                   <div class="ds-table-col ds-table-actions" @click.stop>
+                     <div class="flex justify-end">
+                       <NcDropdown placement="bottomRight">
+-                        <NcButton size="small" type="secondary" class="nc-row-action">
++                        <NcButton size="small" type="secondary" class="nc-row-action" :aria-label="$t('labels.actions')">
+                           <GeneralIcon icon="threeDotVertical" />
+                         </NcButton>
+                         <template #overlay>
+@@ -572,7 +572,7 @@ const handleClickRow = (source: SourceType, tab?: string) => {
+                   <div class="ds-table-col ds-table-actions" @click.stop>
+                     <div class="flex justify-end">
+                       <NcDropdown placement="bottomRight">
+-                        <NcButton size="small" type="secondary" class="nc-row-action">
++                        <NcButton size="small" type="secondary" class="nc-row-action" :aria-label="$t('labels.actions')">
+                           <GeneralIcon icon="threeDotVertical" />
+                         </NcButton>
+                         <template #overlay>
+diff --git a/packages/nc-gui/components/dashboard/settings/Modal.vue b/packages/nc-gui/components/dashboard/settings/Modal.vue
+index 032af94..0987468 100644
+--- a/packages/nc-gui/components/dashboard/settings/Modal.vue
++++ b/packages/nc-gui/components/dashboard/settings/Modal.vue
+@@ -170,7 +170,9 @@ watch(
+         </NcButton>
+       </div>
+ 
+-      <a-layout class="overflow-y-auto flex !h-[calc(100%_-_66px)]">
++      <!-- div.ant-layout rather than a-layout: a <section> inside the dialog would
++           swallow the implicit landmark roles of its contents. -->
++      <div class="ant-layout overflow-y-auto flex !h-[calc(100%_-_66px)]">
+         <!-- Side tabs -->
+         <a-layout-sider class="!bg-nc-bg-default">
+           <a-menu v-model:selected-keys="selectedTabKeys" class="tabs-menu h-full" :open-keys="[]">
+@@ -193,7 +195,7 @@ watch(
+         </a-layout-sider>
+ 
+         <!-- Sub Tabs -->
+-        <a-layout-content class="h-full scrollbar-thumb-gray-500">
++        <div class="ant-layout-content h-full scrollbar-thumb-gray-500">
+           <a-menu
+             v-if="selectedTabKeys[0] !== 'dataSources'"
+             v-model:selected-keys="selectedSubTabKeys"
+@@ -235,8 +237,8 @@ watch(
+               :data-testid="`nc-settings-subtab-${selectedSubTab.key}`"
+             />
+           </div>
+-        </a-layout-content>
+-      </a-layout>
++        </div>
++      </div>
+     </div>
+   </a-modal>
+ </template>
+diff --git a/packages/nc-gui/components/dashboard/topbar/UserInfo.vue b/packages/nc-gui/components/dashboard/topbar/UserInfo.vue
+index 48e2968..d3d026e 100644
+--- a/packages/nc-gui/components/dashboard/topbar/UserInfo.vue
++++ b/packages/nc-gui/components/dashboard/topbar/UserInfo.vue
+@@ -72,6 +72,7 @@ const accountUrl = computed(() => '/account/profile')
+           <NcMenu variant="small">
+             <div
+               class="flex flex-col justify-center py-1 px-3 gap-x-2 text-gray-700 rounded-lg min-h-8 text-small leading-[18px]"
++              role="none"
+             >
+               <div v-if="name?.trim()" class="capitalize text-nc-content-gray font-bold">
+                 {{ name }}
+@@ -86,8 +87,18 @@ const accountUrl = computed(() => '/account/profile')
+               </div>
+             </div>
+             <NcDivider />
+-            <nuxt-link v-e="['c:user:settings']" class="!no-underline" :to="accountUrl" @click="auditsStore.handleReset">
+-              <NcMenuItem> <GeneralIcon icon="ncSettings" class="menu-icon" /> {{ $t('title.accountSettings') }} </NcMenuItem>
++            <!-- the link itself is the menuitem (styled like a-menu-item li) -->
++            <nuxt-link
++              v-e="['c:user:settings']"
++              class="ant-dropdown-menu-item nc-menu-item !no-underline"
++              role="menuitem"
++              tabindex="-1"
++              :to="accountUrl"
++              @click="auditsStore.handleReset"
++            >
++              <span class="ant-dropdown-menu-title-content">
++                <div class="nc-menu-item-inner"><GeneralIcon icon="ncSettings" class="menu-icon" /> {{ $t('title.accountSettings') }}</div>
++              </span>
+             </nuxt-link>
+             <NcMenuItem data-testid="nc-sidebar-user-logout" @click="logout">
+               <div v-e="['c:user:logout']" class="flex gap-2 items-center">
+diff --git a/packages/nc-gui/components/dlg/Table/Duplicate.vue b/packages/nc-gui/components/dlg/Table/Duplicate.vue
+index ea21de7..f6bb12a 100644
+--- a/packages/nc-gui/components/dlg/Table/Duplicate.vue
++++ b/packages/nc-gui/components/dlg/Table/Duplicate.vue
+@@ -311,7 +311,12 @@ onMounted(() => {
+               <template v-if="!canTargetOtherBase" #title>
+                 <span> {{ $t('msg.info.duplicateTableLinkedRecords') }} </span>
+               </template>
+-              <NcListDropdown v-model:is-open="wsDropdownOpen" :disabled="!canTargetOtherBase" default-slot-wrapper-class="gap-2">
++              <NcListDropdown
++                v-model:is-open="wsDropdownOpen"
++                :disabled="!canTargetOtherBase"
++                :aria-label="$t('objects.workspace')"
++                default-slot-wrapper-class="gap-2"
++              >
+                 <GeneralWorkspaceIcon size="small" :workspace="targetWorkspace!" />
+ 
+                 <div class="flex-1 capitalize truncate">
+@@ -393,6 +398,7 @@ onMounted(() => {
+               <NcListDropdown
+                 v-model:is-open="baseDropdownOpen"
+                 :disabled="!canTargetOtherBase || !isTargetOtherBaseSufficientPlan"
++                :aria-label="$t('objects.project')"
+                 default-slot-wrapper-class="gap-2"
+               >
+                 <template v-if="!!targetBase">
+diff --git a/packages/nc-gui/components/dlg/share-and-collaborate/View.vue b/packages/nc-gui/components/dlg/share-and-collaborate/View.vue
+index 6de85f8..d75c597 100644
+--- a/packages/nc-gui/components/dlg/share-and-collaborate/View.vue
++++ b/packages/nc-gui/components/dlg/share-and-collaborate/View.vue
+@@ -334,6 +334,7 @@ watch(showShareModal, (val) => {
+     class="!top-[1%]"
+     :class="{ active: showShareModal }"
+     wrap-class-name="nc-modal-share-collaborate"
++    :wrap-props="{ 'aria-label': screenTitle }"
+     :closable="false"
+     :keyboard="formStatus !== 'base-collaborateSaving'"
+     :mask-closable="formStatus !== 'base-collaborateSaving'"
+diff --git a/packages/nc-gui/components/extensions/Pane.vue b/packages/nc-gui/components/extensions/Pane.vue
+index 9e63a35..05376d6 100644
+--- a/packages/nc-gui/components/extensions/Pane.vue
++++ b/packages/nc-gui/components/extensions/Pane.vue
+@@ -199,7 +199,14 @@ onMounted(() => {
+               'flex-1': isOpenSearchBox,
+             }"
+           >
+-            <NcButton v-if="!isOpenSearchBox" size="xs" type="text" class="!px-1" @click="handleShowSearchInput">
++            <NcButton
++              v-if="!isOpenSearchBox"
++              size="xs"
++              type="text"
++              class="!px-1"
++              :aria-label="$t('general.search')"
++              @click="handleShowSearchInput"
++            >
+               <GeneralIcon icon="search" class="flex-none !text-nc-content-gray-muted" />
+             </NcButton>
+             <div v-else class="flex flex-grow items-center justify-end !max-w-[300px]">
+diff --git a/packages/nc-gui/components/feed/Recents/Card.vue b/packages/nc-gui/components/feed/Recents/Card.vue
+index e173a0e..f046a3c 100644
+--- a/packages/nc-gui/components/feed/Recents/Card.vue
++++ b/packages/nc-gui/components/feed/Recents/Card.vue
+@@ -44,11 +44,27 @@ const watchVideo = () => {
+   })
+ }
+ 
++// Cards render under a page-level h1 and the card's own h2 title; release-notes
++// markdown ships h1–h3 of its own, which would multiply h1s and skip levels in
++// the document outline. Flatten every heading in the excerpt to h3.
++const demoteHeadingsToH3 = () => (tree: any) => {
++  const visit = (node: any) => {
++    if (node.type === 'element' && /^h[1-6]$/.test(node.tagName)) node.tagName = 'h3'
++    node.children?.forEach(visit)
++  }
++  visit(tree)
++}
++
++// The per-card source icon repeats inline svg ids — scope them (shared helper).
++const feedIconWrap = ref<HTMLElement>()
++onMounted(() => scopeSvgIds(feedIconWrap.value ?? null))
++
+ const renderedText = computedAsync(async () => {
+   return await unified()
+     .use(remarkParse)
+     .use(remarkRehype)
+     .use(rehypeSanitize)
++    .use(demoteHeadingsToH3)
+     .use(rehypeStringify)
+     .process(
+       truncate.value
+@@ -71,7 +87,7 @@ const handleOpenUrl = (url: string) => {
+ <template>
+   <div class="bg-nc-bg-default recent-card border-nc-border-gray-medium border-1 rounded-2xl max-w-[540px] xl:max-w-[640px]">
+     <div class="flex items-center justify-between px-5 py-4">
+-      <div class="flex items-center gap-3">
++      <div ref="feedIconWrap" class="flex items-center gap-3">
+         <component :is="feedIcon[source]" class="w-4 h-4 stroke-transparent" />
+         <span class="font-weight-medium text-nc-content-gray leading-5 cursor-pointer" @click="handleOpenUrl(Url)">
+           {{ source }}
+@@ -83,7 +99,8 @@ const handleOpenUrl = (url: string) => {
+     </div>
+     <template v-if="['Github', 'Cloud'].includes(source)">
+       <div class="pb-5">
+-        <img v-if="Image" :src="Image" class="cursor-pointer" @click="handleOpenUrl(Url)" />
++        <h2 class="sr-only">{{ Title }}</h2>
++        <img v-if="Image" :src="Image" :alt="Title" class="cursor-pointer" @click="handleOpenUrl(Url)" />
+         <div class="prose dark:prose-invert px-5 mt-5" v-html="renderedText"></div>
+ 
+         <NcButton v-if="truncate" size="small" class="w-29 mx-5" type="text" @click="expand">
+@@ -104,9 +121,9 @@ const handleOpenUrl = (url: string) => {
+         @played="watchVideo"
+       />
+       <div class="p-5 flex flex-col text-nc-content-gray-emphasis gap-4">
+-        <div class="text-2xl font-semibold truncate">
++        <h2 class="text-2xl font-semibold truncate">
+           {{ Title }}
+-        </div>
++        </h2>
+ 
+         <div class="font-weight-base text-md">
+           {{ Description.substring(0, 200).concat('...') }}
+diff --git a/packages/nc-gui/components/feed/Social.vue b/packages/nc-gui/components/feed/Social.vue
+index bdee1cc..f823952 100644
+--- a/packages/nc-gui/components/feed/Social.vue
++++ b/packages/nc-gui/components/feed/Social.vue
+@@ -3,6 +3,9 @@ const { $e } = useNuxtApp()
+ 
+ const { isDark } = useTheme()
+ 
++const socialWrap = ref<HTMLElement>()
++onMounted(() => scopeSvgIds(socialWrap.value ?? null))
++
+ const socialIcons = [
+   {
+     name: '@nocodb',
+@@ -45,7 +48,8 @@ const openUrl = (url: string, e: string) => {
+ </script>
+ 
+ <template>
+-  <div style="width: 230px" class="flex flex-col bg-nc-bg-default border-nc-border-gray-medium rounded-lg border-1">
++  <!-- Social icon svgs repeat hard-coded <defs> ids — scope them per render. -->
++  <div ref="socialWrap" style="width: 230px" class="flex flex-col bg-nc-bg-default border-nc-border-gray-medium rounded-lg border-1">
+     <div class="text-nc-content-gray font-semibold leading-6 border-b-1 border-nc-border-gray-medium px-4 py-3">Stay tuned</div>
+     <div class="flex flex-col p-1">
+       <div
+diff --git a/packages/nc-gui/components/general/HideLeftSidebarBtn.vue b/packages/nc-gui/components/general/HideLeftSidebarBtn.vue
+index 67c8bcc..13c4131 100644
+--- a/packages/nc-gui/components/general/HideLeftSidebarBtn.vue
++++ b/packages/nc-gui/components/general/HideLeftSidebarBtn.vue
+@@ -34,6 +34,7 @@ const onClick = () => {
+         :type="isMobileMode ? 'secondary' : 'text'"
+         :size="isMobileMode ? 'medium' : 'small'"
+         class="nc-sidebar-left-toggle-icon !text-nc-content-gray-subtle2 !hover:text-nc-content-gray w-8"
++        :aria-label="isLeftSidebarOpen ? $t('title.hideSidebar') : $t('title.showSidebar')"
+         @click="onClick"
+       >
+         <div class="flex items-center text-inherit">
+diff --git a/packages/nc-gui/components/general/Icon.vue b/packages/nc-gui/components/general/Icon.vue
+index cada87f..a8467f8 100644
+--- a/packages/nc-gui/components/general/Icon.vue
++++ b/packages/nc-gui/components/general/Icon.vue
+@@ -2,8 +2,13 @@
+ const props = defineProps<{
+   icon: keyof typeof iconMap
+ }>()
++
++// Icon svgs carry hard-coded <defs> ids — scope them per render or every
++// repeated icon duplicates the ids document-wide.
++const cmp = ref()
++onMounted(() => scopeSvgIds(cmp.value?.$el ?? null))
+ </script>
+ 
+ <template>
+-  <component :is="iconMap[props.icon]" />
++  <component :is="iconMap[props.icon]" ref="cmp" />
+ </template>
+diff --git a/packages/nc-gui/components/general/OpenLeftSidebarBtn.vue b/packages/nc-gui/components/general/OpenLeftSidebarBtn.vue
+index d3ed964..d76c03c 100644
+--- a/packages/nc-gui/components/general/OpenLeftSidebarBtn.vue
++++ b/packages/nc-gui/components/general/OpenLeftSidebarBtn.vue
+@@ -29,6 +29,7 @@ const onClick = () => {
+         :type="isMobileMode ? 'secondary' : 'text'"
+         :size="isMobileMode ? 'medium' : 'small'"
+         class="nc-sidebar-left-toggle-icon !text-nc-content-gray-subtle2 !hover:text-nc-content-gray w-8"
++        :aria-label="isLeftSidebarOpen ? $t('title.hideSidebar') : $t('title.showSidebar')"
+         @click="onClick"
+       >
+         <div class="flex items-center text-inherit">
+diff --git a/packages/nc-gui/components/general/Team/Icon.vue b/packages/nc-gui/components/general/Team/Icon.vue
+index 4580b07..2062a26 100644
+--- a/packages/nc-gui/components/general/Team/Icon.vue
++++ b/packages/nc-gui/components/general/Team/Icon.vue
+@@ -2,7 +2,7 @@
+ import { IconType, type TeamV3V3Type } from 'nocodb-sdk'
+ import 'emoji-mart-vue-fast/css/emoji-mart.css'
+ import { Icon } from '@iconify/vue'
+-import { type IconMapKey, isColorDark, stringToColor } from '#imports'
++import { type IconMapKey, isDarkEnoughForWhiteText, stringToColor } from '#imports'
+ 
+ export interface TeamIconProps {
+   size?: 'small' | 'medium' | 'base' | 'large' | 'xlarge' | 'auto'
+@@ -150,8 +150,8 @@ const teamInitials = computed(() => {
+       class="flex items-center justify-center align-middle"
+       :class="{
+         'text-inherit': size === 'auto',
+-        'text-white': isColorDark(getColor(backgroundColor)),
+-        'text-black opacity-80': !isColorDark(getColor(backgroundColor)),
++        'text-white': isDarkEnoughForWhiteText(getColor(backgroundColor)),
++        'text-black opacity-80': !isDarkEnoughForWhiteText(getColor(backgroundColor)),
+         'text-tiny': size === 'small',
+         'text-base': size === 'medium',
+         'text-lg': size === 'base',
+@@ -184,8 +184,8 @@ const teamInitials = computed(() => {
+       class="flex-none"
+       :class="{
+         'w-[75%] h-[75%]': size === 'auto',
+-        'text-white': isColorDark(getColor(backgroundColor)),
+-        'text-black opacity-80': !isColorDark(getColor(backgroundColor)),
++        'text-white': isDarkEnoughForWhiteText(getColor(backgroundColor)),
++        'text-black opacity-80': !isDarkEnoughForWhiteText(getColor(backgroundColor)),
+         'w-3 h-3': size === 'small',
+         'w-4 h-4': size === 'medium',
+         'w-5 h-5': size === 'base',
+@@ -201,8 +201,8 @@ const teamInitials = computed(() => {
+         '!text-md': size === 'base',
+         '!text-3xl': size === 'large',
+         '!text-4xl': size === 'xlarge',
+-        'text-white': isColorDark(getColor(backgroundColor)),
+-        'text-black': !isColorDark(getColor(backgroundColor)),
++        'text-white': isDarkEnoughForWhiteText(getColor(backgroundColor)),
++        'text-black': !isDarkEnoughForWhiteText(getColor(backgroundColor)),
+       }"
+     >
+       {{ teamInitials }}
+diff --git a/packages/nc-gui/components/general/UserIcon.vue b/packages/nc-gui/components/general/UserIcon.vue
+index 179db85..8b84071 100644
+--- a/packages/nc-gui/components/general/UserIcon.vue
++++ b/packages/nc-gui/components/general/UserIcon.vue
+@@ -2,7 +2,7 @@
+ import { IconType, type UserType } from 'nocodb-sdk'
+ import 'emoji-mart-vue-fast/css/emoji-mart.css'
+ import { Icon } from '@iconify/vue'
+-import { type IconMapKey, isColorDark, stringToColor } from '#imports'
++import { type IconMapKey, isDarkEnoughForWhiteText, stringToColor } from '#imports'
+ 
+ const props = withDefaults(
+   defineProps<{
+@@ -150,8 +150,8 @@ const usernameInitials = computed(() => {
+       class="flex items-center justify-center align-middle"
+       :class="{
+         'text-inherit': size === 'auto',
+-        'text-white': isColorDark(getColor(backgroundColor)),
+-        'text-black opacity-80': !isColorDark(getColor(backgroundColor)),
++        'text-white': isDarkEnoughForWhiteText(getColor(backgroundColor)),
++        'text-black opacity-80': !isDarkEnoughForWhiteText(getColor(backgroundColor)),
+         'text-tiny': size === 'small',
+         'text-base': size === 'medium',
+         'text-lg': size === 'base',
+@@ -184,8 +184,8 @@ const usernameInitials = computed(() => {
+       class="flex-none"
+       :class="{
+         'w-[75%] h-[75%]': size === 'auto',
+-        'text-white': isColorDark(getColor(backgroundColor)),
+-        'text-black opacity-80': !isColorDark(getColor(backgroundColor)),
++        'text-white': isDarkEnoughForWhiteText(getColor(backgroundColor)),
++        'text-black opacity-80': !isDarkEnoughForWhiteText(getColor(backgroundColor)),
+         'w-3 h-3': size === 'small',
+         'w-4 h-4': size === 'medium',
+         'w-5 h-5': size === 'base',
+@@ -202,8 +202,8 @@ const usernameInitials = computed(() => {
+         '!text-md': size === 'base',
+         '!text-3xl': size === 'large',
+         '!text-4xl': size === 'xlarge',
+-        'text-white': isColorDark(getColor(backgroundColor)),
+-        'text-black': !isColorDark(getColor(backgroundColor)),
++        'text-white': isDarkEnoughForWhiteText(getColor(backgroundColor)),
++        'text-black': !isDarkEnoughForWhiteText(getColor(backgroundColor)),
+       }"
+     >
+       {{ usernameInitials }}
+diff --git a/packages/nc-gui/components/general/WorkspaceIcon.vue b/packages/nc-gui/components/general/WorkspaceIcon.vue
+index 1e670e9..e537bbf 100644
+--- a/packages/nc-gui/components/general/WorkspaceIcon.vue
++++ b/packages/nc-gui/components/general/WorkspaceIcon.vue
+@@ -2,7 +2,7 @@
+ import { IconType, type WorkspaceType } from 'nocodb-sdk'
+ import 'emoji-mart-vue-fast/css/emoji-mart.css'
+ import { Icon } from '@iconify/vue'
+-import { isColorDark, stringToColor } from '#imports'
++import { isDarkEnoughForWhiteText, stringToColor } from '#imports'
+ 
+ const props = withDefaults(
+   defineProps<{
+@@ -126,8 +126,8 @@ const isMiniSidebarSize = computed(() => size.value === 'mini-sidebar')
+         v-else-if="workspaceIcon.icon && workspaceIcon.iconType === IconType.EMOJI"
+         class="flex items-center justify-center"
+         :class="{
+-          'text-white': isColorDark(getColor(workspaceColor)),
+-          'text-black opacity-80': !isColorDark(getColor(workspaceColor)),
++          'text-white': isDarkEnoughForWhiteText(getColor(workspaceColor)),
++          'text-black opacity-80': !isDarkEnoughForWhiteText(getColor(workspaceColor)),
+           'text-sm': size === 'small' || size === 'account-sidebar' || isMiniSidebarSize,
+           'text-base': size === 'medium',
+           'text-2xl': size === 'large',
+@@ -156,8 +156,8 @@ const isMiniSidebarSize = computed(() => size.value === 'mini-sidebar')
+         :icon="workspaceIcon.icon"
+         class="flex-none"
+         :class="{
+-          'text-white': isColorDark(getColor(workspaceColor)),
+-          'text-black opacity-80': !isColorDark(getColor(workspaceColor)),
++          'text-white': isDarkEnoughForWhiteText(getColor(workspaceColor)),
++          'text-black opacity-80': !isDarkEnoughForWhiteText(getColor(workspaceColor)),
+           'w-3 h-3': size === 'small',
+           'w-4 h-4': size === 'medium' || isMiniSidebarSize,
+           'w-6 h-6': size === 'large',
+@@ -172,8 +172,8 @@ const isMiniSidebarSize = computed(() => size.value === 'mini-sidebar')
+           v-else
+           class="font-semibold"
+           :class="{
+-            'text-white': isColorDark(getColor(workspaceColor)),
+-            'text-black': !isColorDark(getColor(workspaceColor)),
++            'text-white': isDarkEnoughForWhiteText(getColor(workspaceColor)),
++            'text-black': !isDarkEnoughForWhiteText(getColor(workspaceColor)),
+             'text-[8px]': size === 'small',
+             'text-sm': size === 'account-sidebar' || isMiniSidebarSize,
+           }"
+diff --git a/packages/nc-gui/components/nc/DropDrawer.vue b/packages/nc-gui/components/nc/DropDrawer.vue
+index 13793c3..bfdd246 100644
+--- a/packages/nc-gui/components/nc/DropDrawer.vue
++++ b/packages/nc-gui/components/nc/DropDrawer.vue
+@@ -4,6 +4,8 @@ import type { NcDropdownPlacement } from '#imports'
+ interface Props {
+   visible?: boolean | undefined
+   title?: string
++  /** Accessible name for the opened dropdown region (desktop mode). */
++  ariaLabel?: string
+ 
+   // Dropdown props (desktop)
+   trigger?: Array<'click' | 'hover' | 'contextmenu'>
+@@ -41,6 +43,7 @@ interface Props {
+ const props = withDefaults(defineProps<Props>(), {
+   visible: undefined,
+   title: '',
++  ariaLabel: undefined,
+   trigger: () => ['click'],
+   overlayClassName: undefined,
+   overlayStyle: () => ({}),
+@@ -73,6 +76,7 @@ const { isMobileMode } = useGlobal()
+ const visible = useVModel(props, 'visible', emits)
+ 
+ const dropdownProps = computed(() => ({
++  ariaLabel: props.ariaLabel || props.title || undefined,
+   trigger: props.trigger,
+   overlayClassName: props.overlayClassName,
+   overlayStyle: props.overlayStyle,
+diff --git a/packages/nc-gui/components/nc/Dropdown.vue b/packages/nc-gui/components/nc/Dropdown.vue
+index 6506b46..357abc4 100644
+--- a/packages/nc-gui/components/nc/Dropdown.vue
++++ b/packages/nc-gui/components/nc/Dropdown.vue
+@@ -21,6 +21,8 @@ const props = withDefaults(
+     // if true, renders a transparent backdrop behind the dropdown that stops click propagation.
+     // Use when this dropdown is nested inside another dropdown to prevent the parent from closing.
+     useBackdrop?: boolean
++    /** Accessible name for the portaled overlay (defaults to the trigger's name/text). */
++    ariaLabel?: string
+     onVisibleChange?: (val: boolean) => void
+   }>(),
+   {
+@@ -40,6 +42,29 @@ const emits = defineEmits(['update:visible'])
+ 
+ defineOptions({ inheritAttrs: false })
+ 
++const dropdownRef = ref()
++
++/**
++ * The overlay is teleported to <body> outside every landmark, so axe's region
++ * rule flags it — and assistive tech genuinely can't tell what the popup is.
++ * Name it as a named region once it mounts: explicit label, else the trigger's
++ * accessible name (aria-label first, then its text).
++ */
++const patchOverlayA11y = () => {
++  const overlay = document.querySelector(`.ant-dropdown.${overlayMarkerClass}`)
++  if (!overlay) return
++
++  const trigger = dropdownRef.value?.$el as HTMLElement | undefined
++  const label =
++    props.ariaLabel?.trim() ||
++    trigger?.getAttribute?.('aria-label')?.trim() ||
++    trigger?.textContent?.trim() ||
++    'Menu'
++
++  overlay.setAttribute('role', 'region')
++  overlay.setAttribute('aria-label', label)
++}
++
+ // Global z-index counter for backdrop dropdowns — each nested level gets a higher z-index
+ const backdropBaseZIndex = 1050
+ const activeBackdropCount = ref(0)
+@@ -68,8 +93,19 @@ const localIsVisible = ref<boolean | undefined>(props.visible)
+  */
+ const isOpen = computed(() => (ncIsUndefined(props.visible) ? !!localIsVisible.value : !!visible.value))
+ 
++watch(
++  isOpen,
++  (open) => {
++    if (open) nextTick(patchOverlayA11y)
++  },
++  { flush: 'post' },
++)
++
++// Per-instance overlay marker so the opened popup can be located in <body>.
++const overlayMarkerClass = `nc-dd-${useId().replace(/[^a-zA-Z0-9_-]/g, '-')}`
++
+ const overlayClassNameComputed = computed(() => {
+-  let className = `${props.nonNcDropdown ? '' : 'nc-dropdown '} rounded-lg border-1 border-nc-border-gray-medium shadow-lg`
++  let className = `${props.nonNcDropdown ? '' : 'nc-dropdown '} rounded-lg border-1 border-nc-border-gray-medium shadow-lg ${overlayMarkerClass}`
+   if (overlayClassName.value) {
+     className += ` ${overlayClassName.value}`
+   }
+@@ -171,6 +207,7 @@ watch(
+ 
+ <template>
+   <a-dropdown
++    ref="dropdownRef"
+     v-bind="$attrs"
+     :disabled="disabled"
+     :visible="isOpen"
+diff --git a/packages/nc-gui/components/nc/List/Dropdown.vue b/packages/nc-gui/components/nc/List/Dropdown.vue
+index 8ff1350..e8286d1 100644
+--- a/packages/nc-gui/components/nc/List/Dropdown.vue
++++ b/packages/nc-gui/components/nc/List/Dropdown.vue
+@@ -14,6 +14,8 @@ interface Props {
+   showAsDisabled?: boolean
+   borderOnHover?: boolean
+   hasError?: boolean
++  /** Name for the hidden focus-proxy button that reopens the dropdown. */
++  ariaLabel?: string
+ }
+ 
+ const props = withDefaults(defineProps<Props>(), {
+@@ -25,6 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
+   showAsDisabled: true,
+   borderOnHover: false,
+   hasError: false,
++  ariaLabel: '',
+ })
+ 
+ const emits = defineEmits(['update:isOpen'])
+@@ -109,6 +112,7 @@ watch(vModelIsOpen, (newVal) => {
+         type="button"
+         tabindex="-1"
+         class="sr-only outline-none ring-0 shadow-none focus:(outline-none shadow-none)"
++        :aria-label="ariaLabel || undefined"
+       ></button>
+ 
+       <slot name="default" :is-open="vModelIsOpen"> </slot>
+@@ -119,6 +123,7 @@ watch(vModelIsOpen, (newVal) => {
+         type="button"
+         tabindex="-1"
+         class="sr-only outline-none ring-0 shadow-none focus:(outline-none shadow-none)"
++        :aria-label="ariaLabel || undefined"
+       ></button>
+ 
+       <slot name="default" :is-open="vModelIsOpen"> </slot>
+diff --git a/packages/nc-gui/components/nc/Menu/Item.vue b/packages/nc-gui/components/nc/Menu/Item.vue
+index a996b53..4109351 100644
+--- a/packages/nc-gui/components/nc/Menu/Item.vue
++++ b/packages/nc-gui/components/nc/Menu/Item.vue
+@@ -27,7 +27,7 @@ defineOptions({
+ </script>
+ 
+ <template>
+-  <div class="w-full" :style="style">
++  <div class="w-full" :style="style" role="none">
+     <a-menu-item
+       :key="mKey"
+       v-bind="$attrs"
+diff --git a/packages/nc-gui/components/nc/Menu/index.vue b/packages/nc-gui/components/nc/Menu/index.vue
+index 7fae420..31ef273 100644
+--- a/packages/nc-gui/components/nc/Menu/index.vue
++++ b/packages/nc-gui/components/nc/Menu/index.vue
+@@ -20,10 +20,33 @@ const responsiveVariant = computed(() => {
+ 
+   return props.variant
+ })
++
++const menuRef = ref()
++
++// Some callers wrap menu items in plain <div>s (v-if groups, link wrappers, EE
++// items). A non-item child inside ul[role=menu] is an aria-required-children
++// violation; marking it presentational lets the nested items count as owned.
++const markNonItemChildren = () => {
++  const ul: HTMLElement | undefined = (menuRef.value?.$el ?? menuRef.value) as HTMLElement
++  if (!ul || ul.tagName !== 'UL') return
++  for (const child of Array.from(ul.children) as HTMLElement[]) {
++    if (child.tagName === 'LI') continue
++    // A caller may give a non-LI child a real menu role (<a role="menuitem">) —
++    // never overwrite an explicit role.
++    if (child.hasAttribute('role')) continue
++    // Focusable children must stay owned by the menu: marking them
++    // presentational would be a presentation-role-conflict, not a fix.
++    if (child.matches('a[href], button, input, select, textarea, [tabindex]')) continue
++    child.setAttribute('role', 'none')
++  }
++}
++
++onMounted(() => nextTick(markNonItemChildren))
++onUpdated(() => nextTick(markNonItemChildren))
+ </script>
+ 
+ <template>
+-  <a-menu class="nc-menu" :class="`nc-variant-${responsiveVariant}`" :selectable="selectable">
++  <a-menu ref="menuRef" class="nc-menu" :class="`nc-variant-${responsiveVariant}`" :selectable="selectable">
+     <slot />
+   </a-menu>
+ </template>
+diff --git a/packages/nc-gui/components/nc/Modal.vue b/packages/nc-gui/components/nc/Modal.vue
+index 5a7cedd..fb13348 100644
+--- a/packages/nc-gui/components/nc/Modal.vue
++++ b/packages/nc-gui/components/nc/Modal.vue
+@@ -16,6 +16,8 @@ export interface NcModalProps {
+   stopEventPropogation?: boolean
+   class?: string
+   maskStyle?: CSSProperties
++  /** Accessible name for the dialog when no #header slot provides one. */
++  ariaLabel?: string
+ }
+ 
+ const props = withDefaults(defineProps<NcModalProps>(), {
+@@ -29,6 +31,7 @@ const props = withDefaults(defineProps<NcModalProps>(), {
+   ncModalClassName: '',
+   stopEventPropogation: false,
+   class: '',
++  ariaLabel: '',
+ })
+ 
+ const emits = defineEmits(['update:visible'])
+@@ -120,6 +123,19 @@ const visible = useVModel(props, 'visible', emits)
+ 
+ const slots = useSlots()
+ 
++const modalTitleId = useId()
++
++/**
++ * The `.ant-modal-wrap` carries role="dialog"; ant only names it from its own
++ * `title` prop, which we never render — our header slot lives inside the body.
++ * Point the wrap at that header instead, or fall back to an explicit label.
++ */
++const wrapProps = computed(() => {
++  if (slots.header) return { 'aria-labelledby': modalTitleId }
++  if (props.ariaLabel) return { 'aria-label': props.ariaLabel }
++  return undefined
++})
++
+ /**
+  * Escape is ours, not ant's.
+  *
+@@ -192,6 +208,7 @@ if (stopEventPropogation.value) {
+     :mask-style="maskStyle"
+     :keyboard="false"
+     :destroy-on-close="destroyOnClose"
++    :wrap-props="wrapProps"
+   >
+     <div
+       ref="ncModalRef"
+@@ -204,6 +221,7 @@ if (stopEventPropogation.value) {
+     >
+       <div
+         v-if="slots.header"
++        :id="modalTitleId"
+         :class="{
+           'border-b-1 border-nc-border-gray-medium': showSeparator,
+         }"
+diff --git a/packages/nc-gui/components/nc/PageHeader.vue b/packages/nc-gui/components/nc/PageHeader.vue
+index d938cd5..248af00 100644
+--- a/packages/nc-gui/components/nc/PageHeader.vue
++++ b/packages/nc-gui/components/nc/PageHeader.vue
+@@ -5,6 +5,12 @@ interface Props {
+ withDefaults(defineProps<Props>(), {
+   bottomBorder: true,
+ })
++
++// This component renders the page's visible <h1>: claim it so the layout's
++// sr-only fallback doesn't duplicate it on this route.
++const { registerPageH1 } = usePageH1()
++const route = useRoute()
++onMounted(() => registerPageH1(route.fullPath))
+ </script>
+ 
+ <template>
+diff --git a/packages/nc-gui/components/nc/Select.vue b/packages/nc-gui/components/nc/Select.vue
+index f1d5521..f839e27 100644
+--- a/packages/nc-gui/components/nc/Select.vue
++++ b/packages/nc-gui/components/nc/Select.vue
+@@ -22,6 +22,8 @@ const props = withDefaults(
+      * description line) render inside the closed input too.
+      */
+     optionLabelProp?: string
++    /** Accessible name for the inner combobox input when no form label applies. */
++    ariaLabel?: string
+   }>(),
+   {
+     suffixIcon: 'arrowDown',
+@@ -56,10 +58,29 @@ const onSearch = (value: string) => {
+ // search, so the listener is attached only when one is — otherwise every plain
+ // NcSelect in the app logs "`onSearch` should work with `showSearch`".
+ const searchable = computed(() => !!showSearch.value || mode.value === 'combobox' || mode.value === 'tags')
++
++const selectRef = ref()
++
++// `aria-label` passed to a-select would fall through to the roleless .ant-select
++// wrapper div; label the inner combobox input instead — the element the name
++// belongs to.
++const syncInputLabel = () => {
++  const root = selectRef.value?.$el as HTMLElement | undefined
++  if (!root || !props.ariaLabel) return
++
++  const input = root.querySelector('input')
++  if (input && input.getAttribute('aria-label') !== props.ariaLabel) {
++    input.setAttribute('aria-label', props.ariaLabel)
++  }
++}
++
++onMounted(syncInputLabel)
++onUpdated(syncInputLabel)
+ </script>
+ 
+ <template>
+   <a-select
++    ref="selectRef"
+     v-model:value="vModel"
+     :size="size"
+     :allow-clear="allowClear"
+diff --git a/packages/nc-gui/components/nc/Table.vue b/packages/nc-gui/components/nc/Table.vue
+index beb8250..2db0e05 100644
+--- a/packages/nc-gui/components/nc/Table.vue
++++ b/packages/nc-gui/components/nc/Table.vue
+@@ -27,6 +27,8 @@ interface Props {
+   tableToolbarClassName?: string
+   /** With no rows and nothing loading, render only the empty state — no header, no border. */
+   hideOnEmpty?: boolean
++  /** Accessible name for the table (optional — a generic label is better than none). */
++  ariaLabel?: string
+ }
+ 
+ const props = withDefaults(defineProps<Props>(), {
+@@ -51,6 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
+   paginationOffset: 10,
+   tableToolbarClassName: '',
+   hideOnEmpty: false,
++  ariaLabel: undefined,
+ })
+ 
+ const emit = defineEmits(['update:orderBy', 'rowClick'])
+@@ -242,10 +245,15 @@ watch(
+       </div>
+     </template>
+ 
++    <!-- The header and body are two sibling <table>s (virtualized split).
++         One role=table over both rowgroups restores the header↔cell
++         association a single table would give a screen reader. -->
+     <div
+       v-if="!isEmptyOnly"
+       ref="tableWrapper"
+       class="nc-table-wrapper relative"
++      role="table"
++      :aria-label="ariaLabel"
+       :class="{
+         'sticky-first-column': stickyFirstColumn && !isMobileMode,
+         'h-full':
+@@ -259,6 +267,7 @@ watch(
+       <table
+         ref="tableHeader"
+         class="nc-table-header-table w-full max-w-full"
++        role="rowgroup"
+         :class="{
+           '!sticky top-0 z-5': stickyHeader && !disableTableScroll,
+           '!sticky z-5': forceStickyHeader,
+@@ -267,8 +276,9 @@ watch(
+           ...(forceStickyHeader ? { top: `${tableToolbarHeight}px` } : {}),
+         }"
+       >
+-        <thead>
++        <thead role="none">
+           <tr
++            role="row"
+             :style="{
+               height: headerRowHeight,
+             }"
+@@ -278,6 +288,7 @@ watch(
+             <th
+               v-for="(col, index) in columns"
+               :key="index"
++              role="columnheader"
+               class="nc-table-header-cell"
+               :class="[
+                 `${headerCellClassName}`,
+@@ -308,7 +319,8 @@ watch(
+                 }"
+               >
+                 <slot name="headerCell" :column="col">
+-                  <div>{{ col.title || col.name || '' }}</div>
++                  <div v-if="col.title || col.name">{{ col.title || col.name }}</div>
++                  <div v-else-if="col.srTitle" class="sr-only">{{ col.srTitle }}</div>
+                 </slot>
+ 
+                 <template v-if="col.showOrderBy && col?.dataIndex">
+@@ -331,15 +343,17 @@ watch(
+       <template v-if="data.length">
+         <table
+           class="w-full h-full"
++          role="rowgroup"
+           :style="{
+             maxHeight: disableTableScroll ? undefined : `calc(100% - ${tableHeadHeight}px)`,
+           }"
+         >
+-          <tbody>
++          <tbody role="none">
+             <slot name="body-prepend" />
+             <tr
+               v-for="(record, recordIndex) of paginatedData"
+               :key="recordIndex"
++              role="row"
+               :style="{
+                 height: rowHeight,
+               }"
+@@ -350,6 +364,7 @@ watch(
+               <td
+                 v-for="(col, colIndex) of columns"
+                 :key="colIndex"
++                role="cell"
+                 class="nc-table-cell"
+                 :class="[
+                   `${bodyCellClassName}`,
+@@ -383,8 +398,12 @@ watch(
+             </tr>
+ 
+             <template v-if="slots.extraRow">
+-              <tr class="nc-table-extra-row">
+-                <slot name="extraRow" />
++              <tr role="row" class="nc-table-extra-row">
++                <!-- slot content is a <div>, not a cell — wrap it so the row
++                     owns a real cell (aria-required-children) -->
++                <td role="cell" :colspan="columns.length || 1">
++                  <slot name="extraRow" />
++                </td>
+               </tr>
+             </template>
+           </tbody>
+diff --git a/packages/nc-gui/components/nc/Tooltip.vue b/packages/nc-gui/components/nc/Tooltip.vue
+index 3e59d82..503ba64 100644
+--- a/packages/nc-gui/components/nc/Tooltip.vue
++++ b/packages/nc-gui/components/nc/Tooltip.vue
+@@ -254,6 +254,53 @@ const onClick = () => {
+     showTooltip.value = false
+   }
+ }
++
++const slots = useSlots()
++
++/** Plain-text projection of rendered vnodes — enough for tooltip titles made of
++   text and interpolations; components without own children yield ''. */
++const vNodeText = (node: unknown): string => {
++  if (node == null || typeof node === 'boolean') return ''
++  if (typeof node === 'string' || typeof node === 'number') return String(node)
++  if (Array.isArray(node)) return node.map(vNodeText).join('')
++  if (typeof node === 'object') {
++    const v = node as { children?: unknown; type?: unknown }
++    if (typeof v.children === 'string') return v.children
++    if (Array.isArray(v.children)) return vNodeText(v.children)
++    if (v.children && typeof v.children === 'object') {
++      const slotsObj = v.children as Record<string, unknown>
++      if (typeof slotsObj.default === 'function') return vNodeText((slotsObj.default as () => unknown[])())
++    }
++  }
++  return ''
++}
++
++const tooltipText = computed(() => (props.title ?? '').trim() || vNodeText(slots.title?.()).trim())
++
++// Icon-only triggers keep their name in the tooltip instead of the a11y tree.
++// Mirror it onto the trigger as aria-label — only when the trigger has no text
++// and no accessible name of its own, so labelled buttons are untouched.
++// Nameable targets only: a bare div[tabindex] has the generic role, which
++// cannot carry an accessible name (aria-prohibited-attr) — hence [role] rather
++// than [tabindex] in the selector.
++const syncTriggerLabel = () => {
++  const root = (el.value instanceof HTMLElement ? el.value : el.value?.$el) as HTMLElement | undefined
++  const text = tooltipText.value
++  if (!root || !text) return
++  const trigger = (
++    root.matches('button, a[href], input, select, textarea, [role]:not([role="none"]):not([role="presentation"]):not([role="generic"])')
++      ? root
++      : root.querySelector('button, a[href], input, select, textarea, [role]:not([role="none"]):not([role="presentation"]):not([role="generic"])')
++  ) as HTMLElement | null
++  if (!trigger) return
++  if (trigger.getAttribute('aria-label') || trigger.getAttribute('aria-labelledby') || trigger.getAttribute('title'))
++    return
++  if (trigger.textContent?.trim()) return
++  trigger.setAttribute('aria-label', text)
++}
++
++onMounted(syncTriggerLabel)
++onUpdated(syncTriggerLabel)
+ </script>
+ 
+ <template>
+diff --git a/packages/nc-gui/components/project/AccessSettings.vue b/packages/nc-gui/components/project/AccessSettings.vue
+index bb66c88..57641c8 100644
+--- a/packages/nc-gui/components/project/AccessSettings.vue
++++ b/packages/nc-gui/components/project/AccessSettings.vue
+@@ -600,6 +600,7 @@ const columns = [
+   {
+     key: 'action',
+     title: '',
++    srTitle: t('labels.actions'),
+     width: 110,
+     minWidth: 110,
+     justify: 'justify-end',
+@@ -752,6 +753,7 @@ onBeforeUnmount(() => {
+               :disabled="isLoading"
+               data-testid="nc-base-members-role-filter"
+               dropdown-class-name="nc-base-members-role-filter-dropdown"
++              :aria-label="`${$t('general.filter')} ${$t('general.role').toLowerCase()}`"
+             >
+               <a-select-option v-for="option in roleFilterOptions" :key="option.value" :value="option.value">
+                 <div class="flex items-center gap-2">
+@@ -774,6 +776,7 @@ onBeforeUnmount(() => {
+               :disabled="isLoading"
+               data-testid="nc-base-members-source-filter"
+               dropdown-class-name="nc-base-members-source-filter-dropdown"
++              :aria-label="`${$t('general.filter')} ${$t('labels.source').toLowerCase()}`"
+             >
+               <template v-for="option in memberFilterOptions" :key="option.value">
+                 <a-select-option v-if="option.divider" :value="option.value" disabled class="nc-source-filter-divider">
+@@ -942,7 +945,7 @@ onBeforeUnmount(() => {
+               </div>
+               <div v-if="column.key === 'action'">
+                 <NcDropdown placement="bottomRight">
+-                  <NcButton size="small" type="secondary" class="nc-row-action">
++                  <NcButton size="small" type="secondary" class="nc-row-action" :aria-label="$t('labels.actions')">
+                     <GeneralIcon icon="threeDotVertical" />
+                   </NcButton>
+                   <template #overlay>
+diff --git a/packages/nc-gui/components/project/SettingsShell.vue b/packages/nc-gui/components/project/SettingsShell.vue
+index 4b7a875..a2be7f2 100644
+--- a/packages/nc-gui/components/project/SettingsShell.vue
++++ b/packages/nc-gui/components/project/SettingsShell.vue
+@@ -188,6 +188,7 @@ watch(
+     :size="isMobileMode ? 'fullscreen' : 'xl'"
+     nc-modal-class-name="!p-0"
+     wrap-class-name="nc-modal-base-settings"
++    :aria-label="$t('labels.settings')"
+     @update:visible="onVisibleChange"
+   >
+     <div class="nc-base-settings relative flex h-full w-full" data-testid="nc-base-settings-wrapper">
+diff --git a/packages/nc-gui/components/roles/SelectorV2.vue b/packages/nc-gui/components/roles/SelectorV2.vue
+index f27dbb5..752ee5d 100644
+--- a/packages/nc-gui/components/roles/SelectorV2.vue
++++ b/packages/nc-gui/components/roles/SelectorV2.vue
+@@ -92,6 +92,7 @@ const activeRole = computed(() => {
+   >
+     <NcListDropdown
+       v-model:visible="isDropdownOpen"
++      :aria-label="$t('general.role')"
+       :default-slot-wrapper="false"
+       :default-slot-wrapper-class="triggerVariant === 'compact' ? 'inline-flex items-center' : 'flex-1 flex items-center gap-3'"
+       :placement="placement"
+diff --git a/packages/nc-gui/components/shell/Close.vue b/packages/nc-gui/components/shell/Close.vue
+index c28e2ed..ba9776d 100644
+--- a/packages/nc-gui/components/shell/Close.vue
++++ b/packages/nc-gui/components/shell/Close.vue
+@@ -28,6 +28,7 @@ const emits = defineEmits<{
+     size="small"
+     type="text"
+     class="nc-shell-close !absolute top-4 sm:top-8 -mt-0.5 right-3 z-20"
++    :aria-label="$t('general.close')"
+     :data-testid="testid"
+     @click="emits('close')"
+   >
+diff --git a/packages/nc-gui/components/smartsheet/Details.vue b/packages/nc-gui/components/smartsheet/Details.vue
+index be33c94..9f660dd 100644
+--- a/packages/nc-gui/components/smartsheet/Details.vue
++++ b/packages/nc-gui/components/smartsheet/Details.vue
+@@ -178,6 +178,7 @@ watch(
+     size="xl"
+     nc-modal-class-name="!p-0"
+     wrap-class-name="nc-modal-table-tools"
++    :aria-label="toolHeader.title"
+     @update:visible="onVisibleChange"
+   >
+     <div class="relative flex h-full w-full" data-testid="nc-details-wrapper">
+diff --git a/packages/nc-gui/components/smartsheet/Form.vue b/packages/nc-gui/components/smartsheet/Form.vue
+index d5b56c7..8e39496 100644
+--- a/packages/nc-gui/components/smartsheet/Form.vue
++++ b/packages/nc-gui/components/smartsheet/Form.vue
+@@ -1747,6 +1747,7 @@ const { message: templatedMessage } = useTemplatedMessage(
+                             <NcAutoSizeTextarea
+                               v-model:model-value="formViewData.heading"
+                               class="nc-form-focus-element !p-0 !m-0 w-full !font-bold !text-2xl !bg-transparent !text-nc-content-gray-emphasis"
++                              :aria-label="$t('title.formTitle')"
+                               :placeholder="$t('title.formTitle')"
+                               :bordered="false"
+                               :data-testid="NcForm.heading"
+@@ -1789,6 +1790,7 @@ const { message: templatedMessage } = useTemplatedMessage(
+                             v-if="isEditable && !isLocked"
+                             v-model:value="formViewData.subheading"
+                             :placeholder="$t('msg.info.formDesc')"
++                            :aria-label="$t('msg.info.formDesc')"
+                             class="nc-form-description nc-form-focus-element font-medium text-base !text-nc-content-gray-muted -ml-1"
+                             is-form-field
+                             :autofocus="activeRow === NcForm.subheading"
+diff --git a/packages/nc-gui/components/smartsheet/Gallery.vue b/packages/nc-gui/components/smartsheet/Gallery.vue
+index cb4c071..c64c731 100644
+--- a/packages/nc-gui/components/smartsheet/Gallery.vue
++++ b/packages/nc-gui/components/smartsheet/Gallery.vue
+@@ -885,6 +885,7 @@ function hasPosterCover(record: RowType) {
+                             type="secondary"
+                             size="xsmall"
+                             class="!absolute !left-1.5 !bottom-0 !opacity-0 !group-hover:opacity-100 !rounded-lg cursor-pointer"
++                            :aria-label="$t('general.back')"
+                           >
+                             <GeneralIcon icon="arrowLeft" class="text-nc-content-inverted-secondary w-4 h-4" />
+                           </NcButton>
+@@ -896,6 +897,7 @@ function hasPosterCover(record: RowType) {
+                             type="secondary"
+                             size="xsmall"
+                             class="!absolute !right-1.5 !bottom-0 !opacity-0 !group-hover:opacity-100 !rounded-lg cursor-pointer"
++                            :aria-label="$t('general.next')"
+                           >
+                             <GeneralIcon icon="arrowRight" class="text-nc-content-inverted-secondary w-4 h-4" />
+                           </NcButton>
+diff --git a/packages/nc-gui/components/smartsheet/KanbanOptimized.vue b/packages/nc-gui/components/smartsheet/KanbanOptimized.vue
+index efb8d66..2c701f8 100644
+--- a/packages/nc-gui/components/smartsheet/KanbanOptimized.vue
++++ b/packages/nc-gui/components/smartsheet/KanbanOptimized.vue
+@@ -1880,9 +1880,9 @@ const cardFields = (record: RowType) => {
+                   </div>
+ 
+                   <!-- Stack -->
+-                  <a-layout v-else>
+-                    <a-layout-header
+-                      class="border-b-1 border-nc-border-gray-light min-h-[49px]"
++                  <div class="ant-layout" v-else>
++                    <div
++                      class="ant-layout-header border-b-1 border-nc-border-gray-light min-h-[49px]"
+                       :class="`nc-kanban-stack-header-${stack.id}`"
+                     >
+                       <div
+@@ -1907,6 +1907,7 @@ const cardFields = (record: RowType) => {
+                             type="text"
+                             size="xs"
+                             class="nc-kanban-stack-drag-handler !px-1.5 !cursor-move !:disabled:cursor-not-allowed mt-0.5"
++                            :aria-label="`${stack.title ?? $t('labels.uncategorized')} ${$t('general.stack').toLowerCase()}`"
+                           >
+                             <GeneralLoader v-if="compareStack(stack, isSavingStack)" size="regular" class="stack-rename-loader" />
+                             <GeneralIcon v-else icon="ncDrag" class="!font-weight-800 flex-none" />
+@@ -2020,6 +2021,7 @@ const cardFields = (record: RowType) => {
+                               size="xs"
+                               class="!px-1.5 mt-0.5"
+                               :class="{ 'nc-kanban-stack-hover-action': !!interfacePageDataApi && !visible }"
++                              :aria-label="`${stack.title ?? $t('labels.uncategorized')} ${$t('labels.actions').toLowerCase()}`"
+                               data-testid="nc-kanban-stack-context-menu"
+                             >
+                               <GeneralIcon icon="threeDotVertical" />
+@@ -2108,10 +2110,10 @@ const cardFields = (record: RowType) => {
+                           </template>
+                         </NcDropdown>
+                       </div>
+-                    </a-layout-header>
++                    </div>
+ 
+-                    <a-layout-content
+-                      class="overflow-y-hidden"
++                    <div
++                      class="ant-layout-content overflow-y-hidden"
+                       :style="{
+                         backgroundColor: tinycolor
+                           .mix(
+@@ -2130,6 +2132,9 @@ const cardFields = (record: RowType) => {
+                         :ref="createKanbanListRef(stack.title)"
+                         class="nc-kanban-list px-2 nc-scrollbar-thin"
+                         :data-stack-title="stack.title"
++                        tabindex="0"
++                        role="group"
++                        :aria-label="stack.title ?? $t('labels.uncategorized')"
+                         :class="{
+                           'relative overflow-hidden': !formattedData.get(stack.title)?.length,
+                           'overflow-y-auto': formattedData.get(stack.title)?.length,
+@@ -2510,11 +2515,11 @@ const cardFields = (record: RowType) => {
+                           </PermissionsTooltip>
+                         </div>
+                       </div>
+-                    </a-layout-content>
++                    </div>
+                     <!-- Interface pages have no pinned footer — "New record" rides inline after the last card -->
+-                    <a-layout-footer
++                    <div
+                       v-if="formattedData.get(stack.title) && !interfacePageDataApi"
+-                      class="border-t-1 border-nc-border-gray-light"
++                      class="ant-layout-footer border-t-1 border-nc-border-gray-light"
+                     >
+                       <div class="flex items-center justify-between">
+                         <PermissionsTooltip
+@@ -2549,8 +2554,8 @@ const cardFields = (record: RowType) => {
+                           {{ countByStack.get(stack.title) !== 1 ? $t('objects.records') : $t('objects.record') }}
+                         </div>
+                       </div>
+-                    </a-layout-footer>
+-                  </a-layout>
++                    </div>
++                  </div>
+                 </a-card>
+ 
+                 <!-- Collapsed Stacks -->
+@@ -2592,6 +2597,7 @@ const cardFields = (record: RowType) => {
+                           type="text"
+                           size="xs"
+                           class="nc-kanban-stack-drag-handler !px-1.5 !cursor-move"
++                          :aria-label="`${stack.title ?? $t('labels.uncategorized')} ${$t('general.stack').toLowerCase()}`"
+                           @click.stop
+                         >
+                           <GeneralIcon icon="ncDrag" class="font-weight-800 flex-none" />
+@@ -2703,8 +2709,8 @@ const cardFields = (record: RowType) => {
+               </div>
+ 
+               <!-- Stack -->
+-              <a-layout v-else>
+-                <a-layout-header
++              <div class="ant-layout" v-else>
++                <div class="ant-layout-header"
+                   :class="{
+                     '!p-0 overflow-hidden': !compareStack(addNewStackObj, isRenameOrNewStack),
+                   }"
+@@ -2756,8 +2762,8 @@ const cardFields = (record: RowType) => {
+                       </template>
+                     </div>
+                   </div>
+-                </a-layout-header>
+-              </a-layout>
++                </div>
++              </div>
+             </a-card>
+           </div>
+         </div>
+diff --git a/packages/nc-gui/components/smartsheet/Toolbar.vue b/packages/nc-gui/components/smartsheet/Toolbar.vue
+index 5ec6ec3..6870b7e 100644
+--- a/packages/nc-gui/components/smartsheet/Toolbar.vue
++++ b/packages/nc-gui/components/smartsheet/Toolbar.vue
+@@ -206,6 +206,7 @@ function triggerToolbarControl(selector: string) {
+           size="small"
+           type="secondary"
+           data-testid="nc-calendar-mobile-more-btn"
++          :aria-label="`${$t('labels.actions')} ${$t('general.more').toLowerCase()}`"
+         >
+           <GeneralIcon icon="threeDotVertical" class="!h-4 !w-4" />
+         </NcButton>
+diff --git a/packages/nc-gui/components/smartsheet/details/Fields.vue b/packages/nc-gui/components/smartsheet/details/Fields.vue
+index 44f9519..2255c71 100644
+--- a/packages/nc-gui/components/smartsheet/details/Fields.vue
++++ b/packages/nc-gui/components/smartsheet/details/Fields.vue
+@@ -1722,7 +1722,13 @@ onBeforeRouteUpdate((_to, from) => confirmUnsavedChangesBeforeLeaving(from))
+               </template>
+             </a-input>
+             <NcDropdown v-if="!isLocked" :trigger="['hover']" placement="bottomRight">
+-              <NcButton size="small" type="secondary" icon-only :shadow="false">
++              <NcButton
++                size="small"
++                type="secondary"
++                icon-only
++                :shadow="false"
++                :aria-label="`${$t('objects.fields')} ${$t('labels.actions').toLowerCase()}`"
++              >
+                 <template #icon>
+                   <GeneralIcon icon="threeDotVertical" class="text-xs !text-current w-4 h-4" />
+                 </template>
+@@ -2303,6 +2309,7 @@ onBeforeRouteUpdate((_to, from) => confirmUnsavedChangesBeforeLeaving(from))
+                             '!hover:(text-nc-content-inverted-secondary bg-nc-bg-gray-medium) !group-hover:(text-nc-content-inverted-secondary-disabled)':
+                               !compareCols(field, activeField),
+                           }"
++                          :aria-label="`${fieldState(field)?.title || field.title} ${$t('labels.actions').toLowerCase()}`"
+                           data-testid="nc-field-item-action-button"
+                         >
+                           <GeneralIcon icon="threeDotVertical" class="no-action text-inherit" />
+@@ -2478,6 +2485,7 @@ onBeforeRouteUpdate((_to, from) => confirmUnsavedChangesBeforeLeaving(from))
+                             '!hover:(text-nc-content-inverted-secondary bg-nc-bg-gray-medium) !group-hover:(text-nc-content-inverted-secondary-disabled)':
+                               !compareCols(displayColumn, activeField),
+                           }"
++                          :aria-label="`${fieldState(displayColumn)?.title || displayColumn.title} ${$t('labels.actions').toLowerCase()}`"
+                           data-testid="nc-field-item-action-button"
+                         >
+                           <GeneralIcon icon="threeDotVertical" class="no-action text-inherit" />
+@@ -2552,7 +2560,7 @@ onBeforeRouteUpdate((_to, from) => confirmUnsavedChangesBeforeLeaving(from))
+               />
+ 
+               <div v-if="!activeField" class="w-[25rem] flex flex-col justify-center p-4 items-center">
+-                <img src="~assets/img/placeholder/multi-field-editor.png" class="!w-[18rem]" />
++                <img src="~assets/img/placeholder/multi-field-editor.png" alt="" class="!w-[18rem]" />
+                 <div class="text-2xl text-nc-content-gray-subtle2 font-bold text-center pt-6">
+                   {{ $t('labels.multiField.selectField') }}
+                 </div>
+diff --git a/packages/nc-gui/components/smartsheet/form/FieldBody.vue b/packages/nc-gui/components/smartsheet/form/FieldBody.vue
+index 225ce94..f21037f 100644
+--- a/packages/nc-gui/components/smartsheet/form/FieldBody.vue
++++ b/packages/nc-gui/components/smartsheet/form/FieldBody.vue
+@@ -5,12 +5,31 @@ interface Props {
+   field: Record<string, any>
+ }
+ 
+-defineProps<Props>()
++const props = defineProps<Props>()
+ 
+ const { formState, validateInfos, fieldMappings } = useFormViewStoreOrThrow()
+ 
+ const { row } = useSmartsheetRowStoreOrThrow()
+ 
++const bodyRef = ref<HTMLElement>()
++
++// The visible field title is rendered outside a-form-item, so antd never wires
++// a <label for>; name every bare control in the body after the column instead.
++const syncFieldLabels = () => {
++  const el = bodyRef.value
++  if (!el || !props.field?.title) return
++
++  el.querySelectorAll('input, textarea, [contenteditable="true"]').forEach((ctrl) => {
++    const c = ctrl as HTMLElement
++    if (!c.hasAttribute('aria-label') && !c.hasAttribute('aria-labelledby')) {
++      c.setAttribute('aria-label', props.field.title)
++    }
++  })
++}
++
++onMounted(syncFieldLabels)
++onUpdated(syncFieldLabels)
++
+ // True when an attachment cell currently holds files — drives a static
+ // `nc-input-has-attachments` class that replaces a costly `:has()` CSS selector.
+ function isAttachmentCellWithFiles(col: Record<string, any>) {
+@@ -22,7 +41,7 @@ function isAttachmentCellWithFiles(col: Record<string, any>) {
+ </script>
+ 
+ <template>
+-  <div class="nc-form-field-body">
++  <div ref="bodyRef" class="nc-form-field-body">
+     <div class="mt-2">
+       <a-form-item
+         v-if="fieldMappings[field.title]"
+diff --git a/packages/nc-gui/components/smartsheet/grid/Table.vue b/packages/nc-gui/components/smartsheet/grid/Table.vue
+index f7bb29a..4a2ac99 100644
+--- a/packages/nc-gui/components/smartsheet/grid/Table.vue
++++ b/packages/nc-gui/components/smartsheet/grid/Table.vue
+@@ -2782,6 +2782,7 @@ onKeyStroke('ArrowDown', onDown)
+             class="!rounded-l-none rtl:(!rounded-l-lg !rounded-r-none) nc-add-record-more-info"
+             type="secondary"
+             :shadow="false"
++            :aria-label="`${$t('activity.newRecord')} ${$t('labels.actions').toLowerCase()}`"
+           >
+             <GeneralIcon icon="arrowUp" />
+           </NcButton>
+diff --git a/packages/nc-gui/components/smartsheet/grid/canvas/index.vue b/packages/nc-gui/components/smartsheet/grid/canvas/index.vue
+index 7e7b56b..8231af3 100644
+--- a/packages/nc-gui/components/smartsheet/grid/canvas/index.vue
++++ b/packages/nc-gui/components/smartsheet/grid/canvas/index.vue
+@@ -4141,6 +4141,7 @@ watch(
+                 class="!rounded-l-none nc-add-record-more-info"
+                 type="secondary"
+                 :shadow="false"
++                :aria-label="`${$t('activity.newRecord')} ${$t('labels.actions').toLowerCase()}`"
+               >
+                 <GeneralIcon icon="arrowUp" />
+               </NcButton>
+diff --git a/packages/nc-gui/components/smartsheet/header/UpdateDisplayValue.vue b/packages/nc-gui/components/smartsheet/header/UpdateDisplayValue.vue
+index 3ad42a1..f4c9f7a 100644
+--- a/packages/nc-gui/components/smartsheet/header/UpdateDisplayValue.vue
++++ b/packages/nc-gui/components/smartsheet/header/UpdateDisplayValue.vue
+@@ -120,6 +120,7 @@ onMounted(() => {
+           <NcListDropdown
+             v-model:is-open="isFieldDropdownOpen"
+             :has-error="!!selectedFieldError"
++            :aria-label="$t('labels.displayValueField')"
+             data-testid="nc-display-value-field-select"
+           >
+             <div class="flex-1 flex items-center gap-2 min-w-0">
+diff --git a/packages/nc-gui/components/smartsheet/toolbar/FieldsMenu.vue b/packages/nc-gui/components/smartsheet/toolbar/FieldsMenu.vue
+index 4cff495..65a0c2b 100644
+--- a/packages/nc-gui/components/smartsheet/toolbar/FieldsMenu.vue
++++ b/packages/nc-gui/components/smartsheet/toolbar/FieldsMenu.vue
+@@ -565,6 +565,7 @@ const onAddColumnDropdownVisibilityChange = () => {
+     v-model:visible="open"
+     :trigger="['click']"
+     overlay-class-name="nc-dropdown-fields-menu nc-toolbar-dropdown overflow-hidden"
++    :aria-label="$t('objects.fields')"
+     drawer-body-class-name="nc-dropdown-fields-menu !px-0 !pb-0 h-full"
+     :scrollable-body="false"
+     :auto-close="openSubmenusCount === 0"
+@@ -797,6 +798,7 @@ const onAddColumnDropdownVisibilityChange = () => {
+                   :loading="isLoadingShowAllColumns"
+                   :size="getResponsiveValue('small', 'xsmall')"
+                   class="!mr-1 nc-fields-toggle-show-all-fields"
++                  :aria-label="`${$t('general.showAll')} ${$t('objects.fields').toLowerCase()}`"
+                 />
+               </div>
+             </template>
+@@ -994,6 +996,7 @@ const onAddColumnDropdownVisibilityChange = () => {
+                             :checked="field.show"
+                             :disabled="field.isViewEssentialField || isFieldsMenuReadOnly || isLoadingShowAllColumns"
+                             :size="getResponsiveValue('xsmall', 'xxsmall')"
++                            :aria-label="field.title"
+                             @change="$e('a:fields:show-hide')"
+                             @click="handleFieldVisibilityClick(field)"
+                           />
+diff --git a/packages/nc-gui/components/smartsheet/toolbar/OpenedViewAction.vue b/packages/nc-gui/components/smartsheet/toolbar/OpenedViewAction.vue
+index e6fb436..904840d 100644
+--- a/packages/nc-gui/components/smartsheet/toolbar/OpenedViewAction.vue
++++ b/packages/nc-gui/components/smartsheet/toolbar/OpenedViewAction.vue
+@@ -73,6 +73,7 @@ function openDeleteDialog() {
+         class="nc-view-action-menu-btn nc-toolbar-btn !border-0 !h-7 !px-1.5 !min-w-7"
+         size="small"
+         type="secondary"
++        :aria-label="`${$t('objects.view')} ${$t('labels.actions').toLowerCase()}`"
+       >
+         <div class="flex items-center gap-0.5">
+           <GeneralIcon icon="threeDotVertical" class="!h-4 !w-4" />
+diff --git a/packages/nc-gui/components/smartsheet/toolbar/RowHeight.vue b/packages/nc-gui/components/smartsheet/toolbar/RowHeight.vue
+index 8d36815..44e15a3 100644
+--- a/packages/nc-gui/components/smartsheet/toolbar/RowHeight.vue
++++ b/packages/nc-gui/components/smartsheet/toolbar/RowHeight.vue
+@@ -112,6 +112,7 @@ useMenuCloseOnEsc(open)
+         class="nc-height-menu-btn nc-toolbar-btn !border-0 !h-7 !px-1.5 !min-w-7"
+         size="small"
+         type="secondary"
++        :aria-label="$t('objects.rowHeight')"
+         :show-as-disabled="isLocked"
+       >
+         <div class="flex items-center gap-0.5">
+diff --git a/packages/nc-gui/components/smartsheet/toolbar/SearchData.vue b/packages/nc-gui/components/smartsheet/toolbar/SearchData.vue
+index 71a2991..b18da7c 100644
+--- a/packages/nc-gui/components/smartsheet/toolbar/SearchData.vue
++++ b/packages/nc-gui/components/smartsheet/toolbar/SearchData.vue
+@@ -298,6 +298,7 @@ watch(
+         size="small"
+         type="text"
+         class="nc-toolbar-btn !rounded-lg !h-7 !px-1.5 relative"
++        :aria-label="$t('general.search')"
+         data-testid="nc-global-search-show-input"
+         @click="handleShowSearchInput"
+       >
+diff --git a/packages/nc-gui/components/workspace/CollaboratorsList.vue b/packages/nc-gui/components/workspace/CollaboratorsList.vue
+index 5f1f90b..fc76f59 100644
+--- a/packages/nc-gui/components/workspace/CollaboratorsList.vue
++++ b/packages/nc-gui/components/workspace/CollaboratorsList.vue
+@@ -408,6 +408,7 @@ const columns = computed<NcTableColumnProps[]>(() => [
+   {
+     key: 'action',
+     title: '',
++    srTitle: t('labels.actions'),
+     width: 110,
+     minWidth: 110,
+     justify: 'justify-end',
+@@ -542,6 +543,7 @@ watch(inviteDlg, (newVal) => {
+             :disabled="isCollaboratorsLoading"
+             data-testid="nc-ws-members-role-filter"
+             dropdown-class-name="nc-ws-members-filter-dropdown"
++            :aria-label="`${$t('general.filter')} ${$t('general.role').toLowerCase()}`"
+           >
+             <a-select-option v-for="option in roleFilterOptions" :key="option.value" :value="option.value">
+               <div class="flex items-center gap-2">
+@@ -563,6 +565,7 @@ watch(inviteDlg, (newVal) => {
+             :disabled="isCollaboratorsLoading"
+             data-testid="nc-ws-members-type-filter"
+             dropdown-class-name="nc-ws-members-filter-dropdown"
++            :aria-label="`${$t('general.filter')} ${$t('general.type').toLowerCase()}`"
+           >
+             <a-select-option v-for="option in typeFilterOptions" :key="option.value" :value="option.value">
+               {{ option.label }}
+@@ -828,6 +831,7 @@ watch(inviteDlg, (newVal) => {
+                 <component
+                   :is="canOpenSeatDetail && !record.isTeam ? 'button' : 'div'"
+                   v-e="['c:workspace:member:billable-detail']"
++                  :aria-label="showBillableLabel ? $t('tooltip.paidUserBadgeTooltip') : $t('labels.editorSeat')"
+                   class="nc-billable-badge flex items-center border-none p-0 bg-transparent"
+                   :class="{ 'cursor-pointer': canOpenSeatDetail && !record.isTeam }"
+                   data-testid="nc-billable-badge"
+@@ -860,7 +864,7 @@ watch(inviteDlg, (newVal) => {
+ 
+             <div v-if="column.key === 'action'">
+               <NcDropdown placement="bottomRight">
+-                <NcButton size="small" type="secondary" class="nc-row-action">
++                <NcButton size="small" type="secondary" class="nc-row-action" :aria-label="$t('labels.actions')">
+                   <GeneralIcon icon="threeDotVertical" />
+                 </NcButton>
+                 <template #overlay>
+diff --git a/packages/nc-gui/components/workspace/integrations/IntegrationsTab.vue b/packages/nc-gui/components/workspace/integrations/IntegrationsTab.vue
+index b4d6039..614bbd7 100644
+--- a/packages/nc-gui/components/workspace/integrations/IntegrationsTab.vue
++++ b/packages/nc-gui/components/workspace/integrations/IntegrationsTab.vue
+@@ -346,8 +346,10 @@ watch(activeViewTab, (value) => {
+     wrap-class-name="nc-modal-available-integrations-list"
+     @keydown.esc="isAddNewIntegrationModalOpen = false"
+   >
+-    <a-layout>
+-      <a-layout-content class="nc-integration-layout-content">
++    <!-- div.ant-layout rather than a-layout: a <section> would suppress the
++         implicit landmark roles of its children inside the settings dialog. -->
++    <div class="ant-layout">
++      <div class="ant-layout-content nc-integration-layout-content">
+         <div v-if="isModal" class="p-4 w-full flex items-center justify-between gap-3 border-b-1 border-nc-border-gray-medium">
+           <NcButton type="text" size="small" @click="isAddNewIntegrationModalOpen = false">
+             <GeneralIcon icon="arrowLeft" />
+@@ -546,8 +548,8 @@ watch(activeViewTab, (value) => {
+           </div>
+         </div>
+         <WorkspaceIntegrationsRequestDialog />
+-      </a-layout-content>
+-    </a-layout>
++      </div>
++    </div>
+   </component>
+ </template>
+ 
+diff --git a/packages/nc-gui/composables/usePageH1.ts b/packages/nc-gui/composables/usePageH1.ts
+new file mode 100644
+index 0000000..7c4a226
+--- /dev/null
++++ b/packages/nc-gui/composables/usePageH1.ts
+@@ -0,0 +1,16 @@
++// The default layout renders a fallback sr-only <h1> bound to the document
++// title so every page has a level-one heading (page-has-heading-one). Pages
++// whose content already renders a visible <h1> — i.e. through NcPageHeader —
++// register their route here so the fallback doesn't produce two h1s.
++export const usePageH1 = () => {
++  const h1Owner = useState<string | null>('nc-page-h1-owner', () => null)
++
++  const registerPageH1 = (path: string) => {
++    h1Owner.value = path
++  }
++
++  return {
++    h1Owner,
++    registerPageH1,
++  }
++}
+diff --git a/packages/nc-gui/layouts/base.vue b/packages/nc-gui/layouts/base.vue
+index f922889..3af03ea 100644
+--- a/packages/nc-gui/layouts/base.vue
++++ b/packages/nc-gui/layouts/base.vue
+@@ -32,12 +32,15 @@ hooks.hook('page:finish', () => {
+ </script>
+ 
+ <template>
+-  <a-layout id="nc-app" class="nc-app" has-sider>
++  <!-- a-layout renders a <section>, which suppresses the implicit banner role
++       of the <header> inside it. Plain divs keep the same ant-layout styles
++       without swallowing the landmark. -->
++  <div id="nc-app" class="nc-app ant-layout ant-layout-has-sider">
+     <Transition name="slide">
+       <div v-show="hasSider" id="nc-sidebar-left" ref="sidebar" />
+     </Transition>
+ 
+-    <a-layout class="!flex-col nc-h-screen">
++    <div class="ant-layout !flex-col nc-h-screen">
+       <a-layout-header v-if="!route.meta.public && signedIn && !route.meta.hideHeader" class="nc-navbar">
+         <div
+           v-if="!route.params.baseType"
+@@ -159,8 +162,8 @@ hooks.hook('page:finish', () => {
+       <div class="w-full h-full overflow-hidden nc-layout-base-inner">
+         <slot />
+       </div>
+-    </a-layout>
+-  </a-layout>
++    </div>
++  </div>
+ </template>
+ 
+ <style lang="scss">
+diff --git a/packages/nc-gui/layouts/default.vue b/packages/nc-gui/layouts/default.vue
+index 9d80e82..11bf7c2 100644
+--- a/packages/nc-gui/layouts/default.vue
++++ b/packages/nc-gui/layouts/default.vue
+@@ -15,7 +15,20 @@ const sidebarReady = ref(false)
+ 
+ // Reactive so the fallback title follows the product name (incl. live-apply on
+ // a white-labelled instance); page-specific route titles still take precedence.
+-useTitle(computed(() => (route.meta?.title && te(route.meta.title) ? `${t(route.meta.title)}` : productName.value)))
++const pageTitle = computed(() => (route.meta?.title && te(route.meta.title) ? `${t(route.meta.title)}` : productName.value))
++useTitle(pageTitle)
++
++// Several pages mount a second <NuxtLayout> inside themselves (signin, signup,
++// shared forms…), which nests another DefaultLayout and produced two <main>
++// landmarks per document. The outermost layout claims the <main>; inner ones
++// render a plain div instead.
++const hasOuterMain = inject<boolean>('nc-layout-has-main', false)
++provide('nc-layout-has-main', true)
++
++// Pages that render their own visible <h1> (via NcPageHeader) claim the route
++// through usePageH1 — the sr-only fallback must then stay out to avoid two h1s.
++const { h1Owner } = usePageH1()
++const pageHasOwnH1 = computed(() => h1Owner.value === route.fullPath)
+ 
+ watch(hasSidebar, (val) => {
+   if (!val) {
+@@ -47,8 +60,11 @@ export default {
+       <slot v-if="!refreshSidebar" name="sidebar" />
+     </Teleport>
+ 
+-    <a-layout-content>
++    <component :is="hasOuterMain ? 'div' : 'main'" class="ant-layout-content">
++      <!-- A page needs one level-one heading; app pages don't render a visible
++           one, so bind the document title into a screen-reader h1 inside main. -->
++      <h1 v-if="!hasOuterMain && !pageHasOwnH1" class="sr-only">{{ pageTitle }}</h1>
+       <slot />
+-    </a-layout-content>
++    </component>
+   </div>
+ </template>
+diff --git a/packages/nc-gui/layouts/shared-view.vue b/packages/nc-gui/layouts/shared-view.vue
+index 0762fcf..a007c16 100644
+--- a/packages/nc-gui/layouts/shared-view.vue
++++ b/packages/nc-gui/layouts/shared-view.vue
+@@ -65,8 +65,10 @@ export default {
+ </script>
+ 
+ <template>
+-  <a-layout id="nc-app">
+-    <a-layout class="!flex-col bg-nc-bg-default">
++  <!-- a-layout renders a <section>, which suppresses the implicit banner role
++       of the <header> inside it. Plain divs keep the same ant-layout styles. -->
++  <div id="nc-app" class="ant-layout">
++    <div class="ant-layout !flex-col bg-nc-bg-default">
+       <GeneralPageDoesNotExist v-if="ncNotFound" />
+       <template v-else>
+         <a-layout-header
+@@ -159,19 +161,20 @@ export default {
+           </div>
+         </a-layout-header>
+         <NcFullScreen v-model="isFullScreen" class="h-full" :page-only="true">
+-          <div
++          <main
+             class="nc-shared-view-container w-full overflow-hidden"
+             :class="{
+               'nc-shared-mobile-view': isMobileMode,
+               'disable-topbar': disableTopbar,
+             }"
+           >
++            <h1 class="sr-only">{{ sharedView?.title ?? sharedPageTitle?.title ?? productName }}</h1>
+             <slot />
+-          </div>
++          </main>
+         </NcFullScreen>
+       </template>
+-    </a-layout>
+-  </a-layout>
++    </div>
++  </div>
+ </template>
+ 
+ <style lang="scss" scoped>
+diff --git a/packages/nc-gui/lib/types.ts b/packages/nc-gui/lib/types.ts
+index 4c0bb2b..9580716 100644
+--- a/packages/nc-gui/lib/types.ts
++++ b/packages/nc-gui/lib/types.ts
+@@ -425,6 +425,8 @@ interface NcTableColumnProps<T extends object = Record<string, any>> {
+   key: 'name' | 'action' | string
+   // title is column header cell value and we can also pass i18n value as this is just used to render in UI
+   title: string
++  // Screen-reader-only title for columns whose header is visually empty (e.g. row actions).
++  srTitle?: string
+   // minWidth is required to fix overflow col issue
+   minWidth: number
+   // provide width if we want col to be fixed width or provide basis value
+diff --git a/packages/nc-gui/package.json b/packages/nc-gui/package.json
+index 3429163..4c955b3 100644
+--- a/packages/nc-gui/package.json
++++ b/packages/nc-gui/package.json
+@@ -29,6 +29,10 @@
+     "@aws-amplify/core": "^5.8.14",
+     "@aws-amplify/ui-vue": "^3.1.30",
+     "@ckpack/vue-color": "^1.6.0",
++    "@codemirror/autocomplete": "^6.20.3",
++    "@codemirror/commands": "^6.11.1",
++    "@codemirror/state": "^6.7.6",
++    "@codemirror/view": "^6.43.13",
+     "@dagrejs/dagre": "^1.1.8",
+     "@floating-ui/vue": "^1.1.6",
+     "@iconify/vue": "^4.3.0",
+@@ -194,6 +198,7 @@
+     "@iconify-json/tabler": "^1.2.15",
+     "@iconify-json/vscode-icons": "^1.2.11",
+     "@intlify/unplugin-vue-i18n": "^6.0.8",
++    "@julr/unocss-preset-forms": "^2.0.0",
+     "@nuxt/image": "^1.10.0",
+     "@nuxt/kit": "^4.5.2",
+     "@sentry/vite-plugin": "^2.23.0",
+@@ -212,14 +217,13 @@
+     "@types/tinycolor2": "^1.4.6",
+     "@types/validator": "^13.12.2",
+     "@types/vue-barcode-reader": "^0.0.3",
+-    "@vitest/ui": "^4.1.1",
+-    "@vue/compiler-sfc": "^3.5.13",
+-    "@vue/test-utils": "^2.4.6",
+-    "@julr/unocss-preset-forms": "^2.0.0",
+     "@unocss/nuxt": "^66.7.5",
+     "@unocss/preset-mini": "^66.7.5",
+     "@unocss/preset-typography": "^66.7.5",
+     "@unocss/preset-wind3": "^66.7.5",
++    "@vitest/ui": "^4.1.1",
++    "@vue/compiler-sfc": "^3.5.13",
++    "@vue/test-utils": "^2.4.6",
+     "@vueuse/nuxt": "^13.9.0",
+     "eslint": "^8.57.1",
+     "eslint-config-prettier": "^8.10.0",
+diff --git a/packages/nc-gui/pages/account/index.vue b/packages/nc-gui/pages/account/index.vue
+index 555e80d..8b5616a 100644
+--- a/packages/nc-gui/pages/account/index.vue
++++ b/packages/nc-gui/pages/account/index.vue
+@@ -35,7 +35,7 @@ const logout = async () => {
+               class="tabs-menu h-full"
+               mode="inline"
+             >
+-              <div class="h-[var(--topbar-height)] flex items-center children:flex-none">
++              <div class="h-[var(--topbar-height)] flex items-center children:flex-none" role="none">
+                 <NcButton
+                   v-if="!$route.params.baseType"
+                   v-e="['c:navbar:home']"
+@@ -43,6 +43,7 @@ const logout = async () => {
+                   size="small"
+                   class="transition-all duration-200 mx-2 cursor-pointer transform hover:bg-nc-bg-gray-light nc-noco-brand-icon"
+                   data-testid="nc-noco-brand-icon"
++                  role="menuitem"
+                   @click="navigateTo(backRoute)"
+                 >
+                   <div class="flex flex-row gap-x-2 items-center">
+@@ -53,7 +54,9 @@ const logout = async () => {
+               </div>
+               <NcDivider class="!mt-0" />
+ 
+-              <div class="text-sm text-nc-content-gray-muted font-semibold ml-4 py-1.5 mt-2">{{ $t('labels.account') }}</div>
++              <div class="text-sm text-nc-content-gray-muted font-semibold ml-4 py-1.5 mt-2" role="none">
++                {{ $t('labels.account') }}
++              </div>
+ 
+               <NcMenuItem
+                 key="profile"
+@@ -135,7 +138,7 @@ const logout = async () => {
+ 
+               <template v-if="signedIn">
+                 <NcDropdown :trigger="['click']" overlay-class-name="nc-dropdown-user-accounts-menu">
+-                  <NcButton type="text" size="small">
++                  <NcButton type="text" size="small" :aria-label="`${$t('labels.account')} ${$t('labels.actions').toLowerCase()}`">
+                     <component
+                       :is="iconMap.threeDotVertical"
+                       data-testid="nc-menu-accounts"
+diff --git a/packages/nc-gui/pages/admin/index.vue b/packages/nc-gui/pages/admin/index.vue
+index 66a7097..ae6ca6a 100644
+--- a/packages/nc-gui/pages/admin/index.vue
++++ b/packages/nc-gui/pages/admin/index.vue
+@@ -90,13 +90,14 @@ watch(
+         <!-- Side tabs -->
+         <div class="h-full bg-nc-bg-gray-sidebar nc-user-sidebar overflow-y-auto nc-scrollbar-thin min-w-[312px]">
+           <NcMenu :selected-keys="[activeTab]" :inline-indent="16" class="tabs-menu h-full" mode="inline">
+-            <div class="h-[var(--topbar-height)] flex items-center children:flex-none">
++            <div class="h-[var(--topbar-height)] flex items-center children:flex-none" role="none">
+               <NcButton
+                 v-e="['c:navbar:home']"
+                 type="text"
+                 size="small"
+                 class="transition-all duration-200 mx-2 cursor-pointer transform nc-noco-brand-icon"
+                 data-testid="nc-noco-brand-icon"
++                role="menuitem"
+                 @click="navigateTo(backRoute)"
+               >
+                 <div class="flex flex-row gap-x-2 items-center">
+@@ -107,7 +108,7 @@ watch(
+             </div>
+             <NcDivider class="!mt-0" />
+ 
+-            <div class="text-sm ml-2 p-2 mt-2 flex items-center justify-between gap-2">
++            <div class="text-sm ml-2 p-2 mt-2 flex items-center justify-between gap-2" role="none">
+               <div class="text-base font-bold text-nc-content-gray-emphasis">NocoDB</div>
+               <span class="text-nc-content-gray-muted">{{ $t('labels.adminPanel') }}</span>
+             </div>
+diff --git a/packages/nc-gui/pages/signin.vue b/packages/nc-gui/pages/signin.vue
+index e4c0c8d..19979d9 100644
+--- a/packages/nc-gui/pages/signin.vue
++++ b/packages/nc-gui/pages/signin.vue
+@@ -96,7 +96,7 @@ function navigateForgotPassword() {
+           <a-form ref="formValidator" :model="form" layout="vertical" no-style @finish="signIn">
+             <template v-if="!appInfo.disableEmailAuth">
+               <Transition name="layout">
+-                <div v-if="error" class="self-center mb-4 bg-red-500 text-white rounded-lg w-3/4 mx-auto p-1">
++                <div v-if="error" class="self-center mb-4 bg-red-800 text-white rounded-lg w-3/4 mx-auto p-1">
+                   <div class="flex items-center gap-2 justify-center">
+                     <MaterialSymbolsWarning />
+                     <div class="break-words">{{ error }}</div>
+diff --git a/packages/nc-gui/pages/signup/[[token]].vue b/packages/nc-gui/pages/signup/[[token]].vue
+index adf9fe6..731e705 100644
+--- a/packages/nc-gui/pages/signup/[[token]].vue
++++ b/packages/nc-gui/pages/signup/[[token]].vue
+@@ -238,6 +238,7 @@ onMounted(async () => {
+                   v-model:checked="subscribe"
+                   size="small"
+                   class="my-1 hover:(ring ring-accent ring-opacity-100) focus:(!ring !ring-accent ring-opacity-100)"
++                  :aria-label="$t('msg.subscribeToOurWeeklyNewsletter')"
+                 />
+                 <div class="prose-xs text-nc-content-gray-muted">{{ $t('msg.subscribeToOurWeeklyNewsletter') }}</div>
+               </div>
+diff --git a/packages/nc-gui/store/sidebar.ts b/packages/nc-gui/store/sidebar.ts
+index d1a89ec..3dd02b6 100644
+--- a/packages/nc-gui/store/sidebar.ts
++++ b/packages/nc-gui/store/sidebar.ts
+@@ -118,6 +118,10 @@ export const useSidebarStore = defineStore('sidebarStore', () => {
+   const routeDerivedTab = computed<SidebarTab | null>(() => {
+     const name = route.value.name?.toString() ?? ''
+ 
++    // The base overview route (pages/index/[typeOrId]/[baseId]/index.vue) —
++    // declared locally; it was referenced before this const existed upstream.
++    const BASE_OVERVIEW_ROUTE = 'index-typeOrId-baseId'
++
+     // Base routes — only derive tab when a baseId is present
+     if (name.startsWith('index-typeOrId-baseId-')) {
+       // The base overview belongs to every tab: opening it keeps the sidebar where it was.
+diff --git a/packages/nc-gui/utils/colorsUtils.ts b/packages/nc-gui/utils/colorsUtils.ts
+index 5aac3d2..f6dd0aa 100644
+--- a/packages/nc-gui/utils/colorsUtils.ts
++++ b/packages/nc-gui/utils/colorsUtils.ts
+@@ -398,6 +398,30 @@ export function isColorDark(hexColor: string, threshold = 128) {
+   return luminance < threshold
+ }
+ 
++function channelToLinear(c: number) {
++  const s = c / 255
++  return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4)
++}
++
++/** WCAG 2.x contrast ratio between two '#rrggbb' colors (1–21). */
++export function contrastRatio(hexA: string, hexB: string) {
++  const a = hexToRGBObject(hexA.replace('#', ''))
++  const b = hexToRGBObject(hexB.replace('#', ''))
++  const la = 0.2126 * channelToLinear(a.r) + 0.7152 * channelToLinear(a.g) + 0.0722 * channelToLinear(a.b)
++  const lb = 0.2126 * channelToLinear(b.r) + 0.7152 * channelToLinear(b.g) + 0.0722 * channelToLinear(b.b)
++  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05)
++}
++
++/**
++ * Whether white or black text reads better on `hexColor`, per WCAG contrast.
++ * `isColorDark` uses a weighted-sum threshold that calls mid colors like
++ * `#e8463c` "dark" even though white on them is only ~3.9:1; this compares
++ * both text colors so the picked one is always the more readable.
++ */
++export function isDarkEnoughForWhiteText(hexColor: string) {
++  return contrastRatio(hexColor, '#ffffff') >= contrastRatio(hexColor, '#000000')
++}
++
+ export function getEnumColorByIndex(i: number, mode: 'light' | 'dark' = 'light') {
+   return enumColor[mode][i % enumColor[mode].length]
+ }
+@@ -659,10 +683,13 @@ export const themeVariables = {
+       subtle: themeV4Colors.gray[700],
+       subtle2: themeV4Colors.gray[600],
+       muted: themeV4Colors.gray[500],
+-      disabled: themeV4Colors.gray[400],
++      // WCAG AA: gray-400 is under 4.5:1 on white; disabled text still must read.
++      disabled: themeV4Colors.gray[500],
+     },
+     'nc-content-brand': {
+-      DEFAULT: themeV4Colors.brand[500],
++      // WCAG AA: brand-500 (#3366ff) is only 4.2:1 on the brand-50 tint used by
++      // every "active" row — brand-600 keeps the hue and clears 5:1 everywhere.
++      DEFAULT: themeV4Colors.brand[600],
+       disabled: themeV4Colors.brand[600],
+       hover: themeV4Colors.gray[300],
+     },
+diff --git a/packages/nc-gui/utils/iconUtils.ts b/packages/nc-gui/utils/iconUtils.ts
+index 7c22e3c..1dbabca 100644
+--- a/packages/nc-gui/utils/iconUtils.ts
++++ b/packages/nc-gui/utils/iconUtils.ts
+@@ -4803,3 +4803,37 @@ export type IconMapKey = keyof typeof iconMap
+ export function resolveIconMapKey(icon?: string): IconMapKey | undefined {
+   return icon && icon in iconMap ? (icon as IconMapKey) : undefined
+ }
++
++// Source .svg assets ship hard-coded <defs> ids ("Vector", "Social Icons"…).
++// Every rendered copy duplicates them document-wide — suffix each id and every
++// url(#…)/#… reference with a per-call counter so repeated icons stay unique.
++let ncSvgIdSeq = 0
++export function scopeSvgIds(root: Element | null | undefined): void {
++  if (!root) return
++  // Scope each <svg> independently: a container holding several copies of the
++  // same icon must give each copy its own suffix, not share one remapping.
++  const svgs: Element[] = root.tagName === 'svg' ? [root] : [...root.querySelectorAll('svg')]
++  for (const svg of svgs) {
++    const map = new Map<string, string>()
++    svg.querySelectorAll('[id]').forEach((el) => {
++      const old = el.id
++      if (!map.has(old)) map.set(old, `${old}-nci${++ncSvgIdSeq}`)
++    })
++    if (!map.size) continue
++    svg.querySelectorAll('[id]').forEach((el) => {
++      el.id = map.get(el.id)!
++    })
++    svg.querySelectorAll('*').forEach((el) => {
++      for (const attr of ['fill', 'stroke', 'clip-path', 'filter', 'mask', 'marker-start', 'marker-mid', 'marker-end']) {
++        const v = el.getAttribute(attr)
++        if (v && v.includes('url(#')) {
++          el.setAttribute(attr, v.replace(/url\(#([^)]+)\)/g, (_m, id) => `url(#${map.get(id) ?? id})`))
++        }
++      }
++      for (const attr of ['href', 'xlink:href', 'aria-labelledby', 'aria-describedby']) {
++        const v = el.getAttribute(attr)
++        if (v && v.startsWith('#')) el.setAttribute(attr, `#${map.get(v.slice(1)) ?? v.slice(1)}`)
++      }
++    })
++  }
++}
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index 81bf3e5..7268761 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -176,7 +176,7 @@ overrides:
+ 
+ patchedDependencies:
+   ant-design-vue@3.2.20:
+-    hash: 60728dae2fea3ada36e7f0c581e02664f6782d54d2066d9ffbfca0a24f57ffeb
++    hash: a98f4bcff5a18994197175ab590e3c0b803fa56ffcb5b7cd471c3b5685ce135c
+     path: packages/nc-gui/.patches/ant-design-vue@3.2.20.patch
+   image-size@2.0.2:
+     hash: 0be8d37281eb8b7001b78cfc2772896c962ddf401b5890c9303fef84de85eaeb
+@@ -210,6 +210,18 @@ importers:
+       '@ckpack/vue-color':
+         specifier: ^1.6.0
+         version: 1.6.0(vue@3.5.14(typescript@5.8.3))
++      '@codemirror/autocomplete':
++        specifier: ^6.20.3
++        version: 6.20.3
++      '@codemirror/commands':
++        specifier: ^6.11.1
++        version: 6.11.1
++      '@codemirror/state':
++        specifier: ^6.7.6
++        version: 6.7.6
++      '@codemirror/view':
++        specifier: ^6.43.13
++        version: 6.43.13
+       '@dagrejs/dagre':
+         specifier: ^1.1.8
+         version: 1.1.8
+@@ -380,7 +392,7 @@ importers:
+         version: 6.183.0
+       ant-design-vue:
+         specifier: ^3.2.20
+-        version: 3.2.20(patch_hash=60728dae2fea3ada36e7f0c581e02664f6782d54d2066d9ffbfca0a24f57ffeb)(vue@3.5.14(typescript@5.8.3))
++        version: 3.2.20(patch_hash=a98f4bcff5a18994197175ab590e3c0b803fa56ffcb5b7cd471c3b5685ce135c)(vue@3.5.14(typescript@5.8.3))
+       aws-amplify:
+         specifier: ^5.3.27
+         version: 5.3.29(encoding@0.1.13)(react-native@0.83.1(@babel/core@7.29.7)(react@19.1.0))
+@@ -3393,6 +3405,7 @@ packages:
+ 
+   '@clickhouse/client-common@1.16.0':
+     resolution: {integrity: sha512-qMzkI1NmV29ZjFkNpVSvGNfA0c7sCExlufAQMv+V+5xtNeYXnRfdqzmBLIQoq6Pf1ij0kw/wGLD3HQrl7pTFLA==}
++    deprecated: 'Deprecated: import from @clickhouse/client or @clickhouse/client-web instead.'
+ 
+   '@clickhouse/client@1.16.0':
+     resolution: {integrity: sha512-ThPhoRMsKsf/hmBEgWlUsGxFecsr3i+k3JI8JV0Od7UpH2BSmk9VKMGJoyPCrTL0vPUs5rJH+7o4iCqBF09Xvg==}
+@@ -3402,6 +3415,21 @@ packages:
+     resolution: {integrity: sha512-SIOD2DxrRRwQ+jgzlXCqoEFiKOFqaPjhnNTGKXSRLvp1HiOvapLaFG2kEr9dYQTYe8rKrd9uvDUzmAITeNyaHQ==}
+     engines: {node: '>=18.0.0'}
+ 
++  '@codemirror/autocomplete@6.20.3':
++    resolution: {integrity: sha512-tlosUqb+3BbxCxZdu4tKeRghPFC+QM7q4X5YhKV2eCmPG+1r2F3f4AaSz5sCrFqUtX4Jh20VFTKecl16MgiV9g==}
++
++  '@codemirror/commands@6.11.1':
++    resolution: {integrity: sha512-O/4hG3SC1YwcmQ0d2UVNDs+AsaNWd1iHVxbTeEBuqH+6bExAiPK3iS/BvpY6rZGURALv4ZD3sIgcCmRvw3ehBg==}
++
++  '@codemirror/language@6.12.4':
++    resolution: {integrity: sha512-1q4PaT+o6PbgpkJt4Q8Fv5XJxTy4FUZ4MWETtyiDw3J0Pyr9E2vqcKL+k9wcvjNTIsauxvE7OfmWj3FRPHQ76A==}
++
++  '@codemirror/state@6.7.6':
++    resolution: {integrity: sha512-kAz+AncRtKuIknedxT1bq4XwXv4UowhbkHU1myPrtVb/jZtImWuV5BXzv5vK6i3kYACsdiZiQKFQQ5Mq7elW8w==}
++
++  '@codemirror/view@6.43.13':
++    resolution: {integrity: sha512-sihaFrUzAsYBQsL9J2t69y8nfMQGwcYmggAZsk+kjPbjYZMyuf2hU8tUNTZ+P+isb6XRr8JE22TZlJxBoVdH1A==}
++
+   '@colordx/core@5.5.0':
+     resolution: {integrity: sha512-3PxTH8itZzltK0U9jTwVVnjLXvnDYuq3m+QXsHkENxWiPRh4WaoLcs1SQjqgZ55kS+QyirpH5BVwzP2gMVG6EQ==}
+ 
+@@ -4956,6 +4984,15 @@ packages:
+   '@kwsites/promise-deferred@1.1.1':
+     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
+ 
++  '@lezer/common@1.5.3':
++    resolution: {integrity: sha512-H0iErY4e43LpXbYDyBci5W4v/RwTgGV3YzYOlJPiGZ8RY8w51kVE+xLn1tg3Z6UmSfyETvtsUK3r7YsgDQEI7Q==}
++
++  '@lezer/highlight@1.2.4':
++    resolution: {integrity: sha512-4UeRVFO0lsBaM7GA32zOqbmqNPme9jedo8Ey+5c5656MU3MLitMLIA8aCZTYjUMEpEsuSeXEm78Uea6Iq3bvSg==}
++
++  '@lezer/lr@1.4.10':
++    resolution: {integrity: sha512-rnCpTIBafOx4mRp43xOxDJbFipJm/c0cia/V5TiGlhmMa+wsSdoGmUN3w5Bqrks/09Q/D4tNAmWaT8p6NRi77A==}
++
+   '@linear/sdk@40.0.0':
+     resolution: {integrity: sha512-R4lyDIivdi00fO+DYPs7gWNX221dkPJhgDowFrsfos/rNG6o5HixsCPgwXWtKN0GA0nlqLvFTmzvzLXpud1xKw==}
+     engines: {node: '>=12.x', yarn: 1.x}
+@@ -4973,6 +5010,9 @@ packages:
+     engines: {node: '>=18'}
+     hasBin: true
+ 
++  '@marijn/find-cluster-break@1.0.4':
++    resolution: {integrity: sha512-Wy0V7+SGUjnF9/TkiM1hKVDPj7jKXduPNboMVtHTA8dySMURWqfg/JZ9E2Sq8JgSJmkl7k7Qe9FLeMSrSraWmQ==}
++
+   '@microsoft/microsoft-graph-client@3.0.7':
+     resolution: {integrity: sha512-/AazAV/F+HK4LIywF9C+NYHcJo038zEnWkteilcxC1FM/uK/4NVGDKGrxx7nNq1ybspAroRKT4I1FHfxQzxkUw==}
+     engines: {node: '>=12.0.0'}
+@@ -5756,6 +5796,7 @@ packages:
+ 
+   '@octokit/webhooks-types@7.6.1':
+     resolution: {integrity: sha512-S8u2cJzklBC0FgTwWVLaM8tMrDuDMVE4xiTK4EYXM9GntyvrdbSoxqDQa+Fh57CCNApyIpyeqPhhFEmHPfrXgw==}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+ 
+   '@octokit/webhooks@12.3.2':
+     resolution: {integrity: sha512-exj1MzVXoP7xnAcAB3jZ97pTvVPkQF9y6GA/dvYC47HV7vLv+24XRS6b/v/XnyikpEuvMhugEXdGtAlU086WkQ==}
+@@ -6454,6 +6495,7 @@ packages:
+ 
+   '@productdevbook/chatwoot@2.0.0':
+     resolution: {integrity: sha512-9A8LY3Jw+KEA3pKJ3zB4zooq4QJ5IdHDBsFhemMuTb3QI/JO0WeWtV1kPO+DYMuGp/FLaHe3T81fh5pAXSlh6g==}
++    deprecated: This package is no longer maintained. Please migrate to 'ahize' (https://github.com/productdevbook/ahize) — a zero-dependency, SSR-safe TypeScript wrapper for Chatwoot and 17 other live-chat providers, with first-class Vue and Nuxt adapters.
+     peerDependencies:
+       vue: 3.5.14
+ 
+@@ -6468,95 +6510,111 @@ packages:
+ 
+   '@react-email/body@0.0.11':
+     resolution: {integrity: sha512-ZSD2SxVSgUjHGrB0Wi+4tu3MEpB4fYSbezsFNEJk2xCWDBkFiOeEsjTmR5dvi+CxTK691hQTQlHv0XWuP7ENTg==}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/button@0.0.19':
+     resolution: {integrity: sha512-HYHrhyVGt7rdM/ls6FuuD6XE7fa7bjZTJqB2byn6/oGsfiEZaogY77OtoLL/mrQHjHjZiJadtAMSik9XLcm7+A==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/code-block@0.0.13':
+     resolution: {integrity: sha512-4DE4yPSgKEOnZMzcrDvRuD6mxsNxOex0hCYEG9F9q23geYgb2WCCeGBvIUXVzK69l703Dg4Vzrd5qUjl+JfcwA==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/code-inline@0.0.5':
+     resolution: {integrity: sha512-MmAsOzdJpzsnY2cZoPHFPk6uDO/Ncpb4Kh1hAt9UZc1xOW3fIzpe1Pi9y9p6wwUmpaeeDalJxAxH6/fnTquinA==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/column@0.0.13':
+     resolution: {integrity: sha512-Lqq17l7ShzJG/d3b1w/+lVO+gp2FM05ZUo/nW0rjxB8xBICXOVv6PqjDnn3FXKssvhO5qAV20lHM6S+spRhEwQ==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/components@0.0.41':
+     resolution: {integrity: sha512-WUI3wHwra3QS0pwrovSU6b0I0f3TvY33ph0y44LuhSYDSQlMRyeOzgoT6HRDY5FXMDF57cHYq9WoKwpwP0yd7Q==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/container@0.0.15':
+     resolution: {integrity: sha512-Qo2IQo0ru2kZq47REmHW3iXjAQaKu4tpeq/M8m1zHIVwKduL2vYOBQWbC2oDnMtWPmkBjej6XxgtZByxM6cCFg==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/font@0.0.9':
+     resolution: {integrity: sha512-4zjq23oT9APXkerqeslPH3OZWuh5X4crHK6nx82mVHV2SrLba8+8dPEnWbaACWTNjOCbcLIzaC9unk7Wq2MIXw==}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/head@0.0.12':
+     resolution: {integrity: sha512-X2Ii6dDFMF+D4niNwMAHbTkeCjlYYnMsd7edXOsi0JByxt9wNyZ9EnhFiBoQdqkE+SMDcu8TlNNttMrf5sJeMA==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/heading@0.0.15':
+     resolution: {integrity: sha512-xF2GqsvBrp/HbRHWEfOgSfRFX+Q8I5KBEIG5+Lv3Vb2R/NYr0s8A5JhHHGf2pWBMJdbP4B2WHgj/VUrhy8dkIg==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/hr@0.0.11':
+     resolution: {integrity: sha512-S1gZHVhwOsd1Iad5IFhpfICwNPMGPJidG/Uysy1AwmspyoAP5a4Iw3OWEpINFdgh9MHladbxcLKO2AJO+cA9Lw==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/html@0.0.11':
+     resolution: {integrity: sha512-qJhbOQy5VW5qzU74AimjAR9FRFQfrMa7dn4gkEXKMB/S9xZN8e1yC1uA9C15jkXI/PzmJ0muDIWmFwatm5/+VA==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/img@0.0.11':
+     resolution: {integrity: sha512-aGc8Y6U5C3igoMaqAJKsCpkbm1XjguQ09Acd+YcTKwjnC2+0w3yGUJkjWB2vTx4tN8dCqQCXO8FmdJpMfOA9EQ==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/link@0.0.12':
+     resolution: {integrity: sha512-vF+xxQk2fGS1CN7UPQDbzvcBGfffr+GjTPNiWM38fhBfsLv6A/YUfaqxWlmL7zLzVmo0K2cvvV9wxlSyNba1aQ==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/markdown@0.0.15':
+     resolution: {integrity: sha512-UQA9pVm5sbflgtg3EX3FquUP4aMBzmLReLbGJ6DZQZnAskBF36aI56cRykDq1o+1jT+CKIK1CducPYziaXliag==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/preview@0.0.13':
+     resolution: {integrity: sha512-F7j9FJ0JN/A4d7yr+aw28p4uX7VLWs7hTHtLo7WRyw4G+Lit6Zucq4UWKRxJC8lpsUdzVmG7aBJnKOT+urqs/w==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+@@ -6570,24 +6628,28 @@ packages:
+   '@react-email/row@0.0.12':
+     resolution: {integrity: sha512-HkCdnEjvK3o+n0y0tZKXYhIXUNPDx+2vq1dJTmqappVHXS5tXS6W5JOPZr5j+eoZ8gY3PShI2LWj5rWF7ZEtIQ==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/section@0.0.16':
+     resolution: {integrity: sha512-FjqF9xQ8FoeUZYKSdt8sMIKvoT9XF8BrzhT3xiFKdEMwYNbsDflcjfErJe3jb7Wj/es/lKTbV5QR1dnLzGpL3w==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/tailwind@1.0.5':
+     resolution: {integrity: sha512-BH00cZSeFfP9HiDASl+sPHi7Hh77W5nzDgdnxtsVr/m3uQD9g180UwxcE3PhOfx0vRdLzQUU8PtmvvDfbztKQg==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+   '@react-email/text@0.1.4':
+     resolution: {integrity: sha512-cMNE02y8172DocpNGh97uV5HSTawaS4CKG/zOku8Pu+m6ehBKbAjgtQZDIxhgstw8+TWraFB8ltS1DPjfG8nLA==}
+     engines: {node: '>=18.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+     peerDependencies:
+       react: ^18.0 || ^19.0 || ^19.0.0-rc
+ 
+@@ -8809,6 +8871,7 @@ packages:
+ 
+   '@ungap/structured-clone@1.3.0':
+     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
++    deprecated: Potential CWE-502 - Update to 1.3.1 or higher
+ 
+   '@unhead/bundler@3.3.2':
+     resolution: {integrity: sha512-FgddDfNva/2n/BPRsqNJVNJ26TVnO5ywqrWYeC8xXV4c1CLQRABDwmmyy7hEsKH1YXg9bDb8IkZzyNBkJ59LTQ==}
+@@ -9788,6 +9851,7 @@ packages:
+ 
+   aws-amplify@5.3.29:
+     resolution: {integrity: sha512-FbAi0OwtHczxyBhZ1AFPFovCYFB6LAsC14pZdGXOAC6aq6umL1NcyYEG7X4ESIY+sjEjfuqMLCFXHz7J1EpmJw==}
++    deprecated: 'Amplify JavaScript v5 is in maintenance mode. Upgrade to v6. See the migration guide: https://docs.amplify.aws/gen1/javascript/build-a-backend/troubleshooting/migrate-from-javascript-v5-to-v6/'
+ 
+   aws-jwt-verify@4.0.1:
+     resolution: {integrity: sha512-kzvi71eD3w/mCpYRUY7cz6DX4bfYihGdI2yV3FYQ2JuZZenqAqDPz0gWj0ew6vlAtdEVBNb7p+Dm2TAIxpVYMA==}
+@@ -10610,6 +10674,7 @@ packages:
+   conventional-changelog-core@5.0.1:
+     resolution: {integrity: sha512-Rvi5pH+LvgsqGwZPZ3Cq/tz4ty7mjijhr3qR4m9IBXNbxGGYgTVVO+duXzz9aArmHxFtwZ+LRkrNIMDQzgoY4A==}
+     engines: {node: '>=14'}
++    deprecated: Deprecated and no longer maintained. Please use conventional-changelog instead.
+ 
+   conventional-changelog-preset-loader@3.0.0:
+     resolution: {integrity: sha512-qy9XbdSLmVnwnvzEisjxdDiLA4OmV3o8db+Zdg4WiFw14fP3B6XNz98X0swPPpkTd/pc1K7+adKgEDM1JCUMiA==}
+@@ -10747,6 +10812,7 @@ packages:
+   cron-parser@4.9.0:
+     resolution: {integrity: sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==}
+     engines: {node: '>=12.0.0'}
++    deprecated: v4 is no longer maintained, upgrade to v5
+ 
+   cron-parser@5.4.0:
+     resolution: {integrity: sha512-HxYB8vTvnQFx4dLsZpGRa0uHp6X3qIzS3ZJgJ9v6l/5TJMgeWQbLkR5yiJ5hOxGbc9+jCADDnydIe15ReLZnJA==}
+@@ -10784,6 +10850,7 @@ packages:
+ 
+   crypto-js@4.2.0:
+     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
++    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
+ 
+   crypto-random-string@2.0.0:
+     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
+@@ -10808,6 +10875,7 @@ packages:
+   cspell-util-bundle@4.1.11:
+     resolution: {integrity: sha512-or3OGKydZs1NwweMIgnA48k8H3F5zK4e5lonjUhpEzLYQZ2nB23decdoqZ8ogFC8pFTA40tZKDsMJ0b+65gX4Q==}
+     engines: {node: '>=10.0.0'}
++    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+ 
+   cspell@4.2.8:
+     resolution: {integrity: sha512-eqan8+lCU9bSp8Tl4+SR/ccBnuPyMmp7evck/RlMdFTjLh/s+3vQ5hQyBzbzK8w2MMqL84CymW7BwIOKjpylSg==}
+@@ -17518,6 +17586,9 @@ packages:
+     engines: {node: '>=12.0.0'}
+     hasBin: true
+ 
++  style-mod@4.1.4:
++    resolution: {integrity: sha512-XXWIQt633/EpAFx8aZDOTjBzrCaGmhvEQlQo6MVPfa2OzO2cWo+4hV9h+6UkHYlXGfy+ODXKUdP7Pthmcu5ATw==}
++
+   style-value-types@5.1.2:
+     resolution: {integrity: sha512-Vs9fNreYF9j6W2VvuDTP7kepALi7sk0xtk2Tu8Yxi9UoajJdEVpNpCov0HsLTqXvNGKX+Uv09pkozVITi1jf3Q==}
+ 
+@@ -19130,7 +19201,7 @@ packages:
+     engines: {node: '>=8'}
+ 
+   xlsx@https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz:
+-    resolution: {integrity: sha512-oLDq3jw7AcLqKWH2AhCpVTZl8mf6X2YReP+Neh0SJUzV/BdZYjth94tG5toiMB1PPrYtxOCfaoUCkvtuH+3AJA==, tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}
++    resolution: {tarball: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz}
+     version: 0.20.3
+     engines: {node: '>=0.8'}
+     hasBin: true
+@@ -23095,6 +23166,40 @@ snapshots:
+ 
+   '@cloudflare/kv-asset-handler@0.4.2': {}
+ 
++  '@codemirror/autocomplete@6.20.3':
++    dependencies:
++      '@codemirror/language': 6.12.4
++      '@codemirror/state': 6.7.6
++      '@codemirror/view': 6.43.13
++      '@lezer/common': 1.5.3
++
++  '@codemirror/commands@6.11.1':
++    dependencies:
++      '@codemirror/language': 6.12.4
++      '@codemirror/state': 6.7.6
++      '@codemirror/view': 6.43.13
++      '@lezer/common': 1.5.3
++
++  '@codemirror/language@6.12.4':
++    dependencies:
++      '@codemirror/state': 6.7.6
++      '@codemirror/view': 6.43.13
++      '@lezer/common': 1.5.3
++      '@lezer/highlight': 1.2.4
++      '@lezer/lr': 1.4.10
++      style-mod: 4.1.4
++
++  '@codemirror/state@6.7.6':
++    dependencies:
++      '@marijn/find-cluster-break': 1.0.4
++
++  '@codemirror/view@6.43.13':
++    dependencies:
++      '@codemirror/state': 6.7.6
++      crelt: 1.0.6
++      style-mod: 4.1.4
++      w3c-keyname: 2.2.8
++
+   '@colordx/core@5.5.0': {}
+ 
+   '@colors/colors@1.5.0':
+@@ -24614,6 +24719,16 @@ snapshots:
+ 
+   '@kwsites/promise-deferred@1.1.1': {}
+ 
++  '@lezer/common@1.5.3': {}
++
++  '@lezer/highlight@1.2.4':
++    dependencies:
++      '@lezer/common': 1.5.3
++
++  '@lezer/lr@1.4.10':
++    dependencies:
++      '@lezer/common': 1.5.3
++
+   '@linear/sdk@40.0.0(encoding@0.1.13)':
+     dependencies:
+       '@graphql-typed-document-node/core': 3.2.0(graphql@15.10.1)
+@@ -24652,6 +24767,8 @@ snapshots:
+       - encoding
+       - supports-color
+ 
++  '@marijn/find-cluster-break@1.0.4': {}
++
+   '@microsoft/microsoft-graph-client@3.0.7':
+     dependencies:
+       '@babel/runtime': 7.27.3
+@@ -30165,7 +30282,7 @@ snapshots:
+ 
+   ansis@4.3.0: {}
+ 
+-  ant-design-vue@3.2.20(patch_hash=60728dae2fea3ada36e7f0c581e02664f6782d54d2066d9ffbfca0a24f57ffeb)(vue@3.5.14(typescript@5.8.3)):
++  ant-design-vue@3.2.20(patch_hash=a98f4bcff5a18994197175ab590e3c0b803fa56ffcb5b7cd471c3b5685ce135c)(vue@3.5.14(typescript@5.8.3)):
+     dependencies:
+       '@ant-design/colors': 6.0.0
+       '@ant-design/icons-vue': 6.1.0(vue@3.5.14(typescript@5.8.3))
+@@ -40251,6 +40368,8 @@ snapshots:
+       lodash: 4.18.1
+       tinycolor2: 1.6.0
+ 
++  style-mod@4.1.4: {}
++
+   style-value-types@5.1.2:
+     dependencies:
+       hey-listen: 1.0.8

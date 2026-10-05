@@ -1,0 +1,2816 @@
+{
+  "runId": "529ca298-6ce6-4921-ae2b-4dbe64d75529",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-05T03:44:41.305Z",
+  "baseUrl": "http://localhost:8080",
+  "pages": [
+    {
+      "url": "http://localhost:8080/signin/",
+      "requestedUrl": "http://localhost:8080/signin/",
+      "violations": [
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-testid=\"nc-form-signin__submit\" class=\"scaling-btn bg-opacity-100\" type=\"submit\"><span class=\"flex items-center gap-2\"><span class=\"material-symbols\">login</span> SIGN IN</span></button>",
+                      "target": [
+                        ".scaling-btn"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"flex items-center gap-2\"><span class=\"material-symbols\">login</span> SIGN IN</span>",
+              "target": [
+                ".scaling-btn > .gap-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/signin/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/signup",
+      "requestedUrl": "http://localhost:8080/signup",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button size=\"small\" class=\"my-1 hover:ring hover:ring-accent hover:ring-opacity-100 !focus:ring !focus:ring-accent focus:ring-opacity-100 ant-switch-small ant-switch\" type=\"button\" role=\"switch\" aria-checked=\"false\">",
+              "target": [
+                ".my-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "main > .h-full > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        "main > .h-full > .h-full.w-full > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".nc-layout-base-inner > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        "main > .h-full > .h-full.w-full > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".nc-layout-base-inner > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"scaling-btn bg-opacity-100\" type=\"submit\">",
+                      "target": [
+                        ".scaling-btn"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"flex items-center gap-2\">",
+              "target": [
+                ".scaling-btn > .gap-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/signup",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/forgot-password/",
+      "requestedUrl": "http://localhost:8080/forgot-password/",
+      "violations": [
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"scaling-btn bg-opacity-100\" type=\"submit\"><span class=\"flex items-center gap-2\"><span class=\"material-symbols\">login</span> SEND EMAIL</span></button>",
+                      "target": [
+                        ".scaling-btn"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"flex items-center gap-2\"><span class=\"material-symbols\">login</span> SEND EMAIL</span>",
+              "target": [
+                ".scaling-btn > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/forgot-password/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/nc/view/0946699c-0200-4ca6-b57f-566468d08a82",
+      "requestedUrl": "http://localhost:8080/nc/view/0946699c-0200-4ca6-b57f-566468d08a82",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button data-v-f633e781=\"\" class=\"ant-btn ant-btn-secondary small theme-default bordered nc-btn-shadow nc-button nc-height-menu-btn nc-toolbar-btn !border-0 !h-7 !px-1.5 !min-w-7\" tabindex=\"0\" type=\"button\">",
+              "target": [
+                ".nc-height-menu-btn"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button class=\"ant-btn ant-btn-secondary small theme-default bordered nc-btn-shadow nc-button nc-view-action-menu-btn nc-toolbar-btn !border-0 !h-7 !px-1.5 !min-w-7\" tabindex=\"0\" type=\"button\">",
+              "target": [
+                ".nc-view-action-menu-btn"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button data-v-e39fa364=\"\" class=\"ant-btn ant-btn-text small theme-default bordered nc-btn-shadow nc-button nc-toolbar-btn !rounded-lg !h-7 !px-1.5 relative\" tabindex=\"0\" data-testid=\"nc-global-search-show-input\" type=\"button\">",
+              "target": [
+                ".\\!rounded-lg"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button class=\"ant-btn ant-btn-text size-xs theme-default bordered nc-btn-shadow nc-button !px-1\" tabindex=\"0\" type=\"button\">",
+              "target": [
+                ".\\!px-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<a data-v-3caeeb4c=\"\" class=\"transition-all duration-200 cursor-pointer transform hover:scale-105\" href=\"https://github.com/nocodb/nocodb\" target=\"_blank\" rel=\"noopener noreferrer\">",
+              "target": [
+                ".transition-all"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<span data-v-3caeeb4c=\"\" class=\"truncate\">Items</span>",
+              "target": [
+                ".font-semibold > .truncate[data-v-3caeeb4c=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-d87c5647=\"\" class=\"absolute inset-0 overflow-hidden\">",
+              "target": [
+                ".inset-0.absolute.overflow-hidden"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "bypass",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "description": "Ensure each page has at least one mechanism for a user to bypass navigation and jump straight to the content",
+          "help": "Page must have means to bypass repeated blocks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/bypass?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "internal-link-present",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "No valid skip link found"
+                },
+                {
+                  "id": "header-present",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Page does not have a heading"
+                },
+                {
+                  "id": "landmark",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Page does not have a landmark region"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  No valid skip link found\n  Page does not have a heading\n  Page does not have a landmark region"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/nc/view/0946699c-0200-4ca6-b57f-566468d08a82",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/nc/view/b27e5a47-2d11-4e1f-916c-dcef7c364a22",
+      "requestedUrl": "http://localhost:8080/nc/view/b27e5a47-2d11-4e1f-916c-dcef7c364a22",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button class=\"ant-btn ant-btn-secondary small theme-default bordered nc-btn-shadow nc-button nc-view-action-menu-btn nc-toolbar-btn !border-0 !h-7 !px-1.5 !min-w-7\" tabindex=\"0\" type=\"button\">",
+              "target": [
+                ".nc-view-action-menu-btn"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button data-v-e39fa364=\"\" class=\"ant-btn ant-btn-text small theme-default bordered nc-btn-shadow nc-button nc-toolbar-btn !rounded-lg !h-7 !px-1.5 relative\" tabindex=\"0\" data-testid=\"nc-global-search-show-input\" type=\"button\">",
+              "target": [
+                ".\\!rounded-lg"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button class=\"ant-btn ant-btn-text size-xs theme-default bordered nc-btn-shadow nc-button !px-1\" tabindex=\"0\" type=\"button\">",
+              "target": [
+                ".\\!px-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<a data-v-3caeeb4c=\"\" class=\"transition-all duration-200 cursor-pointer transform hover:scale-105\" href=\"https://github.com/nocodb/nocodb\" target=\"_blank\" rel=\"noopener noreferrer\">",
+              "target": [
+                ".transition-all"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<span data-v-3caeeb4c=\"\" class=\"truncate\">Galerie Items</span>",
+              "target": [
+                ".font-semibold > .truncate"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-d87c5647=\"\" class=\"absolute inset-0 overflow-hidden\">",
+              "target": [
+                ".inset-0.absolute.overflow-hidden"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "bypass",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "description": "Ensure each page has at least one mechanism for a user to bypass navigation and jump straight to the content",
+          "help": "Page must have means to bypass repeated blocks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/bypass?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "internal-link-present",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "No valid skip link found"
+                },
+                {
+                  "id": "header-present",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Page does not have a heading"
+                },
+                {
+                  "id": "landmark",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Page does not have a landmark region"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  No valid skip link found\n  Page does not have a heading\n  Page does not have a landmark region"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/nc/view/b27e5a47-2d11-4e1f-916c-dcef7c364a22",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/nc/form/540b143b-6850-4097-9cc3-b791065ead09",
+      "requestedUrl": "http://localhost:8080/nc/form/540b143b-6850-4097-9cc3-b791065ead09",
+      "violations": [
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure all ARIA attributes have valid values",
+          "help": "ARIA attributes must conform to valid values",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-valid-attr-value?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-valid-attr-value",
+                  "data": [
+                    "aria-activedescendant=\"form_item_Priority_list_0\""
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Invalid ARIA attribute value: aria-activedescendant=\"form_item_Priority_list_0\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<input type=\"search\" id=\"form_item_Priority\" autocomplete=\"off\" class=\"ant-select-selection...\" role=\"combobox\" aria-expanded=\"false\" aria-haspopup=\"listbox\" aria-owns=\"form_item_Priority_l...\" aria-autocomplete=\"list\" aria-controls=\"form_item_Priority_l...\" readonly=\"\" unselectable=\"on\" ...>",
+              "target": [
+                "#form_item_Priority"
+              ],
+              "failureSummary": "Fix all of the following:\n  Invalid ARIA attribute value: aria-activedescendant=\"form_item_Priority_list_0\""
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "label",
+          "impact": "critical",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.n",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "description": "Ensure every form element has a label",
+          "help": "Form elements must have labels",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "non-empty-placeholder",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no placeholder attribute"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<input data-v-01e93002=\"\" class=\"nc-cell-field h-full w-full outline-none py-1 bg-transparent\">",
+              "target": [
+                ".py-1.bg-transparent.nc-cell-field"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "non-empty-placeholder",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no placeholder attribute"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<textarea data-v-13b9d526=\"\" rows=\"5\" class=\"nc-inline-textarea h-full w-full !outline-none nc-scrollbar-thin p-2 py-1 h-full border-none\" style=\"min-height: 117px; max-height: min(800px, -200px + 100vh);\"></textarea>",
+              "target": [
+                "textarea"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "non-empty-placeholder",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no placeholder attribute"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<input type=\"search\" id=\"form_item_Priority\" autocomplete=\"off\" class=\"ant-select-selection...\" role=\"combobox\" aria-expanded=\"false\" aria-haspopup=\"listbox\" aria-owns=\"form_item_Priority_l...\" aria-autocomplete=\"list\" aria-controls=\"form_item_Priority_l...\" readonly=\"\" unselectable=\"on\" ...>",
+              "target": [
+                "#form_item_Priority"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "non-empty-placeholder",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no placeholder attribute"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<input data-v-7028d24f=\"\" data-v-01e93002=\"\" class=\"nc-cell-field outline-none rounded-md w-full\" inputmode=\"decimal\" style=\"letter-spacing: 0.06rem; height: 24px !important; width: 100%;\">",
+              "target": [
+                "input[data-v-7028d24f=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element has no placeholder attribute\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "div:nth-child(1) > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "div:nth-child(1) > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/nc/form/540b143b-6850-4097-9cc3-b791065ead09",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/nc/form/86861b30-aff3-4d77-b4c8-6e3b1d8d5a65/survey",
+      "requestedUrl": "http://localhost:8080/nc/form/86861b30-aff3-4d77-b4c8-6e3b1d8d5a65/survey",
+      "violations": [
+        {
+          "id": "aria-input-field-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.1.1"
+          ],
+          "description": "Ensure every ARIA input field has an accessible name",
+          "help": "ARIA input fields must have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/aria-input-field-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div contenteditable=\"false\" role=\"textbox\" translate=\"no\" class=\"tiptap ProseMirror\"><p>Questions une par une.</p></div>",
+              "target": [
+                "div[contenteditable=\"false\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "div:nth-child(1) > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "div:nth-child(1) > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/nc/form/86861b30-aff3-4d77-b4c8-6e3b1d8d5a65/survey",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/signin/ [state:signin-error]",
+      "requestedUrl": "http://localhost:8080/signin/",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ff4a3f",
+                    "contrastRatio": 3.33,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"self-center mb-4 bg-red-500 text-white rounded-lg w-3/4 mx-auto p-1\">",
+                      "target": [
+                        ".mb-4"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.33 (foreground color: #ffffff, background color: #ff4a3f, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"break-words\">Invalid credentials</div>",
+              "target": [
+                ".break-words"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.33 (foreground color: #ffffff, background color: #ff4a3f, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-testid=\"nc-form-signin__submit\" class=\"scaling-btn bg-opacity-100\" type=\"submit\"><span class=\"flex items-center gap-2\"><span class=\"material-symbols\">login</span> SIGN IN</span></button>",
+                      "target": [
+                        ".scaling-btn"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"flex items-center gap-2\"><span class=\"material-symbols\">login</span> SIGN IN</span>",
+              "target": [
+                ".scaling-btn > .gap-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/signin/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/signup [state:signup-error]",
+      "requestedUrl": "http://localhost:8080/signup",
+      "violations": [
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button size=\"small\" class=\"my-1 hover:ring hover:ring-accent hover:ring-opacity-100 !focus:ring !focus:ring-accent focus:ring-opacity-100 ant-switch-small ant-switch\" type=\"button\" role=\"switch\" aria-checked=\"false\">",
+              "target": [
+                ".my-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ff4d4f",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 3.26,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"bg-nc-bg-default md:mt-[60px] relative flex flex-col justify-center gap-2 w-full max-w-[500px] mx-auto p-8 md:rounded-lg md:border-1 md:border-nc-border-gray-medium md:shadow-xl\">",
+                      "target": [
+                        ".md\\:mt-\\[60px\\]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.26 (foreground color: #ff4d4f, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div role=\"alert\" class=\"ant-form-item-explain-error\" style=\"\">Email must be valid</div>",
+              "target": [
+                ".ant-form-item-explain-error"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.26 (foreground color: #ff4d4f, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "main > .h-full > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        "main > .h-full > .h-full.w-full > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".nc-layout-base-inner > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        "main > .h-full > .h-full.w-full > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".nc-layout-base-inner > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"scaling-btn bg-opacity-100\" type=\"submit\">",
+                      "target": [
+                        ".scaling-btn"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"flex items-center gap-2\">",
+              "target": [
+                ".scaling-btn > .gap-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/signup",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/nc/form/540b143b-6850-4097-9cc3-b791065ead09 [state:shared-form-submitted]",
+      "requestedUrl": "http://localhost:8080/nc/form/540b143b-6850-4097-9cc3-b791065ead09",
+      "violations": [
+        {
+          "id": "html-has-lang",
+          "impact": "serious",
+          "tags": [
+            "cat.language",
+            "wcag2a",
+            "wcag311",
+            "TTv5",
+            "TT11.a",
+            "EN-301-549",
+            "EN-9.3.1.1",
+            "ACT",
+            "RGAAv4",
+            "RGAA-8.3.1"
+          ],
+          "description": "Ensure every HTML document has a lang attribute",
+          "help": "<html> element must have a lang attribute",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/html-has-lang?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-lang",
+                  "data": {
+                    "messageKey": "noLang"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "The <html> element does not have a lang attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html class=\"\" dir=\"ltr\" style=\"--topbar-height: 3rem; color-scheme: light; --color-primary: 51, 102, 255; --color-accent: 236, 72, 153; --nc-chat-panel-offset: 0px;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  The <html> element does not have a lang attribute"
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "div:nth-child(1) > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"ant-layout-content\">",
+                      "target": [
+                        ".h-full.w-full[data-v-b89932a4=\"\"] > main"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"ant-layout-content\">",
+              "target": [
+                "div:nth-child(1) > .h-full.w-full > main"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/nc/form/540b143b-6850-4097-9cc3-b791065ead09",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "a45e7d0499a9a5b64b8d01efdf863399dcbdce26a64584ad62bd8d6e9f5a01e0"
+}
