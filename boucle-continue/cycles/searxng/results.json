@@ -143,6 +143,20 @@
       "correction": "patch.diff régénéré : definitions.less --color-error #db3434→#b91c1c et --color-error-background lighten(#db3434,40%)→lighten(#b91c1c,48%) = #f8d2d2 → ratio calculé 4.66:1 ; toolkit.less .dialog-error/.dialog-error-block a { text-decoration: underline } ; même substitution appliquée aux 3 css compilés du patch (sxng-ltr/rtl/rss — le build vite reste source de vérité à l'install-build). git apply --check rejoué propre.",
       "surface": "dialog-error-block = état stochastique upstream (rendu seulement quand TOUS les moteurs échouent) — absent de tout rapport livré. Leçon : couvrir les surfaces d'erreur globale (pas résultats, moteurs down, 500) comme états dédiés dans states.json.",
       "verifie": "ratios recalculés en python (4.66:1) ; apply --check OK sur clone propre ; le scanner live de l'auditeur mesurera au ré-audit"
+    },
+    {
+      "id": "S2",
+      "origine": "wart W1 auditeur — verify data-dépendant",
+      "description": "2 assertions verify.mjs (liens thumbnail nommés, page courante aria-current) exigeaient la présence de vignettes/pagination — sur requête pauvre elles échouaient sans faute du patch.",
+      "correction": "tools/verify.mjs : helper na() ajouté (verdict N-A explicite, jamais PASS à vide) ; les 2 assertions émettent N-A quand thumbCount=0 ou pagination absente, FAIL réel conservé quand la donnée existe.",
+      "verifie": "node --check OK ; rejou live par le ré-auditeur"
+    },
+    {
+      "id": "S3",
+      "origine": "wart W2 auditeur — sonde incomplets ~58%",
+      "description": "thumbnail_length ×116, url_i1 ×8, td ×6, legend ×1 non couverts par incomplete-probes.mjs.",
+      "correction": "tools/incomplete-probes.mjs : section classes-résiduelles ajoutée — sondes thumbnail-length (.thumbnail_length), url-i1 (.url_i1), prefs-td, prefs-legend en light+dark avec même marche ancêtres/compositing ; verdicts PASS/FAIL/ABSENT identiques au reste.",
+      "verifie": "node --check OK ; rejou live par le ré-auditeur"
     }
   ]
 }

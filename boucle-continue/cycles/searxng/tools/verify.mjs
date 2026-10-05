@@ -19,6 +19,12 @@ const ok = (name, cond, extra = '') => {
   if (!cond) console.error(`  FAIL ${name} ${extra}`);
   return cond;
 };
+// N-A explicite : la donnée requise par l'assertion est absente (requête pauvre) — jamais un PASS à vide
+const na = (name, reason = '') => {
+  results.push({ name, pass: true, verdict: 'N-A', reason });
+  console.error(`  N-A ${name} ${reason}`);
+  return true;
+};
 
 const browser = await chromium.launch();
 const ctx = await browser.newContext();
@@ -167,10 +173,18 @@ const resultsPage = await page.evaluate(() => {
 ok('results: exactement 1 landmark main, top-level', resultsPage.mainCount === 1 && !resultsPage.nestedMain, `${resultsPage.mainCount} mains`);
 ok('results: h1 "Search results" présent (sr-only)', !!resultsPage.h1Text, String(resultsPage.h1Text));
 ok('results: titres de résultats en h2', resultsPage.firstTitleTag === 'H2', String(resultsPage.firstTitleTag));
-ok('results: liens thumbnail nommés', resultsPage.thumbCount > 0 && resultsPage.unnamedThumbs === 0, `${resultsPage.unnamedThumbs}/${resultsPage.thumbCount}`);
+if (resultsPage.thumbCount > 0) {
+  ok('results: liens thumbnail nommés', resultsPage.unnamedThumbs === 0, `${resultsPage.unnamedThumbs}/${resultsPage.thumbCount}`);
+} else {
+  na('results: liens thumbnail nommés', 'aucune vignette rendue pour cette requête');
+}
 ok('results: aucun role=link résiduel', resultsPage.roleLinks === 0, String(resultsPage.roleLinks));
 ok('results: navs nommées (aria-label)', resultsPage.navs.length > 0 && resultsPage.navs.every(n => !!n.label), JSON.stringify(resultsPage.navs));
-ok('results: page courante = span aria-current=page', resultsPage.pageCurrentTag === 'SPAN' && resultsPage.pageCurrentAria === 'page', `${resultsPage.pageCurrentTag} ${resultsPage.pageCurrentAria}`);
+if (resultsPage.pageCurrentTag) {
+  ok('results: page courante = span aria-current=page', resultsPage.pageCurrentTag === 'SPAN' && resultsPage.pageCurrentAria === 'page', `${resultsPage.pageCurrentTag} ${resultsPage.pageCurrentAria}`);
+} else {
+  na('results: page courante = span aria-current=page', 'pagination absente (une seule page de résultats)');
+}
 ok('results: pas de saut de niveau de titre', resultsPage.headSkip === null && resultsPage.headsSeen > 0, `skip=${resultsPage.headSkip}`);
 
 // ── 6. Vidéos : métadonnées contrastées ────────────────────────────────────
@@ -215,5 +229,6 @@ ok('index: #clear_search ≥ 24×24 px', clearBtn.w >= 24 && clearBtn.h >= 24, `
 
 await browser.close();
 const fails = results.filter(r => !r.pass).length;
-console.log(`verify: ${results.length - fails}/${results.length} assertions OK`);
+const naCount = results.filter(r => r.verdict === 'N-A').length;
+console.log(`verify: ${results.length - fails - naCount} PASS + ${naCount} N-A / ${results.length} assertions`);
 process.exit(fails ? 1 : 0);

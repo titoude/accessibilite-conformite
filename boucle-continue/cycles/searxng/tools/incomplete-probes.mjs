@@ -170,6 +170,54 @@ for (const theme of ['light', 'dark']) {
   await ctx.close();
 }
 
+// ── classes résiduelles d'incomplets color-contrast (wart W2) ─────────────
+// .thumbnail_length = pastille durée vidéo (même rgba(0,0,0,.65) que
+// .image_resolution), .url_i1 = fragment d'URL de résultat, td/legend =
+// tableau des moteurs + légendes de fieldsets /preferences.
+const walkBg = `e => { let node = e, bg = null;
+  while (node && bg === null) {
+    const c = getComputedStyle(node).backgroundColor;
+    if (c && c !== 'rgba(0, 0, 0, 0)') bg = c;
+    node = node.parentElement;
+  }
+  return { fg: getComputedStyle(e).color, bg, text: e.textContent.trim().slice(0, 40) }; }`;
+const classTargets = [
+  { probe: 'thumbnail-length', url: `${base}/search?q=test&categories=videos`, sel: '.thumbnail_length' },
+  { probe: 'url-i1', url: `${base}/search?q=test`, sel: '.url_i1' },
+];
+for (const theme of ['light', 'dark']) {
+  const ctx = await b.newContext();
+  const page = await ctx.newPage();
+  if (theme === 'dark') {
+    await ctx.addCookies([
+      { name: 'theme', value: 'simple', url: base },
+      { name: 'simple_style', value: 'dark', url: base },
+    ]);
+  }
+  for (const t of classTargets) {
+    await page.goto(t.url, { waitUntil: 'load' });
+    const els = await page.$$(t.sel);
+    if (!els.length) { out.push({ probe: t.probe, sel: t.sel, theme, verdict: 'ABSENT' }); continue; }
+    const m = await els[0].evaluate(eval(`(${walkBg})`));
+    const fg = parse(m.fg);
+    const bg = parse(m.bg) || (theme === 'dark' ? { r: 34, g: 36, b: 40 } : { r: 255, g: 255, b: 255 });
+    const R = ratio(lum(fg), lum(bg));
+    out.push({ probe: t.probe, sel: t.sel, theme, nodes: els.length, fg: m.fg, bgEff: m.bg || 'page default', ratio: +R.toFixed(2), verdict: R >= 4.5 ? 'PASS' : 'FAIL' });
+  }
+  // td + legend sur /preferences
+  await page.goto(`${base}/preferences`, { waitUntil: 'load' });
+  for (const sel of ['#tab-content-category_general td', 'fieldset legend, .engine-table legend']) {
+    const els = await page.$$(sel);
+    if (!els.length) { out.push({ probe: 'prefs-' + sel.split(' ')[0], sel, theme, verdict: 'ABSENT' }); continue; }
+    const m = await els[0].evaluate(eval(`(${walkBg})`));
+    const fg = parse(m.fg);
+    const bg = parse(m.bg) || (theme === 'dark' ? { r: 34, g: 36, b: 40 } : { r: 255, g: 255, b: 255 });
+    const R = ratio(lum(fg), lum(bg));
+    out.push({ probe: 'prefs-' + sel.split(' ')[0], sel, theme, nodes: els.length, fg: m.fg, bgEff: m.bg || 'page default', ratio: +R.toFixed(2), verdict: R >= 4.5 ? 'PASS' : 'FAIL' });
+  }
+  await ctx.close();
+}
+
 await b.close();
 console.log(JSON.stringify({ generatedAt: new Date().toISOString(), probes: out }, null, 1));
 const fails = out.filter(o => o.verdict === 'FAIL').length;
