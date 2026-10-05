@@ -306,3 +306,8 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 
 20. **Matrice composant×thème : un état par famille dans CHAQUE thème.** Le thème sombre n'était audité que sur le dashboard : les ~20 modales en clair seulement → 39 occ contrastes résiduelles trouvées par l'auditeur. Désormais : pour chaque famille de composants (tabs, arbre, accordéon, dropdown, form), au moins un état `*-dark` dans states.json. Couverture exhaustive modale×thème non requise — un représentant par famille suffit tant que le patch corrige la règle css à la source.
 21. **Préférences serveur persistantes : toujours restaurer.** Rejouer un état qui bascule une config serveur (thème, langue) laisse l'instance mutée pour le run suivant. La sonde restore explicitement en fin de run (et verify restaure après ses mesures). Et attention : sur syncthing le GET /rest/config exige le header CSRF comme le PUT — un fetch sans header → "CSRF Error" silencieux dans un .json().
+
+
+### Leçons — cycle 30 nocodb (audit CONFIRMED → fixes v2 exécutés)
+
+22. **Constantes d'IDs en dur = défaut de portabilité, dans TOUS les outils** : paramétrer audit.mjs ne suffit pas — verify/eval/sondes crashaient verbatim sur un clone frais (NC_WS/NC_* → env avec défauts, convention partagée + nc-env-install.sh écrit par gen-urls). Corollaire : tout eval qui navigue doit garder une assertion d'URL finale AVANT les assertions de contenu (pathname attendu sinon FAIL 'page redirigé') — un PASS mesuré sur un document redirigé est un faux PASS. Et les payloads API « documentés » peuvent être des no-ops silencieux (200 + rien persisté : {"attrs":{...}} et PATCH /forms/:id meta) — vérifier l'effet lu par re-GET, pas le code retour.

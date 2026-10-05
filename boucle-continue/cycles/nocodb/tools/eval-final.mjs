@@ -28,11 +28,14 @@ const contrast = (fg, bg) => {
 };
 const rgb = (s) => (s.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 
-const NC_WS = 'wd10yk1f';
-const NC_BASE = 'pkg7xkxnvm4oc5w';
-const NC_TABLE = 'm9aiffs89yv1o74';
-const NC_GRID = 'vwsla3dxylant2l6';
-const NC_FORM = 'vwr3k2vkep40846h';
+// IDs propres à chaque instance — surchargeables via env (mêmes noms que audit.mjs)
+// pour rejouer verbatim sur un clone frais : NC_WS/NC_BASE/NC_TABLE/NC_GRID/NC_FORM/NC_SHARE_FORM
+const NC_WS = process.env.NC_WS || 'wd10yk1f';
+const NC_BASE = process.env.NC_BASE || 'pkg7xkxnvm4oc5w';
+const NC_TABLE = process.env.NC_TABLE || 'm9aiffs89yv1o74';
+const NC_GRID = process.env.NC_GRID || 'vwsla3dxylant2l6';
+const NC_FORM = process.env.NC_FORM || 'vwr3k2vkep40846h';
+const NC_SHARE_FORM = process.env.NC_SHARE_FORM || '540b143b-6850-4097-9cc3-b791065ead09';
 const GRID_URL = `/${NC_WS}/${NC_BASE}/${NC_TABLE}/${NC_GRID}/items-items`;
 
 const browser = await chromium.launch();
@@ -63,6 +66,13 @@ for (const r of dupRoutes) {
   await page.goto(`${base}${r}`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('main, table, canvas, form', { timeout: 30000 });
   await page.waitForTimeout(1500);
+  // Garde d'URL finale : les assertions de structure ne valent que sur le
+  // document demandé. Une page redirigée (gate onboarding, route renommée)
+  // doit FAIL — jamais PASS parce que le document de repli est propre.
+  if (new URL(page.url()).pathname !== new URL(`${base}${r}`).pathname) {
+    ok(`B. ${r.slice(0, 60)}: aucun id dupliqué`, false, `page redirigée vers ${page.url()}`);
+    continue;
+  }
   const dups = await page.evaluate(() => {
     const all = [...document.querySelectorAll('[id]')].map(e => e.id).filter(Boolean);
     return [...new Set(all.filter((v, i) => all.indexOf(v) !== i))];
@@ -75,6 +85,12 @@ for (const r of dupRoutes) {
   await page.goto(`${base}${r}`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('main, table, canvas, form', { timeout: 30000 });
   await page.waitForTimeout(1200);
+  // Même garde d'URL finale que la section B : FAIL explicite si le
+  // document livré n'est pas celui demandé, jamais un PASS vacu.
+  if (new URL(page.url()).pathname !== new URL(`${base}${r}`).pathname) {
+    ok(`C. ${r.slice(0, 60)}: pas de saut de niveau de titre`, false, `page redirigée vers ${page.url()}`);
+    continue;
+  }
   const skip = await page.evaluate(() => {
     const hs = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].filter(h => h.offsetParent !== null);
     let prev = 0, bad = null;
@@ -230,7 +246,7 @@ ok('J. table: role=table avec rowgroups', tableStruct.role === 'table' && tableS
 ok('J. table: columnheaders > 0 et cells > 0', tableStruct.colheaders > 0 && tableStruct.cells > 0, JSON.stringify(tableStruct));
 
 // ── K. Formulaire partagé public : soumission laisse une confirmation ───────
-await anonPage.goto(`${base}/nc/form/540b143b-6850-4097-9cc3-b791065ead09`, { waitUntil: 'domcontentloaded' });
+await anonPage.goto(`${base}/nc/form/${NC_SHARE_FORM}`, { waitUntil: 'domcontentloaded' });
 await anonPage.waitForSelector('form, input, textarea', { timeout: 20000 });
 await anonPage.waitForTimeout(1500);
 const submitFlow = await anonPage.evaluate(async () => {

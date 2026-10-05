@@ -29,12 +29,15 @@ const contrast = (fg, bg) => {
 const rgb = (s) => (s.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
 const rgbaAlpha = (s) => { const m = s.match(/rgba?\(([^)]+)\)/); if (!m) return 1; const p = m[1].split(',').map(Number); return p[3] ?? 1; };
 
-const NC_WS = 'wd10yk1f';
-const NC_BASE = 'pkg7xkxnvm4oc5w';
-const NC_TABLE = 'm9aiffs89yv1o74';
-const NC_GRID = 'vwsla3dxylant2l6';
-const NC_KANBAN = 'vw2cbsdazc2o514r';
-const NC_FORM = 'vwr3k2vkep40846h';
+// IDs propres à chaque instance — surchargeables via env (mêmes noms que audit.mjs)
+// pour rejouer verbatim sur un clone frais : NC_WS/NC_BASE/NC_TABLE/NC_GRID/NC_KANBAN/NC_FORM/NC_SHARE_FORM
+const NC_WS = process.env.NC_WS || 'wd10yk1f';
+const NC_BASE = process.env.NC_BASE || 'pkg7xkxnvm4oc5w';
+const NC_TABLE = process.env.NC_TABLE || 'm9aiffs89yv1o74';
+const NC_GRID = process.env.NC_GRID || 'vwsla3dxylant2l6';
+const NC_KANBAN = process.env.NC_KANBAN || 'vw2cbsdazc2o514r';
+const NC_FORM = process.env.NC_FORM || 'vwr3k2vkep40846h';
+const NC_SHARE_FORM = process.env.NC_SHARE_FORM || '540b143b-6850-4097-9cc3-b791065ead09';
 const GRID_URL = `/${NC_WS}/${NC_BASE}/${NC_TABLE}/${NC_GRID}/items-items`;
 
 const browser = await chromium.launch();
@@ -123,7 +126,7 @@ const btnRatio = Math.min(...btnRatios);
 ok('signin: contraste bouton >= 4.5 (mesuré, composite pseudo+dégradé)', btnRatio >= 4.5, `fg=${btnContrast?.fg} bg=${btnContrast ? (btnContrast.gradientStops || [btnContrast.eff]) : '?'} r=${btnRatio.toFixed(2)}`);
 
 // Formulaire public partagé : champs nommés + landmarks
-await anonPage.goto(`${base}/nc/form/540b143b-6850-4097-9cc3-b791065ead09`, { waitUntil: 'domcontentloaded' });
+await anonPage.goto(`${base}/nc/form/${NC_SHARE_FORM}`, { waitUntil: 'domcontentloaded' });
 await anonPage.waitForSelector('form, input, textarea, button[type="submit"]', { timeout: 20000 });
 await anonPage.waitForTimeout(2000);
 const formPub = await anonPage.evaluate(() => ({

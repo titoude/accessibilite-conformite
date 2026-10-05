@@ -8,13 +8,14 @@
  "boot": {
   "produit": "docker run -d -p 8080:8080 nocodb/nocodb@sha256:27d2… — boot ~16-20s, signup admin au premier accès",
   "seed": "compte a11y-worker@example.com via tools/signup.mjs (storage-state auth.json) ; tools/seed.sh + seed2.sh : ws, base « A11y Demo », table Items (5 lignes, SingleSelect/Date/Decimal), vues grille+galerie+kanban+2 formes (plain + surveyMode), partages grid/gallery/form",
-  "onboarding": "le gate `is_new_user` redirige tout vers /?continueAfterOnboardingFlow=… — lever via PATCH /api/v1/user/profile {\"attrs\":{\"is_new_user\":false}}",
+  "onboarding": "le gate `is_new_user` redirige tout vers /?continueAfterOnboardingFlow=… — lever via PATCH /api/v1/user/profile {\"is_new_user\":false} (corps direct ; le payload {\"attrs\":{\"is_new_user\":false}} est un no-op SILENCIEUX : 200 retourné, is_new_user reste 1 — mesuré)",
   "deploy_patch": "cd packages/nc-gui && pnpm exec nuxt generate (ssr:false) → .output/public ; docker cp public/. container:/usr/src/app/docker/nc-gui/ + index.html←200.html ; docker restart",
   "notes": [
-   "IDs (workspace/base/table/vues/uuids de partage) propres à chaque instance — tools/gen-urls.sh régénère urls-{auth,public} depuis l'API ; audit.mjs lit NC_WS/NC_BASE/NC_TABLE/NC_GRID/NC_SHARE_FORM via env",
+   "IDs (workspace/base/table/vues/uuids de partage) propres à chaque instance — tools/gen-urls.sh régénère urls-{auth,public} depuis l'API ET écrit nc-env-install.sh ; audit.mjs/verify.mjs/eval-final.mjs/incomplete-probes.mjs lisent tous NC_WS/NC_BASE/NC_TABLE/NC_GRID/NC_KANBAN/NC_FORM/NC_SHARE_FORM via env (mêmes défauts)",
    "enum ViewTypes de cette version : FORM=1 GALLERY=2 GRID=3 KANBAN=4",
-   "survey mode = view.meta.surveyMode (PATCH /api/v2/meta/views/:id) — avec surveyMode le share canonique devient /nc/form/<uuid>/survey et le /nc/form/<uuid> nu redirige",
+   "survey mode = view.meta.surveyMode (PATCH /api/v2/meta/views/:id — PAS /forms/:id qui no-op) — avec surveyMode le share canonique devient /nc/form/<uuid>/survey et le /nc/form/<uuid> nu redirige ; la vue survey est une SECONDE vue FORM dédiée (uuid distinct de la forme plain)",
    "cookies localStorage/storage-state liés au port (auth-8081.json réécrit pour :8081)",
+   "route membres : /$WS/members canonique sur le bundle nc-gui PRÉBUILDÉ de l'image, /$WS/settings/members canonique sur le frontend REBUILDÉ depuis les sources (patched) — urls-auth cible la build patchée ; l'audit marque ERREUR toute redirection de pathname",
    "audit.mjs --urls n'accepte QUE des URLs séparées par virgules : --urls \"$(tr '\\n' ',' < urls-auth.txt | sed 's/,$//')\""
   ]
  },
@@ -23,20 +24,23 @@
   "probes": "tools/incomplete-probes.mjs (rejoue les noeuds incomplets du report : composite alpha ::before/::after + gradients, ARIA, tables split)",
   "verify": "tools/verify.mjs (43 assertions)",
   "eval": "tools/eval-final.mjs (26 assertions A–K, état froid)",
-  "signup": "tools/signup.mjs (:8080) / tools/signup-install.mjs (portable)",
+  "signup": "tools/signup.mjs / tools/signup-install.mjs (tous deux <baseUrl> <email> <password> <out.json>)",
   "seed": "tools/seed.sh + seed2.sh + gen-urls.sh"
  },
  "auditCommands": [
-  "node signup.mjs  # premier boot → auth.json (port 8080), adapter pour 8081/8082",
-  "TOKEN=<nc_token> bash seed.sh x http://localhost:8081 && TOKEN=<tok> bash seed2.sh x http://localhost:8081 && TOKEN=<tok> bash gen-urls.sh http://localhost:8081 auth-8081.json",
-  "node audit.mjs http://localhost:8081 --storage-state auth-8081.json --states share-modal,fields-dropdown,table-tools-modal,create-new-menu,user-menu,dark-mode,mobile-grid --wait 4000 --urls \"$(tr '\\n' ',' < urls-auth.txt | sed 's/,$//')\" --out reports/final/auth",
+  "node signup.mjs http://localhost:8081 a11y-worker@example.com 'Worker-Pass-30!' auth-8081.json",
+  "TOKEN=$(python3 -c \"import json;s=json.load(open('auth-8081.json'));print([c['value'] for c in s['cookies'] if c['name']=='nc_token'][0])\") && curl -X PATCH http://localhost:8081/api/v1/user/profile -H \"xc-auth: $TOKEN\" -H 'content-type: application/json' -d '{\"is_new_user\":false}'  # levée du gate onboarding — corps direct, PAS {\"attrs\":{...}} (no-op silencieux)",
+  "bash seed.sh x http://localhost:8081 && bash seed2.sh x http://localhost:8081",
+  "SURV=$(curl -sf -X POST http://localhost:8081/api/v2/meta/tables/$TID/forms -H \"xc-auth: $TOKEN\" -H 'content-type: application/json' -d '{\"title\":\"Enquête Items\"}' | python3 -c 'import json,sys;print(json.load(sys.stdin)[\"id\"])') && curl -sf -X POST http://localhost:8081/api/v2/meta/views/$SURV/share -H \"xc-auth: $TOKEN\" && curl -sf -X PATCH http://localhost:8081/api/v2/meta/views/$SURV -H \"xc-auth: $TOKEN\" -H 'content-type: application/json' -d '{\"meta\":{\"surveyMode\":true,\"heading\":\"Enquête Items\",\"subheading\":\"Questions une par une.\"}}'  # vue survey dédiée (inclus dans gen-urls.sh si absente)",
+  "bash gen-urls.sh http://localhost:8081 auth-8081.json && cp urls-auth-install.txt urls-auth.txt && cp urls-public-install.txt urls-public.txt && source nc-env-install.sh  # exporte NC_* lus par audit/verify/eval/probes",
+  "node audit.mjs http://localhost:8081 --storage-state auth-8081.json --states share-modal,fields-dropdown,table-tools-modal,create-new-menu,user-menu,dark-mode,mobile-grid,edit-record-modal --wait 4000 --urls \"$(tr '\\n' ',' < urls-auth.txt | sed 's/,$//')\" --out reports/final/auth",
   "node audit.mjs http://localhost:8081 --states signin-error,signup-error,shared-form-submitted --wait 4000 --urls \"$(tr '\\n' ',' < urls-public.txt | sed 's/,$//')\" --out reports/final/public",
   "node incomplete-probes.mjs http://localhost:8081 reports/final/auth/report.json auth-8081.json reports/final/auth/incomplete-probes.json",
   "node incomplete-probes.mjs http://localhost:8081 reports/final/public/report.json none reports/final/public/incomplete-probes.json",
   "node verify.mjs http://localhost:8081 auth-8081.json",
   "node eval-final.mjs http://localhost:8081 auth-8081.json"
  ],
- "patch": "patch.diff (108 fichiers, +946/-141) — sha256 voir patch.diff.sha256 ; inclut packages/nc-gui/.patches/ant-design-vue@3.2.20.patch (pnpm patchedDependencies, vc-dialog/vc-select/vc-tooltip) + pnpm-lock.yaml",
+ "patch": "patch.diff (114 fichiers, +971/-142) — sha256 voir patch.diff.sha256 ; inclut packages/nc-gui/.patches/ant-design-vue@3.2.20.patch (pnpm patchedDependencies, vc-dialog/vc-select/vc-tooltip) + pnpm-lock.yaml ; v2 : résiduel modale ?rowId= (aria-dialog-name NcModal sans header → aria-label, tiptap role=textbox+aria-multiline+label, more-actions×2/close/send boutons nommés, textarea cellule Text étiquetée, tabindex 1→0) + tokens/new input + 2 checkboxes admin settings",
  "install_build": "install-build.sh : worktree @SHA → git apply (0 rejet) → build sdk workspace (nocodb-sdk, nocodb-sdk-v2) → pnpm install --frozen-lockfile → nuxt generate → conteneur frais nocodb-install :8082 → signup/seed/gen-urls → rescan 0v. NOTE: pnpm install exige les deps workspace compilées d'abord (postinstall nuxt prepare importe nocodb-sdk) — l'ordre bootstrap du repo l'assume ; voir install-build.log",
  "environnement": "node v24.19.0 (nvm), pnpm 10.20.0, playwright + chromium, docker"
 }

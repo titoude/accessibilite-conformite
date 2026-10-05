@@ -18,10 +18,12 @@ const OUT = process.argv[5] || 'incomplete-probes.json';
 const report = JSON.parse(readFileSync(REPORT, 'utf8'));
 
 // Mêmes setups d'états que audit.mjs (dupliqués pour rejouabilité indépendante)
-const NC_WS = 'wd10yk1f';
-const NC_BASE = 'pkg7xkxnvm4oc5w';
-const NC_TABLE = 'm9aiffs89yv1o74';
-const NC_GRID = 'vwsla3dxylant2l6';
+// IDs propres à chaque instance — surchargeables via env (mêmes noms que audit.mjs)
+const NC_WS = process.env.NC_WS || 'wd10yk1f';
+const NC_BASE = process.env.NC_BASE || 'pkg7xkxnvm4oc5w';
+const NC_TABLE = process.env.NC_TABLE || 'm9aiffs89yv1o74';
+const NC_GRID = process.env.NC_GRID || 'vwsla3dxylant2l6';
+const NC_SHARE_FORM = process.env.NC_SHARE_FORM || '540b143b-6850-4097-9cc3-b791065ead09';
 const NC_GRID_URL = `/${NC_WS}/${NC_BASE}/${NC_TABLE}/${NC_GRID}/items-items`;
 
 const STATE_SETUPS = {

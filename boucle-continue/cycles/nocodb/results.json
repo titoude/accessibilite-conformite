@@ -5,8 +5,16 @@
  "baseline": {
   "surfaces": 20,
   "etats": 10,
-  "public": { "violations_occ": 48, "violations_regles": 10, "incomplets": 7 },
-  "auth": { "violations_occ": 347, "violations_regles": 20, "incomplets": 14 },
+  "public": {
+   "violations_occ": 48,
+   "violations_regles": 10,
+   "incomplets": 7
+  },
+  "auth": {
+   "violations_occ": 347,
+   "violations_regles": 20,
+   "incomplets": 14
+  },
   "total_occ": 395,
   "total_regles": 20,
   "detail": {
@@ -33,10 +41,20 @@
   }
  },
  "final": {
-  "surfaces": 20,
-  "etats": 10,
-  "public": { "violations_occ": 0, "violations_regles": 0, "erreurs": 0, "incomplets": 5 },
-  "auth": { "violations_occ": 0, "violations_regles": 0, "erreurs": 0, "incomplets": 7 },
+  "surfaces": 21,
+  "etats": 11,
+  "public": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 5
+  },
+  "auth": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 7
+  },
   "verify_mjs": "43/43 assertions",
   "eval_final_mjs": "26/26 contrôles indépendants (A-K, état froid)"
  },
@@ -66,7 +84,9 @@
   },
   {
    "famille": "html-has-lang (31 occ)",
-   "files": ["app.vue (useHead htmlAttrs lang)"]
+   "files": [
+    "app.vue (useHead htmlAttrs lang)"
+   ]
   },
   {
    "famille": "menus/dropdowns ARIA (aria-required-children, -parent, allowed-attr, valid-attr-value)",
@@ -94,27 +114,45 @@
   },
   {
    "famille": "dialogs (aria-dialog-name 3)",
-   "files": [".patches/ant-design-vue@3.2.20.patch (vc-dialog aria-label + sentinelles focus-trap sans aria-hidden)", "components/nc/Modal.vue"]
+   "files": [
+    ".patches/ant-design-vue@3.2.20.patch (vc-dialog aria-label + sentinelles focus-trap sans aria-hidden)",
+    "components/nc/Modal.vue"
+   ]
   },
   {
    "famille": "tables (empty-table-header, structure th/cells)",
-   "files": ["components/nc/Table.vue (tables split header/body fusionnées : wrapper role=table, 2 role=rowgroup, th→columnheader, td→cell, extraRow wrappé en td[colspan])", "components/account/UserList.vue, workspace/CollaboratorsList.vue, settings/DataSources.vue (ariaLabel prop)"]
+   "files": [
+    "components/nc/Table.vue (tables split header/body fusionnées : wrapper role=table, 2 role=rowgroup, th→columnheader, td→cell, extraRow wrappé en td[colspan])",
+    "components/account/UserList.vue, workspace/CollaboratorsList.vue, settings/DataSources.vue (ariaLabel prop)"
+   ]
   },
   {
    "famille": "image-alt (22 occ)",
-   "files": ["components/feed/Recents/Card.vue (img :alt)", "listes admin/account (avatars)", "général icons décoratifs → aria-hidden"]
+   "files": [
+    "components/feed/Recents/Card.vue (img :alt)",
+    "listes admin/account (avatars)",
+    "général icons décoratifs → aria-hidden"
+   ]
   },
   {
    "famille": "heading-order (3 occ)",
-   "files": ["components/feed/Recents/Card.vue (plugin rehype demoteHeadingsToH3 sur le markdown + h2 sr-only)"]
+   "files": [
+    "components/feed/Recents/Card.vue (plugin rehype demoteHeadingsToH3 sur le markdown + h2 sr-only)"
+   ]
   },
   {
    "famille": "scrollable-region-focusable (3 occ)",
-   "files": ["components/smartsheet/KanbanOptimized.vue (régions colonnes focusables)"]
+   "files": [
+    "components/smartsheet/KanbanOptimized.vue (régions colonnes focusables)"
+   ]
   },
   {
    "famille": "ids dupliqués SVG (détecté via eval-final, hors axe)",
-   "files": ["utils/iconUtils.ts scopeSvgIds (suffixe par <svg> les id de defs + réécrit url(#)/href)", "components/general/Icon.vue (onMounted scope sur $el)", "components/feed/{Social,Recents/Card}.vue (wrappers scopés)"]
+   "files": [
+    "utils/iconUtils.ts scopeSvgIds (suffixe par <svg> les id de defs + réécrit url(#)/href)",
+    "components/general/Icon.vue (onMounted scope sur $el)",
+    "components/feed/{Social,Recents/Card}.vue (wrappers scopés)"
+   ]
   }
  ],
  "incomplets_decisions": {
@@ -139,5 +177,61 @@
   "page /wd10yk1f/members auditée en baseline, absente du final (route renommée ?settings=members + /settings/members) — comparer par path",
   "install-build : l'échec initial de pnpm install (sdk non buildé) est dans le log — c'est l'ordre bootstrap normal, pas un défaut du patch"
  ],
- "verdict": "PAS de verdict auto : l'auditeur indépendant rejoue et tranche."
+ "verdict": "PAS de verdict auto : l'auditeur indépendant rejoue et tranche.",
+ "auditTiers": {
+  "verdict": "CONFIRMED (v1) — fixes v2 appliqués",
+  "verdict_file": "verdict-auditeur.md (commit 00d38a0)",
+  "v1_resume": "CONFIRMED : toutes les mesures du cycle rejouées par l'auditeur indépendant (baseline 10r/48 public, 20r/347 auth worker / 329 auditeur ; final 0v/0e ; verify 43/43 ; eval 26/26 ; 12 sondes ; 43/43 hash provenance)",
+  "v2_fixes": "6 défauts de portabilité outillage + 1 résiduel produit corrigés, tout rejoué sur une instance réelle patchée — voir corrections_post_audit_warts"
+ },
+ "corrections_post_audit_warts": {
+  "verdict_auditeur": "CONFIRMED",
+  "fixes_appliques": [
+   {
+    "id": "portabilite-env",
+    "fix": "verify.mjs / eval-final.mjs / incomplete-probes.mjs : constantes NC_WS/NC_BASE/NC_TABLE/NC_GRID/NC_KANBAN/NC_FORM + uuid forme → process.env.NC_* avec défauts (même convention qu'audit.mjs). Le crash verbatim devient une exécution portable.",
+    "execution": "verify 43/43, eval 26/26, probes 7+5 rejoués sur instance :8081 avec nc-env-install.sh sourcé"
+   },
+   {
+    "id": "manifest-onboarding-survey",
+    "fix": "manifest.json auditCommands : vrai payload de levée onboarding PATCH /api/v1/user/profile {\"is_new_user\":false} (le {\"attrs\":{...}} est un no-op silencieux — mesuré : 200 retourné, is_new_user reste 1) + commandes exactes de création de la vue survey dédiée (POST /forms + share + PATCH /api/v2/meta/views/:id meta.surveyMode:true — PAS /forms/:id qui drop silencieusement meta)",
+    "execution": "levée vérifiée live : is_new_user 1→0 ; vue survey SURV=vwgwo577dzf7lxhk créée + partagée, uuid distinct de la forme plain"
+   },
+   {
+    "id": "urls-auth-members",
+    "fix": "tools/urls-auth.txt régénéré via gen-urls.sh (route canonique mesurée live : /$WS/members REDIRIGE vers /$WS/settings/members sur la build patchée — les deux routes testées) ; gen-urls.sh émet désormais un uuid DISTINCT pour la forme vs la ligne /survey (garde d'égalité → exit 1) + crée la vue survey si absente + écrit nc-env-install.sh",
+    "execution": "gen-urls.sh exécuté : form=aeeb6a30 vs survey=cd5acce9 distincts ; /wr23v8q3/members → redirige vers /settings/members vérifié navigateur"
+   },
+   {
+    "id": "eval-gardes-url",
+    "fix": "eval-final.mjs sections B/C : garde d'URL finale AVANT chaque groupe d'assertions — pathname attendu sinon FAIL 'page redirigée', jamais PASS sur document redirigé",
+    "execution": "eval-final.mjs 26/26 PASS ; les gardes s'exécutent sur chaque route B (7) et C (7)"
+   },
+   {
+    "id": "signup-baseurl",
+    "fix": "signup.mjs : :8080 en dur → <baseUrl> <email> <password> <out.json> comme signup-install.mjs",
+    "execution": "exécuté sur :8081 avec probe-signup@example.com → signup OK, storage-state écrit (nc_token présent), gate onboarding atteint"
+   },
+   {
+    "id": "residuel-produit-modal",
+    "fix": "modale d'édition d'enregistrement (?rowId=) : aria-dialog-name (NcModal sans header slot → aria-label 'Edit record'/'New record'), aria-input-field-name (tiptap → role=textbox + aria-multiline + aria-label), button-name ×3 (more-actions ×2 + close-btn + nc-comment-save-btn), label (textarea NcAutoSizeTextarea des cellules Text) + tabindex:1 → 0 sur le wrapper rich-comment ; /account/tokens/new : a-input nommé ; /admin/?tab=settings : 2 NcCheckbox nommés. État 'edit-record-modal' ajouté à states.json + audit.mjs STATES + manifest auditCommands",
+    "execution": "sonde axe ciblée : modal 5→0, tokens/new 1→0, admin settings 2→0 ; scan final-auth 0v/0e/7inc incl. le nouvel état ; patch.diff régénéré (splice : 3 blocs remplacés, 6 nouveaux fichiers, 114 blocs total — git apply --check 0 rejet sur clone propre)"
+   }
+  ],
+  "reexecutions": {
+   "instance": "nc-fix docker :8081 — nocodb/nocodb@sha256:27d2… + nc-gui rebuildé depuis sources patchées v2 (pnpm exec nuxt generate → docker cp → restart)",
+   "audit_final_auth": "0 violations / 0 erreurs / 7 incomplets — 22 scénarios incl. edit-record-modal",
+   "audit_final_public": "0 violations / 0 erreurs / 5 incomplets — 10 scénarios",
+   "incomplete_probes": "7 noeuds auth + 5 noeuds public (contrastes composités, tables split — mêmes classes que v1)",
+   "verify": "43/43 assertions PASS",
+   "eval_final": "26/26 assertions PASS",
+   "gen_urls": "uuids distincts vérifiés ; route members canonique /$WS/settings/members mesurée",
+   "signup": "exécuté sur :8081 (compte probe-signup@example.com)"
+  },
+  "residuel_assume": [
+   "incomplets axe final-auth ×7 / final-public ×5 — mêmes motifs documentés qu'en v1 (texte occulté par overlay, boutons scaling 4.68 calculé, tables split antd fusionnées en ARIA) — sondes rejouées, aucune n'est une violation",
+   "modale record : fix vérifié en mode NcModal desktop ; la variante Drawer mobile de la même surface n'a pas été sondée (le state force le viewport desktop — documenté dans audit.mjs)",
+   "packages/nocodb-sdk/src/lib/Api.ts : modifié dans l'arbre de travail du worker MAIS absent de patch.diff v1 comme v2 — divergence observée arbre↔patch livrée par le worker, hors périmètre des 7 défauts (signalée)"
+  ]
+ }
 }

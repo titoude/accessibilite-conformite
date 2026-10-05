@@ -199,6 +199,21 @@ const STATES = {
       await page.waitForSelector('canvas', { state: 'attached', timeout: 20000 });
     },
   },
+  // La route ?rowId= REND directement la modale d'édition d'enregistrement
+  // (expanded form NcModal en overlay) — déterministe sans clic, comme /field.
+  // Le viewport 390px de mobile-grid peut survivre : il basculerait la modale
+  // en variant Drawer — on force un viewport desktop puis on recharge.
+  'edit-record-modal': {
+    url: (b) => `${b}${NC_GRID_URL}?rowId=1`,
+    setup: async (page) => {
+      await page.setViewportSize({ width: 1280, height: 800 });
+      await page.reload({ waitUntil: 'domcontentloaded' });
+      await page.waitForSelector(
+        '.ant-modal-wrap.nc-modal-wrapper [data-testid="nc-expanded-form-modal"]',
+        { timeout: 20000 },
+      );
+    },
+  },
   // ---- états publics (run sans storage-state) ----
   // Erreur d'auth : surface d'erreur réelle = div.bg-red-500 custom dans le
   // form (PAS un role=alert — potentiel finding en soi).

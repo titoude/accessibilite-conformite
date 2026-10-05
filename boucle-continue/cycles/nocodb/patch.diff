@@ -264,6 +264,26 @@ index f8716fe..47482ed 100644
      MaterialSymbolsRocketLaunchOutline: typeof import('~icons/material-symbols/rocket-launch-outline')['default']
      MaterialSymbolsTranslate: typeof import('~icons/material-symbols/translate')['default']
      MaterialSymbolsWarning: typeof import('~icons/material-symbols/warning')['default']
+diff --git a/packages/nc-gui/components/account/SignupSettings.vue b/packages/nc-gui/components/account/SignupSettings.vue
+index bb29d61..b7b7774 100644
+--- a/packages/nc-gui/components/account/SignupSettings.vue
++++ b/packages/nc-gui/components/account/SignupSettings.vue
+@@ -61,6 +61,7 @@ loadSettings()
+               v-model:checked="settings.invite_only_signup"
+               v-e="['c:account:enable-signup']"
+               :disabled="settings.restrict_workspace_creation"
++              :aria-label="$t('labels.inviteOnlySignup')"
+               @change="saveSettings"
+             />
+             <span data-rec="true" :class="{ 'text-nc-content-gray-muted': settings.restrict_workspace_creation }">
+@@ -71,6 +72,7 @@ loadSettings()
+             <NcCheckbox
+               v-model:checked="settings.restrict_workspace_creation"
+               v-e="['c:account:restrict-workspace-creation']"
++              :aria-label="$t('labels.restrictWorkspaceCreation')"
+               @change="onRestrictWorkspaceCreationChange"
+             />
+             <span data-rec="true">
 diff --git a/packages/nc-gui/components/account/Token.vue b/packages/nc-gui/components/account/Token.vue
 index 77c3035..bbbc29c 100644
 --- a/packages/nc-gui/components/account/Token.vue
@@ -277,6 +297,18 @@ index 77c3035..bbbc29c 100644
              <NcButton
                class="!rounded-md"
                data-testid="nc-token-create"
+diff --git a/packages/nc-gui/components/account/TokenCreateWizard.vue b/packages/nc-gui/components/account/TokenCreateWizard.vue
+index 5b08b2c..48915ea 100644
+--- a/packages/nc-gui/components/account/TokenCreateWizard.vue
++++ b/packages/nc-gui/components/account/TokenCreateWizard.vue
+@@ -82,6 +82,7 @@ const onResultDone = () => {
+           v-model:value="tokenName"
+           class="!rounded-lg max-w-150"
+           :maxlength="255"
++          :aria-label="$t('general.name')"
+           data-testid="nc-token-name-input"
+         />
+       </div>
 diff --git a/packages/nc-gui/components/account/UserList.vue b/packages/nc-gui/components/account/UserList.vue
 index ff5e5c7..37fe4d3 100644
 --- a/packages/nc-gui/components/account/UserList.vue
@@ -677,7 +709,7 @@ index 337d084..28bb2ed 100644
        :bordered="false"
        :open="isOpen && editAllowed"
 diff --git a/packages/nc-gui/components/cell/Text/Editor.vue b/packages/nc-gui/components/cell/Text/Editor.vue
-index f7ab60d..b16d829 100644
+index f7ab60d..aab3bdb 100644
 --- a/packages/nc-gui/components/cell/Text/Editor.vue
 +++ b/packages/nc-gui/components/cell/Text/Editor.vue
 @@ -13,6 +13,8 @@ const editEnabled = inject(EditModeInj, ref(false))
@@ -697,8 +729,16 @@ index f7ab60d..b16d829 100644
      class="nc-cell-field h-full w-full outline-none py-1 bg-transparent"
      @input="updateInput"
      @blur="editEnabled = false"
+@@ -77,6 +80,7 @@ function updateInput(e: any) {
+     v-else
+     :ref="focus"
+     v-model:model-value="textareaValue"
++    :aria-label="column?.title"
+     :hide-scrollbar="false"
+     :bordered="false"
+     class="!px-2 !py-1 !min-h-7 !max-h-7.5rem resize-none nc-scrollbar-thin"
 diff --git a/packages/nc-gui/components/cell/Text/index.vue b/packages/nc-gui/components/cell/Text/index.vue
-index 48618fe..f63d7c3 100644
+index 48618fe..fff9432 100644
 --- a/packages/nc-gui/components/cell/Text/index.vue
 +++ b/packages/nc-gui/components/cell/Text/index.vue
 @@ -15,6 +15,8 @@ const editEnabled = inject(EditModeInj, ref(false))
@@ -718,8 +758,16 @@ index 48618fe..f63d7c3 100644
        class="nc-cell-field h-full w-full outline-none py-1 bg-transparent"
        @blur="editEnabled = false"
        @keydown.down.stop
+@@ -57,6 +60,7 @@ const textareaValue = computed({
+       v-else
+       :ref="focus"
+       v-model:model-value="textareaValue"
++      :aria-label="column?.title"
+       :hide-scrollbar="false"
+       :bordered="false"
+       class="!px-2 !py-1 !min-h-7 !max-h-7.5rem resize-none nc-scrollbar-thin"
 diff --git a/packages/nc-gui/components/cell/TextArea.vue b/packages/nc-gui/components/cell/TextArea.vue
-index 1cc7e0b..19228c9 100644
+index 1cc7e0b..6fee453 100644
 --- a/packages/nc-gui/components/cell/TextArea.vue
 +++ b/packages/nc-gui/components/cell/TextArea.vue
 @@ -787,6 +787,7 @@ useResizeObserver(inputWrapperRef, () => {
@@ -730,6 +778,14 @@ index 1cc7e0b..19228c9 100644
            class="nc-inline-textarea h-full w-full !outline-none nc-scrollbar-thin"
            :class="{
              'p-2': editEnabled || isUnderFormula,
+@@ -1089,6 +1090,7 @@ useResizeObserver(inputWrapperRef, () => {
+           <a-textarea
+             ref="inputRef"
+             v-model:value="vModel"
++            :aria-label="column?.title"
+             class="nc-text-area-expanded !py-1 !px-3 !text-nc-content-gray-extreme !transition-none !cursor-text !min-h-[210px] !rounded-lg disabled:!bg-nc-bg-gray-extralight nc-longtext-scrollbar"
+             :class="{
+               '!focus:border-nc-border-brand': !props.isAi,
 diff --git a/packages/nc-gui/components/cell/Time/Editor.vue b/packages/nc-gui/components/cell/Time/Editor.vue
 index 3affcfe..1be404a 100644
 --- a/packages/nc-gui/components/cell/Time/Editor.vue
@@ -2283,6 +2339,105 @@ index 44f9519..2255c71 100644
                  <div class="text-2xl text-nc-content-gray-subtle2 font-bold text-center pt-6">
                    {{ $t('labels.multiField.selectField') }}
                  </div>
+diff --git a/packages/nc-gui/components/smartsheet/expanded-form/MoreOptionsMenu.vue b/packages/nc-gui/components/smartsheet/expanded-form/MoreOptionsMenu.vue
+index aac235b..c6c393a 100644
+--- a/packages/nc-gui/components/smartsheet/expanded-form/MoreOptionsMenu.vue
++++ b/packages/nc-gui/components/smartsheet/expanded-form/MoreOptionsMenu.vue
+@@ -223,6 +223,7 @@ const onConfirmDeleteRowClick = async () => {
+       :type="isMobileMode ? 'secondary' : 'text'"
+       size="xsmall"
+       class="nc-expand-form-more-actions !w-7 !h-7"
++      :aria-label="$t('labels.actions')"
+       :class="{
+         '!lg:hidden': visibleMoreOptions.allHiddenExceptCopyRecordUrl,
+       }"
+diff --git a/packages/nc-gui/components/smartsheet/expanded-form/RichComment.vue b/packages/nc-gui/components/smartsheet/expanded-form/RichComment.vue
+index 23a7048..b645795 100644
+--- a/packages/nc-gui/components/smartsheet/expanded-form/RichComment.vue
++++ b/packages/nc-gui/components/smartsheet/expanded-form/RichComment.vue
+@@ -29,6 +29,8 @@ const props = withDefaults(
+ 
+ const emits = defineEmits(['update:value', 'focus', 'blur', 'save'])
+ 
++const { t } = useI18n()
++
+ const isGrid = inject(IsGridInj, ref(false))
+ 
+ const isFocused = ref(false)
+@@ -122,6 +124,13 @@ const editor = useEditor({
+     }
+   },
+   editorProps: {
++    attributes: {
++      // The contenteditable div is a form field: without a role it computes to
++      // generic (aria-label prohibited), so declare the widget role AND the name.
++      'role': 'textbox',
++      'aria-multiline': 'true',
++      'aria-label': props.placeholder || t('general.comment'),
++    },
+     handleKeyDown(this, view, event) {
+       if (event.key === 'Enter' && !event.ctrlKey && !event.shiftKey && !event.metaKey) {
+         const { state } = view
+@@ -290,7 +299,7 @@ defineExpose({
+       'readonly': readOnly,
+       'nc-rich-text-grid': isGrid,
+     }"
+-    :tabindex="1"
++    tabindex="0"
+     class="nc-rich-text-comment flex flex-col w-full h-full"
+     @focus="onFocusWrapper"
+   >
+@@ -335,6 +344,7 @@ defineExpose({
+           v-e="['a:row-expand:comment:save']"
+           :disabled="!vModel?.length && !extraSaveEnabled"
+           class="!disabled:bg-nc-bg-gray-light nc-comment-save-btn !h-7 !w-7 !shadow-none"
++          :aria-label="$t('general.send')"
+           size="xsmall"
+           @click="saveComment"
+         >
+diff --git a/packages/nc-gui/components/smartsheet/expanded-form/Sidebar/Comments.vue b/packages/nc-gui/components/smartsheet/expanded-form/Sidebar/Comments.vue
+index b6e31cf..d87568e 100644
+--- a/packages/nc-gui/components/smartsheet/expanded-form/Sidebar/Comments.vue
++++ b/packages/nc-gui/components/smartsheet/expanded-form/Sidebar/Comments.vue
+@@ -709,6 +709,7 @@ onBeforeUnmount(() => {
+                 >
+                   <NcButton
+                     class="nc-expand-form-more-actions !hover:bg-nc-bg-gray-medium !w-7 !h-7 !bg-transparent"
++                    :aria-label="$t('labels.actions')"
+                     size="xsmall"
+                     type="text"
+                   >
+diff --git a/packages/nc-gui/components/smartsheet/expanded-form/index.vue b/packages/nc-gui/components/smartsheet/expanded-form/index.vue
+index 0618713..85fff10 100644
+--- a/packages/nc-gui/components/smartsheet/expanded-form/index.vue
++++ b/packages/nc-gui/components/smartsheet/expanded-form/index.vue
+@@ -178,6 +178,10 @@ const loadingEmit = (event: 'update:modelValue' | 'cancel' | 'next' | 'prev' | '
+ 
+ const tableTitle = computed(() => activeMeta.value?.title)
+ 
++/* The NcModal carries no #header slot, so its wrap stays nameless — give it a
++   dialog name matching the header we render inside the body. */
++const dialogLabel = computed(() => (_row.value?.rowMeta?.new ? t('activity.newRecord') : t('labels.editRecord')))
++
+ const templateNameInputRef = ref<HTMLInputElement | null>(null)
+ 
+ // Auto-focus and select template name input when it renders
+@@ -879,6 +883,7 @@ export default {
+     "
+     class="nc-drawer-expanded-form"
+     :size="isMobileMode ? 'medium' : 'small'"
++    :aria-label="dialogLabel"
+     v-bind="modalProps"
+     @update:visible="onIsExpandedUpdate"
+   >
+@@ -1047,6 +1052,7 @@ export default {
+           <NcButton
+             v-if="!isMobileMode"
+             class="nc-expand-form-close-btn !w-7 !h-7"
++            :aria-label="$t('general.close')"
+             data-testid="nc-expanded-form-close"
+             type="text"
+             size="xsmall"
 diff --git a/packages/nc-gui/components/smartsheet/form/FieldBody.vue b/packages/nc-gui/components/smartsheet/form/FieldBody.vue
 index 225ce94..f21037f 100644
 --- a/packages/nc-gui/components/smartsheet/form/FieldBody.vue
