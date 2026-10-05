@@ -40,22 +40,11 @@ for (const p of report.pages || [])
     for (const n of inc.nodes || [])
       incompletes.push({ page: p.url, rule: inc.id, target: Array.isArray(n.target) ? n.target.join(',') : n.target, reason: n.failureSummary || '' });
 
-// STATES est extrait d'audit.mjs (source unique) : le setup de chaque état est
-// REJOUÉ avant la mesure — sans cela les items des états dynamiques étaient
-// classés « élément absent » sans jamais avoir été re-mesurés dans leur état.
-let STATES = {};
-try {
-  const auditSrc = readFileSync(join(DIR, 'audit.mjs'), 'utf8');
-  const m = auditSrc.match(/const STATES = \{/);
-  if (m) {
-    let depth = 0, end = -1;
-    for (let i = m.index + m[0].length - 1; i < auditSrc.length; i++) {
-      if (auditSrc[i] === '{') depth++;
-      else if (auditSrc[i] === '}') { depth--; if (!depth) { end = i + 1; break; } }
-    }
-    if (end > 0) STATES = eval(`(${auditSrc.slice(m.index + 'const STATES = '.length, end)})`);
-  }
-} catch (e) { console.log(`extraction STATES impossible (${e.message}) — les états ne seront pas rejoués`); }
+// STATES est importé d'audit.mjs (export dédié + guard CLI — les setups ont
+// accès aux helpers du module) : le setup de chaque état est REJOUÉ avant la
+// mesure — sans cela les items des états dynamiques étaient classés « élément
+// absent » sans jamais avoir été re-mesurés dans leur état.
+const { STATES } = await import('./audit.mjs');
 
 console.log(`${incompletes.length} item(s) incomplete dans ${REPORT}`);
 const results = [];
@@ -70,9 +59,20 @@ if (incompletes.length) {
     stateGroups.get(key).push(it);
   }
   for (const [pageUrl, items] of stateGroups) {
-    const url = pageUrl.replace(/\s*\[state:.*$/, '');
+    // Les rapports enregistrent l'URL complète du produit audité — la réécrire
+    // sur le BASE fourni, sinon goto() cible une instance qui n'existe pas.
+    const url = pageUrl.replace(/\s*\[state:.*$/, '').replace(/^https?:\/\/[^/]+/, BASE);
     const state = (pageUrl.match(/state:([a-z0-9-]+)/) || [])[1];
-    await page.goto(url, { waitUntil: 'load' }).catch(() => {});
+    const nav = await page.goto(url, { waitUntil: 'load' }).catch(e => e);
+    if (!nav || nav instanceof Error || !nav.ok()) {
+      for (const it of items) {
+        const detail = nav instanceof Error ? String(nav).slice(0, 120) : `HTTP ${nav && nav.status()}`;
+        const probe = { ...it, verdict: 'N-A', detail: `navigation vers ${url} en échec au rejeu : ${detail}` };
+        results.push(probe);
+        console.log(`  [${state || 'page'}] ${it.rule} ${it.target.slice(0, 60)} → N-A ${probe.detail}`);
+      }
+      continue;
+    }
     await page.waitForTimeout(2500);
     let stateOk = true;
     if (state && STATES[state]) {

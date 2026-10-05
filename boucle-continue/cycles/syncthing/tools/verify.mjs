@@ -70,6 +70,17 @@ const page = await ctx.newPage();
 await page.goto(`${BASE}/`, { waitUntil: 'load' });
 await page.waitForSelector('button.panel-heading[data-target^="#folder-"]', { timeout: 20000 });
 
+// La modale de rapport d'usage (#ur : backdrop statique, clavier off) se montre
+// quelques secondes après le chargement tant que urAccepted = 0 (poll système)
+// et intercepte tous les clics. L'attendre puis la décliner — sur une instance
+// déjà auditée (urAccepted=-1 persisté) elle n'arrive jamais.
+await page.waitForSelector('#ur.in', { timeout: 15000 }).catch(() => {});
+if (await page.locator('#ur.in').count()) {
+  await page.locator('#ur button[ng-click="declineUR()"]').click();
+  await page.waitForSelector('#ur.in', { state: 'hidden', timeout: 8000 });
+  await page.waitForTimeout(300);
+}
+
 // landmarks / titres
 ok('<main> landmark présent', await page.locator('main.container.content, main').count() >= 1);
 ok('exactement 1 <h1> hors modales', await page.evaluate(() =>
@@ -159,22 +170,27 @@ const openedBySpace = await page.evaluate(() => {
   return !!(target && target.classList.contains('in'));
 });
 ok('Espace ouvre le second panneau accordéon', openedBySpace);
-await secondHead.click();
-await page.waitForTimeout(400);
 
-// liens Help adjacents aux labels : soulignés (1.4.1 — pas couleur seule)
-const helpUnderlined = await page.evaluate(() => {
-  const links = [...document.querySelectorAll('#advanced a[target="_blank"], .modal.in a[href*="syncthing.net"], .modal.in a[target="_blank"]')]
-    .filter(a => a.textContent.trim().length > 0);
-  if (!links.length) return -1;
-  return links.filter(a => getComputedStyle(a).textDecorationLine.includes('underline')).length;
+// liens Help adjacents aux labels : soulignés (1.4.1 — pas couleur seule).
+// Les liens documentation vivent dans les panneaux accordéon : en ouvrir un
+// puis mesurer les liens VISIBLES de la modale — total>0 requis (jamais de
+// PASS à vide).
+await firstHead.click();
+await page.waitForTimeout(400);
+const helpCheck = await page.evaluate(() => {
+  const links = [...document.querySelectorAll('.modal.in .modal-body a:not(.btn)')]
+    .filter(a => a.offsetParent !== null);
+  return { total: links.length,
+           underlined: links.filter(a => getComputedStyle(a).textDecorationLine.includes('underline')).length };
 });
-ok('liens d aide des modales soulignés', helpUnderlined > 0, `${helpUnderlined} souligné(s)`);
+ok('liens Help du panneau ouvert soulignés', helpCheck.total > 0 && helpCheck.underlined === helpCheck.total,
+   `${helpCheck.underlined}/${helpCheck.total} visibles`);
 await closeModal(page, '#advanced');
 
 // ids dupliqués share-template (finding auditeur : 3× input#sharedwith- quand
 // folder.id vide — rendu paresseux, mesuré dans #editDevice ouvert, onglet Sharing)
-await page.locator('button.panel-heading[data-target^="#device-"]').first().click();
+await page.locator('button.panel-heading[data-target^="#device-"]:not([data-target="#device-this"])').first().click();
+await page.waitForSelector('button[ng-click*="editDeviceExisting"]', { timeout: 10000 });
 await page.locator('button[ng-click*="editDeviceExisting"]').first().click();
 await page.waitForSelector('#editDevice.in', { timeout: 10000 });
 const sharingTab = page.locator('#editDevice a[data-toggle="tab"][href="#device-sharing"]');

@@ -39,6 +39,7 @@ import http from 'node:http';
 import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 // Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
 const require = createRequire(resolve(process.cwd(), 'package.json'));
@@ -727,6 +728,8 @@ const STATES = {
   },
 };
 
+export { STATES };
+
 if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
   configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
 }
@@ -1148,7 +1151,8 @@ async function run() {
   process.exit(totalRules > 0 ? 1 : 0);
 }
 
-run().catch(e => {
+const isCli = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (isCli) run().catch(e => {
   console.error(e);
   // Échec global (ex. navigateur non lançable) : on écrit quand même les
   // rapports d'erreur du RUN COURANT — jamais un report.json périmé pris

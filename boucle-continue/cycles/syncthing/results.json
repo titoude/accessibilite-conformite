@@ -91,9 +91,9 @@
     "reports/incomplete-probes.json"
   ],
   "auditTiers": {
-    "verdict": "CONFIRMED (verdict-auditeur.md) — rejeu indépendant complet : baseline 1157/1157 bit-exacte, final 0 viol 213 inc, scopeHash identique, install-build gui.files.go 5 821 220 B bit-identique, verify 26/26 + 1 N-A, sondes 213/213",
-    "findings_residuels": "3 réels hors axe (2.1.1 accordéon, 1.4.1 liens Help, duplicate-id dormant) + couverture de sonde — tous corrigés dans corrections_post_audit_warts",
-    "session": "devin-e9fee71217104445b432087597191063"
+    "verdict": "v1 CONFIRMED (verdict-auditeur.md, c6699ce) ; v2 PARTIAL (verdict-auditeur-v2.md, 4782e3e) — produit validé, outillage cassé → corrigé+exécuté ; v3 en attente",
+    "findings_residuels": "v2 : 0 résiduel produit ; outillage corrigé et exécuté (verify 32/32, sondes 198 RESOLVED + 15 N-A honnêtes, 0 CONFIRMED_VIOLATION)",
+    "session": "devin-e9fee71217104445b432087597191063 + devin-5f6867d78c0e46d6a7690a801060e819"
   },
   "corrections_post_audit_warts": [
     {
@@ -110,6 +110,20 @@
       "residuel_assume": [
         "l'élément <share-template id=\"\"> hôte garde un id vide quand folder.id est vide (id vide ≠ doublon axe ; l'attribut alimente le binding @id) — documenté",
         "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
+      ]
+    },
+    {
+      "verdict_v2": "PARTIAL (verdict-auditeur-v2.md, commit 4782e3e) — les 4 fixes produit tous CONFIRMED réparés par rejeu (15/15 tabindex panel-headings, Enter+Espace ouvrent, 15/15 Help soulignés → link-in-text-block 12→0, sharedwith uniques → duplicate-id-aria 13→0, provenance 36/36, final 0 viol/0 err sur 2 pipelines) MAIS les fixes outillage livrés non exécutés : cassés déterministiquement",
+      "fixes": [
+        "audit.mjs : export { STATES } + garde CLI (fileURLToPath) — la sonde importe la source unique au lieu de l'eval-extraction qui échouait (185/188 ReferenceError : les setups référencent les helpers du module)",
+        "incomplete-probes.mjs : exécuté pour de vrai — 2 bugs réels trouvés : (a) les URLs enregistrées pointaient le port du worker (:8384) → goto mourait en silence, désormais réécrites sur le BASE passé ; (b) goto en échec avalé par catch → désormais N-A explicite 'navigation en échec'. Résultat rejoué : 198 RESOLVED mesurés / 15 N-A honnêtes",
+        "verify.mjs : exécuté pour de vrai — 3 bugs réels trouvés : (a) modale usage-report #ur (backdrop statique) bloque le premier boot → attendue puis déclinée ; (b) check liens Help mesurait une modale sans panneau ouvert → mesure désormais les liens VISIBLES d'un panneau accordéon ouvert (5-6 mesurés, tous soulignés) ; (c) .first() sur [data-target^=#device-] ouvrait #device-this déjà ouvert → :not([data-target=#device-this])",
+        "Résultat d'exécution : verify.mjs 32/32 PASS sur instance patchée réelle (seed complet : pending device + pending folder + dossiers/devices réels), incomplete-probes 0 CONFIRMED_VIOLATION"
+      ],
+      "lecon": "RÈGLE — jamais livrer un fix outillage/harnais non exécuté : le ré-audit l'a attrapé déterministiquement. Même discipline que la régénération de patch : le script doit tourner avant d'être commité.",
+      "residuel_assume": [
+        "15 items N-A au rejeu : 14 contrôles share-template rendus paresseusement dont les ids cibles ont changé avec le fix (élément absent honnête) + 1 th-has-data-cells (table sans <td> — revue manuelle légitime)",
+        "la modale #ur n'apparaît qu'avec urAccepted=0 — les audits la rejouent via l'état dédié ; verify la décline si présente"
       ]
     }
   ]
