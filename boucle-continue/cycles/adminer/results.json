@@ -5,29 +5,31 @@
  "baseline": {
   "rules": 10,
   "occurrences": 1153,
-  "errors": 2,
-  "scenarios": 26,
-  "detail": "reports/baseline/public (2 pages, 36 occ) + reports/baseline/auth (24 pages+4 états, 1117 occ) ; règles : region 504, target-size 399, label 75, color-contrast 66, landmark-one-main 28, select-name 28, link-name 28, label-title-only 15, link-in-text-block 7, empty-table-header 1 ; +33 incomplets, 2 erreurs d'état (corrigées ensuite)",
+  "errors": 0,
+  "scenarios": 30,
+  "detail": "reports/baseline/public (2 pages, 36 occ) + reports/baseline/auth (24 urls + 4 états = 28 pages, 1117 occ, 6 incomplets) ; union règles : region 504, target-size 399, label 75, color-contrast 66, select-name 30, landmark-one-main 28, link-name 28, label-title-only 15, link-in-text-block 7, empty-table-header 1",
   "notes": [
    "region 504 occ : dominé par les <b>Warning</b> PHP rendus sur user= (SHOW PRIVILEGES absent sous sqlite → warnings en cascade 'headers already sent') — bug upstream réel, corrigé (cast (array) user.inc.php:31)",
-   "target-size 399 : liens #tables (223), .links (~75), aides jush (40), boutons icon (~18), cases ~13px"
+   "target-size 399 : liens #tables (223), .links (~75), aides jush (40), boutons icon (~18), cases ~13px",
+   "select-name 30 : 28 auth (dump/csv/edit-fields/…) + 2 public (System sqlite, langue si présent)"
   ]
  },
  "final": {
   "rules": 0,
   "occurrences": 0,
   "errors": 0,
-  "scenarios": 28,
-  "detail": "reports/final/public (2 pages) + reports/final/auth (24 pages + 4 états) — 0 violation, 13 incomplets sondés PASS (probe-decisions.json)",
+  "scenarios": 30,
+  "detail": "reports/final/public (2 pages) + reports/final/auth (24 urls + 4 états = 28 pages) — 0 violation, 5 incomplets au rapport",
   "notes": [
-   "13 incomplets résiduels : 11 color-contrast 'background indéterminé' (éléments masqués par l'overlay menu mobile ou opacité — sondés 5.14-21:1 mesurés) + 2 th-has-data-cells (faux positif : table avec 13 th de données, 0 vide)"
+   "5 incomplets résiduels = 3 color-contrast (fg/bg indéterminé par axe) + 2 th-has-data-cells (faux positif : la table a 7 lignes de données et 13 th, 0 vide)",
+   "sonde rejouable : probe-decisions.json couvre 13 nœuds concrets (11 color-contrast, ratios mesurés 5.14:1–21:1 ≥4.5 exigé ; 2 th-has-data-cells rows=7/th=13) — tous PASS"
   ]
  },
  "verifications": {
   "audit_commands": "voir manifest.auditCommands — rejouées verbatim sur le build livré (même port :8080 baseline+final)",
   "verify": "verify.mjs : TOUT PASS 37/37 — noms accessibles calculés (login, check-all, lignes check[] nommées 'id ↓ = N', jush pre role=textbox + aria-label, selects dump/indexes/edit), contrastes mesurés (h1 5.74, .error 5.89), cibles >=24px, menu mobile aria-expanded",
   "eval_final": "eval-final.mjs : TOUT PASS — parcours indépendant : structure E2 (h1+main+champs nommés) sur les 24 urls, clavier E3, reflow 320px E4 (body min-width:fit-content neutralisé sous 800px, .scrollable overflow-x:auto), menu E5, absence de warnings PHP E6, cochage+navigation édition E7",
-  "install_build": "voir install-build.txt — clone propre @f9f9f17 + patch.diff (21 fichiers, 0 rejet) + docker :8081 → rescan 0 violation auth+public, verify TOUT PASS, eval TOUT PASS"
+  "install_build": "voir install-build.txt — clone propre @f9f9f17 + patch.diff (21 fichiers, 0 rejet) + docker :8081 → rescan 0 violation auth (5 mêmes incomplets) + public, verify TOUT PASS, eval TOUT PASS"
  },
  "corrections": {
   "fichiers": 21,

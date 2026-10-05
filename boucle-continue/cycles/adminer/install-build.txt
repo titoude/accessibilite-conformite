@@ -41,9 +41,9 @@ $ sed 's/localhost:8080/localhost:8081/' urls-auth.txt > /tmp/urls-8081.txt
 $ node audit.mjs http://localhost:8081 --storage-state auth-8081.json \
     --urls "$(paste -sd, /tmp/urls-8081.txt)" --states all --wait 800 \
     --out ../reports/install-build/auth
-→ 0 règle(s), 0 occurrence(s), 0 erreur(s), 13 incomplet(s)   exit 0
-  (identique au scan final :8080 ; les 13 incomplets sont les mêmes nœuds
-  sondés PASS dans probe-decisions.json)
+→ 0 règle(s), 0 occurrence(s), 0 erreur(s), 5 incomplet(s)   exit 0
+  (identique au scan final :8080 ; les 13 nœuds sondés PASS de
+  probe-decisions.json couvrent ces 5 findings, occurrences multi-nœuds incluses)
 
 $ node audit.mjs http://localhost:8081 --urls "$(paste -sd, /tmp/urls-public-8081.txt)" \
     --states none --wait 800 --out ../reports/install-build/public
