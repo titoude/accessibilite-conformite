@@ -1,8 +1,11 @@
 {
- "note": "baseline=clone patchable non modifié :8080 (auth pmahomme) / final=patch :8080 / install-build=patch appliqué sur clone propre :8081 — scope identique (36 pages + 9 états, wait 2000, reset-theme avant chaque run)",
- "baseline_scopeHash": "6a1b0d7649ee45286d744bff8da5633044cb00930eda55a7b4cbfcb94f1de4b9",
- "final_scopeHash": "e328e22dc3c7ea97bb0d2f361bd87974129b8e357185347cb024f7cc54e7c61b",
- "install_build_scopeHash": "62d870596e5ec8e97ec9951fcb8716ae1747aa7e492b6ca98dd6708c8e01ee4b",
+ "note": "baseline=clone patchable non modifié :8080 (auth pmahomme, wait 1200, 36 pages + 9 états) / final v2=patch + fixer-v2 :8080 (auth pmahomme, wait 2000, 38 pages + 12 états : +/table/tracking, +/database/designer, +theme-metro, +theme-original, +console-dark-pmahomme) / install-build=patch v1 appliqué sur clone propre :8081 (scope v1 conservé 45 scénarios). Extension de scope v2 = résiduels auditeur (pages trouvées hors-scope entrent au périmètre, leçon 20/12).",
+ "baseline_scopeHash": "8b6a652ec9692698372fd79029255d6e0c5b6d586c1c3f4601de9aaa0bdf25c6",
+ "baseline_statesHash": "b961f439f6b8b55b5becc2ebf116708a3eaf63f7140cd105ba58a1c09c0f2461",
+ "final_scopeHash": "bc0ff401d080b01d696bdcae662685aa59daed8b120aaa256c146205dde64a28",
+ "final_statesHash": "ecc3f5a4b76d26707c18fc993ab2bf9c8561a1a46878c91acfbb6b3de80a8b56",
+ "install_build_scopeHash": "2d9a997d7766031c36ba2e4471292cb82715c88c3cd7505abda2338e8144b15f",
+ "install_build_statesHash": "f20ecfb122db6265c456d59f50d9bc93760d68a4222c09526210f324749fc447",
  "pages": {
   "/": {
    "baseline": {
@@ -28,6 +31,14 @@
     "rules": [],
     "errors": false
    }
+  },
+  "/ [state:console-dark-pmahomme]": {
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": false
+   },
+   "ajoute_en_v2": true
   },
   "/ [state:console-open]": {
    "baseline": {
@@ -106,6 +117,30 @@
     "rules": [],
     "errors": false
    }
+  },
+  "/database/designer&db=a11ydb": {
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": false
+   },
+   "ajoute_en_v2": true
+  },
+  "/database/designer&db=a11ydb [state:theme-metro]": {
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": false
+   },
+   "ajoute_en_v2": true
+  },
+  "/database/designer&db=a11ydb [state:theme-original]": {
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": false
+   },
+   "ajoute_en_v2": true
   },
   "/database/export&db=a11ydb": {
    "baseline": {
@@ -423,8 +458,8 @@
      "color-contrast",
      "empty-table-header",
      "image-redundant-alt",
-     "label-title-only",
      "label",
+     "label-title-only",
      "landmark-one-main",
      "link-name",
      "page-has-heading-one",
@@ -803,8 +838,8 @@
     "rules": [
      "color-contrast",
      "image-redundant-alt",
-     "label-title-only",
      "label",
+     "label-title-only",
      "landmark-one-main",
      "link-name",
      "page-has-heading-one",
@@ -1145,6 +1180,14 @@
     "errors": false
    }
   },
+  "/table/tracking&db=a11ydb&table=users": {
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": false
+   },
+   "ajoute_en_v2": true
+  },
   "/themes": {
    "baseline": {
     "violations": 72,
@@ -1171,9 +1214,11 @@
    }
   }
  },
- "baseline_public_occ": 12,
- "baseline_public_rules": [
-  "landmark-one-main",
-  "region"
+ "pages_ajoutees_v2": [
+  "/ [state:console-dark-pmahomme]",
+  "/database/designer&db=a11ydb",
+  "/database/designer&db=a11ydb [state:theme-metro]",
+  "/database/designer&db=a11ydb [state:theme-original]",
+  "/table/tracking&db=a11ydb&table=users"
  ]
 }

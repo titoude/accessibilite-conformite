@@ -7,8 +7,11 @@
   "browse-inline-edit": "sur /sql SELECT * FROM users, dblclick 2e td.data → textarea.edit_box visible",
   "sql-profiling": "sur /sql, clic #profilingCheckbox → canvas (retry + attached toléré)",
   "sql-bad-query": "sur /table/sql, CodeMirror.value='SELECT * FROM table_inexistante_x' + submit → message d'erreur",
-  "theme-bootstrap-dark": "bascule thème bootstrap + data-bs-theme=dark via /themes",
-  "mobile-nav-390": "viewport 390px sur / (nav responsive)"
+  "theme-bootstrap-dark": "POST /themes/set set_theme=bootstrap&themeColorMode=dark → reload → data-bs-theme=dark",
+  "theme-metro": "(v2) POST /themes/set set_theme=metro&themeColorMode=win sur /database/designer → reload → themes/metro/css/theme.css attaché + .designer_tab présent",
+  "theme-original": "(v2) POST /themes/set set_theme=original&themeColorMode=light sur /database/designer → reload → themes/original/css/theme.css attaché + .designer_tab présent",
+  "console-dark-pmahomme": "(v2) SUBSTITUTION de « pmahomme-dark » : pmahomme n'a pas de mode dark (theme.json colorModes=[light], setColorMode ignore les modes invalides). Surface sombre réelle de pmahomme = la console → POST /themes/set pmahomme/light + POST /console/update-config DarkTheme=true + Mode=show (préférences persistées serveur) → reload → #pma_console .content.console_dark_theme visible",
+  "mobile-nav-390": "viewport 390px sur / (nav responsive) + RESET pmahomme/light + DarkTheme=false + Mode=collapse (dernier mutant, restaure toutes les prefs serveur)"
  },
- "note": "states codés dans tools/audit.mjs (setup Playwright réels). Ordre = liste --states; theme-bootstrap-dark et mobile-nav-390 changent le contexte → toujours en fin de liste, reset-theme.mjs (bouton natif /themes set_theme=pmahomme) rejoué avant chaque scan pour neutraliser la préférence thème serveur."
+ "note": "states codés dans tools/audit.mjs (setup Playwright réels). Ordre = liste --states; theme-* et console-dark-* changent le contexte → en fin de liste ; mobile-nav-390 = TOUJOURS dernier (restaure thème + prefs console). reset-theme.mjs (bouton natif /themes set_theme=pmahomme + POST /console/update-config DarkTheme=false Mode=collapse) rejoué AVANT chaque scan pour neutraliser les préférences persistantes côté serveur. États publics (login-failed) exclus des runs auth : ils s'exécutent dans le run public sans storageState."
 }

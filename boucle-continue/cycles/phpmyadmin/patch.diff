@@ -1,5 +1,5 @@
 diff --git a/public/themes/bootstrap/scss/_breadcrumb.scss b/public/themes/bootstrap/scss/_breadcrumb.scss
-index af6cfff..59c5207 100644
+index af6cfff9fd..59c5207ac9 100644
 --- a/public/themes/bootstrap/scss/_breadcrumb.scss
 +++ b/public/themes/bootstrap/scss/_breadcrumb.scss
 @@ -11,6 +11,16 @@
@@ -20,7 +20,7 @@ index af6cfff..59c5207 100644
  }
  
 diff --git a/public/themes/bootstrap/scss/_codemirror.scss b/public/themes/bootstrap/scss/_codemirror.scss
-index fca2b8b..9323b94 100644
+index fca2b8bbb4..9323b94266 100644
 --- a/public/themes/bootstrap/scss/_codemirror.scss
 +++ b/public/themes/bootstrap/scss/_codemirror.scss
 @@ -45,7 +45,7 @@ $textarea-rows: 15;
@@ -33,7 +33,7 @@ index fca2b8b..9323b94 100644
  
    .cm-atom,
 diff --git a/public/themes/bootstrap/scss/_common.scss b/public/themes/bootstrap/scss/_common.scss
-index 060f09e..12750a7 100644
+index 060f09e5a0..12750a7a2a 100644
 --- a/public/themes/bootstrap/scss/_common.scss
 +++ b/public/themes/bootstrap/scss/_common.scss
 @@ -2379,3 +2379,161 @@ code.sql,
@@ -198,8 +198,32 @@ index 060f09e..12750a7 100644
 +  color: #6c6c6c !important;
 +}
 +
+diff --git a/public/themes/bootstrap/scss/_designer.scss b/public/themes/bootstrap/scss/_designer.scss
+index 7a7a3a41e7..ad4302265a 100644
+--- a/public/themes/bootstrap/scss/_designer.scss
++++ b/public/themes/bootstrap/scss/_designer.scss
+@@ -142,7 +142,7 @@ canvas.designer {
+ 
+ .owner {
+   font-weight: normal;
+-  color: #888;
++  color: #4a4a4a;
+ }
+ 
+ .option_tab {
+@@ -460,6 +460,10 @@ a {
+   #name-panel {
+     background-color: var(--#{$prefix}secondary-bg);
+   }
++
++  .owner {
++    color: #a8a8a8;
++  }
+ }
+ 
+ #container-form {
 diff --git a/public/themes/bootstrap/scss/_navigation.scss b/public/themes/bootstrap/scss/_navigation.scss
-index 283187c..8546cb9 100644
+index 283187cc11..8546cb9757 100644
 --- a/public/themes/bootstrap/scss/_navigation.scss
 +++ b/public/themes/bootstrap/scss/_navigation.scss
 @@ -125,9 +125,15 @@
@@ -308,7 +332,7 @@ index 283187c..8546cb9 100644
 +}
 +
 diff --git a/public/themes/bootstrap/scss/_variables.scss b/public/themes/bootstrap/scss/_variables.scss
-index 202a45a..e27acbc 100644
+index 202a45a87a..e27acbce64 100644
 --- a/public/themes/bootstrap/scss/_variables.scss
 +++ b/public/themes/bootstrap/scss/_variables.scss
 @@ -6,6 +6,10 @@ $navigation-width: 240px !default;
@@ -322,8 +346,26 @@ index 202a45a..e27acbc 100644
  
  // Breadcrumbs
  
+diff --git a/public/themes/metro/scss/_breadcrumb.scss b/public/themes/metro/scss/_breadcrumb.scss
+index a780535030..7728e293fd 100644
+--- a/public/themes/metro/scss/_breadcrumb.scss
++++ b/public/themes/metro/scss/_breadcrumb.scss
+@@ -11,6 +11,13 @@
+     }
+   }
+ 
++  // Same specificity as ../../bootstrap/scss/_breadcrumb.scss's
++  // `.breadcrumb-navbar .breadcrumb-item a`, applied later: keeps links at
++  // $button-color over the dark --navi-background (#0a58ca = 1.3:1 there).
++  .breadcrumb-item a {
++    color: inherit;
++  }
++
+   .breadcrumb-item {
+     + .breadcrumb-item::before,
+     &::before {
 diff --git a/public/themes/metro/scss/_common.scss b/public/themes/metro/scss/_common.scss
-index 50f3d0a..f6697a0 100644
+index 50f3d0af5b..f6697a0183 100644
 --- a/public/themes/metro/scss/_common.scss
 +++ b/public/themes/metro/scss/_common.scss
 @@ -2543,3 +2543,108 @@ code.sql,
@@ -435,11 +477,44 @@ index 50f3d0a..f6697a0 100644
 +  color: #6c6c6c !important;
 +}
 +
+diff --git a/public/themes/metro/scss/_designer.scss b/public/themes/metro/scss/_designer.scss
+index b60ae9e238..857be522f5 100644
+--- a/public/themes/metro/scss/_designer.scss
++++ b/public/themes/metro/scss/_designer.scss
+@@ -126,7 +126,7 @@ canvas.designer {
+ 
+ .owner {
+   font-weight: normal;
+-  color: #888;
++  color: #4a4a4a;
+ }
+ 
+ .option_tab {
 diff --git a/public/themes/metro/scss/_navigation.scss b/public/themes/metro/scss/_navigation.scss
-index b7b2028..9d88a59 100644
+index b7b2028a4b..10eddd779f 100644
 --- a/public/themes/metro/scss/_navigation.scss
 +++ b/public/themes/metro/scss/_navigation.scss
-@@ -212,6 +212,12 @@ img {
+@@ -87,7 +87,18 @@
+   }
+ 
+   #imgpmalogo {
+-    display: none;
++    // Visually hidden (not display:none): the ::after on #pmalogo renders the
++    // wordmark, but the img must stay in the a11y tree so its alt names the
++    // wrapping link (WCAG 2.4.4 link-name).
++    position: absolute;
++    width: 1px;
++    height: 1px;
++    padding: 0;
++    margin: -1px;
++    overflow: hidden;
++    clip: rect(0 0 0 0);
++    white-space: nowrap;
++    border: 0;
+   }
+ 
+   #databaseList {
+@@ -212,6 +223,14 @@ img {
  #pma_navigation_tree_content a.hover_show_full {
    position: relative;
    z-index: 100;
@@ -449,10 +524,12 @@ index b7b2028..9d88a59 100644
 +  vertical-align: middle;
 +  padding: 5px;
 +  margin: 0 2px;
++  line-height: 24px;
++  min-height: 24px;
  }
  
  #pma_navigation_tree {
-@@ -408,6 +414,17 @@ li.fast_filter {
+@@ -408,6 +427,17 @@ li.fast_filter {
    min-height: 21px !important;
  }
  
@@ -470,7 +547,7 @@ index b7b2028..9d88a59 100644
  #pma_navigation_collapse {
    padding-right: 2px;
  }
-@@ -452,3 +469,57 @@ li.fast_filter {
+@@ -452,3 +482,57 @@ li.fast_filter {
  #floating_menubar {
    z-index: 99;
  }
@@ -529,7 +606,7 @@ index b7b2028..9d88a59 100644
 +}
 +
 diff --git a/public/themes/original/scss/_common.scss b/public/themes/original/scss/_common.scss
-index 5406aaa..82d3170 100644
+index 5406aaae43..82d3170953 100644
 --- a/public/themes/original/scss/_common.scss
 +++ b/public/themes/original/scss/_common.scss
 @@ -2361,3 +2361,108 @@ code.sql,
@@ -642,7 +719,7 @@ index 5406aaa..82d3170 100644
 +}
 +
 diff --git a/public/themes/original/scss/_navigation.scss b/public/themes/original/scss/_navigation.scss
-index bb7443e..4e527c7 100644
+index bb7443e3a1..4e527c790e 100644
 --- a/public/themes/original/scss/_navigation.scss
 +++ b/public/themes/original/scss/_navigation.scss
 @@ -121,7 +121,12 @@
@@ -736,7 +813,7 @@ index bb7443e..4e527c7 100644
 +}
 +
 diff --git a/public/themes/pmahomme/scss/_breadcrumb.scss b/public/themes/pmahomme/scss/_breadcrumb.scss
-index 513f587..de8a4ea 100644
+index 513f5874c3..de8a4ead79 100644
 --- a/public/themes/pmahomme/scss/_breadcrumb.scss
 +++ b/public/themes/pmahomme/scss/_breadcrumb.scss
 @@ -14,7 +14,7 @@
@@ -749,7 +826,7 @@ index 513f587..de8a4ea 100644
      font-style: italic;
      text-shadow: none;
 diff --git a/public/themes/pmahomme/scss/_card.scss b/public/themes/pmahomme/scss/_card.scss
-index 99068b5..f8bec77 100644
+index 99068b5648..f8bec77699 100644
 --- a/public/themes/pmahomme/scss/_card.scss
 +++ b/public/themes/pmahomme/scss/_card.scss
 @@ -9,7 +9,6 @@
@@ -776,7 +853,7 @@ index 99068b5..f8bec77 100644
 +}
 \ No newline at end of file
 diff --git a/public/themes/pmahomme/scss/_common.scss b/public/themes/pmahomme/scss/_common.scss
-index 5bf39db..ffb65de 100644
+index 5bf39dba87..ffb65de39c 100644
 --- a/public/themes/pmahomme/scss/_common.scss
 +++ b/public/themes/pmahomme/scss/_common.scss
 @@ -2542,3 +2542,121 @@ code.sql,
@@ -901,8 +978,21 @@ index 5bf39db..ffb65de 100644
 +  color: #6c6c6c !important;
 +}
 +
+diff --git a/public/themes/pmahomme/scss/_designer.scss b/public/themes/pmahomme/scss/_designer.scss
+index d2759df460..4342900c18 100644
+--- a/public/themes/pmahomme/scss/_designer.scss
++++ b/public/themes/pmahomme/scss/_designer.scss
+@@ -146,7 +146,7 @@ canvas.designer {
+ 
+ .owner {
+   font-weight: normal;
+-  color: #888;
++  color: #4a4a4a;
+ }
+ 
+ .option_tab {
 diff --git a/public/themes/pmahomme/scss/_navigation.scss b/public/themes/pmahomme/scss/_navigation.scss
-index 350135c..42f144b 100644
+index 350135c732..42f144bb26 100644
 --- a/public/themes/pmahomme/scss/_navigation.scss
 +++ b/public/themes/pmahomme/scss/_navigation.scss
 @@ -107,7 +107,14 @@
@@ -998,7 +1088,7 @@ index 350135c..42f144b 100644
 +}
 +
 diff --git a/public/themes/pmahomme/scss/_variables.scss b/public/themes/pmahomme/scss/_variables.scss
-index 51df199..d8b6ed0 100644
+index 51df199ac8..d8b6ed0ded 100644
 --- a/public/themes/pmahomme/scss/_variables.scss
 +++ b/public/themes/pmahomme/scss/_variables.scss
 @@ -162,8 +162,8 @@ $accordion-button-active-bg: $navi-background;
@@ -1013,7 +1103,7 @@ index 51df199..d8b6ed0 100644
  $breadcrumb-divider: quote("»");
  
 diff --git a/resources/js/makegrid.ts b/resources/js/makegrid.ts
-index a13641c..dceffea 100644
+index a13641ca85..dceffeab4f 100644
 --- a/resources/js/makegrid.ts
 +++ b/resources/js/makegrid.ts
 @@ -2150,12 +2150,12 @@ const makeGrid = function (t, enableResize = undefined, enableReorder = undefine
@@ -1032,7 +1122,7 @@ index a13641c..dceffea 100644
  
              // assign cell editing hint
 diff --git a/resources/js/modules/console.ts b/resources/js/modules/console.ts
-index a7e79c3..1a7020e 100644
+index a7e79c3475..1a7020e64a 100644
 --- a/resources/js/modules/console.ts
 +++ b/resources/js/modules/console.ts
 @@ -535,6 +535,7 @@ const ConsoleInput = {
@@ -1052,7 +1142,7 @@ index a7e79c3..1a7020e 100644
                      // @ts-ignore
                      hintOptions: { 'completeSingle': false, 'completeOnSingleClick': true },
 diff --git a/resources/js/modules/functions.ts b/resources/js/modules/functions.ts
-index 957891e..a5d5718 100644
+index 957891e81a..a5d5718485 100644
 --- a/resources/js/modules/functions.ts
 +++ b/resources/js/modules/functions.ts
 @@ -244,6 +244,7 @@ export function getSqlEditor ($textarea, options = undefined, resize = undefined
@@ -1064,7 +1154,7 @@ index 957891e..a5d5718 100644
  
      // @ts-ignore
 diff --git a/resources/templates/base.twig b/resources/templates/base.twig
-index 32e2c8c..8dba338 100644
+index 32e2c8c41e..8dba338585 100644
 --- a/resources/templates/base.twig
 +++ b/resources/templates/base.twig
 @@ -43,7 +43,7 @@
@@ -1114,7 +1204,7 @@ index 32e2c8c..8dba338 100644
  </body>
  </html>
 diff --git a/resources/templates/columns_definitions/column_attribute.twig b/resources/templates/columns_definitions/column_attribute.twig
-index 95a68ca..37cdfaa 100644
+index 95a68ca954..37cdfaa118 100644
 --- a/resources/templates/columns_definitions/column_attribute.twig
 +++ b/resources/templates/columns_definitions/column_attribute.twig
 @@ -11,7 +11,7 @@
@@ -1127,7 +1217,7 @@ index 95a68ca..37cdfaa 100644
      {% for i in 0..cnt_attribute_types %}
          <option value="{{ attribute_types[i] }}"
 diff --git a/resources/templates/columns_definitions/column_attributes.twig b/resources/templates/columns_definitions/column_attributes.twig
-index 9cd8416..b4cb92b 100644
+index 9cd8416bf8..b4cb92b94e 100644
 --- a/resources/templates/columns_definitions/column_attributes.twig
 +++ b/resources/templates/columns_definitions/column_attributes.twig
 @@ -18,14 +18,14 @@
@@ -1289,7 +1379,7 @@ index 9cd8416..b4cb92b 100644
        {% set ci = ci + 1 %}
      </td>
 diff --git a/resources/templates/columns_definitions/column_definitions_form.twig b/resources/templates/columns_definitions/column_definitions_form.twig
-index 3f2e1a7..00d9616 100644
+index 3f2e1a7c72..00d9616e7b 100644
 --- a/resources/templates/columns_definitions/column_definitions_form.twig
 +++ b/resources/templates/columns_definitions/column_definitions_form.twig
 @@ -20,6 +20,7 @@
@@ -1327,7 +1417,7 @@ index 3f2e1a7..00d9616 100644
                      {% for charset in charsets %}
                        <optgroup label="{{ charset.name }}" title="{{ charset.description }}">
 diff --git a/resources/templates/columns_definitions/column_name.twig b/resources/templates/columns_definitions/column_name.twig
-index a3e56e8..b3026c4 100644
+index a3e56e89c4..b3026c4c1a 100644
 --- a/resources/templates/columns_definitions/column_name.twig
 +++ b/resources/templates/columns_definitions/column_name.twig
 @@ -23,6 +23,7 @@
@@ -1339,7 +1429,7 @@ index a3e56e8..b3026c4 100644
      class="textfield form-control"
      title="{{ title }}"
 diff --git a/resources/templates/columns_definitions/partitions.twig b/resources/templates/columns_definitions/partitions.twig
-index 74ce744..039e4a8 100644
+index 74ce744b39..039e4a8558 100644
 --- a/resources/templates/columns_definitions/partitions.twig
 +++ b/resources/templates/columns_definitions/partitions.twig
 @@ -36,7 +36,7 @@
@@ -1352,7 +1442,7 @@ index 74ce744..039e4a8 100644
          </td>
      </tr>
 diff --git a/resources/templates/config/form_display/display.twig b/resources/templates/config/form_display/display.twig
-index e9255fa..ecec58c 100644
+index e9255fa6e1..ecec58c929 100644
 --- a/resources/templates/config/form_display/display.twig
 +++ b/resources/templates/config/form_display/display.twig
 @@ -6,7 +6,7 @@
@@ -1377,7 +1467,7 @@ index e9255fa..ecec58c 100644
  
              <fieldset class="optbox">
 diff --git a/resources/templates/console/display.twig b/resources/templates/console/display.twig
-index 54bec71..a317f9f 100644
+index 54bec71a06..a317f9f0f6 100644
 --- a/resources/templates/console/display.twig
 +++ b/resources/templates/console/display.twig
 @@ -1,4 +1,4 @@
@@ -1395,10 +1485,105 @@ index 54bec71..a317f9f 100644
          <div class="message welcome"></div>
          <div class="debugLog"></div>
        </div> <!-- Content -->
+diff --git a/resources/templates/create_tracking_version.twig b/resources/templates/create_tracking_version.twig
+index ec49619309..e650f5cefb 100644
+--- a/resources/templates/create_tracking_version.twig
++++ b/resources/templates/create_tracking_version.twig
+@@ -21,55 +21,55 @@
+             <p>{{ t('Track these data definition statements:') }}</p>
+ 
+             {% if type == 'both' or type == 'table' %}
+-                <input type="checkbox" name="alter_table" value="true"
++                <input type="checkbox" name="alter_table" id="tracking_alter_table" value="true"
+                     {{- 'ALTER TABLE' in default_statements ? ' checked' }}>
+-                ALTER TABLE<br>
+-                <input type="checkbox" name="rename_table" value="true"
++                <label for="tracking_alter_table">ALTER TABLE</label><br>
++                <input type="checkbox" name="rename_table" id="tracking_rename_table" value="true"
+                     {{- 'RENAME TABLE' in default_statements ? ' checked' }}>
+-                RENAME TABLE<br>
+-                <input type="checkbox" name="create_table" value="true"
++                <label for="tracking_rename_table">RENAME TABLE</label><br>
++                <input type="checkbox" name="create_table" id="tracking_create_table" value="true"
+                     {{- 'CREATE TABLE' in default_statements ? ' checked' }}>
+-                CREATE TABLE<br>
+-                <input type="checkbox" name="drop_table" value="true"
++                <label for="tracking_create_table">CREATE TABLE</label><br>
++                <input type="checkbox" name="drop_table" id="tracking_drop_table" value="true"
+                     {{- 'DROP TABLE' in default_statements ? ' checked' }}>
+-                DROP TABLE<br>
++                <label for="tracking_drop_table">DROP TABLE</label><br>
+             {% endif %}
+             {% if type == 'both' %}
+                 <br>
+             {% endif %}
+             {% if type == 'both' or type == 'view' %}
+-                <input type="checkbox" name="alter_view" value="true"
++                <input type="checkbox" name="alter_view" id="tracking_alter_view" value="true"
+                     {{- 'ALTER VIEW' in default_statements ? ' checked' }}>
+-                ALTER VIEW<br>
+-                <input type="checkbox" name="create_view" value="true"
++                <label for="tracking_alter_view">ALTER VIEW</label><br>
++                <input type="checkbox" name="create_view" id="tracking_create_view" value="true"
+                     {{- 'CREATE VIEW' in default_statements ? ' checked' }}>
+-                CREATE VIEW<br>
+-                <input type="checkbox" name="drop_view" value="true"
++                <label for="tracking_create_view">CREATE VIEW</label><br>
++                <input type="checkbox" name="drop_view" id="tracking_drop_view" value="true"
+                     {{- 'DROP VIEW' in default_statements ? ' checked' }}>
+-                DROP VIEW<br>
++                <label for="tracking_drop_view">DROP VIEW</label><br>
+             {% endif %}
+             <br>
+ 
+-            <input type="checkbox" name="create_index" value="true"
++            <input type="checkbox" name="create_index" id="tracking_create_index" value="true"
+                 {{- 'CREATE INDEX' in default_statements ? ' checked' }}>
+-            CREATE INDEX<br>
+-            <input type="checkbox" name="drop_index" value="true"
++            <label for="tracking_create_index">CREATE INDEX</label><br>
++            <input type="checkbox" name="drop_index" id="tracking_drop_index" value="true"
+                 {{- 'DROP INDEX' in default_statements ? ' checked' }}>
+-            DROP INDEX<br>
++            <label for="tracking_drop_index">DROP INDEX</label><br>
+ 
+             <p>{{ t('Track these data manipulation statements:') }}</p>
+-            <input type="checkbox" name="insert" value="true"
++            <input type="checkbox" name="insert" id="tracking_insert" value="true"
+                 {{- 'INSERT' in default_statements ? ' checked' }}>
+-            INSERT<br>
+-            <input type="checkbox" name="update" value="true"
++            <label for="tracking_insert">INSERT</label><br>
++            <input type="checkbox" name="update" id="tracking_update" value="true"
+                 {{- 'UPDATE' in default_statements ? ' checked' }}>
+-            UPDATE<br>
+-            <input type="checkbox" name="delete" value="true"
++            <label for="tracking_update">UPDATE</label><br>
++            <input type="checkbox" name="delete" id="tracking_delete" value="true"
+                 {{- 'DELETE' in default_statements ? ' checked' }}>
+-            DELETE<br>
+-            <input type="checkbox" name="truncate" value="true"
++            <label for="tracking_delete">DELETE</label><br>
++            <input type="checkbox" name="truncate" id="tracking_truncate" value="true"
+                 {{- 'TRUNCATE' in default_statements ? ' checked' }}>
+-            TRUNCATE<br>
++            <label for="tracking_truncate">TRUNCATE</label><br>
+         </div>
+ 
+         <div class="card-footer">
 diff --git a/resources/templates/database/designer/main.twig b/resources/templates/database/designer/main.twig
-index d06976f..e97591e 100644
+index d06976f16e..63f69244c3 100644
 --- a/resources/templates/database/designer/main.twig
 +++ b/resources/templates/database/designer/main.twig
+@@ -46,7 +46,7 @@ window.designerConfig = {{ designer_config|raw }};
+     {% if not has_query %}
+         <a id="newPage" href="#" class="M_butt">
+             <img title="{{ t('New page') }}"
+-                 alt=""
++                 alt="{{ t('New page') }}"
+                  src="{{ image('designer/page_add.png') }}">
+             <span class="hide hidable">
+                 {{ t('New page') }}
 @@ -1129,7 +1129,7 @@ window.designerConfig = {{ designer_config|raw }};
        </div>
        <div id="box" class="modal-body">
@@ -1409,7 +1594,7 @@ index d06976f..e97591e 100644
            {{ hidden_input_fields|raw }}
          </form>
 diff --git a/resources/templates/database/privileges/index.twig b/resources/templates/database/privileges/index.twig
-index 4c3e71a..ba576b9 100644
+index 4c3e71a513..ba576b9d0a 100644
 --- a/resources/templates/database/privileges/index.twig
 +++ b/resources/templates/database/privileges/index.twig
 @@ -13,7 +13,7 @@
@@ -1432,7 +1617,7 @@ index 4c3e71a..ba576b9 100644
                    <td{% if privileges_amount > 1 %} class="align-middle" rowspan="{{ privileges_amount }}"{% endif %}>
                      {% if privilege.user is empty %}
 diff --git a/resources/templates/database/search/main.twig b/resources/templates/database/search/main.twig
-index 5c38950..6aa1ffa 100644
+index 5c389508fd..6aa1ffa654 100644
 --- a/resources/templates/database/search/main.twig
 +++ b/resources/templates/database/search/main.twig
 @@ -48,7 +48,7 @@
@@ -1445,7 +1630,7 @@ index 5c38950..6aa1ffa 100644
              <option value="{{ each_table }}"
                {% if criteria_tables|length > 0 %}
 diff --git a/resources/templates/database/structure/body_for_table_summary.twig b/resources/templates/database/structure/body_for_table_summary.twig
-index fb42aa7..f3ea552 100644
+index fb42aa7b23..f3ea55264b 100644
 --- a/resources/templates/database/structure/body_for_table_summary.twig
 +++ b/resources/templates/database/structure/body_for_table_summary.twig
 @@ -1,6 +1,6 @@
@@ -1466,7 +1651,7 @@ index fb42aa7..f3ea552 100644
      {% if show_creation %}
          <th class="value tbl_creation font-monospace text-end">{{ create_time_all }}</th>
 diff --git a/resources/templates/database/structure/check_all_tables.twig b/resources/templates/database/structure/check_all_tables.twig
-index 83c5768..2ef3fb7 100644
+index 83c5768292..2ef3fb7879 100644
 --- a/resources/templates/database/structure/check_all_tables.twig
 +++ b/resources/templates/database/structure/check_all_tables.twig
 @@ -5,7 +5,7 @@
@@ -1479,7 +1664,7 @@ index 83c5768..2ef3fb7 100644
          <option value="copy_tbl">{{ t('Copy table') }}</option>
          <option value="show_create">{{ t('Show create') }}</option>
 diff --git a/resources/templates/database/structure/structure_table_row.twig b/resources/templates/database/structure/structure_table_row.twig
-index 1c62cdd..069f24a 100644
+index 1c62cdded5..069f24a183 100644
 --- a/resources/templates/database/structure/structure_table_row.twig
 +++ b/resources/templates/database/structure/structure_table_row.twig
 @@ -4,6 +4,7 @@
@@ -1491,7 +1676,7 @@ index 1c62cdd..069f24a 100644
      </td>
      <th>
 diff --git a/resources/templates/database/structure/table_header.twig b/resources/templates/database/structure/table_header.twig
-index b4f9c32..fefd691 100644
+index b4f9c32029..fefd691baa 100644
 --- a/resources/templates/database/structure/table_header.twig
 +++ b/resources/templates/database/structure/table_header.twig
 @@ -4,7 +4,7 @@
@@ -1504,7 +1689,7 @@ index b4f9c32..fefd691 100644
              {% if replication %}
                  <th>{{ t('Replication') }}</th>
 diff --git a/resources/templates/display/results/checkbox_and_links.twig b/resources/templates/display/results/checkbox_and_links.twig
-index a526bc2..6852c6f 100644
+index a526bc2d79..6852c6fe21 100644
 --- a/resources/templates/display/results/checkbox_and_links.twig
 +++ b/resources/templates/display/results/checkbox_and_links.twig
 @@ -2,7 +2,8 @@
@@ -1538,7 +1723,7 @@ index a526bc2..6852c6f 100644
      </td>
    {% endif %}
 diff --git a/resources/templates/display/results/table.twig b/resources/templates/display/results/table.twig
-index c548a29..b7df8ae 100644
+index c548a29826..b7df8ae5ad 100644
 --- a/resources/templates/display/results/table.twig
 +++ b/resources/templates/display/results/table.twig
 @@ -149,7 +149,7 @@
@@ -1574,7 +1759,7 @@ index c548a29..b7df8ae 100644
 +{# create_view modal is included once by base.twig #}
  {% endif %}
 diff --git a/resources/templates/home/themes.twig b/resources/templates/home/themes.twig
-index 0d271bf..c2f38b9 100644
+index 0d271bf6d5..c2f38b9a04 100644
 --- a/resources/templates/home/themes.twig
 +++ b/resources/templates/home/themes.twig
 @@ -8,7 +8,7 @@
@@ -1587,7 +1772,7 @@ index 0d271bf..c2f38b9 100644
            <div class="card-footer">
              <button type="submit" class="btn btn-primary" name="set_theme" value="{{ theme.id }}">{{ t('Take it', notes = 'Choose the theme button in the themes list modal') }}</button>
 diff --git a/resources/templates/menu/main.twig b/resources/templates/menu/main.twig
-index 58dafa5..e41aa07 100644
+index 58dafa553f..e41aa07714 100644
 --- a/resources/templates/menu/main.twig
 +++ b/resources/templates/menu/main.twig
 @@ -44,7 +44,7 @@
@@ -1600,7 +1785,7 @@ index 58dafa5..e41aa07 100644
        {{- t('Toggle navigation', notes = 'Show or hide the menu using the hamburger style button') }}" aria-controls="navbarNav" aria-expanded="false">
        <span class="navbar-toggler-icon"></span>
 diff --git a/resources/templates/modals/index_dialog_modal.twig b/resources/templates/modals/index_dialog_modal.twig
-index 68a56f2..08c02d9 100644
+index 68a56f25fc..08c02d99d4 100644
 --- a/resources/templates/modals/index_dialog_modal.twig
 +++ b/resources/templates/modals/index_dialog_modal.twig
 @@ -2,7 +2,7 @@
@@ -1622,7 +1807,7 @@ index 68a56f2..08c02d9 100644
        </div>
        <div class="modal-body">
 diff --git a/resources/templates/navigation/main.twig b/resources/templates/navigation/main.twig
-index 55a4273..cf7c03c 100644
+index 55a4273799..cf7c03cced 100644
 --- a/resources/templates/navigation/main.twig
 +++ b/resources/templates/navigation/main.twig
 @@ -1,5 +1,5 @@
@@ -1643,7 +1828,7 @@ index 55a4273..cf7c03c 100644
 +  {# create_view modal is included once by base.twig #}
  {% endif %}
 diff --git a/resources/templates/server/binlog/index.twig b/resources/templates/server/binlog/index.twig
-index 63826c9..eb79e46 100644
+index 63826c9f97..eb79e46d61 100644
 --- a/resources/templates/server/binlog/index.twig
 +++ b/resources/templates/server/binlog/index.twig
 @@ -9,7 +9,7 @@
@@ -1656,7 +1841,7 @@ index 63826c9..eb79e46 100644
          <option value="{{ each_log['Log_name'] }}"
            {{- each_log['Log_name'] == log ? ' selected' }}>
 diff --git a/resources/templates/server/databases/index.twig b/resources/templates/server/databases/index.twig
-index 69cbd95..020047c 100644
+index 69cbd9557f..020047c9a4 100644
 --- a/resources/templates/server/databases/index.twig
 +++ b/resources/templates/server/databases/index.twig
 @@ -95,7 +95,7 @@
@@ -1695,7 +1880,7 @@ index 69cbd95..020047c 100644
            </tfoot>
          </table>
 diff --git a/resources/templates/server/privileges/users_overview.twig b/resources/templates/server/privileges/users_overview.twig
-index bbe7f07..de185e4 100644
+index bbe7f073a2..de185e45d1 100644
 --- a/resources/templates/server/privileges/users_overview.twig
 +++ b/resources/templates/server/privileges/users_overview.twig
 @@ -4,7 +4,7 @@
@@ -1718,7 +1903,7 @@ index bbe7f07..de185e4 100644
              <td>
                <label for="checkbox_sel_users_{{ loop.index }}">
 diff --git a/resources/templates/server/status/status/index.twig b/resources/templates/server/status/status/index.twig
-index ad66826..c2dd368 100644
+index ad66826bf5..c2dd368a52 100644
 --- a/resources/templates/server/status/status/index.twig
 +++ b/resources/templates/server/status/status/index.twig
 @@ -3,7 +3,7 @@
@@ -1740,7 +1925,7 @@ index ad66826..c2dd368 100644
      {{ replication|raw }}
    {% endif %}
 diff --git a/resources/templates/sql/no_results_returned.twig b/resources/templates/sql/no_results_returned.twig
-index c7a26af..366fac3 100644
+index c7a26affdf..366fac3341 100644
 --- a/resources/templates/sql/no_results_returned.twig
 +++ b/resources/templates/sql/no_results_returned.twig
 @@ -24,4 +24,4 @@
@@ -1750,7 +1935,7 @@ index c7a26af..366fac3 100644
 -{{ include('modals/create_view.twig') }}
 +{# create_view modal is included once by base.twig #}
 diff --git a/resources/templates/sql/profiling_chart.twig b/resources/templates/sql/profiling_chart.twig
-index 8881800..596c2a0 100644
+index 88818001d7..596c2a00ad 100644
 --- a/resources/templates/sql/profiling_chart.twig
 +++ b/resources/templates/sql/profiling_chart.twig
 @@ -4,7 +4,7 @@
@@ -1772,7 +1957,7 @@ index 8881800..596c2a0 100644
              <thead>
                <tr>
 diff --git a/resources/templates/sql/query.twig b/resources/templates/sql/query.twig
-index 2b23c55..ddc0891 100644
+index 2b23c556b8..ddc0891b08 100644
 --- a/resources/templates/sql/query.twig
 +++ b/resources/templates/sql/query.twig
 @@ -17,7 +17,7 @@
@@ -1852,7 +2037,7 @@ index 2b23c55..ddc0891 100644
          </div>
        </div>
 diff --git a/resources/templates/table/index_form.twig b/resources/templates/table/index_form.twig
-index 4af034d..1f11be3 100644
+index 4af034db24..1f11be3938 100644
 --- a/resources/templates/table/index_form.twig
 +++ b/resources/templates/table/index_form.twig
 @@ -136,7 +136,7 @@
@@ -1914,7 +2099,7 @@ index 4af034d..1f11be3 100644
                                      <option value="A" title="ASC">A</option>
                                      <option value="D" title="DESC">D</option>
 diff --git a/resources/templates/table/insert/actions_panel.twig b/resources/templates/table/insert/actions_panel.twig
-index 26a1105..847b39c 100644
+index 26a1105283..847b39c4fe 100644
 --- a/resources/templates/table/insert/actions_panel.twig
 +++ b/resources/templates/table/insert/actions_panel.twig
 @@ -3,7 +3,7 @@
@@ -1936,7 +2121,7 @@ index 26a1105..847b39c 100644
            <option value="new_insert"{{ after_insert == 'new_insert' ? ' selected' }}>{{ t('Insert another new row') }}</option>
            {% if where_clause is not empty %}
 diff --git a/resources/templates/table/insert/column_row.twig b/resources/templates/table/insert/column_row.twig
-index cced54c..af01922 100644
+index cced54c105..af01922212 100644
 --- a/resources/templates/table/insert/column_row.twig
 +++ b/resources/templates/table/insert/column_row.twig
 @@ -17,7 +17,7 @@
@@ -2020,7 +2205,7 @@ index cced54c..af01922 100644
          {% endif %}
          {{ select_option_for_upload|raw }}
 diff --git a/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig b/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig
-index efd05f3..e16faf3 100644
+index efd05f3bce..e16faf3f4e 100644
 --- a/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig
 +++ b/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig
 @@ -2,7 +2,7 @@
@@ -2042,7 +2227,7 @@ index efd05f3..e16faf3 100644
          </th>
        </tr>
 diff --git a/resources/templates/table/insert/value_column_for_other_datatype.twig b/resources/templates/table/insert/value_column_for_other_datatype.twig
-index 5c29dcf..30573c5 100644
+index 5c29dcf2dc..30573c5929 100644
 --- a/resources/templates/table/insert/value_column_for_other_datatype.twig
 +++ b/resources/templates/table/insert/value_column_for_other_datatype.twig
 @@ -9,8 +9,9 @@
@@ -2058,7 +2243,7 @@ index 5c29dcf..30573c5 100644
    {%- if extra matches '/(VIRTUAL|PERSISTENT|GENERATED)/' and 'DEFAULT_GENERATED' not in extra -%}
      <input type="hidden" name="virtual{{ column_name_appendix }}" value="1">
 diff --git a/resources/templates/table/operations/index.twig b/resources/templates/table/operations/index.twig
-index ec21a06..864ca86 100644
+index ec21a0698b..864ca86859 100644
 --- a/resources/templates/table/operations/index.twig
 +++ b/resources/templates/table/operations/index.twig
 @@ -127,7 +127,7 @@
@@ -2080,7 +2265,7 @@ index ec21a06..864ca86 100644
              {% for charset in charsets %}
                <optgroup label="{{ charset.getName() }}" title="{{ charset.getDescription() }}">
 diff --git a/resources/templates/table/privileges/index.twig b/resources/templates/table/privileges/index.twig
-index 3df309c..6777b2a 100644
+index 3df309c514..6777b2a819 100644
 --- a/resources/templates/table/privileges/index.twig
 +++ b/resources/templates/table/privileges/index.twig
 @@ -15,7 +15,7 @@
@@ -2103,7 +2288,7 @@ index 3df309c..6777b2a 100644
                    <td{% if privileges_amount > 1 %} class="align-middle" rowspan="{{ privileges_amount }}"{% endif %}>
                      {% if privilege.user is empty %}
 diff --git a/resources/templates/table/relation/common_form.twig b/resources/templates/table/relation/common_form.twig
-index ac98745..1b1f566 100644
+index ac98745d3a..1b1f566fc0 100644
 --- a/resources/templates/table/relation/common_form.twig
 +++ b/resources/templates/table/relation/common_form.twig
 @@ -32,9 +32,9 @@
@@ -2120,7 +2305,7 @@ index ac98745..1b1f566 100644
                    <th>{{ t('Table') }}</th>
                    <th>{{ t('Column') }}</th>
 diff --git a/resources/templates/table/relation/dropdown_generate.twig b/resources/templates/table/relation/dropdown_generate.twig
-index d2891c2..a496c86 100644
+index d2891c2127..a496c86324 100644
 --- a/resources/templates/table/relation/dropdown_generate.twig
 +++ b/resources/templates/table/relation/dropdown_generate.twig
 @@ -1,5 +1,5 @@
@@ -2131,7 +2316,7 @@ index d2891c2..a496c86 100644
      <option value="{{ one_value }}"
          {%- if selected_value == one_value %} selected{% endif %}>
 diff --git a/resources/templates/table/relation/foreign_key_row.twig b/resources/templates/table/relation/foreign_key_row.twig
-index 5f68178..88ee5e9 100644
+index 5f68178627..88ee5e9c1b 100644
 --- a/resources/templates/table/relation/foreign_key_row.twig
 +++ b/resources/templates/table/relation/foreign_key_row.twig
 @@ -65,6 +65,7 @@
@@ -2151,7 +2336,7 @@ index 5f68178..88ee5e9 100644
                      'selected_value': ''
                  } only %}
 diff --git a/resources/templates/table/relation/relational_dropdown.twig b/resources/templates/table/relation/relational_dropdown.twig
-index 39a408d..49161a3 100644
+index 39a408d2f0..49161a3df4 100644
 --- a/resources/templates/table/relation/relational_dropdown.twig
 +++ b/resources/templates/table/relation/relational_dropdown.twig
 @@ -1,4 +1,4 @@
@@ -2161,7 +2346,7 @@ index 39a408d..49161a3 100644
      {% set seen_key = false %}
      {% for value in values %}
 diff --git a/resources/templates/table/search/column_comparison_operators.twig b/resources/templates/table/search/column_comparison_operators.twig
-index d7d8101..db5a97c 100644
+index d7d8101c07..db5a97cac4 100644
 --- a/resources/templates/table/search/column_comparison_operators.twig
 +++ b/resources/templates/table/search/column_comparison_operators.twig
 @@ -1,3 +1,3 @@
@@ -2170,7 +2355,7 @@ index d7d8101..db5a97c 100644
    {{ type_operators|raw }}
  </select>
 diff --git a/resources/templates/table/search/index.twig b/resources/templates/table/search/index.twig
-index 88b4bd9..55cd69b 100644
+index 88b4bd9a8e..55cd69bf34 100644
 --- a/resources/templates/table/search/index.twig
 +++ b/resources/templates/table/search/index.twig
 @@ -51,7 +51,7 @@
@@ -2183,7 +2368,7 @@ index 88b4bd9..55cd69b 100644
                            {% set funcs = get_gis_functions(column_types[column_index], true, true) %}
                            {% for func_name, func in funcs %}
 diff --git a/resources/templates/table/search/input_box.twig b/resources/templates/table/search/input_box.twig
-index 6744fcb..3f73b1c 100644
+index 6744fcbd75..3f73b1c003 100644
 --- a/resources/templates/table/search/input_box.twig
 +++ b/resources/templates/table/search/input_box.twig
 @@ -2,7 +2,8 @@
@@ -2237,7 +2422,7 @@ index 6744fcb..3f73b1c 100644
             value="{{ criteria_values[column_index] }}"
          {%- endif %}>
 diff --git a/resources/templates/table/structure/display_structure.twig b/resources/templates/table/structure/display_structure.twig
-index b5e8d64..fb153b7 100644
+index b5e8d6479a..fb153b7e60 100644
 --- a/resources/templates/table/structure/display_structure.twig
 +++ b/resources/templates/table/structure/display_structure.twig
 @@ -16,7 +16,7 @@
@@ -2294,7 +2479,7 @@ index b5e8d64..fb153b7 100644
          {% endapply %}
  
 diff --git a/resources/templates/table/tracking/main.twig b/resources/templates/table/tracking/main.twig
-index be271b5..f841732 100644
+index be271b551c..f8417325d1 100644
 --- a/resources/templates/table/tracking/main.twig
 +++ b/resources/templates/table/tracking/main.twig
 @@ -1,7 +1,7 @@
@@ -2307,7 +2492,7 @@ index be271b5..f841732 100644
                  <option value="{{ entry.name }}"
                      {{- entry.name == selected_table ? ' selected' }}>
 diff --git a/src/Controllers/JavaScriptMessagesController.php b/src/Controllers/JavaScriptMessagesController.php
-index 424593c..dba6d73 100644
+index 424593c68e..dba6d73682 100644
 --- a/src/Controllers/JavaScriptMessagesController.php
 +++ b/src/Controllers/JavaScriptMessagesController.php
 @@ -543,6 +543,7 @@ private function getMessages(): array
@@ -2319,7 +2504,7 @@ index 424593c..dba6d73 100644
              'strMultiSortHint' => __(
                  'Shift+Click to add this column to ORDER BY clause or to toggle ASC/DESC.'
 diff --git a/src/Controllers/Table/SearchController.php b/src/Controllers/Table/SearchController.php
-index 7cb7c10..3807819 100644
+index 7cb7c10dc4..3807819c8a 100644
 --- a/src/Controllers/Table/SearchController.php
 +++ b/src/Controllers/Table/SearchController.php
 @@ -326,6 +326,7 @@ private function getColumnProperties(int $searchIndex, int $columnIndex): array
@@ -2331,7 +2516,7 @@ index 7cb7c10..3807819 100644
          //Gets link to browse foreign data(if any) and criteria inputbox
          $foreignData = $this->relation->getForeignData(
 diff --git a/src/Controllers/Table/ZoomSearchController.php b/src/Controllers/Table/ZoomSearchController.php
-index 30d0fec..2958c09 100644
+index 30d0fecd0c..2958c09e06 100644
 --- a/src/Controllers/Table/ZoomSearchController.php
 +++ b/src/Controllers/Table/ZoomSearchController.php
 @@ -462,6 +462,7 @@ private function getColumnProperties(int $searchIndex, int $columnIndex): array
@@ -2343,7 +2528,7 @@ index 30d0fec..2958c09 100644
          //Gets link to browse foreign data(if any) and criteria inputbox
          $foreignData = $this->relation->getForeignData(
 diff --git a/src/Display/Results.php b/src/Display/Results.php
-index fedf947..28f016d 100644
+index fedf947b55..28f016d71c 100644
 --- a/src/Display/Results.php
 +++ b/src/Display/Results.php
 @@ -972,7 +972,8 @@ private function getFieldVisibilityParams(
@@ -2378,7 +2563,7 @@ index fedf947..28f016d 100644
  
          $headerHtml .= '</tr>' . "\n";
 diff --git a/src/Html/Generator.php b/src/Html/Generator.php
-index 0c31a55..bf2302a 100644
+index 0c31a5579e..bf2302a127 100644
 --- a/src/Html/Generator.php
 +++ b/src/Html/Generator.php
 @@ -187,7 +187,11 @@ public static function getIcon(
@@ -2395,7 +2580,7 @@ index 0c31a55..bf2302a 100644
  
          if ($includeIcon && $includeText) {
 diff --git a/src/InsertEdit.php b/src/InsertEdit.php
-index 2d13924..0c87d93 100644
+index 2d139248aa..0c87d9316a 100644
 --- a/src/InsertEdit.php
 +++ b/src/InsertEdit.php
 @@ -363,8 +363,8 @@ private function getTextarea(
@@ -2417,7 +2602,7 @@ index 2d13924..0c87d93 100644
              'true_type' => $column->trueType,
          ]);
 diff --git a/src/Navigation/Nodes/Node.php b/src/Navigation/Nodes/Node.php
-index 25b69f4..d1bb0a3 100644
+index 25b69f434c..d1bb0a357a 100644
 --- a/src/Navigation/Nodes/Node.php
 +++ b/src/Navigation/Nodes/Node.php
 @@ -556,7 +556,7 @@ public function getIcon(bool $match): string

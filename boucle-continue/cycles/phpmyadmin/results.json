@@ -60,7 +60,7 @@
  },
  "verify_mjs": "25/25 assertions dures (landmarks, h1/heading-order ×8 pages, dup ids scope axe sur 45 pages, navtree/navipanellinks ≥24px mesuré, form-check non couverts, labels pagination, contrastes mesurés composite alpha ≥4.5, underlines delete_row/Sort, CodeMirror screenReaderLabel)",
  "eval_final_mjs": "0 FAIL — 6 pages hors scope + dup-ids + rejoues indépendantes (navtree 24px, modale add-index aria-labelledby + focusables, configFormDisplayTab uniques, text-danger)",
- "incomplete_probes": "1353 sondes : 1317 PASS, 36 N-A documentés (color-contrast 25 noeuds masqués/alpha indécidable, th 5, dup-id 4 hidden-inputs hors scope axe, aria-allowed-role 1), 0 FAIL — reports/probes/incomplete-probes.json",
+ "incomplete_probes": "1352 sondes : 1317 PASS, 35 N-A documentés (color-contrast noeuds masqués/alpha indécidable, th 5, dup-id 4 hidden-inputs hors scope axe, aria-allowed-role 1), 0 FAIL — reports/probes/incomplete-probes.json. Correction v2 : la prose initiale disait 1353/36 — le fichier commité en contient exactement 1352.",
  "causes_racines": [
   {
    "famille": "landmarks/structure sémantique",
@@ -152,5 +152,40 @@
   "Leçon thème : préférence persistante côté serveur — reset-theme obligatoire avant chaque scan sinon les pages tournent sous le dernier thème utilisé par un état.",
   "audit.mjs état navtree robustifié : li.database a11ydb ciblé + .container facultatif + retry ×3 (IB fraîche expande a11ydb sans sous-groupe)."
  ],
- "corrections_post_audit": []
+ "corrections_post_audit": [
+  {
+   "round": "v2 — corrections_post_audit_warts",
+   "verdict": "CONFIRMED (v1) — v2 fixes appliqués et rejoués",
+   "base": "verdict-auditeur.md (CONFIRMED + résiduels produit hors-scope + warts doc)",
+   "fixes_produit": {
+    "table_tracking": "/table/tracking ajouté au scope (urls-auth.txt 36→38). 10 checkboxes sans nom accessible dans create_tracking_version.twig (alter_table, rename_table, create_table, drop_table, create_index, drop_index, insert, update, delete, truncate) → id tracking_* + <label for> ; 13 checkboxes labellées (dont les 3 view-mode). Mesuré rejoué : 29/29 checkboxes avec labels, 0 violation label.",
+    "database_designer": "/database/designer ajouté au scope. #newPage img alt='' → alt=t('New page') (link-name). .owner #888 → #4a4a4a dans _designer.scss pmahomme+metro+bootstrap (original importe celui de pmahomme) + #a8a8a8 sous [data-bs-theme=dark] bootstrap. Mesuré : .owner rendu, 0 violation contrast/link-name.",
+    "themes": "États ajoutés : theme-metro + theme-original sur /database/designer (CSS compilés réels vérifiés), console-dark-pmahomme (SUBSTITUTION : pmahomme n'a pas de colorMode dark — theme.json=[light], setColorMode ignore les modes invalides ; la surface sombre réelle = Console/DarkTheme persistée serveur via /console/update-config + Mode=show).",
+    "metro_decouvert": "Le nouvel état theme-metro a révélé 3 vraies violations non couvertes par v1 — CORRIGÉES : (a) color-contrast breadcrumb data-raw-text #0a58ca sur --navi-background #377796 = 1.3 → .breadcrumb-navbar .breadcrumb-item a { color: inherit } en metro (spécificité égale au partial bootstrap partagé, appliquée après) ; (b) link-name a[href=index.php] vide car #imgpmalogo display:none retire l'alt de l'arbre a11y → visually-hidden (position absolute + clip) au lieu de display:none ; (c) target-size navtree .hover_show_full 16.5px sous metro (font 11px) → line-height:24px + min-height:24px alignés sur pmahomme."
+   },
+   "warts_doc": {
+    "seed": "manifest.json : « 1 table users 4 col » → recette réelle réécrite (3 tables + 1 vue : users 7 cols id/username/email/bio/homepage/is_admin/created_at + uq_username, access_log, projects, v_open_projects ; script tools/seed.sql livré)",
+    "probes_off_by_one": "1353/36 écrit → 1352/35 réel (comptage du fichier commité)",
+    "baseline_public": "--states none documenté → statesRequested=[login-failed] réel (scope.json)",
+    "baseline_auth_wait": "--wait 2000 documenté → wait=1200 mesuré (scope.json)",
+    "statesHash": "baseline b961f439 ≠ final v1 546c483a = durcissement navtree mi-cycle (attendu, documenté) ; final v2 ecc3f5a4 (12 états)"
+   },
+   "rejeu_final_auth": {
+    "scenarios": 50,
+    "urls": 38,
+    "etats": 12,
+    "violations": 0,
+    "occurrences": 0,
+    "erreurs": 0,
+    "incomplets": 1446,
+    "wait": 2000,
+    "statesHash": "ecc3f5a4b76d26707c18fc993ab2bf9c8561a1a46878c91acfbb6b3de80a8b56",
+    "scopeHash": "bc0ff401d080"
+   },
+   "verify": "25/25 assertions dures PASS (rejoué post-v2)",
+   "eval_final": "0 FAIL (rejoué post-v2)",
+   "probes": "1446 sondes : 1423 PASS / 23 N-A / 0 FAIL — reports/probes/incomplete-probes.json (incl. les incomplets des nouvelles pages/états, mesurés sur la surface courante après reset)",
+   "residuel": "0 violation sur les 38 URLs + 12 états. Non exécuté : rescan install-build (stack v1 conservée au verdict — v2 rejoué sur la build patchée locale :8080 uniquement). Le re-audit indépendant reste au cycle suivant."
+  }
+ ]
 }

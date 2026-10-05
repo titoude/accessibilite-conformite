@@ -1,10 +1,10 @@
 # Audit accessibilité — 2026-10-05
 
-**0 règle(s) violée(s), 0 occurrence(s), 45/45 scénario(s) audité(s), 0 erreur(s), 1352 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 50/50 scénario(s) audité(s), 0 erreur(s), 1446 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `8b6a652ec969`
+Périmètre : scope.json — hash `bc0ff401d080`
 
-## Résultats incomplets à revoir (1352)
+## Résultats incomplets à revoir (1446)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
@@ -382,6 +382,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
   - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
   - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/tracking&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +15 autres
 - http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
   - `#pma_navigation_collapser`
   - `button[title="Recently visited tables"]`
@@ -394,6 +406,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
   - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
   - … +37 autres
+- http://localhost:8080/public/index.php?route=/database/designer&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - … +13 autres
 - http://localhost:8080/public/index.php?route=/themes
   - `#pma_navigation_collapser`
   - `button[title="Recently visited tables"]`
@@ -489,7 +513,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.nav-item:nth-child(8) > .nav-link.disableAjax.text-nowrap`
   - `.nav-item:nth-child(9) > .nav-link.disableAjax.text-nowrap`
   - `.nav-item:nth-child(10) > .nav-link.disableAjax.text-nowrap`
-  - … +43 autres
+  - … +44 autres
 - http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
   - `#pma_navigation_collapser`
   - `button[title="Recently visited tables"]`
@@ -530,13 +554,35 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#pma_navigation_collapser`
   - `select[name="db_collation"]`
   - `.alert-info > .text-nowrap`
+- http://localhost:8080/public/index.php?route=/database/designer&db=a11ydb [state:theme-original]
+  - `#id_hide_tbody_a11ydb\.access_log`
+  - `#id_hide_tbody_a11ydb\.projects`
+  - `#id_hide_tbody_a11ydb\.users`
+  - `#id_hide_tbody_a11ydb\.v_open_projects`
+- http://localhost:8080/public/index.php?route=/ [state:console-dark-pmahomme]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +20 autres
 - http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
   - `#pma_navigation_collapser`
-  - `.history > span`
-  - `#instructions-0`
-  - `#collationConnectionSelect`
-  - `#themeSelect`
-  - `.autosubmit[name="themeColorMode"][aria-label="Color mode for the theme"]`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +7 autres
 
 ### th-has-data-cells — Table headers in a data table must refer to data cells
 

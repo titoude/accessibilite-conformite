@@ -5,32 +5,35 @@
  "commit": "e7e3f96ac4c65f291cc7ced271c0bb6d4ea591ee",
  "pinned": "e7e3f96ac4c65f291cc7ced271c0bb6d4ea591ee (clone complet, branch master, 2026-10-05)",
  "baseUrl": "http://localhost:8080",
- "stack": "PHP 8.3 (image pma31-web custom = php:8.3-apache-like + composer) + MariaDB 11.8 — SSR Twig classique, 4 thèmes servis (pmahomme défaut, bootstrap avec dark mode, metro, original)",
+ "stack": "PHP 8.3 (image pma31-web custom = php:8.3-apache + extensions mysqli pdo_mysql mbstring gd zip + a2enmod rewrite) + MariaDB 11.8 — SSR Twig classique, 4 thèmes servis (pmahomme défaut, bootstrap avec dark mode, metro, original)",
  "boot": {
   "clone": "git clone https://github.com/phpmyadmin/phpmyadmin target && git checkout e7e3f96",
   "build": "export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh && yarn install && yarn build  (webpack ~16s : public/themes/*/css/theme.css depuis scss/, public/js/* depuis resources/js/*.ts)",
-  "vendor": "docker run --rm -v $PWD:/app pma31-web composer install --ignore-platform-reqs  (php 8.3.35, lock non compatible sinon)",
-  "db": "docker run -d --name pma31-db -e MARIADB_ROOT_PASSWORD=rootpw -e MARIADB_DATABASE=a11ydb -e MARIADB_USER=pma -e MARIADB_PASSWORD=pma-bench-2026 mariadb:11.8 ; seed : table a11ydb.users (id, name, bio NULL, homepage NULL) 5 lignes",
-  "web": "docker run -d --name pma31-web -p 8080:80 --link pma31-db -v <target>:/var/www/html pma31-web  (image custom apache+php construite pour ce run)",
-  "config": "config.inc.php à la racine (gitignored, hors patch) : blowfish_secret 32 chars, Servers[1].host='pma31-db', auth_type=cookie, ThemeDefault=pmahomme, PmaAbsoluteUri=http://localhost:8080/",
-  "login": "node tools/login.mjs http://localhost:8080 auth.json pma pma-bench-2026 — remplit index.php?route=/ (input pma_username/pma_password), attend #pma_navigation_tree, écrit le storageState"
+  "vendor": "docker run --rm -v $PWD:/app -w /app mirror.gcr.io/library/composer:2 composer install --no-dev --ignore-platform-reqs  (composer image n'a pas ext-mysqli ; le container web l'a)",
+  "db": "docker network create pma31-net ; docker run -d --name pma31-db --network pma31-net -e MARIADB_ROOT_PASSWORD=rootpass -e MARIADB_DATABASE=a11ydb mariadb:11.8 ; docker exec pma31-db mariadb -uroot -prootpass -e \"CREATE USER 'pma'@'%' IDENTIFIED BY 'pma-bench-2026'; GRANT ALL PRIVILEGES ON *.* TO 'pma'@'%'; FLUSH PRIVILEGES;\"",
+  "seed": "SEED RÉELLE (3 tables + 1 vue, reconstituée depuis events worker + preuves baseline) : CREATE TABLE users (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, username VARCHAR(50) NOT NULL, email VARCHAR(190) NOT NULL, bio TEXT NULL, homepage VARCHAR(190) NULL, is_admin TINYINT(1) NOT NULL DEFAULT 0, created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, UNIQUE KEY uq_username(username)) + 5 lignes alice/bob/carol/dan/eve (bio+homepage NULL sur bob,dan) ; CREATE TABLE access_log (id INT AUTO_INCREMENT PRIMARY KEY, ip VARCHAR(45), url VARCHAR(255), ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP) + 5 lignes ; CREATE TABLE projects (id INT AUTO_INCREMENT PRIMARY KEY, title VARCHAR(64), active TINYINT DEFAULT 0, created TIMESTAMP) + 5 lignes ; CREATE VIEW v_open_projects AS SELECT id,title,created FROM projects WHERE active=1. Script livré : tools/seed.sql",
+  "web": "docker run -d --name pma31-web --network pma31-net -p 8080:80 -v <target>:/var/www/html pma31-web  (image custom apache+php : voir tools/Dockerfile)",
+  "config": "config.inc.php à la racine (gitignored, hors patch) : declare(strict_types=1) EN PREMIÈRE LIGNE, blowfish_secret 32 chars, Servers[1].host='pma31-db', auth_type=cookie, ThemeDefault=pmahomme, PmaAbsoluteUri=http://localhost:8080/",
+  "login": "node tools/login.mjs http://localhost:8080 auth.json pma pma-bench-2026 — remplit index.php?route=/ (input_username/input_password), attend #pma_navigation, écrit le storageState auth.json À CÔTÉ du script"
  },
- "auth": "storageState tools/auth.json (cookies pmaAuth + pmaUser-1, login pma/pma-bench-2026)",
- "urls": "tools/urls-auth.txt — 36 pages auth : / + server/* (12) + database/* (7) + table/* (11) + themes + preferences×2 + /sql browse + /sql bad query + /table/change",
- "states": "voir states.json — 9 états dynamiques : navtree expandé, console ouverte, dropdown More structure, modale add-index, inline-edit browse, profiling sql, bad query, bootstrap dark, nav mobile 390",
+ "auth": "storageState auth.json (cookies pmaAuth + pmaUser-1, login pma/pma-bench-2026)",
+ "urls": "tools/urls-auth.txt — 38 pages auth : / + server/* (13) + database/* (8 : structure/sql/search/export/import/operations/privileges/designer) + table/* (12 : structure/sql/search/change/export/import/operations/privileges/relation/indexes/tracking/create) + themes + preferences×2 + /sql browse",
+ "states": "voir states.json — 12 états dynamiques auth : navtree expandé, console ouverte, dropdown More structure, modale add-index, inline-edit browse, profiling sql, bad query, bootstrap dark, metro, original, console-dark-pmahomme, nav mobile 390 (+ login-failed, public uniquement)",
  "auditCommands": {
-  "baseline_public": "node audit.mjs http://localhost:8080 --urls /public/index.php?route=/,/public/index.php?route=/themes --states none --out reports/baseline/public",
-  "baseline_auth": "node audit.mjs http://localhost:8080 --urls \"$(tr '\\n' ',' < tools/urls-auth.txt)\" --states navtree-a11ydb,console-open,structure-more-dropdown,add-index-modal,browse-inline-edit,sql-profiling,sql-bad-query,theme-bootstrap-dark,mobile-nav-390 --storage-state tools/auth.json --wait 2000 --out reports/baseline/auth",
-  "reset_theme_obligatoire": "node tools/reset-theme.mjs http://localhost:8080 tools/auth.json  — AVANT chaque scan : la préférence thème survit côté serveur ; sans reset les pages tournent sous bootstrap/dark → faux positifs",
-  "final": "identique baseline_auth → reports/final",
-  "install_build": "identique avec storageState auth-ib.json sur stack :8081 (pma31ib-web+pma31ib-db) → reports/install-build"
+  "baseline_public": "node audit.mjs http://localhost:8080 --urls /public/index.php?route=/,/public/index.php?route=/themes --states login-failed --wait 1200 --out reports/baseline/public  (correction v2 : la doc initiale disait '--states none' — scope.json enregistre statesRequested=[login-failed], wait=1200, statesHash d3a36bda)",
+  "baseline_auth": "node audit.mjs http://localhost:8080 --urls \"$(paste -sd, tools/urls-auth.txt)\" --states navtree-a11ydb,console-open,structure-more-dropdown,add-index-modal,browse-inline-edit,sql-profiling,sql-bad-query,theme-bootstrap-dark,mobile-nav-390 --storage-state auth.json --wait 1200 --out reports/baseline/auth  (correction v2 : wait=1200 mesuré dans scope.json, pas 2000 ; statesHash b961f439 — audité AVANT le durcissement navtree mi-cycle)",
+  "reset_theme_obligatoire": "node tools/reset-theme.mjs http://localhost:8080 auth.json — AVANT chaque scan : préférence thème ET prefs console (DarkTheme, Mode) persistées côté serveur ; sans reset les pages tournent sous le dernier thème/prefs utilisés",
+  "final_v2": "node audit.mjs http://localhost:8080 --urls \"$(paste -sd, tools/urls-auth.txt)\" --states navtree-a11ydb,console-open,structure-more-dropdown,add-index-modal,browse-inline-edit,sql-profiling,sql-bad-query,theme-bootstrap-dark,theme-metro,theme-original,console-dark-pmahomme,mobile-nav-390 --storage-state auth.json --wait 2000 --out reports/final  (50 scénarios : 38 pages + 12 états ; statesHash ecc3f5a4 ≠ b961f439 baseline — STATES durci en v1 puis étendu en v2, hash différent attendu)",
+  "install_build": "identique avec storageState auth-ib.json sur stack :8081 (pma31ib-web+pma31ib-db) → reports/install-build  (wait=2000, statesHash f20ecfb1 = états v1 post-durcissement)"
  },
- "verify": "node tools/verify.mjs http://localhost:8080 tools/auth.json — 25 assertions dures (landmarks, h1/heading-order, dup ids scope axe, tailles 24px mesurées, contrastes mesurés composite alpha, underlines, labels)",
- "eval": "node tools/eval-final.mjs http://localhost:8080 tools/auth.json — état froid : 6 pages hors scope + dup-ids + rejoues (navtree 24px, modale aria-labelledby, configFormDisplayTab uniques, text-danger)",
- "probes": "node tools/incomplete-probes.mjs — décision traçable par groupe d'incomplets (composite alpha)",
+ "verify": "node tools/verify.mjs http://localhost:8080 auth.json — 25 assertions dures (landmarks, h1/heading-order, dup ids scope axe, tailles 24px mesurées, contrastes mesurés composite alpha, underlines, labels)",
+ "eval": "node tools/eval-final.mjs http://localhost:8080 auth.json — état froid : 6 pages hors scope + dup-ids + rejoues (navtree 24px, modale aria-labelledby, configFormDisplayTab uniques, text-danger)",
+ "probes": "node tools/incomplete-probes.mjs http://localhost:8080 reports/final/report.json reports/probes/incomplete-probes.json auth.json — décision traçable par noeud d'incomplet (composite alpha). Convention : sondé à l'URL de base sous pmahomme courant (les incomplets d'états mutants se mesurent sur la surface courante, jamais N-A silencieux).",
  "notes": [
-  "vendor/, node_modules/, config.inc.php, public/ build outputs : gitignored — régénérés par yarn build / composer install, PAS dans patch.diff (sources scss/ts/twig uniquement).",
+  "vendor/, node_modules/, config.inc.php, public/themes/*/css (build outputs) : gitignored — régénérés par yarn build / composer install, PAS dans patch.diff (sources scss/ts/twig uniquement ; compiled css = sortie réelle du build).",
   "Le seed IB contient des NULL (bio, homepage) → surface td.null inexistante en local : données de bench différentes exposent des surfaces différentes (leçon : mêmes données partout).",
-  "La préférence thème est persistante côté serveur : un état theme-* laisse bootstrap actif pour les scans suivants → reset-theme obligatoire avant chaque run."
+  "La préférence thème est persistante côté serveur : un état theme-* laisse bootstrap/metro actif pour les scans suivants → reset-theme obligatoire avant chaque run. Idem pour les prefs console (DarkTheme, Mode via /console/update-config) : console-dark-pmahomme les mute, mobile-nav-390 et reset-theme.mjs les restaurent.",
+  "SUBSTITUTION pmahomme-dark → console-dark-pmahomme : pmahomme n'a pas de colorMode dark (theme.json=[light] ; setColorMode ignore les modes invalides). La vraie surface sombre pmahomme = .console_dark_theme (tous thèmes). Scanné en l'état au lieu d'un faux scan du mode light sous le nom « dark ».",
+  "Warts v1 corrigés en v2 : seed documentée ≠ réelle → recette réécrite ; sondes 1353/36 → 1352/35 (fichier) ; baseline public --states none → login-failed ; baseline wait 2000 → 1200 ; statesHash baseline ≠ final = durcissement navtree mi-cycle, attendu."
  ]
 }

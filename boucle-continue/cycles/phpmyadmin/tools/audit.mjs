@@ -127,8 +127,10 @@ const RUNNER_VERSION = 'audit.mjs v6';
  */
 // États dynamiques phpMyAdmin 6.0-dev — tout le map tourne dans le contexte
 // du run (auth: cookie pma ; public: anonyme). Les deux MUTANTS sont en fin
-// de liste : theme-bootstrap-dark (cookie pma_theme) puis mobile-nav-390
-// (viewport 390px + reset du thème vers pmahomme/light).
+// de liste : theme-bootstrap-dark / theme-metro / theme-original /
+// console-dark-pmahomme (mutations de préférences serveur) puis
+// mobile-nav-390 (viewport 390px + reset thème vers pmahomme/light
+// + reset Console/DarkTheme=false). TOUJOURS dernier mutant.
 const PMA = '/public/index.php?route=';
 const DBT = '&db=a11ydb';
 const TBL = '&table=users';
@@ -233,17 +235,95 @@ const STATES = {
       await page.waitForFunction(() => document.documentElement.getAttribute('data-bs-theme') === 'dark');
     },
   },
-  // MUTANT viewport 390px + RESET thème vers pmahomme/light. TOUJOURS dernier.
+  // MUTANT thème : metro (mode win = premier de sa palette). Couvre le CSS
+  // compilé metro (notamment .owner du designer) qui n'était pas scanné en v1.
+  'theme-metro': {
+    url: b => b + PMA + '/database/designer' + DBT,
+    setup: async page => {
+      const status = await page.evaluate(async () => {
+        const t = document.querySelector('input[name=token]')?.value ?? '';
+        const res = await fetch('index.php?route=/themes/set', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+          body: 'set_theme=metro&themeColorMode=win&server=1&token=' + t,
+        });
+        return res.status;
+      });
+      if (status !== 200) throw new Error('themes/set metro win -> HTTP ' + status);
+      await page.reload({ waitUntil: 'load' });
+      await page.waitForSelector('link[href*="themes/metro/css/theme.css"]', { state: 'attached' });
+      await page.waitForSelector('.designer_tab', { state: 'attached' });
+    },
+  },
+  // MUTANT thème : original (mode light). Son _designer.scss importe celui de
+  // pmahomme — vérifie le rendu compilé .owner sous ce thème aussi.
+  'theme-original': {
+    url: b => b + PMA + '/database/designer' + DBT,
+    setup: async page => {
+      const status = await page.evaluate(async () => {
+        const t = document.querySelector('input[name=token]')?.value ?? '';
+        const res = await fetch('index.php?route=/themes/set', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+          body: 'set_theme=original&themeColorMode=light&server=1&token=' + t,
+        });
+        return res.status;
+      });
+      if (status !== 200) throw new Error('themes/set original light -> HTTP ' + status);
+      await page.reload({ waitUntil: 'load' });
+      await page.waitForSelector('link[href*="themes/original/css/theme.css"]', { state: 'attached' });
+      await page.waitForSelector('.designer_tab', { state: 'attached' });
+    },
+  },
+  // MUTANT : pmahomme n'a PAS de mode dark (theme.json colorModes=[light] et
+  // setColorMode ignore les modes invalides) → la surface sombre réelle de
+  // pmahomme est la console (.console_dark_theme), persistée via
+  // Console/DarkTheme (/console/update-config). Substitue l'état
+  // « pmahomme-dark » demandé par cette surface réelle.
+  'console-dark-pmahomme': {
+    url: b => b + PMA + '/',
+    setup: async page => {
+      const status = await page.evaluate(async () => {
+        const t = document.querySelector('input[name=token]')?.value ?? '';
+        const h = { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' };
+        const post = body => fetch('index.php?route=/console/update-config', {
+          method: 'POST', headers: h, body: 'ajax_request=true&server=1&token=' + t + '&' + body,
+        });
+        const r1 = await fetch('index.php?route=/themes/set', {
+          method: 'POST', headers: h,
+          body: 'set_theme=pmahomme&themeColorMode=light&server=1&token=' + t,
+        });
+        if (r1.status !== 200) return 'themes/set ' + r1.status;
+        // Mode=show + DarkTheme=true : la console s'ouvre rendue dark au
+        // chargement — déterministe, sans click post-reload.
+        const r2 = await post('key=DarkTheme&value=true');
+        if (r2.status !== 200) return 'DarkTheme ' + r2.status;
+        const r3 = await post('key=Mode&value=show');
+        return r3.status;
+      });
+      if (status !== 200) throw new Error('console-dark-pmahomme setup -> ' + status);
+      await page.reload({ waitUntil: 'load' });
+      await page.waitForSelector('#pma_console .content.console_dark_theme:visible', { state: 'visible' });
+    },
+  },
+  // MUTANT viewport 390px + RESET thème vers pmahomme/light + reset
+  // Console/DarkTheme=false (les prefs sont persistées côté serveur).
+  // TOUJOURS dernier.
   'mobile-nav-390': {
     url: b => b + PMA + '/',
     setup: async page => {
       await page.evaluate(async () => {
         const t = document.querySelector('input[name=token]')?.value ?? '';
+        const h = { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' };
+        const post = body => fetch('index.php?route=/console/update-config', {
+          method: 'POST', headers: h, body: 'ajax_request=true&server=1&token=' + t + '&' + body,
+        });
         await fetch('index.php?route=/themes/set', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+          method: 'POST', headers: h,
           body: 'set_theme=pmahomme&themeColorMode=light&server=1&token=' + t,
         });
+        await post('key=DarkTheme&value=false');
+        await post('key=Mode&value=collapse');
       });
       await page.setViewportSize({ width: 390, height: 844 });
       await page.reload({ waitUntil: 'load' });
