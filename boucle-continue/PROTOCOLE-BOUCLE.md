@@ -272,3 +272,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 2. **Variables dérivées** : `--color-error-background: lighten(--color-error,40%)` — assombrir seule la couleur d'erreur ne suffit pas (le fond suit) ; recalculer le ratio sur la paire dérivée finale (#b91c1c/#f8d2d2 = 4.66).
 3. **CSS compilés dans patch.diff** : quand le bundle minifié est versionné dans le patch, appliquer la substitution équivalente à TOUTES les +lignes css (il y en avait 3 : ltr/rtl/rss) — et le dire dans results.json (le build reste source de vérité).
 4. **link-in-text-block** : couleur seule ne suffit pas dans un bloc non-coloré — `text-decoration: underline` sur les liens du bloc.
+
+### Leçons — cycle 27 searxng (ré-audit v2 PARTIAL : falsification de ma part)
+
+1. **Recette splice VICIÉE** : régénérer les diffs après `git checkout .` a effacé les edits source — le patch ne transportait le fix que dans les css compilés. Règle : les diffs se régénèrent depuis un arbre PATCHÉ+VÉRIFIÉ (`git apply` puis `git diff`), et l'étape se termine par un grep de la chaîne fixe dans le patch livré (`grep '#b91c1c' patch.diff`) — jamais sans cette vérification finale.
+2. **Css compilés dans patch = source de falsification** : éditer le minifié à la main crée un patch dont le build ne reproduit pas le contenu. Règle : remplacer les +lignes css par la sortie réelle du build (`npm run build`), pas par substitution de chaînes.
+3. **Provenance = re-hash à chaque correction** : 4 hash périmés après S1-S3 — re-hacher TOUS les fichiers touchés (patch.diff, tools/*, results.json) après chaque wart-fix.
+4. **Sonde alpha** : la première couche `rgba<1` n'est pas le fond effectif — composite top→down obligatoire (même leçon que contrast probing cycle owncast, oubliée dans une nouvelle sonde).
