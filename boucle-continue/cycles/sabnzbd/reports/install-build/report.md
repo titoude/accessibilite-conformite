@@ -1,0 +1,267 @@
+# Audit accessibilité — 2026-10-05
+
+**0 règle(s) violée(s), 0 occurrence(s), 47/47 scénario(s) audité(s), 0 erreur(s), 218 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `e97861748e26`
+
+## Résultats incomplets à revoir (218)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://127.0.0.1:8080/
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/config/scheduling
+  - `.section:nth-child(2) > .col2 > h2`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `.info-container-box:nth-child(3)`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `.history-item:nth-child(2) > .status[data-bind="text: statusText()"][onclick="showDetails(this)"]`
+  - `td[data-timestamp="1791165131"]`
+  - `.history-info`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `span[title="test-job-a11y"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `.navbar-timeleft`
+  - `div[data-bind="visible: !bandwithLimit()"] > a`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: progressText"]`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: progressText"]`
+  - `.timeleft`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `form[data-bind="submit: addNZB"] > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `.col-sm-6:nth-child(1) > fieldset > legend`
+  - `.col-sm-6:nth-child(2) > fieldset > legend`
+  - `label[for="nzbname"]`
+  - `#nzbname`
+  - `label[for="password"]`
+  - `#password`
+  - … +6 autres
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-item-files > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-delete-queue-job > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `.row:nth-child(2) > .col-sm-6:nth-child(1)`
+  - `.row:nth-child(2) > .col-sm-6:nth-child(2)`
+  - `.row:nth-child(3) > .col-sm-6:nth-child(1)`
+  - `.row:nth-child(3) > .col-sm-6:nth-child(2)`
+  - `.row:nth-child(4) > .col-sm-6:nth-child(1)`
+  - `.row:nth-child(4) > .col-sm-6:nth-child(2)`
+  - … +32 autres
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `label[for="refreshRate-option"]`
+  - `#refreshRate-option`
+  - `label[for="queue-pagination-limit"]`
+  - `#queue-pagination-limit`
+  - `label[for="history-pagination-limit"]`
+  - `#history-pagination-limit`
+  - … +8 autres
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-custom-pause > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-help > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `p:nth-child(6) > small`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-sessions > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `.session-device`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-purge-history > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-delete-history-job > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `form > .modal-footer > .checkbox > label > span`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#modal-retry-job > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `#history-script-log > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `form[action="/config/rss/save_rss_feed"][method="post"] > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://127.0.0.1:8080/
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `.queue-error-info`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://127.0.0.1:8080/wizard/one
+  - `iframe`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://127.0.0.1:8080/config
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/general
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/folders
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/server
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/categories
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/switches
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/sorting
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/notify
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/scheduling
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/special
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `a[data-toggle="dropdown"]`
+

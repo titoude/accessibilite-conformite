@@ -1,0 +1,1978 @@
+# Audit accessibilité — 2026-10-05
+
+**15 règle(s) violée(s), 1483 occurrence(s), 47/47 scénario(s) audité(s), 0 erreur(s), 320 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `e97861748e26`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI
+
+- http://127.0.0.1:8080/config/server
+  - `#chart-start`
+  - `#chart-end`
+- http://127.0.0.1:8080/config/categories
+  - `input[value="Default"]`
+  - `tr:nth-child(2) > .nowrap:nth-child(6) > .fileBrowserSmall.fileBrowserField[name="dir"]`
+  - `tr:nth-child(2) > td:nth-child(7) > input[name="newzbin"][size="20"][type="text"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > td:nth-child(2) > input[name="newname"][size="10"][type="text"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowserSmall.fileBrowserField[name="dir"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > td:nth-child(7) > input[name="newzbin"][size="20"][type="text"]`
+  - `input[value="movies"][name="newname"][size="10"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowserSmall.fileBrowserField[name="dir"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > td:nth-child(7) > input[name="newzbin"][size="20"][type="text"]`
+  - `input[value="tv"][name="newname"][size="10"]`
+  - … +8 autres
+- http://127.0.0.1:8080/config/rss
+  - `.even > td:nth-child(1) > input[name="enable"][value="1"][type="checkbox"]`
+  - `input[value="Feed1"]`
+  - `.toggleFeedCheckbox`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `form[data-form="add-indexer"] > table > tbody > .data-row > td:nth-child(2) > input[name="enable"][value="1"][type="checkbox"]`
+  - `input[name="api_key"][required=""][type="text"]`
+  - `.toggleIndexerCheckbox`
+  - `input[name="name"][value="BenchIndex"][required=""]`
+  - `input[value="https://index.invalid.example"]`
+  - `input[type="password"]`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `input[data-bind="click: filelist.checkAllFiles"][data-original-title="Check all"][data-placement="bottom"]`
+  - `.multioperations-selector:nth-child(4) > input[data-bind="click: filelist.checkAllFiles"][data-original-title="Check all"][type="checkbox"]`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `#chart-start`
+  - `#chart-end`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `#chart-start`
+  - `#chart-end`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `.even > td:nth-child(1) > input[name="enable"][value="1"][type="checkbox"]`
+  - `input[value="Feed1"]`
+  - `.toggleFeedCheckbox`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(1) > input[name="enabled"][type="checkbox"][value="1"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(2) > input[name="new_index"][size="1"][type="text"]`
+  - `input[name="filter_text"][value=""][type="text"]`
+  - `.alt > td:nth-child(1) > input[name="enabled"][type="checkbox"][value="1"]`
+  - `input[name="new_index"][size="1"][value="0"]`
+  - `input[value="*"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(1) > input[name="enabled"][type="checkbox"][value="1"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(2) > input[name="new_index"][size="1"][type="text"]`
+  - `input[name="filter_text"][value=""][type="text"]`
+  - `.alt > td:nth-child(1) > input[name="enabled"][type="checkbox"][value="1"]`
+  - `input[name="new_index"][size="1"][value="0"]`
+  - `input[value="*"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(1) > input[name="enabled"][type="checkbox"][value="1"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(2) > input[name="new_index"][size="1"][type="text"]`
+  - `input[name="filter_text"][value=""][type="text"]`
+  - `.alt > td:nth-child(1) > input[name="enabled"][type="checkbox"][value="1"]`
+  - `input[name="new_index"][size="1"][value="0"]`
+  - `input[value="*"]`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI
+
+- http://127.0.0.1:8080/config/general
+  - `.field-pair:nth-child(4) > .show_qrcode[data-original-title="API Key QR Code"][title=""]`
+  - `#generate_new_apikey`
+  - `.field-pair:nth-child(5) > .show_qrcode[data-original-title="API Key QR Code"][title=""]`
+  - `#generate_new_nzbkey`
+- http://127.0.0.1:8080/config/categories
+  - `tr:nth-child(2) > .nowrap:nth-child(6) > .fileBrowser.btn-default[type="button"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowser.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowser.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > .nowrap:nth-child(8) > .delCat.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(10) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowser.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(10) > table > tbody > tr > .nowrap:nth-child(8) > .delCat.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(11) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowser.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(11) > table > tbody > tr > .nowrap:nth-child(8) > .delCat.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(12) > table > tbody > tr > .nowrap:nth-child(6) > .fileBrowser.btn-default[type="button"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(12) > table > tbody > tr > .nowrap:nth-child(8) > .delCat.btn-default[type="button"]`
+- http://127.0.0.1:8080/config/rss
+  - `.delFeed`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `.delIndexer`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `.delFeed`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `.delFilter`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `.delFilter`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `.delFilter`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI
+
+- http://127.0.0.1:8080/config/general
+  - `#bandwidth_max_dropdown`
+- http://127.0.0.1:8080/config/categories
+  - `tr:nth-child(2) > td:nth-child(3) > select[name="priority"]`
+  - `tr:nth-child(2) > td:nth-child(4) > select[name="pp"]`
+  - `tr:nth-child(2) > td:nth-child(5) > select[name="script"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > td:nth-child(3) > select[name="priority"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > td:nth-child(4) > select[name="pp"]`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > td:nth-child(5) > select[name="script"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > td:nth-child(3) > select[name="priority"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > td:nth-child(4) > select[name="pp"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(9) > table > tbody > tr > td:nth-child(5) > select[name="script"]`
+  - `.sorting-row.ui-sortable-handle.fullform:nth-child(10) > table > tbody > tr > td:nth-child(3) > select[name="priority"]`
+  - … +8 autres
+- http://127.0.0.1:8080/config/switches
+  - `#unwanted_extensions_mode`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `select[data-bind="value: loglevel"]`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.nzbsearch-category`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `.default > td:nth-child(5) > select[name="cat"]`
+  - `.default > td:nth-child(6) > select[name="priority"]`
+  - `.default > td:nth-child(7) > select[name="pp"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(3) > select[name="filter_type"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(5) > select[name="cat"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(6) > select[name="priority"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(7) > select[name="pp"]`
+  - `.alt > td:nth-child(3) > select[name="filter_type"]`
+  - `.alt > td:nth-child(5) > select[name="cat"]`
+  - `.alt > td:nth-child(6) > select[name="priority"]`
+  - … +1 autres
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `.default > td:nth-child(5) > select[name="cat"]`
+  - `.default > td:nth-child(6) > select[name="priority"]`
+  - `.default > td:nth-child(7) > select[name="pp"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(3) > select[name="filter_type"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(5) > select[name="cat"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(6) > select[name="priority"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(7) > select[name="pp"]`
+  - `.alt > td:nth-child(3) > select[name="filter_type"]`
+  - `.alt > td:nth-child(5) > select[name="cat"]`
+  - `.alt > td:nth-child(6) > select[name="priority"]`
+  - … +1 autres
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `.default > td:nth-child(5) > select[name="cat"]`
+  - `.default > td:nth-child(6) > select[name="priority"]`
+  - `.default > td:nth-child(7) > select[name="pp"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(3) > select[name="filter_type"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(5) > select[name="cat"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(6) > select[name="priority"]`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(7) > select[name="pp"]`
+  - `.alt > td:nth-child(3) > select[name="filter_type"]`
+  - `.alt > td:nth-child(5) > select[name="cat"]`
+  - `.alt > td:nth-child(6) > select[name="priority"]`
+  - … +1 autres
+
+## [CRITICAL] aria-allowed-attr — Elements must only use supported ARIA attributes
+
+Ensure an element's role supports its ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-allowed-attr?application=axeAPI
+
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `#navbar-collapse`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/wizard/two
+  - `.quoteBlock:nth-child(11) > .indented[href$="folders#complete_dir"]`
+  - `.quoteBlock:nth-child(13) > .indented[href$="folders#complete_dir"]`
+- http://127.0.0.1:8080/config
+  - `.navbar-logo`
+  - `tr:nth-child(8) > td > a[target="_blank"]`
+- http://127.0.0.1:8080/config/general
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/folders
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/server
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/categories
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/switches
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/sorting
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/notify
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/scheduling
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/rss
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/special
+  - `.navbar-logo`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+  - `.hover-button[data-original-title="Remove all selected files"][data-placement="bottom"]`
+  - `.hover-button[data-original-title="Remove all selected files"][data-placement="top"]`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+  - `.row:nth-child(10) > .col-dot-overflow.col-sm-6[data-bind="visible: hasPerformanceInfo"] > .diskspeed-button[data-original-title="Repeat test (~10 seconds)"][data-bind="click: loadStatusInfo"]`
+  - `.row:nth-child(11) > .col-dot-overflow.col-sm-6[data-bind="visible: hasPerformanceInfo"] > .diskspeed-button[data-original-title="Repeat test (~10 seconds)"][data-bind="click: loadStatusInfo"]`
+  - `.row:nth-child(12) > .col-dot-overflow.col-sm-6[data-bind="visible: hasPerformanceInfo"] > .diskspeed-button[data-original-title="Repeat test (~10 seconds)"][data-bind="click: loadStatusInfo"]`
+  - `.row:nth-child(13) > .col-sm-6[data-bind="visible: hasPerformanceInfo"] > .diskspeed-button[data-original-title="Repeat test (~10 seconds)"][data-bind="click: loadStatusInfo"]`
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `.navbar-logo`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `.navbar-logo`
+  - `.main-helplink`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `div[data-bind="visible: hasQueue()"] > a[data-toggle="dropdown"][href="#"]`
+  - `a[data-bind="click: queue.showMultiEdit"]`
+  - `.history-archive`
+  - `a[data-original-title="Show Failed / Show All"]`
+  - `a[data-bind="click: history.retryAllFailed"]`
+  - `a[href$="#modal-purge-history"]`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/wizard
+  - `#rightGreyText`
+  - `.btn-danger`
+- http://127.0.0.1:8080/wizard/one
+  - `#rightGreyText`
+- http://127.0.0.1:8080/wizard/two
+  - `#rightGreyText`
+  - `h2`
+  - `.btn`
+- http://127.0.0.1:8080/config
+  - `.colmask:nth-child(1) > .padTable.section > table > tbody > tr:nth-child(1) > td > a[target="_blank"]`
+  - `tr:nth-child(7) > td > .label.label-warning`
+  - `.colmask:nth-child(1) > .padTable.section > table > tbody > tr:nth-child(7) > td > a[target="_blank"]`
+  - `tr:nth-child(8) > td > .label.label-warning`
+  - `tr:nth-child(1) > td > a[href$="sabnzbd.org/"][target="_blank"]`
+  - `a[href$="forums.sabnzbd.org/"]`
+  - `a[href$="live-chat/"]`
+  - `a[href$="donate"]`
+- http://127.0.0.1:8080/config/general
+  - `.label`
+- http://127.0.0.1:8080/config/folders
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(1) > h5`
+- http://127.0.0.1:8080/config/categories
+  - `h5 > strong`
+- http://127.0.0.1:8080/config/special
+  - `.darkred`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - `.history-failed-download > .name > .row-wrap-text > .retry-buttontext[href="#"]`
+  - … +3 autres
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +3 autres
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - `.history-failed-download > .name > .row-wrap-text > .retry-buttontext[href="#"]`
+  - `.history-failed-download > .status[data-bind="text: statusText()"][onclick="showDetails(this)"]`
+  - … +2 autres
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `.dropdown-header`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - `.history-failed-download > .name > .row-wrap-text > .retry-buttontext[href="#"]`
+  - `.history-failed-download > .status[data-bind="text: statusText()"][onclick="showDetails(this)"]`
+  - … +2 autres
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +8 autres
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +5 autres
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +5 autres
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +6 autres
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +5 autres
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +8 autres
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +4 autres
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `#rss_edit_modal > .modal-dialog > .modal-content > .modal-footer > .btn-danger[data-dismiss="modal"][type="button"]`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `a[href$="#history-tab"]`
+  - `a[href$="#queue-messages"][data-toggle="tab"]`
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `a[href$="#queue-tab"]`
+  - `a[href$="#queue-messages"][data-toggle="tab"]`
+  - `.history-failed-download > .name > .row-wrap-text > .retry-buttontext[href="#"]`
+  - `.history-failed-download > .status[data-bind="text: statusText()"][onclick="showDetails(this)"]`
+  - `.history-info`
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `a[href$="#queue-tab"]`
+  - `a[href$="#history-tab"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `tr:nth-child(2) > .table-messages-label > .label-danger.label`
+  - `.table-messages-label > .label-warning.label`
+  - `tr:nth-child(4) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(5) > .table-messages-label > .label-danger.label`
+  - `tr:nth-child(6) > .table-messages-label > .label-danger.label`
+  - `.label-info`
+  - … +2 autres
+
+## [SERIOUS] frame-title — Frames must have an accessible name
+
+Ensure <iframe> and <frame> elements have an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/frame-title?application=axeAPI
+
+- http://127.0.0.1:8080/wizard/one
+  - `iframe`
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.13/label-title-only?application=axeAPI
+
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `input[name="SABnzbd_nzf_n6yjhfn2"]`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/wizard
+  - `#content`
+  - `.col-md-4.text-center:nth-child(2)`
+- http://127.0.0.1:8080/wizard/one
+  - `#content`
+  - `.col-xs-4.text-center:nth-child(1)`
+- http://127.0.0.1:8080/wizard/two
+  - `.container`
+- http://127.0.0.1:8080/config
+  - `.colmask:nth-child(1)`
+  - `.colmask:nth-child(2)`
+  - `.colmask:nth-child(3)`
+- http://127.0.0.1:8080/config/general
+  - `.padding`
+  - `form[action="/config/general/save"] > .section:nth-child(2) > .col2`
+  - `form[action="/config/general/save"] > .section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(1)`
+  - `form[action="/config/general/save"] > .section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(2)`
+  - `form[action="/config/general/save"] > .section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(3)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(4)`
+  - `label[for="language"]`
+  - `#language`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(5) > .desc`
+  - `.section:nth-child(3) > .col2`
+  - … +20 autres
+- http://127.0.0.1:8080/config/folders
+  - `.padding`
+  - `.section:nth-child(2) > .col2`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(1)`
+  - `label[for="download_dir"]`
+  - `#download_dir`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(2) > .desc`
+  - `label[for="complete_dir"]`
+  - `#complete_dir`
+  - `.btn-default.btn[href$="sorting"]`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(4) > .desc`
+  - … +6 autres
+- http://127.0.0.1:8080/config/server
+  - `.form-control`
+  - `.chart-selector-container`
+  - `h3[data-original-title="Benchmark Usenet"]`
+  - `table`
+  - `p`
+- http://127.0.0.1:8080/config/categories
+  - `p`
+  - `h5`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(5) > table > tbody > tr:nth-child(1)`
+  - `input[value="Default"]`
+  - `tr:nth-child(2) > td:nth-child(3)`
+  - `tr:nth-child(2) > td:nth-child(4)`
+  - `tr:nth-child(2) > td:nth-child(5)`
+  - `tr:nth-child(2) > .nowrap:nth-child(6) > .fileBrowserSmall.fileBrowserField[name="dir"]`
+  - `tr:nth-child(2) > td:nth-child(7)`
+  - `.fullform[action="/config/categories/save"][method="post"]:nth-child(7) > table > tbody > tr > td:nth-child(2) > input[name="newname"][size="10"][type="text"]`
+  - … +29 autres
+- http://127.0.0.1:8080/config/switches
+  - `.padding`
+  - `.section:nth-child(3) > .col2`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(3)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(6)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(7)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(8)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(10)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(11)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(12)`
+  - `.section:nth-child(3) > .col1 > fieldset > .field-pair:nth-child(14)`
+  - … +12 autres
+- http://127.0.0.1:8080/config/sorting
+  - `.padTable`
+  - `.form-control`
+  - `.align-center > h3`
+- http://127.0.0.1:8080/config/notify
+  - `#email > .col2 > h3`
+  - `#email > .col2 > p`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(1)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(2)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(3)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(4)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(5)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(6)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(7)`
+  - `#email > .col1 > fieldset > .field-pair:nth-child(8)`
+  - … +18 autres
+- http://127.0.0.1:8080/config/scheduling
+  - `.section:nth-child(1) > .col2`
+  - `form[data-form="add-schedule"] > .col1 > fieldset > .field-pair:nth-child(1)`
+  - `.field-pair:nth-child(2)`
+  - `.field-pair:nth-child(3)`
+  - `.section:nth-child(2)`
+- http://127.0.0.1:8080/config/rss
+  - `p`
+  - `.catTable > tbody > tr:nth-child(1)`
+  - `.even > td:nth-child(1)`
+  - `.new-feed-title`
+  - `.new-feed-url`
+  - `.chk`
+  - `.title`
+  - `.feed-row`
+  - `label[for="rss_rate"]`
+  - `#rss_rate`
+  - … +2 autres
+- http://127.0.0.1:8080/config/nzbsearch
+  - `.padding`
+  - `p`
+  - `form[data-form="add-indexer"] > table > tbody > tr:nth-child(1)`
+  - `form[data-form="add-indexer"] > table > tbody > .data-row > td:nth-child(2)`
+  - `form[data-form="add-indexer"] > table > tbody > .data-row > td:nth-child(3)`
+  - `form[data-form="add-indexer"] > table > tbody > .data-row > td:nth-child(4)`
+  - `form[data-form="add-indexer"] > table > tbody > .data-row > td:nth-child(5)`
+  - `form[action="/config/nzbsearch/save_indexer"] > table > tbody > tr:nth-child(1)`
+  - `form[action="/config/nzbsearch/save_indexer"] > table > tbody > .data-row > td:nth-child(2)`
+  - `form[action="/config/nzbsearch/save_indexer"] > table > tbody > .data-row > td:nth-child(3)`
+  - … +2 autres
+- http://127.0.0.1:8080/config/special
+  - `.padTable`
+  - `.section:nth-child(2) > .col2`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(1)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(2)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(3)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(4)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(5)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(6)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(7)`
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(8)`
+  - … +51 autres
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `.add-nzb-inputbox-options`
+  - `a[data-bind="click: queue.doMultiMoveToTop"]`
+  - `a[data-original-title="Bottom"]`
+  - `.add-nzb-inputbox-small.add-nzb-inputbox:nth-child(2) > .label-default.label`
+  - `div[data-original-title="Category"]`
+  - … +11 autres
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.queue-table`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - … +1 autres
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `.form-control`
+  - `.chart-selector-container`
+  - `#addServerContent > .col2`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(1)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(3)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(5)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(6)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(7)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(8)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(9)`
+  - … +3 autres
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `.form-control`
+  - `.chart-selector-container`
+  - `#addServerContent > .col2`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(1)`
+  - `.advanced-settings.field-pair:nth-child(2)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(3)`
+  - `.advanced-settings.field-pair:nth-child(4)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(5)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(6)`
+  - `form[data-form="add-server"] > fieldset > .field-pair:nth-child(7)`
+  - … +15 autres
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `p`
+  - `.catTable > tbody > tr:nth-child(1)`
+  - `.even > td:nth-child(1)`
+  - `.new-feed-title`
+  - `.new-feed-url`
+  - `.chk`
+  - `.title`
+  - `.feed-row`
+  - `label[for="rss_rate"]`
+  - `#rss_rate`
+  - … +2 autres
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `h2`
+  - `thead`
+  - `.default > td:nth-child(5)`
+  - `.default > td:nth-child(6)`
+  - `.default > td:nth-child(7)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(1)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(2)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(3)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(4)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(5)`
+  - … +11 autres
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `h2`
+  - `thead`
+  - `.default > td:nth-child(5)`
+  - `.default > td:nth-child(6)`
+  - `.default > td:nth-child(7)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(1)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(2)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(3)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(4)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(5)`
+  - … +11 autres
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `h2`
+  - `thead`
+  - `.default > td:nth-child(5)`
+  - `.default > td:nth-child(6)`
+  - `.default > td:nth-child(7)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(1)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(2)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(3)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(4)`
+  - `form[data-form="update-rss-filter"][action="/config/rss/upd_rss_filter"][method="post"]:nth-child(4) > table > tbody > tr > td:nth-child(5)`
+  - … +11 autres
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `.history-queue-swicher`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#feedback-slider`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `.history-queue-swicher`
+  - `a[aria-label="Multi-Operations"]`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+  - `#feedback-slider`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `.history-queue-swicher`
+  - `#queue-messages`
+  - `#feedback-slider`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `#queue-tab > h2`
+  - `.info-container-box:nth-child(1)`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `.table-striped`
+  - `#queue-messages`
+  - `.history-header`
+  - `.history-table`
+  - `.history-footer > .search-box.input-group`
+  - `.history-info`
+
+## [MODERATE] meta-viewport — Zooming and scaling must not be disabled
+
+Ensure <meta name="viewport"> does not disable text scaling and zooming
+Référence : https://dequeuniversity.com/rules/axe/4.13/meta-viewport?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/general
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/folders
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/server
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/categories
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/switches
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/sorting
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/notify
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/scheduling
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/rss
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/special
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `meta[name="viewport"]`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `meta[name="viewport"]`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `#sabnzbd`
+- http://127.0.0.1:8080/wizard
+  - `html`
+- http://127.0.0.1:8080/wizard/one
+  - `html`
+- http://127.0.0.1:8080/wizard/two
+  - `html`
+- http://127.0.0.1:8080/config
+  - `html`
+- http://127.0.0.1:8080/config/general
+  - `html`
+- http://127.0.0.1:8080/config/folders
+  - `html`
+- http://127.0.0.1:8080/config/server
+  - `html`
+- http://127.0.0.1:8080/config/categories
+  - `html`
+- http://127.0.0.1:8080/config/switches
+  - `html`
+- http://127.0.0.1:8080/config/sorting
+  - `html`
+- http://127.0.0.1:8080/config/notify
+  - `html`
+- http://127.0.0.1:8080/config/scheduling
+  - `html`
+- http://127.0.0.1:8080/config/rss
+  - `html`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `html`
+- http://127.0.0.1:8080/config/special
+  - `html`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `html`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `html`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `html`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `html`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `html`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `#sabnzbd`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `#sabnzbd`
+- http://127.0.0.1:8080/config
+  - `html`
+- http://127.0.0.1:8080/config/general
+  - `html`
+- http://127.0.0.1:8080/config/folders
+  - `html`
+- http://127.0.0.1:8080/config/server
+  - `html`
+- http://127.0.0.1:8080/config/categories
+  - `html`
+- http://127.0.0.1:8080/config/switches
+  - `html`
+- http://127.0.0.1:8080/config/sorting
+  - `html`
+- http://127.0.0.1:8080/config/notify
+  - `html`
+- http://127.0.0.1:8080/config/scheduling
+  - `html`
+- http://127.0.0.1:8080/config/rss
+  - `html`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `html`
+- http://127.0.0.1:8080/config/special
+  - `html`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `html`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `html`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `html`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `html`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `html`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `#sabnzbd`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `#sabnzbd`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/wizard
+  - `h3`
+- http://127.0.0.1:8080/wizard/one
+  - `h3`
+- http://127.0.0.1:8080/config/folders
+  - `.section:nth-child(2) > .col1 > fieldset > .field-pair:nth-child(1) > h5`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `#feedback-slider > h4`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `#feedback-slider > h4`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-table-header?application=axeAPI
+
+- http://127.0.0.1:8080/
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/config/categories
+  - `th:nth-child(1)`
+- http://127.0.0.1:8080/config/rss
+  - `th:nth-child(1)`
+  - `th:nth-child(4)`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `form[data-form="add-indexer"] > table > tbody > tr:nth-child(1) > .nzbsearch-favicon-col`
+  - `form[data-form="add-indexer"] > table > tbody > tr:nth-child(1) > th:nth-child(2)`
+  - `form[data-form="add-indexer"] > table > tbody > tr:nth-child(1) > th:nth-child(6)`
+  - `form[action="/config/nzbsearch/save_indexer"] > table > tbody > tr:nth-child(1) > .nzbsearch-favicon-col`
+  - `form[action="/config/nzbsearch/save_indexer"] > table > tbody > tr:nth-child(1) > th:nth-child(2)`
+  - `form[action="/config/nzbsearch/save_indexer"] > table > tbody > tr:nth-child(1) > th:nth-child(6)`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+  - `.table-sessions > thead > tr > th:nth-child(6)`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `th:nth-child(1)`
+  - `th:nth-child(4)`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `th:nth-child(1)`
+  - `th:nth-child(8)`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `th:nth-child(1)`
+  - `th:nth-child(8)`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `th:nth-child(1)`
+  - `th:nth-child(8)`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `.table-messages > thead > tr > th:nth-child(2)`
+
+## [MINOR] aria-allowed-role — ARIA role should be appropriate for the element
+
+Ensure role attribute has an appropriate value for the element
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-allowed-role?application=axeAPI
+
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `#rss_edit_modal`
+
+## Résultats incomplets à revoir (320)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://127.0.0.1:8080/
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `.info-container-box:nth-child(3)`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `.add-nzb-inputbox-small.add-nzb-inputbox:nth-child(2) > .label-default.label`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `.history-item:nth-child(2) > .status[data-bind="text: statusText()"][onclick="showDetails(this)"]`
+  - `td[data-timestamp="1791160904"]`
+  - `.history-info`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `span[title="test-job-a11y"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `.navbar-timeleft`
+  - `div[data-bind="visible: !bandwithLimit()"] > a`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `.info-container-box:nth-child(2)`
+  - `span[data-bind="text: queueDataLeft"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: progressText"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `.info-container-box:nth-child(2)`
+  - `.info-container-box:nth-child(3)`
+  - `span[data-bind="text: diskSpaceLeft1"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: progressText"]`
+  - `.timeleft`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - … +2 autres
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `form[data-bind="submit: addNZB"] > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `.col-sm-6:nth-child(1) > fieldset > legend`
+  - `.col-sm-6:nth-child(2) > fieldset > legend`
+  - … +10 autres
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-item-files > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-delete-queue-job > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `.row:nth-child(2) > .col-sm-6:nth-child(1)`
+  - `.row:nth-child(2) > .col-sm-6:nth-child(2)`
+  - … +36 autres
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-options > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `label[for="refreshRate-option"]`
+  - `#refreshRate-option`
+  - … +13 autres
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-custom-pause > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-help > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `p:nth-child(6) > small`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-sessions > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-purge-history > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `button[data-action="history-purge-page"] > .label-default.label`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-delete-history-job > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+  - `form > .modal-footer > .checkbox > label > span`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#modal-retry-job > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+  - `#history-script-log > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `#rss_edit_modal > .modal-dialog > .modal-content > .modal-header > .close[aria-label="Close"][data-dismiss="modal"] > span[aria-hidden="true"]`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `.badge-warning`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+- http://127.0.0.1:8080/ [state:tabbed-history]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `.badge-warning`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+- http://127.0.0.1:8080/ [state:tabbed-warnings]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `.badge-warning`
+- http://127.0.0.1:8080/ [state:navbar-mobile]
+  - `.navbar-timeleft`
+  - `span[data-bind="text: speedText"]`
+  - `strong[data-bind="text: allWarnings().length"]`
+  - `strong[data-bind="text: percentage() + '%'"]`
+  - `span[data-bind="text: history.downloadedToday"]`
+  - `span[data-bind="text: history.downloadedMonth"]`
+  - `span[data-bind="text: history.downloadedTotal"]`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://127.0.0.1:8080/
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:queue-multiedit]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:queue-item-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:history-item-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:pause-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:speedlimit-dropdown]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:main-menu]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-add-nzb]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-item-files]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-delete-queue-job]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options-connections]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options-orphans]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-options-interface]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-nzbsearch]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-custom-pause]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-help]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-sessions]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-purge-history]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-delete-history-job]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:modal-retry-job]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:history-script-log]
+  - `.queue-error-info`
+- http://127.0.0.1:8080/ [state:tabbed-queue]
+  - `.queue-error-info`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://127.0.0.1:8080/wizard/one
+  - `iframe`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://127.0.0.1:8080/config
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/general
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/folders
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/server
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/categories
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/switches
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/sorting
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/notify
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/scheduling
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/special
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/server [state:config-server-add]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/server [state:config-server-advanced]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss [state:rss-edit-modal]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `a[data-toggle="dropdown"]`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `a[data-toggle="dropdown"]`
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://127.0.0.1:8080/config/rss
+  - `#rss_edit_modal`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-feed-detail]
+  - `#rss_edit_modal`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-not-matched]
+  - `#rss_edit_modal`
+- http://127.0.0.1:8080/config/rss?feed=benchmark-feed [state:rss-tab-done]
+  - `#rss_edit_modal`
+
+### bypass — Page must have means to bypass repeated blocks
+
+- http://127.0.0.1:8080/config/rss
+  - `html`
+- http://127.0.0.1:8080/config/nzbsearch
+  - `html`
+

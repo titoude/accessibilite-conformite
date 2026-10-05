@@ -1,0 +1,281 @@
+{
+  "runId": "7b273e05-7739-4327-8724-d56bff54458c",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-05T01:15:49.071Z",
+  "baseUrl": "http://127.0.0.1:8080",
+  "pages": [
+    {
+      "url": "http://127.0.0.1:8080/login",
+      "requestedUrl": "http://127.0.0.1:8080/login",
+      "violations": [
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" data-color-scheme=\"Auto\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "meta-viewport",
+          "impact": "moderate",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+          "help": "Zooming and scaling must not be disabled",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/meta-viewport?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "meta-viewport",
+                  "data": "user-scalable=no",
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "user-scalable=no on <meta> tag disables zooming on mobile devices"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1\">",
+              "target": [
+                "meta[name=\"viewport\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" data-color-scheme=\"Auto\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<a href=\"https://sabnzbd.org/wiki/faq#why-login\" target=\"_blank\" aria-label=\"Help\">\n                    <span class=\"glyphicon glyphicon-question-sign\" aria-hidden=\"true\"></span>\n                </a>",
+              "target": [
+                "a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<input type=\"text\" class=\"form-control\" name=\"username\" placeholder=\"Username\" aria-label=\"Username\" autocomplete=\"username\" required=\"\" autofocus=\"\">",
+              "target": [
+                "input[type=\"text\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<input type=\"password\" class=\"form-control\" name=\"password\" placeholder=\"Password\" aria-label=\"Password\" autocomplete=\"current-password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"text-center\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"\" data-original-title=\"Stay logged in on this browser instead of being signed out when you close it.\">",
+              "target": [
+                "div[data-toggle=\"tooltip\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "bypass",
+          "impact": "serious",
+          "tags": [
+            "cat.keyboard",
+            "wcag2a",
+            "wcag241",
+            "section508",
+            "section508.22.o",
+            "TTv5",
+            "TT9.a",
+            "EN-301-549",
+            "EN-9.2.4.1",
+            "RGAAv4",
+            "RGAA-12.7.1"
+          ],
+          "description": "Ensure each page has at least one mechanism for a user to bypass navigation and jump straight to the content",
+          "help": "Page must have means to bypass repeated blocks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/bypass?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "internal-link-present",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "No valid skip link found"
+                },
+                {
+                  "id": "header-present",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Page does not have a heading"
+                },
+                {
+                  "id": "landmark",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Page does not have a landmark region"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<html lang=\"en\" data-color-scheme=\"Auto\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  No valid skip link found\n  Page does not have a heading\n  Page does not have a landmark region"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://127.0.0.1:8080/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "21e3d78c13b940ee138cd62b4d620c66c2296fb43f581fbeff6356a426d94e33"
+}

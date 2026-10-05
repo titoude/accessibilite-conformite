@@ -1,0 +1,86 @@
+{
+  "cycle": 25,
+  "produit": "sabnzbd",
+  "repo": "https://github.com/sabnzbd/sabnzbd",
+  "commit": "a3737b9b892e84b4cac1d80096c7539f7ec7092a",
+  "pinned": "a3737b9b892e84b4cac1d80096c7539f7ec7092a (clone complet, branch master, 2026-10-05)",
+  "baseUrl": "http://127.0.0.1:8080",
+  "stack": "Python 3.12 + CherryPy + Cheetah3 templates + KnockoutJS (interface 'Glitter', stack legacy jamais couverte par la boucle)",
+  "boot": {
+    "clone": "git clone https://github.com/sabnzbd/sabnzbd && git checkout a3737b9b892e84b4cac1d80096c7539f7ec7092a",
+    "install": "python3 -m venv venv && venv/bin/pip install -r requirements.txt (cherrypy, cheetah3, configobj, feedparser, sabyenc3, apprise, puresasl, guessit, portend, chardet, notify2 absent sur linux → ignoré, sqlite3 embarqué)",
+    "run": "cd <clone> && venv/bin/python SABnzbd.py -f <data>/sabnzbd.ini -s 127.0.0.1:8080 -b 0 --console --disable-file-log  (premier run : -f crée le ini par défaut ; login+api_key posés ensuite par tools/seed.mjs)",
+    "seed": "node tools/seed.mjs http://127.0.0.1:8080 <data>/sabnzbd.ini — (1) username/password a11y via set_config misc, (2) serveur news 'benchserv' enable=0 (jamais de DNS/réseau), (3) indexer 'BenchIndex', (4) flux RSS 'benchmark-feed' uri http://127.0.0.1:9/feed.xml (port injoignable, pas de fetch), (5) 1 NZB en queue via mode=addfile, (6) 2 lignes history via sqlite3 admin/history1.db : Completed (stage_log avec étage Script + script_log zlib → lien log+modale) et Failed (fail_message + path existant → retry=True → bouton retry+modale)",
+    "login": "node tools/login.mjs http://127.0.0.1:8080 auth.json a11y a11y-pw-2026 — remplit /login (name=username/password), attend sortie de /login puis absence de .form-signin, écrit le storageState",
+    "notes": [
+      "avec username+password posés et inet_exposure=0, SABnzbd exige le login même en localhost → /login public + cookie sambnzbd_user via storageState",
+      "apikey (lu dans le ini par seed.mjs, régénéré à chaque data dir) bypass le login pour /api — le seed n'a pas besoin du cookie",
+      "enable_nzbsearch=1 par défaut → bouton+modale nzbsearch atteignables sans config",
+      "wizard: /wizard, /wizard/one, /wizard/two rendus en GET authentifié même post-setup",
+      "pas de docker : patch appliqué aux sources live, venv reproduit dans install-build"
+    ]
+  },
+  "auth": "storageState tools/auth.json (cookie sabnzbd_user, login a11y/a11y-pw-2026)",
+  "urls": [
+    "/ (public: /login sans auth — voir commande séparée)",
+    "/",
+    "/wizard",
+    "/wizard/one",
+    "/wizard/two",
+    "/config",
+    "/config/general",
+    "/config/folders",
+    "/config/server",
+    "/config/categories",
+    "/config/switches",
+    "/config/sorting",
+    "/config/notify",
+    "/config/scheduling",
+    "/config/rss",
+    "/config/nzbsearch",
+    "/config/special"
+  ],
+  "states": [
+    "queue-multiedit", "queue-item-dropdown", "history-item-dropdown",
+    "pause-dropdown", "speedlimit-dropdown", "main-menu",
+    "modal-add-nzb", "modal-item-files", "modal-delete-queue-job",
+    "modal-options", "modal-options-connections", "modal-options-orphans", "modal-options-interface",
+    "modal-nzbsearch", "modal-custom-pause", "modal-help", "modal-sessions",
+    "modal-purge-history", "modal-delete-history-job", "modal-retry-job", "history-script-log",
+    "config-server-add", "config-server-advanced",
+    "rss-edit-modal", "rss-feed-detail (url ?feed=benchmark-feed — détail+filtres+onglets, hors /config/rss)", "rss-tab-not-matched", "rss-tab-done",
+    "tabbed-queue", "tabbed-history", "tabbed-warnings (MUTANTS localStorage displayTabbed — fin de liste)",
+    "navbar-mobile (MUTANT viewport 390 + reset displayTabbed — toujours dernier)"
+  ],
+  "etatsVidesDeclares": [
+    "/config/sorting : aucun tri configuré par défaut (formulaires vides)",
+    "/config/scheduling : aucune tâche planifiée",
+    "modal-options-orphans : 0 orphaned job",
+    "rss-tab-unmatched/accepted : listes vides (pas de download rss en bench)",
+    "warnings-tab : liste d'avertissements réelle (7 entrées au premier boot sans réseau)"
+  ],
+  "horsPerimetre": [
+    "Plush (interface alternative legacy — autres templates, thème distinct)",
+    "smpl skin (minimaliste texte)",
+    "/config/email (inexistant dans cette version — notify couvre email)",
+    "shutdown/restart/download actions (POST mutants)",
+    "Connexions externes usenet/RSS (benchserv disabled, feed 127.0.0.1:9 — aucun réseau réel)"
+  ],
+  "tools": {
+    "runner": "tools/audit.mjs (runner mission v6, STATES adaptés sabnzbd)",
+    "login": "tools/login.mjs",
+    "seed": "tools/seed.mjs (apikey ini + sqlite3 natif node)",
+    "verify": "tools/verify.mjs",
+    "eval": "tools/eval-final.mjs"
+  },
+  "auditCommands": [
+    "node tools/seed.mjs http://127.0.0.1:8080 <data>/sabnzbd.ini   # après chaque boot sur data neuf",
+    "node tools/login.mjs http://127.0.0.1:8080 auth.json a11y a11y-pw-2026   # après chaque restart",
+    "node audit.mjs http://127.0.0.1:8080 --urls /login --states none --wait 1200 --out reports/baseline-login",
+    "node audit.mjs http://127.0.0.1:8080 --urls /,/wizard,/wizard/one,/wizard/two,/config,/config/general,/config/folders,/config/server,/config/categories,/config/switches,/config/sorting,/config/notify,/config/scheduling,/config/rss,/config/nzbsearch,/config/special --states all --storage-state auth.json --wait 1200 --out reports/baseline",
+    "node tools/verify.mjs http://127.0.0.1:8080 auth.json",
+    "node tools/eval-final.mjs http://127.0.0.1:8080 auth.json"
+  ],
+  "patch": "patch.diff — sha256 dans provenance.json",
+  "environnement": "node v24.19.0 (nvm), python 3.12 venv, playwright 1.63.0 + axe-core 4.13.0, chromium headless, pas de Docker"
+}

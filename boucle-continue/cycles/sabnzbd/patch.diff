@@ -1,0 +1,1761 @@
+diff --git a/interfaces/Config/templates/_inc_footer_uc.tmpl b/interfaces/Config/templates/_inc_footer_uc.tmpl
+index 505173e..6ea3272 100644
+--- a/interfaces/Config/templates/_inc_footer_uc.tmpl
++++ b/interfaces/Config/templates/_inc_footer_uc.tmpl
+@@ -7,7 +7,7 @@
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                        <h4 class="modal-title" id="filebrowser-modal-title"></h4>
++                        <h3 class="modal-title" id="filebrowser-modal-title"></h3>
+                     </div>
+                     <div class="modal-body">
+                     </div>
+@@ -25,7 +25,7 @@
+                 </div><!-- /.modal-content -->
+             </div><!-- /.modal-dialog -->
+         </div><!-- /.modal -->
+-    </div>
++    </main>
+     <div class="main-restarting modal-backdrop fade in" style="display: none;">
+         <div>
+             <strong><span class="glyphicon glyphicon-retweet"></span> $T('restarting-sab')</strong><br />
+diff --git a/interfaces/Config/templates/_inc_header_uc.tmpl b/interfaces/Config/templates/_inc_header_uc.tmpl
+index 8202dd4..4c9a09c 100644
+--- a/interfaces/Config/templates/_inc_header_uc.tmpl
++++ b/interfaces/Config/templates/_inc_header_uc.tmpl
+@@ -18,7 +18,7 @@
+     </title>
+ 
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1" />
++    <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <meta name="apple-mobile-web-app-title" content="SABnzbd" />
+ 
+     <link rel="apple-touch-icon" sizes="76x76" href="$url('staticcfg/ico/apple-touch-icon-76x76-precomposed.png', v=$cache_buster)" />
+@@ -86,7 +86,7 @@
+                 <span class="icon-bar"></span>
+             </button>
+ 
+-            <a class="navbar-logo navbar-logo-small" href="$url()" title="$T('Home')" data-placement="bottom">
++            <a class="navbar-logo navbar-logo-small" href="$url()" title="$T('Home')" data-placement="bottom" aria-label="SABnzbd $T('Home')">
+                 #include $webdir + "/staticcfg/images/logo-small.svg"#
+             </a>
+         </div>
+@@ -193,5 +193,19 @@
+     </div>
+ </nav>
+ 
+-<div id="content" class="container">
++<main id="content" class="container">
++<h1 class="sr-only">
++    SABnzbd $T('menu-config')
++    #if $pane == "General" then "- " + $T('cmenu-general') else ""#
++    #if $pane == "Folders" then "- " + $T('cmenu-folders') else ""#
++    #if $pane == "Switches" then "- " + $T('cmenu-switches') else ""#
++    #if $pane == "Servers" then "- " + $T('cmenu-servers') else ""#
++    #if $pane == "Scheduling" then "- " + $T('cmenu-scheduling') else ""#
++    #if $pane == "Notify" then "- " + $T('cmenu-notif') else ""#
++    #if $pane == "Categories" then "- " + $T('cmenu-cat') else ""#
++    #if $pane == "Sorting" then "- " + $T('cmenu-sorting') else ""#
++    #if $pane == "Special" then "- " + $T('cmenu-special') else ""#
++    #if $pane == "RSS" then "- " + $T('cmenu-rss') else ""#
++    #if $pane == "NzbSearch" then "- " + $T('cmenu-nzbsearch') else ""#
++</h1>
+ <!-- Content start -->
+diff --git a/interfaces/Config/templates/config.tmpl b/interfaces/Config/templates/config.tmpl
+index 8a93339..9aa5f33 100644
+--- a/interfaces/Config/templates/config.tmpl
++++ b/interfaces/Config/templates/config.tmpl
+@@ -49,7 +49,7 @@
+                     <th scope="row">$T('opt-enable_7zip'):</th>
+                     <td>
+                         <span class="label label-warning">$T('notAvailable')</span>
+-                        <a href="https://sabnzbd.org/wiki/installation/install-off-modules#toc8" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
++                        <a href="https://sabnzbd.org/wiki/installation/install-off-modules#toc8" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a>
+                     </td>
+                 </tr>
+                 <!--#end if#-->
+@@ -96,7 +96,7 @@
+ 
+ <div class="colmask">
+     <div class="section padding">
+-        <h5 class="copyright">Copyright &copy; 2007-2026 by The SABnzbd-Team (<a href="https://sabnzbd.org/" target="_blank">sabnzbd.org</a>)</h5>
++        <p class="copyright">Copyright &copy; 2007-2026 by The SABnzbd-Team (<a href="https://sabnzbd.org/" target="_blank">sabnzbd.org</a>)</p>
+         <p class="copyright"><small>$T('yourRights')</small></p>
+     </div>
+ 
+diff --git a/interfaces/Config/templates/config_cat.tmpl b/interfaces/Config/templates/config_cat.tmpl
+index b160cf1..d11b7da 100644
+--- a/interfaces/Config/templates/config_cat.tmpl
++++ b/interfaces/Config/templates/config_cat.tmpl
+@@ -4,17 +4,17 @@
+ <div class="colmask">
+     <div class="section">
+         <div class="padTable">
+-            <a class="main-helplink" href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
++            <a class="main-helplink" href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a>
+             <p>$T('explain-catTags2')<br/>$T('explain-catTags')</p>
+             <hr>
+-            <h5 class="darkred"><strong>$T('explain-relFolder'):</strong> <span class="path">$defdir</span></h5>
++            <p class="darkred"><strong>$T('explain-relFolder'):</strong> <span class="path">$defdir</span></p>
+             <!--#for $cur, $slot in enumerate($slotinfo)#-->
+                 <!--#set $cansort = $slot.name != '*' and $slot.name != ''#-->
+                 <form action="$url('config/categories/save')" method="post" class="fullform <!--#if $cansort then 'sorting-row' else ''#-->">
+                     <table class="catTable">
+                         <!--#if $cur == 0#-->
+                         <tr>
+-                            <th></th>
++                            <th><span class="sr-only">$T('cmenu-sorting')</span></th>
+                             <th>$T('category')</th>
+                             <th>$T('priority')</th>
+                             <th>$T('mode')</th>
+@@ -31,13 +31,13 @@
+                                 <input type="hidden" name="order" value="$slot.order" />
+                                 <input type="hidden" value="$slot.name" name="name" />
+                                 <!--#if $slot.name != '*'#-->
+-                                <input type="text" name="newname" value="$slot.name" size="10" />
++                                <input type="text" name="newname" value="$slot.name" size="10" aria-label="$T('category')" />
+                                 <!--#else#-->
+-                                <input type="text" name="newname" value="$T('default')" disabled="disabled" size="10" />
++                                <input type="text" name="newname" value="$T('default')" disabled="disabled" size="10" aria-label="$T('category')" />
+                                 <!--#end if#-->
+                             </td>
+                             <td>
+-                                <select name="priority">
++                                <select name="priority" aria-label="$T('priority')">
+                                     <!--#if $slot.name != '*'#-->
+                                     <option value="-100" <!--#if $slot.priority==- 100 then 'selected="selected"' else ""#-->>$T('default')</option>
+                                     <!--#end if#-->
+@@ -49,7 +49,7 @@
+                                 </select>
+                             </td>
+                             <td>
+-                                <select name="pp">
++                                <select name="pp" aria-label="$T('mode')">
+                                     <!--#if $slot.name != '*'#-->
+                                     <option value="" <!--#if $slot.pp=="" then 'selected="selected"' else ""#-->>$T('default')</option>
+                                     <!--#end if#-->
+@@ -61,7 +61,7 @@
+                             </td>
+                             <td>
+                                 <!--#if $scripts#-->
+-                                <select name="script">
++                                <select name="script" aria-label="$T('script')">
+                                     <!--#for $sc in $scripts#-->
+                                         <!--#if not ($sc == 'Default' and $slot.name == '*')#-->
+                                         <option value="$sc" <!--#if $slot.script.lower()==$sc.lower() then 'selected="selected"' else ""#-->>$Tspec($sc)</option>
+@@ -69,16 +69,16 @@
+                                     <!--#end for#-->
+                                 </select>
+                                 <!--#else#-->
+-                                <select name="script" disabled>
++                                <select name="script" disabled aria-label="$T('script')">
+ 
+                                 </select>
+                                 <!--#end if#-->
+                             </td>
+                             <td class="nowrap">
+-                                <input type="text" name="dir" class="fileBrowserSmall" value="$slot.dir" size="20" data-initialdir="$defdir" data-title="$T('catFolderPath')" title="$T('explain-catTags2')" />
++                                <input type="text" name="dir" class="fileBrowserSmall" value="$slot.dir" size="20" data-initialdir="$defdir" data-title="$T('catFolderPath')" title="$T('explain-catTags2')" aria-label="$T('catFolderPath')" />
+                             </td>
+                             <td>
+-                                <input type="text" name="newzbin" value="$slot.newzbin" size="20" />
++                                <input type="text" name="newzbin" value="$slot.newzbin" size="20" aria-label="$T('catTags')" />
+                             </td>
+                             <td class="nowrap">
+                                 <button class="btn btn-default">
+@@ -89,7 +89,7 @@
+                                     <!--#end if#-->
+                                 </button>
+                                 <!--#if $cansort#-->
+-                                <button class="btn btn-default delCat" type="button"><span class="glyphicon glyphicon-trash"></span></button>
++                                <button class="btn btn-default delCat" type="button" aria-label="$T('nzo-delete')"><span class="glyphicon glyphicon-trash"></span></button>
+                                 <!--#end if#-->
+                             </td>
+                         </tr>
+diff --git a/interfaces/Config/templates/config_folders.tmpl b/interfaces/Config/templates/config_folders.tmpl
+index 932a679..3456dfa 100644
+--- a/interfaces/Config/templates/config_folders.tmpl
++++ b/interfaces/Config/templates/config_folders.tmpl
+@@ -12,13 +12,13 @@
+     <input type="hidden" name="output" value="json" />
+     <div class="section">
+         <div class="col2">
+-            <h3>$T('userFolders') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('userFolders') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             <p>$T('explain-folderConfig')</p>
+         </div><!-- /col2 -->
+         <div class="col1">
+             <fieldset>
+                 <div class="field-pair">
+-                    <h5 class="darkred nomargin">$T('base-folder'): <span class="path">$my_home</span></h5>
++                    <p class="darkred nomargin">$T('base-folder'): <span class="path">$my_home</span></p>
+                 </div>
+                 <div class="field-pair">
+                     <label class="config" for="download_dir">$T('opt-download_dir')</label>
+@@ -84,13 +84,13 @@
+     </div><!-- /section -->
+     <div class="section advanced-settings">
+         <div class="col2">
+-            <h3>$T('systemFolders') <a href="$help_uri#toc1" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('systemFolders') <a href="$help_uri#toc1" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             <p>$T('explain-folderConfig')</p>
+         </div><!-- /col2 -->
+         <div class="col1">
+             <fieldset>
+                 <div class="field-pair">
+-                    <h5 class="darkred nomargin">$T('base-folder'): <span class="path">$my_lcldata</span></h5>
++                    <p class="darkred nomargin">$T('base-folder'): <span class="path">$my_lcldata</span></p>
+                 </div>
+                 <div class="field-pair">
+                     <label class="config" for="admin_dir">$T('opt-admin_dir')</label>
+diff --git a/interfaces/Config/templates/config_general.tmpl b/interfaces/Config/templates/config_general.tmpl
+index 56baed0..aa7720b 100644
+--- a/interfaces/Config/templates/config_general.tmpl
++++ b/interfaces/Config/templates/config_general.tmpl
+@@ -12,7 +12,7 @@
+         <input type="hidden" name="output" value="json" />
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('webServer') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('webServer') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+                 <p><b>$T('restartRequired')</b></p>
+             </div><!-- /col2 -->
+             <div class="col1">
+@@ -62,7 +62,7 @@
+                         </div>
+                     </div>
+                     <div class="field-pair advanced-settings">
+-                        <h5 class="darkred nomargin">$T('base-folder'): <span class="path">$my_lcldata</span></h5>
++                        <p class="darkred nomargin">$T('base-folder'): <span class="path">$my_lcldata</span></p>
+                     </div>
+                     <div class="field-pair advanced-settings">
+                         <label class="config" for="https_port">$T('opt-https_port')</label>
+@@ -99,7 +99,7 @@
+         </div>
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('security') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('security') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+                 <p><b>$T('restartRequired')</b></p>
+             </div><!-- /col2 -->
+             <div class="col1">
+@@ -134,15 +134,15 @@
+                     <div class="field-pair">
+                         <label class="config" for="apikey_display">$T('opt-apikey')</label>
+                         <input type="text" id="apikey_display" value="$apikey" readonly />
+-                        <button class="btn btn-default show_qrcode" title="$T('explain-qr-code')" rel="$apikey" ><span class="glyphicon glyphicon-qrcode"></span></button>
+-                        <button class="btn btn-default generate_key" id="generate_new_apikey" title="$T('button-apikey')"><span class="glyphicon glyphicon-repeat"></span></button>
++                        <button class="btn btn-default show_qrcode" title="$T('explain-qr-code')" aria-label="$T('explain-qr-code')" rel="$apikey" ><span class="glyphicon glyphicon-qrcode"></span></button>
++                        <button class="btn btn-default generate_key" id="generate_new_apikey" title="$T('button-apikey')" aria-label="$T('button-apikey')"><span class="glyphicon glyphicon-repeat"></span></button>
+                         <span class="desc">$T('explain-apikey')</span>
+                     </div>
+                     <div class="field-pair">
+                         <label class="config" for="nzbkey">$T('opt-nzbkey')</label>
+                         <input type="text" id="nzbkey" value="$nzb_key" readonly />
+-                        <button class="btn btn-default show_qrcode" title="$T('explain-qr-code')" rel="$nzb_key" ><span class="glyphicon glyphicon-qrcode"></span></button>
+-                        <button class="btn btn-default generate_key" id="generate_new_nzbkey" title="$T('button-apikey')"><span class="glyphicon glyphicon-repeat"></span></button>
++                        <button class="btn btn-default show_qrcode" title="$T('explain-qr-code')" aria-label="$T('explain-qr-code')" rel="$nzb_key" ><span class="glyphicon glyphicon-qrcode"></span></button>
++                        <button class="btn btn-default generate_key" id="generate_new_nzbkey" title="$T('button-apikey')" aria-label="$T('button-apikey')"><span class="glyphicon glyphicon-repeat"></span></button>
+                         <span class="desc">$T('explain-nzbkey')</span>
+                     </div>
+                     <div class="field-pair">
+@@ -153,7 +153,7 @@
+         </div><!-- /section -->
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('cmenu-switches') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('cmenu-switches') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+@@ -188,14 +188,14 @@
+         </div><!-- /section -->
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('tuning') <a href="$help_uri#toc2" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('tuning') <a href="$help_uri#toc2" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+                     <div class="field-pair value-and-select">
+                         <label class="config" for="bandwidth_max_value">$T('opt-bandwidth_max')</label>
+                         <input type="number" name="bandwidth_max_value" id="bandwidth_max_value" class="smaller_input" />
+-                        <select name="bandwidth_max_dropdown" id="bandwidth_max_dropdown">
++                        <select name="bandwidth_max_dropdown" id="bandwidth_max_dropdown" aria-label="$T('opt-bandwidth_max')">
+                             <option value="">B/s</option>
+                             <option value="K">KB/s</option>
+                             <option value="M" selected>MB/s</option>
+@@ -224,7 +224,7 @@
+         <input type="hidden" name="output" value="json" />
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('backup') <a href="$help_uri#toc3" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('backup') <a href="$help_uri#toc3" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+diff --git a/interfaces/Config/templates/config_notify.tmpl b/interfaces/Config/templates/config_notify.tmpl
+index 3dc9d87..e0abba4 100644
+--- a/interfaces/Config/templates/config_notify.tmpl
++++ b/interfaces/Config/templates/config_notify.tmpl
+@@ -34,7 +34,7 @@
+     <input type="hidden" name="output" value="json" />
+     <div class="section" id="email">
+         <div class="col2">
+-            <h3>$T('cmenu-email') <a href="$help_uri#toc0" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('cmenu-email') <a href="$help_uri#toc0" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             <div class="col2-cats" <!--#if int($email_endjob) > 0 then '' else 'style="display:none"'#-->>
+                 <b>$T('affectedCat')</b><br/>
+                 <select name="email_cats" multiple="multiple" class="multiple_cats" size="$len($categories)">
+@@ -104,7 +104,7 @@
+     <!--#if $have_ncenter#-->
+     <div class="section">
+         <div class="col2">
+-            <h3>$T('section-NC')</h3>
++            <h2>$T('section-NC')</h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="ncenter_enable" id="ncenter_enable" value="1" <!--#if $ncenter_enable then 'checked="checked"' else ""#--> /></td>
+@@ -129,7 +129,7 @@
+     <!--#if $windows#-->
+     <div class="section">
+         <div class="col2">
+-            <h3>$T('section-AC')</h3>
++            <h2>$T('section-AC')</h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="acenter_enable" id="acenter_enable" value="1" <!--#if $acenter_enable then 'checked="checked"' else ""#--> /></td>
+@@ -155,7 +155,7 @@
+     <!--#if $have_ntfosd#-->
+     <div class="section">
+         <div class="col2">
+-            <h3>$T('section-OSD') <a href="$help_uri#toc4" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('section-OSD') <a href="$help_uri#toc4" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="ntfosd_enable" id="ntfosd_enable" value="1" <!--#if $ntfosd_enable then 'checked="checked"' else ""#--> /></td>
+@@ -180,7 +180,7 @@
+     <!--#end if#-->
+     <div class="section" id="apprise">
+         <div class="col2">
+-            <h3>Apprise <a href="$help_uri#apprise" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>Apprise <a href="$help_uri#apprise" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="apprise_enable" id="apprise_enable" value="1" <!--#if $apprise_enable then 'checked="checked"' else ""#--> /></td>
+@@ -226,7 +226,7 @@
+     </div>
+     <div class="section" id="nscript">
+         <div class="col2">
+-            <h3>$T('section-NScript') <a href="$help_uri#nscript" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('section-NScript') <a href="$help_uri#nscript" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="nscript_enable" id="nscript_enable" value="1" <!--#if $nscript_enable then 'checked="checked"' else ""#--> /></td>
+@@ -265,7 +265,7 @@
+     </div>
+     <div class="section" id="prowl">
+         <div class="col2">
+-            <h3>$T('section-Prowl')</h3>
++            <h2>$T('section-Prowl')</h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="prowl_enable" id="prowl_enable" value="1" <!--#if $prowl_enable then 'checked="checked"' else ""#--> /></td>
+@@ -311,7 +311,7 @@
+ 
+     <div class="section" id="pushover">
+         <div class="col2">
+-            <h3>$T('section-Pushover')</h3>
++            <h2>$T('section-Pushover')</h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="pushover_enable" id="pushover_enable" value="1" <!--#if $pushover_enable then 'checked="checked"' else ""#--> /></td>
+@@ -376,7 +376,7 @@
+     </div>
+     <div class="section" id="pushbullet">
+         <div class="col2">
+-            <h3>$T('section-Pushbullet')</h3>
++            <h2>$T('section-Pushbullet')</h2>
+             <table>
+                 <tr>
+                     <td><input type="checkbox" name="pushbullet_enable" id="pushbullet_enable" value="1" <!--#if $pushbullet_enable then 'checked="checked"' else ""#--> /></td>
+diff --git a/interfaces/Config/templates/config_nzbsearch.tmpl b/interfaces/Config/templates/config_nzbsearch.tmpl
+index e8401bc..76ec345 100644
+--- a/interfaces/Config/templates/config_nzbsearch.tmpl
++++ b/interfaces/Config/templates/config_nzbsearch.tmpl
+@@ -11,26 +11,26 @@
+     <!--#if $enable_nzbsearch#-->
+     <div class="section">
+         <div class="padTable">
+-            <a class="main-helplink" href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
++            <a class="main-helplink" href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a>
+             <p>$T('explain-nzbsearch').replace('. ', '.<br/>')</p>
+ 
+             <!-- Add a new indexer -->
+             <form data-form="add-indexer" action="$url('config/nzbsearch/add_indexer')" method="post" autocomplete="off">
+                 <table class="catTable">
+                     <tr>
+-                        <th class="nzbsearch-favicon-col">&nbsp;</th>
+-                        <th>&nbsp;</th>
++                        <th class="nzbsearch-favicon-col"><span class="sr-only">$T('srch-host')</span></th>
++                        <th><span class="sr-only">$T('srv-enable')</span></th>
+                         <th>$T('name')</th>
+                         <th>$T('srch-host')</th>
+                         <th>$T('srch-apikey')</th>
+-                        <th>&nbsp;</th>
++                        <th><span class="sr-only">$T('Glitter-actions')</span></th>
+                     </tr>
+                     <tr class="data-row">
+                         <td class="nzbsearch-favicon-col">&nbsp;</td>
+-                        <td><input type="checkbox" name="enable" value="1" checked /></td>
+-                        <td><input type="text" name="name" placeholder="Indexer" size="25" required /></td>
+-                        <td><input type="text" name="host" placeholder="https://api.indexer.example" size="25" required /></td>
+-                        <td><input type="text" name="api_key" size="25" required /></td>
++                        <td><input type="checkbox" name="enable" value="1" checked aria-label="$T('srv-enable')" /></td>
++                        <td><input type="text" name="name" placeholder="Indexer" size="25" required aria-label="$T('name')" /></td>
++                        <td><input type="text" name="host" placeholder="https://api.indexer.example" size="25" required aria-label="$T('srch-host')" /></td>
++                        <td><input type="text" name="api_key" size="25" required aria-label="$T('srch-apikey')" /></td>
+                         <td class="nowrap">
+                             <button type="submit" class="btn btn-default Save"><span class="glyphicon glyphicon-plus"></span> $T('button-add')</button>
+                             <button type="button" class="btn btn-default testIndexer"><span class="glyphicon glyphicon-sort"></span> $T('button-test')</button>
+@@ -53,24 +53,24 @@
+                 <table class="catTable">
+                     <!--#if $i == 0#-->
+                     <tr>
+-                        <th class="nzbsearch-favicon-col">&nbsp;</th>
+-                        <th>&nbsp;</th>
++                        <th class="nzbsearch-favicon-col"><span class="sr-only">$T('srch-host')</span></th>
++                        <th><span class="sr-only">$T('srv-enable')</span></th>
+                         <th>$T('name')</th>
+                         <th>$T('srch-host')</th>
+                         <th>$T('srch-apikey')</th>
+-                        <th>&nbsp;</th>
++                        <th><span class="sr-only">$T('Glitter-actions')</span></th>
+                     </tr>
+                     <!--#end if#-->
+                     <tr class="data-row">
+                         <td class="nzbsearch-favicon-col"><div class="favicon" style="background-image: url(//$indexer['baselink']/favicon.ico);" data-domain="$indexer['baselink']"></div></td>
+-                        <td><input type="checkbox" name="enable" value="1" class="toggleIndexerCheckbox" data-name="$indexer['name']" <!--#if $indexer['enable'] then 'checked="checked"' else ""#--> /></td>
+-                        <td><input type="text" name="name" value="$indexer['name']" size="25" required /></td>
+-                        <td><input type="text" name="host" value="$indexer['host']" size="25" /></td>
+-                        <td><input type="password" name="api_key" value="$indexer["api_key"]" size="25" autocomplete="new-password" /></td>
++                        <td><input type="checkbox" name="enable" value="1" class="toggleIndexerCheckbox" data-name="$indexer['name']" aria-label="$T('srv-enable')" <!--#if $indexer['enable'] then 'checked="checked"' else ""#--> /></td>
++                        <td><input type="text" name="name" value="$indexer['name']" size="25" required aria-label="$T('name')" /></td>
++                        <td><input type="text" name="host" value="$indexer['host']" size="25" aria-label="$T('srch-host')" /></td>
++                        <td><input type="password" name="api_key" value="$indexer["api_key"]" size="25" autocomplete="new-password" aria-label="$T('srch-apikey')" /></td>
+                         <td class="nowrap">
+                             <button type="submit" class="btn btn-default Save"><span class="glyphicon glyphicon-ok"></span> $T('button-save')</button>
+                             <button type="button" class="btn btn-default testIndexer" data-name="$indexer['name']"><span class="glyphicon glyphicon-sort"></span> $T('button-test')</button>
+-                            <button type="button" class="btn btn-default delIndexer"><span class="glyphicon glyphicon-trash"></span></button>
++                            <button type="button" class="btn btn-default delIndexer" aria-label="$T('nzo-delete')"><span class="glyphicon glyphicon-trash"></span></button>
+                         </td>
+                     </tr>
+                 </table>
+diff --git a/interfaces/Config/templates/config_rss.tmpl b/interfaces/Config/templates/config_rss.tmpl
+index 96f86c4..4523384 100644
+--- a/interfaces/Config/templates/config_rss.tmpl
++++ b/interfaces/Config/templates/config_rss.tmpl
+@@ -6,25 +6,25 @@
+     <!--#if not $active_feed#-->
+     <div class="section">
+         <div class="padTable">
+-            <a class="main-helplink" href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
++            <a class="main-helplink" href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a>
+             <p>$T('explain-RSS')</p>
+             <form data-form="add-rss-feed" action="$url('config/rss/add_rss_feed')" method="post" autocomplete="off">
+                 <table class="catTable addRssTable">
+                     <tr>
+-                        <th>&nbsp;</th>
++                        <th><span class="sr-only">$T('srv-enable')</span></th>
+                         <th>$T('name')</th>
+                         <th>$T('feed') URLs</th>
+-                        <th>&nbsp;</th>
++                        <th><span class="sr-only">$T('Glitter-actions')</span></th>
+                     </tr>
+                     <tr class="even">
+                         <td>
+-                            <input type="checkbox" name="enable" value="1" checked />
++                            <input type="checkbox" name="enable" value="1" checked aria-label="$T('srv-enable')" />
+                         </td>
+                         <td class="new-feed-title">
+-                            <input type="text" name="feed" value="$feed" />
++                            <input type="text" name="feed" value="$feed" aria-label="$T('name')" />
+                         </td>
+                         <td class="new-feed-url">
+-                            <input type="text" name="uri" placeholder="$T('addMultipleFeeds')" />
++                            <input type="text" name="uri" placeholder="$T('addMultipleFeeds')" aria-label="$T('feed') URLs" />
+                         </td>
+                         <td class="nowrap">
+                             <button type="submit" class="btn btn-default Save"><span class="glyphicon glyphicon-plus"></span> $T('button-add')</button>
+@@ -47,7 +47,7 @@
+                             <!--#set $feed_item_html = html.escape($feed_item)#-->
+                             <tr class="data-row <!--#if $odd then " alt " else " "#-->">
+                                 <td class="chk">
+-                                    <input type="checkbox" class="toggleFeedCheckbox" name="enable" value="1" <!--#if int($rss[$feed_item]['enable']) !=0 then 'checked="checked"' else ""#--> rel="$feed_item_html" />
++                                    <input type="checkbox" class="toggleFeedCheckbox" name="enable" value="1" <!--#if int($rss[$feed_item]['enable']) !=0 then 'checked="checked"' else ""#--> rel="$feed_item_html" aria-label="$T('srv-enable') $feed_item_html" />
+                                 </td>
+                                 <td class="title">
+                                     <a href="?feed=$rss[$feed_item]['link']" class="subscription-title path feed <!--#if int($rss[$feed_item]['enable']) != 0 then 'feed_enabled' else 'feed_disabled'#-->">
+@@ -58,7 +58,7 @@
+                                     <button type="button" class="btn btn-default testFeed" rel="$feed_item_html"><span class="glyphicon glyphicon-sort"></span> $T('button-preFeed')</button>
+                                     <input type="hidden" name="uri" value="$rss[$feed_item]['uris']" />
+                                     <button type="button" class="btn btn-default editFeed" rel="$feed_item_html"><span class="glyphicon glyphicon-pencil"></span> $T('rss-edit')</button>
+-                                    <button type="button" class="btn btn-default delFeed" rel="$feed_item_html"><span class="glyphicon glyphicon-trash"></span></button>
++                                    <button type="button" class="btn btn-default delFeed" rel="$feed_item_html" aria-label="$T('nzo-delete') $feed_item_html"><span class="glyphicon glyphicon-trash"></span></button>
+                                 </td>
+                             </tr>
+                             <!--#for $uri_index, $uri in enumerate($rss[$feed_item]['uri'])#-->
+@@ -101,7 +101,7 @@
+     <!--#set $feed = html.unescape($active_feed)#-->
+     <div class="section rss-section">
+         <div class="padTable">
+-            <a class="main-helplink" href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
++            <a class="main-helplink" href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a>
+             <h2 class="nomargin activeRSS">
+                 <a href="$url('config/rss')">$T('cmenu-rss')</a> &raquo;
+                 $active_feed
+@@ -119,7 +119,7 @@
+                 <table class="catTable">
+                     <thead>
+                         <tr>
+-                            <th>&nbsp;</th>
++                            <th><span class="sr-only">$T('srv-enable')</span></th>
+                             <th>$T('rss-order')</th>
+                             <th>$T('rss-type')</th>
+                             <th>$T('rss-filter')</th>
+@@ -131,7 +131,7 @@
+                             <!--#if $rss[$feed]['pick_script']#-->
+                             <th>$T('script')</th>
+                             <!--#end if#-->
+-                            <th>&nbsp;</th>
++                            <th><span class="sr-only">$T('Glitter-actions')</span></th>
+                         </tr>
+                     </thead>
+                     <!-- default / global filter -->
+@@ -144,7 +144,7 @@
+                                 <input type="text" disabled="disabled" size="1" class="hidden" />
+                             </td>
+                             <td>
+-                                <select name="filter_type" disabled="disabled" class="hidden">
++                                <select name="filter_type" aria-label="$T('rss-type')" disabled="disabled" class="hidden">
+                                     <option value="A" selected="selected"> $T('rss-accept')</option>
+                                     <option value="M"> $T('rss-must')</option>
+                                     <option value="R"> $T('rss-reject')</option>
+@@ -161,7 +161,7 @@
+                             </td>
+                             <!--#if $rss[$feed]['pick_cat']#-->
+                             <td>
+-                                <select name="cat">
++                                <select name="cat" aria-label="$T('category')">
+                                     <!--#for $ct in $categories#-->
+                                         <option value="$ct" <!--#if $ct==$rss[$feed]['cat'] then 'selected="selected"' else ""#-->>$Tspec($ct)</option>
+                                     <!--#end for#-->
+@@ -169,7 +169,7 @@
+                             </td>
+                             <!--#end if#-->
+                             <td>
+-                                <select name="priority">
++                                <select name="priority" aria-label="$T('priority')">
+                                     <option value="-100" <!--#if $rss[$feed]['priority']==- 100 then 'selected="selected"' else ''#-->>$T('default')</option>
+                                     <option value="2" <!--#if $rss[$feed]['priority']==2 then 'selected="selected"' else ''#-->>$T('pr-force')</option>
+                                     <option value="1" <!--#if $rss[$feed]['priority']==1 then 'selected="selected"' else ''#-->>$T('pr-high')</option>
+@@ -179,7 +179,7 @@
+                                 </select>
+                             </td>
+                             <td>
+-                                <select name="pp">
++                                <select name="pp" aria-label="$T('mode')">
+                                     <option value="" <!--#if $rss[$feed]['pp']=="" then 'selected="selected"' else ''#-->>$T('default')</option>
+                                     <option value="0" <!--#if $rss[$feed]['pp']=="0" then 'selected="selected"' else ''#-->>$T('pp-none')</option>
+                                     <option value="1" <!--#if $rss[$feed]['pp']=="1" then 'selected="selected"' else ''#-->>$T('pp-repair')</option>
+@@ -189,7 +189,7 @@
+                             </td>
+                             <!--#if $rss[$feed]['pick_script']#-->
+                             <td>
+-                                <select name="script">
++                                <select name="script" aria-label="$T('script')">
+                                     <!--#for $sc in $scripts#-->
+                                         <option value="$sc" <!--#if $sc==$rss[$feed]['script'] then 'selected="selected"' else ""#-->>$Tspec($sc)</option>
+                                     <!--#end for#-->
+@@ -211,13 +211,13 @@
+                     <tbody>
+                         <tr>
+                             <td>
+-                                <input type="checkbox" name="enabled" value="1" checked="checked" />
++                                <input type="checkbox" name="enabled" aria-label="$T('srv-enable')" value="1" checked="checked" />
+                             </td>
+                             <td>
+-                                <input type="text" name="new_index" size="1" />
++                                <input type="text" name="new_index" aria-label="$T('rss-order')" size="1" />
+                             </td>
+                             <td>
+-                                <select name="filter_type">
++                                <select name="filter_type" aria-label="$T('rss-type')">
+                                     <option value="A" selected="selected"> $T('rss-accept')</option>
+                                     <option value="M"> $T('rss-must')</option>
+                                     <option value="R"> $T('rss-reject')</option>
+@@ -230,11 +230,11 @@
+                                 </select>
+                             </td>
+                             <td>
+-                                <input type="text" name="filter_text" value="" />
++                                <input type="text" name="filter_text" aria-label="$T('rss-filter')" value="" />
+                             </td>
+                             <!--#if $rss[$feed]['pick_cat']#-->
+                             <td>
+-                                <select name="cat">
++                                <select name="cat" aria-label="$T('category')">
+                                     <!--#for $ct in $categories#-->
+                                         <option value="$ct" <!--#if $ct=='Default' then 'selected="selected"' else ""#-->>$Tspec($ct)</option>
+                                     <!--#end for#-->
+@@ -242,7 +242,7 @@
+                             </td>
+                             <!--#end if#-->
+                             <td>
+-                                <select name="priority">
++                                <select name="priority" aria-label="$T('priority')">
+                                     <option value="-100" selected="selected">$T('default')</option>
+                                     <option value="2">$T('pr-force')</option>
+                                     <option value="1">$T('pr-high')</option>
+@@ -252,7 +252,7 @@
+                                 </select>
+                             </td>
+                             <td>
+-                                <select name="pp">
++                                <select name="pp" aria-label="$T('mode')">
+                                     <option value="" selected="selected">$T('default')</option>
+                                     <option value="0">$T('pp-none')</option>
+                                     <option value="1">$T('pp-repair')</option>
+@@ -262,7 +262,7 @@
+                             </td>
+                             <!--#if $rss[$feed]['pick_script']#-->
+                             <td>
+-                                <select name="script">
++                                <select name="script" aria-label="$T('script')">
+                                     <!--#for $sc in $scripts#-->
+                                         <option value="$sc" <!--#if $sc=='Default' then 'selected="selected"' else ""#-->>$Tspec($sc)</option>
+                                     <!--#end for#-->
+@@ -287,13 +287,13 @@
+                         <tbody>
+                             <tr class="<!--#if $odd then " alt " else " "#--> <!--#if $filter[3]!="A" and $filter[3]!="S" then 'disabled_options_rule' else ""#-->">
+                                 <td>
+-                                    <input type="checkbox" name="enabled" value="1" <!--#if $filter[6]=='1' then 'checked="checked"' else ""#--> />
++                                    <input type="checkbox" name="enabled" aria-label="$T('srv-enable')" value="1" <!--#if $filter[6]=='1' then 'checked="checked"' else ""#--> />
+                                 </td>
+                                 <td>
+-                                    <input type="text" name="new_index" value="$fnum" size="1" />
++                                    <input type="text" name="new_index" aria-label="$T('rss-order')" value="$fnum" size="1" />
+                                 </td>
+                                 <td>
+-                                    <select name="filter_type">
++                                    <select name="filter_type" aria-label="$T('rss-type')">
+                                         <option value="A" <!--#if $filter[3]=="A" then 'selected="selected"' else ""#-->> $T('rss-accept')</option>
+                                         <option value="M" <!--#if $filter[3]=="M" then 'selected="selected"' else ""#-->> $T('rss-must')</option>
+                                         <option value="R" <!--#if $filter[3]=="R" then 'selected="selected"' else ""#-->> $T('rss-reject')</option>
+@@ -306,11 +306,11 @@
+                                     </select>
+                                 </td>
+                                 <td>
+-                                    <input type="text" name="filter_text" value="$filter[4]" />
++                                    <input type="text" name="filter_text" aria-label="$T('rss-filter')" value="$filter[4]" />
+                                 </td>
+                                 <!--#if $rss[$feed]['pick_cat']#-->
+                                 <td>
+-                                    <select name="cat">
++                                    <select name="cat" aria-label="$T('category')">
+                                         <!--#for $ct in $categories#-->
+                                             <option value="$ct" <!--#if $ct==$filter[0] then 'selected="selected"' else ""#-->>$Tspec($ct)</option>
+                                         <!--#end for#-->
+@@ -318,7 +318,7 @@
+                                 </td>
+                                 <!--#end if#-->
+                                 <td>
+-                                    <select name="priority">
++                                    <select name="priority" aria-label="$T('priority')">
+                                         <option value="-100" <!--#if $filter[5]=="-100" then 'selected="selected"' else ""#-->>$T('default')</option>
+                                         <option value="2" <!--#if $filter[5]=="2" then 'selected="selected"' else ""#-->>$T('pr-force')</option>
+                                         <option value="1" <!--#if $filter[5]=="1" then 'selected="selected"' else ""#-->>$T('pr-high')</option>
+@@ -328,7 +328,7 @@
+                                     </select>
+                                 </td>
+                                 <td>
+-                                    <select name="pp">
++                                    <select name="pp" aria-label="$T('mode')">
+                                         <option value="" <!--#if $filter[1]=="" then 'selected="selected"' else ""#-->>$T('default')</option>
+                                         <option value="0" <!--#if $filter[1]=="0" then 'selected="selected"' else ""#-->>$T('pp-none')</option>
+                                         <option value="1" <!--#if $filter[1]=="1" then 'selected="selected"' else ""#-->>$T('pp-repair')</option>
+@@ -338,7 +338,7 @@
+                                 </td>
+                                 <!--#if $rss[$feed]['pick_script']#-->
+                                 <td>
+-                                    <select name="script">
++                                    <select name="script" aria-label="$T('script')">
+                                         <!--#for $sc in $scripts#-->
+                                             <option value="$sc" <!--#if $sc==$filter[2] then 'selected="selected"' else ""#-->>$Tspec($sc)</option>
+                                         <!--#end for#-->
+@@ -347,7 +347,7 @@
+                                 <!--#end if#-->
+                                 <td class="nowrap">
+                                     <button type="submit" class="btn btn-default Save"><span class="glyphicon glyphicon-ok"></span> $T('button-save')</button>
+-                                    <button class="btn btn-default delFilter" type="button"><span class="glyphicon glyphicon-trash"></span></button>
++                                    <button class="btn btn-default delFilter" aria-label="$T('nzo-delete')" type="button"><span class="glyphicon glyphicon-trash"></span></button>
+                                     <!--#if not $rss[$feed].filter_states[$fnum]#-->
+                                         &nbsp;&nbsp;$T('Incorrect filter')
+                                     <!--#end if#-->
+@@ -507,12 +507,13 @@
+ </div>
+ <!-- /colmask -->
+ 
+-<form method="post" action="$url('config/rss/save_rss_feed')" class="modal fade" id="rss_edit_modal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="rss-edit-modal-title">
++<div class="modal fade" id="rss_edit_modal" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="rss-edit-modal-title">
++    <form method="post" action="$url('config/rss/save_rss_feed')">
+     <div class="modal-dialog">
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="rss-edit-modal-title">$T('Edit') <span id="feed_edit_name_label"></span></h4>
++                <h2 class="modal-title" id="rss-edit-modal-title">$T('Edit') <span id="feed_edit_name_label"></span></h2>
+             </div>
+             <div class="modal-body">
+                 <div class="form-group">
+@@ -532,7 +533,8 @@
+             </div>
+         </div><!-- /.modal-content -->
+     </div><!-- /.modal-dialog -->
+-</form><!-- /.modal -->
++    </form>
++</div><!-- /.modal -->
+ 
+ <script type="text/javascript" src="$url('staticcfg/js/jquery.tablesort.min.js', v=$cache_buster)"></script>
+ <script type="text/javascript">
+@@ -594,11 +596,11 @@ jQuery(document).ready(function(){
+     });
+ 
+     // Only the Accept filter needs all the options
+-    jQuery('form[data-form="update-rss-filter"]').find('select[name="filter_type"]').change(function() {
+-        jQuery(this).parent().parent().find('select:not([name="filter_type"])').attr('disabled', jQuery(this).val() !== "A" && jQuery(this).val() !== "S")
++    jQuery('form[data-form="update-rss-filter"]').find('select[name="filter_type" aria-label="$T('rss-type')"]').change(function() {
++        jQuery(this).parent().parent().find('select:not([name="filter_type" aria-label="$T('rss-type')"])').attr('disabled', jQuery(this).val() !== "A" && jQuery(this).val() !== "S")
+     })
+     // Trigger on-load for all
+-    jQuery('.disabled_options_rule').find('td select:not([name="filter_type"])').attr('disabled', true)
++    jQuery('.disabled_options_rule').find('td select:not([name="filter_type" aria-label="$T('rss-type')"])').attr('disabled', true)
+ 
+     function setActiveIcon(objButton) {
+         // Let's make it look like things are happening!
+diff --git a/interfaces/Config/templates/config_scheduling.tmpl b/interfaces/Config/templates/config_scheduling.tmpl
+index 0d13ddf..59818a1 100644
+--- a/interfaces/Config/templates/config_scheduling.tmpl
++++ b/interfaces/Config/templates/config_scheduling.tmpl
+@@ -15,7 +15,7 @@ else:
+ <div class="colmask">
+     <div class="section">
+         <div class="col2">
+-            <h3>$T('addSchedule') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('addSchedule') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+         </div><!-- /col2 -->
+         <form data-form="add-schedule" action="$url('config/scheduling/add_schedule')" method="post" autocomplete="off">
+         <div class="col1">
+@@ -81,7 +81,7 @@ else:
+ 
+     <div class="section">
+         <div class="col2">
+-            <h3>$T('currentSchedules')</h3>
++            <h2>$T('currentSchedules')</h2>
+         </div><!-- /col2 -->
+         <div class="col1">
+             <fieldset>
+diff --git a/interfaces/Config/templates/config_server.tmpl b/interfaces/Config/templates/config_server.tmpl
+index 95e5c8b..272869c 100644
+--- a/interfaces/Config/templates/config_server.tmpl
++++ b/interfaces/Config/templates/config_server.tmpl
+@@ -31,13 +31,13 @@
+         <div class="chart-selector-container" title="$T('selectedDates')" data-placement="bottom">
+             <span class="glyphicon glyphicon-signal"></span>
+             <!--#set today = datetime.date.today()#-->
+-            <input type="date" name="chart-start" id="chart-start" value="<!--#echo (today-datetime.timedelta(days=30)).strftime('%Y-%m-%d')#-->"> -
+-            <input type="date" name="chart-end" id="chart-end" value="<!--#echo today.strftime('%Y-%m-%d')#-->">
++            <input type="date" name="chart-start" id="chart-start" value="<!--#echo (today-datetime.timedelta(days=30)).strftime('%Y-%m-%d')#-->" aria-label="$T('selectedDates')"> -
++            <input type="date" name="chart-end" id="chart-end" value="<!--#echo today.strftime('%Y-%m-%d')#-->" aria-label="$T('selectedDates')">
+         </div>
+     </div>
+     <div class="section" id="addServerContent" style="display: none;">
+         <div class="col2">
+-            <h3>$T('addServer') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++            <h2>$T('addServer') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+         </div>
+         <div class="col1">
+             <form data-form="add-server" action="$url('config/server/add_server')" method="post" autocomplete="off">
+@@ -158,7 +158,7 @@
+ 
+             <div class="section <!--#if int($server['enable']) == 0 then 'server-disabled' else ""#-->">
+                 <div class="col2 <!--#if int($server['enable']) == 0 then 'server-disabled' else ""#-->">
+-                    <h3 title="$server['displayname']">$server['displayname'] <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                    <h2 title="$server['displayname']">$server['displayname'] <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+                     <!--#if int($server['enable']) != 0 #-->
+                         <!--#if $last_prio != $server['priority'] and $cur_prio_color+1 < len($prio_colors) #-->
+                             <!--#set $cur_prio_color = $cur_prio_color+1 #-->
+diff --git a/interfaces/Config/templates/config_sorting.tmpl b/interfaces/Config/templates/config_sorting.tmpl
+index 52bef95..514b140 100644
+--- a/interfaces/Config/templates/config_sorting.tmpl
++++ b/interfaces/Config/templates/config_sorting.tmpl
+@@ -3,7 +3,7 @@
+ <!--#include $webdir + "/_inc_header_uc.tmpl"#-->
+ <div class="colmask">
+     <div class="padTable section">
+-        <a class="main-helplink" href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a>
++        <a class="main-helplink" href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a>
+         $T('explain-sorting')
+     </div>
+     <div class="padding alt section">
+@@ -31,9 +31,9 @@
+                 </div>
+                 <div class="col2">
+                     <!--#if $cur == 0#-->
+-                    <h3>$T('add-sorter') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                    <h2>$T('add-sorter') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+                     <!--#else#-->
+-                    <h3>$slot.name <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                    <h2>$slot.name <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+                     <div class="sorter-switch-container wide">
+                         <input type="checkbox" class="toggleSorterCheckbox sorter-switch float-left" rel="$slot.name" name="is_active" id="is_active_$cur" value="$slot.is_active" <!--#if $slot.is_active != 0 then 'checked="checked"' else ""#--> />
+                         <label class="sorter-switch float-left" for="is_active_$cur">$T('enabled')</label>
+@@ -344,7 +344,7 @@
+ 
+     <!--#if len($slotinfo) == 1 and ("tv" in $categories or "movies" in $categories)#-->
+     <div class="section align-center sorting-quick-setup">
+-        <h3>$T('sort-quick-add'):</h3>
++        <h2>$T('sort-quick-add'):</h2>
+         <!--#if "tv" in $categories#-->
+         <form action="$url('config/sorting/save_sorter')" method="post" autocomplete="off">
+             <input type="hidden" name="order" value="0" />
+diff --git a/interfaces/Config/templates/config_special.tmpl b/interfaces/Config/templates/config_special.tmpl
+index 8c88f83..48c8e86 100644
+--- a/interfaces/Config/templates/config_special.tmpl
++++ b/interfaces/Config/templates/config_special.tmpl
+@@ -5,11 +5,11 @@
+ <div class="colmask">
+     <form action="$url('config/special/save')" method="post" class="fullform" autocomplete="off">
+         <div class="padTable">
+-            <h4 class="darkred nomargin">$T('explain-special')</h4>
++            <p class="darkred nomargin">$T('explain-special')</p>
+         </div>
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('sptag-boolean') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('sptag-boolean') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+@@ -32,7 +32,7 @@
+         </div><!-- /section -->
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('sptag-entries') <a href="$help_uri" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('sptag-entries') <a href="$help_uri" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+diff --git a/interfaces/Config/templates/config_switches.tmpl b/interfaces/Config/templates/config_switches.tmpl
+index 6656f13..8db8b9e 100644
+--- a/interfaces/Config/templates/config_switches.tmpl
++++ b/interfaces/Config/templates/config_switches.tmpl
+@@ -12,7 +12,7 @@
+         <input type="hidden" name="output" value="json" />
+         <div class="section advanced-settings">
+             <div class="col2">
+-                <h3>$T('swtag-server') <a href="$help_uri#toc1" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('swtag-server') <a href="$help_uri#toc1" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+@@ -35,7 +35,7 @@
+         </div><!-- /section -->
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('swtag-queue') <a href="$help_uri#toc2" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('swtag-queue') <a href="$help_uri#toc2" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+@@ -129,7 +129,7 @@
+                     </div>
+                     <div class="field-pair">
+                         <label class="config" for="unwanted_extensions">$T('opt-unwanted_extensions')</label>
+-                        <select name="unwanted_extensions_mode" id="unwanted_extensions_mode">
++                        <select name="unwanted_extensions_mode" id="unwanted_extensions_mode" aria-label="$T('opt-unwanted_extensions')">
+                             <option value="0" <!--#if int($unwanted_extensions_mode) == 0 then 'selected="selected"' else ""#--> >$T('unwanted_extensions_blacklist')</option>
+                             <option value="1" <!--#if int($unwanted_extensions_mode) == 1 then 'selected="selected"' else ""#--> >$T('unwanted_extensions_whitelist')</option>
+                         </select>
+@@ -174,7 +174,7 @@
+         </div><!-- /section -->
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('swtag-pp') <a href="$help_uri#toc3" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('swtag-pp') <a href="$help_uri#toc3" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+@@ -279,7 +279,7 @@
+         </div><!-- /section -->
+         <div class="section advanced-settings">
+             <div class="col2">
+-                <h3>$T('swtag-naming') <a href="$help_uri#toc4" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('swtag-naming') <a href="$help_uri#toc4" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+@@ -319,7 +319,7 @@
+         </div><!-- /section -->
+         <div class="section">
+             <div class="col2">
+-                <h3>$T('swtag-quota') <a href="$help_uri#toc5" target="_blank"><span class="glyphicon glyphicon-question-sign"></span></a></h3>
++                <h2>$T('swtag-quota') <a href="$help_uri#toc5" target="_blank" aria-label="$T('menu-help')"><span class="glyphicon glyphicon-question-sign"></span></a></h2>
+             </div><!-- /col2 -->
+             <div class="col1">
+                 <fieldset>
+diff --git a/interfaces/Config/templates/login/main.tmpl b/interfaces/Config/templates/login/main.tmpl
+index 1442923..243c0cb 100644
+--- a/interfaces/Config/templates/login/main.tmpl
++++ b/interfaces/Config/templates/login/main.tmpl
+@@ -4,7 +4,7 @@
+     <title>SABnzbd - $T('login')</title>
+ 
+     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1" />
++    <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <meta name="apple-mobile-web-app-title" content="SABnzbd" />
+ 
+     <link rel="apple-touch-icon" sizes="76x76" href="$url('staticcfg/ico/apple-touch-icon-76x76-precomposed.png', v=$cache_buster)" />
+@@ -22,7 +22,8 @@
+     <script type="text/javascript" src="$url('staticcfg/bootstrap/js/bootstrap.min.js', v=$cache_buster)"></script>
+ </head>
+     <body>
+-        <div class="account-wall">
++        <main class="account-wall">
++            <h1 class="sr-only">SABnzbd - $T('login')</h1>
+             <div class="text-center logo-header">
+                 <!--#include $webdir + "/staticcfg/images/logo-full.svg"#-->
+                 <a href="https://sabnzbd.org/wiki/faq#why-login" target="_blank" aria-label="$T('menu-help')">
+@@ -45,7 +46,7 @@
+                     </label>
+                   </div>
+             </form>
+-        </div>
++        </main>
+         <script type="text/javascript">
+             // Tooltip
+             jQuery('[data-toggle="tooltip"]').tooltip()
+diff --git a/interfaces/Config/templates/staticcfg/css/style.css b/interfaces/Config/templates/staticcfg/css/style.css
+index c2bafc9..fc64be0 100644
+--- a/interfaces/Config/templates/staticcfg/css/style.css
++++ b/interfaces/Config/templates/staticcfg/css/style.css
+@@ -16,7 +16,7 @@
+     --clr-border-subtle:   light-dark(#E5E5E5, #252525);   /* inner dividers (#subscriptions, data-row) */
+     --clr-text:            light-dark(#000000, #EBEBEB);   /* primary body text */
+     --clr-text-muted:      light-dark(#666666, #c7c7c7);   /* secondary text (.col2 p, .feed-row td) */
+-    --clr-error:           light-dark(red, #ff3333);       /* errors, failed items */
++    --clr-error:           light-dark(#cc0000, #ff3333);  /* errors, failed items */
+     --clr-input-bg:        light-dark(#FFFFFF, #555555);   /* form inputs, buttons */
+     --clr-input-border:    light-dark(#d4d0c8, #252525);   /* input borders */
+     --clr-toggle-active:   #f9ca33;                        /* accent color (toggles, focus rings) */
+@@ -43,6 +43,10 @@ body {
+     color: var(--clr-text);
+ }
+ 
++a {
++    color: light-dark(#2e6da4, #66aaff);
++}
++
+ /* Bootstrap's `a:focus { outline: 5px auto -webkit-focus-ring-color }` renders as a
+    heavy dark ring once color-scheme is declared. Replace it with a subtle themed
+    outline shown only for keyboard focus, matching the toggle-switch focus style. */
+@@ -427,7 +431,7 @@ input[type='checkbox']:focus-visible {
+     font-weight: 400;
+ }
+ .darkred {
+-    color: #d9534f;
++    color: var(--clr-error);
+ }
+ .scheduleEntry {
+     padding: 8px 0;
+@@ -2248,3 +2252,26 @@ html[data-color-scheme="night" i] {
+         }
+     }
+ }
++
++/* WCAG color-contrast fixes */
++.label-danger {
++    background-color: #c0392b;
++}
++.label-warning {
++    color: #403000;
++}
++.label-info {
++    color: #0a3055;
++}
++.badge-info {
++    color: #0a3055;
++}
++.btn-danger {
++    background-color: #c0392b;
++    border-color: #a93226;
++}
++.btn-danger:focus,
++.btn-danger:hover {
++    background-color: #a93226;
++    border-color: #942b21;
++}
+diff --git a/interfaces/Config/templates/staticcfg/js/script.js b/interfaces/Config/templates/staticcfg/js/script.js
+index f21d3c1..2c48320 100644
+--- a/interfaces/Config/templates/staticcfg/js/script.js
++++ b/interfaces/Config/templates/staticcfg/js/script.js
+@@ -80,7 +80,7 @@
+ 
+         // Add button
+         this.element.addClass('fileBrowserField').after(
+-            $('<button class="btn btn-default fileBrowser" type="button"><span class="glyphicon glyphicon-folder-open"></span> '+buttonText+'</button>').click(function () {
++            $('<button class="btn btn-default fileBrowser" type="button" aria-label="'+configTranslate.browseText+'"><span class="glyphicon glyphicon-folder-open"></span> '+buttonText+'</button>').click(function () {
+                 self.openBrowser();
+             })
+         )
+@@ -138,7 +138,7 @@
+         })
+ 
+         // Use custom title instead of default and open modal
+-        $('#filebrowser_modal .modal-header h4').text(this.fileBrowserTitle);
++        $('#filebrowser_modal .modal-header .modal-title').text(this.fileBrowserTitle);
+         $('#filebrowser_modal').modal('show');
+         return false;
+     }
+diff --git a/interfaces/Glitter/templates/include_history.tmpl b/interfaces/Glitter/templates/include_history.tmpl
+index e2d185e..c1b2d76 100644
+--- a/interfaces/Glitter/templates/include_history.tmpl
++++ b/interfaces/Glitter/templates/include_history.tmpl
+@@ -160,22 +160,22 @@
+     </ul>
+ 
+     <div class="multioperations-selector" id="history-options">
+-        <a href="#" class="hover-button history-archive" title="$T('showArchive') / $T('showAllHis')" data-tooltip="true" data-placement="top" data-bind="click: history.toggleShowArchive, css: { 'history-options-show-failed': history.showArchive }"><svg viewBox="6 6 36 36" height="14" width="14" class="archive-icon"><path d="M41.09 10.45l-2.77-3.36c-.56-.66-1.39-1.09-2.32-1.09h-24c-.93 0-1.76.43-2.31 1.09l-2.77 3.36c-.58.7-.92 1.58-.92 2.55v25c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4v-25c0-.97-.34-1.85-.91-2.55zm-17.09 24.55l-11-11h7v-4h8v4h7l-11 11zm-13.75-25l1.63-2h24l1.87 2h-27.5z"/></svg></a>
+-        <a href="#" class="hover-button" title="$T('showFailedHis') / $T('showAllHis')" data-tooltip="true" data-placement="top" data-bind="click: history.toggleShowFailed, css: { 'history-options-show-failed': history.showFailed }"><span class="glyphicon glyphicon-exclamation-sign"></span></a>
+-        <a href="#" class="hover-button" title="$T('link-retryAll')" data-tooltip="true" data-placement="top" data-bind="click: history.retryAllFailed"><span class="glyphicon glyphicon-repeat"></span></a>
+-        <a href="#" class="hover-button" title="$T('button-mark-completed')" data-bind="visible: (history.isMultiEditing() && hasHistory()), click: history.doMultiMarkCompleted" data-tooltip="true" data-placement="top"><span class="glyphicon glyphicon-ok"></span></a>
++        <a href="#" class="hover-button history-archive" title="$T('showArchive') / $T('showAllHis')" aria-label="$T('showArchive') / $T('showAllHis')" data-tooltip="true" data-placement="top" data-bind="click: history.toggleShowArchive, css: { 'history-options-show-failed': history.showArchive }"><svg viewBox="6 6 36 36" height="14" width="14" class="archive-icon"><path d="M41.09 10.45l-2.77-3.36c-.56-.66-1.39-1.09-2.32-1.09h-24c-.93 0-1.76.43-2.31 1.09l-2.77 3.36c-.58.7-.92 1.58-.92 2.55v25c0 2.21 1.79 4 4 4h28c2.21 0 4-1.79 4-4v-25c0-.97-.34-1.85-.91-2.55zm-17.09 24.55l-11-11h7v-4h8v4h7l-11 11zm-13.75-25l1.63-2h24l1.87 2h-27.5z"/></svg></a>
++        <a href="#" class="hover-button" title="$T('showFailedHis') / $T('showAllHis')" aria-label="$T('showFailedHis') / $T('showAllHis')" data-tooltip="true" data-placement="top" data-bind="click: history.toggleShowFailed, css: { 'history-options-show-failed': history.showFailed }"><span class="glyphicon glyphicon-exclamation-sign"></span></a>
++        <a href="#" class="hover-button" title="$T('link-retryAll')" aria-label="$T('link-retryAll')" data-tooltip="true" data-placement="top" data-bind="click: history.retryAllFailed"><span class="glyphicon glyphicon-repeat"></span></a>
++        <a href="#" class="hover-button" title="$T('button-mark-completed')" aria-label="$T('button-mark-completed')" data-bind="visible: (history.isMultiEditing() && hasHistory()), click: history.doMultiMarkCompleted" data-tooltip="true" data-placement="top"><span class="glyphicon glyphicon-ok"></span></a>
+ 
+         <div data-bind="visible: (history.isMultiEditing() && hasHistory())">
+             <span class="label label-default" data-bind="text: history.multiEditItems().length">0</span>
+             <label for="multiedit-checkall-history">
+-                <input type="checkbox" name="multieditCheckAll" id="multiedit-checkall-history" title="$T('Glitter-checkAll')" data-bind="click: history.checkAllJobs" data-tooltip="true" data-placement="top" />
++                <input type="checkbox" name="multieditCheckAll" id="multiedit-checkall-history" title="$T('Glitter-checkAll')" aria-label="$T('Glitter-checkAll')" data-bind="click: history.checkAllJobs" data-tooltip="true" data-placement="top" />
+             </label>
+         </div>
+ 
+-        <a href="#" class="hover-button" title="$T('nzo-delete')" data-bind="visible: (history.isMultiEditing() && hasHistory()), click: history.doMultiDelete"  data-tooltip="true" data-placement="top">
++        <a href="#" class="hover-button" title="$T('nzo-delete')" aria-label="$T('nzo-delete')" data-bind="visible: (history.isMultiEditing() && hasHistory()), click: history.doMultiDelete"  data-tooltip="true" data-placement="top">
+             <span class="glyphicon glyphicon-trash"></span>
+         </a>
+-        <a href="#modal-purge-history" class="hover-button" title="$T('purgeHist')" data-bind="visible: !(history.isMultiEditing() && hasHistory())" data-toggle="modal" data-tooltip="true" data-placement="top">
++        <a href="#modal-purge-history" class="hover-button" title="$T('purgeHist')" aria-label="$T('purgeHist')" data-bind="visible: !(history.isMultiEditing() && hasHistory())" data-toggle="modal" data-tooltip="true" data-placement="top">
+             <span class="glyphicon glyphicon-trash"></span>
+         </a>
+     </div>
+diff --git a/interfaces/Glitter/templates/include_messages.tmpl b/interfaces/Glitter/templates/include_messages.tmpl
+index c7e779d..04b7fbc 100644
+--- a/interfaces/Glitter/templates/include_messages.tmpl
++++ b/interfaces/Glitter/templates/include_messages.tmpl
+@@ -3,7 +3,7 @@
+         <thead>
+             <tr>
+                 <th class="table-messages-header-label"><span class="sr-only">$T('warnings')</span></th>
+-                <th style="width: 30px;"></th>
++                <th style="width: 30px;"><span class="sr-only">$T('Glitter-actions')</span></th>
+             </tr>
+         </thead>
+         <tbody>
+diff --git a/interfaces/Glitter/templates/include_overlays.tmpl b/interfaces/Glitter/templates/include_overlays.tmpl
+index 53b58d9..94580ed 100644
+--- a/interfaces/Glitter/templates/include_overlays.tmpl
++++ b/interfaces/Glitter/templates/include_overlays.tmpl
+@@ -60,8 +60,8 @@
+ </div>
+ 
+ <!-- Feedback -->
+-<div id="feedback-slider" data-bind="visible: glitterIsBeta && !localStorageGetItem('showFeedback')" style="display: none;">
+-    <h4>Feedback <a href="#" onclick="localStorageSetItem('showFeedback', 'No'); \$(this).parent().parent().hide()">&times;</a></h4>
++<div id="feedback-slider" role="complementary" data-bind="visible: glitterIsBeta && !localStorageGetItem('showFeedback')" style="display: none;">
++    <h2>Feedback <a href="#" onclick="localStorageSetItem('showFeedback', 'No'); \$(this).parent().parent().hide()" aria-label="$T('close')">&times;</a></h2>
+     <div id="feedback-slider-inner">
+         <p><strong>If anything is not working as expected, or could be improved, let us know!</strong></p>
+         <p><strong>If you encounter an error, please include the log file (click on <span class="glyphicon glyphicon-wrench"></span> ) when contacting us.</strong></p>
+@@ -78,7 +78,7 @@
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+                 <a href="#" data-bind="click: loadStatusInfo, css: { 'rotate-refresh': !hasStatusInfo() }" title="$T('Glitter-interfaceRefresh')"><span class="glyphicon glyphicon-repeat"></span></a>
+-                <h4 class="modal-title" id="modal-options-title">$T('Glitter-statusInterfaceOptions')</h4>
++                <h3 class="modal-title" id="modal-options-title">$T('Glitter-statusInterfaceOptions')</h3>
+             </div>
+             <div class="modal-body">
+                 <ul class="nav nav-tabs">
+@@ -138,7 +138,7 @@
+                             <div class="col-sm-6">$T('dashboard-systemPerformance') &nbsp; </div>
+                             <div class="col-sm-6 col-dot-overflow" data-bind="visible: hasPerformanceInfo">
+                                 <span data-bind="text: statusInfo.pystone"></span>
+-                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))"><span class="glyphicon glyphicon-repeat"></span></a>
++                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))" aria-label="$T('dashboard-repeatTest')"><span class="glyphicon glyphicon-repeat"></span></a>
+                                 <small title="$cpumodel $cpusimd" data-tooltip="true">$cpumodel $cpusimd</small>
+                             </div>
+                             <div class="col-sm-6 col-loading" data-bind="visible: !hasPerformanceInfo()">$T('Glitter-loading')<span class="loader-dot-one">.</span><span class="loader-dot-two">.</span><span class="loader-dot-three">.</span></div>
+@@ -147,7 +147,7 @@
+                             <div class="col-sm-6">$T('dashboard-downloadDirSpeed') &nbsp; </div>
+                             <div class="col-sm-6 col-dot-overflow" data-bind="visible: hasPerformanceInfo">
+                                 <span data-bind="text: statusInfo.downloaddirspeed()"></span> MB/s
+-                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))"><span class="glyphicon glyphicon-repeat"></span></a>
++                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))" aria-label="$T('dashboard-repeatTest')"><span class="glyphicon glyphicon-repeat"></span></a>
+                                 <small data-bind="text: statusInfo.downloaddir, attr: { 'data-original-title': statusInfo.downloaddir }" data-tooltip="true"></small>
+                             </div>
+                             <div class="col-sm-6 col-loading" data-bind="visible: !hasPerformanceInfo()">$T('Glitter-loading')<span class="loader-dot-one">.</span><span class="loader-dot-two">.</span><span class="loader-dot-three">.</span></div>
+@@ -156,7 +156,7 @@
+                             <div class="col-sm-6">$T('dashboard-completeDirSpeed') &nbsp; </div>
+                             <div class="col-sm-6 col-dot-overflow" data-bind="visible: hasPerformanceInfo">
+                                 <span data-bind="text: statusInfo.completedirspeed()"></span> MB/s
+-                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))"><span class="glyphicon glyphicon-repeat"></span></a>
++                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))" aria-label="$T('dashboard-repeatTest')"><span class="glyphicon glyphicon-repeat"></span></a>
+                                 <small data-bind="text: statusInfo.completedir, attr: { 'data-original-title': statusInfo.completedir }" data-tooltip="true"></small>
+                             </div>
+                             <div class="col-sm-6 col-loading" data-bind="visible: !hasPerformanceInfo()">$T('Glitter-loading')<span class="loader-dot-one">.</span><span class="loader-dot-two">.</span><span class="loader-dot-three">.</span></div>
+@@ -165,7 +165,7 @@
+                             <div class="col-sm-6">$T('dashboard-internetBandwidth') &nbsp; </div>
+                             <div class="col-sm-6" data-bind="visible: hasPerformanceInfo">
+                                 <span data-bind="text: statusInfo.internetbandwidth()"></span> MB/s
+-                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))"><span class="glyphicon glyphicon-repeat"></span></a>
++                                <a href="#" class="diskspeed-button" data-bind="click: loadStatusInfo" data-tooltip="true" data-placement="right" title="$T('dashboard-repeatTest') (~10 $T('seconds'))" aria-label="$T('dashboard-repeatTest')"><span class="glyphicon glyphicon-repeat"></span></a>
+                                 <small><span data-bind="text: statusInfo.internetbandwidth()*8"></span> Mbps</small>
+                             </div>
+                             <div class="col-sm-6 col-loading" data-bind="visible: !hasPerformanceInfo()">$T('Glitter-loading')<span class="loader-dot-one">.</span><span class="loader-dot-two">.</span><span class="loader-dot-three">.</span></div>
+@@ -207,7 +207,7 @@
+                             <div class="col-sm-6">
+                                 <div class="input-group" data-tooltip="true" data-placement="top" title="$T('logging')">
+                                     <span class="input-group-addon"><span class="glyphicon glyphicon-comment"></span></span>
+-                                    <select class="form-control" data-bind="value: loglevel">
++                                    <select class="form-control" data-bind="value: loglevel" aria-label="$T('logging')">
+                                         <option value="0">$T('log-errWarn')</option>
+                                         <option value="1">$T('log-info')</option>
+                                         <option value="2">$T('log-debug')</option>
+@@ -493,7 +493,7 @@
+         <form class="modal-content" data-bind="submit: addNZB">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="modal-add-nzb-title">$T('Glitter-addNZB')</h4>
++                <h3 class="modal-title" id="modal-add-nzb-title">$T('Glitter-addNZB')</h3>
+             </div>
+             <div class="modal-body form-horizontal">
+                 <div class="row">
+@@ -589,7 +589,7 @@
+                    title="$T('Glitter-nzbsearchManageIndexers')" aria-label="$T('Glitter-nzbsearchManageIndexers')">
+                     <span class="glyphicon glyphicon-cog"></span>
+                 </a>
+-                <h4 class="modal-title" id="modal-nzbsearch-title">$T('Glitter-nzbsearchTitle')</h4>
++                <h3 class="modal-title" id="modal-nzbsearch-title">$T('Glitter-nzbsearchTitle')</h3>
+             </div>
+             <div class="modal-body">
+                 <!-- ko if: nzbsearch.noIndexers -->
+@@ -601,7 +601,7 @@
+                 <form class="nzbsearch-form" data-bind="submit: nzbsearch.submit">
+                     <input type="text" class="form-control nzbsearch-query" placeholder="$T('Glitter-nzbsearchTitle')"
+                            data-bind="textInput: nzbsearch.searchTerm" autocomplete="off" />
+-                    <select class="form-control nzbsearch-category" data-bind="options: nzbsearch.categoryOptions, optionsValue: 'value',
++                    <select class="form-control nzbsearch-category" aria-label="$T('category')" data-bind="options: nzbsearch.categoryOptions, optionsValue: 'value',
+                             optionsText: 'label', value: nzbsearch.category"></select>
+                     <button type="submit" class="btn btn-default" data-bind="disable: !nzbsearch.canSearch()">
+                         <!-- ko if: nzbsearch.isSearching -->
+@@ -676,7 +676,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title row-wrap-text" id="modal-item-files-title" data-bind="text: filelist.filelist_name">$T('Glitter-loading')</h4>
++                <h3 class="modal-title row-wrap-text" id="modal-item-files-title" data-bind="text: filelist.filelist_name">$T('Glitter-loading')</h3>
+             </div>
+             <div class="modal-body">
+                 <div id="modal-item-filelist">
+@@ -692,11 +692,11 @@
+                             </div>
+                         </div>
+                         <div class="multioperations-selector">
+-                            <input type="checkbox" title="$T('Glitter-checkAll')" data-tooltip="true" data-placement="bottom" data-bind="click: filelist.checkAllFiles" />
+-                            <a href="#" class="hover-button" data-bind="click: filelist.removeSelectedFiles" data-tooltip="true" data-placement="bottom" title="$T('Glitter-removeSelected')">
++                            <input type="checkbox" title="$T('Glitter-checkAll')" aria-label="$T('Glitter-checkAll')" data-tooltip="true" data-placement="bottom" data-bind="click: filelist.checkAllFiles" />
++                            <a href="#" class="hover-button" data-bind="click: filelist.removeSelectedFiles" data-tooltip="true" data-placement="bottom" title="$T('Glitter-removeSelected')" aria-label="$T('Glitter-removeSelected')">
+                                 <span class="glyphicon glyphicon-trash"></span>
+                             </a>
+-                            <a href="#" onclick="hideCompletedFiles()" id="filelist-showcompleted" class="hover-button" data-tooltip="true" data-placement="bottom" title="$T('Glitter-toggleCompletedFiles')">
++                            <a href="#" onclick="hideCompletedFiles()" id="filelist-showcompleted" class="hover-button" data-tooltip="true" data-placement="bottom" title="$T('Glitter-toggleCompletedFiles')" aria-label="$T('Glitter-toggleCompletedFiles')">
+                                 <span class="glyphicon glyphicon-eye-close"></span> 100%
+                             </a>
+                         </div>
+@@ -707,13 +707,13 @@
+                                     <td class="row-wrap-text">
+                                         <div class="progress">
+                                             <div class="progress-bar progress-bar-info" data-bind="attr: { 'style': 'width: '+percentage()+'; background-color: ' + \$parent.filelist.currentItem.progressColor() + ';' }">
+-                                                <input type="checkbox" data-bind="attr: { 'name' : nzf_id }, disable: !canselect(), click : \$parent.filelist.checkSelectRange" title="$T('Glitter-multiSelect')" />
++                                                <input type="checkbox" data-bind="attr: { 'name' : nzf_id, 'aria-label': filename }, disable: !canselect(), click : \$parent.filelist.checkSelectRange" title="$T('Glitter-multiSelect')" />
+                                                 <strong data-bind="text: percentage"></strong>
+                                                 <div class="fileDetails">
+                                                     <span data-bind="truncatedTextCenter: filename"></span>
+                                                     <div class="fileControls">
+-                                                        <a href="#" data-bind="click: \$parent.filelist.moveButton" class="hover-button buttonMoveToTop" title="$T('Glitter-top')"><span class="glyphicon glyphicon-chevron-up"></span></a>
+-                                                        <a href="#" data-bind="click: \$parent.filelist.moveButton" class="hover-button buttonMoveToBottom" title="$T('Glitter-bottom')"><span class="glyphicon glyphicon-chevron-down"></span></a>
++                                                        <a href="#" data-bind="click: \$parent.filelist.moveButton" class="hover-button buttonMoveToTop" title="$T('Glitter-top')" aria-label="$T('Glitter-top')"><span class="glyphicon glyphicon-chevron-up"></span></a>
++                                                        <a href="#" data-bind="click: \$parent.filelist.moveButton" class="hover-button buttonMoveToBottom" title="$T('Glitter-bottom')" aria-label="$T('Glitter-bottom')"><span class="glyphicon glyphicon-chevron-down"></span></a>
+                                                     </div>
+                                                     <small>(<span data-bind="text: file_age"></span> - <span data-bind="text: mb"></span> MB)</small>
+                                                 </div>
+@@ -725,8 +725,8 @@
+                         </table>
+ 
+                         <div class="multioperations-selector">
+-                            <input type="checkbox" title="$T('Glitter-checkAll')" data-tooltip="true" data-placement="top" data-bind="click: filelist.checkAllFiles" />
+-                            <a href="#" class="hover-button" data-bind="click: filelist.removeSelectedFiles" data-tooltip="true" data-placement="top" title="$T('Glitter-removeSelected')">
++                            <input type="checkbox" title="$T('Glitter-checkAll')" aria-label="$T('Glitter-checkAll')" data-tooltip="true" data-placement="top" data-bind="click: filelist.checkAllFiles" />
++                            <a href="#" class="hover-button" data-bind="click: filelist.removeSelectedFiles" data-tooltip="true" data-placement="top" title="$T('Glitter-removeSelected')" aria-label="$T('Glitter-removeSelected')">
+                                 <span class="glyphicon glyphicon-trash"></span>
+                             </a>
+                         </div>
+@@ -744,7 +744,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title row-wrap-text" id="modal-delete-queue-job-title">$T('removeNZB-Files')</h4>
++                <h3 class="modal-title row-wrap-text" id="modal-delete-queue-job-title">$T('removeNZB-Files')</h3>
+             </div>
+             <form data-bind="submit: queue.removeDownloads">
+                 <div class="modal-body">
+@@ -768,7 +768,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title row-wrap-text" id="modal-delete-history-job-title">$T('nzo-delete')</h4>
++                <h3 class="modal-title row-wrap-text" id="modal-delete-history-job-title">$T('nzo-delete')</h3>
+             </div>
+             <form data-bind="submit: history.removeDownloads">
+                 <div class="modal-body">
+@@ -797,7 +797,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="modal-retry-job-title">$T('Glitter-retryJob')</h4>
++                <h3 class="modal-title" id="modal-retry-job-title">$T('Glitter-retryJob')</h3>
+             </div>
+             <form id="retry-job-form" data-bind="submit: history.retryJob">
+                 <div class="modal-body">
+@@ -839,7 +839,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="history-script-log-title">$T('Glitter-scriptLog')</h4>
++                <h3 class="modal-title" id="history-script-log-title">$T('Glitter-scriptLog')</h3>
+             </div>
+             <div class="modal-body"><pre></pre></div>
+         </div>
+@@ -851,7 +851,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="modal-help-title">$T('menu-help')</h4>
++                <h3 class="modal-title" id="modal-help-title">$T('menu-help')</h3>
+             </div>
+             <div class="modal-body">
+                 #include $webdir + "/../../Config/templates/staticcfg/images/logo-full.svg"#
+@@ -889,7 +889,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="modal-purge-history-title">$T('Glitter-clearHistory')</h4>
++                <h3 class="modal-title" id="modal-purge-history-title">$T('Glitter-clearHistory')</h3>
+             </div>
+             <div class="modal-body">
+                 <button type="button" class="btn btn-danger" data-bind="click: history.emptyHistory" data-action="history-purge-failed"><span class="glyphicon glyphicon-floppy-remove"></span> $T('purgeFailed')</button>
+@@ -913,7 +913,7 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <h4 class="modal-title" id="modal-custom-pause-title">$T('Glitter-pauseFor')</h4>
++                <h3 class="modal-title" id="modal-custom-pause-title">$T('Glitter-pauseFor')</h3>
+             </div>
+             <div class="modal-body">
+                 <form data-bind="submit: saveCustomPause">
+@@ -926,7 +926,7 @@
+             </div>
+             <div class="modal-footer">
+                 <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> $T('cancel')</button>
+-                <button type="button" class="btn btn-default disabled" data-bind="click: saveCustomPause"><span class="glyphicon glyphicon-ok"></span> $T('rss-accept')</button>
++                <button type="button" class="btn btn-default" data-bind="click: saveCustomPause"><span class="glyphicon glyphicon-ok"></span> $T('rss-accept')</button>
+             </div>
+         </div>
+     </div>
+@@ -937,8 +937,8 @@
+         <div class="modal-content">
+             <div class="modal-header">
+                 <button type="button" class="close" data-dismiss="modal" aria-label="$T('close')"><span aria-hidden="true">&times;</span></button>
+-                <a href="#" data-bind="click: loadSessions, css: { 'rotate-refresh': !hasSessionInfo() }" title="$T('Glitter-interfaceRefresh')"><span class="glyphicon glyphicon-repeat"></span></a>
+-                <h4 class="modal-title" id="modal-sessions-title">$T('Glitter-activeSessions')</h4>
++                <a href="#" data-bind="click: loadSessions, css: { 'rotate-refresh': !hasSessionInfo() }" title="$T('Glitter-interfaceRefresh')" aria-label="$T('Glitter-interfaceRefresh')"><span class="glyphicon glyphicon-repeat"></span></a>
++                <h3 class="modal-title" id="modal-sessions-title">$T('Glitter-activeSessions')</h3>
+             </div>
+             <div class="modal-body">
+                 <div class="col-loading" data-bind="visible: !hasSessionInfo()">$T('Glitter-loading')<span class="loader-dot-one">.</span><span class="loader-dot-two">.</span><span class="loader-dot-three">.</span></div>
+@@ -955,7 +955,7 @@
+                                 <th>$T('Glitter-sessionSignedIn')</th>
+                                 <th>$T('Glitter-sessionLastSeen')</th>
+                                 <th>$T('Glitter-sessionExpires')</th>
+-                                <th style="width: 30px;"></th>
++                                <th style="width: 30px;"><span class="sr-only">$T('Glitter-actions')</span></th>
+                             </tr>
+                         </thead>
+                         <tbody data-bind="foreach: sessions">
+diff --git a/interfaces/Glitter/templates/include_queue.tmpl b/interfaces/Glitter/templates/include_queue.tmpl
+index 68c91f2..9b32d4b 100644
+--- a/interfaces/Glitter/templates/include_queue.tmpl
++++ b/interfaces/Glitter/templates/include_queue.tmpl
+@@ -34,15 +34,15 @@
+         </div>
+         <!-- /ko -->
+         <div class="info-container-box-sorting" style="display: none" data-bind="visible: refreshRate() > 2">
+-            <a href="#" data-bind="click: refresh">
++            <a href="#" data-bind="click: refresh" aria-label="$T('Glitter-refresh')">
+                 <span class="glyphicon glyphicon-repeat" data-tooltip="true" data-placement="left" title="$T('Glitter-refresh')"></span>
+             </a>
+         </div>
+         <div class="info-container-box-sorting dropdown" data-bind="visible: hasQueue()">
+-            <a href="#" data-toggle="dropdown">
++            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="$T('cmenu-sorting')">
+                 <span class="glyphicon glyphicon-sort-by-alphabet" data-tooltip="true" data-placement="left" title="$T('cmenu-sorting')"></span>
+             </a>
+-            <a href="#" data-bind="click: queue.showMultiEdit">
++            <a href="#" data-bind="click: queue.showMultiEdit" aria-label="$T('Glitter-multiOperations')">
+                 <span class="glyphicon glyphicon-tasks" data-tooltip="true" data-placement="left" title="$T('Glitter-multiOperations')"></span>
+             </a>
+             <ul class="dropdown-menu">
+diff --git a/interfaces/Glitter/templates/main.tmpl b/interfaces/Glitter/templates/main.tmpl
+index 66c0c9f..35ab176 100644
+--- a/interfaces/Glitter/templates/main.tmpl
++++ b/interfaces/Glitter/templates/main.tmpl
+@@ -16,7 +16,7 @@
+         <title data-bind="text: title">SABnzbd</title>
+ 
+         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1" />
++        <meta name="viewport" content="width=device-width, initial-scale=1" />
+         <meta name="mobile-web-app-capable" content="yes" />
+         <meta name="application-name" content="SABnzbd">
+         <meta name="apple-mobile-web-app-capable" content="yes" />
+@@ -158,6 +158,8 @@
+             <!--#include $webdir + "/include_menu.tmpl"#-->
+         </div>
+ 
++        <main>
++            <h1 class="sr-only">SABnzbd</h1>
+         <div class="container history-queue-swicher">
+             <ul class="nav nav-tabs">
+                 <li class="active">
+@@ -177,6 +179,7 @@
+             <!--#include $webdir + "/include_messages.tmpl"#-->
+             <!--#include $webdir + "/include_history.tmpl"#-->
+         </div>
++        </main>
+ 
+         <!--#include $webdir + "/include_overlays.tmpl"#-->
+     </body>
+diff --git a/interfaces/Glitter/templates/static/javascripts/glitter.basic.js b/interfaces/Glitter/templates/static/javascripts/glitter.basic.js
+index 81b4528..d0f0eb4 100644
+--- a/interfaces/Glitter/templates/static/javascripts/glitter.basic.js
++++ b/interfaces/Glitter/templates/static/javascripts/glitter.basic.js
+@@ -8,20 +8,12 @@ var hasLocalStorage = true;
+ function localStorageSetItem(varToSet, valueToSet) { try { return localStorage.setItem(varToSet, valueToSet); } catch(e) { hasLocalStorage = false; } }
+ function localStorageGetItem(varToGet) { try { return localStorage.getItem(varToGet); } catch(e) {  hasLocalStorage = false; } }
+ 
+-// For mobile we disable zoom while a modal is being opened
+-// so it will not zoom unnecessarily on the modal
+-if(isMobile) {
+-    $('.modal').on('show.bs.modal', function() {
+-        $('meta[name="viewport"]').attr('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+-    });
+-
+-    // Restore on modal-close. Need timeout, otherwise it doesn't work
+-    $('.modal').on('hidden.bs.modal', function() {
+-        setTimeout(function() {
+-            $('meta[name="viewport"]').attr('content', 'width=device-width, initial-scale=1');
+-        },500);
+-    });
+-}
++// Bootstrap's collapse plugin writes aria-expanded onto the collapsed
++// element itself, which is not allowed on a plain div (#navbar-collapse).
++// Drop it again once the toggle finishes so the markup stays valid.
++$(document).on('shown.bs.collapse hidden.bs.collapse', '#navbar-collapse', function() {
++    $(this).removeAttr('aria-expanded');
++});
+ 
+ $.ajaxSetup({
+     headers: { "X-SABnzbd-CSRF": csrfToken }
+@@ -104,7 +96,7 @@ function keepOpen(thisItem) {
+     });
+     // Add possible tooltips and make sure they get removed
+     if(!isMobile)  {
+-        $(thisItem).siblings('.dropdown-menu').children('[data-tooltip="true"]').tooltip({ trigger: 'hover', container: 'body' })
++        $(thisItem).siblings('.dropdown-menu').children('[data-tooltip="true"]').tooltip({ trigger: 'hover', container: '.main-content' })
+         $(thisItem).parent().on('hide.bs.dropdown', function() {
+             $(thisItem).siblings('.dropdown-menu').children('[data-tooltip="true"]').tooltip('hide')
+         })
+diff --git a/interfaces/Glitter/templates/static/javascripts/glitter.main.js b/interfaces/Glitter/templates/static/javascripts/glitter.main.js
+index 7ae21be..9cf4dfd 100644
+--- a/interfaces/Glitter/templates/static/javascripts/glitter.main.js
++++ b/interfaces/Glitter/templates/static/javascripts/glitter.main.js
+@@ -788,7 +788,7 @@ function ViewModel() {
+             ko.mapping.fromJS(data.status.servers, {}, self.statusInfo.servers)
+ 
+             // Add tooltips to possible new items
+-            if (!isMobile) $('#modal-options [data-tooltip="true"]').tooltip({ trigger: 'hover', container: 'body' })
++            if (!isMobile) $('#modal-options [data-tooltip="true"]').tooltip({ trigger: 'hover', container: '.main-content' })
+ 
+             // Stop it spin
+             self.hasStatusInfo(true)
+@@ -1336,6 +1336,6 @@ function ViewModel() {
+         $("input[accept!=''][accept]").attr("accept","")
+     } else {
+         // Activate tooltips
+-        $('[data-tooltip="true"]').tooltip({ trigger: 'hover', container: 'body' })
++        $('[data-tooltip="true"]').tooltip({ trigger: 'hover', container: '.main-content' })
+     }
+ }
+diff --git a/interfaces/Glitter/templates/static/stylesheets/glitter.css b/interfaces/Glitter/templates/static/stylesheets/glitter.css
+index 365d3dd..ef02675 100644
+--- a/interfaces/Glitter/templates/static/stylesheets/glitter.css
++++ b/interfaces/Glitter/templates/static/stylesheets/glitter.css
+@@ -15,8 +15,8 @@
+     --clr-border:         light-dark(rgba(0,0,0,0.12), #808080);   /* card outlines */
+     --clr-border-subtle:  light-dark(#EBEBEB, #252525);            /* table row separators, inner borders */
+     --clr-text:           light-dark(#333333, #EBEBEB);            /* primary body text */
+-    --clr-text-muted:     light-dark(#888888, #D6D6D6);            /* secondary / dimmed text */
+-    --clr-error:          light-dark(red, #F95151);                /* errors, failed downloads */
++    --clr-text-muted:     light-dark(#6E6E6E, #D6D6D6);            /* secondary / dimmed text */
++    --clr-error:          light-dark(#CC0000, #F95151);            /* errors, failed downloads */
+     --clr-input-bg:       light-dark(#FFFFFF, #555555);            /* form inputs, buttons */
+     --clr-input-border:   light-dark(#CCCCCC, #252525);            /* input/search borders */
+     --clr-dropdown-bg:    light-dark(#FFFFFF, #727272);            /* dropdown menus */
+@@ -405,7 +405,7 @@ li.dropdown {
+     transition-duration: 0.3s;
+     height: 115px;
+     overflow: hidden;
+-    opacity: 0.6;
++    opacity: 0.8;
+ }
+ 
+ #feedback-slider>h4 {
+@@ -436,6 +436,35 @@ li.dropdown {
+     opacity: 1;
+ }
+ 
++/* WCAG contrast fixes */
++#feedback-slider>h2 {
++    color: var(--clr-text);
++    transform: rotate(-90deg);
++    position: absolute;
++    right: -30px;
++    top: 35px;
++    letter-spacing: 1px;
++    font-size: 18px;
++    margin-top: 20px;
++    margin-bottom: 10px;
++    font-weight: 500;
++    line-height: 1.1;
++}
++
++#feedback-slider>h2>a {
++    display: none;
++}
++
++#feedback-slider:hover>h2 {
++    right: -25px;
++}
++
++#feedback-slider:hover>h2>a {
++    display: block;
++    position: absolute;
++    margin: -20px -25px;
++}
++
+ #feedback-slider-inner h4 {
+     font-weight: bold;
+     margin-top: 13px;
+@@ -573,6 +602,7 @@ tbody>tr>td:last-child {
+ 
+ .history-queue-swicher .badge-info {
+     background-color: #58A9FA !important;
++    color: #0A3055;
+ }
+ 
+ .history-queue-swicher .badge {
+@@ -601,7 +631,7 @@ tbody>tr>td:last-child {
+ }
+ 
+ .hover-button {
+-    opacity: 0.3;
++    opacity: 0.6;
+     text-decoration: none;
+     outline: none !important;
+ }
+@@ -1106,6 +1136,7 @@ tr.queue-item>td:first-child>a {
+ 
+ .table-messages .label-info {
+     background-color: #58A9FA;
++    color: #0A3055;
+ }
+ 
+ .table-messages .queue-message-text {
+@@ -1454,7 +1485,7 @@ tr.queue-item>td:first-child>a {
+ #modal-options .options-switch a,
+ #modal-options #options-orphans .process-all-orphaned,
+ #modal-options .options-switch input+span {
+-    opacity: 0.6;
++    opacity: 0.75;
+ }
+ 
+ #modal-options .options-switch label:hover span,
+@@ -1887,7 +1918,7 @@ input[name="nzbURL"] {
+ }
+ 
+ #modal-item-files .item-files-table .progress small {
+-    color: #727272 !important;
++    color: #4A4A4A !important;
+     margin-left: 5px;
+ }
+ 
+@@ -2379,7 +2410,7 @@ legend {
+     font-weight: bold;
+     font-size: 1.1em;
+     color: var(--clr-text) !important;
+-    opacity: 0.7;
++    opacity: 0.95;
+ }
+ 
+ .nav-tabs>li.active>a,
+@@ -2477,7 +2508,7 @@ legend {
+ }
+ 
+ .modal-header .close {
+-    opacity: 0.5;
++    opacity: 0.85;
+     background: transparent;
+     color: white;
+     text-shadow: none !important;
+@@ -3040,3 +3071,52 @@ html[data-color-scheme="night" i] {
+         }
+     }
+ }
++
++/* WCAG color-contrast fixes */
++.label-danger {
++    background-color: #C0392B;
++}
++
++.history-queue-swicher .badge-warning {
++    background-color: #C0392B !important;
++    color: #FFFFFF !important;
++}
++
++.label-warning {
++    color: #403000;
++}
++
++.label-info,
++.badge-info {
++    color: #0A3055;
++}
++
++#filelist-showcompleted {
++    color: var(--clr-text);
++    opacity: 0.8;
++}
++
++.btn-danger {
++    background-color: #C0392B;
++    border-color: #A93226;
++}
++
++.btn-danger:focus,
++.btn-danger:hover {
++    background-color: #A93226;
++    border-color: #942B21;
++}
++
++.progress .progress-bar .fileDetails small {
++    color: #5C5C5C;
++}
++
++#modal-options .tab-pane>h4 {
++    color: var(--clr-text);
++}
++
++/* Contrastes WCAG AA mesures : label-default blanc sur fond assombri ;
++   texte du compteur de fichiers lisible sur la barre de progression verte. */
++.label-default {
++    background-color: #6E6E6E;
++}
+diff --git a/interfaces/wizard/index.html b/interfaces/wizard/index.html
+index 2817455..4b05b11 100644
+--- a/interfaces/wizard/index.html
++++ b/interfaces/wizard/index.html
+@@ -2,13 +2,13 @@
+ <form action="$url('wizard/one')" method="post">
+ <input type="hidden" name="csrf_token" value="$csrf_token" />
+     <div class="container">
+-        <div id="inner">
++        <main id="inner">
+             <div id="content" class="bigger">
+                 <div id="rightGreyText">$T('wizard-version') $version</div>
+                 <h1>$T('wizard-quickstart')</h1>
+                 <hr />
+                 <div class="bigger">
+-                    <h3>$T('opt-language')</h3>
++                    <h2>$T('opt-language')</h2>
+                     $T('explain-language')<br /><br />
+                     <div class="main-container">
+                         <!--#for $l, $language in $languages#-->
+@@ -36,7 +36,7 @@
+                 <div class="col-md-4 text-center">
+                     <button class="btn btn-default">$T('wizard-start') <span class="glyphicon glyphicon-chevron-right"></span></button>
+                 </div>
+-            </div>
++            </main>
+         </div>
+     </div>
+ </form>
+diff --git a/interfaces/wizard/one.html b/interfaces/wizard/one.html
+index 668f146..a611589 100644
+--- a/interfaces/wizard/one.html
++++ b/interfaces/wizard/one.html
+@@ -2,7 +2,7 @@
+ <form action="$url('wizard/two')" method="post" autocomplete="off">
+ <input type="hidden" name="csrf_token" value="$csrf_token" />
+     <div class="container">
+-        <div id="inner">
++        <main id="inner">
+             <div id="content" class="bigger">
+                 <div id="rightGreyText">$T('wizard-version') $version</div>
+                 <h1>$T('wizard-quickstart')</h1>
+@@ -13,7 +13,7 @@
+                     var txtTestRequired = "$T('wizard-test-server-required')";
+                     <!--#include raw $webdir + "/static/javascript/checkserver.js"#-->
+                 </script>
+-                <h3>$T('wizard-server')</h3>
++                <h2>$T('wizard-server')</h2>
+                 $T('wizard-explain-server')<br />
+ 
+                 <br /><br />
+@@ -100,7 +100,7 @@
+                     </div>
+                     <div class="col-md-5">
+                         <div class="clearfix"></div>
+-                        <iframe style="float: right; width: 325px; height: 325px;" frameborder="0" src="https://sabnzbd.org/wizard#$active_lang"></iframe>
++                        <iframe style="float: right; width: 325px; height: 325px;" frameborder="0" src="https://sabnzbd.org/wizard#$active_lang" title="$T('wizard-quickstart')"></iframe>
+                     </div>
+                 </div>
+                 <input type="hidden" name="enable" value="1">
+@@ -116,7 +116,7 @@
+                     <button class="btn btn-default" id="next-button">$T('wizard-next') <span class="glyphicon glyphicon-chevron-right"></span></button>
+                 </div>
+             </div>
+-        </div>
++        </main>
+     </div>
+ </form>
+ <!--#include $webdir + "/inc_bottom.tmpl"#-->
+diff --git a/interfaces/wizard/static/style.css b/interfaces/wizard/static/style.css
+index 5bf5106..47bd271 100644
+--- a/interfaces/wizard/static/style.css
++++ b/interfaces/wizard/static/style.css
+@@ -93,13 +93,13 @@ a[target="_blank"] {
+     text-decoration: underline !important;
+ }
+ .success {
+-    color: #00cc22;
++    color: #148a1c;
+ }
+ .failed {
+-    color: light-dark(red, #ff3333) !important;
++    color: light-dark(#cc0000, #ff3333) !important;
+ }
+ #rightGreyText {
+-    color: light-dark(#cccccc, #c7c7c7);
++    color: light-dark(#6e6e6e, #c7c7c7);
+     width: 100%;
+     text-align: right;
+     padding-top: 3px;
+@@ -309,4 +309,23 @@ html[data-color-scheme="night" i] {
+             box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.3) !important;
+         }
+     }
+-}
+\ No newline at end of file
++}
++/* WCAG color-contrast fixes */
++.btn-danger {
++    background-color: #c0392b;
++    border-color: #a93226;
++}
++.btn-danger:focus,
++.btn-danger:hover {
++    background-color: #a93226;
++    border-color: #942b21;
++}
++.btn-success {
++    background-color: #367a36;
++    border-color: #2f6b2f;
++}
++.btn-success:focus,
++.btn-success:hover {
++    background-color: #2f6b2f;
++    border-color: #275c27;
++}
+diff --git a/interfaces/wizard/two.html b/interfaces/wizard/two.html
+index 8658d38..fabef70 100644
+--- a/interfaces/wizard/two.html
++++ b/interfaces/wizard/two.html
+@@ -1,7 +1,7 @@
+ <!--#include $webdir + "/inc_top.tmpl"#-->
+ 
+ <div class="container">
+-    <div id="inner">
++    <main id="inner">
+         <div id="content" class="bigger">
+             <div id="rightGreyText">$T('wizard-version') $version</div>
+             <h1>$T('wizard-quickstart')</h1>
+@@ -22,13 +22,13 @@
+             <p><strong>$T('opt-complete_dir')</strong></p>
+             <div class="quoteBlock">
+                 $complete_dir
+-                <a href="$url('config/folders#complete_dir')" class="indented"><span class="glyphicon glyphicon-cog"></span></a>
++                <a href="$url('config/folders#complete_dir')" class="indented" aria-label="$T('cmenu-folders')"><span class="glyphicon glyphicon-cog"></span></a>
+             </div>
+ 
+             <p><strong>$T('opt-download_dir')</strong></p>
+             <div class="quoteBlock">
+                 $download_dir
+-                <a href="$url('config/folders#complete_dir')" class="indented"><span class="glyphicon glyphicon-cog"></span></a>
++                <a href="$url('config/folders#complete_dir')" class="indented" aria-label="$T('cmenu-folders')"><span class="glyphicon glyphicon-cog"></span></a>
+             </div>
+ 
+             <hr/>
+@@ -41,6 +41,6 @@
+                 <a class="btn btn-success" href="$url()">$T('wizard-goto') <span class="glyphicon glyphicon-chevron-right"></span></a>
+             </div>
+         </div>
+-    </div>
++    </main>
+ </div>
+ <!--#include $webdir + "/inc_bottom.tmpl"#-->
+\ No newline at end of file

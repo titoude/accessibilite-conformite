@@ -1,0 +1,32 @@
+install-build — cycle 25 sabnzbd — replay complet sur clone propre
+=================================================================
+# clone propre + pin
+git clone ~/work/cycle25/target install-build/target   (clone local du repo propre)
+cd install-build/target && git checkout a3737b9b892e84b4cac1d80096c7539f7ec7092a
+a3737b9b892e84b4cac1d80096c7539f7ec7092a  (OK, identique au pin)
+
+# apply patch
+git apply --check ../cycle/patch.diff   -> OK
+git apply ../cycle/patch.diff           -> 29 fichiers modifiés
+
+# boot (même venv que le run principal, data dir NEUF sab-data-ib)
+cd install-build/target && ~/work/cycle25/venv/bin/python SABnzbd.py \
+    -f ~/work/cycle25/sab-data-ib/sabnzbd.ini -s 127.0.0.1:8080 -b 0 --console --disable-file-log
+-> "Starting web-interface on 127.0.0.1:8080" ; GET / -> 302 (redirect login)
+Note: "Essential modules are missing, downloading cannot start" (7za absent)
+= warning identique à l'instance de dev, non bloquant pour l'UI.
+
+# seed + login (verbatim manifest.auditCommands)
+node tools/seed.mjs http://127.0.0.1:8080 ~/work/cycle25/sab-data-ib/sabnzbd.ini
+-> username/password a11y, benchserv, BenchIndex, benchmark-feed, 1 NZB queue, 2 lignes history
+[restart requis par SABnzbd pour prendre le ini seedé -> même commande de boot]
+node tools/login.mjs http://127.0.0.1:8080 auth.json a11y a11y-pw-2026
+-> auth saved
+
+# scan verbatim
+node audit.mjs http://127.0.0.1:8080 --urls /login --states none --wait 1200 \
+    --out reports/install-build-login     -> 0 règle, 0 occurrence, 0 erreur
+node audit.mjs http://127.0.0.1:8080 --urls /,/wizard,/wizard/one,/wizard/two,/config,/config/general,/config/folders,/config/server,/config/categories,/config/switches,/config/sorting,/config/notify,/config/scheduling,/config/rss,/config/nzbsearch,/config/special \
+    --states all --storage-state auth.json --wait 1200 --out reports/install-build
+-> 0 règle, 0 occurrence, 0 erreur, 218 incomplets (47 scénarios)
+scope.json scopeHash install-build == scopeHash baseline == scopeHash final (voir scope-compare.json)
