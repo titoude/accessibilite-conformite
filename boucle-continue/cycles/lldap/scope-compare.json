@@ -1,0 +1,315 @@
+{
+ "note": "baseline=instance vanilla docker / final=même conteneur + pkg/ patchee (wasm rebuild + docker cp). scopeHash identique = même périmètre exact. Seul le sélecteur --wait-for diffère (h3→h1 : le patch renomme les titres de page).",
+ "baseline_scopeHash_auth": "c34253ddc17a09c42ad2f1c30dcdfc873a65624e368fa3a18ad7973c19b0164f",
+ "final_scopeHash_auth": "c34253ddc17a09c42ad2f1c30dcdfc873a65624e368fa3a18ad7973c19b0164f",
+ "baseline_scopeHash_public": "d77621142caea4618dae83b5b7acb45c3af17c5ffd69dc9af3bc34b4d509ab9d",
+ "final_scopeHash_public": "d77621142caea4618dae83b5b7acb45c3af17c5ffd69dc9af3bc34b4d509ab9d",
+ "scope_identique": true,
+ "pages": {
+  "http://localhost:17170/login": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/users": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/users/create": {
+   "baseline": {
+    "violations": 13,
+    "rules": [
+     "color-contrast",
+     "label",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/user/jdoe": {
+   "baseline": {
+    "violations": 16,
+    "rules": [
+     "color-contrast",
+     "empty-table-header",
+     "heading-order",
+     "label",
+     "link-name",
+     "page-has-heading-one",
+     "select-name"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 1
+   }
+  },
+  "http://localhost:17170/user/jdoe/password": {
+   "baseline": {
+    "violations": 8,
+    "rules": [
+     "color-contrast",
+     "heading-order",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/groups": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/groups/create": {
+   "baseline": {
+    "violations": 10,
+    "rules": [
+     "autocomplete-valid",
+     "color-contrast",
+     "heading-order",
+     "label",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/group/4": {
+   "baseline": {
+    "violations": 12,
+    "rules": [
+     "color-contrast",
+     "empty-table-header",
+     "heading-order",
+     "label",
+     "link-name",
+     "page-has-heading-one",
+     "select-name"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 1
+   }
+  },
+  "http://localhost:17170/user-attributes": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/user-attributes/create": {
+   "baseline": {
+    "violations": 12,
+    "rules": [
+     "autocomplete-valid",
+     "color-contrast",
+     "heading-order",
+     "label",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/group-attributes": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/group-attributes/create": {
+   "baseline": {
+    "violations": 11,
+    "rules": [
+     "autocomplete-valid",
+     "color-contrast",
+     "heading-order",
+     "label",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/users [state:user-menu-dropdown]": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 2
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/users [state:delete-user-modal]": {
+   "baseline": {
+    "violations": 4,
+    "rules": [
+     "heading-order",
+     "link-name"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/groups [state:delete-group-modal]": {
+   "baseline": {
+    "violations": 4,
+    "rules": [
+     "heading-order",
+     "link-name"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:17170/users [state:dark-mode]": {
+   "baseline": {
+    "violations": 7,
+    "rules": [
+     "color-contrast",
+     "link-name",
+     "page-has-heading-one"
+    ],
+    "errors": 0,
+    "incomplete": 1
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  }
+ }
+}

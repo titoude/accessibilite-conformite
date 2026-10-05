@@ -1,0 +1,251 @@
+=== install-build cycle 26 (lldap) — rejeu indépendant ===
+1. git clone https://github.com/nitnelave/lldap.git ~/work/lldap-replay/lldap
+2. git checkout 99c510a7a603df1cdaca00a9ffff95ec73b296eb  (SHA épinglé du cycle)
+3. git apply ~/work/lldap-cycle/patch.diff                -> 25 fichiers modifiés, 0 rejet
+4. ./app/build.sh (wasm-pack 0.15.0, rustc 1.91.0, target wasm32-unknown-unknown)
+   -> log ci-dessous ; pkg/ régénéré en ~43s (réseau OK, wasm-bindgen+wasm-opt téléchargés)
+5. docker run -d --name lldap26-replay -p 17171:17170 \
+     -e LLDAP_LDAP_BASE_DN=dc=example,dc=com -e LLDAP_JWT_SECRET=test -e LLDAP_LDAP_USER_PASS=admin123 \
+     lldap/lldap@sha256:bb6e509b4a44e8e9985acfd95d83a85e252ed81879254d9751b9926e3ac26c62
+6. docker cp app/pkg/{lldap_app.js,lldap_app_bg.wasm,lldap_app_bg.wasm.gz} -> /app/app/pkg/ du conteneur
+   (l'UI est servie depuis le disque : pas de rebuild de l'image ni du serveur Rust)
+7. Smoke Playwright sur :17171 (contexte anonyme + login admin) :
+   - /login : h1 'Login' présent (#username attendu = mount wasm)
+   - login admin/admin123 OK ; /users : h1 'Users', bouton delete nommé 'Delete user admin'
+   -> REPLAY OK (patched UI fonctionnelle sur build reproductible)
+8. docker rm -f lldap26-replay
+
+NOTE HONNÊTETE : le patch modifie les sources Yew (app/src/**) ; la rebuild du frontend
+WASM EST REQUISE et a été exécutée ici (toolchain rust+wasm-pack sur la box, réseau dispo).
+Le conteneur de dev a été patché par docker cp des artefacts pkg/ — même contenu que
+l'image rebuildée. L'install-build rebuild UNIQUEMENT le frontend (image docker officielle
+inchangée côté serveur : le backend Rust n'est pas modifié par le patch).
+
+=== wasm-pack build log ===
+[INFO  wasm_pack::command] Running build command...
+[INFO  wasm_pack::command::build] Checking rustc version...
+[INFO  wasm_pack::command::build] rustc version is 91.
+[INFO  wasm_pack::command::build] Checking crate configuration...
+[INFO  wasm_pack::command::build] Crate is correctly configured.
+[INFO  wasm_pack::command::build] Checking for wasm-target...
+[INFO]: 🎯  Checking for the Wasm target...
+[INFO  wasm_pack::build::wasm_target] Found wasm32-unknown-unknown in "/home/ubuntu/.rustup/toolchains/1.91.0-x86_64-unknown-linux-gnu/lib/rustlib/wasm32-unknown-unknown/lib"
+[INFO  wasm_pack::command::build] Checking for wasm-target was successful.
+[INFO  wasm_pack::command::build] Building wasm...
+[INFO]: 🌀  Compiling to Wasm...
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.45
+   Compiling wasm-bindgen-shared v0.2.120
+   Compiling serde_core v1.0.228
+   Compiling rustversion v1.0.22
+   Compiling bumpalo v3.20.2
+   Compiling serde v1.0.228
+   Compiling cfg-if v1.0.4
+   Compiling version_check v0.9.5
+   Compiling once_cell v1.21.4
+   Compiling futures-core v0.3.32
+   Compiling pin-project-lite v0.2.17
+   Compiling slab v0.4.12
+   Compiling futures-task v0.3.32
+   Compiling zmij v1.0.21
+   Compiling serde_json v1.0.149
+   Compiling generic-array v0.14.7
+   Compiling futures-util v0.3.32
+   Compiling thiserror v1.0.69
+   Compiling syn v1.0.109
+   Compiling typenum v1.20.0
+   Compiling memchr v2.8.0
+   Compiling autocfg v1.5.0
+   Compiling wasm-bindgen v0.2.120
+   Compiling icu_normalizer_data v2.2.0
+   Compiling icu_properties_data v2.2.0
+   Compiling syn v2.0.117
+   Compiling itoa v1.0.18
+   Compiling stable_deref_trait v1.2.1
+   Compiling lazy_static v1.5.0
+   Compiling subtle v2.6.1
+   Compiling proc-macro-error-attr v1.0.4
+   Compiling indexmap v1.6.2
+   Compiling proc-macro-error v1.0.4
+   Compiling litemap v0.8.2
+   Compiling writeable v0.6.3
+   Compiling utf8_iter v1.0.4
+   Compiling aho-corasick v1.1.4
+   Compiling futures-channel v0.3.32
+   Compiling zerocopy v0.8.48
+   Compiling smallvec v1.15.1
+   Compiling boolinator v2.4.0
+   Compiling percent-encoding v2.3.2
+   Compiling regex-syntax v0.8.10
+   Compiling num-traits v0.2.19
+   Compiling tinyvec_macros v0.1.1
+   Compiling getrandom v0.1.16
+   Compiling tinyvec v1.11.0
+   Compiling validator_types v0.14.0
+   Compiling form_urlencoded v1.2.2
+   Compiling wasm-bindgen-macro-support v0.2.120
+   Compiling synstructure v0.13.2
+   Compiling regex-automata v0.4.14
+   Compiling bytes v1.11.1
+   Compiling yew-macro v0.19.3
+   Compiling combine v4.6.7
+   Compiling serde_derive v1.0.228
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling zerovec-derive v0.11.3
+   Compiling displaydoc v0.2.5
+   Compiling thiserror-impl v1.0.69
+   Compiling zerofrom v0.1.7
+   Compiling yoke v0.8.2
+   Compiling wasm-bindgen-macro v0.2.120
+   Compiling zerotrie v0.2.4
+   Compiling zerovec v0.11.6
+   Compiling tinystr v0.8.3
+   Compiling potential_utf v0.1.5
+   Compiling icu_collections v2.2.0
+   Compiling icu_locale_core v2.2.0
+   Compiling regex v1.12.3
+   Compiling ppv-lite86 v0.2.21
+   Compiling js-sys v0.3.97
+   Compiling zeroize_derive v1.4.3
+   Compiling icu_provider v2.2.0
+   Compiling unicode-normalization v0.1.25
+   Compiling hashbrown v0.9.1
+   Compiling icu_properties v2.2.0
+   Compiling block-buffer v0.10.4
+   Compiling crypto-common v0.1.7
+   Compiling digest v0.10.7
+   Compiling digest v0.9.0
+   Compiling icu_normalizer v2.2.0
+   Compiling crypto-mac v0.11.0
+   Compiling unicode-bidi v0.3.18
+   Compiling unicode-segmentation v1.13.2
+   Compiling idna_adapter v1.2.2
+   Compiling idna v1.1.0
+   Compiling matches v0.1.10
+   Compiling if_chain v1.0.3
+   Compiling thiserror v2.0.18
+   Compiling bytemuck v1.25.0
+   Compiling url v2.5.8
+   Compiling validator_derive v0.14.0
+   Compiling idna v0.2.3
+   Compiling convert_case v0.10.0
+   Compiling hmac v0.11.0
+   Compiling rand_core v0.5.1
+   Compiling graphql-introspection-query v0.2.0
+   Compiling zeroize v1.8.2
+   Compiling console_error_panic_hook v0.1.7
+   Compiling graphql-parser v0.4.1
+   Compiling thiserror-impl v2.0.18
+   Compiling scoped-tls-hkt v0.1.5
+   Compiling constant_time_eq v0.4.2
+   Compiling unicode-xid v0.2.6
+   Compiling base64 v0.13.1
+   Compiling heck v0.4.1
+   Compiling byteorder v1.5.0
+   Compiling arrayref v0.3.9
+   Compiling arrayvec v0.7.6
+   Compiling blake2b_simd v1.0.4
+   Compiling graphql_client_codegen v0.11.0
+   Compiling curve25519-dalek v3.2.0
+   Compiling web-sys v0.3.97
+   Compiling gloo-timers v0.2.6
+   Compiling wasm-bindgen-futures v0.4.70
+   Compiling derive_more-impl v2.1.1
+   Compiling hkdf v0.11.0
+   Compiling validator v0.14.0
+   Compiling atomic v0.6.1
+   Compiling md-5 v0.10.6
+   Compiling generic-bytes v0.1.0
+   Compiling block-buffer v0.9.0
+   Compiling pin-project-internal v1.1.11
+   Compiling displaydoc v0.1.7
+   Compiling pxfm v0.1.29
+   Compiling anyhow v1.0.102
+   Compiling fnv v1.0.7
+   Compiling base64 v0.21.7
+   Compiling constant_time_eq v0.3.1
+   Compiling zune-core v0.5.1
+   Compiling heck v0.5.0
+   Compiling ryu v1.0.23
+   Compiling opaque-debug v0.3.1
+   Compiling serde_urlencoded v0.7.1
+   Compiling sha2 v0.9.9
+   Compiling strum_macros v0.28.0
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling rand_chacha v0.3.1
+   Compiling http v1.4.0
+   Compiling rand v0.8.6
+   Compiling serde-wasm-bindgen v0.3.1
+   Compiling moxcms v0.8.1
+   Compiling opaque-ke v0.7.0
+   Compiling chrono v0.4.44
+   Compiling rust-argon2 v2.1.0
+   Compiling zune-jpeg v0.5.15
+   Compiling pin-project v1.1.11
+   Compiling gloo-utils v0.1.7
+   Compiling gloo-events v0.1.2
+   Compiling gloo-storage v0.2.2
+   Compiling gloo-file v0.2.3
+   Compiling gloo-console v0.2.3
+   Compiling gloo-dialogs v0.1.1
+   Compiling gloo-render v0.1.1
+   Compiling graphql_query_derive v0.11.0
+   Compiling gloo v0.4.2
+   Compiling derive_more v2.1.1
+   Compiling yew v0.19.3
+   Compiling uuid v1.23.1
+   Compiling sha2 v0.10.9
+   Compiling hmac v0.12.1
+   Compiling yew-router-macro v0.16.0
+   Compiling byteorder-lite v0.1.0
+   Compiling futures-sink v0.3.32
+   Compiling route-recognizer v0.3.1
+   Compiling lldap_auth v0.6.3 (/home/ubuntu/work/lldap-replay/lldap/crates/auth)
+   Compiling jwt v0.16.0
+   Compiling graphql_client v0.11.0
+   Compiling strum v0.28.0
+   Compiling lldap_frontend_options v0.1.1 (/home/ubuntu/work/lldap-replay/lldap/crates/frontend-options)
+   Compiling yew_form v0.1.8 (https://github.com/jfbilodeau/yew_form?rev=4b9fabffb63393ec7626a4477fd36de12a07fac9#4b9fabff)
+   Compiling url-escape v0.1.1
+   Compiling base64 v0.22.1
+   Compiling lldap_validation v0.6.3 (/home/ubuntu/work/lldap-replay/lldap/crates/validation)
+   Compiling image v0.25.10
+   Compiling yew_form_derive v0.1.8 (https://github.com/jfbilodeau/yew_form?rev=4b9fabffb63393ec7626a4477fd36de12a07fac9#4b9fabff)
+   Compiling gloo-utils v0.3.0
+   Compiling gloo-events v0.3.0
+   Compiling gloo-file v0.4.0
+   Compiling gloo-console v0.4.0
+   Compiling gloo-net v0.7.0
+   Compiling yew-router v0.16.0
+   Compiling lldap_app v0.6.3 (/home/ubuntu/work/lldap-replay/lldap/app)
+    Finished `release` profile [optimized] target(s) in 41.88s
+[INFO  wasm_pack::command::build] wasm built at "/home/ubuntu/work/lldap-replay/lldap/target/wasm32-unknown-unknown/release/lldap_app.wasm".
+[INFO  wasm_pack::command::build] Creating a pkg directory...
+[INFO  wasm_pack::command::build] Created a pkg directory at "/home/ubuntu/work/lldap-replay/lldap/app".
+[INFO  wasm_pack::command::build] Identifying wasm-bindgen dependency...
+[INFO  wasm_pack::command::build] Installing wasm-bindgen-cli...
+[INFO]: ⬇️  Installing wasm-bindgen...
+[INFO  wasm_pack::command::build] Installing wasm-bindgen-cli was successful.
+[INFO  wasm_pack::command::build] Building the wasm bindings...
+[INFO  wasm_pack::child] Running "/home/ubuntu/.cache/.wasm-pack/wasm-bindgen-6100c0c263093c56/wasm-bindgen" "--version"
+[INFO  wasm_pack::child] Running "/home/ubuntu/.cache/.wasm-pack/wasm-bindgen-6100c0c263093c56/wasm-bindgen" "--version"
+[INFO  wasm_pack::child] Running "/home/ubuntu/.cache/.wasm-pack/wasm-bindgen-6100c0c263093c56/wasm-bindgen" "/home/ubuntu/work/lldap-replay/lldap/target/wasm32-unknown-unknown/release/lldap_app.wasm" "--out-dir" "/home/ubuntu/work/lldap-replay/lldap/app/pkg" "--typescript" "--target" "web"
+[INFO  wasm_pack::command::build] wasm bindings were built at "/home/ubuntu/work/lldap-replay/lldap/app/pkg".
+[INFO  wasm_pack::command::build] executing wasm-opt with ["--enable-bulk-memory"]
+[INFO]: Optimizing wasm binaries with `wasm-opt`...
+[INFO  wasm_pack::child] Running "/home/ubuntu/.cache/.wasm-pack/wasm-opt-1ceaaea8b7b5f7e0/bin/wasm-opt" "/home/ubuntu/work/lldap-replay/lldap/app/pkg/lldap_app_bg.wasm" "-o" "/home/ubuntu/work/lldap-replay/lldap/app/pkg/lldap_app_bg.wasm-opt.wasm" "--enable-bulk-memory"
+warning: no passes specified, not doing any work
+[INFO  wasm_pack::command::build] Wrote a package.json at "/home/ubuntu/work/lldap-replay/lldap/app/pkg/package.json".
+[INFO  wasm_pack::command::build] Copying readme from crate...
+[INFO  wasm_pack::command::build] Copied readme from crate to "/home/ubuntu/work/lldap-replay/lldap/app/pkg".
+[INFO  wasm_pack::command::build] Copying license from crate...
+[INFO]: License key is set in Cargo.toml but no LICENSE file(s) were found; Please add the LICENSE file(s) to your project directory
+[INFO  wasm_pack::command::build] Copied license from crate to "/home/ubuntu/work/lldap-replay/lldap/app/pkg".
+[INFO  wasm_pack::command::build] Done in 42.87s.
+[INFO  wasm_pack::command::build] Your wasm pkg is ready to publish at /home/ubuntu/work/lldap-replay/lldap/app/pkg.
+[INFO]: ✨   Done in 42.87s
+[INFO]: 📦   Your wasm pkg is ready to publish at /home/ubuntu/work/lldap-replay/lldap/app/pkg.
+BUILD_EXIT=0

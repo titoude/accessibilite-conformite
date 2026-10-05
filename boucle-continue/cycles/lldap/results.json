@@ -1,0 +1,104 @@
+{
+  "cycle": 26,
+  "produit": "lldap",
+  "statut_execution": "complet",
+  "target": {
+    "repo": "https://github.com/nitnelave/lldap",
+    "sha": "99c510a7a603df1cdaca00a9ffff95ec73b296eb",
+    "image": "lldap/lldap@sha256:bb6e509b4a44e8e9985acfd95d83a85e252ed81879254d9751b9926e3ac26c62",
+    "stack": "Rust backend + frontend Yew compilé en WebAssembly (DOM rendu par WASM, scannable par axe)"
+  },
+  "baseline": {
+    "surfaces": 12,
+    "etats": 4,
+    "violations_occ": 139,
+    "violations_regles": 9,
+    "detail": {
+      "color-contrast": 42,
+      "link-name": 48,
+      "page-has-heading-one": 14,
+      "label": 20,
+      "heading-order": 8,
+      "select-name": 2,
+      "autocomplete-valid": 3,
+      "empty-table-header": 2
+    },
+    "login": {
+      "violations_occ": 7,
+      "violations_regles": 3
+    },
+    "erreurs": 0,
+    "incomplets": 9
+  },
+  "final": {
+    "surfaces": 12,
+    "etats": 4,
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "erreurs": 0,
+    "incomplets": 2,
+    "login": {
+      "violations_occ": 0
+    }
+  },
+  "final_clean_clone": {
+    "violations_occ": "non rescanne (smoke Playwright sur build reproductible — voir install-build.log)",
+    "note": "patch.diff appliqué sur clone propre + ./app/build.sh (wasm-pack) + docker cp pkg/ dans conteneur frais : UI patchée vérifiée fonctionnelle (h1, boutons nommés, mount wasm OK)"
+  },
+  "verify_mjs": "37/37 assertions",
+  "eval_final_mjs": "34/34 contrôles indépendants",
+  "install_build": "OK — clone propre au SHA + git apply + wasm-pack build (~43s) + docker cp pkg/ dans l'image officielle (install-build.log). Rebuild WASM réel exécuté, pas documenté comme impossible.",
+  "causes_racines": [
+    {
+      "famille": "titres absents/mal hiérarchisés",
+      "files": [
+        "app.rs (aucun h1 : banner h2, pages h5/h3)",
+        "user_details.rs / group_details.rs (h3+h5)",
+        "create_*.rs / change_password.rs (h5 ou rien)",
+        "user_schema_table.rs / group_schema_table.rs (h3 sans h1)",
+        "login.rs (aucun titre)"
+      ]
+    },
+    {
+      "famille": "contraste (thème adaptatif)",
+      "files": [
+        "app.rs view_footer : text-muted + link-secondary échouent en light ET dark"
+      ]
+    },
+    {
+      "famille": "noms accessibles",
+      "files": [
+        "app.rs : 3 liens icônes footer sans nom",
+        "delete_*.rs / remove_user_from_group.rs : aria-label posé sur <i> (élément sans rôle) au lieu du <button>",
+        "select.rs : <select> générique sans nom (propage aria_label prop)"
+      ]
+    },
+    {
+      "famille": "labels de champs",
+      "files": [
+        "attribute_input.rs : <input> sans id → label[for] pendant (20 occ.)",
+        "checkbox.rs : yew_form::CheckBox rend input sans id → réécrit en input contrôlé avec id",
+        "date_input.rs / file_input.rs : id absents/hardcodés",
+        "login.rs : champs username/password placeholder-only"
+      ]
+    },
+    {
+      "famille": "ARIA cassé / ids dupliqués",
+      "files": [
+        "delete_*.rs : deleteXModalLabel dupliqué par ligne (aria-labelledby ambigu) + role=dialog commenté",
+        "banner.rs : aria-labelledby=dropdownUser1 (id inexistant, réel = dropdownUser)",
+        "field.rs : autocomplete par défaut = field_name (tokens invalides)"
+      ]
+    }
+  ],
+  "incomplets": "2 résultats incomplete : color-contrast 'bgImage' sur <select class=form-select> (chevron SVG Bootstrap). Résolus manuellement : color/background-color calculés mesurés — light rgb(33,37,41)/rgb(255,255,255) = 12.63:1 ; dark rgb(177,177,177)/rgb(34,34,34) = 8.07:1 — ≥ 4.5 dans les 2 thèmes (eval-final.mjs K/L).",
+  "lecons_harnais": [
+    "WASM/Yew : le DOM rendu par wasm se scanne normalement — le --wait-for doit attendre un sélecteur MONTÉ (table/form/h1 post-GraphQL 'Loading...'), pas seulement #app",
+    "le conteneur sert app/pkg/ depuis le disque : docker cp des artefacts wasm-pack suffit à déployer le frontend patché, rebuild image inutile",
+    "Escape ne fermait pas les modales : Bootstrap écoute keydown SUR l'élément .modal — sans focus dedans il ne reçoit jamais l'événement ; focus() sur la modale (tabindex=-1) débloque le natif",
+    "le login redirige quand connecté : les assertions publiques exigent un contexte anonyme séparé",
+    "yew_form::CheckBox ne rend aucun id → les label[for] pendent ; réécrire les composants form avec id explicite plutôt que patcher le vendor",
+    "autocomplete=field_name (défaut yew_form wrapper) produit des tokens invalides — 'off' est le défaut correct",
+    "aria-label sur <i> (icône font, pas de rôle) ne nomme pas le bouton parent — poser le label sur l'élément interactif"
+  ]
+}

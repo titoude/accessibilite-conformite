@@ -1,0 +1,668 @@
+diff --git a/app/src/components/add_group_member.rs b/app/src/components/add_group_member.rs
+index 1afdaab..9bedaf8 100644
+--- a/app/src/components/add_group_member.rs
++++ b/app/src/components/add_group_member.rs
+@@ -167,7 +167,7 @@ impl Component for AddGroupMemberComponent {
+             html! {
+             <div class="row">
+               <div class="col-sm-3">
+-                <Select on_selection_change={link.callback(Msg::SelectionChanged)}>
++                <Select aria_label="Select a user to add as member" on_selection_change={link.callback(Msg::SelectionChanged)}>
+                   {
+                     to_add_user_list
+                         .into_iter()
+diff --git a/app/src/components/add_user_to_group.rs b/app/src/components/add_user_to_group.rs
+index 7e8ce81..06bbd7d 100644
+--- a/app/src/components/add_user_to_group.rs
++++ b/app/src/components/add_user_to_group.rs
+@@ -175,7 +175,7 @@ impl Component for AddUserToGroupComponent {
+             html! {
+             <div class="row">
+               <div class="col-sm-3">
+-                <Select on_selection_change={link.callback(Msg::SelectionChanged)}>
++                <Select aria_label="Select a group to add the user to" on_selection_change={link.callback(Msg::SelectionChanged)}>
+                   {
+                     to_add_group_list
+                         .into_iter()
+diff --git a/app/src/components/app.rs b/app/src/components/app.rs
+index 89b5527..6537df3 100644
+--- a/app/src/components/app.rs
++++ b/app/src/components/app.rs
+@@ -217,6 +217,7 @@ impl App {
+                 };
+                 html! {
+                   <div>
++                    <h1>{"Users"}</h1>
+                     { user_button("top-create-user") }
+                     <UserTable />
+                     { user_button("bottom-create-user") }
+@@ -243,6 +244,7 @@ impl App {
+                 };
+                 html! {
+                   <div>
++                    <h1>{"Groups"}</h1>
+                     { group_button("top-create-group") }
+                     <GroupTable />
+                     { group_button("bottom-create-group") }
+@@ -290,23 +292,23 @@ impl App {
+ 
+     fn view_footer(&self) -> Html {
+         html! {
+-          <footer class="text-center fixed-bottom text-muted bg-light py-2">
++          <footer class="text-center fixed-bottom bg-light py-2">
+             <div>
+               <span>{format!("LLDAP version {}", env!("CARGO_PKG_VERSION"))}</span>
+             </div>
+             <div>
+-              <a href="https://github.com/lldap/lldap" class="me-4 text-reset">
++              <a href="https://github.com/lldap/lldap" class="me-4 text-reset" aria-label="GitHub repository">
+                 <i class="bi-github"></i>
+               </a>
+-              <a href="https://discord.gg/h5PEdRMNyP" class="me-4 text-reset">
++              <a href="https://discord.gg/h5PEdRMNyP" class="me-4 text-reset" aria-label="Discord server">
+                 <i class="bi-discord"></i>
+               </a>
+-              <a href="https://twitter.com/nitnelave1?ref_src=twsrc%5Etfw" class="me-4 text-reset">
++              <a href="https://twitter.com/nitnelave1?ref_src=twsrc%5Etfw" class="me-4 text-reset" aria-label="Twitter">
+                 <i class="bi-twitter"></i>
+               </a>
+             </div>
+             <div>
+-              <span>{"License "}<a href="https://github.com/lldap/lldap/blob/main/LICENSE" class="link-secondary">{"GNU GPL"}</a></span>
++              <span>{"License "}<a href="https://github.com/lldap/lldap/blob/main/LICENSE" class="text-reset">{"GNU GPL"}</a></span>
+             </div>
+           </footer>
+         }
+diff --git a/app/src/components/banner.rs b/app/src/components/banner.rs
+index bd1dece..8d12cf9 100644
+--- a/app/src/components/banner.rs
++++ b/app/src/components/banner.rs
+@@ -20,7 +20,7 @@ pub fn banner(props: &Props) -> Html {
+         <div class="container">
+           <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+             <a href={yew_router::utils::base_url().unwrap_or("/".to_string())} class="d-flex align-items-center mt-2 mb-lg-0 me-md-5 text-decoration-none">
+-              <h2>{"LLDAP"}</h2>
++              <span class="fs-2">{"LLDAP"}</span>
+             </a>
+ 
+             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+@@ -92,7 +92,7 @@ fn user_menu(props: &UserMenuProps) -> Html {
+             </a>
+             <ul
+               class="dropdown-menu text-small dropdown-menu-lg-end"
+-              aria-labelledby="dropdownUser1"
++              aria-labelledby="dropdownUser"
+               style="">
+               <li>
+                 <Link
+diff --git a/app/src/components/change_password.rs b/app/src/components/change_password.rs
+index c1ae487..654223e 100644
+--- a/app/src/components/change_password.rs
++++ b/app/src/components/change_password.rs
+@@ -213,9 +213,9 @@ impl Component for ChangePasswordForm {
+         html! {
+           <>
+             <div class="mb-2 mt-2">
+-              <h5 class="fw-bold">
++              <h1 class="fw-bold">
+                 {"Change password"}
+-              </h5>
++              </h1>
+             </div>
+             {
+               if let Some(e) = &self.common.error {
+diff --git a/app/src/components/create_group.rs b/app/src/components/create_group.rs
+index 6e697f8..3d6b0c8 100644
+--- a/app/src/components/create_group.rs
++++ b/app/src/components/create_group.rs
+@@ -178,7 +178,7 @@ impl Component for CreateGroupForm {
+             <form class="form py-3" style="max-width: 636px"
+               ref={self.form_ref.clone()}>
+               <div class="row mb-3">
+-                <h5 class="fw-bold">{"Create a group"}</h5>
++                <h1 class="fw-bold">{"Create a group"}</h1>
+               </div>
+               <Field<CreateGroupModel>
+                 form={&self.form}
+diff --git a/app/src/components/create_group_attribute.rs b/app/src/components/create_group_attribute.rs
+index 6feae78..d398acd 100644
+--- a/app/src/components/create_group_attribute.rs
++++ b/app/src/components/create_group_attribute.rs
+@@ -129,7 +129,7 @@ impl Component for CreateGroupAttributeForm {
+         html! {
+           <div class="row justify-content-center">
+             <form class="form py-3" style="max-width: 636px">
+-              <h5 class="fw-bold">{"Create a group attribute"}</h5>
++              <h1 class="fw-bold">{"Create a group attribute"}</h1>
+               <Field<CreateGroupAttributeModel>
+                 label="Name"
+                 required={true}
+diff --git a/app/src/components/create_user.rs b/app/src/components/create_user.rs
+index 22db69d..cf4769f 100644
+--- a/app/src/components/create_user.rs
++++ b/app/src/components/create_user.rs
+@@ -257,6 +257,7 @@ impl Component for CreateUserForm {
+           <div class="row justify-content-center">
+             <form class="form py-3"
+               ref={self.form_ref.clone()}>
++              <h1 class="fw-bold">{"Create a user"}</h1>
+               <Field<CreateUserModel>
+                 form={&self.form}
+                 required=true
+diff --git a/app/src/components/create_user_attribute.rs b/app/src/components/create_user_attribute.rs
+index 8195d78..e7dee7b 100644
+--- a/app/src/components/create_user_attribute.rs
++++ b/app/src/components/create_user_attribute.rs
+@@ -131,7 +131,7 @@ impl Component for CreateUserAttributeForm {
+         html! {
+           <div class="row justify-content-center">
+             <form class="form py-3" style="max-width: 636px">
+-              <h5 class="fw-bold">{"Create a user attribute"}</h5>
++              <h1 class="fw-bold">{"Create a user attribute"}</h1>
+               <Field<CreateUserAttributeModel>
+                 label="Name"
+                 required={true}
+diff --git a/app/src/components/delete_group.rs b/app/src/components/delete_group.rs
+index 1fe3ce9..0467d81 100644
+--- a/app/src/components/delete_group.rs
++++ b/app/src/components/delete_group.rs
+@@ -47,6 +47,11 @@ impl CommonComponent<DeleteGroup> for DeleteGroup {
+         match msg {
+             Msg::ClickedDeleteGroup => {
+                 self.modal.as_ref().expect("modal not initialized").show();
++                // Déplace le focus dans la modale (tabindex=-1 la rend focusable) :
++                // accessible et rend natif le raccourci Escape de Bootstrap.
++                if let Some(el) = self.node_ref.cast::<web_sys::HtmlElement>() {
++                    let _ = el.focus();
++                }
+             }
+             Msg::ConfirmDeleteGroup => {
+                 self.update(ctx, Msg::DismissModal);
+@@ -112,9 +117,10 @@ impl Component for DeleteGroup {
+           <>
+           <button
+             class="btn btn-danger"
++            aria-label={format!("Delete group {}", ctx.props().group.display_name)}
+             disabled={self.common.is_task_running()}
+             onclick={link.callback(|_| Msg::ClickedDeleteGroup)}>
+-            <i class="bi-x-circle-fill" aria-label="Delete group" />
++            <i class="bi-x-circle-fill" />
+           </button>
+           {self.show_modal(ctx)}
+           </>
+@@ -130,13 +136,14 @@ impl DeleteGroup {
+             class="modal fade"
+             id={"deleteGroupModal".to_string() + &ctx.props().group.id.to_string()}
+             tabindex="-1"
+-            aria-labelledby="deleteGroupModalLabel"
++            role="dialog"
++            aria-labelledby={"deleteGroupModalLabel".to_string() + &ctx.props().group.id.to_string()}
+             aria-hidden="true"
+             ref={self.node_ref.clone()}>
+-            <div class="modal-dialog">
++            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+-                  <h5 class="modal-title" id="deleteGroupModalLabel">{"Delete group?"}</h5>
++                  <h2 class="modal-title fs-5" id={"deleteGroupModalLabel".to_string() + &ctx.props().group.id.to_string()}>{"Delete group?"}</h2>
+                   <button
+                     type="button"
+                     class="btn-close"
+diff --git a/app/src/components/delete_group_attribute.rs b/app/src/components/delete_group_attribute.rs
+index 435ee58..6405219 100644
+--- a/app/src/components/delete_group_attribute.rs
++++ b/app/src/components/delete_group_attribute.rs
+@@ -44,6 +44,11 @@ impl CommonComponent<DeleteGroupAttribute> for DeleteGroupAttribute {
+         match msg {
+             Msg::ClickedDeleteGroupAttribute => {
+                 self.modal.as_ref().expect("modal not initialized").show();
++                // Déplace le focus dans la modale (tabindex=-1 la rend focusable) :
++                // accessible et rend natif le raccourci Escape de Bootstrap.
++                if let Some(el) = self.node_ref.cast::<web_sys::HtmlElement>() {
++                    let _ = el.focus();
++                }
+             }
+             Msg::ConfirmDeleteGroupAttribute => {
+                 self.update(ctx, Msg::DismissModal);
+@@ -111,9 +116,10 @@ impl Component for DeleteGroupAttribute {
+           <>
+           <button
+             class="btn btn-danger"
++            aria-label={format!("Delete attribute {}", ctx.props().attribute_name)}
+             disabled={self.common.is_task_running()}
+             onclick={link.callback(|_| Msg::ClickedDeleteGroupAttribute)}>
+-            <i class="bi-x-circle-fill" aria-label="Delete attribute" />
++            <i class="bi-x-circle-fill" />
+           </button>
+           {self.show_modal(ctx)}
+           </>
+@@ -129,13 +135,14 @@ impl DeleteGroupAttribute {
+             class="modal fade"
+             id={"deleteGroupAttributeModal".to_string() + &ctx.props().attribute_name}
+             tabindex="-1"
+-            aria-labelledby="deleteGroupAttributeModalLabel"
++            role="dialog"
++            aria-labelledby={"deleteGroupAttributeModalLabel".to_string() + &ctx.props().attribute_name}
+             aria-hidden="true"
+             ref={self.node_ref.clone()}>
+-            <div class="modal-dialog">
++            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+-                  <h5 class="modal-title" id="deleteGroupAttributeModalLabel">{"Delete group attribute?"}</h5>
++                  <h2 class="modal-title fs-5" id={"deleteGroupAttributeModalLabel".to_string() + &ctx.props().attribute_name}>{"Delete group attribute?"}</h2>
+                   <button
+                     type="button"
+                     class="btn-close"
+diff --git a/app/src/components/delete_user.rs b/app/src/components/delete_user.rs
+index 56d3f07..6f40511 100644
+--- a/app/src/components/delete_user.rs
++++ b/app/src/components/delete_user.rs
+@@ -44,6 +44,11 @@ impl CommonComponent<DeleteUser> for DeleteUser {
+         match msg {
+             Msg::ClickedDeleteUser => {
+                 self.modal.as_ref().expect("modal not initialized").show();
++                // Déplace le focus dans la modale (tabindex=-1 la rend focusable) :
++                // accessible et rend natif le raccourci Escape de Bootstrap.
++                if let Some(el) = self.node_ref.cast::<web_sys::HtmlElement>() {
++                    let _ = el.focus();
++                }
+             }
+             Msg::ConfirmDeleteUser => {
+                 self.update(ctx, Msg::DismissModal);
+@@ -111,9 +116,10 @@ impl Component for DeleteUser {
+           <>
+           <button
+             class="btn btn-danger"
++            aria-label={format!("Delete user {}", ctx.props().username)}
+             disabled={self.common.is_task_running()}
+             onclick={link.callback(|_| Msg::ClickedDeleteUser)}>
+-            <i class="bi-x-circle-fill" aria-label="Delete user" />
++            <i class="bi-x-circle-fill" />
+           </button>
+           {self.show_modal(ctx)}
+           </>
+@@ -129,14 +135,14 @@ impl DeleteUser {
+             class="modal fade"
+             id={"deleteUserModal".to_string() + &ctx.props().username}
+             tabindex="-1"
+-            //role="dialog"
+-            aria-labelledby="deleteUserModalLabel"
++            role="dialog"
++            aria-labelledby={"deleteUserModalLabel".to_string() + &ctx.props().username}
+             aria-hidden="true"
+             ref={self.node_ref.clone()}>
+-            <div class="modal-dialog" /*role="document"*/>
++            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+-                  <h5 class="modal-title" id="deleteUserModalLabel">{"Delete user?"}</h5>
++                  <h2 class="modal-title fs-5" id={"deleteUserModalLabel".to_string() + &ctx.props().username}>{"Delete user?"}</h2>
+                   <button
+                     type="button"
+                     class="btn-close"
+diff --git a/app/src/components/delete_user_attribute.rs b/app/src/components/delete_user_attribute.rs
+index 254424d..da82a12 100644
+--- a/app/src/components/delete_user_attribute.rs
++++ b/app/src/components/delete_user_attribute.rs
+@@ -44,6 +44,11 @@ impl CommonComponent<DeleteUserAttribute> for DeleteUserAttribute {
+         match msg {
+             Msg::ClickedDeleteUserAttribute => {
+                 self.modal.as_ref().expect("modal not initialized").show();
++                // Déplace le focus dans la modale (tabindex=-1 la rend focusable) :
++                // accessible et rend natif le raccourci Escape de Bootstrap.
++                if let Some(el) = self.node_ref.cast::<web_sys::HtmlElement>() {
++                    let _ = el.focus();
++                }
+             }
+             Msg::ConfirmDeleteUserAttribute => {
+                 self.update(ctx, Msg::DismissModal);
+@@ -111,9 +116,10 @@ impl Component for DeleteUserAttribute {
+           <>
+           <button
+             class="btn btn-danger"
++            aria-label={format!("Delete attribute {}", ctx.props().attribute_name)}
+             disabled={self.common.is_task_running()}
+             onclick={link.callback(|_| Msg::ClickedDeleteUserAttribute)}>
+-            <i class="bi-x-circle-fill" aria-label="Delete attribute" />
++            <i class="bi-x-circle-fill" />
+           </button>
+           {self.show_modal(ctx)}
+           </>
+@@ -129,13 +135,14 @@ impl DeleteUserAttribute {
+             class="modal fade"
+             id={"deleteUserAttributeModal".to_string() + &ctx.props().attribute_name}
+             tabindex="-1"
+-            aria-labelledby="deleteUserAttributeModalLabel"
++            role="dialog"
++            aria-labelledby={"deleteUserAttributeModalLabel".to_string() + &ctx.props().attribute_name}
+             aria-hidden="true"
+             ref={self.node_ref.clone()}>
+-            <div class="modal-dialog">
++            <div class="modal-dialog" role="document">
+               <div class="modal-content">
+                 <div class="modal-header">
+-                  <h5 class="modal-title" id="deleteUserAttributeModalLabel">{"Delete user attribute?"}</h5>
++                  <h2 class="modal-title fs-5" id={"deleteUserAttributeModalLabel".to_string() + &ctx.props().attribute_name}>{"Delete user attribute?"}</h2>
+                   <button
+                     type="button"
+                     class="btn-close"
+diff --git a/app/src/components/form/attribute_input.rs b/app/src/components/form/attribute_input.rs
+index 66a5dc0..603d186 100644
+--- a/app/src/components/form/attribute_input.rs
++++ b/app/src/components/form/attribute_input.rs
+@@ -14,6 +14,10 @@ struct AttributeInputProps {
+     attribute_type: AttributeType,
+     #[prop_or(None)]
+     value: Option<String>,
++    #[prop_or(None)]
++    id: Option<AttrValue>,
++    #[prop_or(None)]
++    aria_label: Option<AttrValue>,
+ }
+ 
+ #[function_component(AttributeInput)]
+@@ -37,6 +41,8 @@ fn attribute_input(props: &AttributeInputProps) -> Html {
+         <input
+             type={input_type}
+             name={props.name.clone()}
++            id={props.id.clone().unwrap_or_else(|| props.name.clone())}
++            aria-label={props.aria_label.clone()}
+             class="form-control"
+             value={props.value.clone()} />
+     }
+@@ -77,7 +83,7 @@ fn attribute_label(props: &AttributeLabelProps) -> Html {
+                 data-bs-placement="right"
+                 title={props.name.clone()}
+                 ref={tooltip_ref}>
+-                <i class="bi bi-info-circle" aria-label="Info" />
++                <i class="bi bi-info-circle" />
+             </button>
+         </label>
+     }
+@@ -175,12 +181,15 @@ impl Component for ListAttributeInput {
+                     <AttributeInput
+                         attribute_type={props.attribute_type}
+                         name={props.name.clone()}
++                        id={format!("{}-{}", props.name, i)}
++                        aria_label={props.name.clone()}
+                         value={props.values.get(i).cloned().unwrap_or_default()} />
+                     <button
+                         class="btn btn-danger"
+                         type="button"
++                        aria-label="Remove value"
+                         onclick={link.callback(move |_| ListAttributeInputMsg::Remove(i))}>
+-                        <i class="bi-x-circle-fill" aria-label="Remove value" />
++                        <i class="bi-x-circle-fill" />
+                     </button>
+                     </div>
+                 }).collect::<Html>()}
+diff --git a/app/src/components/form/checkbox.rs b/app/src/components/form/checkbox.rs
+index 3898cac..f2ed524 100644
+--- a/app/src/components/form/checkbox.rs
++++ b/app/src/components/form/checkbox.rs
+@@ -14,6 +14,18 @@ pub struct Props<T: Model> {
+ 
+ #[function_component(CheckBox)]
+ pub fn checkbox<T: Model>(props: &Props<T>) -> Html {
++    let ontoggle = props.ontoggle.clone();
++    let form = props.form.clone();
++    let field_name = props.field_name.clone();
++    let onclick = {
++        let field_name = field_name.clone();
++        Callback::from(move |_| {
++            let value = form.field_value(&field_name) != "true";
++            let mut form = form.clone();
++            form.set_field_value(&field_name, &value.to_string());
++            ontoggle.emit(value);
++        })
++    };
+     html! {
+         <div class="form-group row mb-3">
+             <label for={props.field_name.clone()}
+@@ -25,10 +37,13 @@ pub fn checkbox<T: Model>(props: &Props<T>) -> Html {
+                 {":"}
+             </label>
+             <div class="col-8">
+-                <yew_form::CheckBox<T>
+-                form={&props.form}
+-                field_name={props.field_name.clone()}
+-                ontoggle={props.ontoggle.clone()} />
++                <input
++                    type="checkbox"
++                    id={props.field_name.clone()}
++                    checked={props.form.field_value(&props.field_name) == "true"}
++                    {onclick}
++                    class="form-check-input form-input"
++                 />
+             </div>
+         </div>
+     }
+diff --git a/app/src/components/form/date_input.rs b/app/src/components/form/date_input.rs
+index dc434a0..a461ecf 100644
+--- a/app/src/components/form/date_input.rs
++++ b/app/src/components/form/date_input.rs
+@@ -28,6 +28,7 @@ pub fn date_time_input(props: &DateTimeInputProps) -> Html {
+                 value={value.as_ref().map(|v: &DateTime<Utc>| v.to_rfc3339())} />
+             <input
+                 type="datetime-local"
++                id={props.name.clone()}
+                 step="1"
+                 class="form-control"
+                 value={value.as_ref().map(|v: &DateTime<Utc>| v.naive_utc().to_string())}
+diff --git a/app/src/components/form/field.rs b/app/src/components/form/field.rs
+index 07320ae..899d649 100644
+--- a/app/src/components/form/field.rs
++++ b/app/src/components/form/field.rs
+@@ -37,7 +37,7 @@ pub fn field<T: Model>(props: &Props<T>) -> Html {
+             class="form-control"
+             class_invalid="is-invalid has-error"
+             class_valid="has-success"
+-            autocomplete={props.autocomplete.clone().unwrap_or(props.field_name.clone())}
++            autocomplete={props.autocomplete.clone().unwrap_or_else(|| "off".to_string())}
+             oninput={&props.oninput} />
+             <div class="invalid-feedback">
+               {&props.form.field_message(&props.field_name)}
+diff --git a/app/src/components/form/file_input.rs b/app/src/components/form/file_input.rs
+index 3681e0b..35f738b 100644
+--- a/app/src/components/form/file_input.rs
++++ b/app/src/components/form/file_input.rs
+@@ -184,7 +184,7 @@ impl Component for JpegFileInput {
+                     <input type="hidden" name={ctx.props().name.clone()} value={avatar_string.clone()} />
+                     <input
+                         class="form-control"
+-                        id="avatarInput"
++                        id={ctx.props().name.clone()}
+                         type="file"
+                         accept="image/jpeg"
+                         oninput={link.callback(|e: InputEvent| {
+diff --git a/app/src/components/group_details.rs b/app/src/components/group_details.rs
+index 90b4d21..8d28475 100644
+--- a/app/src/components/group_details.rs
++++ b/app/src/components/group_details.rs
+@@ -93,7 +93,7 @@ impl GroupDetails {
+     fn view_details(&self, ctx: &Context<Self>, g: &Group, schema: Vec<AttributeSchema>) -> Html {
+         html! {
+           <>
+-            <h3>{g.display_name.to_string()}</h3>
++            <h1>{g.display_name.to_string()}</h1>
+             <GroupDetailsForm
+               group={g.clone()}
+               group_attributes_schema={schema}
+@@ -129,14 +129,14 @@ impl GroupDetails {
+         };
+         html! {
+           <>
+-            <h5 class="fw-bold">{"Members"}</h5>
++            <h2 class="fs-5 fw-bold">{"Members"}</h2>
+             <div class="table-responsive">
+               <table class="table table-hover">
+                 <thead>
+                   <tr key="headerRow">
+                     <th>{"User Id"}</th>
+                     <th>{"Display name"}</th>
+-                    <th></th>
++                    <th>{"Remove"}</th>
+                   </tr>
+                 </thead>
+                 <tbody>
+diff --git a/app/src/components/group_schema_table.rs b/app/src/components/group_schema_table.rs
+index 4ccbe3c..1c4b31e 100644
+--- a/app/src/components/group_schema_table.rs
++++ b/app/src/components/group_schema_table.rs
+@@ -116,7 +116,7 @@ impl GroupSchemaTable {
+         let make_table = |attributes: &Vec<Attribute>| {
+             html! {
+                 <div class="table-responsive">
+-                    <h3>{if hardcoded {"Hardcoded"} else {"User-defined"}}{" attributes"}</h3>
++                    <h2>{if hardcoded {"Hardcoded"} else {"User-defined"}}{" attributes"}</h2>
+                     <table class="table table-hover">
+                         <thead>
+                             <tr>
+@@ -188,6 +188,7 @@ impl GroupSchemaTable {
+ pub fn list_group_schema() -> Html {
+     html! {
+         <div>
++            <h1>{"Group attributes"}</h1>
+             <GroupSchemaTable hardcoded={true} />
+             <GroupSchemaTable hardcoded={false} />
+             <Link classes="btn btn-primary" to={AppRoute::CreateGroupAttribute}>
+diff --git a/app/src/components/login.rs b/app/src/components/login.rs
+index 8caa7e5..5a4192a 100644
+--- a/app/src/components/login.rs
++++ b/app/src/components/login.rs
+@@ -158,6 +158,8 @@ impl Component for LoginForm {
+             }
+         } else {
+             html! {
++              <>
++              <h1 class="text-center mb-3">{"Login"}</h1>
+               <form class="form center-block col-sm-4 col-offset-4">
+                 <div class="input-group">
+                   <div class="input-group-prepend">
+@@ -165,6 +167,7 @@ impl Component for LoginForm {
+                       <i class="bi-person-fill"/>
+                     </span>
+                   </div>
++                  <label for="username" class="visually-hidden">{"Username"}</label>
+                   <Field
+                     class="form-control"
+                     class_invalid="is-invalid has-error"
+@@ -181,6 +184,7 @@ impl Component for LoginForm {
+                       <i class="bi-lock-fill"/>
+                     </span>
+                   </div>
++                  <label for="password" class="visually-hidden">{"Password"}</label>
+                   <Field
+                     class="form-control"
+                     class_invalid="is-invalid has-error"
+@@ -215,6 +219,7 @@ impl Component for LoginForm {
+                 }
+                 </div>
+               </form>
++              </>
+             }
+         }
+     }
+diff --git a/app/src/components/remove_user_from_group.rs b/app/src/components/remove_user_from_group.rs
+index c570cee..7cbc1ef 100644
+--- a/app/src/components/remove_user_from_group.rs
++++ b/app/src/components/remove_user_from_group.rs
+@@ -91,9 +91,10 @@ impl Component for RemoveUserFromGroupComponent {
+         html! {
+           <button
+             class="btn btn-danger"
++            aria-label={format!("Remove user {} from group", ctx.props().username)}
+             disabled={self.common.is_task_running()}
+             onclick={link.callback(|_| Msg::SubmitRemoveGroup)}>
+-            <i class="bi-x-circle-fill" aria-label="Remove user from group" />
++            <i class="bi-x-circle-fill" />
+           </button>
+         }
+     }
+diff --git a/app/src/components/select.rs b/app/src/components/select.rs
+index c1d54ce..9f44a98 100644
+--- a/app/src/components/select.rs
++++ b/app/src/components/select.rs
+@@ -1,4 +1,5 @@
+ use yew::prelude::*;
++use yew::virtual_dom::AttrValue;
+ 
+ pub struct Select {
+     node_ref: NodeRef,
+@@ -8,6 +9,8 @@ pub struct Select {
+ pub struct SelectProps {
+     pub children: ChildrenWithProps<SelectOption>,
+     pub on_selection_change: Callback<Option<SelectOptionProps>>,
++    #[prop_or(None)]
++    pub aria_label: Option<AttrValue>,
+ }
+ 
+ pub enum SelectMsg {
+@@ -56,6 +59,7 @@ impl Component for Select {
+         html! {
+             <select class="form-select"
+               ref={self.node_ref.clone()}
++              aria-label={ctx.props().aria_label.clone()}
+               disabled={ctx.props().children.is_empty()}
+               onchange={ctx.link().callback(|_| SelectMsg::OnSelectChange)}>
+             { ctx.props().children.clone() }
+diff --git a/app/src/components/user_details.rs b/app/src/components/user_details.rs
+index b169798..2f893a7 100644
+--- a/app/src/components/user_details.rs
++++ b/app/src/components/user_details.rs
+@@ -151,13 +151,13 @@ impl UserDetails {
+         };
+         html! {
+           <>
+-            <h5 class="row m-3 fw-bold">{"Group memberships"}</h5>
++            <h2 class="row m-3 fs-5 fw-bold">{"Group memberships"}</h2>
+             <div class="table-responsive">
+               <table class="table table-hover">
+                 <thead>
+                   <tr key="headerRow">
+                     <th>{"Group"}</th>
+-                    { if ctx.props().is_admin { html!{ <th></th> }} else { html!{} }}
++                    { if ctx.props().is_admin { html!{ <th>{"Remove"}</th> }} else { html!{} }}
+                   </tr>
+                 </thead>
+                 <tbody>
+@@ -215,7 +215,7 @@ impl Component for UserDetails {
+             (Some((u, schema)), error) => {
+                 html! {
+                   <>
+-                    <h3>{u.id.to_string()}</h3>
++                    <h1>{u.id.to_string()}</h1>
+                     <div class="d-flex flex-row-reverse">
+                       <Link
+                         to={AppRoute::ChangePassword{user_id: u.id.clone()}}
+@@ -225,7 +225,7 @@ impl Component for UserDetails {
+                       </Link>
+                     </div>
+                     <div>
+-                      <h5 class="row m-3 fw-bold">{"User details"}</h5>
++                      <h2 class="row m-3 fs-5 fw-bold">{"User details"}</h2>
+                     </div>
+                     <UserDetailsForm
+                       user={u.clone()}
+diff --git a/app/src/components/user_schema_table.rs b/app/src/components/user_schema_table.rs
+index daa9b07..f4a9da0 100644
+--- a/app/src/components/user_schema_table.rs
++++ b/app/src/components/user_schema_table.rs
+@@ -114,7 +114,7 @@ impl UserSchemaTable {
+         let make_table = |attributes: &Vec<Attribute>| {
+             html! {
+                 <div class="table-responsive">
+-                    <h3>{if hardcoded {"Hardcoded"} else {"User-defined"}}{" attributes"}</h3>
++                    <h2>{if hardcoded {"Hardcoded"} else {"User-defined"}}{" attributes"}</h2>
+                     <table class="table table-hover">
+                         <thead>
+                             <tr>
+@@ -188,6 +188,7 @@ impl UserSchemaTable {
+ pub fn list_user_schema() -> Html {
+     html! {
+         <div>
++            <h1>{"User attributes"}</h1>
+             <UserSchemaTable hardcoded={true} />
+             <UserSchemaTable hardcoded={false} />
+             <Link classes="btn btn-primary" to={AppRoute::CreateUserAttribute}>

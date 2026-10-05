@@ -1,0 +1,95 @@
+{
+  "cycle": 26,
+  "project": "nitnelave/lldap",
+  "commit": "99c510a7a603df1cdaca00a9ffff95ec73b296eb",
+  "commit_date": "2026-09-26T13:31:51+02:00",
+  "branch_upstream": "main",
+  "docker_image": "lldap/lldap@sha256:bb6e509b4a44e8e9985acfd95d83a85e252ed81879254d9751b9926e3ac26c62 (tag latest au 2026-10-05)",
+  "framework": "Rust (actix) + frontend Yew 0.19 compilé en WebAssembly par wasm-pack ; tout le DOM est généré par le wasm — aucun rendu serveur hormis index.html + spinner. Bootstrap 5.1 + thème bootstrap-dark-5 (class html.light/dark, localStorage bs.prefers-color-scheme).",
+  "served_source": "L'image sert /app/app/ SUR DISQUE : index.html (= index_local.html du repo, variantes statiques locales), static/* (bootstrap local, fonts, style.css, main.js), pkg/lldap_app.js + lldap_app_bg.wasm(.gz). main.js importe /pkg/lldap_app.js puis init() charge lldap_app_bg.wasm sous Chromium (UA contient 'AppleWebKit' → branche wasm non-gz). patch.diff ne touche que les sources app/ (src/*.rs + éventuellement index_local.html/static/*) ; le rejeu patché = rebuild wasm-pack + docker cp des artefacts dans un container neuf — même canal de distribution que l'image upstream.",
+  "base_url": "http://localhost:17170",
+  "boot": {
+    "container": "docker run -d --name lldap -p 17170:17170 -e LLDAP_LDAP_BASE_DN=dc=example,dc=com -e LLDAP_JWT_SECRET=test -e LLDAP_LDAP_USER_PASS=admin123 lldap/lldap@sha256:bb6e509b4a44e8e9985acfd95d83a85e252ed81879254d9751b9926e3ac26c62",
+    "db": "sqlite dans le container (/data) — au premier boot : migrations 1..11, création des groupes internes id 1=lldap_admin 2=lldap_password_manager 3=lldap_strict_readonly + user admin (mot de passe de LLDAP_LDAP_USER_PASS)",
+    "wasm_rebuild": "rustup toolchain 1.91.0 (rust-toolchain.toml) + target wasm32-unknown-unknown + wasm-pack 0.15.0 (binaire) ; ./app/build.sh => app/pkg/ (~46 s). Patch appliqué => docker cp app/index_local.html->/app/app/index.html (si modifié), app/static/*, app/pkg/* dans le container."
+  },
+  "seed": {
+    "script": "tools/seed.sh — GraphQL /api/graphql avec Bearer token admin",
+    "content": "user jdoe (John Doe, john.doe@example.com, department=Engineering), user asmith (Alice Smith, alice.smith@example.com), groupe 'Test Users' id=4 (sur DB vierge, après les 3 groupes internes) avec jdoe+asmith membres et description='Seed group for a11y audit', attribut user 'department' (STRING visible editable), attribut groupe 'description' (STRING visible editable)",
+    "determinism": "ids figés (jdoe, asmith) ; id groupe résolu par displayName (4 sur DB vierge) ; script idempotent (erreurs 'already exists' ignorées)"
+  },
+  "auth": "tools/auth.json produit par tools/login.mjs : vrai formulaire /login (champs #username/#password) => cookies token/refresh_token/user_id/is_admin. Host = localhost partout (cookies par domaine).",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls_file": "tools/urls-public.txt",
+      "urls": [
+        "http://localhost:17170/login  (seule page non-auth : le reste du routage exige un compte)"
+      ],
+      "states": []
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json",
+      "urls_file": "tools/urls-auth.txt",
+      "urls": [
+        "/users (liste)",
+        "/users/create",
+        "/user/jdoe (détail + group memberships)",
+        "/user/jdoe/password (change password)",
+        "/groups (liste)",
+        "/groups/create",
+        "/group/4 (détail + membres + attributs)",
+        "/user-attributes (schéma utilisateur)",
+        "/user-attributes/create",
+        "/group-attributes (schéma groupe)",
+        "/group-attributes/create"
+      ],
+      "states": [
+        "user-menu-dropdown",
+        "delete-user-modal",
+        "delete-group-modal",
+        "dark-mode"
+      ]
+    }
+  ],
+  "excluded": [
+    "/ (Index) : redirige vers /users (yew-router BrowserRouter) — URL canonique /users déclarée ; les deux rendent le même composant",
+    "/reset-password/step1 et /reset-password/step2/:token : password_reset_enabled=false par défaut (pas de SMTP dans le boot) => Redirect vers /login — pas de document distinct",
+    "/api/graphql et /auth/* : endpoints API (JSON), pas des pages",
+    "/logout : pas de route (bouton déclenchant Msg::Logout), action destructrice",
+    "port 3890 : LDAP binaire, hors périmètre web",
+    "index route alias : AppRoute::Index et ListUsers rendent le même composant ; les deux URLs sont déclarées et auditées (violations comptées en double, assumé)"
+  ],
+  "auditCommands": [
+    "cd boucle-continue/cycles/lldap/tools && npm install (axe-core+playwright)",
+    "./seed.sh   # LLDAP_URL=http://localhost:17170 par défaut",
+    "node login.mjs   # -> tools/auth.json",
+    "node audit.mjs http://localhost:17170 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait-for 'form' --wait 1000 --out ../reports/baseline/public",
+    "node audit.mjs http://localhost:17170 --storage-state auth.json --urls \"$(paste -sd, urls-auth.txt)\" --states all --wait-for 'main table, main form, main h3' --wait 1500 --out ../reports/baseline/auth",
+    "node audit.mjs http://localhost:17170 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait-for 'form' --wait 1000 --out ../reports/final/public",
+    "node audit.mjs http://localhost:17170 --storage-state auth.json --urls \"$(paste -sd, urls-auth.txt)\" --states all --wait-for 'main table, main form, main h1' --wait 1500 --out ../reports/final/auth",
+    "node verify.mjs http://localhost:17170 auth.json",
+    "node eval-final.mjs http://localhost:17170 auth.json"
+  ],
+  "wait_rationale": "Tout le contenu est monté par wasm après fetch GraphQL : le body ne contient que <noscript>+scripts tant que run_app() n'a pas rendu. Le --wait-for composite 'main table, main form, main h3' n'existe sur une page qu'APRÈS le chargement des données (chaque page rend 'Loading...' puis table/form/h3) — c'est le même critère de sédimentation pour toutes les routes auth ; 'form' sur /login (rendu dès le mount). --wait 1500/1000 = marge de cascade CSS/thème après le mount.",
+  "toolVersions": {
+    "node": "v24.19.0",
+    "playwright": "1.63.0",
+    "axe-core": "4.13.0",
+    "chromium": "ms-playwright",
+    "audit.mjs": "v6 (copie canonique racine + STATES cycle)",
+    "rust": "1.91.0 (rust-toolchain.toml du repo)",
+    "wasm-pack": "0.15.0",
+    "lldap image": "sha256:bb6e509b4a44e8e9985acfd95d83a85e252ed81879254d9751b9926e3ac26c62"
+  },
+  "notes": [
+    "viewport par défaut du runner 1280x720 ; aucun état ne change le viewport",
+    "l'état dark-mode persiste localStorage -> déclaré EN DERNIER dans STATES (le contexte Playwright survit aux navigations about:blank entre états)",
+    "chaque état est rejoué depuis un document neuf par le runner (goto about:blank puis re-navigation) — les setups sont idempotents",
+    "les modales sont de vraies modales Bootstrap 5 ouvertes via web_sys (Modal::new().show()) => sélecteur .modal.show",
+    "le bundle wasm servi à Chromium est lldap_app_bg.wasm NON gzippé (main.js branche sur UA 'AppleWebKit') ; les deux fichiers sont déployés",
+    "thème par défaut : html.light (prefers-color-scheme headless) ; les contrastes dark ne sont mesurés que dans l'état dark-mode"
+  ]
+}
