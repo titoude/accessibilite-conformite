@@ -1,0 +1,1549 @@
+# Audit accessibilité — 2026-10-05
+
+**16 règle(s) violée(s), 1157 occurrence(s), 46/46 scénario(s) audité(s), 0 erreur(s), 249 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `54bb51d73ebc`
+
+## [CRITICAL] aria-allowed-attr — Elements must only use supported ARIA attributes
+
+Ensure an element's role supports its ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-allowed-attr?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `#folder-0-0`
+- http://127.0.0.1:8384/ [state:folder-local-additions]
+  - `#folder-0-0`
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
+  - `#folder-0-0`
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `#folder-0-0`
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `#folder-0-0`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `#folder-0-1`
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `#folder-0-2`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `#device-0-0`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `#device-0-1`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `#device-0-0`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `#device-0-0`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `#device-0-0`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `#device-0-0`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `#device-0-0`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `#restoreVersionDateRange`
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `#restoreVersionDateRange`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `textarea[name="ignoresText"]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `#numConnections`
+  - `#maxRecvKbps`
+  - `#maxSendKbps`
+- http://127.0.0.1:8384/ [state:log-viewer]
+  - `#logViewerText`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `.text-monospace[readonly=""][type="text"]`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `.text-monospace[readonly=""][type="text"]`
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `.text-monospace[readonly=""][type="text"]`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `#folder-versioning > .form-group > select`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `select[ng-change="setDefaultsForFolderType()"]`
+  - `select[ng-model="currentFolder.order"]`
+  - `select[ng-model="currentFolder.minDiskFree.unit"]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `select[ng-model="currentDevice.compression"]`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `.col-sm-3`
+  - `select[ng-model="tmpOptions.upgrades"]`
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `select[ng-model="tmpGUI.theme"]`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `.col-sm-3`
+  - `select[ng-model="tmpOptions.upgrades"]`
+  - `#urPreviewVersion`
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `.col-sm-3`
+  - `select[ng-model="tmpOptions.upgrades"]`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `div[ng-switch-when="email"] > pre > .pull-right[data-original-title="Copy"][tooltip=""]`
+  - `div[ng-switch="shareDeviceIdParams.method"] > pre > .pull-right[data-original-title="Copy"][tooltip=""]`
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `.navbar-btn`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-required-children?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `#advancedAccordion`
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `#advancedAccordion`
+
+## [CRITICAL] aria-required-parent — Certain ARIA roles must be contained by particular parents
+
+Ensure elements with an ARIA role that require parent roles are contained by them
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-required-parent?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `#folder0Heading`
+  - `#folder1Heading`
+  - `#folder2Heading`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI
+
+- http://127.0.0.1:8384/
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:usage-report-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +1 autres
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-right > .ng-binding[href=""]`
+  - `.ng-binding[href=""] > span[translate=""]`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:folder-local-additions]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-right > .ng-binding[href=""]`
+  - `.ng-binding[href=""] > span[translate=""]`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - … +3 autres
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-right > .ng-binding[href=""]`
+  - `.ng-binding[href=""] > span[translate=""]`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-right > .ng-binding[href=""]`
+  - `.ng-binding[href=""] > span[translate=""]`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-right > .ng-binding[href=""]`
+  - `.ng-binding[href=""] > span[translate=""]`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - … +3 autres
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[ng-switch-default=""][href=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +1 autres
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[href=""][ng-switch-default=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[href=""][ng-switch-default=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +10 autres
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[href=""][ng-switch-default=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +7 autres
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[href=""][ng-switch-default=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +7 autres
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[href=""][ng-switch-default=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +4 autres
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.ng-binding[href=""][ng-switch-default=""]`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.panel-status.text-danger[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `#device-this > .less-padding.panel-body[ng-if="lazyReady"] > .table-auto.table-condensed > tbody > tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +3 autres
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.panel-status.text-danger[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +8 autres
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.panel-status.text-danger[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +10 autres
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.panel-status.text-danger[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +7 autres
+- http://127.0.0.1:8384/ [state:add-device]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.panel-status.text-danger[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +8 autres
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.panel-status.text-danger[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +8 autres
+- http://127.0.0.1:8384/ [state:show-id-qr]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:log-viewer]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span:nth-child(2)`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > a[href=""]`
+  - … +1 autres
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +7 autres
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +6 autres
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +6 autres
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +6 autres
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +6 autres
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:about]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:about-includes]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - … +13 autres
+- http://127.0.0.1:8384/ [state:connectivity-listeners]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:connectivity-discovery]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `.active[ng-repeat="name in localesNamesInvKeys"] > .ng-binding[href="#"]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `button[data-target="#folder-0-0"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+  - `button[data-target="#device-0-0"] > .panel-title > .text-info.panel-status[ng-switch="deviceStatus(deviceCfg)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#device-0-1"] > .panel-title > .text-info.panel-status[ng-switch="deviceStatus(deviceCfg)"] > .hidden-xs.ng-binding`
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `h3 > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `a[ng-click="showListenerStatus()"]`
+  - `a[ng-click="showDiscoveryStatus()"]`
+  - `tr:nth-child(7) > .text-right > span[tooltip=""] > .ng-binding[href=""]`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `label[for="optionsInput3"] > a[target="_blank"]`
+  - `label[for="optionsInput4"] > a[target="_blank"]`
+  - `label[for="optionsInput5"] > a[target="_blank"]`
+  - `label[for="optionsInput6"] > a[target="_blank"]`
+  - `label[for="optionsInput7"] > a[target="_blank"]`
+  - `label[for="optionsInput8"] > a[target="_blank"]`
+  - `label[for="optionsInput9"] > a[target="_blank"]`
+  - `label[for="optionsInput10"] > a[target="_blank"]`
+  - `label[for="optionsInput11"] > a[target="_blank"]`
+  - `label[for="optionsInput12"] > a[target="_blank"]`
+  - … +43 autres
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `label[for="folder0Input0"] > a[target="_blank"]`
+  - `label[for="folder0Input1"] > a[target="_blank"]`
+  - `label[for="folder0Input2"] > a[target="_blank"]`
+  - `label[for="folder0Input3"] > a[target="_blank"]`
+  - `label[for="folder0Input4"] > a[target="_blank"]`
+  - `label[for="folder0Input5"] > a[target="_blank"]`
+  - `label[for="folder0Input6"] > a[target="_blank"]`
+  - `label[for="folder0Input8"] > a[target="_blank"]`
+  - `label[for="folder0Input9"] > a[target="_blank"]`
+  - `label[for="folder0Input10"] > a[target="_blank"]`
+  - … +27 autres
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `.dropdown-toggle[ng-if="visible"][data-toggle="dropdown"]`
+  - `.action-menu.dropdown:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.action-menu.dropdown[ng-if="authenticated"] > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-success.btn-sm[type="button"]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-danger.btn-sm[tooltip=""]`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-danger.btn-sm[tooltip=""]`
+
+## [SERIOUS] aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+Ensure ARIA attributes are not prohibited for an element's role
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `span[aria-label="Local Additions"]`
+  - `.fa-stop`
+  - `span[aria-label="Up to Date"]`
+  - `.fa-unlink`
+  - `span[aria-label="Disconnected (Inactive)"]`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI
+
+- http://127.0.0.1:8384/
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:usage-report-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#ur > .modal-lg.modal-dialog > .modal-content > .alert-info.alert.modal-header`
+  - `#ur > .modal-lg.modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body > div`
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:folder-local-additions]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `div[ng-switch="localChangedType"]`
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#revert-override-confirmation > .modal-dialog > .modal-content > .alert-danger.alert.modal-header`
+  - `#revert-override-confirmation > .modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#restoreVersions > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `td[role="gridcell"]:nth-child(1)`
+  - `.form-inline`
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#restoreVersions > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `td[role="gridcell"]:nth-child(1)`
+  - `.form-inline`
+  - `#restore-versions-confirmation > .modal-dialog > .modal-content > .alert-warning.alert.modal-header`
+  - `#restore-versions-confirmation > .modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editFolder > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `#remove-folder-confirmation > .modal-dialog > .modal-content > .alert-warning.alert.modal-header`
+  - `#remove-folder-confirmation > .modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editDevice > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editDevice > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editDevice > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:add-device]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editDevice > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editDevice > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `#remove-device-confirmation > .modal-dialog > .modal-content > .alert-warning.alert.modal-header`
+  - `#remove-device-confirmation > .modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#editDevice > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `#share-device-id-dialog > .modal-lg.modal-dialog > .modal-content > .alert-warning.alert.modal-header`
+  - `div[ng-switch="shareDeviceIdParams.method"]`
+- http://127.0.0.1:8384/ [state:show-id-qr]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#idqr > .modal-lg.modal-dialog > .modal-content > .alert-info.alert.modal-header`
+  - `.text-center.modal-body > .well.well-sm.select-on-click`
+  - `.img-thumbnail`
+- http://127.0.0.1:8384/ [state:log-viewer]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span:nth-child(2)`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#logViewer > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `#logViewer > .modal-lg.modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body > .nav-tabs.nav`
+  - `#logViewerText`
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#globalChanges > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `#globalChanges > .modal-lg.modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `.modal-lg.modal-dialog > .modal-content > .alert-success.alert.modal-header`
+  - `#urPreview > .modal-lg.modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#settings > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `#discard-changes-confirmation > .modal-dialog > .modal-content > .alert-warning.alert.modal-header`
+  - `#discard-changes-confirmation > .modal-dialog > .modal-content > div[ng-transclude=""] > .modal-body`
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.modal-lg.modal-dialog > .modal-content > .alert-danger.alert.modal-header`
+  - `.modal-body > .text-danger`
+  - `#guiHeading`
+  - `#advancedAccordion > .panel-default.panel:nth-child(2)`
+  - `#ldapHeading`
+  - … +3 autres
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.modal-lg.modal-dialog > .modal-content > .alert-danger.alert.modal-header`
+  - `.modal-body > .text-danger`
+  - `#guiHeading`
+  - `#optionsHeading`
+  - `#ldapHeading`
+  - … +3 autres
+- http://127.0.0.1:8384/ [state:about]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#about > .modal-lg.modal-dialog > .modal-content > .alert-info.alert.modal-header`
+  - `h1:nth-child(1)`
+  - `h1:nth-child(2)`
+  - `.text-center[ng-if="version.version"]:nth-child(3)`
+  - `.text-center:nth-child(4)`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:about-includes]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#about > .modal-lg.modal-dialog > .modal-content > .alert-info.alert.modal-header`
+  - `h1:nth-child(1)`
+  - `h1:nth-child(2)`
+  - `.text-center[ng-if="version.version"]:nth-child(3)`
+  - `.text-center:nth-child(4)`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:connectivity-listeners]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#connectivity-status > .modal-lg.modal-dialog > .modal-content > .modal-header`
+  - `div[ng-switch="connectivityStatusParams.type"]`
+- http://127.0.0.1:8384/ [state:connectivity-discovery]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `#connectivity-status > .modal-lg.modal-dialog > .modal-content > .alert-danger.alert.modal-header`
+  - `div[ng-switch="connectivityStatusParams.type"]`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-body`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-body`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI
+
+- http://127.0.0.1:8384/
+  - `html`
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `html`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `html`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `html`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `html`
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `html`
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI
+
+- http://127.0.0.1:8384/
+  - `html`
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `html`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `html`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `html`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `html`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `html`
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `html`
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:about]
+  - `#about-authors > .text-center`
+
+## [MINOR] empty-heading — Headings should not be empty
+
+Ensure headings have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-heading?application=axeAPI
+
+- http://127.0.0.1:8384/
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:usage-report-open]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:folder-local-additions]
+  - `div:nth-child(4) > h4`
+  - `#localChanged > .modal-lg.modal-dialog > .modal-content > .alert-info.alert.modal-header > .modal-title`
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:add-device]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:show-id-qr]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:log-viewer]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:about]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:about-includes]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:connectivity-listeners]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:connectivity-discovery]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `div:nth-child(4) > h4`
+- http://127.0.0.1:8384/ [state:mobile-home]
+  - `div:nth-child(4) > h4`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-table-header?application=axeAPI
+
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
+  - `#settings-ignored-devices > .form-group > .table-responsive > .table-condensed > thead > tr > th:nth-child(4)`
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
+  - `#settings-ignored-folders > .form-group > .table-responsive > .table-condensed > thead > tr > th:nth-child(4)`
+
+## Résultats incomplets à revoir (249)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://127.0.0.1:8384/
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:usage-report-open]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.modal-body > div > p:nth-child(1)`
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:folder-local-additions]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(2) > .ng-binding[href="#"]`
+  - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(3) > .ng-binding[href="#"]`
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-switch="revertOverrideParams.type"] > div[ng-switch-default=""] > p:nth-child(1)`
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.btn-xs > span[translate=""]`
+  - `label[for="restoreVersionSearch"] > span[translate=""]`
+  - `#restoreVersionSearch`
+  - `label[for="restoreVersionDate"] > span[translate=""]`
+  - `#restoreVersionDateRange`
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.btn-xs > .ng-binding`
+  - `label[for="restoreVersionSearch"] > span[translate=""]`
+  - `#restoreVersionSearch`
+  - `label[for="restoreVersionDate"] > span[translate=""]`
+  - `#restoreVersionDateRange`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `span[translate-value-version="v2.1.5"]`
+  - `#H5TRW4T-N6OBRP7-ZRPPVBJ-KU67Y4G-GWHN3IW-KVNYZVI-C4BYAJV-H7P2HAZ > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `#RWFSQ74-J4UN3CQ-WST6YZT-5ZI6SII-I5FL2JX-RBGOQD5-NYHU3SR-TAHIOQY > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.col-md-12 > label`
+  - `.col-md-12 > a[target="_blank"] > span[translate=""]`
+  - `.col-md-12 > .row > .col-md-6:nth-child(1) > label > span[translate=""]`
+  - `.col-md-6:nth-child(1) > .help-block > span[translate=""]:nth-child(1)`
+  - `.col-md-6:nth-child(1) > .help-block > span[translate=""]:nth-child(2)`
+  - `label[for="rescanIntervalS"]`
+  - `#rescanIntervalS`
+  - `.row:nth-child(2) > .col-md-6.form-group:nth-child(1) > label`
+  - `.col-md-6.form-group:nth-child(1) > a[target="_blank"] > span[translate=""]`
+  - … +15 autres
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.col-md-6:nth-child(2) > .form-group > .checkbox[title=""][ng-disabled="currentDevice.untrusted"] > label > .help-block`
+  - `span[data-original-title="archives"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `span[data-original-title="broken"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `span[data-original-title="sync-main"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="addresses"]`
+  - `#addresses`
+  - `.row.form-group > .col-md-6:nth-child(1) > .form-group > .help-block`
+  - `.row.form-group > .col-md-6:nth-child(2) > .form-group > label`
+  - `select[ng-model="currentDevice.compression"]`
+  - `#device-advanced > .row:nth-child(2) > .col-md-6:nth-child(1) > label`
+  - `.col-md-8 > span[translate=""]`
+  - `.col-md-8 > a[target="_blank"] > span[translate=""]`
+  - `#numConnections`
+  - … +9 autres
+- http://127.0.0.1:8384/ [state:add-device]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-if="editingDeviceNew()"] > .help-block > span[translate=""]:nth-child(1)`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:show-id-qr]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:log-viewer]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+  - `label[for="minHomeDiskFree"] > span[translate=""]`
+  - `#minHomeDiskFree`
+  - `.col-sm-3`
+  - `.col-xs-12.help-block > span[translate=""]:nth-child(2)`
+  - `#settings-general > .row:nth-child(2) > .col-md-6:nth-child(2) > .form-group > label`
+  - `label[for="urVersion"]`
+  - `a[data-target="#urPreview"]`
+  - … +4 autres
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+  - `label[for="user"]`
+  - `#user`
+  - `label[for="password"]`
+  - `#password`
+  - `.row:nth-child(4) > .col-md-6:nth-child(1) > .form-group > label`
+  - `select[ng-model="tmpGUI.theme"]`
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+  - `label[for="MaxRecvKbps"]`
+  - `#MaxRecvKbps`
+  - `label[for="MaxSendKbps"]`
+  - `#MaxSendKbps`
+  - `label[for="GlobalAnnServersStr"]`
+  - `#GlobalAnnServersStr`
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+  - `label[for="minHomeDiskFree"] > span[translate=""]`
+  - `#minHomeDiskFree`
+  - `.col-sm-3`
+  - `.col-xs-12.help-block > span[translate=""]:nth-child(2)`
+  - `#settings-general > .row:nth-child(2) > .col-md-6:nth-child(2) > .form-group > label`
+  - `label[for="urVersion"]`
+  - `a[data-target="#urPreview"]`
+  - … +5 autres
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `span[translate-value-version="v2.1.5"]`
+  - `a[href$="#settings-ignored-devices"] > .badge.ng-binding`
+  - `a[href$="#settings-ignored-folders"] > .badge.ng-binding`
+  - `label[for="minHomeDiskFree"] > span[translate=""]`
+  - `#minHomeDiskFree`
+  - `.col-sm-3`
+  - `.col-xs-12.help-block > span[translate=""]:nth-child(2)`
+  - `#settings-general > .row:nth-child(2) > .col-md-6:nth-child(2) > .form-group > label`
+  - `label[for="urVersion"]`
+  - `a[data-target="#urPreview"]`
+  - … +4 autres
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="optionsInput3"]`
+  - `#optionsInput3`
+  - `label[for="optionsInput4"]`
+  - `label[for="optionsInput5"]`
+  - `label[for="optionsInput6"]`
+  - `#optionsInput6`
+  - `label[for="optionsInput7"]`
+  - `#optionsInput7`
+  - `label[for="optionsInput8"]`
+  - … +11 autres
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="folder0Input0"]`
+  - `label[for="folder0Input1"]`
+  - `label[for="folder0Input2"]`
+  - `#folder0Input2`
+  - `label[for="folder0Input3"]`
+  - `label[for="folder0Input4"]`
+  - `#folder0Input4`
+  - `label[for="folder0Input5"]`
+  - `label[for="folder0Input6"]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:about]
+  - `span[translate-value-version="v2.1.5"]`
+  - `#contributor-list`
+- http://127.0.0.1:8384/ [state:about-includes]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:connectivity-listeners]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:connectivity-discovery]
+  - `span[translate-value-version="v2.1.5"]`
+  - `li[ng-repeat="discovery in discoveryFailed"]`
+  - `.panel-body[translate=""]`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-success.btn-sm[type="button"] > span[translate=""]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-danger.btn-sm[tooltip=""] > span[translate=""]`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-danger.btn-sm[tooltip=""] > span[translate=""]`
+  - `button[ng-click="dismissPendingDevice(deviceID)"] > span[translate=""]`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h3 > .pull-right.ng-binding`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `span[translate-value-version="v2.1.5"]`
+  - `li[ng-repeat="name in localesNamesInvKeys"]:nth-child(5) > .ng-binding[href="#"]`
+  - `li[ng-repeat="name in localesNamesInvKeys"]:nth-child(6) > .ng-binding[href="#"]`
+  - `span[translate-value-address="127.0.0.1:42778"]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-footer.clearfix > .pull-right > .btn-success.btn-sm[type="button"] > span[translate=""]`
+  - `p > span[ng-if="!folders[folderID]"][translate=""]`
+  - `.text-danger.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `button[data-target="#folder-0-2"] > .panel-title > .text-success.panel-status[ng-switch="folderStatus(folder)"] > .hidden-xs.ng-binding`
+  - `div[aria-label="Devices"] > h3:nth-child(1)`
+  - `button[data-target="#device-this"] > .panel-title > .panel-title-text.ng-binding`
+  - … +4 autres
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `span[translate-value-version="v2.1.5"]`
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""][untrusted="currentDevice.untrusted"] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:add-device]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `#folder-versioning > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `.col-md-12 > a[target="_blank"]`
+  - `.col-md-6.form-group:nth-child(1) > a[target="_blank"]`
+  - `.col-md-6.form-group:nth-child(1) > p:nth-child(1) > a[target="_blank"]`
+  - `.col-md-6.form-group:nth-child(2) > p:nth-child(1) > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `.col-md-8 > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `a[data-target="#urPreview"]`
+  - `.col-md-6:nth-child(2) > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `#settings-gui > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `#settings-connections > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `a[data-target="#urPreview"]`
+  - `.col-md-6:nth-child(2) > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `a[data-target="#urPreview"]`
+  - `.col-md-6:nth-child(2) > .form-group > a[target="_blank"]`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `.table-responsive > .table-condensed`
+

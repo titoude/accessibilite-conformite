@@ -1,0 +1,96 @@
+{
+  "depot": "syncthing/syncthing",
+  "commitEpingle": "7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+  "statut": "TRAVAUX TERMINÉS — verdict laissé à l'auditeur indépendant (le worker ne se note pas lui-même)",
+  "resume": {
+    "baseline": {
+      "public": {
+        "regles": 3,
+        "occurrences": 6
+      },
+      "auth": {
+        "regles": 16,
+        "occurrences": 1157,
+        "pages": 46
+      }
+    },
+    "final": {
+      "public": {
+        "regles": 0,
+        "occurrences": 0
+      },
+      "auth": {
+        "regles": 0,
+        "occurrences": 0,
+        "pages": 46,
+        "incomplets": 213
+      }
+    },
+    "install_build": {
+      "public": {
+        "regles": 0
+      },
+      "auth": {
+        "regles": 0,
+        "occurrences": 0,
+        "pages": 46
+      }
+    },
+    "verify": "26 PASS / 0 FAIL / 1 N-A explicite (modale #localChanged : aucune local addition dans la seed au moment du rejeu)",
+    "eval_final": "1163 → 0 occurrences, toutes les règles résolues",
+    "sondes_incomplets": "213 items axe 'incomplete' re-sondés : 0 CONFIRMED_VIOLATION ; majoritairement RESOLVED (ratios recalculés) ou N-A documentée (éléments dynamiques absents au rejeu / règle sans sonde)"
+  },
+  "perimetre": "scopeHash identique baseline/final (54bb51d7…) : 1 page login + 45 états authentifiés (dashboard, 9 panneaux dossiers/devices, 20 modales, 7 onglets settings, 3 menus navbar, thème sombre, viewport mobile 390px). 7 catégories exclues documentées dans states.json (upgrade modal non déclenchable, pages erreurs transitoires, etc.)",
+  "stack": "AngularJS 1.x statique servi par Go (embed via lib/api/auto/gui.files.go généré par `go generate`). Thèmes = répertoires gui/{default,dark,light,black}, sélection lue au démarrage du serveur (changement = restart).",
+  "famillesCorrigees": {
+    "landmarks/headings (~500)": "div.container.content → <main>, h1 navbar-brand ajouté, cascade h2/h3/h4/h5 harmonisée (sections h2, groupes h3, titres de modale h3, sous-sections h4)",
+    "dialog semantics (~150)": "role=dialog + aria-modal + aria-labelledby injectés via modalDirective.js — couvre les ~29 modales utilisant le gabarit modal.html",
+    "aria-allowed-attr (20)": "Bootstrap 3.4 collapse pose aria-expanded sur l'ÉLÉMENT repliable (rôle generic) — suppression en run-block sur les 4 événements collapse",
+    "labels/selects/inputs (~200)": "for/id sur selects (thème, versioning, folderType, pullOrder, compression), aria-label sur champs inline (numConnections, rate limits, ignoresText, facilities), th vides → sr-only Actions",
+    "color-contrast (~250)": "liens #3498db → #1d6fa5 (thème clair) / #56a8e0 (sombre), .text-* utilitaires assombris/éclaircis, badge #777→#6d6d6d, dropdown/pagination .active, thème light patché de la même façon",
+    "target-size/liens-texte (~30)": "espacement boutons footers pending, soulignement des liens dans blocs de texte, marges h1",
+    "aria-prohibited-attr (5)": "span aria-label → role=img sur icônes d'état mobile",
+    "empty-heading (1)": "favicon mobile alt='' → alt='Syncthing'",
+    "navbar-overlap (14)": "menus navbar fixed-top recouvrant les contrôles pending → marge dynamique pendant l'ouverture (shown/hidden.bs.dropdown)"
+  },
+  "bugsReelsUpstream": [
+    "localChangedHeading() jamais définie → titre de modale #localChanged vide (string vide depuis la création du template)",
+    "label for='restoreVersionDate' pointe vers un id inexistant (fautif) — corrigé vers le vrai champ de filtre date",
+    "themes : Last-Modified = mtime du fichier servi, identique pour tous les thèmes (même tarball) → revalidation 304 et thème périmé après bascule jusqu'à hard-refresh (constaté, documenté dans le manifeste, pas patché — comportement upstream établi)"
+  ],
+  "install_build": {
+    "steps": "git clone propre du SHA → git apply patch.diff (19 fichiers) → cd lib/api/auto && go generate (gui.files.go ré-embarqué) → go build ./cmd/syncthing → binaire servi sur :8484 (STGUIASSETS absent → assets embed réels) → login frais → 45 états → 0 violation",
+    "reports": [
+      "reports/install-build-public",
+      "reports/install-build-auth"
+    ]
+  },
+  "nonCouvert": {
+    "etats": "7 catégories exclues listées dans states.json : modale upgrade (non déclenchable : upgradeInfo.newer faux), transferts en cours (dépend du cluster réel), pages d'erreur fatale, onboarding wizard (désactivé en config seed), dossiers en cours de scan, QR live camera, themes black (variante marginale de dark)",
+    "themes": "black non audité (proche de dark) ; default dépend de prefers-color-scheme → audité via dark + light explicitement",
+    "incomplets": "213 items axe incomplete — triage par sondes : color-contrast re-mesuré (RESOLVED), target-size bbox, éléments absents au rejeu = N-A explicite ; 0 CONFIRMED_VIOLATION"
+  },
+  "leconsHarnais": [
+    "AngularJS : pas de build frontend — le patch touche les sources servies ; STGUIASSETS=<repo>/gui permet la boucle dev sans re-générer ; install-build fait go generate + go build pour prouver l'embarqué",
+    "Thème syncthing : la bascule exige restart du serveur + hard-refresh (quirk mtime) — audit.mjs sonde la taille réelle de theme.css servi vs theme-assets/<nom>/ et recharge via CDP ignoreCache",
+    "fancytree = arbre en <table> : nœuds span.fancytree-node dans tr, sélection via dropdowns — pas de checkboxes",
+    "Bootstrap 3.4 : aria-expanded est posé sur la cible collapse ET le trigger à CHAQUE action → strip sur les 4 événements",
+    "CSRF : toute requête /rest sous cookie-auth exige l'en-tête X-CSRF-Token-<deviceIDShort> = valeur du cookie",
+    "menus fixed-top recouvrent le haut du contenu → axe target-size flag 'partially obscured' ; la marge dynamique (JS) est un vrai correctif produit, pas un contournement de scan"
+  ],
+  "artefacts": [
+    "manifest.json",
+    "states.json",
+    "results.json",
+    "patch.diff",
+    "scope-compare.json",
+    "provenance.json",
+    "tools/{audit,login,seed,verify,eval-final,incomplete-probes}.mjs|.sh",
+    "reports/{baseline,final,install-build}-{public,auth}/report.{md,json}",
+    "reports/eval-final.json",
+    "reports/incomplete-probes.json"
+  ],
+  "auditTiers": {
+    "statut": "en attente — verdict à intégrer après rejeu indépendant"
+  }
+}

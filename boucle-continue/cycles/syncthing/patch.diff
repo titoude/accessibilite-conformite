@@ -1,0 +1,975 @@
+diff --git a/gui/dark/assets/css/theme.css b/gui/dark/assets/css/theme.css
+index 5b27328..713115c 100644
+--- a/gui/dark/assets/css/theme.css
++++ b/gui/dark/assets/css/theme.css
+@@ -323,3 +323,19 @@ code.ng-binding{
+ .checkbox[disabled] .help-block {
+     color: #999999 !important;
+ }
++
++/* -- correction a11y : couleurs utilitaires lisibles sur fond sombre -- */
++.text-success, .text-success:hover { color: #7ec97e; }
++.text-danger, .text-danger:hover { color: #eda6a6; }
++.text-warning, .text-warning:hover { color: #d4a548; }
++.text-info, .text-info:hover { color: #7fb3e0; }
++/* #3498db sur #2e2e2e = 4,3:1 < 4,5:1 */
++a:not(.btn), a:not(.btn):hover, a:not(.btn):focus { color: #56a8e0 !important; }
++.dropdown-menu > .active > a,
++.pagination > .active > a,
++.dropdown-menu > .active > a:hover,
++.dropdown-menu > .active > a:focus,
++.pagination > .active > a:hover,
++.pagination > .active > a:focus {
++  background-color: #145f93;
++}
+diff --git a/gui/default/assets/css/overrides.css b/gui/default/assets/css/overrides.css
+index d4db975..17ef731 100644
+--- a/gui/default/assets/css/overrides.css
++++ b/gui/default/assets/css/overrides.css
+@@ -565,4 +565,49 @@ html[lang|="ko"] i {
+ .select-on-click {
+     -webkit-user-select: all;
+     user-select: all;
+-}
+\ No newline at end of file
++}
++/*
++ * Accessibility: heading semantics and small-target spacing.
++ */
++h1.navbar-brand {
++    margin-top: 0;
++    margin-bottom: 0;
++}
++/* Adjacent footer buttons (pending device/folder panels) need spacing so
++   their 24px target circles do not overlap. */
++.panel-footer .btn + .btn {
++    margin-left: 8px;
++}
++
++/* -- correction a11y : contraste des liens actifs de menu déroulant
++   (Bootstrap #337ab7 sur texte blanc = 4,4:1 < 4,5:1). -- */
++.dropdown-menu > .active > a,
++.pagination > .active > a,
++.dropdown-menu > .active > a:hover,
++.dropdown-menu > .active > a:focus,
++.pagination > .active > a:hover,
++.pagination > .active > a:focus {
++  background-color: #1d6fa5;
++}
++/* -- correction a11y : .text-warning Bootstrap = 4,0:1 sur blanc. -- */
++.text-warning, .text-warning:hover { color: #745e1e; }
++/* -- correction a11y : liens dans du texte doivent se distinguer par
++   autre chose que la couleur (WCAG 1.4.1) → soulignement. -- */
++.modal-body p > a:not(.btn),
++.modal-body .small > a:not(.btn),
++.modal-body ul:not(.dropdown-menu) li > a:not(.btn) {
++  text-decoration: underline;
++}
++
++/* -- correction a11y : couleur de lien Flatly #3498db = 3,15:1 sur
++   blanc — insuffisant (WCAG 1.4.3, 4,5:1). #1d6fa5 = 5,43:1. -- */
++a, .text-primary, .pagination > li > a {
++  color: #1d6fa5;
++}
++a:hover, a:focus {
++  color: #14557e;
++}
++/* -- correction a11y : badge Bootstrap blanc sur #777777 = 4,48:1. -- */
++.badge {
++  background-color: #6d6d6d;
++}
+diff --git a/gui/default/assets/lang/lang-en.json b/gui/default/assets/lang/lang-en.json
+index 5a38271..7ed15d3 100644
+--- a/gui/default/assets/lang/lang-en.json
++++ b/gui/default/assets/lang/lang-en.json
+@@ -152,6 +152,7 @@
+     "Enter a non-privileged port number (1024 - 65535).": "Enter a non-privileged port number (1024 - 65535).",
+     "Enter comma separated (\"tcp://ip:port\", \"tcp://host:port\") addresses or \"dynamic\" to perform automatic discovery of the address.": "Enter comma separated (\"tcp://ip:port\", \"tcp://host:port\") addresses or \"dynamic\" to perform automatic discovery of the address.",
+     "Enter ignore patterns, one per line.": "Enter ignore patterns, one per line.",
++    "Ignore patterns": "Ignore patterns",
+     "Enter up to three octal digits.": "Enter up to three octal digits.",
+     "Error": "Error",
+     "Extended Attributes": "Extended Attributes",
+@@ -230,6 +231,7 @@
+     "Last Month": "Last Month",
+     "Last Scan": "Last Scan",
+     "Last seen": "Last seen",
++    "Language": "Language",
+     "Latest Change": "Latest Change",
+     "Learn more": "Learn more",
+     "Learn more at {%url%}": "Learn more at {{url}}",
+diff --git a/gui/default/index.html b/gui/default/index.html
+index 4bca219..ec177ad 100644
+--- a/gui/default/index.html
++++ b/gui/default/index.html
+@@ -32,7 +32,7 @@
+       <div class="container">
+         <span class="navbar-brand" aria-hidden="true">
+           <img class="logo hidden-xs" src="assets/img/logo-horizontal.svg" height="32" width="117" alt=""/>
+-          <img class="logo hidden visible-xs" src="assets/img/favicon-default.png" height="32" alt=""/>
++          <img class="logo hidden visible-xs" src="assets/img/favicon-default.png" height="32" alt="Syncthing"/>
+         </span>
+       </div>
+     </nav>
+@@ -67,27 +67,27 @@
+ 
+     <nav class="navbar navbar-top navbar-default" role="navigation">
+       <div class="container">
+-        <span class="navbar-brand" aria-hidden="true">
+-          <img class="logo hidden-xs" src="assets/img/logo-horizontal.svg" height="32" width="117" alt=""/>
+-          <img class="logo hidden visible-xs" src="assets/img/favicon-default.png" height="32" alt=""/>
+-        </span>
++        <h1 class="navbar-brand">
++          <img class="logo hidden-xs" src="assets/img/logo-horizontal.svg" height="32" width="117" alt="Syncthing"/>
++          <img class="logo hidden visible-xs" src="assets/img/favicon-default.png" height="32" alt="Syncthing"/>
++        </h1>
+         <p ng-if="authenticated" class="navbar-text hidden-xs" ng-class="{'hidden-sm':upgradeInfo && upgradeInfo.newer}">{{thisDeviceName()}}</p>
+         <ul class="nav navbar-nav navbar-right">
+           <li ng-if="upgradeInfo && upgradeInfo.newer" class="upgrade-newer">
+-            <button type="button" class="btn navbar-btn btn-primary btn-sm" data-toggle="modal" data-target="#upgrade">
++            <button type="button" class="btn navbar-btn btn-primary btn-sm" data-toggle="modal" data-target="#upgrade" aria-label="{{ 'Upgrade To {%version%}' | translate:{version: upgradeInfo.latest} }}">
+               <span class="fas fa-arrow-circle-up"></span>
+               <span class="hidden-xs" translate translate-value-version="{{upgradeInfo.latest}}">Upgrade To {%version%}</span>
+             </button>
+           </li>
+           <li ng-if="upgradeInfo && upgradeInfo.majorNewer" class="upgrade-newer-major">
+-            <button type="button" class="btn navbar-btn btn-danger btn-sm" data-toggle="modal" data-target="#majorUpgrade">
++            <button type="button" class="btn navbar-btn btn-danger btn-sm" data-toggle="modal" data-target="#majorUpgrade" aria-label="{{ 'Upgrade To {%version%}' | translate:{version: upgradeInfo.latest} }}">
+               <span class="fas fa-arrow-circle-up"></span>
+               <span class="hidden-xs" translate translate-value-version="{{upgradeInfo.latest}}">Upgrade To {%version%}</span>
+             </button>
+           </li>
+           <li class="dropdown" language-select></li>
+           <li class="dropdown action-menu">
+-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
++            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" aria-label="{{ 'Help' | translate }}">
+               <span class="fa fa-question-circle"></span>
+               <span class="hidden-xs" translate>Help</span>
+               <span class="caret"></span>
+@@ -109,7 +109,7 @@
+             </ul>
+           </li>
+           <li ng-if="authenticated" class="dropdown action-menu">
+-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
++            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" aria-label="{{ 'Actions' | translate }}">
+               <span class="fa fa-cog"></span>
+               <span class="hidden-xs" translate>Actions</span>
+               <span class="caret"></span>
+@@ -131,7 +131,7 @@
+       </div>
+     </nav>
+ 
+-    <div class="container content">
++    <main class="container content">
+ 
+       <!-- Panel: Open, no auth -->
+ 
+@@ -139,12 +139,12 @@
+         <div class="col-md-12">
+           <div class="panel panel-danger">
+             <div class="panel-heading">
+-              <h3 class="panel-title">
++              <h2 class="panel-title">
+                 <div class="panel-icon">
+                   <span class="fas fa-exclamation-circle"></span>
+                 </div>
+                 <span translate>Danger!</span>
+-              </h3>
++              </h2>
+             </div>
+             <div class="panel-body">
+               <p>
+@@ -169,12 +169,12 @@
+         <div class="col-md-12">
+           <div class="panel panel-warning">
+             <div class="panel-heading">
+-              <h3 class="panel-title">
++              <h2 class="panel-title">
+                 <div class="panel-icon">
+                   <span class="fas fa-exclamation-circle"></span>
+                 </div>
+                 <span translate>Restart Needed</span>
+-              </h3>
++              </h2>
+             </div>
+             <div class="panel-body">
+               <p translate>The configuration has been saved but not activated. Syncthing must restart to activate the new configuration.</p>
+@@ -201,11 +201,11 @@
+           <div class="col-md-12">
+             <div class="panel panel-warning">
+               <div class="panel-heading">
+-                <h3 class="panel-title">
++                <h2 class="panel-title">
+                   <identicon class="panel-icon" data-value="device"></identicon>
+                   <span translate>New Device</span>
+                   <span class="pull-right">{{ pendingDevice.time | date:"yyyy-MM-dd HH:mm:ss" }}</span>
+-                </h3>
++                </h2>
+               </div>
+               <div class="panel-body">
+                 <p>
+@@ -237,14 +237,14 @@
+             <div class="col-md-12">
+               <div class="panel panel-warning">
+                 <div class="panel-heading">
+-                  <h3 class="panel-title">
++                  <h2 class="panel-title">
+                     <div class="panel-icon">
+                       <span class="fas fa-folder"></span>
+                     </div>
+                     <span translate ng-if="!folders[folderID]">New Folder</span>
+                     <span translate ng-if="folders[folderID]">Share Folder</span>
+                     <span class="pull-right">{{ offeringDevice.time | date:"yyyy-MM-dd HH:mm:ss" }}</span>
+-                  </h3>
++                  </h2>
+                 </div>
+                 <div class="panel-body">
+                   <p>
+@@ -287,12 +287,12 @@
+         <div class="col-md-12">
+           <div class="panel panel-warning">
+             <div class="panel-heading">
+-              <h3 class="panel-title">
++              <h2 class="panel-title">
+                 <div class="panel-icon">
+                   <span class="fas fa-exclamation-circle"></span>
+                 </div>
+                 <span translate>Notice</span>
+-              </h3>
++              </h2>
+             </div>
+             <div class="panel-body">
+               <p ng-repeat="err in errorList()">
+@@ -316,12 +316,12 @@
+         <div class="col-md-12">
+           <div class="panel panel-warning">
+             <div class="panel-heading">
+-              <h3 class="panel-title">
++              <h2 class="panel-title">
+                 <div class="panel-icon">
+                   <span class="fas fa-exclamation-circle"></span>
+                 </div>
+                 <span translate>Filesystem Watcher Errors</span>
+-              </h3>
++              </h2>
+             </div>
+             <div class="panel-body">
+               <p>
+@@ -339,7 +339,7 @@
+ 
+       <!-- Login form -->
+       <div ng-if="!authenticated" class="center-block">
+-        <h3 translate>Authentication Required</h3>
++        <h2 translate>Authentication Required</h2>
+ 
+         <form ng-submit="authenticatePassword()">
+           <div class="form-group">
+@@ -380,17 +380,17 @@
+         <!-- Folder list (top left) -->
+ 
+         <div class="col-md-6" aria-labelledby="folder_list" role="region" >
+-          <h3 id="folder_list"><span translate>Folders</span><span ng-if="folderList().length > 1"> ({{folderList().length}})</span></h3>
++          <h2 id="folder_list"><span translate>Folders</span><span ng-if="folderList().length > 1"> ({{folderList().length}})</span></h2>
+           <div ng-repeat="(folderGroupName, groupedFolders) in foldersGrouped">
+-            <h4 ng-if="folderGroupName !== ''">{{ folderGroupName }}
++            <h3 ng-if="folderGroupName !== ''">{{ folderGroupName }}
+               <span ng-if="groupedFolders.length > 1 && folderGroupName.length > 0"> ({{groupedFolders.length}})</span>
+-            </h4>
++            </h3>
+             <div class="panel-group" id="folders-{{ $index }}">
+               <div class="panel panel-default" ng-repeat="folder in groupedFolders">
+                 <button class="btn panel-heading" data-toggle="collapse" data-parent="#folders-{{$parent.$index}}" data-target="#folder-{{$parent.$index}}-{{$index}}" aria-expanded="false">
+                   <div class="panel-progress" ng-show="folderStatus(folder) == 'syncing'" ng-attr-style="width: {{syncPercentage(folder.id) | percent}}"></div>
+                   <div class="panel-progress" ng-show="folderStatus(folder) == 'scanning' && scanProgress[folder.id] != undefined" ng-attr-style="width: {{scanPercentage(folder.id) | percent}}"></div>
+-                  <h4 class="panel-title">
++                  <h3 class="panel-title">
+                     <div class="panel-icon hidden-xs">
+                       <span ng-if="folder.type == 'sendreceive'" class="fas fa-fw fa-folder"></span>
+                       <span ng-if="folder.type == 'sendonly'" class="fas fa-fw fa-upload"></span>
+@@ -402,13 +402,13 @@
+                       <span ng-switch-when="scanning" ng-if="scanPercentage(folder.id) != undefined">({{scanPercentage(folder.id) | percent}})</span>
+                       <span ng-switch-when="syncing">({{syncPercentage(folder.id) | percent}}, {{model[folder.id].needBytes | binary}}B)</span>
+                       <span class="inline-icon">
+-                        <span class="visible-xs fa fa-fw {{folderStatusIcon(folder)}}" aria-label="{{folderStatusText(folder)}}"></span>
++                        <span class="visible-xs fa fa-fw {{folderStatusIcon(folder)}}" role="img" aria-label="{{folderStatusText(folder)}}"></span>
+                       </span>
+                     </div>
+                     <div class="panel-title-text">
+                       <span tooltip data-original-title="{{folder.label.length != 0 ? folder.id : ''}}">{{folder.label.length != 0 ? folder.label : folder.id}}</span>
+                     </div>
+-                  </h4>
++                  </h3>
+                 </button>
+                 <div id="folder-{{$parent.$index}}-{{$index}}" class="panel-collapse collapse" lazy-collapse>
+                   <div class="panel-body less-padding" ng-if="lazyReady">
+@@ -678,13 +678,13 @@
+         <!-- This device -->
+ 
+         <div class="col-md-6" aria-label="{{'Devices' | translate}}" role="region">
+-          <h3 translate>This Device</h3>
++          <h2 translate>This Device</h2>
+           <div class="panel panel-default" ng-repeat="deviceCfg in [thisDevice()]">
+             <button class="btn panel-heading" data-toggle="collapse" data-target="#device-this" aria-expanded="true">
+-              <h4 class="panel-title">
++              <h3 class="panel-title">
+                 <identicon class="panel-icon" data-value="deviceCfg.deviceID"></identicon>
+                 <div class="panel-title-text">{{deviceName(deviceCfg)}}</div>
+-              </h4>
++              </h3>
+             </button>
+             <div id="device-this" class="panel-collapse collapse in" lazy-collapse>
+               <div class="panel-body less-padding" ng-if="lazyReady">
+@@ -781,29 +781,29 @@
+           </div>
+ 
+           <!-- Remote devices -->
+-          <h3><span translate>Remote Devices</span> <span ng-if="otherDevices().length > 1"> ({{otherDevices().length}})</span></h3>
++          <h2><span translate>Remote Devices</span> <span ng-if="otherDevices().length > 1"> ({{otherDevices().length}})</span></h2>
+           <div ng-repeat="(deviceGroupName, groupedDevices) in devicesGrouped">
+-            <h4>{{ deviceGroupName }}
+-              <span ng-if="groupedDevices.length > 1 && deviceGroupName.length > 0"> ({{groupedDevices.length}})</span>
+-            </h4>
++            <h3 ng-if="deviceGroupName.length > 0">{{ deviceGroupName }}
++              <span ng-if="groupedDevices.length > 1"> ({{groupedDevices.length}})</span>
++            </h3>
+             <div class="panel-group" id="devices-{{ $index }}">
+                 <div class="panel panel-default" ng-repeat="deviceCfg in groupedDevices">
+                   <button class="btn panel-heading" data-toggle="collapse" data-parent="#devices-{{ $parent.$index }}" data-target="#device-{{$parent.$index}}-{{$index}}" aria-expanded="false">
+                     <div class="panel-progress" ng-show="deviceStatus(deviceCfg) == 'syncing'" ng-attr-style="width: {{completion[deviceCfg.deviceID]._total | percent}}"></div>
+-                    <h4 class="panel-title">
++                    <h3 class="panel-title">
+                       <identicon class="panel-icon" data-value="deviceCfg.deviceID"></identicon>
+                       <div class="panel-status pull-right text-{{deviceClass(deviceCfg)}}" ng-switch="deviceStatus(deviceCfg)">
+                         <span class="hidden-xs">{{deviceStatusText(deviceCfg)}}</span>
+                         <span ng-switch-when="syncing">({{completion[deviceCfg.deviceID]._total | percent}}, {{completion[deviceCfg.deviceID]._needBytes | binary}}B)</span>
+                         <span class="inline-icon">
+-                          <span class="visible-xs fa fa-fw {{deviceStatusIcon(deviceCfg)}}" aria-label="{{deviceStatusText(deviceCfg)}}"></span>
++                          <span class="visible-xs fa fa-fw {{deviceStatusIcon(deviceCfg)}}" role="img" aria-label="{{deviceStatusText(deviceCfg)}}"></span>
+                         </span>
+                         <span class="inline-icon">
+                           <span ng-class="rdConnTypeIcon(rdConnType(deviceCfg.deviceID))" class="reception reception-theme"></span>
+                         </span>
+                       </div>
+                       <div class="panel-title-text">{{deviceName(deviceCfg)}}</div>
+-                    </h4>
++                    </h3>
+                   </button>
+                   <div id="device-{{$parent.$index}}-{{$index}}" class="panel-collapse collapse" lazy-collapse>
+                     <div class="panel-body less-padding" ng-if="lazyReady">
+@@ -1016,7 +1016,7 @@
+         </div>
+       </div> <!-- /row -->
+ 
+-    </div> <!-- /container -->
++    </main> <!-- /container -->
+   </div> <!-- /ng-cloak -->
+ 
+   <ng-include src="'syncthing/core/networkErrorDialogView.html'"></ng-include>
+diff --git a/gui/default/modal.html b/gui/default/modal.html
+index a1d13d6..63f77f9 100644
+--- a/gui/default/modal.html
++++ b/gui/default/modal.html
+@@ -9,12 +9,12 @@
+   <div class="modal-dialog {{ large == 'yes' ? 'modal-lg' : '' }}">
+     <div class="modal-content">
+       <div class="modal-header {{status == 'default' ? '' : 'alert alert-'+status }}">
+-        <h4 class="modal-title">
++        <h3 class="modal-title">
+           <div ng-if="icon" class="panel-icon">
+             <span class="{{icon}}"></span>
+           </div>
+           {{heading}}
+-        </h4>
++        </h3>
+       </div>
+       <div ng-transclude></div>
+     </div>
+diff --git a/gui/default/syncthing/app.js b/gui/default/syncthing/app.js
+index 2731445..0de964e 100644
+--- a/gui/default/syncthing/app.js
++++ b/gui/default/syncthing/app.js
+@@ -46,6 +46,34 @@ syncthing.config(function ($httpProvider, $translateProvider, LocaleServiceProvi
+     $httpProvider.defaults.xsrfCookieName = 'CSRF-Token-' + metadata.deviceIDShort;
+ });
+ 
++syncthing.run(function () {
++    // Bootstrap 3.4 collapse sets aria-expanded on the toggled element
++    // itself, where the attribute is not allowed — it belongs on the
++    // control only. Remove it once each expand/collapse transition settles.
++    $(document).on('show.bs.collapse shown.bs.collapse hide.bs.collapse hidden.bs.collapse', function (event) {
++        $(event.target).removeAttr('aria-expanded');
++    });
++
++    // The fixed-top navbar lets open dropdown menus overlap the page
++    // controls below it. While a nav menu is open, push the content down
++    // so nothing interactive is covered.
++    $(document).on('shown.bs.dropdown', '.navbar-nav li', function () {
++        var menu = this.querySelector('ul.dropdown-menu');
++        var content = document.querySelector('.container.content');
++        if (menu && content) {
++            var need = menu.getBoundingClientRect().bottom - content.getBoundingClientRect().top;
++            if (need > 0) {
++                content.style.marginTop = need + 'px';
++            }
++        }
++    }).on('hidden.bs.dropdown', '.navbar-nav li', function () {
++        var content = document.querySelector('.container.content');
++        if (content) {
++            content.style.marginTop = '';
++        }
++    });
++});
++
+ // @TODO: extract global level functions into separate service(s)
+ 
+ function deviceCompare(a, b) {
+diff --git a/gui/default/syncthing/core/aboutModalView.html b/gui/default/syncthing/core/aboutModalView.html
+index f926565..c3ab69c 100644
+--- a/gui/default/syncthing/core/aboutModalView.html
++++ b/gui/default/syncthing/core/aboutModalView.html
+@@ -27,7 +27,7 @@
+     <div class="tab-content">
+ 
+       <div id="about-authors" class="tab-pane in active">
+-        <h4 class="text-center" translate>The Syncthing Authors</h4>
++        <h2 class="text-center" translate>The Syncthing Authors</h2>
+         <div class="row">
+           <div class="col-md-12" id="contributor-list">
+ Jakob Borg, Audrius Butkevicius, Simon Frei, Tomasz Wilczyński, Alexander Graf, Alexandre Viau, Anderson Mesquita, André Colomb, Antony Male, Ben Schulz, bt90, Caleb Callaway, Daniel Harte, Emil Lundberg, Eric P, Evgeny Kuznetsov, greatroar, Lars K.W. Gohlke, Lode Hoste, Marcus B Spencer, Michael Ploujnikov, Ross Smith II, Stefan Tatschner, Tommy van der Vorst, Wulf Weich, Adam Piggott, Adel Qalieh, Aleksey Vasenev, Alessandro G., Alex Ionescu, Alex Lindeman, Alex Xu, Alexander Seiler, Alexandre Alves, Aman Gupta, Andreas Sommer, andresvia, Andrew Gunnerson, Andrew Rabert, Andrey D, andyleap, Anjan Momi, Anthony Goeckner, Antoine Lamielle, Anur, Aranjedeath, ardevd, Arkadiusz Tymiński, Aroun, Arthur Axel fREW Schmidt, Artur Zubilewicz, Ashish Bhate, Aurélien Rainone, BAHADIR YILMAZ, Bart De Vries, Beat Reichenbach, Ben Norcombe, Ben Shepherd, Ben Sidhom, Benedikt Heine, Benno Fünfstück, Benny Ng, boomsquared, Boqin Qin, Boris Rybalkin, Brendan Long, Catfriend1, Cathryne Linenweaver, Cedric Staniewski, Chih-Hsuan Yen, Choongkyu, Chris Howie, Chris Joel, Christian Kujau, Christian Prescott, chucic, cjc7373, Colin Kennedy, Cromefire_, cui, Cyprien Devillez, d-volution, Dan, Daniel Barczyk, Daniel Bergmann, Daniel Martí, Daniel Padrta, Daniil Gentili, Darshil Chanpura, dashangcun, David Rimmer, DeflateAwning, Denis A., Dennis Wilson, derekriemer, DerRockWolf, desbma, Devon G. Redekopp, digital, Dimitri Papadopoulos Orfanos, Dmitry Saveliev, domain, Domenic Horner, Dominik Heidler, Elias, Elias Jarlebring, Elliot Huffman, Emil Hessman, Eng Zer Jun, entity0xfe, Epifeny, epifeny, Eric Lesiuta, Erik Meitner, Evan Spensley, Federico Castagnini, Felix, Felix Ableitner, Felix Lampe, Felix Unterpaintner, Francois-Xavier Gsell, Frank Isemann, Frederic, Gahl Saraf, georgespatton, ghjklw, Gilli Sigurdsson, Giridhar, Giridhar, Gleb Sinyavskiy, Graham Miln, Greg, guangwu, gudvinr, Gusted, Han Boetes, HansK-p, Harrison Jones, Hazem Krimi, Heiko Zuerker, Henrik Bråthen, Hireworks, Hugo Locurcio, Iain Barnett, Ian Johnson, ignacy123, Iskander Sharipov, Jaakko Hannikainen, Jack Croft, Jacob, Jake Peterson, James O'Beirne, James Patterson, Jaroslav Lichtblau, Jaroslav Malec, Jaspitta, Jaya Chithra, Jaya Kumar, Jeffery To, jelle van der Waa, Jens Diemer, Jochen Voss, Johan Vromans, John Rinehart, Jonas Thelemann, Jonathan, Jose Manuel Delicado, JRNitre, jtagcat, Julian Lehrhuber, Jörg Thalheim, Jędrzej Kula, Kapil Sareen, Karol Różycki, Kebin Liu, Keith Harrison, Kelong Cong, Ken'ichi Kamada, Kevin Allen, Kevin Bushiri, Kevin White, Jr., klemens, Kurt Fitzner, kylosus, Lars Lehtonen, Laurent Etiemble, Leo Arias, Liu Siyuan, Lord Landon Agahnim, LSmithx2, Luiz Angelo Daros de Luca, Lukas Lihotzki, Luke Hamburg, luzpaz, Majed Abdulaziz, Marc Laporte, Marcel Meyer, Marcin Dziadus, Marcus Legendre, Mario Majila, Mark Pulford, Martchus, Mateusz Naściszewski, Mateusz Ż, mathias4833, Matic Potočnik, Matt Burke, Matt Robenolt, Matteo Ruina, mattn, Maurizio Tomasi, Max, Max Schulze, MaximAL, Maximilian, Maxwell G, Michael Jephcote, Michael Rienstra, Michael Wang 汪東陽, MichaIng, Migelo, Mike Boone, MikeLund, MikolajTwarog, Mingxuan Lin, mv1005, Nate Morrison, nf, Nicholas Rishel, Nick Busey, Nico Stapelbroek, Nicolas Braud-Santoni, Nicolas Perraut, Niels Peter Roest, Nils Jakobi, NinoM4ster, Nitroretro, NoLooseEnds, Oliver Freyermuth, orangekame3, otbutz, overkill, Oyebanji Jacob Mayowa, Pablo, Pascal Jungblut, Paul Brit, Paul Donald, Pawel Palenica, perewa, Peter Badida, Peter Dave Hello, Peter Hoeg, Peter Marquardt, Phani Rithvij, Phil Davis, Philippe Schommers, Phill Luby, Piotr Bejda, polyfloyd, Prathik P Kulkarni, pullmerge, Quentin Hibon, Rahmi Pruitt, RealCharlesChia, red_led, Robert Carosi, Roberto Santalla, Robin Schoonover, Rohit Tanwar, Roman Zaynetdinov, rubenbe, Ruslan Yevdokymov, Ryan Qian, Ryan Sullivan, Sacheendra Talluri, Scott Klupfel, sec65, Sergey Mishin, Sertonix, Severin von Wnuck-Lipinski, Shaarad Dalvi, Shablone, Shivam Kumar, Simon Mwepu, Simon Pickup, Sly_tom_cat, Sonu Kumar Saw, Stefan Kuntz, Steven Eckhoff, Suhas Gundimeda, Sven Bachmann, Sébastien WENSKE, Tao, Taylor Khan, tbodt, Terrance, TheCreeper, Thomas, Thomas Hipp, Tim Abell, Tim Howes, Tobias Frölich, Tobias Klauser, Tobias Nygren, Tobias Tom, Tom Jakubowski, Tully Robinson, Tyler Brazier, Tyler Kropp, Umer-Azaz, Unrud, Val Markovic, vapatel2, Veeti Paananen, Victor Buinsky, Vik, Vil Brekin, villekalliomaki, Vladimir Rusinov, vvaswani, wangguoliang, WangXi, Will Rouesnel, William A. Kennington III, wouter bolsterlee, xarx00, Xavier O., xjtdy888, Yannic A., yparitcher, 佛跳墙, 落心
+diff --git a/gui/default/syncthing/core/languageSelectDirective.js b/gui/default/syncthing/core/languageSelectDirective.js
+index 4ce3a35..5774300 100644
+--- a/gui/default/syncthing/core/languageSelectDirective.js
++++ b/gui/default/syncthing/core/languageSelectDirective.js
+@@ -4,7 +4,7 @@ angular.module('syncthing.core')
+         return {
+             restrict: 'EA',
+             template:
+-                '<a ng-if="visible" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="fas fa-globe"></span><span class="hidden-xs">&nbsp;{{localesNames[currentLocale] || "English"}}</span> <span class="caret"></span></a>' +
++                '<a ng-if="visible" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" aria-label="{{ \'Language\' | translate }}"><span class="fas fa-globe"></span><span class="hidden-xs">&nbsp;{{localesNames[currentLocale] || "English"}}</span> <span class="caret"></span></a>' +
+                 '<ul ng-if="visible" class="dropdown-menu">' +
+                 '<li ng-repeat="name in localesNamesInvKeys" ng-class="{active: localesNamesInv[name]==currentLocale}">' +
+                 '<a href="#" data-ng-click="changeLanguage(localesNamesInv[name])">{{name}}</a>' +
+diff --git a/gui/default/syncthing/core/logViewerModalView.html b/gui/default/syncthing/core/logViewerModalView.html
+index e711910..6b1bea7 100644
+--- a/gui/default/syncthing/core/logViewerModalView.html
++++ b/gui/default/syncthing/core/logViewerModalView.html
+@@ -8,7 +8,7 @@
+ 
+       <div id="log-viewer-log" class="tab-pane in active">
+         <label translate ng-if="logging.logEntries.length == 0">Loading...</label>
+-        <textarea id="logViewerText" class="form-control" rows="20" ng-if="logging.logEntries.length != 0" readonly style="font-family: Consolas, monospace; font-size: 11px; overflow: auto;">{{ logging.content() }}</textarea>
++        <textarea id="logViewerText" class="form-control" rows="20" ng-if="logging.logEntries.length != 0" readonly aria-label="{{ 'Logs' | translate }}" style="font-family: Consolas, monospace; font-size: 11px; overflow: auto;">{{ logging.content() }}</textarea>
+         <a href="" translate class="help-block" ng-style="{'visibility': logging.paused ? 'visible' : 'hidden'}" ng-click="logging.scrollToBottom()" style="text-decoration: none">Log tailing paused. Scroll to the bottom to continue.</a>
+       </div>
+ 
+@@ -19,7 +19,7 @@
+             <tr ng-repeat="(key, level) in logging.facilities.levels">
+               <td>{{ logging.facilities.packages[key] }} (<code>{{ key }}</code>)</td>
+               <td class="form-group">
+-                <select class="form-control" ng-model="logging.facilities.levels[key]" ng-change="logging.onFacilityChange()" ng-disabled="logging.facilities.updating">
++                <select class="form-control" ng-model="logging.facilities.levels[key]" ng-change="logging.onFacilityChange()" ng-disabled="logging.facilities.updating" aria-label="{{ logging.facilities.packages[key] }}">
+                   <option value="DEBUG" translate>Debug</option>
+                   <option value="INFO" translate>Info</option>
+                   <option value="WARN" translate>Warning</option>
+diff --git a/gui/default/syncthing/core/modalDirective.js b/gui/default/syncthing/core/modalDirective.js
+index 66c347f..7f23980 100644
+--- a/gui/default/syncthing/core/modalDirective.js
++++ b/gui/default/syncthing/core/modalDirective.js
+@@ -16,6 +16,19 @@ angular.module('syncthing.core')
+             },
+             link: function (scope, element, attrs) {
+ 
++                // Every <modal> is an ARIA dialog: name it after its title
++                // (h4.modal-title) and mark the content behind it inert while
++                // it is open.
++                var modalId = $(element).attr('id'),
++                    titleId = modalId ? modalId + '-title' : '',
++                    title = element[0].querySelector('.modal-title');
++                element.attr('role', 'dialog');
++                element.attr('aria-modal', 'true');
++                if (titleId && title) {
++                    element.attr('aria-labelledby', titleId);
++                    title.id = titleId;
++                }
++
+                 $(element).on('click', function (event) {
+                     const closestTabAnchor = event.target.closest('a[data-toggle="tab"]');
+ 
+diff --git a/gui/default/syncthing/core/syncthingController.js b/gui/default/syncthing/core/syncthingController.js
+index d232cf6..f71af05 100644
+--- a/gui/default/syncthing/core/syncthingController.js
++++ b/gui/default/syncthing/core/syncthingController.js
+@@ -3219,6 +3219,10 @@ angular.module('syncthing.core')
+             return $scope.model[folder].errors !== 0;
+         };
+ 
++        $scope.localChangedHeading = function (folderType) {
++            return $translate.instant(folderType === 'receiveencrypted' ? 'Unexpected Items' : 'Locally Changed Items');
++        };
++
+         $scope.showLocalChanged = function (folder, folderType) {
+             $scope.localChangedFolder = folder;
+             $scope.localChangedType = folderType;
+diff --git a/gui/default/syncthing/device/editDeviceModalView.html b/gui/default/syncthing/device/editDeviceModalView.html
+index ec71967..cc6107e 100644
+--- a/gui/default/syncthing/device/editDeviceModalView.html
++++ b/gui/default/syncthing/device/editDeviceModalView.html
+@@ -138,8 +138,8 @@
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+-                <label translate>Compression</label>
+-                <select class="form-control" ng-model="currentDevice.compression">
++                <label translate for="compression">Compression</label>
++                <select class="form-control" id="compression" ng-model="currentDevice.compression">
+                   <option value="always" translate>All Data</option>
+                   <option value="metadata" translate>Metadata Only</option>
+                   <option value="never" translate>Off</option>
+@@ -156,7 +156,7 @@
+                   &nbsp;<a href="{{docsURL('advanced/device-numconnections')}}" target="_blank"><span class="fas fa-question-circle"></span>&nbsp;<span translate>Help</span></a>
+                 </span>
+                 <div class="col-md-4">
+-                  <input name="numConnections" id="numConnections" class="form-control" type="number" pattern="\d+" ng-model="currentDevice.numConnections" min="0" />
++                  <input name="numConnections" id="numConnections" class="form-control" type="number" pattern="\d+" ng-model="currentDevice.numConnections" min="0" aria-label="{{ 'Number of Connections' | translate }}" />
+                 </div>
+               </div>
+               <p class="help-block" ng-if="!deviceEditor.numConnections.$valid && deviceEditor.numConnections.$dirty" translate>The number of connections must be a non-negative number.</p>
+@@ -169,7 +169,7 @@
+                   <div class="row">
+                     <span class="col-md-8" translate>Incoming Rate Limit (KiB/s)</span>
+                     <div class="col-md-4">
+-                      <input name="maxRecvKbps" id="maxRecvKbps" class="form-control" type="number" pattern="\d+" ng-model="currentDevice.maxRecvKbps" min="0" step="1024" />
++                      <input name="maxRecvKbps" id="maxRecvKbps" class="form-control" type="number" pattern="\d+" ng-model="currentDevice.maxRecvKbps" min="0" step="1024" aria-label="{{ 'Incoming Rate Limit (KiB/s)' | translate }}" />
+                     </div>
+                   </div>
+                   <p class="help-block" ng-if="!deviceEditor.maxRecvKbps.$valid && deviceEditor.maxRecvKbps.$dirty" translate>The rate limit must be a non-negative number (0: no limit)</p>
+@@ -178,7 +178,7 @@
+                   <div class="row">
+                     <span class="col-md-8" translate>Outgoing Rate Limit (KiB/s)</span>
+                     <div class="col-md-4">
+-                      <input name="maxSendKbps" id="maxSendKbps" class="form-control" type="number" pattern="\d+" ng-model="currentDevice.maxSendKbps" min="0" step="1024" />
++                      <input name="maxSendKbps" id="maxSendKbps" class="form-control" type="number" pattern="\d+" ng-model="currentDevice.maxSendKbps" min="0" step="1024" aria-label="{{ 'Outgoing Rate Limit (KiB/s)' | translate }}" />
+                     </div>
+                   </div>
+                   <p class="help-block" ng-if="!deviceEditor.maxSendKbps.$valid && deviceEditor.maxSendKbps.$dirty" translate>The rate limit must be a non-negative number (0: no limit)</p>
+diff --git a/gui/default/syncthing/device/shareDeviceIdDialogView.html b/gui/default/syncthing/device/shareDeviceIdDialogView.html
+index 1a1e062..9b67db7 100644
+--- a/gui/default/syncthing/device/shareDeviceIdDialogView.html
++++ b/gui/default/syncthing/device/shareDeviceIdDialogView.html
+@@ -14,13 +14,13 @@
+     </p>
+     <div ng-switch-when="email">
+       <hr>
+-      <h5 translate>Subject:</h5>
+-      <pre style="word-break: normal; white-space: pre-wrap;">{{shareDeviceIdParams.subject}}<button type="button" class="btn btn-default pull-right" ng-click="copyToClipboard($event, shareDeviceIdParams.subject)" tooltip data-original-title="{{ 'Copy' | translate }}">
++      <h4 translate>Subject:</h4>
++      <pre style="word-break: normal; white-space: pre-wrap;">{{shareDeviceIdParams.subject}}<button type="button" class="btn btn-default pull-right" ng-click="copyToClipboard($event, shareDeviceIdParams.subject)" tooltip data-original-title="{{ 'Copy' | translate }}" aria-label="{{ 'Copy' | translate }}">
+         <span class="fa fa-clone"></span>
+       </button></pre>
+-      <h5 translate>Body:</h5>
++      <h4 translate>Body:</h4>
+     </div>
+-    <pre style="word-break: normal; white-space: pre-wrap;">{{shareDeviceIdParams.body}}<button type="button" class="btn btn-default pull-right" ng-click="copyToClipboard($event, shareDeviceIdParams.body)" tooltip data-original-title="{{ 'Copy' | translate }}">
++    <pre style="word-break: normal; white-space: pre-wrap;">{{shareDeviceIdParams.body}}<button type="button" class="btn btn-default pull-right" ng-click="copyToClipboard($event, shareDeviceIdParams.body)" tooltip data-original-title="{{ 'Copy' | translate }}" aria-label="{{ 'Copy' | translate }}">
+       <span class="fa fa-clone"></span>
+     </button></pre>
+   </div>
+diff --git a/gui/default/syncthing/folder/editFolderModalView.html b/gui/default/syncthing/folder/editFolderModalView.html
+index 79ed39d..e1c9546 100644
+--- a/gui/default/syncthing/folder/editFolderModalView.html
++++ b/gui/default/syncthing/folder/editFolderModalView.html
+@@ -128,8 +128,8 @@
+ 
+         <div id="folder-versioning" class="tab-pane">
+           <div class="form-group">
+-            <label translate>File Versioning</label>&emsp;<a href="{{docsURL('users/versioning')}}" target="_blank"><span class="fas fa-question-circle"></span>&nbsp;<span translate>Help</span></a>
+-            <select class="form-control" ng-model="currentFolder._guiVersioning.selector">
++            <label translate for="versioningSelector">File Versioning</label>&emsp;<a href="{{docsURL('users/versioning')}}" target="_blank"><span class="fas fa-question-circle"></span>&nbsp;<span translate>Help</span></a>
++            <select class="form-control" id="versioningSelector" ng-model="currentFolder._guiVersioning.selector">
+               <option value="none" translate>No File Versioning</option>
+               <option value="trashcan" translate>Trash Can File Versioning</option>
+               <option value="simple" translate>Simple File Versioning</option>
+@@ -212,7 +212,7 @@
+           <div ng-switch-default>
+             <p translate>Enter ignore patterns, one per line.</p>
+             <div ng-class="{'has-error': ignores.error != null}">
+-              <textarea class="form-control" name="ignoresText" rows="5" ng-model="ignores.text" ng-disabled="ignores.disabled"></textarea>
++              <textarea class="form-control" name="ignoresText" rows="5" ng-model="ignores.text" ng-disabled="ignores.disabled" aria-label="{{ 'Ignore patterns' | translate }}"></textarea>
+               <p class="help-block" ng-if="ignores.error">
+                 {{ignores.error}}
+               </p>
+@@ -269,9 +269,9 @@
+ 
+           <div class="row">
+             <div class="col-md-6 form-group">
+-              <label translate>Folder Type</label>
++              <label translate for="folderType">Folder Type</label>
+               &nbsp;<a href="{{docsURL('users/foldertypes')}}" target="_blank"><span class="fas fa-question-circle"></span>&nbsp;<span translate>Help</span></a>
+-              <select class="form-control" ng-change="setDefaultsForFolderType()" ng-model="currentFolder.type" ng-disabled="editingFolderExisting() && currentFolder.type == 'receiveencrypted'">
++              <select class="form-control" id="folderType" ng-change="setDefaultsForFolderType()" ng-model="currentFolder.type" ng-disabled="editingFolderExisting() && currentFolder.type == 'receiveencrypted'">
+                 <option value="sendreceive" translate>Send &amp; Receive</option>
+                 <option value="sendonly" translate>Send Only</option>
+                 <option value="receiveonly" translate>Receive Only</option>
+@@ -284,8 +284,8 @@
+               <p ng-if="editingFolderExisting() && currentFolder.type != 'receiveencrypted'" translate class="help-block" translate-value-receive-encrypted="{{'Receive Encrypted' | translate}}">Folder type "{%receiveEncrypted%}" can only be set when adding a new folder.</p>
+             </div>
+             <div class="col-md-6 form-group">
+-              <label translate>File Pull Order</label>
+-              <select class="form-control" ng-model="currentFolder.order" ng-if="currentFolder.type != 'sendonly'">
++              <label translate for="pullOrder">File Pull Order</label>
++              <select class="form-control" id="pullOrder" ng-model="currentFolder.order" ng-if="currentFolder.type != 'sendonly'">
+                 <option value="random" translate>Random</option>
+                 <option value="alphabetic" translate>Alphabetic</option>
+                 <option value="smallestFirst" translate>Smallest First</option>
+@@ -293,7 +293,7 @@
+                 <option value="oldestFirst" translate>Oldest First</option>
+                 <option value="newestFirst" translate>Newest First</option>
+               </select>
+-              <select class="form-control" ng-if="currentFolder.type == 'sendonly'" disabled>
++              <select class="form-control" ng-if="currentFolder.type == 'sendonly'" disabled aria-label="{{ 'File Pull Order' | translate }}">
+                 <option value="disabled" translate>Disabled</option>
+               </select>
+               <p class="help-block" ng-if="currentFolder.type === 'sendonly'" translate translate-value-foldertype="{{'Send Only' | translate}}">
+@@ -310,7 +310,7 @@
+                   <input name="minDiskFree" id="minDiskFree" class="form-control" type="number" ng-model="currentFolder.minDiskFree.value" required="" aria-required="true" min="0" step="0.01" />
+                 </div>
+                 <div class="col-xs-3">
+-                  <select class="form-control" ng-model="currentFolder.minDiskFree.unit">
++                  <select class="form-control" ng-model="currentFolder.minDiskFree.unit" aria-label="{{ 'Minimum Free Disk Space' | translate }}">
+                     <option value="%">%</option>
+                     <option value="kB">kB</option>
+                     <option value="MB">MB</option>
+diff --git a/gui/default/syncthing/folder/restoreVersionsModalView.html b/gui/default/syncthing/folder/restoreVersionsModalView.html
+index 39e8f50..3e970f4 100644
+--- a/gui/default/syncthing/folder/restoreVersionsModalView.html
++++ b/gui/default/syncthing/folder/restoreVersionsModalView.html
+@@ -30,7 +30,7 @@
+         </div>
+         <div class="col-md-6">
+           <div class="form-group">
+-            <label for="restoreVersionDate"><span translate>Filter by date</span>:&nbsp</label>
++            <label for="restoreVersionDateRange"><span translate>Filter by date</span>:&nbsp</label>
+             <input id="restoreVersionDateRange" class="form-control" ng-disabled="sizeOf(restoreVersions.versions) == 0">
+           </div>
+         </div>
+diff --git a/gui/default/syncthing/settings/advancedSettingsModalView.html b/gui/default/syncthing/settings/advancedSettingsModalView.html
+index 074a35f..b341716 100644
+--- a/gui/default/syncthing/settings/advancedSettingsModalView.html
++++ b/gui/default/syncthing/settings/advancedSettingsModalView.html
+@@ -6,17 +6,17 @@
+       <span translate>Incorrect configuration may damage your folder contents and render Syncthing inoperable.</span>
+     </p>
+ 
+-    <div class="panel-group" id="advancedAccordion" role="tablist" aria-multiselectable="true">
++    <div class="panel-group" id="advancedAccordion">
+ 
+       <div class="panel panel-default">
+-        <div class="panel-heading" role="tab" id="guiHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#guiConfig" aria-expanded="false" aria-controls="guiConfig" style="cursor: pointer;">
++        <div class="panel-heading" role="button" id="guiHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#guiConfig" aria-expanded="false" aria-controls="guiConfig" style="cursor: pointer;">
+           <h4 class="panel-title" translate tabindex="0">GUI</h4>
+         </div>
+-        <div id="guiConfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="guiHeading">
++        <div id="guiConfig" class="panel-collapse collapse" role="region" aria-labelledby="guiHeading">
+           <div class="panel-body less-padding">
+             <form class="form-horizontal" role="form">
+               <div ng-repeat="(key, value) in advancedConfig.gui" ng-init="type = inputTypeFor(key, value)" ng-if="type != 'skip'" class="form-group">
+-                <label for="guiInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-gui.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                <label for="guiInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-gui.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                 <div class="col-sm-8">
+                   <input ng-if="type == 'list'" id="guiInput{{$index}}" class="form-control" type="text" ng-model="advancedConfig.gui[key]" ng-list />
+                   <input ng-if="type != 'list'" id="guiInput{{$index}}" class="form-control" type="{{type}}" ng-model="advancedConfig.gui[key]" />
+@@ -28,14 +28,14 @@
+       </div>
+ 
+       <div class="panel panel-default">
+-        <div class="panel-heading" role="tab" id="optionsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#optionsConfig" aria-expanded="false" aria-controls="optionsConfig" style="cursor: pointer;">
++        <div class="panel-heading" role="button" id="optionsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#optionsConfig" aria-expanded="false" aria-controls="optionsConfig" style="cursor: pointer;">
+           <h4 class="panel-title" tabindex="0" translate>Options</h4>
+         </div>
+-        <div id="optionsConfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="optionsHeading">
++        <div id="optionsConfig" class="panel-collapse collapse" role="region" aria-labelledby="optionsHeading">
+           <div class="panel-body less-padding">
+             <form class="form-horizontal" role="form">
+               <div ng-repeat="(key, value) in advancedConfig.options" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                <label for="optionsInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-options.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                <label for="optionsInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-options.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                 <div class="col-sm-8">
+                   <input ng-if="type == 'list'" id="optionsInput{{$index}}" class="form-control" type="text" ng-model="advancedConfig.options[key]" ng-list />
+                   <input ng-if="type != 'list'" id="optionsInput{{$index}}" class="form-control" type="{{type}}" ng-model="advancedConfig.options[key]" />
+@@ -47,14 +47,14 @@
+       </div>
+ 
+       <div class="panel panel-default">
+-        <div class="panel-heading" role="tab" id="ldapHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#ldapConfig" aria-expanded="false" aria-controls="ldapConfig" style="cursor: pointer;">
++        <div class="panel-heading" role="button" id="ldapHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#ldapConfig" aria-expanded="false" aria-controls="ldapConfig" style="cursor: pointer;">
+           <h4 class="panel-title" tabindex="0" translate>LDAP</h4>
+         </div>
+-        <div id="ldapConfig" class="panel-collapse collapse" role="tabpanel" aria-labelledby="ldapHeading">
++        <div id="ldapConfig" class="panel-collapse collapse" role="region" aria-labelledby="ldapHeading">
+           <div class="panel-body less-padding">
+             <form class="form-horizontal" role="form">
+               <div ng-repeat="(key, value) in advancedConfig.ldap" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                <label for="ldapInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-ldap.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                <label for="ldapInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-ldap.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                 <div class="col-sm-8">
+                   <input ng-if="type == 'list'" id="ldapInput{{$index}}" class="form-control" type="text" ng-model="advancedConfig.ldap[key]" ng-list />
+                   <input ng-if="type != 'list'" id="ldapInput{{$index}}" class="form-control" type="{{type}}" ng-model="advancedConfig.ldap[key]" />
+@@ -66,13 +66,13 @@
+       </div>
+ 
+       <div class="panel panel-default">
+-        <div class="panel-heading" role="tab" id="advancedFoldersHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedFolders" aria-expanded="false" aria-controls="advancedFolders" style="cursor: pointer;">
++        <div class="panel-heading" role="button" id="advancedFoldersHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedFolders" aria-expanded="false" aria-controls="advancedFolders" style="cursor: pointer;">
+           <h4 class="panel-title" translate>Folders</h4>
+         </div>
+-        <div id="advancedFolders" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedFoldersHeading">
++        <div id="advancedFolders" class="panel-collapse collapse" role="region" aria-labelledby="advancedFoldersHeading">
+           <div class="panel-body less-padding">
+             <div class="panel panel-default" ng-repeat="folder in advancedConfig.folders" ng-init="folderIndex = $index">
+-              <div class="panel-heading" role="tab" id="folder{{folderIndex}}Heading" data-toggle="collapse" data-parent="#advancedFolders" href="#folder{{folderIndex}}Config" aria-expanded="false" aria-controls="folder{{folderIndex}}Config" style="cursor: pointer;">
++              <div class="panel-heading" role="button" id="folder{{folderIndex}}Heading" data-toggle="collapse" data-parent="#advancedFolders" href="#folder{{folderIndex}}Config" aria-expanded="false" aria-controls="folder{{folderIndex}}Config" style="cursor: pointer;">
+                 <h4 ng-if="folder.label.length == 0" class="panel-title" tabindex="0">
+                   <span translate>Folder</span> "{{folder.id}}"
+                 </h4>
+@@ -80,11 +80,11 @@
+                   <span translate>Folder</span> "{{folder.label}}" ({{folder.id}})
+                 </h4>
+               </div>
+-              <div id="folder{{folderIndex}}Config" class="panel-collapse collapse" role="tabpanel" aria-labelledby="folder{{folderIndex}}Heading">
++              <div id="folder{{folderIndex}}Config" class="panel-collapse collapse" role="region" aria-labelledby="folder{{folderIndex}}Heading">
+                 <div class="panel-body less-padding">
+                   <form class="form-horizontal" role="form">
+                     <div ng-repeat="(key, value) in folder" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                      <label for="folder{{folderIndex}}Input{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-folder.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                      <label for="folder{{folderIndex}}Input{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-folder.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                       <div class="col-sm-8">
+                         <input ng-if="type == 'list'" id="folder{{folderIndex}}Input{{$index}}" class="form-control" type="text" ng-model="folder[key]" ng-list />
+                         <input ng-if="type != 'list'" id="folder{{folderIndex}}Input{{$index}}" class="form-control" type="{{type}}" ng-model="folder[key]" />
+@@ -99,22 +99,22 @@
+       </div>
+ 
+       <div class="panel panel-default">
+-        <div class="panel-heading" role="tab" id="advancedDevicesHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDevices" aria-expanded="false" aria-controls="advancedDevices" style="cursor: pointer;">
++        <div class="panel-heading" role="button" id="advancedDevicesHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDevices" aria-expanded="false" aria-controls="advancedDevices" style="cursor: pointer;">
+           <h4 class="panel-title" tabindex="0" translate>Devices</h4>
+         </div>
+-        <div id="advancedDevices" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDevicesHeading">
++        <div id="advancedDevices" class="panel-collapse collapse" role="region" aria-labelledby="advancedDevicesHeading">
+           <div class="panel-body less-padding">
+             <div class="panel panel-default" ng-repeat="device in advancedConfig.devices" ng-init="deviceIndex = $index">
+-              <div class="panel-heading" role="tab" id="device{{deviceIndex}}Heading" data-toggle="collapse" data-parent="#advancedDevices" href="#device{{deviceIndex}}Config" aria-expanded="false" aria-controls="device{{deviceIndex}}Config" style="cursor: pointer;">
++              <div class="panel-heading" role="button" id="device{{deviceIndex}}Heading" data-toggle="collapse" data-parent="#advancedDevices" href="#device{{deviceIndex}}Config" aria-expanded="false" aria-controls="device{{deviceIndex}}Config" style="cursor: pointer;">
+                 <h4 class="panel-title" tabindex="0">
+                   <span translate>Device</span> "{{deviceName(device)}}"
+                 </h4>
+               </div>
+-              <div id="device{{deviceIndex}}Config" class="panel-collapse collapse" role="tabpanel" aria-labelledby="device{{deviceIndex}}Heading">
++              <div id="device{{deviceIndex}}Config" class="panel-collapse collapse" role="region" aria-labelledby="device{{deviceIndex}}Heading">
+                 <div class="panel-body less-padding">
+                   <form class="form-horizontal" role="form">
+                     <div ng-repeat="(key, value) in device" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                      <label for="device{{deviceIndex}}Input{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-device.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                      <label for="device{{deviceIndex}}Input{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-device.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                       <div class="col-sm-8">
+                         <input ng-if="type == 'list'" id="device{{deviceIndex}}Input{{$index}}" class="form-control" type="text" ng-model="device[key]" ng-list />
+                         <input ng-if="type != 'list'" id="device{{deviceIndex}}Input{{$index}}" class="form-control" type="{{type}}" ng-model="device[key]" />
+@@ -129,20 +129,20 @@
+       </div>
+ 
+       <div class="panel panel-default">
+-        <div class="panel-heading" role="tab" id="advancedDefaultsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDefaults" aria-expanded="false" aria-controls="advancedDefaults" style="cursor: pointer;">
++        <div class="panel-heading" role="button" id="advancedDefaultsHeading" data-toggle="collapse" data-parent="#advancedAccordion" href="#advancedDefaults" aria-expanded="false" aria-controls="advancedDefaults" style="cursor: pointer;">
+           <h4 class="panel-title" tabindex="0" translate>Defaults</h4>
+         </div>
+-        <div id="advancedDefaults" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultsHeading">
++        <div id="advancedDefaults" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultsHeading">
+           <div class="panel-body less-padding">
+ 
+             <div class="panel panel-default">
+-              <div class="panel-heading" role="tab" id="advancedDefaultFolderHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultFolder" aria-expanded="false" aria-controls="advancedDefaultFolder" style="cursor: pointer;">
++              <div class="panel-heading" role="button" id="advancedDefaultFolderHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultFolder" aria-expanded="false" aria-controls="advancedDefaultFolder" style="cursor: pointer;">
+                 <h4 class="panel-title" tabindex="0" translate>Default Folder</h4>
+               </div>
+-              <div id="advancedDefaultFolder" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultFolderHeading">
++              <div id="advancedDefaultFolder" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultFolderHeading">
+                 <form class="form-horizontal" role="form">
+                   <div ng-repeat="(key, value) in advancedConfig.defaults.folder" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                    <label for="advancedDefaultFolderInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-folder.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                    <label for="advancedDefaultFolderInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-folder.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                     <div class="col-sm-8">
+                       <input ng-if="type == 'list'" id="advancedDefaultFolderInput{{$index}}" class="form-control" type="text" ng-model="advancedConfig.defaults.folder[key]" ng-list />
+                       <input ng-if="type != 'list'" id="advancedDefaultFolderInput{{$index}}" class="form-control" type="{{type}}" ng-model="advancedConfig.defaults.folder[key]" />
+@@ -152,13 +152,13 @@
+               </div>
+             </div>
+             <div class="panel panel-default">
+-              <div class="panel-heading" role="tab" id="advancedDefaultDeviceHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultDevice" aria-expanded="false" aria-controls="advancedDefaultDevice" style="cursor: pointer;">
++              <div class="panel-heading" role="button" id="advancedDefaultDeviceHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultDevice" aria-expanded="false" aria-controls="advancedDefaultDevice" style="cursor: pointer;">
+                 <h4 class="panel-title" tabindex="0" translate>Default Device</h4>
+               </div>
+-              <div id="advancedDefaultDevice" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultDeviceHeading">
++              <div id="advancedDefaultDevice" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultDeviceHeading">
+                 <form class="form-horizontal" role="form">
+                   <div ng-repeat="(key, value) in advancedConfig.defaults.device" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                    <label for="advancedDefaultDeviceInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-device.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                    <label for="advancedDefaultDeviceInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-device.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                     <div class="col-sm-8">
+                       <input ng-if="type == 'list'" id="advancedDefaultDeviceInput{{$index}}" class="form-control" type="text" ng-model="advancedConfig.defaults.device[key]" ng-list />
+                       <input ng-if="type != 'list'" id="advancedDefaultDeviceInput{{$index}}" class="form-control" type="{{type}}" ng-model="advancedConfig.defaults.device[key]" />
+@@ -168,13 +168,13 @@
+               </div>
+             </div>
+             <div class="panel panel-default">
+-              <div class="panel-heading" role="tab" id="advancedDefaultIgnoresHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultIgnores" aria-expanded="false" aria-controls="advancedDefaultIgnores" style="cursor: pointer;">
++              <div class="panel-heading" role="button" id="advancedDefaultIgnoresHeading" data-toggle="collapse" data-parent="#advancedDefaults" href="#advancedDefaultIgnores" aria-expanded="false" aria-controls="advancedDefaultIgnores" style="cursor: pointer;">
+                 <h4 class="panel-title" tabindex="0" translate>Default Ignore Patterns</h4>
+               </div>
+-              <div id="advancedDefaultIgnores" class="panel-collapse collapse" role="tabpanel" aria-labelledby="advancedDefaultIgnoresHeading">
++              <div id="advancedDefaultIgnores" class="panel-collapse collapse" role="region" aria-labelledby="advancedDefaultIgnoresHeading">
+                 <form class="form-horizontal" role="form">
+                   <div ng-repeat="(key, value) in advancedConfig.defaults.ignores" ng-init="type = inputTypeFor(key, value)" ng-if="inputTypeFor(key, value) != 'skip'" class="form-group">
+-                    <label for="advancedDefaultIgnoresInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-defaults.ignores.')}}{{key | lowercase}}" target="_blank"><span class="fas fa-question-circle"></span></a></label>
++                    <label for="advancedDefaultIgnoresInput{{$index}}" class="col-sm-4 control-label">{{key | uncamel}}&nbsp;<a href="{{docsURL('users/config#config-option-defaults.ignores.')}}{{key | lowercase}}" target="_blank" aria-label="{{ 'Documentation' | translate }}"><span class="fas fa-question-circle"></span></a></label>
+                     <div class="col-sm-8">
+                       <div ng-switch="key">
+                         <!-- Special case to preserve empty lines in multi-line input -->
+diff --git a/gui/default/syncthing/settings/settingsModalView.html b/gui/default/syncthing/settings/settingsModalView.html
+index 7245c9f..2f027d7 100644
+--- a/gui/default/syncthing/settings/settingsModalView.html
++++ b/gui/default/syncthing/settings/settingsModalView.html
+@@ -37,7 +37,7 @@
+                 <div class="form-group" ng-class="{'has-error': settingsEditor.minHomeDiskFree.$invalid && settingsEditor.minHomeDiskFree.$dirty}">
+                   <label class="col-xs-12" for="minHomeDiskFree"><span translate>Minimum Free Disk Space</span></label><br />
+                   <div class="col-xs-9"><input name="minHomeDiskFree" id="minHomeDiskFree" class="form-control" type="number" ng-model="tmpOptions.minHomeDiskFree.value" required="" aria-required="true" min="0" step="0.01" /></div>
+-                  <div class="col-xs-3"><select class="col-sm-3 form-control" ng-model="tmpOptions.minHomeDiskFree.unit">
++                  <div class="col-xs-3"><select class="col-sm-3 form-control" ng-model="tmpOptions.minHomeDiskFree.unit" aria-label="{{ 'Minimum Free Disk Space' | translate }}">
+                       <option value="%">%</option>
+                       <option value="kB">kB</option>
+                       <option value="MB">MB</option>
+@@ -53,9 +53,9 @@
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+-                <label translate>API Key</label>
++                <label translate for="apiKey">API Key</label>
+                 <div class="input-group">
+-                  <input type="text" readonly class="text-monospace form-control" value="{{tmpGUI.apiKey || '-'}}" />
++                  <input type="text" id="apiKey" readonly class="text-monospace form-control" value="{{tmpGUI.apiKey || '-'}}" />
+                   <span class="input-group-btn">
+                     <button type="button" class="btn btn-default btn-secondary" ng-click="setAPIKey(tmpGUI)">
+                       <span class="fas fa-redo"></span>&nbsp;<span translate>Generate</span>
+@@ -85,8 +85,8 @@
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+-                <label translate>Automatic upgrades</label>&emsp;<a href="{{docsURL('users/releases')}}" target="_blank"><span class="fas fa-question-circle"></span>&nbsp;<span translate>Help</span></a>
+-                <select class="form-control" ng-model="tmpOptions.upgrades" ng-if="upgradeInfo">
++                <label translate for="upgradesSelect">Automatic upgrades</label>&emsp;<a href="{{docsURL('users/releases')}}" target="_blank"><span class="fas fa-question-circle"></span>&nbsp;<span translate>Help</span></a>
++                <select class="form-control" id="upgradesSelect" ng-model="tmpOptions.upgrades" ng-if="upgradeInfo">
+                   <option ng-if="!version.isCandidate" value="none" translate>No upgrades</option>
+                   <option value="stable" translate>Stable releases only</option>
+                   <option value="candidate" translate>Stable releases and release candidates</option>
+@@ -128,14 +128,14 @@
+           <div class="row">
+             <div class="col-md-6">
+               <div class="form-group">
+-                <label translate for="user">GUI Authentication User</label>
+-                <input id="user" class="form-control" type="text" name="user" ng-model="tmpGUI.user" autocomplete="username" />
++                <label translate for="guiUser">GUI Authentication User</label>
++                <input id="guiUser" class="form-control" type="text" name="user" ng-model="tmpGUI.user" autocomplete="username" />
+               </div>
+             </div>
+             <div class="col-md-6">
+               <div class="form-group">
+-                <label translate for="password">GUI Authentication Password</label>
+-                <input id="password" class="form-control" type="password" name="password" ng-model="tmpGUI.password" ng-trim="false" autocomplete="new-password" />
++                <label translate for="guiPassword">GUI Authentication Password</label>
++                <input id="guiPassword" class="form-control" type="password" name="password" ng-model="tmpGUI.password" ng-trim="false" autocomplete="new-password" />
+               </div>
+             </div>
+           </div>
+@@ -162,8 +162,8 @@
+           <div class="row">
+             <div class="col-md-6">
+               <div class="form-group">
+-                <label translate>GUI Theme</label>
+-                <select class="form-control" ng-model="tmpGUI.theme" ng-if="themes.length > 1">
++                <label translate for="guiTheme">GUI Theme</label>
++                <select class="form-control" id="guiTheme" ng-model="tmpGUI.theme" ng-if="themes.length > 1">
+                   <option ng-repeat="theme in themes.sort()" value="{{ theme }}">
+                     {{ themeName(theme) }}
+                   </option>
+@@ -283,7 +283,7 @@
+                     <th translate>Ignored at</th>
+                     <th translate>Device</th>
+                     <th translate>Address</th>
+-                    <th></th>
++                    <th><span class="sr-only">Actions</span></th>
+                   </tr>
+                 </thead>
+                 <tbody>
+@@ -316,7 +316,7 @@
+                     <th translate>Ignored at</th>
+                     <th translate>Folder</th>
+                     <th translate>Device</th>
+-                    <th></th>
++                    <th><span class="sr-only">Actions</span></th>
+                   </tr>
+                 </thead>
+                 <tbody ng-repeat-start="device in tmpDevices">
+diff --git a/gui/default/syncthing/usagereport/usageReportPreviewModalView.html b/gui/default/syncthing/usagereport/usageReportPreviewModalView.html
+index 3da3e54..1c8384c 100644
+--- a/gui/default/syncthing/usagereport/usageReportPreviewModalView.html
++++ b/gui/default/syncthing/usagereport/usageReportPreviewModalView.html
+@@ -5,7 +5,7 @@
+     </p>
+     <p translate>The aggregated statistics are publicly available at the URL below.</p>
+     <p><a href="https://data.syncthing.net/" target="_blank">https://data.syncthing.net/</a></p>
+-    <label translate>Version</label>
++    <label translate for="urPreviewVersion">Version</label>
+     <select id="urPreviewVersion" class="form-control" ng-model="reportDataPreviewVersion" ng-change="refreshReportDataPreview(reportDataPreviewVersion, reportDataPreviewDiff)">
+       <option selected value translate>Select a version</option>
+       <option ng-repeat="n in urVersions()" value="{{n}}">{{'Version' | translate}} {{n}}</option>
+diff --git a/gui/light/assets/css/theme.css b/gui/light/assets/css/theme.css
+index 8a6183d..2783687 100644
+--- a/gui/light/assets/css/theme.css
++++ b/gui/light/assets/css/theme.css
+@@ -41,3 +41,38 @@
+ .reception {
+     filter: invert(12%) sepia(11%) saturate(20%) hue-rotate(318deg) brightness(100%) contrast(80%);
+ }
++
++/*
++ * Accessibility: WCAG AA contrast on the flat palette.
++ * The light theme inherits the flat-ui foreground colors from
++ * assets/css/overrides.css' button overrides; darken what remains.
++ */
++a {
++    color: #1d6fa5;
++}
++a:hover, a:focus {
++    color: #175a87;
++}
++.text-success {
++    color: #1d7a35;
++}
++a.text-success:hover, a.text-success:focus {
++    color: #14612a;
++}
++.text-danger {
++    color: #c21f2c;
++}
++a.text-danger:hover, a.text-danger:focus {
++    color: #9b1a24;
++}
++.btn-primary, .bg-primary {
++    background-color: #1d6fa5;
++    border-color: #1a659b;
++}
++.panel-warning > .panel-heading {
++    color: #333;
++}
++.panel-warning > .panel-heading .badge {
++    color: #5d4e08;
++    background-color: #fff;
++}

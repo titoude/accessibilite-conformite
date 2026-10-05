@@ -1,0 +1,93 @@
+{
+  "cycle": 28,
+  "project": "syncthing/syncthing",
+  "commit": "7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+  "framework": "GUI web AngularJS 1.x (fichiers statiques gui/default/, PAS de build npm) servie par Go — assets embarqués via lib/api/auto/gui.files.go (go generate) ; dev-loop sans rebuild via STGUIASSETS/--debug-gui-assets-dir",
+  "base_url": "http://127.0.0.1:8384",
+  "boot": {
+    "verbatim": [
+      "git clone https://github.com/syncthing/syncthing.git ~/work/syncthing && cd ~/work/syncthing && git checkout 7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+      "export PATH=$HOME/go/bin:$PATH  # go1.26.0 ; toolchain go1.26.2 auto-téléchargée (go.mod >= 1.26.2)",
+      "cd lib/api/auto && go generate && cd ../../..   # génère gui.files.go — requis avant go build",
+      "go build -o syncthing ./cmd/syncthing           # binaire ~38 MB",
+      "# dev-loop audit : servir gui/ depuis le disque (pas besoin de regenerate pour tester) :",
+      "env STGUIASSETS=$HOME/work/syncthing/gui ./syncthing serve -H ~/work/st-home --gui-address=http://127.0.0.1:8384 --no-browser &",
+      "./tools/seed.sh                                 # contenu + devices + folders + ignorés + pending",
+      "node tools/login.mjs http://127.0.0.1:8384      # → tools/auth.json (session GUI)"
+    ]
+  },
+  "env": {
+    "STGUIASSETS": "$HOME/work/syncthing/gui (override debug : sert gui/ depuis le disque au lieu des assets embarqués)",
+    "ports": "st1 :8384 (GUI+sync :22000/tcp+quic) ; st2 éphémère :8484 GUI / :22001 sync ; st3 éphémère :8485 GUI / :22002 sync",
+    "homes": "st1 ~/work/st-home ; st2 ~/work/st-data/st2-home ; st3 ~/work/st-data/st3-home",
+    "ST1_ID": "7PKYV3N-KMASYR3-KUICT24-5FI5URW-7IBWKAB-2MBRN5N-ERP4QEQ-7VBESAK",
+    "deviceIDs épinglés": "laptop-alice=H5TRW4T-…-H7P2HAZ ; ignoré=FENBM3X-…-CCJE3QM ; st2/st3 générés puis rejoués (pending en DB, idempotent)"
+  },
+  "auth": "GUI : user devin / DevinA11y!2026 posés par seed.sh (cli config gui). Storage-state Playwright produit par tools/login.mjs (POST /rest/noauth/auth/password → cookie sessionid-<shortDeviceID>, lié à l'instance : régénérer par login.mjs à chaque nouvelle home). API REST : X-API-Key du config.xml ; depuis le navigateur, header X-CSRF-Token-<short> obligatoire sur TOUTES les requêtes /rest (GET compris — middleware global, pas seulement les mutations).",
+  "seed": "tools/seed.sh idempotent : fichiers réels (sync-main/docs/README.md avec lien Markdown littéral, todo.txt, photos/plage.jpg) ; folder 'Archives' receiveonly + versioning trashcan + .stversions pré-rempli → boutons 'Revert Local Changes' + 'Restore Versions' + lien 'Local Additions' (→ modale #localChanged) ; folder 'Broken' sur /proc/nonexistent-xyz → panneau Errors + statut Stopped (surface d'erreur déterministe) ; devices POST (laptop-alice hors ligne, desktop-bob=st2) ; folders POST (sync-main sendreceive partagé alice) ; urAccepted=urSeen=0 (modale rapport d'usage auto-ouverte au 1er chargement auth) ; remoteIgnoredDevices + devices[].ignoredFolders peuplés (onglets Settings Ignored Devices/Folders) ; st2 éphémère connecte → pendingDevice accepté → pendingFolder 'Shared Docs' persistant ; st3 'knocker' connecte jamais accepté → pendingDevice persistant (panneau New Device). Entrées pending persistées en DB sans expiration.",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls": [
+        "/"
+      ],
+      "states": "none",
+      "note": "page de login (Authentication Required) — seule surface sans session"
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json",
+      "urls": [
+        "/"
+      ],
+      "states": "all",
+      "note": "dashboard + toutes les modales/états dynamiques ; '/' authentifié avec #ur auto-ouverte (état réel du 1er démarrage)"
+    }
+  ],
+  "states_exclus": {
+    "raison": "surfaces impossibles à produire déterministement dans cette boucle",
+    "restart_shutdown": "Actions → Restart / Shut Down : actions immédiates SANS modale de confirmation (killeraient le serveur audité)",
+    "network_http_error": "#networkError/#httpError/#restarting/#upgrading/#savingChanges : dialogues transitoires, non jouables à la demande",
+    "needed_remoteNeed_failed": "#needed/#remoteNeed/#failed : exigent un device distant EN LIGNE rapportant des besoins/échecs de transfert (boucle hors-ligne, devices Disconnected)",
+    "majorUpgrade_upgrade": "#majorUpgrade/#upgrade : exigent upgradeInfo.{majorNewer,newer} — un build versionné + accès réseau aux releases (build unknown-dev)",
+    "receiveencrypted": "folder receive-encrypted + items chiffrés locaux : nécessite un pair partageant en mode receive-encrypted",
+    "override_outofsync": "#revert-override-confirmation variante 'override' (sendonly outofsync) : exige des fichiers modifiés chez un distant",
+    "editShareTemplate": "syncthing/core/editShareTemplate.html : template imbriqué non invoqué par un état jouable"
+  },
+  "toolVersions": {
+    "node": "v24.19.0",
+    "npm": "10.8.3",
+    "go": "go1.26.0 (~/goroot) + toolchain go1.26.2 auto (go.mod 1.26.2)",
+    "playwright": "1.63.0",
+    "chromium": "1243",
+    "axe-core": "4.13.0",
+    "runner": "audit.mjs v6",
+    "syncthing": "unknown-dev @ 7ad73b408adc792cabeed41d89a37b93e2bd84d0"
+  },
+  "auditCommands": [
+    "./tools/seed.sh",
+    "node tools/login.mjs http://127.0.0.1:8384",
+    "node tools/audit.mjs http://127.0.0.1:8384 --urls http://127.0.0.1:8384/ --states none --wait-for '.center-block #user' --wait 2000 --out reports/baseline-public",
+    "node tools/audit.mjs http://127.0.0.1:8384 --urls http://127.0.0.1:8384/ --states all --wait-for 'button.panel-heading[data-target^=\"#folder-\"]' --wait 3000 --storage-state tools/auth.json --out reports/baseline-auth",
+    "node tools/audit.mjs http://127.0.0.1:8384 --urls http://127.0.0.1:8384/ --states none --wait-for '.center-block #user' --wait 2000 --out reports/final-public",
+    "node tools/audit.mjs http://127.0.0.1:8384 --urls http://127.0.0.1:8384/ --states all --wait-for 'button.panel-heading[data-target^=\"#folder-\"]' --wait 3000 --storage-state tools/auth.json --out reports/final-auth"
+  ],
+  "notes": [
+    "Modales : ~29 <modal> AngularJS toutes présentes dans le DOM (ng-include, display:none) — un seul template modal.html corrigé couvre toutes les boîtes (role=dialog/aria-modal/aria-labelledby ajoutés dans modalDirective.js link).",
+    "Le thème est lu par le serveur statique au DÉMARRAGE (lib/api/api_statics.go) : le changement de thème nécessite un restart ; audit.mjs attend le marqueur concret (body background) après restart — sinon on mesure l'ancien thème.",
+    "'/' auth mesure la modale #ur auto-ouverte sur dashboard (DOM réel du 1er démarrage) ; l'état usage-report-open la ré-arme de façon déterministe, usage-report-dismissed la ferme + restart (efface Restart Needed) pour les états suivants.",
+    "auth.json lié au deviceID de l'instance (cookie sessionid-<short>) : régénéré par login.mjs sur toute nouvelle home."
+  ],
+  "installBuild": {
+    "clone": "git clone https://github.com/syncthing/syncthing ~/work/st-install && cd ~/work/st-install && git checkout 7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+    "apply": "git apply <cycle>/patch.diff  (19 fichiers, 0 rejet)",
+    "generate": "cd lib/api/auto && ~/go/bin/go generate   # ré-embarque gui/ dans lib/api/auto/gui.files.go",
+    "build": "~/go/bin/go build -o syncthing ./cmd/syncthing",
+    "serve": "./syncthing serve --home=<copie de la seed home> --gui-address=127.0.0.1:8484 --no-browser --no-port-probing",
+    "login": "node tools/login.mjs http://127.0.0.1:8484",
+    "rescan": "node tools/audit.mjs http://127.0.0.1:8484 --urls http://127.0.0.1:8484/ --states all --wait-for 'button.panel-heading[data-target^=\"#folder-\"]' --wait 3000 --storage-state tools/auth.json --out reports/install-build-auth",
+    "resultat": "0 violation sur les 45 états + page publique (reports/install-build-{public,auth})",
+    "seed_home": "~/work/st-home-install = copie de ~/work/st-home (config.xml + db + crédentiels devin/DevinA11y!2026)"
+  }
+}

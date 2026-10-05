@@ -1,0 +1,9 @@
+{
+  "clone": "git clone ~/work/syncthing ~/work/st-install + git checkout 7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+  "apply": "git apply patch.diff → 19 fichiers modifiés",
+  "generate": "cd lib/api/auto && go generate → gui.files.go (5 821 220 octets)",
+  "build": "go build -o syncthing ./cmd/syncthing → binaire 38 507 048 octets",
+  "serve": "./syncthing serve --home=~/work/st-home-install --gui-address=127.0.0.1:8484 --no-browser --no-port-probing",
+  "rescan": "final-public + 45 états → 0 violation (reports/install-build-{public,auth})",
+  "duree": "clone+apply+generate+build ≈ 8 min (cache modules Go tiède)"
+}

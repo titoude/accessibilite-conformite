@@ -1,0 +1,266 @@
+# Audit accessibilité — 2026-10-05
+
+**0 règle(s) violée(s), 0 occurrence(s), 46/46 scénario(s) audité(s), 0 erreur(s), 213 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `54bb51d73ebc`
+
+## Résultats incomplets à revoir (213)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://127.0.0.1:8384/
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:usage-report-open]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:usage-report-dismissed]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:folder-local-additions]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(2) > .ng-binding[href="#"]`
+  - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(3) > .ng-binding[href="#"]`
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-switch="revertOverrideParams.type"] > div[ng-switch-default=""] > p:nth-child(1)`
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.btn-xs > span[translate=""]`
+  - `label[for="restoreVersionSearch"] > span[translate=""]`
+  - `#restoreVersionSearch`
+  - `label[for="restoreVersionDateRange"] > span[translate=""]`
+  - `#restoreVersionDateRange`
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.btn-xs > .ng-binding`
+  - `label[for="restoreVersionSearch"] > span[translate=""]`
+  - `#restoreVersionSearch`
+  - `label[for="restoreVersionDateRange"] > span[translate=""]`
+  - `#restoreVersionDateRange`
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `span[translate-value-version="v2.1.5"]`
+  - `#H5TRW4T-N6OBRP7-ZRPPVBJ-KU67Y4G-GWHN3IW-KVNYZVI-C4BYAJV-H7P2HAZ > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `#RWFSQ74-J4UN3CQ-WST6YZT-5ZI6SII-I5FL2JX-RBGOQD5-NYHU3SR-TAHIOQY > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.col-md-12 > label`
+  - `.col-md-12 > a[target="_blank"] > span[translate=""]`
+  - `.col-md-12 > .row > .col-md-6:nth-child(1) > label > span[translate=""]`
+  - `.col-md-6:nth-child(1) > .help-block > span[translate=""]:nth-child(1)`
+  - `.col-md-6:nth-child(1) > .help-block > span[translate=""]:nth-child(2)`
+  - `label[for="rescanIntervalS"]`
+  - `#rescanIntervalS`
+  - `label[for="folderType"]`
+  - `.col-md-6.form-group:nth-child(1) > a[target="_blank"] > span[translate=""]`
+  - … +15 autres
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `span[translate-value-version="v2.1.5"]`
+  - `.col-md-6:nth-child(2) > .form-group > .checkbox[title=""][ng-disabled="currentDevice.untrusted"] > label > .help-block`
+  - `span[data-original-title="archives"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `span[data-original-title="broken"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `span[data-original-title="sync-main"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="addresses"]`
+  - `#addresses`
+  - `.row.form-group > .col-md-6:nth-child(1) > .form-group > .help-block`
+  - `label[for="compression"]`
+  - `#compression`
+  - `#device-advanced > .row:nth-child(2) > .col-md-6:nth-child(1) > label`
+  - `.col-md-8 > span[translate=""]`
+  - `.col-md-8 > a[target="_blank"] > span[translate=""]`
+  - `#numConnections`
+  - … +9 autres
+- http://127.0.0.1:8384/ [state:add-device]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-if="editingDeviceNew()"] > .help-block > span[translate=""]:nth-child(1)`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:show-id-qr]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:log-viewer]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="minHomeDiskFree"] > span[translate=""]`
+  - `#minHomeDiskFree`
+  - `.col-sm-3`
+  - `.col-xs-12.help-block > span[translate=""]:nth-child(2)`
+  - `label[for="apiKey"]`
+  - `label[for="urVersion"]`
+  - `a[data-target="#urPreview"]`
+  - `#urVersion`
+  - `label[for="upgradesSelect"]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="guiUser"]`
+  - `#guiUser`
+  - `label[for="guiPassword"]`
+  - `#guiPassword`
+  - `label[for="guiTheme"]`
+  - `#guiTheme`
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="MaxRecvKbps"]`
+  - `#MaxRecvKbps`
+  - `label[for="MaxSendKbps"]`
+  - `#MaxSendKbps`
+  - `label[for="GlobalAnnServersStr"]`
+  - `#GlobalAnnServersStr`
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="minHomeDiskFree"] > span[translate=""]`
+  - `#minHomeDiskFree`
+  - `.col-sm-3`
+  - `.col-xs-12.help-block > span[translate=""]:nth-child(2)`
+  - `label[for="apiKey"]`
+  - `label[for="urVersion"]`
+  - `a[data-target="#urPreview"]`
+  - `#urVersion`
+  - `label[for="upgradesSelect"]`
+  - … +3 autres
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="minHomeDiskFree"] > span[translate=""]`
+  - `#minHomeDiskFree`
+  - `.col-sm-3`
+  - `.col-xs-12.help-block > span[translate=""]:nth-child(2)`
+  - `label[for="apiKey"]`
+  - `label[for="urVersion"]`
+  - `a[data-target="#urPreview"]`
+  - `#urVersion`
+  - `label[for="upgradesSelect"]`
+  - … +2 autres
+- http://127.0.0.1:8384/ [state:advanced-settings]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="optionsInput3"]`
+  - `#optionsInput3`
+  - `label[for="optionsInput4"]`
+  - `label[for="optionsInput5"]`
+  - `label[for="optionsInput6"]`
+  - `#optionsInput6`
+  - `label[for="optionsInput7"]`
+  - `#optionsInput7`
+  - `label[for="optionsInput8"]`
+  - … +11 autres
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
+  - `span[translate-value-version="v2.1.5"]`
+  - `label[for="folder0Input0"]`
+  - `label[for="folder0Input1"]`
+  - `label[for="folder0Input2"]`
+  - `#folder0Input2`
+  - `label[for="folder0Input3"]`
+  - `label[for="folder0Input4"]`
+  - `#folder0Input4`
+  - `label[for="folder0Input5"]`
+  - `label[for="folder0Input6"]`
+  - … +1 autres
+- http://127.0.0.1:8384/ [state:about]
+  - `span[translate-value-version="v2.1.5"]`
+  - `#contributor-list`
+- http://127.0.0.1:8384/ [state:about-includes]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:connectivity-listeners]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:connectivity-discovery]
+  - `span[translate-value-version="v2.1.5"]`
+  - `li[ng-repeat="discovery in discoveryFailed"]`
+  - `.panel-body[translate=""]`
+- http://127.0.0.1:8384/ [state:help-menu-open]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
+  - `span[translate-value-version="v2.1.5"]`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h2 > .pull-right.ng-binding`
+- http://127.0.0.1:8384/ [state:lang-menu-open]
+  - `span[translate-value-version="v2.1.5"]`
+- http://127.0.0.1:8384/ [state:theme-dark]
+  - `span[translate-value-version="v2.1.5"]`
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://127.0.0.1:8384/ [state:edit-folder-general]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:add-folder]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""][untrusted="currentDevice.untrusted"] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
+  - `share-template[remote-state=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-device-general]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:add-device]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+- http://127.0.0.1:8384/ [state:share-device-id]
+  - `.form-group:nth-child(3) > share-template[label=""][folder-type=""] > .checkbox.col-md-6 > label[for="sharedwith-"] > input[ng-model="selected[id]"][type="checkbox"]`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
+  - `#folder-versioning > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
+  - `.col-md-12 > a[target="_blank"]`
+  - `.col-md-6.form-group:nth-child(1) > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
+  - `.col-md-8 > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-general]
+  - `a[data-target="#urPreview"]`
+  - `.col-md-6:nth-child(2) > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-gui]
+  - `#settings-gui > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-connections]
+  - `#settings-connections > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
+  - `a[data-target="#urPreview"]`
+  - `.col-md-6:nth-child(2) > .form-group > a[target="_blank"]`
+- http://127.0.0.1:8384/ [state:settings-discard]
+  - `a[data-target="#urPreview"]`
+  - `.col-md-6:nth-child(2) > .form-group > a[target="_blank"]`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://127.0.0.1:8384/ [state:recent-changes]
+  - `.table-responsive > .table-condensed`
+
