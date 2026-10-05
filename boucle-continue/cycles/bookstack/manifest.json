@@ -1,0 +1,111 @@
+{
+  "cycle": 23,
+  "project": "BookStackApp/BookStack",
+  "commit": "f585a7d9100a99cba8479c1ef5fd56e05562daea",
+  "framework": "PHP 8.3 / Laravel 12 + Blade SSR + SASS + winter.js (components/refs), TinyMCE/CodeMirror pour l'éditeur ; Apache + MySQL 8.4",
+  "base_url": "http://localhost:8080",
+  "boot": {
+    "note": "stack de développement officielle du dépôt (docker-compose.yml à la racine, 'development purposes only'). Pas de PHP local requis — tout est conteneurisé. SQLite impossible : app/Config/database.php ne définit que les connexions mysql/mysql_testing (aucune connection 'sqlite').",
+    "commands": [
+      "git clone https://github.com/BookStackApp/BookStack.git bookstack && cd bookstack && git checkout f585a7d9100a99cba8479c1ef5fd56e05562daea",
+      "cp .env.example .env",
+      "docker compose up -d",
+      "# attendre 'apache2 -D FOREGROUND' dans `docker compose logs -f app` (entrypoint : composer install + wait-for-it db + php artisan migrate + chown + apache2-foreground) ; le service node compile sass+esbuild en watch (public/dist)",
+      "docker compose exec app php artisan key:generate --force",
+      "bash tools/seed.sh   # seeder démo + contenu littéral + app-public (voir tools/seed.sh)",
+      "node tools/login.mjs # produit tools/auth.json (session admin@admin.com/password)"
+    ],
+    "port": 8080,
+    "app_image": "bookstack-app (dev/docker/Dockerfile : php:8.3-apache + pdo_mysql/gd/ldap/zip/xdebug + composer, APACHE_DOCUMENT_ROOT=/app/public)",
+    "db_image": "mysql:8.4 (env docker-compose : bookstack-dev / bookstack-test / bookstack-test — ces valeurs d'environnement priment sur .env)",
+    "node_image": "node:22-alpine (npm install + npm run watch → sass --watch + esbuild watch vers public/dist)",
+    "mailhog": "mailhog/mailhog :8025 (non utilisé par le harnais)"
+  },
+  "seed": {
+    "upstream": "php artisan db:seed --class=DummyContentSeeder --force → 2 utilisateurs (editor/viewer), 5 livres × (3 chapitres × 3 pages + 3 pages), 1 'Large book' (50 chapitres + 200 pages), 10 étagères, rôles editor/viewer + permission access-api, token API apitoken/password. Noms générés par factory (aléatoires) → slugs non déterministes, hors scope.",
+    "litteral": [
+      "POST /api/books {name:'Demo A11y Book', description_html avec lien https://www.bookstackapp.com/docs/, tags demo+a11y} → slug demo-a11y-book",
+      "POST /api/chapters {book_id, name:'Chapitre Demo A11y', description_html avec lien} → slug chapitre-demo-a11y",
+      "POST /api/pages {book_id, name:'Page Demo A11y', html: h2#section-intro + p avec lien externe https://example.com/lien + lien interne /books + h3 + ul + strong/em/code + table thead/tbody} → slug page-demo-a11y",
+      "POST /api/pages {chapter_id, name:'Page Chapitre Demo', html avec lien} → slug page-chapitre-demo",
+      "POST /api/comments {page_id, html avec lien} → 1 commentaire rendu sur la page démo",
+      "setting('app-public')='true' via tinker → le rôle système 'public' (id 4) possède déjà book/chapter/page/bookshelf/image/revision view-all → /, /shelves, /books, /books/<slug>…, /tags, /search, /user/<slug> rendent 200 sans session"
+    ],
+    "admin": "admin@admin.com / password (compte par défaut upstream)"
+  },
+  "scope": {
+    "runs": [
+      {
+        "name": "public",
+        "storage_state": null,
+        "urls": [
+          "/login",
+          "/",
+          "/shelves",
+          "/books",
+          "/books/demo-a11y-book",
+          "/books/demo-a11y-book/chapter/chapitre-demo-a11y",
+          "/books/demo-a11y-book/page/page-demo-a11y",
+          "/tags",
+          "/search",
+          "/user/admin"
+        ],
+        "states": ["suggestions-recherche", "menu-mobile", "mobile-tabs"]
+      },
+      {
+        "name": "auth",
+        "storage_state": "tools/auth.json (login.mjs : #email/#password admin@admin.com/password)",
+        "urls": [
+          "/",
+          "/favourites",
+          "/books",
+          "/books/demo-a11y-book",
+          "/books/demo-a11y-book/page/page-demo-a11y",
+          "/books/demo-a11y-book/edit",
+          "/books/demo-a11y-book/page/page-demo-a11y/edit",
+          "/books/demo-a11y-book/sort",
+          "/settings/features",
+          "/settings/users",
+          "/settings/roles",
+          "/my-account/profile",
+          "/search",
+          "/templates"
+        ],
+        "states": "all"
+      }
+    ],
+    "hors_scope": [
+      "/settings → redirection 302 vers /settings/features (alias hors périmètre)",
+      "/books/<slug-aléatoire> des livres factory (slugs non déterministes) — le livre littéral couvre le même gabarit",
+      "/api/docs, /exports/* (formats d'export, non-HTML applicatif)",
+      "routes POST/édition destructive (create/delete forms soumis)",
+      "/password/email, /register (auth secondaire), /mfa/* (non activé)",
+      "mailhog :8025, /status, /manifest.json, /robots.txt"
+    ]
+  },
+  "notes": [
+    "BookStack utilise son système de composants winter.js : attributs `component`/`components` + `refs=\"<comp>@<el>\"` ; les dropdowns ouverts portent la classe `anim menuIn` et aria-expanded=true sur le toggle — les STATES attendent ces marqueurs réels (vérifiés sur le DOM servi via probe-states.mjs).",
+    "Le mode public (app-public) garde le shell applicatif complet (header, recherche globale, nav, fil d'Ariane) : les états suggestions-recherche/menu-mobile/mobile-tabs s'exécutent dans le run public ; menu-profil/menu-export/recherche-fil/onglets-commentaires/onglet-editeur exigent la session (run auth --states all inclut aussi les 3 états publics sous session).",
+    "Les viewport des états mobiles restent à 375px pendant le scan (leçon gotify F7 : ne pas restaurer avant axe).",
+    "L'éditeur TinyMCE + toolbox est la surface la plus riche : état onglet-editeur ouvre l'onglet Attachments (bouton class .active, pas de role=tab amont).",
+    "contenu seed littéral obligatoire : la page démo rend h2/h3, liste, tableau, 2 liens ; le commentaire rend le composant commentaires non vide (leçon memos/ntfy/gotify/docmost)."
+  ],
+  "auditCommands": [
+    "node tools/login.mjs",
+    "node tools/audit.mjs http://localhost:8080 --urls $(paste -sd, tools/urls-public.txt) --states suggestions-recherche,menu-mobile,mobile-tabs --wait 1500 --out reports/baseline/public",
+    "node tools/audit.mjs http://localhost:8080 --urls $(paste -sd, tools/urls-auth.txt) --states all --storage-state tools/auth.json --wait 1500 --out reports/baseline/auth",
+    "# run final : identique, --out reports/final/{public,auth}"
+  ],
+  "toolVersions": {
+    "node": "v24.19.0",
+    "npm": "10.8.3",
+    "axe-core": "4.13.0",
+    "playwright": "1.63.0",
+    "php": "8.3.35 (container)",
+    "composer": "2.10.3",
+    "mysql": "8.4 (container)",
+    "docker": "29.7.2 / compose v5.4.0",
+    "runner": "audit.mjs v6 (copie de /audit.mjs du dépôt, STATES inline)"
+  },
+  "frozen_at": "2026-10-05T00:20:00Z"
+}

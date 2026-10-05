@@ -1,0 +1,42 @@
+{
+  "suggestions-recherche": {
+    "url": "/",
+    "setup": "remplir #header-search-box-input 'demo' → suggestions global-search visibles avec >=1 lien",
+    "contexte": "public ET auth (run public)"
+  },
+  "menu-mobile": {
+    "url": "/",
+    "setup": "viewport 375x812 → clic header-mobile-toggle@toggle → aria-expanded=true + nav.header-links visible (audit à 375px)",
+    "contexte": "public ET auth (run public)"
+  },
+  "mobile-tabs": {
+    "url": "/books/demo-a11y-book",
+    "setup": "viewport 375x812 → clic tri-layout@tab data-tab=info → aria-selected=true",
+    "contexte": "public ET auth (run public)"
+  },
+  "menu-profil": {
+    "url": "/",
+    "setup": "clic button[aria-label=Profile Menu] → aria-expanded=true + ul.dropdown-menu.anim visible",
+    "contexte": "auth (absent sans session)"
+  },
+  "menu-export": {
+    "url": "/books/demo-a11y-book",
+    "setup": "clic #export-menu dropdown@toggle → ul.dropdown-menu.anim visible",
+    "contexte": "auth (menu absent en public : pas de permission export)"
+  },
+  "recherche-fil": {
+    "url": "/books/demo-a11y-book",
+    "setup": "clic 1er button.dropdown-search-toggle-breadcrumb → .dropdown-search-dropdown.anim visible",
+    "contexte": "auth"
+  },
+  "onglets-commentaires": {
+    "url": "/books/demo-a11y-book/page/page-demo-a11y",
+    "setup": "clic #comment-tab-archived → aria-selected=true + #comment-tab-panel-archived visible",
+    "contexte": "auth (composant commentaires absent en public)"
+  },
+  "onglet-editeur": {
+    "url": "/books/demo-a11y-book/page/page-demo-a11y/edit",
+    "setup": "attente .page-editor → clic editor-toolbox@tab-button[data-tab=files] → bouton .active + [data-tab-content=files] visible",
+    "contexte": "auth (éditeur protégé par permission)"
+  }
+}

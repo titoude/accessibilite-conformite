@@ -1,0 +1,2810 @@
+diff --git a/app/Config/setting-defaults.php b/app/Config/setting-defaults.php
+index 5942544..9f53bf3 100644
+--- a/app/Config/setting-defaults.php
++++ b/app/Config/setting-defaults.php
+@@ -14,16 +14,16 @@ return [
+     'app-logo'             => '',
+     'app-name-header'      => true,
+     'app-editor'           => 'wysiwyg',
+-    'app-color'            => '#206ea7',
+-    'app-color-light'      => 'rgba(32,110,167,0.15)',
+-    'link-color'           => '#206ea7',
++    'app-color'            => '#1e6aa5',
++    'app-color-light'      => 'rgba(30,106,165,0.15)',
++    'link-color'           => '#1e6aa5',
+     'bookshelf-color'      => '#a94747',
+     'book-color'           => '#077b70',
+     'chapter-color'        => '#af4d0d',
+-    'page-color'           => '#206ea7',
++    'page-color'           => '#1e6aa5',
+     'page-draft-color'     => '#7e50b1',
+     'app-color-dark'       => '#195785',
+-    'app-color-light-dark' => 'rgba(32,110,167,0.15)',
++    'app-color-light-dark' => 'rgba(30,106,165,0.15)',
+     'link-color-dark'      => '#429fe3',
+     'bookshelf-color-dark' => '#ff5454',
+     'book-color-dark'      => '#389f60',
+diff --git a/lang/en/common.php b/lang/en/common.php
+index 46b2a18..9bd076b 100644
+--- a/lang/en/common.php
++++ b/lang/en/common.php
+@@ -90,6 +90,7 @@ return [
+     // Header
+     'homepage' => 'Homepage',
+     'header_menu_expand' => 'Expand Header Menu',
++    'header_menu_label' => 'Header Menu',
+     'profile_menu' => 'Profile Menu',
+     'view_profile' => 'View Profile',
+     'edit_profile' => 'Edit Profile',
+diff --git a/resources/js/components/dropdown.js b/resources/js/components/dropdown.js
+index 4da08f2..598cd90 100644
+--- a/resources/js/components/dropdown.js
++++ b/resources/js/components/dropdown.js
+@@ -32,7 +32,7 @@ export class Dropdown extends Component {
+ 
+         const menuOriginalRect = this.menu.getBoundingClientRect();
+         let heightOffset = 0;
+-        const toggleHeight = this.toggle.getBoundingClientRect().height;
++        const toggleRect = this.toggle.getBoundingClientRect();
+         const containerEl = this.fixedPositionMenu ? this.body : findClosestScrollContainer(this.menu);
+         const containerBounds = containerEl.getBoundingClientRect();
+         const dropUpwards = menuOriginalRect.bottom > containerBounds.bottom;
+@@ -44,10 +44,14 @@ export class Dropdown extends Component {
+             this.menu.style.width = `${menuOriginalRect.width}px`;
+             this.menu.style.left = `${menuOriginalRect.left}px`;
+             if (dropUpwards) {
+-                heightOffset = (window.innerHeight - menuOriginalRect.top - toggleHeight / 2);
++                heightOffset = (window.innerHeight - toggleRect.top);
+             } else {
+-                heightOffset = menuOriginalRect.top;
++                heightOffset = toggleRect.bottom;
+             }
++        } else if (dropUpwards) {
++            heightOffset = (containerRect.bottom - toggleRect.top);
++        } else {
++            heightOffset = (toggleRect.bottom - containerRect.top);
+         }
+ 
+         // Adjust menu to display upwards if near the bottom of the screen
+@@ -71,6 +75,15 @@ export class Dropdown extends Component {
+             }
+         });
+ 
++        // Backdrop below the menu so underlying page targets are fully covered
++        // rather than partially clickable while the menu is open.
++        this.backdrop = document.createElement('div');
++        this.backdrop.className = 'menu-backdrop';
++        this.backdrop.addEventListener('click', this.hide);
++        this.body.appendChild(this.backdrop);
++        this.inertEls = [...this.body.querySelectorAll('main, footer')].filter(el => !el.contains(this.menu));
++        for (const el of this.inertEls) el.setAttribute('inert', '');
++
+         // Focus on first input if existing
+         const input = this.menu.querySelector('input');
+         if (input !== null) input.focus();
+@@ -92,6 +105,14 @@ export class Dropdown extends Component {
+     }
+ 
+     hide() {
++        if (this.backdrop) {
++            this.backdrop.remove();
++            this.backdrop = null;
++        }
++        if (this.inertEls) {
++            for (const el of this.inertEls) el.removeAttribute('inert');
++            this.inertEls = null;
++        }
+         this.menu.style.display = 'none';
+         this.menu.classList.remove('anim', 'menuIn');
+         this.toggle.setAttribute('aria-expanded', 'false');
+diff --git a/resources/js/components/header-mobile-toggle.js b/resources/js/components/header-mobile-toggle.js
+index f94f897..7c1ecc0 100644
+--- a/resources/js/components/header-mobile-toggle.js
++++ b/resources/js/components/header-mobile-toggle.js
+@@ -18,9 +18,24 @@ export class HeaderMobileToggle extends Component {
+         this.menu.classList.toggle('show', this.open);
+         this.toggleButton.setAttribute('aria-expanded', this.open ? 'true' : 'false');
+         if (this.open) {
++            // Backdrop below the menu so underlying page targets are fully
++            // covered rather than partially clickable while the menu is open.
++            this.backdrop = document.createElement('div');
++            this.backdrop.className = 'menu-backdrop';
++            document.body.appendChild(this.backdrop);
++            this.inertEls = [...document.body.querySelectorAll('main, footer')].filter(el => !el.contains(this.menu));
++            for (const el of this.inertEls) el.setAttribute('inert', '');
+             this.elem.addEventListener('keydown', this.onKeyDown);
+             window.addEventListener('click', this.onWindowClick);
+         } else {
++            if (this.backdrop) {
++                this.backdrop.remove();
++                this.backdrop = null;
++            }
++            if (this.inertEls) {
++                for (const el of this.inertEls) el.removeAttribute('inert');
++                this.inertEls = null;
++            }
+             this.elem.removeEventListener('keydown', this.onKeyDown);
+             window.removeEventListener('click', this.onWindowClick);
+         }
+diff --git a/resources/sass/_blocks.scss b/resources/sass/_blocks.scss
+index a89cfea..fb1037b 100644
+--- a/resources/sass/_blocks.scss
++++ b/resources/sass/_blocks.scss
+@@ -197,7 +197,6 @@
+ }
+ 
+ .fade-in-when-active {
+-  @include mixins.lightDark(opacity, 0.6, 0.7);
+   transition: opacity ease-in-out 120ms;
+   &:hover, &:focus-within {
+     opacity: 1 !important;
+diff --git a/resources/sass/_components.scss b/resources/sass/_components.scss
+index ba53bfb..4831bc5 100644
+--- a/resources/sass/_components.scss
++++ b/resources/sass/_components.scss
+@@ -546,7 +546,7 @@ body.flexbox-support #entity-selector-wrap .popup-body .form-group {
+ .tab-container [role="tablist"] button[role="tab"] {
+   display: inline-block;
+   padding: vars.$s;
+-  @include mixins.lightDark(color, rgba(0, 0, 0, .5), rgba(255, 255, 255, .5));
++  @include mixins.lightDark(color, rgba(0, 0, 0, .75), rgba(255, 255, 255, .75));
+   cursor: pointer;
+   border-bottom: 2px solid transparent;
+   margin-bottom: -1px;
+@@ -731,14 +731,12 @@ body.flexbox-support #entity-selector-wrap .popup-body .form-group {
+     color: inherit;
+   }
+   .text-muted {
+-    color: #999;
++    color: #757575;
+   }
+   .meta a, .meta span {
+     white-space: nowrap;
+   }
+-  .right-meta .text-muted {
+-    opacity: .8;
+-  }
++
+ }
+ 
+ .comment-thread-indicator {
+@@ -904,8 +902,10 @@ body.flexbox-support #entity-selector-wrap .popup-body .form-group {
+   border-radius: 4px;
+   line-height: normal;
+   padding: vars.$xs;
+-  opacity: 0.6;
++  opacity: 0.9;
+   cursor: pointer;
++  min-width: 24px;
++  min-height: 24px;
+   &:hover {
+     opacity: 1;
+     @include mixins.lightDark(border-color, #DDD, #444);
+@@ -1276,4 +1276,10 @@ details.section-expander:open summary {
+ details.section-expander {
+   border-bottom: 1px solid #DDD;
+   @include mixins.lightDark(border-color, #DDD, #000);
+-}
+\ No newline at end of file
++}
++.menu-backdrop {
++  position: fixed;
++  inset: 0;
++  z-index: 10;
++  background: transparent;
++}
+diff --git a/resources/sass/_content.scss b/resources/sass/_content.scss
+index e77ea63..2917480 100644
+--- a/resources/sass/_content.scss
++++ b/resources/sass/_content.scss
+@@ -122,6 +122,12 @@
+   }
+ }
+ 
++.entity-description a,
++.comment-box .content a,
++.editor-content-area a {
++  text-decoration: underline;
++}
++
+ // This is seperated out so we can target it out-of-editor by default
+ // and use advanced (:not) syntax, not supported by things like PDF gen,
+ // to target in-editor scenarios to handle edge-case of TinyMCE using an
+diff --git a/resources/sass/_editor.scss b/resources/sass/_editor.scss
+index 52311db..9d2efe4 100644
+--- a/resources/sass/_editor.scss
++++ b/resources/sass/_editor.scss
+@@ -3,7 +3,7 @@
+ 
+ // Common variables
+ :root {
+-  --editor-color-primary: #206ea7;
++  --editor-color-primary: #1e6aa5;
+ }
+ 
+ // Main UI elements
+diff --git a/resources/sass/_forms.scss b/resources/sass/_forms.scss
+index f1a2fea..e229def 100644
+--- a/resources/sass/_forms.scss
++++ b/resources/sass/_forms.scss
+@@ -4,6 +4,10 @@
+ @use "vars";
+ 
+ 
++input::placeholder, textarea::placeholder {
++  color: #737373;
++}
++
+ .input-base {
+   border-radius: 3px;
+   border: 1px solid #D4D4D4;
+@@ -458,8 +462,13 @@ input[type=color] {
+     padding: 0;
+     cursor: pointer;
+     position: absolute;
+-    inset-inline-start: 8px;
+-    top: 10px;
++    inset-inline-start: 4px;
++    top: 8px;
++    min-width: 24px;
++    min-height: 24px;
++    display: inline-flex;
++    align-items: center;
++    justify-content: center;
+   }
+   input {
+     display: block;
+diff --git a/resources/sass/_header.scss b/resources/sass/_header.scss
+index a23f92d..d8e48bf 100644
+--- a/resources/sass/_header.scss
++++ b/resources/sass/_header.scss
+@@ -77,7 +77,7 @@ header {
+       margin-inline-end: 0;
+     }
+     &:hover {
+-      background-color: rgba(255, 255, 255, 0.15);
++      background-color: rgba(0, 0, 0, 0.15);
+     }
+     @include mixins.between(vars.$bp-l, vars.$bp-xl) {
+       padding-inline-start: vars.$xs;
+@@ -111,7 +111,7 @@ header .search-box {
+   }
+   input::placeholder {
+     color: #FFF;
+-    opacity: 0.6;
++    opacity: 0.9;
+   }
+   @include mixins.between(vars.$bp-l, vars.$bp-xl) {
+     max-width: 200px;
+@@ -122,8 +122,13 @@ header .search-box {
+ }
+ #header-search-box-button {
+   z-index: 1;
+-  inset-inline-start: 16px;
+-  top: 10px;
++  inset-inline-start: 8px;
++  top: 6px;
++  min-width: 24px;
++  min-height: 24px;
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
+   color: #FFF;
+   opacity: 0.6;
+   @include mixins.lightDark(color, rgba(255, 255, 255, 0.8), #AAA);
+@@ -228,6 +233,7 @@ header .search-box.search-active:focus-within {
+     border-radius: 4px;
+     overflow: hidden;
+     position: absolute;
++    top: 100%;
+     box-shadow: vars.$bs-hover;
+     margin-top: vars.$m;
+     padding: vars.$xs 0;
+@@ -279,8 +285,7 @@ header .search-box.search-active:focus-within {
+ }
+ 
+ .tri-layout-mobile-tabs {
+-  position: sticky;
+-  top: 0;
++  position: relative;
+   z-index: 5;
+   background-color: #FFF;
+   border-bottom: 1px solid #DDD;
+@@ -309,7 +314,6 @@ header .search-box.search-active:focus-within {
+   align-items: center;
+   justify-content: flex-start;
+   flex-wrap: wrap;
+-  opacity: 0.7;
+   .icon-list-item {
+     width: auto;
+     padding-top: vars.$xs;
+@@ -322,12 +326,7 @@ header .search-box.search-active:focus-within {
+     line-height: 0.8;
+     margin: -2px 0 0;
+   }
+-  &:hover, &:focus-within {
+-    opacity: 1;
+-  }
+-  @media (prefers-contrast: more) {
+-    opacity: 1;
+-  }
++
+ }
+ 
+ @include mixins.smaller-than(vars.$bp-l) {
+diff --git a/resources/sass/_layout.scss b/resources/sass/_layout.scss
+index 48b4b0c..8b8e21a 100644
+--- a/resources/sass/_layout.scss
++++ b/resources/sass/_layout.scss
+@@ -467,7 +467,6 @@ body.flexbox {
+     display: none;
+   }
+   .tri-layout-left-contents > *, .tri-layout-right-contents > * {
+-    @include mixins.lightDark(opacity, 0.6, 0.75);
+     transition: opacity ease-in-out 120ms;
+     &:hover, &:focus-within {
+       opacity: 1 !important;
+diff --git a/resources/sass/_lists.scss b/resources/sass/_lists.scss
+index 249dca0..d3f4cf3 100644
+--- a/resources/sass/_lists.scss
++++ b/resources/sass/_lists.scss
+@@ -191,7 +191,7 @@
+     }
+   }
+   .entity-list-item.selected {
+-    @include mixins.lightDark(background-color, rgba(0, 0, 0, 0.06), rgba(255, 255, 255, 0.06));
++    @include mixins.lightDark(background-color, rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
+   }
+   .entity-list-item.no-hover {
+     margin-top: -(vars.$xs);
+@@ -451,6 +451,8 @@ ul.pagination {
+ 
+ .entity-list-item, .icon-list-item {
+   padding: vars.$s vars.$m;
++  min-height: 24px;
++  box-sizing: border-box;
+   display: flex;
+   align-items: center;
+   gap: vars.$m;
+@@ -842,7 +844,7 @@ ul.pagination {
+     }
+     a.active {
+       border-radius: 4px;
+-      @include mixins.lightDark(background-color, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
++      @include mixins.lightDark(background-color, rgba(0, 0, 0, 0.035), rgba(255, 255, 255, 0.035));
+     }
+   }
+ }
+diff --git a/resources/sass/_text.scss b/resources/sass/_text.scss
+index 04fd31e..d887a29 100644
+--- a/resources/sass/_text.scss
++++ b/resources/sass/_text.scss
+@@ -34,7 +34,7 @@ h3 {
+   margin-top: 0.78571429em;
+   margin-bottom: 0.43137255em;
+ }
+-h4 {
++h4, .h4 {
+   font-size: 1.666em;
+   line-height: 1.375em;
+   margin-top: 0.78571429em;
+@@ -49,11 +49,11 @@ h1, h2, h3, h4, h5, h6 {
+   @include mixins.lightDark(color, #222, #BBB);
+ }
+ 
+-h5 {
++h5, .h5 {
+   font-size: 1.4em;
+ }
+ 
+-h5, h6 {
++h5, h6, .h5 {
+   line-height: 1.2em;
+   margin-top: 0.78571429em;
+   margin-bottom: 0.66em;
+@@ -426,3 +426,15 @@ span.sep {
+   pointer-events: none;
+   fill: currentColor;
+ }
++
++.sr-only {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
++}
+diff --git a/resources/sass/_vars.scss b/resources/sass/_vars.scss
+index 1a9590e..fbb540b 100644
+--- a/resources/sass/_vars.scss
++++ b/resources/sass/_vars.scss
+@@ -47,7 +47,7 @@ $fs-s: 12px;
+ $positive: #0f7d15;
+ $negative: #ab0f0e;
+ $info: #0288D1;
+-$warning: #cf4d03;
++$warning: #c34a03;
+ $positive-dark: #4aa850;
+ $negative-dark: #e85c5b;
+ $info-dark: #0288D1;
+@@ -70,11 +70,11 @@ $bs-hover: 0 2px 2px 1px rgba(0,0,0,.13);
+   --font-body: #{$font-body};
+   --font-code: #{$font-mono};
+ 
+-  --color-primary: #206ea7;
++  --color-primary: #1e6aa5;
+   --color-primary-light: rgba(32,110,167,0.15);
+-  --color-link: #206ea7;
++  --color-link: #1e6aa5;
+ 
+-  --color-page: #206ea7;
++  --color-page: #1e6aa5;
+   --color-page-draft: #7e50b1;
+   --color-chapter: #af4d0d;
+   --color-book: #077b70;
+diff --git a/resources/sass/styles.scss b/resources/sass/styles.scss
+index 4bae5da..c432c38 100644
+--- a/resources/sass/styles.scss
++++ b/resources/sass/styles.scss
+@@ -165,7 +165,7 @@ $loadingSize: 10px;
+     outline-offset: -4px;
+   }
+   .entity-list-item.selected {
+-    @include mixins.lightDark(background-color, rgba(0, 0, 0, 0.05), rgba(255, 255, 255, 0.05));
++    @include mixins.lightDark(background-color, rgba(0, 0, 0, 0.04), rgba(255, 255, 255, 0.04));
+   }
+   .loading {
+     height: 400px;
+diff --git a/resources/views/attachments/list.blade.php b/resources/views/attachments/list.blade.php
+index 71197cc..da9742f 100644
+--- a/resources/views/attachments/list.blade.php
++++ b/resources/views/attachments/list.blade.php
+@@ -12,11 +12,11 @@
+                     <div component="dropdown" class="icon-list-item-dropdown">
+                         <button refs="dropdown@toggle" type="button" class="icon-list-item-dropdown-toggle">@icon('caret-down')</button>
+                         <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                            <a href="{{ $attachment->getUrl(false) }}" class="icon-item">
++                            <a href="{{ $attachment->getUrl(false) }}" role="menuitem" class="icon-item">
+                                 @icon('download')
+                                 <div>{{ trans('common.download') }}</div>
+                             </a>
+-                            <a href="{{ $attachment->getUrl(true) }}" target="_blank" class="icon-item">
++                            <a href="{{ $attachment->getUrl(true) }}" target="_blank" role="menuitem" class="icon-item">
+                                 @icon('export')
+                                 <div>{{ trans('common.open_in_tab') }}</div>
+                             </a>
+diff --git a/resources/views/attachments/manager.blade.php b/resources/views/attachments/manager.blade.php
+index 6cbfd1a..d179d81 100644
+--- a/resources/views/attachments/manager.blade.php
++++ b/resources/views/attachments/manager.blade.php
+@@ -5,7 +5,7 @@
+      option:attachments:page-id="{{ $page->id ?? 0 }}"
+      class="toolbox-tab-content">
+ 
+-    <h4>{{ trans('entities.attachments') }}</h4>
++    <h2 class="h4">{{ trans('entities.attachments') }}</h2>
+     <div component="dropzone"
+          option:dropzone:url="{{ url('/attachments/upload?uploaded_to=' . $page->id) }}"
+          option:dropzone:success-message="{{ trans('entities.attachments_file_uploaded') }}"
+diff --git a/resources/views/auth/invite-set-password.blade.php b/resources/views/auth/invite-set-password.blade.php
+index c29ed57..158c21c 100644
+--- a/resources/views/auth/invite-set-password.blade.php
++++ b/resources/views/auth/invite-set-password.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small mt-xl">
+         <div class="card content-wrap auto-height">
+diff --git a/resources/views/auth/login-initiate.blade.php b/resources/views/auth/login-initiate.blade.php
+index 520175f..cef20f5 100644
+--- a/resources/views/auth/login-initiate.blade.php
++++ b/resources/views/auth/login-initiate.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small">
+ 
+diff --git a/resources/views/auth/login.blade.php b/resources/views/auth/login.blade.php
+index 6278adc..af1d26e 100644
+--- a/resources/views/auth/login.blade.php
++++ b/resources/views/auth/login.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small">
+ 
+diff --git a/resources/views/auth/passwords/email.blade.php b/resources/views/auth/passwords/email.blade.php
+index d42b9e3..4ceaa6a 100644
+--- a/resources/views/auth/passwords/email.blade.php
++++ b/resources/views/auth/passwords/email.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+     <div class="container very-small mt-xl">
+         <div class="card content-wrap auto-height">
+             <h1 class="list-heading">{{ trans('auth.reset_password') }}</h1>
+diff --git a/resources/views/auth/passwords/reset.blade.php b/resources/views/auth/passwords/reset.blade.php
+index de332f9..5282aca 100644
+--- a/resources/views/auth/passwords/reset.blade.php
++++ b/resources/views/auth/passwords/reset.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small mt-xl">
+         <div class="card content-wrap auto-height">
+diff --git a/resources/views/auth/register-confirm-accept.blade.php b/resources/views/auth/register-confirm-accept.blade.php
+index e52bdb4..94cfe0c 100644
+--- a/resources/views/auth/register-confirm-accept.blade.php
++++ b/resources/views/auth/register-confirm-accept.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small mt-xl">
+         <div class="card content-wrap auto-height">
+diff --git a/resources/views/auth/register-confirm-awaiting.blade.php b/resources/views/auth/register-confirm-awaiting.blade.php
+index e5d6f61..f0cd314 100644
+--- a/resources/views/auth/register-confirm-awaiting.blade.php
++++ b/resources/views/auth/register-confirm-awaiting.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small mt-xl">
+         <div class="card content-wrap auto-height">
+diff --git a/resources/views/auth/register-confirm.blade.php b/resources/views/auth/register-confirm.blade.php
+index 0de877a..c937781 100644
+--- a/resources/views/auth/register-confirm.blade.php
++++ b/resources/views/auth/register-confirm.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+ 
+     <div class="container very-small mt-xl">
+         <div class="card content-wrap auto-height">
+diff --git a/resources/views/auth/register.blade.php b/resources/views/auth/register.blade.php
+index 1ea712e..13365a5 100644
+--- a/resources/views/auth/register.blade.php
++++ b/resources/views/auth/register.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ 
+-@section('content')
++@section('body')
+     <div class="container very-small">
+ 
+         <div class="my-l">&nbsp;</div>
+diff --git a/resources/views/books/create.blade.php b/resources/views/books/create.blade.php
+index 318abfc..4379827 100644
+--- a/resources/views/books/create.blade.php
++++ b/resources/views/books/create.blade.php
+@@ -25,14 +25,14 @@
+             @endif
+         </div>
+ 
+-        <main class="content-wrap card">
++        <div class="content-wrap card">
+             <h1 class="list-heading">{{ trans('entities.books_create') }}</h1>
+             <form action="{{ $bookshelf?->getUrl('/create-book') ?? url('/books') }}" method="POST" enctype="multipart/form-data">
+                 @include('books.parts.form', [
+                     'returnLocation' => $bookshelf?->getUrl() ?? url('/books')
+                 ])
+             </form>
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/books/edit.blade.php b/resources/views/books/edit.blade.php
+index 7f2c8c1..9663ba3 100644
+--- a/resources/views/books/edit.blade.php
++++ b/resources/views/books/edit.blade.php
+@@ -14,7 +14,7 @@
+             ]])
+         </div>
+ 
+-        <main class="content-wrap card auto-height">
++        <div class="content-wrap card auto-height">
+             <h1 class="list-heading">{{ trans('entities.books_edit') }}</h1>
+             <form action="{{ $book->getUrl() }}" method="POST" enctype="multipart/form-data">
+                 <input type="hidden" name="_method" value="PUT">
+@@ -23,7 +23,7 @@
+                     'returnLocation' => $book->getUrl()
+                 ])
+             </form>
+-        </main>
++        </div>
+ 
+ 
+         @if(userCan(\BookStack\Permissions\Permission::BookDelete, $book) && userCan(\BookStack\Permissions\Permission::BookCreateAll) && userCan(\BookStack\Permissions\Permission::BookshelfCreateAll))
+diff --git a/resources/views/books/index.blade.php b/resources/views/books/index.blade.php
+index 6e311a8..aa3e49b 100644
+--- a/resources/views/books/index.blade.php
++++ b/resources/views/books/index.blade.php
+@@ -1,5 +1,7 @@
+ @extends('layouts.tri')
+ 
++@section('mobile-page-title', trans('entities.books'))
++
+ @section('body')
+     @include('books.parts.list', ['books' => $books, 'view' => $view, 'listOptions' => $listOptions])
+ @stop
+diff --git a/resources/views/books/parts/convert-to-shelf.blade.php b/resources/views/books/parts/convert-to-shelf.blade.php
+index 2e52b31..49ba019 100644
+--- a/resources/views/books/parts/convert-to-shelf.blade.php
++++ b/resources/views/books/parts/convert-to-shelf.blade.php
+@@ -9,15 +9,15 @@
+         <div component="dropdown" class="dropdown-container">
+             <button refs="dropdown@toggle" class="button outline" aria-haspopup="true" aria-expanded="false">{{ trans('entities.convert_book') }}</button>
+             <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                <li class="px-m py-s text-small text-muted">
++                <li role="none" class="px-m py-s text-small text-muted"><div class="contents">
+                     {{ trans('entities.convert_book_confirm') }}
+                     <br>
+                     {{ trans('entities.convert_undo_warning') }}
+-                </li>
+-                <li>
++                </div></li>
++                <li role="presentation">
+                     <form action="{{ $book->getUrl('/convert-to-shelf') }}" method="POST">
+                         {!! csrf_field() !!}
+-                        <button type="submit" class="text-link text-item">{{ trans('common.confirm') }}</button>
++                        <button type="submit" role="menuitem" class="text-link text-item">{{ trans('common.confirm') }}</button>
+                     </form>
+                 </li>
+             </ul>
+diff --git a/resources/views/books/parts/index-sidebar-section-actions.blade.php b/resources/views/books/parts/index-sidebar-section-actions.blade.php
+index 8f8b254..188a501 100644
+--- a/resources/views/books/parts/index-sidebar-section-actions.blade.php
++++ b/resources/views/books/parts/index-sidebar-section-actions.blade.php
+@@ -1,5 +1,5 @@
+ <div id="actions" class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+     <div class="icon-list text-link">
+         @if(userCan(\BookStack\Permissions\Permission::BookCreateAll))
+             <a href="{{ url("/create-book") }}" data-shortcut="new" class="icon-list-item">
+diff --git a/resources/views/books/parts/index-sidebar-section-new.blade.php b/resources/views/books/parts/index-sidebar-section-new.blade.php
+index a9aa52c..4a69a08 100644
+--- a/resources/views/books/parts/index-sidebar-section-new.blade.php
++++ b/resources/views/books/parts/index-sidebar-section-new.blade.php
+@@ -1,5 +1,5 @@
+ <div id="new" class="mb-xl">
+-    <h5>{{ trans('entities.books_new') }}</h5>
++    <h2 class="h5">{{ trans('entities.books_new') }}</h2>
+     @if(count($new) > 0)
+         @include('entities.list', ['entities' => $new, 'style' => 'compact'])
+     @else
+diff --git a/resources/views/books/parts/index-sidebar-section-popular.blade.php b/resources/views/books/parts/index-sidebar-section-popular.blade.php
+index 030c75e..239f9fb 100644
+--- a/resources/views/books/parts/index-sidebar-section-popular.blade.php
++++ b/resources/views/books/parts/index-sidebar-section-popular.blade.php
+@@ -1,5 +1,5 @@
+ <div id="popular" class="mb-xl">
+-    <h5>{{ trans('entities.books_popular') }}</h5>
++    <h2 class="h5">{{ trans('entities.books_popular') }}</h2>
+     @if(count($popular) > 0)
+         @include('entities.list', ['entities' => $popular, 'style' => 'compact'])
+     @else
+diff --git a/resources/views/books/parts/index-sidebar-section-recents.blade.php b/resources/views/books/parts/index-sidebar-section-recents.blade.php
+index f1a68ba..f944363 100644
+--- a/resources/views/books/parts/index-sidebar-section-recents.blade.php
++++ b/resources/views/books/parts/index-sidebar-section-recents.blade.php
+@@ -1,6 +1,6 @@
+ @if($recents)
+     <div id="recents" class="mb-xl">
+-        <h5>{{ trans('entities.recently_viewed') }}</h5>
++        <h2 class="h5">{{ trans('entities.recently_viewed') }}</h2>
+         @include('entities.list', ['entities' => $recents, 'style' => 'compact'])
+     </div>
+ @endif
+\ No newline at end of file
+diff --git a/resources/views/books/parts/list-item.blade.php b/resources/views/books/parts/list-item.blade.php
+index 0852670..f701f46 100644
+--- a/resources/views/books/parts/list-item.blade.php
++++ b/resources/views/books/parts/list-item.blade.php
+@@ -8,7 +8,7 @@
+         @icon('book')
+     </div>
+     <div class="content">
+-        <h4 class="entity-list-item-name break-text">{{ $book->name }}</h4>
++        <div class="entity-list-item-name break-text">{{ $book->name }}</div>
+         <div class="entity-item-snippet">
+             <p class="text-muted break-text mb-s text-limit-lines-1">{{ $book->descriptionInfo()->getPlain() }}</p>
+         </div>
+diff --git a/resources/views/books/parts/list.blade.php b/resources/views/books/parts/list.blade.php
+index 13784d2..b407a52 100644
+--- a/resources/views/books/parts/list.blade.php
++++ b/resources/views/books/parts/list.blade.php
+@@ -1,4 +1,4 @@
+-<main class="content-wrap mt-m card">
++<div class="content-wrap mt-m card">
+     <div class="grid half v-center no-row-gap">
+         <h1 class="list-heading">{{ trans('entities.books') }}</h1>
+         <div class="text-m-right my-m">
+@@ -34,4 +34,4 @@
+             </div>
+         @endif
+     @endif
+-</main>
+\ No newline at end of file
++</div>
+\ No newline at end of file
+diff --git a/resources/views/books/parts/show-sidebar-section-actions.blade.php b/resources/views/books/parts/show-sidebar-section-actions.blade.php
+index 8e5b5c4..346d725 100644
+--- a/resources/views/books/parts/show-sidebar-section-actions.blade.php
++++ b/resources/views/books/parts/show-sidebar-section-actions.blade.php
+@@ -1,5 +1,5 @@
+ <div class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+     <div class="icon-list text-link">
+ 
+         @if(userCan(\BookStack\Permissions\Permission::PageCreate, $book))
+diff --git a/resources/views/books/parts/show-sidebar-section-activity.blade.php b/resources/views/books/parts/show-sidebar-section-activity.blade.php
+index c1c5c1d..70c4ca7 100644
+--- a/resources/views/books/parts/show-sidebar-section-activity.blade.php
++++ b/resources/views/books/parts/show-sidebar-section-activity.blade.php
+@@ -1,6 +1,6 @@
+ @if(count($activity) > 0)
+     <div id="recent-activity" class="mb-xl">
+-        <h5>{{ trans('entities.recent_activity') }}</h5>
++        <h2 class="h5">{{ trans('entities.recent_activity') }}</h2>
+         @include('common.activity-list', ['activity' => $activity])
+     </div>
+ @endif
+\ No newline at end of file
+diff --git a/resources/views/books/parts/show-sidebar-section-details.blade.php b/resources/views/books/parts/show-sidebar-section-details.blade.php
+index 2c3d6d1..6342fe0 100644
+--- a/resources/views/books/parts/show-sidebar-section-details.blade.php
++++ b/resources/views/books/parts/show-sidebar-section-details.blade.php
+@@ -1,5 +1,5 @@
+ <div class="mb-xl">
+-    <h5>{{ trans('common.details') }}</h5>
++    <h2 class="h5">{{ trans('common.details') }}</h2>
+     <div class="blended-links">
+         @include('entities.meta', ['entity' => $book, 'watchOptions' => $watchOptions, 'referenceCount' => $referenceCount])
+         @if($book->hasPermissions())
+diff --git a/resources/views/books/parts/show-sidebar-section-shelves.blade.php b/resources/views/books/parts/show-sidebar-section-shelves.blade.php
+index 9704c18..a7ff22e 100644
+--- a/resources/views/books/parts/show-sidebar-section-shelves.blade.php
++++ b/resources/views/books/parts/show-sidebar-section-shelves.blade.php
+@@ -1,6 +1,6 @@
+ @if(count($shelves) > 0)
+     <div class="actions mb-xl">
+-        <h5>{{ trans('entities.shelves') }}</h5>
++        <h2 class="h5">{{ trans('entities.shelves') }}</h2>
+         @include('entities.list', ['entities' => $shelves, 'style' => 'compact'])
+     </div>
+ @endif
+\ No newline at end of file
+diff --git a/resources/views/books/parts/sort-box-actions.blade.php b/resources/views/books/parts/sort-box-actions.blade.php
+index 3796ffa..0a472a6 100644
+--- a/resources/views/books/parts/sort-box-actions.blade.php
++++ b/resources/views/books/parts/sort-box-actions.blade.php
+@@ -13,14 +13,14 @@
+             @icon('more')
+         </button>
+         <div refs="dropdown@menu" class="dropdown-menu" role="menu">
+-            <button type="button" class="text-item" data-move="prev_book">{{ trans('entities.books_sort_move_prev_book') }}</button>
+-            <button type="button" class="text-item" data-move="next_book">{{ trans('entities.books_sort_move_next_book') }}</button>
+-            <button type="button" class="text-item" data-move="prev_chapter">{{ trans('entities.books_sort_move_prev_chapter') }}</button>
+-            <button type="button" class="text-item" data-move="next_chapter">{{ trans('entities.books_sort_move_next_chapter') }}</button>
+-            <button type="button" class="text-item" data-move="book_start">{{ trans('entities.books_sort_move_book_start') }}</button>
+-            <button type="button" class="text-item" data-move="book_end">{{ trans('entities.books_sort_move_book_end') }}</button>
+-            <button type="button" class="text-item" data-move="before_chapter">{{ trans('entities.books_sort_move_before_chapter') }}</button>
+-            <button type="button" class="text-item" data-move="after_chapter">{{ trans('entities.books_sort_move_after_chapter') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="prev_book">{{ trans('entities.books_sort_move_prev_book') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="next_book">{{ trans('entities.books_sort_move_next_book') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="prev_chapter">{{ trans('entities.books_sort_move_prev_chapter') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="next_chapter">{{ trans('entities.books_sort_move_next_chapter') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="book_start">{{ trans('entities.books_sort_move_book_start') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="book_end">{{ trans('entities.books_sort_move_book_end') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="before_chapter">{{ trans('entities.books_sort_move_before_chapter') }}</button>
++            <button type="button" role="menuitem" class="text-item" data-move="after_chapter">{{ trans('entities.books_sort_move_after_chapter') }}</button>
+         </div>
+     </div>
+ </div>
+\ No newline at end of file
+diff --git a/resources/views/books/parts/sort-box.blade.php b/resources/views/books/parts/sort-box.blade.php
+index 6fdb181..8c4cd4b 100644
+--- a/resources/views/books/parts/sort-box.blade.php
++++ b/resources/views/books/parts/sort-box.blade.php
+@@ -1,6 +1,6 @@
+ <details class="sort-box" data-type="book" data-id="{{ $book->id }}" open>
+     <summary>
+-        <h5 class="flex-container-row items-center justify-flex-start gap-xs">
++        <div class="h5 flex-container-row items-center justify-flex-start gap-xs">
+             <div class="text-book text-bigger caret-container">
+                 @icon('caret-right')
+             </div>
+@@ -13,7 +13,7 @@
+                     <span title="{{ trans('entities.books_sort_auto_sort_active', ['sortName' => $book->sortRule->name]) }}">@icon('auto-sort')</span>
+                 @endif
+             </div>
+-        </h5>
++        </div>
+     </summary>
+     <div class="sort-box-options pb-sm">
+         <button type="button" data-sort="name"
+diff --git a/resources/views/books/permissions.blade.php b/resources/views/books/permissions.blade.php
+index 2e43338..99a2c4f 100644
+--- a/resources/views/books/permissions.blade.php
++++ b/resources/views/books/permissions.blade.php
+@@ -14,9 +14,9 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap auto-height">
++        <div class="card content-wrap auto-height">
+             @include('form.entity-permissions', ['model' => $book, 'title' => trans('entities.books_permissions')])
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/books/show.blade.php b/resources/views/books/show.blade.php
+index b2fa0b3..2b62d63 100644
+--- a/resources/views/books/show.blade.php
++++ b/resources/views/books/show.blade.php
+@@ -15,6 +15,8 @@
+ 
+ @include('entities.body-tag-classes', ['entity' => $book])
+ 
++@section('mobile-page-title', $book->name)
++
+ @section('body')
+ 
+     <div class="mb-s print-hidden">
+@@ -23,10 +25,10 @@
+         ]])
+     </div>
+ 
+-    <main class="content-wrap card">
++    <div class="content-wrap card">
+         <h1 class="break-text">{{$book->name}}</h1>
+         <div refs="entity-search@contentView" class="book-content">
+-            <div class="text-muted break-text">{!! $book->descriptionInfo()->getHtml() !!}</div>
++            <div class="text-muted break-text entity-description">{!! $book->descriptionInfo()->getHtml() !!}</div>
+             @if(count($bookChildren) > 0)
+                 <div class="entity-list book-contents">
+                     @foreach($bookChildren as $childElement)
+@@ -62,7 +64,7 @@
+         </div>
+ 
+         @include('entities.search-results')
+-    </main>
++    </div>
+ 
+ @stop
+ 
+diff --git a/resources/views/books/sort.blade.php b/resources/views/books/sort.blade.php
+index 37a87d9..936b87e 100644
+--- a/resources/views/books/sort.blade.php
++++ b/resources/views/books/sort.blade.php
+@@ -71,13 +71,13 @@
+             </div>
+ 
+             <div>
+-                <main class="card content-wrap auto-height sticky-top-m">
++                <div class="card content-wrap auto-height sticky-top-m">
+                     <h2 class="list-heading">{{ trans('entities.books_sort_show_other') }}</h2>
+                     <p class="text-muted">{{ trans('entities.books_sort_show_other_desc') }}</p>
+ 
+                     @include('entities.selector', ['name' => 'books_list', 'selectorSize' => 'compact', 'entityTypes' => 'book', 'entityPermission' => 'update'])
+ 
+-                </main>
++                </div>
+             </div>
+         </div>
+ 
+diff --git a/resources/views/chapters/create.blade.php b/resources/views/chapters/create.blade.php
+index 1216f4d..1d09502 100644
+--- a/resources/views/chapters/create.blade.php
++++ b/resources/views/chapters/create.blade.php
+@@ -13,12 +13,12 @@
+             ]])
+         </div>
+ 
+-        <main class="content-wrap card">
++        <div class="content-wrap card">
+             <h1 class="list-heading">{{ trans('entities.chapters_create') }}</h1>
+             <form action="{{ $book->getUrl('/create-chapter') }}" method="POST">
+                 @include('chapters.parts.form')
+             </form>
+-        </main>
++        </div>
+ 
+     </div>
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/chapters/edit.blade.php b/resources/views/chapters/edit.blade.php
+index 5ace966..dd1dff5 100644
+--- a/resources/views/chapters/edit.blade.php
++++ b/resources/views/chapters/edit.blade.php
+@@ -15,13 +15,13 @@
+             ]])
+         </div>
+ 
+-        <main class="content-wrap card auto-height">
++        <div class="content-wrap card auto-height">
+             <h1 class="list-heading">{{ trans('entities.chapters_edit') }}</h1>
+             <form action="{{  $chapter->getUrl() }}" method="POST">
+                 <input type="hidden" name="_method" value="PUT">
+                 @include('chapters.parts.form', ['model' => $chapter])
+             </form>
+-        </main>
++        </div>
+ 
+         @if(userCan(\BookStack\Permissions\Permission::ChapterDelete, $chapter) && userCan(\BookStack\Permissions\Permission::BookCreateAll))
+             @include('chapters.parts.convert-to-book')
+diff --git a/resources/views/chapters/move.blade.php b/resources/views/chapters/move.blade.php
+index 96d4021..70bb890 100644
+--- a/resources/views/chapters/move.blade.php
++++ b/resources/views/chapters/move.blade.php
+@@ -15,7 +15,7 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('entities.chapters_move') }}</h1>
+ 
+             <form action="{{ $chapter->getUrl('/move') }}" method="POST">
+@@ -31,7 +31,7 @@
+                 </div>
+             </form>
+ 
+-        </main>
++        </div>
+ 
+ 
+ 
+diff --git a/resources/views/chapters/parts/child-menu.blade.php b/resources/views/chapters/parts/child-menu.blade.php
+index 8fdd091..38a1a0a 100644
+--- a/resources/views/chapters/parts/child-menu.blade.php
++++ b/resources/views/chapters/parts/child-menu.blade.php
+@@ -7,10 +7,9 @@
+     </button>
+     <ul refs="chapter-contents@list"
+         class="chapter-contents-list sub-menu inset-list @if($isOpen) open @endif" @if($isOpen)
+-        style="display: block;" @endif
+-        role="menu">
++        style="display: block;" @endif>
+         @foreach($bookChild->visible_pages as $childPage)
+-            <li class="list-item-page {{ $childPage->isA('page') && $childPage->draft ? 'draft' : '' }}" role="presentation">
++            <li class="list-item-page {{ $childPage->isA('page') && $childPage->draft ? 'draft' : '' }}">
+                 @include('entities.list-item-basic', ['entity' => $childPage, 'classes' => $current->matches($childPage)? 'selected' : '' ])
+             </li>
+         @endforeach
+diff --git a/resources/views/chapters/parts/convert-to-book.blade.php b/resources/views/chapters/parts/convert-to-book.blade.php
+index 3bda327..6dce5cb 100644
+--- a/resources/views/chapters/parts/convert-to-book.blade.php
++++ b/resources/views/chapters/parts/convert-to-book.blade.php
+@@ -10,15 +10,15 @@
+                     {{ trans('entities.convert_chapter') }}
+                 </button>
+                 <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                    <li class="px-m py-s text-small text-muted">
++                    <li role="none" class="px-m py-s text-small text-muted"><div class="contents">
+                         {{ trans('entities.convert_chapter_confirm') }}
+                         <br>
+                         {{ trans('entities.convert_undo_warning') }}
+-                    </li>
+-                    <li>
++                    </div></li>
++                    <li role="presentation">
+                         <form action="{{ $chapter->getUrl('/convert-to-book') }}" method="POST">
+                             {!! csrf_field() !!}
+-                            <button type="submit" class="text-link text-item">{{ trans('common.confirm') }}</button>
++                            <button type="submit" role="menuitem" class="text-link text-item">{{ trans('common.confirm') }}</button>
+                         </form>
+                     </li>
+                 </ul>
+diff --git a/resources/views/chapters/parts/list-item.blade.php b/resources/views/chapters/parts/list-item.blade.php
+index c3e735e..3980556 100644
+--- a/resources/views/chapters/parts/list-item.blade.php
++++ b/resources/views/chapters/parts/list-item.blade.php
+@@ -3,7 +3,7 @@
+ <a href="{{ $chapter->getUrl() }}" class="chapter entity-list-item @if($chapter->visible_pages->count() > 0) has-children @endif" data-entity-type="chapter" data-entity-id="{{$chapter->id}}">
+     <span class="icon text-chapter">@icon('chapter')</span>
+     <div class="content">
+-        <h4 class="entity-list-item-name break-text">{{ $chapter->name }}</h4>
++        <div class="entity-list-item-name break-text">{{ $chapter->name }}</div>
+         <div class="entity-item-snippet">
+             <p class="text-muted break-text">{{ $chapter->getExcerpt() }}</p>
+         </div>
+diff --git a/resources/views/chapters/parts/show-sidebar-section-actions.blade.php b/resources/views/chapters/parts/show-sidebar-section-actions.blade.php
+index 55df999..c2bed28 100644
+--- a/resources/views/chapters/parts/show-sidebar-section-actions.blade.php
++++ b/resources/views/chapters/parts/show-sidebar-section-actions.blade.php
+@@ -1,5 +1,5 @@
+ <div class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+     <div class="icon-list text-link">
+ 
+         @if(userCan(\BookStack\Permissions\Permission::PageCreate, $chapter))
+diff --git a/resources/views/chapters/parts/show-sidebar-section-details.blade.php b/resources/views/chapters/parts/show-sidebar-section-details.blade.php
+index a424b8d..df09571 100644
+--- a/resources/views/chapters/parts/show-sidebar-section-details.blade.php
++++ b/resources/views/chapters/parts/show-sidebar-section-details.blade.php
+@@ -1,5 +1,5 @@
+ <div class="mb-xl">
+-    <h5>{{ trans('common.details') }}</h5>
++    <h2 class="h5">{{ trans('common.details') }}</h2>
+     <div class="blended-links">
+         @include('entities.meta', ['entity' => $chapter, 'watchOptions' => $watchOptions])
+ 
+diff --git a/resources/views/chapters/permissions.blade.php b/resources/views/chapters/permissions.blade.php
+index acdaf0a..1406cbf 100644
+--- a/resources/views/chapters/permissions.blade.php
++++ b/resources/views/chapters/permissions.blade.php
+@@ -15,9 +15,9 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap auto-height">
++        <div class="card content-wrap auto-height">
+             @include('form.entity-permissions', ['model' => $chapter, 'title' => trans('entities.chapters_permissions')])
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/chapters/show.blade.php b/resources/views/chapters/show.blade.php
+index 2c481ee..41d29b3 100644
+--- a/resources/views/chapters/show.blade.php
++++ b/resources/views/chapters/show.blade.php
+@@ -12,6 +12,8 @@
+ 
+ @include('entities.body-tag-classes', ['entity' => $chapter])
+ 
++@section('mobile-page-title', $chapter->name)
++
+ @section('body')
+ 
+     <div class="mb-m print-hidden">
+@@ -21,10 +23,10 @@
+         ]])
+     </div>
+ 
+-    <main class="content-wrap card">
++    <div class="content-wrap card">
+         <h1 class="break-text">{{ $chapter->name }}</h1>
+         <div refs="entity-search@contentView" class="chapter-content">
+-            <div class="text-muted break-text">{!! $chapter->descriptionInfo()->getHtml() !!}</div>
++            <div class="text-muted break-text entity-description">{!! $chapter->descriptionInfo()->getHtml() !!}</div>
+             @if(count($pages) > 0)
+                 <div class="entity-list book-contents">
+                     @foreach($pages as $page)
+@@ -56,7 +58,7 @@
+         </div>
+ 
+         @include('entities.search-results')
+-    </main>
++    </div>
+ 
+     @include('entities.sibling-navigation', ['next' => $next, 'previous' => $previous])
+ 
+diff --git a/resources/views/comments/comment.blade.php b/resources/views/comments/comment.blade.php
+index 10cd020..29ea262 100644
+--- a/resources/views/comments/comment.blade.php
++++ b/resources/views/comments/comment.blade.php
+@@ -15,7 +15,7 @@
+             @if ($comment->createdBy)
+                 <div>
+                     <img width="50" src="{{ $comment->createdBy->getAvatar(50) }}" class="avatar block mr-xs"
+-                         alt="{{ $comment->createdBy->name }}">
++                         alt="">
+                 </div>
+             @endif
+             <div class="meta text-muted flex-container-row wrap items-center flex text-small">
+@@ -54,9 +54,9 @@
+                                 <button type="button" refs="dropdown@toggle" aria-haspopup="true" aria-expanded="false"
+                                         class="text-button text-muted hover-underline text-small p-xs">@icon('delete') {{ trans('common.delete') }}</button>
+                                 <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                                    <li class="px-m text-small text-muted pb-s">{{trans('entities.comment_delete_confirm')}}</li>
+-                                    <li>
+-                                        <button refs="page-comment@delete-button" type="button"
++                                    <li role="none" class="px-m text-small text-muted pb-s"><div class="contents">{{trans('entities.comment_delete_confirm')}}</div></li>
++                                    <li role="presentation">
++                                        <button refs="page-comment@delete-button" type="button" role="menuitem"
+                                                 class="text-button text-neg icon-item">
+                                             @icon('delete')
+                                             <div>{{ trans('common.delete') }}</div>
+diff --git a/resources/views/common/activity-item.blade.php b/resources/views/common/activity-item.blade.php
+index 1d3c7bd..e8b04ee 100644
+--- a/resources/views/common/activity-item.blade.php
++++ b/resources/views/common/activity-item.blade.php
+@@ -3,7 +3,7 @@
+ 
+ <div>
+     @if($activity->user)
+-    <img class="avatar" src="{{ $activity->user->getAvatar(30) }}" alt="{{ $activity->user->name }}">
++    <img class="avatar" src="{{ $activity->user->getAvatar(30) }}" alt="">
+     @endif
+ </div>
+ 
+diff --git a/resources/views/common/dark-mode-toggle.blade.php b/resources/views/common/dark-mode-toggle.blade.php
+index 3849325..6f426e0 100644
+--- a/resources/views/common/dark-mode-toggle.blade.php
++++ b/resources/views/common/dark-mode-toggle.blade.php
+@@ -3,8 +3,8 @@
+     {{ method_field('patch') }}
+     <input type="hidden" name="_return" value="{{ url()->current() }}">
+     @if(setting()->getForCurrentUser('dark-mode-enabled'))
+-        <button class="{{ $classes ?? '' }}" role="{{ $butonRole ?? '' }}"><span>@icon('light-mode')</span><span>{{ trans('common.light_mode') }}</span></button>
++        <button class="{{ $classes ?? '' }}" @if(isset($buttonRole)) role="{{ $buttonRole }}" @endif><span>@icon('light-mode')</span><span>{{ trans('common.light_mode') }}</span></button>
+     @else
+-        <button class="{{ $classes ?? '' }}" role="{{ $butonRole ?? '' }}"><span>@icon('dark-mode')</span><span>{{ trans('common.dark_mode') }}</span></button>
++        <button class="{{ $classes ?? '' }}" @if(isset($buttonRole)) role="{{ $buttonRole }}" @endif><span>@icon('dark-mode')</span><span>{{ trans('common.dark_mode') }}</span></button>
+     @endif
+-</form>
+\ No newline at end of file
++</form>
+diff --git a/resources/views/common/detailed-listing-paginated.blade.php b/resources/views/common/detailed-listing-paginated.blade.php
+index d2606d8..c837bcc 100644
+--- a/resources/views/common/detailed-listing-paginated.blade.php
++++ b/resources/views/common/detailed-listing-paginated.blade.php
+@@ -2,7 +2,7 @@
+ 
+ @section('body')
+     <div class="container small pt-xl">
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ $title }}</h1>
+ 
+             <div class="book-contents">
+@@ -12,6 +12,6 @@
+             <div class="text-center">
+                 {!! $entities->links() !!}
+             </div>
+-        </main>
++        </div>
+     </div>
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/common/detailed-listing-with-more.blade.php b/resources/views/common/detailed-listing-with-more.blade.php
+index 5413d23..50f1818 100644
+--- a/resources/views/common/detailed-listing-with-more.blade.php
++++ b/resources/views/common/detailed-listing-with-more.blade.php
+@@ -2,7 +2,7 @@
+ 
+ @section('body')
+     <div class="container small pt-xl">
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ $title }}</h1>
+ 
+             <div class="book-contents">
+@@ -14,6 +14,6 @@
+                     <a href="{{ $hasMoreLink }}" class="button outline">{{ trans('common.more') }}</a>
+                 @endif
+             </div>
+-        </main>
++        </div>
+     </div>
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/common/sort.blade.php b/resources/views/common/sort.blade.php
+index d47351c..af91f04 100644
+--- a/resources/views/common/sort.blade.php
++++ b/resources/views/common/sort.blade.php
+@@ -36,7 +36,7 @@
+                         class="list-sort-toggle">{{ $options[$selectedSort] }}</button>
+                 <ul refs="dropdown@menu list-sort-control@menu" class="dropdown-menu" role="menu">
+                     @foreach($options as $key => $label)
+-                        <li @if($key === $selectedSort) class="active" @endif><a href="#" data-sort-value="{{$key}}" role="menuitem" class="text-item">{{ $label }}</a></li>
++                        <li role="presentation" @if($key === $selectedSort) class="active" @endif><a href="#" data-sort-value="{{$key}}" role="menuitem" class="text-item">{{ $label }}</a></li>
+                     @endforeach
+                 </ul>
+             </div>
+diff --git a/resources/views/entities/book-tree.blade.php b/resources/views/entities/book-tree.blade.php
+index 81dbd30..31a94dc 100644
+--- a/resources/views/entities/book-tree.blade.php
++++ b/resources/views/entities/book-tree.blade.php
+@@ -2,7 +2,7 @@
+      class="book-tree mb-xl"
+      aria-label="{{ trans('entities.books_navigation') }}">
+ 
+-    <h5>{{ trans('entities.books_navigation') }}</h5>
++    <h2 class="h5">{{ trans('entities.books_navigation') }}</h2>
+ 
+     <ul class="sidebar-page-list mt-xs menu entity-list">
+         @if (userCan(\BookStack\Permissions\Permission::BookView, $book))
+diff --git a/resources/views/entities/breadcrumb-listing.blade.php b/resources/views/entities/breadcrumb-listing.blade.php
+index 180e2d2..1592685 100644
+--- a/resources/views/entities/breadcrumb-listing.blade.php
++++ b/resources/views/entities/breadcrumb-listing.blade.php
+@@ -21,6 +21,6 @@
+         <div refs="dropdown-search@loading">
+             @include('common.loading-icon')
+         </div>
+-        <div refs="dropdown-search@listContainer" class="dropdown-search-list px-m" tabindex="-1" role="list"></div>
++        <div refs="dropdown-search@listContainer" class="dropdown-search-list px-m" tabindex="-1"></div>
+     </div>
+ </div>
+\ No newline at end of file
+diff --git a/resources/views/entities/breadcrumbs.blade.php b/resources/views/entities/breadcrumbs.blade.php
+index 8259099..c06ea11 100644
+--- a/resources/views/entities/breadcrumbs.blade.php
++++ b/resources/views/entities/breadcrumbs.blade.php
+@@ -3,7 +3,7 @@
+ 
+     {{-- Show top level books item --}}
+     @if (count($crumbs) > 0 && ($crumbs[0] ?? null) instanceof  \BookStack\Entities\Models\Book)
+-        <a href="{{  url('/books')  }}" class="text-book icon-list-item outline-hover">
++        <a href="{{  url('/books')  }}" class="text-book icon-list-item outline-hover" aria-label="{{ trans('entities.books') }}">
+             <span>@icon('books')</span>
+             <span>{{ trans('entities.books') }}</span>
+         </a>
+@@ -12,7 +12,7 @@
+ 
+     {{-- Show top level shelves item --}}
+     @if (count($crumbs) > 0 && ($crumbs[0] ?? null) instanceof  \BookStack\Entities\Models\Bookshelf)
+-        <a href="{{  url('/shelves')  }}" class="text-bookshelf icon-list-item outline-hover">
++        <a href="{{  url('/shelves')  }}" class="text-bookshelf icon-list-item outline-hover" aria-label="{{ trans('entities.shelves') }}">
+             <span>@icon('bookshelf')</span>
+             <span>{{ trans('entities.shelves') }}</span>
+         </a>
+@@ -34,7 +34,7 @@
+                 {{ $crumb }}
+             </a>
+         @elseif (is_array($crumb))
+-            <a href="{{  url($key)  }}" class="icon-list-item outline-hover">
++            <a href="{{  url($key)  }}" class="icon-list-item outline-hover" aria-label="{{ $crumb['text'] }}">
+                 <span>@icon($crumb['icon'])</span>
+                 <span>{{ $crumb['text'] }}</span>
+             </a>
+@@ -42,7 +42,7 @@
+             @if($breadcrumbCount > 0)
+                 @include('entities.breadcrumb-listing', ['entity' => $crumb])
+             @endif
+-            <a href="{{ $crumb->getUrl() }}" class="text-{{$crumb->getType()}} icon-list-item outline-hover">
++            <a href="{{ $crumb->getUrl() }}" class="text-{{$crumb->getType()}} icon-list-item outline-hover" aria-label="{{ $crumb->name }}">
+                 <span>@icon($crumb->getType())</span>
+                 <span>
+                     {{ $crumb->getShortName() }}
+diff --git a/resources/views/entities/export-menu.blade.php b/resources/views/entities/export-menu.blade.php
+index 7b5f889..be0aaac 100644
+--- a/resources/views/entities/export-menu.blade.php
++++ b/resources/views/entities/export-menu.blade.php
+@@ -13,11 +13,11 @@
+     </button>
+ 
+     <ul refs="dropdown@menu" class="wide dropdown-menu" role="menu">
+-        <li><a href="{{ $entity->getUrl('/export/html') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_html') }}</span><span>.html</span></a></li>
+-        <li><a href="{{ $entity->getUrl('/export/pdf') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_pdf') }}</span><span>.pdf</span></a></li>
+-        <li><a href="{{ $entity->getUrl('/export/plaintext') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_text') }}</span><span>.txt</span></a></li>
+-        <li><a href="{{ $entity->getUrl('/export/markdown') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_md') }}</span><span>.md</span></a></li>
+-        <li><a href="{{ $entity->getUrl('/export/zip') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_zip') }}</span><span>.zip</span></a></li>
++        <li role="presentation"><a href="{{ $entity->getUrl('/export/html') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_html') }}</span><span>.html</span></a></li>
++        <li role="presentation"><a href="{{ $entity->getUrl('/export/pdf') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_pdf') }}</span><span>.pdf</span></a></li>
++        <li role="presentation"><a href="{{ $entity->getUrl('/export/plaintext') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_text') }}</span><span>.txt</span></a></li>
++        <li role="presentation"><a href="{{ $entity->getUrl('/export/markdown') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_md') }}</span><span>.md</span></a></li>
++        <li role="presentation"><a href="{{ $entity->getUrl('/export/zip') }}" target="_blank" role="menuitem" class="label-item"><span>{{ trans('entities.export_zip') }}</span><span>.zip</span></a></li>
+     </ul>
+ 
+ </div>
+diff --git a/resources/views/entities/list-item-basic.blade.php b/resources/views/entities/list-item-basic.blade.php
+index 4c66eec..5ba760e 100644
+--- a/resources/views/entities/list-item-basic.blade.php
++++ b/resources/views/entities/list-item-basic.blade.php
+@@ -5,7 +5,7 @@
+    data-entity-id="{{$entity->id}}">
+     <span role="presentation" class="icon text-{{$type}}">@icon($type)</span>
+     <div class="content">
+-            <h4 class="entity-list-item-name break-text">{{ $entity->preview_name ?? $entity->name }}</h4>
++            <div class="entity-list-item-name break-text">{{ $entity->preview_name ?? $entity->name }}</div>
+             {{ $slot ?? '' }}
+     </div>
+ </a>
+\ No newline at end of file
+diff --git a/resources/views/entities/references.blade.php b/resources/views/entities/references.blade.php
+index db9e167..9c046d4 100644
+--- a/resources/views/entities/references.blade.php
++++ b/resources/views/entities/references.blade.php
+@@ -1,4 +1,4 @@
+-<main class="card content-wrap">
++<div class="card content-wrap">
+     <h1 class="list-heading">{{ trans('entities.references') }}</h1>
+     <p>{{ trans('entities.references_to_desc') }}</p>
+ 
+@@ -10,4 +10,4 @@
+         <p class="text-muted italic">{{ trans('entities.references_none') }}</p>
+     @endif
+ 
+-</main>
+\ No newline at end of file
++</div>
+\ No newline at end of file
+diff --git a/resources/views/entities/search-form.blade.php b/resources/views/entities/search-form.blade.php
+index 1a1f785..252a5e2 100644
+--- a/resources/views/entities/search-form.blade.php
++++ b/resources/views/entities/search-form.blade.php
+@@ -2,7 +2,7 @@
+ @label - Placeholder/aria-label text
+ --}}
+ <div class="mb-xl">
+-    <form refs="entity-search@searchForm" class="search-box flexible" role="search">
++    <form refs="entity-search@searchForm" class="search-box flexible" role="search" aria-label="{{ $label }}">
+         <input refs="entity-search@searchInput" type="text"
+                aria-label="{{ $label }}" name="term" placeholder="{{ $label }}">
+         <button tabindex="-1" type="submit" aria-label="{{ trans('common.search') }}">@icon('search')</button>
+diff --git a/resources/views/entities/watch-controls.blade.php b/resources/views/entities/watch-controls.blade.php
+index 81e80ed..83a040f 100644
+--- a/resources/views/entities/watch-controls.blade.php
++++ b/resources/views/entities/watch-controls.blade.php
+@@ -17,7 +17,7 @@
+ 
+         <ul refs="dropdown@menu" class="dropdown-menu xl-limited anchor-left pb-none" role="menu">
+             @foreach(\BookStack\Activity\WatchLevels::allSuitedFor($entity) as $option => $value)
+-                <li>
++                <li role="presentation">
+                     <button name="level" value="{{ $option }}" class="icon-item" role="menuitem">
+                         @if($watchLevel === $option)
+                             <span class="text-pos pt-m"
+@@ -41,7 +41,7 @@
+                     <hr class="my-none">
+                 </li>
+             @endforeach
+-            <li>
++            <li role="presentation">
+                 <a href="{{ url('/my-account/notifications') }}"
+                    role="menuitem"
+                    target="_blank"
+diff --git a/resources/views/errors/404.blade.php b/resources/views/errors/404.blade.php
+index dc24a55..8a15a7c 100644
+--- a/resources/views/errors/404.blade.php
++++ b/resources/views/errors/404.blade.php
+@@ -1,6 +1,6 @@
+ @extends('layouts.simple')
+ @inject('popular', \BookStack\Entities\Queries\QueryPopular::class)
+-@section('content')
++@section('body')
+     <div class="container mt-l">
+ 
+         <div class="card mb-xl px-l pb-l pt-l">
+diff --git a/resources/views/exports/import-show.blade.php b/resources/views/exports/import-show.blade.php
+index 1c46b7a..c4d5d39 100644
+--- a/resources/views/exports/import-show.blade.php
++++ b/resources/views/exports/import-show.blade.php
+@@ -3,7 +3,7 @@
+ @section('body')
+     <div class="container small">
+ 
+-        <main class="card content-wrap auto-height mt-xxl">
++        <div class="card content-wrap auto-height mt-xxl">
+             <h1 class="list-heading">{{ trans('entities.import_continue') }}</h1>
+             <p class="text-muted">{{ trans('entities.import_continue_desc') }}</p>
+ 
+@@ -75,7 +75,7 @@
+                     <button component="loading-button" type="submit" class="button">{{ trans('entities.import_run') }}</button>
+                 </div>
+             </form>
+-        </main>
++        </div>
+     </div>
+ 
+     <form id="import-delete-form"
+diff --git a/resources/views/exports/import.blade.php b/resources/views/exports/import.blade.php
+index be9de4c..95eae08 100644
+--- a/resources/views/exports/import.blade.php
++++ b/resources/views/exports/import.blade.php
+@@ -4,7 +4,7 @@
+ 
+     <div class="container small">
+ 
+-        <main class="card content-wrap auto-height mt-xxl">
++        <div class="card content-wrap auto-height mt-xxl">
+             <h1 class="list-heading">{{ trans('entities.import') }}</h1>
+             <form action="{{ url('/import') }}" enctype="multipart/form-data" method="POST">
+                 {{ csrf_field() }}
+@@ -37,9 +37,9 @@
+                     <button type="submit" class="button">{{ trans('entities.import_validate') }}</button>
+                 </div>
+             </form>
+-        </main>
++        </div>
+ 
+-        <main class="card content-wrap auto-height mt-xxl">
++        <div class="card content-wrap auto-height mt-xxl">
+             <h2 class="list-heading">{{ trans('entities.import_pending') }}</h2>
+             @if(count($imports) === 0)
+                 <p>{{ trans('entities.import_pending_none') }}</p>
+@@ -50,7 +50,7 @@
+                     @endforeach
+                 </div>
+             @endif
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/form/user-mention-list.blade.php b/resources/views/form/user-mention-list.blade.php
+index 020cfb3..b77ff76 100644
+--- a/resources/views/form/user-mention-list.blade.php
++++ b/resources/views/form/user-mention-list.blade.php
+@@ -8,7 +8,7 @@
+    data-id="{{ $user->id }}"
+    data-name="{{ $user->name }}"
+    data-slug="{{ $user->slug }}">
+-    <img class="avatar mr-m" src="{{ $user->getAvatar(30) }}" alt="{{ $user->name }}">
++    <img class="avatar mr-m" src="{{ $user->getAvatar(30) }}" alt="">
+     <span>{{ $user->name }}</span>
+ </a>
+ @endforeach
+\ No newline at end of file
+diff --git a/resources/views/form/user-select-list.blade.php b/resources/views/form/user-select-list.blade.php
+index 0018d64..f2d4d88 100644
+--- a/resources/views/form/user-select-list.blade.php
++++ b/resources/views/form/user-select-list.blade.php
+@@ -3,7 +3,7 @@
+ </a>
+ @foreach($users as $user)
+     <a href="#" class="flex-container-row items-center dropdown-search-item" data-id="{{ $user->id }}">
+-        <img class="avatar mr-m" src="{{ $user->getAvatar(30) }}" alt="{{ $user->name }}">
++        <img class="avatar mr-m" src="{{ $user->getAvatar(30) }}" alt="">
+         <span>{{ $user->name }}</span>
+     </a>
+ @endforeach
+\ No newline at end of file
+diff --git a/resources/views/form/user-select.blade.php b/resources/views/form/user-select.blade.php
+index 743795a..0237618 100644
+--- a/resources/views/form/user-select.blade.php
++++ b/resources/views/form/user-select.blade.php
+@@ -7,7 +7,7 @@
+          aria-haspopup="true" aria-expanded="false" tabindex="0">
+         <div refs="user-select@user-info" class="dropdown-search-toggle-select-label flex-container-row items-center">
+             @if($user)
+-                <img class="avatar small mr-m" src="{{ $user->getAvatar(30) }}" width="30" height="30" alt="{{ $user->name }}">
++                <img class="avatar small mr-m" src="{{ $user->getAvatar(30) }}" width="30" height="30" alt="">
+                 <span>{{ $user->name }}</span>
+             @else
+                 <span>{{ trans('settings.users_none_selected') }}</span>
+@@ -17,7 +17,7 @@
+             @icon('caret-down')
+         </span>
+     </div>
+-    <div refs="dropdown@menu" class="dropdown-search-dropdown card" role="menu">
++    <div refs="dropdown@menu" class="dropdown-search-dropdown card">
+         <div class="dropdown-search-search">
+             @icon('search')
+             <input refs="dropdown-search@searchInput"
+diff --git a/resources/views/home/books.blade.php b/resources/views/home/books.blade.php
+index 3c4225b..309f4d5 100644
+--- a/resources/views/home/books.blade.php
++++ b/resources/views/home/books.blade.php
+@@ -1,5 +1,7 @@
+ @extends('layouts.tri')
+ 
++@section('mobile-page-title', setting('app-name'))
++
+ @section('body')
+     @include('books.parts.list', ['books' => $books, 'view' => $view])
+ @stop
+diff --git a/resources/views/home/default.blade.php b/resources/views/home/default.blade.php
+index 508631c..170bd39 100644
+--- a/resources/views/home/default.blade.php
++++ b/resources/views/home/default.blade.php
+@@ -14,6 +14,7 @@
+     </div>
+ 
+     <div class="container" id="home-default">
++        <h1 class="list-heading">{{ setting('app-name') }}</h1>
+         <div class="grid third gap-x-xxl no-row-gap">
+             <div>
+                 @include('common.view-blocks', ['location' => 'home-default', 'position' => 'left'])
+diff --git a/resources/views/home/parts/configured-section-actions.blade.php b/resources/views/home/parts/configured-section-actions.blade.php
+index 6386670..cf8c26d 100644
+--- a/resources/views/home/parts/configured-section-actions.blade.php
++++ b/resources/views/home/parts/configured-section-actions.blade.php
+@@ -3,7 +3,7 @@ $homeView - string - The type of home view being used
+ $view - string - Configured view type from parent (for books/shelves list/grid view)
+ --}}
+ <div class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+     <div class="icon-list text-link">
+         @if($homeView === 'books')
+             @if(userCan(\BookStack\Permissions\Permission::BookCreateAll))
+diff --git a/resources/views/home/parts/configured-section-recent-activity.blade.php b/resources/views/home/parts/configured-section-recent-activity.blade.php
+index 8a82f90..9c2f36a 100644
+--- a/resources/views/home/parts/configured-section-recent-activity.blade.php
++++ b/resources/views/home/parts/configured-section-recent-activity.blade.php
+@@ -2,6 +2,6 @@
+ $activity - array
+ --}}
+ <div id="recent-activity" class="mb-xl">
+-    <h5>{{ trans('entities.recent_activity') }}</h5>
++    <h2 class="h5">{{ trans('entities.recent_activity') }}</h2>
+     @include('common.activity-list', ['activity' => $activity])
+ </div>
+\ No newline at end of file
+diff --git a/resources/views/home/parts/configured-section-recent-drafts.blade.php b/resources/views/home/parts/configured-section-recent-drafts.blade.php
+index 648f541..4eaf87c 100644
+--- a/resources/views/home/parts/configured-section-recent-drafts.blade.php
++++ b/resources/views/home/parts/configured-section-recent-drafts.blade.php
+@@ -3,7 +3,7 @@ $draftPages - array
+ --}}
+ @if(count($draftPages) > 0)
+     <div id="recent-drafts" class="mb-xl">
+-        <h5>{{ trans('entities.my_recent_drafts') }}</h5>
++        <h2 class="h5">{{ trans('entities.my_recent_drafts') }}</h2>
+         @include('entities.list', ['entities' => $draftPages, 'style' => 'compact'])
+     </div>
+ @endif
+\ No newline at end of file
+diff --git a/resources/views/home/parts/configured-section-recently-updated-pages.blade.php b/resources/views/home/parts/configured-section-recently-updated-pages.blade.php
+index 290c385..298e3a6 100644
+--- a/resources/views/home/parts/configured-section-recently-updated-pages.blade.php
++++ b/resources/views/home/parts/configured-section-recently-updated-pages.blade.php
+@@ -2,7 +2,7 @@
+ $recentlyUpdatedPages - array
+ --}}
+ <div class="mb-xl">
+-    <h5>{{ trans('entities.recently_updated_pages') }}</h5>
++    <h2 class="h5">{{ trans('entities.recently_updated_pages') }}</h2>
+     <div id="recently-updated-pages">
+         @include('entities.list', [
+         'entities' => $recentlyUpdatedPages,
+diff --git a/resources/views/home/parts/configured-section-recently-viewed-or-recent-books.blade.php b/resources/views/home/parts/configured-section-recently-viewed-or-recent-books.blade.php
+index d9c6ede..abfb08a 100644
+--- a/resources/views/home/parts/configured-section-recently-viewed-or-recent-books.blade.php
++++ b/resources/views/home/parts/configured-section-recently-viewed-or-recent-books.blade.php
+@@ -2,7 +2,7 @@
+ $recents - array
+ --}}
+ <div class="mb-xl">
+-    <h5>{{ trans('entities.' . (auth()->check() ? 'my_recently_viewed' : 'books_recent')) }}</h5>
++    <h2 class="h5">{{ trans('entities.' . (auth()->check() ? 'my_recently_viewed' : 'books_recent')) }}</h2>
+     @include('entities.list', [
+         'entities' => $recents,
+         'style' => 'compact',
+diff --git a/resources/views/home/parts/configured-section-top-favourites.blade.php b/resources/views/home/parts/configured-section-top-favourites.blade.php
+index 09b33b1..d83599d 100644
+--- a/resources/views/home/parts/configured-section-top-favourites.blade.php
++++ b/resources/views/home/parts/configured-section-top-favourites.blade.php
+@@ -3,7 +3,7 @@ $favourites - array
+ --}}
+ @if(count($favourites) > 0)
+     <div id="top-favourites" class="mb-xl">
+-        <h5>{{ trans('entities.my_most_viewed_favourites') }}</h5>
++        <h2 class="h5">{{ trans('entities.my_most_viewed_favourites') }}</h2>
+         @include('entities.list', [
+             'entities' => $favourites,
+             'style' => 'compact',
+diff --git a/resources/views/home/parts/default-card-recent-activity.blade.php b/resources/views/home/parts/default-card-recent-activity.blade.php
+index c848ff1..fe1016f 100644
+--- a/resources/views/home/parts/default-card-recent-activity.blade.php
++++ b/resources/views/home/parts/default-card-recent-activity.blade.php
+@@ -2,7 +2,7 @@
+ $activity - array
+ --}}
+ <div id="recent-activity" class="card mb-xl">
+-    <h3 class="card-title">{{ trans('entities.recent_activity') }}</h3>
++    <h2 class="card-title">{{ trans('entities.recent_activity') }}</h2>
+     <div class="px-m">
+         @include('common.activity-list', ['activity' => $activity])
+     </div>
+diff --git a/resources/views/home/parts/default-card-recent-drafts.blade.php b/resources/views/home/parts/default-card-recent-drafts.blade.php
+index d9d7a51..3925381 100644
+--- a/resources/views/home/parts/default-card-recent-drafts.blade.php
++++ b/resources/views/home/parts/default-card-recent-drafts.blade.php
+@@ -3,7 +3,7 @@ $draftPages - array
+ --}}
+ @if(count($draftPages) > 0)
+     <div id="recent-drafts" class="card mb-xl">
+-        <h3 class="card-title">{{ trans('entities.my_recent_drafts') }}</h3>
++        <h2 class="card-title">{{ trans('entities.my_recent_drafts') }}</h2>
+         <div class="px-m">
+             @include('entities.list', ['entities' => $draftPages, 'style' => 'compact'])
+         </div>
+diff --git a/resources/views/home/parts/default-card-recently-updated-pages.blade.php b/resources/views/home/parts/default-card-recently-updated-pages.blade.php
+index 6e637d7..1bd2468 100644
+--- a/resources/views/home/parts/default-card-recently-updated-pages.blade.php
++++ b/resources/views/home/parts/default-card-recently-updated-pages.blade.php
+@@ -2,7 +2,7 @@
+ $recentlyUpdatedPages - array
+ --}}
+ <div id="recent-pages" class="card mb-xl">
+-    <h3 class="card-title">{{ trans('entities.recently_updated_pages') }}</h3>
++    <h2 class="card-title">{{ trans('entities.recently_updated_pages') }}</h2>
+     <div id="recently-updated-pages" class="px-m">
+         @include('entities.list', [
+         'entities' => $recentlyUpdatedPages,
+diff --git a/resources/views/home/parts/default-card-recently-viewed-or-recent-books.blade.php b/resources/views/home/parts/default-card-recently-viewed-or-recent-books.blade.php
+index 31bafaa..66d1e5e 100644
+--- a/resources/views/home/parts/default-card-recently-viewed-or-recent-books.blade.php
++++ b/resources/views/home/parts/default-card-recently-viewed-or-recent-books.blade.php
+@@ -3,7 +3,7 @@ $recents - array
+ --}}
+ 
+ <div id="{{ auth()->check() ? 'recently-viewed' : 'recent-books' }}" class="card mb-xl">
+-    <h3 class="card-title">{{ trans('entities.' . (auth()->check() ? 'my_recently_viewed' : 'books_recent')) }}</h3>
++    <h2 class="card-title">{{ trans('entities.' . (auth()->check() ? 'my_recently_viewed' : 'books_recent')) }}</h2>
+     <div class="px-m">
+         @include('entities.list', [
+         'entities' => $recents,
+diff --git a/resources/views/home/parts/default-card-top-favourites.blade.php b/resources/views/home/parts/default-card-top-favourites.blade.php
+index 81f3895..3809e89 100644
+--- a/resources/views/home/parts/default-card-top-favourites.blade.php
++++ b/resources/views/home/parts/default-card-top-favourites.blade.php
+@@ -3,7 +3,7 @@ $favourites - array
+ --}}
+ @if(count($favourites) > 0)
+     <div id="top-favourites" class="card mb-xl">
+-        <h3 class="card-title">{{ trans('entities.my_most_viewed_favourites') }}</h3>
++        <h2 class="card-title">{{ trans('entities.my_most_viewed_favourites') }}</h2>
+         <div class="px-m">
+             @include('entities.list', [
+             'entities' => $favourites,
+diff --git a/resources/views/home/parts/expand-toggle.blade.php b/resources/views/home/parts/expand-toggle.blade.php
+index 73d21f5..e74baf8 100644
+--- a/resources/views/home/parts/expand-toggle.blade.php
++++ b/resources/views/home/parts/expand-toggle.blade.php
+@@ -8,6 +8,7 @@ $key - Unique key for checking existing stored state.
+         option:expand-toggle:update-endpoint="{{ url('/preferences/change-expansion/' . $key) }}"
+         option:expand-toggle:is-open="{{ $isOpen ? 'true' : 'false' }}"
+         type="button"
++        aria-label="{{ trans('common.toggle_details') }}"
+         class="icon-list-item {{ $classes ?? '' }}">
+     <span>@icon('expand-text')</span>
+     <span>{{ trans('common.toggle_details') }}</span>
+diff --git a/resources/views/home/shelves.blade.php b/resources/views/home/shelves.blade.php
+index 6479515..b773005 100644
+--- a/resources/views/home/shelves.blade.php
++++ b/resources/views/home/shelves.blade.php
+@@ -1,5 +1,7 @@
+ @extends('layouts.tri')
+ 
++@section('mobile-page-title', setting('app-name'))
++
+ @section('body')
+     @include('shelves.parts.list', ['shelves' => $shelves, 'view' => $view])
+ @stop
+diff --git a/resources/views/home/specific-page.blade.php b/resources/views/home/specific-page.blade.php
+index 329c4a6..f60cfee 100644
+--- a/resources/views/home/specific-page.blade.php
++++ b/resources/views/home/specific-page.blade.php
+@@ -1,14 +1,16 @@
+ @extends('layouts.tri')
+ 
++@section('mobile-page-title', setting('app-name'))
++
+ @section('body')
+     <div class="mt-m">
+-        <main class="content-wrap card">
++        <div class="content-wrap card">
+             <div component="page-display"
+                  option:page-display:page-id="{{ $customHomepage->id }}"
+                  class="page-content">
+                 @include('pages.parts.page-display', ['page' => $customHomepage])
+             </div>
+-        </main>
++        </div>
+     </div>
+ @stop
+ 
+diff --git a/resources/views/layouts/base.blade.php b/resources/views/layouts/base.blade.php
+index 90d987c..da8d7c1 100644
+--- a/resources/views/layouts/base.blade.php
++++ b/resources/views/layouts/base.blade.php
+@@ -52,7 +52,6 @@
+       class="@stack('body-class')">
+ 
+     @include('layouts.parts.base-body-start')
+-    @include('layouts.parts.skip-to-content')
+     @include('layouts.parts.notifications')
+     @include('layouts.parts.header')
+ 
+diff --git a/resources/views/layouts/parts/header-search.blade.php b/resources/views/layouts/parts/header-search.blade.php
+index d542611..0e33e08 100644
+--- a/resources/views/layouts/parts/header-search.blade.php
++++ b/resources/views/layouts/parts/header-search.blade.php
+@@ -1,4 +1,4 @@
+-<form component="global-search" action="{{ url('/search') }}" method="GET" class="search-box" role="search" tabindex="0">
++<form component="global-search" action="{{ url('/search') }}" method="GET" class="search-box" role="search" aria-label="{{ trans('common.global_search') }}" tabindex="0">
+     <button id="header-search-box-button"
+             refs="global-search@button"
+             type="submit"
+diff --git a/resources/views/layouts/parts/header-user-menu.blade.php b/resources/views/layouts/parts/header-user-menu.blade.php
+index c252deb..c4e2e11 100644
+--- a/resources/views/layouts/parts/header-user-menu.blade.php
++++ b/resources/views/layouts/parts/header-user-menu.blade.php
+@@ -3,11 +3,11 @@
+           aria-haspopup="menu"
+           aria-expanded="false"
+           aria-label="{{ trans('common.profile_menu') }}">
+-        <img class="avatar" src="{{$user->getAvatar(30)}}" alt="{{ $user->name }}">
++        <img class="avatar" src="{{$user->getAvatar(30)}}" alt="">
+         <span class="name">{{ $user->getShortName(9) }}</span> @icon('caret-down')
+     </button>
+     <ul refs="dropdown@menu" class="dropdown-menu" role="menu" aria-label="{{ trans('common.profile_menu') }}">
+-        <li>
++        <li role="presentation">
+             <a href="{{ url('/favourites') }}"
+                role="menuitem"
+                data-shortcut="favourites_view"
+@@ -16,7 +16,7 @@
+                 <div>{{ trans('entities.my_favourites') }}</div>
+             </a>
+         </li>
+-        <li>
++        <li role="presentation">
+             <a href="{{ $user->getProfileUrl() }}"
+                role="menuitem"
+                data-shortcut="profile_view"
+@@ -25,7 +25,7 @@
+                 <div>{{ trans('common.view_profile') }}</div>
+             </a>
+         </li>
+-        <li>
++        <li role="presentation">
+             <a href="{{ url('/my-account') }}"
+                role="menuitem"
+                class="icon-item">
+@@ -34,11 +34,11 @@
+             </a>
+         </li>
+         <li role="presentation"><hr></li>
+-        <li>
++        <li role="presentation">
+             @include('common.dark-mode-toggle', ['classes' => 'icon-item', 'buttonRole' => 'menuitem'])
+         </li>
+         <li role="presentation"><hr></li>
+-        <li>
++        <li role="presentation">
+             @php
+                 $logoutPath = match (config('auth.method')) {
+                     'saml2' => '/saml2/logout',
+diff --git a/resources/views/layouts/parts/header.blade.php b/resources/views/layouts/parts/header.blade.php
+index 729b975..da460ae 100644
+--- a/resources/views/layouts/parts/header.blade.php
++++ b/resources/views/layouts/parts/header.blade.php
+@@ -1,4 +1,5 @@
+ <header id="header" component="header-mobile-toggle" class="primary-background px-xl grid print-hidden">
++    @include('layouts.parts.skip-to-content')
+     <div class="flex-container-row justify-space-between gap-s items-center">
+         @include('layouts.parts.header-logo')
+         <div class="hide-over-l py-s">
+@@ -16,7 +17,7 @@
+     @endif
+     </div>
+ 
+-    <nav refs="header-mobile-toggle@menu" class="header-links">
++    <nav refs="header-mobile-toggle@menu" class="header-links" aria-label="{{ trans('common.header_menu_label') }}">
+         <div class="links text-center">
+             @include('layouts.parts.header-links')
+         </div>
+diff --git a/resources/views/layouts/simple.blade.php b/resources/views/layouts/simple.blade.php
+index 5fb231b..e0c967e 100644
+--- a/resources/views/layouts/simple.blade.php
++++ b/resources/views/layouts/simple.blade.php
+@@ -4,9 +4,9 @@
+ 
+     <div class="flex-fill flex">
+         <div class="content flex">
+-            <div id="main-content" class="scroll-body">
++            <main id="main-content" class="scroll-body" tabindex="-1">
+                 @yield('body')
+-            </div>
++            </main>
+         </div>
+     </div>
+ 
+diff --git a/resources/views/layouts/tri.blade.php b/resources/views/layouts/tri.blade.php
+index 061cc69..2959171 100644
+--- a/resources/views/layouts/tri.blade.php
++++ b/resources/views/layouts/tri.blade.php
+@@ -5,49 +5,71 @@
+ 
+ @section('content')
+ 
+-    <div class="tri-layout-mobile-tabs print-hidden">
+-        <div class="grid half no-break no-gap">
+-            <button type="button"
+-                    refs="tri-layout@tab"
+-                    data-tab="info"
+-                    aria-label="{{ trans('common.tab_info_label') }}"
+-                    class="tri-layout-mobile-tab px-m py-m text-link">
+-                {{ trans('common.tab_info') }}
+-            </button>
+-            <button type="button"
+-                    refs="tri-layout@tab"
+-                    data-tab="content"
+-                    aria-label="{{ trans('common.tab_content_label') }}"
+-                    aria-selected="true"
+-                    class="tri-layout-mobile-tab px-m py-m text-link active">
+-                {{ trans('common.tab_content') }}
+-            </button>
++    <main id="main-content" tabindex="-1">
++
++        <div class="tri-layout-mobile-tabs print-hidden">
++            <div class="grid half no-break no-gap" role="tablist" aria-label="{{ trans('common.tab_info_label') }}">
++                <button type="button"
++                        refs="tri-layout@tab"
++                        role="tab"
++                        id="tri-layout-tab-info"
++                        aria-controls="tri-layout-panel-info"
++                        data-tab="info"
++                        aria-label="{{ trans('common.tab_info_label') }}"
++                        aria-selected="false"
++                        class="tri-layout-mobile-tab px-m py-m text-link">
++                    {{ trans('common.tab_info') }}
++                </button>
++                <button type="button"
++                        refs="tri-layout@tab"
++                        role="tab"
++                        id="tri-layout-tab-content"
++                        aria-controls="tri-layout-panel-content"
++                        data-tab="content"
++                        aria-label="{{ trans('common.tab_content_label') }}"
++                        aria-selected="true"
++                        class="tri-layout-mobile-tab px-m py-m text-link active">
++                    {{ trans('common.tab_content') }}
++                </button>
++            </div>
+         </div>
+-    </div>
+ 
+-    <div refs="tri-layout@container" class="tri-layout-container" @yield('container-attrs') >
++        <div refs="tri-layout@container" class="tri-layout-container" @yield('container-attrs') >
+ 
+-        <div class="tri-layout-sides print-hidden">
+-            <div refs="tri-layout@sidebar-scroll-container" class="tri-layout-sides-content">
+-                <div class="tri-layout-right print-hidden">
+-                    <aside refs="tri-layout@sidebar-scroll-container" class="tri-layout-right-contents">
+-                        @yield('right')
+-                    </aside>
+-                </div>
++            <div class="tri-layout-sides print-hidden"
++                 role="tabpanel"
++                 id="tri-layout-panel-info"
++                 aria-labelledby="tri-layout-tab-info"
++                 tabindex="0">
++                <div refs="tri-layout@sidebar-scroll-container" class="tri-layout-sides-content">
++                    @hasSection('mobile-page-title')
++                        <h1 class="hide-over-l px-m pt-m">@yield('mobile-page-title')</h1>
++                    @endif
++                    <div class="tri-layout-right print-hidden">
++                        <div refs="tri-layout@sidebar-scroll-container" class="tri-layout-right-contents">
++                            @yield('right')
++                        </div>
++                    </div>
+ 
+-                <div class="tri-layout-left print-hidden" id="sidebar">
+-                    <aside refs="tri-layout@sidebar-scroll-container" class="tri-layout-left-contents">
+-                        @yield('left')
+-                    </aside>
++                    <div class="tri-layout-left print-hidden" id="sidebar">
++                        <div refs="tri-layout@sidebar-scroll-container" class="tri-layout-left-contents">
++                            @yield('left')
++                        </div>
++                    </div>
+                 </div>
+             </div>
+-        </div>
+ 
+-        <div class="@yield('body-wrap-classes') tri-layout-middle">
+-            <div id="main-content" class="tri-layout-middle-contents">
+-                @yield('body')
++            <div class="@yield('body-wrap-classes') tri-layout-middle"
++                 role="tabpanel"
++                 id="tri-layout-panel-content"
++                 aria-labelledby="tri-layout-tab-content"
++                 tabindex="0">
++                <div class="tri-layout-middle-contents">
++                    @yield('body')
++                </div>
+             </div>
+         </div>
+-    </div>
++
++    </main>
+ 
+ @stop
+diff --git a/resources/views/pages/edit.blade.php b/resources/views/pages/edit.blade.php
+index 58fb5f3..cbd7f4e 100644
+--- a/resources/views/pages/edit.blade.php
++++ b/resources/views/pages/edit.blade.php
+@@ -4,14 +4,15 @@
+ 
+ @section('content')
+ 
+-    <div id="main-content" class="flex-fill flex height-fill">
++    <main id="main-content" class="flex-fill flex height-fill" tabindex="-1">
++        <h1 class="sr-only">{{ $page->name ?: trans('entities.pages_edit') }}</h1>
+         <form action="{{ $page->getUrl() }}" autocomplete="off" data-page-id="{{ $page->id }}" method="POST" class="flex flex-fill">
+             {{ csrf_field() }}
+ 
+             @if(!$isDraft) {{ method_field('PUT') }} @endif
+             @include('pages.parts.form', ['model' => $page])
+         </form>
+-    </div>
++    </main>
+     
+     @include('pages.parts.image-manager', ['uploaded_to' => $page->id])
+     @include('pages.parts.code-editor')
+diff --git a/resources/views/pages/guest-create.blade.php b/resources/views/pages/guest-create.blade.php
+index 11970b8..4140c09 100644
+--- a/resources/views/pages/guest-create.blade.php
++++ b/resources/views/pages/guest-create.blade.php
+@@ -15,7 +15,7 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('entities.pages_new') }}</h1>
+             <form action="{{  $parent->getUrl('/create-guest-page') }}" method="POST">
+                 {!! csrf_field() !!}
+@@ -31,7 +31,7 @@
+                 </div>
+ 
+             </form>
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/pages/move.blade.php b/resources/views/pages/move.blade.php
+index 6df3649..107ea2a 100644
+--- a/resources/views/pages/move.blade.php
++++ b/resources/views/pages/move.blade.php
+@@ -16,7 +16,7 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('entities.pages_move') }}</h1>
+ 
+             <form action="{{ $page->getUrl('/move') }}" method="POST">
+@@ -31,7 +31,7 @@
+                 </div>
+             </form>
+ 
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/pages/parts/editor-toolbar.blade.php b/resources/views/pages/parts/editor-toolbar.blade.php
+index 71a5fd2..f566902 100644
+--- a/resources/views/pages/parts/editor-toolbar.blade.php
++++ b/resources/views/pages/parts/editor-toolbar.blade.php
+@@ -3,7 +3,7 @@
+     <div>
+         <div class="inline block">
+             <a href="{{ $isDraft ? $page->getParent()->getUrl() : $page->getUrl() }}"
+-               class="icon-list-item text-link"><span>@icon('back')</span><span class="hide-under-l">{{ trans('common.back') }}</span></a>
++               class="icon-list-item text-link" aria-label="{{ trans('common.back') }}"><span>@icon('back')</span><span class="hide-under-l">{{ trans('common.back') }}</span></a>
+         </div>
+     </div>
+ 
+@@ -24,27 +24,27 @@
+                 @icon('check-circle', ['class' => 'text-pos draft-notification svg-icon', 'refs' => 'page-editor@draftDisplayIcon'])
+             </div>
+             <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                <li>
++                <li role="presentation">
+                     <button refs="page-editor@saveDraft" type="button" role="menuitem" class="text-pos icon-item">
+                         @icon('save')
+                         <div>{{ trans('entities.pages_edit_save_draft') }}</div>
+                     </button>
+                 </li>
+                 @if($isDraft)
+-                    <li>
++                    <li role="presentation">
+                         <a href="{{ $model->getUrl('/delete') }}" role="menuitem" class="text-neg icon-item">
+                             @icon('delete')
+                             {{ trans('entities.pages_edit_delete_draft') }}
+                         </a>
+                     </li>
+                 @endif
+-                <li refs="page-editor@discard-draft-wrap" {{ $isDraftRevision ? '' : 'hidden' }}>
++                <li role="presentation" refs="page-editor@discard-draft-wrap" {{ $isDraftRevision ? '' : 'hidden' }}>
+                     <button refs="page-editor@discard-draft" type="button" role="menuitem" class="text-warn icon-item">
+                         @icon('cancel')
+                         <div>{{ trans('entities.pages_edit_discard_draft') }}</div>
+                     </button>
+                 </li>
+-                <li refs="page-editor@delete-draft-wrap" {{ $isDraftRevision ? '' : 'hidden' }}>
++                <li role="presentation" refs="page-editor@delete-draft-wrap" {{ $isDraftRevision ? '' : 'hidden' }}>
+                     <button refs="page-editor@delete-draft" type="button" role="menuitem" class="text-neg icon-item">
+                         @icon('delete')
+                         <div>{{ trans('entities.pages_edit_delete_draft') }}</div>
+@@ -54,7 +54,7 @@
+                     <li role="presentation">
+                         <hr>
+                     </li>
+-                    <li>
++                    <li role="presentation">
+                         @if($editor !== \BookStack\Entities\Tools\PageEditorType::Markdown)
+                             <a href="{{ $model->getUrl($isDraft ? '' : '/edit') }}?editor=markdown-clean" refs="page-editor@changeEditor" role="menuitem" class="icon-item">
+                                 @icon('swap-horizontal')
+diff --git a/resources/views/pages/parts/markdown-editor.blade.php b/resources/views/pages/parts/markdown-editor.blade.php
+index 5b1761b..e279484 100644
+--- a/resources/views/pages/parts/markdown-editor.blade.php
++++ b/resources/views/pages/parts/markdown-editor.blade.php
+@@ -18,7 +18,7 @@
+                 <button class="text-button" type="button" data-action="insertLink" title="{{ trans('entities.pages_md_insert_link') }}">@icon('link')</button>
+                 <button class="text-button" type="button" data-action="fullscreen" title="{{ trans('common.fullscreen') }}">@icon('fullscreen')</button>
+                 <button refs="dropdown@toggle" class="text-button" type="button" title="{{ trans('common.more') }}">@icon('more')</button>
+-                <div refs="dropdown@menu markdown-editor@setting-container" class="dropdown-menu" role="menu">
++                <div refs="dropdown@menu markdown-editor@setting-container" class="dropdown-menu">
+                     <div class="px-m">
+                         @include('form.custom-checkbox', ['name' => 'md-showPreview', 'label' => trans('entities.pages_md_show_preview'), 'value' => true, 'checked' => true])
+                     </div>
+diff --git a/resources/views/pages/parts/revisions-index-row.blade.php b/resources/views/pages/parts/revisions-index-row.blade.php
+index 749cfb7..f91f2c4 100644
+--- a/resources/views/pages/parts/revisions-index-row.blade.php
++++ b/resources/views/pages/parts/revisions-index-row.blade.php
+@@ -11,7 +11,7 @@
+     <div class="flex-3 px-m py-xs min-width-l">
+         <div class="flex-container-row items-center gap-s">
+             @if($revision->createdBy)
+-                <img class="avatar flex-none" height="30" width="30" src="{{ $revision->createdBy->getAvatar(30) }}" alt="{{ $revision->createdBy->name }}">
++                <img class="avatar flex-none" height="30" width="30" src="{{ $revision->createdBy->getAvatar(30) }}" alt="">
+             @endif
+             <div>
+                 @if($revision->createdBy) {{ $revision->createdBy->name }} @else {{ trans('common.deleted_user') }} @endif
+@@ -43,12 +43,12 @@
+                 <div component="dropdown" class="dropdown-container">
+                     <a refs="dropdown@toggle" href="#" aria-haspopup="true" aria-expanded="false">{{ trans('entities.pages_revisions_restore') }}</a>
+                     <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                        <li class="px-m py-s"><small class="text-muted">{{trans('entities.revision_restore_confirm')}}</small></li>
+-                        <li>
++                        <li role="none" class="px-m py-s"><div class="contents"><small class="text-muted">{{trans('entities.revision_restore_confirm')}}</small></div></li>
++                        <li role="presentation">
+                             <form action="{{ $revision->getUrl('/restore') }}" method="POST">
+                                 {!! csrf_field() !!}
+                                 <input type="hidden" name="_method" value="PUT">
+-                                <button type="submit" class="text-link icon-item">
++                                <button type="submit" role="menuitem" class="text-link icon-item">
+                                     @icon('history')
+                                     <div>{{ trans('entities.pages_revisions_restore') }}</div>
+                                 </button>
+@@ -63,12 +63,12 @@
+                 <div component="dropdown" class="dropdown-container">
+                     <a refs="dropdown@toggle" href="#" aria-haspopup="true" aria-expanded="false">{{ trans('common.delete') }}</a>
+                     <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                        <li class="px-m py-s"><small class="text-muted">{{trans('entities.revision_delete_confirm')}}</small></li>
+-                        <li>
++                        <li role="none" class="px-m py-s"><div class="contents"><small class="text-muted">{{trans('entities.revision_delete_confirm')}}</small></div></li>
++                        <li role="presentation">
+                             <form action="{{ $revision->getUrl('/delete/') }}" method="POST">
+                                 {!! csrf_field() !!}
+                                 <input type="hidden" name="_method" value="DELETE">
+-                                <button type="submit" class="text-neg icon-item">
++                                <button type="submit" role="menuitem" class="text-neg icon-item">
+                                     @icon('delete')
+                                     <div>{{ trans('common.delete') }}</div>
+                                 </button>
+diff --git a/resources/views/pages/parts/show-sidebar-section-actions.blade.php b/resources/views/pages/parts/show-sidebar-section-actions.blade.php
+index 94061ec..ea59a8e 100644
+--- a/resources/views/pages/parts/show-sidebar-section-actions.blade.php
++++ b/resources/views/pages/parts/show-sidebar-section-actions.blade.php
+@@ -1,5 +1,5 @@
+ <div id="actions" class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+ 
+     <div class="icon-list text-link">
+ 
+diff --git a/resources/views/pages/parts/show-sidebar-section-attachments.blade.php b/resources/views/pages/parts/show-sidebar-section-attachments.blade.php
+index 9757240..b610608 100644
+--- a/resources/views/pages/parts/show-sidebar-section-attachments.blade.php
++++ b/resources/views/pages/parts/show-sidebar-section-attachments.blade.php
+@@ -1,6 +1,6 @@
+ @if($page->attachments->count() > 0)
+     <div id="page-attachments" class="mb-l">
+-        <h5>{{ trans('entities.pages_attachments') }}</h5>
++        <h2 class="h5">{{ trans('entities.pages_attachments') }}</h2>
+         <div class="body">
+             @include('attachments.list', ['attachments' => $page->attachments])
+         </div>
+diff --git a/resources/views/pages/parts/show-sidebar-section-details.blade.php b/resources/views/pages/parts/show-sidebar-section-details.blade.php
+index 391f30c..f02aadb 100644
+--- a/resources/views/pages/parts/show-sidebar-section-details.blade.php
++++ b/resources/views/pages/parts/show-sidebar-section-details.blade.php
+@@ -1,5 +1,5 @@
+ <div id="page-details" class="entity-details mb-xl">
+-    <h5>{{ trans('common.details') }}</h5>
++    <h2 class="h5">{{ trans('common.details') }}</h2>
+     <div class="blended-links">
+         @include('entities.meta', ['entity' => $page, 'watchOptions' => $watchOptions])
+ 
+diff --git a/resources/views/pages/parts/show-sidebar-section-page-nav.blade.php b/resources/views/pages/parts/show-sidebar-section-page-nav.blade.php
+index d046a8c..bb73640 100644
+--- a/resources/views/pages/parts/show-sidebar-section-page-nav.blade.php
++++ b/resources/views/pages/parts/show-sidebar-section-page-nav.blade.php
+@@ -1,6 +1,6 @@
+ @if(isset($pageNav) && count($pageNav))
+     <nav id="page-navigation" class="mb-xl" aria-label="{{ trans('entities.pages_navigation') }}">
+-        <h5>{{ trans('entities.pages_navigation') }}</h5>
++        <h2 class="h5">{{ trans('entities.pages_navigation') }}</h2>
+         <div class="body">
+             <ul class="sidebar-page-nav menu">
+                 @foreach($pageNav as $navItem)
+diff --git a/resources/views/pages/permissions.blade.php b/resources/views/pages/permissions.blade.php
+index 93e14ee..7577c11 100644
+--- a/resources/views/pages/permissions.blade.php
++++ b/resources/views/pages/permissions.blade.php
+@@ -16,9 +16,9 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap auto-height">
++        <div class="card content-wrap auto-height">
+             @include('form.entity-permissions', ['model' => $page, 'title' => trans('entities.pages_permissions')])
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/pages/revision.blade.php b/resources/views/pages/revision.blade.php
+index c0831ef..0f92de8 100644
+--- a/resources/views/pages/revision.blade.php
++++ b/resources/views/pages/revision.blade.php
+@@ -9,6 +9,8 @@
+     </div>
+ @stop
+ 
++@section('mobile-page-title', $page->name)
++
+ @section('body')
+ 
+     <div class="mb-m print-hidden">
+@@ -25,10 +27,10 @@
+         ]])
+     </div>
+ 
+-    <main class="card content-wrap">
++    <div class="card content-wrap">
+         <div class="page-content page-revision">
+             @include('pages.parts.page-display')
+         </div>
+-    </main>
++    </div>
+ 
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/pages/revisions.blade.php b/resources/views/pages/revisions.blade.php
+index e8eb8d6..ed0c314 100644
+--- a/resources/views/pages/revisions.blade.php
++++ b/resources/views/pages/revisions.blade.php
+@@ -15,7 +15,7 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('entities.pages_revisions') }}</h1>
+ 
+             <p class="text-muted">{{ trans('entities.pages_revisions_desc') }}</p>
+@@ -51,7 +51,7 @@
+             <div class="my-m">
+                 {{ $revisions->links() }}
+             </div>
+-        </main>
++        </div>
+ 
+     </div>
+ 
+diff --git a/resources/views/pages/show.blade.php b/resources/views/pages/show.blade.php
+index eef5593..746c51e 100644
+--- a/resources/views/pages/show.blade.php
++++ b/resources/views/pages/show.blade.php
+@@ -6,6 +6,8 @@
+ 
+ @include('entities.body-tag-classes', ['entity' => $page])
+ 
++@section('mobile-page-title', $page->name)
++
+ @section('body')
+ 
+     <div class="mb-m print-hidden">
+@@ -16,14 +18,14 @@
+         ]])
+     </div>
+ 
+-    <main class="content-wrap card">
++    <div class="content-wrap card">
+         <div component="page-display"
+              option:page-display:page-id="{{ $page->id }}"
+              class="page-content clearfix">
+             @include('pages.parts.page-display')
+         </div>
+         @include('pages.parts.pointer', ['page' => $page, 'commentTree' => $commentTree])
+-    </main>
++    </div>
+ 
+     @include('entities.sibling-navigation', ['next' => $next, 'previous' => $previous])
+ 
+diff --git a/resources/views/search/all.blade.php b/resources/views/search/all.blade.php
+index 4825081..c81f207 100644
+--- a/resources/views/search/all.blade.php
++++ b/resources/views/search/all.blade.php
+@@ -13,7 +13,7 @@
+                     @endphp
+                     <form method="get" action="{{ url('/search') }}">
+                         <h6>{{ trans('entities.search_terms') }}</h6>
+-                        <input type="text" name="search" value="{{ implode(' ', $options->searches->toValueArray()) }}">
++                        <input type="text" name="search" value="{{ implode(' ', $options->searches->toValueArray()) }}" aria-label="{{ trans('entities.search_terms') }}">
+ 
+                         <h6>{{ trans('entities.search_content_type') }}</h6>
+                         <div class="form-group">
+@@ -75,14 +75,14 @@
+                     <h1 class="list-heading">{{ trans('entities.search_results') }}</h1>
+ 
+                     <form action="{{ url('/search') }}" method="GET" class="search-box flexible hide-over-l">
+-                        <input value="{{$searchTerm}}" type="text" name="term"
++                        <input value="{{$searchTerm}}" type="text" name="term" aria-label="{{ trans('common.search') }}"
+                                placeholder="{{ trans('common.search') }}">
+                         <button type="submit"
+                                 aria-label="{{ trans('common.search') }}"
+                                 tabindex="-1">@icon('search')</button>
+                     </form>
+ 
+-                    <h6 class="text-muted">{{ trans_choice('entities.search_total_results_found', $totalResults, ['count' => $totalResults]) }}</h6>
++                    <p class="text-muted text-small">{{ trans_choice('entities.search_total_results_found', $totalResults, ['count' => $totalResults]) }}</p>
+                     <div class="book-contents">
+                         @include('entities.list', ['entities' => $entities, 'showPath' => true, 'showTags' => true])
+                     </div>
+diff --git a/resources/views/settings/layout.blade.php b/resources/views/settings/layout.blade.php
+index 2ca06b8..6a8e7d4 100644
+--- a/resources/views/settings/layout.blade.php
++++ b/resources/views/settings/layout.blade.php
+@@ -9,7 +9,7 @@
+ 
+             <div>
+                 <h5>{{ trans('settings.categories') }}</h5>
+-                <nav class="active-link-list in-sidebar">
++                <nav class="active-link-list in-sidebar" aria-label="{{ trans('settings.categories') }}">
+                     <a href="{{ url('/settings/features') }}" class="{{ $category === 'features' ? 'active' : '' }}">@icon('star') {{ trans('settings.app_features_security') }}</a>
+                     <a href="{{ url('/settings/customization') }}" class="{{ $category === 'customization' ? 'active' : '' }}">@icon('palette') {{ trans('settings.app_customization') }}</a>
+                     <a href="{{ url('/settings/registration') }}" class="{{ $category === 'registration' ? 'active' : '' }}">@icon('security') {{ trans('settings.reg_settings') }}</a>
+diff --git a/resources/views/settings/layouts/edit.blade.php b/resources/views/settings/layouts/edit.blade.php
+index 007eca6..69d47c8 100644
+--- a/resources/views/settings/layouts/edit.blade.php
++++ b/resources/views/settings/layouts/edit.blade.php
+@@ -11,7 +11,7 @@
+                     <a href="{{ url('/my-account/interface') }}" class="text-link">@icon('back') {{ trans('preferences.layout_edit_back_to_preferences') }}</a>
+                 </div>
+                 <h5>{{ trans('preferences.layout_edit_layouts') }}</h5>
+-                <nav class="active-link-list in-sidebar">
++                <nav class="active-link-list in-sidebar" aria-label="{{ trans('settings.categories') }}">
+                     @foreach($namedLocations as $locationOptKey => $locationOptName)
+                         <a href="{{ url('/layouts/' . $locationOptKey) }}" class="{{ $locationOptKey === $location ? 'active' : '' }}">{{ $locationOptName }}</a>
+                     @endforeach
+diff --git a/resources/views/settings/layouts/parts/block.blade.php b/resources/views/settings/layouts/parts/block.blade.php
+index 1885c42..23b5b37 100644
+--- a/resources/views/settings/layouts/parts/block.blade.php
++++ b/resources/views/settings/layouts/parts/block.blade.php
+@@ -12,12 +12,12 @@
+                 aria-expanded="false"
+                 class="icon-button p-xxs">@icon('more')</button>
+         <ul refs="dropdown@menu layout-editor@action-menu" role="menu" aria-label="{{ trans('common.actions') }}" class="dropdown-menu">
+-            <li><button type="button" data-action="move_left" class="icon-item">@icon('chevron-left') {{ trans('common.move_left') }}</button></li>
+-            <li><button type="button" data-action="move_up" class="icon-item">@icon('chevron-up') {{ trans('entities.books_sort_move_up') }}</button></li>
+-            <li><button type="button" data-action="move_down" class="icon-item">@icon('chevron-down') {{ trans('entities.books_sort_move_down') }}</button></li>
+-            <li><button type="button" data-action="move_right" class="icon-item">@icon('chevron-right') {{ trans('common.move_right') }}</button></li>
+-            <li><button type="button" data-action="add" class="icon-item">@icon('add-small') {{ trans('common.add') }}</button></li>
+-            <li><button type="button" data-action="remove" class="icon-item">@icon('remove') {{ trans('common.remove') }}</button></li>
++            <li role="presentation"><button type="button" role="menuitem" data-action="move_left" class="icon-item">@icon('chevron-left') {{ trans('common.move_left') }}</button></li>
++            <li role="presentation"><button type="button" role="menuitem" data-action="move_up" class="icon-item">@icon('chevron-up') {{ trans('entities.books_sort_move_up') }}</button></li>
++            <li role="presentation"><button type="button" role="menuitem" data-action="move_down" class="icon-item">@icon('chevron-down') {{ trans('entities.books_sort_move_down') }}</button></li>
++            <li role="presentation"><button type="button" role="menuitem" data-action="move_right" class="icon-item">@icon('chevron-right') {{ trans('common.move_right') }}</button></li>
++            <li role="presentation"><button type="button" role="menuitem" data-action="add" class="icon-item">@icon('add-small') {{ trans('common.add') }}</button></li>
++            <li role="presentation"><button type="button" role="menuitem" data-action="remove" class="icon-item">@icon('remove') {{ trans('common.remove') }}</button></li>
+         </ul>
+     </div>
+ </li>
+\ No newline at end of file
+diff --git a/resources/views/settings/parts/navbar.blade.php b/resources/views/settings/parts/navbar.blade.php
+index cda8bda..4b33d4f 100644
+--- a/resources/views/settings/parts/navbar.blade.php
++++ b/resources/views/settings/parts/navbar.blade.php
+@@ -1,5 +1,5 @@
+ 
+-<nav class="active-link-list py-m flex-container-row justify-center wrap">
++<nav class="active-link-list py-m flex-container-row justify-center wrap" aria-label="{{ trans('settings.settings') }}">
+     @if(userCan(\BookStack\Permissions\Permission::SettingsManage))
+         <a href="{{ url('/settings') }}" @if($selected == 'settings') class="active" @endif>@icon('settings'){{ trans('settings.settings') }}</a>
+         <a href="{{ url('/settings/maintenance') }}" @if($selected == 'maintenance') class="active" @endif>@icon('spanner'){{ trans('settings.maint') }}</a>
+diff --git a/resources/views/settings/parts/table-user.blade.php b/resources/views/settings/parts/table-user.blade.php
+index affc7b6..0e700e6 100644
+--- a/resources/views/settings/parts/table-user.blade.php
++++ b/resources/views/settings/parts/table-user.blade.php
+@@ -2,6 +2,6 @@
+ $user - User to display.
+ --}}
+ <a href="{{ $user->getEditUrl() }}" class="flex-container-row inline gap-s items-center">
+-    <div class="flex-none"><img width="40" height="40" class="avatar block" src="{{ $user->getAvatar(40)}}" alt="{{ $user->name }}"></div>
++    <div class="flex-none"><img width="40" height="40" class="avatar block" src="{{ $user->getAvatar(40)}}" alt=""></div>
+     <div class="flex">{{ $user->name }}</div>
+ </a>
+\ No newline at end of file
+diff --git a/resources/views/settings/recycle-bin/parts/recycle-bin-list-item.blade.php b/resources/views/settings/recycle-bin/parts/recycle-bin-list-item.blade.php
+index 2dad617..9f87723 100644
+--- a/resources/views/settings/recycle-bin/parts/recycle-bin-list-item.blade.php
++++ b/resources/views/settings/recycle-bin/parts/recycle-bin-list-item.blade.php
+@@ -51,8 +51,8 @@
+                     aria-expanded="false"
+                     class="button outline">{{ trans('common.actions') }}</button>
+             <ul refs="dropdown@menu" class="dropdown-menu" role="menu">
+-                <li><a class="text-item" href="{{ $deletion->getUrl('/restore') }}" role="menuitem">{{ trans('settings.recycle_bin_restore') }}</a></li>
+-                <li><a class="text-item" href="{{ $deletion->getUrl('/destroy') }}" role="menuitem">{{ trans('settings.recycle_bin_permanently_delete') }}</a></li>
++                <li role="presentation"><a class="text-item" href="{{ $deletion->getUrl('/restore') }}" role="menuitem">{{ trans('settings.recycle_bin_restore') }}</a></li>
++                <li role="presentation"><a class="text-item" href="{{ $deletion->getUrl('/destroy') }}" role="menuitem">{{ trans('settings.recycle_bin_permanently_delete') }}</a></li>
+             </ul>
+         </div>
+     </div>
+diff --git a/resources/views/settings/roles/edit.blade.php b/resources/views/settings/roles/edit.blade.php
+index da7835e..5bbf2b4 100644
+--- a/resources/views/settings/roles/edit.blade.php
++++ b/resources/views/settings/roles/edit.blade.php
+@@ -32,7 +32,7 @@
+                     @foreach($role->users as $user)
+                         <div class="user-list-item">
+                             <div>
+-                                <img class="avatar small" src="{{ $user->getAvatar(40) }}" alt="{{ $user->name }}">
++                                <img class="avatar small" src="{{ $user->getAvatar(40) }}" alt="">
+                             </div>
+                             <div>
+                                 @if(userCan(\BookStack\Permissions\Permission::UsersManage) || user()->id == $user->id)
+diff --git a/resources/views/settings/roles/index.blade.php b/resources/views/settings/roles/index.blade.php
+index 3ccdd9b..1d01d1c 100644
+--- a/resources/views/settings/roles/index.blade.php
++++ b/resources/views/settings/roles/index.blade.php
+@@ -24,6 +24,7 @@
+                         <form method="get" action="{{ url("/settings/roles") }}">
+                             <input type="text"
+                                    name="search"
++                                   aria-label="{{ trans('common.search') }}"
+                                    title="{{ trans('common.search') }}"
+                                    placeholder="{{ trans('common.search') }}"
+                                    value="{{ $listOptions->getSearch() }}">
+diff --git a/resources/views/settings/webhooks/index.blade.php b/resources/views/settings/webhooks/index.blade.php
+index a564eff..fc44a6b 100644
+--- a/resources/views/settings/webhooks/index.blade.php
++++ b/resources/views/settings/webhooks/index.blade.php
+@@ -25,6 +25,7 @@
+                         <form method="get" action="{{ url("/settings/webhooks") }}">
+                             <input type="text"
+                                    name="search"
++                                   aria-label="{{ trans('common.search') }}"
+                                    placeholder="{{ trans('common.search') }}"
+                                    value="{{ $listOptions->getSearch() }}">
+                         </form>
+diff --git a/resources/views/shelves/create.blade.php b/resources/views/shelves/create.blade.php
+index 95b4590..1e9536f 100644
+--- a/resources/views/shelves/create.blade.php
++++ b/resources/views/shelves/create.blade.php
+@@ -17,12 +17,12 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('entities.shelves_create') }}</h1>
+             <form action="{{ url("/shelves") }}" method="POST" enctype="multipart/form-data">
+                 @include('shelves.parts.form', ['shelf' => null, 'books' => $books])
+             </form>
+-        </main>
++        </div>
+ 
+     </div>
+ 
+diff --git a/resources/views/shelves/edit.blade.php b/resources/views/shelves/edit.blade.php
+index 0114678..89ef885 100644
+--- a/resources/views/shelves/edit.blade.php
++++ b/resources/views/shelves/edit.blade.php
+@@ -14,13 +14,13 @@
+             ]])
+         </div>
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('entities.shelves_edit') }}</h1>
+             <form action="{{ $shelf->getUrl() }}" method="POST" enctype="multipart/form-data">
+                 <input type="hidden" name="_method" value="PUT">
+                 @include('shelves.parts.form', ['model' => $shelf])
+             </form>
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+\ No newline at end of file
+diff --git a/resources/views/shelves/index.blade.php b/resources/views/shelves/index.blade.php
+index 87c6392..f516ddb 100644
+--- a/resources/views/shelves/index.blade.php
++++ b/resources/views/shelves/index.blade.php
+@@ -1,5 +1,7 @@
+ @extends('layouts.tri')
+ 
++@section('mobile-page-title', trans('entities.shelves'))
++
+ @section('body')
+     @include('shelves.parts.list', ['shelves' => $shelves, 'view' => $view, 'listOptions' => $listOptions])
+ @stop
+diff --git a/resources/views/shelves/parts/form.blade.php b/resources/views/shelves/parts/form.blade.php
+index 0a5343b..f9fb168 100644
+--- a/resources/views/shelves/parts/form.blade.php
++++ b/resources/views/shelves/parts/form.blade.php
+@@ -26,11 +26,11 @@
+                     @icon('more')
+                 </button>
+                 <div refs="dropdown@menu shelf-sort@sort-button-container" class="dropdown-menu" role="menu">
+-                    <button type="button" class="text-item"
++                    <button type="button" role="menuitem" class="text-item"
+                             data-sort="name">{{ trans('entities.books_sort_name') }}</button>
+-                    <button type="button" class="text-item"
++                    <button type="button" role="menuitem" class="text-item"
+                             data-sort="created">{{ trans('entities.books_sort_created') }}</button>
+-                    <button type="button" class="text-item"
++                    <button type="button" role="menuitem" class="text-item"
+                             data-sort="updated">{{ trans('entities.books_sort_updated') }}</button>
+                 </div>
+             </div>
+diff --git a/resources/views/shelves/parts/index-sidebar-section-actions.blade.php b/resources/views/shelves/parts/index-sidebar-section-actions.blade.php
+index d5cdb40..dd3fc5d 100644
+--- a/resources/views/shelves/parts/index-sidebar-section-actions.blade.php
++++ b/resources/views/shelves/parts/index-sidebar-section-actions.blade.php
+@@ -1,5 +1,5 @@
+ <div id="actions" class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+     <div class="icon-list text-link">
+         @if(userCan(\BookStack\Permissions\Permission::BookshelfCreateAll))
+             <a href="{{ url("/create-shelf") }}" data-shortcut="new" class="icon-list-item">
+diff --git a/resources/views/shelves/parts/index-sidebar-section-new.blade.php b/resources/views/shelves/parts/index-sidebar-section-new.blade.php
+index 602f60e..d1f197b 100644
+--- a/resources/views/shelves/parts/index-sidebar-section-new.blade.php
++++ b/resources/views/shelves/parts/index-sidebar-section-new.blade.php
+@@ -1,5 +1,5 @@
+ <div id="new" class="mb-xl">
+-    <h5>{{ trans('entities.shelves_new') }}</h5>
++    <h2 class="h5">{{ trans('entities.shelves_new') }}</h2>
+     @if(count($new) > 0)
+         @include('entities.list', ['entities' => $new, 'style' => 'compact'])
+     @else
+diff --git a/resources/views/shelves/parts/index-sidebar-section-popular.blade.php b/resources/views/shelves/parts/index-sidebar-section-popular.blade.php
+index 956321c..9f9d7ec 100644
+--- a/resources/views/shelves/parts/index-sidebar-section-popular.blade.php
++++ b/resources/views/shelves/parts/index-sidebar-section-popular.blade.php
+@@ -1,5 +1,5 @@
+ <div id="popular" class="mb-xl">
+-    <h5>{{ trans('entities.shelves_popular') }}</h5>
++    <h2 class="h5">{{ trans('entities.shelves_popular') }}</h2>
+     @if(count($popular) > 0)
+         @include('entities.list', ['entities' => $popular, 'style' => 'compact'])
+     @else
+diff --git a/resources/views/shelves/parts/index-sidebar-section-recents.blade.php b/resources/views/shelves/parts/index-sidebar-section-recents.blade.php
+index f1a68ba..f944363 100644
+--- a/resources/views/shelves/parts/index-sidebar-section-recents.blade.php
++++ b/resources/views/shelves/parts/index-sidebar-section-recents.blade.php
+@@ -1,6 +1,6 @@
+ @if($recents)
+     <div id="recents" class="mb-xl">
+-        <h5>{{ trans('entities.recently_viewed') }}</h5>
++        <h2 class="h5">{{ trans('entities.recently_viewed') }}</h2>
+         @include('entities.list', ['entities' => $recents, 'style' => 'compact'])
+     </div>
+ @endif
+\ No newline at end of file
+diff --git a/resources/views/shelves/parts/list-item.blade.php b/resources/views/shelves/parts/list-item.blade.php
+index 5fc8a36..530505a 100644
+--- a/resources/views/shelves/parts/list-item.blade.php
++++ b/resources/views/shelves/parts/list-item.blade.php
+@@ -3,7 +3,7 @@
+         @icon('bookshelf')
+     </div>
+     <div class="content py-xs">
+-        <h4 class="entity-list-item-name break-text">{{ $shelf->name }}</h4>
++        <div class="entity-list-item-name break-text">{{ $shelf->name }}</div>
+         <div class="entity-item-snippet">
+             <p class="text-muted break-text mb-none">{{ $shelf->getExcerpt() }}</p>
+         </div>
+diff --git a/resources/views/shelves/parts/list.blade.php b/resources/views/shelves/parts/list.blade.php
+index 5be5a7b..f4a69b4 100644
+--- a/resources/views/shelves/parts/list.blade.php
++++ b/resources/views/shelves/parts/list.blade.php
+@@ -1,4 +1,4 @@
+-<main class="content-wrap mt-m card">
++<div class="content-wrap mt-m card">
+ 
+     <div class="grid half v-center">
+         <h1 class="list-heading">{{ trans('entities.shelves') }}</h1>
+@@ -40,4 +40,4 @@
+         @endif
+     @endif
+ 
+-</main>
++</div>
+diff --git a/resources/views/shelves/parts/show-sidebar-section-actions.blade.php b/resources/views/shelves/parts/show-sidebar-section-actions.blade.php
+index ba92e5f..a0c2d49 100644
+--- a/resources/views/shelves/parts/show-sidebar-section-actions.blade.php
++++ b/resources/views/shelves/parts/show-sidebar-section-actions.blade.php
+@@ -1,5 +1,5 @@
+ <div id="actions" class="actions mb-xl">
+-    <h5>{{ trans('common.actions') }}</h5>
++    <h2 class="h5">{{ trans('common.actions') }}</h2>
+     <div class="icon-list text-link">
+ 
+         @if(userCan(\BookStack\Permissions\Permission::BookCreateAll) && userCan(\BookStack\Permissions\Permission::BookshelfUpdate, $shelf))
+diff --git a/resources/views/shelves/parts/show-sidebar-section-activity.blade.php b/resources/views/shelves/parts/show-sidebar-section-activity.blade.php
+index c1c5c1d..70c4ca7 100644
+--- a/resources/views/shelves/parts/show-sidebar-section-activity.blade.php
++++ b/resources/views/shelves/parts/show-sidebar-section-activity.blade.php
+@@ -1,6 +1,6 @@
+ @if(count($activity) > 0)
+     <div id="recent-activity" class="mb-xl">
+-        <h5>{{ trans('entities.recent_activity') }}</h5>
++        <h2 class="h5">{{ trans('entities.recent_activity') }}</h2>
+         @include('common.activity-list', ['activity' => $activity])
+     </div>
+ @endif
+\ No newline at end of file
+diff --git a/resources/views/shelves/parts/show-sidebar-section-details.blade.php b/resources/views/shelves/parts/show-sidebar-section-details.blade.php
+index 8933cc4..b128011 100644
+--- a/resources/views/shelves/parts/show-sidebar-section-details.blade.php
++++ b/resources/views/shelves/parts/show-sidebar-section-details.blade.php
+@@ -1,5 +1,5 @@
+ <div id="details" class="mb-xl">
+-    <h5>{{ trans('common.details') }}</h5>
++    <h2 class="h5">{{ trans('common.details') }}</h2>
+     <div class="blended-links">
+         @include('entities.meta', ['entity' => $shelf, 'watchOptions' => null])
+         @if($shelf->hasPermissions())
+diff --git a/resources/views/shelves/show.blade.php b/resources/views/shelves/show.blade.php
+index b942f35..d40588e 100644
+--- a/resources/views/shelves/show.blade.php
++++ b/resources/views/shelves/show.blade.php
+@@ -9,6 +9,8 @@
+ 
+ @include('entities.body-tag-classes', ['entity' => $shelf])
+ 
++@section('mobile-page-title', $shelf->name)
++
+ @section('body')
+ 
+     <div class="mb-s print-hidden">
+@@ -17,7 +19,7 @@
+         ]])
+     </div>
+ 
+-    <main class="card content-wrap">
++    <div class="card content-wrap">
+ 
+         <div class="flex-container-row wrap v-center">
+             <h1 class="flex fit-content break-text">{{ $shelf->name }}</h1>
+@@ -28,7 +30,7 @@
+         </div>
+ 
+         <div class="book-content">
+-            <div class="text-muted break-text">{!! $shelf->descriptionInfo()->getHtml() !!}</div>
++            <div class="text-muted break-text entity-description">{!! $shelf->descriptionInfo()->getHtml() !!}</div>
+             @if(count($sortedVisibleShelfBooks) > 0)
+                 @if($view === 'list')
+                     <div class="entity-list">
+@@ -64,7 +66,7 @@
+                 </div>
+             @endif
+         </div>
+-    </main>
++    </div>
+ 
+ @stop
+ 
+diff --git a/resources/views/tags/index.blade.php b/resources/views/tags/index.blade.php
+index 0a85316..e2543ba 100644
+--- a/resources/views/tags/index.blade.php
++++ b/resources/views/tags/index.blade.php
+@@ -3,7 +3,7 @@
+ @section('body')
+     <div class="container small">
+ 
+-        <main class="card content-wrap mt-xxl">
++        <div class="card content-wrap mt-xxl">
+ 
+             <h1 class="list-heading">{{ trans('entities.tags') }}</h1>
+ 
+@@ -15,6 +15,7 @@
+                         @include('form.request-query-inputs', ['params' => ['name']])
+                         <input type="text"
+                                name="search"
++                                   aria-label="{{ trans('common.search') }}"
+                                placeholder="{{ trans('common.search') }}"
+                                value="{{ $listOptions->getSearch() }}">
+                     </form>
+@@ -52,7 +53,7 @@
+                     {{ trans('entities.tags_list_empty_hint') }}
+                 </p>
+             @endif
+-        </main>
++        </div>
+ 
+     </div>
+ 
+diff --git a/resources/views/users/account/layout.blade.php b/resources/views/users/account/layout.blade.php
+index 94f1f32..fcaac96 100644
+--- a/resources/views/users/account/layout.blade.php
++++ b/resources/views/users/account/layout.blade.php
+@@ -8,7 +8,7 @@
+             <div>
+                 <div class="sticky-top-m">
+                     <h5>{{ trans('preferences.my_account') }}</h5>
+-                    <nav class="active-link-list in-sidebar">
++                    <nav class="active-link-list in-sidebar" aria-label="{{ trans('preferences.my_account') }}">
+                         <a href="{{ url('/my-account/profile') }}" class="{{ $category === 'profile' ? 'active' : '' }}">@icon('user') {{ trans('preferences.profile') }}</a>
+                         <a href="{{ url('/my-account/auth') }}" class="{{ $category === 'auth' ? 'active' : '' }}">@icon('security') {{ trans('preferences.auth') }}</a>
+                         <a href="{{ url('/my-account/interface') }}" class="{{ $category === 'interface' ? 'active' : '' }}">@icon('interface') {{ trans('preferences.interface') }}</a>
+diff --git a/resources/views/users/api-tokens/create.blade.php b/resources/views/users/api-tokens/create.blade.php
+index 8250c5a..ddfb0bd 100644
+--- a/resources/views/users/api-tokens/create.blade.php
++++ b/resources/views/users/api-tokens/create.blade.php
+@@ -4,7 +4,7 @@
+ 
+     <div class="container small pt-xl">
+ 
+-        <main class="card content-wrap auto-height">
++        <div class="card content-wrap auto-height">
+             <h1 class="list-heading">{{ trans('settings.user_api_token_create') }}</h1>
+ 
+             <form action="{{ url('/api-tokens/' . $user->id . '/create') }}" method="post">
+@@ -27,7 +27,7 @@
+ 
+             </form>
+ 
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/users/api-tokens/edit.blade.php b/resources/views/users/api-tokens/edit.blade.php
+index 3a1ff49..5ed5e6c 100644
+--- a/resources/views/users/api-tokens/edit.blade.php
++++ b/resources/views/users/api-tokens/edit.blade.php
+@@ -4,7 +4,7 @@
+ 
+     <div class="container small pt-xl">
+ 
+-        <main class="card content-wrap auto-height">
++        <div class="card content-wrap auto-height">
+             <h1 class="list-heading">{{ trans('settings.user_api_token') }}</h1>
+ 
+             <form action="{{ $token->getUrl() }}" method="post">
+@@ -60,7 +60,7 @@
+ 
+             </form>
+ 
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/users/create.blade.php b/resources/views/users/create.blade.php
+index daffc91..58e20d6 100644
+--- a/resources/views/users/create.blade.php
++++ b/resources/views/users/create.blade.php
+@@ -6,7 +6,7 @@
+ 
+         @include('settings.parts.navbar', ['selected' => 'users'])
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+             <h1 class="list-heading">{{ trans('settings.users_add_new') }}</h1>
+ 
+             <form action="{{ url("/settings/users/create") }}" method="post">
+@@ -24,7 +24,7 @@
+ 
+             </form>
+ 
+-        </main>
++        </div>
+     </div>
+ 
+ @stop
+diff --git a/resources/views/users/edit.blade.php b/resources/views/users/edit.blade.php
+index 8a4a8bc..b16401e 100644
+--- a/resources/views/users/edit.blade.php
++++ b/resources/views/users/edit.blade.php
+@@ -89,7 +89,7 @@
+                                             aria-expanded="{{ trans('settings.users_mfa_reset') }}">
+                                         {{ trans('common.reset') }}
+                                     </button>
+-                                    <div refs="dropdown@menu" class="dropdown-menu" role="menu" aria-label="{{ trans('settings.users_mfa_reset') }}">
++                                    <div refs="dropdown@menu" class="dropdown-menu" aria-label="{{ trans('settings.users_mfa_reset') }}">
+                                         <p class="text-neg small px-m mb-xs">
+                                             {{ trans('settings.users_mfa_reset_confirm') }}
+                                         </p>
+diff --git a/resources/views/users/index.blade.php b/resources/views/users/index.blade.php
+index 5d54607..212567d 100644
+--- a/resources/views/users/index.blade.php
++++ b/resources/views/users/index.blade.php
+@@ -5,7 +5,7 @@
+ 
+         @include('settings.parts.navbar', ['selected' => 'users'])
+ 
+-        <main class="card content-wrap">
++        <div class="card content-wrap">
+ 
+             <div class="flex-container-row wrap justify-space-between items-center">
+                 <h1 class="list-heading">{{ trans('settings.users') }}</h1>
+@@ -22,6 +22,7 @@
+                         <form method="get" action="{{ url("/settings/users") }}">
+                             <input type="text"
+                                    name="search"
++                                   aria-label="{{ trans('common.search') }}"
+                                    title="{{ trans('settings.users_search') }}"
+                                    placeholder="{{ trans('settings.users_search') }}"
+                                    value="{{ $listOptions->getSearch() }}">
+@@ -42,7 +43,7 @@
+             <div>
+                 {{ $users->links() }}
+             </div>
+-        </main>
++        </div>
+ 
+     </div>
+ 
+diff --git a/resources/views/users/parts/users-list-item.blade.php b/resources/views/users/parts/users-list-item.blade.php
+index 9c7ecd1..3897e6c 100644
+--- a/resources/views/users/parts/users-list-item.blade.php
++++ b/resources/views/users/parts/users-list-item.blade.php
+@@ -1,6 +1,6 @@
+ <div class="flex-container-row item-list-row items-center wrap py-xs">
+     <div class="px-m py-xs flex-container-row items-center flex-2 gap-l min-width-m">
+-        <img class="avatar med" width="40" height="40" src="{{ $user->getAvatar(40)}}" alt="{{ $user->name }}">
++        <img class="avatar med" width="40" height="40" src="{{ $user->getAvatar(40)}}" alt="">
+         <a href="{{ url("/settings/users/{$user->id}") }}">
+             {{ $user->name }}
+             <br>
+diff --git a/resources/views/users/profile.blade.php b/resources/views/users/profile.blade.php
+index 9879091..6b62e91 100644
+--- a/resources/views/users/profile.blade.php
++++ b/resources/views/users/profile.blade.php
+@@ -18,10 +18,10 @@
+                     <div class="grid half v-center">
+                         <div>
+                             <div class="mr-m float left">
+-                                <img class="avatar square huge" src="{{ $user->getAvatar(120) }}" alt="{{ $user->name }}">
++                                <img class="avatar square huge" src="{{ $user->getAvatar(120) }}" alt="">
+                             </div>
+                             <div>
+-                                <h4 class="mt-md">{{ $user->name }}</h4>
++                                <h1 class="mt-md">{{ $user->name }}</h1>
+                                 <p class="text-muted">
+                                     {{ trans('entities.profile_user_for_x', ['time' => $dates->relative($user->created_at, false)]) }}
+                                 </p>

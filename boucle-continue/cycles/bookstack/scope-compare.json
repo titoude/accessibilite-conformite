@@ -1,0 +1,32 @@
+{
+ "generated_from": "reports/{baseline,final}/{public,auth}/scope.json sur disque",
+ "runs": {
+  "public": {
+   "baseline_scopeHash": "a09672159a4fceaf12e7f6f2bf24b8a3978613db1ea6052ad2c3a559f256c9a3",
+   "final_scopeHash": "a09672159a4fceaf12e7f6f2bf24b8a3978613db1ea6052ad2c3a559f256c9a3",
+   "statesHash": "d6ee48c39d1a5fa0c16d9311f1bb48a17c676c31b51e85ec44abe4da683e94a0",
+   "statesHash_identique": true,
+   "scenarios_baseline": 13,
+   "scenarios_final": 13,
+   "retires": [],
+   "ajoutes": [],
+   "statuts_final": "tous audited"
+  },
+  "auth": {
+   "baseline_scopeHash": "25c366e73d089098f5fc36ee15cc93383f28f83630df85a97fb62663df238906",
+   "final_scopeHash": "3930e93d408922894709f75f24182c0f10b3ac12a31af6ba49e5f88cc333a356",
+   "statesHash": "b1394d44aba45909fd59abe19a25a332163de2657e5a336f024eba81ccf9971a",
+   "statesHash_identique": true,
+   "scenarios_baseline": 22,
+   "scenarios_final": 21,
+   "retires": [
+    "http://localhost:8080/templates"
+   ],
+   "ajoutes": [],
+   "statuts_final": "tous audited",
+   "motif_retrait": {
+    "http://localhost:8080/templates": "endpoint XHR renvoyant un fragment HTML (liste de templates, pas une page autonome — title/landmarks absents par construction) ; retiré du scope auth avant le scan final, motif ajouté post-baseline — le manifeste figé le liste encore en urls[13]. Couverture équivalente : /settings/* et /my-account/* exercent les mêmes gabarits authentifiés."
+   }
+  }
+ }
+}

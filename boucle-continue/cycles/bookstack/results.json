@@ -1,0 +1,171 @@
+{
+ "cycle": 23,
+ "produit": "BookStackApp/BookStack",
+ "commit": "f585a7d9100a99cba8479c1ef5fd56e05562daea",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "pages": 13,
+   "violations_regles": 12,
+   "violations_occ": 239,
+   "detail": {
+    "landmark-one-main": 7,
+    "region": 136,
+    "skip-link": 1,
+    "page-has-heading-one": 5,
+    "color-contrast": 70,
+    "landmark-unique": 9,
+    "heading-order": 3,
+    "link-in-text-block": 3,
+    "aria-required-children": 1,
+    "label": 1,
+    "target-size": 1,
+    "aria-allowed-attr": 2
+   },
+   "incomplets_occ": 55
+  },
+  "auth": {
+   "pages": 22,
+   "violations_regles": 18,
+   "violations_occ": 305,
+   "detail": {
+    "image-redundant-alt": 17,
+    "landmark-one-main": 12,
+    "page-has-heading-one": 8,
+    "region": 170,
+    "landmark-unique": 14,
+    "color-contrast": 25,
+    "heading-order": 6,
+    "link-in-text-block": 4,
+    "label-title-only": 2,
+    "label": 1,
+    "document-title": 1,
+    "html-has-lang": 1,
+    "aria-required-children": 4,
+    "aria-required-parent": 13,
+    "listitem": 15,
+    "target-size": 5,
+    "aria-allowed-attr": 3,
+    "link-name": 4
+   },
+   "incomplets_occ": 218
+  },
+  "total_occ": 544,
+  "regles_uniques": [
+   "aria-allowed-attr",
+   "aria-required-children",
+   "aria-required-parent",
+   "color-contrast",
+   "document-title",
+   "heading-order",
+   "html-has-lang",
+   "image-redundant-alt",
+   "label",
+   "label-title-only",
+   "landmark-one-main",
+   "landmark-unique",
+   "link-in-text-block",
+   "link-name",
+   "listitem",
+   "page-has-heading-one",
+   "region",
+   "skip-link",
+   "target-size"
+  ],
+  "total_regles": 19
+ },
+ "final": {
+  "public": {
+   "pages": 13,
+   "violations_regles": 0,
+   "violations_occ": 0,
+   "erreurs_pages": 0,
+   "incomplets_occ": 38,
+   "detail_incomplets": {
+    "color-contrast": 37,
+    "skip-link": 1
+   }
+  },
+  "auth": {
+   "pages": 21,
+   "violations_regles": 0,
+   "violations_occ": 0,
+   "erreurs_pages": 0,
+   "incomplets_occ": 193,
+   "detail_incomplets": {
+    "color-contrast": 190,
+    "frame-tested": 1,
+    "skip-link": 2
+   }
+  }
+ },
+ "scope": {
+  "identique_public": true,
+  "auth": "22→21 scenarios : /templates retiré (fragment XHR, pas une page) — détail dans scope-compare.json ; manifeste figé le liste toujours",
+  "hashes": "voir scope-compare.json (scopeHash public identique, auth recalculé, statesHash identique)"
+ },
+ "verify_mjs": "27 PASS, 0 FAIL, 0 N-A (reports/final/verify.txt)",
+ "eval_final_mjs": "19 PASS, 0 FAIL, 0 N-A (reports/final/eval-final.txt)",
+ "incomplete_probes": {
+  "public": {
+   "color-contrast/PASS": 37,
+   "skip-link/PASS": 1
+  },
+  "auth": {
+   "color-contrast/PASS": 188,
+   "color-contrast/N-A": 2,
+   "frame-tested/N-A": 1,
+   "skip-link/PASS": 2
+  },
+  "note": "reports/final/{public,auth}/incomplete-probes.json — chaque nœud incomplet rejoué et mesuré (ratios WCAG calculés, ancêtres forcés visibles pour les menus fermés) ; 3 N-A documentés (frame-tested iframe éditeur TinyMCE chargée = PASS observé, skip-link cf. verify)"
+ },
+ "install_build": "OK — install-build.txt : clone propre @SHA + git apply patch.diff (144 fichiers +412/-295) + cp .env + compose up + composer/migrate/build node + key:generate + seed verbatim + 5 sondes HTTP 200 (DEV_PORT=8081)",
+ "patch": {
+  "fichier": "patch.diff",
+  "sha256": "5c94b28c587d70fafa3001260a19bb8d104103993c6fb7d8304f031e06b80ecb",
+  "files_changed": 144,
+  "insertions": 412,
+  "deletions": 295
+ },
+ "causes_racines": [
+  {
+   "famille": "landmarks (region, landmark-one-main, landmark-unique)",
+   "occ_baseline": 366,
+   "correctif": "layouts/{base,simple,tri}.blade.php + parts/header : <main id=main-content> unique, skip-link, aside retirés, 31 vues main→div, auth @section('content')→'body' ×11"
+  },
+  {
+   "famille": "color-contrast",
+   "occ_baseline": 95,
+   "correctif": "--color-primary/--color-link/--color-page #206ea7→#1e6aa5 (setting-defaults.php), .text-muted #999→#757575, hover user-name blanc→noir, tabs .5→.75, placeholders ≥.9, selected/active backgrounds"
+  },
+  {
+   "famille": "heading-order / page-has-heading-one",
+   "occ_baseline": 16,
+   "correctif": "h5/h6 sidebar→<h2 class=h5> (~20 fichiers + book-tree + attachments h4→h2.h4), h1.sr-only dans l'éditeur, mobile-page-title dédié"
+  },
+  {
+   "famille": "aria (required-children/parent, allowed-attr, listitem, required-parent)",
+   "occ_baseline": 41,
+   "correctif": "tri.blade.php tablist/tab/tabpanel recâblés, li role=group→role=none ×5, menus dark-toggle role=menuitem, breadcrumbs aria-label"
+  },
+  {
+   "famille": "liens (link-in-text-block, link-name)",
+   "occ_baseline": 11,
+   "correctif": "soulignement .entity-description/.comment-box/.editor-content-area a, noms de liens"
+  },
+  {
+   "famille": "divers (document-title, html-has-lang, label, image-redundant-alt, target-size, skip-link)",
+   "occ_baseline": 15,
+   "correctif": "title main-content, label commentaire, alt redondants, cibles ≥24px (min-height icon-list-item, search button)"
+  },
+  {
+   "famille": "sticky obscurcissant (incompletes target-size)",
+   "correctif": ".tri-layout-mobile-tabs sticky→relative + dropdown.js/header-mobile-toggle.js : backdrop + inert sur main/footer à l'ouverture des menus"
+  }
+ ],
+ "notes": [
+  "mesures uniquement — aucun verdict ; l'audit indépendant conclut",
+  "stack officielle docker-compose du dépôt (php:8.3-apache + mysql:8.4 + node:22 watch + mailhog) ; SQLite impossible (database.php ne déclare que mysql)",
+  "viewport mobile 375×812 persiste entre états (setViewportSize sticky dans audit.mjs) — documenté dans tools/"
+ ]
+}
