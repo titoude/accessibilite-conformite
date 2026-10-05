@@ -1,34 +1,48 @@
 {
-  "cycle": 29,
-  "target": "louislam/uptime-kuma",
-  "commit": "c98982ac60eccb74cdab1d04c30e18057895ce87",
-  "scopeHash": {
-    "baseline-auth": "69c37c1f49e8fe27101dc32f90131208c4f8fff644dc03c8e4ca42c91e0f3b28",
-    "postfix-auth": "53808e62bff7d0cb8eaf011d3eb93c9f8f6196326b315f37588b7ce33813d177",
-    "install-build-auth": "fec2aa50bcc940815aea1785ae0e0da5915885cf7bad94c1556f66f7141cf797",
-    "baseline-public": "voir reports/baseline-public/scope.json",
-    "install-build-public": "d7884cdfd98f9e0c84d7615592d68fc7f7ef3cf60dae023f7643488f24c5a60e",
-    "note": "baseline-auth↔postfix-auth diffèrent VOLONTAIREMENT par 1 scénario : '/list' retirée après la baseline — vue-router redirige /list -> /dashboard, le scan auditait le DOM du dashboard post-redirect (couverture doublée, zéro contenu propre). Les 42 autres scénarios sont IDENTIQUES (mêmes urls, mêmes états, même code STATES — statesHash égal). install-build-auth diffère uniquement par le remappage :3001 -> :3002 (clone propre en parallèle de l'instance auteur) ; chemins et états identiques."
-  },
-  "statesHash": {
-    "baseline-auth": "b769d38c651543e79e7dddce566a65ea1cc804574bffe3c99b3a2ae5cc6b89ef",
-    "postfix-auth": "b769d38c651543e79e7dddce566a65ea1cc804574bffe3c99b3a2ae5cc6b89ef",
-    "install-build-auth": "49b14982aea4886f21f67954571427aa7d319559d5425e597250ef0745bec3e3",
-    "note": "baseline↔postfix IDENTIQUES : le code des 18 états n'a pas changé entre les deux runs (les corrections ont touché le PRODUIT, pas les setups — aucun état ne dépendait du mécanisme corrigé). install-build ré-exécute le même code STATES (hash différent car l'URL de base :3002 entre dans le hash)."
-  },
-  "scenarios_removed": [
-    {
-      "id": "http://localhost:3001/list",
-      "kind": "url",
-      "baseline": "audité (DOM du dashboard post-redirect — doublon)",
-      "postfix": "retiré",
-      "installBuild": "retiré",
-      "raison": "route legacy de vue-router redirigeant vers /dashboard ; sa couverture est un sous-ensemble strict de /dashboard"
+    "cycle": 29,
+    "target": "louislam/uptime-kuma",
+    "commit": "c98982ac60eccb74cdab1d04c30e18057895ce87",
+    "scopeHash": {
+        "baseline-auth": "69c37c1f49e8fe27101dc32f90131208c4f8fff644dc03c8e4ca42c91e0f3b28",
+        "postfix-auth": "53808e62bff7d0cb8eaf011d3eb93c9f8f6196326b315f37588b7ce33813d177",
+        "install-build-auth": "fec2aa50bcc940815aea1785ae0e0da5915885cf7bad94c1556f66f7141cf797",
+        "baseline-public": "voir reports/baseline-public/scope.json",
+        "install-build-public": "d7884cdfd98f9e0c84d7615592d68fc7f7ef3cf60dae023f7643488f24c5a60e",
+        "note": "baseline-auth↔postfix-auth diffèrent VOLONTAIREMENT par 1 scénario : '/list' retirée après la baseline — vue-router redirige /list -> /dashboard, le scan auditait le DOM du dashboard post-redirect (couverture doublée, zéro contenu propre). Les 42 autres scénarios sont IDENTIQUES (mêmes urls, mêmes états, même code STATES — statesHash égal). install-build-auth diffère uniquement par le remappage :3001 -> :3002 (clone propre en parallèle de l'instance auteur) ; chemins et états identiques."
+    },
+    "statesHash": {
+        "baseline-auth": "b769d38c651543e79e7dddce566a65ea1cc804574bffe3c99b3a2ae5cc6b89ef",
+        "postfix-auth": "b769d38c651543e79e7dddce566a65ea1cc804574bffe3c99b3a2ae5cc6b89ef",
+        "install-build-auth": "49b14982aea4886f21f67954571427aa7d319559d5425e597250ef0745bec3e3",
+        "note": "baseline↔postfix IDENTIQUES : le code des 18 états n'a pas changé entre les deux runs (les corrections ont touché le PRODUIT, pas les setups — aucun état ne dépendait du mécanisme corrigé). install-build ré-exécute le même code STATES (hash différent car l'URL de base :3002 entre dans le hash)."
+    },
+    "scenarios_removed": [
+        {
+            "id": "http://localhost:3001/list",
+            "kind": "url",
+            "baseline": "audité (DOM du dashboard post-redirect — doublon)",
+            "postfix": "retiré",
+            "installBuild": "retiré",
+            "raison": "route legacy de vue-router redirigeant vers /dashboard ; sa couverture est un sous-ensemble strict de /dashboard"
+        }
+    ],
+    "scenarios_unchanged": "42 scénarios auth (24 urls + 18 états) + 2 publics, listés dans reports/*/scope.json — statut 'audited' partout dans baseline, postfix et install-build",
+    "nonAudité": {
+        "/status-page": "route absente en 2.5.5 — rendu 'NotFound' interne de la SPA (retirée des urls ; la 404 est vérifiée par eval-final.mjs)",
+        "endpoints /api/* et socket.io": "JSON/non-HTML"
+    },
+    "v2_post_audit": {
+        "note": "Run v2 (après F1+F2b) : statesHash passe à 24 états (+6 modales) — le scope s'ÉLARGIT volontairement post-audit : les 6 états ajoutés couvrent les modales patchées jamais scannées (finding F2). Les 18 états v1 restent (code setup inchangé pour eux, hash global différent car le digest inclut les nouvelles entrées).",
+        "statesHash_v2": "d9a4b1fbf625893bd3c6750270537fdda320bf3209e822ad6a64451c1d7b5e40",
+        "scenarios_v2": "48 scans auth (24 urls×états all) + 2 publics — reports/v2-auth + v2-public",
+        "scenarios_added": [
+            "create-group-dialog",
+            "tags-add-dialog",
+            "monitor-setting-dialog",
+            "badge-link-dialog",
+            "incident-manage-dialog",
+            "screenshot-dialog"
+        ],
+        "produit_change": "le seed gagne un monitor real-browser (id=4) pour ScreenshotDialog ; les URLs auditées sont inchangées"
     }
-  ],
-  "scenarios_unchanged": "42 scénarios auth (24 urls + 18 états) + 2 publics, listés dans reports/*/scope.json — statut 'audited' partout dans baseline, postfix et install-build",
-  "nonAudité": {
-    "/status-page": "route absente en 2.5.5 — rendu 'NotFound' interne de la SPA (retirée des urls ; la 404 est vérifiée par eval-final.mjs)",
-    "endpoints /api/* et socket.io": "JSON/non-HTML"
-  }
 }

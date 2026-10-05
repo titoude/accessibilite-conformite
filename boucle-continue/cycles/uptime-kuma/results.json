@@ -1,38 +1,93 @@
 {
-  "produit": "louislam/uptime-kuma (dashboard de monitoring — Vue 3 SPA + socket.io realtime + Bootstrap 5 + express, dist/ buildé par vite)",
-  "sha": "c98982ac60eccb74cdab1d04c30e18057895ce87",
-  "baseline": {
-    "rules": 15,
-    "occurrences": 617,
-    "incompletes": 127,
-    "errors": 0,
-    "scenarios": 45,
-    "detail": "reports/baseline-auth (43 scénarios : 602 occ, 13 règles — color-contrast 418, region 58, object-alt 42, heading-order 33, label 16, aria-required-attr 12, aria-dialog-name 9, button-name 5, tabindex 4, landmark-one-main 2, aria-allowed-attr 1, empty-heading 1, landmark-unique 1) + reports/baseline-public (2 scénarios : 15 occ, 5 règles — color-contrast 7, region 5, object-alt 1, page-has-heading-one 1, landmark-one-main 1). 15 règles uniques au total (page-has-heading-one absente du run auth car le dashboard a son h1)."
-  },
-  "final": {
-    "rules": 0,
-    "occurrences": 0,
-    "incompletes": 61,
-    "errors": 0,
-    "scenarios": 44,
-    "detail": "reports/postfix-auth (42/42 audités : 0 violation, 61 incomplets) + reports/postfix-public (2/2 : 0 violation, 0 incomplet). Le delta 45→44 scénarios = retrait de /list (redirect doublon du dashboard — couverture doublée en baseline, voir scope-compare.json)."
-  },
-  "installBuild": {
-    "occurrences": 0,
-    "incompletes": 61,
-    "detail": "reports/install-build-auth (42/42 : 0 viol, 61 inc) + install-build-public (2/2 : 0 viol, 0 inc) — clone propre @SHA + git apply (0 rejet) + npm ci + npm run build (index-BBXzlFvr.js octet-identique) + boot :3002 + rescan. Incomplets IDENTIQUES au run de travail."
-  },
-  "verifications": {
-    "audit_commands": "voir manifest.auditCommands — rejouées verbatim ; postfix + install-build : 0 violation, 0 erreur",
-    "verify": "verify.mjs : PASS 22/22 (2 N-A explicites : password reveal/labels sur /add — aucun input password sur cette page) — labels résolubles, boutons iconiques nommés (œil password, multiselect tag-icon), dialogs aria-labelledby vers ids uniques, select #type/#ipFamily/#auth-method/... ids uniques par instance, Datepicker uid -> dp-input-* étiqueté, contrastes mesurés (primary-text 6.51, danger 6.50, warning 5.60, muted 4.61, dark-danger 5.69), th de données non vides, 1 main + 1 h1 par page, tag luminance adaptative",
-    "eval_final": "eval-final.mjs : PASS 13/13 (4 N-A) — lang html, zoom viewport non bloqué, pas de piège clavier (Tab), :focus-visible présent, modale Escape + restauration du focus au trigger (bug produit corrigé dans Confirm.vue), liens/images nommés, aria-live toasts, N-A skip-link (non fourni par le produit)",
-    "probes": "incomplete-probes.mjs : 7 sondes — .btn-light 18.88, #type/#ipFamily 15.43 (texte sur bg solide ; la flèche est un graphique non-texte), multiselects #acceptedStatusCodes/#affected_monitors/#selected_status_pages 21.00 (texte réel dans les enfants), .num.text-secondary 4.69 — toutes ≥4.5, 0 FAIL",
-    "install_build": "patch transportable (git apply 71 fichiers 0 rejet), build vite DÉTERMINISTE octet-identique (index-BBXzlFvr.js), rescan 0 violation"
-  },
-  "notes_honnêteté": [
-    "PAS de verdict auto : l'auditeur indépendant rejoue et tranche.",
-    "baseline-auth incluait /list (43e scénario) — retirée ensuite car redirect doublon ; les occurrences de cette page doublaient celles du dashboard. La baseline à périmètre comparable est donc légèrement surestimée (~602 incl. les doublons /list).",
-    "127→61 incomplets : 54 duplicate-id-aria + 14 form-field-multiple-labels résolus par corrections RÉELLES (ids uniques par instance : Confirm titleId uuid, AccessibleMultiselect resolvedId, EditMonitor auth-method/globalping-*/cache-bust, TwoFADialog) ; 1 color-contrast gagné ; les 61 restants sont axe-inconclusifs, tous sondés ≥4.5.",
-    "états temps réel : monitors seedés PAUSÉS — les compteurs/heartbeat n'évoluent pas entre baseline et final ; les textes de durée (incident age) peuvent différer entre runs (indicatif)."
-  ]
+    "produit": "louislam/uptime-kuma (dashboard de monitoring — Vue 3 SPA + socket.io realtime + Bootstrap 5 + express, dist/ buildé par vite)",
+    "sha": "c98982ac60eccb74cdab1d04c30e18057895ce87",
+    "baseline": {
+        "rules": 14,
+        "occurrences": 617,
+        "incompletes": 127,
+        "errors": 0,
+        "scenarios": 45,
+        "detail": "reports/baseline-auth (43 scénarios : 602 occ, 13 règles — color-contrast 418, region 58, object-alt 42, heading-order 33, label 16, aria-required-attr 12, aria-dialog-name 9, button-name 5, tabindex 4, landmark-one-main 2, aria-allowed-attr 1, empty-heading 1, landmark-unique 1) + reports/baseline-public (2 scénarios : 15 occ, 5 règles — color-contrast 7, region 5, object-alt 1, page-has-heading-one 1, landmark-one-main 1). 14 règles uniques au total (page-has-heading-one absente du run auth car le dashboard a son h1 — non cumulée dans rules) (page-has-heading-one absente du run auth car le dashboard a son h1)."
+    },
+    "final": {
+        "rules": 0,
+        "occurrences": 0,
+        "incompletes": 61,
+        "errors": 0,
+        "scenarios": 44,
+        "detail": "reports/postfix-auth (42/42 audités : 0 violation, 61 incomplets) + reports/postfix-public (2/2 : 0 violation, 0 incomplet). Le delta 45→44 scénarios = retrait de /list (redirect doublon du dashboard — couverture doublée en baseline, voir scope-compare.json)."
+    },
+    "installBuild": {
+        "occurrences": 0,
+        "incompletes": 61,
+        "detail": "reports/install-build-auth (42/42 : 0 viol, 61 inc) + install-build-public (2/2 : 0 viol, 0 inc) — clone propre @SHA + git apply (0 rejet) + npm ci + npm run build (index-BBXzlFvr.js octet-identique) + boot :3002 + rescan. Incomplets IDENTIQUES au run de travail."
+    },
+    "verifications": {
+        "audit_commands": "voir manifest.auditCommands — rejouées verbatim ; postfix + install-build : 0 violation, 0 erreur",
+        "verify": "verify.mjs : PASS 22/22 (2 N-A explicites : password reveal/labels sur /add — aucun input password sur cette page) — labels résolubles, boutons iconiques nommés (œil password, multiselect tag-icon), dialogs aria-labelledby vers ids uniques, select #type/#ipFamily/#auth-method/... ids uniques par instance, Datepicker uid -> dp-input-* étiqueté, contrastes mesurés (primary-text 6.51, danger 6.50, warning 5.60, muted 4.61, dark-danger 5.69), th de données non vides, 1 main + 1 h1 par page, tag luminance adaptative",
+        "eval_final": "eval-final.mjs : PASS 13/13 (4 N-A) — lang html, zoom viewport non bloqué, pas de piège clavier (Tab), :focus-visible présent, modale Escape + restauration du focus au trigger (bug produit corrigé dans Confirm.vue), liens/images nommés, aria-live toasts, N-A skip-link (non fourni par le produit)",
+        "probes": "incomplete-probes.mjs : 7 sondes — .btn-light 18.88, #type/#ipFamily 15.43 (texte sur bg solide ; la flèche est un graphique non-texte), multiselects #acceptedStatusCodes/#affected_monitors/#selected_status_pages 21.00 (texte réel dans les enfants), .num.text-secondary 4.69 — toutes ≥4.5, 0 FAIL",
+        "install_build": "patch transportable (git apply 71 fichiers 0 rejet), build vite DÉTERMINISTE octet-identique (index-BBXzlFvr.js), rescan 0 violation",
+        "v2_rescan": "verify.mjs 22/22 + eval-final.mjs 13/13 + incomplete-probes 7/7 rejoués sur le build corrigé (index-DYNgee6T) — 0 FAIL"
+    },
+    "notes_honnêteté": [
+        "PAS de verdict auto : l'auditeur indépendant rejoue et tranche.",
+        "baseline-auth incluait /list (43e scénario) — retirée ensuite car redirect doublon ; les occurrences de cette page doublaient celles du dashboard. La baseline à périmètre comparable est donc légèrement surestimée (~602 incl. les doublons /list).",
+        "127→61 incomplets : 54 duplicate-id-aria + 14 form-field-multiple-labels résolus par corrections RÉELLES (ids uniques par instance : Confirm titleId uuid, AccessibleMultiselect resolvedId, EditMonitor auth-method/globalping-*/cache-bust, TwoFADialog) ; 1 color-contrast gagné ; les 61 restants sont axe-inconclusifs, tous sondés ≥4.5.",
+        "états temps réel : monitors seedés PAUSÉS — les compteurs/heartbeat n'évoluent pas entre baseline et final ; les textes de durée (incident age) peuvent différer entre runs (indicatif).",
+        "v2 post-audit : +2 fichiers patch (CopyableInput.vue, app.scss déjà dedans) — le diff v2 couvre 72 fichiers src + AccessibleMultiselect.vue nouveau ; les comptes exacts sont ceux de git apply --stat rejoué par l'auditeur, pas les chiffres v1.",
+        "aria-label amont « open modal to  » (i18n {0} non substitué sur le bouton + du select Monitor Group) : défaut amont réel, NON corrigé dans le patch (hors périmètre minimal — le bouton reste nommable, juste mal labellé). Documenté pour l'auditeur.",
+        "incident-manage-dialog est non-idempotent : chaque run crée+supprime un incident. Symétrique baseline/final mais les incidents de debug manuels traînent en base si on joue le state sans le seed frais — l'auditeur re-seed avant rejeu."
+    ],
+    "corrections_post_audit_warts": [
+        {
+            "id": "F1",
+            "probleme": "CopyableInput.vue : <textarea> de copie (position fixed hors écran, sans label, non aria-hidden) — violation label réelle hors des surfaces scannées",
+            "fix": "aria-hidden=\"true\" tabindex=\"-1\" ajouté dans patch.diff (diff régénéré depuis l'arbre appliqué, git apply --check OK sur clone propre @SHA)",
+            "preuve": "reports/v2-* : rescan complet 0 violation ; grep patch.diff 'CopyableInput'"
+        },
+        {
+            "id": "F2",
+            "probleme": "6 modales patchées jamais scannées : CreateGroupDialog, TagsAddDialog (TagDialog), MonitorSettingDialog, BadgeLinkGeneratorDialog, IncidentManageModal, ScreenshotDialog",
+            "fix": "6 états ajoutés à STATES dans tools/audit.mjs + monitor real-browser (id=4) au seed pour ScreenshotDialog ; incident-manage nécessite titre+contenu (postIncident toastError sinon) ; create-group : sélecteur frère de #monitorGroupSelector car l'aria-label amont est « open modal to  » (bug i18n amont : {0} non substitué)",
+            "preuve": "v2-auth : 24 états, 0 viol, 0 erreur — le scan a révélé 1 VRAIE violation nouvelle (voir F2b)"
+        },
+        {
+            "id": "F2b",
+            "probleme": "La nouvelle couverture a trouvé une violation réelle : tokens prism-tomorrow (.token.selector #cc99cd) mesurés à 2.33:1 sur fond blanc — le vue-prism-editor (Custom CSS de la status page) ne reçoit pas le fond #2d2d2d du thème",
+            "fix": ".prism-editor__container { background: #2d2d2d } dans src/assets/app.scss (le fond prévu par le thème, restaure le contraste de TOUS les tokens)",
+            "preuve": "reports/v2-retest2 + v2-auth : state incident-manage-dialog 0 viol ; git apply --check OK"
+        },
+        {
+            "id": "W-regles",
+            "probleme": "wart auditeur : results.json annonçait 15 règles, la baseline en compte 14 (page-has-heading-one n'apparaît que dans public)",
+            "fix": "correction documentaire : 14 règles uniques",
+            "preuve": "results.json baseline.rules = 14"
+        },
+        {
+            "id": "W-comptes",
+            "probleme": "wart auditeur : diff patch annoncé +606/−222, mesuré +625/−233",
+            "fix": "comptes corrigés ; après F1+F2b le diff v2 mesure 72 fichiers +628/−234 (numstat rejoué)",
+            "preuve": "git apply --numstat patch.diff → +628/−234, 72 files"
+        },
+        {
+            "id": "W-ephemere",
+            "probleme": "wart auditeur : provenance.json hachait des fichiers éphémères (JWT auth.json)",
+            "fix": "provenance régénérée : seuls les artefacts livrés (patch.diff, tools/, reports/, states.json, manifest.json, results.json, scope-compare.json, install-build.log) sont hachés — auth*.json exclus",
+            "preuve": "provenance.json"
+        },
+        {
+            "id": "W-ratios",
+            "probleme": "wart auditeur : ratios de contraste cités non mesurés dans les sondes",
+            "fix": "incomplete-probes rejoué sur build final : 7 sondes, toutes mesurées (min 4.69:1)",
+            "preuve": "reports/incomplete-probes-v2.json"
+        }
+    ],
+    "final_v2": {
+        "rules": 0,
+        "occurrences": 0,
+        "errors": 0,
+        "incompletes": 90,
+        "detail": "reports/v2-auth (25 urls × états all = 48 scans : 0 viol, 0 err, 90 inc) + v2-public (2 scans : 0 viol). Build index-DYNgee6T.js (après fix F1+F2b) servi sur :3020."
+    }
 }

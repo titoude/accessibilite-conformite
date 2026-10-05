@@ -1,0 +1,133 @@
+# Audit accessibilité — 2026-10-05
+
+**0 règle(s) violée(s), 0 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 90 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `658d25b198a2`
+
+## Résultats incomplets à revoir (90)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:3020/dashboard/1
+  - `.btn-light`
+- http://localhost:3020/dashboard/2
+  - `.btn-light`
+- http://localhost:3020/dashboard/3
+  - `.btn-light`
+- http://localhost:3020/add
+  - `#type`
+  - `#acceptedStatusCodes`
+  - `#ipFamily`
+  - `#monitorGroupSelector`
+  - `#method`
+  - `#httpBodyEncoding`
+  - `#auth-method`
+- http://localhost:3020/edit/2
+  - `#type`
+  - `#acceptedStatusCodes`
+  - `#ipFamily`
+  - `#monitorGroupSelector`
+  - `#method`
+  - `#httpBodyEncoding`
+  - `#auth-method`
+- http://localhost:3020/clone/2
+  - `#type`
+  - `#acceptedStatusCodes`
+  - `#ipFamily`
+  - `#monitorGroupSelector`
+  - `#method`
+  - `#httpBodyEncoding`
+  - `#auth-method`
+- http://localhost:3020/add-maintenance
+  - `#affected_monitors`
+  - `#selected_status_pages`
+  - `#strategy`
+  - `#timezone`
+- http://localhost:3020/maintenance/edit/1
+  - `#affected_monitors`
+  - `#selected_status_pages`
+  - `#strategy`
+  - `#timezone`
+- http://localhost:3020/settings/general
+  - `#timezone`
+  - `#serverTimezone`
+- http://localhost:3020/settings/appearance
+  - `#language`
+- http://localhost:3020/dashboard [state:user-menu-dropdown]
+  - `.col[data-v-fca7905c=""]:nth-child(5) > .fs-3`
+  - `.col[data-v-fca7905c=""]:nth-child(5) > .num.text-secondary`
+- http://localhost:3020/dashboard [state:monitor-list-filter-status]
+  - `.item.disabled[href$="dashboard/1"] > .row[data-v-cb177f7c=""] > .small-padding.col-9.gap-2 > .me-1[data-v-cb177f7c=""] > .bg-secondary.rounded-pill[title="24 hours"]`
+  - `.item.disabled[href$="dashboard/1"] > .row[data-v-cb177f7c=""] > .small-padding.col-9.gap-2 > .gap-2.flex-fill.align-items-center > .flex-fill.text-truncate[data-v-cb177f7c=""] > .text-truncate[data-v-cb177f7c=""]`
+  - `a[href$="dashboard/4"] > .row[data-v-cb177f7c=""] > .small-padding.col-9.gap-2 > .me-1[data-v-cb177f7c=""] > .bg-secondary.rounded-pill[title="24 hours"]`
+  - `a[href$="dashboard/4"] > .row[data-v-cb177f7c=""] > .small-padding.col-9.gap-2 > .gap-2.flex-fill.align-items-center > .flex-fill.text-truncate[data-v-cb177f7c=""] > .text-truncate[data-v-cb177f7c=""]`
+- http://localhost:3020/dashboard/2 [state:delete-monitor-confirm]
+  - `.btn-light`
+- http://localhost:3020/dashboard [state:clear-events-confirm]
+  - `div[aria-labelledby="confirm-dialog-title-9ff023eb"] > .modal-dialog > .modal-content > .modal-body`
+- http://localhost:3020/settings/notifications [state:notification-dialog]
+  - `#notification-type`
+- http://localhost:3020/settings/proxies [state:proxy-dialog]
+  - `#proxy-protocol`
+- http://localhost:3020/settings/docker-hosts [state:docker-host-dialog]
+  - `#docker-type`
+- http://localhost:3020/settings/remote-browsers [state:remote-browser-dialog]
+  - `code`
+- http://localhost:3020/settings/tags [state:tag-edit-dialog]
+  - `#ms-db135a5a`
+  - `#ms-6c7a9a44`
+- http://localhost:3020/add [state:monitor-type-docker]
+  - `#type`
+  - `#monitorGroupSelector`
+- http://localhost:3020/add [state:monitor-type-keyword]
+  - `#type`
+  - `#acceptedStatusCodes`
+  - `#ipFamily`
+  - `#monitorGroupSelector`
+  - `#method`
+  - `#httpBodyEncoding`
+  - `#auth-method`
+- http://localhost:3020/status/demo [state:status-page-edit]
+  - `#switch-theme`
+  - `#ms-b039d3c7`
+- http://localhost:3020/status/demo [state:incident-create]
+  - `#switch-theme`
+  - `#ms-2ffcdc2a`
+- http://localhost:3020/add [state:create-group-dialog]
+  - `#type`
+  - `#acceptedStatusCodes`
+  - `#ipFamily`
+  - `#monitorGroupSelector`
+  - `#method`
+  - `#httpBodyEncoding`
+  - `#auth-method`
+- http://localhost:3020/add [state:tags-add-dialog]
+  - `#type`
+  - `#acceptedStatusCodes`
+  - `#ipFamily`
+  - `#monitorGroupSelector`
+  - `#ms-99cbb35b`
+  - `#ms-be152061`
+  - `#method`
+  - `#httpBodyEncoding`
+  - `#auth-method`
+- http://localhost:3020/status/demo [state:monitor-setting-dialog]
+  - `#switch-theme`
+  - `#ms-5f947184`
+  - `.form-check.my-3[data-v-013510f8=""] > .form-text[data-v-013510f8=""]`
+- http://localhost:3020/status/demo [state:badge-link-dialog]
+  - `#switch-theme`
+  - `#ms-ef8f2f78`
+  - `.form-check.my-3[data-v-013510f8=""] > .form-text[data-v-013510f8=""]`
+  - `#type`
+  - `#style`
+- http://localhost:3020/status/demo [state:incident-manage-dialog]
+  - `#switch-theme`
+  - `#ms-153820ab`
+- http://localhost:3020/dashboard/4 [state:screenshot-dialog]
+  - `.btn-light`
+- http://localhost:3020/settings/appearance [state:dark-mode]
+  - `#language`
+

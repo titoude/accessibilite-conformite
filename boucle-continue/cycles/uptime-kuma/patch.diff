@@ -1,5 +1,5 @@
 diff --git a/src/assets/app.scss b/src/assets/app.scss
-index 37fc4504..b71d03ef 100644
+index 37fc4504..2f35c872 100644
 --- a/src/assets/app.scss
 +++ b/src/assets/app.scss
 @@ -127,19 +127,58 @@ optgroup {
@@ -119,7 +119,14 @@ index 37fc4504..b71d03ef 100644
  }
  
  .prism-editor__textarea {
-@@ -608,7 +655,7 @@ optgroup {
+@@ -603,12 +650,14 @@ optgroup {
+ }
+ 
+ .prism-editor__container {
++    background: #2d2d2d;
++
+     .important {
+         font-weight: var(--bs-body-font-weight) !important;
      }
  }
  
@@ -128,7 +135,7 @@ index 37fc4504..b71d03ef 100644
      content: "";
      display: block;
      width: 50%;
-@@ -671,6 +718,186 @@ $shadow-box-padding: 20px;
+@@ -671,6 +720,186 @@ $shadow-box-padding: 20px;
      cursor: zoom-in;
  }
  
@@ -567,6 +574,19 @@ index ced6082a..db751a15 100644
      },
      methods: {
          /**
+diff --git a/src/components/CopyableInput.vue b/src/components/CopyableInput.vue
+index 6ded7f75..495ce95b 100644
+--- a/src/components/CopyableInput.vue
++++ b/src/components/CopyableInput.vue
+@@ -14,7 +14,7 @@
+         />
+ 
+         <!-- A hidden textarea for copying text on non-https -->
+-        <textarea ref="hiddenTextarea" style="position: fixed; left: -999999px; top: -999999px"></textarea>
++        <textarea ref="hiddenTextarea" style="position: fixed; left: -999999px; top: -999999px" aria-hidden="true" tabindex="-1"></textarea>
+ 
+         <a class="btn btn-outline-primary" @click="copyToClipboard(model)">
+             <font-awesome-icon :icon="icon" />
 diff --git a/src/components/CreateGroupDialog.vue b/src/components/CreateGroupDialog.vue
 index 62091202..81bcdc0e 100644
 --- a/src/components/CreateGroupDialog.vue

@@ -1,0 +1,113 @@
+{
+  "runId": "3c1b8f79-6c9a-4c56-b127-f76bf644c989",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-05T04:48:52.055Z",
+  "baseUrl": "http://localhost:3020",
+  "pages": [
+    {
+      "url": "http://localhost:3020/status/demo",
+      "requestedUrl": "http://localhost:3020/status/demo",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3020/status/demo",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:3020/status/demo [state:incident-manage-dialog]",
+      "requestedUrl": "http://localhost:3020/status/demo",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select data-v-5b8aa075=\"\" id=\"switch-theme\" class=\"form-select\" data-testid=\"theme-select\"><option data-v-5b8aa075=\"\" value=\"auto\">Auto</option><option data-v-5b8aa075=\"\" value=\"light\">Light</option><option data-v-5b8aa075=\"\" value=\"dark\">Dark</option></select>",
+                      "target": [
+                        "#switch-theme"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select data-v-5b8aa075=\"\" id=\"switch-theme\" class=\"form-select\" data-testid=\"theme-select\"><option data-v-5b8aa075=\"\" value=\"auto\">Auto</option><option data-v-5b8aa075=\"\" value=\"light\">Light</option><option data-v-5b8aa075=\"\" value=\"dark\">Dark</option></select>",
+              "target": [
+                "#switch-theme"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Unable to determine contrast ratio"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input name=\"\" id=\"ms-eac0d4b8\" type=\"text\" autocomplete=\"off\" spellcheck=\"false\" placeholder=\"Add a monitor\" tabindex=\"0\" class=\"multiselect__input\" aria-controls=\"listbox-ms-eac0d4b8\" value=\"\" style=\"width: 0px; position: absolute; padding: 0px;\">",
+              "target": [
+                "#ms-eac0d4b8"
+              ],
+              "failureSummary": "Fix any of the following:\n  Unable to determine contrast ratio"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3020/status/demo",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "7e9b5be3707d07ea92764a7cd3f19ec175d111e68a1b1a49205868b854eb30e9"
+}

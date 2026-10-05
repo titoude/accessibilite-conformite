@@ -58,7 +58,8 @@ if (!login.ok) { console.error('FAIL login', JSON.stringify(login)); process.exi
 
 // 3. Monitors — active:false => jamais démarrés => DOM figé (leçon gatus :
 //    données qui croissent => comptes flottants). Ids déterministes sur DB vierge :
-//    1=Groupe Production (group), 2=Test HTTP (enfant de 1), 3=Ping Localhost (enfant de 1)
+//    1=Groupe Production (group), 2=Test HTTP (enfant de 1), 3=Ping Localhost (enfant de 1),
+//    4=Screenshot Test (real-browser, hors groupe — surface ScreenshotDialog)
 const monitorDefaults = {
     method: 'GET', ipFamily: null, interval: 60, retryInterval: 60, resendInterval: 0,
     maxretries: 0, retryOnlyOnStatusCodeFailure: false, notificationIDList: {},
@@ -89,6 +90,10 @@ if (haveMonitors) {
     console.log('add http =', JSON.stringify(a));
     const b = await emit('add', { ...monitorDefaults, type: 'ping', name: 'Ping Localhost', hostname: '127.0.0.1', url: 'https://', parent: m1, packetSize: 56, ping_count: 3, ping_numeric: true, ping_per_request_timeout: 2 });
     console.log('add ping =', JSON.stringify(b));
+    // 4=Screenshot Test (real-browser, active:false) — nécessaire pour la surface
+    // ScreenshotDialog qui ne se rend que si monitor.type === 'real-browser'
+    const c = await emit('add', { ...monitorDefaults, type: 'real-browser', name: 'Screenshot Test', url: 'https://example.com' });
+    console.log('add real-browser =', JSON.stringify(c));
 }
 
 // 4. Tag littéral "prod" rouge sur monitor 2

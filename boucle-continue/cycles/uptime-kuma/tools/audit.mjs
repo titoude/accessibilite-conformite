@@ -260,6 +260,76 @@ const STATES = {
       await page.waitForSelector('input[id="title"], textarea, .incident', { timeout: 10000 });
     },
   },
+  // ── 6 modales patchées non couvertes (finding auditeur F2) ──────────────
+  'create-group-dialog': {
+    url: b => `${b}/add`,
+    setup: async page => {
+      await page.waitForSelector('#monitorGroupSelector', { timeout: 20000 });
+      // bouton « + » ActionSelect — son aria-label amont est « open modal to  »
+      // (bug i18n : placeholder {0} non substitué) → on cible le frère du select.
+      await page.locator('#monitorGroupSelector ~ button').first().click();
+      await page.waitForSelector('.modal.show', { timeout: 10000 });
+    },
+  },
+  'tags-add-dialog': {
+    url: b => `${b}/add`,
+    setup: async page => {
+      await page.waitForSelector('[data-testid="add-tag-button"]', { timeout: 20000 });
+      await page.locator('[data-testid="add-tag-button"]').first().click();
+      await page.waitForSelector('.modal.show', { timeout: 10000 });
+    },
+  },
+  'monitor-setting-dialog': {
+    url: b => `${b}/status/demo`,
+    setup: async page => {
+      await page.waitForSelector('button:has-text("Edit Status Page")', { timeout: 20000 });
+      await page.locator('button:has-text("Edit Status Page")').click();
+      await page.waitForSelector('[data-testid="monitor-settings"]', { timeout: 15000 });
+      await page.locator('[data-testid="monitor-settings"]').first().click();
+      await page.waitForSelector('.modal.show', { timeout: 10000 });
+    },
+  },
+  'badge-link-dialog': {
+    url: b => `${b}/status/demo`,
+    setup: async page => {
+      await page.waitForSelector('button:has-text("Edit Status Page")', { timeout: 20000 });
+      await page.locator('button:has-text("Edit Status Page")').click();
+      await page.waitForSelector('[data-testid="monitor-settings"]', { timeout: 15000 });
+      await page.locator('[data-testid="monitor-settings"]').first().click();
+      await page.waitForSelector('.modal.show', { timeout: 10000 });
+      await page.locator('.modal.show button.btn-add-group').click();
+      await page.waitForSelector('#badge-link-generator-dialog-title', { timeout: 10000 });
+    },
+  },
+  'incident-manage-dialog': {
+    url: b => `${b}/status/demo`,
+    setup: async page => {
+      // crée un incident éphémère (créé+supprimé à chaque run — symétrique
+      // baseline/final, mais non-idempotent en valeur absolue : documenté)
+      await page.waitForSelector('button:has-text("Edit Status Page")', { timeout: 20000 });
+      await page.locator('button:has-text("Edit Status Page")').click();
+      await page.waitForSelector('[data-testid="create-incident-button"]', { timeout: 15000 });
+      await page.locator('[data-testid="create-incident-button"]').click();
+      await page.waitForSelector('[data-testid="incident-edit"] [data-testid="incident-title"]', { timeout: 10000 });
+      await page.locator('[data-testid="incident-edit"] [data-testid="incident-title"]').click();
+      await page.keyboard.type('Incident test audit');
+      // postIncident() exige titre ET contenu non vides (toastError sinon)
+      await page.locator('[data-testid="incident-edit"] [data-testid="incident-content-editable"]').click();
+      await page.keyboard.type('Contenu test audit');
+      await page.locator('[data-testid="post-incident-button"]').click();
+      await page.waitForSelector('.incident button:has-text("Resolve")', { timeout: 15000 });
+      await page.locator('.incident button:has-text("Delete")').first().click();
+      await page.waitForSelector('.modal.show', { timeout: 10000 });
+    },
+  },
+  'screenshot-dialog': {
+    url: b => `${b}/dashboard/4`,
+    setup: async page => {
+      await page.waitForSelector('.zoom-cursor img, .shadow-box img', { timeout: 20000 });
+      await page.locator('.zoom-cursor img').first().click();
+      await page.waitForSelector('.modal.show', { timeout: 10000 });
+    },
+  },
   // Mutants — localStorage + <html> + viewport : garder EN DERNIER.
   'dark-mode': {
     url: b => `${b}/settings/appearance`,
