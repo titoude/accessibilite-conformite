@@ -1,0 +1,56 @@
+# install-build.log — cycle 32 (go-gitea/gitea @ 99053ce4fa2b45f1bca5837418c0c57f793ca824)
+
+Preuve : patch.diff s'applique proprement sur un clone vierge, le build réel
+produit une instance fonctionnelle, et le re-scan axe est 0 violation / 0 erreur.
+
+## Étapes exécutées (verbatim)
+
+```bash
+git clone /home/ubuntu/boucle-runs/gitea/target /tmp/gitea-install
+cd /tmp/gitea-install
+git checkout 99053ce4fa2b45f1bca5837418c0c57f793ca824
+git apply ~/repos/accessibilite-conformite/boucle-continue/cycles/gitea/patch.diff
+# -> APPLY OK (0 rejet), 270 fichiers modifiés
+
+export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh   # node v24.19.0, npm 11
+npm ci                                               # 1051 packages
+npx webpack                                          # success in ~25s
+~/go/bin/go build -tags 'sqlite sqlite_unlock_notify' -o gitea .
+# -> binaire 139 869 232 octets (assets webpack embarqués via go:embed)
+
+# config identique à l'instance principale, chemins + port adaptés :
+mkdir -p custom/conf data repos log
+cp ~/boucle-runs/gitea/target/data/gitea.db data/     # seed déterministe (mêmes users/repos/issues)
+cp -r ~/boucle-runs/gitea/target/repos/* repos/        # a11yorg/demo-repo (+ giteaadmin)
+cp -r ~/boucle-runs/gitea/target/data/avatars data/
+sed -e 's|/home/ubuntu/boucle-runs/gitea/target|/tmp/gitea-install|g' \
+    -e 's|3232|3233|g' ~/boucle-runs/gitea/target/custom/conf/app.ini > custom/conf/app.ini
+
+./gitea web -c custom/conf/app.ini &                  # port 3233
+curl http://localhost:3233/                          # -> 200
+curl http://localhost:3233/a11yorg/demo-repo/issues/1 # -> 200
+
+# session utilisateur (sessions gitea en mémoire : login à refaire à chaque boot)
+node login.mjs http://localhost:3233 auth-3233.json giteaadmin 'A11yCycle32!pass'
+
+# re-scan complet du scope
+node audit.mjs http://localhost:3233 --urls "$(paste -sd, urls-public.txt)" \
+  --states not-found-404,login-failed --wait 500 --out ../reports/install-build-public
+node audit.mjs http://localhost:3233 --urls "$(paste -sd, urls-auth.txt)" \
+  --states <23 états déclarés> --storage-state auth-3233.json --wait 500 \
+  --out ../reports/install-build-auth
+```
+
+## Résultats
+
+| Rapport | Règles violées | Occurrences | Erreurs | Incomplets |
+|---|---|---|---|---|
+| install-build-public | 0 | 0 | 0 | 125 |
+| install-build-auth   | 0 | 0 | 0 | 817 |
+
+Identique aux rapports finaux de l'instance principale (:3232) : 0/0/0 + mêmes
+comptes d'incomplets (125 + 817), tous résolus conformes par
+incomplete-probes.json (942/942).
+
+Verdict : **install-build OK** — patch complet reproductible, build réel,
+0 violation / 0 erreur sur 73 scénarios axe.

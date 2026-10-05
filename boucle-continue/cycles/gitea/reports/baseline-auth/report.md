@@ -1,0 +1,2326 @@
+# Audit accessibilité — 2026-10-05
+
+**18 règle(s) violée(s), 1186 occurrence(s), 50/50 scénario(s) audité(s), 0 erreur(s), 987 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `3de048d7cc57`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-required-children?application=axeAPI
+
+- http://localhost:3232/
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.upward`
+- http://localhost:3232/issues
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/pulls
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/milestones
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[aria-controls="_aria_auto_id_14"]`
+  - `.upward`
+- http://localhost:3232/notifications
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/explore/repos
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/repo/create
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/org/create
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/account
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/security
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/applications
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/keys
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/appearance
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_32"]`
+  - `.upward`
+- http://localhost:3232/-/admin
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users/2
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users/2/edit
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_37"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_3"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_6"]`
+  - `div[aria-controls="_aria_auto_id_8"]`
+  - `div[aria-controls="_aria_auto_id_39"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_47"]`
+  - `div[aria-controls="_aria_auto_id_51"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/projects
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_12"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_37"]`
+  - `.upward`
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.upward`
+- http://localhost:3232/ [state:navbar-create-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.upward`
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `.upward`
+  - `.tippy-box`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `#_aria_auto_id_2`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `#_aria_auto_id_8`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+  - `.tippy-box`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_52"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/alice [state:block-user-modal]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/ [state:navbar-mobile]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.upward`
+- http://localhost:3232/ [state:dark-theme]
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.upward`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#2"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.fluid.input > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#5"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `.fold-file`
+  - `.diff-header-popup-btn`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#4"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `button[aria-controls="_aria_auto_id_13"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `button[aria-controls="_aria_auto_id_13"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `markdown-toolbar[for="_combo_markdown_editor_3"] > .markdown-toolbar-group:nth-child(6) > .markdown-switch-monospace[data-enable-text="Enable monospace font"][data-disable-text="Disable monospace font"]`
+  - `markdown-toolbar[for="_combo_markdown_editor_1"] > .markdown-toolbar-group:nth-child(6) > .markdown-switch-monospace[data-enable-text="Enable monospace font"][data-disable-text="Disable monospace font"]`
+  - `.issue-due-form > .icon.button`
+  - `#addDependencyForm > .action.input.fluid > .icon.button`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `.fold-file`
+  - `.diff-header-popup-btn`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `.fold-file`
+  - `.diff-header-popup-btn`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `.fold-file`
+  - `.diff-header-popup-btn`
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `.markdown-switch-monospace`
+  - `.issue-due-form > .icon`
+  - `#addDependencyForm > .action.input.fluid > .icon`
+  - `button[data-clipboard-text="a11yorg/demo-repo#1"]`
+
+## [CRITICAL] aria-allowed-attr — Elements must only use supported ARIA attributes
+
+Ensure an element's role supports its ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-allowed-attr?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `button[data-tooltip-content="Filter by commit"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `markdown-toolbar[for="_combo_markdown_editor_3"] > .markdown-toolbar-group:nth-child(6) > .markdown-switch-monospace[data-enable-text="Enable monospace font"][data-disable-text="Disable monospace font"]`
+  - `markdown-toolbar[for="_combo_markdown_editor_1"] > .markdown-toolbar-group:nth-child(6) > .markdown-switch-monospace[data-enable-text="Enable monospace font"][data-disable-text="Disable monospace font"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `button[data-tooltip-content="Filter by commit"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `.markdown-switch-monospace`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `.markdown-switch-monospace`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI
+
+- http://localhost:3232/repo/create
+  - `input[aria-controls="_aria_auto_id_13"]`
+  - `input[aria-controls="_aria_auto_id_26"]`
+  - `input[aria-controls="_aria_auto_id_30"]`
+  - `input[aria-controls="_aria_auto_id_301"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `.repo-clone-url`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `#_combo_markdown_editor_3`
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `input[aria-controls="_aria_auto_id_1"]`
+  - `input[aria-controls="_aria_auto_id_9"]`
+  - `.field:nth-child(4) > textarea`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `input[aria-controls="_aria_auto_id_1"]`
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `input[name="purge"]`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI
+
+- http://localhost:3232/
+  - `.navbar-profile-admin`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[href$="issues/4"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > .issue.title.truncate`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - … +32 autres
+- http://localhost:3232/issues
+  - `.navbar-profile-admin`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/pulls
+  - `.navbar-profile-admin`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/milestones
+  - `.navbar-profile-admin`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/notifications
+  - `.navbar-profile-admin`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/explore/repos
+  - `.navbar-profile-admin`
+  - `.primary.name[href$="giteaadmin"]`
+  - `a[href$="notes-perso"]`
+  - `a[href$="a11yorg"]`
+  - `a[href$="demo-repo"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/repo/create
+  - `.navbar-profile-admin`
+  - `p > a[href$="migrate"]`
+  - `.required.inline.field:nth-child(3) > .help`
+  - `span[data-help-for-repo-name=""]`
+  - `form > .inline.field:nth-child(5) > .help`
+  - `#non_template > .inline.field:nth-child(3) > .help`
+  - `#non_template > .inline.field:nth-child(4) > .help`
+  - `a[href$="choosealicense.com/"]`
+  - `#non_template > .inline.field:nth-child(5) > .help`
+  - `#non_template > .inline.field[data-field-patched="true"] > .help`
+  - … +7 autres
+- http://localhost:3232/org/create
+  - `.navbar-profile-admin`
+  - `.help`
+  - `.primary`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/user/settings
+  - `.navbar-profile-admin`
+  - `.field:nth-child(14) > .primary`
+  - `.field:nth-child(4) > .primary`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/user/settings/account
+  - `.navbar-profile-admin`
+  - `.field:nth-child(6) > .primary`
+  - `.field:nth-child(6) > a`
+  - `.label.primary.ui`
+  - `.green`
+  - `form[action="/user/settings/account/email"] > .primary`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/user/settings/security
+  - `.navbar-profile-admin`
+  - `.inline > .primary.button.ui`
+  - `a[rel="noreferrer"]`
+  - `#register-webauthn`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/user/settings/applications
+  - `.navbar-profile-admin`
+  - `absolute-date[date="2026-10-05T05:36:58Z"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `.right-links > a[href$="swagger"]`
+- http://localhost:3232/user/settings/keys
+  - `.navbar-profile-admin`
+  - `#add-ssh-button`
+  - `#keys-ssh > .flex-item:nth-child(1) > p > a:nth-child(3)`
+  - `p > a:nth-child(4)`
+  - `h4:nth-child(3) > .right.ui > .tiny.show-panel.toggle`
+  - `.segment.attached.ui:nth-child(4) > .flex-list > .flex-item > p > a`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/user/settings/appearance
+  - `.navbar-profile-admin`
+  - `.field:nth-child(4) > .primary`
+  - `.field:nth-child(3) > .primary`
+  - `.field:nth-child(16) > .primary`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/-/admin
+  - `.navbar-profile-admin`
+  - `button[value="delete_inactive_accounts"]`
+  - `button[value="delete_repo_archives"]`
+  - `button[value="delete_missing_repos"]`
+  - `button[value="git_gc_repos"]`
+  - `button[value="resync_all_hooks"]`
+  - `button[value="reinit_missing_repos"]`
+  - `button[value="sync_external_users"]`
+  - `button[value="repo_health_check"]`
+  - `tr:nth-child(9) > .tw-text-right > .primary[type="submit"][name="op"]`
+  - … +6 autres
+- http://localhost:3232/-/admin/users
+  - `.navbar-profile-admin`
+  - `.primary`
+  - `a[href$="alice"]`
+  - `td:nth-child(2) > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `.left-links > a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/-/admin/users/2
+  - `.navbar-profile-admin`
+  - `.tiny`
+  - `a[href="mailto:alice@example.local"]`
+  - `.primary.label.ui`
+  - `.green`
+  - `a[href$="about.gitea.com"]`
+  - `.left-links > a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/-/admin/users/2/edit
+  - `.navbar-profile-admin`
+  - `.local > .help`
+  - `.field:nth-child(24) > .primary`
+  - `.field:nth-child(4) > .primary`
+  - `a[href$="about.gitea.com"]`
+  - `.left-links > a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `.navbar-profile-admin`
+  - `.primary`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `.navbar-profile-admin`
+  - `.issue-state-label`
+  - `#pull-desc-display > a[href$="giteaadmin"]`
+  - `code:nth-child(2) > a`
+  - `#branch_target > a`
+  - `span:nth-child(1) > .green.text`
+  - `.toggle-wip`
+  - `.toggle-wip > strong`
+  - `a[target="_blank"][rel="noopener noreferrer"][href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - … +2 autres
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `.navbar-profile-admin`
+  - `.issue-state-label`
+  - `#pull-desc-display > a[href$="giteaadmin"]`
+  - `code:nth-child(2) > a`
+  - `#branch_target > a`
+  - `.green.text`
+  - `strong:nth-child(2)`
+  - `.diff-detail-stats > strong:nth-child(3)`
+  - `.tw-pr-1`
+  - `.kn`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `.navbar-profile-admin`
+  - `.field:nth-child(9) > .primary`
+  - `form[enctype="multipart/form-data"] > .field:nth-child(3) > .primary`
+  - `.segment.attached.ui:nth-child(4) > a[target="_blank"][rel="noopener noreferrer"]:nth-child(1)`
+  - `a[target="_blank"][rel="noopener noreferrer"]:nth-child(4)`
+  - `.form > .field[data-field-patched="true"]:nth-child(4) > .help`
+  - `.field:nth-child(8) > .primary`
+  - `label[for="external_wiki_url"]`
+  - `#external_wiki_box > .help`
+  - `label[for="external_tracker_url"]`
+  - … +29 autres
+- http://localhost:3232/a11yorg/demo-repo/projects
+  - `.navbar-profile-admin`
+  - `.primary.small.button`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `.navbar-profile-admin`
+  - `p:nth-child(3) > a[target="_blank"][rel="noopener noreferrer"]`
+  - `p:nth-child(4) > a[target="_blank"][rel="noopener noreferrer"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `.navbar-profile-admin`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[href$="issues/4"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > .issue.title.truncate`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - … +32 autres
+- http://localhost:3232/ [state:navbar-create-dropdown]
+  - `.navbar-profile-admin`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[href$="issues/4"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > .issue.title.truncate`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - … +32 autres
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `.navbar-profile-admin`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[href$="issues/4"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > .issue.title.truncate`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - … +32 autres
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `.navbar-profile-admin`
+  - `a[href$="about.gitea.com"][rel="nofollow"]`
+  - `.green`
+  - `a[target="_blank"][rel="noopener noreferrer"][href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `.navbar-profile-admin`
+  - `.js-btn-clone-panel > span`
+  - `a[href$="about.gitea.com"][rel="nofollow"]`
+  - `.green`
+  - `a[rel="noopener noreferrer"][href$="about.gitea.com"][target="_blank"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `div[aria-controls="_aria_auto_id_2"] > .fixed-text.muted > strong`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `div[aria-controls="_aria_auto_id_5"] > .fixed-text.muted > strong`
+  - `#_aria_auto_id_6`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `div[aria-controls="_aria_auto_id_8"] > .fixed-text.muted > strong`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `form[action="/a11yorg/demo-repo/issues/new"] > .tw-justify-end.flex-text-block > .primary`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `.navbar-profile-admin`
+  - `.issue-state-label`
+  - `#pull-desc-display > a[href$="giteaadmin"]`
+  - `code:nth-child(2) > a`
+  - `#branch_target > a`
+  - `.green.text`
+  - `strong:nth-child(2)`
+  - `.diff-detail-stats > strong:nth-child(3)`
+  - `.kn`
+  - `a[href$="about.gitea.com"]`
+  - … +1 autres
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `.navbar-profile-admin`
+  - `.issue-state-label`
+  - `#pull-desc-display > a[href$="giteaadmin"]`
+  - `code:nth-child(2) > a`
+  - `#branch_target > a`
+  - `.green.text`
+  - `strong:nth-child(2)`
+  - `.diff-detail-stats > strong:nth-child(3)`
+  - `.tw-pr-1`
+  - `.kn`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `.navbar-profile-admin`
+  - `.issue-state-label`
+  - `#pull-desc-display > a[href$="giteaadmin"]`
+  - `code:nth-child(2) > a`
+  - `#branch_target > a`
+  - `.green.text`
+  - `strong:nth-child(2)`
+  - `.diff-detail-stats > strong:nth-child(3)`
+  - `.tw-pr-1`
+  - `.kn`
+  - … +5 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `.navbar-profile-admin`
+  - `a[href$="new"]`
+  - `.green`
+  - `.time-desc > a[href$="giteaadmin"]`
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `.navbar-profile-admin`
+  - `.local > .help`
+- http://localhost:3232/alice [state:block-user-modal]
+  - `.navbar-profile-admin`
+  - `.basic`
+  - `a[href$="about.gitea.com"]`
+  - `a[href$="config"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+  - `p`
+- http://localhost:3232/ [state:navbar-mobile]
+  - `.navbar-profile-admin`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[href$="issues/4"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > .issue.title.truncate`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - … +32 autres
+- http://localhost:3232/ [state:dark-theme]
+  - `.navbar-profile-admin`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(1) > .flex-item-main.tw-gap-2 > div > a[href$="issues/4"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > .issue.title.truncate`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - … +32 autres
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `#issue-2 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `#issue-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `#issue-4 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `.anchor`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `.anchor`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.timeline-item.comment.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `#issue-1 > .timeline-avatar[href$="giteaadmin"]`
+  - `.avatar[href$="giteaadmin"]`
+  - `#issuecomment-5 > .timeline-avatar[href$="giteaadmin"]`
+  - `.comment.timeline-item.form > .timeline-avatar[href$="giteaadmin"]`
+
+## [SERIOUS] aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+Ensure ARIA attributes are not prohibited for an element's role
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI
+
+- http://localhost:3232/user/settings/applications
+  - `.flex-item-leading > .green.text`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `.diff-stats-bar.tw-mx-2`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `.bar`
+  - `div[data-clipboard-target=".js-clone-url"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `.bar`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `.diff-stats-bar.tw-mx-2`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `.diff-stats-bar.tw-mx-2`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `.diff-stats-bar.tw-mx-2`
+
+## [SERIOUS] aria-input-field-name — ARIA input fields must have an accessible name
+
+Ensure every ARIA input field has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-input-field-name?application=axeAPI
+
+- http://localhost:3232/repo/create
+  - `#repo_owner_dropdown`
+  - `div[aria-controls="_aria_auto_id_331"]`
+  - `.owner`
+- http://localhost:3232/user/settings
+  - `.selection`
+- http://localhost:3232/user/settings/appearance
+  - `#language`
+- http://localhost:3232/-/admin/users/2/edit
+  - `div[aria-controls="_aria_auto_id_21"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `div[aria-controls="_aria_auto_id_27"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `div[aria-controls="_aria_auto_id_56"]`
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `div[aria-controls="_aria_auto_id_21"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `div[aria-controls="_aria_auto_id_27"]`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI
+
+- http://localhost:3232/issues
+  - `.issue-title.tw-no-underline[href$="issues/1"]`
+  - `.index[href$="issues/1"]`
+  - `.issue-title.tw-no-underline[href$="issues/3"]`
+  - `.index[href$="issues/3"]`
+  - `.issue-title.tw-no-underline[href$="issues/2"]`
+  - `.index[href$="issues/2"]`
+- http://localhost:3232/pulls
+  - `.tw-no-underline`
+  - `.index`
+- http://localhost:3232/-/admin/users
+  - `a[href$="users/2"]`
+  - `tr:nth-child(1) > td:nth-child(9) > .tw-flex.tw-gap-2 > a[href$="edit"][data-tooltip-content="Edit"][aria-label="Edit"]`
+  - `a[href$="users/1"]`
+  - `tr:nth-child(2) > td:nth-child(9) > .tw-flex.tw-gap-2 > a[href$="edit"][data-tooltip-content="Edit"][aria-label="Edit"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `.anchor`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `div[aria-controls="_aria_auto_id_8"]`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-in-text-block?application=axeAPI
+
+- http://localhost:3232/repo/create
+  - `a[href$="choosealicense.com/"]`
+- http://localhost:3232/ [state:dark-theme]
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(2) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[href$="issues/1"]`
+  - `.flex-item:nth-child(3) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `a[href$="pulls/5"]`
+  - `.flex-item:nth-child(4) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `div > a[href$="notes-perso"]`
+  - `.flex-item:nth-child(5) > .flex-item-main.tw-gap-2 > div > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(5) > .flex-item-main.tw-gap-2 > div > a[href$="demo-repo"]`
+  - `.flex-item:nth-child(6) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a[title=""][href$="giteaadmin"]`
+  - `.flex-item:nth-child(6) > .flex-item-main.tw-gap-2 > div:nth-child(1) > a:nth-child(2)`
+  - … +1 autres
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.13/scrollable-region-focusable?application=axeAPI
+
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `#_aria_auto_id_14`
+
+## [SERIOUS] nested-interactive — Interactive controls must not be nested
+
+Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
+Référence : https://dequeuniversity.com/rules/axe/4.13/nested-interactive?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI
+
+- http://localhost:3232/
+  - `footer`
+- http://localhost:3232/issues
+  - `footer`
+- http://localhost:3232/pulls
+  - `footer`
+- http://localhost:3232/milestones
+  - `footer`
+- http://localhost:3232/notifications
+  - `footer`
+- http://localhost:3232/explore/repos
+  - `footer`
+- http://localhost:3232/repo/create
+  - `footer`
+- http://localhost:3232/org/create
+  - `footer`
+- http://localhost:3232/user/settings
+  - `footer`
+- http://localhost:3232/user/settings/account
+  - `footer`
+- http://localhost:3232/user/settings/security
+  - `footer`
+- http://localhost:3232/user/settings/applications
+  - `footer`
+- http://localhost:3232/user/settings/keys
+  - `footer`
+- http://localhost:3232/user/settings/appearance
+  - `footer`
+- http://localhost:3232/-/admin
+  - `footer`
+- http://localhost:3232/-/admin/users
+  - `footer`
+- http://localhost:3232/-/admin/users/2
+  - `footer`
+- http://localhost:3232/-/admin/users/2/edit
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/projects
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `.flex-item-main`
+  - `a[data-tooltip-content="RSS Feed"]`
+  - `a[href$="watchers"]`
+  - `.labeled.button.ui > a[href$="stars"]`
+  - `.text.not-mobile`
+  - `a[href$="forks"]`
+  - `h2`
+  - `p:nth-child(3)`
+  - `p:nth-child(4)`
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `footer`
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `footer`
+- http://localhost:3232/ [state:navbar-create-dropdown]
+  - `footer`
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `footer`
+  - `.clone-panel-field.flex-text-block`
+  - `.clone-panel-field:nth-child(4)`
+  - `.flex-items-block.clone-panel-list:nth-child(5)`
+  - `.flex-items-block.clone-panel-list:nth-child(7)`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `footer`
+  - `#reference-issue-modal > .header`
+  - `.field:nth-child(2) > label`
+  - `.default.gt-ellipsis.text`
+  - `form[action="/a11yorg/demo-repo/issues/new"] > .field[data-field-patched="true"]`
+  - `form[action="/a11yorg/demo-repo/issues/new"] > .field:nth-child(4)`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `footer`
+  - `.field.tw-flex.tw-items-center > .tw-flex-1`
+  - `.combo-markdown-editor > .tabular.top.menu`
+  - `text-expander`
+  - `.tw-inline-block:nth-child(7)`
+  - `.tw-inline-block:nth-child(9)`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `footer`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `footer`
+  - `#lock-conversation > .header`
+  - `#lock-conversation > .content > .warning.message.ui`
+  - `#lock-conversation > .content > .form-fetch-action.form[method="post"] > .field:nth-child(2)`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `footer`
+  - `#sidebar-delete-issue > .header`
+  - `#sidebar-delete-issue > .content`
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `footer`
+  - `#delete-user-modal > .header`
+  - `.content > p`
+  - `.content > .field`
+- http://localhost:3232/alice [state:block-user-modal]
+  - `footer`
+  - `#block-user-modal > .header`
+  - `.warning`
+  - `.field:nth-child(4)`
+  - `div[data-field-patched="true"]`
+- http://localhost:3232/ [state:navbar-mobile]
+  - `footer`
+- http://localhost:3232/ [state:dark-theme]
+  - `footer`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI
+
+- http://localhost:3232/
+  - `html`
+- http://localhost:3232/issues
+  - `html`
+- http://localhost:3232/pulls
+  - `html`
+- http://localhost:3232/milestones
+  - `html`
+- http://localhost:3232/notifications
+  - `html`
+- http://localhost:3232/explore/repos
+  - `html`
+- http://localhost:3232/repo/create
+  - `html`
+- http://localhost:3232/org/create
+  - `html`
+- http://localhost:3232/user/settings
+  - `html`
+- http://localhost:3232/user/settings/account
+  - `html`
+- http://localhost:3232/user/settings/security
+  - `html`
+- http://localhost:3232/user/settings/applications
+  - `html`
+- http://localhost:3232/user/settings/keys
+  - `html`
+- http://localhost:3232/user/settings/appearance
+  - `html`
+- http://localhost:3232/-/admin
+  - `html`
+- http://localhost:3232/-/admin/users
+  - `html`
+- http://localhost:3232/-/admin/users/2
+  - `html`
+- http://localhost:3232/-/admin/users/2/edit
+  - `html`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `html`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `html`
+- http://localhost:3232/a11yorg/demo-repo/projects
+  - `html`
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `html`
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `html`
+- http://localhost:3232/ [state:navbar-create-dropdown]
+  - `html`
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `html`
+- http://localhost:3232/ [state:navbar-mobile]
+  - `html`
+- http://localhost:3232/ [state:dark-theme]
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `.comment-header`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `.comment-header`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `h4`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.comment-header`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `h4`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `h4`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `h4`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"]`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `html`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-table-header?application=axeAPI
+
+- http://localhost:3232/-/admin/users
+  - `th:nth-child(9)`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `th:nth-child(4)`
+
+## [MINOR] aria-allowed-role — ARIA role should be appropriate for the element
+
+Ensure role attribute has an appropriate value for the element
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-allowed-role?application=axeAPI
+
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `button[aria-controls="_aria_auto_id_13"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `button[aria-controls="_aria_auto_id_13"]`
+
+## Résultats incomplets à revoir (987)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-required-children — Certain ARIA roles must contain particular children
+
+- http://localhost:3232/
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/issues
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/pulls
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/milestones
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/notifications
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/explore/repos
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/repo/create
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/org/create
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/user/settings
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/user/settings/account
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/user/settings/security
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/user/settings/applications
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/user/settings/keys
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/user/settings/appearance
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/-/admin
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/-/admin/users
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/-/admin/users/2
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/-/admin/users/2/edit
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `div[data-tooltip-content="Create…"]`
+  - `.select-reaction`
+  - `.context-dropdown`
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `div[data-tooltip-content="Create…"]`
+  - `.select-reaction`
+  - `.context-dropdown`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Diff Options"]`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo/projects
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `div[data-tooltip-content="Create…"]`
+  - `.select-reaction`
+  - `.context-dropdown`
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Diff Options"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Diff Options"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Diff Options"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/alice [state:block-user-modal]
+  - `div[data-tooltip-content="Create…"]`
+- http://localhost:3232/ [state:dark-theme]
+  - `div[data-tooltip-content="Create…"]`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:3232/
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[title="Other Filters"]`
+  - `.upward`
+- http://localhost:3232/issues
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.selection`
+  - `div[aria-controls="_aria_auto_id_0"]`
+  - `div[aria-controls="_aria_auto_id_3"]`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/pulls
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `.selection`
+  - `div[aria-controls="_aria_auto_id_0"]`
+  - `div[aria-controls="_aria_auto_id_3"]`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/milestones
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[aria-controls="_aria_auto_id_14"]`
+  - `.upward`
+- http://localhost:3232/notifications
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/explore/repos
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_12"]`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/repo/create
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `#repo_owner_dropdown`
+  - `input[aria-controls="_aria_auto_id_13"]`
+  - `input[aria-controls="_aria_auto_id_26"]`
+  - `input[aria-controls="_aria_auto_id_30"]`
+  - `input[aria-controls="_aria_auto_id_301"]`
+  - `div[aria-controls="_aria_auto_id_331"]`
+  - `.owner`
+  - `.upward`
+- http://localhost:3232/org/create
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.selection`
+  - `.upward`
+- http://localhost:3232/user/settings/account
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/security
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/applications
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/keys
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/user/settings/appearance
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_32"]`
+  - `#language`
+  - `.upward`
+- http://localhost:3232/-/admin
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[role="combobox"]`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users/2
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/-/admin/users/2/edit
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_21"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `div[aria-controls="_aria_auto_id_27"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.select-reaction`
+  - `.context-dropdown`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_8"]`
+  - `div[aria-controls="_aria_auto_id_37"]`
+  - … +2 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/new
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_0"]`
+  - `div[aria-controls="_aria_auto_id_3"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_6"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.select-reaction`
+  - `.context-dropdown`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_3"]`
+  - `div[aria-controls="_aria_auto_id_6"]`
+  - `div[aria-controls="_aria_auto_id_8"]`
+  - `div[aria-controls="_aria_auto_id_9"]`
+  - `div[aria-controls="_aria_auto_id_39"]`
+  - … +2 autres
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[data-tooltip-content="Whitespace"]`
+  - `div[data-tooltip-content="Diff Options"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_47"]`
+  - `div[aria-controls="_aria_auto_id_51"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/projects
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_12"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/actions
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.select-reaction`
+  - `.context-dropdown`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - `div[aria-controls="_aria_auto_id_8"]`
+  - `div[aria-controls="_aria_auto_id_37"]`
+  - … +2 autres
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[title="Other Filters"]`
+  - `.upward`
+- http://localhost:3232/ [state:navbar-create-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[title="Other Filters"]`
+  - `.upward`
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[title="Other Filters"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `.js-btn-clone-panel`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +5 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[data-tooltip-content="Whitespace"]`
+  - `div[data-tooltip-content="Diff Options"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `.tw-pr-1`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[data-tooltip-content="Whitespace"]`
+  - `div[data-tooltip-content="Diff Options"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[data-tooltip-content="Whitespace"]`
+  - `div[data-tooltip-content="Diff Options"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `.upward`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +5 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_22"]`
+  - `div[aria-controls="_aria_auto_id_31"]`
+  - `div[aria-controls="_aria_auto_id_36"]`
+  - `div[aria-controls="_aria_auto_id_45"]`
+  - `.select-branch`
+  - `div[aria-controls="_aria_auto_id_2"]`
+  - `div[aria-controls="_aria_auto_id_5"]`
+  - `div[aria-controls="_aria_auto_id_7"]`
+  - … +4 autres
+- http://localhost:3232/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_21"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `div[aria-controls="_aria_auto_id_27"]`
+  - `.upward`
+- http://localhost:3232/alice [state:block-user-modal]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `div[aria-controls="_aria_auto_id_12"]`
+  - `div[aria-controls="_aria_auto_id_24"]`
+  - `.upward`
+- http://localhost:3232/ [state:navbar-mobile]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[title="Other Filters"]`
+  - `.upward`
+- http://localhost:3232/ [state:dark-theme]
+  - `div[data-tooltip-content="Create…"]`
+  - `div[data-tooltip-content="Profile and Settings…"]`
+  - `.floating`
+  - `div[title="Other Filters"]`
+  - `.upward`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:3232/
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+- http://localhost:3232/repo/create
+  - `#repo_template_search > .default.text`
+  - `.inline.field:nth-child(1) > .selection.search.dropdown > .default.text`
+  - `.multiple > .default.text`
+  - `.inline.field:nth-child(4) > .selection.search.dropdown > .default.text`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-2"] > relative-time`
+  - `.role-label`
+  - `#issuecomment-2 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label[title="Améliorations de doc"][data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time`
+  - `span[data-text="Write"]`
+  - `span[data-text="Preview"]`
+  - `input[aria-controls="_aria_auto_id_1"]`
+  - `#new-dependency-drop-list > .default.text`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-5"] > relative-time`
+  - `.role-label`
+  - `a[href$="about.gitea.com"][rel="nofollow"]`
+  - `p > strong`
+  - `#issuecomment-3 > .grey.muted-links.text`
+  - `#issuecomment-3 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > relative-time`
+  - `.tw-font-mono > .muted`
+  - `.commit-id-short`
+  - … +6 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-4"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `.role-label`
+  - `#issuecomment-4 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `span[data-text="Write"]`
+  - `span[data-text="Preview"]`
+  - `#status-button`
+  - `input[aria-controls="_aria_auto_id_1"]`
+  - `#new-dependency-drop-list > .default.text`
+- http://localhost:3232/ [state:navbar-user-dropdown]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +7 autres
+- http://localhost:3232/ [state:navbar-create-dropdown]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +6 autres
+- http://localhost:3232/ [state:footer-language-dropdown]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `div:nth-child(2) > relative-time`
+  - `.repo-file-item:nth-child(3) > .age.repo-file-cell > relative-time`
+  - `.repo-file-item:nth-child(4) > .age.repo-file-cell > relative-time`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `.author-wrapper > strong`
+  - `.commit-id-short`
+  - `a[title="main.go"]`
+  - `a[title="README.md"]`
+  - `a[href$="#readme"]`
+  - `#user-content-demo-repo`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +15 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +10 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +13 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `.active[data-tab-for="markdown-writer"][data-tab="markdown-writer-2"] > .resize-for-semibold[data-text="Write"]`
+  - `.item[data-tab-for="markdown-previewer"][data-tab="markdown-previewer-2"] > .resize-for-semibold[data-text="Preview"]`
+  - `.comment.form > .field:nth-child(2) > .dropzone.dz-clickable[data-max-file="5"] > .dz-default.dz-message > .dz-button[type="button"]`
+  - `.tw-justify-end.flex-text-block > .cancel.button[type="button"]`
+  - `.tw-justify-end.flex-text-block > .primary.button[type="submit"]`
+  - `#issuecomment-1 > .grey.muted-links.text`
+  - … +16 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +7 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +6 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `.viewed-file-form`
+  - `.upward > .flex-text-inline`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +5 autres
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +5 autres
+- http://localhost:3232/ [state:navbar-mobile]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +6 autres
+- http://localhost:3232/ [state:dark-theme]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:3232/explore/repos
+  - `#_aria_auto_id_13`
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - … +13 autres
+- http://localhost:3232/-/admin/users
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - `#_aria_auto_id_23`
+- http://localhost:3232/alice [state:block-user-modal]
+  - `#_aria_auto_id_13`
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - … +13 autres
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:3232/user/settings
+  - `label[for="_aria_auto_id_0"]`
+  - `label[for="_aria_auto_id_1"]`
+- http://localhost:3232/user/settings/appearance
+  - `.inline.field:nth-child(2) > .checkbox.ui[data-checkbox-patched="true"]`
+  - `.inline.field:nth-child(15) > .checkbox.ui[data-checkbox-patched="true"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/2
+  - `.role-label`
+  - `div[data-tooltip-content="a11yorg/demo-repo#2"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5
+  - `.role-label`
+  - `div[data-tooltip-content="a11yorg/demo-repo#5"]`
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `span[data-tooltip-content="git: 26 KiB, lfs: 0 B"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/4
+  - `.role-label`
+  - `div[data-tooltip-content="a11yorg/demo-repo#4"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-clone-panel]
+  - `span[data-tooltip-content="git: 26 KiB, lfs: 0 B"]`
+- http://localhost:3232/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `span[data-tooltip-content="git: 26 KiB, lfs: 0 B"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `.tw-inline-block:nth-child(7)`
+  - `.tw-inline-block:nth-child(9)`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="3"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `div[data-tooltip-content="This user is the author."]`
+  - `.role-label.basic.label:nth-child(2)`
+  - `div[data-tooltip-content="a11yorg/demo-repo#1"]`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:3232/a11yorg/demo-repo/settings
+  - `table`
+
+### target-size — All touch targets must be 24px large, or leave sufficient space
+
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `div[aria-controls="_aria_auto_id_2"]`
+- http://localhost:3232/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `div[aria-controls="_aria_auto_id_8"]`
+  - `form[hx-sync="this:replace"] > .fluid`
+

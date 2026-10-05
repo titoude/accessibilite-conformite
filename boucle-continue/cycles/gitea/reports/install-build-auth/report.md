@@ -1,0 +1,726 @@
+# Audit accessibilité — 2026-10-05
+
+**0 règle(s) violée(s), 0 occurrence(s), 50/50 scénario(s) audité(s), 0 erreur(s), 817 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `79832f2b20a8`
+
+## Résultats incomplets à revoir (817)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:3233/
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `.octicon-filter`
+  - `.flex-text-inline`
+- http://localhost:3233/issues
+  - `span[aria-controls="_aria_auto_id_6"]`
+  - `span[aria-controls="_aria_auto_id_10"]`
+  - `span[aria-haspopup="listbox"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `svg[aria-controls="_aria_auto_id_0"]`
+  - `svg[aria-controls="_aria_auto_id_3"]`
+  - `.tw-whitespace-nowrap`
+  - `.flex-text-inline`
+- http://localhost:3233/pulls
+  - `span[aria-controls="_aria_auto_id_6"]`
+  - `span[aria-controls="_aria_auto_id_10"]`
+  - `span[aria-haspopup="listbox"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `svg[aria-controls="_aria_auto_id_0"]`
+  - `svg[aria-controls="_aria_auto_id_3"]`
+  - `.tw-whitespace-nowrap`
+  - `span[aria-controls="_aria_auto_id_36"]`
+- http://localhost:3233/milestones
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `span[aria-controls="_aria_auto_id_17"]`
+  - `.flex-text-inline`
+- http://localhost:3233/notifications
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3233/explore/repos
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+  - `span[aria-controls="_aria_auto_id_24"]`
+  - `span[aria-controls="_aria_auto_id_37"]`
+- http://localhost:3233/repo/create
+  - `span[aria-controls="_aria_auto_id_14"]`
+  - `span[aria-controls="_aria_auto_id_18"]`
+  - `span[aria-controls="_aria_auto_id_10"]`
+  - `input[aria-controls="_aria_auto_id_13"]`
+  - `input[aria-controls="_aria_auto_id_26"]`
+  - `input[aria-controls="_aria_auto_id_30"]`
+  - `input[aria-controls="_aria_auto_id_301"]`
+  - `div[aria-controls="_aria_auto_id_331"]`
+  - `div[aria-controls="_aria_auto_id_333"]`
+  - `.flex-text-inline`
+- http://localhost:3233/org/create
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_8"]`
+  - `.flex-text-inline`
+- http://localhost:3233/user/settings
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_8"]`
+  - `div[aria-controls="_aria_auto_id_16"]`
+  - `.flex-text-inline`
+- http://localhost:3233/user/settings/account
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3233/user/settings/security
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3233/user/settings/applications
+  - `span[aria-controls="_aria_auto_id_2"]`
+  - `span[aria-controls="_aria_auto_id_6"]`
+  - `.flex-text-inline`
+- http://localhost:3233/user/settings/keys
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3233/user/settings/appearance
+  - `span[aria-controls="_aria_auto_id_14"]`
+  - `span[aria-controls="_aria_auto_id_18"]`
+  - `svg[aria-controls="_aria_auto_id_33"]`
+  - `.flex-text-inline`
+- http://localhost:3233/-/admin
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `.flex-text-inline`
+- http://localhost:3233/-/admin/users
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+  - `span[aria-controls="_aria_auto_id_24"]`
+  - `.flex-text-inline`
+- http://localhost:3233/-/admin/users/2
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+- http://localhost:3233/-/admin/users/2/edit
+  - `span[aria-controls="_aria_auto_id_9"]`
+  - `span[aria-controls="_aria_auto_id_13"]`
+  - `div[aria-controls="_aria_auto_id_21"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `svg[aria-controls="_aria_auto_id_27"]`
+  - `.flex-text-inline`
+- http://localhost:3233/a11yorg/demo-repo/issues/1
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/2
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `.context-menu`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - `a[aria-controls="_aria_auto_id_14"]`
+  - `a[aria-controls="_aria_auto_id_49"]`
+  - … +2 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/new
+  - `span[aria-controls="_aria_auto_id_17"]`
+  - `span[aria-controls="_aria_auto_id_21"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_1"]`
+  - `a[aria-controls="_aria_auto_id_7"]`
+  - `a[aria-controls="_aria_auto_id_10"]`
+  - `a[aria-controls="_aria_auto_id_13"]`
+  - `span[aria-controls="_aria_auto_id_35"]`
+- http://localhost:3233/a11yorg/demo-repo/pulls/5
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `span[aria-controls="_aria_auto_id_27"]`
+  - `a[aria-controls="_aria_auto_id_38"]`
+  - `.context-menu`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_6"]`
+  - `a[aria-controls="_aria_auto_id_12"]`
+  - `a[aria-controls="_aria_auto_id_15"]`
+  - `a[aria-controls="_aria_auto_id_18"]`
+  - `a[aria-controls="_aria_auto_id_52"]`
+  - … +2 autres
+- http://localhost:3233/a11yorg/demo-repo/pulls/5/files
+  - `span[aria-controls="_aria_auto_id_3"]`
+  - `span[aria-controls="_aria_auto_id_7"]`
+  - `.gitea-whitespace`
+  - `svg[aria-controls="_aria_auto_id_23"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `span[aria-controls="_aria_auto_id_27"]`
+- http://localhost:3233/a11yorg/demo-repo/settings
+  - `span[aria-controls="_aria_auto_id_35"]`
+  - `span[aria-controls="_aria_auto_id_39"]`
+  - `span[aria-controls="_aria_auto_id_57"]`
+- http://localhost:3233/a11yorg/demo-repo/projects
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+  - `span[aria-controls="_aria_auto_id_18"]`
+- http://localhost:3233/a11yorg/demo-repo/actions
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+- http://localhost:3233/a11yorg/demo-repo/issues/4
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `.context-menu`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - `a[aria-controls="_aria_auto_id_14"]`
+  - `a[aria-controls="_aria_auto_id_49"]`
+  - … +2 autres
+- http://localhost:3233/ [state:navbar-user-dropdown]
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `.octicon-filter`
+  - `.flex-text-inline`
+- http://localhost:3233/ [state:navbar-create-dropdown]
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `.octicon-filter`
+  - `.flex-text-inline`
+- http://localhost:3233/ [state:footer-language-dropdown]
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `.octicon-filter`
+  - `.flex-text-inline`
+- http://localhost:3233/a11yorg/demo-repo [state:repo-clone-panel]
+  - `span[aria-controls="_aria_auto_id_1"]`
+  - `span[aria-controls="_aria_auto_id_5"]`
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `span[aria-controls="_aria_auto_id_17"]`
+- http://localhost:3233/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `span[aria-controls="_aria_auto_id_1"]`
+  - `span[aria-controls="_aria_auto_id_5"]`
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `span[aria-controls="_aria_auto_id_17"]`
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +5 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `span[aria-controls="_aria_auto_id_3"]`
+  - `span[aria-controls="_aria_auto_id_7"]`
+  - `.gitea-whitespace`
+  - `svg[aria-controls="_aria_auto_id_23"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `span[aria-controls="_aria_auto_id_27"]`
+- http://localhost:3233/a11yorg/demo-repo/pulls/5/files [state:diff-options-dropdown]
+  - `span[aria-controls="_aria_auto_id_3"]`
+  - `span[aria-controls="_aria_auto_id_7"]`
+  - `.gitea-whitespace`
+  - `svg[aria-controls="_aria_auto_id_23"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `span[aria-controls="_aria_auto_id_27"]`
+- http://localhost:3233/a11yorg/demo-repo/pulls/5/files [state:diff-line-comment-form]
+  - `span[aria-controls="_aria_auto_id_3"]`
+  - `span[aria-controls="_aria_auto_id_7"]`
+  - `.gitea-whitespace`
+  - `svg[aria-controls="_aria_auto_id_23"]`
+  - `button[data-tooltip-content="Filter by commit"]`
+  - `span[aria-controls="_aria_auto_id_27"]`
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +5 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `span[aria-controls="_aria_auto_id_19"]`
+  - `span[aria-controls="_aria_auto_id_23"]`
+  - `a[aria-controls="_aria_auto_id_31"]`
+  - `a[aria-controls="_aria_auto_id_40"]`
+  - `a[aria-controls="_aria_auto_id_45"]`
+  - `a[aria-controls="_aria_auto_id_54"]`
+  - `.branch-dropdown-button`
+  - `a[aria-controls="_aria_auto_id_2"]`
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - … +4 autres
+- http://localhost:3233/-/admin/users/2/edit [state:admin-delete-user-modal]
+  - `span[aria-controls="_aria_auto_id_9"]`
+  - `span[aria-controls="_aria_auto_id_13"]`
+  - `div[aria-controls="_aria_auto_id_21"]`
+  - `div[aria-controls="_aria_auto_id_23"]`
+  - `svg[aria-controls="_aria_auto_id_27"]`
+  - `.flex-text-inline`
+- http://localhost:3233/alice [state:block-user-modal]
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-controls="_aria_auto_id_12"]`
+  - `span[aria-controls="_aria_auto_id_24"]`
+  - `.flex-text-inline`
+- http://localhost:3233/ [state:navbar-mobile]
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `.octicon-filter`
+  - `.flex-text-inline`
+- http://localhost:3233/ [state:dark-theme]
+  - `span[aria-controls="_aria_auto_id_0"]`
+  - `span[aria-controls="_aria_auto_id_4"]`
+  - `span[aria-haspopup="listbox"]`
+  - `.octicon-filter`
+  - `.flex-text-inline`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:3233/
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+- http://localhost:3233/repo/create
+  - `#repo_template_search > .default.text`
+  - `.inline.field:nth-child(1) > .selection.search.dropdown > .default.text`
+  - `.multiple > .default.text`
+  - `#non_template > .inline.field:nth-child(3) > .help`
+  - `.inline.field:nth-child(4) > .selection.search.dropdown > .default.text`
+- http://localhost:3233/a11yorg/demo-repo/issues/1
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/2
+  - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-2"] > relative-time`
+  - `.role-label`
+  - `#issuecomment-2 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label[title="Améliorations de doc"][data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time`
+  - `span[data-text="Write"]`
+  - `span[data-text="Preview"]`
+  - `input[aria-controls="_aria_auto_id_0"]`
+  - `#new-dependency-drop-list > .default.text`
+- http://localhost:3233/a11yorg/demo-repo/pulls/5
+  - `.comment-header-left > .grey.muted-links.text`
+  - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-5"] > relative-time`
+  - `.role-label`
+  - `a[href$="about.gitea.com"][rel="nofollow"]`
+  - `p > strong`
+  - `#issuecomment-3 > .grey.muted-links.text`
+  - `#issuecomment-3 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > relative-time`
+  - `.tw-font-mono > .muted`
+  - … +7 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/4
+  - `.comment-header-left > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-4"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `.role-label`
+  - `#issuecomment-4 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `span[data-text="Write"]`
+  - `span[data-text="Preview"]`
+  - `#status-button`
+  - `input[aria-controls="_aria_auto_id_0"]`
+  - `#new-dependency-drop-list > .default.text`
+- http://localhost:3233/ [state:navbar-user-dropdown]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +7 autres
+- http://localhost:3233/ [state:navbar-create-dropdown]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +6 autres
+- http://localhost:3233/ [state:footer-language-dropdown]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+- http://localhost:3233/a11yorg/demo-repo [state:repo-clone-panel]
+  - `button[aria-controls="_aria_auto_id_13"]`
+  - `.archive-link.item[rel="nofollow"]:nth-child(1)`
+  - `.archive-link.item[rel="nofollow"]:nth-child(2)`
+  - `.commit-id-short`
+- http://localhost:3233/a11yorg/demo-repo [state:repo-branch-dropdown]
+  - `.commit-id-short`
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +15 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-milestone-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +10 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +13 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:comment-context-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:comment-edit-form]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `.active[data-tab-for="markdown-writer"][data-tab="markdown-writer-2"] > .resize-for-semibold[data-text="Write"]`
+  - `.item[data-tab-for="markdown-previewer"][data-tab="markdown-previewer-2"] > .resize-for-semibold[data-text="Preview"]`
+  - `.comment.form > .field:nth-child(2) > .dropzone.dz-clickable[data-max-file="5"] > .dz-default.dz-message > .dz-button[type="button"]`
+  - `.tw-justify-end.flex-text-block > .cancel.button[type="button"]`
+  - `.tw-justify-end.flex-text-block > .primary.button[type="submit"]`
+  - `#issuecomment-1 > .grey.muted-links.text`
+  - … +16 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:markdown-preview-tab]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +7 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:comment-delete-menu]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:reference-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +6 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:reaction-picker]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +9 autres
+- http://localhost:3233/a11yorg/demo-repo/pulls/5/files [state:review-dropdown]
+  - `.viewed-file-form`
+  - `span[aria-controls="_aria_auto_id_27"]`
+  - `a[href$="licenses.txt"]`
+  - `a[href$="swagger"]`
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:lock-conversation-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +5 autres
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:delete-issue-modal]
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `a[href$="#issue-1"] > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issue-1 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-right.tw-items-center.tw-flex > .role-label.basic.label`
+  - `a[rel="nofollow"]`
+  - `#issuecomment-1 > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `.grey.muted-links.text > .labels-list > a > .label.ui[data-tooltip-content=""]`
+  - `.grey.muted-links.text > relative-time[datetime="2026-10-05T05:17:59Z"][title="Oct 5, 2026, 5:17 AM UTC"]`
+  - `#issuecomment-5 > .comment-container.content > .comment-header[role="heading"][aria-level="2"] > .comment-header-left.tw-items-center.tw-flex > .grey.muted-links.text > .author.black.tw-font-semibold`
+  - `relative-time[datetime="2026-10-05T05:36:51Z"]`
+  - `div[data-tooltip-content="This user is the author."]`
+  - … +5 autres
+- http://localhost:3233/ [state:navbar-mobile]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+- http://localhost:3233/ [state:dark-theme]
+  - `.vch__month__label[x="48"][y="10"]`
+  - `text[x="108"]`
+  - `text[x="156"]`
+  - `text[x="204"]`
+  - `text[x="252"]`
+  - `text[x="312"]`
+  - `text[x="360"]`
+  - `text[x="420"]`
+  - `text[x="468"]`
+  - `text[x="516"]`
+  - … +5 autres
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:3233/explore/repos
+  - `#_aria_auto_id_13`
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - … +13 autres
+- http://localhost:3233/user/settings/appearance
+  - `select`
+- http://localhost:3233/-/admin/users
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - `#_aria_auto_id_23`
+- http://localhost:3233/a11yorg/demo-repo/settings
+  - `select[name="projects_mode"]`
+  - `select[name="pulls_default_merge_style"]`
+- http://localhost:3233/alice [state:block-user-modal]
+  - `#_aria_auto_id_13`
+  - `#_aria_auto_id_14`
+  - `#_aria_auto_id_15`
+  - `#_aria_auto_id_16`
+  - `#_aria_auto_id_17`
+  - `#_aria_auto_id_18`
+  - `#_aria_auto_id_19`
+  - `#_aria_auto_id_20`
+  - `#_aria_auto_id_21`
+  - `#_aria_auto_id_22`
+  - … +13 autres
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:3233/a11yorg/demo-repo/settings
+  - `table`
+
+### target-size — All touch targets must be 24px large, or leave sufficient space
+
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-labels-dropdown]
+  - `a[aria-controls="_aria_auto_id_8"]`
+  - `a[aria-controls="_aria_auto_id_11"]`
+  - `a[aria-controls="_aria_auto_id_14"]`
+- http://localhost:3233/a11yorg/demo-repo/issues/1 [state:issue-assignees-dropdown]
+  - `form[hx-sync="this:replace"] > .fluid`
+

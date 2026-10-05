@@ -1,0 +1,122 @@
+{
+ "cycle": 32,
+ "project": "go-gitea/gitea",
+ "commit": "99053ce4fa2b45f1bca5837418c0c57f793ca824",
+ "commit_date": "2025-09-30 (tag v1.24.7)",
+ "branch_upstream": "release/v1.24 (tag v1.24.7)",
+ "framework": "Go 1.24 server-rendered (templates Go html/template) + Fomantic UI/Semantic UI (jQuery) + tippy.js + htmx épars + web_src buildé par webpack 5 vers public/assets/{js,css} — premier framework Go SSR de la boucle (28 cycles : Vue/React/Svelte/PHP/Knockout/Angular…)",
+ "served_source": "pages HTML rendues serveur ; les assets public/assets sont servis depuis le DISQUE (build non-bindata : serve_dynamic.go) — un rebuild webpack + `go build` est requis pour voir un fix CSS/JS, un template .tmpl exige seulement un rebuild Go (templates compilés dans le binaire). Le server ne recharge RIEN à chaud : tout fix = rebuild + restart.",
+ "base_url": "http://localhost:3232",
+ "boot": {
+  "deps": "node v24 via nvm + go1.26 (~/go/bin/go) ; make frontend (npm install --no-save + npx webpack), make backend (TAGS sqlite sqlite_unlock_notify)",
+  "run": "./gitea web -c custom/conf/app.ini (app.ini : sqlite3 data/gitea.db, INSTALL_LOCK=true, DISABLE_SSH, OFFLINE_MODE, REQUIRE_SIGNIN_VIEW=false, port 3232)",
+  "first_boot_notes": "INSTALL_LOCK=true + config DB dans app.ini → PAS de wizard install ; admin créé par CLI `./gitea admin user create`"
+ },
+ "seed": {
+  "script": "tools/seed.mjs <baseUrl> (ADMIN_TOKEN env) — org a11yorg + user alice (team Owners), repo public a11yorg/demo-repo, VRAI push git (README markdown avec lien + main.go), branche feature-x, PR #5 'Ajouter la fonctionnalité X' (issues/PRs partagent la séquence → #5, pas #1), labels bug+documentation, milestone v1.0, 4 issues (#1 avec lien markdown, #2 label+milestone, #3 texte, #4 fermée), release v0.1.0, wiki Home, repo secondaire giteaadmin/notes-perso",
+  "content": "issue #1 contient un lien markdown réellement rendu (règle seed littérale) ; compteurs figés : pas de realtime sur gitea (feeds n'évoluent que sur action)",
+  "determinism": "seed idempotent (checks GET avant POST ; PR détectée par titre). relative-time affiche des timestamps absolus+tooltip — contenu stable entre runs"
+ },
+ "auth": "cookie de session gitea en mémoire (pas de provider persistant) — TOUT restart du serveur invalide auth.json : tools/login.mjs à rejouer après chaque restart, sinon les scans tournent anonymes SILENCIEUSEMENT (pages /user/settings → redirect login, menus contexte restreints). Cookie lié à SECRET_KEY d'app.ini → auth.json à régénérer par instance/port (auth-3233.json pour install-build)",
+ "runs": [
+  {
+   "name": "public",
+   "storage_state": null,
+   "urls_file": "tools/urls-public.txt",
+   "urls": [
+    "/ (landing non connectée)",
+    "/explore/repos, /explore/users, /explore/organizations",
+    "/user/login, /user/sign_up (formulaire — inscription désactivée côté serveur mais page servie)",
+    "/a11yorg (profil org), /alice (profil user)",
+    "/a11yorg/demo-repo (vue code + README)",
+    "/a11yorg/demo-repo/issues, /pulls, /releases, /wiki/Home, /branches, /commits/branch/main, /milestones, /labels, /activity, /graph, /src/branch/main/main.go",
+    "/api/swagger (swagger-ui)"
+   ],
+   "states": [
+    "not-found-404",
+    "login-failed"
+   ]
+  },
+  {
+   "name": "auth",
+   "storage_state": "tools/auth.json",
+   "urls_file": "tools/urls-auth.txt",
+   "urls": [
+    "/ (dashboard feeds)",
+    "/issues, /pulls, /milestones, /notifications, /explore/repos",
+    "/repo/create, /org/create",
+    "/user/settings, /account, /security, /applications, /keys, /appearance",
+    "/-/admin, /-/admin/users, /-/admin/users/2",
+    "/a11yorg/demo-repo/issues/1 (commentaire + sidebar), /issues/2 (label+milestone), /issues/new (éditeur)",
+    "/a11yorg/demo-repo/pulls/5, /pulls/5/files (diff + review)",
+    "/a11yorg/demo-repo/settings, /projects, /actions"
+   ],
+   "states": [
+    "navbar-user-dropdown",
+    "navbar-create-dropdown",
+    "footer-language-dropdown",
+    "repo-clone-panel",
+    "repo-branch-dropdown",
+    "issue-labels-dropdown",
+    "issue-milestone-dropdown",
+    "issue-assignees-dropdown",
+    "comment-context-menu",
+    "comment-edit-form",
+    "markdown-preview-tab",
+    "comment-delete-menu",
+    "reference-issue-modal",
+    "reaction-picker",
+    "review-dropdown",
+    "diff-options-dropdown",
+    "diff-line-comment-form",
+    "lock-conversation-modal",
+    "delete-issue-modal",
+    "admin-delete-user-modal",
+    "block-user-modal",
+    "navbar-mobile (mutant viewport, avant-dernier)",
+    "dark-theme (mutant emulateMedia, dernier)"
+   ]
+  }
+ ],
+ "excluded": [
+  "API JSON (/api/v1/*) : non-HTML ; /api/swagger inclus (page HTML réelle)",
+  "logout (POST data-url) : action destructive, pas de contenu",
+  "/devtest/* : routes dev seulement (setting.IsProd false en RUN_MODE=prod → 404), pas une surface produit",
+  "états d'erreur non déterministes : 500 (aucun endpoint crashable à la demande dans gitea), rate-limit (désactivé par défaut) — documenté comme non atteignable",
+  "fork-repo-modal : ne se rend que si l'utilisateur a déjà forké (modale 'already forked' dormante dans le DOM — inline display:none ; le fork réel POST mute les données → non déterministe sans fork pré-seedé ; surface à risque documentée)",
+  "rendus dynamiques dépendant de données non seedées : notifications non lues (compteur tw-hidden), stopwatch actif, message MOTD admin — les conteneurs vides sont scannés dans les pages concernées",
+  "wiki edit/new (?action=_new|_edit|_pages|_revisions), repo/compare, blame, render, watch/star/forks/stargazers/watchers : variantes de templates couverts par les pages voisines (même layout repo) — limitation de scope déclarée"
+ ],
+ "auditCommands": [
+  "cd boucle-continue/cycles/gitea/tools && npm install && npx playwright install chromium",
+  "node login.mjs http://localhost:3232 auth.json   (regénère auth.json ; auth-3233.json = même procédé sur :3233)",
+  "ADMIN_TOKEN=<token> node seed.mjs http://localhost:3232   (token créé via POST /api/v1/users/giteaadmin/tokens basic-auth admin)",
+  "node audit.mjs http://localhost:3232 --urls \"$(paste -sd, urls-public.txt)\" --states not-found-404,login-failed --wait 500 --out ../reports/baseline-public",
+  "node audit.mjs http://localhost:3232 --urls \"$(paste -sd, urls-auth.txt)\" --states navbar-user-dropdown,navbar-create-dropdown,footer-language-dropdown,repo-clone-panel,repo-branch-dropdown,issue-labels-dropdown,issue-milestone-dropdown,issue-assignees-dropdown,comment-context-menu,comment-edit-form,markdown-preview-tab,comment-delete-menu,reference-issue-modal,reaction-picker,review-dropdown,diff-options-dropdown,diff-line-comment-form,lock-conversation-modal,delete-issue-modal,admin-delete-user-modal,block-user-modal,navbar-mobile,dark-theme --storage-state auth.json --wait 500 --out ../reports/baseline-auth",
+  "node audit.mjs http://localhost:3232 --urls \"$(paste -sd, urls-public.txt)\" --states not-found-404,login-failed --wait 500 --out ../reports/postfix-public",
+  "node audit.mjs http://localhost:3232 --urls \"$(paste -sd, urls-auth.txt)\" --states <même liste> --storage-state auth.json --wait 500 --out ../reports/postfix-auth",
+  "node audit.mjs http://localhost:3233 --urls <mêmes listes> --storage-state auth-3233.json --wait 500 --out ../reports/install-build-*",
+  "node verify.mjs http://localhost:3232 auth.json",
+  "node eval-final.mjs http://localhost:3232 auth.json",
+  "node incomplete-probes.mjs http://localhost:3232 auth.json > ../reports/incomplete-probes.json"
+ ],
+ "wait_rationale": "SSR + JS d'init léger (fomantic dropdowns, tippy) : le DOM est complet au 'load' ; --wait 500 couvre les transitions fomantic (~200-300ms) qui produiraient des flags color-contrast mid-animation (settleAnimations dans le runner aussi)",
+ "toolVersions": {
+  "node": "v24.19.0 (nvm)",
+  "go": "go1.26.0 linux/amd64 (~/go/bin/go)",
+  "playwright": "^1.55 (npm i du cycle)",
+  "axe-core": "^4.10 (npm i du cycle)",
+  "audit.mjs": "copie du cycle uptime-kuma + STATES gitea (25 états) + support expectHttp (nouveau : états d'erreur HTTP déclarés scannables)",
+  "gitea": "1.24.7 @99053ce4 — webpack 5.99.6, fomantic-ui, jQuery, tippy.js"
+ },
+ "notes": [
+  "PR seedée = index #5 (issues et PRs partagent la séquence : 4 issues d'abord) — les urls pulls/5 sont figées, pas pulls/1",
+  "gitea a déjà des bases a11y : role=main+aria-label par page, nav aria-label, svg aria-hidden — la baseline mesure le résidu réel",
+  "thème gitea-auto suit prefers-color-scheme : l'état dark-theme émule dark via page.emulateMedia (surface réelle atteignable) ; les correctifs couleurs doivent être mesurés dans les DEUX color-schemes",
+  "viewport runner 1280x800 ; navbar-mobile à 375x812",
+  "states mutants en dernier (dark-theme persiste dans emulateMedia, navbar-mobile change le viewport) ; chaque setup mutant reset explicitement viewport+colorScheme avant d'agir",
+  "install-build sur :3233 = clone propre @SHA + git apply patch.diff + make frontend + go build + app.ini port 3233 + seed + login + rescan",
+  "auth.json exclus de provenance.json (cookie éphémère lié à SECRET_KEY locale)",
+  "piège mesuré : 2 runs 'auth' ont produit des résultats anonymes (menus 'Copy Link' seul, /user/settings redirigé) avant de comprendre que le cookie était mort — toujours vérifier l'auth par le CONTENU de page (avatar user, lien settings), jamais par document.cookie (cookie HttpOnly)"
+ ]
+}

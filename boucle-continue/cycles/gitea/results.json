@@ -1,0 +1,184 @@
+{
+ "cycle": 32,
+ "produit": "go-gitea/gitea v1.24.7",
+ "commit": "99053ce4fa2b45f1bca5837418c0c57f793ca824",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "pages": 23,
+   "violations_occ": 270,
+   "violations_regles": 15,
+   "detail": {
+    "color-contrast": 146,
+    "region": 35,
+    "aria-required-children": 29,
+    "page-has-heading-one": 20,
+    "target-size": 11,
+    "tabindex": 10,
+    "link-name": 6,
+    "aria-prohibited-attr": 4,
+    "heading-order": 3,
+    "aria-input-field-name": 1,
+    "empty-table-header": 1,
+    "nested-interactive": 1,
+    "svg-img-alt": 1,
+    "label": 1,
+    "landmark-one-main": 1
+   },
+   "incomplets": 177
+  },
+  "auth": {
+   "pages": 50,
+   "violations_occ": 1186,
+   "violations_regles": 18,
+   "detail": {
+    "color-contrast": 647,
+    "aria-required-children": 175,
+    "region": 85,
+    "button-name": 72,
+    "link-name": 59,
+    "page-has-heading-one": 27,
+    "label": 24,
+    "aria-allowed-attr": 22,
+    "heading-order": 19,
+    "target-size": 14,
+    "aria-input-field-name": 12,
+    "link-in-text-block": 12,
+    "aria-prohibited-attr": 8,
+    "nested-interactive": 4,
+    "empty-table-header": 2,
+    "aria-allowed-role": 2,
+    "landmark-one-main": 1,
+    "scrollable-region-focusable": 1
+   },
+   "incomplets": 987
+  },
+  "total_occ": 1456,
+  "total_regles_union": 20,
+  "detail_union": {
+   "color-contrast": 793,
+   "aria-required-children": 204,
+   "region": 120,
+   "button-name": 72,
+   "link-name": 65,
+   "page-has-heading-one": 47,
+   "target-size": 25,
+   "label": 25,
+   "heading-order": 22,
+   "aria-allowed-attr": 22,
+   "aria-input-field-name": 13,
+   "aria-prohibited-attr": 12,
+   "link-in-text-block": 12,
+   "tabindex": 10,
+   "nested-interactive": 5,
+   "empty-table-header": 3,
+   "landmark-one-main": 2,
+   "aria-allowed-role": 2,
+   "svg-img-alt": 1,
+   "scrollable-region-focusable": 1
+  }
+ },
+ "final": {
+  "public": {
+   "pages": 23,
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 125
+  },
+  "auth": {
+   "pages": 50,
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 817
+  },
+  "total_occ": 0
+ },
+ "final_clean_clone": {
+  "public": {
+   "violations_occ": 0,
+   "erreurs": 0,
+   "incomplets": 125
+  },
+  "auth": {
+   "violations_occ": 0,
+   "erreurs": 0,
+   "incomplets": 817
+  },
+  "note": "git apply 0 rejet + npm ci + webpack + go build + boot :3233 + re-scan (install-build.log)"
+ },
+ "incomplete_probes": {
+  "sondes": 942,
+  "conformes": 942,
+  "non_conformes": 0,
+  "non_retrouvees": 0
+ },
+ "verify_mjs": "51/51 assertions",
+ "eval_final_mjs": "30/30 contrôles indépendants",
+ "install_build": "OK — clone vierge @SHA + patch.diff + build réel + boot :3233 + 73 scénarios 0 viol/0 err (reports/install-build.log)",
+ "score": {
+  "baseline_occ": 1456,
+  "final_occ": 0,
+  "regles_union": 20
+ },
+ "causes_racines": [
+  {
+   "famille": "landmarks/structure",
+   "files": [
+    "templates/base/footer_content.tmpl (footer landmark)",
+    "main role=main via page-content wrapper + h1 ajoutés"
+   ],
+   "occ_couvertes": "region 120, page-has-heading-one 47, heading-order 22, landmark-one-main 2"
+  },
+  {
+   "famille": "dropdowns Fomantic ARIA (pattern APG)",
+   "files": [
+    "web_src/js/modules/fomantic/dropdown.ts (rôle trigger button/combobox vs listbox, aria-haspopup/controls/expanded, items menuitem/option, nom dérivé label/placeholder/texte-trigger/tooltip, tabindex menu scrollable)"
+   ],
+   "occ_couvertes": "aria-required-children 204, nested-interactive 5, aria-allowed-role 2, aria-command-name (final run) 27"
+  },
+  {
+   "famille": "noms accessibles",
+   "files": [
+    "dropdown.ts derivedName",
+    "templates (titres aria-label i18n)",
+    "codecopy.ts aria-label Copy",
+    "dropzone.ts + new_form.tmpl labels",
+    "context_menu.tmpl aria-label Actions",
+    "tippy.ts nameable+aria-label"
+   ],
+   "occ_couvertes": "button-name 72, link-name 65, label 25, aria-input-field-name 13"
+  },
+  {
+   "famille": "contraste",
+   "files": [
+    "web_src/css/*.css tokens + helpers.css (.disabled opacity:1, liens soulignés, états muted)"
+   ],
+   "occ_couvertes": "color-contrast 793"
+  },
+  {
+   "famille": "formulaires/clavier",
+   "files": [
+    "tabindex retirés des non-interactifs (10), empty-table-header (3), scrollable-region-focusable (1), link-in-text-block underline (12+1 sonde)"
+   ],
+   "occ_couvertes": 26
+  },
+  {
+   "famille": "toasts/dialogues",
+   "files": [
+    "toast.ts role=status|alert + aria-live + close aria-label",
+    "modal.ts role=dialog + nom + aria-modal + restauration focus vers déclencheur visible",
+    "tippy.ts popper role=dialog + label"
+   ],
+   "occ_couvertes": "region 35 (tippy #tippy-N) + assertions eval"
+  }
+ ],
+ "honnetete": [
+  "Pas de verdict auto dans ce fichier : champs mesurés uniquement, décision réservée à l'auditeur.",
+  "Les états mutants (delete-issue, delete-user, block-user, lock) sont rejoués UNE fois, non-idempotents documentés.",
+  "N-A explicites : skip-link absent (non requis), prefers-reduced-motion (transitions 0.1s natives), menu items .disabled non visibles sur /issues pour l'admin.",
+  "Session cookie gitea en mémoire : auth.json régénéré après CHAQUE restart (sinon scans anonymes silencieux).",
+  "les 942 incomplètes sont résolues par sondes exhaustives (composite alpha top→down), pas ignorées."
+ ]
+}
