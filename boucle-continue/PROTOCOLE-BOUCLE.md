@@ -247,3 +247,8 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **Décrire le mécanisme réel, pas celui imaginé** : « titres h2 sur les 4 modales » exagérait — passwordmodal pointe son label existant. Les causes_racines doivent dire ce qui a été fait exactement.
 - **ABSENT ≠ PASS dans le décompte** : une sonde non jouée (élément conditionnel absent) se compte séparément : « 21 PASS + 1 ABSENT », jamais « 22/22 ».
 - **État qui mute le viewport/localStorage en dernier** : navbar-mobile 390px persistait et masquait #bd-theme sur les états suivants — ordonner les états mutants en fin de liste ou reset explicite.
+
+### Leçons — cycle 24 gatus (re-audit → CONFIRMED + W1-W5)
+- **Baseline sur données croissantes = compte indicatif** : Execution History +1 ligne/min → occurrences contrastes flottantes entre worker et auditeur (162 vs 145, delta circonscrit à la page concernée). Pour une baseline strictement reproductible : figer le seed ou exclure les listes auto-incrémentées du compte.
+- **Sonde de recouvrement multi-points** : `elementsFromPoint` au centre du nœud remonte le parent quand l'overlay ne couvre qu'un coin — échantillonner une grille (3×3) et vérifier le recouvrement de boîtes réel avant de nommer un `coveredBy`.
+- **Incomplets transitoires = famille, pas compte** : « N seconds ago » recouvert ou non selon la largeur du texte → documenter la famille + sonder chaque occurrence trouvée, compter est secondaire.

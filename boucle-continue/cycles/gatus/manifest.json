@@ -43,7 +43,7 @@
     }
   ],
   "notes": [
-    "la page publique demandée « /dashboard » n'existe pas : routeur Vue = / + /endpoints/:key + /suites/:key ; /dashboard rend le shell sans contenu (pas de catch-all) → la vraie page de statut publique est /",
+    "la page publique demandée « /dashboard » n'existe pas : le serveur répond un 404 nu (Cannot GET /dashboard — route absente du router Vue qui ne sert que / + /endpoints/:key + /suites/:key) → la vraie page de statut publique est /",
     "keys générés par key.ConvertGroupAndNameToKey(group,name) : core_front-end, core_back-end, internal_legacy-service, api-tests_checkout-flow",
     "viewport par défaut du runner (1280x720, page complète desktop)",
     "--wait-for '#settings' = garde de montage (présent sur les 4 routes) ; --wait 3000 = sédimentation des données (statuses fetchés post-mount, leçon U1)",

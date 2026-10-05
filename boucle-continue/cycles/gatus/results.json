@@ -1,128 +1,135 @@
 {
- "cycle": 24,
- "produit": "gatus",
- "statut_execution": "complet",
- "baseline": {
-  "surfaces": 4,
-  "etats": 7,
-  "violations_occ": 162,
-  "violations_regles": 8,
-  "detail": {
-   "color-contrast": 150,
-   "heading-order": 4,
-   "role-img-alt": 2,
-   "select-name": 2,
-   "region": 1,
-   "nested-interactive": 1,
-   "aria-input-field-name": 1,
-   "button-name": 1
+  "cycle": 24,
+  "produit": "gatus",
+  "statut_execution": "complet",
+  "baseline": {
+    "surfaces": 4,
+    "etats": 7,
+    "violations_occ": 162,
+    "violations_regles": 8,
+    "detail": {
+      "color-contrast": 150,
+      "heading-order": 4,
+      "role-img-alt": 2,
+      "select-name": 2,
+      "region": 1,
+      "nested-interactive": 1,
+      "aria-input-field-name": 1,
+      "button-name": 1
+    },
+    "incomplets": 7,
+    "erreurs": 0
   },
-  "incomplets": 7,
-  "erreurs": 0
- },
- "final": {
-  "surfaces": 4,
-  "etats": 7,
-  "violations_occ": 0,
-  "violations_regles": 0,
-  "incomplets": 5,
-  "erreurs": 0,
-  "incomplets_resolus_par_sonde": "reports/final/incomplete-probes.json — 5 noeuds : 3 overlaps d'overlay (ratio mesuré 4.76/20.01/4.76) + 2 glyphes non-texte (ratio 5.02)"
- },
- "final_clean_clone": {
-  "violations_occ": 0,
-  "violations_regles": 0,
-  "incomplets": 6,
-  "note": "patch.diff appliqué sur clone propre + npm ci + npm run build + go build + re-scan complet"
- },
- "verify_mjs": "28/28 assertions",
- "eval_final_mjs": "16/16 contrôles indépendants",
- "install_build": "OK — clone propre + patch + npm ci + build frontend + go build + audit 0 violation (install-build.txt, reports/install-build/)",
- "causes_racines": [
-  {
-   "famille": "color-contrast",
-   "occ_couvertes": 150,
-   "files": [
-    "Badge.vue (success bg-green-500→green-700, warning text-white→text-yellow-950)",
-    "index.css (--destructive 0 84.2% 60.2% → 0 72.2% 50.6%)",
-    "PastAnnouncements.vue (text-muted-foreground/60 → /100)",
-    "SuiteDetails.vue (text-muted-foreground → foreground/70 sur ligne sélectionnée bg-accent)",
-    "StepDetailsModal.vue (text-green-600 → green-800 sur « Yes »/« Passed »)",
-    "Tooltip.vue (text-green/red/yellow-500 → 700/600/700 + variantes dark)",
-    "App.vue (lien footer text-emerald-800 + dark:text-emerald-400)",
-    "SuiteDetails.vue (titre « Suite Errors » text-red-500 → red-600)"
-   ]
+  "final": {
+    "surfaces": 4,
+    "etats": 7,
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "incomplets": 5,
+    "erreurs": 0,
+    "incomplets_resolus_par_sonde": "reports/final/incomplete-probes.json — 5 noeuds : 3 overlaps d'overlay (ratio mesuré 4.76/20.01/4.76) + 2 glyphes non-texte (ratio 5.02)"
   },
-  {
-   "famille": "heading-order",
-   "occ_couvertes": 4,
-   "files": [
-    "CardTitle.vue (h3 → h2, composant partagé)"
-   ]
+  "final_clean_clone": {
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "incomplets": 6,
+    "note": "patch.diff appliqué sur clone propre + npm ci + npm run build + go build + re-scan complet"
   },
-  {
-   "famille": "role-img-alt",
-   "occ_couvertes": 2,
-   "files": [
-    "ResponseTimeChart.vue (aria-label sur le canvas du graphique)"
-   ]
+  "verify_mjs": "28/28 assertions",
+  "eval_final_mjs": "16/16 contrôles indépendants",
+  "install_build": "OK — clone propre + patch + npm ci + build frontend + go build + audit 0 violation (install-build.txt, reports/install-build/)",
+  "causes_racines": [
+    {
+      "famille": "color-contrast",
+      "occ_couvertes": 150,
+      "files": [
+        "Badge.vue (success bg-green-500→green-700, warning text-white→text-yellow-950)",
+        "index.css (--destructive 0 84.2% 60.2% → 0 72.2% 50.6%)",
+        "PastAnnouncements.vue (text-muted-foreground/60 → /100)",
+        "SuiteDetails.vue (text-muted-foreground → foreground/70 sur ligne sélectionnée bg-accent)",
+        "StepDetailsModal.vue (text-green-600 → green-800 sur « Yes »/« Passed »)",
+        "Tooltip.vue (text-green/red/yellow-500 → 700/600/700 + variantes dark)",
+        "App.vue (lien footer text-emerald-800 + dark:text-emerald-400)",
+        "SuiteDetails.vue (titre « Suite Errors » text-red-500 → red-600)"
+      ]
+    },
+    {
+      "famille": "heading-order",
+      "occ_couvertes": 4,
+      "files": [
+        "CardTitle.vue (h3 → h2, composant partagé)"
+      ]
+    },
+    {
+      "famille": "role-img-alt",
+      "occ_couvertes": 2,
+      "files": [
+        "ResponseTimeChart.vue (aria-label sur le canvas du graphique)"
+      ]
+    },
+    {
+      "famille": "select-name",
+      "occ_couvertes": 2,
+      "files": [
+        "EndpointDetails.vue (aria-label « Chart duration » sur le <select>)"
+      ]
+    },
+    {
+      "famille": "region",
+      "occ_couvertes": 1,
+      "files": [
+        "App.vue + Tooltip.vue (#tooltip déplacé dans <main>, role=tooltip, position recalculée en offsetParent)"
+      ]
+    },
+    {
+      "famille": "nested-interactive",
+      "occ_couvertes": 1,
+      "files": [
+        "Settings.vue (dropdown intervalles sorti du <button> toggle — boutons imbriqués)"
+      ]
+    },
+    {
+      "famille": "aria-input-field-name",
+      "occ_couvertes": 1,
+      "files": [
+        "Select.vue (aria-label du [role=listbox] via prop label) + SearchBar.vue (props label)"
+      ]
+    },
+    {
+      "famille": "button-name",
+      "occ_couvertes": 1,
+      "files": [
+        "StepDetailsModal.vue (aria-label « Close step details » sur le bouton X)"
+      ]
+    }
+  ],
+  "corrections_complementaires_hors_axe": [
+    "dialog complet sur StepDetailsModal (role=dialog, aria-modal, aria-labelledby, focus initial, piège Tab, Escape)",
+    "interactifs clavier : FlowStep, lignes Execution History, .endpoint-group-header, .announcement-header (role=button tabindex=0 Enter/Space)",
+    "barres résultats bg-*-500→600 (contraste non-texte 1.4.11 ≥3:1) + placeholders bg-gray-200→300",
+    "icônes événements text-*-500→600 (1.4.11)",
+    "h1 unique par page (titre header site en <p>, h1 des vues préservés)",
+    "reflow 320px corrigé (flex-wrap + min-w-0 sur l'en-tête Home — finding eval-final)"
+  ],
+  "outils": {
+    "audit": "tools/audit.mjs (runner v6) + tools/states.json + tools/urls.txt",
+    "verify": "tools/verify.mjs — assertions dures sur les corrections (28)",
+    "eval_final": "tools/eval-final.mjs — contrôles indépendants (16)",
+    "probes": "tools/incomplete-probes.mjs — remesure rejouable des noeuds incomplets",
+    "env": "tools/config.yaml + tools/fake-services.mjs (services factices :9101 :9102, endpoint DOWN :9999)"
   },
-  {
-   "famille": "select-name",
-   "occ_couvertes": 2,
-   "files": [
-    "EndpointDetails.vue (aria-label « Chart duration » sur le <select>)"
-   ]
+  "commandes_rejeu": {
+    "audit": "node tools/audit.mjs http://127.0.0.1:8080 --urls $(paste -sd, tools/urls.txt) --states all --wait-for '#settings' --wait 3000 --out reports/<out>",
+    "verify": "node tools/verify.mjs http://127.0.0.1:8080",
+    "eval_final": "node tools/eval-final.mjs http://127.0.0.1:8080",
+    "probes": "node tools/incomplete-probes.mjs http://127.0.0.1:8080 reports/final/report.json reports/final/incomplete-probes.json",
+    "env": "node tools/fake-services.mjs && GATUS_CONFIG_PATH=tools/config.yaml ./gatus  (binaire construit : web/app npm ci+build → go build -o gatus .)"
   },
-  {
-   "famille": "region",
-   "occ_couvertes": 1,
-   "files": [
-    "App.vue + Tooltip.vue (#tooltip déplacé dans <main>, role=tooltip, position recalculée en offsetParent)"
-   ]
-  },
-  {
-   "famille": "nested-interactive",
-   "occ_couvertes": 1,
-   "files": [
-    "Settings.vue (dropdown intervalles sorti du <button> toggle — boutons imbriqués)"
-   ]
-  },
-  {
-   "famille": "aria-input-field-name",
-   "occ_couvertes": 1,
-   "files": [
-    "Select.vue (aria-label du [role=listbox] via prop label) + SearchBar.vue (props label)"
-   ]
-  },
-  {
-   "famille": "button-name",
-   "occ_couvertes": 1,
-   "files": [
-    "StepDetailsModal.vue (aria-label « Close step details » sur le bouton X)"
-   ]
-  }
- ],
- "corrections_complementaires_hors_axe": [
-  "dialog complet sur StepDetailsModal (role=dialog, aria-modal, aria-labelledby, focus initial, piège Tab, Escape)",
-  "interactifs clavier : FlowStep, lignes Execution History, .endpoint-group-header, .announcement-header (role=button tabindex=0 Enter/Space)",
-  "barres résultats bg-*-500→600 (contraste non-texte 1.4.11 ≥3:1) + placeholders bg-gray-200→300",
-  "icônes événements text-*-500→600 (1.4.11)",
-  "h1 unique par page (titre header site en <p>, h1 des vues préservés)",
-  "reflow 320px corrigé (flex-wrap + min-w-0 sur l'en-tête Home — finding eval-final)"
- ],
- "outils": {
-  "audit": "tools/audit.mjs (runner v6) + tools/states.json + tools/urls.txt",
-  "verify": "tools/verify.mjs — assertions dures sur les corrections (28)",
-  "eval_final": "tools/eval-final.mjs — contrôles indépendants (16)",
-  "probes": "tools/incomplete-probes.mjs — remesure rejouable des noeuds incomplets",
-  "env": "tools/config.yaml + tools/fake-services.mjs (services factices :9101 :9102, endpoint DOWN :9999)"
- },
- "commandes_rejeu": {
-  "audit": "node tools/audit.mjs http://127.0.0.1:8080 --urls $(paste -sd, tools/urls.txt) --states all --wait-for '#settings' --wait 3000 --out reports/<out>",
-  "verify": "node tools/verify.mjs http://127.0.0.1:8080",
-  "eval_final": "node tools/eval-final.mjs http://127.0.0.1:8080",
-  "probes": "node tools/incomplete-probes.mjs http://127.0.0.1:8080 reports/final/report.json reports/final/incomplete-probes.json",
-  "env": "node tools/fake-services.mjs && GATUS_CONFIG_PATH=tools/config.yaml ./gatus  (binaire construit : web/app npm ci+build → go build -o gatus .)"
- }
+  "corrections_post_audit_warts": [
+    "W1 baseline uptime-dépendante : Execution History grandit ~1 ligne/min → occ contrastes flottantes (rejouée 145 vs 162 livrées, delta sur /suites/api-tests_checkout-flow+modale-etape uniquement ; distribution page×règle et non-contraste identiques) — leçon : figer les données croissantes pour des baselines strictement reproductibles",
+    "W2 incomplets flottants 5→6 : 2e span « N seconds ago » recouvert selon la largeur du texte de temps — même famille d'artefact transitoire, sondé 4.76:1 PASS",
+    "W3 sondes : coveredBy monopoint au centre du nœud remontait le parent quand l'overlay ne couvre qu'un coin → échantillonnage 3×3 + test de recouvrement de boîtes réel (incomplete-probes.mjs corrigé)",
+    "W4 manifest : « /dashboard rend le shell sans contenu » → corrigé en 404 nu serveur",
+    "W5 states.json = prose pointant audit.mjs (cohérent, nit accepté)"
+  ]
 }

@@ -53,9 +53,25 @@ const PROBE_JS = `((sel) => {
   if (!bg) { bg = parse(getComputedStyle(document.body).backgroundColor) || [255, 255, 255]; bgSource = 'body'; }
   const rect = el.getBoundingClientRect();
   const cover = (() => {
-    const stack = document.elementsFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2);
-    const top = stack.find(t => t !== el && !el.contains(t));
-    return top ? { tag: top.tagName, id: top.id || null, cls: (top.className + '').split(' ').slice(0, 3).join(' '), insideTooltip: !!top.closest('#tooltip'), insideSettings: !!top.closest('#settings') } : null;
+    // Un overlay peut ne couvrir qu'un coin du nœud : on échantillonne une
+    // grille 3x3 et on ne retient que les éléments dont la boîte recouvre
+    // réellement celle du nœud (un ancêtre du nœud remonté par
+    // elementsFromPoint n'est pas un recouvrement).
+    const coverers = new Map();
+    for (const fx of [0.25, 0.5, 0.75]) {
+      for (const fy of [0.25, 0.5, 0.75]) {
+        const stack = document.elementsFromPoint(rect.x + rect.width * fx, rect.y + rect.height * fy);
+        const t = stack.find(s => s !== el && !el.contains(s) && !s.contains(el));
+        if (!t) continue;
+        const tr = t.getBoundingClientRect();
+        const overlaps = tr.left < rect.right && tr.right > rect.left && tr.top < rect.bottom && tr.bottom > rect.top;
+        if (!overlaps) continue;
+        if (!coverers.has(t)) coverers.set(t, { tag: t.tagName, id: t.id || null, cls: (t.className + '').split(' ').slice(0, 3).join(' '), insideTooltip: !!t.closest('#tooltip'), insideSettings: !!t.closest('#settings') });
+      }
+    }
+    const list = [...coverers.values()];
+    if (!list.length) return null;
+    return { top: list[0], all: list, insideTooltip: list.some(c => c.insideTooltip), insideSettings: list.some(c => c.insideSettings) };
   })();
   return {
     found: true,
