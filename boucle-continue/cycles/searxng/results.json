@@ -30,17 +30,89 @@
     "install_build": "voir install-build.log — PASS : patch transportable, build vite déterministe octet-identique, rescan 0 violation"
   },
   "corrections": [
-    { "regles": ["aria-required-children", "aria-allowed-role", "aria-valid-attr-value", "tabindex"], "fichier": "searx/templates/simple/preferences.html + preferences/engines.html + client/simple/src/less/toolkit.less + client/simple/src/js/main/preferences.ts", "mecanisme": "Onglets des préférences : remplacement du hack amont (input[type=radio] cachés + <label> role=tab + <li> role=presentation interposés, aria-controls vers des ids inexistants dont un avec espace 'social media') par le pattern APG tabs — <div role=tablist> contenant uniquement des <button role=tab> (roving tabindex, aria-selected, aria-controls→ids résolus), panels <section role=tabpanel aria-labelledby> frères sous la tablist (les panels catégories moteurs deviennent une tablist imbriquée du même pattern). JS ajouté dans preferences.ts : click + ArrowLeft/Right (sens inversé en RTL via document.documentElement.dir) + Home/End, activation automatique. CSS .tabbar/.tab_label dans toolkit.less avec fallback html.no-js (tous les panels affichés — mieux que l'amont qui n'en montrait qu'un)." },
-    { "regles": ["label"], "fichier": "searx/templates/simple/preferences.html + preferences/engines.html", "mecanisme": "Checkbox on/off désactivées sans nom : le macro checkbox() des préférences prend désormais un param label optionnel rendu en aria-label ; les indicateurs 'SafeSearch support' et 'Time range support' du tableau moteurs sont nommés _(\"%(engine)s: SafeSearch support\")/Time-range via interpolation kwargs." },
-    { "regles": ["landmark-main-is-top-level", "landmark-no-duplicate-main", "page-has-heading-one", "heading-order"], "fichier": "searx/templates/simple/results.html + client/simple/src/less/index.less + macros.html", "mecanisme": "#urls n'est plus role=main imbriqué : <div id=urls> + <h1 class=sr-only>Search results</h1> (classe .sr-only ajoutée dans style.less, h1 en flux avec clip-path sur index — zéro changement de layout, présent dans l'arbre a11y). Titres de résultats h3→h2 (sous h1, sans saut de niveau)." },
-    { "regles": ["aria-allowed-role", "target-size", "link-name"], "fichier": "searx/templates/simple/results.html + client/simple/src/less/style.less", "mecanisme": "Pagination : role=link retiré des <input type=submit> (aria-label 'Page N' à la place) ; la page courante devient <span class=page_number_current aria-current=page> (n'est plus un contrôle → sort du périmètre target-size/link-name) ; <nav id=pagination aria-label=Pagination>." },
-    { "regles": ["link-name"], "fichier": "searx/templates/simple/base.html + macros.html", "mecanisme": "Liens vignettes sans nom : macro result_open_link(url, classes, aria_label) + result_thumbnail transmet aria_label=result.title|striptags. Liens rapides en haut (about/donate/preferences) : aria-label ajoutés (le <span> texte est masqué en mobile). nav#links_on_top aria-label='Quick links'." },
-    { "regles": ["link-in-text-block"], "fichier": "client/simple/src/less/style.less + info.less", "mecanisme": "Liens noyés dans du texte : soulignement rétabli sur footer p et .info-page a (passe l'algorithme axe G183 distinction ≥3:1 OU style)." },
-    { "regles": ["color-contrast"], "fichier": "client/simple/src/less/definitions.less", "mecanisme": "Métadonnées résultats : publishdate #777→#767676 sur clair (4.48→4.54), #888→#9a9a9a sur dark (4.12→4.54) ; pastille .image_resolution rgba(0,0,0,.35)→65% (pire cas sur image blanche : 6.98). Espacement li li dans infobox/urls (espacement visuel renforcé, lien-in-text-block résiduel)." },
-    { "regles": ["target-size"], "fichier": "client/simple/src/less/search.less", "mecanisme": "#clear_search : min-width/min-height 24px — le bouton se repliait à 23.04px (padding 0.8rem×2 à rem=14.4px) quand l'icône interne est masquée." },
-    { "regles": ["tabindex"], "fichier": "searx/templates/simple/search.html", "mecanisme": "tabindex=1 retiré de #q (ordre de tabulation positif)." },
-    { "regles": ["empty-table-header"], "fichier": "searx/templates/simple/preferences/engines.html + client/simple/src/less/preferences.less", "mecanisme": "Cellule 'bang' du tableau moteurs : <td colspan=8> ne casse plus la correspondance colonne→th ; sélecteur CSS tr.pref-group th,td ajusté." },
-    { "regle": "focus-visible (non couvert par axe)", "fichier": "client/simple/src/less/style.less", "mecanisme": "Correctif indépendant déclenché par eval-final : l'amont supprime outline sur liens résultats/vignettes/onglets sans alternative — fallback :focus-visible global 2px ajouté (testé clavier)." }
+    {
+      "regles": [
+        "aria-required-children",
+        "aria-allowed-role",
+        "aria-valid-attr-value",
+        "tabindex"
+      ],
+      "fichier": "searx/templates/simple/preferences.html + preferences/engines.html + client/simple/src/less/toolkit.less + client/simple/src/js/main/preferences.ts",
+      "mecanisme": "Onglets des préférences : remplacement du hack amont (input[type=radio] cachés + <label> role=tab + <li> role=presentation interposés, aria-controls vers des ids inexistants dont un avec espace 'social media') par le pattern APG tabs — <div role=tablist> contenant uniquement des <button role=tab> (roving tabindex, aria-selected, aria-controls→ids résolus), panels <section role=tabpanel aria-labelledby> frères sous la tablist (les panels catégories moteurs deviennent une tablist imbriquée du même pattern). JS ajouté dans preferences.ts : click + ArrowLeft/Right (sens inversé en RTL via document.documentElement.dir) + Home/End, activation automatique. CSS .tabbar/.tab_label dans toolkit.less avec fallback html.no-js (tous les panels affichés — mieux que l'amont qui n'en montrait qu'un)."
+    },
+    {
+      "regles": [
+        "label"
+      ],
+      "fichier": "searx/templates/simple/preferences.html + preferences/engines.html",
+      "mecanisme": "Checkbox on/off désactivées sans nom : le macro checkbox() des préférences prend désormais un param label optionnel rendu en aria-label ; les indicateurs 'SafeSearch support' et 'Time range support' du tableau moteurs sont nommés _(\"%(engine)s: SafeSearch support\")/Time-range via interpolation kwargs."
+    },
+    {
+      "regles": [
+        "landmark-main-is-top-level",
+        "landmark-no-duplicate-main",
+        "page-has-heading-one",
+        "heading-order"
+      ],
+      "fichier": "searx/templates/simple/results.html + client/simple/src/less/index.less + macros.html",
+      "mecanisme": "#urls n'est plus role=main imbriqué : <div id=urls> + <h1 class=sr-only>Search results</h1> (classe .sr-only ajoutée dans style.less, h1 en flux avec clip-path sur index — zéro changement de layout, présent dans l'arbre a11y). Titres de résultats h3→h2 (sous h1, sans saut de niveau)."
+    },
+    {
+      "regles": [
+        "aria-allowed-role",
+        "target-size",
+        "link-name"
+      ],
+      "fichier": "searx/templates/simple/results.html + client/simple/src/less/style.less",
+      "mecanisme": "Pagination : role=link retiré des <input type=submit> (aria-label 'Page N' à la place) ; la page courante devient <span class=page_number_current aria-current=page> (n'est plus un contrôle → sort du périmètre target-size/link-name) ; <nav id=pagination aria-label=Pagination>."
+    },
+    {
+      "regles": [
+        "link-name"
+      ],
+      "fichier": "searx/templates/simple/base.html + macros.html",
+      "mecanisme": "Liens vignettes sans nom : macro result_open_link(url, classes, aria_label) + result_thumbnail transmet aria_label=result.title|striptags. Liens rapides en haut (about/donate/preferences) : aria-label ajoutés (le <span> texte est masqué en mobile). nav#links_on_top aria-label='Quick links'."
+    },
+    {
+      "regles": [
+        "link-in-text-block"
+      ],
+      "fichier": "client/simple/src/less/style.less + info.less",
+      "mecanisme": "Liens noyés dans du texte : soulignement rétabli sur footer p et .info-page a (passe l'algorithme axe G183 distinction ≥3:1 OU style)."
+    },
+    {
+      "regles": [
+        "color-contrast"
+      ],
+      "fichier": "client/simple/src/less/definitions.less",
+      "mecanisme": "Métadonnées résultats : publishdate #777→#767676 sur clair (4.48→4.54), #888→#9a9a9a sur dark (4.12→4.54) ; pastille .image_resolution rgba(0,0,0,.35)→65% (pire cas sur image blanche : 6.98). Espacement li li dans infobox/urls (espacement visuel renforcé, lien-in-text-block résiduel)."
+    },
+    {
+      "regles": [
+        "target-size"
+      ],
+      "fichier": "client/simple/src/less/search.less",
+      "mecanisme": "#clear_search : min-width/min-height 24px — le bouton se repliait à 23.04px (padding 0.8rem×2 à rem=14.4px) quand l'icône interne est masquée."
+    },
+    {
+      "regles": [
+        "tabindex"
+      ],
+      "fichier": "searx/templates/simple/search.html",
+      "mecanisme": "tabindex=1 retiré de #q (ordre de tabulation positif)."
+    },
+    {
+      "regles": [
+        "empty-table-header"
+      ],
+      "fichier": "searx/templates/simple/preferences/engines.html + client/simple/src/less/preferences.less",
+      "mecanisme": "Cellule 'bang' du tableau moteurs : <td colspan=8> ne casse plus la correspondance colonne→th ; sélecteur CSS tr.pref-group th,td ajusté."
+    },
+    {
+      "regle": "focus-visible (non couvert par axe)",
+      "fichier": "client/simple/src/less/style.less",
+      "mecanisme": "Correctif indépendant déclenché par eval-final : l'amont supprime outline sur liens résultats/vignettes/onglets sans alternative — fallback :focus-visible global 2px ajouté (testé clavier)."
+    }
   ],
   "decisionsIncomplets": [
     {
@@ -62,5 +134,15 @@
     "Renommage de balises toujours pairé (ouverture+fermeture), labels [for] pointent des inputs réels (vérifié), ratios recomputés par sondes sur les paires documentées.",
     "La page 404 n'est pas auditée par axe (HTTP 404 → 'non auditée' par design du runner) : couverte par verify.mjs.",
     "Limites de couverture honnêtes : les résultats dépendent des moteurs upstream ; q=zzqxvbnmxxunlikelyquery couvre le template no_results ; les vues 'infobox' ne sont pas garanties présentes à chaque requête."
+  ],
+  "corrections_post_audit_warts": [
+    {
+      "id": "S1",
+      "origine": "auditeur tiers (PARTIAL) — surface stochastique dialog-error-block jamais scannée",
+      "description": "L'auditeur a forcé l'état \"Sorry! No results\" (tous moteurs en échec) via install-build : color-contrast ×6 @3.72 (--color-error #db3434 sur --color-error-background #fae1e1) + link-in-text-block ×2 (liens /preferences et searx.space non soulignés).",
+      "correction": "patch.diff régénéré : definitions.less --color-error #db3434→#b91c1c et --color-error-background lighten(#db3434,40%)→lighten(#b91c1c,48%) = #f8d2d2 → ratio calculé 4.66:1 ; toolkit.less .dialog-error/.dialog-error-block a { text-decoration: underline } ; même substitution appliquée aux 3 css compilés du patch (sxng-ltr/rtl/rss — le build vite reste source de vérité à l'install-build). git apply --check rejoué propre.",
+      "surface": "dialog-error-block = état stochastique upstream (rendu seulement quand TOUS les moteurs échouent) — absent de tout rapport livré. Leçon : couvrir les surfaces d'erreur globale (pas résultats, moteurs down, 500) comme états dédiés dans states.json.",
+      "verifie": "ratios recalculés en python (4.66:1) ; apply --check OK sur clone propre ; le scanner live de l'auditeur mesurera au ré-audit"
+    }
   ]
 }

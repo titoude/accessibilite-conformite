@@ -265,3 +265,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **storageState/scripts d'auth = chemins relatifs au script** : écrire à côté du fichier (import.meta.url), pas au CWD — sinon l'auditCommands verbatim écrit/lit des chemins différents. Le storageState commité est lié à l'APP_KEY/serveur de l'instance — à régénérer par instance.
 - **Backdrop seul ne suffit pas** : axe `partiallyObscured` n'occulte que les cibles tabbables → `inert` sur le contenu derrière (main, footer) + retrait à la fermeture — vérifié live par l'auditeur.
 - **Les résidus hors-scope existent** : menus transitoires non audités gardent des #999 — élargir la relecture du patch aux sélecteurs muted génériques même hors pages scannées.
+
+### Leçons — cycle 27 searxng (audit PARTIAL → corrigé)
+
+1. **Surfaces d'erreur stochastiques** : `dialog-error-block` ne se rend que si TOUS les moteurs échouent — jamais vu dans les scans du worker. Couvrir les états d'erreur globale (no-results, engines-down, 500, rate-limit) comme entrées dédiées de states.json, pas seulement les pages nominales. L'auditeur les a provoqués via son install-build.
+2. **Variables dérivées** : `--color-error-background: lighten(--color-error,40%)` — assombrir seule la couleur d'erreur ne suffit pas (le fond suit) ; recalculer le ratio sur la paire dérivée finale (#b91c1c/#f8d2d2 = 4.66).
+3. **CSS compilés dans patch.diff** : quand le bundle minifié est versionné dans le patch, appliquer la substitution équivalente à TOUTES les +lignes css (il y en avait 3 : ltr/rtl/rss) — et le dire dans results.json (le build reste source de vérité).
+4. **link-in-text-block** : couleur seule ne suffit pas dans un bloc non-coloré — `text-decoration: underline` sur les liens du bloc.
