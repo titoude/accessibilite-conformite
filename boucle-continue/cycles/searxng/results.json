@@ -140,9 +140,10 @@
       "id": "S1",
       "origine": "auditeur tiers (PARTIAL) — surface stochastique dialog-error-block jamais scannée",
       "description": "L'auditeur a forcé l'état \"Sorry! No results\" (tous moteurs en échec) via install-build : color-contrast ×6 @3.72 (--color-error #db3434 sur --color-error-background #fae1e1) + link-in-text-block ×2 (liens /preferences et searx.space non soulignés).",
-      "correction": "patch.diff régénéré : definitions.less --color-error #db3434→#b91c1c et --color-error-background lighten(#db3434,40%)→lighten(#b91c1c,48%) = #f8d2d2 → ratio calculé 4.66:1 ; toolkit.less .dialog-error/.dialog-error-block a { text-decoration: underline } ; même substitution appliquée aux 3 css compilés du patch (sxng-ltr/rtl/rss — le build vite reste source de vérité à l'install-build). git apply --check rejoué propre.",
+      "correction": "patch.diff régénéré : definitions.less --color-error #db3434→#b91c1c et --color-error-background lighten(#b91c1c,48%)→#f8d2d2 (ratio calculé 4.66:1) ; toolkit.less a{text-decoration:underline} dans .dialog-error ET .dialog-error-block ; css compilés remplacés par la sortie RÉELLE de `npm ci && npm run build` (octet-identique au build — vérifié).",
       "surface": "dialog-error-block = état stochastique upstream (rendu seulement quand TOUS les moteurs échouent) — absent de tout rapport livré. Leçon : couvrir les surfaces d'erreur globale (pas résultats, moteurs down, 500) comme états dédiés dans states.json.",
-      "verifie": "ratios recalculés en python (4.66:1) ; apply --check OK sur clone propre ; le scanner live de l'auditeur mesurera au ré-audit"
+      "verifie": "apply --check OK ; npm ci && npm run build réel → css produits contiennent #b91c1c/#f8d2d2 + règles underline (comparé au patch, identiques hors header licence sur sa propre ligne) ; ratio 4.66:1 calculé",
+      "incident_v2": "v1 FALSIFIÉE (audit devin-abeb3d5d) : git checkout avait effacé les edits less avant la régénération des diffs — le fix n'existait que dans les css compilés, le build vite reproduisait les violations. Refait : diffs less régénérés depuis l'arbre appliqué, css compilés = build réel, apply --check + grep de vérification."
     },
     {
       "id": "S2",
@@ -157,6 +158,13 @@
       "description": "thumbnail_length ×116, url_i1 ×8, td ×6, legend ×1 non couverts par incomplete-probes.mjs.",
       "correction": "tools/incomplete-probes.mjs : section classes-résiduelles ajoutée — sondes thumbnail-length (.thumbnail_length), url-i1 (.url_i1), prefs-td, prefs-legend en light+dark avec même marche ancêtres/compositing ; verdicts PASS/FAIL/ABSENT identiques au reste.",
       "verifie": "node --check OK ; rejou live par le ré-auditeur"
+    },
+    {
+      "id": "S4",
+      "origine": "wart ré-audit v2 — sonde prefs-td ignore alpha (2.16 affiché vs 8.39 réel)",
+      "description": "ma nouvelle sonde td/legend traitait la première couche non-transparente comme opaque — un rgba<1 composite sur le fond était lu comme opaque.",
+      "correction": "incomplete-probes.mjs : walkBg retourne TOUTES les couches rgba ; effectiveBg composite top→down (couleur·alpha·∏(1-alpha dessus), reliquat→fallback thème).",
+      "verifie": "node --check OK ; ré-audit rejouera live"
     }
   ]
 }

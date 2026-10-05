@@ -174,13 +174,32 @@ for (const theme of ['light', 'dark']) {
 // .thumbnail_length = pastille durée vidéo (même rgba(0,0,0,.65) que
 // .image_resolution), .url_i1 = fragment d'URL de résultat, td/legend =
 // tableau des moteurs + légendes de fieldsets /preferences.
-const walkBg = `e => { let node = e, bg = null;
-  while (node && bg === null) {
+// Toutes les couches de fond (y compris translucides) — le compositing alpha
+// est fait côté node, jamais en traitant un rgba<1 comme opaque
+const walkBg = `e => { let node = e; const layers = [];
+  while (node) {
     const c = getComputedStyle(node).backgroundColor;
-    if (c && c !== 'rgba(0, 0, 0, 0)') bg = c;
+    if (c && c !== 'rgba(0, 0, 0, 0)') layers.push(c);
     node = node.parentElement;
   }
-  return { fg: getComputedStyle(e).color, bg, text: e.textContent.trim().slice(0, 40) }; }`;
+  return { fg: getComputedStyle(e).color, layers, text: e.textContent.trim().slice(0, 40) }; }`;
+// Composite les couches de haut en bas : chaque couche contribue
+// couleur·alpha·∏(1-alpha des couches au-dessus), le reliquat tombe sur fallback
+function effectiveBg(layers, fallback) {
+  let r = 0, g = 0, b = 0, remaining = 1;
+  for (const c of layers || []) {
+    const p = parse(c);
+    if (!p) continue;
+    const a = p.a ?? 1;
+    r += p.r * a * remaining; g += p.g * a * remaining; b += p.b * a * remaining;
+    remaining *= (1 - a);
+    if (a >= 1) break;
+  }
+  if (remaining > 0) {
+    r += fallback.r * remaining; g += fallback.g * remaining; b += fallback.b * remaining;
+  }
+  return { r, g, b };
+}
 const classTargets = [
   { probe: 'thumbnail-length', url: `${base}/search?q=test&categories=videos`, sel: '.thumbnail_length' },
   { probe: 'url-i1', url: `${base}/search?q=test`, sel: '.url_i1' },
@@ -200,9 +219,9 @@ for (const theme of ['light', 'dark']) {
     if (!els.length) { out.push({ probe: t.probe, sel: t.sel, theme, verdict: 'ABSENT' }); continue; }
     const m = await els[0].evaluate(eval(`(${walkBg})`));
     const fg = parse(m.fg);
-    const bg = parse(m.bg) || (theme === 'dark' ? { r: 34, g: 36, b: 40 } : { r: 255, g: 255, b: 255 });
+    const bg = effectiveBg(m.layers, theme === 'dark' ? { r: 34, g: 36, b: 40 } : { r: 255, g: 255, b: 255 });
     const R = ratio(lum(fg), lum(bg));
-    out.push({ probe: t.probe, sel: t.sel, theme, nodes: els.length, fg: m.fg, bgEff: m.bg || 'page default', ratio: +R.toFixed(2), verdict: R >= 4.5 ? 'PASS' : 'FAIL' });
+    out.push({ probe: t.probe, sel: t.sel, theme, nodes: els.length, fg: m.fg, bgEff: m.layers?.[0] || 'page default', ratio: +R.toFixed(2), verdict: R >= 4.5 ? 'PASS' : 'FAIL' });
   }
   // td + legend sur /preferences
   await page.goto(`${base}/preferences`, { waitUntil: 'load' });
@@ -211,9 +230,9 @@ for (const theme of ['light', 'dark']) {
     if (!els.length) { out.push({ probe: 'prefs-' + sel.split(' ')[0], sel, theme, verdict: 'ABSENT' }); continue; }
     const m = await els[0].evaluate(eval(`(${walkBg})`));
     const fg = parse(m.fg);
-    const bg = parse(m.bg) || (theme === 'dark' ? { r: 34, g: 36, b: 40 } : { r: 255, g: 255, b: 255 });
+    const bg = effectiveBg(m.layers, theme === 'dark' ? { r: 34, g: 36, b: 40 } : { r: 255, g: 255, b: 255 });
     const R = ratio(lum(fg), lum(bg));
-    out.push({ probe: 'prefs-' + sel.split(' ')[0], sel, theme, nodes: els.length, fg: m.fg, bgEff: m.bg || 'page default', ratio: +R.toFixed(2), verdict: R >= 4.5 ? 'PASS' : 'FAIL' });
+    out.push({ probe: 'prefs-' + sel.split(' ')[0], sel, theme, nodes: els.length, fg: m.fg, bgEff: m.layers?.[0] || 'page default', ratio: +R.toFixed(2), verdict: R >= 4.5 ? 'PASS' : 'FAIL' });
   }
   await ctx.close();
 }
