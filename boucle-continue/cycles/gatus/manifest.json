@@ -1,0 +1,67 @@
+{
+  "cycle": 24,
+  "project": "TwiN/gatus",
+  "commit": "884f64d8e6d796654ca92b6855aa502151af1f00",
+  "framework": "Vue 3 SPA (vue-cli/webpack → web/static) + Go/Fiber, frontend embarqué via //go:embed (rebuild frontend + binaire après chaque changement web/)",
+  "base_url": "http://127.0.0.1:8080",
+  "boot": {
+    "verbatim": [
+      "git clone https://github.com/TwiN/gatus.git && cd gatus && git rev-parse HEAD  # 884f64d8e6d796654ca92b6855aa502151af1f00",
+      "cd web/app && npm ci && npm run build   # vue-cli build --modern → web/static/ (outputDir ../static)",
+      "cd ../.. && go build -o gatus .         # //go:embed capture web/static AU COMPILE-TIME — rebuild obligatoire après chaque changement frontend",
+      "node ~/work/gatus-run/fake-services.mjs # services factices :9101 (front-end) + :9102 (back-end), GET /health → 200 {status:UP}, POST /items → 201 {id:it_42,price:19.99}, GET /items/it_42 → 200",
+      "GATUS_CONFIG_PATH=$HOME/work/gatus-run/config.yaml GATUS_LOG_LEVEL=INFO ./gatus   # écoute :8080 (config.web.port)",
+      "# attendre ~60s : watchdog exécute les 3 endpoints toutes les 10s + la suite toutes les 60s → cartes et historique peuplés"
+    ]
+  },
+  "env": {
+    "GATUS_CONFIG_PATH": "$HOME/work/gatus-run/config.yaml",
+    "GATUS_LOG_LEVEL": "INFO",
+    "ports": "gatus :8080 ; fake front-end :9101 ; fake back-end :9102 ; legacy-service :9999 (rien n'écoute → endpoint down volontairement)"
+  },
+  "auth": "aucune — page de statut publique par défaut (pas de security.basic/oidc configuré)",
+  "seed": "config.yaml littéral livré dans tools/ : 3 endpoints (front-end 9101 UP, back-end 9102 UP, legacy-service 9999 DOWN), 1 suite api-tests_checkout-flow (2 étapes : POST /items puis GET /items/[CONTEXT].itemId), 2 announcements dont 1 archivée ; annonce active avec lien markdown littéral « [documentation](https://github.com/TwiN/gatus) » (leçon seed-littéral : contenu réellement rendu). fake-services.mjs livré dans tools/.",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls": [
+        "/",
+        "/endpoints/core_front-end",
+        "/endpoints/internal_legacy-service",
+        "/suites/api-tests_checkout-flow"
+      ],
+      "states": [
+        "annonce-repliee",
+        "groupe-deplie",
+        "tooltip-resultat",
+        "menu-refresh",
+        "select-ouvert",
+        "modale-etape",
+        "theme-sombre"
+      ]
+    }
+  ],
+  "notes": [
+    "la page publique demandée « /dashboard » n'existe pas : routeur Vue = / + /endpoints/:key + /suites/:key ; /dashboard rend le shell sans contenu (pas de catch-all) → la vraie page de statut publique est /",
+    "keys générés par key.ConvertGroupAndNameToKey(group,name) : core_front-end, core_back-end, internal_legacy-service, api-tests_checkout-flow",
+    "viewport par défaut du runner (1280x720, page complète desktop)",
+    "--wait-for '#settings' = garde de montage (présent sur les 4 routes) ; --wait 3000 = sédimentation des données (statuses fetchés post-mount, leçon U1)",
+    "announcement banner déplié par défaut → l'état figé le REPLIE ; le contenu déplié (lien markdown) est couvert par le scan de /",
+    "rebuild nécessaire après chaque correctif web/app : npm run build → web/static → go build (go:embed compile-time)",
+    "sélecteurs des états vérifiés dans le DOM live avant gel (probe : .announcement-header, .endpoint .flex-1[class*=cursor-pointer], #settings button[aria-expanded], button[aria-haspopup] ×2 labels None/Name, div.group.cursor-pointer FlowStep, .endpoint-group-header)"
+  ],
+  "toolVersions": {
+    "node": "v24.19.0",
+    "npm": "10.8.3",
+    "go": "go1.26.3 (toolchain auto-téléchargée depuis go1.26.0 ~/goroot)",
+    "playwright": "1.63.0",
+    "chromium": "1243",
+    "axe-core": "4.13.0",
+    "runner": "audit.mjs v6"
+  },
+  "auditCommands": [
+    "node tools/audit.mjs http://127.0.0.1:8080 --urls $(paste -sd, tools/urls.txt) --states all --wait-for '#settings' --wait 3000 --out reports/baseline",
+    "node tools/audit.mjs http://127.0.0.1:8080 --urls $(paste -sd, tools/urls.txt) --states all --wait-for '#settings' --wait 3000 --out reports/final"
+  ]
+}

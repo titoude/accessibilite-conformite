@@ -1,0 +1,68 @@
+# config.yaml — seed littéral du cycle 24 (audit a11y Gatus).
+# Services factices locaux (fake-services.mjs) : 9101 up, 9102 up, 9999 down.
+web:
+  port: 8080
+
+ui:
+  title: "Health Dashboard ǀ Gatus"
+  header: "Gatus"
+  dashboard-heading: "Health Dashboard"
+  dashboard-subheading: "Monitor the health of your endpoints in real-time"
+
+endpoints:
+  - name: front-end
+    group: core
+    url: "http://127.0.0.1:9101/health"
+    interval: 10s
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].status == UP"
+      - "[RESPONSE_TIME] < 150"
+
+  - name: back-end
+    group: core
+    url: "http://127.0.0.1:9102/health"
+    interval: 10s
+    conditions:
+      - "[STATUS] == 200"
+      - "[BODY].status == UP"
+
+  - name: legacy-service
+    group: internal
+    url: "http://127.0.0.1:9999/health"
+    interval: 10s
+    conditions:
+      - "[STATUS] == 200"
+
+suites:
+  - name: checkout-flow
+    group: api-tests
+    interval: 60s
+    context:
+      price: "19.99"
+    endpoints:
+      - name: create-item
+        url: "http://127.0.0.1:9101/items"
+        method: POST
+        body: '{"name": "Test Item", "price": "[CONTEXT].price"}'
+        conditions:
+          - "[STATUS] == 201"
+          - "len([BODY].id) > 0"
+          - "[BODY].price == [CONTEXT].price"
+        store:
+          itemId: "[BODY].id"
+      - name: get-item
+        url: "http://127.0.0.1:9102/items/[CONTEXT].itemId"
+        method: GET
+        conditions:
+          - "[STATUS] == 200"
+          - "[BODY].price == [CONTEXT].price"
+
+announcements:
+  - timestamp: 2026-10-05T00:00:00Z
+    type: information
+    message: "Dashboard de démonstration — voir la [documentation](https://github.com/TwiN/gatus) pour les détails."
+  - timestamp: 2026-10-04T12:00:00Z
+    type: warning
+    message: "Latence élevée observée sur le back-end la nuit dernière."
+    archived: true

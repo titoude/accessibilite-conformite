@@ -1,0 +1,46 @@
+# install-build — rejoue complète de la chaîne sur clone propre (cycle 24 gatus)
+# date: 2026-10-05T01:00:22Z
+
+== clone ==
+git clone ~/work/gatus ~/work/gatus-clean
+884f64d8e6d796654ca92b6855aa502151af1f00
+
+== apply patch.diff ==
+git apply cycles/gatus/patch.diff -> 19 fichiers web/app/src modifiés, aucun warning
+
+== frontend: npm ci ==
+Some issues need review, and may require choosing
+a different dependency.
+
+Run `npm audit` for details.
+
+== frontend: npm run build ==
+  Images and other types of assets omitted.
+  Build at: 2026-10-05T01:00:35.546Z - Hash: 6110cc93c69c19cd - Time: 5115ms
+
+ DONE  Build complete. The ../static directory is ready to be deployed.
+ INFO  Check out deployment instructions at https://cli.vuejs.org/guide/deployment.html
+       
+
+== go build ==
+binary: 50870810 bytes
+
+== boot (clone propre, :8080) ==
+GATUS_CONFIG_PATH=config.yaml ./gatus  -> HTTP 200
+attente ~60s remplissage résultats
+
+== audit complet sur clone propre ==
+node tools/audit.mjs http://127.0.0.1:8080 --urls $(paste -sd, tools/urls.txt) --states all --wait-for '#settings' --wait 3000 --out reports/install-build
+[scan] http://127.0.0.1:8080/ — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/endpoints/core_front-end — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/endpoints/internal_legacy-service — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/suites/api-tests_checkout-flow — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/ [state:annonce-repliee] — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/ [state:tooltip-resultat] — 0 règle(s) violée(s), 1 incomplete
+[scan] http://127.0.0.1:8080/ [state:menu-refresh] — 0 règle(s) violée(s), 1 incomplete
+[scan] http://127.0.0.1:8080/ [state:select-ouvert] — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/suites/api-tests_checkout-flow [state:modale-etape] — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/ [state:theme-sombre] — 0 règle(s) violée(s)
+[scan] http://127.0.0.1:8080/ [state:groupe-deplie] — 0 règle(s) violée(s)
+
+/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/gatus/reports/install-build/report.md — 0 règle(s), 0 occurrence(s), 0 erreur(s), 6 incomplet(s)

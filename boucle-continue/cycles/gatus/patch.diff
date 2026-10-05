@@ -1,0 +1,630 @@
+diff --git a/web/app/src/App.vue b/web/app/src/App.vue
+index a792c08..83be2db 100644
+--- a/web/app/src/App.vue
++++ b/web/app/src/App.vue
+@@ -34,7 +34,7 @@
+                   />
+                 </div>
+                 <div>
+-                  <h1 class="text-2xl font-bold tracking-tight">{{ header }}</h1>
++                  <p class="text-2xl font-bold tracking-tight">{{ header }}</p>
+                   <p v-if="buttons && buttons.length" class="text-sm text-muted-foreground">
+                     System Monitoring Dashboard
+                   </p>
+@@ -93,6 +93,8 @@
+       <!-- Main Content -->
+       <main class="relative">
+         <router-view @showTooltip="showTooltip" :announcements="announcements" />
++        <!-- Tooltip -->
++        <Tooltip :result="tooltip.result" :event="tooltip.event" :isPersistent="tooltipIsPersistent" />
+       </main>
+ 
+       <!-- Footer -->
+@@ -100,7 +102,7 @@
+         <div class="container mx-auto px-4 py-6 max-w-7xl">
+           <div class="flex flex-col items-center gap-4">
+             <div class="text-sm text-muted-foreground text-center">
+-              Powered by <a href="https://gatus.io" target="_blank" class="font-medium text-emerald-800 hover:text-emerald-600">Gatus</a>
++              Powered by <a href="https://gatus.io" target="_blank" class="font-medium text-emerald-800 hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300">Gatus</a>
+             </div>
+             <Social />
+           </div>
+@@ -148,8 +150,6 @@
+       </Card>
+     </div>
+ 
+-    <!-- Tooltip -->
+-    <Tooltip :result="tooltip.result" :event="tooltip.event" :isPersistent="tooltipIsPersistent" />
+   </div>
+ </template>
+ 
+diff --git a/web/app/src/components/AnnouncementBanner.vue b/web/app/src/components/AnnouncementBanner.vue
+index ae3d317..0a0c862 100644
+--- a/web/app/src/components/AnnouncementBanner.vue
++++ b/web/app/src/components/AnnouncementBanner.vue
+@@ -13,6 +13,11 @@
+           isCollapsed ? 'rounded-lg' : 'rounded-t-lg border-b border-gray-200 dark:border-gray-600'
+         ]"
+         @click="toggleCollapsed"
++        @keydown.enter="toggleCollapsed"
++        @keydown.space.prevent="toggleCollapsed"
++        role="button"
++        tabindex="0"
++        :aria-expanded="!isCollapsed"
+       >
+         <div class="flex items-center justify-between">
+           <div class="flex items-center gap-2">
+diff --git a/web/app/src/components/EndpointCard.vue b/web/app/src/components/EndpointCard.vue
+index 62b91e2..1cb52a6 100644
+--- a/web/app/src/components/EndpointCard.vue
++++ b/web/app/src/components/EndpointCard.vue
+@@ -42,9 +42,9 @@
+                 result ? 'cursor-pointer' : '',
+                 result ? (
+                   result.success 
+-                    ? (selectedResultIndex === index ? 'bg-green-700' : 'bg-green-500 hover:bg-green-700')
+-                    : (selectedResultIndex === index ? 'bg-red-700' : 'bg-red-500 hover:bg-red-700')
+-                ) : 'bg-gray-200 dark:bg-gray-700'
++                    ? (selectedResultIndex === index ? 'bg-green-700' : 'bg-green-600 hover:bg-green-700')
++                    : (selectedResultIndex === index ? 'bg-red-700' : 'bg-red-600 hover:bg-red-700')
++                ) : 'bg-gray-300 dark:bg-gray-600'
+               ]"
+               @mouseenter="result && handleMouseEnter(result, $event)"
+               @mouseleave="result && handleMouseLeave(result, $event)"
+diff --git a/web/app/src/components/FlowStep.vue b/web/app/src/components/FlowStep.vue
+index d861f09..3b3e0c6 100644
+--- a/web/app/src/components/FlowStep.vue
++++ b/web/app/src/components/FlowStep.vue
+@@ -1,6 +1,11 @@
+ <template>
+-  <div class="flex items-start gap-4 relative group hover:bg-accent/30 rounded-lg p-2 -m-2 transition-colors cursor-pointer"
+-       @click="$emit('step-click')">
++  <div class="flex items-start gap-4 relative group hover:bg-accent/30 rounded-lg p-2 -m-2 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
++       role="button"
++       tabindex="0"
++       :aria-label="`Show details for step ${step.name || index + 1}`"
++       @click="$emit('step-click')"
++       @keydown.enter="$emit('step-click')"
++       @keydown.space.prevent="$emit('step-click')">
+     <!-- Step circle with status icon -->
+     <div class="relative flex-shrink-0">
+       <!-- Connection line from previous step -->
+@@ -70,9 +75,9 @@ const circleClasses = computed(() => {
+     // Always-run endpoints get a special ring effect
+     switch (props.step.status) {
+       case 'success':
+-        return `${baseClasses} bg-green-500 text-white border-green-600 ring-2 ring-blue-200 dark:ring-blue-800`
++        return `${baseClasses} bg-green-600 text-white border-green-700 ring-2 ring-blue-200 dark:ring-blue-800`
+       case 'failed':
+-        return `${baseClasses} bg-red-500 text-white border-red-600 ring-2 ring-blue-200 dark:ring-blue-800`
++        return `${baseClasses} bg-red-600 text-white border-red-700 ring-2 ring-blue-200 dark:ring-blue-800`
+       default:
+         return `${baseClasses} bg-blue-500 text-white border-blue-600 ring-2 ring-blue-200 dark:ring-blue-800`
+     }
+@@ -80,9 +85,9 @@ const circleClasses = computed(() => {
+   
+   switch (props.step.status) {
+     case 'success':
+-      return `${baseClasses} bg-green-500 text-white border-green-600`
++      return `${baseClasses} bg-green-600 text-white border-green-700`
+     case 'failed':
+-      return `${baseClasses} bg-red-500 text-white border-red-600`
++      return `${baseClasses} bg-red-600 text-white border-red-700`
+     case 'skipped':
+       return `${baseClasses} bg-gray-400 text-white border-gray-500`
+     case 'not-started':
+@@ -104,10 +109,10 @@ const incomingLineClasses = computed(() => {
+   // Otherwise, color based on previous step's status
+   switch (props.previousStep.status) {
+     case 'success':
+-      return 'bg-green-500'
++      return 'bg-green-600'
+     case 'failed':
+       // If previous failed but this ran (always-run), show red line
+-      return 'bg-red-500'
++      return 'bg-red-600'
+     default:
+       return 'bg-gray-300 dark:bg-gray-600'
+   }
+@@ -120,11 +125,11 @@ const connectionLineClasses = computed(() => {
+     case 'success':
+       return nextStep === 'skipped' 
+         ? 'bg-gray-300 dark:bg-gray-600' 
+-        : 'bg-green-500'
++        : 'bg-green-600'
+     case 'failed':
+       return nextStep === 'skipped'
+         ? 'border-l-2 border-dashed border-gray-400 bg-transparent'
+-        : 'bg-red-500'
++        : 'bg-red-600'
+     default:
+       return 'bg-gray-300 dark:bg-gray-600'
+   }
+diff --git a/web/app/src/components/PastAnnouncements.vue b/web/app/src/components/PastAnnouncements.vue
+index 7b426c1..cd45402 100644
+--- a/web/app/src/components/PastAnnouncements.vue
++++ b/web/app/src/components/PastAnnouncements.vue
+@@ -51,7 +51,7 @@
+ 
+         <!-- Empty state for dates without announcements -->
+         <div v-else class="py-2">
+-          <p class="text-sm italic text-muted-foreground/60">
++          <p class="text-sm italic text-muted-foreground">
+             No incidents reported on this day
+           </p>
+         </div>
+diff --git a/web/app/src/components/ResponseTimeChart.vue b/web/app/src/components/ResponseTimeChart.vue
+index fd86806..4b8c007 100644
+--- a/web/app/src/components/ResponseTimeChart.vue
++++ b/web/app/src/components/ResponseTimeChart.vue
+@@ -6,7 +6,7 @@
+     <div v-else-if="error" class="absolute inset-0 flex items-center justify-center text-muted-foreground">
+       {{ error }}
+     </div>
+-    <Line v-else :data="chartData" :options="chartOptions" />
++    <Line v-else :data="chartData" :options="chartOptions" aria-label="Response time trend chart" />
+   </div>
+ </template>
+ 
+diff --git a/web/app/src/components/SearchBar.vue b/web/app/src/components/SearchBar.vue
+index 9689998..f1c8b0c 100644
+--- a/web/app/src/components/SearchBar.vue
++++ b/web/app/src/components/SearchBar.vue
+@@ -21,6 +21,7 @@
+           v-model="filterBy" 
+           :options="filterOptions"
+           placeholder="None"
++          label="Filter by"
+           class="flex-1 sm:w-[140px] md:w-[160px]"
+           @update:model-value="handleFilterChange"
+         />
+@@ -32,6 +33,7 @@
+           v-model="sortBy" 
+           :options="sortOptions"
+           placeholder="Name"
++          label="Sort by"
+           class="flex-1 sm:w-[90px] md:w-[100px]"
+           @update:model-value="handleSortChange"
+         />
+diff --git a/web/app/src/components/SequentialFlowDiagram.vue b/web/app/src/components/SequentialFlowDiagram.vue
+index df954b6..e334cf9 100644
+--- a/web/app/src/components/SequentialFlowDiagram.vue
++++ b/web/app/src/components/SequentialFlowDiagram.vue
+@@ -5,7 +5,7 @@
+       <div class="text-sm font-medium text-muted-foreground">Start</div>
+       <div class="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+         <div 
+-          class="h-full bg-green-500 dark:bg-green-600 rounded-full transition-all duration-300 ease-out"
++          class="h-full bg-green-600 dark:bg-green-600 rounded-full transition-all duration-300 ease-out"
+           :style="{ width: progressPercentage + '%' }"
+         ></div>
+       </div>
+@@ -36,14 +36,14 @@
+       <div class="text-sm font-medium text-muted-foreground mb-2">Status Legend</div>
+       <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+         <div v-if="hasSuccessSteps" class="flex items-center gap-2">
+-          <div class="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
++          <div class="w-4 h-4 rounded-full bg-green-600 flex items-center justify-center">
+             <CheckCircle class="w-3 h-3 text-white" />
+           </div>
+           <span class="text-muted-foreground">Success</span>
+         </div>
+         
+         <div v-if="hasFailedSteps" class="flex items-center gap-2">
+-          <div class="w-4 h-4 rounded-full bg-red-500 flex items-center justify-center">
++          <div class="w-4 h-4 rounded-full bg-red-600 flex items-center justify-center">
+             <XCircle class="w-3 h-3 text-white" />
+           </div>
+           <span class="text-muted-foreground">Failed</span>
+diff --git a/web/app/src/components/Settings.vue b/web/app/src/components/Settings.vue
+index 4357732..dd4f1fb 100644
+--- a/web/app/src/components/Settings.vue
++++ b/web/app/src/components/Settings.vue
+@@ -2,17 +2,20 @@
+   <div id="settings" class="fixed bottom-4 left-4 z-50">
+     <div class="flex items-center gap-1 bg-background/95 backdrop-blur-sm border rounded-full shadow-md p-1">
+       <!-- Refresh Rate -->
+-      <button 
+-        @click="showRefreshMenu = !showRefreshMenu"
+-        :aria-label="`Refresh interval: ${formatRefreshInterval(refreshIntervalValue)}`"
+-        :aria-expanded="showRefreshMenu"
+-        class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-accent transition-colors relative"
+-      >
+-        <RefreshCw class="w-3.5 h-3.5 text-muted-foreground" />
+-        <span class="text-xs font-medium">{{ formatRefreshInterval(refreshIntervalValue) }}</span>
+-        
++      <div class="relative">
++        <button
++          @click="showRefreshMenu = !showRefreshMenu"
++          :aria-label="`Refresh interval: ${formatRefreshInterval(refreshIntervalValue)}`"
++          :aria-expanded="showRefreshMenu"
++          aria-haspopup="true"
++          class="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-accent transition-colors"
++        >
++          <RefreshCw class="w-3.5 h-3.5 text-muted-foreground" />
++          <span class="text-xs font-medium">{{ formatRefreshInterval(refreshIntervalValue) }}</span>
++        </button>
++
+         <!-- Refresh Rate Dropdown -->
+-        <div 
++        <div
+           v-if="showRefreshMenu"
+           @click.stop
+           class="absolute bottom-full left-0 mb-2 bg-popover border rounded-lg shadow-lg overflow-hidden"
+@@ -29,7 +32,7 @@
+             {{ interval.label }}
+           </button>
+         </div>
+-      </button>
++      </div>
+ 
+       <!-- Divider -->
+       <div class="h-5 w-px bg-border/50" />
+@@ -42,7 +45,7 @@
+       >
+         <Sun v-if="darkMode" class="h-3.5 w-3.5 transition-all" />
+         <Moon v-else class="h-3.5 w-3.5 transition-all" />
+-        
++
+         <!-- Tooltip -->
+         <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-popover text-popover-foreground text-xs rounded-md shadow-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+           {{ darkMode ? 'Light mode' : 'Dark mode' }}
+diff --git a/web/app/src/components/StepDetailsModal.vue b/web/app/src/components/StepDetailsModal.vue
+index 1037bb0..55256de 100644
+--- a/web/app/src/components/StepDetailsModal.vue
++++ b/web/app/src/components/StepDetailsModal.vue
+@@ -2,11 +2,11 @@
+   <!-- Modal backdrop -->
+   <div class="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50" @click="$emit('close')">
+     <!-- Modal content -->
+-    <div class="bg-background border rounded-lg shadow-lg max-w-2xl w-full max-h-[80vh] overflow-hidden" @click.stop>
++    <div ref="modalContent" role="dialog" aria-modal="true" aria-labelledby="step-modal-title" tabindex="-1" class="bg-background border rounded-lg shadow-lg max-w-2xl w-full max-h-[80vh] overflow-hidden outline-none" @click.stop>
+       <!-- Header -->
+       <div class="flex items-center justify-between p-4 border-b">
+         <div>
+-          <h2 class="text-lg font-semibold flex items-center gap-2">
++          <h2 id="step-modal-title" class="text-lg font-semibold flex items-center gap-2">
+             <component :is="statusIcon" :class="iconClasses" class="w-5 h-5" />
+             {{ step.name }}
+           </h2>
+@@ -14,7 +14,7 @@
+             Step {{ index + 1 }} • {{ formatDuration(step.duration) }}
+           </p>
+         </div>
+-        <Button variant="ghost" size="icon" @click="$emit('close')">
++        <Button variant="ghost" size="icon" aria-label="Close step details" @click="$emit('close')">
+           <X class="w-4 h-4" />
+         </Button>
+       </div>
+@@ -68,7 +68,7 @@
+             </div>
+             <div>
+               <span class="text-muted-foreground">Success:</span>
+-              <p class="mt-1" :class="step.result.success ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
++              <p class="mt-1" :class="step.result.success ? 'text-green-800 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+                 {{ step.result.success ? 'Yes' : 'No' }}
+               </p>
+             </div>
+@@ -94,7 +94,7 @@
+               <div class="flex-shrink-0 mt-0.5">
+                 <CheckCircle
+                   v-if="conditionResult.success"
+-                  class="w-4 h-4 text-green-600 dark:text-green-400"
++                  class="w-4 h-4 text-green-800 dark:text-green-400"
+                 />
+                 <XCircle
+                   v-else
+@@ -112,7 +112,7 @@
+                 </p>
+                 <span class="text-xs font-medium whitespace-nowrap"
+                       :class="conditionResult.success
+-                        ? 'text-green-600 dark:text-green-400'
++                        ? 'text-green-800 dark:text-green-400'
+                         : 'text-red-600 dark:text-red-400'">
+                   {{ conditionResult.success ? 'Passed' : 'Failed' }}
+                 </span>
+@@ -166,7 +166,7 @@
+ </template>
+ 
+ <script setup>
+-import { computed } from 'vue'
++import { computed, ref, onMounted, onUnmounted } from 'vue'
+ import { X, AlertCircle, RotateCcw, Download, CheckCircle, XCircle, SkipForward, Pause, Clock, Settings } from 'lucide-vue-next'
+ import { Button } from '@/components/ui/button'
+ import { formatDuration } from '@/utils/format'
+@@ -177,7 +177,44 @@ const props = defineProps({
+   index: { type: Number, required: true }
+ })
+ 
+-defineEmits(['close'])
++const emit = defineEmits(['close'])
++
++const modalContent = ref(null)
++
++const onKeydown = (event) => {
++  if (event.key === 'Escape') {
++    emit('close')
++    return
++  }
++  // Keep Tab/Shift+Tab inside the dialog
++  if (event.key === 'Tab' && modalContent.value) {
++    const focusables = modalContent.value.querySelectorAll(
++      'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
++    )
++    if (!focusables.length) {
++      event.preventDefault()
++      return
++    }
++    const first = focusables[0]
++    const last = focusables[focusables.length - 1]
++    if (event.shiftKey && document.activeElement === first) {
++      event.preventDefault()
++      last.focus()
++    } else if (!event.shiftKey && document.activeElement === last) {
++      event.preventDefault()
++      first.focus()
++    }
++  }
++}
++
++onMounted(() => {
++  modalContent.value?.focus()
++  document.addEventListener('keydown', onKeydown)
++})
++
++onUnmounted(() => {
++  document.removeEventListener('keydown', onKeydown)
++})
+ 
+ const statusIcon = computed(() => {
+   switch (props.step.status) {
+@@ -191,7 +228,7 @@ const statusIcon = computed(() => {
+ 
+ const iconClasses = computed(() => {
+   switch (props.step.status) {
+-    case 'success': return 'text-green-600 dark:text-green-400'
++    case 'success': return 'text-green-800 dark:text-green-400'
+     case 'failed': return 'text-red-600 dark:text-red-400'
+     case 'skipped': return 'text-gray-600 dark:text-gray-400'
+     default: return 'text-blue-600 dark:text-blue-400'
+diff --git a/web/app/src/components/SuiteCard.vue b/web/app/src/components/SuiteCard.vue
+index 7fbabd2..1a37b72 100644
+--- a/web/app/src/components/SuiteCard.vue
++++ b/web/app/src/components/SuiteCard.vue
+@@ -42,9 +42,9 @@
+                 result ? 'cursor-pointer' : '',
+                 result ? (
+                   result.success
+-                    ? (selectedResultIndex === index ? 'bg-green-700' : 'bg-green-500 hover:bg-green-700')
+-                    : (selectedResultIndex === index ? 'bg-red-700' : 'bg-red-500 hover:bg-red-700')
+-                ) : 'bg-gray-200 dark:bg-gray-700'
++                    ? (selectedResultIndex === index ? 'bg-green-700' : 'bg-green-600 hover:bg-green-700')
++                    : (selectedResultIndex === index ? 'bg-red-700' : 'bg-red-600 hover:bg-red-700')
++                ) : 'bg-gray-300 dark:bg-gray-600'
+               ]"
+               @mouseenter="result && handleMouseEnter(result, $event)"
+               @mouseleave="result && handleMouseLeave(result, $event)"
+diff --git a/web/app/src/components/Tooltip.vue b/web/app/src/components/Tooltip.vue
+index 88e6528..fc41398 100644
+--- a/web/app/src/components/Tooltip.vue
++++ b/web/app/src/components/Tooltip.vue
+@@ -2,6 +2,7 @@
+   <div
+     id="tooltip"
+     ref="tooltip"
++    role="tooltip"
+     :class="[
+       'absolute z-50 px-3 py-2 text-sm rounded-md shadow-lg border transition-all duration-200',
+       'bg-popover text-popover-foreground border-border',
+@@ -14,7 +15,7 @@
+       <div v-if="isSuiteResult" class="flex items-center gap-2">
+         <span :class="[
+           'inline-block w-2 h-2 rounded-full',
+-          result.success ? 'bg-green-500' : 'bg-red-500'
++          result.success ? 'bg-green-600' : 'bg-red-600'
+         ]"></span>
+         <span class="text-xs font-semibold">
+           {{ result.success ? 'Suite Passed' : 'Suite Failed' }}
+@@ -31,7 +32,7 @@
+       <div v-if="isSuiteResult && result.endpointResults">
+         <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Endpoints</div>
+         <div class="font-mono text-xs">
+-          <span :class="successCount === endpointCount ? 'text-green-500' : 'text-yellow-500'">
++          <span :class="successCount === endpointCount ? 'text-green-700 dark:text-green-400' : 'text-yellow-700 dark:text-yellow-400'">
+             {{ successCount }}/{{ endpointCount }} passed
+           </span>
+         </div>
+@@ -42,7 +43,7 @@
+             :key="index"
+             class="flex items-center gap-1 text-xs"
+           >
+-            <span :class="endpoint.success ? 'text-green-500' : 'text-red-500'">
++            <span :class="endpoint.success ? 'text-green-700 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+               {{ endpoint.success ? '✓' : '✗' }}
+             </span>
+             <span class="truncate">{{ endpoint.name }}</span>
+@@ -73,7 +74,7 @@
+             :key="index"
+             class="flex items-start gap-1"
+           >
+-            <span :class="conditionResult.success ? 'text-green-500' : 'text-red-500'">
++            <span :class="conditionResult.success ? 'text-green-700 dark:text-green-400' : 'text-red-600 dark:text-red-400'">
+               {{ conditionResult.success ? '✓' : '✗' }}
+             </span>
+             <span class="break-all">{{ conditionResult.condition }}</span>
+@@ -85,7 +86,7 @@
+       <div v-if="result.errors && result.errors.length">
+         <div class="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Errors</div>
+         <div class="font-mono text-xs space-y-0.5">
+-          <div v-for="(error, index) in result.errors" :key="index" class="text-red-500">
++          <div v-for="(error, index) in result.errors" :key="index" class="text-red-600 dark:text-red-400">
+             • {{ error }}
+           </div>
+         </div>
+@@ -189,6 +190,15 @@ const updatePosition = async () => {
+     }
+   }
+ 
++  // Convert document coordinates to offsetParent-relative coordinates
++  // (the tooltip is absolutely positioned inside <main>, its offsetParent)
++  const offsetParent = tooltip.value.offsetParent
++  if (offsetParent && offsetParent !== document.documentElement && offsetParent !== document.body) {
++    const parentRect = offsetParent.getBoundingClientRect()
++    newTop -= parentRect.top + scrollTop
++    newLeft -= parentRect.left + scrollLeft
++  }
++
+   top.value = Math.round(newTop)
+   left.value = Math.round(newLeft)
+ }
+diff --git a/web/app/src/components/ui/badge/Badge.vue b/web/app/src/components/ui/badge/Badge.vue
+index d783517..166305a 100644
+--- a/web/app/src/components/ui/badge/Badge.vue
++++ b/web/app/src/components/ui/badge/Badge.vue
+@@ -24,8 +24,8 @@ const badgeVariants = cva(
+         secondary: 'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+         destructive: 'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80',
+         outline: 'text-foreground',
+-        success: 'border-transparent bg-green-500 text-white',
+-        warning: 'border-transparent bg-yellow-500 text-white',
++        success: 'border-transparent bg-green-700 text-white',
++        warning: 'border-transparent bg-yellow-500 text-yellow-950',
+       },
+     },
+     defaultVariants: {
+diff --git a/web/app/src/components/ui/card/CardTitle.vue b/web/app/src/components/ui/card/CardTitle.vue
+index 1991976..2b61963 100644
+--- a/web/app/src/components/ui/card/CardTitle.vue
++++ b/web/app/src/components/ui/card/CardTitle.vue
+@@ -1,7 +1,7 @@
+ <template>
+-  <h3 :class="combineClasses('text-2xl font-semibold leading-none tracking-tight', $attrs.class ?? '')">
++  <h2 :class="combineClasses('text-2xl font-semibold leading-none tracking-tight', $attrs.class ?? '')">
+     <slot />
+-  </h3>
++  </h2>
+ </template>
+ 
+ <script setup>
+diff --git a/web/app/src/components/ui/select/Select.vue b/web/app/src/components/ui/select/Select.vue
+index aa70d3c..ceca2b6 100644
+--- a/web/app/src/components/ui/select/Select.vue
++++ b/web/app/src/components/ui/select/Select.vue
+@@ -15,6 +15,7 @@
+     <div
+       v-if="isOpen"
+       role="listbox"
++      :aria-label="props.label || 'Options'"
+       class="absolute top-full left-0 z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95"
+     >
+       <div class="p-1">
+@@ -47,6 +48,7 @@ const props = defineProps({
+   modelValue: { type: String, default: '' },
+   options: { type: Array, required: true },
+   placeholder: { type: String, default: 'Select...' },
++  label: { type: String, default: '' },
+   class: { type: String, default: '' }
+ })
+ 
+diff --git a/web/app/src/index.css b/web/app/src/index.css
+index dd15e9e..c5c6f1f 100644
+--- a/web/app/src/index.css
++++ b/web/app/src/index.css
+@@ -18,7 +18,7 @@
+     --muted-foreground: 215.4 16.3% 46.9%;
+     --accent: 210 40% 96.1%;
+     --accent-foreground: 222.2 47.4% 11.2%;
+-    --destructive: 0 84.2% 60.2%;
++    --destructive: 0 72.2% 50.6%;
+     --destructive-foreground: 210 40% 98%;
+     --border: 214.3 31.8% 91.4%;
+     --input: 214.3 31.8% 91.4%;
+diff --git a/web/app/src/views/EndpointDetails.vue b/web/app/src/views/EndpointDetails.vue
+index 68eefa4..13ec32d 100644
+--- a/web/app/src/views/EndpointDetails.vue
++++ b/web/app/src/views/EndpointDetails.vue
+@@ -108,6 +108,7 @@
+                   <CardTitle>Response Time Trend</CardTitle>
+                   <select 
+                     v-model="selectedChartDuration"
++                    aria-label="Chart duration"
+                     class="text-sm bg-background border rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-ring"
+                   >
+                     <option value="24h">24 hours</option>
+@@ -176,8 +177,8 @@
+               <div class="space-y-4">
+                 <div v-for="event in events" :key="event.timestamp" class="flex items-start gap-4 pb-4 border-b last:border-0">
+                   <div class="mt-1">
+-                    <ArrowUpCircle v-if="event.type === 'HEALTHY'" class="h-5 w-5 text-green-500" />
+-                    <ArrowDownCircle v-else-if="event.type === 'UNHEALTHY'" class="h-5 w-5 text-red-500" />
++                    <ArrowUpCircle v-if="event.type === 'HEALTHY'" class="h-5 w-5 text-green-600" />
++                    <ArrowDownCircle v-else-if="event.type === 'UNHEALTHY'" class="h-5 w-5 text-red-600" />
+                     <PlayCircle v-else class="h-5 w-5 text-muted-foreground" />
+                   </div>
+                   <div class="flex-1">
+diff --git a/web/app/src/views/Home.vue b/web/app/src/views/Home.vue
+index 729ae09..e3a4e9d 100644
+--- a/web/app/src/views/Home.vue
++++ b/web/app/src/views/Home.vue
+@@ -2,8 +2,8 @@
+   <div class="dashboard-container bg-background">
+     <div class="container mx-auto px-4 py-8 max-w-7xl">
+       <div class="mb-6">
+-        <div class="flex items-center justify-between mb-6">
+-          <div>
++        <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 mb-6">
++          <div class="min-w-0">
+             <h1 class="text-4xl font-bold tracking-tight">{{ dashboardHeading }}</h1>
+             <p class="text-muted-foreground mt-2">{{ dashboardSubheading }}</p>
+           </div>
+@@ -56,7 +56,13 @@
+             <!-- Group Header -->
+             <div 
+               @click="toggleGroupCollapse(group)"
+-              class="endpoint-group-header flex items-center justify-between p-4 bg-card border-b cursor-pointer hover:bg-accent/50 transition-colors"
++              @keydown.enter="toggleGroupCollapse(group)"
++              @keydown.space.prevent="toggleGroupCollapse(group)"
++              role="button"
++              tabindex="0"
++              :aria-expanded="uncollapsedGroups.has(group)"
++              :aria-label="`${group} group`"
++              class="endpoint-group-header flex items-center justify-between p-4 bg-card border-b cursor-pointer hover:bg-accent/50 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+             >
+               <div class="flex items-center gap-3">
+                 <ChevronDown v-if="uncollapsedGroups.has(group)" class="h-5 w-5 text-muted-foreground" />
+diff --git a/web/app/src/views/SuiteDetails.vue b/web/app/src/views/SuiteDetails.vue
+index 94e7b4f..cd69b1d 100644
+--- a/web/app/src/views/SuiteDetails.vue
++++ b/web/app/src/views/SuiteDetails.vue
+@@ -80,7 +80,7 @@
+ 
+               <!-- Errors -->
+               <div v-if="latestResult.errors && latestResult.errors.length > 0" class="mt-6">
+-                <h3 class="text-lg font-semibold mb-3 text-red-500">Suite Errors</h3>
++                <h3 class="text-lg font-semibold mb-3 text-red-600 dark:text-red-400">Suite Errors</h3>
+                 <div class="space-y-2">
+                   <div
+                     v-for="(error, index) in latestResult.errors"
+@@ -105,15 +105,20 @@
+               <div
+                 v-for="(result, index) in sortedResults"
+                 :key="index"
+-                class="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer"
++                class="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
++                role="button"
++                tabindex="0"
++                :aria-label="`Show execution from ${formatTimestamp(result.timestamp)}`"
+                 @click="selectedResult = result"
++                @keydown.enter="selectedResult = result"
++                @keydown.space.prevent="selectedResult = result"
+                 :class="{ 'bg-accent': selectedResult && selectedResult.timestamp === result.timestamp }"
+               >
+                 <div class="flex items-center gap-3">
+                   <StatusBadge :status="result.success ? 'healthy' : 'unhealthy'" size="sm" />
+                   <div>
+                     <p class="text-sm font-medium">{{ formatTimestamp(result.timestamp) }}</p>
+-                    <p class="text-xs text-muted-foreground">
++                    <p class="text-xs text-foreground/70">
+                       {{ result.endpointResults?.length || 0 }} endpoints • {{ formatDuration(result.duration) }}
+                     </p>
+                   </div>
