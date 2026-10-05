@@ -1,54 +1,63 @@
 {
- "produit": "vrana/adminer",
- "sha": "f9f9f1726048f6bdcaf891b5e14f5343a3132ba6",
- "baseSha": "f9f9f1726048f6bdcaf891b5e14f5343a3132ba6",
- "baseline": {
-  "rules": 10,
-  "occurrences": 1153,
-  "errors": 0,
-  "scenarios": 30,
-  "detail": "reports/baseline/public (2 pages, 36 occ) + reports/baseline/auth (24 urls + 4 états = 28 pages, 1117 occ, 6 incomplets) ; union règles : region 504, target-size 399, label 75, color-contrast 66, select-name 30, landmark-one-main 28, link-name 28, label-title-only 15, link-in-text-block 7, empty-table-header 1",
-  "notes": [
-   "region 504 occ : dominé par les <b>Warning</b> PHP rendus sur user= (SHOW PRIVILEGES absent sous sqlite → warnings en cascade 'headers already sent') — bug upstream réel, corrigé (cast (array) user.inc.php:31)",
-   "target-size 399 : liens #tables (223), .links (~75), aides jush (40), boutons icon (~18), cases ~13px",
-   "select-name 30 : 28 auth (dump/csv/edit-fields/…) + 2 public (System sqlite, langue si présent)"
-  ]
- },
- "final": {
-  "rules": 0,
-  "occurrences": 0,
-  "errors": 0,
-  "scenarios": 30,
-  "detail": "reports/final/public (2 pages) + reports/final/auth (24 urls + 4 états = 28 pages) — 0 violation, 5 incomplets au rapport",
-  "notes": [
-   "5 incomplets résiduels = 3 color-contrast (fg/bg indéterminé par axe) + 2 th-has-data-cells (faux positif : la table a 7 lignes de données et 13 th, 0 vide)",
-   "sonde rejouable : probe-decisions.json couvre 13 nœuds concrets (11 color-contrast, ratios mesurés 5.14:1–21:1 ≥4.5 exigé ; 2 th-has-data-cells rows=7/th=13) — tous PASS"
-  ]
- },
- "verifications": {
-  "audit_commands": "voir manifest.auditCommands — rejouées verbatim sur le build livré (même port :8080 baseline+final)",
-  "verify": "verify.mjs : TOUT PASS 37/37 — noms accessibles calculés (login, check-all, lignes check[] nommées 'id ↓ = N', jush pre role=textbox + aria-label, selects dump/indexes/edit), contrastes mesurés (h1 5.74, .error 5.89), cibles >=24px, menu mobile aria-expanded",
-  "eval_final": "eval-final.mjs : TOUT PASS — parcours indépendant : structure E2 (h1+main+champs nommés) sur les 24 urls, clavier E3, reflow 320px E4 (body min-width:fit-content neutralisé sous 800px, .scrollable overflow-x:auto), menu E5, absence de warnings PHP E6, cochage+navigation édition E7",
-  "install_build": "voir install-build.txt — clone propre @f9f9f17 + patch.diff (21 fichiers, 0 rejet) + docker :8081 → rescan 0 violation auth (5 mêmes incomplets) + public, verify TOUT PASS, eval TOUT PASS"
- },
- "corrections": {
-  "fichiers": 21,
-  "familles": [
-   "landmarks : <main id=content>, <nav aria-label=Menu>, <nav aria-label=Breadcrumb>, #foot role=complementary (design.inc.php)",
-   "labels formulaires : loginFormField() associe <th>→<label for=id> ; <label> englobants (Name/Limit rows/Table name/Auto Increment) ; aria-labelledby 'label-X' idiom upstream réutilisé partout (event, user, trigger, dump, indexes, db, select)",
-   "jush (contenteditable) : role=textbox + aria-multiline + transfert aria-label du textarea vers pre.jush ; label du select.jush-autocomplete partagé (editing.js + const autocompleteLabel dans design.inc.php)",
-   "contrastes : h1/.version/#h1 #777→#666 ; .error red→#c00 ; vars jush surchargées via body .jush scopé prefers-color-scheme:light (#cc0000/#007070/#008000) — jush.css est un sous-module non patchable",
-   "target-size : liens #tables/.links 24px, a.jush-help 24px, button.icon 24px, input[type=checkbox] 24px",
-   "structure : empty <th> → colspan (event), </label> orphelin supprimé (db target), title-only → aria-labelledby (indexes columns, db op/query)",
-   "bug upstream : user.inc.php foreach sur $privileges['Tables'] null sous sqlite → (array) cast (supprime warnings PHP + cascade headers)",
-   "reflow : body min-width:fit-content neutralisé sous 800px + .scrollable overflow-x:auto + #breadcrumb wrappable mobile"
+  "produit": "vrana/adminer",
+  "sha": "f9f9f1726048f6bdcaf891b5e14f5343a3132ba6",
+  "baseSha": "f9f9f1726048f6bdcaf891b5e14f5343a3132ba6",
+  "baseline": {
+    "rules": 10,
+    "occurrences": 1153,
+    "errors": 0,
+    "scenarios": 30,
+    "detail": "reports/baseline/public (2 pages, 36 occ) + reports/baseline/auth (24 urls + 4 états = 28 pages, 1117 occ, 6 incomplets) ; union règles : region 504, target-size 399, label 75, color-contrast 66, select-name 30, landmark-one-main 28, link-name 28, label-title-only 15, link-in-text-block 7, empty-table-header 1",
+    "notes": [
+      "region 504 occ : dominé par les <b>Warning</b> PHP rendus sur user= (SHOW PRIVILEGES absent sous sqlite → warnings en cascade 'headers already sent') — bug upstream réel, corrigé (cast (array) user.inc.php:31)",
+      "target-size 399 : liens #tables (223), .links (~75), aides jush (40), boutons icon (~18), cases ~13px",
+      "select-name 30 : 28 auth (dump/csv/edit-fields/…) + 2 public (System sqlite, langue si présent)"
+    ]
+  },
+  "final": {
+    "rules": 0,
+    "occurrences": 0,
+    "errors": 0,
+    "scenarios": 30,
+    "detail": "reports/final/public (2 pages) + reports/final/auth (24 urls + 4 états = 28 pages) — 0 violation, 5 incomplets au rapport",
+    "notes": [
+      "5 incomplets résiduels = 3 color-contrast (fg/bg indéterminé par axe) + 2 th-has-data-cells (faux positif : la table a 7 lignes de données et 13 th, 0 vide)",
+      "sonde rejouable : probe-decisions.json couvre 13 nœuds concrets (11 color-contrast, ratios mesurés 5.14:1–21:1 ≥4.5 exigé ; 2 th-has-data-cells rows=7/th=13) — tous PASS"
+    ]
+  },
+  "verifications": {
+    "audit_commands": "voir manifest.auditCommands — rejouées verbatim sur le build livré (même port :8080 baseline+final)",
+    "verify": "verify.mjs : TOUT PASS 35/35 — noms accessibles calculés (login, check-all, lignes check[] nommées 'id ↓ = N', jush pre role=textbox + aria-label, selects dump/indexes/edit), contrastes mesurés (h1 5.74, .error 5.89), cibles >=24px, menu mobile aria-expanded",
+    "eval_final": "eval-final.mjs : TOUT PASS — parcours indépendant : structure E2 (h1+main+champs nommés) sur les 24 urls, clavier E3, reflow 320px E4 (body min-width:fit-content neutralisé sous 800px, .scrollable overflow-x:auto), menu E5, absence de warnings PHP E6, cochage+navigation édition E7",
+    "install_build": "voir install-build.txt — clone propre @f9f9f17 + patch.diff (21 fichiers, 0 rejet) + docker :8081 → rescan 0 violation auth (5 mêmes incomplets) + public, verify TOUT PASS, eval TOUT PASS"
+  },
+  "corrections": {
+    "fichiers": 21,
+    "familles": [
+      "landmarks : <main id=content>, <nav aria-label=Menu>, <nav aria-label=Breadcrumb>, #foot role=complementary (design.inc.php)",
+      "labels formulaires : loginFormField() associe <th>→<label for=id> ; <label> englobants (Name/Limit rows/Table name/Auto Increment) ; aria-labelledby 'label-X' idiom upstream réutilisé partout (event, user, trigger, dump, indexes, db, select)",
+      "jush (contenteditable) : role=textbox + aria-multiline + transfert aria-label du textarea vers pre.jush ; label du select.jush-autocomplete partagé (editing.js + const autocompleteLabel dans design.inc.php)",
+      "contrastes : h1/.version/#h1 #777→#666 ; .error red→#c00 ; vars jush surchargées via body .jush scopé prefers-color-scheme:light (#cc0000/#007070/#008000) — jush.css est un sous-module non patchable",
+      "target-size : liens #tables/.links 24px, a.jush-help 24px, button.icon 24px, input[type=checkbox] 24px",
+      "structure : empty <th> → colspan (event), </label> orphelin supprimé (db target), title-only → aria-labelledby (indexes columns, db op/query)",
+      "bug upstream : user.inc.php foreach sur $privileges['Tables'] null sous sqlite → (array) cast (supprime warnings PHP + cascade headers)",
+      "reflow : body min-width:fit-content neutralisé sous 800px + .scrollable overflow-x:auto + #breadcrumb wrappable mobile"
+    ],
+    "masquage": "aucun : pas de display:none, pas d'aria-hack, pas de retrait DOM ; corrections dans les vraies sources adminer/* (dev) servies telles quelles par php -S"
+  },
+  "warts": [
+    "jush est un sous-module git : ses couleurs ne peuvent être patchées dans la source jush.css → override via custom properties sur body .jush (spécificité supérieure) limité au schéma light ; jush-dark.css conserve sa palette non auditée",
+    "adminer-plugins.php (gate Password pour login sqlite) est gitignoré upstream : requis pour le banc d'essai mais hors patch.diff — documenté dans install-build.txt §3",
+    "les selects cachés par option_types() (collation/unsigned/on_update/on_delete/generated) sont nommés via aria-label — visibles seulement selon le type de colonne ; axe ne les voit que dépliés",
+    "input[type=checkbox] 24px : changement visuel notable (cases plus grosses) — compromis nécessaire au critère 2.5.8, pas de retrait"
   ],
-  "masquage": "aucun : pas de display:none, pas d'aria-hack, pas de retrait DOM ; corrections dans les vraies sources adminer/* (dev) servies telles quelles par php -S"
- },
- "warts": [
-  "jush est un sous-module git : ses couleurs ne peuvent être patchées dans la source jush.css → override via custom properties sur body .jush (spécificité supérieure) limité au schéma light ; jush-dark.css conserve sa palette non auditée",
-  "adminer-plugins.php (gate Password pour login sqlite) est gitignoré upstream : requis pour le banc d'essai mais hors patch.diff — documenté dans install-build.txt §3",
-  "les selects cachés par option_types() (collation/unsigned/on_update/on_delete/generated) sont nommés via aria-label — visibles seulement selon le type de colonne ; axe ne les voit que dépliés",
-  "input[type=checkbox] 24px : changement visuel notable (cases plus grosses) — compromis nécessaire au critère 2.5.8, pas de retrait"
- ]
+  "corrections_post_audit_warts": {
+    "w1_baseline_sous_estime": "Les états sql-erreur/sql-resultat du BASELINE ont échoué en locator.fill timeout (textarea display:none sous jush — STATES v1) → jamais scannés. Vrai baseline ≈1215 occ (rejeu auditeur), pas 1153 : l'amélioration est SOUS-ESTIMÉE (contre le claim). STATES v3 corrigé ensuite (pre.jush click + keyboard.type) — traçable dans les champs error des rapports baseline.",
+    "w2_provenance": "3 entrées provenance (tools/a11y-audit/*) gitignorées non livrées — supprimées de la carte, 47 fichiers livrés hachés.",
+    "w3_verify_count": "results disait 37/37 ; le verify.mjs livré exécute 35 assertions (34 sites ok() dont 1 en boucle ×2). Corrigé → 35/35.",
+    "w4_stateshash_drift": "STATES a évolué mid-cycle (v1 baseline → v3 final/install-build) : statesHash baseline ≠ final, attendu et documenté ; scope-compare.json n'asserte que scopeHash (identique recomputé). Conséquence : baseline menu-mobile-ouvert = 20 incomplets vs ~2 sous v3.",
+    "w5_seed": "manifest renvoyait à un script seed verbatim absent — ajouté ci-dessous (reconstruit d'après la description + rejeu auditeur : authors(4), books(10), vue expensive_books, 2 index, FK, trigger price_check, AUTOINCREMENT).",
+    "w6_urls_absolues": "urls-auth.txt porte des URLs absolues :8080 — un auditeur sur autre port doit les rebaser (le runner accepte aussi --urls relatifs).",
+    "seed_db": "# reconstruit post-audit (W5) — db.sqlite utilisé pour login adminer sqlite3\npython3 - <<'PY'\nimport sqlite3\nc=sqlite3.connect('data/db.sqlite')\nc.executescript('''\nCREATE TABLE authors(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL);\nCREATE TABLE books(id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, author_id INTEGER REFERENCES authors(id), price REAL CHECK(price>=0), note TEXT);\nCREATE VIEW expensive_books AS SELECT * FROM books WHERE price>50;\nCREATE INDEX idx_books_author ON books(author_id);\nCREATE INDEX idx_books_price ON books(price);\nCREATE TRIGGER books_price_check AFTER UPDATE ON books WHEN NEW.price<0 BEGIN SELECT RAISE(ABORT,'price<0'); END;\nINSERT INTO authors(name) VALUES ('Tolkien'),('Asimov'),('Le Guin'),('Pratchett');\nINSERT INTO books(title,author_id,price,note) VALUES ('LOTR',1,89.9,'See https://example.com/sower'),('Foundation',2,45.0,NULL),('Earthsea',3,38.5,NULL),('Mort',4,42.0,NULL),('The Hobbit',1,55.0,NULL),('I Robot',2,29.9,NULL),('Left Hand',3,66.0,NULL),('Sourcery',4,33.0,NULL),('Silmarillion',1,120.0,NULL),('Caves of Steel',2,44.0,NULL);\n''')\nc.commit();c.close()\nPY"
+  }
 }
