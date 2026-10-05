@@ -37,12 +37,6 @@ ok('clavier: focus progresse sur >= 6 éléments distincts (pas de piège)', uni
 ok('clavier: l\'éditeur est atteignable au Tab', sawEditor, trail.join('>'));
 
 // ── B. focus-visible : un indicateur de focus existe ───────────────────────
-const focusInfo = await page.evaluate(() => {
-  const el = document.activeElement;
-  if (!el || el === document.body) return { none: true };
-  const cs = getComputedStyle(el);
-  return { id: el.id, outline: cs.outlineStyle + ' ' + cs.outlineWidth, shadow: cs.boxShadow, fv: el.matches(':focus-visible') };
-});
 await page.locator('#messageedit').focus();
 const focusInfo2 = await page.evaluate(() => {
   const el = document.activeElement;
@@ -101,7 +95,7 @@ const qr = await page.evaluate(() => {
   const named = kids.filter(k => k.getAttribute('aria-label') || k.getAttribute('title') || k.getAttribute('role') === 'img');
   return { children: kids.length, tagged: named.length, boxLabel: box.getAttribute('aria-label') };
 });
-ok('qr: le code rendu a un nom accessible (img/aria)', qr.children === 0 || qr.tagged > 0 || !!qr.boxLabel, JSON.stringify(qr));
+ok('qr: le code rendu a un nom accessible (img/aria)', qr.children > 0 && (qr.tagged > 0 || !!qr.boxLabel), JSON.stringify(qr));
 
 await browser.close();
 const fails = results.filter(r => !r.pass).length;

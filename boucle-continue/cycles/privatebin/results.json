@@ -1,87 +1,95 @@
 {
- "cycle": 22,
- "produit": "PrivateBin/PrivateBin",
- "commit": "c77f5f1ba0e9dab499cad22d5d13c65b29e20dc6",
- "statut_execution": "complet",
- "baseline": {
-  "surfaces": 7,
-  "etats": 7,
-  "violations_occ": 48,
-  "violations_regles": 8,
-  "detail": {
-   "aria-required-parent": 8,
-   "list": 4,
-   "page-has-heading-one": 10,
-   "tabindex": 14,
-   "color-contrast": 6,
-   "aria-dialog-name": 4,
-   "label-title-only": 1,
-   "label": 1
+  "cycle": 22,
+  "produit": "PrivateBin/PrivateBin",
+  "commit": "c77f5f1ba0e9dab499cad22d5d13c65b29e20dc6",
+  "statut_execution": "complet",
+  "baseline": {
+    "surfaces": 7,
+    "etats": 7,
+    "violations_occ": 48,
+    "violations_regles": 8,
+    "detail": {
+      "aria-required-parent": 8,
+      "list": 4,
+      "page-has-heading-one": 10,
+      "tabindex": 14,
+      "color-contrast": 6,
+      "aria-dialog-name": 4,
+      "label-title-only": 1,
+      "label": 1
+    },
+    "erreurs": 0,
+    "incomplets": 16
   },
-  "erreurs": 0,
-  "incomplets": 16
- },
- "final": {
-  "surfaces": 7,
-  "etats": 7,
-  "violations_occ": 0,
-  "violations_regles": 0,
-  "erreurs": 0,
-  "incomplets": 15,
-  "scopeHash_identique_baseline": true
- },
- "install_build": {
-  "violations_occ": 0,
-  "scopeHash_identique": true,
-  "note": "clone propre c77f5f1b + patch.diff + docker php:8.3-apache sur :8080 + re-seed (ids identiques : 34f395b60e6f7082, 872e378729d0e06d, 14997909a623b3a1, 09d52e8dde9aaba1, commentaires 307aafd6a70e53f1/a4cdc6286e2bfd5d) + re-scan complet"
- },
- "verify_mjs": "24/24 assertions",
- "eval_final_mjs": "9/9 contrôles indépendants",
- "incomplete_probes": "22/22 sondes manuelles PASS (rapports/probes/incomplete-probes.json, tools/incomplete-probes.mjs) : selects natifs 15.43/11.85:1, aboutbox 15.43/11.85, titres modales 15.43, btn-danger emailconfirm 4.53:1 (borderline ≥4.5), métas commentaires 15.43, liens générés 6.11/4.5:1",
- "causes_racines": [
-  {
-   "famille": "tablist",
-   "files": [
-    "tpl/bootstrap5.php (#editorTabs role=tablist + li role=presentation + tabs aria-selected/aria-controls/roving tabindex + panels role=tabpanel, sendbutton sorti du tablist dans un flex wrapper)",
-    "js/privatebin.js (roving tabindex sur viewEditor/viewPreview + keydown Arrow/Home/End)"
-   ]
+  "final": {
+    "surfaces": 7,
+    "etats": 7,
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "erreurs": 0,
+    "incomplets": 15,
+    "scopeHash_identique_baseline": true
   },
-  {
-   "famille": "labels",
-   "files": [
-    "tpl/bootstrap5.php (#replytemplate : <label> visible englobant #nickname + #replymessage — for/id impossible car ids dupliqués dans le clone)"
-   ]
+  "install_build": {
+    "violations_occ": 0,
+    "scopeHash_identique": true,
+    "note": "clone propre c77f5f1b + patch.diff + docker php:8.3-apache sur :8080 + re-seed (ids identiques : 34f395b60e6f7082, 872e378729d0e06d, 14997909a623b3a1, 09d52e8dde9aaba1, commentaires 307aafd6a70e53f1/a4cdc6286e2bfd5d) + re-scan complet"
   },
-  {
-   "famille": "tabindex>0",
-   "files": [
-    "tpl/bootstrap5.php (retrait tabindex=1/2/3 sur #message/#sendbutton/#messagetab — ordre naturel déjà correct)"
-   ]
-  },
-  {
-   "famille": "contrastes",
-   "files": [
-    "css/bootstrap5/privatebin.css ([data-bs-theme=light] #prettyprint a, #plaintext a : --bs-link-color-rgb → hover #0a58ca, 4.5→6.1:1 mesuré ; dark garde #6ea8fe)"
-   ]
-  },
-  {
-   "famille": "dialogues",
-   "files": [
-    "tpl/bootstrap5.php (aria-labelledby + titres h2.modal-title sur passwordmodal/loadconfirmmodal/qrcodemodal/emailconfirmmodal)"
-   ]
-  },
-  {
-   "famille": "headings",
-   "files": [
-    "tpl/bootstrap5.php (h1 dans navbar-brand ; h5/h6/h4 existants → h2 avec classes visuelles h4/h5/h6/modal-title ; qrcode-display role=img+aria-label — attrapé par eval-final)"
-   ]
-  }
- ],
- "lecons_harnais": [
-  "viewport d'un état persiste sur la page partagée entre états — setViewportSize dans un setup contamine les scans suivants (navbar-mobile a cassé dark-mode : input caché dans la navbar repliée à 390px) ; idem localStorage (dark-mode en dernier)",
-  "sondes d'incomplétude contrastes : composer les couches d'ancêtres de la racine vers l'élément, pas l'inverse (ordre de collecte el→root inversé au compositing)",
-  "fragments de déchiffrement (#clé base58) : --keep-hash obligatoire — normalizeForDedup les efface sinon",
-  "seed déterministe sans DB : id=fnv1a64(ct) côté serveur + clés/IV/sels figés → ids/fragments identiques au replay (install-build reproduit les mêmes URLs)",
-  "modifier js/*.js impose de régénérer le hash SRI sha512 dans lib/Configuration.php sinon le navigateur bloque le script"
- ]
+  "verify_mjs": "24/24 assertions",
+  "eval_final_mjs": "9/9 contrôles indépendants",
+  "incomplete_probes": "21/22 sondes manuelles PASS + 1 ABSENT (#plaintext a non rendu) (rapports/probes/incomplete-probes.json, tools/incomplete-probes.mjs) : selects natifs 15.43/11.85:1, aboutbox 15.43/11.85, titres modales 15.43, btn-danger emailconfirm 4.53:1 (borderline ≥4.5), métas commentaires 15.43, liens générés 6.11/4.5:1",
+  "causes_racines": [
+    {
+      "famille": "tablist",
+      "files": [
+        "tpl/bootstrap5.php (#editorTabs role=tablist + li role=presentation + tabs aria-selected/aria-controls/roving tabindex + panels role=tabpanel, sendbutton sorti du tablist dans un flex wrapper)",
+        "js/privatebin.js (roving tabindex sur viewEditor/viewPreview + keydown Arrow/Home/End)"
+      ]
+    },
+    {
+      "famille": "labels",
+      "files": [
+        "tpl/bootstrap5.php (#replytemplate : <label> visible englobant #nickname + #replymessage — for/id impossible car ids dupliqués dans le clone)"
+      ]
+    },
+    {
+      "famille": "tabindex>0",
+      "files": [
+        "tpl/bootstrap5.php (retrait tabindex=1/2/3 sur #message/#sendbutton/#messagetab — ordre naturel déjà correct)"
+      ]
+    },
+    {
+      "famille": "contrastes",
+      "files": [
+        "css/bootstrap5/privatebin.css ([data-bs-theme=light] #prettyprint a, #plaintext a : --bs-link-color-rgb → hover #0a58ca, 4.5→6.1:1 mesuré ; dark garde #6ea8fe)"
+      ]
+    },
+    {
+      "famille": "dialogues",
+      "files": [
+        "tpl/bootstrap5.php (aria-labelledby + titres h2.modal-title sur passwordmodal/loadconfirmmodal/qrcodemodal/emailconfirmmodal)"
+      ]
+    },
+    {
+      "famille": "headings",
+      "files": [
+        "tpl/bootstrap5.php (h1 dans navbar-brand ; h5/h6/h4 existants → h2 avec classes visuelles h4/h5/h6/modal-title ; qrcode-display role=img+aria-label — attrapé par eval-final)"
+      ]
+    }
+  ],
+  "lecons_harnais": [
+    "viewport d'un état persiste sur la page partagée entre états — setViewportSize dans un setup contamine les scans suivants (navbar-mobile a cassé dark-mode : input caché dans la navbar repliée à 390px) ; idem localStorage (dark-mode en dernier)",
+    "sondes d'incomplétude contrastes : composer les couches d'ancêtres de la racine vers l'élément, pas l'inverse (ordre de collecte el→root inversé au compositing)",
+    "fragments de déchiffrement (#clé base58) : --keep-hash obligatoire — normalizeForDedup les efface sinon",
+    "seed déterministe sans DB : id=fnv1a64(ct) côté serveur + clés/IV/sels figés → ids/fragments identiques au replay (install-build reproduit les mêmes URLs)",
+    "modifier js/*.js impose de régénérer le hash SRI sha512 dans lib/Configuration.php sinon le navigateur bloque le script"
+  ],
+  "corrections_post_audit_warts": [
+    "W1 patch.diff : </h6> orphelin sous <h2 id=copyShortcutHint> corrigé en </h2> (markup désormais valide, apply vérifié sur clone @c77f5f1b)",
+    "W2 causes_racines : passwordmodal n'a PAS de h2.modal-title — son aria-labelledby pointe le <label> existant (libellé exagéré corrigé)",
+    "W3 sondes : 21 PASS + 1 ABSENT (#plaintext a, rendu conditionnel) — pas 22/22",
+    "W4 couverture : nœud dark-mode a[href$=privatebin.info] sondé par l'auditeur : 6.39:1 PASS (verdict-auditeur.md)",
+    "W5 eval-final check F : condition qr durcie (children>0 requis quand kjua a rendu) ; focusInfo inutilisé supprimé",
+    "W6 déjà documenté : states.json.statesHash provient de reports/final/scope.json (3 scope.json partagent le même hash)"
+  ]
 }

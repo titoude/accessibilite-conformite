@@ -241,3 +241,9 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 - **Warning PHP rendu = violation `region` massive** : sur `user=` sous sqlite, `SHOW PRIVILEGES` échoue → `foreach(null)` → warning inline + cascade "headers already sent" (38 occ `<b>Warning</b>`). Compter le diagnostic dans le baseline (upstream réel), corriger la source (cast `(array)`), PAS filtrer la sortie.
 - **`body { min-width: fit-content }` casse tout reflow** : upstream élargit la page au contenu (design « tables larges défilent ») → scroll horizontal même sur du texte. Fix : `min-width: 0` sous 800px + `overflow-x: auto` sur `.scrollable` (classe-marqueur qui n'avait AUCUNE règle) — la table défile dans son conteneur, exempt reflow WCAG.
 - **eval-final indépendant > axe** : il a attrapé 4 défauts qu'axe n'avait pas levés (boutons icon sans name exploitable, reflow réel, selects cachés sans label, textarea jush anonyme). Un `title` reste un accname valide — l'implémenter dans la sonde accName avant de déclarer « sans nom ».
+
+### Leçons — cycle 22 privatebin (re-audit → CONFIRMED + W1-W6)
+- **Renommer une balise hN = ouvrir ET fermer** : `<h6>`→`<h2>` en laissant `</h6>` produit un markup invalide que ni axe ni l'œil ne voient (HTML5 ferme le h2 à tout end-tag hN) — l'auditeur DOM l'a attrapé. Toute conversion de tag doit greffer `</` dans le même hunk.
+- **Décrire le mécanisme réel, pas celui imaginé** : « titres h2 sur les 4 modales » exagérait — passwordmodal pointe son label existant. Les causes_racines doivent dire ce qui a été fait exactement.
+- **ABSENT ≠ PASS dans le décompte** : une sonde non jouée (élément conditionnel absent) se compte séparément : « 21 PASS + 1 ABSENT », jamais « 22/22 ».
+- **État qui mute le viewport/localStorage en dernier** : navbar-mobile 390px persistait et masquait #bd-theme sur les états suivants — ordonner les états mutants en fin de liste ou reset explicite.
