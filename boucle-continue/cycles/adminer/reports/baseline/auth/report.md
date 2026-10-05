@@ -1,0 +1,1108 @@
+# Audit accessibilité — 2026-10-04
+
+**10 règle(s) violée(s), 1117 occurrence(s), 26/28 scénario(s) audité(s), 2 erreur(s), 33 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `0b56c7d1baf7`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `input[type="search"]`
+  - `input[name="target"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `input[name="limit"]`
+  - `input[name="text_length"]`
+  - `input[value="where[id]=1"]`
+  - `input[value="where[id]=2"]`
+  - `input[value="where[id]=3"]`
+  - `input[value="where[id]=4"]`
+  - `input[value="where[id]=5"]`
+  - `input[value="where[id]=6"]`
+  - `input[value="where[id]=7"]`
+  - `input[value="where[id]=8"]`
+  - … +2 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `input[name="limit"]`
+  - `input[name="text_length"]`
+  - `tr:nth-child(1) > .check.sticky.hover > input[name="check[]"][type="checkbox"]`
+  - `tr:nth-child(2) > .check.sticky.hover > input[name="check[]"][type="checkbox"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `input[name="fields[id]"]`
+  - `input[name="fields[author_id]"]`
+  - `textarea[name="fields[title]"]`
+  - `textarea[name="fields[isbn]"]`
+  - `input[value="0"]`
+  - `input[name="fields[published]"]`
+  - `textarea[name="fields[note]"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `input[name="fields[id]"]`
+  - `input[name="fields[author_id]"]`
+  - `textarea[name="fields[title]"]`
+  - `textarea[name="fields[isbn]"]`
+  - `input[value="9.99"]`
+  - `input[value="1968"]`
+  - `textarea[name="fields[note]"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=
+  - `input[name="name"]`
+  - `input[type="radio"][name="auto_increment_col"][value=""]`
+  - `.size`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books
+  - `input[name="name"]`
+  - `input[type="radio"][name="auto_increment_col"][value=""]`
+  - `.size`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `input[name="Trigger"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `input[name="Trigger"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books
+  - `input[name="name"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `.size`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=
+  - `input[name="name"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `input[name="EVENT_NAME"]`
+  - `input[name="STARTS"]`
+  - `input[name="ENDS"]`
+  - `.size`
+  - `input[name="EVENT_COMMENT"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `input[name="host"]`
+  - `input[name="user"]`
+  - `#pass`
+  - `input[name="objects[0]"]`
+  - `#grants-0-all`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=
+  - `input[name="name"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=
+  - `input[name="name"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `input[name="limit"]`
+  - `input[name="text_length"]`
+  - `input[value="where[id]=1"]`
+  - `input[value="where[id]=2"]`
+  - `input[value="where[id]=3"]`
+  - `input[value="where[id]=4"]`
+  - `input[value="where[id]=5"]`
+  - `input[value="where[id]=6"]`
+  - `input[value="where[id]=7"]`
+  - `input[value="where[id]=8"]`
+  - … +2 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `input[type="search"]`
+  - `input[name="target"]`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `select[name="op"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `select[name="function[author_id]"]`
+  - `select[name="function[title]"]`
+  - `select[name="function[isbn]"]`
+  - `select[name="function[price]"]`
+  - `select[name="function[published]"]`
+  - `select[name="function[note]"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `select[name="function[id]"]`
+  - `select[name="function[author_id]"]`
+  - `select[name="function[title]"]`
+  - `select[name="function[isbn]"]`
+  - `select[name="function[price]"]`
+  - `select[name="function[published]"]`
+  - `select[name="function[note]"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `select[name="Timing"]`
+  - `select[name="Event"]`
+  - `select[name="Type"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `select[name="Timing"]`
+  - `select[name="Event"]`
+  - `select[name="Type"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `.jush-autocomplete`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=
+  - `select[name="table_style"]`
+  - `select[name="data_style"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books
+  - `select[name="table_style"]`
+  - `select[name="data_style"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `select[name="INTERVAL_FIELD"]`
+  - `select[name="STATUS"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `select[name="op"]`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `.jush-custom`
+  - `.jush-num > .jush-op`
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `.jush-sqlite_quo:nth-child(2)`
+  - `.jush-custom`
+  - `.jush-num > .jush-op`
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `.jush-custom`
+  - `.jush-sqlite_quo:nth-child(5)`
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `.jush-sqlite_apo`
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `.jush-custom`
+  - `.jush-num > .jush-op`
+  - `#h1`
+  - `.version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `#h1`
+  - `.version`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `#version`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `#version`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `#menu > .links > a:nth-child(1)`
+  - `#menu > .links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `#menu > .links > a:nth-child(1)`
+  - `#menu > .links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `.active.select[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `#menu > .links > a:nth-child(1)`
+  - `#menu > .links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `.active.select[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books
+  - `#menu > .links > a:nth-child(1)`
+  - `#menu > .links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `.active.structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `.active`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `.active`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=
+  - `button[name="add[0]"]`
+  - `button[name="add[1]"]`
+  - `.icon-cross`
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - … +6 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books
+  - `button[name="add[0]"]`
+  - `button[name="add[1]"]`
+  - `button[name="drop_col[1]"]`
+  - `button[name="add[2]"]`
+  - `button[name="drop_col[2]"]`
+  - `button[name="add[3]"]`
+  - `button[name="drop_col[3]"]`
+  - `button[name="add[4]"]`
+  - `button[name="drop_col[4]"]`
+  - `button[name="add[5]"]`
+  - … +18 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `.active`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `.active`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `.active`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.active`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `.active`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `a:nth-child(4)`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=
+  - `#menu > .links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=
+  - `.links > a:nth-child(1)`
+  - `.links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=
+  - `tr:nth-child(1) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(2) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(5) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(6) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(7) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(12) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(13) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(14) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(15) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - `tr:nth-child(16) > th > code > .jush > .jush-sqliteset > .jush > .jush-help[target="_blank"][rel="noreferrer noopener"]`
+  - … +43 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `#menu > .links > a:nth-child(1)`
+  - `#menu > .links > a:nth-child(2)`
+  - `#dump`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `.active.select[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - `li:nth-child(3) > .select.hover[title="Select data"]`
+  - `.view`
+  - `li:nth-child(4) > .select.hover[title="Select data"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `input[name="views[]"]`
+  - `#Table-expensive_books`
+  - `input[value="sqlite_sequence"]`
+  - `#Table-sqlite_sequence`
+  - `#menu > .links > a:nth-child(1)`
+  - `a:nth-child(4)`
+  - `li:nth-child(1) > .select.hover[title="Select data"]`
+  - `li:nth-child(1) > .structure[title="Show structure"]`
+  - `li:nth-child(2) > .select.hover[title="Select data"]`
+  - `li:nth-child(2) > .structure[title="Show structure"]`
+  - … +6 autres
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.13/label-title-only?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `#check-all`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `#all-page`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `#all-page`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books
+  - `select[name="indexes[1][columns][1]"]`
+  - `select[name="indexes[1][columns][2]"]`
+  - `select[name="indexes[2][columns][1]"]`
+  - `select[name="indexes[2][columns][2]"]`
+  - `select[name="indexes[3][columns][1]"]`
+  - `select[name="indexes[3][columns][2]"]`
+  - `select[name="indexes[4][columns][1]"]`
+  - `select[name="indexes[4][columns][2]"]`
+  - `select[name="indexes[5][columns][1]"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `#all-page`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `#check-all`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-in-text-block?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `a[href="?sqlite="]`
+  - `a[href="?sqlite=&username=admin"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `p:nth-child(8) > .hover`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `p:nth-child(8) > .hover`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `p:nth-child(8) > .hover`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `a[href="?sqlite="]`
+  - `a[href="?sqlite=&username=admin"]`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `html`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `html`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `#breadcrumb`
+  - `h2`
+  - `#content > .links`
+  - `#tables-views`
+  - `form[method="post"] > fieldset > legend`
+  - `select[name="op"]`
+  - `input[type="search"]`
+  - `.scrollable`
+  - `div > fieldset:nth-child(1) > legend`
+  - `fieldset:nth-child(2) > legend`
+  - … +8 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books
+  - `#breadcrumb`
+  - `h2`
+  - `#content > .links`
+  - `fieldset:nth-child(5)`
+  - `fieldset:nth-child(6)`
+  - `fieldset:nth-child(7) > legend`
+  - `p:nth-child(8)`
+  - `thead > tr > .check.sticky.hover`
+  - `#th\[id\] > a`
+  - `#th\[author_id\] > a`
+  - … +17 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books
+  - `#breadcrumb`
+  - `h2`
+  - `#content > .links`
+  - `fieldset:nth-child(5)`
+  - `fieldset:nth-child(6)`
+  - `fieldset:nth-child(7) > legend`
+  - `p:nth-child(8)`
+  - `thead > tr > .check.sticky.hover`
+  - `#th\[id\] > a`
+  - `#th\[title\] > a`
+  - … +14 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books
+  - `#breadcrumb`
+  - `h2`
+  - `#content > .links`
+  - `.scrollable`
+  - `div:nth-child(8)`
+  - `div:nth-child(9)`
+  - `div:nth-child(10)`
+  - `div:nth-child(11)`
+  - `h1`
+  - `#lang > label`
+  - … +4 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books
+  - `#breadcrumb`
+  - `h2`
+  - `tr:nth-child(1)`
+  - `tr:nth-child(2) > th`
+  - `tr:nth-child(2) > .function`
+  - `input[name="fields[author_id]"]`
+  - `tr:nth-child(3) > th`
+  - `tr:nth-child(3) > .function`
+  - `textarea[name="fields[title]"]`
+  - `tr:nth-child(4) > th`
+  - … +17 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `#breadcrumb`
+  - `h2`
+  - `p:nth-child(6)`
+  - `tr[data-onchange="whereChange()"] > th`
+  - `tr[data-onchange="whereChange()"] > .function`
+  - `input[name="fields[id]"]`
+  - `tr:nth-child(2) > th`
+  - `tr:nth-child(2) > .function`
+  - `input[name="fields[author_id]"]`
+  - `tr:nth-child(3) > th`
+  - … +20 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=
+  - `#breadcrumb`
+  - `h2`
+  - `#form > p:nth-child(1)`
+  - `#label-name`
+  - `#label-type`
+  - `#label-length`
+  - `th:nth-child(4)`
+  - `#label-null`
+  - `th:nth-child(6)`
+  - `input[name="fields[1][field]"]`
+  - … +11 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books
+  - `#breadcrumb`
+  - `h2`
+  - `#form > p:nth-child(1)`
+  - `#label-name`
+  - `#label-type`
+  - `#label-length`
+  - `th:nth-child(4)`
+  - `#label-null`
+  - `th:nth-child(6)`
+  - `input[name="fields[1][field]"]`
+  - … +44 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books
+  - `#breadcrumb`
+  - `h2`
+  - `#label-type`
+  - `th:nth-child(2)`
+  - `#label-name`
+  - `tr:nth-child(1) > td:nth-child(1)`
+  - `select[name="indexes[1][columns][1]"]`
+  - `select[name="indexes[1][columns][2]"]`
+  - `tr:nth-child(1) > td:nth-child(3)`
+  - `tr:nth-child(2) > td:nth-child(1)`
+  - … +20 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books
+  - `#breadcrumb`
+  - `h2`
+  - `form[method="post"] > p:nth-child(1) > label`
+  - `table`
+  - `p:nth-child(3)`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - … +1 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=
+  - `#breadcrumb`
+  - `h2`
+  - `tr:nth-child(1)`
+  - `tr:nth-child(2) > th`
+  - `select[name="Event"]`
+  - `tr:nth-child(3)`
+  - `tr:nth-child(4)`
+  - `pre`
+  - `h1`
+  - `#lang > label`
+  - … +4 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check
+  - `#breadcrumb`
+  - `h2`
+  - `tr:nth-child(1)`
+  - `tr:nth-child(2) > th`
+  - `select[name="Event"]`
+  - `tr:nth-child(3)`
+  - `tr:nth-child(4)`
+  - `pre`
+  - `h1`
+  - `#lang > label`
+  - … +4 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books
+  - `#breadcrumb`
+  - `h2`
+  - `#content > form[method="post"] > p:nth-child(1)`
+  - `pre`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books
+  - `#breadcrumb`
+  - `h2`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `#breadcrumb`
+  - `h2`
+  - `.jush-autocomplete`
+  - `#form > p:nth-child(2)`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=
+  - `#breadcrumb`
+  - `h2`
+  - `.layout`
+  - `thead`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(1)`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(2)`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(3)`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(4)`
+  - `tr:nth-child(5) > td > .block`
+  - `p:nth-child(7)`
+  - … +6 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books
+  - `#breadcrumb`
+  - `h2`
+  - `.layout`
+  - `thead`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(1)`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(2)`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(3)`
+  - `table[data-onclick="dumpClick()"] > tbody > tr:nth-child(4)`
+  - `tr:nth-child(5) > td > .block`
+  - `p:nth-child(7)`
+  - … +6 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=
+  - `#breadcrumb`
+  - `h2`
+  - `input[name="name"]`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=
+  - `#breadcrumb`
+  - `h2`
+  - `.table[data-onmousedown="schemaMousedown()"]:nth-child(2)`
+  - `.table[data-onmousedown="schemaMousedown()"]:nth-child(3)`
+  - `.table[data-onmousedown="schemaMousedown()"]:nth-child(4)`
+  - `.table[data-onmousedown="schemaMousedown()"]:nth-child(5)`
+  - `#content > .links`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - … +3 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `#breadcrumb`
+  - `h2`
+  - `table`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `b:nth-child(2)`
+  - `b:nth-child(3)`
+  - `b:nth-child(4)`
+  - `b:nth-child(7)`
+  - `b:nth-child(8)`
+  - `b:nth-child(9)`
+  - `b:nth-child(12)`
+  - `b:nth-child(13)`
+  - `b:nth-child(14)`
+  - `b:nth-child(17)`
+  - … +28 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=
+  - `#breadcrumb`
+  - `h2`
+  - `input[name="name"]`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=
+  - `#breadcrumb`
+  - `h2`
+  - `#content > form[method="post"] > p:nth-child(1)`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=
+  - `#breadcrumb`
+  - `h2`
+  - `table`
+  - `h1`
+  - `#lang > label`
+  - `label[title="Database"]`
+  - `.links`
+  - `#tables`
+  - `span[title="Username"]`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]
+  - `#breadcrumb`
+  - `h2`
+  - `#content > .links`
+  - `fieldset:nth-child(5)`
+  - `fieldset:nth-child(6)`
+  - `fieldset:nth-child(7) > legend`
+  - `p:nth-child(8)`
+  - `thead > tr > .check.sticky.hover`
+  - `#th\[id\] > a`
+  - `#th\[author_id\] > a`
+  - … +17 autres
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `#breadcrumb`
+  - `h2`
+  - `#content > .links`
+  - `#tables-views`
+  - `form[method="post"] > fieldset > legend`
+  - `select[name="op"]`
+  - `input[type="search"]`
+  - `.scrollable`
+  - `div > fieldset:nth-child(1) > legend`
+  - `fieldset:nth-child(2) > legend`
+  - … +8 autres
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-table-header?application=axeAPI
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=
+  - `tr:nth-child(7) > th`
+
+## Résultats incomplets à revoir (33)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite
+  - `table`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `table`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1
+  - `.jush-sqlite_apo`
+  - `.jush-num > .jush-op`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=
+  - `.jush-autocomplete`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=
+  - `b:nth-child(2)`
+  - `b:nth-child(3)`
+  - `b:nth-child(7)`
+  - `b:nth-child(12)`
+  - `b:nth-child(17)`
+  - `b:nth-child(22)`
+  - `b:nth-child(27)`
+  - `b:nth-child(32)`
+  - `b:nth-child(37)`
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]
+  - `h2`
+  - `#content > .links > a:nth-child(1)`
+  - `#content > .links > a:nth-child(2)`
+  - `#tables-views`
+  - `form[method="post"] > fieldset > legend`
+  - `#selected2`
+  - `select[name="op"]`
+  - `input[type="search"]`
+  - `input[name="search"]`
+  - `thead > tr > .sticky > a`
+  - … +9 autres
+
+## Erreurs (2) — exit code != 0
+
+Ces scénarios n'ont pas été audités. Un audit partiel n'est pas un PASS : le gate CI échoue tant qu'un scénario demandé manque.
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql= [state:sql-erreur] — locator.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('textarea[name="query"]')
+    - locator resolved to <textarea rows="20" cols="80" wrap="off" name="query" spellcheck="false" class="sqlarea jush-sqlite"></textarea>
+    - fill("SELEC * FROM nonsense;")
+  - attempting fill action
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+      - waiting 100ms
+    60 × waiting for element to be visible, enabled and editable
+       - element is not visible
+     - retrying fill action
+       - waiting 500ms
+
+- http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql= [state:sql-resultat] — locator.fill: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('textarea[name="query"]')
+    - locator resolved to <textarea rows="20" cols="80" wrap="off" name="query" spellcheck="false" class="sqlarea jush-sqlite"></textarea>
+    - fill("SELECT * FROM books ORDER BY id LIMIT 3;")
+  - attempting fill action
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and editable
+      - element is not visible
+    - retrying fill action
+      - waiting 100ms
+    60 × waiting for element to be visible, enabled and editable
+       - element is not visible
+     - retrying fill action
+       - waiting 500ms
+
+

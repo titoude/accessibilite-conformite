@@ -1,0 +1,668 @@
+diff --git a/adminer/check.inc.php b/adminer/check.inc.php
+index a48d6edd..d94834c3 100644
+--- a/adminer/check.inc.php
++++ b/adminer/check.inc.php
+@@ -64,10 +64,10 @@ page_header(
+ <form action="" method="post">
+ <?php
+ if (JUSH != "sqlite") {
+-	echo '<p>' . lang('Name') . ': <input name="name" value="' . h($row["name"]) . '" data-maxlength="64" autocapitalize="off">';
++	echo '<p><label>' . lang('Name') . ': <input name="name" value="' . h($row["name"]) . '" data-maxlength="64" autocapitalize="off"></label>';
+ }
+ ?>
+-<p><?php textarea("clause", $row["clause"]); ?>
++<p><?php textarea("clause", $row["clause"], 10, 80, JUSH, lang('Check')); ?>
+ <p><input type='submit' value='<?php echo lang('Save'); ?>'>
+ <?php if ($name != "") { ?>
+ <input type='submit' name='drop' value='<?php echo lang('Drop'); ?>'<?php echo confirm(lang('Drop %s?', $name)); ?>>
+diff --git a/adminer/create.inc.php b/adminer/create.inc.php
+index a8486a18..2d56528b 100644
+--- a/adminer/create.inc.php
++++ b/adminer/create.inc.php
+@@ -212,7 +212,7 @@ if ($max_columns) {
+ <p>
+ <?php
+ if (support("columns") || $TABLE == "") {
+-	echo lang('Table name') . ": <input name='name'" . ($TABLE == "" && !$_POST ? " autofocus" : "") . " data-maxlength='64' value='" . h($row["name"]) . "' autocapitalize='off'>\n";
++	echo "<label>" . lang('Table name') . ": <input name='name'" . ($TABLE == "" && !$_POST ? " autofocus" : "") . " data-maxlength='64' value='" . h($row["name"]) . "' autocapitalize='off'></label>\n";
+ 	echo (!$alterable ? h($table_status["Engine"]) . "\n" : ($engines
+ 		? html_select("Engine", array("" => "(" . lang('engine') . ")") + $engines, $row["Engine"], on('change', 'helpClose') . on_help_value()) . "\n"
+ 		: ""
+@@ -231,7 +231,7 @@ if (support("columns") && $alterable) {
+ 	echo "</table>\n";
+ 	echo script("editFields();");
+ 	echo "</div>\n<p>\n";
+-	echo lang('Auto Increment') . ": <input type='number' name='Auto_increment' class='size' value='" . h($row["Auto_increment"]) . "'>\n";
++	echo "<label>" . lang('Auto Increment') . ": <input type='number' name='Auto_increment' class='size' value='" . h($row["Auto_increment"]) . "'></label>\n";
+ 	echo checkbox("defaults", 1, ($_POST ? $_POST["defaults"] : get_setting("defaults")), lang('Default values'), on('click', 'columnShowClick', 6), "jsonly");
+ 	$comments = ($_POST ? $_POST["comments"] : get_setting("comments"));
+ 	if (support("comment")) {
+diff --git a/adminer/database.inc.php b/adminer/database.inc.php
+index b29d78be..27edd4fe 100644
+--- a/adminer/database.inc.php
++++ b/adminer/database.inc.php
+@@ -72,10 +72,10 @@ if ($_POST) {
+ <form action="" method="post">
+ <p>
+ <?php
+-echo ($_POST["add"] || strpos($name, "\n")
++echo "<label>" . lang('Name') . ": " . ($_POST["add"] || strpos($name, "\n")
+ 	? '<textarea autofocus name="name" rows="10" cols="40">' . h($name) . '</textarea><br>'
+ 	: '<input name="name" autofocus value="' . h($name) . '" data-maxlength="64" autocapitalize="off">'
+-) . "\n";
++) . "</label>\n";
+ echo ($collations ? html_select("collation", array("" => "(" . lang('collation') . ")") + $collations, $row["collation"]) . doc_link(array(
+ 	'sql' => "charset-charsets.html",
+ 	'mariadb' => "supported-character-sets-and-collations/",
+diff --git a/adminer/db.inc.php b/adminer/db.inc.php
+index f0f28c78..eeb5151e 100644
+--- a/adminer/db.inc.php
++++ b/adminer/db.inc.php
+@@ -83,9 +83,9 @@ if (adminer()->homepage()) {
+ 		} else {
+ 			echo "<form action='' method='post'>\n";
+ 			if (support("table")) {
+-				echo "<fieldset><legend>" . lang('Search data in tables') . " <span id='selected2'></span></legend><div>";
+-				echo html_select("op", adminer()->operators(), idx($_POST, "op", JUSH == "elastic" ? "should" : "LIKE %%"));
+-				echo " <input type='search' name='query' value='" . h($_POST["query"]) . "'" . on('keydown', 'submitKeydown', 'search') . ">";
++				echo "<fieldset><legend id='label-search-data'>" . lang('Search data in tables') . " <span id='selected2'></span></legend><div>";
++				echo html_select("op", adminer()->operators(), idx($_POST, "op", JUSH == "elastic" ? "should" : "LIKE %%"), " aria-label='" . lang('Operator') . "'");
++				echo " <input type='search' name='query' value='" . h($_POST["query"]) . "' aria-labelledby='label-search-data'" . on('keydown', 'submitKeydown', 'search') . ">";
+ 				echo " <input type='submit' name='search' value='" . lang('Search') . "'>\n";
+ 				echo "</div></fieldset>\n";
+ 				if (!$error && $_POST["search"] && $_POST["query"] != "") {
+@@ -96,7 +96,7 @@ if (adminer()->homepage()) {
+ 			echo "<div class='scrollable'>\n";
+ 			echo "<table class='nowrap checkable odds'" . on('click', 'tableClick') . on('dblclick', 'tableClick') . ">\n";
+ 			echo '<thead><tr>';
+-			echo '<td class="hover"><input id="check-all" type="checkbox" class="jsonly" title="' . lang('All') . '"' . on('click', 'formCheck', '^(tables|views)\[') . '>';
++			echo '<td class="hover"><input id="check-all" type="checkbox" class="jsonly" title="' . lang('All') . '" aria-label="' . lang('All') . '"' . on('click', 'formCheck', '^(tables|views)\[') . '>';
+ 			// without $order, the tables are sorted by name, except in SQLite which puts the sqlite_ tables last
+ 			echo '<th class="sticky"' . (!$order && JUSH != 'sqlite' ? " aria-sort='ascending'" : '') . '><a href="' . h(substr($me, 0, -1)) . '">' . lang('Table') . '</a>';
+ 			$columns = array("Engine" => array(lang('Engine') . doc_link(array('sql' => 'storage-engines.html'))));
+@@ -222,10 +222,10 @@ if (adminer()->homepage()) {
+ 
+ 				$databases = (support("scheme") ? adminer()->schemas() : adminer()->databases());
+ 				if (count($databases) != 1 && function_exists('Adminer\move_tables')) {
+-					echo "<fieldset><legend>" . lang('Move to another database') . " <span id='selected3'></span></legend><div>";
++					echo "<fieldset><legend id='label-move'>" . lang('Move to another database') . " <span id='selected3'></span></legend><div>";
+ 					$db = (isset($_POST["target"]) ? $_POST["target"] : (support("scheme") ? $_GET["ns"] : DB));
+-					echo ($databases ? html_select("target", $databases, $db) : '<input name="target" value="' . h($db) . '" autocapitalize="off">');
+-					echo "</label> <input type='submit' name='move' value='" . lang('Move') . "'>";
++					echo ($databases ? html_select("target", $databases, $db, "", "label-move") : '<input name="target" value="' . h($db) . '" autocapitalize="off" aria-labelledby="label-move">');
++					echo " <input type='submit' name='move' value='" . lang('Move') . "'>";
+ 					echo (support("copy") ? " <input type='submit' name='copy' value='" . lang('Copy') . "'> " . checkbox("overwrite", 1, $_POST["overwrite"], lang('overwrite')) : "");
+ 					echo "</div></fieldset>\n";
+ 				}
+diff --git a/adminer/dump.inc.php b/adminer/dump.inc.php
+index c0f226af..841f7cd9 100644
+--- a/adminer/dump.inc.php
++++ b/adminer/dump.inc.php
+@@ -213,20 +213,20 @@ echo "<tr><th>" . lang('Output') . "<td>" . html_radios("output", adminer()->dum
+ 
+ echo "<tr><th>" . lang('Format') . "<td>" . html_radios("format", adminer()->dumpFormat(), $row["format"]) . "\n";
+ 
+-echo (JUSH == "sqlite" ? "" : "<tr><th>" . lang('Database') . "<td>" . html_select('db_style', $db_style, $row["db_style"])
++echo (JUSH == "sqlite" ? "" : "<tr><th id='label-db-style'>" . lang('Database') . "<td>" . html_select('db_style', $db_style, $row["db_style"], "", "label-db-style")
+ 	. (support("type") ? checkbox("types", 1, $row["types"], lang('User types')) : "")
+ 	. (support("routine") ? checkbox("routines", 1, $row["routines"], lang('Routines')) : "")
+ 	. (support("event") ? checkbox("events", 1, $row["events"], lang('Events')) : "")
+ );
+ 
+-echo (function_exists('Adminer\use_schema_sql') ? "<tr><th>" . lang('Schema') . "<td>" . html_select('schema_style', $schema_style, $row["schema_style"]) : "");
++echo (function_exists('Adminer\use_schema_sql') ? "<tr><th id='label-schema-style'>" . lang('Schema') . "<td>" . html_select('schema_style', $schema_style, $row["schema_style"], "", "label-schema-style") : "");
+ 
+-echo "<tr><th>" . lang('Tables') . "<td>" . html_select('table_style', $table_style, $row["table_style"])
++echo "<tr><th id='label-table-style'>" . lang('Tables') . "<td>" . html_select('table_style', $table_style, $row["table_style"], "", "label-table-style")
+ 	. checkbox("auto_increment", 1, $row["auto_increment"], lang('Auto Increment'))
+ 	. (support("trigger") ? checkbox("triggers", 1, $row["triggers"], lang('Triggers')) : "")
+ ;
+ 
+-echo "<tr><th>" . lang('Data') . "<td>" . html_select('data_style', $data_style, $row["data_style"]);
++echo "<tr><th id='label-data-style'>" . lang('Data') . "<td>" . html_select('data_style', $data_style, $row["data_style"], "", "label-data-style");
+ ?>
+ </table>
+ <?php adminer()->dumpPrint(); ?>
+@@ -294,7 +294,7 @@ if ($_GET["ns"] === "" && support("scheme")) { // a driver without schemas has n
+ 			}
+ 		}
+ 	} else {
+-		echo "<tr><td><textarea name='databases' rows='10' cols='20'></textarea>";
++		echo "<tr><td><textarea name='databases' rows='10' cols='20' aria-label='" . lang('Database') . "'></textarea>";
+ 	}
+ }
+ ?>
+diff --git a/adminer/event.inc.php b/adminer/event.inc.php
+index 899817bf..556a1638 100644
+--- a/adminer/event.inc.php
++++ b/adminer/event.inc.php
+@@ -51,16 +51,16 @@ page_header(
+ 
+ <form action="" method="post">
+ <table class="layout">
+-<tr><th><?php echo lang('Name'); ?><td><input name="EVENT_NAME" value="<?php echo h($row["EVENT_NAME"]); ?>" data-maxlength="64" autocapitalize="off">
+-<tr><th title="datetime"><?php echo lang('Start'); ?><td><input name="STARTS" value="<?php echo h("$row[EXECUTE_AT]$row[STARTS]"); ?>">
+-<tr><th title="datetime"><?php echo lang('End'); ?><td><input name="ENDS" value="<?php echo h($row["ENDS"]); ?>">
+-<tr><th><?php echo lang('Every'); ?>
+-<td><input type="number" name="INTERVAL_VALUE" value="<?php echo h($row["INTERVAL_VALUE"]); ?>" class="size"> <?php echo html_select("INTERVAL_FIELD", $intervals, $row["INTERVAL_FIELD"]); ?>
+-<tr><th><?php echo lang('Status'); ?><td><?php echo html_select("STATUS", $statuses, $row["STATUS"]); ?>
+-<tr><th><?php echo lang('Comment'); ?><td><input name="EVENT_COMMENT" value="<?php echo h($row["EVENT_COMMENT"]); ?>" data-maxlength="64">
+-<tr><th><td><?php echo checkbox("ON_COMPLETION", "PRESERVE", $row["ON_COMPLETION"] == "PRESERVE", lang('On completion preserve')); ?>
++<tr><th id='label-event-name'><?php echo lang('Name'); ?><td><input name="EVENT_NAME" value="<?php echo h($row["EVENT_NAME"]); ?>" data-maxlength="64" autocapitalize="off" aria-labelledby='label-event-name'>
++<tr><th title="datetime" id='label-starts'><?php echo lang('Start'); ?><td><input name="STARTS" value="<?php echo h("$row[EXECUTE_AT]$row[STARTS]"); ?>" aria-labelledby='label-starts'>
++<tr><th title="datetime" id='label-ends'><?php echo lang('End'); ?><td><input name="ENDS" value="<?php echo h($row["ENDS"]); ?>" aria-labelledby='label-ends'>
++<tr><th id='label-every'><?php echo lang('Every'); ?>
++<td><input type="number" name="INTERVAL_VALUE" value="<?php echo h($row["INTERVAL_VALUE"]); ?>" class="size" aria-labelledby='label-every'> <?php echo html_select("INTERVAL_FIELD", $intervals, $row["INTERVAL_FIELD"], "", "label-every"); ?>
++<tr><th id='label-status'><?php echo lang('Status'); ?><td><?php echo html_select("STATUS", $statuses, $row["STATUS"], "", "label-status"); ?>
++<tr><th id='label-comment'><?php echo lang('Comment'); ?><td><input name="EVENT_COMMENT" value="<?php echo h($row["EVENT_COMMENT"]); ?>" data-maxlength="64" aria-labelledby='label-comment'>
++<tr><td colspan='2'><?php echo checkbox("ON_COMPLETION", "PRESERVE", $row["ON_COMPLETION"] == "PRESERVE", lang('On completion preserve')); ?>
+ </table>
+-<p><?php textarea("EVENT_DEFINITION", $row["EVENT_DEFINITION"]); ?>
++<p><?php textarea("EVENT_DEFINITION", $row["EVENT_DEFINITION"], 10, 80, JUSH, lang('Definition')); ?>
+ <p>
+ <input type='submit' value='<?php echo lang('Save'); ?>'>
+ <?php if ($EVENT != "") { ?>
+diff --git a/adminer/include/adminer.inc.php b/adminer/include/adminer.inc.php
+index bd9e94a5..2fe16a63 100644
+--- a/adminer/include/adminer.inc.php
++++ b/adminer/include/adminer.inc.php
+@@ -203,6 +203,12 @@ class Adminer {
+ 	* @param string $value HTML
+ 	*/
+ 	function loginFormField(string $name, string $heading, string $value): string {
++		// associate the row heading with the field for assistive technologies
++		$id = (preg_match('~\bid="?([\w-]+)~', $value, $match) ? $match[1] : "auth-$name");
++		if (!isset($match[1])) {
++			$value = preg_replace('~^<(input|select|textarea)\b~', "<$1 id='$id'", $value);
++		}
++		$heading = preg_replace('~^(<tr><th[^>]*>)(.*?)(<td[^>]*>)$~s', "$1<label for='$id'>$2</label>$3", $heading);
+ 		return $heading . $value . "\n";
+ 	}
+ 
+@@ -605,10 +611,10 @@ class Adminer {
+ 
+ 	/** Print limit box in select */
+ 	function selectLimitPrint(int $limit): void {
+-		echo "<fieldset><legend>" . lang('Limit') . "</legend><div>"; // <div> for easy styling
++		echo "<fieldset><legend id='label-limit'>" . lang('Limit') . "</legend><div>"; // <div> for easy styling
+ 		// data-default - the same value as in selectLimitProcess()
+ 		// 0 is printed as an empty value, both mean no limit
+-		echo "<input type='number' name='limit' class='size' value='" . h($limit ?: "") . "' data-default='50'" . on('input', 'selectFieldChange') . ">";
++		echo "<input type='number' name='limit' class='size' value='" . h($limit ?: "") . "' data-default='50' aria-labelledby='label-limit'" . on('input', 'selectFieldChange') . ">";
+ 		echo "</div></fieldset>\n";
+ 	}
+ 
+@@ -616,9 +622,9 @@ class Adminer {
+ 	* @param numeric-string $text_length result of selectLengthProcess()
+ 	*/
+ 	function selectLengthPrint(string $text_length): void {
+-		echo "<fieldset><legend>" . lang('Text length') . "</legend><div>";
++		echo "<fieldset><legend id='label-text-length'>" . lang('Text length') . "</legend><div>";
+ 		// data-default - the same value as in selectLengthProcess()
+-		echo "<input type='number' name='text_length' class='size' value='" . h($text_length) . "' data-default='100'>";
++		echo "<input type='number' name='text_length' class='size' value='" . h($text_length) . "' data-default='100' aria-labelledby='label-text-length'>";
+ 		echo "</div></fieldset>\n";
+ 	}
+ 
+@@ -1176,7 +1182,7 @@ class Adminer {
+ 	function navigation(string $missing): void {
+ 		echo "<h1>" . adminer()->name() . " <span class='version'>" . VERSION;
+ 		$new_version = $_COOKIE["adminer_version"];
+-		echo " <a href='https://www.adminer.org/#download'" . target_blank() . " id='version'>" . (version_compare(VERSION, $new_version) < 0 ? h($new_version) : "") . version_iframe() . "</a>";
++		echo " <a href='https://www.adminer.org/#download'" . target_blank() . " id='version' aria-label='" . lang('Check for updates') . "'>" . (version_compare(VERSION, $new_version) < 0 ? h($new_version) : "") . version_iframe() . "</a>";
+ 		echo "</span></h1>\n";
+ 		// this is matched by compile.php
+ 		switch_lang();
+diff --git a/adminer/include/design.inc.php b/adminer/include/design.inc.php
+index 68e481c0..7f7a445b 100644
+--- a/adminer/include/design.inc.php
++++ b/adminer/include/design.inc.php
+@@ -79,18 +79,19 @@ function page_header(string $title, string $error = "", $breadcrumb = array(), s
+ const offlineMessage = '" . js_escape(lang('You are offline.')) . "';
+ const numberFormat = '" . js_escape(lang('#,##0')) . "';
+ const numberDigits = '" . js_escape(lang('0123456789')) . "';
++const autocompleteLabel = '" . js_escape(lang('Autocomplete')) . "';
+ const urlSeparators = '" . js_escape(ini_get("arg_separator.input")) . "';");
+ 	echo "<div id='help' class='jush-" . JUSH . " jsonly hidden'" . on('mouseover', 'helpKeep') . on('mouseout', 'helpMouseout') . "></div>\n";
+-	echo "<div id='content'>\n";
++	echo "<main id='content'>\n";
+ 	echo "<span id='menuopen' class='jsonly'" . on('click', 'menuToggle') . "><button title='" . lang('Menu') . "' class='icon icon-move' aria-expanded='false'></button></span>\n";
+ 	if ($breadcrumb !== null) {
+ 		$link = substr(preg_replace('~\b(username|db|ns)=[^&]*&~', '', ME), 0, -1);
+-		echo '<p id="breadcrumb"><a href="' . h($link ?: ".") . '">' . get_driver(DRIVER) . '</a> » ';
++		echo '<nav id="breadcrumb" aria-label="' . lang('Breadcrumb') . '"><a href="' . h($link ?: ".") . '">' . get_driver(DRIVER) . '</a> » ';
+ 		$link = substr(preg_replace('~\b(db|ns)=[^&]*&~', '', ME), 0, -1);
+ 		$server = adminer()->serverName(SERVER);
+ 		$server = ($server != "" ? $server : lang('Server'));
+ 		if ($breadcrumb === false) {
+-			echo "$server\n";
++			echo "$server</nav>\n";
+ 		} else {
+ 			echo "<a href='" . h($link . (DB != "" && support("single_db") ? "&db=" : "")) . "' accesskey='1' title='Alt+Shift+1'>$server</a> » ";
+ 			$section = "";
+@@ -113,7 +114,7 @@ const urlSeparators = '" . js_escape(ini_get("arg_separator.input")) . "';");
+ 					}
+ 				}
+ 			}
+-			echo "$title\n";
++			echo "$title</nav>\n";
+ 		}
+ 	}
+ 	echo "<h2>$title_all$doc</h2>\n";
+@@ -272,9 +273,9 @@ function page_messages(string $error): void {
+ * @param ''|'auth'|'db'|'ns' $missing
+ */
+ function page_footer(string $missing = ""): void {
+-	echo "</div>\n\n<div id='foot' class='foot'>\n<div id='menu'>\n";
++	echo "</main>\n\n<div id='foot' class='foot' role='complementary'>\n<nav id='menu' aria-label='" . lang('Menu') . "'>\n";
+ 	adminer()->navigation($missing);
+-	echo "</div>\n";
++	echo "</nav>\n";
+ 	if ($missing != "auth") {
+ 		?>
+ <form action="" method="post">
+diff --git a/adminer/include/editing.inc.php b/adminer/include/editing.inc.php
+index 7f13f2a1..5c740b64 100644
+--- a/adminer/include/editing.inc.php
++++ b/adminer/include/editing.inc.php
+@@ -133,8 +133,8 @@ function print_select_result($result, ?Db $connection2 = null, array $orgtables
+ /** Print SQL <textarea> tag
+ * @param string|list<array{string}> $value
+ */
+-function textarea(string $name, $value, int $rows = 10, int $cols = 80, string $jush = JUSH): void {
+-	echo "<textarea name='" . h($name) . "' rows='$rows' cols='$cols' class='sqlarea jush-" . h($jush) . "' spellcheck='false' wrap='off'>";
++function textarea(string $name, $value, int $rows = 10, int $cols = 80, string $jush = JUSH, string $label = ""): void {
++	echo "<textarea name='" . h($name) . "' rows='$rows' cols='$cols' class='sqlarea jush-" . h($jush) . "' spellcheck='false' wrap='off'" . ($label != "" ? " aria-label='" . h($label) . "'" : "") . ">";
+ 	if (is_array($value)) {
+ 		foreach ($value as $val) { // not implode() to save memory
+ 			echo h($val[0]) . "\n\n\n"; // $val == array($query, $time, $elapsed)
+@@ -209,20 +209,20 @@ function edit_type(string $key, array $field, array $collations, array $foreign_
+ 	echo "<td class='options'>";
+ 	echo ($collations
+ 		? "<input list='collations' name='" . h($key) . "[collation]'" . option_types($type, '(' . text_type() . ')$')
+-			. " value='" . h($field["collation"]) . "' placeholder='(" . lang('collation') . ")'>"
++			. " value='" . h($field["collation"]) . "' placeholder='(" . lang('collation') . ")' aria-label='" . lang('Collation') . "'>"
+ 		: ''
+ 	);
+ 	echo (driver()->unsigned
+-		? "<select name='" . h($key) . "[unsigned]'" . option_types($type, '^$|' . number_type()) . '><option>' // ^$ - the type is not known yet
++		? "<select name='" . h($key) . "[unsigned]' aria-label='" . lang('unsigned') . "'" . option_types($type, '^$|' . number_type()) . '><option>' // ^$ - the type is not known yet
+ 			. optionlist(driver()->unsigned, $field["unsigned"]) . '</select>'
+ 		: ''
+ 	);
+-	echo (isset($field['on_update']) ? "<select name='" . h($key) . "[on_update]'" . option_types($type, 'timestamp|datetime') . '>' // MySQL supports datetime since 5.6.5
++	echo (isset($field['on_update']) ? "<select name='" . h($key) . "[on_update]' aria-label='" . lang('ON UPDATE') . "'" . option_types($type, 'timestamp|datetime') . '>' // MySQL supports datetime since 5.6.5
+ 		. optionlist(array("" => "(" . lang('ON UPDATE') . ")", "CURRENT_TIMESTAMP"), (preg_match('~^CURRENT_TIMESTAMP~i', $field["on_update"]) ? "CURRENT_TIMESTAMP" : $field["on_update"]))
+ 		. '</select>' : ''
+ 	);
+ 	echo ($foreign_keys
+-		? "<select name='" . h($key) . "[on_delete]'" . option_types($type, '`') . "><option value=''>(" . lang('ON DELETE') . ")"
++		? "<select name='" . h($key) . "[on_delete]' aria-label='" . lang('ON DELETE') . "'" . option_types($type, '`') . "><option value=''>(" . lang('ON DELETE') . ")"
+ 			. optionlist(explode("|", driver()->onActions), $field["on_delete"]) . "</select> "
+ 		: " " // space for IE
+ 	);
+@@ -355,7 +355,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", array $f
+ 	echo "<th>" . lang('Options'); // no label required, options have their own label
+ 	if ($type == "TABLE") {
+ 		echo "<th id='label-null'>NULL\n";
+-		echo "<th><input type='radio' name='auto_increment_col' value=''><abbr id='label-ai' title='" . lang('Auto Increment') . "'>AI</abbr>";
++		echo "<th><input type='radio' name='auto_increment_col' value='' aria-labelledby='label-ai'><abbr id='label-ai' title='" . lang('Auto Increment') . "'>AI</abbr>";
+ 		echo doc_link(array(
+ 			'sql' => "example-auto-increment.html",
+ 			'mariadb' => "auto_increment/",
+@@ -387,7 +387,7 @@ function edit_fields(array $fields, array $collations, $type = "TABLE", array $f
+ 			echo "<td><label class='block'>" . checkbox("fields[$i][null]", 1, $field["null"], "", "", "", "label-null") . "</label>";
+ 			echo "<td><label class='block'><input type='radio' name='auto_increment_col' value='$i'" . ($field["auto_increment"] ? " checked" : "") . " aria-labelledby='label-ai'></label>";
+ 			echo "<td$default_class>" . (driver()->generated
+-				? html_select("fields[$i][generated]", array_merge(array("", "DEFAULT"), driver()->generated), $field["generated"]) . " "
++				? html_select("fields[$i][generated]", array_merge(array("", "DEFAULT"), driver()->generated), $field["generated"], "", "label-default") . " "
+ 				: checkbox("fields[$i][generated]", 1, $field["generated"], "", "", "", "label-default")
+ 			);
+ 			$attrs = " name='fields[$i][default]' aria-labelledby='label-default'";
+diff --git a/adminer/include/html.inc.php b/adminer/include/html.inc.php
+index a2bb74a5..e2e1275c 100644
+--- a/adminer/include/html.inc.php
++++ b/adminer/include/html.inc.php
+@@ -321,7 +321,7 @@ function input(array $field, $value, ?string $function, ?bool $autofocus = false
+ 	}
+ 	// the form from Select can affect more rows so it must be possible to keep the original value of each of them
+ 	$functions = (isset($_GET["select"]) || $reset ? array("orig" => lang('original')) : array()) + adminer()->editFunctions($field);
+-	$attrs = " name='fields[$name]" . ($options ? "[]" : "") . "'" . ($autofocus ? " autofocus" : "");
++	$attrs = " name='fields[$name]" . ($options ? "[]" : "") . "' aria-labelledby='label-fields[$name]'" . ($autofocus ? " autofocus" : "");
+ 	echo driver()->unconvertFunction($field) . " ";
+ 	$table = $_GET["edit"] ?: $_GET["select"]; // $_GET["edit"] is not set when re-printing the form after a failed save from Select
+ 	if ($field["type"] == "enum") {
+@@ -337,7 +337,7 @@ function input(array $field, $value, ?string $function, ?bool $autofocus = false
+ 			$first++;
+ 		}
+ 		echo (count($functions) > 1
+-			? "<select name='function[$name]'" . on('change', 'functionChange') . on_help_value('^SQL$') . ">"
++			? "<select name='function[$name]' aria-labelledby='label-fields[$name] label-function'" . on('change', 'functionChange') . on_help_value('^SQL$') . ">"
+ 				. optionlist($functions, $function === null || $has_function ? $function : "") . "</select>"
+ 			: h(reset($functions))
+ 		) . "<td" . ($first && count($functions) > 1 ? on('input', 'skipOriginal', $first) : "") . ">";
+@@ -350,7 +350,7 @@ function input(array $field, $value, ?string $function, ?bool $autofocus = false
+ 		} elseif ($field["type"] == "set") {
+ 			echo enum_input("checkbox", $attrs, $field, (is_string($value) ? explode(",", $value) : $value));
+ 		} elseif (is_blob($field) && ini_bool("file_uploads")) {
+-			echo "<input type='file' name='fields-$name'>";
++			echo "<input type='file' name='fields-$name' aria-labelledby='label-fields[$name]'>";
+ 		} elseif ($json) {
+ 			echo "<textarea$attrs cols='50' rows='12' class='jush-json'>" . h($value) . '</textarea>';
+ 		} elseif (($text = preg_match('~text|lob|memo~i', $field["type"])) || preg_match("~\n~", $value)) {
+@@ -512,9 +512,10 @@ function edit_form(string $table, array $fields, $row, ?bool $update, string $er
+ 		echo "<p class='error'>" . lang('You have no privileges to update this table.') . "\n";
+ 	} else {
+ 		echo "<table class='layout nowrap'" . on('keydown', 'editingKeydown') . ">\n";
++		echo "<span id='label-function' hidden>" . lang('Function') . "</span>\n";
+ 		$autofocus = !$_POST;
+ 		foreach ($fields as $name => $field) {
+-			echo "<tr" . ($where_columns[$name] ? on('change', 'whereChange') : "") . "><th>" . adminer()->fieldName($field);
++			echo "<tr" . ($where_columns[$name] ? on('change', 'whereChange') : "") . "><th id='label-fields[" . h(bracket_escape($name)) . "]'>" . adminer()->fieldName($field);
+ 			$default = idx($_GET["set"], bracket_escape($name));
+ 			if ($default === null) {
+ 				$default = $field["default"];
+diff --git a/adminer/indexes.inc.php b/adminer/indexes.inc.php
+index f2b66ff8..873c90df 100644
+--- a/adminer/indexes.inc.php
++++ b/adminer/indexes.inc.php
+@@ -141,7 +141,7 @@ if ($index_algorithms) {
+ 	));
+ }
+ ?>
+-<th><input type="submit" hidden><?php
++<th id='label-columns'><input type="submit" hidden><?php
+ echo lang('Columns') . ($lengths ? "<span$idxopts> (" . lang('length') . ")</span>" : "");
+ if ($lengths || support("descidx")) {
+ 	echo checkbox("options", 1, $show_options, lang('Options'), on('click', 'indexOptionsShow'), "jsonly") . "\n";
+@@ -178,7 +178,7 @@ foreach ($row["indexes"] as $index) {
+ 		$i = 1;
+ 		foreach ($index["columns"] as $key => $column) {
+ 			echo "<span>" . select_input(
+-				" name='indexes[$j][columns][$i]' title='" . lang('Column') . "'"
++				" name='indexes[$j][columns][$i]' aria-labelledby='label-columns'"
+ 					. on('change', 'indexesChangeColumn', $name_patterns),
+ 				($fields && ($column == "" || $fields[$column]) ? array_combine($fields_keys, $fields_keys) : array()),
+ 				$column
+diff --git a/adminer/procedure.inc.php b/adminer/procedure.inc.php
+index fcf54e1b..c4beefee 100644
+--- a/adminer/procedure.inc.php
++++ b/adminer/procedure.inc.php
+@@ -93,7 +93,7 @@ if (isset($_GET["function"])) {
+ </table>
+ <?php echo script("editFields();"); ?>
+ </div>
+-<p><?php textarea("definition", $row["definition"], 20, 80, ($routine_languages[$row["language"]] ?: JUSH)); ?>
++<p><?php textarea("definition", $row["definition"], 20, 80, ($routine_languages[$row["language"]] ?: JUSH), lang('Definition')); ?>
+ <p>
+ <input type='submit' value='<?php echo lang('Save'); ?>'>
+ <?php if ($PROCEDURE != "") { ?>
+diff --git a/adminer/select.inc.php b/adminer/select.inc.php
+index e1aa6113..1ed2f80b 100644
+--- a/adminer/select.inc.php
++++ b/adminer/select.inc.php
+@@ -402,7 +402,7 @@ if (!$columns && support("table")) {
+ 				. on('click', 'tableClick') . on('dblclick', 'tableClick') . on('keydown', 'editingKeydown') . ">\n";
+ 			echo "<thead><tr>" . (!$group && $select
+ 				? ""
+-				: "<td class='hover check sticky'><input type='checkbox' id='all-page' class='jsonly' title='" . lang('All rows on this page') . "'" . on('click', 'formCheck', '^check') . ">");
++				: "<td class='hover check sticky'><input type='checkbox' id='all-page' class='jsonly' title='" . lang('All rows on this page') . "' aria-label='" . lang('All rows on this page') . "'" . on('click', 'formCheck', '^check') . ">");
+ 			$names = array();
+ 			$rank = 1;
+ 			foreach ($result_columns as $key => $val) {
+@@ -512,9 +512,16 @@ if (!$columns && support("table")) {
+ 						);
+ 					}
+ 				}
++				$check_label = "";
++				foreach ($row as $key => $val) { // the row's checkbox is named by its header and first value cell
++					if (isset($names[$key])) {
++						$check_label = "th[" . bracket_escape($key) . "] val[" . bracket_escape($unique_idf) . "][" . bracket_escape($key) . "]";
++						break;
++					}
++				}
+ 				echo "<tr>" . (!$group && $select ? "" : "<td class='hover check sticky'>"
+ 					. ($is_group || information_schema(DB) ? "" : "<a href='" . h(ME . "edit=" . url_escape($TABLE) . $unique_idf) . "' class='edit'>" . lang('edit') . "</a> ")
+-					. checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array) $_POST["check"]))
++					. checkbox("check[]", substr($unique_idf, 1), in_array(substr($unique_idf, 1), (array) $_POST["check"]), "", ($check_label == "" ? " aria-label='" . lang('Row') . "'" : ""), "", $check_label)
+ 				);
+ 
+ 				foreach ($row as $key => $val) {
+diff --git a/adminer/sequence.inc.php b/adminer/sequence.inc.php
+index 912f3bb7..4bb21a90 100644
+--- a/adminer/sequence.inc.php
++++ b/adminer/sequence.inc.php
+@@ -41,7 +41,7 @@ if (!$row) {
+ ?>
+ 
+ <form action="" method="post">
+-<p><input name="name" value="<?php echo h($row["name"]); ?>" autocapitalize="off">
++<p><label><?php echo lang('Name'); ?>: <input name="name" value="<?php echo h($row["name"]); ?>" autocapitalize="off"></label>
+ <input type='submit' value='<?php echo lang('Save'); ?>'>
+ <?php
+ if ($SEQUENCE != "") {
+diff --git a/adminer/sql.inc.php b/adminer/sql.inc.php
+index 30a8a137..a02fc0ab 100644
+--- a/adminer/sql.inc.php
++++ b/adminer/sql.inc.php
+@@ -355,12 +355,12 @@ if (!isset($_GET["import"])) {
+ 		$q = idx($history[$_GET["history"]], 0);
+ 	}
+ 	echo "<p>";
+-	textarea("query", $q, 20);
++	textarea("query", $q, 20, 80, JUSH, lang('SQL command'));
+ 	echo ($_POST ? "" : script("qs('textarea').focus();"));
+ 	echo "<p>";
+ 	adminer()->sqlPrintAfter();
+ 	echo "$execute\n";
+-	echo lang('Limit rows') . ": <input type='number' name='limit' class='size' value='" . h($_POST ? $_POST["limit"] : $_GET["limit"]) . "'>\n";
++	echo "<label>" . lang('Limit rows') . ": <input type='number' name='limit' class='size' value='" . h($_POST ? $_POST["limit"] : $_GET["limit"]) . "'></label>\n";
+ 
+ } else {
+ 	$gz = (extension_loaded("zlib") ? "[.gz]" : "");
+diff --git a/adminer/static/default.css b/adminer/static/default.css
+index 9fdfc3e6..706ee5cd 100644
+--- a/adminer/static/default.css
++++ b/adminer/static/default.css
+@@ -15,7 +15,7 @@ a.text:hover, a.icon-copy:hover { text-decoration: none; }
+ a.jush-help:hover { color: inherit; }
+ button.link { font: inherit; padding: 0; border: 0; background: none; color: blue; cursor: pointer; }
+ button.link:hover { color: red; text-decoration: underline; }
+-h1 { font-size: 150%; margin: 0; padding: .8em .667em; border-bottom: 1px solid #999; font-weight: normal; color: #777; background: var(--dim); }
++h1 { font-size: 150%; margin: 0; padding: .8em .667em; border-bottom: 1px solid #999; font-weight: normal; color: #666; background: var(--dim); }
+ h2 { font-size: 150%; margin: 0 0 20px; margin-inline-start: -18px; padding: .8em 1em; border-bottom: 1px solid var(--fg); font-weight: normal; background: var(--lit); }
+ h2 .doc { float: right; position: sticky; right: 20px; }
+ h3 { font-weight: normal; font-size: 130%; margin: 1em 0 0; }
+@@ -56,13 +56,13 @@ input.default { box-shadow: 1px 1px 1px #777; }
+ input.required, input.maxlength, textarea.maxlength { box-shadow: 1px 1px 1px red; }
+ [draggable] { cursor: grab; }
+ .block { display: block; }
+-.version { color: #777; font-size: 62%; }
++.version { color: #666; font-size: 62%; }
+ .js .hidden, .nojs .jsonly, .insecure .icon-copy { display: none; }
+ [hidden] { display: none !important; } /* the browser hides [hidden] only by a UA rule which any skin setting display would beat */
+ .column { position: absolute; background: var(--lit); padding: .27em 0 .33em; padding-inline-end: 1ex; margin-top: -.37em; border-width: 1px; border-inline-start-width: 0; border-radius: 0 8px 8px 0; }
+ th:not(:hover) .column { display: none; }
+ .nowrap td, .nowrap th, td.nowrap, p.nowrap { white-space: pre; }
+-.error { color: red; background: #fee; }
++.error { color: #c00; background: #fee; }
+ .error b { background: var(--bg); font-weight: normal; }
+ .error pre code { background: var(--bg); }
+ .message { color: green; background: #efe; }
+@@ -115,7 +115,7 @@ td.check { text-align: end; } /* to display the checkboxes next to the data */
+ #ajaxstatus > :first-child { margin-top: 0; } /* the margin would be a transparent gap above the sticky message */
+ #ajaxstatus.sticky { position: sticky; top: 0; left: 0; z-index: 2; max-height: 40vh; overflow: auto; } /* z-index to cover the sticky thead, max-height to not cover the whole screen by a long error */
+ #logo { vertical-align: baseline; margin-bottom: -3px; }
+-#h1 { color: #777; text-decoration: none; font-style: italic; }
++#h1 { color: #666; text-decoration: none; font-style: italic; }
+ #version, .plugins .update { color: red; }
+ #version iframe { pointer-events: none; border: 0; width: 7ex; height: 1.25em; vertical-align: text-bottom; }
+ #schema { margin-inline-start: 60px; position: relative; user-select: none; -webkit-user-select: none; }
+@@ -151,6 +151,8 @@ td.check { text-align: end; } /* to display the checkboxes next to the data */
+ }
+ 
+ @media all and (max-width: 800px) {
++	body { min-width: 0; } /* laisser le texte reculer sur petit écran ; les tables défilent dans .scrollable */
++	#breadcrumb { right: 0; white-space: normal; height: auto; min-height: 2em; }
+ 	.js .logout { top: 1.667em; background-color: var(--dim); box-shadow: 0 0 5px 5px var(--dim); }
+ 	#menu { min-width: 23em; background: var(--bg); border: 1px solid var(--fg); margin-top: 9px; box-shadow: 0 0 20px -3px var(--fg); }
+ 	#content { margin-inline-start: 10px !important; }
+@@ -164,6 +166,18 @@ td.check { text-align: end; } /* to display the checkboxes next to the data */
+ 	.rtl #breadcrumb { left: auto !important; right: 48px; }
+ }
+ 
++/* accessibility fixes */
++@media (prefers-color-scheme: light) {
++	body .jush { --identifier-color: #cc0000; --number-color: #007070; --string-plain-color: #008000; } /* higher specificity than jush.css, which defines these on .jush */
++}
++#tables a { display: inline-block; line-height: 24px; }
++.links a { display: inline-block; line-height: 24px; }
++td a.jush-help, th a.jush-help { display: inline-block; min-height: 24px; line-height: 24px; }
++.scrollable { overflow-x: auto; } /* les tables défilent dans leur conteneur au lieu d'élargir la page (reflow 320px) */
++button.icon { min-width: 24px; min-height: 24px; }
++input[type='checkbox'] { width: 24px; height: 24px; vertical-align: middle; }
++#breadcrumb a, a.hover { text-decoration: underline; }
++
+ @media print {
+ 	#lang, #menu, .logout { display: none; }
+ 	#content { margin-inline-start: 1em; }
+diff --git a/adminer/static/editing.js b/adminer/static/editing.js
+index c2d91c5d..3b33191e 100644
+--- a/adminer/static/editing.js
++++ b/adminer/static/editing.js
+@@ -41,6 +41,12 @@ function syntaxHighlighting(version, vendor) {
+ 				if (/(^|\s)jush-/.test(tag.className)) {
+ 					const pre = jush.textarea(tag, autocompleter);
+ 					if (pre) {
++						pre.setAttribute('role', 'textbox'); // required to give it a name
++						pre.setAttribute('aria-multiline', 'true');
++						const label = tag.getAttribute('aria-label');
++						if (label) {
++							pre.setAttribute('aria-label', label);
++						}
+ 						tag.jushPre = pre;
+ 						setupSubmitHighlightInput(pre);
+ 						tag.onchange = () => {
+@@ -50,6 +56,10 @@ function syntaxHighlighting(version, vendor) {
+ 					}
+ 				}
+ 			}
++			const acLabel = (typeof autocompleteLabel === 'undefined' ? 'Autocomplete' : autocompleteLabel);
++			for (const ac of qsa('select.jush-autocomplete')) { // there is a single select shared by all textareas
++				ac.setAttribute('aria-label', acLabel);
++			}
+ 		}
+ 	});
+ }
+diff --git a/adminer/trigger.inc.php b/adminer/trigger.inc.php
+index 7067340a..51c3edcd 100644
+--- a/adminer/trigger.inc.php
++++ b/adminer/trigger.inc.php
+@@ -57,15 +57,15 @@ $of_input = on('input', 'triggerChange', "^$name_re$", $name_pattern);
+ 
+ <form action="" method="post" id="form">
+ <table class="layout">
+-<tr><th><?php echo lang('Time'); ?>
+-<td><?php echo html_select("Timing", $trigger_options["Timing"], $row["Timing"], $trigger_change); ?>
+-<tr><th><?php echo lang('Event'); ?><td><?php echo html_select("Event", $trigger_options["Event"], $row["Event"], $trigger_change); ?>
+-<?php echo (in_array("UPDATE OF", $trigger_options["Event"]) ? " <input name='Of' value='" . h($row["Of"]) . "' class='hidden'$of_input>": ""); ?>
+-<tr><th><?php echo lang('Type'); ?><td><?php echo html_select("Type", $trigger_options["Type"], $row["Type"], $trigger_change); ?>
+-<tr><th><?php echo lang('Name'); ?><td><input name="Trigger" value="<?php echo h($row["Trigger"]); ?>" data-maxlength="64" autocapitalize="off">
++<tr><th id='label-timing'><?php echo lang('Time'); ?>
++<td><?php echo html_select("Timing", $trigger_options["Timing"], $row["Timing"], $trigger_change, "label-timing"); ?>
++<tr><th id='label-event'><?php echo lang('Event'); ?><td><?php echo html_select("Event", $trigger_options["Event"], $row["Event"], $trigger_change, "label-event"); ?>
++<?php echo (in_array("UPDATE OF", $trigger_options["Event"]) ? " <input name='Of' value='" . h($row["Of"]) . "' class='hidden' aria-label='" . lang('Columns') . "'$of_input>": ""); ?>
++<tr><th id='label-type'><?php echo lang('Type'); ?><td><?php echo html_select("Type", $trigger_options["Type"], $row["Type"], $trigger_change, "label-type"); ?>
++<tr><th id='label-trigger'><?php echo lang('Name'); ?><td><input name="Trigger" value="<?php echo h($row["Trigger"]); ?>" data-maxlength="64" autocapitalize="off" aria-labelledby='label-trigger'>
+ </table>
+ <?php echo script("fire(qs('#form')['Timing'], 'change');"); ?>
+-<p><?php textarea("Statement", $row["Statement"]); ?>
++<p><?php textarea("Statement", $row["Statement"], 10, 80, JUSH, lang('Statement')); ?>
+ <p>
+ <input type='submit' value='<?php echo lang('Save'); ?>'>
+ <?php if ($name != "") { ?>
+diff --git a/adminer/type.inc.php b/adminer/type.inc.php
+index b9937d8e..b6094b98 100644
+--- a/adminer/type.inc.php
++++ b/adminer/type.inc.php
+@@ -109,8 +109,8 @@ if (!$row) {
+ <form action="" method="post">
+ <p>
+ <?php
+-echo lang('Name') . ": <input name='name' value='" . h($row['name']) . "' autocapitalize='off'>\n";
+-textarea("as", $row["as"]);
++echo "<label>" . lang('Name') . ": <input name='name' value='" . h($row['name']) . "' autocapitalize='off'></label>\n";
++textarea("as", $row["as"], 10, 80, JUSH, lang('Definition'));
+ echo "<p><input type='submit' value='" . lang('Save') . "'>\n";
+ if ($TYPE != "") {
+ 	echo "<input type='submit' name='drop' value='" . lang('Drop') . "'" . confirm(lang('Drop %s?', $TYPE)) . ">\n";
+diff --git a/adminer/user.inc.php b/adminer/user.inc.php
+index 3663f083..194fc725 100644
+--- a/adminer/user.inc.php
++++ b/adminer/user.inc.php
+@@ -28,7 +28,7 @@ foreach (get_rows("SHOW PRIVILEGES") as $row) {
+ 	}
+ }
+ unset($privileges["Server Admin"]["Usage"]);
+-foreach ($privileges["Tables"] as $key => $val) {
++foreach ((array) $privileges["Tables"] as $key => $val) { // some drivers don't support SHOW PRIVILEGES
+ 	unset($privileges["Databases"][$key]);
+ }
+ 
+@@ -146,9 +146,9 @@ if ($row) {
+ ?>
+ <form action="" method="post">
+ <table class="layout">
+-<tr><th><?php echo lang('Server'); ?><td><input name="host" data-maxlength="60" value="<?php echo h($row["host"]); ?>" autocapitalize="off">
+-<tr><th><?php echo lang('Username'); ?><td><input name="user" data-maxlength="80" value="<?php echo h($row["user"]); ?>" autocapitalize="off">
+-<tr><th><?php echo lang('Password'); ?><td><input name="pass" id="pass" value="<?php echo h($row["pass"]); ?>" autocomplete="new-password">
++<tr><th id='label-host'><?php echo lang('Server'); ?><td><input name="host" data-maxlength="60" value="<?php echo h($row["host"]); ?>" autocapitalize="off" aria-labelledby='label-host'>
++<tr><th id='label-user'><?php echo lang('Username'); ?><td><input name="user" data-maxlength="80" value="<?php echo h($row["user"]); ?>" autocapitalize="off" aria-labelledby='label-user'>
++<tr><th id='label-pass'><?php echo lang('Password'); ?><td><input name="pass" id="pass" value="<?php echo h($row["pass"]); ?>" autocomplete="new-password" aria-labelledby='label-pass'>
+ <?php echo ($row["hashed"] ? "" : script("typePassword(qs('#pass'));")); ?>
+ <?php echo (min_version(8, 99) ? "" : checkbox("hashed", 1, $row["hashed"], lang('Hashed'), on('click', 'hashedClick'))); ?>
+ </table>
+@@ -160,7 +160,7 @@ echo "<thead><tr><th colspan='2'>" . lang('Privileges');
+ $i = 0;
+ foreach ($grants as $object => $grant) {
+ 	echo '<th>' . ($object != "*.*"
+-		? "<input name='objects[$i]' value='" . h($object) . "' size='10' autocapitalize='off'>"
++		? "<input name='objects[$i]' value='" . h($object) . "' size='10' autocapitalize='off' aria-label='" . lang('Object') . "'>"
+ 		: input_hidden("objects[$i]", "*.*") . "*.*"
+ 	); //! separate db, table, columns, PROCEDURE|FUNCTION, routine
+ 	$i++;
+@@ -177,7 +177,8 @@ foreach (
+ 	) as $context => $desc
+ ) {
+ 	foreach ((array) $privileges[$context] as $privilege => $comment) {
+-		echo "<tr><td" . ($desc ? ">$desc<td" : " colspan='2'") . ' lang="en" title="' . h($comment) . '">' . h($privilege);
++		$priv_id = 'priv-' . preg_replace('~[^a-zA-Z0-9_-]~', '-', $privilege);
++		echo "<tr><td" . ($desc ? ">$desc<td" : " colspan='2'") . " id='$priv_id'" . ' lang="en" title="' . h($comment) . '">' . h($privilege);
+ 		$i = 0;
+ 		foreach ($grants as $object => $grant) {
+ 			$name = "'grants[$i][" . h(strtoupper($privilege)) . "]'";
+@@ -189,7 +190,7 @@ foreach (
+ 					. "<option value='0'" . ($value == "0" ? " selected" : "") . ">" . lang('Revoke') . "</select>";
+ 			} else {
+ 				echo "<td align='center'><label class='block'>";
+-				echo "<input type='checkbox' name=$name value='1'" . ($value ? " checked" : "") . ($privilege == "All privileges"
++				echo "<input type='checkbox' name=$name value='1' aria-labelledby='$priv_id'" . ($value ? " checked" : "") . ($privilege == "All privileges"
+ 					? " id='grants-$i-all'" //! uncheck all except grant if all is checked
+ 					: ($privilege == "Grant option" ? "" : on('click', 'grantsClick', "grants-$i-all"))
+ 				) . ">";
+diff --git a/adminer/view.inc.php b/adminer/view.inc.php
+index 84d28905..60684cb6 100644
+--- a/adminer/view.inc.php
++++ b/adminer/view.inc.php
+@@ -66,9 +66,9 @@ page_header(
+ ?>
+ 
+ <form action="" method="post">
+-<p><?php echo lang('Name'); ?>: <input name="name" value="<?php echo h($row["name"]); ?>" data-maxlength="64" autocapitalize="off">
++<p><label><?php echo lang('Name'); ?>: <input name="name" value="<?php echo h($row["name"]); ?>" data-maxlength="64" autocapitalize="off"></label>
+ <?php echo (support("materializedview") ? " " . checkbox("materialized", 1, $row["materialized"], lang('Materialized view')) : ""); ?>
+-<p><?php textarea("select", $row["select"]); ?>
++<p><?php textarea("select", $row["select"], 10, 80, JUSH, lang('Select')); ?>
+ <p>
+ <input type='submit' value='<?php echo lang('Save'); ?>'>
+ <?php if ($TABLE != "") { ?>

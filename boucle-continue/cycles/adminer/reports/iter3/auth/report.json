@@ -1,0 +1,1044 @@
+{
+  "runId": "23d9c6ea-2a08-4909-ad31-0abe49f0da69",
+  "runnerVersion": "audit.mjs v6",
+  "generatedAt": "2026-10-05T00:12:22.598Z",
+  "baseUrl": "http://localhost:8080",
+  "pages": [
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "th-has-data-cells",
+          "impact": "serious",
+          "tags": [
+            "cat.tables",
+            "wcag2a",
+            "wcag131",
+            "section508",
+            "section508.22.g",
+            "TTv5",
+            "TT14.b",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-5.7.1"
+          ],
+          "description": "Ensure that <th> elements and elements with role=columnheader/rowheader have data cells they describe",
+          "help": "Table headers in a data table must refer to data cells",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/th-has-data-cells?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "th-has-data-cells",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<th class=\"sticky\"><a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite\">Table</a></th>",
+                      "target": [
+                        "thead > tr > .sticky"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Table data cells are missing or empty"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<table class=\"nowrap checkable odds\" data-onclick=\"tableClick()\" data-ondblclick=\"tableClick()\">",
+              "target": [
+                "table"
+              ],
+              "failureSummary": "Fix all of the following:\n  Table data cells are missing or empty"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=expensive_books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&table=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#008000",
+                    "bgColor": "#eeeeee",
+                    "contrastRatio": 4.42,
+                    "fontSize": "9.7pt (12.87px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<code class=\"jush-sqlite\">",
+                      "target": [
+                        "code"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"jush-sqlite_apo\"><span class=\"jush-op\">'</span>1<span class=\"jush-op\">'</span></span>",
+              "target": [
+                ".jush-sqlite_apo"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&edit=books&where[id]=1",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&create=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&indexes=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&foreign=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&trigger=books&name=books_price_check",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&view=expensive_books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&check=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.87px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select size=\"6\" class=\"jush-autocomplete\" aria-label=\"Autocomplete\" style=\"position: absolute; z-index: 1; left: 306px; top: 143px; font: 12.87px / 16.0875px monospace;\">",
+              "target": [
+                ".jush-autocomplete"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&dump=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&database=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&schema=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&event=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&user=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sequence=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&type=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&variables=",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql= [state:sql-erreur]",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=SELEC+*+FROM+nonsense;",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql= [state:sql-resultat]",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&sql=SELECT+*+FROM+books+ORDER+BY+id+LIMIT+3;",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books [state:select-tout-coche]",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite&select=books",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    },
+    {
+      "url": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite [state:menu-mobile-ouvert]",
+      "requestedUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "16.2pt (21.6px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h2>Database: /data/test.sqlite</h2>",
+              "target": [
+                "h2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;database=\">Alter database</a>",
+              "target": [
+                "#content > .links > a:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;schema=\">Database schema</a>",
+              "target": [
+                "#content > .links > a:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "14.0pt (18.72px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h3 id=\"tables-views\">Tables and views</h3>",
+              "target": [
+                "#tables-views"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<legend id=\"label-search-data\">Search data in tables <span id=\"selected2\">(4)</span></legend>",
+              "target": [
+                "#label-search-data"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span id=\"selected2\">(4)</span>",
+              "target": [
+                "#selected2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.0pt (13.3333px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select name=\"op\" aria-label=\"Operator\">",
+              "target": [
+                "select[name=\"op\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.0pt (13.3333px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input type=\"search\" name=\"query\" value=\"\" aria-labelledby=\"label-search-data\" data-onkeydown=\"submitKeydown(&quot;search&quot;)\">",
+              "target": [
+                "input[type=\"search\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.0pt (13.3333px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input type=\"submit\" name=\"search\" value=\"Search\">",
+              "target": [
+                "input[name=\"search\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite\">Table</a>",
+              "target": [
+                "thead > tr > .sticky > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;order=Engine\">Engine</a>",
+              "target": [
+                "th:nth-child(3) > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;order=Data_length\">Data Length</a>",
+              "target": [
+                "th:nth-child(4) > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;order=Index_length\">Index Length</a>",
+              "target": [
+                "th:nth-child(5) > a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;table=authors\" title=\"Show structure\" id=\"Table-authors\">authors</a>",
+              "target": [
+                "#Table-authors"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<td id=\"Engine-authors\">table</td>",
+              "target": [
+                "#Engine-authors"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;table=books\" title=\"Show structure\" id=\"Table-books\">books</a>",
+              "target": [
+                "#Table-books"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<td id=\"Engine-books\">table</td>",
+              "target": [
+                "#Engine-books"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;table=expensive_books\" title=\"Show structure\" id=\"Table-expensive_books\">expensive_books</a>",
+              "target": [
+                "#Table-expensive_books"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.7pt (12.96px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite&amp;view=expensive_books\" title=\"Alter view\">View</a>",
+              "target": [
+                "a[title=\"Alter view\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        },
+        {
+          "id": "th-has-data-cells",
+          "impact": "serious",
+          "tags": [
+            "cat.tables",
+            "wcag2a",
+            "wcag131",
+            "section508",
+            "section508.22.g",
+            "TTv5",
+            "TT14.b",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-5.7.1"
+          ],
+          "description": "Ensure that <th> elements and elements with role=columnheader/rowheader have data cells they describe",
+          "help": "Table headers in a data table must refer to data cells",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/th-has-data-cells?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "th-has-data-cells",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<th class=\"sticky\"><a href=\"?sqlite=&amp;username=admin&amp;db=/data/test.sqlite\">Table</a></th>",
+                      "target": [
+                        "thead > tr > .sticky"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Table data cells are missing or empty"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<table class=\"nowrap checkable odds\" data-onclick=\"tableClick()\" data-ondblclick=\"tableClick()\">",
+              "target": [
+                "table"
+              ],
+              "failureSummary": "Fix all of the following:\n  Table data cells are missing or empty"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8080/adminer/?sqlite=&username=admin&db=/data/test.sqlite",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.13.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "0b56c7d1baf7a84e9d7df33917b36f159c97b40be459214fa1657e5a2d58b60f"
+}

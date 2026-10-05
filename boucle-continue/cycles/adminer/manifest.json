@@ -1,0 +1,84 @@
+{
+  "cycle": 21,
+  "project": "vrana/adminer",
+  "commit": "f9f9f1726048f6bdcaf891b5e14f5343a3132ba6",
+  "commit_date": "2026-10-04T13:41:59+02:00",
+  "branch_upstream": "master",
+  "framework": "PHP 8.3 server-rendered — un index.php + include/*.inc.php + drivers/sqlite.inc.php + static/{default,dark}.css+{functions,editing}.js. AUCUN build step : la source dev = le runtime.",
+  "served_source": "adminer/ du dépôt (dev version, routes via $_GET). PAS la dist compilée de compile.php (adminer.php mono-fichier). patch.diff ne touche que adminer/* sources — compile.php n'est jamais invoqué à l'exécution.",
+  "base_url": "http://localhost:8080",
+  "boot": {
+    "submodules": "git submodule update --init --recursive (adminer/static/jush requis par le front)",
+    "container": "docker run -d --name adminer-a11y -p 8080:8080 -v /home/ubuntu/work/adminer:/var/www/html -v /home/ubuntu/work/adminer-data:/data php:8.3-cli php -S 0.0.0.0:8080 -t /var/www/html",
+    "docroot": "/var/www/html = racine du clone → application servie sous /adminer/ ; CWD du script = /var/www/html/adminer (DIR='./')",
+    "php_ext": "pdo_sqlite + sqlite3 présentes dans php:8.3-cli officiel (vérifié: php -m)"
+  },
+  "seed": {
+    "db_file": "/data/test.sqlite créé par python3+sqlite3 (script verbatim dans results.json)",
+    "content": "authors(4 lignes), books(10 lignes dont note contenant 'See https://example.com/sower'), vue expensive_books, 2 index, FK books.author_id→authors.id, trigger books_price_check, AUTOINCREMENT → sqlite_sequence + sqlite_stat1",
+    "password_gate": "Adminer 5 REFUSE tout login sans mot de passe maître → adminer/adminer-plugins.php local (gitignoré upstream, NON inclus dans patch.diff) contenant new Adminer\\Password(password_hash('a11y-sqlite-pw'))",
+    "literal_credentials": "driver=sqlite, username=admin, password=a11y-sqlite-pw, db=/data/test.sqlite"
+  },
+  "auth": "tools/auth.json produit par tools/login.mjs (formulaire réel POST auth[driver|username|password|db]+token → 302 → cookie HttpOnly adminer_sid dans storage state)",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls": [
+        "http://localhost:8080/adminer/  (login, driver=server par défaut)",
+        "http://localhost:8080/adminer/?sqlite=  (login, driver SQLite présélectionné → ligne Server masquée par loginDriver() au load)"
+      ],
+      "states": []
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json",
+      "urls_file": "tools/urls-auth.txt",
+      "urls": [
+        "?sqlite=&username=admin&db=/data/test.sqlite  (accueil = liste tables)",
+        "&select=books (grille données)", "&select=expensive_books (vue)",
+        "&table=books (structure)", "&edit=books (insert)", "&edit=books&where[id]=1 (édition ligne)",
+        "&create= (nouvelle table)", "&create=books (alter table)",
+        "&indexes=books", "&foreign=books (create FK)", "&trigger= (create trigger)", "&trigger=books&name=books_price_check (alter trigger)",
+        "&view=expensive_books (alter view)", "&check=books (create check)",
+        "&sql= (commande SQL = page Import aliasée)", "&dump= (export)", "&dump=books (export table)",
+        "&database= (alter database)", "&schema= (schéma DB)",
+        "&event= &user= &sequence= &type=  (routes rendant des formulaires réels mais non supportées par le driver sqlite — auditées quand même car HTML réellement servi ; le submit échouerait)",
+        "&variables= (PRAGMA sqlite réels)"
+      ],
+      "states": ["sql-erreur", "sql-resultat", "select-tout-coche", "menu-mobile-ouvert"]
+    }
+  ],
+  "excluded": [
+    "&procedure= : Fatal error PHP amont (routine_languages() indéfinie sous sqlite) — bug upstream non-a11y",
+    "&processlist= : Fatal error PHP amont sous sqlite",
+    "&call= &download= : fatal/vide sans paramètres",
+    "&script= &upload= &file= : endpoints non-pages (sortie 1-4 octets)",
+    "&import= : alias server-side de &sql= ($_GET[import]→$_GET[sql]) — même document, exclu comme doublon",
+    "?manifest= : manifeste web-app JSON, pas une page",
+    "&logout : POST destructeur de session",
+    "adminer-plugins.php : config locale requise par Adminer 5 (gitignoré upstream), hors patch"
+  ],
+  "auditCommands": [
+    "cd boucle-continue/cycles/adminer/tools && npm install (axe-core+playwright)",
+    "node login.mjs   # → tools/auth.json (A11Y_BASE=http://localhost:8080 défaut)",
+    "node audit.mjs http://localhost:8080 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait 800 --out ../reports/baseline/public",
+    "node audit.mjs http://localhost:8080 --storage-state auth.json --urls \"$(paste -sd, urls-auth.txt)\" --states all --wait 800 --out ../reports/baseline/auth",
+    "node audit.mjs http://localhost:8080 --urls \"$(paste -sd, urls-public.txt)\" --states none --wait 800 --out ../reports/final/public",
+    "node audit.mjs http://localhost:8080 --storage-state auth.json --urls \"$(paste -sd, urls-auth.txt)\" --states all --wait 800 --out ../reports/final/auth",
+    "node verify.mjs http://localhost:8080",
+    "node eval-final.mjs http://localhost:8080"
+  ],
+  "wait_rationale": "--wait 800 uniforme : pages server-rendered stables au load ; seule la page login a du JS (loginDriver masque la ligne Server pour sqlite, exécuté au load) ; settleAnimations v6 couvre les transitions CSS éventuelles",
+  "toolVersions": {
+    "node": "v24.19.0", "playwright": "1.63.0", "axe-core": "4.13.0",
+    "php": "8.3.35 (image docker php:8.3-cli)", "chromium": "1243 (ms-playwright)",
+    "audit.mjs": "v6 (copie canonique racine + STATES cycle)"
+  },
+  "notes": [
+    "viewport par défaut du runner 1280x720 ; l'état menu-mobile-ouvert force 375x800 (documenté dans STATES)",
+    "pas de thème/sombre explicite : dark.css suit prefers-color-scheme — Playwright headless = light par défaut",
+    "langue : en (défaut) — le sélecteur lang POST naviguerait, hors périmètre",
+    "sort/limite sur select = liens GET ordinaires déjà couverts par les urls figées, pas des états"
+  ]
+}

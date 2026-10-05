@@ -1,0 +1,18 @@
+{
+  "sql-erreur": {
+    "url": "?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+    "setup": "remplit textarea[name=query] avec 'SELEC * FROM nonsense;', submit Execute → navigation → attend p.error (voir tools/audit.mjs)"
+  },
+  "sql-resultat": {
+    "url": "?sqlite=&username=admin&db=/data/test.sqlite&sql=",
+    "setup": "remplit 'SELECT * FROM books ORDER BY id LIMIT 3;', submit Execute → attend table.odds avec >1 ligne (un SELECT n'émet pas p.message) (voir tools/audit.mjs)"
+  },
+  "select-tout-coche": {
+    "url": "?sqlite=&username=admin&db=/data/test.sqlite&select=books",
+    "setup": "clique #all-page → attend que tous les input[name='check[]'] soient cochés (voir tools/audit.mjs)"
+  },
+  "menu-mobile-ouvert": {
+    "url": "?sqlite=&username=admin&db=/data/test.sqlite",
+    "setup": "viewport 375x800 → reload → clique #menuopen button → attend aria-expanded=true (voir tools/audit.mjs)"
+  }
+}

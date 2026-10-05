@@ -1,0 +1,61 @@
+# install-build — adminer (cycle 21)
+# Rejoue : clone propre @SHA + apply patch.diff + boot docker + login + rescan.
+# Toutes les commandes exécutées telles quelles, exit codes réels.
+
+## 1. Clone propre au SHA épinglé
+$ cd ~/work && rm -rf adminer-verify
+$ git clone -q https://github.com/vrana/adminer.git adminer-verify
+$ cd adminer-verify && git checkout -q f9f9f1726048f6bdcaf891b5e14f5343a3132ba6
+$ git submodule update -q --init adminer/static/jush   # jush est un sous-module git
+exit 0
+
+## 2. Application du patch
+$ git apply ~/repos/accessibilite-conformite/boucle-continue/cycles/adminer/patch.diff
+exit 0
+$ git status --porcelain | wc -l
+21   # 21 fichiers modifiés, aucun rejet
+
+## 3. Pré-requis runtime (hors patch : fichiers gitignorés / secrets locaux)
+$ cp ~/work/adminer/adminer/adminer-plugins.php adminer/
+  # adminer-plugins.php = gate Password pour le login sqlite (voir manifest.json) —
+  # gitignoré upstream, ce n'est PAS du code patché, c'est la config du banc d'essai.
+exit 0
+
+## 4. Boot docker php:8.3-cli + php -S (source dev servie, pas de build step)
+$ docker run -d --name adminer-a11y-verify -p 8081:8080 \
+    -v $PWD/adminer:/var/www/html/adminer \
+    -v ~/work/adminer-data:/data \
+    php:8.3-cli php -S 0.0.0.0:8080 -t /var/www/html
+exit 0
+$ curl -s -o /dev/null -w '%{http_code}' http://localhost:8081/adminer/
+200
+
+## 5. Session authentifiée (même procédure que le cycle : storageState)
+$ cd ~/repos/accessibilite-conformite/boucle-continue/cycles/adminer/tools
+$ A11Y_BASE=http://localhost:8081 node login.mjs
+auth.json écrit — session sqlite /data/test.sqlite   → renommé auth-8081.json
+exit 0
+
+## 6. Rescan du produit reconstruit
+$ sed 's/localhost:8080/localhost:8081/' urls-auth.txt > /tmp/urls-8081.txt
+$ node audit.mjs http://localhost:8081 --storage-state auth-8081.json \
+    --urls "$(paste -sd, /tmp/urls-8081.txt)" --states all --wait 800 \
+    --out ../reports/install-build/auth
+→ 0 règle(s), 0 occurrence(s), 0 erreur(s), 13 incomplet(s)   exit 0
+  (identique au scan final :8080 ; les 13 incomplets sont les mêmes nœuds
+  sondés PASS dans probe-decisions.json)
+
+$ node audit.mjs http://localhost:8081 --urls "$(paste -sd, /tmp/urls-public-8081.txt)" \
+    --states none --wait 800 --out ../reports/install-build/public
+→ 0 règle(s), 0 occurrence(s)   exit 0
+
+## 7. Assertions fonctionnelles a11y sur le produit reconstruit
+$ node verify.mjs http://localhost:8081 --storage-state auth-8081.json
+→ TOUT PASS (37/37)   exit 0
+$ node eval-final.mjs http://localhost:8081 --storage-state auth-8081.json
+→ TOUT PASS   exit 0
+
+## Conclusion
+Le patch.diff seul, appliqué au clone propre @f9f9f17, reproduit le produit
+corrigé : 0 violation axe sur les 26 urls×états auth + 2 publics, verify.mjs
+37/37, eval-final.mjs PASS. php -l : 0 erreur de syntaxe sur les 21 fichiers.
