@@ -1,0 +1,579 @@
+# Audit accessibilité — 2026-10-05
+
+**0 règle(s) violée(s), 0 occurrence(s), 45/45 scénario(s) audité(s), 0 erreur(s), 1352 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `8b6a652ec969`
+
+## Résultats incomplets à revoir (1352)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8080/public/index.php?route=/
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `a[href="index.php?route=/server/sql"]`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +12 autres
+- http://localhost:8080/public/index.php?route=/server/status
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.disableAjax.text-nowrap`
+  - … +15 autres
+- http://localhost:8080/public/index.php?route=/server/export
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/server/import
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +12 autres
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +8 autres
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.disableAjax.text-nowrap`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +49 autres
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +45 autres
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - … +16 autres
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +8 autres
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(3) > .nav-link.text-nowrap.disableAjax`
+  - … +16 autres
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(3) > .text-nowrap.nav-link.disableAjax`
+  - … +12 autres
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +12 autres
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - … +15 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +36 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +30 autres
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +15 autres
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +17 autres
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +37 autres
+- http://localhost:8080/public/index.php?route=/themes
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +19 autres
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +17 autres
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +18 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +37 autres
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `a[href="index.php?route=/server/sql"]`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - … +14 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +40 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `#pma_navigation_collapser`
+  - `.nav-item:nth-child(1) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(3) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(4) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(5) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(6) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(7) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(8) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(9) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(10) > .nav-link.disableAjax.text-nowrap`
+  - … +43 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +39 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +50 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `#pma_navigation_collapser`
+  - `select[name="db_collation"]`
+  - `.alert-info > .text-nowrap`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `#pma_navigation_collapser`
+  - `.history > span`
+  - `#instructions-0`
+  - `#collationConnectionSelect`
+  - `#themeSelect`
+  - `.autosubmit[name="themeColorMode"][aria-label="Color mode for the theme"]`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `.table-striped`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `#binlogTable`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `.table-striped`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `.caption-top.table-sm.table-striped:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `.table-responsive-lg:nth-child(7) > .table-striped.insertRowTable.my-3`
+  - `.table-responsive-lg:nth-child(13) > .table-striped.insertRowTable.my-3`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `.relationalTable`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `#index_columns`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `.caption-top.table-sm.table-striped:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `.caption-top.table-sm.table-striped:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `.table-striped`
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `input[name="sql_create_table"][type="hidden"][value="y"]`
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#page_content > .modal.fade[aria-labelledby="previewSqlModalLabel"] > .modal-dialog > .modal-content > .modal-header > h5`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `#page_content > .modal.fade[aria-labelledby="previewSqlModalLabel"] > .modal-dialog > .modal-content > .modal-header > h5`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `.modal.fade[aria-labelledby="previewSqlModalLabel"]:nth-child(2) > .modal-dialog > .modal-content > .modal-header > h5`
+  - `.modal.fade[aria-labelledby="enumEditorModalLabel"]:nth-child(3) > .modal-dialog > .modal-content > .modal-header > h5`
+

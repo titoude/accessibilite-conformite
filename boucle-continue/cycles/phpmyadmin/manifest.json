@@ -1,0 +1,36 @@
+{
+ "cycle": 31,
+ "produit": "phpmyadmin",
+ "repo": "https://github.com/phpmyadmin/phpmyadmin",
+ "commit": "e7e3f96ac4c65f291cc7ced271c0bb6d4ea591ee",
+ "pinned": "e7e3f96ac4c65f291cc7ced271c0bb6d4ea591ee (clone complet, branch master, 2026-10-05)",
+ "baseUrl": "http://localhost:8080",
+ "stack": "PHP 8.3 (image pma31-web custom = php:8.3-apache-like + composer) + MariaDB 11.8 — SSR Twig classique, 4 thèmes servis (pmahomme défaut, bootstrap avec dark mode, metro, original)",
+ "boot": {
+  "clone": "git clone https://github.com/phpmyadmin/phpmyadmin target && git checkout e7e3f96",
+  "build": "export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh && yarn install && yarn build  (webpack ~16s : public/themes/*/css/theme.css depuis scss/, public/js/* depuis resources/js/*.ts)",
+  "vendor": "docker run --rm -v $PWD:/app pma31-web composer install --ignore-platform-reqs  (php 8.3.35, lock non compatible sinon)",
+  "db": "docker run -d --name pma31-db -e MARIADB_ROOT_PASSWORD=rootpw -e MARIADB_DATABASE=a11ydb -e MARIADB_USER=pma -e MARIADB_PASSWORD=pma-bench-2026 mariadb:11.8 ; seed : table a11ydb.users (id, name, bio NULL, homepage NULL) 5 lignes",
+  "web": "docker run -d --name pma31-web -p 8080:80 --link pma31-db -v <target>:/var/www/html pma31-web  (image custom apache+php construite pour ce run)",
+  "config": "config.inc.php à la racine (gitignored, hors patch) : blowfish_secret 32 chars, Servers[1].host='pma31-db', auth_type=cookie, ThemeDefault=pmahomme, PmaAbsoluteUri=http://localhost:8080/",
+  "login": "node tools/login.mjs http://localhost:8080 auth.json pma pma-bench-2026 — remplit index.php?route=/ (input pma_username/pma_password), attend #pma_navigation_tree, écrit le storageState"
+ },
+ "auth": "storageState tools/auth.json (cookies pmaAuth + pmaUser-1, login pma/pma-bench-2026)",
+ "urls": "tools/urls-auth.txt — 36 pages auth : / + server/* (12) + database/* (7) + table/* (11) + themes + preferences×2 + /sql browse + /sql bad query + /table/change",
+ "states": "voir states.json — 9 états dynamiques : navtree expandé, console ouverte, dropdown More structure, modale add-index, inline-edit browse, profiling sql, bad query, bootstrap dark, nav mobile 390",
+ "auditCommands": {
+  "baseline_public": "node audit.mjs http://localhost:8080 --urls /public/index.php?route=/,/public/index.php?route=/themes --states none --out reports/baseline/public",
+  "baseline_auth": "node audit.mjs http://localhost:8080 --urls \"$(tr '\\n' ',' < tools/urls-auth.txt)\" --states navtree-a11ydb,console-open,structure-more-dropdown,add-index-modal,browse-inline-edit,sql-profiling,sql-bad-query,theme-bootstrap-dark,mobile-nav-390 --storage-state tools/auth.json --wait 2000 --out reports/baseline/auth",
+  "reset_theme_obligatoire": "node tools/reset-theme.mjs http://localhost:8080 tools/auth.json  — AVANT chaque scan : la préférence thème survit côté serveur ; sans reset les pages tournent sous bootstrap/dark → faux positifs",
+  "final": "identique baseline_auth → reports/final",
+  "install_build": "identique avec storageState auth-ib.json sur stack :8081 (pma31ib-web+pma31ib-db) → reports/install-build"
+ },
+ "verify": "node tools/verify.mjs http://localhost:8080 tools/auth.json — 25 assertions dures (landmarks, h1/heading-order, dup ids scope axe, tailles 24px mesurées, contrastes mesurés composite alpha, underlines, labels)",
+ "eval": "node tools/eval-final.mjs http://localhost:8080 tools/auth.json — état froid : 6 pages hors scope + dup-ids + rejoues (navtree 24px, modale aria-labelledby, configFormDisplayTab uniques, text-danger)",
+ "probes": "node tools/incomplete-probes.mjs — décision traçable par groupe d'incomplets (composite alpha)",
+ "notes": [
+  "vendor/, node_modules/, config.inc.php, public/ build outputs : gitignored — régénérés par yarn build / composer install, PAS dans patch.diff (sources scss/ts/twig uniquement).",
+  "Le seed IB contient des NULL (bio, homepage) → surface td.null inexistante en local : données de bench différentes exposent des surfaces différentes (leçon : mêmes données partout).",
+  "La préférence thème est persistante côté serveur : un état theme-* laisse bootstrap actif pour les scans suivants → reset-theme obligatoire avant chaque run."
+ ]
+}

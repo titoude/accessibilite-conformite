@@ -1,0 +1,2431 @@
+diff --git a/public/themes/bootstrap/scss/_breadcrumb.scss b/public/themes/bootstrap/scss/_breadcrumb.scss
+index af6cfff..59c5207 100644
+--- a/public/themes/bootstrap/scss/_breadcrumb.scss
++++ b/public/themes/bootstrap/scss/_breadcrumb.scss
+@@ -11,6 +11,16 @@
+     .icon {
+       margin: 0;
+     }
++
++    a {
++      color: #0a58ca;
++    }
++  }
++}
++
++@include color-mode(dark) {
++  .breadcrumb-navbar .breadcrumb-item a {
++    color: #9ec5fe;
+   }
+ }
+ 
+diff --git a/public/themes/bootstrap/scss/_codemirror.scss b/public/themes/bootstrap/scss/_codemirror.scss
+index fca2b8b..9323b94 100644
+--- a/public/themes/bootstrap/scss/_codemirror.scss
++++ b/public/themes/bootstrap/scss/_codemirror.scss
+@@ -45,7 +45,7 @@ $textarea-rows: 15;
+   }
+ 
+   .cm-number {
+-    color: $teal-600;
++    color: $teal-800; // WCAG 1.4.3: teal-700 is 4.02:1 on alert-danger bg
+   }
+ 
+   .cm-atom,
+diff --git a/public/themes/bootstrap/scss/_common.scss b/public/themes/bootstrap/scss/_common.scss
+index 060f09e..12750a7 100644
+--- a/public/themes/bootstrap/scss/_common.scss
++++ b/public/themes/bootstrap/scss/_common.scss
+@@ -2379,3 +2379,161 @@ code.sql,
+ code.xml {
+   color: var(--#{$prefix}code-color);
+ }
++
++// WCAG 1.4.3: btn-outline-secondary's #6c757d text fails on both
++// light (#f8f9fa panel, 4.45) and dark (#212529, 2.83) surfaces.
++.btn-outline-secondary {
++  color: #495057;
++  border-color: #6c757d;
++}
++
++@include color-mode(dark) {
++  .btn-outline-secondary {
++    color: #ced4da;
++    border-color: #ced4da;
++  }
++}
++
++// WCAG 1.4.3 + 1.4.1: plain links inside alerts keep the global link
++// blue which fails on alert backgrounds and isn't distinguishable
++// from the surrounding text.
++.alert a {
++  color: inherit;
++  font-weight: 700;
++  text-decoration-line: underline;
++}
++
++// WCAG 2.5.8: 24px minimum target size for native checkboxes/radios
++input[type="checkbox"],
++input[type="radio"] {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++// WCAG 2.5.8: the widened input would butt against its label — keep a gap
++// so the full 24px box stays unobscured.
++input[type="checkbox"].form-check-input,
++input[type="radio"].form-check-input {
++  margin-right: 4px;
++}
++
++// WCAG 2.5.8: 24px hit area for the 16px "Documentation" icon links
++a[target="mysql_doc"],
++a[target="documentation"] {
++  display: inline-block;
++  padding: 5px;
++}
++
++// WCAG 2.5.8: short text links used as standalone rows items
++.list-group-item > a[rel="noopener noreferrer"],
++.list-group-item > a[target="_blank"] {
++  display: inline-block;
++  padding: 5px 0;
++}
++
++// WCAG 1.4.1: links inside running text must be distinguishable
++// without relying on color alone.
++a[href^="mailto:"],
++#li_pma_version a,
++#li_pma_version_git a,
++.latest a,
++.card-header > a,
++.card-body a:not(.btn),
++h2 > a {
++  text-decoration-line: underline;
++}
++
++// WCAG 1.4.3: #dc3545 fails on white (4.0); code pink fails on white
++// and on alert backgrounds.
++.text-danger {
++  // !important: Bootstrap utilities are !important too
++  color: #a41e2b !important;
++}
++
++.form-check-label code,
++.alert code,
++code.sql {
++  color: inherit;
++}
++// WCAG 1.4.3: Bootstrap muted tones (.form-text, .text-body-secondary,
++// .card-subtitle) measure ~4.08 on the #eeeeee panel surfaces.
++.form-text,
++.text-body-secondary,
++.card-subtitle {
++  color: #52575c !important;
++}
++// WCAG 1.4.3 dark-mode counterparts: the light-mode fixes above use
++// dark text that collapses on the #212529 dark surface.
++@include color-mode(dark) {
++  .text-danger {
++    color: #ea868f !important;
++  }
++
++  .form-text,
++  .text-body-secondary,
++  .card-subtitle {
++    color: #adb5bd !important;
++  }
++
++  td.null {
++    color: #a8a8a8 !important;
++  }
++}
++
++// WCAG 2.5.8: dropdown menu items and table sort links must reach 24px.
++.dropdown-menu .dropdown-item {
++  min-height: 24px;
++}
++
++th .sortlink,
++th a.sortlink {
++  display: inline-block;
++  padding: 5px 0;
++}
++// WCAG 1.4.3: CodeMirror gutter line numbers are #999 (2.85:1) on white.
++.CodeMirror-linenumber {
++  color: #6c6c6c;
++}
++
++// WCAG 1.4.1: row action links (Edit/Copy/Delete) inside table cells.
++td a.delete_row,
++td a.edit_row_anchor,
++td .text-nowrap > a {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 hit-area: Bootstrap rounds .form-check-input (50% radios,
++// .25em checkboxes) — the rounded corners fall outside the painted shape,
++// so the 24px box is flagged partially obscured. Square the box; the
++// visible control stays square-ish (appearance:none paints the glyph).
++.form-check-input[type="radio"],
++.form-check-input[type="checkbox"] {
++  border-radius: 0;
++}
++// WCAG 2.5.8 hit-area: consecutive .form-check rows are ~21.7px apart;
++// the 24px inputs would overlap each other. Force a >=24px pitch.
++.form-check {
++  min-height: 24px;
++}
++// WCAG 1.4.1: "Sort" links inside table headers need a non-color cue.
++th a[title="Sort"] {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 index-links: Edit/Rename/Drop index links render ~19px tall.
++tr.noclick td a,
++td.edit_index a,
++td.rename_index a {
++  display: inline-block;
++  min-height: 24px;
++  line-height: 24px;
++}
++// WCAG 2.5.8 noclick-row-pitch: index action links are 24px tall; give the
++// rows a 24px line so they don't overflow into the next row.
++td.noclick {
++  line-height: 24px;
++}
++
++// WCAG 1.4.3 null-cells: #7d7d7d italic NULL text fails on striped rows.
++td.null {
++  color: #6c6c6c !important;
++}
++
+diff --git a/public/themes/bootstrap/scss/_navigation.scss b/public/themes/bootstrap/scss/_navigation.scss
+index 283187c..8546cb9 100644
+--- a/public/themes/bootstrap/scss/_navigation.scss
++++ b/public/themes/bootstrap/scss/_navigation.scss
+@@ -125,9 +125,15 @@
+   height: 100%;
+ 
+   a.hover_show_full {
++    // WCAG 2.5.8: 24px hit area for 16px icon links
++    display: inline-block;
++    vertical-align: middle;
++    padding: 5px;
++    margin: 0 2px;
++    line-height: 24px;
++    min-height: 24px;
+     position: relative;
+     z-index: 100;
+-    vertical-align: sub;
+   }
+ }
+ 
+@@ -356,6 +362,17 @@ li.fast_filter {
+   padding-right: 23px;
+ }
+ 
++// WCAG 2.5.8: 24px hit area for the 16px collapse/sync icon links
++#pma_navigation_collapse,
++#pma_navigation_sync {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++  margin-top: -4px;
++}
++
+ // Resize handler
+ #pma_navigation_resizer {
+   width: 1px !important;
+@@ -409,3 +426,69 @@ li.fast_filter {
+ #floating_menubar {
+   z-index: 99;
+ }
++
++// WCAG 1.4.3: default link blue (#0d6efd) fails on the nav panel
++// backgrounds in both color modes.
++#pma_navigation_tree_content a.hover_show_full {
++  color: #0a58ca;
++}
++
++@include color-mode(dark) {
++  #pma_navigation_tree_content a.hover_show_full {
++    color: #8bb9fe;
++  }
++}
++// WCAG 2.5.8 navtree-blocks: second icon column (.block > a.disableAjax)
++// and the expander link render ~9x9; give them a 24px hit area.
++#pma_navigation_tree_content div.block {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++#pma_navigation_tree_content div.block a,
++#pma_navigation_tree_content a.expander {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++// WCAG 2.5.8 navtree-second-anchor: the absolute left:.75em hangs the
++// 24px link outside its .block and under the db-name link.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  left: 0;
++  right: auto;
++}
++#pma_navigation_tree div.block.second.double > a,
++#pma_navigation_tree_content div.block.second.double > a {
++  left: 0;
++}
++#pma_navigation_tree div.block.second.double > a + a,
++#pma_navigation_tree_content div.block.second.double > a + a {
++  left: 24px;
++}
++#pma_navigation_tree div.block.second.double {
++  min-width: 48px;
++}
++// WCAG 2.5.8 navtree-anchor-top: absolute top:50% hung the 24px link 12px
++// into the next row, where the sibling name link could cover it.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  top: 0;
++}
++
++// WCAG 2.5.8 nav-header-icons: 16px dot.gif icon links in the panel header.
++#navipanellinks a,
++#pma_navigation_header a,
++a.logout,
++#pma_navigation_content a[title="Home"],
++a[title^="phpMyAdmin documentation"],
++a[title="MariaDB Documentation"] {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++
+diff --git a/public/themes/bootstrap/scss/_variables.scss b/public/themes/bootstrap/scss/_variables.scss
+index 202a45a..e27acbc 100644
+--- a/public/themes/bootstrap/scss/_variables.scss
++++ b/public/themes/bootstrap/scss/_variables.scss
+@@ -6,6 +6,10 @@ $navigation-width: 240px !default;
+ 
+ $link-decoration: none;
+ $link-hover-decoration: underline;
++// WCAG 1.4.3: Bootstrap's default link blue #0d6efd fails (4.24-4.5) on
++// white and card surfaces; blue-700 passes with margin.
++$link-color: #0a58ca;
++$link-hover-color: #084298;
+ 
+ // Breadcrumbs
+ 
+diff --git a/public/themes/metro/scss/_common.scss b/public/themes/metro/scss/_common.scss
+index 50f3d0a..f6697a0 100644
+--- a/public/themes/metro/scss/_common.scss
++++ b/public/themes/metro/scss/_common.scss
+@@ -2543,3 +2543,108 @@ code.sql,
+ code.xml {
+   color: var(--#{$prefix}code-color);
+ }
++
++// WCAG 2.5.8: 24px minimum target size for native checkboxes/radios
++input[type="checkbox"],
++input[type="radio"] {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++// WCAG 2.5.8: the widened input would butt against its label — keep a gap
++// so the full 24px box stays unobscured.
++input[type="checkbox"].form-check-input,
++input[type="radio"].form-check-input {
++  margin-right: 4px;
++}
++
++// WCAG 2.5.8: 24px hit area for the 16px "Documentation" icon links
++a[target="mysql_doc"],
++a[target="documentation"] {
++  display: inline-block;
++  padding: 5px;
++}
++
++// WCAG 2.5.8: short text links used as standalone rows items
++.list-group-item > a[rel="noopener noreferrer"],
++.list-group-item > a[target="_blank"] {
++  display: inline-block;
++  padding: 5px 0;
++}
++
++// WCAG 1.4.1: links inside running text must be distinguishable
++// without relying on color alone.
++a[href^="mailto:"],
++#li_pma_version a,
++#li_pma_version_git a,
++.latest a,
++.card-header > a,
++.card-body a:not(.btn),
++h2 > a,
++.alert a {
++  text-decoration-line: underline;
++}
++// WCAG 1.4.3: Bootstrap muted tones (.form-text, .text-body-secondary,
++// .card-subtitle) measure ~4.08 on the #eeeeee panel surfaces.
++.form-text,
++.text-body-secondary,
++.card-subtitle {
++  color: #52575c !important;
++}
++// WCAG 2.5.8: dropdown menu items and table sort links must reach 24px.
++.dropdown-menu .dropdown-item {
++  min-height: 24px;
++}
++
++th .sortlink,
++th a.sortlink {
++  display: inline-block;
++  padding: 5px 0;
++}
++// WCAG 1.4.3: CodeMirror gutter line numbers are #999 (2.85:1) on white.
++.CodeMirror-linenumber {
++  color: #6c6c6c;
++}
++
++// WCAG 1.4.1: row action links (Edit/Copy/Delete) inside table cells.
++td a.delete_row,
++td a.edit_row_anchor,
++td .text-nowrap > a {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 hit-area: Bootstrap rounds .form-check-input (50% radios,
++// .25em checkboxes) — the rounded corners fall outside the painted shape,
++// so the 24px box is flagged partially obscured. Square the box; the
++// visible control stays square-ish (appearance:none paints the glyph).
++.form-check-input[type="radio"],
++.form-check-input[type="checkbox"] {
++  border-radius: 0;
++}
++// WCAG 2.5.8 hit-area: consecutive .form-check rows are ~21.7px apart;
++// the 24px inputs would overlap each other. Force a >=24px pitch.
++.form-check {
++  min-height: 24px;
++}
++// WCAG 1.4.1: "Sort" links inside table headers need a non-color cue.
++th a[title="Sort"] {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 index-links: Edit/Rename/Drop index links render ~19px tall.
++tr.noclick td a,
++td.edit_index a,
++td.rename_index a {
++  display: inline-block;
++  min-height: 24px;
++  line-height: 24px;
++}
++// WCAG 2.5.8 noclick-row-pitch: index action links are 24px tall; give the
++// rows a 24px line so they don't overflow into the next row.
++td.noclick {
++  line-height: 24px;
++}
++
++// WCAG 1.4.3 null-cells: #7d7d7d italic NULL text fails on striped rows.
++td.null {
++  color: #6c6c6c !important;
++}
++
+diff --git a/public/themes/metro/scss/_navigation.scss b/public/themes/metro/scss/_navigation.scss
+index b7b2028..9d88a59 100644
+--- a/public/themes/metro/scss/_navigation.scss
++++ b/public/themes/metro/scss/_navigation.scss
+@@ -212,6 +212,12 @@ img {
+ #pma_navigation_tree_content a.hover_show_full {
+   position: relative;
+   z-index: 100;
++  // WCAG 2.5.8: 24px hit area for 16px icon links; inline-block + margins
++  // keep adjacent tree links from clipping the target
++  display: inline-block;
++  vertical-align: middle;
++  padding: 5px;
++  margin: 0 2px;
+ }
+ 
+ #pma_navigation_tree {
+@@ -408,6 +414,17 @@ li.fast_filter {
+   min-height: 21px !important;
+ }
+ 
++// WCAG 2.5.8: 24px hit area for the 16px collapse/sync icon links
++#pma_navigation_collapse,
++#pma_navigation_sync {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++  margin-top: -4px;
++}
++
+ #pma_navigation_collapse {
+   padding-right: 2px;
+ }
+@@ -452,3 +469,57 @@ li.fast_filter {
+ #floating_menubar {
+   z-index: 99;
+ }
++// WCAG 2.5.8 navtree-blocks: second icon column (.block > a.disableAjax)
++// and the expander link render ~9x9; give them a 24px hit area.
++#pma_navigation_tree_content div.block {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++#pma_navigation_tree_content div.block a,
++#pma_navigation_tree_content a.expander {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++// WCAG 2.5.8 navtree-second-anchor: the absolute left:.75em hangs the
++// 24px link outside its .block and under the db-name link.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  left: 0;
++  right: auto;
++}
++#pma_navigation_tree div.block.second.double > a,
++#pma_navigation_tree_content div.block.second.double > a {
++  left: 0;
++}
++#pma_navigation_tree div.block.second.double > a + a,
++#pma_navigation_tree_content div.block.second.double > a + a {
++  left: 24px;
++}
++#pma_navigation_tree div.block.second.double {
++  min-width: 48px;
++}
++// WCAG 2.5.8 navtree-anchor-top: absolute top:50% hung the 24px link 12px
++// into the next row, where the sibling name link could cover it.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  top: 0;
++}
++
++// WCAG 2.5.8 nav-header-icons: 16px dot.gif icon links in the panel header.
++#navipanellinks a,
++#pma_navigation_header a,
++a.logout,
++#pma_navigation_content a[title="Home"],
++a[title^="phpMyAdmin documentation"],
++a[title="MariaDB Documentation"] {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++
+diff --git a/public/themes/original/scss/_common.scss b/public/themes/original/scss/_common.scss
+index 5406aaa..82d3170 100644
+--- a/public/themes/original/scss/_common.scss
++++ b/public/themes/original/scss/_common.scss
+@@ -2361,3 +2361,108 @@ code.sql,
+ code.xml {
+   color: var(--#{$prefix}code-color);
+ }
++
++// WCAG 2.5.8: 24px minimum target size for native checkboxes/radios
++input[type="checkbox"],
++input[type="radio"] {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++// WCAG 2.5.8: the widened input would butt against its label — keep a gap
++// so the full 24px box stays unobscured.
++input[type="checkbox"].form-check-input,
++input[type="radio"].form-check-input {
++  margin-right: 4px;
++}
++
++// WCAG 2.5.8: 24px hit area for the 16px "Documentation" icon links
++a[target="mysql_doc"],
++a[target="documentation"] {
++  display: inline-block;
++  padding: 5px;
++}
++
++// WCAG 2.5.8: short text links used as standalone rows items
++.list-group-item > a[rel="noopener noreferrer"],
++.list-group-item > a[target="_blank"] {
++  display: inline-block;
++  padding: 5px 0;
++}
++
++// WCAG 1.4.1: links inside running text must be distinguishable
++// without relying on color alone.
++a[href^="mailto:"],
++#li_pma_version a,
++#li_pma_version_git a,
++.latest a,
++.card-header > a,
++.card-body a:not(.btn),
++h2 > a,
++.alert a {
++  text-decoration-line: underline;
++}
++// WCAG 1.4.3: Bootstrap muted tones (.form-text, .text-body-secondary,
++// .card-subtitle) measure ~4.08 on the #eeeeee panel surfaces.
++.form-text,
++.text-body-secondary,
++.card-subtitle {
++  color: #52575c !important;
++}
++// WCAG 2.5.8: dropdown menu items and table sort links must reach 24px.
++.dropdown-menu .dropdown-item {
++  min-height: 24px;
++}
++
++th .sortlink,
++th a.sortlink {
++  display: inline-block;
++  padding: 5px 0;
++}
++// WCAG 1.4.3: CodeMirror gutter line numbers are #999 (2.85:1) on white.
++.CodeMirror-linenumber {
++  color: #6c6c6c;
++}
++
++// WCAG 1.4.1: row action links (Edit/Copy/Delete) inside table cells.
++td a.delete_row,
++td a.edit_row_anchor,
++td .text-nowrap > a {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 hit-area: Bootstrap rounds .form-check-input (50% radios,
++// .25em checkboxes) — the rounded corners fall outside the painted shape,
++// so the 24px box is flagged partially obscured. Square the box; the
++// visible control stays square-ish (appearance:none paints the glyph).
++.form-check-input[type="radio"],
++.form-check-input[type="checkbox"] {
++  border-radius: 0;
++}
++// WCAG 2.5.8 hit-area: consecutive .form-check rows are ~21.7px apart;
++// the 24px inputs would overlap each other. Force a >=24px pitch.
++.form-check {
++  min-height: 24px;
++}
++// WCAG 1.4.1: "Sort" links inside table headers need a non-color cue.
++th a[title="Sort"] {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 index-links: Edit/Rename/Drop index links render ~19px tall.
++tr.noclick td a,
++td.edit_index a,
++td.rename_index a {
++  display: inline-block;
++  min-height: 24px;
++  line-height: 24px;
++}
++// WCAG 2.5.8 noclick-row-pitch: index action links are 24px tall; give the
++// rows a 24px line so they don't overflow into the next row.
++td.noclick {
++  line-height: 24px;
++}
++
++// WCAG 1.4.3 null-cells: #7d7d7d italic NULL text fails on striped rows.
++td.null {
++  color: #6c6c6c !important;
++}
++
+diff --git a/public/themes/original/scss/_navigation.scss b/public/themes/original/scss/_navigation.scss
+index bb7443e..4e527c7 100644
+--- a/public/themes/original/scss/_navigation.scss
++++ b/public/themes/original/scss/_navigation.scss
+@@ -121,7 +121,12 @@
+   a.hover_show_full {
+     position: relative;
+     z-index: 100;
+-    vertical-align: sub;
++    display: inline-block;
++    vertical-align: middle;
++    padding: 5px;
++    margin: 0 2px;
++    line-height: 24px;
++    min-height: 24px;
+   }
+ 
+   li.nav_node_table {
+@@ -361,6 +366,17 @@ li.fast_filter {
+   }
+ }
+ 
++// WCAG 2.5.8: 24px hit area for the 16px collapse/sync icon links
++#pma_navigation_collapse,
++#pma_navigation_sync {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++  margin-top: -4px;
++}
++
+ #navigation_controls {
+   float: right;
+   padding-right: 23px;
+@@ -369,3 +385,57 @@ li.fast_filter {
+ #floating_menubar {
+   z-index: 99;
+ }
++// WCAG 2.5.8 navtree-blocks: second icon column (.block > a.disableAjax)
++// and the expander link render ~9x9; give them a 24px hit area.
++#pma_navigation_tree_content div.block {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++#pma_navigation_tree_content div.block a,
++#pma_navigation_tree_content a.expander {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++// WCAG 2.5.8 navtree-second-anchor: the absolute left:.75em hangs the
++// 24px link outside its .block and under the db-name link.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  left: 0;
++  right: auto;
++}
++#pma_navigation_tree div.block.second.double > a,
++#pma_navigation_tree_content div.block.second.double > a {
++  left: 0;
++}
++#pma_navigation_tree div.block.second.double > a + a,
++#pma_navigation_tree_content div.block.second.double > a + a {
++  left: 24px;
++}
++#pma_navigation_tree div.block.second.double {
++  min-width: 48px;
++}
++// WCAG 2.5.8 navtree-anchor-top: absolute top:50% hung the 24px link 12px
++// into the next row, where the sibling name link could cover it.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  top: 0;
++}
++
++// WCAG 2.5.8 nav-header-icons: 16px dot.gif icon links in the panel header.
++#navipanellinks a,
++#pma_navigation_header a,
++a.logout,
++#pma_navigation_content a[title="Home"],
++a[title^="phpMyAdmin documentation"],
++a[title="MariaDB Documentation"] {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++
+diff --git a/public/themes/pmahomme/scss/_breadcrumb.scss b/public/themes/pmahomme/scss/_breadcrumb.scss
+index 513f587..de8a4ea 100644
+--- a/public/themes/pmahomme/scss/_breadcrumb.scss
++++ b/public/themes/pmahomme/scss/_breadcrumb.scss
+@@ -14,7 +14,7 @@
+   }
+ 
+   .breadcrumb-comment {
+-    color: #d6d6d6;
++    color: #f5f5f5;
+     font-weight: bold;
+     font-style: italic;
+     text-shadow: none;
+diff --git a/public/themes/pmahomme/scss/_card.scss b/public/themes/pmahomme/scss/_card.scss
+index 99068b5..f8bec77 100644
+--- a/public/themes/pmahomme/scss/_card.scss
++++ b/public/themes/pmahomme/scss/_card.scss
+@@ -9,7 +9,6 @@
+ 
+ .card,
+ .card-footer {
+-  text-shadow: 1px 1px 2px #fff;
+   box-shadow: 1px 1px 2px #fff inset;
+ }
+ 
+@@ -70,11 +69,11 @@
+ 
+   .card-header {
+     padding: 0.1em $card-spacer-x;
+-    background-color: #bbb;
++    background-color: #707070;
+     color: #fff;
+     font-size: 1.6em;
+     font-weight: normal;
+     text-shadow: 0 1px 0 #777;
+     box-shadow: 1px 1px 15px #999 inset;
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/public/themes/pmahomme/scss/_common.scss b/public/themes/pmahomme/scss/_common.scss
+index 5bf39db..ffb65de 100644
+--- a/public/themes/pmahomme/scss/_common.scss
++++ b/public/themes/pmahomme/scss/_common.scss
+@@ -2542,3 +2542,121 @@ code.sql,
+ code.xml {
+   color: var(--#{$prefix}code-color);
+ }
++
++// WCAG 2.5.8: 24px minimum target size for native checkboxes/radios
++input[type="checkbox"],
++input[type="radio"] {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++// WCAG 2.5.8: the widened input would butt against its label — keep a gap
++// so the full 24px box stays unobscured.
++input[type="checkbox"].form-check-input,
++input[type="radio"].form-check-input {
++  margin-right: 4px;
++}
++
++// WCAG 2.5.8: 24px hit area for the 16px "Documentation" icon links
++a[target="mysql_doc"],
++a[target="documentation"] {
++  display: inline-block;
++  padding: 5px;
++}
++
++// WCAG 2.5.8: short text links used as standalone rows items
++.list-group-item > a[rel="noopener noreferrer"],
++.list-group-item > a[target="_blank"] {
++  display: inline-block;
++  padding: 5px 0;
++}
++
++// WCAG 1.4.1: links inside running text must be distinguishable
++// without relying on color alone.
++a[href^="mailto:"],
++#li_pma_version a,
++#li_pma_version_git a,
++.latest a,
++.card-header > a,
++.card-body a:not(.btn),
++h2 > a,
++.alert a {
++  text-decoration-line: underline;
++}
++
++// WCAG 1.4.3: Bootstrap's #dc3545 fails on white (4.0); code pink
++// #d63384 fails on white (4.1) and on alert backgrounds.
++.text-danger {
++  // !important: Bootstrap utilities are !important too
++  color: #a41e2b !important;
++}
++
++.form-check-label code,
++.alert code,
++code.sql {
++  color: inherit;
++}
++// WCAG 1.4.3: Bootstrap muted tones (.form-text, .text-body-secondary,
++// .card-subtitle) measure ~4.08 on the #eeeeee panel surfaces.
++.form-text,
++.text-body-secondary,
++.card-subtitle {
++  color: #52575c !important;
++}
++// WCAG 2.5.8: dropdown menu items and table sort links must reach 24px.
++.dropdown-menu .dropdown-item {
++  min-height: 24px;
++}
++
++th .sortlink,
++th a.sortlink {
++  display: inline-block;
++  padding: 5px 0;
++}
++// WCAG 1.4.3: CodeMirror gutter line numbers are #999 (2.85:1) on white.
++.CodeMirror-linenumber {
++  color: #6c6c6c;
++}
++
++// WCAG 1.4.1: row action links (Edit/Copy/Delete) inside table cells.
++td a.delete_row,
++td a.edit_row_anchor,
++td .text-nowrap > a {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 hit-area: Bootstrap rounds .form-check-input (50% radios,
++// .25em checkboxes) — the rounded corners fall outside the painted shape,
++// so the 24px box is flagged partially obscured. Square the box; the
++// visible control stays square-ish (appearance:none paints the glyph).
++.form-check-input[type="radio"],
++.form-check-input[type="checkbox"] {
++  border-radius: 0;
++}
++// WCAG 2.5.8 hit-area: consecutive .form-check rows are ~21.7px apart;
++// the 24px inputs would overlap each other. Force a >=24px pitch.
++.form-check {
++  min-height: 24px;
++}
++// WCAG 1.4.1: "Sort" links inside table headers need a non-color cue.
++th a[title="Sort"] {
++  text-decoration-line: underline;
++}
++// WCAG 2.5.8 index-links: Edit/Rename/Drop index links render ~19px tall.
++tr.noclick td a,
++td.edit_index a,
++td.rename_index a {
++  display: inline-block;
++  min-height: 24px;
++  line-height: 24px;
++}
++// WCAG 2.5.8 noclick-row-pitch: index action links are 24px tall; give the
++// rows a 24px line so they don't overflow into the next row.
++td.noclick {
++  line-height: 24px;
++}
++
++// WCAG 1.4.3 null-cells: #7d7d7d italic NULL text fails on striped rows.
++td.null {
++  color: #6c6c6c !important;
++}
++
+diff --git a/public/themes/pmahomme/scss/_navigation.scss b/public/themes/pmahomme/scss/_navigation.scss
+index 350135c..42f144b 100644
+--- a/public/themes/pmahomme/scss/_navigation.scss
++++ b/public/themes/pmahomme/scss/_navigation.scss
+@@ -107,7 +107,14 @@
+   a.hover_show_full {
+     position: relative;
+     z-index: 100;
+-    vertical-align: sub;
++    // WCAG 2.5.8: 16px icon links — pad the hit area to 24px; inline-block +
++    // small side margins keep adjacent tree links from clipping the target.
++    display: inline-block;
++    vertical-align: middle;
++    padding: 5px;
++    margin: 0 2px;
++    line-height: 24px;
++    min-height: 24px;
+   }
+ }
+ 
+@@ -348,6 +355,17 @@ li.fast_filter {
+   padding-right: 23px;
+ }
+ 
++// WCAG 2.5.8: 24px hit area for the 16px collapse/sync icon links
++#pma_navigation_collapse,
++#pma_navigation_sync {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++  margin-top: -4px;
++}
++
+ // Resize handler
+ #pma_navigation_resizer {
+   width: 3px;
+@@ -381,3 +399,57 @@ li.fast_filter {
+ #floating_menubar {
+   z-index: 99;
+ }
++// WCAG 2.5.8 navtree-blocks: second icon column (.block > a.disableAjax)
++// and the expander link render ~9x9; give them a 24px hit area.
++#pma_navigation_tree_content div.block {
++  min-width: 24px;
++  min-height: 24px;
++}
++
++#pma_navigation_tree_content div.block a,
++#pma_navigation_tree_content a.expander {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++// WCAG 2.5.8 navtree-second-anchor: the absolute left:.75em hangs the
++// 24px link outside its .block and under the db-name link.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  left: 0;
++  right: auto;
++}
++#pma_navigation_tree div.block.second.double > a,
++#pma_navigation_tree_content div.block.second.double > a {
++  left: 0;
++}
++#pma_navigation_tree div.block.second.double > a + a,
++#pma_navigation_tree_content div.block.second.double > a + a {
++  left: 24px;
++}
++#pma_navigation_tree div.block.second.double {
++  min-width: 48px;
++}
++// WCAG 2.5.8 navtree-anchor-top: absolute top:50% hung the 24px link 12px
++// into the next row, where the sibling name link could cover it.
++#pma_navigation_tree div.block > a,
++#pma_navigation_tree_content div.block > a {
++  top: 0;
++}
++
++// WCAG 2.5.8 nav-header-icons: 16px dot.gif icon links in the panel header.
++#navipanellinks a,
++#pma_navigation_header a,
++a.logout,
++#pma_navigation_content a[title="Home"],
++a[title^="phpMyAdmin documentation"],
++a[title="MariaDB Documentation"] {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
++
+diff --git a/public/themes/pmahomme/scss/_variables.scss b/public/themes/pmahomme/scss/_variables.scss
+index 51df199..d8b6ed0 100644
+--- a/public/themes/pmahomme/scss/_variables.scss
++++ b/public/themes/pmahomme/scss/_variables.scss
+@@ -162,8 +162,8 @@ $accordion-button-active-bg: $navi-background;
+ $breadcrumb-navbar-padding-y: 0.5rem;
+ $breadcrumb-navbar-padding-x: 2.2em;
+ $breadcrumb-navbar-margin-bottom: 0;
+-$breadcrumb-navbar-bg: #888;
+-$breadcrumb-navbar-bg-dark: #888;
++$breadcrumb-navbar-bg: #707070;
++$breadcrumb-navbar-bg-dark: #707070;
+ $breadcrumb-divider-color: #fff;
+ $breadcrumb-divider: quote("»");
+ 
+diff --git a/resources/js/makegrid.ts b/resources/js/makegrid.ts
+index a13641c..dceffea 100644
+--- a/resources/js/makegrid.ts
++++ b/resources/js/makegrid.ts
+@@ -2150,12 +2150,12 @@ const makeGrid = function (t, enableResize = undefined, enableReorder = undefine
+ 
+             // adjust g.cEditStd
+             g.cEditStd.className = 'cEdit';
+-            $(g.cEditStd).html('<input class="edit_box" rows="1"><div class="edit_area"></div>');
++            $(g.cEditStd).html('<input class="edit_box" rows="1" aria-label="' + window.Messages.strColumnValue + '"><div class="edit_area"></div>');
+             $(g.cEditStd).hide();
+ 
+             // adjust g.cEdit
+             g.cEditTextarea.className = 'cEdit';
+-            $(g.cEditTextarea).html('<textarea class="edit_box" rows="1"></textarea><div class="edit_area"></div>');
++            $(g.cEditTextarea).html('<textarea class="edit_box" rows="1" aria-label="' + window.Messages.strColumnValue + '"></textarea><div class="edit_area"></div>');
+             $(g.cEditTextarea).hide();
+ 
+             // assign cell editing hint
+diff --git a/resources/js/modules/console.ts b/resources/js/modules/console.ts
+index a7e79c3..1a7020e 100644
+--- a/resources/js/modules/console.ts
++++ b/resources/js/modules/console.ts
+@@ -535,6 +535,7 @@ const ConsoleInput = {
+                 theme: 'pma',
+                 mode: 'text/x-sql',
+                 lineWrapping: true,
++                screenReaderLabel: window.Messages.strSQLQuery,
+                 extraKeys: { 'Ctrl-Space': 'autocomplete' },
+                 // @ts-ignore
+                 hintOptions: { 'completeSingle': false, 'completeOnSingleClick': true },
+@@ -558,6 +559,7 @@ const ConsoleInput = {
+                     theme: 'pma',
+                     mode: 'text/x-sql',
+                     lineWrapping: true,
++                    screenReaderLabel: window.Messages.strSQLQuery,
+                     extraKeys: { 'Ctrl-Space': 'autocomplete' },
+                     // @ts-ignore
+                     hintOptions: { 'completeSingle': false, 'completeOnSingleClick': true },
+diff --git a/resources/js/modules/functions.ts b/resources/js/modules/functions.ts
+index 957891e..a5d5718 100644
+--- a/resources/js/modules/functions.ts
++++ b/resources/js/modules/functions.ts
+@@ -244,6 +244,7 @@ export function getSqlEditor ($textarea, options = undefined, resize = undefined
+         indentUnit: 4,
+         mode: 'text/x-mysql',
+         lineWrapping: true,
++        screenReaderLabel: $textarea.attr('aria-label') ?? window.Messages.strSQLQuery,
+     };
+ 
+     // @ts-ignore
+diff --git a/resources/templates/base.twig b/resources/templates/base.twig
+index 32e2c8c..8dba338 100644
+--- a/resources/templates/base.twig
++++ b/resources/templates/base.twig
+@@ -43,7 +43,7 @@
+ 
+ {% if header.is_menu_enabled and header.server > 0 %}
+   {{ header.menu|raw }}
+-  <div id="page_nav_icons" class="row row-cols-sm-auto align-items-center d-print-none me-3 p-1">
++  <nav id="page_nav_icons" class="row row-cols-sm-auto align-items-center d-print-none me-3 p-1" aria-label="{{ t('Account and page settings') }}">
+     <div class="col-12">
+       <div id="userAccountDropdown" class="dropdown">
+         <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+@@ -113,13 +113,14 @@
+         </span>
+       <a id="goto_pagetop" href="#">{{ get_image('s_top', t('Click on the bar to scroll to top of page')) }}</a>
+     </div>
+-  </div>
++  </nav>
+ {% endif %}
+ 
+ {{ header.console|raw }}
+ 
+-<div id="page_content">
++<main id="page_content">
+   {{ header.messages|raw }}
++  <h1 class="visually-hidden">{{ header.title }}</h1>
+ 
+   {%- if header.is_logged_in -%}
+     {{ include('modals/preview_sql_modal.twig') }}
+@@ -128,9 +129,10 @@
+   {%- endif -%}
+ 
+ {{ content|raw }}
+-</div>
++</main>
+ 
+ {% if not footer.is_minimal %}
++  <footer class="d-print-none">
+   {% if footer.self_url is not empty %}
+     <div id="selflink" class="d-print-none">
+       <a href="{{ footer.self_url }}" title="{{ t('Open new phpMyAdmin window') }}" target="_blank" rel="noopener noreferrer">
+@@ -169,6 +171,7 @@
+   {% endif %}
+ 
+   {{ footer.footer|raw }}
++  </footer>
+ {% endif %}
+ </body>
+ </html>
+diff --git a/resources/templates/columns_definitions/column_attribute.twig b/resources/templates/columns_definitions/column_attribute.twig
+index 95a68ca..37cdfaa 100644
+--- a/resources/templates/columns_definitions/column_attribute.twig
++++ b/resources/templates/columns_definitions/column_attribute.twig
+@@ -11,7 +11,7 @@
+ {% endif %}
+ {% set attribute = attribute|upper %}
+ <select name="field_attribute[{{ column_number }}]"
+-    id="field_{{ column_number }}_{{ ci - ci_offset }}" class="form-select">
++    id="field_{{ column_number }}_{{ ci - ci_offset }}" aria-label="{{ t('Attributes') }}" class="form-select">
+     {% set cnt_attribute_types = attribute_types|length - 1 %}
+     {% for i in 0..cnt_attribute_types %}
+         <option value="{{ attribute_types[i] }}"
+diff --git a/resources/templates/columns_definitions/column_attributes.twig b/resources/templates/columns_definitions/column_attributes.twig
+index 9cd8416..b4cb92b 100644
+--- a/resources/templates/columns_definitions/column_attributes.twig
++++ b/resources/templates/columns_definitions/column_attributes.twig
+@@ -18,14 +18,14 @@
+     {% set ci = ci + 1 %}
+ </td>
+ <td class="text-center">
+-  <select class="column_type form-select" name="field_type[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}"
++  <select class="column_type form-select" name="field_type[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" aria-label="{{ t('Type') }}"
+     {{- column_meta['column_status'] is defined and not column_meta['column_status']['isEditable'] ? ' disabled' }}>
+     {{ get_supported_datatypes(type_upper) }}
+   </select>
+   {% set ci = ci + 1 %}
+ </td>
+ <td class="text-center">
+-  <input id="field_{{ column_number }}_{{ ci - ci_offset }}" type="text" name="field_length[{{ column_number }}]" size="
++  <input id="field_{{ column_number }}_{{ ci - ci_offset }}" type="text" aria-label="{{ t('Length/Values') }}" name="field_length[{{ column_number }}]" size="
+     {{- length_values_input_size }}" value="{{ length }}" class="textfield form-control">
+   <p class="enum_notice" id="enum_notice_{{ column_number }}_{{ ci - ci_offset }}">
+     <a href="#" class="open_enum_editor">{{ t('Edit ENUM/SET values') }}</a>
+@@ -33,7 +33,7 @@
+   {% set ci = ci + 1 %}
+ </td>
+ <td class="text-center">
+-  <select name="field_default_type[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="default_type form-select">
++  <select name="field_default_type[{{ column_number }}]" aria-label="{{ t('Default') }}" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="default_type form-select">
+     <option value="NONE"{{ column_meta['DefaultType'] is defined and column_meta['DefaultType'] == 'NONE' ? ' selected' }}>
+       {{ t('None', context = 'for default') }}
+     </option>
+@@ -63,15 +63,15 @@
+     {% endif %}
+   </select>
+   {% if char_editing == 'textarea' %}
+-    <textarea name="field_default_value[{{ column_number }}]" cols="15" class="textfield default_value form-control" style="resize: both;">{{ default_value }}</textarea>
++    <textarea name="field_default_value[{{ column_number }}]" aria-label="{{ t('Default value') }}" cols="15" class="textfield default_value form-control" style="resize: both;">{{ default_value }}</textarea>
+   {% else %}
+-    <input type="text" name="field_default_value[{{ column_number }}]" size="12" value="{{ default_value ?? '' }}" class="textfield default_value form-control">
++    <input type="text" name="field_default_value[{{ column_number }}]" aria-label="{{ t('Default value') }}" size="12" value="{{ default_value ?? '' }}" class="textfield default_value form-control">
+   {% endif %}
+   {% set ci = ci + 1 %}
+ </td>
+ <td class="text-center">
+   {# column collation #}
+-  <select lang="en" dir="ltr" name="field_collation[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="form-select collation-select"
++  <select lang="en" dir="ltr" name="field_collation[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" aria-label="{{ t('Collation') }}" class="form-select collation-select"
+   {{- column_meta['Collation'] is defined ? ('data-selected="' ~ column_meta['Collation'] ~ '"')|raw : '' }}></select>
+   {% set ci = ci + 1 %}
+ </td>
+@@ -89,14 +89,14 @@
+     {% set ci = ci + 1 %}
+ </td>
+ <td class="text-center">
+-    <input name="field_null[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" type="checkbox" value="YES" class="allow_null form-check-input"
++    <input name="field_null[{{ column_number }}]" aria-label="{{ t('Null') }}" id="field_{{ column_number }}_{{ ci - ci_offset }}" type="checkbox" value="YES" class="allow_null form-check-input"
+       {{- column_meta['Null'] is defined and column_meta['Null'] is not empty and column_meta['Null'] != 'NO' and column_meta['Null'] != 'NOT NULL' ? ' checked' }}>
+     {% set ci = ci + 1 %}
+ </td>
+ {% if change_column is defined and change_column is not empty %}
+     {# column Adjust privileges, Only for 'Edit' Column(s) #}
+     <td class="text-center">
+-      <input name="field_adjust_privileges[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" type="checkbox" value="NULL" class="allow_null form-check-input"
++      <input name="field_adjust_privileges[{{ column_number }}]" aria-label="{{ t('Adjust privileges') }}" id="field_{{ column_number }}_{{ ci - ci_offset }}" type="checkbox" value="NULL" class="allow_null form-check-input"
+         {%- if privs_available %} checked>
+         {%- else %} title="{{ t("You don't have sufficient privileges to perform this operation; Please refer to the documentation for more details") }}" disabled>
+         {%- endif %}
+@@ -106,7 +106,7 @@
+ {% if not is_backup %}
+     {# column indexes, See my other comment about  this 'if'. #}
+     <td class="text-center">
+-      <select name="field_key[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="form-select" data-index="">
++      <select name="field_key[{{ column_number }}]" aria-label="{{ t('Index') }}" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="form-select" data-index="">
+         <option value="none_{{ column_number }}">---</option>
+         <option value="primary_{{ column_number }}" title="{{ t('Primary') }}"
+           {{- column_meta['Key'] is defined and column_meta['Key'] == 'PRI' ? ' selected' }}>
+@@ -133,12 +133,12 @@
+     </td>
+ {% endif %}
+ <td class="text-center">
+-  <input name="field_extra[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" type="checkbox" value="AUTO_INCREMENT" class="form-check-input"
++  <input name="field_extra[{{ column_number }}]" aria-label="{{ t('AUTO_INCREMENT') }}" id="field_{{ column_number }}_{{ ci - ci_offset }}" type="checkbox" value="AUTO_INCREMENT" class="form-check-input"
+     {{- column_meta['Extra'] is defined and column_meta['Extra']|lower == 'auto_increment' ? ' checked' }}>
+   {% set ci = ci + 1 %}
+ </td>
+ <td class="text-center">
+-  <textarea id="field_{{ column_number }}_{{ ci - ci_offset }}" rows="1" name="field_comments[{{ column_number }}]" maxlength="{{ max_length }}" class="form-control" style="resize: both;">
++  <textarea id="field_{{ column_number }}_{{ ci - ci_offset }}" rows="1" name="field_comments[{{ column_number }}]" aria-label="{{ t('Comments') }}" maxlength="{{ max_length }}" class="form-control" style="resize: both;">
+     {{- column_meta['Field'] is defined and comments_map is iterable and comments_map[column_meta['Field']] is defined ? comments_map[column_meta['Field']] -}}
+   </textarea>
+   {% set ci = ci + 1 %}
+@@ -146,7 +146,7 @@
+  {# column virtuality #}
+ {% if is_virtual_columns_supported %}
+     <td class="text-center">
+-      <select name="field_virtuality[{{ column_number }}]" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="virtuality form-select">
++      <select name="field_virtuality[{{ column_number }}]" aria-label="{{ t('Virtuality') }}" id="field_{{ column_number }}_{{ ci - ci_offset }}" class="virtuality form-select">
+         {% for key, value in options %}
+           {% set virtuality = column_meta['Extra'] is defined ? column_meta['Extra'] : null %}
+           {# Creating a new row on create table sends a Virtuality field #}
+@@ -159,9 +159,9 @@
+       </select>
+ 
+       {% if char_editing == 'textarea' %}
+-        <textarea name="field_expression[{{ column_number }}]" cols="15" class="textfield expression form-control" style="resize: both;">{{ column_meta['Expression'] is defined ? column_meta['Expression'] }}</textarea>
++        <textarea name="field_expression[{{ column_number }}]" aria-label="{{ t('Expression') }}" cols="15" class="textfield expression form-control" style="resize: both;">{{ column_meta['Expression'] is defined ? column_meta['Expression'] }}</textarea>
+       {% else %}
+-        <input type="text" name="field_expression[{{ column_number }}]" size="12" value="{{ column_meta['Expression'] is defined ? column_meta['Expression'] }}" placeholder="{{ t('Expression') }}" class="textfield expression form-control">
++        <input type="text" name="field_expression[{{ column_number }}]" aria-label="{{ t('Expression') }}" size="12" value="{{ column_meta['Expression'] is defined ? column_meta['Expression'] }}" placeholder="{{ t('Expression') }}" class="textfield expression form-control">
+       {% endif %}
+       {% set ci = ci + 1 %}
+     </td>
+@@ -178,7 +178,7 @@
+     {% endfor %}
+ 
+     <td class="text-center">
+-      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" name="field_move_to[{{ column_number }}]" size="1" class="form-select">
++      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" name="field_move_to[{{ column_number }}]" size="1" aria-label="{{ t('Move column') }}" class="form-select">
+         <option value="" selected>&nbsp;</option>
+         <option value="-first"{{ current_index == 0 ? ' disabled' }}>
+           {{ t('first') }}
+@@ -196,7 +196,7 @@
+ 
+ {% if relation_parameters.browserTransformationFeature is not null and relation_parameters.columnCommentsFeature is not null and browse_mime %}
+     <td class="text-center">
+-      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" size="1" name="field_mimetype[{{ column_number }}]" class="form-select">
++      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" size="1" name="field_mimetype[{{ column_number }}]" aria-label="{{ t('MIME type') }}" class="form-select">
+         <option value="">&nbsp;</option>
+         {% if available_mime['mimetype'] is defined and available_mime['mimetype'] is iterable %}
+           {% for media_type in available_mime['mimetype'] %}
+@@ -211,7 +211,7 @@
+       {% set ci = ci + 1 %}
+     </td>
+     <td class="text-center">
+-      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" size="1" name="field_transformation[{{ column_number }}]" class="form-select">
++      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" size="1" name="field_transformation[{{ column_number }}]" aria-label="{{ t('Browser display transformation') }}" class="form-select">
+         <option value="" title="{{ t('None') }}"></option>
+         {% if available_mime['transformation'] is defined and available_mime['transformation'] is iterable %}
+           {% for mimekey, transform in available_mime['transformation'] %}
+@@ -229,12 +229,12 @@
+       {% set ci = ci + 1 %}
+     </td>
+     <td class="text-center">
+-      <input id="field_{{ column_number }}_{{ ci - ci_offset }}" type="text" name="field_transformation_options[{{ column_number }}]" size="16" class="textfield form-control" value="
++      <input id="field_{{ column_number }}_{{ ci - ci_offset }}" type="text" name="field_transformation_options[{{ column_number }}]" aria-label="{{ t('Browser display transformation options') }}" size="16" class="textfield form-control" value="
+         {{- column_meta['Field'] is defined and mime_map[column_meta['Field']]['transformation_options'] is defined ? mime_map[column_meta['Field']]['transformation_options'] }}">
+       {% set ci = ci + 1 %}
+     </td>
+     <td class="text-center">
+-      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" size="1" name="field_input_transformation[{{ column_number }}]" class="form-select">
++      <select id="field_{{ column_number }}_{{ ci - ci_offset }}" size="1" name="field_input_transformation[{{ column_number }}]" aria-label="{{ t('Input transformation') }}" class="form-select">
+         <option value="" title="{{ t('None') }}"></option>
+         {% if available_mime['input_transformation'] is defined and available_mime['input_transformation'] is iterable %}
+           {% for mimekey, transform in available_mime['input_transformation'] %}
+@@ -250,7 +250,7 @@
+       {% set ci = ci + 1 %}
+     </td>
+     <td class="text-center">
+-      <input id="field_{{ column_number }}_{{ ci - ci_offset }}" type="text" name="field_input_transformation_options[{{ column_number }}]" size="16" class="textfield form-control" value="
++      <input id="field_{{ column_number }}_{{ ci - ci_offset }}" type="text" name="field_input_transformation_options[{{ column_number }}]" aria-label="{{ t('Input transformation options') }}" size="16" class="textfield form-control" value="
+         {{- column_meta['Field'] is defined and mime_map[column_meta['Field']]['input_transformation_options'] is defined ? mime_map[column_meta['Field']]['input_transformation_options'] }}">
+       {% set ci = ci + 1 %}
+     </td>
+diff --git a/resources/templates/columns_definitions/column_definitions_form.twig b/resources/templates/columns_definitions/column_definitions_form.twig
+index 3f2e1a7..00d9616 100644
+--- a/resources/templates/columns_definitions/column_definitions_form.twig
++++ b/resources/templates/columns_definitions/column_definitions_form.twig
+@@ -20,6 +20,7 @@
+             <span>
+                 {{ t('Table name') }}:
+                 <input type="text"
++                    aria-label="{{ t('Table name') }}"
+                     name="table"
+                     size="40"
+                     maxlength="64"
+@@ -34,6 +35,7 @@
+                     size="2"
+                     value="1"
+                     min="1"
++                    aria-label="{{ t('Number of columns to add') }}"
+                     onfocus="this.select()">
+                 {{ t('column(s)') }}
+                 <input class="btn btn-secondary" type="button"
+@@ -82,7 +84,7 @@
+             <tr>
+                 <td>
+                   <textarea 
+-                    name="comment" 
++                    name="comment" aria-label="{{ t('Table comments') }}" 
+                     maxlength="2048" 
+                     class="textfield" 
+                     rows="1"
+@@ -90,7 +92,7 @@
+                 </td>
+                 <td width="25">&nbsp;</td>
+                 <td>
+-                  <select lang="en" dir="ltr" name="tbl_collation">
++                  <select lang="en" dir="ltr" name="tbl_collation" aria-label="{{ t('Table collation') }}">
+                     <option value=""></option>
+                     {% for charset in charsets %}
+                       <optgroup label="{{ charset.name }}" title="{{ charset.description }}">
+diff --git a/resources/templates/columns_definitions/column_name.twig b/resources/templates/columns_definitions/column_name.twig
+index a3e56e8..b3026c4 100644
+--- a/resources/templates/columns_definitions/column_name.twig
++++ b/resources/templates/columns_definitions/column_name.twig
+@@ -23,6 +23,7 @@
+     {% endif %}
+     type="text"
+     name="field_name[{{ column_number }}]"
++    aria-label="{{ t('Column name') }}"
+     maxlength="64"
+     class="textfield form-control"
+     title="{{ title }}"
+diff --git a/resources/templates/columns_definitions/partitions.twig b/resources/templates/columns_definitions/partitions.twig
+index 74ce744..039e4a8 100644
+--- a/resources/templates/columns_definitions/partitions.twig
++++ b/resources/templates/columns_definitions/partitions.twig
+@@ -36,7 +36,7 @@
+     <tr class="align-middle">
+         <td><label for="partition_count">{{ t('Partitions:') }}</label></td>
+         <td colspan="2">
+-            <input name="partition_count" type="number" min="2"
++            <input name="partition_count" type="number" min="2" aria-label="{{ t('Number of partitions') }}"
+                 value="{{ partition_details['partition_count'] ?: '' }}">
+         </td>
+     </tr>
+diff --git a/resources/templates/config/form_display/display.twig b/resources/templates/config/form_display/display.twig
+index e9255fa..ecec58c 100644
+--- a/resources/templates/config/form_display/display.twig
++++ b/resources/templates/config/form_display/display.twig
+@@ -6,7 +6,7 @@
+   {{ get_hidden_inputs('', '', 'server') }}
+   {{ get_hidden_fields(hidden_fields, '', true) }}
+ 
+-  <ul class="nav nav-tabs" id="configFormDisplayTab" role="tablist">
++  <ul class="nav nav-tabs" id="configFormDisplayTab_{{ tabs|keys|first }}" role="tablist">
+     {% for id, name in tabs %}
+       <li class="nav-item" role="presentation">
+         <a class="nav-link{{ loop.first ? ' active' }}" id="{{ id }}-tab" href="#{{ id }}" data-bs-toggle="tab" role="tab" aria-controls="{{ id }}" aria-selected="{{ loop.first ? 'true' : 'false' }}">{{ name }}</a>
+@@ -18,9 +18,9 @@
+       <div class="tab-pane fade{{ loop.first ? ' show active' }}" id="{{ form.name }}" role="tabpanel" aria-labelledby="{{ form.name }}-tab">
+         <div class="card border-top-0">
+           <div class="card-body">
+-            <h5 class="card-title visually-hidden">{{ form.descriptions.name }}</h5>
++            <h2 class="card-title visually-hidden">{{ form.descriptions.name }}</h2>
+             {% if form.descriptions.desc is not empty %}
+-              <h6 class="card-subtitle mb-2 text-body-secondary">{{ form.descriptions.desc|raw }}</h6>
++              <h3 class="card-subtitle mb-2 text-body-secondary fs-6">{{ form.descriptions.desc|raw }}</h3>
+             {% endif %}
+ 
+             <fieldset class="optbox">
+diff --git a/resources/templates/console/display.twig b/resources/templates/console/display.twig
+index 54bec71..a317f9f 100644
+--- a/resources/templates/console/display.twig
++++ b/resources/templates/console/display.twig
+@@ -1,4 +1,4 @@
+-<div id="pma_console_container" class="d-print-none">
++<div id="pma_console_container" class="d-print-none" role="complementary" aria-label="{{ t('SQL query console') }}">
+   <div id="pma_console"
+        data-start-history="{{ settings.StartHistory ? 'true' : 'false' }}"
+        data-always-expand="{{ settings.AlwaysExpand ? 'true' : 'false' }}"
+@@ -107,7 +107,7 @@
+         </div>
+       </div>
+ 
+-      <div class="content debug">
++      <div class="content debug" tabindex="0">
+         <div class="message welcome"></div>
+         <div class="debugLog"></div>
+       </div> <!-- Content -->
+diff --git a/resources/templates/database/designer/main.twig b/resources/templates/database/designer/main.twig
+index d06976f..e97591e 100644
+--- a/resources/templates/database/designer/main.twig
++++ b/resources/templates/database/designer/main.twig
+@@ -1129,7 +1129,7 @@ window.designerConfig = {{ designer_config|raw }};
+       </div>
+       <div id="box" class="modal-body">
+         <form method="post" action="{{ url('/database/qbe') }}" id="vqb_form">
+-          <textarea cols="80" name="sql_query" id="textSqlquery" rows="15"></textarea>
++          <textarea cols="80" name="sql_query" id="textSqlquery" rows="15" aria-label="{{ t('SQL query') }}"></textarea>
+           <input type="hidden" name="submit_sql" value="true">
+           {{ hidden_input_fields|raw }}
+         </form>
+diff --git a/resources/templates/database/privileges/index.twig b/resources/templates/database/privileges/index.twig
+index 4c3e71a..ba576b9 100644
+--- a/resources/templates/database/privileges/index.twig
++++ b/resources/templates/database/privileges/index.twig
+@@ -13,7 +13,7 @@
+           <table class="table table-striped table-hover w-auto">
+             <thead>
+               <tr>
+-                <th></th>
++                <th><span class="visually-hidden">{{ t('Select') }}</span></th>
+                 <th scope="col">{{ t('User name') }}</th>
+                 <th scope="col">{{ t('Host name') }}</th>
+                 <th scope="col">{{ t('Type') }}</th>
+@@ -29,7 +29,8 @@
+                 <tr>
+                   <td{% if privileges_amount > 1 %} class="align-middle" rowspan="{{ privileges_amount }}"{% endif %}>
+                     <input type="checkbox" class="checkall" name="selected_usr[]" id="checkbox_sel_users_{{ loop.index0 }}" value="
+-                        {{- privilege.user ~ '&amp;#27;' ~ privilege.host }}">
++                        {{- privilege.user ~ '&amp;#27;' ~ privilege.host }}"
++                    aria-label="{{ t('Select user %s')|format((privilege.user is empty ? t('Any') : privilege.user) ~ '@' ~ privilege.host) }}">
+                   </td>
+                   <td{% if privileges_amount > 1 %} class="align-middle" rowspan="{{ privileges_amount }}"{% endif %}>
+                     {% if privilege.user is empty %}
+diff --git a/resources/templates/database/search/main.twig b/resources/templates/database/search/main.twig
+index 5c38950..6aa1ffa 100644
+--- a/resources/templates/database/search/main.twig
++++ b/resources/templates/database/search/main.twig
+@@ -48,7 +48,7 @@
+           <button type="button" class="btn btn-link" id="select_all">{{ t('Select all') }}</button>
+           <button type="button" class="btn btn-link" id="unselect_all">{{ t('Unselect all') }}</button>
+         </div>
+-        <select class="form-select" id="criteriaTables" name="criteriaTables[]" multiple>
++        <select class="form-select" id="criteriaTables" name="criteriaTables[]" multiple aria-label="{{ t('Inside tables:') }}">
+           {% for each_table in tables_names_only %}
+             <option value="{{ each_table }}"
+               {% if criteria_tables|length > 0 %}
+diff --git a/resources/templates/database/structure/body_for_table_summary.twig b/resources/templates/database/structure/body_for_table_summary.twig
+index fb42aa7..f3ea552 100644
+--- a/resources/templates/database/structure/body_for_table_summary.twig
++++ b/resources/templates/database/structure/body_for_table_summary.twig
+@@ -1,6 +1,6 @@
+ <tfoot id="tbl_summary_row">
+ <tr>
+-    <th class="d-print-none"></th>
++    <th class="d-print-none"><span class="visually-hidden">{{ t('Select') }}</span></th>
+     <th class="tbl_num text-nowrap">
+         {{ t('%s table', '%s tables', num_tables)|format(format_number(num_tables, 0)) }}
+     </th>
+@@ -63,7 +63,7 @@
+         <th>{{ database_charset }}</th>
+     {% endif %}
+     {% if show_comment %}
+-        <th></th>
++        <th><span class="visually-hidden">{{ t('Comment') }}</span></th>
+     {% endif %}
+     {% if show_creation %}
+         <th class="value tbl_creation font-monospace text-end">{{ create_time_all }}</th>
+diff --git a/resources/templates/database/structure/check_all_tables.twig b/resources/templates/database/structure/check_all_tables.twig
+index 83c5768..2ef3fb7 100644
+--- a/resources/templates/database/structure/check_all_tables.twig
++++ b/resources/templates/database/structure/check_all_tables.twig
+@@ -5,7 +5,7 @@
+     {% if overhead_check != '' %}
+         / <a href="#" class="checkall-filter" data-checkall-selector=".tbl-overhead">{{ t('Check tables having overhead') }}</a>
+     {% endif %}
+-    <select name="submit_mult" class="mx-5 my-0">
++    <select name="submit_mult" class="mx-5 my-0" aria-label="{{ t('With selected:') }}">
+         <option value="{{ t('With selected:') }}" selected>{{ t('With selected:') }}</option>
+         <option value="copy_tbl">{{ t('Copy table') }}</option>
+         <option value="show_create">{{ t('Show create') }}</option>
+diff --git a/resources/templates/database/structure/structure_table_row.twig b/resources/templates/database/structure/structure_table_row.twig
+index 1c62cdd..069f24a 100644
+--- a/resources/templates/database/structure/structure_table_row.twig
++++ b/resources/templates/database/structure/structure_table_row.twig
+@@ -4,6 +4,7 @@
+             name="selected_tbl[]"
+             class="{{ input_class }}"
+             value="{{ current_table['TABLE_NAME'] }}"
++            aria-label="{{ t('Select table %s')|format(current_table['TABLE_NAME']) }}"
+             id="checkbox_tbl_{{ curr }}">
+     </td>
+     <th>
+diff --git a/resources/templates/database/structure/table_header.twig b/resources/templates/database/structure/table_header.twig
+index b4f9c32..fefd691 100644
+--- a/resources/templates/database/structure/table_header.twig
++++ b/resources/templates/database/structure/table_header.twig
+@@ -4,7 +4,7 @@
+ <table class="table table-striped table-hover table-sm w-auto data">
+     <thead>
+         <tr>
+-            <th class="d-print-none"></th>
++            <th class="d-print-none"><span class="visually-hidden">{{ t('Select') }}</span></th>
+             <th>{{ sortable_table_header(t('Table'), 'table') }}</th>
+             {% if replication %}
+                 <th>{{ t('Replication') }}</th>
+diff --git a/resources/templates/display/results/checkbox_and_links.twig b/resources/templates/display/results/checkbox_and_links.twig
+index a526bc2..6852c6f 100644
+--- a/resources/templates/display/results/checkbox_and_links.twig
++++ b/resources/templates/display/results/checkbox_and_links.twig
+@@ -2,7 +2,8 @@
+   {% if has_checkbox %}
+     <td class="text-center d-print-none">
+       <input type="checkbox" class="multi_checkbox checkall" id="id_rows_to_delete
+-        {{- row_number }}_left" name="rows_to_delete[{{ row_number }}]" value="{{ where_clause }}">
++        {{- row_number }}_left" name="rows_to_delete[{{ row_number }}]" value="{{ where_clause }}"
++        aria-label="{{ t('Select row %s')|format(row_number) }}">
+       <input type="hidden" class="condition_array" value="{{ condition }}">
+     </td>
+   {% endif %}
+@@ -90,7 +91,8 @@
+   {% if has_checkbox %}
+     <td class="text-center d-print-none">
+       <input type="checkbox" class="multi_checkbox checkall" id="id_rows_to_delete
+-        {{- row_number }}_right" name="rows_to_delete[{{ row_number }}]" value="{{ where_clause }}">
++        {{- row_number }}_right" name="rows_to_delete[{{ row_number }}]" value="{{ where_clause }}"
++        aria-label="{{ t('Select row %s')|format(row_number) }}">
+       <input type="hidden" class="condition_array" value="{{ condition }}">
+     </td>
+   {% endif %}
+@@ -98,7 +100,8 @@
+   {% if has_checkbox %}
+     <td class="text-center d-print-none">
+       <input type="checkbox" class="multi_checkbox checkall" id="id_rows_to_delete
+-        {{- row_number }}_left" name="rows_to_delete[{{ row_number }}]" value="{{ where_clause }}">
++        {{- row_number }}_left" name="rows_to_delete[{{ row_number }}]" value="{{ where_clause }}"
++        aria-label="{{ t('Select row %s')|format(row_number) }}">
+       <input type="hidden" class="condition_array" value="{{ condition }}">
+     </td>
+   {% endif %}
+diff --git a/resources/templates/display/results/table.twig b/resources/templates/display/results/table.twig
+index c548a29..b7df8ae 100644
+--- a/resources/templates/display/results/table.twig
++++ b/resources/templates/display/results/table.twig
+@@ -149,7 +149,7 @@
+             <form action="{{ url('/sql') }}" method="post" class="d-print-none">
+               {{ get_hidden_fields(navigation.sort_by_key.hidden_fields) }}
+               {{ t('Sort by key:') }}
+-              <select name="sql_query" class="autosubmit">
++              <select name="sql_query" class="autosubmit" aria-label="{{ t('SQL queries to display') }}">
+                 {% for option in navigation.sort_by_key.options %}
+                   <option value="{{ option.value }}"{{ option.is_selected ? ' selected' }}>{{ option.content }}</option>
+                 {% endfor %}
+@@ -340,7 +340,14 @@
+   </form>
+ {% endif %}
+ 
+-{{ navigation_html }}
++{{ navigation_html|replace({
++  'id="showAll_': 'id="showAll_bottom_',
++  'for="showAll_': 'for="showAll_bottom_',
++  'id="sessionMaxRowsSelect"': 'id="sessionMaxRowsSelect_bottom"',
++  'for="sessionMaxRowsSelect"': 'for="sessionMaxRowsSelect_bottom"',
++  'id="filterRows"': 'id="filterRows_bottom"',
++  'for="filterRows"': 'for="filterRows_bottom"'
++}) }}
+ 
+ {% if operations is not empty %}
+   <div class="card mb-3 d-print-none">
+@@ -397,5 +404,5 @@
+   </div>
+ {% endif %}
+ {% if operations is not empty and not operations.has_procedure %}
+-{{ include('modals/create_view.twig') }}
++{# create_view modal is included once by base.twig #}
+ {% endif %}
+diff --git a/resources/templates/home/themes.twig b/resources/templates/home/themes.twig
+index 0d271bf..c2f38b9 100644
+--- a/resources/templates/home/themes.twig
++++ b/resources/templates/home/themes.twig
+@@ -8,7 +8,7 @@
+             <img src="./themes/{{ theme.id }}/screen.png" class="card-img-top h-100" alt="{{ t('Screenshot of the %s theme.')|format(theme.name) }}">
+           </div>
+           <div class="card-body">
+-            <h5 class="card-title">{{ theme.name }} <small>({{ theme.version }})</small></h5>
++            <h2 class="card-title">{{ theme.name }} <small>({{ theme.version }})</small></h2>
+           </div>
+           <div class="card-footer">
+             <button type="submit" class="btn btn-primary" name="set_theme" value="{{ theme.id }}">{{ t('Take it', notes = 'Choose the theme button in the themes list modal') }}</button>
+diff --git a/resources/templates/menu/main.twig b/resources/templates/menu/main.twig
+index 58dafa5..e41aa07 100644
+--- a/resources/templates/menu/main.twig
++++ b/resources/templates/menu/main.twig
+@@ -44,7 +44,7 @@
+ </nav>
+ 
+ <div id="topmenucontainer" class="menucontainer">
+-  <nav class="navbar navbar-expand-lg">
++  <nav class="navbar navbar-expand-lg" aria-label="{{ t('Main navigation') }}">
+     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="
+       {{- t('Toggle navigation', notes = 'Show or hide the menu using the hamburger style button') }}" aria-controls="navbarNav" aria-expanded="false">
+       <span class="navbar-toggler-icon"></span>
+diff --git a/resources/templates/modals/index_dialog_modal.twig b/resources/templates/modals/index_dialog_modal.twig
+index 68a56f2..08c02d9 100644
+--- a/resources/templates/modals/index_dialog_modal.twig
++++ b/resources/templates/modals/index_dialog_modal.twig
+@@ -2,7 +2,7 @@
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+-        <h5 class="modal-title" id="indexDialogModalLabel">{{ t('Loading') }}</h5>
++        <h2 class="modal-title" id="indexDialogModalLabel">{{ t('Loading') }}</h2>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ t('Close') }}"></button>
+       </div>
+       <div class="modal-body"></div>
+@@ -18,7 +18,7 @@
+   <div class="modal-dialog">
+     <div class="modal-content">
+       <div class="modal-header">
+-        <h5 class="modal-title" id="indexDialogPreviewModalLabel">{{ t('Preview SQL') }}</h5>
++        <h5 class="modal-title" id="indexDialogPreviewModalLabel">{{ t('Preview SQL') }}</h2>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ t('Close') }}"></button>
+       </div>
+       <div class="modal-body">
+diff --git a/resources/templates/navigation/main.twig b/resources/templates/navigation/main.twig
+index 55a4273..cf7c03c 100644
+--- a/resources/templates/navigation/main.twig
++++ b/resources/templates/navigation/main.twig
+@@ -1,5 +1,5 @@
+ {% if not is_ajax %}
+-  <div id="pma_navigation" class="d-print-none" data-config-navigation-width="{{ config_navigation_width }}">
++  <nav id="pma_navigation" class="d-print-none" data-config-navigation-width="{{ config_navigation_width }}" aria-label="{{ t('Navigation panel', notes = 'Navigation tree panel') }}">
+     <div id="pma_navigation_resizer"></div>
+     <div id="pma_navigation_collapser"></div>
+     <div id="pma_navigation_content">
+@@ -93,7 +93,7 @@
+         <div></div>
+       </div>
+     {% endif %}
+-  </div>
++  </nav>
+   {{ include('modals/unhide_nav_item.twig') }}
+-  {{ include('modals/create_view.twig') }}
++  {# create_view modal is included once by base.twig #}
+ {% endif %}
+diff --git a/resources/templates/server/binlog/index.twig b/resources/templates/server/binlog/index.twig
+index 63826c9..eb79e46 100644
+--- a/resources/templates/server/binlog/index.twig
++++ b/resources/templates/server/binlog/index.twig
+@@ -9,7 +9,7 @@
+ 
+   <div class="card-body">
+     {% set full_size = 0 %}
+-    <select name="log">
++    <select name="log" aria-label="{{ t('Binary log to view') }}">
+       {% for each_log in binary_logs %}
+         <option value="{{ each_log['Log_name'] }}"
+           {{- each_log['Log_name'] == log ? ' selected' }}>
+diff --git a/resources/templates/server/databases/index.twig b/resources/templates/server/databases/index.twig
+index 69cbd95..020047c 100644
+--- a/resources/templates/server/databases/index.twig
++++ b/resources/templates/server/databases/index.twig
+@@ -95,7 +95,7 @@
+           <thead>
+             <tr>
+               {% if is_drop_allowed %}
+-                <th></th>
++                <th><span class="visually-hidden">{{ t('Select') }}</span></th>
+               {% endif %}
+               <th>
+                 <a href="{{ url('/server/databases', url_params|merge({
+@@ -172,6 +172,7 @@
+                     <input type="checkbox" name="selected_dbs[]" class="checkall" title="
+                       {{- database.name }}" value="
+                       {{- database.name }}"
++                      aria-label="{{ t('Select database %s')|format(database.name) }}"
+                       {{- database.is_system_schema or database.is_pmadb ? ' disabled' }}>
+                   </td>
+                 {% endif %}
+@@ -279,14 +280,14 @@
+               {% endif %}
+ 
+               {% if has_primary_replication %}
+-                <th></th>
++                <th><span class="visually-hidden">{{ t('Primary replication') }}</span></th>
+               {% endif %}
+ 
+               {% if has_replica_replication %}
+-                <th></th>
++                <th><span class="visually-hidden">{{ t('Replica replication') }}</span></th>
+               {% endif %}
+ 
+-              <th></th>
++              <th><span class="visually-hidden">{{ t('Action') }}</span></th>
+             </tr>
+           </tfoot>
+         </table>
+diff --git a/resources/templates/server/privileges/users_overview.twig b/resources/templates/server/privileges/users_overview.twig
+index bbe7f07..de185e4 100644
+--- a/resources/templates/server/privileges/users_overview.twig
++++ b/resources/templates/server/privileges/users_overview.twig
+@@ -4,7 +4,7 @@
+     <table id="userRightsTable" class="table table-striped table-hover w-auto">
+       <thead>
+         <tr>
+-          <th></th>
++          <th><span class="visually-hidden">{{ t('Select') }}</span></th>
+           <th scope="col">{{ t('User name') }}</th>
+           <th scope="col">{{ t('Host name') }}</th>
+           <th scope="col">{{ t('Password') }}</th>
+@@ -28,7 +28,8 @@
+           <tr>
+             <td>
+               <input type="checkbox" class="checkall" id="checkbox_sel_users_{{ loop.index }}" value="
+-                {{- host.user ~ '&amp;#27;' ~ host.host }}" name="selected_usr[]">
++                {{- host.user ~ '&amp;#27;' ~ host.host }}" name="selected_usr[]"
++                aria-label="{{ t('Select user %s')|format((host.user is empty ? t('Any') : host.user) ~ '@' ~ host.host) }}">
+             </td>
+             <td>
+               <label for="checkbox_sel_users_{{ loop.index }}">
+diff --git a/resources/templates/server/status/status/index.twig b/resources/templates/server/status/status/index.twig
+index ad66826..c2dd368 100644
+--- a/resources/templates/server/status/status/index.twig
++++ b/resources/templates/server/status/status/index.twig
+@@ -3,7 +3,7 @@
+ {% block content %}
+ 
+ {% if is_data_loaded %}
+-  <div class="row"><h3>{{ t('Network traffic since startup: %s')|format(network_traffic) }}</h3></div>
++  <div class="row"><h2>{{ t('Network traffic since startup: %s')|format(network_traffic) }}</h2></div>
+   <div class="row"><p>{{ t('This MySQL server has been running for %1$s. It started up on %2$s.')|format(uptime, start_time) }}</p></div>
+ 
+ <div class="row align-items-start">
+@@ -66,7 +66,7 @@
+ 
+     <hr class="clearfloat">
+ 
+-    <h3>{{ t('Replication status') }}</h3>
++    <h2>{{ t('Replication status') }}</h2>
+ 
+     {{ replication|raw }}
+   {% endif %}
+diff --git a/resources/templates/sql/no_results_returned.twig b/resources/templates/sql/no_results_returned.twig
+index c7a26af..366fac3 100644
+--- a/resources/templates/sql/no_results_returned.twig
++++ b/resources/templates/sql/no_results_returned.twig
+@@ -24,4 +24,4 @@
+   {{ include('sql/_bookmark.twig', bookmark, with_context: false) }}
+ {% endif %}
+ 
+-{{ include('modals/create_view.twig') }}
++{# create_view modal is included once by base.twig #}
+diff --git a/resources/templates/sql/profiling_chart.twig b/resources/templates/sql/profiling_chart.twig
+index 8881800..596c2a0 100644
+--- a/resources/templates/sql/profiling_chart.twig
++++ b/resources/templates/sql/profiling_chart.twig
+@@ -4,7 +4,7 @@
+     <div class="card-body">
+       <div class="row">
+         <div class="col">
+-          <h3>{{ t('Detailed profile') }}</h3>
++          <h2>{{ t('Detailed profile') }}</h2>
+           <table class="table table-sm table-striped" id="profiletable">
+             <thead>
+               <tr>
+@@ -29,7 +29,7 @@
+         </div>
+ 
+         <div class="col">
+-          <h3>{{ t('Summary by state') }}{{ show_mysql_docu('general-thread-states') }}</h3>
++          <h2>{{ t('Summary by state') }}{{ show_mysql_docu('general-thread-states') }}</h2>
+           <table class="table table-sm table-striped" id="profilesummarytable">
+             <thead>
+               <tr>
+diff --git a/resources/templates/sql/query.twig b/resources/templates/sql/query.twig
+index 2b23c55..ddc0891 100644
+--- a/resources/templates/sql/query.twig
++++ b/resources/templates/sql/query.twig
+@@ -17,7 +17,7 @@
+           <div class="row">
+             <div class="col">
+               <div class="mb-3">
+-                <textarea class="form-control" tabindex="100" name="sql_query" id="sqlquery" cols="{{ textarea_cols }}" rows="{{ textarea_rows }}" data-textarea-auto-select="{{ textarea_auto_select ? "true" : "false" }}" aria-label="{{ t('SQL query') }}">
++                <textarea class="form-control" tabindex="0" name="sql_query" id="sqlquery" cols="{{ textarea_cols }}" rows="{{ textarea_rows }}" data-textarea-auto-select="{{ textarea_auto_select ? "true" : "false" }}" aria-label="{{ t('SQL query') }}">
+                   {{- query -}}
+                 </textarea>
+               </div>
+@@ -85,13 +85,13 @@
+               <label class="form-label" for="bkm_label">{{ t('Bookmark this SQL query:') }}</label>
+             </div>
+             <div class="col-6">
+-              <input class="form-control" type="text" name="bkm_label" id="bkm_label" tabindex="110" value="">
++              <input class="form-control" type="text" name="bkm_label" id="bkm_label" tabindex="0" value="">
+             </div>
+ 
+             {% if allow_shared_bookmarks %}
+               <div class="col-12">
+                 <div class="form-check form-check-inline">
+-                  <input class="form-check-input" type="checkbox" name="bkm_all_users" tabindex="111" id="id_bkm_all_users" value="true">
++                  <input class="form-check-input" type="checkbox" name="bkm_all_users" tabindex="0" id="id_bkm_all_users" value="true">
+                   <label class="form-check-label" for="id_bkm_all_users">{{ t('Let every user access this bookmark') }}</label>
+                 </div>
+               </div>
+@@ -99,7 +99,7 @@
+ 
+             <div class="col-12">
+               <div class="form-check form-check-inline">
+-                <input class="form-check-input" type="checkbox" name="bkm_replace" tabindex="112" id="id_bkm_replace" value="true">
++                <input class="form-check-input" type="checkbox" name="bkm_replace" tabindex="0" id="id_bkm_replace" value="true">
+                 <label class="form-check-label" for="id_bkm_replace">{{ t('Replace existing bookmark of same name') }}</label>
+               </div>
+             </div>
+@@ -112,20 +112,20 @@
+             <div class="input-group me-2">
+               <span class="input-group-text">{{ t('Delimiter') }}</span>
+               <label class="visually-hidden" for="id_sql_delimiter">{{ t('Delimiter') }}</label>
+-              <input class="form-control" type="text" name="sql_delimiter" tabindex="131" size="3" value="{{ delimiter }}" id="id_sql_delimiter">
++              <input class="form-control" type="text" name="sql_delimiter" tabindex="0" size="3" value="{{ delimiter }}" id="id_sql_delimiter">
+             </div>
+           </div>
+ 
+           <div class="col-12">
+             <div class="form-check form-check-inline">
+-              <input class="form-check-input" type="checkbox" name="show_query" value="1" id="checkbox_show_query" tabindex="132">
++              <input class="form-check-input" type="checkbox" name="show_query" value="1" id="checkbox_show_query" tabindex="0">
+               <label class="form-check-label" for="checkbox_show_query">{{ t('Show this query here again') }}</label>
+             </div>
+           </div>
+ 
+           <div class="col-12">
+             <div class="form-check form-check-inline">
+-              <input class="form-check-input" type="checkbox" name="retain_query_box" value="1" id="retain_query_box" tabindex="133"
++              <input class="form-check-input" type="checkbox" name="retain_query_box" value="1" id="retain_query_box" tabindex="0"
+                 {{- retain_query_box ? ' checked' }}>
+               <label class="form-check-label" for="retain_query_box">{{ t('Retain query box') }}</label>
+             </div>
+@@ -133,7 +133,7 @@
+ 
+           <div class="col-12">
+             <div class="form-check form-check-inline">
+-              <input class="form-check-input" type="checkbox" name="rollback_query" value="1" id="rollback_query" tabindex="134">
++              <input class="form-check-input" type="checkbox" name="rollback_query" value="1" id="rollback_query" tabindex="0">
+               <label class="form-check-label" for="rollback_query">{{ t('Rollback when finished') }}</label>
+             </div>
+           </div>
+@@ -147,7 +147,7 @@
+           </div>
+ 
+           <div class="col-12">
+-            <input class="btn btn-primary ms-1" type="submit" id="button_submit_query" name="SQL" tabindex="200" value="{{ t('Go') }}">
++            <input class="btn btn-primary ms-1" type="submit" id="button_submit_query" name="SQL" tabindex="0" value="{{ t('Go') }}">
+           </div>
+         </div>
+       </div>
+diff --git a/resources/templates/table/index_form.twig b/resources/templates/table/index_form.twig
+index 4af034d..1f11be3 100644
+--- a/resources/templates/table/index_form.twig
++++ b/resources/templates/table/index_form.twig
+@@ -136,7 +136,7 @@
+         <table class="table align-middle" id="index_columns">
+             <thead>
+                 <tr>
+-                    <th></th>
++                    <th><span class="visually-hidden">{{ t('Move') }}</span></th>
+                     <th>
+                         {{ t('Column') }}
+                     </th>
+@@ -165,7 +165,7 @@
+                             <span class="drag_icon" title="{{ t('Drag to reorder') }}"></span>
+                         </td>
+                         <td>
+-                            <select name="index[columns][names][]">
++                            <select name="index[columns][names][]" aria-label="{{ t('Column') }}">
+                                 <option value="">
+                                     -- {{ t('Ignore') }} --
+                                 </option>
+@@ -188,13 +188,14 @@
+                         <td>
+                             <input type="text"
+                                 size="5"
++                                aria-label="{{ t('Size') }}"
+                                 onfocus="this.select()"
+                                 name="index[columns][sub_parts][]"
+                                 value="{{ index.getChoice() != 'SPATIAL' ?
+                                     column.getSubPart() }}">
+                         </td>
+                         <td>
+-                            <select name="index[columns][collations][]">
++                            <select name="index[columns][collations][]" aria-label="{{ t('Collation') }}">
+                                 <option value=""{{ column.Collation ? ' selected' }}>{{ t('None') }}</option>
+                                 <option value="A"{{ column.Collation == 'A' ? ' selected' }} title="ASC">A</option>
+                                 <option value="D"{{ column.Collation == 'D' ? ' selected' }} title="DESC">D</option>
+@@ -209,7 +210,7 @@
+                                 <span class="drag_icon" title="{{ t('Drag to reorder') }}"></span>
+                             </td>
+                             <td>
+-                                <select name="index[columns][names][]">
++                                <select name="index[columns][names][]" aria-label="{{ t('Column') }}">
+                                     <option value="">-- {{ t('Ignore') }} --</option>
+                                     {% set j = 0 %}
+                                     {% for field_name, field_type in fields %}
+@@ -229,12 +230,13 @@
+                             <td>
+                                 <input type="text"
+                                     size="5"
++                                    aria-label="{{ t('Size') }}"
+                                     onfocus="this.select()"
+                                     name="index[columns][sub_parts][]"
+                                     value="">
+                             </td>
+                             <td>
+-                                <select name="index[columns][collations][]">
++                                <select name="index[columns][collations][]" aria-label="{{ t('Collation') }}">
+                                     <option value="" selected>{{ t('None') }}</option>
+                                     <option value="A" title="ASC">A</option>
+                                     <option value="D" title="DESC">D</option>
+diff --git a/resources/templates/table/insert/actions_panel.twig b/resources/templates/table/insert/actions_panel.twig
+index 26a1105..847b39c 100644
+--- a/resources/templates/table/insert/actions_panel.twig
++++ b/resources/templates/table/insert/actions_panel.twig
+@@ -3,7 +3,7 @@
+   <table class="table table-borderless w-auto tdblock">
+     <tr>
+       <td class="text-nowrap align-middle">
+-        <select name="submit_type" class="control_at_footer">
++        <select name="submit_type" class="control_at_footer" aria-label="{{ t('Then') }}">
+           {% if where_clause is not empty %}
+             <option value="save">{{ t('Save') }}</option>
+           {% endif %}
+@@ -16,7 +16,7 @@
+         <strong>{{ t('and then') }}</strong>
+       </td>
+       <td class="text-nowrap align-middle">
+-        <select name="after_insert" class="control_at_footer">
++        <select name="after_insert" class="control_at_footer" aria-label="{{ t('and then') }}">
+           <option value="back"{{ after_insert == 'back' ? ' selected' }}>{{ t('Go back to previous page') }}</option>
+           <option value="new_insert"{{ after_insert == 'new_insert' ? ' selected' }}>{{ t('Insert another new row') }}</option>
+           {% if where_clause is not empty %}
+diff --git a/resources/templates/table/insert/column_row.twig b/resources/templates/table/insert/column_row.twig
+index cced54c..af01922 100644
+--- a/resources/templates/table/insert/column_row.twig
++++ b/resources/templates/table/insert/column_row.twig
+@@ -17,7 +17,7 @@
+       <td class="text-center">--</td>
+     {% else %}
+       <td>
+-        <select name="funcs[multi_edit][{{ row_id }}][{{ column.md5 }}]" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" id="field_{{ id_index }}_1">
++        <select name="funcs[multi_edit][{{ row_id }}][{{ column.md5 }}]" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" id="field_{{ id_index }}_1" aria-label="{{ t('Function for %s')|format(column.field) }}">
+           {{ function_options|raw }}
+         </select>
+       </td>
+@@ -44,17 +44,17 @@
+       {% if is_value_foreign_link %}
+         {{ backup_field|raw }}
+         <input type="hidden" name="fields_type[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="foreign">
+-        <input type="text" name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield" tabindex="{{ id_index }}" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" id="field_{{ id_index }}_3" value="{{ data }}">
++        <input type="text" name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" id="field_{{ id_index }}_3" value="{{ data }}" aria-label="{{ column.field }}">
+         <a class="ajax browse_foreign" href="{{ url('/browse-foreigners') }}" data-post="{{ get_common({'db': db, 'table': table, 'field': column.field, 'rownumber': row_id, 'data': data}) }}">{{ get_icon('b_browse', t('Browse foreign values')) }}</a>
+       {% elseif foreign_dropdown is not empty %}
+         {{ backup_field|raw }}
+         <input type="hidden" name="fields_type[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="{{ column.isBinary ? 'hex' : 'foreign' }}">
+-        <select name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield" tabindex="{{ id_index }}" id="field_{{ id_index }}_3" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')">
++        <select name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield" id="field_{{ id_index }}_3" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" aria-label="{{ column.field }}">
+           {{ foreign_dropdown|raw }}
+         </select>
+       {% elseif (longtext_double_textarea and 'longtext' in column.trueType) or 'json' in column.trueType or 'text' in column.trueType %}
+         {{ backup_field|raw }}
+-        <textarea name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" id="field_{{ id_index }}_3" data-type="{{ data_type }}" dir="{{ pma.text_dir }}" rows="{{ textarea_rows }}" cols="{{ textarea_cols }}" tabindex="{{ id_index }}"
++        <textarea name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" id="field_{{ id_index }}_3" data-type="{{ data_type }}" dir="{{ pma.text_dir }}" rows="{{ textarea_rows }}" cols="{{ textarea_cols }}" aria-label="{{ column.field }}"
+           {{- max_length ? ' data-maxlength="' ~ max_length ~ '"' }}{{ column.isChar ? ' class="charField"' }} onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')">
+           {#- We need to duplicate the first \n or otherwise we will lose the first newline entered in a VARCHAR or TEXT column -#}
+           {{- special_chars starts with "\r\n" ? "\n" }}{{ special_chars -}}
+@@ -68,7 +68,7 @@
+         {{ backup_field|raw }}
+         <input type="hidden" name="fields_type[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="enum">
+         {% if column.type|length > 20 %}
+-          <select name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield" tabindex="{{ id_index }}" id="field_{{ id_index }}_3" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')">
++          <select name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield" id="field_{{ id_index }}_3" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" aria-label="{{ column.field }}">
+             <option value=""></option>
+             {% for enum_value in enum_values %}
+               <option value="{{ enum_value }}"{{ enum_value == enum_selected_value ? ' selected' }}>{{ enum_value }}</option>
+@@ -76,14 +76,14 @@
+           </select>
+         {% else %}
+           {% for enum_value in enum_values %}
+-            <input type="radio" name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="{{ enum_value }}" class="textfield" tabindex="{{ id_index }}" id="field_{{ id_index }}_3_{{ loop.index0 }}" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')"{{ enum_value == enum_selected_value ? ' checked' }}>
++            <input type="radio" name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="{{ enum_value }}" class="textfield" id="field_{{ id_index }}_3_{{ loop.index0 }}" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')"{{ enum_value == enum_selected_value ? ' checked' }}>
+             <label for="field_{{ id_index }}_3_{{ loop.index0 }}">{{ enum_value }}</label>
+           {% endfor %}
+         {% endif %}
+       {% elseif column.trueType == 'set' %}
+         {{ backup_field|raw }}
+         <input type="hidden" name="fields_type[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="set">
+-        <select name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}][]" class="textfield" tabindex="{{ id_index }}" size="{{ set_select_size }}" id="field_{{ id_index }}_3" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" multiple>
++        <select name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}][]" class="textfield" size="{{ set_select_size }}" id="field_{{ id_index }}_3" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')" aria-label="{{ column.field }}" multiple>
+           {% for set_value in set_values %}
+             <option value="{{ set_value }}"{{ set_value in data|split(',') ? ' selected' }}>{{ set_value }}</option>
+           {% endfor %}
+@@ -97,7 +97,7 @@
+         {% elseif column.isBlob or (column.length > limit_chars) %}
+           {{ backup_field|raw }}
+           <input type="hidden" name="fields_type[multi_edit][{{ row_id }}][{{ column.md5 }}]" value="hex">
+-          <textarea name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" id="field_{{ id_index }}_3" data-type="HEX" dir="{{ pma.text_dir }}" rows="{{ textarea_rows }}" cols="{{ textarea_cols }}" tabindex="{{ id_index }}"
++          <textarea name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]" id="field_{{ id_index }}_3" data-type="HEX" dir="{{ pma.text_dir }}" rows="{{ textarea_rows }}" cols="{{ textarea_cols }}" aria-label="{{ column.field }}"
+             {{- max_length ? ' data-maxlength="' ~ max_length ~ '"' }}{{ column.isChar ? ' class="charField"' }} onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')">
+             {#- We need to duplicate the first \n or otherwise we will lose the first newline entered in a VARCHAR or TEXT column -#}
+             {{- special_chars starts with "\r\n" ? "\n" }}{{ special_chars -}}
+@@ -108,12 +108,12 @@
+           <input type="text" name="fields[multi_edit][{{ row_id }}][{{ column.md5 }}]"
+             value="{{ special_chars }}" size="{{ hex_input_size }}" data-type="HEX" class="textfield"
+             onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')"
+-            id="field_{{ id_index }}_3">
++            id="field_{{ id_index }}_3" aria-label="{{ column.field }}">
+         {% endif %}
+         {% if is_upload and column.isBlob %}
+           <br>
+           {# We don't want to prevent users from using browser's default drag-drop feature on some page(s), so we add noDragDrop class to the input #}
+-          <input type="file" name="fields_upload[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield noDragDrop" id="field_{{ id_index }}_3" size="10" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')">
++          <input type="file" name="fields_upload[multi_edit][{{ row_id }}][{{ column.md5 }}]" class="textfield noDragDrop" id="field_{{ id_index }}_3" size="10" aria-label="{{ t('File to upload for %s')|format(column.field) }}" onchange="return verificationsAfterFieldChange('{{ column.md5|escape('js') }}', '{{ row_id|escape('js') }}', '{{ column.trueType }}')">
+           {{ max_upload_size }}
+         {% endif %}
+         {{ select_option_for_upload|raw }}
+diff --git a/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig b/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig
+index efd05f3..e16faf3 100644
+--- a/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig
++++ b/resources/templates/table/insert/get_head_and_foot_of_insert_row_table.twig
+@@ -2,7 +2,7 @@
+   <table class="table table-striped align-middle my-3 insertRowTable w-auto">
+     <thead>
+     <tr>
+-      <th colspan="5" class="text-end">
++      <th colspan="5" class="text-end"><span class="visually-hidden">{{ t('Submit') }}</span>
+         <input class="btn btn-primary" type="submit" value="{{ t('Go') }}">
+         </th>
+       </tr>
+@@ -16,7 +16,7 @@
+     </thead>
+      <tfoot>
+     <tr>
+-      <th colspan="5" class="text-end">
++      <th colspan="5" class="text-end"><span class="visually-hidden">{{ t('Submit') }}</span>
+         <input class="btn btn-primary" type="submit" value="{{ t('Go') }}">
+         </th>
+       </tr>
+diff --git a/resources/templates/table/insert/value_column_for_other_datatype.twig b/resources/templates/table/insert/value_column_for_other_datatype.twig
+index 5c29dcf..30573c5 100644
+--- a/resources/templates/table/insert/value_column_for_other_datatype.twig
++++ b/resources/templates/table/insert/value_column_for_other_datatype.twig
+@@ -9,8 +9,9 @@
+     data-type="{{ input.is_integer ? 'INT' : input.data_type }}"
+     class="textfield{{ true_type == 'date' ? ' datefield' }}{{ true_type == 'time' ? ' timefield' }}{{ true_type == 'datetime' or true_type == 'timestamp' ? ' datetimefield' }}"
+     onchange="{{ input.on_change_clause|e('html_attr') }}"
+-    tabindex="{{ input.field_index }}"{{ input.is_integer ? ' inputmode="numeric"' }}
+-    id="field_{{ input.field_index }}_3">
++    {{ input.is_integer ? ' inputmode="numeric"' }}
++    id="field_{{ input.field_index }}_3"
++    aria-label="{{ column_field }}">
+ 
+   {%- if extra matches '/(VIRTUAL|PERSISTENT|GENERATED)/' and 'DEFAULT_GENERATED' not in extra -%}
+     <input type="hidden" name="virtual{{ column_name_appendix }}" value="1">
+diff --git a/resources/templates/table/operations/index.twig b/resources/templates/table/operations/index.twig
+index ec21a06..864ca86 100644
+--- a/resources/templates/table/operations/index.twig
++++ b/resources/templates/table/operations/index.twig
+@@ -127,7 +127,7 @@
+           <textarea
+             id="tableCommentsInput"
+             class="form-control"
+-            name="comment"
++            name="comment" aria-label="{{ t('Table comments') }}"
+             maxlength="2048"
+             class="textfield"
+             rows="1"
+@@ -159,7 +159,7 @@
+           <label for="collationSelect">{{ t('Collation') }}</label>
+         </div>
+         <div class="col-6">
+-          <select class="form-select" id="collationSelect" lang="en" dir="ltr" name="tbl_collation">
++          <select class="form-select" id="collationSelect" lang="en" dir="ltr" name="tbl_collation" aria-label="{{ t('Table collation') }}">
+             <option value=""></option>
+             {% for charset in charsets %}
+               <optgroup label="{{ charset.getName() }}" title="{{ charset.getDescription() }}">
+diff --git a/resources/templates/table/privileges/index.twig b/resources/templates/table/privileges/index.twig
+index 3df309c..6777b2a 100644
+--- a/resources/templates/table/privileges/index.twig
++++ b/resources/templates/table/privileges/index.twig
+@@ -15,7 +15,7 @@
+           <table class="table table-striped table-hover w-auto">
+             <thead>
+               <tr>
+-                <th></th>
++                <th><span class="visually-hidden">{{ t('Select') }}</span></th>
+                 <th>{{ t('User name') }}</th>
+                 <th>{{ t('Host name') }}</th>
+                 <th>{{ t('Type') }}</th>
+@@ -31,7 +31,8 @@
+                 <tr>
+                   <td{% if privileges_amount > 1 %} class="align-middle" rowspan="{{ privileges_amount }}"{% endif %}>
+                     <input type="checkbox" class="checkall" name="selected_usr[]" id="checkbox_sel_users_{{ loop.index0 }}" value="
+-                      {{- privilege.user ~ '&amp;#27;' ~ privilege.host }}">
++                      {{- privilege.user ~ '&amp;#27;' ~ privilege.host }}"
++                    aria-label="{{ t('Select user %s')|format((privilege.user is empty ? t('Any') : privilege.user) ~ '@' ~ privilege.host) }}">
+                   </td>
+                   <td{% if privileges_amount > 1 %} class="align-middle" rowspan="{{ privileges_amount }}"{% endif %}>
+                     {% if privilege.user is empty %}
+diff --git a/resources/templates/table/relation/common_form.twig b/resources/templates/table/relation/common_form.twig
+index ac98745..1b1f566 100644
+--- a/resources/templates/table/relation/common_form.twig
++++ b/resources/templates/table/relation/common_form.twig
+@@ -32,9 +32,9 @@
+                   </th>
+                 </tr>
+                 <tr>
+-                  <th></th>
+-                  <th></th>
+-                  <th></th>
++                  <th><span class="visually-hidden">{{ t('Actions') }}</span></th>
++                  <th><span class="visually-hidden">{{ t('Constraint options') }}</span></th>
++                  <th><span class="visually-hidden">{{ t('Columns') }}</span></th>
+                   <th>{{ t('Database') }}</th>
+                   <th>{{ t('Table') }}</th>
+                   <th>{{ t('Column') }}</th>
+diff --git a/resources/templates/table/relation/dropdown_generate.twig b/resources/templates/table/relation/dropdown_generate.twig
+index d2891c2..a496c86 100644
+--- a/resources/templates/table/relation/dropdown_generate.twig
++++ b/resources/templates/table/relation/dropdown_generate.twig
+@@ -1,5 +1,5 @@
+ {{ dropdown_question is not empty ? dropdown_question -}}
+-<select name="{{ select_name }}">
++<select name="{{ select_name }}" aria-label="{{ dropdown_question is not empty ? dropdown_question : (aria_label ?? t('Field')) }}">
+ {% for one_value, one_label in choices %}
+     <option value="{{ one_value }}"
+         {%- if selected_value == one_value %} selected{% endif %}>
+diff --git a/resources/templates/table/relation/foreign_key_row.twig b/resources/templates/table/relation/foreign_key_row.twig
+index 5f68178..88ee5e9 100644
+--- a/resources/templates/table/relation/foreign_key_row.twig
++++ b/resources/templates/table/relation/foreign_key_row.twig
+@@ -65,6 +65,7 @@
+                     {% include 'table/relation/dropdown_generate.twig' with {
+                         'dropdown_question': '',
+                         'select_name': 'foreign_key_fields_name[' ~ i ~ '][]',
++                        'aria_label': t('Column'),
+                         'choices': column_array,
+                         'selected_value': column
+                     } only %}
+@@ -75,6 +76,7 @@
+                 {% include 'table/relation/dropdown_generate.twig' with {
+                     'dropdown_question': '',
+                     'select_name': 'foreign_key_fields_name[' ~ i ~ '][]',
++                    'aria_label': t('Column'),
+                     'choices': column_array,
+                     'selected_value': ''
+                 } only %}
+diff --git a/resources/templates/table/relation/relational_dropdown.twig b/resources/templates/table/relation/relational_dropdown.twig
+index 39a408d..49161a3 100644
+--- a/resources/templates/table/relation/relational_dropdown.twig
++++ b/resources/templates/table/relation/relational_dropdown.twig
+@@ -1,4 +1,4 @@
+-<select name="{{ name }}" title="{{ title }}">
++<select name="{{ name }}" title="{{ title }}" aria-label="{{ title }}">
+     <option value=""></option>
+     {% set seen_key = false %}
+     {% for value in values %}
+diff --git a/resources/templates/table/search/column_comparison_operators.twig b/resources/templates/table/search/column_comparison_operators.twig
+index d7d8101..db5a97c 100644
+--- a/resources/templates/table/search/column_comparison_operators.twig
++++ b/resources/templates/table/search/column_comparison_operators.twig
+@@ -1,3 +1,3 @@
+-<select class="column-operator" id="ColumnOperator{{ search_index }}" name="criteriaColumnOperators[{{ search_index }}]">
++<select class="column-operator" id="ColumnOperator{{ search_index }}" name="criteriaColumnOperators[{{ search_index }}]" aria-label="{{ t('Comparison operator for %s')|format(column_name) }}">
+   {{ type_operators|raw }}
+ </select>
+diff --git a/resources/templates/table/search/index.twig b/resources/templates/table/search/index.twig
+index 88b4bd9..55cd69b 100644
+--- a/resources/templates/table/search/index.twig
++++ b/resources/templates/table/search/index.twig
+@@ -51,7 +51,7 @@
+                     <td>
+                       {% set geom_types = get_gis_datatypes() %}
+                       {% if column_types[column_index] in geom_types %}
+-                        <select class="geom_func" name="geom_func[{{ column_index }}]">
++                        <select class="geom_func" name="geom_func[{{ column_index }}]" aria-label="{{ t('Function for %s')|format(column_names[column_index]) }}">
+                           {# get the relevant list of GIS functions #}
+                           {% set funcs = get_gis_functions(column_types[column_index], true, true) %}
+                           {% for func_name, func in funcs %}
+diff --git a/resources/templates/table/search/input_box.twig b/resources/templates/table/search/input_box.twig
+index 6744fcb..3f73b1c 100644
+--- a/resources/templates/table/search/input_box.twig
++++ b/resources/templates/table/search/input_box.twig
+@@ -2,7 +2,8 @@
+ {% if has_foreigner %}
+     {% if foreign_data.dispRow is iterable %}
+         <select name="criteriaValues[{{ column_index }}]"
+-            id="{{ column_id }}{{ column_index }}">
++            id="{{ column_id }}{{ column_index }}"
++            aria-label="{{ column_name }}">
+             {{ foreign_dropdown|raw }}
+         </select>
+     {% elseif foreign_data.foreignLink %}
+@@ -11,6 +12,7 @@
+             name="criteriaValues[{{ column_index }}]"
+             id="field_{{ column_name_hash }}[{{ column_index }}]"
+             class="textfield"
++            aria-label="{{ column_name }}"
+             {% if criteria_values[column_index] is defined %}
+                 value="{{ criteria_values[column_index] }}"
+             {% endif %}>
+@@ -26,7 +28,8 @@
+         name="criteriaValues[{{ column_index }}]"
+         size="40"
+         class="textfield"
+-        id="field_{{ column_index }}">
++        id="field_{{ column_index }}"
++        aria-label="{{ column_name }}">
+     {% if in_fbs %}
+       <button type="button" class="btn btn-link open_search_gis_editor" data-bs-toggle="modal" data-bs-target="#gisEditorModal">
+         {{ get_icon('b_edit', t('Edit/Insert')) }}
+@@ -46,10 +49,12 @@
+     {% if (column_type starts with 'enum' and not in_zoom_search_edit)
+         or (column_type starts with 'set' and in_zoom_search_edit) %}
+         <select name="criteriaValues[{{ column_index }}]"
+-            id="{{ column_id }}{{ column_index }}">
++            id="{{ column_id }}{{ column_index }}"
++            aria-label="{{ column_name }}">
+     {% else %}
+         <select name="criteriaValues[{{ column_index }}]"
+             id="{{ column_id }}{{ column_index }}"
++            aria-label="{{ column_name }}"
+             multiple="multiple"
+             size="{{ min(3, cnt_value) }}">
+     {% endif %}
+@@ -96,6 +101,7 @@
+         size="40"
+         class="{{ the_class }}"
+         id="{{ column_id }}{{ column_index }}"
++        aria-label="{{ column_name }}"
+         {% if criteria_values[column_index] is defined %}
+            value="{{ criteria_values[column_index] }}"
+         {%- endif %}>
+diff --git a/resources/templates/table/structure/display_structure.twig b/resources/templates/table/structure/display_structure.twig
+index b5e8d64..fb153b7 100644
+--- a/resources/templates/table/structure/display_structure.twig
++++ b/resources/templates/table/structure/display_structure.twig
+@@ -16,7 +16,7 @@
+         {# Table header #}
+         <thead>
+             <tr>
+-                <th class="d-print-none"></th>
++                <th class="d-print-none"><span class="visually-hidden">{{ t('Select') }}</span></th>
+                 <th>#</th>
+                 <th>{{ t('Name') }}</th>
+                 <th>{{ t('Type') }}</th>
+@@ -127,8 +127,8 @@
+                 <td class="d-print-none">
+                   {% if hide_structure_actions %}
+                   <div class="dropdown">
+-                    <button class="btn btn-link p-0 dropdown-toggle" type="button" id="moreActionsButton" data-bs-toggle="dropdown" aria-expanded="false">{{ t('More') }}</button>
+-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreActionsButton">
++                    <button class="btn btn-link p-0 py-2 dropdown-toggle" type="button" id="moreActionsButton_{{ loop.index }}" data-bs-toggle="dropdown" aria-expanded="false">{{ t('More') }}</button>
++                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="moreActionsButton_{{ loop.index }}">
+                   {% else %}
+                     <ul class="nav">
+                   {% endif %}
+@@ -383,7 +383,7 @@
+     {% if not tbl_is_view and not db_is_system_schema %}
+         {# Only display propose table structure for MySQL < 8.0 #}
+         {% if mysql_int_version < 80000 or is_mariadb %}
+-          <a class="me-0" href="{{ url('/sql') }}" data-post="{{ get_common({
++          <a class="me-0 d-inline-block py-1" href="{{ url('/sql') }}" data-post="{{ get_common({
+             'db': db,
+             'table': table,
+             'sql_query': 'SELECT * FROM ' ~ backquote(table) ~ ' PROCEDURE ANALYSE()',
+@@ -432,12 +432,12 @@
+             {{ get_image('b_insrow', t('Add column')) }}&nbsp;
+         {% endif %}
+         {% set num_fields -%}
+-            <input type="number" name="num_fields" value="1" onfocus="this.select()" min="1" required>
++            <input type="number" name="num_fields" value="1" onfocus="this.select()" min="1" required aria-label="{{ t('Number of columns') }}">
+         {%- endset %}
+         {{ t('Add %s column(s)')|format(num_fields)|raw }}
+         <input type="hidden" name="field_where" value="after">&nbsp;
+         {# I tried displaying the drop-down inside the label but with Firefox the drop-down was blinking #}
+-        <select name="after_field">
++        <select name="after_field" aria-label="{{ t('After field') }}">
+             <option value="first" data-pos="first">
+                 {{ t('at beginning of table') }}
+             </option>
+@@ -562,7 +562,7 @@
+         {{ get_hidden_inputs(db, table) }}
+         <input type="hidden" name="create_index" value="1">
+ 
+-        {% apply format('<input class="mx-2" type="number" name="added_fields" value="1" min="1" max="16" required>')|raw %}
++        {% apply format('<input class="mx-2" type="number" name="added_fields" value="1" min="1" max="16" required aria-label="' ~ t('Number of columns') ~ '">')|raw %}
+           {{ t('Create an index on %s columns') }}
+         {% endapply %}
+ 
+diff --git a/resources/templates/table/tracking/main.twig b/resources/templates/table/tracking/main.twig
+index be271b5..f841732 100644
+--- a/resources/templates/table/tracking/main.twig
++++ b/resources/templates/table/tracking/main.twig
+@@ -1,7 +1,7 @@
+ {% if selectable_tables_entries|length > 0 %}
+     <form method="post" action="{{ url('/table/tracking', url_params) }}">
+         {{ get_hidden_inputs(db, table) }}
+-        <select name="table" class="autosubmit">
++        <select name="table" class="autosubmit" aria-label="{{ t('Table') }}">
+             {% for entry in selectable_tables_entries %}
+                 <option value="{{ entry.name }}"
+                     {{- entry.name == selected_table ? ' selected' }}>
+diff --git a/src/Controllers/JavaScriptMessagesController.php b/src/Controllers/JavaScriptMessagesController.php
+index 424593c..dba6d73 100644
+--- a/src/Controllers/JavaScriptMessagesController.php
++++ b/src/Controllers/JavaScriptMessagesController.php
+@@ -543,6 +543,7 @@ private function getMessages(): array
+                 . 'to leave this page before saving the data?',
+             ),
+             'strColOrderHint' => __('Drag to reorder.'),
++            'strColumnValue' => __('Column value'),
+             'strSortHint' => __('Click to sort results by this column.'),
+             'strMultiSortHint' => __(
+                 'Shift+Click to add this column to ORDER BY clause or to toggle ASC/DESC.'
+diff --git a/src/Controllers/Table/SearchController.php b/src/Controllers/Table/SearchController.php
+index 7cb7c10..3807819 100644
+--- a/src/Controllers/Table/SearchController.php
++++ b/src/Controllers/Table/SearchController.php
+@@ -326,6 +326,7 @@ private function getColumnProperties(int $searchIndex, int $columnIndex): array
+         $func = $this->template->render('table/search/column_comparison_operators', [
+             'search_index' => $searchIndex,
+             'type_operators' => $typeOperators,
++            'column_name' => $this->columnNames[$columnIndex],
+         ]);
+         //Gets link to browse foreign data(if any) and criteria inputbox
+         $foreignData = $this->relation->getForeignData(
+diff --git a/src/Controllers/Table/ZoomSearchController.php b/src/Controllers/Table/ZoomSearchController.php
+index 30d0fec..2958c09 100644
+--- a/src/Controllers/Table/ZoomSearchController.php
++++ b/src/Controllers/Table/ZoomSearchController.php
+@@ -462,6 +462,7 @@ private function getColumnProperties(int $searchIndex, int $columnIndex): array
+         $func = $this->template->render('table/search/column_comparison_operators', [
+             'search_index' => $searchIndex,
+             'type_operators' => $typeOperators,
++            'column_name' => $this->columnNames[$columnIndex],
+         ]);
+         //Gets link to browse foreign data(if any) and criteria inputbox
+         $foreignData = $this->relation->getForeignData(
+diff --git a/src/Display/Results.php b/src/Display/Results.php
+index fedf947..28f016d 100644
+--- a/src/Display/Results.php
++++ b/src/Display/Results.php
+@@ -972,7 +972,8 @@ private function getFieldVisibilityParams(
+         } elseif ($this->config->config->RowActionLinks === self::POSITION_NONE) {
+             // ... elseif display an empty column if the actions links are
+             //  disabled to match the rest of the table
+-            $buttonHtml .= '<th class="column_action position-sticky bg-body"></th>';
++            $buttonHtml .= '<th class="column_action position-sticky bg-body">'
++                . '<span class="visually-hidden">' . __('Action') . '</span></th>';
+         }
+ 
+         return $buttonHtml;
+@@ -2283,9 +2284,9 @@ private function getRepeatingHeaders(): string
+         if ($this->numEmptyColumnsBefore > 0) {
+             $headerHtml .= '    <th colspan="'
+                 . $this->numEmptyColumnsBefore . '">'
+-                . "\n" . '        &nbsp;</th>' . "\n";
++                . "\n" . '        <span class="visually-hidden">' . __('Action') . '</span></th>' . "\n";
+         } elseif ($this->config->config->RowActionLinks === self::POSITION_NONE) {
+-            $headerHtml .= '    <th></th>' . "\n";
++            $headerHtml .= '    <th><span class="visually-hidden">' . __('Action') . '</span></th>' . "\n";
+         }
+ 
+         $headerHtml .= implode($this->descriptions);
+@@ -2293,7 +2294,7 @@ private function getRepeatingHeaders(): string
+         if ($this->numEmptyColumnsAfter > 0) {
+             $headerHtml .= '    <th colspan="' . $this->numEmptyColumnsAfter
+                 . '">'
+-                . "\n" . '        &nbsp;</th>' . "\n";
++                . "\n" . '        <span class="visually-hidden">' . __('Action') . '</span></th>' . "\n";
+         }
+ 
+         $headerHtml .= '</tr>' . "\n";
+diff --git a/src/Html/Generator.php b/src/Html/Generator.php
+index 0c31a55..bf2302a 100644
+--- a/src/Html/Generator.php
++++ b/src/Html/Generator.php
+@@ -187,7 +187,11 @@ public static function getIcon(
+         // we don't need a span
+         $button = $menuIcon ? '' : '<span class="text-nowrap">';
+         if ($includeIcon) {
+-            $button .= self::getImage($icon, $alternate);
++            $button .= self::getImage(
++                $icon,
++                $includeText ? '' : $alternate,
++                $includeText ? ['title' => $alternate, 'aria-hidden' => 'true'] : []
++            );
+         }
+ 
+         if ($includeIcon && $includeText) {
+diff --git a/src/InsertEdit.php b/src/InsertEdit.php
+index 2d13924..0c87d93 100644
+--- a/src/InsertEdit.php
++++ b/src/InsertEdit.php
+@@ -363,8 +363,8 @@ private function getTextarea(
+             . ' cols="' . $textareaCols . '"'
+             . ' dir="' . LanguageManager::$textDirection->value . '"'
+             . ' id="field_' . $this->fieldIndex . '_3"'
++            . ' aria-label="' . htmlspecialchars($column->field, ENT_COMPAT) . '"'
+             . ($onChangeClause !== '' ? ' onchange="' . htmlspecialchars($onChangeClause, ENT_COMPAT) . '"' : '')
+-            . ' tabindex="' . $this->fieldIndex . '"'
+             . ' data-type="' . $dataType->value . '">'
+             . htmlspecialchars($specialCharsEncoded, ENT_COMPAT)
+             . '</textarea>';
+@@ -512,6 +512,7 @@ private function getValueColumnForOtherDatatypes(
+             'backup_field' => $backupField,
+             'is_textarea' => $isTextareaRequired,
+             'column_name_appendix' => $columnNameAppendix,
++            'column_field' => $column->field,
+             'extra' => $column->extra,
+             'true_type' => $column->trueType,
+         ]);
+diff --git a/src/Navigation/Nodes/Node.php b/src/Navigation/Nodes/Node.php
+index 25b69f4..d1bb0a3 100644
+--- a/src/Navigation/Nodes/Node.php
++++ b/src/Navigation/Nodes/Node.php
+@@ -556,7 +556,7 @@ public function getIcon(bool $match): string
+         if ($match) {
+             $this->visible = true;
+ 
+-            return Generator::getImage('b_minus');
++            return Generator::getImage('b_minus', __('Expand/Collapse'));
+         }
+ 
+         return Generator::getImage('b_plus', __('Expand/Collapse'));

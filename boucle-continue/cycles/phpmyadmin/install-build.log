@@ -1,0 +1,58 @@
+install-build — cycle 31 phpmyadmin — replay complet sur clone propre
+=====================================================================
+
+# clone propre + pin
+git clone https://github.com/phpmyadmin/phpmyadmin install-target
+cd install-target && git checkout e7e3f96ac4c65f291cc7ced271c0bb6d4ea591ee
+e7e3f96ac4c65f291cc7ced271c0bb6d4ea591ee  (OK, identique au pin)
+
+# apply patch
+git apply --check ../work/patch.diff   -> OK, 0 rejet
+git apply ../work/patch.diff           -> 68 fichiers modifiés
+   (warnings whitespace only : trailing space twig + blank line at EOF — cosmétique)
+
+# deps (reproduites, gitignored — hors patch)
+composer install --ignore-platform-reqs   (php 8.3.35 dans l'image pma31-web)
+cp -r ../target/node_modules . && yarn install --check-files && yarn build
+   -> webpack OK : public/themes/*/css/theme.css + theme.rtl.css régénérés
+config.inc.php copiée (gitignored, auth cookie, host=pma31-db, ThemeDefault=pmahomme)
+
+# stack docker fraîche (N-E-W containers, pas de réutilisation)
+docker run -d --name pma31ib-db -e MARIADB_ROOT_PASSWORD=rootpw \
+    -e MARIADB_DATABASE=a11ydb mariadb:11.8
+docker exec pma31ib-db mariadb -uroot -prootpw -e "
+    CREATE USER 'pma'@'%' IDENTIFIED BY 'pma-bench-2026';
+    GRANT ALL PRIVILEGES ON *.* TO 'pma'@'%';
+    CREATE TABLE a11ydb.users (id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(64), bio TEXT NULL, homepage VARCHAR(128) NULL);
+    INSERT 5 lignes dont NULL en bio/homepage"
+docker run -d --name pma31ib-web -p 8081:80 --link pma31ib-db:pma31-db \
+    -v <install-target>:/var/www/html pma31-web
+GET http://localhost:8081/ -> login form OK
+
+# seed + login (verbatim manifest.auditCommands)
+node tools/login.mjs http://localhost:8081 auth-ib.json pma pma-bench-2026 -> auth saved
+
+# IMPORTANT — thème : la préférence survit côté serveur
+node tools/reset-theme.mjs http://localhost:8081 auth-ib.json -> pmahomme/light
+(sans ce reset, les pages tournent sous le thème laissé par l'état précédent)
+
+# rescan verbatim (45 scénarios : 36 pages + 9 états)
+node audit.mjs http://localhost:8081 --urls "$(tr '\n' ',' < urls-auth.txt)" \
+    --states navtree-a11ydb,console-open,structure-more-dropdown,add-index-modal, \
+    browse-inline-edit,sql-profiling,sql-bad-query,theme-bootstrap-dark,mobile-nav-390 \
+    --storage-state auth-ib.json --wait 2000 --out reports/install-build
+
+# itérations menées pendant l'install-build
+1. Premier rescan : 13 occ color-contrast (td.null #7d7d7d !important sur lignes
+   striées — seed IB avec NULL, surface absente du seed local) + 1 erreur navtree.
+   -> patch.diff : td.null #6c6c6c !important ×4 thèmes (+ variante dark #a8a8a8 bootstrap)
+2. Rescan sous bootstrap (reset-theme oublié avant run — leçon : thème persistant) :
+   14 occ color-contrast révélant .cm-number $teal-700 (4.02 sur .alert-danger)
+   et .text-danger #a41e2b (~2.4 sur #212529 en dark) + erreur navtree.
+   -> patch.diff : .cm-number $teal-800 ; @include color-mode(dark) { .text-danger
+      #ea868f ; .form-text/.text-body-secondary/.card-subtitle #adb5bd ; td.null #a8a8a8 }
+   -> audit.mjs : état navtree robustifié (expander du li.database a11ydb
+      spécifiquement, groupe .container facultatif, retry ×3)
+3. Rescan final : 0 règle, 0 occurrence, 0 erreur, 194 incomplets
+   (sondes rejouables reports/probes + groupes N-A documentés).

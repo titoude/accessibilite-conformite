@@ -1,0 +1,3301 @@
+# Audit accessibilité — 2026-10-05
+
+**14 règle(s) violée(s), 5045 occurrence(s), 45/45 scénario(s) audité(s), 0 erreur(s), 3641 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `8b6a652ec969`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `#checkbox_tbl_1`
+  - `#checkbox_tbl_2`
+  - `#checkbox_tbl_3`
+  - `#checkbox_tbl_4`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `#checkbox_sel_users_0`
+  - `#checkbox_sel_users_1`
+  - `#checkbox_sel_users_2`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `input[name="num_fields"]`
+  - `.mx-2`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `#fieldID_0`
+  - `#fieldID_1`
+  - `#fieldID_2`
+  - `#fieldID_3`
+  - `#fieldID_4`
+  - `#fieldID_5`
+  - `#fieldID_6`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#field_1_3`
+  - `#field_2_3`
+  - `#field_3_3`
+  - `#field_4_3`
+  - `#field_5_3`
+  - `#field_6_3`
+  - `#field_7_3`
+  - `#field_8_3`
+  - `#field_9_3`
+  - `#field_10_3`
+  - … +4 autres
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `#checkbox_sel_users_0`
+  - `#checkbox_sel_users_1`
+  - `#checkbox_sel_users_2`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `input[name="table"]`
+  - `#added_fields`
+  - `#field_0_3`
+  - `#field_0_7`
+  - `#field_0_9`
+  - `#field_0_10`
+  - `#field_1_3`
+  - `#field_1_7`
+  - `#field_1_9`
+  - `#field_1_10`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `#id_rows_to_delete0_left`
+  - `#id_rows_to_delete1_left`
+  - `#id_rows_to_delete2_left`
+  - `#id_rows_to_delete3_left`
+  - `#id_rows_to_delete4_left`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `textarea`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `textarea[autocorrect="off"]`
+  - `input[name="num_fields"]`
+  - `.mx-2`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `textarea[autocorrect="off"]`
+  - `input[name="num_fields"]`
+  - `.mx-2`
+  - `input[size="5"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `textarea[autocorrect="off"]`
+  - `#id_rows_to_delete0_left`
+  - `#id_rows_to_delete1_left`
+  - `#id_rows_to_delete2_left`
+  - `#id_rows_to_delete3_left`
+  - `#id_rows_to_delete4_left`
+  - `.cEdit:nth-child(6) > textarea`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `textarea[autocorrect="off"]`
+  - `#id_rows_to_delete0_left`
+  - `#id_rows_to_delete1_left`
+  - `#id_rows_to_delete2_left`
+  - `#id_rows_to_delete3_left`
+  - `#id_rows_to_delete4_left`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `.cm-s-pma > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `textarea`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `textarea`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `select[name="log"]`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `.mx-5`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `#criteriaTables`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `select[name="after_field"]`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `#ColumnOperator0`
+  - `#ColumnOperator1`
+  - `#ColumnOperator2`
+  - `#ColumnOperator3`
+  - `#ColumnOperator4`
+  - `#ColumnOperator5`
+  - `#ColumnOperator6`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#field_1_1`
+  - `#field_2_1`
+  - `#field_3_1`
+  - `#field_4_1`
+  - `#field_5_1`
+  - `#field_6_1`
+  - `#field_7_1`
+  - `#field_8_1`
+  - `#field_9_1`
+  - `#field_10_1`
+  - … +6 autres
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `select[name="on_delete[0]"]`
+  - `select[name="on_update[0]"]`
+  - `select[name="foreign_key_fields_name[0][]"]`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `#field_0_2`
+  - `#field_0_4`
+  - `#field_0_5`
+  - `#field_0_6`
+  - `#field_0_8`
+  - `#field_0_11`
+  - `#field_0_12`
+  - `#field_1_2`
+  - `#field_1_4`
+  - `#field_1_5`
+  - … +19 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `.navigation:nth-child(2) > tbody > tr > .largescreenonly:nth-child(9) > form[action="index.php?route=/sql"] > .autosubmit[name="sql_query"]`
+  - `.navigation:nth-child(8) > tbody > tr > .largescreenonly:nth-child(9) > form[action="index.php?route=/sql"] > .autosubmit[name="sql_query"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `select[name="after_field"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `select[name="after_field"]`
+  - `select[name="index[columns][names][]"]`
+  - `select[name="index[columns][collations][]"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `.navigation:nth-child(2) > tbody > tr > .largescreenonly:nth-child(9) > form[action="index.php?route=/sql"] > .autosubmit[name="sql_query"]`
+  - `.navigation:nth-child(8) > tbody > tr > .largescreenonly:nth-child(9) > form[action="index.php?route=/sql"] > .autosubmit[name="sql_query"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `.navigation:nth-child(3) > tbody > tr > .largescreenonly:nth-child(9) > form[action="index.php?route=/sql"] > .autosubmit[name="sql_query"]`
+  - `.navigation:nth-child(9) > tbody > tr > .largescreenonly:nth-child(9) > form[action="index.php?route=/sql"] > .autosubmit[name="sql_query"]`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `.col-lg-7 > .mt-4.card:nth-child(1) > .card-header`
+  - `.col-lg-7 > .mt-4.card:nth-child(2) > .card-header`
+  - `.col-lg-5 > .mt-4.card:nth-child(1) > .card-header`
+  - `.text-danger`
+  - `.col-lg-5 > .mt-4.card:nth-child(2) > .card-header`
+  - `.mt-4.card:nth-child(3) > .card-header`
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/status
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/export
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/import
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `#allowInterruptHelp`
+  - `.form-check-label > code`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `#allowInterruptHelp`
+  - `.form-check-label > code`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `#drop_db_anchor`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+  - `#allowInterruptHelp`
+  - `.form-check-label > code`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+  - `#truncate_tbl_anchor`
+  - `#delete_tbl_anchor`
+  - `#drop_tbl_anchor`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+- http://localhost:8080/public/index.php?route=/themes
+  - `a[data-raw-text="pma31-db:3306"]`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `#Startup > .border-top-0.card > .card-body > h6`
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `.col-md-7 > .mt-4.card > .card-header`
+  - `.col-md-5 > .mt-4.card:nth-child(1) > .card-header`
+  - `.mt-4.card:nth-child(2) > .card-header`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `.col-lg-7 > .mt-4.card:nth-child(1) > .card-header`
+  - `.col-lg-7 > .mt-4.card:nth-child(2) > .card-header`
+  - `.col-lg-5 > .mt-4.card:nth-child(1) > .card-header`
+  - `.text-danger`
+  - `.col-lg-5 > .mt-4.card:nth-child(2) > .card-header`
+  - `.mt-4.card:nth-child(3) > .card-header`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `.col-lg-7 > .mt-4.card:nth-child(1) > .card-header`
+  - `.col-lg-7 > .mt-4.card:nth-child(2) > .card-header`
+  - `.col-lg-5 > .mt-4.card:nth-child(1) > .card-header`
+  - `.text-danger`
+  - `.col-lg-5 > .mt-4.card:nth-child(2) > .card-header`
+  - `.mt-4.card:nth-child(3) > .card-header`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `a[data-raw-text="pma31-db:3306"]`
+  - `a[data-raw-text="a11ydb"]`
+  - `a[data-raw-text="users"]`
+  - `.sql`
+  - `.alert-danger > code`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `#bulkActionDropButton > .text-nowrap`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +7 autres
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.list-group-item:nth-child(5) > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.list-group-item:nth-child(6) > a[rel="noopener noreferrer"][target="_blank"]`
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/status
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/export
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `#radio_quick_export`
+  - `#radio_custom_export`
+- http://localhost:8080/public/index.php?route=/server/import
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `#checkbox_sql_no_auto_value_on_zero`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#criteriaSearchTypeRadio1`
+  - `#criteriaSearchTypeRadio2`
+  - `#criteriaSearchTypeRadio3`
+  - `#criteriaSearchTypeRadio4`
+  - `#criteriaSearchTypeRadio5`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#radio_quick_export`
+  - `#radio_custom_export`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#checkbox_sql_no_auto_value_on_zero`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#whatRadio1`
+  - `#whatRadio2`
+  - `#whatRadio3`
+  - `#checkbox_create_database_before_copying`
+  - `#checkbox_drop`
+  - `#checkbox_auto_increment`
+  - … +3 autres
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#radio_quick_export`
+  - `#radio_custom_export`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#checkbox_sql_no_auto_value_on_zero`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `#checkbox_auto_increment_mv`
+  - `#checkbox_privileges_tables_move`
+  - `#whatRadio1`
+  - `#whatRadio2`
+  - `#whatRadio3`
+  - `#checkbox_drop`
+  - … +3 autres
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/themes
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.list-group-item:nth-child(5) > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.list-group-item:nth-child(6) > a[rel="noopener noreferrer"][target="_blank"]`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.list-group-item:nth-child(5) > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.list-group-item:nth-child(6) > a[rel="noopener noreferrer"][target="_blank"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `ul[data-popper-placement="bottom-end"] > .add_unique.unique > .add_unique_anchor.add_key[rel="samepage"]`
+  - `ul[data-popper-placement="bottom-end"] > .add_index > .add_index_anchor.add_key[rel="samepage"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `th[data-column="username"] > span > .sortlink`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/themes
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.loaded.container.expander`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-in-text-block?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `.latest > .disableAjax[rel="noopener noreferrer"][target="_blank"]`
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(2)`
+  - `a[href$="mailto:bot@phpmyadmin.net"]`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `.mb-2.card > .card-body > a`
+  - `.card:nth-child(2) > .card-body > a`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.card-header > a:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `h2 > a`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `.card-header > a:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `h2 > a`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `.latest > .disableAjax[rel="noopener noreferrer"][target="_blank"]`
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(2)`
+  - `a[href$="mailto:bot@phpmyadmin.net"]`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `.latest > .disableAjax[rel="noopener noreferrer"][target="_blank"]`
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(2)`
+  - `a[href$="mailto:bot@phpmyadmin.net"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `.card-header > a:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `.alert-warning.alert[role="alert"]:nth-child(2) > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.alert-warning.alert[role="alert"]:nth-child(3) > a[target="documentation"]`
+
+## [SERIOUS] tabindex — Elements should not have tabindex greater than zero
+
+Ensure tabindex attribute values are not greater than 0
+Référence : https://dequeuniversity.com/rules/axe/4.13/tabindex?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+  - `#id_sql_delimiter`
+  - `#checkbox_show_query`
+  - `#retain_query_box`
+  - `#rollback_query`
+  - `#button_submit_query`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+  - `#id_sql_delimiter`
+  - `#checkbox_show_query`
+  - `#retain_query_box`
+  - `#rollback_query`
+  - `#button_submit_query`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+  - `#id_sql_delimiter`
+  - `#checkbox_show_query`
+  - `#retain_query_box`
+  - `#rollback_query`
+  - `#button_submit_query`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#field_1_3`
+  - `#field_2_3`
+  - `#field_3_3`
+  - `#field_4_3`
+  - `#field_5_3`
+  - `#field_6_3`
+  - `#field_7_3`
+  - `#field_8_3`
+  - `#field_9_3`
+  - `#field_10_3`
+  - … +4 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `.cm-s-default > div:nth-child(1) > textarea[autocorrect="off"][autocapitalize="off"][spellcheck="false"]`
+  - `#id_sql_delimiter`
+  - `#checkbox_show_query`
+  - `#retain_query_box`
+  - `#rollback_query`
+  - `#button_submit_query`
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.13/label-title-only?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `input[title="a11ydb"]`
+  - `input[title="information_schema"]`
+  - `input[title="mysql"]`
+  - `input[title="performance_schema"]`
+  - `input[title="sys"]`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `select[name="destination_foreign_db[0]"]`
+  - `select[name="destination_foreign_table[0]"]`
+  - `select[title="Column"]`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `#field_0_1`
+  - `#field_1_1`
+  - `#field_2_1`
+  - `#field_3_1`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `input[title="a11ydb"]`
+  - `input[title="information_schema"]`
+  - `input[title="mysql"]`
+  - `input[title="performance_schema"]`
+  - `input[title="sys"]`
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.13/scrollable-region-focusable?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `.debug`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +32 autres
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +31 autres
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +33 autres
+- http://localhost:8080/public/index.php?route=/server/status
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +88 autres
+- http://localhost:8080/public/index.php?route=/server/export
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +26 autres
+- http://localhost:8080/public/index.php?route=/server/import
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +36 autres
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +26 autres
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +33 autres
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"] > .ic_b_minus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.container.loaded.expander > .ic_b_minus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.tableContainer > .fst-italic`
+  - … +56 autres
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +46 autres
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +50 autres
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +39 autres
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +49 autres
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +47 autres
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +43 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +137 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +47 autres
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +72 autres
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +104 autres
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +39 autres
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +49 autres
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +45 autres
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +43 autres
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +38 autres
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +39 autres
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.selected.database > .second.block`
+  - `.selected.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +95 autres
+- http://localhost:8080/public/index.php?route=/themes
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +44 autres
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - … +43 autres
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - … +54 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +129 autres
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.activePointer > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.activePointer > .second.block`
+  - `.activePointer > .hover_show_full.disableAjax[title="Structure"]`
+  - … +31 autres
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .block:nth-child(1) > .expander[href="#"] > .ic_b_plus[title="Expand/Collapse"][alt="Expand/Collapse"]`
+  - `.database:nth-child(3) > .second.block`
+  - … +35 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +141 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +140 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +133 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +138 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +50 autres
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +47 autres
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `#pma_navigation_collapser`
+  - `#pmalogo`
+  - `#navipanellinks`
+  - `#pma_navigation_tree > ul`
+  - `.new_database`
+  - `.database:nth-child(2) > .second.block`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic`
+  - `.new_table > .second.block`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - … +48 autres
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/status
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/export
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/import
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/themes
+  - `html`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `html`
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `html`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `html`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `html`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `html`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `html`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/status
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/export
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/import
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `html`
+- http://localhost:8080/public/index.php?route=/themes
+  - `html`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `html`
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `html`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `html`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `html`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `html`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `html`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `html`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `html`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `html`
+
+## [MINOR] image-redundant-alt — Alternative text of images should not be repeated as text
+
+Ensure image alternative is not repeated as text
+Référence : https://dequeuniversity.com/rules/axe/4.13/image-redundant-alt?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops[title="Settings"][alt="Settings"]`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `.ic_s_passwd`
+  - … +1 autres
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `a[href="index.php?route=/server/sql"] > .ic_b_sql[title="SQL"][alt="SQL"]`
+  - `.ic_s_status`
+  - `img[title="User accounts"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `.ic_db_drop`
+  - `tr[data-filter-row="A11YDB"] > .tool:nth-child(4) > .disableAjax > .text-nowrap > .ic_s_rights[title="Check privileges"][alt="Check privileges"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `img[title="Databases"]`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/status
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `tr:nth-child(1) > .text-center:nth-child(7) > .edit_user_anchor > .text-nowrap > .ic_b_usredit[title="Edit privileges"][alt="Edit privileges"]`
+  - `tr:nth-child(1) > .text-center:nth-child(8) > .export_user_anchor.ajax > .text-nowrap > .ic_b_tblexport[alt="Export"][title="Export"]`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/server/export
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/import
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `a[data-variable="allow_suspicious_udfs"] > .text-nowrap > .ic_b_edit[title="Edit"][alt="Edit"]`
+  - `a[data-variable="alter_algorithm"] > .text-nowrap > .ic_b_edit[title="Edit"][alt="Edit"]`
+  - … +682 autres
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+  - `#row_tbl_1 > .text-center.d-print-none:nth-child(4) > .disableAjax > .text-nowrap > .ic_b_browse[alt="Browse"][title="Browse"]`
+  - … +25 autres
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_tblops`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `.nav-link.text-nowrap.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `.nav-link.text-nowrap.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+  - `tr:nth-child(1) > td:nth-child(7) > .edit_user_anchor > .text-nowrap > .ic_b_usredit[title="Edit privileges"][alt="Edit privileges"]`
+  - … +7 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_browse[alt="Browse"][title="Browse"]`
+  - `img[title="SQL"]`
+  - `.ic_b_search`
+  - `img[title="Insert"]`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `img[title="Table structure"]`
+  - … +35 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `img[title="Table search"]`
+  - … +2 autres
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.nav-link.text-nowrap.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.nav-link.text-nowrap.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.nav-link.text-nowrap.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.nav-link.text-nowrap.disableAjax > .ic_b_tblexport[alt="Export"][title="Export"]`
+  - `.ic_b_tblimport`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `tr:nth-child(1) > td:nth-child(7) > .edit_user_anchor > .text-nowrap > .ic_b_usredit[title="Edit privileges"][alt="Edit privileges"]`
+  - … +7 autres
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `img[title="Table structure"]`
+  - … +1 autres
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `img[alt="Browse"]`
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Query"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_rights`
+  - `.ic_b_routines`
+  - `.ic_b_events`
+- http://localhost:8080/public/index.php?route=/themes
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `img[title="Databases"]`
+  - `img[title="SQL"]`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `a[href="index.php?route=/server/export"] > .ic_b_export[title="Export"][alt="Export"]`
+  - `a[href="index.php?route=/server/import"] > .ic_b_import[title="Import"][alt="Import"]`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `img[title="Features"]`
+  - `img[title="SQL queries"]`
+  - … +4 autres
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `img[title="Databases"]`
+  - `img[title="SQL"]`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `a[href="index.php?route=/server/export"] > .ic_b_export[title="Export"][alt="Export"]`
+  - `a[href="index.php?route=/server/import"] > .ic_b_import[title="Import"][alt="Import"]`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `img[title="Features"]`
+  - `img[title="SQL queries"]`
+  - … +4 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Insert"]`
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_tblexport[alt="Export"][title="Export"]`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `tr:nth-child(1) > .edit_row_anchor.text-center[data-grid-edit-config="double-click"] > .text-nowrap > a[data-bs-toggle="tooltip"][data-bs-placement="right"] > .text-nowrap > .ic_b_edit[alt="Edit"][title="Edit"]`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops[title="Settings"][alt="Settings"]`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `.ic_s_passwd`
+  - … +1 autres
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `img[title="Databases"]`
+  - `.ic_b_sql`
+  - `.ic_s_status`
+  - `.ic_s_rights`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops[title="Settings"][alt="Settings"]`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `.ic_s_passwd`
+  - … +1 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_browse[alt="Browse"][title="Browse"]`
+  - `img[title="SQL"]`
+  - `.ic_b_search`
+  - `img[title="Insert"]`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `img[title="Table structure"]`
+  - … +41 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_browse[alt="Browse"][title="Browse"]`
+  - `img[title="SQL"]`
+  - `.ic_b_search`
+  - `img[title="Insert"]`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `img[title="Table structure"]`
+  - … +35 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Insert"]`
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_tblexport[alt="Export"][title="Export"]`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `tr:nth-child(1) > .edit_row_anchor.text-center[data-grid-edit-config="double-click"] > .text-nowrap > a[data-bs-toggle="tooltip"][data-bs-placement="right"] > .text-nowrap > .ic_b_edit[alt="Edit"][title="Edit"]`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_sql`
+  - `.ic_b_search`
+  - `img[title="Insert"]`
+  - `.nav-link.disableAjax.text-nowrap > .ic_b_tblexport[alt="Export"][title="Export"]`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+  - `tr:nth-child(1) > .edit_row_anchor.text-center[data-grid-edit-config="double-click"] > .text-nowrap > a[data-bs-toggle="tooltip"][data-bs-placement="right"] > .text-nowrap > .ic_b_edit[alt="Edit"][title="Edit"]`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `img[alt="Browse"]`
+  - `.text-nowrap.nav-link.disableAjax > .ic_b_props[alt="Structure"][title="Structure"]`
+  - `.ic_b_search`
+  - `.ic_b_insrow`
+  - `.ic_b_tblexport`
+  - `.ic_b_tblimport`
+  - `.ic_s_rights`
+  - `.ic_b_tblops`
+  - `.ic_b_triggers`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `a[href="index.php?route=/server/sql"] > .ic_b_sql[title="SQL"][alt="SQL"]`
+  - `.ic_s_status`
+  - `img[title="User accounts"]`
+  - `.ic_b_export`
+  - `.ic_b_import`
+  - `.ic_b_tblops`
+  - `.ic_s_replication`
+  - `.ic_s_vars`
+  - `.ic_db_drop`
+  - `tr[data-filter-row="A11YDB"] > .tool:nth-child(4) > .disableAjax > .text-nowrap > .ic_s_rights[title="Check privileges"][alt="Check privileges"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `.ic_s_passwd`
+  - `img[title="More settings"]`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-table-header?application=axeAPI
+
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `thead > tr > th:nth-child(1)`
+  - `tfoot > tr > th:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `thead > tr > th:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `thead > tr > .d-print-none:nth-child(1)`
+  - `#tbl_summary_row > tr > .d-print-none:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `thead > tr > th:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `#tablestructure > thead > tr > .d-print-none:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `thead > tr > th:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `thead > tr:nth-child(2) > th:nth-child(1)`
+  - `tr:nth-child(2) > th:nth-child(2)`
+  - `tr:nth-child(2) > th:nth-child(3)`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `thead > tr > th:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `#tablestructure > thead > tr > .d-print-none:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `#tablestructure > thead > tr > .d-print-none:nth-child(1)`
+  - `#index_columns > thead > tr > th:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `thead > tr > th:nth-child(1)`
+  - `tfoot > tr > th:nth-child(2)`
+
+## Résultats incomplets à revoir (3641)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8080/public/index.php?route=/
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `a[href="index.php?route=/server/sql"]`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/server/status
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.disableAjax.text-nowrap`
+  - … +15 autres
+- http://localhost:8080/public/index.php?route=/server/export
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/server/import
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +12 autres
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +8 autres
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.disableAjax.text-nowrap`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +49 autres
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +45 autres
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - … +16 autres
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - … +8 autres
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(3) > .nav-link.text-nowrap.disableAjax`
+  - … +16 autres
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(3) > .text-nowrap.nav-link.disableAjax`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +12 autres
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - … +13 autres
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `.nav-item:nth-child(2) > .nav-link.text-nowrap.disableAjax`
+  - … +15 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +36 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +24 autres
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +30 autres
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +15 autres
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +17 autres
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +23 autres
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .text-nowrap.nav-link.disableAjax`
+  - `.nav-item:nth-child(2) > .text-nowrap.nav-link.disableAjax`
+  - … +37 autres
+- http://localhost:8080/public/index.php?route=/themes
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +19 autres
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +17 autres
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table.last > .hover_show_full.disableAjax[title="Browse"]`
+  - … +18 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +33 autres
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last.database > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - `a[href="index.php?route=/server/sql"]`
+  - … +10 autres
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(3) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(4) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.database:nth-child(5) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.last > .hover_show_full.disableAjax[title="Structure"]`
+  - `.nav-item:nth-child(1) > .nav-link.text-nowrap.disableAjax`
+  - … +14 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +53 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `#pma_navigation_collapser`
+  - `.nav-item:nth-child(1) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(3) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(4) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(5) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(6) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(7) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(8) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(9) > .nav-link.disableAjax.text-nowrap`
+  - `.nav-item:nth-child(10) > .nav-link.disableAjax.text-nowrap`
+  - … +34 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +34 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +46 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `#pma_navigation_collapser`
+  - `button[title="Recently visited tables"]`
+  - `button[title="Favorite tables"]`
+  - `.new_database > .hover_show_full.disableAjax[title="New"]`
+  - `.database:nth-child(2) > .hover_show_full.disableAjax[title="Structure"]`
+  - `.tableContainer > .fst-italic > .hover_show_full.disableAjax`
+  - `.new_table > .hover_show_full.disableAjax[title="New"]`
+  - `.nav_node_table:nth-child(2) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.nav_node_table:nth-child(3) > .hover_show_full.disableAjax[title="Browse"]`
+  - `.viewContainer > .fst-italic > .hover_show_full.disableAjax`
+  - … +25 autres
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `#pma_navigation_collapser`
+  - `select[name="db_collation"]`
+  - `.alert-info > .text-nowrap`
+  - `.card-link`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `#pma_navigation_collapser`
+  - `.history > span`
+  - `#instructions-0`
+  - `#collationConnectionSelect`
+  - `#themeSelect`
+  - `.autosubmit[name="themeColorMode"][aria-label="Color mode for the theme"]`
+  - `.mt-4.card:nth-child(1) > .list-group.list-group-flush > .list-group-item:nth-child(5)`
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://localhost:8080/public/index.php?route=/
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/status
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/export
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/import
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `tr:nth-child(1) > .d-print-none:nth-child(13) > .dropdown > .p-0.dropdown-toggle[data-bs-toggle="dropdown"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `#page_content > .modal[aria-labelledby="previewSqlModalLabel"][aria-hidden="true"] > .modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `#page_content > .modal[aria-labelledby="previewSqlModalLabel"][aria-hidden="true"] > .modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `.modal[aria-labelledby="previewSqlModalLabel"][aria-hidden="true"]:nth-child(1) > .modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `.modal[aria-labelledby="enumEditorModalLabel"][aria-hidden="true"]:nth-child(2) > .modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/themes
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `body > .modal.fade[aria-labelledby="createViewModalLabel"] > .modal-lg.modal-dialog > .modal-content > .modal-header > h5`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `.navigation:nth-child(2) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(2) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(2) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `.show.p-0.dropdown-toggle`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `tr:nth-child(1) > .d-print-none:nth-child(13) > .dropdown > .p-0.dropdown-toggle[data-bs-toggle="dropdown"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `.navigation:nth-child(2) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(2) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(2) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+  - `.navigation:nth-child(3) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(3) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(3) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `body > .modal[aria-labelledby="createViewModalLabel"][aria-hidden="true"] > .modal-lg.modal-dialog > .modal-content > .modal-header > .modal-title`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://localhost:8080/public/index.php?route=/
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `th:nth-child(4) > a[title="Sort"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `tr:nth-child(1) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(2) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(3) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(4) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(5) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(1)`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `tr:nth-child(1) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(2) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(3) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(4) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(5) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `tr:nth-child(1) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(2) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(3) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(4) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+  - `tr:nth-child(5) > .text-center.d-print-none:nth-child(4) > .text-nowrap > .delete_row.requireConfirm.ajax`
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `#li_pma_version_git > a[rel="noopener noreferrer"][target="_blank"]:nth-child(1)`
+
+### target-size — All touch targets must be 24px large, or leave sufficient space
+
+- http://localhost:8080/public/index.php?route=/
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][rel="noopener noreferrer"][target="_blank"]`
+  - `a[title="MariaDB Documentation"][rel="noopener noreferrer"][target="_blank"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/sql
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/status
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/privileges
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/export
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/import
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +11 autres
+- http://localhost:8080/public/index.php?route=/server/replication
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/variables
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +1055 autres
+- http://localhost:8080/public/index.php?route=/server/collations
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/engines
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/plugins
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/server/user-groups
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/database/sql&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/database/search&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/database/import&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +22 autres
+- http://localhost:8080/public/index.php?route=/database/operations&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +21 autres
+- http://localhost:8080/public/index.php?route=/database/privileges&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +28 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/search&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/change&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/export&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/import&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +22 autres
+- http://localhost:8080/public/index.php?route=/table/operations&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +29 autres
+- http://localhost:8080/public/index.php?route=/table/privileges&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/create&db=a11ydb
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.selected.database > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/themes
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/preferences/main-panel
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.database:nth-child(2) > .second.block > .disableAjax`
+  - … +19 autres
+- http://localhost:8080/public/index.php?route=/preferences/manage
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - `.database:nth-child(2) > .second.block > .disableAjax`
+  - … +19 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/ [state:navtree-a11ydb]
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][rel="noopener noreferrer"][target="_blank"]`
+  - `a[title="MariaDB Documentation"][rel="noopener noreferrer"][target="_blank"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/ [state:console-open]
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][rel="noopener noreferrer"][target="_blank"]`
+  - `a[title="MariaDB Documentation"][rel="noopener noreferrer"][target="_blank"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .expander[href="#"]`
+  - … +9 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +31 autres
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `.me-0`
+  - `#structure-action-links > a[target="mysql_doc"]`
+  - `.noclick:nth-child(1) > .edit_index.ajax[rowspan="1"] > .ajax[href="index.php?route=/table/indexes"]`
+  - `.noclick:nth-child(1) > .rename_index.ajax[rowspan="1"] > .ajax`
+  - `.noclick:nth-child(1) > .d-print-none[rowspan="1"]:nth-child(3) > .drop_primary_key_index_anchor.ajax[href="index.php"]`
+  - `.noclick:nth-child(2) > .edit_index.ajax[rowspan="1"] > .ajax[href="index.php?route=/table/indexes"]`
+  - `.noclick:nth-child(2) > .rename_index.ajax[rowspan="1"] > .ajax`
+  - `.noclick:nth-child(2) > .d-print-none[rowspan="1"]:nth-child(3) > .drop_primary_key_index_anchor.ajax[href="index.php"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/table/sql&db=a11ydb&table=users [state:sql-bad-query]
+  - `.disableAjax[href="index.php?route=/"][title="Home"]`
+  - `.logout[href="index.php?route=/logout"][title="Log out"]`
+  - `a[title="phpMyAdmin documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `a[title="MariaDB Documentation"][target="_blank"][rel="noopener noreferrer"]`
+  - `#pma_navigation_settings_icon`
+  - `#pma_navigation_reload`
+  - `#pma_navigation_collapse`
+  - `#pma_navigation_sync`
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .block:nth-child(1) > .loaded.expander[href="#"]`
+  - … +20 autres
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .second.block > .disableAjax`
+  - `.tableContainer > .fst-italic > .second.block > .disableAjax`
+  - `.new_table > .second.block > .disableAjax`
+  - `.nav_node_table:nth-child(2) > .second.block > .disableAjax`
+  - `.nav_node_table:nth-child(3) > .second.block > .disableAjax`
+  - `.nav_node_table.last > .block:nth-child(1) > .expander[href="#"]`
+  - `.nav_node_table.last > .second.block > .disableAjax`
+  - `.viewContainer > .block > .container.expander[href="#"]`
+  - `.viewContainer > .fst-italic > .second.block > .disableAjax`
+  - … +4 autres
+- http://localhost:8080/public/index.php?route=/ [state:mobile-nav-390]
+  - `.new_database > .second.block > .disableAjax`
+  - `.database:nth-child(2) > .second.block > .disableAjax`
+  - `.tableContainer > .fst-italic > .second.block > .disableAjax`
+  - `.new_table > .second.block > .disableAjax`
+  - `.nav_node_table:nth-child(2) > .second.block > .disableAjax`
+  - `.nav_node_table:nth-child(3) > .second.block > .disableAjax`
+  - `.nav_node_table.last > .block:nth-child(1) > .expander[href="#"]`
+  - `.nav_node_table.last > .second.block > .disableAjax`
+  - `.viewContainer > .block > .container.expander[href="#"]`
+  - `.viewContainer > .fst-italic > .second.block > .disableAjax`
+  - … +4 autres
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:8080/public/index.php?route=/server/databases
+  - `.table-striped`
+- http://localhost:8080/public/index.php?route=/server/binlog
+  - `#binlogTable`
+- http://localhost:8080/public/index.php?route=/database/structure&db=a11ydb
+  - `.table-striped`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users
+  - `.caption-top.table-sm.table-striped:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/table/relation&db=a11ydb&table=users
+  - `.relationalTable`
+- http://localhost:8080/public/index.php?route=/table/indexes&db=a11ydb&table=users
+  - `#index_columns`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:structure-more-dropdown]
+  - `.caption-top.table-sm.table-striped:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/table/structure&db=a11ydb&table=users [state:add-index-modal]
+  - `.caption-top.table-sm.table-striped:nth-child(2)`
+- http://localhost:8080/public/index.php?route=/server/databases [state:theme-bootstrap-dark]
+  - `.table-striped`
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:8080/public/index.php?route=/database/export&db=a11ydb
+  - `input[name="sql_create_table"][type="hidden"][value="y"]`
+
+### form-field-multiple-labels — Form field must not have multiple label elements
+
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC
+  - `.navigation:nth-child(2) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(2) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(2) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+  - `.navigation:nth-child(8) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(8) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(8) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:browse-inline-edit]
+  - `.navigation:nth-child(2) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(2) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(2) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+  - `.navigation:nth-child(8) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(8) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(8) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+- http://localhost:8080/public/index.php?route=/sql&db=a11ydb&table=users&sql_query=SELECT%20*%20FROM%20users%20ORDER%20BY%20id%20ASC [state:sql-profiling]
+  - `.navigation:nth-child(3) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(3) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(3) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+  - `.navigation:nth-child(9) > tbody > tr > td:nth-child(2) > form[action="index.php?route=/sql"] > .showAllRows[name="navig"][value="all"]`
+  - `.navigation:nth-child(9) > tbody > tr > .navigation_goto > .maxRowsForm[action="index.php?route=/sql"] > .autosubmit[name="session_max_rows"]`
+  - `.navigation:nth-child(9) > tbody > tr > .largescreenonly:nth-child(8) > .g-1.p-1.align-items-center > .col-auto:nth-child(2) > .filter_rows.form-control[placeholder="Search this table"]`
+

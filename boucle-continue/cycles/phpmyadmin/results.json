@@ -1,0 +1,156 @@
+{
+ "cycle": 31,
+ "produit": "phpmyadmin",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "violations_occ": 12,
+   "violations_regles": 2,
+   "regles": [
+    "landmark-one-main",
+    "region"
+   ],
+   "erreurs": 0,
+   "incomplets": 2
+  },
+  "auth": {
+   "violations_occ": 5045,
+   "violations_regles": 14,
+   "regles": {
+    "region": 2969,
+    "image-redundant-alt": 1368,
+    "target-size": 183,
+    "color-contrast": 137,
+    "label": 86,
+    "select-name": 69,
+    "link-name": 57,
+    "landmark-one-main": 43,
+    "page-has-heading-one": 42,
+    "tabindex": 38,
+    "link-in-text-block": 18,
+    "empty-table-header": 17,
+    "label-title-only": 17,
+    "scrollable-region-focusable": 1
+   },
+   "erreurs": 0,
+   "incomplets": 3641
+  },
+  "note": "45 scénarios : 36 pages auth + 9 états dynamiques ; public = / + /themes sans session"
+ },
+ "final": {
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": {
+   "total": 1352,
+   "detail": {
+    "color-contrast": 1336,
+    "th-has-data-cells": 11,
+    "aria-allowed-role": 1,
+    "duplicate-id-aria": 4
+   }
+  }
+ },
+ "final_clean_clone": {
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": 1071,
+  "note": "patch.diff appliqué sur clone propre @e7e3f96 (git apply --check OK, 68 fichiers) + composer --ignore-platform-reqs + yarn build + stack docker fraîche pma31ib-* :8081 + seed avec NULL + rescan complet 45 scénarios — voir install-build.log"
+ },
+ "verify_mjs": "25/25 assertions dures (landmarks, h1/heading-order ×8 pages, dup ids scope axe sur 45 pages, navtree/navipanellinks ≥24px mesuré, form-check non couverts, labels pagination, contrastes mesurés composite alpha ≥4.5, underlines delete_row/Sort, CodeMirror screenReaderLabel)",
+ "eval_final_mjs": "0 FAIL — 6 pages hors scope + dup-ids + rejoues indépendantes (navtree 24px, modale add-index aria-labelledby + focusables, configFormDisplayTab uniques, text-danger)",
+ "incomplete_probes": "1353 sondes : 1317 PASS, 36 N-A documentés (color-contrast 25 noeuds masqués/alpha indécidable, th 5, dup-id 4 hidden-inputs hors scope axe, aria-allowed-role 1), 0 FAIL — reports/probes/incomplete-probes.json",
+ "causes_racines": [
+  {
+   "famille": "landmarks/structure sémantique",
+   "files": [
+    "resources/templates/base.twig",
+    "resources/templates/navigation/main.twig",
+    "resources/templates/menu/main.twig",
+    "public/themes/*/scss/_common.scss"
+   ],
+   "occ_couvertes": 3054,
+   "detail": "region 2969 + landmark-one-main 43 + page-has-heading-one 42 : <main id=page_content>, nav aria-label, footer, h1 manquants"
+  },
+  {
+   "famille": "alternatives textuelles",
+   "files": [
+    "resources/templates/**/*.twig (14 fichiers)",
+    "src/Navigation/Nodes/Node.php"
+   ],
+   "occ_couvertes": 1368,
+   "detail": "image-redundant-alt : icons dot.gif décoratives alt='' + aria-hidden"
+  },
+  {
+   "famille": "taille de cible 24px",
+   "files": [
+    "public/themes/*/scss/_navigation.scss",
+    "public/themes/*/scss/_common.scss",
+    "resources/templates/table/structure/display_structure.twig",
+    "resources/templates/display/results/table.twig"
+   ],
+   "occ_couvertes": 183,
+   "detail": "navtree anchors absolues left:50% débordaient (occlusion), checkboxes 13px, liens d'action compacts"
+  },
+  {
+   "famille": "contraste",
+   "files": [
+    "public/themes/*/scss/_common.scss",
+    "public/themes/*/scss/_codemirror.scss",
+    "public/themes/bootstrap/scss/_common.scss (dark)"
+   ],
+   "occ_couvertes": 137,
+   "detail": "tons mutés bootstrap/pmahomme sur surfaces panneau + td.null striées + cm-number sur alert + dark-mode counterparts"
+  },
+  {
+   "famille": "labels/noms accessibles",
+   "files": [
+    "resources/templates/**/form*.twig",
+    "resources/templates/table/insert/*.twig",
+    "resources/templates/server/privileges/users_overview.twig",
+    "resources/templates/console/display.twig",
+    "resources/js/modules/console.ts"
+   ],
+   "occ_couvertes": 192,
+   "detail": "label 86 + select-name 69 + link-name 57 : for/id pairs, aria-label sur boutons-icônes, selects sans label"
+  },
+  {
+   "famille": "tabindex/tab order",
+   "files": [
+    "resources/templates/**/*.twig"
+   ],
+   "occ_couvertes": 38,
+   "detail": "tabindex positifs supprimés"
+  },
+  {
+   "famille": "ids dupliqués",
+   "files": [
+    "resources/templates/display/results/table.twig",
+    "resources/templates/config/form_display/display.twig"
+   ],
+   "occ_couvertes": "incomplets dup-id",
+   "detail": "navigation_html émis 2× (haut+bas) → suffixe _bottom via |replace ; configFormDisplayTab → suffixe nom d'onglet"
+  },
+  {
+   "famille": "divers",
+   "files": [
+    "resources/templates/table/index_form.twig (th empty)",
+    "resources/templates/server/binlog/index.twig",
+    "resources/templates/database/structure/*.twig"
+   ],
+   "occ_couvertes": 36,
+   "detail": "th vides (header-vs-data ambiguity), scrollable-region tabindex, link-in-text-block underlines, label-title-only titles complets"
+  }
+ ],
+ "hors_perimetre": [
+  "duplicate-id-aria 4 noeuds restants = hidden inputs (non-focusables → hors scope axe strict, documenté)",
+  "aria-allowed-role 1 incomplet : role=main sur <main> déjà implicite — N-A"
+ ],
+ "notes": [
+  "Leçon IB : seed avec NULL expose td.null jamais rendu localement — données de bench identiques exigées entre runs.",
+  "Leçon thème : préférence persistante côté serveur — reset-theme obligatoire avant chaque scan sinon les pages tournent sous le dernier thème utilisé par un état.",
+  "audit.mjs état navtree robustifié : li.database a11ydb ciblé + .container facultatif + retry ×3 (IB fraîche expande a11ydb sans sous-groupe)."
+ ],
+ "corrections_post_audit": []
+}
