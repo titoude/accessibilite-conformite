@@ -279,3 +279,10 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 2. **Css compilés dans patch = source de falsification** : éditer le minifié à la main crée un patch dont le build ne reproduit pas le contenu. Règle : remplacer les +lignes css par la sortie réelle du build (`npm run build`), pas par substitution de chaînes.
 3. **Provenance = re-hash à chaque correction** : 4 hash périmés après S1-S3 — re-hacher TOUS les fichiers touchés (patch.diff, tools/*, results.json) après chaque wart-fix.
 4. **Sonde alpha** : la première couche `rgba<1` n'est pas le fond effectif — composite top→down obligatoire (même leçon que contrast probing cycle owncast, oubliée dans une nouvelle sonde).
+
+### Leçons — cycle 25 sabnzbd (audit PARTIAL : régression introduite par le patch)
+
+5. **Sed en masse sur des sélecteurs d'attribut = danger** : remplacer `name="x"` a injecté `aria-label` dans des chaînes de sélecteurs jQuery (`select[name="x" aria-label="y"]` = SyntaxError qui tue tout le bloc ready). Règle : après tout correctif par substitution, greper l'arbre APPLIQUÉ pour le pattern cassé (`\[name="[^"]*" [a-z-]+=`) et tester que le JS parse.
+6. **Couleurs : mesurer dans CHAQUE color-scheme atteignable** : une teinte OK en clair peut échouer en nuit (`light-dark()` d'upstream doit rester des deux côtés ≥4.5 — .success/.failed wizard mesurés FAIL nuit par l'auditeur). Règle : toute couleur modifiée doit être calculée contre toutes les surfaces de tous les thèmes servis, y compris les textes rendus dynamiquement (post-test, états d'erreur).
+7. **Sondes d'incomplets = exhaustives ou déclarées échantillon** : 139/218 couverts sans le dire → l'auditeur a mesuré les 75 restants. Déclarer explicitement couverture vs échantillon.
+8. **eval-final qui fait POST /logout détruit auth.json** — documenter l'ordre de rejeu (sondes avant eval) ou re-login.

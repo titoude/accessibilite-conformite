@@ -1,116 +1,132 @@
 {
- "cycle": 25,
- "produit": "sabnzbd",
- "statut_execution": "complet",
- "baseline": {
-  "surfaces": 16,
-  "etats": 31,
-  "violations_occ": 1483,
-  "violations_regles": 15,
-  "detail": {
-   "region": 631,
-   "color-contrast": 368,
-   "link-name": 179,
-   "label": 56,
-   "select-name": 55,
-   "meta-viewport": 44,
-   "empty-table-header": 42,
-   "landmark-one-main": 31,
-   "page-has-heading-one": 28,
-   "heading-order": 25,
-   "button-name": 20,
-   "frame-title": 1,
-   "label-title-only": 1,
-   "aria-allowed-role": 1,
-   "aria-allowed-attr": 1
+  "cycle": 25,
+  "produit": "sabnzbd",
+  "statut_execution": "complet",
+  "baseline": {
+    "surfaces": 16,
+    "etats": 31,
+    "violations_occ": 1483,
+    "violations_regles": 15,
+    "detail": {
+      "region": 631,
+      "color-contrast": 368,
+      "link-name": 179,
+      "label": 56,
+      "select-name": 55,
+      "meta-viewport": 44,
+      "empty-table-header": 42,
+      "landmark-one-main": 31,
+      "page-has-heading-one": 28,
+      "heading-order": 25,
+      "button-name": 20,
+      "frame-title": 1,
+      "label-title-only": 1,
+      "aria-allowed-role": 1,
+      "aria-allowed-attr": 1
+    },
+    "login": {
+      "violations_occ": 7,
+      "violations_regles": 4
+    },
+    "total_occ": 1490,
+    "total_regles": 15
   },
-  "login": {
-   "violations_occ": 7,
-   "violations_regles": 4
+  "final": {
+    "surfaces": 16,
+    "etats": 31,
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "erreurs": 0,
+    "incomplets": 218,
+    "login": {
+      "violations_occ": 0
+    }
   },
-  "total_occ": 1490,
-  "total_regles": 15
- },
- "final": {
-  "surfaces": 16,
-  "etats": 31,
-  "violations_occ": 0,
-  "violations_regles": 0,
-  "erreurs": 0,
-  "incomplets": 218,
-  "login": {
-   "violations_occ": 0
-  }
- },
- "final_clean_clone": {
-  "violations_occ": 0,
-  "violations_regles": 0,
-  "erreurs": 0,
-  "incomplets": 218,
-  "note": "patch.diff appliqué sur clone propre (git apply --check OK, 29 fichiers) + même venv + boot verbatim + re-scan complet des 47 scénarios + login"
- },
- "verify_mjs": "55/55 assertions DOM sur éléments réellement corrigés",
- "eval_final_mjs": "9/9 contrôles indépendants (scriptlog text/plain N-A documenté, erreur /config inexistante, filebrowser ouverte + titre h3 JS, nzbsearch post-requête, thème sombre / et /config/general, aria-expanded navbar, logout POST 302 + login post-déco)",
- "incomplete_probes": "60 sondes : 53 PASS, 7 N-A (6 noeuds masqués KO visible:false rect 0x0 + iframe cross-origin wizard), 0 FAIL — reports/probes/incomplete-probes.json",
- "causes_racines": [
-  {
-   "famille": "landmarks (region 631, landmark-one-main 31, page-has-heading-one 28)",
-   "files": [
-    "Glitter main.tmpl : pas de <main> — contenu englobé dans <main id=content> + h1 sr-only",
-    "Config _inc_header_uc/_inc_footer_uc : idem + <main class=container> sur les 14 pages",
-    "wizard index/one/two : <div id=inner> -> <main>",
-    "login/main.tmpl : <div class=account-wall> -> <main> + h1 sr-only",
-    "tooltips Bootstrap montés dans <body> hors landmark -> container '.main-content' (glitter.basic.js + glitter.main.js x2)",
-    "#feedback-slider hors landmark -> role=complementary"
-   ],
-   "occ_couvertes": 690
+  "final_clean_clone": {
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "erreurs": 0,
+    "incomplets": 218,
+    "note": "patch.diff appliqué sur clone propre (git apply --check OK, 29 fichiers) + même venv + boot verbatim + re-scan complet des 47 scénarios + login"
   },
-  {
-   "famille": "contrastes (368)",
-   "files": [
-    "glitter.css : --clr-error/--clr-text-muted via light-dark(), .label-danger/.btn-danger #C0392B, .label-warning texte #403000, .label-info #0A3055, .label-default #6E6E6E, .modal-header .close opacity .85, .nav-tabs>a .95, .badge-warning texte blanc, #filelist-showcompleted, #modal-options .tab-pane>h4, fileDetails/progress small #4A4A4A/#5C5C5C",
-    "staticcfg/css/style.css : --clr-error light-dark, liens #2e6da4/#66aaff, labels danger/warning/info",
-    "wizard/static/style.css : .success #148a1c, .failed, #rightGreyText, .btn-danger/.btn-success"
-   ],
-   "occ_couvertes": 368
-  },
-  {
-   "famille": "noms accessibles liens/boutons (link-name 179, button-name 20)",
-   "files": [
-    "plugin tooltip Bootstrap réécrit title->data-original-title et vide le nom accessible -> aria-label explicites miroir des $T() sur tous les liens/boutons icônes (Glitter include_* + Config 9 templates)",
-    "fileBrowser bouton généré : aria-label configTranslate.browseText (staticcfg/js/script.js)",
-    "delFeed/delFilter/delIndexer/queue cogs/help_uri/wizard cogs : aria-labels $T() contextuels"
-   ],
-   "occ_couvertes": 199
-  },
-  {
-   "famille": "contrôles nommés (label 56, select-name 55, label-title-only 1)",
-   "files": [
-    "aria-label $T() sur tous les inputs/selects dépourvus de <label> : config_cat, config_rss, config_nzbsearch, config_sorting, config_server, config_switches, config_general, Glitter filelist/loglevel/nzbsearch-category",
-    "checkbox par fichier : aria-label=filename (attr KO include_overlays)"
-   ],
-   "occ_couvertes": 112
-  },
-  {
-   "famille": "structure (empty-table-header 42, heading-order 25, meta-viewport 44, frame-title 1, aria-allowed-*)",
-   "files": [
-    "th vides -> span.sr-only $T() (config_rss/nzbsearch/categories/sorting/nzbsearch)",
-    "h3->h2 x29 config, h4.modal-title->h3 x14 Glitter + h2 rss, h5.darkred->p.darkred, feedback h4->h2",
-    "meta viewport user-scalable/maximum-scale corrigés (3 templates)",
-    "wizard iframe title $T(wizard-quickstart)",
-    "rss modal <form class=modal role=dialog> -> <div class=modal><form>",
-    "collapse #navbar-collapse aria-expanded retiré par handler jQuery post-transition (glitter.basic.js)"
-   ],
-   "occ_couvertes": 114
-  }
- ],
- "hors_perimetre": [
-  "/scriptlog (text/plain, non-HTML -> N-A documenté dans eval-final)",
-  "iframe wizard/one -> sabnzbd.org cross-origin (frame-tested incomplet -> N-A sonde)"
- ],
- "notes": [
-  "fix post-baseline non cosmétique : #filebrowser_modal .modal-header h4->h3 cassait le titre écrit en JS -> sélecteur .modal-title corrigé dans staticcfg/js/script.js (assertion rejouée : titre 'Temporary Download Folder')",
-  "classe .disabled retirée du bouton save custom-pause (élément cliquable stylé désactivé = vrai bug UX)",
-  "deux instances SABnzbd peuvent coexister : pgrep ne suffit pas à prouver un kill propre"
- ]
+  "verify_mjs": "55/55 assertions DOM sur éléments réellement corrigés",
+  "eval_final_mjs": "9/9 contrôles indépendants (scriptlog text/plain N-A documenté, erreur /config inexistante, filebrowser ouverte + titre h3 JS, nzbsearch post-requête, thème sombre / et /config/general, aria-expanded navbar, logout POST 302 + login post-déco)",
+  "incomplete_probes": "60 sondes : 53 PASS, 7 N-A (6 noeuds masqués KO visible:false rect 0x0 + iframe cross-origin wizard), 0 FAIL — reports/probes/incomplete-probes.json",
+  "causes_racines": [
+    {
+      "famille": "landmarks (region 631, landmark-one-main 31, page-has-heading-one 28)",
+      "files": [
+        "Glitter main.tmpl : pas de <main> — contenu englobé dans <main id=content> + h1 sr-only",
+        "Config _inc_header_uc/_inc_footer_uc : idem + <main class=container> sur les 14 pages",
+        "wizard index/one/two : <div id=inner> -> <main>",
+        "login/main.tmpl : <div class=account-wall> -> <main> + h1 sr-only",
+        "tooltips Bootstrap montés dans <body> hors landmark -> container '.main-content' (glitter.basic.js + glitter.main.js x2)",
+        "#feedback-slider hors landmark -> role=complementary"
+      ],
+      "occ_couvertes": 690
+    },
+    {
+      "famille": "contrastes (368)",
+      "files": [
+        "glitter.css : --clr-error/--clr-text-muted via light-dark(), .label-danger/.btn-danger #C0392B, .label-warning texte #403000, .label-info #0A3055, .label-default #6E6E6E, .modal-header .close opacity .85, .nav-tabs>a .95, .badge-warning texte blanc, #filelist-showcompleted, #modal-options .tab-pane>h4, fileDetails/progress small #4A4A4A/#5C5C5C",
+        "staticcfg/css/style.css : --clr-error light-dark, liens #2e6da4/#66aaff, labels danger/warning/info",
+        "wizard/static/style.css : .success #148a1c, .failed, #rightGreyText, .btn-danger/.btn-success"
+      ],
+      "occ_couvertes": 368
+    },
+    {
+      "famille": "noms accessibles liens/boutons (link-name 179, button-name 20)",
+      "files": [
+        "plugin tooltip Bootstrap réécrit title->data-original-title et vide le nom accessible -> aria-label explicites miroir des $T() sur tous les liens/boutons icônes (Glitter include_* + Config 9 templates)",
+        "fileBrowser bouton généré : aria-label configTranslate.browseText (staticcfg/js/script.js)",
+        "delFeed/delFilter/delIndexer/queue cogs/help_uri/wizard cogs : aria-labels $T() contextuels"
+      ],
+      "occ_couvertes": 199
+    },
+    {
+      "famille": "contrôles nommés (label 56, select-name 55, label-title-only 1)",
+      "files": [
+        "aria-label $T() sur tous les inputs/selects dépourvus de <label> : config_cat, config_rss, config_nzbsearch, config_sorting, config_server, config_switches, config_general, Glitter filelist/loglevel/nzbsearch-category",
+        "checkbox par fichier : aria-label=filename (attr KO include_overlays)"
+      ],
+      "occ_couvertes": 112
+    },
+    {
+      "famille": "structure (empty-table-header 42, heading-order 25, meta-viewport 44, frame-title 1, aria-allowed-*)",
+      "files": [
+        "th vides -> span.sr-only $T() (config_rss/nzbsearch/categories/sorting/nzbsearch)",
+        "h3->h2 x29 config, h4.modal-title->h3 x14 Glitter + h2 rss, h5.darkred->p.darkred, feedback h4->h2",
+        "meta viewport user-scalable/maximum-scale corrigés (3 templates)",
+        "wizard iframe title $T(wizard-quickstart)",
+        "rss modal <form class=modal role=dialog> -> <div class=modal><form>",
+        "collapse #navbar-collapse aria-expanded retiré par handler jQuery post-transition (glitter.basic.js)"
+      ],
+      "occ_couvertes": 114
+    }
+  ],
+  "hors_perimetre": [
+    "/scriptlog (text/plain, non-HTML -> N-A documenté dans eval-final)",
+    "iframe wizard/one -> sabnzbd.org cross-origin (frame-tested incomplet -> N-A sonde)"
+  ],
+  "notes": [
+    "fix post-baseline non cosmétique : #filebrowser_modal .modal-header h4->h3 cassait le titre écrit en JS -> sélecteur .modal-title corrigé dans staticcfg/js/script.js (assertion rejouée : titre 'Temporary Download Folder')",
+    "classe .disabled retirée du bouton save custom-pause (élément cliquable stylé désactivé = vrai bug UX)",
+    "deux instances SABnzbd peuvent coexister : pgrep ne suffit pas à prouver un kill propre"
+  ],
+  "corrections_post_audit": [
+    {
+      "id": "W1",
+      "origine": "audit indépendant — régression fonctionnelle live",
+      "description": "sed en masse sur name=\"filter_type\" a injecté aria-label DANS les chaînes de sélecteurs jQuery → select[name=\"filter_type\" aria-label=\"...\"] = SyntaxError, bloc ready entier mort (testFeed/cleanFeed/evalFeed/delFilter, tablesort, désactivation filtres).",
+      "correction": "patch.diff : 3 lignes JS révertées aux sélecteurs d'origine select[name=\"filter_type\"] / :not([name=\"filter_type\"]) — aria-label conservé uniquement sur les éléments <select> HTML (lignes 147/220/296 appliquées).",
+      "verifie": "git apply --check OK sur clone propre @a3737b9 ; arbre appliqué grepé : 0 selecteur contenant aria-label"
+    },
+    {
+      "id": "W2",
+      "origine": "audit indépendant — couleurs sous leur propre barre en nuit wizard",
+      "description": ".success #148a1c = 2.94 sur surface nuit #303030, .failed #ff3333 = 3.63 (<4.5) ; textes dynamiques post-test-serveur jamais scannés ; nuit atteignable via $color_scheme Auto→prefers-color-scheme.",
+      "correction": "patch.diff wizard/style.css : .success → light-dark(#0d7a13, #7dd87d) (5.51 blanc / 7.54 #303030 / 5.56 #444444) ; .failed → light-dark(#cc0000, #ff9999) (5.89 blanc / 6.45 #303030 / 4.76 #444444 / 10.27 noir page-bg nuit).",
+      "verifie": "ratios calculés WCAG sRGB sur les variables --clr-surface/--clr-surface-alt/--clr-page-bg du fichier upstream"
+    }
+  ]
 }

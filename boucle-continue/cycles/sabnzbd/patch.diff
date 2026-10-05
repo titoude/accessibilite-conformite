@@ -736,12 +736,12 @@ index 96f86c4..4523384 100644
      // Only the Accept filter needs all the options
 -    jQuery('form[data-form="update-rss-filter"]').find('select[name="filter_type"]').change(function() {
 -        jQuery(this).parent().parent().find('select:not([name="filter_type"])').attr('disabled', jQuery(this).val() !== "A" && jQuery(this).val() !== "S")
-+    jQuery('form[data-form="update-rss-filter"]').find('select[name="filter_type" aria-label="$T('rss-type')"]').change(function() {
-+        jQuery(this).parent().parent().find('select:not([name="filter_type" aria-label="$T('rss-type')"])').attr('disabled', jQuery(this).val() !== "A" && jQuery(this).val() !== "S")
++    jQuery('form[data-form="update-rss-filter"]').find('select[name="filter_type"]').change(function() {
++        jQuery(this).parent().parent().find('select:not([name="filter_type"])').attr('disabled', jQuery(this).val() !== "A" && jQuery(this).val() !== "S")
      })
      // Trigger on-load for all
 -    jQuery('.disabled_options_rule').find('td select:not([name="filter_type"])').attr('disabled', true)
-+    jQuery('.disabled_options_rule').find('td select:not([name="filter_type" aria-label="$T('rss-type')"])').attr('disabled', true)
++    jQuery('.disabled_options_rule').find('td select:not([name="filter_type"])').attr('disabled', true)
  
      function setActiveIcon(objButton) {
          // Let's make it look like things are happening!
@@ -1683,11 +1683,11 @@ index 5bf5106..47bd271 100644
  }
  .success {
 -    color: #00cc22;
-+    color: #148a1c;
++    color: light-dark(#0d7a13, #7dd87d);
  }
  .failed {
 -    color: light-dark(red, #ff3333) !important;
-+    color: light-dark(#cc0000, #ff3333) !important;
++    color: light-dark(#cc0000, #ff9999) !important;
  }
  #rightGreyText {
 -    color: light-dark(#cccccc, #c7c7c7);
