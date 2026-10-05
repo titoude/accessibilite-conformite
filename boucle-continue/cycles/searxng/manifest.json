@@ -1,0 +1,87 @@
+{
+  "cycle": 27,
+  "project": "searxng/searxng",
+  "commit": "d48c4b555421e824342c51d68482dd0898e54d0f",
+  "commit_date": "2026-10-04T08:16:51+02:00",
+  "branch_upstream": "master",
+  "framework": "Flask (Python) + templates Jinja2 + thème 'simple' : client/simple/src (TypeScript + Less) compilé par vite vers searx/static/themes/simple/ (bundle minifié COMMITÉ dans le dépôt — le CSS/JS servi est buildé ; toute correction frontend exige `npm ci && npm run build` dans client/simple puis reload).",
+  "served_source": "Templates Jinja rendus côté serveur (searx/templates/simple/) + assets buildés servis par WhiteNoise depuis searx/static/themes/simple/ (sxng-ltr.min.css, sxng-core.min.js, chunk/*). Pas de SPA : navigations = vraies navigations HTML.",
+  "base_url": "http://localhost:8888",
+  "boot": {
+    "deps": "python3 -m venv .venv && .venv/bin/pip install -r requirements.txt",
+    "run": "SEARXNG_SETTINGS_PATH=./searx/settings.yml SEARXNG_SECRET=<64 hex aléatoire> .venv/bin/python -m searx.webapp  — écoute 127.0.0.1:8888 (server.port/bind_address de searx/settings.yml ; secret_key != 'ultrasecretkey' exigé hors debug, fourni via SEARXNG_SECRET)",
+    "frontend_build": "cd client/simple && npm ci && npm run build (theme_icons.ts + vite build -> ../../searx/static/themes/simple/)",
+    "first_boot_notes": "au démarrage : caches sqlite dans searx/data + chargement des ~200 engines (2 échecs d'import constatés : ahmia, torch — bénin amont), favicons init. Boot ~12 s."
+  },
+  "seed": {
+    "script": null,
+    "content": "aucun : application 100% publique sans état serveur par utilisateur (préférences = cookies navigateur). Les résultats de recherche proviennent des moteurs upstream RÉELS (réseau sortant requis — voir notes).",
+    "determinism": "les comptes de violations sur /search dépendent des résultats renvoyés par les moteurs au moment du run (nb de résultats, présence thumbnails/vidéos/infobox) — familles de règles stables, occurrences indicatives (précédent protocole : baseline sur données variables = compte indicatif)."
+  },
+  "auth": "aucune — aucune route authentifiée dans le produit",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls_file": "tools/urls-public.txt",
+      "urls": [
+        "http://localhost:8888/  (accueil : logo + formulaire de recherche + catégories)",
+        "http://localhost:8888/search?q=test  (résultats général — ~20 résultats live observés)",
+        "http://localhost:8888/search?q=test&categories=images  (grille images, ~81 items observés)",
+        "http://localhost:8888/search?q=test&categories=videos  (résultats vidéos, ~143 items observés)",
+        "http://localhost:8888/search?q=python  (résultats + infobox wikipédia observé)",
+        "http://localhost:8888/search?q=zzqxvbnmxxunlikelyquery  (UI 'No results' + suggestions si moteurs injoignables)",
+        "http://localhost:8888/preferences  (6 sections en onglets : general, ui, privacy, query, cookies, engines + 11 onglets catégories moteurs imbriqués dans engines)",
+        "http://localhost:8888/info/en/about  (page à-propos, cible canonique du redirect /about)",
+        "http://localhost:8888/info/en/search-syntax  (page syntaxe de recherche)",
+        "http://localhost:8888/stats  (stats moteurs, tableau triable)"
+      ],
+      "states": [
+        "autocomplete-open",
+        "preferences-engines-tab",
+        "preferences-category-general-tab",
+        "dark-mode",
+        "mobile-home"
+      ]
+    }
+  ],
+  "excluded": [
+    "/about : 302 -> /info/en/about — l'URL canonique est déclarée dans le scope",
+    "/nonexistent (404.html) : le runner axe considère HTTP>=400 comme 'page non auditée' par design (checkNav) — la page 404 est vérifiée par verify.mjs (h1/main/lien retour) au lieu d'axe",
+    "/autocompleter, /config, /engine_descriptions.json, /stats/errors, /opensearch.xml, /robots.txt, /manifest.json, /favicon.ico, /logo/* : endpoints non-HTML (JSON/XML/image)",
+    "/clear_cookies : action (redirect), pas de contenu",
+    "/image_proxy, /favicon_proxy : nécessitent des URLs signées de résultats",
+    "/healthz, /metrics, /client<token>.css : technique/non-HTML ou désactivé (metrics sans mot de passe -> 404)",
+    "/search en POST / méthode alternative : même template, l'UI est identique au GET",
+    "onglets preferences autres que engines/category_general : le DOM est identique modulo contenu — les états couvrent les 2 familles de panneaux (table moteurs + liste moteurs par catégorie) ; les autres panneaux (ui/privacy/query/cookies/category_*) sont scannés par axe dans le DOM statique uniquement pour les parties non-masquées — limitation documentée (display:none n'entre pas dans l'arbre axe)",
+    "state autocomplete sur la page résultats : même composant que l'accueil"
+  ],
+  "auditCommands": [
+    "cd boucle-continue/cycles/searxng/tools && npm install && npx playwright install chromium",
+    "node audit.mjs http://localhost:8888 --urls \"$(paste -sd, urls-public.txt)\" --states all --wait 1000 --out ../reports/baseline",
+    "node audit.mjs http://localhost:8888 --urls \"$(paste -sd, urls-public.txt)\" --states all --wait 1000 --out ../reports/final",
+    "node verify.mjs http://localhost:8888",
+    "node eval-final.mjs http://localhost:8888",
+    "node incomplete-probes.mjs http://localhost:8888 > ../reports/incomplete-probes.json"
+  ],
+  "wait_rationale": "Pages 100% SSR : le HTML arrive complet à 'load'. --wait 1000 = marge de sédimentation CSS/fonts. Les états portent leurs propres attentes explicites (sélecteurs post-setup). Aucun --wait-for global : la homepage n'a pas de h1 visible en baseline (violation réelle) — attendre 'h1' en baseline serait un timeout artificiel ; la sédimentation passe par --wait.",
+  "toolVersions": {
+    "node": "v24.19.0",
+    "playwright": "^1.55 (npm i du cycle)",
+    "axe-core": "^4.10 (npm i du cycle)",
+    "audit.mjs": "v6 (copie canonique racine + STATES cycle)",
+    "python": "3.12.13",
+    "flask": "3.1.3 (requirements.txt pinné)",
+    "vite": "^8.3.1 (client/simple)"
+  },
+  "notes": [
+    "viewport par défaut du runner 1280x720 ; état mobile-home à 390x844 (pixels CSS Playwright)",
+    "les résultats de recherche exigent le réseau sortant vers les moteurs upstream ; si indisponible, /search rend le template 'no_results' + éventuels messages moteurs — l'UI d'erreur reste auditable et le manifeste documente que les occurrences résultats sont indicatives",
+    "autocomplete-open est déterministe même sans upstream : le handler d'erreur ajoute .open + une ligne 'no item found' (autocomplete.ts)",
+    "dark-mode pose les cookies theme=simple + simple_style=dark puis reload ; mobile-home vide les cookies et passe en 390px — ordre volontaire : mutations de contexte en dernier",
+    "les onglets category_* de /preferences sont un .tabs IMBRIQUÉ dans le panneau engines (invisible tant que l'onglet engines n'est pas actif) — le setup de preferences-category-general-tab clique engines d'abord",
+    "le CSS/JS servi est le bundle buildé commité : les correctifs dans client/simple/src exigent npm run build ; patch.diff transporte les sources + le bundle régénéré (même canal de distribution qu'upstream, qui commit les artefacts buildés)",
+    "EVOLUTION POST-BASELINE des états preferences-* : la baseline a été figée contre le DOM amont (onglets = input[type=radio] cachés + <label role=tab> ; le setup cliquait le label). Le correctif remplace ce mécanisme par des <button role=tab> (pattern APG) : le même état ouvre le même panneau via un click sur le button + attente du panel visible. Ids de scénarios et couverture inchangés ; reports/baseline/scope.json conserve les hash et le code figés — voir scope-compare.json",
+    "install-build : le clone propre tourne sur :8889 (instance auteur sur :8888) — les URLs des rapports install-build sont remappées ; chemins, états et scénarios identiques"
+  ]
+}

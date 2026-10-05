@@ -1,0 +1,32 @@
+install-build — rejoué sur clone propre @d48c4b555421e824342c51d68482dd0898e54d0f (/tmp/searxng-ib)
+
+Commandes verbatim :
+  1. git init /tmp/searxng-ib && git remote add origin https://github.com/searxng/searxng.git
+     git fetch --depth 1 origin d48c4b555421e824342c51d68482dd0898e54d0f && git checkout FETCH_HEAD
+     → OK (rev-parse HEAD = d48c4b555421e824342c51d68482dd0898e54d0f)
+  2. git apply patch.diff -v
+     → OK, 22 fichiers, 0 rejet (incl. rename e2-9fzwE.min.js→CcDbtRuT.min.js, +CcDbtRuT.min.js.map, -e2-9fzwE.min.js.map)
+  3. python3 -m venv .venv && .venv/bin/pip install -q -r requirements.txt
+     → OK
+  4. cd client/simple && npm ci && npm run build
+     → OK — vite build déterministe : searx/static/ octet-identique à l'arbre de travail
+       (diff -rq /tmp/searxng-ib/searx/static ~/work/searxng/searx/static → aucune différence,
+        y compris chunk/CcDbtRuT.min.js et manifest.json)
+  5. sed -i 's/^  port: 8888/  port: 8889/' searx/settings.yml   # instance auteur occupait déjà :8888
+  6. SEARXNG_SETTINGS_PATH=./searx/settings.yml SEARXNG_SECRET=c9e8f7a6b5d4c3e2f1a0b9c8d7e6f5a4 \
+       .venv/bin/python -m searx.webapp
+     → OK — / → 200, /preferences → 200 (2 moteurs hors scope échouent au chargement : ahmia, torch)
+  7. rescan complet audit.mjs (mêmes URLs/états, base remappée http://localhost:8889)
+       node audit.mjs http://localhost:8889 \
+         --urls "$(sed 's/localhost:8888/localhost:8889/' urls-public.txt | paste -sd, -)" \
+         --states all --wait 1000 --out ../reports/install-build
+     → 15/15 scénarios, 0 règle violée, 0 occurrence, 0 erreur, 317 incomplets
+
+VERDICT install-build : PASS
+  - patch transportable par git apply (chunks minifiés inclus via --text)
+  - chaîne de build (npm ci && npm run build) rejouée : sortie identique à l'auditée
+  - 317 incomplets vs 296 sur l'instance auteur : écart entièrement situé sur
+    /search?categories=videos (127 vs 102 nœuds color-contrast) — variance du
+    nombre de résultats vidéo retournés par les moteurs upstream sur instance
+    fraîche ; mêmes classes d'éléments (légendes .title sous vignette,
+    .image_resolution, métadonnées) couvertes par incomplete-probes.mjs.
