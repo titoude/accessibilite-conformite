@@ -1,0 +1,121 @@
+{
+ "cycle": 34,
+ "produit": "stump",
+ "statut_execution": "complet",
+ "target": {
+  "repo": "https://github.com/stumpapp/stump",
+  "sha": "42a9918c1542234aa35dc4250cd00e85f96c7031",
+  "stack": "Rust 1.97 (axum + async-graphql + sea-orm/sqlite) backend + SPA React 19 / TS / Tailwind 4 / Radix UI — monorepo yarn v1, dist servie depuis le disque (client_dir)"
+ },
+ "baseline": {
+  "surfaces": 46,
+  "etats": 0,
+  "violations_occ": 963,
+  "violations_regles": 20,
+  "detail": {
+   "button-name": 344,
+   "color-contrast": 272,
+   "listitem": 180,
+   "aria-allowed-attr": 42,
+   "list": 38,
+   "region": 19,
+   "select-name": 16,
+   "label": 13,
+   "image-alt": 7,
+   "empty-table-header": 6,
+   "aria-valid-attr-value": 6,
+   "landmark-one-main": 4,
+   "aria-input-field-name": 3,
+   "link-name": 3,
+   "empty-heading": 2,
+   "heading-order": 2,
+   "aria-required-parent": 2,
+   "page-has-heading-one": 2,
+   "aria-hidden-focus": 1,
+   "aria-required-children": 1
+  },
+  "public": {
+   "violations_occ": 13,
+   "violations_regles": 4
+  },
+  "erreurs": 0,
+  "incomplets": 119
+ },
+ "final": {
+  "surfaces": 46,
+  "etats": 0,
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": 113,
+  "public": {
+   "violations_occ": 0
+  }
+ },
+ "incomplete_probes": {
+  "sondes": 113,
+  "conformes": 111,
+  "non_conformes": 0,
+  "non_retrouvees": 0,
+  "n_a_honnetes": 2,
+  "detail": "2× h1 transparent (alpha~0, non rendu — honeypot formulaire) ; sondes composites alpha multi-couches (scrim gradient + moyenne pixels <img> via canvas), jamais rgba<1 opaque naïf ; phase-2 pour idrefs lazy-mount Radix (ouverture popup puis re-vérif)"
+ },
+ "final_clean_clone": {
+  "violations_occ": 0,
+  "note": "clone propre @42a9918 + git apply (131 fichiers, 0 rejet) + yarn install --frozen-lockfile + yarn web build → dist servie par 2e instance binaire :11335 → rescan 0 viol public+auth (install-build.log). Binaire Rust réutilisé (patch = 0 .rs touché — honest)."
+ },
+ "verify_mjs": "44/44 assertions",
+ "eval_final_mjs": "38/38 contrôles indépendants (3 N-A honnêtes)",
+ "install_build": "OK — clone propre + apply + yarn + vite build + 2e instance :11335 + rescan 0 viol (install-build.log)",
+ "causes_racines": [
+  {
+   "famille": "noms accessibles boutons-icônes",
+   "files": [
+    "~20 IconButton/Button sans accessible name (header, sidebar, cartes, menus overflow, tables)"
+   ],
+   "fix": "aria-label explicites, jamais en contradiction avec le texte visible (WCAG 2.5.3 : `${visible} — ${label}`)"
+  },
+  {
+   "famille": "structure de listes",
+   "files": [
+    "sidebar nav (ul/li manquants autour de NavLink), cartes series/media (grille div non listée)"
+   ],
+   "fix": "restauration ul>li sémantique + role=list/listitem là où la grille perd la structure"
+  },
+  {
+   "famille": "aria-* invalides",
+   "files": [
+    "EntityHeader/GroupJoiner/SmartListQueryBuilder/MarkdownEditor/SettingsDialog (aria-controls Radix pointant vers contenu lazy non monté), Sheet.tsx (aria-describedby émis sans Description montée), ComboBox.tsx (trigger Popover désactivé gardait aria-controls mort)"
+   ],
+   "fix": "aria-controls={undefined} là où la cible est lazy ; Sheet/ComboBox rendus sans attributs popup quand inopérables"
+  },
+  {
+   "famille": "contraste",
+   "files": [
+    "themes.css variables light, Button primary/80→/90, StackedSeriesCard subtitle text-white/75→/90 + scrim gradient renforcé (mesuré 3.875→≥4.5 via sonde pixels+gradient)"
+   ],
+   "fix": "tokens + alpha fg/bg"
+  },
+  {
+   "famille": "labels de champs",
+   "files": [
+    "Combobox/inputs sans id résolu (resolvedId), sliders, selects custom"
+   ],
+   "fix": "label htmlFor/id cohérents + aria-label fallback"
+  },
+  {
+   "famille": "entêtes vides de tables",
+   "files": [
+    "6 tables EntityTable* (th icon-only vides)"
+   ],
+   "fix": "span sr-only dans les th"
+  },
+  {
+   "famille": "titres/landmarks",
+   "files": [
+    "pages sans h1 (empty-heading/page-has-heading-one), region manquants, main unique"
+   ],
+   "fix": "h1 réels + landmarks"
+  }
+ ]
+}

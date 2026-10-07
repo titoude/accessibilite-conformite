@@ -1,0 +1,2684 @@
+diff --git a/apps/web/dist/.placeholder b/apps/web/dist/.placeholder
+deleted file mode 100644
+index 32f95c0d..00000000
+--- a/apps/web/dist/.placeholder
++++ /dev/null
+@@ -1 +0,0 @@
+-hi
+\ No newline at end of file
+diff --git a/packages/browser/src/components/DirectoryPickerModal.tsx b/packages/browser/src/components/DirectoryPickerModal.tsx
+index 829f6a31..bb49466f 100644
+--- a/packages/browser/src/components/DirectoryPickerModal.tsx
++++ b/packages/browser/src/components/DirectoryPickerModal.tsx
+@@ -94,6 +94,7 @@ export default function DirectoryPickerModal({
+ 							disabled={!canGoBack}
+ 							onClick={goBack}
+ 							variant="ghost"
++							aria-label="Go back"
+ 						>
+ 							<ArrowLeft size="1.25rem" />
+ 						</Button>
+@@ -101,6 +102,7 @@ export default function DirectoryPickerModal({
+ 						{/* TODO: error message display */}
+ 						<Input
+ 							className="h-9.25 line-clamp-1"
++							aria-label="Current path"
+ 							containerClassName="max-w-full"
+ 							// isInvalid={!!errorMessage}
+ 							value={path ?? ''}
+diff --git a/packages/browser/src/components/HorizontalCardList.tsx b/packages/browser/src/components/HorizontalCardList.tsx
+index f954a5c2..863225b7 100644
+--- a/packages/browser/src/components/HorizontalCardList.tsx
++++ b/packages/browser/src/components/HorizontalCardList.tsx
+@@ -92,6 +92,7 @@ export default function HorizontalCardList({
+ 								size="icon"
+ 								disabled={!canSkipBackward}
+ 								onClick={handleSkipBackward}
++								aria-label="Seek backwards"
+ 							>
+ 								<ChevronLeft className="h-4 w-4" />
+ 							</Button>
+@@ -102,6 +103,7 @@ export default function HorizontalCardList({
+ 								size="icon"
+ 								disabled={!canSkipForward}
+ 								onClick={handleSkipAhead}
++								aria-label="Seek ahead"
+ 							>
+ 								<ChevronRight className="h-4 w-4" />
+ 							</Button>
+diff --git a/packages/browser/src/components/MultiRowHorizontalCardList.tsx b/packages/browser/src/components/MultiRowHorizontalCardList.tsx
+index 2c142258..3713290d 100644
+--- a/packages/browser/src/components/MultiRowHorizontalCardList.tsx
++++ b/packages/browser/src/components/MultiRowHorizontalCardList.tsx
+@@ -109,6 +109,7 @@ export default function MultiRowHorizontalCardList<T>({
+ 								size="icon"
+ 								disabled={!canSkipBackward}
+ 								onClick={handleSkipBackward}
++								aria-label="Seek backwards"
+ 							>
+ 								<ChevronLeft className="h-4 w-4" />
+ 							</Button>
+@@ -119,6 +120,7 @@ export default function MultiRowHorizontalCardList<T>({
+ 								size="icon"
+ 								disabled={!canSkipForward}
+ 								onClick={handleSkipAhead}
++								aria-label="Seek ahead"
+ 							>
+ 								<ChevronRight className="h-4 w-4" />
+ 							</Button>
+diff --git a/packages/browser/src/components/Pagination.tsx b/packages/browser/src/components/Pagination.tsx
+index 6edc9e72..507cd4e3 100644
+--- a/packages/browser/src/components/Pagination.tsx
++++ b/packages/browser/src/components/Pagination.tsx
+@@ -166,7 +166,10 @@ export default function Pagination({
+ 									onPageChange={handleEllipsisNavigate}
+ 									trigger={
+ 										<div className="-mt-1">
+-											<button className="px-4 pt-4 text-xs font-medium md:text-sm flex items-center border-t-2 border-transparent text-muted-foreground hover:border-border focus:outline-none">
++											<button
++												className="px-4 pt-4 text-xs font-medium md:text-sm flex items-center border-t-2 border-transparent text-muted-foreground hover:border-border focus:outline-none"
++												aria-label="Go to page"
++											>
+ 												<MoreHorizontal className="h-4 w-4" />
+ 											</button>
+ 										</div>
+diff --git a/packages/browser/src/components/TableOrGridLayout.tsx b/packages/browser/src/components/TableOrGridLayout.tsx
+index b403a6fc..5ad00699 100644
+--- a/packages/browser/src/components/TableOrGridLayout.tsx
++++ b/packages/browser/src/components/TableOrGridLayout.tsx
+@@ -17,6 +17,7 @@ export default function TableOrGridLayout({ layout, setLayout }: Props) {
+ 					className="hover:bg-accent"
+ 					onClick={() => setLayout(InterfaceLayout.Grid)}
+ 					disabled={layout === InterfaceLayout.Grid}
++					aria-label="Grid view"
+ 				>
+ 					<LayoutGrid className="h-4 w-4" />
+ 				</IconButton>
+@@ -29,6 +30,7 @@ export default function TableOrGridLayout({ layout, setLayout }: Props) {
+ 					className="hover:bg-accent"
+ 					onClick={() => setLayout(InterfaceLayout.Table)}
+ 					disabled={layout === InterfaceLayout.Table}
++					aria-label="Table view"
+ 				>
+ 					<Table className="h-4 w-4" />
+ 				</IconButton>
+diff --git a/packages/browser/src/components/TagSelect.tsx b/packages/browser/src/components/TagSelect.tsx
+index 97f1e078..c31b04b3 100644
+--- a/packages/browser/src/components/TagSelect.tsx
++++ b/packages/browser/src/components/TagSelect.tsx
+@@ -74,7 +74,7 @@ export default function TagSelect({ label, description, selected = [], onChange
+ 
+ 	return (
+ 		<ComboBox
+-			label={label ?? 'Tags'}
++			label={label || 'Tags'}
+ 			description={description}
+ 			options={options}
+ 			value={[...selected].sort((a, b) => a.label.localeCompare(b.label)).map(({ value }) => value)}
+diff --git a/packages/browser/src/components/UserMenu.tsx b/packages/browser/src/components/UserMenu.tsx
+index afee20ba..a9521ac4 100644
+--- a/packages/browser/src/components/UserMenu.tsx
++++ b/packages/browser/src/components/UserMenu.tsx
+@@ -41,9 +41,10 @@ export default function UserMenu({ variant = 'sidebar' }: Props) {
+ 
+ 			<AutoSizer style={{ height: '2.25rem', width: isSidebar ? '100%' : '2.25rem' }}>
+ 				{({ width }) => (
+-					<Dropdown open={isOpen} onOpenChange={setIsOpen} modal>
++					<Dropdown open={isOpen} onOpenChange={setIsOpen} modal={false}>
+ 						<Dropdown.Trigger asChild>
+-							<div
++							<button
++								type="button"
+ 								className={cn(
+ 									'h-9 flex w-full cursor-pointer items-center border border-transparent transition-all duration-150',
+ 									{ 'px-2 rounded-md': isSidebar },
+@@ -73,7 +74,7 @@ export default function UserMenu({ variant = 'sidebar' }: Props) {
+ 										{user.username}
+ 									</Text>
+ 								)}
+-							</div>
++							</button>
+ 						</Dropdown.Trigger>
+ 
+ 						<Dropdown.Content
+@@ -85,7 +86,7 @@ export default function UserMenu({ variant = 'sidebar' }: Props) {
+ 							style={{ width: isSidebar ? width : 'auto' }}
+ 						>
+ 							<Dropdown.Group>
+-								<Dropdown.Item disabled className={cn(itemClasses(isSidebar), 'opacity-40')}>
++								<Dropdown.Item disabled className={itemClasses(isSidebar)}>
+ 									<Bell className="mr-1.5 h-4 w-4" />
+ 									Notifications
+ 								</Dropdown.Item>
+diff --git a/packages/browser/src/components/book/metadata/MediaMetadataEditor.tsx b/packages/browser/src/components/book/metadata/MediaMetadataEditor.tsx
+index d816b336..ed905404 100644
+--- a/packages/browser/src/components/book/metadata/MediaMetadataEditor.tsx
++++ b/packages/browser/src/components/book/metadata/MediaMetadataEditor.tsx
+@@ -130,6 +130,7 @@ export default function MediaMetadataEditor({ mediaId, data }: Props) {
+ 							<CheckBox
+ 								checked={table.getIsSomeRowsExpanded()}
+ 								onClick={() => setShowMissing((prev) => !prev)}
++								aria-label="Missing"
+ 							/>
+ 
+ 							<span className="ml-2">Missing</span>
+@@ -147,7 +148,7 @@ export default function MediaMetadataEditor({ mediaId, data }: Props) {
+ 				enableResizing: true,
+ 			}),
+ 			columnHelper.accessor('field', {
+-				header: () => null,
++				header: () => <span className="sr-only">Value</span>,
+ 				cell: (info) =>
+ 					match(info.getValue())
+ 						.with(
+diff --git a/packages/browser/src/components/book/table/CoverImageCell.tsx b/packages/browser/src/components/book/table/CoverImageCell.tsx
+index d7f079a3..cae6ebb4 100644
+--- a/packages/browser/src/components/book/table/CoverImageCell.tsx
++++ b/packages/browser/src/components/book/table/CoverImageCell.tsx
+@@ -53,6 +53,7 @@ export default function CoverImageCell({ url, title }: Props) {
+ 		<div className="h-14 flex w-auto items-center justify-center">
+ 			<EntityImage
+ 				title={title}
++				alt={title ?? ''}
+ 				className="h-14 w-auto rounded-md object-cover p-px"
+ 				style={{ aspectRatio: thumbnailRatio }}
+ 				src={url}
+diff --git a/packages/browser/src/components/book/table/columns.tsx b/packages/browser/src/components/book/table/columns.tsx
+index 9bd78db4..da65124b 100644
+--- a/packages/browser/src/components/book/table/columns.tsx
++++ b/packages/browser/src/components/book/table/columns.tsx
+@@ -44,7 +44,7 @@ const coverColumn = columnHelper.display({
+ 		<CoverImageCell url={book.thumbnail.url} title={book.resolvedName} />
+ 	),
+ 	enableGlobalFilter: true,
+-	header: () => null,
++	header: () => <span className="sr-only">Actions</span>,
+ 	id: 'cover',
+ 	size: 40,
+ })
+diff --git a/packages/browser/src/components/bookClub/books/BookClubBookItem.tsx b/packages/browser/src/components/bookClub/books/BookClubBookItem.tsx
+index ce53098d..a3056e30 100644
+--- a/packages/browser/src/components/bookClub/books/BookClubBookItem.tsx
++++ b/packages/browser/src/components/bookClub/books/BookClubBookItem.tsx
+@@ -111,17 +111,18 @@ export default function BookClubBookItem({ data }: Props) {
+ 
+ 		const ImageComponent = !book.entity ? 'img' : EntityImage
+ 
++		const link = details?.url
++		const isExternal = !book.entity
++		const heading = details?.title ?? 'Untitled'
++		const author = details?.author
++
+ 		const image = details?.imageUrl ? (
+-			<ImageComponent src={details.imageUrl} className="rounded-md object-cover" />
++			<ImageComponent src={details.imageUrl} className="rounded-md object-cover" alt={heading} />
+ 		) : (
+ 			<div className="flex h-full w-full items-center justify-center rounded-md border border-border/80 bg-muted/50">
+ 				<Book className="h-10 w-10 text-muted-foreground" />
+ 			</div>
+ 		)
+-		const link = details?.url
+-		const isExternal = !book.entity
+-		const heading = details?.title ?? 'Untitled'
+-		const author = details?.author
+ 
+ 		return (
+ 			<div className="flex items-start justify-between">
+diff --git a/packages/browser/src/components/container/GridSizeSlider.tsx b/packages/browser/src/components/container/GridSizeSlider.tsx
+index e28aa96b..47778885 100644
+--- a/packages/browser/src/components/container/GridSizeSlider.tsx
++++ b/packages/browser/src/components/container/GridSizeSlider.tsx
+@@ -22,6 +22,7 @@ export function GridSizeSlider() {
+ 		<div className="gap-2 flex items-center">
+ 			<LayoutGrid className="h-4 w-4 text-muted-foreground" />
+ 			<Slider
++				aria-label="Grid density"
+ 				value={[currentIndex]}
+ 				onValueChange={handleValueChange}
+ 				max={availableDensities.length - 1}
+diff --git a/packages/browser/src/components/entity/EntityCard.tsx b/packages/browser/src/components/entity/EntityCard.tsx
+index 3afd97d7..82b03afb 100644
+--- a/packages/browser/src/components/entity/EntityCard.tsx
++++ b/packages/browser/src/components/entity/EntityCard.tsx
+@@ -151,6 +151,7 @@ export default function EntityCard({
+ 			return (
+ 				<EntityImage
+ 					src={imageUrl}
++					alt={typeof title === 'string' ? title : ''}
+ 					className={cn('h-full w-full object-cover')}
+ 					onError={(e) => {
+ 						console.error('Failed to load image:', e)
+diff --git a/packages/browser/src/components/explorer/FileExplorerNavigation.tsx b/packages/browser/src/components/explorer/FileExplorerNavigation.tsx
+index 0336cb0c..afafcc58 100644
+--- a/packages/browser/src/components/explorer/FileExplorerNavigation.tsx
++++ b/packages/browser/src/components/explorer/FileExplorerNavigation.tsx
+@@ -8,11 +8,11 @@ export default function FileExplorerNavigation() {
+ 
+ 	return (
+ 		<div className="m-0 gap-1 flex shrink-0 items-center">
+-			<IconButton variant="ghost" size="sm" onClick={goBack} disabled={!canGoBack}>
++			<IconButton variant="ghost" size="sm" onClick={goBack} disabled={!canGoBack} aria-label="Go back">
+ 				<ChevronLeft />
+ 			</IconButton>
+ 
+-			<IconButton variant="ghost" size="sm" onClick={goForward} disabled={!canGoForward}>
++			<IconButton variant="ghost" size="sm" onClick={goForward} disabled={!canGoForward} aria-label="Go forward">
+ 				<ChevronRight />
+ 			</IconButton>
+ 		</div>
+diff --git a/packages/browser/src/components/explorer/FileThumbnail.tsx b/packages/browser/src/components/explorer/FileThumbnail.tsx
+index 7e4fe626..12ed01dd 100644
+--- a/packages/browser/src/components/explorer/FileThumbnail.tsx
++++ b/packages/browser/src/components/explorer/FileThumbnail.tsx
+@@ -80,6 +80,7 @@ export default function FileThumbnail({ path, isDirectory, thumbSize, containerC
+ 			>
+ 				<EntityImage
+ 					className="max-h-full max-w-full rounded-sm object-contain"
++					alt={book.resolvedName}
+ 					src={book.thumbnail.url}
+ 					onError={() => setFailedThumbnailUrl(book.thumbnail.url)}
+ 				/>
+diff --git a/packages/browser/src/components/explorer/LayoutButtons.tsx b/packages/browser/src/components/explorer/LayoutButtons.tsx
+index 1032f23a..5d710a02 100644
+--- a/packages/browser/src/components/explorer/LayoutButtons.tsx
++++ b/packages/browser/src/components/explorer/LayoutButtons.tsx
+@@ -19,6 +19,7 @@ export default function LayoutButtons() {
+ 							: 'text-muted-foreground hover:bg-muted hover:text-foreground',
+ 					)}
+ 					onClick={() => setLayout('grid')}
++					aria-label="Grid view"
+ 				>
+ 					<Grid2X2 className="h-3.5 w-3.5" />
+ 				</IconButton>
+@@ -35,6 +36,7 @@ export default function LayoutButtons() {
+ 							: 'text-muted-foreground hover:bg-muted hover:text-foreground',
+ 					)}
+ 					onClick={() => setLayout('table')}
++					aria-label="Table view"
+ 				>
+ 					<Table className="h-3.5 w-3.5" />
+ 				</IconButton>
+diff --git a/packages/browser/src/components/filters/Search.tsx b/packages/browser/src/components/filters/Search.tsx
+index 62e07ccf..c82f08ff 100644
+--- a/packages/browser/src/components/filters/Search.tsx
++++ b/packages/browser/src/components/filters/Search.tsx
+@@ -105,6 +105,7 @@ export default function Search({
+ 					value={value}
+ 					onChange={(e) => setValue(e.target.value)}
+ 					onBlur={handleBlur}
++					aria-label={placeholder || 'Search'}
+ 					placeholder={placeholder || 'Search'}
+ 					disabled={isDisabled}
+ 					className="pr-8 text-sm h-full w-full bg-transparent text-foreground outline-none placeholder:text-muted-foreground"
+diff --git a/packages/browser/src/components/filters/URLFilterDrawer.tsx b/packages/browser/src/components/filters/URLFilterDrawer.tsx
+index 609e5068..115025c7 100644
+--- a/packages/browser/src/components/filters/URLFilterDrawer.tsx
++++ b/packages/browser/src/components/filters/URLFilterDrawer.tsx
+@@ -58,6 +58,7 @@ export default function URLFilterDrawer({ entity }: Props) {
+ 							size="sm"
+ 							className="hover:bg-accent"
+ 							onClick={() => setIsOpen(true)}
++							aria-label="Configure filters"
+ 						>
+ 							<ListFilter className="h-4 w-4" />
+ 						</IconButton>
+diff --git a/packages/browser/src/components/filters/URLOrdering.tsx b/packages/browser/src/components/filters/URLOrdering.tsx
+index 53446f3e..6967e72d 100644
+--- a/packages/browser/src/components/filters/URLOrdering.tsx
++++ b/packages/browser/src/components/filters/URLOrdering.tsx
+@@ -43,7 +43,7 @@ export default function URLOrdering({ entity }: Props) {
+ 		<Popover onOpenChange={setIsOpen} open={isOpen}>
+ 			<ToolTip content="Configure ordering" size="sm" isDisabled={isOpen}>
+ 				<Popover.Trigger asChild>
+-					<IconButton variant="ghost" size="sm" className="hover:bg-accent">
++					<IconButton variant="ghost" size="sm" className="hover:bg-accent" aria-label="Configure ordering">
+ 						<ArrowUpDown className="h-4 w-4" />
+ 					</IconButton>
+ 				</Popover.Trigger>
+diff --git a/packages/browser/src/components/filters/URLPageSize.tsx b/packages/browser/src/components/filters/URLPageSize.tsx
+index 52967066..4753b0ad 100644
+--- a/packages/browser/src/components/filters/URLPageSize.tsx
++++ b/packages/browser/src/components/filters/URLPageSize.tsx
+@@ -31,6 +31,7 @@ export default function URLPageSize() {
+ 			<Input
+ 				type="number"
+ 				size="sm"
++				aria-label="Items per page"
+ 				className="h-7 w-7 p-0 text-xs sm:h-6 sm:w-6 [appearance:textfield] text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+ 				value={inputPageSize ?? ''}
+ 				onChange={handleInputChange}
+diff --git a/packages/browser/src/components/filters/URLPagination.tsx b/packages/browser/src/components/filters/URLPagination.tsx
+index 87bd3367..e0c7ccc8 100644
+--- a/packages/browser/src/components/filters/URLPagination.tsx
++++ b/packages/browser/src/components/filters/URLPagination.tsx
+@@ -69,6 +69,7 @@ export default function URLPagination({ pages, currentPage, onChangePage, onPref
+ 					size="sm"
+ 					className="h-7 w-7 p-0 text-xs sm:h-6 sm:w-6 [appearance:textfield] text-center [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+ 					disabled={pages <= 1}
++					aria-label="Page number"
+ 					value={inputPage ?? ''}
+ 					onChange={handleInputChange}
+ 					onBlur={handleInputBlur}
+@@ -87,6 +88,7 @@ export default function URLPagination({ pages, currentPage, onChangePage, onPref
+ 						disabled={currentPage <= 1}
+ 						onClick={handlePreviousPage}
+ 						onMouseEnter={handlePrefetchPreviousPage}
++						aria-label="Previous page"
+ 					>
+ 						<ChevronLeft className="h-4 w-4" />
+ 					</IconButton>
+@@ -99,6 +101,7 @@ export default function URLPagination({ pages, currentPage, onChangePage, onPref
+ 						disabled={currentPage >= pages}
+ 						onClick={handleNextPage}
+ 						onMouseEnter={handlePrefetchNextPage}
++						aria-label="Next page"
+ 					>
+ 						<ChevronRight className="h-4 w-4" />
+ 					</IconButton>
+diff --git a/packages/browser/src/components/filters/form/AgeRatingFilter.tsx b/packages/browser/src/components/filters/form/AgeRatingFilter.tsx
+index 14e2c682..f52c0d9f 100644
+--- a/packages/browser/src/components/filters/form/AgeRatingFilter.tsx
++++ b/packages/browser/src/components/filters/form/AgeRatingFilter.tsx
+@@ -70,6 +70,7 @@ export default function AgeRatingFilter({ variant = 'media' }: Props) {
+ 					<fieldset className="gap-2 flex items-start justify-end" disabled={selection === null}>
+ 						<Input
+ 							type="number"
++							aria-label={t('mediaFilterForm.ageRatingFilter.custom.inputLabel')}
+ 							placeholder={localAgeRating?.toString() ?? '8'}
+ 							{...register}
+ 							onChange={(e) => {
+diff --git a/packages/browser/src/components/filters/form/OrderBySelect.tsx b/packages/browser/src/components/filters/form/OrderBySelect.tsx
+index 84ca7eae..e4bb169a 100644
+--- a/packages/browser/src/components/filters/form/OrderBySelect.tsx
++++ b/packages/browser/src/components/filters/form/OrderBySelect.tsx
+@@ -60,6 +60,7 @@ export default function OrderBySelect({ entity, value, onChange }: Props) {
+ 				Order by
+ 			</Label>
+ 			<NativeSelect
++				id="orderBy"
+ 				options={entityOptions}
+ 				emptyOption={{ label: 'Select an option', value: '' }}
+ 				value={value}
+diff --git a/packages/browser/src/components/library/createOrUpdate/sections/BasicLibraryInformation.tsx b/packages/browser/src/components/library/createOrUpdate/sections/BasicLibraryInformation.tsx
+index be93659c..6ca6b1af 100644
+--- a/packages/browser/src/components/library/createOrUpdate/sections/BasicLibraryInformation.tsx
++++ b/packages/browser/src/components/library/createOrUpdate/sections/BasicLibraryInformation.tsx
+@@ -67,6 +67,7 @@ export default function BasicLibraryInformation({ onSetShowDirectoryPicker }: Pr
+ 									type="button"
+ 									variant="ghost"
+ 									size="icon-xs"
++									aria-label="Browse directories"
+ 									onClick={() => onSetShowDirectoryPicker(true)}
+ 								>
+ 									<Folder className="h-4 w-4 text-muted-foreground" />
+diff --git a/packages/browser/src/components/library/createOrUpdate/sections/DefaultReadingSettings.tsx b/packages/browser/src/components/library/createOrUpdate/sections/DefaultReadingSettings.tsx
+index a3f5d268..61ad560a 100644
+--- a/packages/browser/src/components/library/createOrUpdate/sections/DefaultReadingSettings.tsx
++++ b/packages/browser/src/components/library/createOrUpdate/sections/DefaultReadingSettings.tsx
+@@ -15,6 +15,7 @@ export default function DefaultReadingSettings() {
+ 				<div className="gap-2 flex flex-col">
+ 					<Label>{t(getKey('imageScaling.label'))}</Label>
+ 					<NativeSelect
++						aria-label={t(getKey('imageScaling.label'))}
+ 						options={[
+ 							{ label: 'Auto', value: 'AUTO' },
+ 							{ label: 'Height', value: 'HEIGHT' },
+@@ -31,6 +32,7 @@ export default function DefaultReadingSettings() {
+ 				<div className="gap-2 flex flex-col">
+ 					<Label>{t(getKey('readingDirection.label'))}</Label>
+ 					<NativeSelect
++						aria-label={t(getKey('readingDirection.label'))}
+ 						options={[
+ 							{ label: 'Left to right', value: 'LTR' },
+ 							{ label: 'Right to left', value: 'RTL' },
+@@ -46,6 +48,7 @@ export default function DefaultReadingSettings() {
+ 			<div className="gap-2 md:w-2/3 flex flex-col">
+ 				<Label>{t(getKey('readingMode.label'))}</Label>
+ 				<NativeSelect
++					aria-label={t(getKey('readingMode.label'))}
+ 					options={[
+ 						{ label: 'Vertical scroll', value: 'CONTINUOUS_VERTICAL' },
+ 						{ label: 'Horizontal scroll', value: 'CONTINUOUS_HORIZONTAL' },
+diff --git a/packages/browser/src/components/library/createOrUpdate/sections/LibraryType.tsx b/packages/browser/src/components/library/createOrUpdate/sections/LibraryType.tsx
+index 3d7351df..0ad7f211 100644
+--- a/packages/browser/src/components/library/createOrUpdate/sections/LibraryType.tsx
++++ b/packages/browser/src/components/library/createOrUpdate/sections/LibraryType.tsx
+@@ -14,6 +14,7 @@ export default function LibraryTypeSelect() {
+ 		<div className="gap-2 flex flex-col">
+ 			<Label>{t(getKey('label'))}</Label>
+ 			<NativeSelect
++				aria-label={t(getKey('label'))}
+ 				options={OPTIONS.map((option) => ({
+ 					value: option,
+ 					label: t(getKey(`options.${option}`)),
+diff --git a/packages/browser/src/components/library/createOrUpdate/sections/ThumbnailConfig.tsx b/packages/browser/src/components/library/createOrUpdate/sections/ThumbnailConfig.tsx
+index 4e9ddc0d..0ab111a3 100644
+--- a/packages/browser/src/components/library/createOrUpdate/sections/ThumbnailConfig.tsx
++++ b/packages/browser/src/components/library/createOrUpdate/sections/ThumbnailConfig.tsx
+@@ -152,6 +152,7 @@ export default function ThumbnailConfigForm() {
+ 						<div className="gap-1.5 lg:max-w-sm grid w-full items-center">
+ 							<Label>{t(getKey('resizeMethod.label'))}</Label>
+ 							<NativeSelect
++								aria-label={t(getKey('resizeMethod.label'))}
+ 								options={[
+ 									{
+ 										label: t(getKey('resizeMethod.options.scaleEvenlyByFactor')),
+@@ -177,6 +178,7 @@ export default function ThumbnailConfigForm() {
+ 								<div className="gap-2 flex flex-col">
+ 									<Label>{t(getKey('scaleEvenlyByFactor.factor.label'))}</Label>
+ 									<Input
++										aria-label={t(getKey('scaleEvenlyByFactor.factor.label'))}
+ 										placeholder="0.65"
+ 										{...form.register('thumbnailConfig.resizeMethod.factor', {
+ 											valueAsNumber: true,
+@@ -223,6 +225,7 @@ export default function ThumbnailConfigForm() {
+ 								<div className="gap-2 lg:max-w-xs grid w-full items-center">
+ 									<Label>{t(getKey('scaleDimension.dimension.label'))}</Label>
+ 									<NativeSelect
++										aria-label={t(getKey('scaleDimension.dimension.label'))}
+ 										options={[
+ 											{
+ 												label: t(getKey('scaleDimension.dimension.options.width')),
+@@ -259,6 +262,7 @@ export default function ThumbnailConfigForm() {
+ 								{t(getKey('format.label'))}
+ 							</Label>
+ 							<NativeSelect
++								aria-label={t(getKey('format.label'))}
+ 								options={formatOptions}
+ 								disabled={!enabled}
+ 								{...form.register('thumbnailConfig.format')}
+diff --git a/packages/browser/src/components/markdown/MarkdownEditor.tsx b/packages/browser/src/components/markdown/MarkdownEditor.tsx
+index 05a9a8cf..bf5570d5 100644
+--- a/packages/browser/src/components/markdown/MarkdownEditor.tsx
++++ b/packages/browser/src/components/markdown/MarkdownEditor.tsx
+@@ -52,11 +52,11 @@ export default function MarkdownEditor({ initialState = 'writing', initialConten
+ 			<header className="flex w-full items-center justify-between">
+ 				<Tabs value={writingState} variant="primary" activeOnHover>
+ 					<Tabs.List className="border-none">
+-						<Tabs.Trigger value="writing" asChild onClick={changeHandler('writing')}>
++						<Tabs.Trigger aria-controls={undefined} value="writing" asChild onClick={changeHandler('writing')}>
+ 							<Text className="cursor-pointer truncate">Write</Text>
+ 						</Tabs.Trigger>
+ 
+-						<Tabs.Trigger
++						<Tabs.Trigger aria-controls={undefined}
+ 							value="preview"
+ 							asChild
+ 							onClick={changeHandler('preview')}
+diff --git a/packages/browser/src/components/metadata/metadataEditor/AddFieldsDialog.tsx b/packages/browser/src/components/metadata/metadataEditor/AddFieldsDialog.tsx
+index dd65ccb9..d3e2de40 100644
+--- a/packages/browser/src/components/metadata/metadataEditor/AddFieldsDialog.tsx
++++ b/packages/browser/src/components/metadata/metadataEditor/AddFieldsDialog.tsx
+@@ -35,7 +35,7 @@ export default function AddFieldsDialog<Field extends string>({ binding, onSave
+ 	return (
+ 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+ 			<Dialog.Trigger asChild>
+-				<Button size="icon" variant="secondary" className="ml-2 h-5 w-5">
++				<Button size="icon" variant="secondary" className="ml-2 h-5 w-5" aria-label="Add fields">
+ 					<Plus className="h-4 w-4" />
+ 				</Button>
+ 			</Dialog.Trigger>
+diff --git a/packages/browser/src/components/metadata/metadataMatching/reviewDialog/CandidateToolbar.tsx b/packages/browser/src/components/metadata/metadataMatching/reviewDialog/CandidateToolbar.tsx
+index 6704b7ce..ef5ba6fc 100644
+--- a/packages/browser/src/components/metadata/metadataMatching/reviewDialog/CandidateToolbar.tsx
++++ b/packages/browser/src/components/metadata/metadataMatching/reviewDialog/CandidateToolbar.tsx
+@@ -28,6 +28,7 @@ export function CandidateToolbar() {
+ 					className="h-7 w-7"
+ 					disabled={currentCandidateIndex === 0}
+ 					onClick={prevCandidate}
++					aria-label="Previous candidate"
+ 				>
+ 					<ChevronLeft className="h-4 w-4" />
+ 				</Button>
+@@ -38,6 +39,7 @@ export function CandidateToolbar() {
+ 					className="h-7 w-7"
+ 					disabled={currentCandidateIndex >= candidates.length - 1}
+ 					onClick={nextCandidate}
++					aria-label="Next candidate"
+ 				>
+ 					<ChevronRight className="h-4 w-4" />
+ 				</Button>
+diff --git a/packages/browser/src/components/metadata/metadataMatching/reviewDialog/ReviewDialogFooter.tsx b/packages/browser/src/components/metadata/metadataMatching/reviewDialog/ReviewDialogFooter.tsx
+index c266de4a..93a0e8a2 100644
+--- a/packages/browser/src/components/metadata/metadataMatching/reviewDialog/ReviewDialogFooter.tsx
++++ b/packages/browser/src/components/metadata/metadataMatching/reviewDialog/ReviewDialogFooter.tsx
+@@ -23,6 +23,7 @@ export function ReviewDialogFooter() {
+ 						className="h-7 w-7"
+ 						disabled={currentRecordIndex === 0}
+ 						onClick={prevRecord}
++						aria-label="Previous record"
+ 					>
+ 						<ArrowLeft className="h-4 w-4" />
+ 					</Button>
+@@ -35,6 +36,7 @@ export function ReviewDialogFooter() {
+ 						className="h-7 w-7"
+ 						disabled={currentRecordIndex >= records.length - 1}
+ 						onClick={nextRecord}
++						aria-label="Next record"
+ 					>
+ 						<ArrowRight className="h-4 w-4" />
+ 					</Button>
+diff --git a/packages/browser/src/components/navigation/mobile/MobileSheet.tsx b/packages/browser/src/components/navigation/mobile/MobileSheet.tsx
+index 458d5749..82fd964d 100644
+--- a/packages/browser/src/components/navigation/mobile/MobileSheet.tsx
++++ b/packages/browser/src/components/navigation/mobile/MobileSheet.tsx
+@@ -20,7 +20,7 @@ export default function MobileSheet() {
+ 			size="xl"
+ 			title={<UserMenu />}
+ 			trigger={
+-				<IconButton variant="ghost" onClick={() => setOpen(true)}>
++				<IconButton variant="ghost" aria-label="Open navigation menu" onClick={() => setOpen(true)}>
+ 					<Menu className="h-5 w-5" />
+ 				</IconButton>
+ 			}
+diff --git a/packages/browser/src/components/navigation/mobile/MobileTopBar.tsx b/packages/browser/src/components/navigation/mobile/MobileTopBar.tsx
+index 983223cd..ce38200c 100644
+--- a/packages/browser/src/components/navigation/mobile/MobileTopBar.tsx
++++ b/packages/browser/src/components/navigation/mobile/MobileTopBar.tsx
+@@ -19,7 +19,7 @@ export default function TopBar() {
+ 				</div>
+ 				<div className="gap-2 col-span-6 flex h-full items-center justify-center">
+ 					<Link to="/" className="gap-2 flex shrink-0 items-center justify-start">
+-						<img src="/assets/favicon.ico" className="h-6 w-6 object-scale-down" />
++						<img src="/assets/favicon.ico" className="h-6 w-6 object-scale-down" alt="" />
+ 						<Heading variant="gradient" size="xs">
+ 							Stump
+ 						</Heading>
+diff --git a/packages/browser/src/components/navigation/mobile/NavigationButtons.tsx b/packages/browser/src/components/navigation/mobile/NavigationButtons.tsx
+index 07a44eca..bfb7a3aa 100644
+--- a/packages/browser/src/components/navigation/mobile/NavigationButtons.tsx
++++ b/packages/browser/src/components/navigation/mobile/NavigationButtons.tsx
+@@ -29,13 +29,13 @@ export default function NavigationButtons() {
+ 	return (
+ 		<div className="m-0 gap-1 md:flex hidden items-center">
+ 			<ToolTip content="Navigate back" size="xs">
+-				<IconButton variant="ghost" size="sm" onClick={navigateBackward}>
++				<IconButton variant="ghost" size="sm" aria-label="Navigate back" onClick={navigateBackward}>
+ 					<ChevronLeft size="0.75rem" />
+ 				</IconButton>
+ 			</ToolTip>
+ 
+ 			<ToolTip content="Navigate forward" size="xs">
+-				<IconButton variant="ghost" size="sm" onClick={navigateForward}>
++				<IconButton variant="ghost" size="sm" aria-label="Navigate forward" onClick={navigateForward}>
+ 					<ChevronRight size="0.75rem" />
+ 				</IconButton>
+ 			</ToolTip>
+diff --git a/packages/browser/src/components/navigation/sidebar/Settings.tsx b/packages/browser/src/components/navigation/sidebar/Settings.tsx
+index a8930848..3fe3c153 100644
+--- a/packages/browser/src/components/navigation/sidebar/Settings.tsx
++++ b/packages/browser/src/components/navigation/sidebar/Settings.tsx
+@@ -21,6 +21,7 @@ export default function SettingsButton() {
+ 						? 'border-sidebar-border bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground'
+ 						: 'hover:border-sidebar-border hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',
+ 				)}
++				aria-label="Go to settings"
+ 				onClick={() => navigate(paths.settings())}
+ 			>
+ 				<Settings className="h-4 w-4 -scale-x-[1] transform" />
+diff --git a/packages/browser/src/components/navigation/sidebar/sections/SectionEmptyMessage.tsx b/packages/browser/src/components/navigation/sidebar/sections/SectionEmptyMessage.tsx
+index 3738eb0f..5eac8b43 100644
+--- a/packages/browser/src/components/navigation/sidebar/sections/SectionEmptyMessage.tsx
++++ b/packages/browser/src/components/navigation/sidebar/sections/SectionEmptyMessage.tsx
+@@ -6,9 +6,9 @@ type Props = {
+ 
+ export function SectionEmptyMessage({ message }: Props) {
+ 	return (
+-		<NewCard className="opacity-50">
++		<NewCard>
+ 			<NewCard.Row className="px-2 py-4 justify-center">
+-				<Text className="select-none" size="sm">
++				<Text className="select-none text-muted-foreground" size="sm">
+ 					{message}
+ 				</Text>
+ 			</NewCard.Row>
+diff --git a/packages/browser/src/components/navigation/sidebar/sections/bookClub/BookClubSideBarSection.tsx b/packages/browser/src/components/navigation/sidebar/sections/bookClub/BookClubSideBarSection.tsx
+index 81f699e6..b01d5981 100644
+--- a/packages/browser/src/components/navigation/sidebar/sections/bookClub/BookClubSideBarSection.tsx
++++ b/packages/browser/src/components/navigation/sidebar/sections/bookClub/BookClubSideBarSection.tsx
+@@ -93,7 +93,7 @@ export default function BookClubSideBarSection({
+ 				<Accordion.Trigger
+ 					noUnderline
+ 					asLabel
+-					className="px-1 py-1 text-sm font-medium tracking-wide text-muted-foreground"
++					className="px-1 py-1 text-sm font-medium tracking-wide text-sidebar-foreground"
+ 				>
+ 					{t('sidebar.buttons.bookClubs')}
+ 				</Accordion.Trigger>
+diff --git a/packages/browser/src/components/navigation/sidebar/sections/library/LibraryOptionsMenu.tsx b/packages/browser/src/components/navigation/sidebar/sections/library/LibraryOptionsMenu.tsx
+index ef507432..80adf3ec 100644
+--- a/packages/browser/src/components/navigation/sidebar/sections/library/LibraryOptionsMenu.tsx
++++ b/packages/browser/src/components/navigation/sidebar/sections/library/LibraryOptionsMenu.tsx
+@@ -83,6 +83,7 @@ export default function LibraryOptionsMenu({ library }: Props) {
+ 					<IconButton
+ 						variant="ghost"
+ 						size="sm"
++						aria-label={`${library.name} options`}
+ 						className="h-7 w-7 rounded-md text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground"
+ 					>
+ 						<MoreHorizontal className="h-4 w-4 shrink-0" />
+diff --git a/packages/browser/src/components/navigation/sidebar/sections/library/LibrarySideBarSection.tsx b/packages/browser/src/components/navigation/sidebar/sections/library/LibrarySideBarSection.tsx
+index 975dcaa7..fe48c6a5 100644
+--- a/packages/browser/src/components/navigation/sidebar/sections/library/LibrarySideBarSection.tsx
++++ b/packages/browser/src/components/navigation/sidebar/sections/library/LibrarySideBarSection.tsx
+@@ -98,7 +98,7 @@ export default function LibrarySideBarSection({
+ 				<Accordion.Trigger
+ 					noUnderline
+ 					asLabel
+-					className="px-1 py-1 text-sm font-medium tracking-wide text-muted-foreground"
++					className="px-1 py-1 text-sm font-medium tracking-wide text-sidebar-foreground"
+ 				>
+ 					{t('sidebar.buttons.libraries')}
+ 				</Accordion.Trigger>
+diff --git a/packages/browser/src/components/navigation/sidebar/sections/smartList/SmartListSideBarSection.tsx b/packages/browser/src/components/navigation/sidebar/sections/smartList/SmartListSideBarSection.tsx
+index c3daeb54..03557cfb 100644
+--- a/packages/browser/src/components/navigation/sidebar/sections/smartList/SmartListSideBarSection.tsx
++++ b/packages/browser/src/components/navigation/sidebar/sections/smartList/SmartListSideBarSection.tsx
+@@ -64,7 +64,7 @@ export default function SmartListSideBarSection({
+ 				<Accordion.Trigger
+ 					noUnderline
+ 					asLabel
+-					className="px-1 py-1 text-sm font-medium tracking-wide text-muted-foreground"
++					className="px-1 py-1 text-sm font-medium tracking-wide text-sidebar-foreground"
+ 				>
+ 					{t('sidebar.buttons.smartlists')}
+ 				</Accordion.Trigger>
+diff --git a/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx b/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx
+index 35356374..2a7e9f5b 100644
+--- a/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx
++++ b/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx
+@@ -43,6 +43,7 @@ export default function NextInSeries() {
+ 					className="right-2 top-2 absolute"
+ 					variant="ghost"
+ 					onClick={() => setIsHidden(true)}
++					aria-label="Dismiss"
+ 				>
+ 					<X className="h-4 w-4" onClick={() => setIsHidden(true)} />
+ 				</Button>
+@@ -56,6 +57,7 @@ export default function NextInSeries() {
+ 					<EntityImage
+ 						className="shadow rounded-xl object-contain"
+ 						src={nextInSeries.thumbnailUrl}
++						alt={nextInSeries.name}
+ 					/>
+ 
+ 					<ButtonOrLink variant="secondary" href={paths.bookReader(nextInSeries.id)}>
+diff --git a/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx b/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx
+index bafd9302..1a1aca28 100644
+--- a/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx
++++ b/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx
+@@ -33,10 +33,10 @@ export default function SettingsDialog() {
+ 							onValueChange={(value) => setModality(value as 'book' | 'global')}
+ 						>
+ 							<Tabs.List>
+-								<Tabs.Trigger value="book">
++								<Tabs.Trigger value="book" aria-controls={undefined}>
+ 									{t('imageReader.settingsDialog.scopes.book')}
+ 								</Tabs.Trigger>
+-								<Tabs.Trigger value="global">
++								<Tabs.Trigger value="global" aria-controls={undefined}>
+ 									{t('imageReader.settingsDialog.scopes.global')}
+ 								</Tabs.Trigger>
+ 							</Tabs.List>
+diff --git a/packages/browser/src/components/series/StackedSeriesCard.tsx b/packages/browser/src/components/series/StackedSeriesCard.tsx
+index 74f08422..7c499422 100644
+--- a/packages/browser/src/components/series/StackedSeriesCard.tsx
++++ b/packages/browser/src/components/series/StackedSeriesCard.tsx
+@@ -111,7 +111,9 @@ export function StackedSeriesCard({
+ 
+ 	const gradientStyle = useMemo(
+ 		() => ({
+-			background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 25%, transparent 50%)`,
++			// scrim suffisamment opaque sur la zone texte pour un contraste 4.5:1
++			// mesuré quelle que soit la teinte de carte (voir boucle a11y stump)
++			background: `linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.55) 30%, transparent 60%)`,
+ 		}),
+ 		[],
+ 	)
+@@ -271,7 +273,7 @@ export function StackedSeriesCard({
+ 						{name}
+ 					</Text>
+ 					<Text
+-						className="mt-0.5 text-xs font-medium leading-tight md:text-sm text-white/75 line-clamp-1"
++						className="mt-0.5 text-xs font-medium leading-tight md:text-sm text-white/90 line-clamp-1"
+ 						style={{ textShadow: '2px 1px 2px rgba(0, 0, 0, 0.2)' }}
+ 					>
+ 						{!isMissing ? subtitle : <span className="text-warning">Series Missing</span>}
+diff --git a/packages/browser/src/components/series/metadata/SeriesMetadataEditor.tsx b/packages/browser/src/components/series/metadata/SeriesMetadataEditor.tsx
+index 23699be2..c21bf568 100644
+--- a/packages/browser/src/components/series/metadata/SeriesMetadataEditor.tsx
++++ b/packages/browser/src/components/series/metadata/SeriesMetadataEditor.tsx
+@@ -118,6 +118,7 @@ export default function SeriesMetadataEditor({ seriesId, data }: Props) {
+ 							<CheckBox
+ 								checked={table.getIsSomeRowsExpanded()}
+ 								onClick={() => setShowMissing((prev) => !prev)}
++								aria-label="Missing"
+ 							/>
+ 
+ 							<span className="ml-2">Missing</span>
+@@ -135,7 +136,7 @@ export default function SeriesMetadataEditor({ seriesId, data }: Props) {
+ 				enableResizing: true,
+ 			}),
+ 			columnHelper.accessor('field', {
+-				header: () => null,
++				header: () => <span className="sr-only">Value</span>,
+ 				cell: (info) =>
+ 					match(info.getValue())
+ 						.with(P.union('ageRating', 'volume', 'comicid', 'year', 'totalIssues'), (field) => (
+diff --git a/packages/browser/src/components/series/table/CoverImageCell.tsx b/packages/browser/src/components/series/table/CoverImageCell.tsx
+index e415c681..b8d5aab1 100644
+--- a/packages/browser/src/components/series/table/CoverImageCell.tsx
++++ b/packages/browser/src/components/series/table/CoverImageCell.tsx
+@@ -55,6 +55,7 @@ export default function CoverImageCell({ url, title }: Props) {
+ 	return (
+ 		<EntityImage
+ 			title={title}
++			alt={title ?? ''}
+ 			className="h-14 w-auto rounded-sm object-cover"
+ 			style={{ aspectRatio: thumbnailRatio }}
+ 			src={url}
+diff --git a/packages/browser/src/components/settings/GenericSettingsSelectNavigation.tsx b/packages/browser/src/components/settings/GenericSettingsSelectNavigation.tsx
+index 21c47f6d..2d6c307a 100644
+--- a/packages/browser/src/components/settings/GenericSettingsSelectNavigation.tsx
++++ b/packages/browser/src/components/settings/GenericSettingsSelectNavigation.tsx
+@@ -59,6 +59,7 @@ export default function GenericSettingsSelectNavigation({ localeBase, routeGroup
+ 
+ 	return (
+ 		<NativeSelect
++			aria-label="Section"
+ 			options={selectOptions}
+ 			value={activeSubRoute}
+ 			onChange={(e) => {
+diff --git a/packages/browser/src/components/sharedLayout/EntityHeader.tsx b/packages/browser/src/components/sharedLayout/EntityHeader.tsx
+index 3122f6c0..cbd6e93c 100644
+--- a/packages/browser/src/components/sharedLayout/EntityHeader.tsx
++++ b/packages/browser/src/components/sharedLayout/EntityHeader.tsx
+@@ -76,7 +76,12 @@ export function EntityHeader({ name, tabs, actions, stats, settingsLink, onInfoC
+ 							align="end"
+ 							contentWrapperClassName="w-48"
+ 							trigger={
+-								<Button variant="outline" size="icon" className="size-7 shrink-0">
++								<Button
++									variant="outline"
++									size="icon"
++									className="size-7 shrink-0"
++									aria-label={`Actions for ${name}`}
++								>
+ 									<EllipsisVertical className="h-4 w-4" />
+ 								</Button>
+ 							}
+@@ -99,6 +104,7 @@ export function EntityHeader({ name, tabs, actions, stats, settingsLink, onInfoC
+ 					<button
+ 						className="gap-1 px-1 py-1 group flex items-center rounded-lg bg-primary/15"
+ 						onClick={onInfoClick}
++						aria-label="Show info"
+ 					>
+ 						<Info className="h-4 w-4 text-primary" />
+ 					</button>
+@@ -107,7 +113,7 @@ export function EntityHeader({ name, tabs, actions, stats, settingsLink, onInfoC
+ 				<Tabs value={activeTab} size="sm">
+ 					<Tabs.List>
+ 						{tabs.map((tab) => (
+-							<Tabs.Trigger key={tab.to} value={tab.to} asChild>
++							<Tabs.Trigger key={tab.to} value={tab.to} asChild aria-controls={undefined}>
+ 								<Link to={tab.to} underline={false} onMouseEnter={tab.onHover}>
+ 									{tab.label}
+ 								</Link>
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/GroupBy.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/GroupBy.tsx
+index 21ba0784..28f97dc7 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/GroupBy.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/GroupBy.tsx
+@@ -30,6 +30,7 @@ export default function GroupBy({ disabled }: Props) {
+ 			<Label>{t(getKey('label'))}</Label>
+ 			<div>
+ 				<NativeSelect
++					aria-label={t(getKey('label'))}
+ 					className="h-8 py-0 w-[unset]"
+ 					disabled={disabled}
+ 					options={[
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/SmartListQueryBuilder.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/SmartListQueryBuilder.tsx
+index 605fb8cf..5301ff7f 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/SmartListQueryBuilder.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/SmartListQueryBuilder.tsx
+@@ -35,7 +35,7 @@ export default function SmartListQueryBuilder({ disabled }: Props) {
+ 				<div className={cn('space-x-3.5 flex items-center', { 'pointer-events-none': disabled })}>
+ 					<Tabs variant="primary" activeOnHover value={joiner}>
+ 						<Tabs.List className="rounded-lg">
+-							<Tabs.Trigger
++							<Tabs.Trigger aria-controls={undefined}
+ 								value="and"
+ 								asChild
+ 								className="w-8 px-1 text-xs min-w-[unset] rounded-lg"
+@@ -44,7 +44,7 @@ export default function SmartListQueryBuilder({ disabled }: Props) {
+ 								<Text className="cursor-pointer truncate">{t(getKey('rootJoiner.and.label'))}</Text>
+ 							</Tabs.Trigger>
+ 
+-							<Tabs.Trigger
++							<Tabs.Trigger aria-controls={undefined}
+ 								value="or"
+ 								asChild
+ 								className="w-8 px-1 text-xs min-w-[unset] rounded-lg"
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/FieldSelector.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/FieldSelector.tsx
+index e339f84a..16cb4e1b 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/FieldSelector.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/FieldSelector.tsx
+@@ -145,6 +145,7 @@ export function FieldSelector({ idx }: Props) {
+ 					variant="outline"
+ 					role="combobox"
+ 					aria-expanded={open}
++					aria-label={t(getKey('placeholder'))}
+ 					className="justify-between truncate border-border text-foreground outline-none hover:bg-muted data-[state=open]:bg-transparent data-[state=open]:ring-2 data-[state=open]:ring-ring data-[state=open]:ring-offset-2 data-[state=open]:ring-offset-background"
+ 				>
+ 					{renderSelected()}
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/GroupJoiner.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/GroupJoiner.tsx
+index 67844600..ebfbb031 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/GroupJoiner.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/GroupJoiner.tsx
+@@ -17,7 +17,7 @@ export default function GroupJoiner() {
+ 		<div className="lg:space-x-4 flex items-center">
+ 			<Tabs variant="primary" activeOnHover value={joiner}>
+ 				<Tabs.List className="rounded-lg">
+-					<Tabs.Trigger
++					<Tabs.Trigger aria-controls={undefined}
+ 						value="and"
+ 						asChild
+ 						className="w-8 px-1 text-xs min-w-[unset] rounded-lg"
+@@ -26,7 +26,7 @@ export default function GroupJoiner() {
+ 						<Text className="cursor-pointer truncate">{t(getJoinerKey('and', 'label'))}</Text>
+ 					</Tabs.Trigger>
+ 
+-					<Tabs.Trigger
++					<Tabs.Trigger aria-controls={undefined}
+ 						value="or"
+ 						asChild
+ 						className="w-8 px-1 text-xs min-w-[unset] rounded-lg"
+@@ -37,7 +37,7 @@ export default function GroupJoiner() {
+ 						</Text>
+ 					</Tabs.Trigger>
+ 
+-					<Tabs.Trigger
++					<Tabs.Trigger aria-controls={undefined}
+ 						value="not"
+ 						asChild
+ 						className="w-8 px-1 text-xs min-w-[unset] rounded-lg"
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/OperatorSelect.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/OperatorSelect.tsx
+index e61f5f8e..9efdfb31 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/OperatorSelect.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/OperatorSelect.tsx
+@@ -107,6 +107,7 @@ export default function OperatorSelect({ idx }: Props) {
+ 					variant="outline"
+ 					role="combobox"
+ 					aria-expanded={isOpen}
++					aria-label="Operator"
+ 					className={cn(
+ 						'justify-between truncate border-border text-foreground outline-none hover:bg-muted data-[state=open]:bg-transparent data-[state=open]:ring-2 data-[state=open]:ring-ring data-[state=open]:ring-offset-2 data-[state=open]:ring-offset-background',
+ 						{ 'text-muted-foreground': !fieldDef.operation },
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/EnumValue.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/EnumValue.tsx
+index e856fed9..f23388b8 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/EnumValue.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/EnumValue.tsx
+@@ -78,6 +78,7 @@ export default function EnumValue({ idx }: Props) {
+ 				options={options.map((opt) => ({ label: opt.label, value: opt.value }))}
+ 				value={arrayValue.map(String)}
+ 				placeholder={t(getKey('placeholder'))}
++				aria-label={fieldDef.field}
+ 				filterEmptyMessage={t(getKey('emptyState'))}
+ 				onChange={handleMultiChange}
+ 				isMultiSelect
+@@ -88,6 +89,7 @@ export default function EnumValue({ idx }: Props) {
+ 
+ 	return (
+ 		<NativeSelect
++			aria-label={fieldDef.field}
+ 			options={[
+ 				{ label: t(getKey('selectPlaceholder')), value: '', disabled: true },
+ 				...options.map((opt) => ({ label: opt.label, value: opt.value })),
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/ListValue.tsx b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/ListValue.tsx
+index 00d246d0..ef6a05c5 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/ListValue.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/queryBuilder/filterGroup/filterValue/ListValue.tsx
+@@ -80,6 +80,7 @@ export default function ListValue({ idx }: Props) {
+ 			options={values.map((value) => ({ label: String(value), value: String(value) }))}
+ 			value={values.map(String)}
+ 			placeholder={t(getKey('placeholder'))}
++			aria-label={fieldDef.field}
+ 			filterEmptyMessage={t(getKey('emptyState'))}
+ 			onChange={handleChange}
+ 			onAddOption={({ value }) => addValue(value)}
+diff --git a/packages/browser/src/components/smartList/createOrUpdate/sections/AccessSettings.tsx b/packages/browser/src/components/smartList/createOrUpdate/sections/AccessSettings.tsx
+index f9048cba..63fca781 100644
+--- a/packages/browser/src/components/smartList/createOrUpdate/sections/AccessSettings.tsx
++++ b/packages/browser/src/components/smartList/createOrUpdate/sections/AccessSettings.tsx
+@@ -22,6 +22,7 @@ export default function AccessSettings({ isCreating }: Props) {
+ 			<div className="max-w-xs gap-y-1.5 flex flex-col">
+ 				<Label>{t(getKey('label'))}</Label>
+ 				<NativeSelect
++					aria-label={t(getKey('label'))}
+ 					options={[
+ 						{ label: t(getOptionKey(EntityVisibility.Public, 'label')), value: 'PUBLIC' },
+ 						{ label: t(getOptionKey(EntityVisibility.Shared, 'label')), value: 'SHARED' },
+diff --git a/packages/browser/src/components/table/EntityTableColumnConfiguration.tsx b/packages/browser/src/components/table/EntityTableColumnConfiguration.tsx
+index e38ef527..f396d3d3 100644
+--- a/packages/browser/src/components/table/EntityTableColumnConfiguration.tsx
++++ b/packages/browser/src/components/table/EntityTableColumnConfiguration.tsx
+@@ -269,7 +269,12 @@ export default function EntityTableColumnConfiguration({ entity, configuration,
+ 			onOpen={() => setIsOpen(true)}
+ 			trigger={
+ 				<ToolTip content="Configure columns" size="sm" align="start">
+-					<IconButton size="xs" variant="ghost" onClick={() => setIsOpen(true)}>
++					<IconButton
++						size="xs"
++						variant="ghost"
++						aria-label="Configure columns"
++						onClick={() => setIsOpen(true)}
++					>
+ 						<Columns className="h-4 w-4" />
+ 					</IconButton>
+ 				</ToolTip>
+diff --git a/packages/browser/src/components/table/Pagination.tsx b/packages/browser/src/components/table/Pagination.tsx
+index 5a79fe55..aba7e267 100644
+--- a/packages/browser/src/components/table/Pagination.tsx
++++ b/packages/browser/src/components/table/Pagination.tsx
+@@ -44,6 +44,7 @@ export default function TablePagination({
+ 				onClick={() => onChangePage(currentPage - 1)}
+ 				onMouseEnter={onPrefetchPage ? () => onPrefetchPage(currentPage - 1) : undefined}
+ 				className="h-5 w-5"
++				aria-label="Previous page"
+ 			>
+ 				<ArrowLeft className="h-4 w-4" />
+ 			</Button>
+@@ -84,6 +85,7 @@ export default function TablePagination({
+ 				onClick={() => onChangePage(currentPage + 1)}
+ 				onMouseEnter={onPrefetchPage ? () => onPrefetchPage(currentPage + 1) : undefined}
+ 				className="h-5 w-5"
++				aria-label="Next page"
+ 			>
+ 				<ArrowRight className="h-4 w-4" />
+ 			</Button>
+diff --git a/packages/browser/src/components/table/Table.tsx b/packages/browser/src/components/table/Table.tsx
+index 566b633a..15a44174 100644
+--- a/packages/browser/src/components/table/Table.tsx
++++ b/packages/browser/src/components/table/Table.tsx
+@@ -1,4 +1,4 @@
+-import { cn, Heading, NativeSelect, Text } from '@stump/components'
++import { cn, NativeSelect, Text } from '@stump/components'
+ import {
+ 	Column,
+ 	ColumnDef,
+@@ -176,9 +176,9 @@ export default function Table<T, V>({
+ 														width: header.getSize(),
+ 													}}
+ 												>
+-													<Heading className="text-sm font-medium line-clamp-1 w-full">
++													<Text className="text-sm font-medium line-clamp-1 w-full">
+ 														{flexRender(header.column.columnDef.header, header.getContext())}
+-													</Heading>
++													</Text>
+ 													{sortable && (
+ 														<SortIcon
+ 															direction={(header.column.getIsSorted() as SortDirection) ?? null}
+@@ -241,6 +241,7 @@ export default function Table<T, V>({
+ 					<NativeSelect
+ 						disabled={pageCount <= 1 && dataCount <= pageSize}
+ 						size="xs"
++						aria-label="Show rows per page"
+ 						options={[10, 20, 30, 40, 50].map((pageSize) => ({
+ 							label: `Show ${pageSize} rows`,
+ 							// FIXME: don't cast once my select can consume numbers :nomnom:
+diff --git a/packages/browser/src/components/table/TableFooter.tsx b/packages/browser/src/components/table/TableFooter.tsx
+index b6c0b4a2..df644d18 100644
+--- a/packages/browser/src/components/table/TableFooter.tsx
++++ b/packages/browser/src/components/table/TableFooter.tsx
+@@ -27,6 +27,7 @@ export default function TableFooter({ pagination, setPagination, pageCount, data
+ 				</Text>
+ 
+ 				<NativeSelect
++					aria-label="Rows per page"
+ 					disabled={!dataCount}
+ 					size="xs"
+ 					options={[5, 10, 20, 30, 40, 50].map((pageSize) => ({
+diff --git a/packages/browser/src/scenes/auth/LoginOrClaimScene.tsx b/packages/browser/src/scenes/auth/LoginOrClaimScene.tsx
+index bfa48c20..bbbef644 100644
+--- a/packages/browser/src/scenes/auth/LoginOrClaimScene.tsx
++++ b/packages/browser/src/scenes/auth/LoginOrClaimScene.tsx
+@@ -130,7 +130,7 @@ export default function LoginOrClaimScene() {
+ 	}
+ 
+ 	return (
+-		<div className="flex h-full w-full items-center bg-background">
++		<main className="flex h-full w-full items-center bg-background">
+ 			<motion.div
+ 				// @ts-expect-error: It's fine
+ 				className="px-6 sm:px-0 w-screen shrink-0"
+@@ -139,7 +139,7 @@ export default function LoginOrClaimScene() {
+ 			>
+ 				<div className="gap-8 p-4 flex h-full w-full flex-col items-center justify-center bg-background">
+ 					<div className="gap-4 px-2 flex shrink-0 items-center justify-center">
+-						<img src="/assets/favicon.png" width="80" height="80" />
++						<img src="/assets/favicon.png" width="80" height="80" alt="" />
+ 						<Heading variant="gradient" size="3xl" className="font-bold">
+ 							Stump
+ 						</Heading>
+@@ -234,7 +234,7 @@ export default function LoginOrClaimScene() {
+ 					</Form>
+ 				</div>
+ 			</motion.div>
+-		</div>
++		</main>
+ 	)
+ }
+ 
+diff --git a/packages/browser/src/scenes/book/BookActionMenu.tsx b/packages/browser/src/scenes/book/BookActionMenu.tsx
+index c3728aa0..cf0ca9fa 100644
+--- a/packages/browser/src/scenes/book/BookActionMenu.tsx
++++ b/packages/browser/src/scenes/book/BookActionMenu.tsx
+@@ -288,7 +288,12 @@ export default function BookActionMenu({ book }: Props) {
+ 					align="end"
+ 					contentWrapperClassName="w-48"
+ 					trigger={
+-						<Button variant="outline" size="icon" className="shrink-0">
++						<Button
++							variant="outline"
++							size="icon"
++							className="shrink-0"
++							aria-label="Book actions"
++						>
+ 							<EllipsisVertical className="h-4 w-4" />
+ 						</Button>
+ 					}
+diff --git a/packages/browser/src/scenes/book/settings/BookThumbnailSelector.tsx b/packages/browser/src/scenes/book/settings/BookThumbnailSelector.tsx
+index 177be676..aa58ad64 100644
+--- a/packages/browser/src/scenes/book/settings/BookThumbnailSelector.tsx
++++ b/packages/browser/src/scenes/book/settings/BookThumbnailSelector.tsx
+@@ -125,14 +125,12 @@ export default function BookThumbnailSelector({ fragment }: Props) {
+ 			/>
+ 
+ 			<Dialog open={isOpen} onOpenChange={handleOpenChange}>
+-				<Dialog.Trigger asChild>
+-					<span className="bottom-2 left-2 absolute block">
+-						<EditThumbnailDropdown
+-							onChooseSelector={() => setIsOpen(true)}
+-							onUploadImage={handleUploadImage}
+-						/>
+-					</span>
+-				</Dialog.Trigger>
++				<span className="bottom-2 left-2 absolute block">
++					<EditThumbnailDropdown
++						onChooseSelector={() => setIsOpen(true)}
++						onUploadImage={handleUploadImage}
++					/>
++				</span>
+ 				<Dialog.Content size="xl">
+ 					<Dialog.Header>
+ 						<Dialog.Title>{t('thumbnailSelector.title')}</Dialog.Title>
+diff --git a/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx b/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx
+index 5406a433..eb688295 100644
+--- a/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx
++++ b/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx
+@@ -21,7 +21,7 @@ export default function MemberActionMenu({ onSelectForRemoval }: Props) {
+ 					},
+ 				]}
+ 				trigger={
+-					<Button size="icon" variant="ghost" className="shrink-0">
++					<Button size="icon" variant="ghost" className="shrink-0" aria-label="Member actions">
+ 						<MoreVertical className="h-4 w-4" />
+ 					</Button>
+ 				}
+diff --git a/packages/browser/src/scenes/bookSearch/BookSearchScene.tsx b/packages/browser/src/scenes/bookSearch/BookSearchScene.tsx
+index fb67108f..dfab24e1 100644
+--- a/packages/browser/src/scenes/bookSearch/BookSearchScene.tsx
++++ b/packages/browser/src/scenes/bookSearch/BookSearchScene.tsx
+@@ -1,5 +1,5 @@
+ import { PREFETCH_STALE_TIME, useSDK, useSuspenseGraphQL } from '@stump/client'
+-import { usePrevious } from '@stump/components'
++import { Heading, usePrevious } from '@stump/components'
+ import { graphql, InterfaceLayout, MediaFilterInput, MediaOrderBy } from '@stump/graphql'
+ import { useQueryClient } from '@tanstack/react-query'
+ import { Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+@@ -340,6 +340,9 @@ function BookSearchScene() {
+ 				<Helmet>
+ 					<title>Stump | Books</title>
+ 				</Helmet>
++				<Heading as="h1" className="sr-only">
++					Books
++				</Heading>
+ 
+ 				<section ref={containerRef} id="grid-top-indicator" className="h-0" />
+ 
+diff --git a/packages/browser/src/scenes/error/FourOhFour.tsx b/packages/browser/src/scenes/error/FourOhFour.tsx
+index 13bc0308..8fe4c897 100644
+--- a/packages/browser/src/scenes/error/FourOhFour.tsx
++++ b/packages/browser/src/scenes/error/FourOhFour.tsx
+@@ -2,7 +2,7 @@ import { ButtonOrLink, Text } from '@stump/components'
+ 
+ export default function FourOhFour() {
+ 	return (
+-		<div
++		<main
+ 			data-tauri-drag-region
+ 			className="max-w-sm gap-6 sm:max-w-md md:max-w-lg mx-auto flex h-full w-full flex-col items-center justify-center"
+ 		>
+@@ -21,6 +21,6 @@ export default function FourOhFour() {
+ 					</ButtonOrLink>
+ 				</div>
+ 			</div>
+-		</div>
++		</main>
+ 	)
+ }
+diff --git a/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx b/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx
+index 8c350aef..284945c7 100644
+--- a/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx
++++ b/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx
+@@ -61,6 +61,7 @@ export default function LibrarySettingsSelectNavigation() {
+ 
+ 	return (
+ 		<NativeSelect
++			aria-label="Section"
+ 			options={selectOptions}
+ 			value={activeSubRoute}
+ 			onChange={(e) => {
+diff --git a/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSidebar.tsx b/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSidebar.tsx
+index d59320e2..f66c1a4f 100644
+--- a/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSidebar.tsx
++++ b/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSidebar.tsx
+@@ -53,6 +53,7 @@ export default function LibrarySettingsSidebar() {
+ 						variant="ghost"
+ 						className="p-1 h-[unset] w-[unset] shrink-0 border border-transparent text-foreground hover:border-border hover:bg-accent hover:text-accent-foreground"
+ 						size="sm"
++						aria-label={`Back to ${library.name}`}
+ 					>
+ 						<ArrowLeft className="h-4 w-4 transform" />
+ 					</ButtonOrLink>
+diff --git a/packages/browser/src/scenes/library/tabs/settings/danger/accessControl/LibraryExclusions.tsx b/packages/browser/src/scenes/library/tabs/settings/danger/accessControl/LibraryExclusions.tsx
+index 5faa4e56..c90320f2 100644
+--- a/packages/browser/src/scenes/library/tabs/settings/danger/accessControl/LibraryExclusions.tsx
++++ b/packages/browser/src/scenes/library/tabs/settings/danger/accessControl/LibraryExclusions.tsx
+@@ -151,6 +151,7 @@ export default function LibraryExclusions() {
+ 
+ 			<ComboBox
+ 				disabled={allUsers?.length === 1}
++				aria-label={t(getKey('heading'))}
+ 				options={userOptions}
+ 				value={excludedUserIds}
+ 				isMultiSelect
+diff --git a/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx b/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx
+index ac702ba1..bc2d6a48 100644
+--- a/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx
++++ b/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx
+@@ -119,7 +119,7 @@ export default function ScanHistoryTable() {
+ 				? [
+ 						columnHelper.display({
+ 							id: 'actions',
+-							header: () => null,
++							header: () => <span className="sr-only">Actions</span>,
+ 							cell: ({ row: { original } }) => {
+ 								if (!original.options) return null
+ 
+diff --git a/packages/browser/src/scenes/series/tabs/settings/SeriesThumbnailSelector.tsx b/packages/browser/src/scenes/series/tabs/settings/SeriesThumbnailSelector.tsx
+index 352965e8..9673cd52 100644
+--- a/packages/browser/src/scenes/series/tabs/settings/SeriesThumbnailSelector.tsx
++++ b/packages/browser/src/scenes/series/tabs/settings/SeriesThumbnailSelector.tsx
+@@ -150,14 +150,12 @@ export default function SeriesThumbnailSelector({ fragment }: Props) {
+ 			/>
+ 
+ 			<Dialog open={isOpen} onOpenChange={handleOpenChange}>
+-				<Dialog.Trigger asChild>
+-					<span className="bottom-2 left-2 absolute block">
+-						<EditThumbnailDropdown
+-							onChooseSelector={() => setIsOpen(true)}
+-							onUploadImage={handleUploadImage}
+-						/>
+-					</span>
+-				</Dialog.Trigger>
++				<span className="bottom-2 left-2 absolute block">
++					<EditThumbnailDropdown
++						onChooseSelector={() => setIsOpen(true)}
++						onUploadImage={handleUploadImage}
++					/>
++				</span>
+ 				<Dialog.Content size="xl">
+ 					<Dialog.Header>
+ 						<Dialog.Title>{t('thumbnailSelector.title')}</Dialog.Title>
+diff --git a/packages/browser/src/scenes/settings/SettingsNavigation.tsx b/packages/browser/src/scenes/settings/SettingsNavigation.tsx
+index 0d9e58f6..9c08b7d1 100644
+--- a/packages/browser/src/scenes/settings/SettingsNavigation.tsx
++++ b/packages/browser/src/scenes/settings/SettingsNavigation.tsx
+@@ -66,6 +66,7 @@ export default function SettingsNavigation() {
+ 								<Tabs.Trigger
+ 									key={group.label ?? group.defaultRoute}
+ 									value={group.label ?? group.defaultRoute}
++									aria-controls={undefined}
+ 									asChild
+ 								>
+ 									<Link className="truncate" to={`${basePath}${group.defaultRoute}`}>
+@@ -81,6 +82,7 @@ export default function SettingsNavigation() {
+ 			<div className="gap-y-2 flex flex-col">
+ 				<Label>Section</Label>
+ 				<NativeSelect
++					aria-label="Section"
+ 					options={selectOptions}
+ 					value={activeSubRoute}
+ 					onChange={(e) => {
+diff --git a/packages/browser/src/scenes/settings/SettingsSideBarLink.tsx b/packages/browser/src/scenes/settings/SettingsSideBarLink.tsx
+index ee540587..17d39d09 100644
+--- a/packages/browser/src/scenes/settings/SettingsSideBarLink.tsx
++++ b/packages/browser/src/scenes/settings/SettingsSideBarLink.tsx
+@@ -22,12 +22,14 @@ export default function SettingsSideBarLink({
+ 	const Icon = icon
+ 
+ 	return (
+-		<Link to={to} className={cn({ 'pointer-events-none': isDisabled })}>
+-			<li
++		<li>
++			<Link
++				to={to}
++				aria-disabled={isDisabled || undefined}
+ 				className={cn(
+ 					'px-2 py-1.5 flex items-center rounded-md',
+ 					isDisabled
+-						? 'text-foreground/50 opacity-50'
++						? 'pointer-events-none text-foreground/50 opacity-50'
+ 						: 'text-foreground hover:bg-accent hover:text-accent-foreground',
+ 					{
+ 						'bg-accent text-accent-foreground': isActive && !isDisabled,
+@@ -37,7 +39,7 @@ export default function SettingsSideBarLink({
+ 			>
+ 				<Icon className="mr-2 h-4 w-4 shrink-0" />
+ 				<span className="ml-1 font-medium line-clamp-1">{children}</span>
+-			</li>
+-		</Link>
++			</Link>
++		</li>
+ 	)
+ }
+diff --git a/packages/browser/src/scenes/settings/app/apiKeys/APIKeyActionMenu.tsx b/packages/browser/src/scenes/settings/app/apiKeys/APIKeyActionMenu.tsx
+index c9758f0d..e63449f7 100644
+--- a/packages/browser/src/scenes/settings/app/apiKeys/APIKeyActionMenu.tsx
++++ b/packages/browser/src/scenes/settings/app/apiKeys/APIKeyActionMenu.tsx
+@@ -13,7 +13,7 @@ export default function APIKeyActionMenu({ onSelectForDelete, onSelectForInspect
+ 	return (
+ 		<Dropdown modal={false}>
+ 			<Dropdown.Trigger asChild>
+-				<Button size="icon" variant="ghost">
++				<Button size="icon" variant="ghost" aria-label="API key actions">
+ 					<Ellipsis className="h-4 w-4 text-foreground" />
+ 				</Button>
+ 			</Dropdown.Trigger>
+diff --git a/packages/browser/src/scenes/settings/app/apiKeys/APIKeyTable.tsx b/packages/browser/src/scenes/settings/app/apiKeys/APIKeyTable.tsx
+index 71be69c9..82681960 100644
+--- a/packages/browser/src/scenes/settings/app/apiKeys/APIKeyTable.tsx
++++ b/packages/browser/src/scenes/settings/app/apiKeys/APIKeyTable.tsx
+@@ -159,7 +159,7 @@ export default function APIKeyTable() {
+ 			}),
+ 			columnHelper.display({
+ 				id: 'actions',
+-				header: () => null,
++				header: () => <span className="sr-only">Actions</span>,
+ 				cell: ({ row: { original: apiKey } }) => (
+ 					<div className="flex items-center justify-center">
+ 						<APIKeyActionMenu
+diff --git a/packages/browser/src/scenes/settings/app/apiKeys/CreateAPIKeyModal.tsx b/packages/browser/src/scenes/settings/app/apiKeys/CreateAPIKeyModal.tsx
+index 05801d59..839734fd 100644
+--- a/packages/browser/src/scenes/settings/app/apiKeys/CreateAPIKeyModal.tsx
++++ b/packages/browser/src/scenes/settings/app/apiKeys/CreateAPIKeyModal.tsx
+@@ -125,10 +125,17 @@ export default function CreateAPIKeyModal() {
+ 									className="size-7"
+ 									onClick={() => setHideSecret((prev) => !prev)}
+ 									variant="ghost"
++									aria-label={hideSecret ? 'Show API key' : 'Hide API key'}
+ 								>
+ 									<VisibilityIcon className="h-4 w-4 text-muted-foreground" />
+ 								</Button>
+-								<Button size="icon" className="size-7" onClick={() => copy()} variant="ghost">
++								<Button
++									size="icon"
++									className="size-7"
++									onClick={() => copy()}
++									variant="ghost"
++									aria-label="Copy API key"
++								>
+ 									<CopyIcon className="h-4 w-4 text-muted-foreground" />
+ 								</Button>
+ 							</div>
+diff --git a/packages/browser/src/scenes/settings/app/apiKeys/CreateOrUpdateAPIKeyForm.tsx b/packages/browser/src/scenes/settings/app/apiKeys/CreateOrUpdateAPIKeyForm.tsx
+index f18fe260..af583fb5 100644
+--- a/packages/browser/src/scenes/settings/app/apiKeys/CreateOrUpdateAPIKeyForm.tsx
++++ b/packages/browser/src/scenes/settings/app/apiKeys/CreateOrUpdateAPIKeyForm.tsx
+@@ -141,6 +141,7 @@ export default function CreateOrUpdateAPIKeyForm({
+ 						{!inherit && (
+ 							<div className="pl-4">
+ 								<ComboBox
++									aria-label={t(getFieldKey('permissions.explicit.label'))}
+ 									options={validPermissions.map((permission) => ({
+ 										value: permission,
+ 										label: t(`userPermissions.${permission}.label`),
+diff --git a/packages/browser/src/scenes/settings/app/desktop/features/DiscordPresenceSwitch.tsx b/packages/browser/src/scenes/settings/app/desktop/features/DiscordPresenceSwitch.tsx
+index aeff8966..70dcfd72 100644
+--- a/packages/browser/src/scenes/settings/app/desktop/features/DiscordPresenceSwitch.tsx
++++ b/packages/browser/src/scenes/settings/app/desktop/features/DiscordPresenceSwitch.tsx
+@@ -55,7 +55,7 @@ export default function DiscordPresenceSwitch() {
+ 					isDisabled={!isChecked || !handleReconnect}
+ 					align="end"
+ 				>
+-					<Button variant="ghost" size="icon" disabled={!isChecked || !handleReconnect}>
++					<Button variant="ghost" size="icon" disabled={!isChecked || !handleReconnect} aria-label="Reconnect">
+ 						<RefreshCcw className="h-4 w-4" />
+ 					</Button>
+ 				</ToolTip>
+diff --git a/packages/browser/src/scenes/settings/app/preferences/AppearanceSettingsScene.tsx b/packages/browser/src/scenes/settings/app/preferences/AppearanceSettingsScene.tsx
+index 20ab2cf0..78dbb177 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/AppearanceSettingsScene.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/AppearanceSettingsScene.tsx
+@@ -40,9 +40,9 @@ export default function AppearanceSettingsScene() {
+ 
+ 				<div className="gap-y-8 flex flex-col">
+ 					<div>
+-						<h3 className="text-base font-medium text-foreground">
++						<h2 className="text-base font-medium text-foreground">
+ 							{t(getKey('themeAndAppearance.label'))}
+-						</h3>
++						</h2>
+ 						<p className="text-sm text-muted-foreground">
+ 							{t(getKey('themeAndAppearance.description'))}
+ 						</p>
+@@ -68,9 +68,9 @@ export default function AppearanceSettingsScene() {
+ 
+ 				<div className="gap-y-8 flex flex-col">
+ 					<div>
+-						<h3 className="text-base font-medium text-foreground">
++						<h2 className="text-base font-medium text-foreground">
+ 							{t(getKey('layoutAndArrangement.label'))}
+-						</h3>
++						</h2>
+ 						<p className="text-sm text-muted-foreground">
+ 							{t(getKey('layoutAndArrangement.description'))}
+ 						</p>
+@@ -103,9 +103,9 @@ export default function AppearanceSettingsScene() {
+ 
+ 				<div className="gap-y-8 flex flex-col">
+ 					<div>
+-						<h3 className="text-base font-medium text-foreground">
++						<h2 className="text-base font-medium text-foreground">
+ 							{t(getKey('additionalPreferences.label'))}
+-						</h3>
++						</h2>
+ 						<p className="text-sm text-muted-foreground">
+ 							{t(getKey('additionalPreferences.description'))}
+ 						</p>
+diff --git a/packages/browser/src/scenes/settings/app/preferences/DayResetHourOffsetPreference.tsx b/packages/browser/src/scenes/settings/app/preferences/DayResetHourOffsetPreference.tsx
+index 642a5421..e677fa9c 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/DayResetHourOffsetPreference.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/DayResetHourOffsetPreference.tsx
+@@ -40,6 +40,7 @@ export default function DayResetHourOffsetPreference() {
+ 		<NewCard.Row label={t(getKey('label'))} description={t(getKey('description'))}>
+ 			<div className="lg:w-32 max-w-xs w-full">
+ 				<Input
++					aria-label={t(getKey('label'))}
+ 					id="dayResetHourOffset"
+ 					value={dayResetHourOffset ?? 0}
+ 					onChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/DebugSettings.tsx b/packages/browser/src/scenes/settings/app/preferences/DebugSettings.tsx
+index 957bcd69..9116ae4e 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/DebugSettings.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/DebugSettings.tsx
+@@ -26,6 +26,7 @@ function DebugSettings() {
+ 				onClick={() => store.patch({ showQueryTools: !store.showQueryTools })}
+ 			>
+ 				<RawSwitch
++						aria-label="Query Tools"
+ 					id="showQueryTools"
+ 					className="data-[state=checked]:bg-debug/70 data-[state=unchecked]:bg-debug/30"
+ 					checked={store.showQueryTools}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/DisplaySpacingPreference.tsx b/packages/browser/src/scenes/settings/app/preferences/DisplaySpacingPreference.tsx
+index 979b1e17..261f3780 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/DisplaySpacingPreference.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/DisplaySpacingPreference.tsx
+@@ -31,6 +31,7 @@ export default function DisplaySpacingPreference() {
+ 		<NewCard.Row label={t(getKey('label'))} description={t(getKey('description'))}>
+ 			<div className="max-w-xs lg:w-56 w-full">
+ 				<NativeSelect
++					aria-label={t(getKey('label'))}
+ 					value={selectedOption}
+ 					options={options}
+ 					onChange={(e) => {
+diff --git a/packages/browser/src/scenes/settings/app/preferences/EnableAlphabetFiltering.tsx b/packages/browser/src/scenes/settings/app/preferences/EnableAlphabetFiltering.tsx
+index fe1696f3..61cf37ed 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/EnableAlphabetFiltering.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/EnableAlphabetFiltering.tsx
+@@ -25,6 +25,7 @@ export default function EnableAlphabetFiltering() {
+ 			className="flex-row items-center justify-between"
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="enableAlphabetSelect"
+ 				checked={enableAlphabetSelect}
+ 				onCheckedChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/EnableFancyAnimations.tsx b/packages/browser/src/scenes/settings/app/preferences/EnableFancyAnimations.tsx
+index 1b161ab8..f63b8dc0 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/EnableFancyAnimations.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/EnableFancyAnimations.tsx
+@@ -24,6 +24,7 @@ export default function EnableFancyAnimations() {
+ 			className="flex-row items-center justify-between"
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="enableFancyAnimations"
+ 				checked={enableFancyAnimations}
+ 				onCheckedChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/EnableJobOverlayToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/EnableJobOverlayToggle.tsx
+index 842ecb7d..8e0626ac 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/EnableJobOverlayToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/EnableJobOverlayToggle.tsx
+@@ -24,7 +24,8 @@ export default function EnableJobOverlayToggle() {
+ 			onClick={handleChange}
+ 			className="flex-row items-center justify-between"
+ 		>
+-			<RawSwitch id="enableJobOverlay" checked={enableJobOverlay} onCheckedChange={handleChange} />
++			<RawSwitch
++						aria-label={t(getKey('label'))} id="enableJobOverlay" checked={enableJobOverlay} onCheckedChange={handleChange} />
+ 		</NewCard.Row>
+ 	)
+ }
+diff --git a/packages/browser/src/scenes/settings/app/preferences/FontSelect.tsx b/packages/browser/src/scenes/settings/app/preferences/FontSelect.tsx
+index 18b67a87..f6606978 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/FontSelect.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/FontSelect.tsx
+@@ -45,6 +45,7 @@ export default function FontSelect() {
+ 		<NewCard.Row label={t(`${localeKey}.label`)} description={t(`${localeKey}.description`)}>
+ 			<ComboBox
+ 				value={appFont || SupportedFont.Inter}
++				aria-label={t(`${localeKey}.label`)}
+ 				options={SUPPORTED_FONT_OPTIONS}
+ 				onChange={changeFont}
+ 				size="sm"
+diff --git a/packages/browser/src/scenes/settings/app/preferences/GradientToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/GradientToggle.tsx
+index 89710428..70233374 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/GradientToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/GradientToggle.tsx
+@@ -24,7 +24,8 @@ export default function GradientToggle() {
+ 			onClick={handleChange}
+ 			className="flex-row items-center justify-between"
+ 		>
+-			<RawSwitch id="enableGradients" checked={enableGradients} onCheckedChange={handleChange} />
++			<RawSwitch
++						aria-label={t(getKey('label'))} id="enableGradients" checked={enableGradients} onCheckedChange={handleChange} />
+ 		</NewCard.Row>
+ 	)
+ }
+diff --git a/packages/browser/src/scenes/settings/app/preferences/HideScrollbarToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/HideScrollbarToggle.tsx
+index 202a240c..f3781395 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/HideScrollbarToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/HideScrollbarToggle.tsx
+@@ -28,6 +28,7 @@ export default function HideScrollbarToggle() {
+ 			title={enableHideScrollbar ? t(getKey('tooltips.enabled')) : t(getKey('tooltips.disabled'))}
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="enableHideScrollbar"
+ 				checked={enableHideScrollbar}
+ 				onCheckedChange={handleToggle}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/LiveRefetchToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/LiveRefetchToggle.tsx
+index 6826b031..f0740015 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/LiveRefetchToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/LiveRefetchToggle.tsx
+@@ -25,6 +25,7 @@ export default function LiveRefetchToggle() {
+ 			className="flex-row items-center justify-between"
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="enableLiveRefetch"
+ 				checked={enableLiveRefetch}
+ 				onCheckedChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/MaxWidthPreference.tsx b/packages/browser/src/scenes/settings/app/preferences/MaxWidthPreference.tsx
+index 2fb07810..2399ff0b 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/MaxWidthPreference.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/MaxWidthPreference.tsx
+@@ -48,6 +48,7 @@ export default function MaxWidthPreference() {
+ 				title={isSidebarMode ? t(getKey('tooltip')) : undefined}
+ 			>
+ 				<NativeSelect
++					aria-label={t(getKey('label'))}
+ 					value={layoutMaxWidthPx || undefined}
+ 					options={options}
+ 					onChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/PrimaryNavigationPreference.tsx b/packages/browser/src/scenes/settings/app/preferences/PrimaryNavigationPreference.tsx
+index 05810e62..254f67b5 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/PrimaryNavigationPreference.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/PrimaryNavigationPreference.tsx
+@@ -30,13 +30,13 @@ export default function PrimaryNavigationPreference() {
+ 				activeOnHover
+ 			>
+ 				<Tabs.List className="sm:w-fit w-full">
+-					<Tabs.Trigger value="sidebar">
++					<Tabs.Trigger value="sidebar" aria-controls={undefined}>
+ 						<div className="gap-2 flex items-center">
+ 							<PanelLeft className="size-4" />
+ 							<span className="font-medium text-xs">{t(getKey('options.sidebar'))}</span>
+ 						</div>
+ 					</Tabs.Trigger>
+-					<Tabs.Trigger value="topbar">
++					<Tabs.Trigger value="topbar" aria-controls={undefined}>
+ 						<div className="gap-2 flex items-center">
+ 							<PanelTop className="size-4" />
+ 							<span className="font-medium text-xs">{t(getKey('options.topbar'))}</span>
+diff --git a/packages/browser/src/scenes/settings/app/preferences/QueryIndicatorToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/QueryIndicatorToggle.tsx
+index b8c8cdf6..58af8708 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/QueryIndicatorToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/QueryIndicatorToggle.tsx
+@@ -25,6 +25,7 @@ export default function QueryIndicatorToggle() {
+ 			className="flex-row items-center justify-between"
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="showQueryIndicator"
+ 				checked={showQueryIndicator}
+ 				onCheckedChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/ReadingSessionGracePeriodPreference.tsx b/packages/browser/src/scenes/settings/app/preferences/ReadingSessionGracePeriodPreference.tsx
+index 4cdb9e93..a88cebe8 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/ReadingSessionGracePeriodPreference.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/ReadingSessionGracePeriodPreference.tsx
+@@ -33,6 +33,7 @@ export default function ReadingSessionGracePeriodPreference() {
+ 		<NewCard.Row label={t(getKey('label'))} description={t(getKey('description'))}>
+ 			<div className="lg:w-40 max-w-xs w-full">
+ 				<Input
++					aria-label={t(getKey('label'))}
+ 					id="readingSessionGracePeriodSecs"
+ 					value={readingSessionGracePeriodSecs ?? 1800}
+ 					onChange={handleChange}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/ThemeSelect.tsx b/packages/browser/src/scenes/settings/app/preferences/ThemeSelect.tsx
+index a3c3f4c9..81995c64 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/ThemeSelect.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/ThemeSelect.tsx
+@@ -15,6 +15,7 @@ export default function ThemeSelect() {
+ 			<div className="w-52 max-w-full">
+ 				<NativeSelect
+ 					size="sm"
++					aria-label={t(`${localeKey}.label`)}
+ 					className="enabled:hover:bg-muted/40"
+ 					value={theme}
+ 					options={[
+diff --git a/packages/browser/src/scenes/settings/app/preferences/ThumbnailAppearancePreference.tsx b/packages/browser/src/scenes/settings/app/preferences/ThumbnailAppearancePreference.tsx
+index 1e09a998..23b31423 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/ThumbnailAppearancePreference.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/ThumbnailAppearancePreference.tsx
+@@ -86,6 +86,7 @@ export default function ThumbnailAppearancePreference() {
+ 			>
+ 				<div className="max-w-xs lg:w-56 w-full">
+ 					<NativeSelect
++						aria-label={t(getSectionKey('thumbnailRatioSelect', 'label'))}
+ 						value={closestOption.value}
+ 						options={ratioOptions}
+ 						onChange={(e) => update({ thumbnailRatio: Number(e.target.value) })}
+@@ -99,6 +100,7 @@ export default function ThumbnailAppearancePreference() {
+ 			>
+ 				<div className="max-w-xs lg:w-56 w-full">
+ 					<NativeSelect
++						aria-label={t(getSectionKey('thumbnailPlaceholder', 'label'))}
+ 						value={currentStyle}
+ 						options={styleOptions}
+ 						onChange={(e) =>
+@@ -114,6 +116,7 @@ export default function ThumbnailAppearancePreference() {
+ 			>
+ 				<div className="max-w-xs lg:w-56 w-full">
+ 					<NativeSelect
++						aria-label={t(getSectionKey('thumbnailRoundness', 'label'))}
+ 						value={currentRoundness}
+ 						options={roundnessOptions}
+ 						onChange={(e) => update({ thumbnailRoundness: e.target.value as InterfaceRoundness })}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/DoubleSidebarToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/DoubleSidebarToggle.tsx
+index 4b9bd0f3..2bc16dc9 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/DoubleSidebarToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/DoubleSidebarToggle.tsx
+@@ -27,6 +27,7 @@ export default function DoubleSidebarToggle() {
+ 			className="flex-row items-center justify-between"
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="enableDoubleSidebar"
+ 				checked={enableDoubleSidebar}
+ 				onCheckedChange={handleToggle}
+diff --git a/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/ReplacePrimarySidebarToggle.tsx b/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/ReplacePrimarySidebarToggle.tsx
+index 4ec2a583..a21903f9 100644
+--- a/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/ReplacePrimarySidebarToggle.tsx
++++ b/packages/browser/src/scenes/settings/app/preferences/settings-sidebar/ReplacePrimarySidebarToggle.tsx
+@@ -35,6 +35,7 @@ export default function ReplacePrimarySidebarToggle() {
+ 			}
+ 		>
+ 			<RawSwitch
++						aria-label={t(getKey('label'))}
+ 				id="enableReplacePrimarySidebar"
+ 				checked={enableReplacePrimarySidebar}
+ 				disabled={!enableDoubleSidebar || primaryNavigationMode !== 'SIDEBAR'}
+diff --git a/packages/browser/src/scenes/settings/app/reader/DefaultFontFamily.tsx b/packages/browser/src/scenes/settings/app/reader/DefaultFontFamily.tsx
+index 684368ca..db55fc83 100644
+--- a/packages/browser/src/scenes/settings/app/reader/DefaultFontFamily.tsx
++++ b/packages/browser/src/scenes/settings/app/reader/DefaultFontFamily.tsx
+@@ -35,6 +35,7 @@ export default function DefaultFontFamily() {
+ 			<Label htmlFor="font-family">{t(getKey('fontFamily.label'))}</Label>
+ 			<ComboBox
+ 				size="full"
++				aria-label={t(getKey('fontFamily.label'))}
+ 				options={[{ value: '', label: 'Default', fontClassName: '' }].concat(
+ 					SUPPORTED_FONT_OPTIONS,
+ 				)}
+diff --git a/packages/browser/src/scenes/settings/app/reader/DefaultReadingDirection.tsx b/packages/browser/src/scenes/settings/app/reader/DefaultReadingDirection.tsx
+index 1721774e..01cbb86a 100644
+--- a/packages/browser/src/scenes/settings/app/reader/DefaultReadingDirection.tsx
++++ b/packages/browser/src/scenes/settings/app/reader/DefaultReadingDirection.tsx
+@@ -27,6 +27,7 @@ export default function DefaultReadingDirection() {
+ 		<NewCard.Row label={t(getKey('label'))} description={t(getKey('description'))}>
+ 			<div className="max-w-xs lg:w-56 w-full">
+ 				<NativeSelect
++					aria-label={t(getKey('label'))}
+ 					id="reading-direction"
+ 					options={[
+ 						{ label: 'Left to right', value: ReadingDirection.Ltr },
+diff --git a/packages/browser/src/scenes/settings/app/reader/ReaderDefaultSettingsScene.tsx b/packages/browser/src/scenes/settings/app/reader/ReaderDefaultSettingsScene.tsx
+index 94e34ed0..e35d8194 100644
+--- a/packages/browser/src/scenes/settings/app/reader/ReaderDefaultSettingsScene.tsx
++++ b/packages/browser/src/scenes/settings/app/reader/ReaderDefaultSettingsScene.tsx
+@@ -104,9 +104,9 @@ export default function ReaderDefaultSettingsScene() {
+ 
+ 				<div className="gap-y-3 flex flex-col">
+ 					<div>
+-						<h3 className="text-base font-medium text-foreground">
++						<h2 className="text-base font-medium text-foreground">
+ 							{t(getSectionKey('data.sections.clearStore.label'))}
+-						</h3>
++						</h2>
+ 						<Text variant="muted" size="sm">
+ 							{t(getSectionKey('data.sections.clearStore.description'))}
+ 						</Text>
+diff --git a/packages/browser/src/scenes/settings/server/email/emailers/CreateOrUpdateEmailerForm.tsx b/packages/browser/src/scenes/settings/server/email/emailers/CreateOrUpdateEmailerForm.tsx
+index 965b497e..4344faec 100644
+--- a/packages/browser/src/scenes/settings/server/email/emailers/CreateOrUpdateEmailerForm.tsx
++++ b/packages/browser/src/scenes/settings/server/email/emailers/CreateOrUpdateEmailerForm.tsx
+@@ -108,6 +108,7 @@ export default function CreateOrUpdateEmailerForm({ emailer, existingNames, onSu
+ 				<div className="space-y-1 md:max-w-sm flex flex-col">
+ 					<Label>{t(`${LOCALE_BASE}.smtpProvider.label`)}</Label>
+ 					<NativeSelect
++						aria-label={t(`${LOCALE_BASE}.smtpProvider.label`)}
+ 						emptyOption={{ label: 'Custom', value: undefined }}
+ 						options={[
+ 							{ label: 'Google', value: 'google' },
+diff --git a/packages/browser/src/scenes/settings/server/email/emailers/EmailerActionMenu.tsx b/packages/browser/src/scenes/settings/server/email/emailers/EmailerActionMenu.tsx
+index 41b51e53..244ee11e 100644
+--- a/packages/browser/src/scenes/settings/server/email/emailers/EmailerActionMenu.tsx
++++ b/packages/browser/src/scenes/settings/server/email/emailers/EmailerActionMenu.tsx
+@@ -29,7 +29,7 @@ export default function EmailerActionMenu({ onEdit, onDelete }: Props) {
+ 				},
+ 			]}
+ 			trigger={
+-				<Button size="icon" variant="ghost">
++				<Button size="icon" variant="ghost" aria-label="Emailer actions">
+ 					<MoreVertical className="h-4 w-4" />
+ 				</Button>
+ 			}
+diff --git a/packages/browser/src/scenes/settings/server/jobs/CreateOrEditScheduledJobDialog.tsx b/packages/browser/src/scenes/settings/server/jobs/CreateOrEditScheduledJobDialog.tsx
+index 46168af4..69985685 100644
+--- a/packages/browser/src/scenes/settings/server/jobs/CreateOrEditScheduledJobDialog.tsx
++++ b/packages/browser/src/scenes/settings/server/jobs/CreateOrEditScheduledJobDialog.tsx
+@@ -197,6 +197,7 @@ export function CreateOrEditScheduledJobDialog({
+ 							/>
+ 							<div className="shrink-0">
+ 								<NativeSelect
++									aria-label={t(getKey('fields.schedulePreset.label'))}
+ 									value={cronPreset}
+ 									options={CRON_PRESETS.map((p) => ({
+ 										label: t(getKey(`fields.schedulePreset.${p.localeKey}`)),
+@@ -215,6 +216,7 @@ export function CreateOrEditScheduledJobDialog({
+ 							<div className="gap-1.5 flex flex-col">
+ 								<Label>{t(getKey('fields.kind.label'))}</Label>
+ 								<NativeSelect
++									aria-label={t(getKey('fields.kind.label'))}
+ 									value={watchKind}
+ 									options={KIND_OPTIONS.map((o) => ({
+ 										label: t(getKey(`fields.kind.${o.localeKey}`)),
+diff --git a/packages/browser/src/scenes/settings/server/jobs/JobActionMenu.tsx b/packages/browser/src/scenes/settings/server/jobs/JobActionMenu.tsx
+index 968a57ff..75850806 100644
+--- a/packages/browser/src/scenes/settings/server/jobs/JobActionMenu.tsx
++++ b/packages/browser/src/scenes/settings/server/jobs/JobActionMenu.tsx
+@@ -165,7 +165,13 @@ export default function JobActionMenu({ job, onInspect }: Props) {
+ 				},
+ 			]}
+ 			trigger={
+-				<Button size="icon" variant="ghost" className="shrink-0" onClick={onTriggerPressed}>
++				<Button
++					size="icon"
++					variant="ghost"
++					className="shrink-0"
++					onClick={onTriggerPressed}
++					aria-label={`Actions for ${job.name ?? 'job'}`}
++				>
+ 					<MoreVertical className="h-4 w-4" />
+ 				</Button>
+ 			}
+diff --git a/packages/browser/src/scenes/settings/server/jobs/JobTable.tsx b/packages/browser/src/scenes/settings/server/jobs/JobTable.tsx
+index d9bb7f29..2a849dc8 100644
+--- a/packages/browser/src/scenes/settings/server/jobs/JobTable.tsx
++++ b/packages/browser/src/scenes/settings/server/jobs/JobTable.tsx
+@@ -239,6 +239,7 @@ export default function JobTable() {
+ 						canManageJobs ? (
+ 							<JobActionMenu job={row.original} onInspect={() => setInspectingJob(row.original)} />
+ 						) : null,
++					header: () => <span className="sr-only">Actions</span>,
+ 					id: 'actions',
+ 					size: 28,
+ 				}),
+diff --git a/packages/browser/src/scenes/settings/server/jobs/ScheduledJobRow.tsx b/packages/browser/src/scenes/settings/server/jobs/ScheduledJobRow.tsx
+index 2c4549ed..36432712 100644
+--- a/packages/browser/src/scenes/settings/server/jobs/ScheduledJobRow.tsx
++++ b/packages/browser/src/scenes/settings/server/jobs/ScheduledJobRow.tsx
+@@ -101,6 +101,7 @@ export function ScheduledJobRow({ job, libraries, onEdit, onDelete }: Props) {
+ 					<Button
+ 						onClick={onDelete}
+ 						size="icon"
++						aria-label={t(getKey('row.delete'))}
+ 						className="hover h-7 w-7 p-0 hover:bg-destructive/20/20 rounded-full border border-destructive/10 bg-destructive/15"
+ 					>
+ 						<Trash2 className="h-4 w-4 text-destructive" strokeWidth={1} />
+@@ -111,6 +112,7 @@ export function ScheduledJobRow({ job, libraries, onEdit, onDelete }: Props) {
+ 					<Button
+ 						onClick={onEdit}
+ 						size="icon"
++						aria-label={t(getKey('row.edit'))}
+ 						className="h-7 w-7 p-0 rounded-full border border-border bg-muted"
+ 						variant="ghost"
+ 					>
+diff --git a/packages/browser/src/scenes/settings/server/tags/TagTable.tsx b/packages/browser/src/scenes/settings/server/tags/TagTable.tsx
+index 411a0191..5274c3c6 100644
+--- a/packages/browser/src/scenes/settings/server/tags/TagTable.tsx
++++ b/packages/browser/src/scenes/settings/server/tags/TagTable.tsx
+@@ -54,12 +54,12 @@ export default function TagTable() {
+ 			}),
+ 			columnHelper.display({
+ 				id: 'actions',
+-				header: () => null,
++				header: () => <span className="sr-only">Actions</span>,
+ 				cell: ({ row: { original: tag } }) => (
+ 					<div className="flex items-center justify-center">
+ 						<Dropdown modal={false}>
+ 							<Dropdown.Trigger asChild>
+-								<Button size="icon" variant="ghost">
++								<Button size="icon" variant="ghost" aria-label="Tag actions">
+ 									<Ellipsis className="h-4 w-4 text-foreground" />
+ 								</Button>
+ 							</Dropdown.Trigger>
+diff --git a/packages/browser/src/scenes/settings/server/users/create-or-update/AccountDetails.tsx b/packages/browser/src/scenes/settings/server/users/create-or-update/AccountDetails.tsx
+index e06feaaf..00affcac 100644
+--- a/packages/browser/src/scenes/settings/server/users/create-or-update/AccountDetails.tsx
++++ b/packages/browser/src/scenes/settings/server/users/create-or-update/AccountDetails.tsx
+@@ -45,6 +45,7 @@ export default function AccountDetails() {
+ 							onClick={() => setPasswordVisible(!passwordVisible)}
+ 							className="text-muted-foreground"
+ 							data-testid="togglePasswordVisibility"
++							aria-label={passwordVisible ? 'Hide password' : 'Show password'}
+ 						>
+ 							{passwordVisible ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+ 						</InputGroup.Button>
+diff --git a/packages/browser/src/scenes/settings/server/users/create-or-update/UserPermissionsTable.tsx b/packages/browser/src/scenes/settings/server/users/create-or-update/UserPermissionsTable.tsx
+index 3fa635a2..cd1a3cd2 100644
+--- a/packages/browser/src/scenes/settings/server/users/create-or-update/UserPermissionsTable.tsx
++++ b/packages/browser/src/scenes/settings/server/users/create-or-update/UserPermissionsTable.tsx
+@@ -133,6 +133,7 @@ export default function UserPermissionsTable() {
+ 											<CheckBox
+ 												id={groupData.id}
+ 												name={groupData.id}
++												aria-label={groupName}
+ 												checked={groupData.permissions.every(
+ 													(p) => selectedPermissions?.includes(p) ?? false,
+ 												)}
+@@ -161,6 +162,7 @@ export default function UserPermissionsTable() {
+ 											<CheckBox
+ 												id={permissionData.permission}
+ 												name={permissionData.permission}
++												aria-label={permissionData.label}
+ 												checked={selectedPermissions?.includes(permissionData.permission) ?? false}
+ 												onClick={() => handlePermissionClick(permissionData.permission)}
+ 											/>
+diff --git a/packages/browser/src/scenes/settings/server/users/user-table/UserActionMenu.tsx b/packages/browser/src/scenes/settings/server/users/user-table/UserActionMenu.tsx
+index 39ad5d58..de5f4b87 100644
+--- a/packages/browser/src/scenes/settings/server/users/user-table/UserActionMenu.tsx
++++ b/packages/browser/src/scenes/settings/server/users/user-table/UserActionMenu.tsx
+@@ -147,7 +147,7 @@ export default function UserActionMenu({ user, onSelectForInspect, onSelectForDe
+ 		<DropdownMenu
+ 			groups={groups}
+ 			trigger={
+-				<IconButton size="xs" variant="ghost">
++				<IconButton size="xs" variant="ghost" aria-label={`Actions for ${user.username}`}>
+ 					<MoreVertical className="h-4 w-4" />
+ 				</IconButton>
+ 			}
+diff --git a/packages/browser/src/scenes/settings/server/users/user-table/UserTable.tsx b/packages/browser/src/scenes/settings/server/users/user-table/UserTable.tsx
+index c7c41e60..563bb30a 100644
+--- a/packages/browser/src/scenes/settings/server/users/user-table/UserTable.tsx
++++ b/packages/browser/src/scenes/settings/server/users/user-table/UserTable.tsx
+@@ -114,6 +114,7 @@ export default function UserTable() {
+ 						/>
+ 					</div>
+ 				),
++				header: () => <span className="sr-only">Actions</span>,
+ 				id: 'actions',
+ 				size: 28,
+ 			}),
+diff --git a/packages/components/src/button/Button.tsx b/packages/components/src/button/Button.tsx
+index 29950bd8..8802908c 100644
+--- a/packages/components/src/button/Button.tsx
++++ b/packages/components/src/button/Button.tsx
+@@ -10,7 +10,7 @@ export const BUTTON_BASE_CLASSES = [
+ ]
+ 
+ export const BUTTON_VARIANTS = {
+-	default: 'bg-primary text-primary-foreground hover:bg-primary/80',
++	default: 'bg-primary text-primary-foreground hover:bg-primary/90',
+ 	outline:
+ 		'border-border bg-input/30 hover:bg-input/50 hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground',
+ 	secondary:
+diff --git a/packages/components/src/context-menu/ContextMenu.tsx b/packages/components/src/context-menu/ContextMenu.tsx
+index 2a9e5228..fbd34bf7 100644
+--- a/packages/components/src/context-menu/ContextMenu.tsx
++++ b/packages/components/src/context-menu/ContextMenu.tsx
+@@ -56,7 +56,13 @@ export function ContextMenu({
+ 								<ContextMenuPrimitiveShortcut>{item.shortCut}</ContextMenuPrimitiveShortcut>
+ 							)}
+ 						</ContextMenuPrimitiveSubTrigger>
+-						<ContextMenuPrimitivePortal>
++						<ContextMenuPrimitivePortal
++							container={
++								typeof document !== 'undefined'
++									? (document.querySelector('main, [role="main"]') ?? undefined)
++									: undefined
++							}
++						>
+ 							<ContextMenuPrimitiveSubContent className={cn('w-44', subContentWrapperClassName)}>
+ 								{renderItems(item.subItems)}
+ 							</ContextMenuPrimitiveSubContent>
+diff --git a/packages/components/src/context-menu/primitives.tsx b/packages/components/src/context-menu/primitives.tsx
+index 740402ab..8a114183 100644
+--- a/packages/components/src/context-menu/primitives.tsx
++++ b/packages/components/src/context-menu/primitives.tsx
+@@ -10,6 +10,13 @@ import { cn } from '../utils'
+ const ContextMenuPrimitive = ContextMenu.Root
+ const ContextMenuPrimitiveTrigger = ContextMenu.Trigger
+ const ContextMenuPrimitiveGroup = ContextMenu.Group
++/** Portal target for floating content — keeps it inside a landmark for WCAG
++ *  region coverage; poppers still position against the viewport. */
++const getLandmarkPortalContainer = () =>
++	typeof document !== 'undefined'
++		? (document.querySelector('main, [role="main"]') ?? undefined)
++		: undefined
++
+ const ContextMenuPrimitivePortal = ContextMenu.Portal
+ const ContextMenuPrimitiveSub = ContextMenu.Sub
+ const ContextMenuPrimitiveRadioGroup = ContextMenu.RadioGroup
+@@ -54,7 +61,7 @@ const ContextMenuPrimitiveContent = React.forwardRef<
+ 	ElementRef<typeof ContextMenu.Content>,
+ 	ComponentPropsWithoutRef<typeof ContextMenu.Content>
+ >(({ className, ...props }, ref) => (
+-	<ContextMenu.Portal>
++	<ContextMenu.Portal container={getLandmarkPortalContainer()}>
+ 		<ContextMenu.Content
+ 			ref={ref}
+ 			className={cn(
+diff --git a/packages/components/src/dropdown/DropdownMenu.tsx b/packages/components/src/dropdown/DropdownMenu.tsx
+index 3f16051a..3afd0977 100644
+--- a/packages/components/src/dropdown/DropdownMenu.tsx
++++ b/packages/components/src/dropdown/DropdownMenu.tsx
+@@ -1,4 +1,4 @@
+-import { Fragment } from 'react'
++import { Fragment, useId } from 'react'
+ 
+ import { Button } from '../button/Button'
+ import { Link } from '../link'
+@@ -66,7 +66,9 @@ export function DropdownMenu({
+ 	align,
+ 	modal = false,
+ 	...props
+-}: DropdownMenuProps) {
++ }: DropdownMenuProps) {
++	const labelIdPrefix = useId()
++
+ 	const renderItems = (items: DropdownItem[]) => {
+ 		return items
+ 			.filter((item) => !item.hidden)
+@@ -90,24 +92,37 @@ export function DropdownMenu({
+ 					)
+ 				}
+ 
+-				const Container = item.href ? Link : Fragment
+-				const containerProps = item.href
+-					? { className: 'hover:no-underline', to: item.href, underline: false }
+-					: {}
++				const itemContent = (
++					<>
++						{item.leftIcon}
++						<span>{item.label}</span>
++						{item.shortCut && <DropdownShortcut>{item.shortCut}</DropdownShortcut>}
++					</>
++				)
+ 
+-				return (
+-					<Container {...containerProps} key={key}>
+-						<DropdownItem
+-							onClick={item.onClick}
+-							disabled={item.disabled}
+-							isActive={item.isActive}
+-							isDestructive={item.isDestructive}
+-						>
+-							{item.leftIcon}
+-							<span>{item.label}</span>
+-							{item.shortCut && <DropdownShortcut>{item.shortCut}</DropdownShortcut>}
+-						</DropdownItem>
+-					</Container>
++				return item.href ? (
++					<DropdownItem
++						key={key}
++						asChild
++						onClick={item.onClick}
++						disabled={item.disabled}
++						isActive={item.isActive}
++						isDestructive={item.isDestructive}
++					>
++						<Link className="hover:no-underline" to={item.href} underline={false}>
++							{itemContent}
++						</Link>
++					</DropdownItem>
++				) : (
++					<DropdownItem
++						key={key}
++						onClick={item.onClick}
++						disabled={item.disabled}
++						isActive={item.isActive}
++						isDestructive={item.isDestructive}
++					>
++						{itemContent}
++					</DropdownItem>
+ 				)
+ 			})
+ 	}
+@@ -127,13 +142,19 @@ export function DropdownMenu({
+ 			<DropdownTrigger asChild>{renderTrigger()}</DropdownTrigger>
+ 
+ 			<DropdownContent className={cn('w-56', contentWrapperClassName)} align={align}>
+-				{groups.map((group, groupIndex) => (
+-					<Fragment key={groupIndex}>
+-						{group.title && <DropdownLabel>{group.title}</DropdownLabel>}
+-						{groupIndex > 0 && <DropdownSeparator />}
+-						<DropdownGroup>{renderItems(group.items)}</DropdownGroup>
+-					</Fragment>
+-				))}
++				{groups.map((group, groupIndex) => {
++					const labelId = `${labelIdPrefix}-group-${groupIndex}`
++
++					return (
++						<Fragment key={groupIndex}>
++							{group.title && <DropdownLabel id={labelId}>{group.title}</DropdownLabel>}
++							{groupIndex > 0 && <DropdownSeparator />}
++							<DropdownGroup aria-labelledby={group.title ? labelId : undefined}>
++								{renderItems(group.items)}
++							</DropdownGroup>
++						</Fragment>
++					)
++				})}
+ 			</DropdownContent>
+ 		</Dropdown>
+ 	)
+diff --git a/packages/components/src/dropdown/primitives.tsx b/packages/components/src/dropdown/primitives.tsx
+index bd4ed605..ad44c265 100644
+--- a/packages/components/src/dropdown/primitives.tsx
++++ b/packages/components/src/dropdown/primitives.tsx
+@@ -8,6 +8,17 @@ import { cn } from '../utils'
+ const Dropdown = DropdownMenuPrimitive.Root as typeof DropdownMenuPrimitive.Root &
+ 	DropdownSubComponents
+ 
++/**
++ * Portal target for floating menu content. Rendering inside a landmark keeps the
++ * content within the page's landmark structure (WCAG region coverage); the
++ * popper still positions itself relative to the viewport, so visuals are
++ * unchanged.
++ */
++export const getDropdownPortalContainer = () =>
++	typeof document !== 'undefined'
++		? (document.querySelector('main, [role="main"]') ?? undefined)
++		: undefined
++
+ const DropdownTrigger = DropdownMenuPrimitive.Trigger
+ const DropdownGroup = DropdownMenuPrimitive.Group
+ const DropdownPortal = DropdownMenuPrimitive.Portal
+@@ -59,7 +70,7 @@ const DropdownContent = React.forwardRef<
+ 	ElementRef<typeof DropdownMenuPrimitive.Content>,
+ 	DropdownContentProps
+ >(({ className, sideOffset = 4, ...props }, ref) => (
+-	<DropdownMenuPrimitive.Portal>
++	<DropdownMenuPrimitive.Portal container={getDropdownPortalContainer()}>
+ 		<DropdownMenuPrimitive.Content
+ 			ref={ref}
+ 			sideOffset={sideOffset}
+@@ -84,7 +95,7 @@ const DropdownItem = React.forwardRef<
+ 	<DropdownMenuPrimitive.Item
+ 		ref={ref}
+ 		className={cn(
+-			'px-2 py-1.5 text-sm font-medium relative flex cursor-default items-center rounded-sm outline-none select-none focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50',
++			'px-2 py-1.5 text-sm font-medium relative flex cursor-default items-center rounded-sm outline-none select-none focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:text-muted-foreground',
+ 			isDestructive && 'text-destructive focus:bg-destructive/10 focus:text-destructive',
+ 			inset && 'pl-8',
+ 			isActive &&
+@@ -149,6 +160,7 @@ const DropdownLabel = React.forwardRef<
+ >(({ className, inset, ...props }, ref) => (
+ 	<DropdownMenuPrimitive.Label
+ 		ref={ref}
++		role="none"
+ 		className={cn('px-2 py-1.5 text-sm font-semibold text-foreground', inset && 'pl-8', className)}
+ 		{...props}
+ 	/>
+diff --git a/packages/components/src/emoji/EmojiPicker.tsx b/packages/components/src/emoji/EmojiPicker.tsx
+index 148c8f9e..98f536a9 100644
+--- a/packages/components/src/emoji/EmojiPicker.tsx
++++ b/packages/components/src/emoji/EmojiPicker.tsx
+@@ -69,6 +69,7 @@ export default function EmojiPicker({
+ 		return (
+ 			<IconButton
+ 				type="button"
++				aria-label="Change emoji"
+ 				className={cn('h-6 w-6 text-sm', className)}
+ 				variant="ghost"
+ 				{...rest}
+diff --git a/packages/components/src/input/CheckBox.tsx b/packages/components/src/input/CheckBox.tsx
+index 38403e19..55ea48a2 100644
+--- a/packages/components/src/input/CheckBox.tsx
++++ b/packages/components/src/input/CheckBox.tsx
+@@ -17,6 +17,9 @@ export type CheckBoxProps = {
+ // TODO: fix ring bg color on dark mode
+ export const CheckBox = React.forwardRef<RawCheckBoxRef, CheckBoxProps>(
+ 	({ label, description, ...props }, ref) => {
++		const generatedId = React.useId()
++		const resolvedId = props.id ?? generatedId
++
+ 		const renderContent = () => {
+ 			if (!label && !description) {
+ 				return null
+@@ -26,7 +29,7 @@ export const CheckBox = React.forwardRef<RawCheckBoxRef, CheckBoxProps>(
+ 				<div className="gap-1.5 grid leading-none">
+ 					{label && (
+ 						<Label
+-							htmlFor={props.id}
++							htmlFor={resolvedId}
+ 							className={cx({ 'cursor-not-allowed opacity-50': props.disabled })}
+ 						>
+ 							{label}
+@@ -47,7 +50,7 @@ export const CheckBox = React.forwardRef<RawCheckBoxRef, CheckBoxProps>(
+ 
+ 		return (
+ 			<div className="space-x-2 flex items-start">
+-				<RawCheckBox ref={ref} {...props} />
++				<RawCheckBox ref={ref} {...props} id={resolvedId} />
+ 				{renderContent()}
+ 			</div>
+ 		)
+diff --git a/packages/components/src/input/Input.tsx b/packages/components/src/input/Input.tsx
+index 1a521a88..684897e3 100644
+--- a/packages/components/src/input/Input.tsx
++++ b/packages/components/src/input/Input.tsx
+@@ -1,5 +1,5 @@
+ import type { ComponentPropsWithoutRef } from 'react'
+-import { forwardRef } from 'react'
++import { forwardRef, useId } from 'react'
+ 
+ import { Label } from '../form'
+ import { Text } from '../text'
+@@ -45,6 +45,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
+ 		ref,
+ 	) => {
+ 		const resolvedInvalid = isInvalid ?? !!errorMessage
++		const generatedId = useId()
++		const resolvedId = props.id ?? generatedId
+ 
+ 		const renderDescription = () => {
+ 			if (description) {
+@@ -95,7 +97,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
+ 			>
+ 				{label && (
+ 					<Label
+-						htmlFor={props.id}
++						htmlFor={resolvedId}
+ 						{...(labelProps || {})}
+ 						className={cn(
+ 							{
+@@ -114,6 +116,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
+ 				<div className="relative w-full">
+ 					<RawInput
+ 						{...props}
++						id={resolvedId}
+ 						ref={ref}
+ 						aria-invalid={resolvedInvalid}
+ 						className={className}
+diff --git a/packages/components/src/input/PasswordInput.tsx b/packages/components/src/input/PasswordInput.tsx
+index dd111848..97b81f02 100644
+--- a/packages/components/src/input/PasswordInput.tsx
++++ b/packages/components/src/input/PasswordInput.tsx
+@@ -1,5 +1,5 @@
+ import { Eye, EyeOff } from 'lucide-react'
+-import { forwardRef, useState } from 'react'
++import { forwardRef, useId, useState } from 'react'
+ 
+ import { Label } from '../form'
+ import { Text } from '../text'
+@@ -26,6 +26,8 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
+ 		const [showPassword, setShowPassword] = useState(false)
+ 
+ 		const resolvedInvalid = props.isInvalid ?? !!errorMessage
++		const generatedId = useId()
++		const resolvedId = props.id ?? generatedId
+ 
+ 		const renderDescription = () => {
+ 			if (description) {
+@@ -76,7 +78,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
+ 			>
+ 				{label && (
+ 					<Label
+-						htmlFor={props.id}
++						htmlFor={resolvedId}
+ 						{...(labelProps || {})}
+ 						className={cn(
+ 							{
+@@ -95,6 +97,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, InputProps>(
+ 				<InputGroup>
+ 					<InputGroup.Input
+ 						{...props}
++						id={resolvedId}
+ 						ref={ref}
+ 						type={showPassword ? 'text' : 'password'}
+ 						aria-invalid={resolvedInvalid}
+diff --git a/packages/components/src/input/Switch.tsx b/packages/components/src/input/Switch.tsx
+index a0970556..60ccb441 100644
+--- a/packages/components/src/input/Switch.tsx
++++ b/packages/components/src/input/Switch.tsx
+@@ -1,4 +1,4 @@
+-import React from 'react'
++import React, { useId } from 'react'
+ 
+ import { Label } from '../form'
+ import { cn } from '../utils'
+@@ -12,11 +12,16 @@ export type SwitchProps = {
+ } & RawSwitchProps
+ 
+ export const Switch = React.forwardRef<RawSwitchRef, SwitchProps>(
+-	({ label, containerClassName, ...props }, ref) => (
+-		<div className={cn('space-x-2 flex items-center', containerClassName)}>
+-			<RawSwitch {...props} ref={ref} />
+-			<Label htmlFor={props.id}>{label}</Label>
+-		</div>
+-	),
++	({ label, containerClassName, ...props }, ref) => {
++		const generatedId = useId()
++		const resolvedId = props.id ?? generatedId
++
++		return (
++			<div className={cn('space-x-2 flex items-center', containerClassName)}>
++				<RawSwitch {...props} id={resolvedId} ref={ref} />
++				<Label htmlFor={resolvedId}>{label}</Label>
++			</div>
++		)
++	},
+ )
+ Switch.displayName = 'Switch'
+diff --git a/packages/components/src/input/TextArea.tsx b/packages/components/src/input/TextArea.tsx
+index 1b658d7a..ef96af89 100644
+--- a/packages/components/src/input/TextArea.tsx
++++ b/packages/components/src/input/TextArea.tsx
+@@ -21,12 +21,14 @@ export type TextAreaProps = {
+ const TextArea = React.forwardRef<RawTextAreaRef, TextAreaProps>(
+ 	({ label, description, containerClassName, errorMessage, isInvalid, ...props }, ref) => {
+ 		const resolvedInvalid = isInvalid ?? !!errorMessage
++		const generatedId = React.useId()
++		const resolvedId = props.id ?? generatedId
+ 
+ 		return (
+ 			<div className={cn('gap-1.5 grid items-center', containerClassName)}>
+ 				{label && (
+ 					<Label
+-						htmlFor={props.id}
++						htmlFor={resolvedId}
+ 						className={cn({
+ 							'cursor-not-allowed opacity-50': props.disabled,
+ 						})}
+@@ -35,7 +37,7 @@ const TextArea = React.forwardRef<RawTextAreaRef, TextAreaProps>(
+ 						{props.required && <span className="text-destructive"> *</span>}
+ 					</Label>
+ 				)}
+-				<RawTextArea ref={ref} aria-invalid={resolvedInvalid} {...props} />
++				<RawTextArea ref={ref} aria-invalid={resolvedInvalid} {...props} id={resolvedId} />
+ 
+ 				{errorMessage && (
+ 					<Text variant="danger" size="xs" className="break-all">
+diff --git a/packages/components/src/popover/Popover.tsx b/packages/components/src/popover/Popover.tsx
+index e597900e..c77d03d9 100644
+--- a/packages/components/src/popover/Popover.tsx
++++ b/packages/components/src/popover/Popover.tsx
+@@ -7,6 +7,13 @@ import { cn } from '../utils'
+ const Popover = PopoverPrimitive.Root as typeof PopoverPrimitive.Root & PopoverSubComponents
+ const PopoverTrigger = PopoverPrimitive.Trigger
+ 
++/** Portal target for floating content — keeps it inside a landmark for WCAG
++ *  region coverage; poppers still position against the viewport. */
++const getLandmarkPortalContainer = () =>
++	typeof document !== 'undefined'
++		? (document.querySelector('main, [role="main"]') ?? undefined)
++		: undefined
++
+ const POPOVER_SIZE_VARIANTS = {
+ 	default: 'w-64',
+ 	lg: 'w-80',
+@@ -24,7 +31,7 @@ const PopoverContent = React.forwardRef<
+ >(({ className, align = 'center', sideOffset = 4, size, portal, ...props }, ref) => {
+ 	const Container = portal ? PopoverPrimitive.Portal : React.Fragment
+ 	return (
+-		<Container>
++		<Container {...(portal ? { container: getLandmarkPortalContainer() } : {})}>
+ 			<PopoverPrimitive.Content
+ 				ref={ref}
+ 				align={align}
+diff --git a/packages/components/src/select/ComboBox.tsx b/packages/components/src/select/ComboBox.tsx
+index 9f9630d1..23e90077 100644
+--- a/packages/components/src/select/ComboBox.tsx
++++ b/packages/components/src/select/ComboBox.tsx
+@@ -5,6 +5,7 @@ import {
+ 	RefCallback,
+ 	useCallback,
+ 	useEffect,
++	useId,
+ 	useRef,
+ 	useState,
+ } from 'react'
+@@ -64,6 +65,8 @@ export type ComboBoxProps = {
+ 	wrapperClassName?: string
+ 	wrapperStyle?: React.CSSProperties
+ 	placeholder?: string
++	/** Accessible name for the trigger when no visible label is provided */
++	'aria-label'?: string
+ 	filterable?: boolean
+ 	filterPlaceholder?: string
+ 	filterEmptyMessage?: string
+@@ -90,6 +93,7 @@ function mergeRefs<T>(...refs: MutableRefList<T>): RefCallback<T> {
+ 
+ export function ComboBox({
+ 	label,
++	'aria-label': ariaLabel,
+ 	description,
+ 	descriptionPosition = 'bottom',
+ 	isMultiSelect,
+@@ -208,6 +212,7 @@ export function ComboBox({
+ 
+ 	const topDescription = description && descriptionPosition === 'top'
+ 	const bottomDescription = description && descriptionPosition === 'bottom'
++	const labelId = useId()
+ 
+ 	/**
+ 	 * An effect to ensure that the value is always an array when `isMultiSelect` is true. This
+@@ -225,95 +230,120 @@ export function ComboBox({
+ 		}
+ 	}, [isMultiSelect, value, onChange, options])
+ 
++	const triggerContent = (
++		<>
++			<span className="truncate text-left">{renderSelected()}</span>
++			<ChevronsUpDown className="h-4 w-4 shrink-0 text-muted-foreground opacity-50" />
++		</>
++	)
++
++	const triggerClass = cn(
++		'gap-1.5 justify-between rounded-interactive border-border bg-input/30 text-foreground outline-none hover:bg-input/50 data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/50',
++		{ [TRIGGER_SIZE_VARIANTS[size || 'default']]: !!size },
++		{ [SIZE_VARIANTS[size || 'default']]: !!size },
++		{ 'text-muted-foreground': !hasSelectedSomething },
++		triggerClassName,
++		options.find((option) => option.value === value)?.fontClassName,
++	)
++
+ 	return (
+ 		<Container {...containerProps}>
+-			{label && <Label>{label}</Label>}
++			{label && <Label id={labelId}>{label}</Label>}
+ 			{topDescription && (
+ 				<Text size="sm" variant="muted">
+ 					{description}
+ 				</Text>
+ 			)}
+-			<Popover open={open} onOpenChange={setOpen}>
+-				<Popover.Trigger asChild disabled={disabled}>
+-					<Button
+-						ref={mergeRefs(triggerRef, triggerRefProps)}
+-						variant="outline"
+-						role="combobox"
+-						aria-expanded={open}
++			{/* Un contrôle désactivé ne peut jamais ouvrir le popover : on rend un
++				simple bouton plutôt qu'un trigger Radix, sinon aria-controls pointe
++				vers un contenu qui ne sera jamais monté. */}
++			{disabled ? (
++				<Button
++					variant="outline"
++					disabled
++					aria-label={ariaLabel}
++					aria-labelledby={label ? labelId : undefined}
++					className={triggerClass}
++				>
++					{triggerContent}
++				</Button>
++			) : (
++				<Popover open={open} onOpenChange={setOpen}>
++					<Popover.Trigger asChild disabled={disabled}>
++						<Button
++							ref={mergeRefs(triggerRef, triggerRefProps)}
++							variant="outline"
++							role="combobox"
++							aria-expanded={open}
++							aria-label={ariaLabel}
++							aria-labelledby={label ? labelId : undefined}
++							className={triggerClass}
++						>
++							{triggerContent}
++						</Button>
++					</Popover.Trigger>
++					{/* FIXME: this does NOT scroll right... */}
++					<Popover.Content
++						sideOffset={6}
+ 						className={cn(
+-							'gap-1.5 justify-between rounded-interactive border-border bg-input/30 text-foreground outline-none hover:bg-input/50 data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/50',
+-							{ [TRIGGER_SIZE_VARIANTS[size || 'default']]: !!size },
+ 							{ [SIZE_VARIANTS[size || 'default']]: !!size },
+-							{ 'text-muted-foreground': !hasSelectedSomething },
+-							triggerClassName,
+-							options.find((option) => option.value === value)?.fontClassName,
++							'max-h-96 p-0 z-1000 overflow-hidden',
++							wrapperClassName,
+ 						)}
++						// eslint-disable-next-line react-hooks/refs
++						style={contentStyle}
++						portal={false}
+ 					>
+-						<span className="truncate text-left">{renderSelected()}</span>
+-						<ChevronsUpDown className="h-4 w-4 shrink-0 text-muted-foreground opacity-50" />
+-					</Button>
+-				</Popover.Trigger>
+-				{/* FIXME: this does NOT scroll right... */}
+-				<Popover.Content
+-					sideOffset={6}
+-					className={cn(
+-						{ [SIZE_VARIANTS[size || 'default']]: !!size },
+-						'max-h-96 p-0 z-1000 overflow-hidden',
+-						wrapperClassName,
+-					)}
+-					// eslint-disable-next-line react-hooks/refs
+-					style={contentStyle}
+-					portal={false}
+-				>
+-					<Command className="p-0 rounded-none bg-transparent text-popover-foreground">
+-						{filterable && (
+-							<>
+-								<Command.Input
+-									wrapperClassName="m-1 mb-0 h-9 rounded-interactive bg-input/30 px-3"
+-									iconClassName="mr-0 order-last"
+-									className="h-9 py-2"
+-									placeholder={filterPlaceholder}
+-									value={filter}
+-									onValueChange={setFilter}
+-								/>
+-								<Command.Empty>{renderEmptyState()}</Command.Empty>
+-							</>
+-						)}
+-						<Command.List className="scroll-py-1 p-1 data-[empty=true]:p-0 max-h-[min(calc(18rem-2.25rem),calc(100dvh-2.25rem))] overflow-y-auto overscroll-contain">
+-							<Command.Group className="p-0">
+-								{options.map((option) => {
+-									const isSelected = isMultiSelect
+-										? value?.includes(option.value)
+-										: value === option.value
++						<Command className="p-0 rounded-none bg-transparent text-popover-foreground">
++							{filterable && (
++								<>
++									<Command.Input
++										wrapperClassName="m-1 mb-0 h-9 rounded-interactive bg-input/30 px-3"
++										iconClassName="mr-0 order-last"
++										className="h-9 py-2"
++										placeholder={filterPlaceholder}
++										value={filter}
++										onValueChange={setFilter}
++									/>
++									<Command.Empty>{renderEmptyState()}</Command.Empty>
++								</>
++							)}
++							<Command.List className="scroll-py-1 p-1 data-[empty=true]:p-0 max-h-[min(calc(18rem-2.25rem),calc(100dvh-2.25rem))] overflow-y-auto overscroll-contain">
++								<Command.Group className="p-0">
++									{options.map((option) => {
++										const isSelected = isMultiSelect
++											? value?.includes(option.value)
++											: value === option.value
+ 
+-									return (
+-										<Command.Item
+-											key={option.value}
+-											// Note: For some reason, this transforms the `value` to lowercase...
+-											onSelect={handleChange}
+-											className={cn(
+-												'gap-2.5 py-2 pr-8 pl-3 relative w-full rounded-sm transition-all duration-75',
+-												{ 'text-primary': isSelected },
+-												option.fontClassName,
+-											)}
+-											value={option.value}
+-											keywords={[option.label]}
+-										>
+-											<Check
++										return (
++											<Command.Item
++												key={option.value}
++												// Note: For some reason, this transforms the `value` to lowercase...
++												onSelect={handleChange}
+ 												className={cn(
+-													'mr-2 h-4 w-4 shrink-0',
+-													isSelected ? 'opacity-100' : 'opacity-0',
++													'gap-2.5 py-2 pr-8 pl-3 relative w-full rounded-sm transition-all duration-75',
++													{ 'text-primary': isSelected },
++													option.fontClassName,
+ 												)}
+-											/>
+-											{option.label}
+-										</Command.Item>
+-									)
+-								})}
+-							</Command.Group>
+-						</Command.List>
+-					</Command>
+-				</Popover.Content>
+-			</Popover>
++												value={option.value}
++												keywords={[option.label]}
++											>
++												<Check
++													className={cn(
++														'mr-2 h-4 w-4 shrink-0',
++														isSelected ? 'opacity-100' : 'opacity-0',
++													)}
++												/>
++												{option.label}
++											</Command.Item>
++										)
++									})}
++								</Command.Group>
++							</Command.List>
++						</Command>
++					</Popover.Content>
++				</Popover>
++			)}
+ 			{bottomDescription && (
+ 				<Text size="sm" variant="muted">
+ 					{description}
+diff --git a/packages/components/src/select/primitives.tsx b/packages/components/src/select/primitives.tsx
+index 8b660fe9..703f8e2a 100644
+--- a/packages/components/src/select/primitives.tsx
++++ b/packages/components/src/select/primitives.tsx
+@@ -9,6 +9,13 @@ const SelectPrimitiveRoot = SelectRadix.Root
+ const SelectPrimitiveGroup = SelectRadix.Group
+ const SelectPrimitiveValue = SelectRadix.Value
+ 
++/** Portal target for floating content — keeps it inside a landmark for WCAG
++ *  region coverage; poppers still position against the viewport. */
++const getLandmarkPortalContainer = () =>
++	typeof document !== 'undefined'
++		? (document.querySelector('main, [role="main"]') ?? undefined)
++		: undefined
++
+ const SelectPrimitiveTrigger = React.forwardRef<
+ 	ElementRef<typeof SelectRadix.Trigger>,
+ 	ComponentPropsWithoutRef<typeof SelectRadix.Trigger>
+@@ -31,7 +38,7 @@ const SelectPrimitiveContent = React.forwardRef<
+ 	ElementRef<typeof SelectRadix.Content>,
+ 	ComponentPropsWithoutRef<typeof SelectRadix.Content>
+ >(({ className, children, ...props }, ref) => (
+-	<SelectRadix.Portal>
++	<SelectRadix.Portal container={getLandmarkPortalContainer()}>
+ 		<SelectRadix.Content
+ 			ref={ref}
+ 			className={cn(
+diff --git a/packages/components/src/sheet/Sheet.tsx b/packages/components/src/sheet/Sheet.tsx
+index a4cffa1b..03ec6f5c 100644
+--- a/packages/components/src/sheet/Sheet.tsx
++++ b/packages/components/src/sheet/Sheet.tsx
+@@ -66,7 +66,15 @@ export function Sheet({
+ 	return (
+ 		<SheetPrimitive open={open} onOpenChange={handleOpenChange}>
+ 			{!!trigger && <SheetPrimitive.Trigger asChild>{renderTrigger()}</SheetPrimitive.Trigger>}
+-			<SheetPrimitive.Content closeIcon={closeIcon} {...contentProps} className={contentClassName}>
++			{/* Radix émet aria-describedby vers l'id du contexte même quand aucune
++				Description n'est montée : sans description on retire l'attribut
++				pour éviter une idref morte. */}
++			<SheetPrimitive.Content
++				closeIcon={closeIcon}
++				{...(description ? {} : { 'aria-describedby': undefined })}
++				{...contentProps}
++				className={contentClassName}
++			>
+ 				<SheetPrimitive.Header>
+ 					<SheetPrimitive.Title>{title}</SheetPrimitive.Title>
+ 					{description && <SheetPrimitive.Description>{description}</SheetPrimitive.Description>}
+diff --git a/packages/components/src/slider/Slider.tsx b/packages/components/src/slider/Slider.tsx
+index 08da4396..0285f2fe 100644
+--- a/packages/components/src/slider/Slider.tsx
++++ b/packages/components/src/slider/Slider.tsx
+@@ -6,7 +6,7 @@ import { cn } from '../utils'
+ const Slider = forwardRef<
+ 	ElementRef<typeof SliderPrimitive.Root>,
+ 	ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+->(({ className, ...props }, ref) => (
++>(({ className, 'aria-label': ariaLabel, ...props }, ref) => (
+ 	<SliderPrimitive.Root
+ 		ref={ref}
+ 		className={cn('relative flex w-full touch-none items-center select-none', className)}
+@@ -16,6 +16,7 @@ const Slider = forwardRef<
+ 			<SliderPrimitive.Range className="absolute h-full bg-primary" />
+ 		</SliderPrimitive.Track>
+ 		<SliderPrimitive.Thumb
++			aria-label={ariaLabel}
+ 			data-testid="sliderThumb"
+ 			className="h-4 w-4 shadow block rounded-full border border-border bg-primary transition-colors focus-visible:ring-1 focus-visible:ring-ring focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+ 		/>
+diff --git a/packages/components/src/stats/MiniStatCard.tsx b/packages/components/src/stats/MiniStatCard.tsx
+index 5ec7b52d..f9ee89c8 100644
+--- a/packages/components/src/stats/MiniStatCard.tsx
++++ b/packages/components/src/stats/MiniStatCard.tsx
+@@ -17,7 +17,7 @@ export function MiniStatCard({ icon: Icon, value, suffix }: MiniStatCardProps) {
+ 				</div>
+ 			)}
+ 			<span className="text-xs font-semibold text-foreground tabular-nums">{value}</span>
+-			{suffix && <span className="text-xs font-medium text-foreground opacity-50">{suffix}</span>}
++			{suffix && <span className="text-xs font-medium text-muted-foreground">{suffix}</span>}
+ 		</div>
+ 	)
+ }
+diff --git a/packages/components/src/stats/StatCard.tsx b/packages/components/src/stats/StatCard.tsx
+index 97592f07..49389981 100644
+--- a/packages/components/src/stats/StatCard.tsx
++++ b/packages/components/src/stats/StatCard.tsx
+@@ -78,7 +78,7 @@ export function StatCard({
+ 					</span>
+ 					{suffix && (
+ 						<span
+-							className={cn('mb-0.5 text-sm font-bold opacity-50', !colors && 'text-foreground')}
++							className={cn('mb-0.5 text-sm font-bold', !colors && 'text-foreground')}
+ 							style={textColor ? { color: textColor } : undefined}
+ 						>
+ 							{suffix}
+diff --git a/packages/components/src/stats/colors.ts b/packages/components/src/stats/colors.ts
+index 47e67afc..4226872a 100644
+--- a/packages/components/src/stats/colors.ts
++++ b/packages/components/src/stats/colors.ts
+@@ -2,11 +2,11 @@ export type StatColorPalette = { primary: string; secondary: string }
+ 
+ // yoinked the general shape from expo, but less time given for color science consideration etc
+ export const STAT_COLORS = {
+-	inProgress: { primary: '#f59e0b', secondary: '#fef3c7' },
+-	completed: { primary: '#10b981', secondary: '#d1fae5' },
+-	books: { primary: '#3b82f6', secondary: '#dbeafe' },
+-	series: { primary: '#a855f7', secondary: '#f3e8ff' },
+-	readingTime: { primary: '#f43f5e', secondary: '#ffe4e6' },
+-	size: { primary: '#64748b', secondary: '#f1f5f9' },
++	inProgress: { primary: '#92400e', secondary: '#fef3c7' },
++	completed: { primary: '#047857', secondary: '#d1fae5' },
++	books: { primary: '#1d4ed8', secondary: '#dbeafe' },
++	series: { primary: '#7e22ce', secondary: '#f3e8ff' },
++	readingTime: { primary: '#be123c', secondary: '#ffe4e6' },
++	size: { primary: '#475569', secondary: '#f1f5f9' },
+ 	system: { primary: '#475569', secondary: '#f1f5f9' },
+ } satisfies Record<string, StatColorPalette>
+diff --git a/packages/components/tailwind/themes.css b/packages/components/tailwind/themes.css
+index 203f36a6..98722b97 100644
+--- a/packages/components/tailwind/themes.css
++++ b/packages/components/tailwind/themes.css
+@@ -14,7 +14,7 @@
+ 		--secondary: #1f2123;
+ 		--secondary-foreground: #f5f3ef;
+ 		--muted: #1f2123;
+-		--muted-foreground: #898d94;
++		--muted-foreground: #9aa0a8;
+ 		--accent: #242628;
+ 		--accent-foreground: #e9eaeb;
+ 		--destructive: #e53935;
+@@ -71,15 +71,15 @@
+ 		--dialog-foreground: #26272a;
+ 		--popover: #ffffff;
+ 		--popover-foreground: #26272a;
+-		--primary: oklch(0.555 0.163 48.998);
++		--primary: #9a3f00;
+ 		--primary-foreground: oklch(0.987 0.022 95.277);
+ 		--secondary: oklch(0.967 0.001 286.375);
+ 		--secondary-foreground: oklch(0.21 0.006 285.885);
+ 		--muted: #eeeff1;
+-		--muted-foreground: oklch(0.556 0 0);
++		--muted-foreground: oklch(0.47 0 0);
+ 		--accent: #e3e4e8;
+ 		--accent-foreground: #26272a;
+-		--destructive: oklch(0.577 0.245 27.325);
++		--destructive: #991b1b;
+ 		--border: oklch(0.922 0 0);
+ 		--input: oklch(1 0 0);
+ 		--switch: oklch(0.922 0 0);
+@@ -107,9 +107,9 @@
+ 		--debug-foreground: var(--foreground);
+ 		--info: #0284c7;
+ 		--info-foreground: var(--foreground);
+-		--success: #43a047;
++		--success: #1b5e20;
+ 		--success-foreground: var(--foreground);
+-		--warning: #f59e0b;
++		--warning: #78350f;
+ 		--warning-foreground: var(--foreground);
+ 
+ 		--color-scrollbar: #f2f2f3;
+@@ -200,7 +200,7 @@
+ 		--secondary: #227e95;
+ 		--secondary-foreground: #d9e4ea;
+ 		--muted: #165564;
+-		--muted-foreground: #94a1ac;
++		--muted-foreground: #b6c2ca;
+ 		--accent: #186070;
+ 		--accent-foreground: #edf2f4;
+ 		--destructive: #e63946;

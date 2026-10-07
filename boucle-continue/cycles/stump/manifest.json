@@ -1,0 +1,108 @@
+{
+  "cycle": 34,
+  "project": "stumpapp/stump",
+  "commit": "42a9918c1542234aa35dc4250cd00e85f96c7031",
+  "commit_date": "2026-09-21 (v0.1.10)",
+  "branch_upstream": "main @42a9918c",
+  "framework": "Rust 1.97 (axum + async-graphql + sea-orm/sqlite) backend + SPA React 19 / TypeScript / Tailwind 4 / Radix UI, monorepo yarn v1 workspaces (packages/{browser,components,client,graphql,i18n,sdk}) — premier backend Rust + premier frontend React-shadcn/Radix de la boucle",
+  "served_source": "SPA buildée par vite dans apps/web/dist servie depuis le DISQUE (spa.rs ServeDir + fallback index.html ; STUMP_CLIENT_DIR pointé par debug_setup). Tout fix frontend = `yarn workspace @stump/browser build` + rien à redémarrer (fichiers lus à chaque requête). API REST /api/v2/* + GraphQL /api/graphql.",
+  "base_url": "http://localhost:11334",
+  "boot": {
+    "deps": "node v24 via nvm + cargo 1.97.1 (~/.cargo/bin) + yarn 1.22 ; apt pkg-config libssl-dev cmake (openssl-sys/sqlite compilés)",
+    "install": "yarn install --frozen-lockfile (monorepo)",
+    "build": "yarn workspace @stump/browser build (vite → apps/web/dist) ; cargo build -p stump_server (debug, ~4min) — STUMP_CLIENT_DIR=<repo>/apps/web/dist injecté par debug_setup",
+    "run": "STUMP_CONFIG_DIR=~/boucle-runs/stump/config STUMP_PORT=11334 ./target/debug/stump_server (log ~/boucle-runs/stump/server-11334.log ; data sqlite dans CONFIG_DIR/stump.db)",
+    "first_boot_notes": "serveur non claimé → admin créé via POST /api/v2/auth/register (1er user = isServerOwner). PAS de wizard UI."
+  },
+  "seed": {
+    "script": "tools/seed.mjs <baseUrl> <repo> <mediaRoot> — idempotent (fichiers + claim + register + createLibrary + attente READY)",
+    "content": "library 'Comics' (2 séries : Alpha Squadron 3 cbz, Beta Tales 2 cbz — alpha-001 = vrai cbz 36p du repo integration-tests, les autres cbz synthétiques 3 pages PNG) ; library 'Books' (série Novels : leaves.epub 697p + the-great-novel.epub 83p depuis core/integration-tests/data). Seed littéral : titres/noms de fichiers réels, pas de lorem.",
+    "determinism": "médias persistés dans stump.db ; aucun compteur temps réel requis par le scope ; scans idempotents"
+  },
+  "auth": "cookie HttpOnly stump_session persistée en SQLite (StumpSessionStore) — survit aux restarts serveur, auth.json reste valide tant que le cookie n'expire pas (Max-Age 3j) ; regénérable via tools/login.mjs (vrai formulaire /auth). storageState sauvé dans tools/auth.json (éphémère, exclu de provenance).",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls_file": "tools/urls-public.txt",
+      "urls": [
+        "/auth (formulaire login — serveur déjà claimé)"
+      ],
+      "states": [
+        "login-failed"
+      ]
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json",
+      "urls_file": "tools/urls-auth.txt",
+      "urls": [
+        "/",
+        "/libraries",
+        "/libraries/create",
+        "/libraries/<comics>/{series,books,files,settings/basics,settings/scanning,settings/access-control}",
+        "/series",
+        "/series/<alpha-squadron>/{books,files,settings}",
+        "/books",
+        "/books/<alpha-001>",
+        "/books/<alpha-001>/manage",
+        "/clubs",
+        "/clubs/create",
+        "/clubs/explore",
+        "/smart-lists",
+        "/smart-lists/create",
+        "/settings/{account,preferences,reader,api-keys,server,logs,jobs,users,users/create,email,email/new,metadata-integrations,tags}",
+        "/not-a-route (404)"
+      ],
+      "states": [
+        "sidebar-user-menu",
+        "library-options-menu",
+        "library-delete-confirm",
+        "job-toast",
+        "book-action-menu",
+        "directory-picker-modal",
+        "book-card-hover-menu",
+        "dark-theme",
+        "mobile-nav"
+      ]
+    }
+  ],
+  "excluded": [
+    "readers (/books/<id>/{reader,epub-reader,pdf-reader}) : canvas/streaming spécialisés hors axe — surface distincte documentée, non auditée ce cycle",
+    "GraphQL /api/graphql + REST /api/v2/* : non-HTML",
+    "logout / delete confirmés : actions destructives, seules les modales PRÉ-confirmation sont auditées (states library-delete-confirm sans submit)",
+    "book clubs <slug> : aucun club seedé (feature 'under construction' upstream, issue 120) — routes list/create/explore couvertes",
+    "smart-list <id> : aucune smart-list seedée (éditeur DSL volumineux) — create/list couverts",
+    "OIDC providers : non configurés (bouton login OIDC absent du rendu)",
+    "themes autres que light/dark (bronze/ocean/cosmic/pumpkin/autumn/midnight) : même mécanisme de classe ; dark-theme couvre la matrice sombre",
+    "états d'erreur non déterministes : 500 server, offline"
+  ],
+  "auditCommands": [
+    "cd boucle-continue/cycles/stump/tools && npm install && npx playwright install chromium",
+    "node seed.mjs http://localhost:11334 ~/work/stump ~/boucle-runs/stump   (admin admin/adminpass123 — créé si serveur non claimé)",
+    "node login.mjs http://localhost:11334 auth.json   (regénère le storageState ; auth-11335.json = même procédé sur :11335)",
+    "node audit.mjs http://localhost:11334 --urls /auth --states login-failed --wait 500 --out ../reports/baseline-public",
+    "node audit.mjs http://localhost:11334 --urls \"$(paste -sd, urls-auth.txt)\" --states sidebar-user-menu,library-options-menu,library-delete-confirm,job-toast,book-action-menu,directory-picker-modal,book-card-hover-menu,dark-theme,mobile-nav --storage-state auth.json --wait 500 --out ../reports/baseline-auth",
+    "node audit.mjs http://localhost:11334 --urls /auth --states login-failed --wait 500 --out ../reports/final-public",
+    "node audit.mjs http://localhost:11334 --urls \"$(paste -sd, urls-auth.txt)\" --states sidebar-user-menu,library-options-menu,library-delete-confirm,job-toast,book-action-menu,directory-picker-modal,book-card-hover-menu,dark-theme,mobile-nav --storage-state auth.json --wait 500 --out ../reports/final-auth",
+    "node verify.mjs http://localhost:11334 auth.json",
+    "node eval-final.mjs http://localhost:11334 auth.json",
+    "node incomplete-probes.mjs http://localhost:11334 --storage-state auth.json --out ../reports/incomplete-probes.json",
+    "node audit.mjs http://localhost:11335 --urls /auth --states login-failed --wait 500 --out ../reports/install-build-public",
+    "node audit.mjs http://localhost:11335 --urls \"$(paste -sd, urls-auth.txt)\" --states sidebar-user-menu,library-options-menu,library-delete-confirm,job-toast,book-action-menu,directory-picker-modal,book-card-hover-menu,dark-theme,mobile-nav --storage-state auth-11335.json --wait 500 --out ../reports/install-build-auth"
+  ],
+  "wait_rationale": "--wait 500 : SPA ReactQuery — le rendu post-navigation est quasi-instantané après load mais les suspense-queries (sidebar sections, cards) arrivent en ~200-400ms ; settleAnimations couvre les transitions CSS ; les states attendent leurs propres sélecteurs.",
+  "toolVersions": {
+    "node": "v24.19.0 (nvm)",
+    "playwright": "1.63.0",
+    "axe-core": "4.10.2",
+    "rust": "1.97.1",
+    "yarn": "1.22.22"
+  },
+  "notes": [
+    "axe 4.10 vs docs : tags wcag2a/aa/best-practice + wcag21a/21aa/22aa",
+    "axe ne voit pas la plupart des contrastes sur images de couverture (incomplete) — sondes incomplets obligatoires",
+    "les états dark-theme/mobile-nav sont des mutants placés en fin de STATES ; dark-theme mute la classe html côté client (auto-nettoyant à la navigation) sans persistance serveur",
+    "job-toast déclenche un VRAI scan de library (action serveur) — idempotent, aucun effet destructif"
+  ]
+}

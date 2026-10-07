@@ -1,0 +1,19 @@
+=== install-build cycle 34 (stump) — rejeu indépendant ===
+1. git clone https://github.com/stumpapp/stump ~/boucle-runs/stump-clone-check
+2. git checkout 42a9918c1542                                  (SHA épinglé du cycle)
+3. git apply --check patch.diff -> 0 rejet ; git apply -> 131 fichiers modifiés
+4. yarn install --frozen-lockfile (yarn 1.22.22, workspaces+lerna)  -> exit 0 (~76s)
+5. yarn web build (lerna run --scope @stump/web build -> vite/rolldown)
+   -> exit 0 (~26s), apps/web/dist régénéré (197 entrées précachées PWA)
+6. 2e instance du binaire stump_server (debug, inchangé — patch = front only)
+   CWD=clone, STUMP_CONFIG_DIR=~/boucle-runs/stump-ib/config, port 11335
+   Stump.toml : client_dir=<clone>/apps/server/../web/dist, db_path=~/boucle-runs/stump-ib
+   (db_path=répertoire -> sqlite://.../stump.db, copie de dev.db seedée)
+7. node seed.mjs http://localhost:11335 <clone> ~/boucle-runs/stump-ib
+   -> claim déjà fait (DB copiée), 2 libs, 7 media READY ; node login.mjs -> auth-11335.json
+8. rescan : audit.mjs :11335 public (/auth + login-failed) = 0 règle / 0 occ / 2 incomplets
+   auth (36 urls + 9 states) = 0 règle / 0 occ / 111 incomplets
+   -> REPLAY OK : le patch reproduit l'état 0 violation sur build indépendant
+NOTE : le binaire sert la dist au repo compilé via client_dir du Stump.toml — le patch
+ne touchant aucun .rs, réutiliser target/debug/stump_server est exact pour la partie
+patchée (cargo build non requis, ~30min évités, honestement tracé ici).
