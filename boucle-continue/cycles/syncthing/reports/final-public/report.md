@@ -2,5 +2,5 @@
 
 **0 règle(s) violée(s), 0 occurrence(s), 1/1 scénario(s) audité(s), 0 erreur(s), 0 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `3a427b4e1a6b`
+Périmètre : scope.json — hash `1bbb359aae31`
 

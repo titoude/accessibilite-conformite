@@ -1,9 +1,10 @@
 {
-  "clone": "git clone ~/work/syncthing ~/work/st-install + git checkout 7ad73b408adc792cabeed41d89a37b93e2bd84d0",
-  "apply": "git apply patch.diff → 19 fichiers modifiés",
-  "generate": "cd lib/api/auto && go generate → gui.files.go (5 821 220 octets)",
-  "build": "go build -o syncthing ./cmd/syncthing → binaire 38 507 048 octets",
-  "serve": "./syncthing serve --home=~/work/st-home-install --gui-address=127.0.0.1:8484 --no-browser --no-port-probing",
-  "rescan": "final-public + 45 états → 0 violation (reports/install-build-{public,auth})",
-  "duree": "clone+apply+generate+build ≈ 8 min (cache modules Go tiède)"
+ "clone": "git clone https://github.com/syncthing/syncthing ~/work/st-install + git checkout 7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+ "apply": "git apply patch.diff → 20 fichiers modifiés, 0 rejet",
+ "generate": "cd lib/api/auto && ~/go/bin/go generate → gui.files.go (5 821 912 octets)",
+ "build": "~/go/bin/go build -o syncthing ./cmd/syncthing → binaire 38 507 016 octets",
+ "serve": "./syncthing serve --home=~/work/st-home-install --gui-address=127.0.0.1:8484 --no-browser --no-port-probing (assets EMBARQUÉS — pas de STGUIASSETS)",
+ "rescan": "install-build-public (1 page) + install-build-auth (52 états + page = 53 scénarios) → 0 violation (reports/install-build-{public,auth})",
+ "duree": "apply+generate+build ≈ 5 min (cache modules Go tiède)",
+ "note": "v6 : rejeu complet après staleness F3 — clone vanilla → baseline-auth mesuré dessus AVANT patch (16 règles/1352 occ), puis apply+build+rescan (0). scopeHash baseline==install-build : comparaison à scénarios identiques."
 }

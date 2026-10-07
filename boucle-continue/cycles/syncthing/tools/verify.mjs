@@ -6,6 +6,7 @@
 // jamais de PASS à vide : un élément requis absent = FAIL.
 
 import { readFileSync, existsSync } from 'node:fs';
+import http from 'node:http';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
@@ -243,10 +244,29 @@ const putTheme = async name => page.evaluate(async n => {
   const g = await (await fetch('/rest/config/gui', { headers: h })).json();
   g.theme = n;
   const w = await fetch('/rest/config/gui', { method: 'PUT', headers: h, body: JSON.stringify(g) });
-  await fetch('/rest/system/restart', { method: 'POST', headers: h }).catch(() => {});
   return w.ok;
 }, name);
-ok('PUT theme=dark accepté', await putTheme('dark'));
+// Restart séparé du PUT : (a) l'écriture disque du config est asynchrone —
+// laisser ~1,5 s pour que le flush atterrisse avant de redémarrer, sinon
+// l'enfant boote sur l'ANCIEN thème persisté ; (b) le serveur tue la connexion
+// en s'arrêtant et le watchdog de la GUI recharge la page → le contexte
+// d'evaluate peut être détruit en vol : toléré (l'effet serveur a eu lieu).
+const fireRestart = async () => {
+  try {
+    await page.evaluate(() => {
+      const m = document.cookie.match(/CSRF-Token-([A-Z0-9]+)=([^;]+)/);
+      const h = m ? { [`X-CSRF-Token-${m[1]}`]: m[2] } : {};
+      return fetch('/rest/system/restart', { method: 'POST', headers: h }).catch(() => null);
+    });
+  } catch { /* contexte détruit pendant l'arrêt — le restart a typiquement eu lieu */ }
+};
+const putThemeAndRestart = async name => {
+  const ok = await putTheme(name);
+  await page.waitForTimeout(1500);
+  await fireRestart();
+  return ok;
+};
+ok('PUT theme=dark accepté', await putThemeAndRestart('dark'));
 for (let i = 0; i < 40; i++) {
   await page.waitForTimeout(1000);
   await page.goto(`${BASE}/`, { waitUntil: 'load' }).catch(() => {});
@@ -310,13 +330,54 @@ ok('dark : .text-primary ≥4.5:1', infoPairs.textPrimary && ratio_(infoPairs.te
    infoPairs.textPrimary ? `${ratio_(infoPairs.textPrimary).toFixed(2)}:1` : 'sélecteur absent');
 await closeModal(page, '#about');
 
-ok('restauration theme=light acceptée', await putTheme('light'));
+// Deux pièges : (a) le POST restart peut mourir en vol OU booter sur un
+// config pas encore flushé — le serveur sert alors l'ANCIEN thème alors que
+// config.xml est déjà light ; (b) le cookie CSRF-Token change à chaque boot :
+// un re-tirage doit passer par la PAGE rechargée (fresh CSRF), pas par les
+// cookies du storage-state (périmés après le premier restart). On sonde le
+// theme.css SERVI côté Node (longueur vs theme-assets/light) et on re-tire
+// le restart tant que la bascule n'est pas effective ; cache navigateur
+// désactivé (Last-Modified identique entre thèmes → 304 stale possible).
+// La référence est lue AVANT le restart : la mesurer dans la fenêtre d'arrêt
+// rend -1 et la comparaison ne pourrait plus jamais correspondre.
+const themeLen = url => new Promise(res => {
+  const rq = http.get(url, r => { let n = 0; r.on('data', c => n += c.length); r.on('end', () => res(n)); });
+  rq.on('error', () => res(-1));
+  rq.setTimeout(10000, () => { rq.destroy(); res(-1); });
+});
+const cdpVerify = await page.context().newCDPSession(page);
+// Le theme.css dark chargé plus haut reste en MEMORY-cache du renderer
+// (heuristique fraîche : Last-Modified identique entre thèmes) — ni la
+// revalidation ni setCacheDisabled ne le délogent : vider le cache du
+// navigateur comme waitThemeApplied le fait dans audit.mjs.
+await cdpVerify.send('Network.clearBrowserCache');
+await cdpVerify.send('Network.setCacheDisabled', { cacheDisabled: true });
+let lightRefLen = -1;
+for (let i = 0; i < 15 && lightRefLen <= 0; i++) {
+  lightRefLen = await themeLen(`${BASE}/theme-assets/light/assets/css/theme.css`);
+  if (lightRefLen <= 0) await page.waitForTimeout(1000);
+}
+
+ok('restauration theme=light acceptée', await putThemeAndRestart('light'));
+const refireRestart = async () => {
+  try { await page.goto(`${BASE}/`, { waitUntil: 'load' }); } catch { return; }
+  await fireRestart();
+};
 let lightBack = false;
 for (let i = 0; i < 40; i++) {
   await page.waitForTimeout(1000);
-  await page.goto(`${BASE}/`, { waitUntil: 'load' }).catch(() => {});
-  const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor).catch(() => '');
-  if (bg === 'rgb(255, 255, 255)') { lightBack = true; break; }
+  const served = await themeLen(`${BASE}/assets/css/theme.css`);
+  if (served === lightRefLen) {
+    // Hard reload : Page.reload ignoreCache contourne le memory-cache du
+    // renderer où le theme.css dark resterait frais (mtime identique).
+    try { await cdpVerify.send('Page.reload', { ignoreCache: true }); } catch {}
+    await page.waitForLoadState('load').catch(() => {});
+    await page.waitForTimeout(500);
+    const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor).catch(() => '');
+    if (bg === 'rgb(255, 255, 255)') { lightBack = true; break; }
+  } else if (i === 10 || i === 25) {
+    await refireRestart();
+  }
 }
 ok('thème clair restauré (symétrie du check dark)', lightBack);
 

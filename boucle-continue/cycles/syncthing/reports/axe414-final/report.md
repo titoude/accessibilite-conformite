@@ -1,59 +1,72 @@
 # Audit accessibilité — 2026-10-07
 
-**0 règle(s) violée(s), 0 occurrence(s), 53/53 scénario(s) audité(s), 0 erreur(s), 235 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 54/55 scénario(s) audité(s), 1 erreur(s), 242 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `240f664cebd6`
+Périmètre : scope.json — hash `46daad231371`
 
-## Résultats incomplets à revoir (235)
+## Résultats incomplets à revoir (242)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
+### heading-order — Heading levels should only increase by one
+
+- http://127.0.0.1:8384/
+  - `.navbar-brand`
+  - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h2`
+  - `.reject > .col-md-12 > .panel-warning.panel > .panel-heading > h2`
+  - `#folder_list`
+  - `button[data-target="#folder-0-0"] > .panel-title`
+  - `button[data-target="#folder-0-1"] > .panel-title`
+  - `button[data-target="#folder-0-2"] > .panel-title`
+  - `div[aria-label="Devices"] > h2:nth-child(1)`
+  - `button[data-target="#device-this"] > .panel-title`
+  - `h2:nth-child(3)`
+  - … +2 autres
+
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
-- http://127.0.0.1:8484/
+- http://127.0.0.1:8384/#
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:usage-report-open]
+- http://127.0.0.1:8384/ [state:usage-report-open]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:usage-report-dismissed]
+- http://127.0.0.1:8384/ [state:folder-archives-expanded]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:folder-archives-expanded]
-  - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:folder-local-additions]
+- http://127.0.0.1:8384/ [state:folder-local-additions]
   - `span[translate-value-version="v2.1.6"]`
   - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(2) > .ng-binding[href="#"]`
   - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(3) > .ng-binding[href="#"]`
-- http://127.0.0.1:8484/ [state:folder-revert-confirmation]
+- http://127.0.0.1:8384/ [state:folder-revert-confirmation]
   - `span[translate-value-version="v2.1.6"]`
   - `div[ng-switch="revertOverrideParams.type"] > div[ng-switch-default=""] > p:nth-child(1)`
-- http://127.0.0.1:8484/ [state:folder-restore-versions]
+- http://127.0.0.1:8384/ [state:folder-restore-versions]
   - `span[translate-value-version="v2.1.6"]`
   - `.btn-xs > span[translate=""]`
   - `label[for="restoreVersionSearch"] > span[translate=""]`
   - `#restoreVersionSearch`
   - `label[for="restoreVersionDateRange"] > span[translate=""]`
   - `#restoreVersionDateRange`
-- http://127.0.0.1:8484/ [state:folder-restore-confirm]
+- http://127.0.0.1:8384/ [state:folder-restore-confirm]
   - `span[translate-value-version="v2.1.6"]`
   - `.btn-xs > .ng-binding`
   - `label[for="restoreVersionSearch"] > span[translate=""]`
   - `#restoreVersionSearch`
   - `label[for="restoreVersionDateRange"] > span[translate=""]`
   - `#restoreVersionDateRange`
-- http://127.0.0.1:8484/ [state:folder-main-expanded]
+- http://127.0.0.1:8384/ [state:folder-main-expanded]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:folder-broken-expanded]
+- http://127.0.0.1:8384/ [state:folder-broken-expanded]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-folder-general]
+- http://127.0.0.1:8384/ [state:edit-folder-general]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-folder-sharing]
+- http://127.0.0.1:8384/ [state:edit-folder-sharing]
   - `span[translate-value-version="v2.1.6"]`
   - `#H5TRW4T-N6OBRP7-ZRPPVBJ-KU67Y4G-GWHN3IW-KVNYZVI-C4BYAJV-H7P2HAZ > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
   - `#LFP36V5-XL3RMTS-64JHCPA-YCAI5PN-JXDX2R7-5JQETBJ-VUZD2C7-2SB5ZAN > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
-- http://127.0.0.1:8484/ [state:edit-folder-versioning]
+- http://127.0.0.1:8384/ [state:edit-folder-versioning]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-folder-ignores]
+- http://127.0.0.1:8384/ [state:edit-folder-ignores]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-folder-advanced]
+- http://127.0.0.1:8384/ [state:edit-folder-advanced]
   - `span[translate-value-version="v2.1.6"]`
   - `.col-md-12 > label`
   - `.col-md-12 > a[target="_blank"] > span[translate=""]`
@@ -65,23 +78,23 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="folderType"]`
   - `.col-md-6.form-group:nth-child(1) > a[target="_blank"] > span[translate=""]`
   - … +15 autres
-- http://127.0.0.1:8484/ [state:add-folder]
+- http://127.0.0.1:8384/ [state:add-folder]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:remove-folder-confirm]
+- http://127.0.0.1:8384/ [state:remove-folder-confirm]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:device-bob-expanded]
+- http://127.0.0.1:8384/ [state:device-bob-expanded]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:device-alice-expanded]
+- http://127.0.0.1:8384/ [state:device-alice-expanded]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-device-general]
+- http://127.0.0.1:8384/ [state:edit-device-general]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-device-sharing]
+- http://127.0.0.1:8384/ [state:edit-device-sharing]
   - `span[translate-value-version="v2.1.6"]`
   - `.col-md-6:nth-child(2) > .form-group > .checkbox[title=""][ng-disabled="currentDevice.untrusted"] > label > .help-block`
   - `span[data-original-title="archives"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
   - `span[data-original-title="broken"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
   - `span[data-original-title="sync-main"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
-- http://127.0.0.1:8484/ [state:edit-device-advanced]
+- http://127.0.0.1:8384/ [state:edit-device-advanced]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="addresses"]`
   - `#addresses`
@@ -93,20 +106,20 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.col-md-8 > a[target="_blank"] > span[translate=""]`
   - `#numConnections`
   - … +9 autres
-- http://127.0.0.1:8484/ [state:add-device]
+- http://127.0.0.1:8384/ [state:add-device]
   - `span[translate-value-version="v2.1.6"]`
   - `div[ng-if="editingDeviceNew()"] > .help-block > span[translate=""]:nth-child(1)`
-- http://127.0.0.1:8484/ [state:remove-device-confirm]
+- http://127.0.0.1:8384/ [state:remove-device-confirm]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:share-device-id]
+- http://127.0.0.1:8384/ [state:share-device-id]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:show-id-qr]
+- http://127.0.0.1:8384/ [state:show-id-qr]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:log-viewer]
+- http://127.0.0.1:8384/ [state:log-viewer]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:recent-changes]
+- http://127.0.0.1:8384/ [state:recent-changes]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:settings-general]
+- http://127.0.0.1:8384/ [state:settings-general]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
@@ -118,7 +131,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#urVersion`
   - `label[for="upgradesSelect"]`
   - … +2 autres
-- http://127.0.0.1:8484/ [state:settings-gui]
+- http://127.0.0.1:8384/ [state:settings-gui]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="guiUser"]`
   - `#guiUser`
@@ -126,7 +139,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#guiPassword`
   - `label[for="guiTheme"]`
   - `#guiTheme`
-- http://127.0.0.1:8484/ [state:settings-connections]
+- http://127.0.0.1:8384/ [state:settings-connections]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="MaxRecvKbps"]`
   - `#MaxRecvKbps`
@@ -134,11 +147,11 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#MaxSendKbps`
   - `label[for="GlobalAnnServersStr"]`
   - `#GlobalAnnServersStr`
-- http://127.0.0.1:8484/ [state:settings-ignored-devices]
+- http://127.0.0.1:8384/ [state:settings-ignored-devices]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:settings-ignored-folders]
+- http://127.0.0.1:8384/ [state:settings-ignored-folders]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:settings-ur-preview]
+- http://127.0.0.1:8384/ [state:settings-ur-preview]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
@@ -150,7 +163,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#urVersion`
   - `label[for="upgradesSelect"]`
   - … +3 autres
-- http://127.0.0.1:8484/ [state:settings-discard]
+- http://127.0.0.1:8384/ [state:settings-discard]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
@@ -162,7 +175,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#urVersion`
   - `label[for="upgradesSelect"]`
   - … +2 autres
-- http://127.0.0.1:8484/ [state:advanced-settings]
+- http://127.0.0.1:8384/ [state:advanced-settings]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="optionsInput3"]`
   - `#optionsInput3`
@@ -174,7 +187,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#optionsInput7`
   - `label[for="optionsInput8"]`
   - … +11 autres
-- http://127.0.0.1:8484/ [state:advanced-folder-section]
+- http://127.0.0.1:8384/ [state:advanced-folder-section]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="folder0Input0"]`
   - `label[for="folder0Input1"]`
@@ -186,27 +199,22 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="folder0Input5"]`
   - `label[for="folder0Input6"]`
   - … +1 autres
-- http://127.0.0.1:8484/ [state:about]
+- http://127.0.0.1:8384/ [state:about]
   - `span[translate-value-version="v2.1.6"]`
   - `#contributor-list`
-- http://127.0.0.1:8484/ [state:about-includes]
+- http://127.0.0.1:8384/ [state:about-includes]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:connectivity-listeners]
+- http://127.0.0.1:8384/ [state:connectivity-listeners]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:connectivity-discovery]
+- http://127.0.0.1:8384/ [state:connectivity-discovery]
   - `span[translate-value-version="v2.1.6"]`
   - `.ng-binding[ng-repeat="discovery in discoveryFailed"]:nth-child(2)`
   - `.panel-body[translate=""]`
-- http://127.0.0.1:8484/ [state:help-menu-open]
-  - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:actions-menu-open]
-  - `span[translate-value-version="v2.1.6"]`
+- http://127.0.0.1:8384/ [state:actions-menu-open]
   - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h2 > .pull-right.ng-binding`
-- http://127.0.0.1:8484/ [state:lang-menu-open]
+- http://127.0.0.1:8384/ [state:theme-dark]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:theme-dark]
-  - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:settings-dark]
+- http://127.0.0.1:8384/ [state:settings-dark]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
@@ -218,13 +226,13 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#urVersion`
   - `label[for="upgradesSelect"]`
   - … +2 autres
-- http://127.0.0.1:8484/ [state:edit-device-dark]
+- http://127.0.0.1:8384/ [state:edit-device-dark]
   - `span[translate-value-version="v2.1.6"]`
-- http://127.0.0.1:8484/ [state:edit-folder-sharing-dark]
+- http://127.0.0.1:8384/ [state:edit-folder-sharing-dark]
   - `span[translate-value-version="v2.1.6"]`
   - `#H5TRW4T-N6OBRP7-ZRPPVBJ-KU67Y4G-GWHN3IW-KVNYZVI-C4BYAJV-H7P2HAZ > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
   - `#LFP36V5-XL3RMTS-64JHCPA-YCAI5PN-JXDX2R7-5JQETBJ-VUZD2C7-2SB5ZAN > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
-- http://127.0.0.1:8484/ [state:advanced-dark]
+- http://127.0.0.1:8384/ [state:advanced-dark]
   - `span[translate-value-version="v2.1.6"]`
   - `label[for="optionsInput3"]`
   - `#optionsInput3`
@@ -236,13 +244,12 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#optionsInput7`
   - `label[for="optionsInput8"]`
   - … +11 autres
-- http://127.0.0.1:8484/ [state:actions-menu-dark]
-  - `span[translate-value-version="v2.1.6"]`
+- http://127.0.0.1:8384/ [state:actions-menu-dark]
   - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h2 > .pull-right.ng-binding`
-- http://127.0.0.1:8484/ [state:about-dark]
+- http://127.0.0.1:8384/ [state:about-dark]
   - `span[translate-value-version="v2.1.6"]`
   - `#contributor-list`
-- http://127.0.0.1:8484/ [state:folder-restore-versions-dark]
+- http://127.0.0.1:8384/ [state:folder-restore-versions-dark]
   - `span[translate-value-version="v2.1.6"]`
   - `.btn-xs > span[translate=""]`
   - `label[for="restoreVersionSearch"] > span[translate=""]`
@@ -252,6 +259,15 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### th-has-data-cells — Table headers in a data table must refer to data cells
 
-- http://127.0.0.1:8484/ [state:recent-changes]
+- http://127.0.0.1:8384/ [state:recent-changes]
   - `.table-responsive > .table-condensed`
+
+## Erreurs (1) — exit code != 0
+
+Ces scénarios n'ont pas été audités. Un audit partiel n'est pas un PASS : le gate CI échoue tant qu'un scénario demandé manque.
+
+- http://127.0.0.1:8384/rest/debug/support — page.goto: Download is starting
+Call log:
+  - navigating to "http://127.0.0.1:8384/rest/debug/support", waiting until "load"
+
 

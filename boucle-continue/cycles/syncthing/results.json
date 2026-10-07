@@ -10,8 +10,9 @@
    },
    "auth": {
     "regles": 16,
-    "occurrences": 1157,
-    "pages": 46
+    "occurrences": 1352,
+    "pages": 53,
+    "note": "régénéré v6 : instance :8484 vanilla AVANT patch — le baseline commité ère v4 couvrait 46 pages"
    }
   },
   "final": {
@@ -22,24 +23,27 @@
    "auth": {
     "regles": 0,
     "occurrences": 0,
-    "pages": 46,
-    "incomplets": 213
+    "pages": 53,
+    "incomplets": 235
    }
   },
   "install_build": {
    "public": {
-    "regles": 0
+    "regles": 0,
+    "occurrences": 0
    },
    "auth": {
     "regles": 0,
     "occurrences": 0,
-    "pages": 46
-   }
+    "pages": 53
+   },
+   "note": "v6 rejeu complet : clone propre @7ad73b408 + apply 20 fichiers 0 rejet + go generate (5 821 912 o) + build (38 507 016 o) + serve embed :8484 — scopeHash == baseline-auth (240f664c) : comparaison à scénarios identiques"
   },
-  "verify": "26 PASS / 0 FAIL / 1 N-A explicite (modale #localChanged : aucune local addition dans la seed au moment du rejeu)",
-  "eval_final": "1163 → 0 occurrences, toutes les règles résolues",
-  "sondes_incomplets": "213 items axe 'incomplete' re-sondés : 0 CONFIRMED_VIOLATION ; majoritairement RESOLVED (ratios recalculés) ou N-A documentée (éléments dynamiques absents au rejeu / règle sans sonde)",
-  "etats_auth": 50
+  "verify": "40 PASS / 0 FAIL / 1 N-A explicite — verify.mjs durci v6 : re-tirage restart sur page rechargée (CSRF par boot), flush debounced 1,5 s avant restart, memory-cache renderer neutralisée (Page.reload ignoreCache) — mesuré live thème clair rgb(255,255,255) restauré",
+  "eval_final": "1358 → 0 occurrences sur 53 scénarios (régénéré v6, exit 0), toutes les règles résolues",
+  "sondes_incomplets": "235 items axe 'incomplete' re-sondés v6 : 234 RESOLVED / 1 N-A / 0 CONFIRMED_VIOLATION — thème clair restauré prouvé en fin de run",
+  "etats_auth": 52,
+  "axe": "rapports officiels sous axe-core 4.13.0 épinglé (axeVersion dans scope.json) ; preuve F1 rejouée sous 4.14.0 scratch : label-content-name-mismatch 1→0 ×4 surfaces, rescan complet 55 pages 0 violation (reports/axe414-final), accName « Language — English » ⊇ « English »"
  },
  "perimetre": "scopeHash identique baseline/final (54bb51d7…) : 1 page login + 45 états authentifiés (dashboard, 9 panneaux dossiers/devices, 20 modales, 7 onglets settings, 3 menus navbar, thème sombre, viewport mobile 390px). 7 catégories exclues documentées dans states.json (upgrade modal non déclenchable, pages erreurs transitoires, etc.)",
  "stack": "AngularJS 1.x statique servi par Go (embed via lib/api/auto/gui.files.go généré par `go generate`). Thèmes = répertoires gui/{default,dark,light,black}, sélection lue au démarrage du serveur (changement = restart).",
@@ -60,11 +64,12 @@
   "themes : Last-Modified = mtime du fichier servi, identique pour tous les thèmes (même tarball) → revalidation 304 et thème périmé après bascule jusqu'à hard-refresh (constaté, documenté dans le manifeste, pas patché — comportement upstream établi)"
  ],
  "install_build": {
-  "steps": "git clone propre du SHA → git apply patch.diff (19 fichiers) → cd lib/api/auto && go generate (gui.files.go ré-embarqué) → go build ./cmd/syncthing → binaire servi sur :8484 (STGUIASSETS absent → assets embed réels) → login frais → 45 états → 0 violation",
+  "steps": "git clone propre du SHA → git apply patch.diff (20 fichiers) → cd lib/api/auto && go generate (gui.files.go 5 821 912 o ré-embarqués) → go build ./cmd/syncthing (38 507 016 o) → binaire servi sur :8484 (STGUIASSETS absent → assets embed réels) → login frais → 52 états + page = 53 scénarios → 0 violation",
   "reports": [
    "reports/install-build-public",
    "reports/install-build-auth"
-  ]
+  ],
+  "note_v6": "rejeu complet post-staleness F3 ; scopeHash install-build-auth identique à baseline-auth (mêmes 53 scénarios sur :8484) — paire A/B directe 16 règles/1352 occ → 0"
  },
  "nonCouvert": {
   "etats": "7 catégories exclues listées dans states.json : modale upgrade (non déclenchable : upgradeInfo.newer faux), transferts en cours (dépend du cluster réel), pages d'erreur fatale, onboarding wizard (désactivé en config seed), dossiers en cours de scan, QR live camera, themes black (variante marginale de dark)",
@@ -92,9 +97,9 @@
   "reports/incomplete-probes.json"
  ],
  "auditTiers": {
-  "verdict": "PARTIAL (v4) — résiduels corrigés v5, en attente ré-audit",
+  "verdict": "PARTIAL (v5, commit d291303) — fixer v6 livré, en attente ré-audit",
   "findings_residuels": 0,
-  "session": "v5 self-fix + audit e0ba7677"
+  "session": "v5 audit a5376c73 → v6 fixer (partie 1 : 76f298a ; partie 2 : ce commit)"
  },
  "corrections_post_audit_warts": [
   {
@@ -155,6 +160,20 @@
    ],
    "residuel_assume": "composant×thème couvert par famille (modales×dark : settings, editDevice, editFolder-sharing, advanced, actions-menu, about, restoreVersions) — pas exhaustif 25×dark ; autres alertes status=info dynamiques (#needed, #restarting…) même famille que la modale mesurée",
    "provenance": "re-hachage systématique en DERNIER avant commit (leçon : reformaté≠rehaché — 11 fichiers obsolètes trouvés par l'auditeur)"
+  },
+  {
+   "round": "v5 PARTIAL → v6",
+   "auditeur_v5": "a5376c73/d291303 — patch + harnais rejoués CONFIRMED live (résiduels dark v4 tous mesurés ≥4,5, sondes 235→234R/1NA reproduites, restart POST prouvé) MAIS (a) régression WCAG 2.5.3 posée par le patch : label-content-name-mismatch ×52 sous axe 4.14 (aria-label « Language » vs texte « English » — aveugle sous le 4.13 épinglé du fixer) ; (b) provenance 14/39 = sha256 v4, 3e récidive (corrigée par l'auditeur) ; (c) install-build/eval-final/install-build.json périmés ère v4 (19 fichiers vs 20, 46 pages vs 53) ; (d) .progress .frontal #222 résiduel théorique ~3,6:1",
+   "fixes": [
+    "F1 (pré-livrée 76f298a) prouvée sous axe-core 4.14.0 installé en scratch ~/work/axe414 (npm i hors repo — minimumReleaseAge 7j respecté, leçon 30) : sonde A/B sur instance patchée, 4 surfaces (login public + dashboard + settings + ur-open auth) — AVANT état v5 : label-content-name-mismatch=1 sur chaque surface (accName « Language » vs texte « English ») ; APRÈS : 0 partout, accName « Language — English » ⊇ « English » ; + rescan complet 53 scénarios sous 4.14 : 0 violation (rapports officiels restent sous 4.13.0 épinglé — axeVersion:« 4.13.0 » dans scope/report.json)",
+    "F3 staleness : install-build REJOUÉ de bout en bout — clone propre @7ad73b408 → baseline-auth mesuré AVANT patch sur cette instance (16 règles/1352 occ/53 scénarios ; le baseline commité ère v4 couvrait 46) → git apply patch.diff (20 fichiers, 0 rejet) → go generate (gui.files.go 5 821 912 o) → go build (binaire 38 507 016 o) → serve :8484 en assets EMBARQUÉS (pas de STGUIASSETS) → rescan verbatim 53 scénarios : 0 violation / 0 erreur / 235 incomplets. eval-final régénéré sur l'instance patchée : 1358→0, exit 0. install-build.json + scope-compare.json réécrits (scopeHash baseline-auth == install-build-auth 240f664c… — mêmes 53 scénarios même port). Tous les reports/* régénérés portent axeVersion + statesHash.",
+    "F4 .progress .frontal : nœud réel prouvé rendable — injection scope AngularJS (needed={items:[progress]}, progress[folder][name]) → le template neededFilesModalView.html rend .frontal réel ; #222 sur barres translucides = aucune couleur plane ≥4,5 sur les 5 (blanc→2,57 jaune, noir→2,7 rouge) → corrigé color:#fff + chip rgba(0,0,0,.5) + text-shadow rgba(0,0,0,.8) → composite pire-cas mesuré 8,08:1 (barre jaune #c29d0b), 11,24–12,03:1 les autres — ≥4,5 partout ; patch.diff régénéré 20 fichiers +292/−131",
+    "F5 kit sync : audit.mjs du cycle = kit racine — scope.json/report.json portent axeVersion ; rapports régénérés écrivent « axeVersion »:« 4.13.0 »",
+    "verify.mjs durci contre 3 pièges réels trouvés en l'exécutant : POST /rest/system/restart pouvant mourir en vol ou partir sur un STALE config (debounced write) → PUT puis attente 1,5 s puis restart via page.evaluate ; CSRF-Token tourné à chaque boot (storage-state périmé) → re-tirage du restart sur page rechargée ; memory-cache du renderer servant l'ancien theme.css (mtime tarball identique — ni revalidation ni setCacheDisabled ne l'évincent) → Network.clearBrowserCache + Page.reload{ignoreCache:true}. Exécuté live : 40 PASS / 0 FAIL / 1 N-A.",
+    "F2 provenance : re-hash via boucle-continue/rehash-provenance.py exécuté EN DERNIER avant commit (le script échoue sur entrée sans fichier, avertit sur livré non listé)"
+   ],
+   "residuel_assume": "composant×thème couvert par famille (modales×dark) — pas exhaustif ; .progress .frontal ne se rend que sous transfert réel d'un pair en ligne : hors portée des 53 scénarios de la boucle hors-ligne, mesuré par sonde à scope injecté (DOM réel du template) ; axe 4.14 non pinéable dans le repo (minimumReleaseAge 7j) — preuve scratch documentée",
+   "provenance": "re-hachage systématique EN DERNIER avant commit via le script strict — 4e occurrence du wart, procédure tenue"
   }
  ]
 }
