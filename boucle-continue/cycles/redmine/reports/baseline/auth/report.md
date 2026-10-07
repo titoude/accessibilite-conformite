@@ -1,0 +1,1575 @@
+# Audit accessibilité — 2026-10-07
+
+**15 règle(s) violée(s), 2873 occurrence(s), 33/33 scénario(s) audité(s), 0 erreur(s), 148 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `4fbf0ab4d874`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:5801/projects/office-website/issues
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+- http://localhost:5801/issues/new?project_id=office-website
+  - `.file_selector`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `input[value="10"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[name="ids[]"][value="1"][type="checkbox"]`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `#months`
+- http://localhost:5801/projects/office-website/time_entries
+  - `input[value="2"]`
+  - `input[name="ids[]"][value="1"][type="checkbox"]`
+  - `input[value="3"]`
+- http://localhost:5801/admin/projects
+  - `input[value="2"]`
+  - `input[name="ids[]"][type="checkbox"][value="1"]`
+- http://localhost:5801/users
+  - `input[name="ids[]"][value="1"][type="checkbox"]`
+  - `input[value="6"]`
+  - `input[value="5"]`
+  - `input[value="7"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"][name="ids[]"][type="checkbox"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `#issue_notes`
+  - `.file_selector`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `input[value="15"]`
+  - `input[value="14"]`
+  - `input[value="11"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="7"]`
+  - `input[value="6"][name="ids[]"][type="checkbox"]`
+  - `input[value="5"][name="ids[]"][type="checkbox"]`
+  - `input[value="4"][name="ids[]"][type="checkbox"]`
+  - … +3 autres
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://localhost:5801/projects
+  - `#operators_status`
+  - `#values_status_1`
+- http://localhost:5801/projects/office-website/issues
+  - `#operators_status_id`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `#month`
+  - `#year`
+- http://localhost:5801/projects/office-website/time_entries
+  - `#operators_spent_on`
+- http://localhost:5801/admin/projects
+  - `#operators_status`
+  - `#values_status_1`
+- http://localhost:5801/users
+  - `#operators_status`
+  - `#values_status_1`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `#operators_status_id`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `#operators_status_id`
+  - `#operators_author_id`
+  - `#values_author_id_1`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `#operators_status_id`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `#operators_status_id`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `#operators_status_id`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `#operators_status_id`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `.move-right`
+  - `.move-left`
+
+## [SERIOUS] role-img-alt — [role="img"] and [role="image"] elements must have alternative text
+
+Ensure [role="img"] and [role="image"] elements have alternative text
+Référence : https://dequeuniversity.com/rules/axe/4.14/role-img-alt?application=axeAPI
+
+- http://localhost:5801/
+  - `.s22`
+- http://localhost:5801/my/page
+  - `.s22`
+- http://localhost:5801/my/account
+  - `.s22`
+- http://localhost:5801/projects
+  - `.s22`
+- http://localhost:5801/projects/office-website
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues
+  - `.s22`
+- http://localhost:5801/issues/1
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.avatar-color-5.s16.avatar`
+- http://localhost:5801/issues/6
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.avatar-color-6`
+  - `.user-5 > .avatar-color-5.s16.avatar`
+  - `.value > .avatar-color-5.s16.avatar`
+  - `.s24`
+- http://localhost:5801/issues/new?project_id=office-website
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `.s22`
+- http://localhost:5801/projects/office-website/wiki
+  - `.s22`
+- http://localhost:5801/projects/office-website/news
+  - `.s22`
+  - `.s24`
+- http://localhost:5801/projects/office-website/boards
+  - `.s22`
+- http://localhost:5801/projects/office-website/boards/1
+  - `.s22`
+- http://localhost:5801/projects/office-website/documents
+  - `.s22`
+- http://localhost:5801/projects/office-website/versions
+  - `.s22`
+- http://localhost:5801/projects/office-website/time_entries
+  - `.s22`
+- http://localhost:5801/projects/office-website/files
+  - `.s22`
+- http://localhost:5801/search
+  - `.s22`
+- http://localhost:5801/admin
+  - `.s22`
+- http://localhost:5801/admin/projects
+  - `.s22`
+- http://localhost:5801/users
+  - `.s22`
+- http://localhost:5801/roles
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `.s22`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.avatar-color-6`
+  - `.user-5 > .avatar-color-5.s16.avatar`
+  - `.value > .avatar-color-5.s16.avatar`
+  - `.s24`
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.avatar-color-6`
+  - `.user-5 > .avatar-color-5.s16.avatar`
+  - `.value > .avatar-color-5.s16.avatar`
+  - `.s24`
+  - `.avatar-color-7`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `.s22`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `.s40`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:5801/
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/my/page
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/my/account
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/projects
+  - `.s22`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/issues/1
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.next > span`
+  - `.s50`
+  - `.avatar-child`
+  - `.avatar-color-5.s16.avatar`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/issues/6
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.user-5 > .avatar-color-5.s16.avatar`
+  - `.s50`
+  - `.avatar-child`
+  - `.value > .avatar-color-5.s16.avatar`
+  - `.s24`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/issues/new?project_id=office-website
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `.s22`
+  - `.hascontextmenu[data-gantt--subjects-target="row"][data-gantt-row-key="issue-1"] > .issue-behind-schedule > .icon-avatar.avatar-color-5[title="Assignee: John Smith"]`
+  - `.issue-behind-schedule > .status-2.priority-3[href$="issues/1"]`
+  - `.issue-behind-schedule > .status-1.priority-3[href="/issues/10"]`
+  - `.hascontextmenu[data-gantt--subjects-target="row"][data-gantt-row-key="issue-6"] > .issue-behind-schedule > .icon-avatar.avatar-color-5[title="Assignee: John Smith"]`
+  - `.issue-behind-schedule > .priority-5.priority-highest[href$="issues/6"]`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `.s22`
+  - `.other-month.nwday.calbody > .day-num > .day-value`
+  - `.other-month.calbody:nth-child(11) > .day-num > .day-value`
+  - `.other-month.calbody:nth-child(12) > .day-num > .day-value`
+  - `.other-month.calbody:nth-child(13) > .day-num > .day-value`
+  - `#footer`
+- http://localhost:5801/projects/office-website/wiki
+  - `.s22`
+  - `.wiki-update-info`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/news
+  - `.s22`
+  - `.s24`
+  - `.author`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/boards
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/boards/1
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/documents
+  - `.s22`
+  - `em`
+  - `#footer`
+- http://localhost:5801/projects/office-website/versions
+  - `.s22`
+  - `#toggle-completed-versions > .icon-label`
+  - `.progress-info`
+  - `.behind-schedule.priority-2.priority-default > .assigned_to > .avatar-color-1.s16[title="Assignee: Admin Redmine"]`
+  - `.child.hascontextmenu.status-1 > .assigned_to > .avatar-color-5.s16[title="Assignee: John Smith"]`
+  - `.parent.hascontextmenu.status-2 > .assigned_to > .avatar-color-1.s16[title="Assignee: Admin Redmine"]`
+  - `.priority-1.priority-lowest.hascontextmenu > .assigned_to > .avatar-color-5.s16[title="Assignee: John Smith"]`
+  - `.priority-2.priority-default.hascontextmenu:nth-child(5) > .assigned_to > .avatar-color-1.s16[title="Assignee: Admin Redmine"]`
+  - `.hascontextmenu.status-2.priority-4:nth-child(6) > .assigned_to > .avatar-color-5.s16[title="Assignee: John Smith"]`
+  - `#footer`
+- http://localhost:5801/projects/office-website/time_entries
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/files
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/search
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/admin
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/admin/projects
+  - `.s22`
+  - `.items`
+  - `#footer`
+- http://localhost:5801/users
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/roles
+  - `.s22`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `.s22`
+  - `.id > a[href="/issues/15"]`
+  - `#issue-15 > .tracker`
+  - `#issue-15 > .status`
+  - `#issue-15 > .priority`
+  - `.subject > a[href="/issues/15"]`
+  - `#issue-15 > .assigned_to > .user.active[href$="users/1"]`
+  - `#issue-15 > .updated_on`
+  - `.items`
+  - `.other-formats`
+  - … +1 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.user-5 > .avatar-color-5.s16.avatar`
+  - `.s50`
+  - `.avatar-child`
+  - `.value > .avatar-color-5.s16.avatar`
+  - `.s24`
+  - `.other-formats`
+  - `#footer`
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `.s22.avatar-color-1.avatar`
+  - `.avatar-color-1.s16.avatar`
+  - `.user-5 > .avatar-color-5.s16.avatar`
+  - `.s50`
+  - `.avatar-child`
+  - `.value > .avatar-color-5.s16.avatar`
+  - `.s24`
+  - `.other-formats`
+  - `#footer`
+  - `.avatar-color-7`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `.s22`
+  - `.items`
+  - `.other-formats`
+  - `#footer`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI
+
+- http://localhost:5801/
+  - `.author > .user.active[href$="users/1"]`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/my/page
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/my/account
+  - `a[href$="atom_key"]`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects
+  - `.atom`
+  - `a[target="_blank"][rel="noopener"][href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website
+  - `a[target="_blank"][rel="noopener"][href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/issues/1
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/issues/6
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/issues/new?project_id=office-website
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `.pdf`
+  - `.png`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `.starting.tooltip.hascontextmenu > .priority-3.priority-high3[href="/issues/10"]`
+  - `.starting.tooltip.hascontextmenu > .priority-5.priority-highest[href$="issues/6"]`
+  - `.tooltip.hascontextmenu.ending > .priority-5.priority-highest[href$="issues/6"]`
+  - `.status-2.tooltip.hascontextmenu > .status-2.priority-3[href$="issues/1"]`
+  - `.tooltip.hascontextmenu.ending > .priority-3.priority-high3[href="/issues/10"]`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/wiki
+  - `.new`
+  - `.pdf`
+  - `.html`
+  - `.txt`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/news
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/boards
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/boards/1
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/documents
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/versions
+  - `a[href$="issues/2"]`
+  - `a[href$="issues/4"]`
+  - `a[href$="issues/5"]`
+  - `a[href$="issues/8"]`
+  - `a[href$="issues/9"]`
+  - `a[href="/issues/11"]`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/time_entries
+  - `.tracker-1`
+  - `a[href="/issues/11"]`
+  - `.parent`
+  - `.csv`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/files
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/search
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/admin
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/admin/projects
+  - `a[target="_blank"][rel="noopener"][href$="redmine.org/"]`
+- http://localhost:5801/users
+  - `.csv`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/roles
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `.csv`
+  - `.pdf`
+  - `.atom`
+  - `a[href$="redmine.org/"]`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:5801/my/account
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues
+  - `#sidebar-switch-button`
+- http://localhost:5801/issues/1
+  - `#sidebar-switch-button`
+  - `.reaction-button`
+- http://localhost:5801/issues/6
+  - `#sidebar-switch-button`
+  - `span[data-reaction-button-id="reaction_issue_6"] > .reaction-button[data-method="post"][data-remote="true"]`
+  - `span[data-reaction-button-id="reaction_journal_2"] > .reaction-button[data-method="post"][data-remote="true"]`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/wiki
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/documents
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/versions
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/time_entries
+  - `#sidebar-switch-button`
+- http://localhost:5801/admin/projects
+  - `#sidebar-switch-button`
+- http://localhost:5801/users
+  - `#sidebar-switch-button`
+- http://localhost:5801/roles
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `#sidebar-switch-button`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `#sidebar-switch-button`
+  - `span[data-reaction-button-id="reaction_issue_6"] > .reaction-button[data-method="post"][data-remote="true"]`
+  - `span[data-reaction-button-id="reaction_journal_2"] > .reaction-button[data-method="post"][data-remote="true"]`
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `#sidebar-switch-button`
+  - `span[data-reaction-button-id="reaction_issue_6"] > .reaction-button[data-method="post"][rel="nofollow"]`
+  - `span[data-reaction-button-id="reaction_journal_2"] > .reaction-button[data-method="post"][rel="nofollow"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `#sidebar-switch-button`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `.mobile-toggle-button`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:5801/projects
+  - `a[data-disable-with="My bookmarks"]`
+  - `a[data-disable-with="My projects"]`
+- http://localhost:5801/projects/office-website/issues
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/issues/1
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/issues/6
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `.icon-clear-query`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `.icon-clear-query`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+  - `.icon-projects > a[href$="office-website"]`
+  - `a[title="11/21/2026"]`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `.icon-clear-query`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/projects/office-website/wiki
+  - `li:nth-child(1) > a[href$="wiki"]`
+  - `#sidebar-wrapper > ul > li:nth-child(2) > a`
+  - `#sidebar-wrapper > ul > li:nth-child(3) > a`
+- http://localhost:5801/projects/office-website/boards
+  - `.last_message > a:nth-child(4)`
+- http://localhost:5801/projects/office-website/boards/1
+  - `.last_message > a:nth-child(4)`
+- http://localhost:5801/projects/office-website/documents
+  - `#sidebar-wrapper > ul > li:nth-child(1) > .selected`
+  - `#sidebar-wrapper > ul > li:nth-child(2) > a`
+  - `#sidebar-wrapper > ul > li:nth-child(3) > a`
+  - `#sidebar-wrapper > ul > li:nth-child(4) > a`
+- http://localhost:5801/admin/projects
+  - `.users`
+  - `.icon-group`
+  - `.icon-issue`
+  - `.icon-issue-edit`
+  - `.icon-workflows`
+  - `.icon-custom-fields`
+  - `.icon-list`
+  - `.icon-settings`
+  - `.icon-server-authentication`
+  - `.icon-webhook`
+  - … +2 autres
+- http://localhost:5801/users
+  - `.icon-projects`
+  - `.icon-group`
+  - `.icon-issue`
+  - `.icon-issue-edit`
+  - `.icon-workflows`
+  - `.icon-custom-fields`
+  - `.icon-list`
+  - `.icon-settings`
+  - `.icon-server-authentication`
+  - `.icon-webhook`
+  - … +2 autres
+- http://localhost:5801/roles
+  - `.icon-projects`
+  - `.icon-user`
+  - `.icon-group`
+  - `.icon-issue`
+  - `.icon-issue-edit`
+  - `.icon-workflows`
+  - `.icon-custom-fields`
+  - `.icon-list`
+  - `.icon-settings`
+  - `.icon-server-authentication`
+  - … +3 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `#issue-15 > .buttons.hide-when-print > .js-contextmenu.icon-actions[title="Actions"]`
+  - `#issue-14 > .buttons.hide-when-print > .js-contextmenu.icon-actions[title="Actions"]`
+  - `#issue-11 > .buttons.hide-when-print > .js-contextmenu.icon-actions[title="Actions"]`
+  - `#issue-10 > .buttons.hide-when-print > .js-contextmenu.icon-actions[title="Actions"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-title-only?application=axeAPI
+
+- http://localhost:5801/projects/office-website/issues
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `#check_all`
+- http://localhost:5801/projects/office-website/time_entries
+  - `#check_all`
+- http://localhost:5801/admin/projects
+  - `#check_all`
+- http://localhost:5801/users
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `#check_all`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `#check_all`
+
+## [SERIOUS] tabindex — Elements should not have tabindex greater than zero
+
+Ensure tabindex attribute values are not greater than 0
+Référence : https://dequeuniversity.com/rules/axe/4.14/tabindex?application=axeAPI
+
+- http://localhost:5801/issues/new?project_id=office-website
+  - `.jstb_strong`
+  - `.jstb_em`
+  - `.jstb_ins`
+  - `.jstb_del`
+  - `.jstb_code`
+  - `.jstb_h1`
+  - `.jstb_h2`
+  - `.jstb_h3`
+  - `.jstb_ul`
+  - `.jstb_ol`
+  - … +11 autres
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `a[title="New category"]`
+  - `a[title="New version"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_strong[title="Strong (Ctrl+B)"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_em[title="Italic (Ctrl+I)"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_ins[title="Underline (Ctrl+U)"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_del[title="Deleted"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_code[title="Inline Code"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_h1[title="Heading 1"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_h2[title="Heading 2"][type="button"]`
+  - `#add_notes > .jstBlock > .jstTabs.tabs > ul > .tab-elements > .jstElements > .jstb_h3[title="Heading 3"][type="button"]`
+  - … +11 autres
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:5801/
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `h2`
+  - `.splitcontentleft`
+  - `.icon-news > .icon-label`
+  - `.news > p`
+  - `a[href$="news"]`
+  - `#footer`
+- http://localhost:5801/my/page
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#content > .contextual`
+  - `h2`
+  - `#block-issuesassignedtome > h3`
+  - `.sort-by-priority > thead > tr > th:nth-child(2)`
+  - `.sort-by-priority > thead > tr > th:nth-child(3)`
+  - `.sort-by-priority > thead > tr > th:nth-child(4)`
+  - … +79 autres
+- http://localhost:5801/my/account
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#sidebar-wrapper`
+  - `.icon-email-add > .icon-label`
+  - `.icon-passwd > .icon-label`
+  - `h2`
+  - `.splitcontentleft > .tabular.box`
+  - `.splitcontentright > .box:nth-child(1) > legend`
+  - … +23 autres
+- http://localhost:5801/projects
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#main-menu > ul`
+  - `#sidebar-wrapper`
+  - `.icon-add > .icon-label`
+  - `.icon-settings > .icon-label`
+  - `h2`
+  - `.icon-expanded`
+  - … +16 autres
+- http://localhost:5801/projects/office-website
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +26 autres
+- http://localhost:5801/projects/office-website/issues
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +134 autres
+- http://localhost:5801/issues/1
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +38 autres
+- http://localhost:5801/issues/6
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +47 autres
+- http://localhost:5801/issues/new?project_id=office-website
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +37 autres
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +58 autres
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +34 autres
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +81 autres
+- http://localhost:5801/projects/office-website/wiki
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +19 autres
+- http://localhost:5801/projects/office-website/news
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +15 autres
+- http://localhost:5801/projects/office-website/boards
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +23 autres
+- http://localhost:5801/projects/office-website/boards/1
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +23 autres
+- http://localhost:5801/projects/office-website/documents
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +16 autres
+- http://localhost:5801/projects/office-website/versions
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +33 autres
+- http://localhost:5801/projects/office-website/time_entries
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +49 autres
+- http://localhost:5801/projects/office-website/files
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +16 autres
+- http://localhost:5801/search
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#main-menu > ul`
+  - `h2`
+  - `label[for="search-input"]`
+  - `#search-input`
+  - `label[for="scope"]`
+  - `#scope`
+  - … +5 autres
+- http://localhost:5801/admin
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `h2`
+  - `.icon-projects > .icon-label`
+  - `.icon-user > .icon-label`
+  - `.icon-group > .icon-label`
+  - `.icon-roles > .icon-label`
+  - `.icon-issue > .icon-label`
+  - … +10 autres
+- http://localhost:5801/admin/projects
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#sidebar-wrapper > h3`
+  - `.icon-projects > .icon-label`
+  - `.users > .icon-label`
+  - `.icon-group > .icon-label`
+  - `.icon-roles > .icon-label`
+  - `.icon-issue > .icon-label`
+  - … +31 autres
+- http://localhost:5801/users
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#sidebar-wrapper > h3`
+  - `.icon-projects > .icon-label`
+  - `.icon-user > .icon-label`
+  - `.icon-group > .icon-label`
+  - `.icon-roles > .icon-label`
+  - `.icon-issue > .icon-label`
+  - … +60 autres
+- http://localhost:5801/roles
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#sidebar-wrapper > h3`
+  - `.icon-projects > .icon-label`
+  - `.icon-user > .icon-label`
+  - `.icon-group > .icon-label`
+  - `.icon-roles > .icon-label`
+  - `.icon-issue > .icon-label`
+  - … +27 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +143 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +137 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +149 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +134 autres
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +80 autres
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +47 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `label[for="q"]`
+  - `#q`
+  - `.drdn-trigger`
+  - `h1`
+  - `#new-object`
+  - `#main-menu > ul > li:nth-child(2)`
+  - `#main-menu > ul > li:nth-child(3)`
+  - `#main-menu > ul > li:nth-child(4)`
+  - `#main-menu > ul > li:nth-child(5)`
+  - `#main-menu > ul > li:nth-child(6)`
+  - … +133 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `#flyout-search`
+  - `.flyout-menu__avatar`
+  - `h3:nth-child(3)`
+  - `.js-project-menu > ul > li:nth-child(2)`
+  - `.js-project-menu > ul > li:nth-child(3)`
+  - `.js-project-menu > ul > li:nth-child(4)`
+  - `.js-project-menu > ul > li:nth-child(5)`
+  - `.js-project-menu > ul > li:nth-child(6)`
+  - `.js-project-menu > ul > li:nth-child(7)`
+  - `.js-project-menu > ul > li:nth-child(8)`
+  - … +137 autres
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://localhost:5801/
+  - `html`
+- http://localhost:5801/my/page
+  - `html`
+- http://localhost:5801/my/account
+  - `html`
+- http://localhost:5801/projects
+  - `html`
+- http://localhost:5801/projects/office-website
+  - `html`
+- http://localhost:5801/projects/office-website/issues
+  - `html`
+- http://localhost:5801/issues/1
+  - `html`
+- http://localhost:5801/issues/6
+  - `html`
+- http://localhost:5801/issues/new?project_id=office-website
+  - `html`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `html`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `html`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `html`
+- http://localhost:5801/projects/office-website/wiki
+  - `html`
+- http://localhost:5801/projects/office-website/news
+  - `html`
+- http://localhost:5801/projects/office-website/boards
+  - `html`
+- http://localhost:5801/projects/office-website/boards/1
+  - `html`
+- http://localhost:5801/projects/office-website/documents
+  - `html`
+- http://localhost:5801/projects/office-website/versions
+  - `html`
+- http://localhost:5801/projects/office-website/time_entries
+  - `html`
+- http://localhost:5801/projects/office-website/files
+  - `html`
+- http://localhost:5801/search
+  - `html`
+- http://localhost:5801/admin
+  - `html`
+- http://localhost:5801/admin/projects
+  - `html`
+- http://localhost:5801/users
+  - `html`
+- http://localhost:5801/roles
+  - `html`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `html`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `html`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `html`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `html`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `html`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `html`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI
+
+- http://localhost:5801/my/account
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/issues/1
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/issues/6
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/wiki
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/documents
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/versions
+  - `form[name="form-fd36ee9f"] > h3`
+- http://localhost:5801/projects/office-website/time_entries
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/admin/projects
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/users
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/roles
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `#sidebar-wrapper > h3`
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `#sidebar-wrapper > h3`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `html`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:5801/my/page
+  - `.sort-by-priority > thead > tr > th:nth-child(7)`
+  - `.sort-by-updated-on > thead > tr > th:nth-child(7)`
+- http://localhost:5801/projects/office-website
+  - `th:nth-child(1)`
+- http://localhost:5801/projects/office-website/issues
+  - `th:nth-child(9)`
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `thead > tr > .buttons`
+- http://localhost:5801/projects/office-website/time_entries
+  - `th:nth-child(8)`
+- http://localhost:5801/projects/office-website/files
+  - `th:nth-child(6)`
+- http://localhost:5801/admin/projects
+  - `th:nth-child(5)`
+- http://localhost:5801/users
+  - `th:nth-child(9)`
+- http://localhost:5801/roles
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `th:nth-child(9)`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `th:nth-child(9)`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `th:nth-child(9)`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `th:nth-child(9)`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `th:nth-child(9)`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `th:nth-child(9)`
+
+## Résultats incomplets à revoir (148)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:5801/
+  - `.drdn-trigger`
+  - `.external`
+- http://localhost:5801/my/page
+  - `.drdn-trigger`
+  - `#block-select`
+  - `.subject > a[href$="issues/4"]`
+- http://localhost:5801/my/account
+  - `.drdn-trigger`
+  - `#user_language`
+  - `#user_mail_notification`
+  - `#pref_time_zone`
+  - `#pref_comments_sorting`
+  - `#pref_textarea_font`
+  - `#pref_history_default_tab`
+  - `#pref_default_issue_query`
+  - `#pref_default_project_query`
+- http://localhost:5801/projects
+  - `.drdn-trigger`
+  - `#operators_status`
+  - `#values_status_1`
+  - `#add_filter_select`
+  - `.external`
+- http://localhost:5801/projects/office-website
+  - `.drdn-trigger`
+  - `.external`
+- http://localhost:5801/projects/office-website/issues
+  - `.drdn-trigger`
+  - `#operators_status_id`
+  - `#add_filter_select`
+  - `.subject > a[href$="issues/4"]`
+- http://localhost:5801/issues/1
+  - `.drdn-trigger`
+  - `.external`
+- http://localhost:5801/issues/6
+  - `.drdn-trigger`
+  - `#tab-history`
+  - `#tab-notes`
+  - `#tab-time_entries`
+  - `.external`
+- http://localhost:5801/issues/new?project_id=office-website
+  - `.drdn-trigger`
+  - `#issue_tracker_id`
+  - `.tab-edit`
+  - `.tab-preview`
+  - `#issue_status_id`
+  - `#issue_priority_id`
+  - `#issue_assigned_to_id`
+  - `#issue_category_id`
+  - `#issue_fixed_version_id`
+  - `#issue_parent_issue_id`
+  - … +1 autres
+- http://localhost:5801/projects/office-website/issues?query_id=8
+  - `.drdn-trigger`
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `.drdn-trigger`
+  - `#month`
+  - `#year`
+  - `.gantt-row[data-gantt-row-key="project-1"][data-gantt-row-type="project"] > .gantt-task-label.gantt-task`
+  - `div[data-gantt-row-key="version-2-project-1"][data-gantt-row-type="version"][data-gantt-parent-row-key="project-1"] > .gantt-task-label.gantt-task`
+  - `div[data-gantt-row-key="issue-1"][data-gantt-row-type="issue"][data-gantt-parent-row-key="version-2-project-1"] > .gantt-task-label.gantt-task`
+  - `div[data-gantt-row-key="issue-10"][data-gantt-row-type="issue"][data-gantt-parent-row-key="version-2-project-1"] > .gantt-task-label.gantt-task`
+  - `div[data-gantt-row-key="issue-6"][data-gantt-row-type="issue"][data-gantt-parent-row-key="version-2-project-1"] > .gantt-task-label.gantt-task`
+- http://localhost:5801/projects/office-website/issues/calendar
+  - `.drdn-trigger`
+  - `#month`
+  - `#year`
+  - `.today > .day-num > .day-value`
+- http://localhost:5801/projects/office-website/wiki
+  - `.drdn-trigger`
+  - `.external[href$="guide"]`
+  - `li:nth-child(2) > .external`
+- http://localhost:5801/projects/office-website/news
+  - `.drdn-trigger`
+  - `.external`
+- http://localhost:5801/projects/office-website/boards
+  - `.drdn-trigger`
+- http://localhost:5801/projects/office-website/boards/1
+  - `.drdn-trigger`
+- http://localhost:5801/projects/office-website/documents
+  - `.drdn-trigger`
+  - `.external`
+- http://localhost:5801/projects/office-website/versions
+  - `.drdn-trigger`
+- http://localhost:5801/projects/office-website/time_entries
+  - `.drdn-trigger`
+  - `#operators_spent_on`
+  - `#add_filter_select`
+  - `li:nth-child(1) > .selected`
+  - `.tabs.hide-when-print > ul > li:nth-child(2) > a`
+- http://localhost:5801/projects/office-website/files
+  - `.drdn-trigger`
+- http://localhost:5801/search
+  - `.drdn-trigger`
+  - `#scope`
+- http://localhost:5801/admin
+  - `.drdn-trigger`
+- http://localhost:5801/admin/projects
+  - `.drdn-trigger`
+  - `#operators_status`
+  - `#values_status_1`
+  - `#add_filter_select`
+  - `.external`
+- http://localhost:5801/users
+  - `.drdn-trigger`
+  - `#operators_status`
+  - `#values_status_1`
+  - `#add_filter_select`
+- http://localhost:5801/roles
+  - `.drdn-trigger`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-options]
+  - `.drdn-trigger`
+  - `#operators_status_id`
+  - `#add_filter_select`
+  - `#selected_c`
+  - `.buttons:nth-child(5) > button[type="button"]:nth-child(1)`
+  - `.buttons:nth-child(5) > button[type="button"]:nth-child(2)`
+  - `button[type="button"]:nth-child(3)`
+  - `button[type="button"]:nth-child(4)`
+  - `#group_by`
+  - `.subject > a[href$="issues/4"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:issues-add-filter]
+  - `.drdn-trigger`
+  - `#operators_status_id`
+  - `#operators_author_id`
+  - `#values_author_id_1`
+  - `#add_filter_select`
+  - `.subject > a[href$="issues/4"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:context-menu]
+  - `#q`
+  - `.drdn-trigger`
+  - `#sidebar-wrapper > h3`
+  - `a[data-disable-with="Issues assigned to me"]`
+  - `a[data-disable-with="Open bugs"]`
+  - `a[data-disable-with="Reported issues"]`
+  - `a[data-disable-with="Updated issues"]`
+  - `a[data-disable-with="Watched issues"]`
+  - `#operators_status_id`
+  - `#add_filter_select`
+  - … +1 autres
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:account-dropdown]
+  - `.drdn-trigger`
+  - `#operators_status_id`
+  - `#add_filter_select`
+  - `.subject > a[href$="issues/4"]`
+- http://localhost:5801/issues/6 [state:issue-edit]
+  - `.drdn-trigger`
+  - `#tab-history`
+  - `#tab-notes`
+  - `#tab-time_entries`
+  - `.external`
+  - `#issue_project_id`
+  - `#issue_tracker_id`
+  - `#issue_status_id`
+  - `#issue_priority_id`
+  - `#issue_assigned_to_id`
+  - … +7 autres
+- http://localhost:5801/issues/6 [state:watchers-autocomplete]
+  - `.drdn-trigger`
+  - `#tab-history`
+  - `#tab-notes`
+  - `#tab-time_entries`
+  - `.external`
+  - `#user_search`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:sidebar-collapsed]
+  - `.drdn-trigger`
+  - `#operators_status_id`
+  - `#add_filter_select`
+  - `.subject > a[href$="issues/4"]`
+- http://localhost:5801/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+  - `a[title="Sort by \"Priority\""]`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://localhost:5801/projects/office-website/issues/gantt
+  - `.issue-behind-schedule > .status-2.priority-3[href$="issues/1"]`
+  - `.issue-behind-schedule > .status-1.priority-3[href="/issues/10"]`
+  - `.issue-behind-schedule > .priority-5.priority-highest[href$="issues/6"]`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:5801/projects/office-website/files
+  - `table`
+

@@ -1,0 +1,35 @@
+INSTALL-BUILD REPLAY — cycle 40 redmine @10d61f8aea263a12ebc028dba5f0e8a373938212
+=================================================================================
+But : prouver que patch.diff s'applique sur un clone vierge @SHA, que l'image
+reconstruite boote, que le seed rejoue et que le rescan axe donne 0 violation.
+
+Étapes exécutées (2026-10-07, hôte VM worker, docker natif) :
+
+1. Clone vierge + pin SHA :
+     git clone https://github.com/redmine/redmine ~/work/redmine40-virgin
+     git -C ~/work/redmine40-virgin checkout 10d61f8aea263a12ebc028dba5f0e8a373938212
+   → detached HEAD exact @10d61f8 (7.0.2.devel, Rails 8.1.4, Ruby 4.0.7).
+
+2. Patch :
+     git apply --check patch.diff   → OK (aucune erreur)
+     git apply patch.diff           → 49 fichiers, +210/-139
+
+3. Build image (même tools/Dockerfile, aucun fichier hôte injecté hors patch) :
+     docker build -t redmine40-virgin-img -f tools/Dockerfile ~/work/redmine40-virgin
+   Note : le Dockerfile crée config/database.yml (gitignored amont, requis par
+   assets:precompile) — RUN printf 'production: ... sqlite3 db/redmine.sqlite3'.
+
+4. Boot + seed (même protocole que l'instance principale, port :5802) :
+     docker run -d --name redmine40-virgin -p 5802:3000 \
+       -e REDMINE_SECRET_KEY_BASE=redmine40virginsecretkeybase0123456789abcdef \
+       -e REDMINE_DB_DATABASE=db/redmine.sqlite3 redmine40-virgin-img
+     docker exec -e SECRET_KEY_BASE=... -e REDMINE_LANG=en redmine40-virgin \
+       bundle exec rake redmine:load_default_data   → "Default configuration data loaded."
+     docker cp tools/seed.rb redmine40-virgin:/tmp/seed.rb
+     docker exec -e SECRET_KEY_BASE=... redmine40-virgin bundle exec rails runner /tmp/seed.rb
+   → "[seed] OK : 15 issues, wiki=1 page(s), 2 messages"
+
+5. Rescan axe 4.14.0 (mêmes commandes verbatim que le manifest, base :5802) :
+     auth   → 0 règle violée, 0 occurrence, 0 erreur, 138 incomplets
+     public → 0 règle violée, 0 occurrence, 0 erreur, 54 incomplets
+   Identique au run final de l'instance principale :5801 (138/54) — reproductible.

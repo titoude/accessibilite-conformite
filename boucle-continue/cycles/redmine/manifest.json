@@ -1,0 +1,40 @@
+{
+  "cycle": 40,
+  "produit": "redmine",
+  "repo": "https://github.com/redmine/redmine",
+  "commit": "10d61f8aea263a12ebc028dba5f0e8a373938212",
+  "pinned": "10d61f8aea263a12ebc028dba5f0e8a373938212 (HEAD amont vérifié via `git ls-remote https://github.com/redmine/redmine HEAD` le 2026-10-07, Redmine 7.0.2.devel)",
+  "baseUrl": "http://localhost:5801",
+  "stack": "Ruby 4.0.7 + Rails 8.1.4 + ERB + jQuery/jQuery-UI + propshaft + sqlite — image dérivée de mirror.gcr.io/library/redmine:latest",
+  "boot": {
+    "clone": "git clone https://github.com/redmine/redmine redmine40 && cd redmine40 && git checkout 10d61f8aea263a12ebc028dba5f0e8a373938212",
+    "patch": "git apply cycles/redmine/patch.diff",
+    "image": "docker build -t redmine40-img -f tools/Dockerfile <clone_patché> — mécanisme : l'image officielle redmine:latest embarque la release 7.0.2 SANS toolchain de build (bundle install de HEAD échoue sur json 3.0.2 etc.) ; tools/Dockerfile ajoute build-essential + libsqlite3-dev + libyaml-dev, écrit Gemfile.local `gem \"puma\"`, bundle install (BUNDLE_WITHOUT=development:test), puis COPY de l'arbre complet patché + assets:precompile (propshaft). Le patch s'applique donc aux vraies sources avant la compilation des assets.",
+    "db": "sqlite persistante dans le conteneur (REDMINE_DB_DATABASE=db/redmine.sqlite3), schéma + admin migrés par l'entrypoint amont au 1er boot",
+    "web": "docker run -d --name redmine40 -p 5801:3000 -e REDMINE_SECRET_KEY_BASE=redmine40cycle40fixedsecretkeybase0123456789abcdef -e REDMINE_DB_DATABASE=db/redmine.sqlite3 redmine40-img",
+    "seed": "docker cp tools/seed.rb redmine40:/tmp/seed.rb && docker exec -e SECRET_KEY_BASE=redmine40cycle40fixedsecretkeybase0123456789abcdef redmine40 bundle exec rails runner /tmp/seed.rb — idempotent : projet office-website, 15 issues (dont #6), wiki accueil+page, 2 messages board, users admin/jsmith/jdoe/pleblanc (membres), query 'Open bugs' id=8, pleblanc NON watcher de #6 (état autocomplete)",
+    "login": "node tools/login.mjs http://localhost:5801 — admin/redmine40-pw, #username/#password, écrit tools/auth.json (storageState)",
+    "gotcha": "docker exec BYPASSE l'entrypoint → toujours passer -e SECRET_KEY_BASE=redmine40cycle40fixedsecretkeybase0123456789abcdef aux rails runner/rake"
+  },
+  "auth": "tools/auth.json — storageState Playwright (cookie _redmine_session ; admin/redmine40-pw, régénérable via login.mjs)",
+  "urls": "tools/urls-public.txt (13 routes : / /login /account/register /projects … gantt/calendar/search publics) + tools/urls-auth.txt (25 routes : my/page, issues list+detail+new, query Open bugs, gantt, calendar, wiki, news, boards, documents, versions, time_entries, files, search, admin, admin/projects, users, roles)",
+  "states": "9 états dynamiques (states.json) : public = login-failed + mobile-nav-390 ; auth = issues-options, issues-add-filter, context-menu, account-dropdown, issue-edit, watchers-autocomplete, sidebar-collapsed + mobile-nav-390. login-failed exclu du run auth (#username absent une fois connecté). Open-actions déterministes + stateProof (leçon 32). URLs de requêtes pinnées ?set_filter=1 (retrieve_query lit la session).",
+  "auditCommands": {
+    "baseline_public": "node tools/audit.mjs http://localhost:5801 --urls $(paste -sd, tools/urls-public.txt) --states login-failed,mobile-nav-390 --out reports/baseline/public",
+    "baseline_auth": "node tools/audit.mjs http://localhost:5801 --urls $(paste -sd, tools/urls-auth.txt) --storage-state tools/auth.json --states issues-options,issues-add-filter,context-menu,account-dropdown,issue-edit,watchers-autocomplete,sidebar-collapsed,mobile-nav-390 --out reports/baseline/auth",
+    "final_public": "node tools/audit.mjs http://localhost:5801 --urls $(paste -sd, tools/urls-public.txt) --states login-failed,mobile-nav-390 --out reports/final/public",
+    "final_auth": "node tools/audit.mjs http://localhost:5801 --urls $(paste -sd, tools/urls-auth.txt) --storage-state tools/auth.json --states issues-options,issues-add-filter,context-menu,account-dropdown,issue-edit,watchers-autocomplete,sidebar-collapsed,mobile-nav-390 --out reports/final/auth",
+    "install_build": "voir install-build.log — clone vierge @SHA + git apply patch.diff + docker build -f tools/Dockerfile + run :5802 + seed + audit complet → reports/install-build{,/public}",
+    "axe_pin": "axe-core@4.14.0 (tools/package.json, npm i dans tools/)"
+  },
+  "verify": "node tools/verify.mjs http://localhost:5801 tools/auth.json — sondes computed/rect : noms accessibles, landmarks nommés/uniques, contrastes composites (walk-up alpha), targets ≥24px, states persistants",
+  "eval": "node tools/eval-final.mjs http://localhost:5801 tools/auth.json — pages hors périmètre + dup-ids + mobile",
+  "probes": "node tools/incomplete-probes.mjs http://localhost:5801 reports/final/auth/report.json reports/probes-auth.json tools/auth.json — mesure réelle des incomplets → PASS/FAIL/N-A honnête",
+  "patch": "patch.diff — régénéré depuis l'arbre appliqué (git add -N + git diff HEAD @10d61f8)",
+  "results": "results.json — SANS auto-verdict (c'est l'auditeur qui conclut)",
+  "notes": [
+    "Baselines : public 14 règles/758 occurrences/0 erreur ; auth 15 règles/2873 occurrences/0 erreur/148 incomplets/33 scénarios — rapports dans reports/baseline/{public,auth}.",
+    "axe 4.14 règle `region` : role=dialog est un landmark de type window — #ajax-modal n'a pas besoin de markup (jQuery UI dialog() ajoute role=dialog tout seul) — vérifié empiriquement.",
+    "Assets propshaft précompilés dans l'image : toute retouche app/assets ou app/views exige rebuild de l'image (ou COPY + precompile + restart)."
+  ]
+}

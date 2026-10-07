@@ -1,0 +1,120 @@
+{
+ "cycle": 40,
+ "produit": "redmine",
+ "repo": "https://github.com/redmine/redmine",
+ "commit": "10d61f8aea263a12ebc028dba5f0e8a373938212",
+ "axeVersion": "4.14.0",
+ "baseline": {
+  "auth": {
+   "scenarios": 33,
+   "violations": 2873,
+   "occurrences": 2873,
+   "rules": 15,
+   "incomplete": 148,
+   "errors": 0,
+   "rules_detail": {
+    "region": 2190,
+    "color-contrast": 148,
+    "target-size": 112,
+    "label": 107,
+    "link-in-text-block": 90,
+    "role-img-alt": 52,
+    "tabindex": 42,
+    "landmark-one-main": 32,
+    "link-name": 30,
+    "heading-order": 21,
+    "select-name": 18,
+    "empty-table-header": 17,
+    "label-title-only": 11,
+    "button-name": 2,
+    "page-has-heading-one": 1
+   }
+  },
+  "public": {
+   "scenarios": 15,
+   "violations": 758,
+   "occurrences": 758,
+   "rules": 14,
+   "incomplete": 70,
+   "errors": 0,
+   "rules_detail": {
+    "region": 552,
+    "color-contrast": 52,
+    "link-in-text-block": 41,
+    "target-size": 32,
+    "label": 27,
+    "landmark-one-main": 15,
+    "select-name": 8,
+    "link-name": 8,
+    "heading-order": 7,
+    "tabindex": 6,
+    "role-img-alt": 4,
+    "empty-table-header": 3,
+    "label-title-only": 2,
+    "page-has-heading-one": 1
+   }
+  }
+ },
+ "final": {
+  "auth": {
+   "scenarios": 33,
+   "violations": 0,
+   "occurrences": 0,
+   "incomplete": 138,
+   "errors": 0
+  },
+  "public": {
+   "scenarios": 15,
+   "violations": 0,
+   "occurrences": 0,
+   "incomplete": 56,
+   "errors": 0
+  }
+ },
+ "install_build": {
+  "auth": {
+   "scenarios": 33,
+   "violations": 0,
+   "occurrences": 0,
+   "incomplete": 138,
+   "errors": 0
+  },
+  "public": {
+   "scenarios": 15,
+   "violations": 0,
+   "occurrences": 0,
+   "incomplete": 56,
+   "errors": 0
+  },
+  "note": "clone vierge @10d61f8 + git apply (0 rejet, 49 fichiers) + docker build -f tools/Dockerfile (config/database.yml généré par RUN, gitignored amont) + run :5802 + load_default_data + seed.rb + rescan axe 4.14 — détail install-build.log"
+ },
+ "verify": "0 FAIL (37 sondes PASS)",
+ "eval_final": "0 FAIL (24 sondes : pages hors périmètre axe — roadmap, activity, admin tables, settings tabs, watchers autocomplete — + dup-ids + mobile 390)",
+ "probes": {
+  "auth": {
+   "file": "reports/final/auth/incomplete-verdicts.json",
+   "distribution": {
+    "color-contrast|PASS": 112,
+    "color-contrast|N-A": 21,
+    "th-has-data-cells|N-A": 1,
+    "label-content-name-mismatch|N-A": 4,
+    "bypass|N-A": 1
+   },
+   "fail": 0,
+   "n": 139
+  }
+ },
+ "patch": {
+  "file": "patch.diff",
+  "sha256": "a744c344de73680b4b456406308f1b4feb206a01b83d626db4b13004512eb652",
+  "files": 49,
+  "insertions": 210,
+  "deletions": 139
+ },
+ "fixes": {
+  "css": "application.css : liens soulignés dans le texte (footer, wiki, autres formats, auteurs, sidebar p, h2, form), targets ≥24px (sidebar liens, .icon-only, sous-projets, calendrier, boards, messages, icon-projects, gantt), tabs gray-6→gray-7 + hover, descriptions activity/search gray-7, .day-value today fond réel blue-8 (6.09) au lieu du ::before ; gantt.css : rows 24px, task/non-working gray-7 ; responsive.css : nav toggle nommé + h1 mobile",
+  "views_erb": "context_menus ×4 (<ul> rôle navigation → <nav aria-label> wrapper) ; activities (h3→h2 sidebar, label date+user) ; reports _simple/_details + enumerations + issue_statuses + trackers + workflows (th vides → span visually-hidden l()) ; admin/info autoscroll tabindex=0 ; common/_tabs + base (boutons tab-scroll aria-label prev/next) ; issues/_list, _edit (labels/boutons) ; account/login ; gantts _chart/_query_form ; attachments/_form ; helpers : jump-box input aria-label l(:label_jump_to_a_project), avatars role-img-alt",
+  "js": "context_menu.js : menu role=dialog aria-modal=true, aria-label depuis nav injecté, #wrapper inert pendant ouverture, restauration à la fermeture ; application-legacy.js : fix dup-ids libellés"
+ },
+ "axe_414_semantics": "rôle dialog + aria-modal exempte les règles page (landmark-one-main, page-has-heading-one, region) en contexte modale ; role=navigation interdit sur <ul> (aria-allowed-role) → wrapper <nav> ; inert retire du scan géométrique axe — vérifié empiriquement, cf. install-build/notes"
+}

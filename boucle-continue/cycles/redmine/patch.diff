@@ -1,0 +1,1295 @@
+diff --git a/app/assets/javascripts/application-legacy.js b/app/assets/javascripts/application-legacy.js
+index 6249f0a..ca0a190 100644
+--- a/app/assets/javascripts/application-legacy.js
++++ b/app/assets/javascripts/application-legacy.js
+@@ -208,7 +208,7 @@ function buildFilterRow(field, operator, values) {
+ 
+   var tr = $('<div class="filter">').attr('id', 'tr_'+fieldId).html(
+     '<div class="field"><input checked="checked" id="cb_'+fieldId+'" name="f[]" value="'+field+'" type="checkbox"><label for="cb_'+fieldId+'"> '+sanitizeHTML(filterOptions['name'])+'</label></div>' +
+-    '<div class="operator"><select id="operators_'+fieldId+'" name="op['+field+']"></select></div>' +
++    '<div class="operator"><select id="operators_'+fieldId+'" name="op['+field+']" aria-label="'+sanitizeHTML(labelOperator + ': ' + filterOptions['name'])+'"></select></div>' +
+     '<div class="values"></div>'
+   );
+   filterTable.append(tr);
+@@ -237,6 +237,7 @@ function buildFilterRow(field, operator, values) {
+           class: 'value',
+           id: `values_${fieldId}_1`,
+           name: `v[${field}][]`,
++          'aria-label': labelValue + ': ' + filterOptions['name'],
+         }),
+         '\n',
+         $('<span>', { class: `toggle-multiselect icon-only icon-${iconType}` }).append(iconSvg)
+@@ -282,8 +283,8 @@ function buildFilterRow(field, operator, values) {
+     break;
+   case "relation":
+     tr.find('.values').append(
+-      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="6" class="value" /></span>' +
+-      '<span style="display:none;"><select class="value" name="v['+field+'][]" id="values_'+fieldId+'_1"></select></span>'
++      '<span style="display:none;"><input type="text" name="v['+field+'][]" id="values_'+fieldId+'" size="6" class="value" aria-label="'+sanitizeHTML(labelValue + ': ' + filterOptions['name'])+'" /></span>' +
++      '<span style="display:none;"><select class="value" name="v['+field+'][]" id="values_'+fieldId+'_1" aria-label="'+sanitizeHTML(labelValue + ': ' + filterOptions['name'])+'"></select></span>'
+     );
+     $('#values_'+fieldId).val(values[0]);
+     select = tr.find('.values select');
+diff --git a/app/assets/javascripts/context_menu.js b/app/assets/javascripts/context_menu.js
+index 7feb603..73a26e9 100644
+--- a/app/assets/javascripts/context_menu.js
++++ b/app/assets/javascripts/context_menu.js
+@@ -92,6 +92,8 @@ function contextMenuCreate() {
+     menu.setAttribute("id", "context-menu");
+     menu.setAttribute("class", "dropdown-content");
+     menu.setAttribute("style", "display:none;");
++    menu.setAttribute("role", "dialog");
++    menu.setAttribute("aria-modal", "true");
+     document.getElementsByTagName("body")[0].appendChild(menu);
+   }
+ }
+@@ -123,6 +125,9 @@ function contextMenuShow(event) {
+     data: $(event.target).parents('form').first().serialize(),
+     success: function(data, textStatus, jqXHR) {
+       $('#context-menu').html(data);
++      /* The injected nav landmark carries the localized label: reuse it as
++         the dialog's accessible name. */
++      $('#context-menu').attr('aria-label', $('#context-menu nav[aria-label]').attr('aria-label'));
+       menu_width = $('#context-menu').width();
+       menu_height = $('#context-menu').height();
+       max_width = mouse_x + 2*menu_width;
+@@ -160,6 +165,9 @@ function contextMenuShow(event) {
+       $('#context-menu').css('left', (render_x + 'px'));
+       $('#context-menu').css('top', (render_y + 'px'));
+       $('#context-menu').show();
++      /* The open context menu behaves like a modal: make the page behind it
++         inert so pointer targets and the a11y tree exclude covered content. */
++      $('#wrapper').prop('inert', true);
+ 
+       //if (window.parseStylesheets) { window.parseStylesheets(); } // IE
+     }
+@@ -185,6 +193,7 @@ function contextMenuUnselectAll() {
+ 
+ function contextMenuHide() {
+   $('#context-menu').hide();
++  $('#wrapper').prop('inert', false);
+ }
+ 
+ function contextMenuToggleSelection(tr) {
+diff --git a/app/assets/javascripts/jstoolbar/jstoolbar.js b/app/assets/javascripts/jstoolbar/jstoolbar.js
+index bae625c..9d22cee 100644
+--- a/app/assets/javascripts/jstoolbar/jstoolbar.js
++++ b/app/assets/javascripts/jstoolbar/jstoolbar.js
+@@ -122,7 +122,6 @@ jsButton.prototype.draw = function() {
+ 
+   var button = document.createElement('button');
+   button.setAttribute('type','button');
+-  button.tabIndex = 200;
+   if (this.className) button.className = this.className;
+   button.title = this.title;
+   var span = document.createElement('span');
+diff --git a/app/assets/stylesheets/application.css b/app/assets/stylesheets/application.css
+index 9c37bcf..10f5b32 100644
+--- a/app/assets/stylesheets/application.css
++++ b/app/assets/stylesheets/application.css
+@@ -48,6 +48,21 @@
+ 
+ html, body { min-block-size: 100vh; }
+ html {overflow-y:scroll;}
++
++/* Visually hidden but accessible to assistive technologies */
++.visually-hidden {
++  position: absolute !important;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0 0 0 0);
++  clip-path: inset(50%);
++  white-space: nowrap;
++  border: 0;
++}
++
+ body {
+   font-family: var(--fonts-main);
+   font-size: 0.875rem;
+@@ -324,8 +339,8 @@ body.has-main-menu #header {
+ @media screen and (min-width: 1600px) and (max-width: 1919px) {#sidebar{width: 320px;}}
+ @media screen and (min-width: 1920px) and (max-width: 2559px) {#sidebar{width: 360px;}}
+ @media screen and (min-width: 2560px) {#sidebar{width: 380px;}}
+-#sidebar h3{ font-size: 0.875rem; margin-block-start: 14px; color: var(--oc-gray-7); }
+-#sidebar h3:first-child{ margin-block-start: 0; }
++#sidebar h3, #sidebar h2{ font-size: 0.875rem; margin-block-start: 14px; color: var(--oc-gray-7); font-weight: bold; }
++#sidebar h3:first-child, #sidebar h2:first-child{ margin-block-start: 0; }
+ #sidebar hr{ inline-size: 100%; margin: 0 auto; block-size: 1px; background: var(--oc-gray-4); border: 0; }
+ #sidebar .contextual { margin-inline-end: 1em; }
+ #sidebar ul, ul.flat {margin: 0;  padding: 0;}
+@@ -376,7 +391,7 @@ body.has-main-menu #header {
+ #main.collapsedsidebar #sidebar { inline-size: 0; padding-inline-end: 0 }
+ #main.collapsedsidebar #sidebar-wrapper { display: none; }
+ 
+-#footer {clear: both; border-block-start: 1px solid var(--oc-gray-4); font-size: 0.9em; color: var(--oc-gray-5); padding: 5px; text-align: center; background: var(--oc-white);}
++#footer {clear: both; border-block-start: 1px solid var(--oc-gray-4); font-size: 0.9em; color: var(--oc-gray-7); padding: 5px; text-align: center; background: var(--oc-white);}
+ 
+ #login-form {
+   margin-block: 5em 2em;
+@@ -411,11 +426,22 @@ div.modal .box p {margin-block: 0.3em; margin-inline: 0;}
+ /***** Links *****/
+ a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
+ a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
++
++/* Links inside text must be distinguishable without relying on color alone (WCAG 1.4.1) */
++#footer a, .other-formats a, div.wiki a, a.issue,
++p.author a, span.author a, .wiki-update-info a, .updated_on a, #sidebar p a,
++#content h2 > a, #content form > a { text-decoration: underline; }
++
++/* Pointer targets must be at least 24x24 CSS pixels (WCAG 2.5.8) */
++#sidebar ul li a, #sidebar a.icon-only,
++ul.subprojects a, .cal .calbody a, table.boards td.last-message a,
++table.messages td.last_message a, .icon-projects a,
++.gantt-pane-body a { display: inline-block; min-height: 24px; min-width: 24px; padding-block: 2px; }
+ a img{ border: 0; }
+ 
+-a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: var(--oc-gray-6); text-decoration: line-through; }
+-a.project.closed, a.project.closed:link, a.project.closed:visited { color: var(--oc-gray-6); }
+-a.user.locked, a.user.locked:link, a.user.locked:visited {color: var(--oc-gray-6);}
++a.issue.closed, a.issue.closed:link, a.issue.closed:visited { color: var(--oc-gray-7); text-decoration: line-through; }
++a.project.closed, a.project.closed:link, a.project.closed:visited { color: var(--oc-gray-7); }
++a.user.locked, a.user.locked:link, a.user.locked:visited {color: var(--oc-gray-7);}
+ a.user.user-mention {
+   padding: 0.1em;
+   border-radius: 0.1em;
+@@ -444,9 +470,9 @@ a.user.user-mention.user-current {
+ #sidebar .query.default {font-weight: bold;}
+ #admin-menu a {line-height:1.7em;}
+ 
+-a#toggle-completed-versions {color:var(--oc-gray-6);}
++a#toggle-completed-versions {color:var(--oc-gray-7);}
+ a#toggle-completed-versions span.icon-label {margin-inline-start: 0}
+-a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:var(--oc-gray-6)}
++a#toggle-completed-versions svg, a#toggle-completed-versions:hover svg {stroke:var(--oc-gray-7)}
+ 
+ /***** Dropdown *****/
+ .drdn {position:relative;}
+@@ -508,7 +534,7 @@ div + .drdn-items {border-block-start: 1px solid var(--oc-gray-4);}
+ .drdn-items.selection:empty {
+   border: none;
+ }
+-.drdn-items>span {color:var(--oc-gray-6);}
++.drdn-items>span {color:var(--oc-gray-7);}
+ 
+ .contextual .drdn-content, .journal-actions .drdn-content {
+   inset-block-start: 18px;
+@@ -578,6 +604,8 @@ table.list td.checkbox { inline-size: 15px; padding-block: 2px 0; padding-inline
+ table.list .checkbox input {padding: 0; block-size: initial;}
+ table.list td.buttons, div.buttons { white-space:nowrap; text-align: end; }
+ table.list td.buttons a, div.buttons a, table.list td.buttons span.icon-only { margin-inline-end: 0.6em; }
++table.list td.buttons a.icon-only { display: inline-flex; align-items: center; justify-content: center; min-block-size: 24px; min-inline-size: 24px; }
++table.list td.buttons a.js-contextmenu { min-inline-size: 48px; }
+ table.list td.buttons a:last-child, div.buttons a:last-child { margin-inline-end: 0; }
+ table.list td.buttons img, div.buttons img {vertical-align:middle;}
+ table.list td.reorder {inline-size: 15%; white-space: nowrap; text-align: center; }
+@@ -594,8 +622,8 @@ table.list div.wiki p {
+ .table-list div.buttons {inline-size: 15%;}
+ 
+ tr.project td.name a { white-space:nowrap; }
+-tr.project.closed, tr.project.archived { color: var(--oc-gray-5); }
+-tr.project.closed a, tr.project.archived a { color: var(--oc-gray-5); }
++tr.project.closed, tr.project.archived { color: var(--oc-gray-7); }
++tr.project.closed a, tr.project.archived a { color: var(--oc-gray-7); }
+ 
+ tr.issue { text-align: center; white-space: nowrap; }
+ tr.issue td.subject, tr.issue td.parent-subject, tr.issue td.category, td.assigned_to, td.last_updated_by, tr.issue td.string, tr.issue td.text, tr.issue td.list, tr.issue td.relations, tr.issue td.parent, tr.issue td.watcher_users { white-space: normal; }
+@@ -681,8 +709,8 @@ tr.version td.date, tr.version td.status, tr.version td.sharing { text-align: ce
+ 
+ tr.user td {white-space: nowrap;}
+ td.login, td.firstname, td.lastname, td.mail {text-align:start !important;}
+-tr.user.locked, tr.user.registered { color: var(--oc-gray-5); }
+-tr.user.locked a, tr.user.registered a { color: var(--oc-gray-5); }
++tr.user.locked, tr.user.registered { color: var(--oc-gray-7); }
++tr.user.locked a, tr.user.registered a { color: var(--oc-gray-7); }
+ 
+ table.permissions td.role {color:var(--oc-gray-6);font-size:90%;font-weight:normal !important;text-align:center;vertical-align:bottom;}
+ table.permissions td.name {min-inline-size: 10rem;}
+@@ -1055,7 +1083,7 @@ div#activity dt .time {
+ }
+ div#activity dd .description, #search-results dd .description { font-style: italic; margin-block: 2px; margin-inline: 0;}
+ div#activity span.project:after, #search-results span.project:after { content: " - "; white-space: pre;}
+-div#activity dd span.description, #search-results dd span.description { display:block; color: var(--oc-gray-6); }
++div#activity dd span.description, #search-results dd span.description { display:block; color: var(--oc-gray-7); }
+ div#activity dt.grouped {padding-inline-start:5em;}
+ div#activity dd.grouped {margin-inline-start:9em;}
+ div#activity h3 {
+@@ -1144,7 +1172,7 @@ div.wiki a:target + h1, div.wiki a:target + h2, div.wiki a:target + h3, div.wiki
+   background-color:var(--oc-blue-0);
+ }
+ 
+-.wiki-update-info {text-align: end; color: var(--oc-gray-6); font-size: 90%;}
++.wiki-update-info {text-align: end; color: var(--oc-gray-7); font-size: 90%;}
+ 
+ form .attributes select { inline-size: 60%; }
+ form .attributes select + a.icon-only { vertical-align: middle; margin-inline-start: 4px; }
+@@ -1255,7 +1283,7 @@ textarea#custom_field_default_value {inline-size: 95%; resize: vertical;}
+ 
+ input#content_comments {inline-size: 99%}
+ 
+-span.pagination {margin-inline-start: 3px; color: var(--oc-gray-6); display: block;}
++span.pagination {margin-inline-start: 3px; color: var(--oc-gray-7); display: block;}
+ .pagination ul.pages {
+   margin-block: 0;
+   margin-inline: 0 5px;
+@@ -1454,7 +1482,7 @@ a.remove-upload:hover {text-decoration:none !important;}
+ div.fileover, p.custom-field-filedroplistner.fileover { background-color: var(--oc-violet-0); }
+ 
+ div.attachments img { vertical-align: middle; }
+-div.attachments span.author { font-size: 0.9em; color: var(--oc-gray-6); }
++div.attachments span.author { font-size: 0.9em; color: var(--oc-gray-7); }
+ div.attachments span.attachment-journal { display: inline-flex; inline-size: 18px; block-size: 18px; vertical-align: text-bottom; }
+ 
+ div.thumbnails {margin:0.6em;}
+@@ -1466,10 +1494,10 @@ div.thumbnail {
+ }
+ div.thumbnail img {margin: 3px; vertical-align: middle;}
+ 
+-p.other-formats { text-align: end; font-size:0.9em; color: var(--oc-gray-6); }
++p.other-formats { text-align: end; font-size:0.9em; color: var(--oc-gray-7); }
+ .other-formats span + span:before { content: "| "; }
+ 
+-em.info {font-style:normal;display:block;font-size:90%;color:var(--oc-gray-6);}
++em.info {font-style:normal;display:block;font-size:90%;color:var(--oc-gray-7);}
+ em.info.error {padding-inline-start: 20px; background: url(/exclamation.png) no-repeat left 50%;}
+ [dir="rtl"] em.info.error {background-position: right 50%;}
+ 
+@@ -1694,19 +1722,12 @@ ul.cal {
+ .cal .calbody .abbr-day {display:none}
+ .cal .calbody.this-month {background-color:var(--oc-white);}
+ .cal .calbody.other-month {background-color:var(--oc-gray-1);}
+-.cal .calbody.other-month p.day-num {color: var(--oc-gray-5);}
++.cal .calbody.other-month p.day-num {color: var(--oc-gray-7);}
+ .cal .calbody.today p.day-num {font-weight: bold;}
+ .cal .calbody.today .day-value {
+   color: var(--oc-white);
+-  isolation: isolate;
+-}
+-.cal .calbody.today .day-value::before {
+-  content: "";
+-  position: absolute;
+-  inset: 0;
+-  background: var(--color-current-marker);
++  background: var(--oc-blue-8);
+   border-radius: 50%;
+-  z-index: -1;
+ }
+ .cal .calbody .icon {padding-block-start: 2px; padding-block-end: 3px;}
+ .cal .calbody.nwday:not(.other-month) {background-color:var(--oc-gray-1);}
+@@ -1774,7 +1795,7 @@ img.ui-datepicker-trigger {
+   border-block-end: none;
+ }
+ #document-list .document-item .updated_on {
+-  color: var(--oc-gray-6);
++  color: var(--oc-gray-7);
+   font-size: 0.8125rem;
+   padding-inline-start: 1.5rem;
+ }
+@@ -1810,7 +1831,7 @@ table.progress td.closed { background: var(--oc-green-7) none repeat scroll 0%;
+ table.progress td.done { background: var(--oc-green-4) none repeat scroll 0%; }
+ table.progress td.todo { background: var(--oc-gray-3) none repeat scroll 0%; }
+ p.percent {font-size: 86%; margin:0;}
+-p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; color: var(--oc-gray-6);}
++p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px; color: var(--oc-gray-7);}
+ 
+ .version-overview table.progress {inline-size: 40em;}
+ .version-overview table.progress td { block-size: 1.2em; }
+@@ -1843,14 +1864,14 @@ p.progress-info {clear: inline-start; font-size: 86%; margin-block-start: -4px;
+   padding-inline: 6px;
+   border: 1px solid var(--oc-gray-4);
+   border-block-end: 1px solid var(--oc-gray-4);
+-  color:var(--oc-gray-6);
++  color:var(--oc-gray-7);
+   font-weight:bold;
+   border-start-start-radius:3px;
+   border-start-end-radius:3px;
+ }
+ 
+ #content .tabs ul li a:hover {
+-  color:var(--oc-gray-6);
++  color:var(--oc-gray-7);
+   text-decoration:none;
+ }
+ 
+@@ -2436,12 +2457,12 @@ span[role="img"].avatar.s50  {
+ }
+ 
+ .avatar-color-0 {
+-  background-color: var(--oc-red-7);
++  background-color: var(--oc-red-9);
+   color: var(--oc-white);
+ }
+ .avatar-color-1 {
+   background-color: var(--oc-orange-6);
+-  color: var(--oc-white);
++  color: var(--oc-black);
+ }
+ .avatar-color-2 {
+   background-color: var(--oc-yellow-4);
+@@ -2449,14 +2470,14 @@ span[role="img"].avatar.s50  {
+ }
+ .avatar-color-3 {
+   background-color: var(--oc-green-7);
+-  color: var(--oc-white);
++  color: var(--oc-black);
+ }
+ .avatar-color-4 {
+-  background-color: var(--oc-cyan-6);
++  background-color: var(--oc-cyan-9);
+   color: var(--oc-white);
+ }
+ .avatar-color-5 {
+-  background-color: var(--oc-blue-7);
++  background-color: var(--oc-blue-8);
+   color: var(--oc-white);
+ }
+ .avatar-color-6 {
+@@ -2464,7 +2485,7 @@ span[role="img"].avatar.s50  {
+   color: var(--oc-white);
+ }
+ .avatar-color-7 {
+-  background-color: var(--oc-pink-5);
++  background-color: var(--oc-pink-8);
+   color: var(--oc-white);
+ }
+ 
+@@ -2519,7 +2540,7 @@ div.news .reaction {
+ #news-list article.news-article header p.author {
+   margin-block-start: 2px;
+   margin-block-end: 2px;
+-  color: var(--oc-gray-6);
++  color: var(--oc-gray-7);
+ }
+ #news-list article.news-article .wiki > p:first-child {
+   margin-block-start: 2px;
+diff --git a/app/assets/stylesheets/context_menu.css b/app/assets/stylesheets/context_menu.css
+index b802ad8..ad8be61 100644
+--- a/app/assets/stylesheets/context_menu.css
++++ b/app/assets/stylesheets/context_menu.css
+@@ -42,10 +42,10 @@
+ #context-menu li:hover ul, #context-menu li:hover li:hover ul { display:block; }
+ 
+ /* selected element */
+-.context-menu-selection { background-color:var(--oc-blue-7) !important; color:var(--oc-gray-0) !important; }
+-.context-menu-selection a, .context-menu-selection a:hover { color:var(--oc-gray-0) !important; }
+-.context-menu-selection:hover { background-color:var(--oc-blue-7) !important; color:var(--oc-gray-0)  !important; }
+-.context-menu-selection svg.icon-svg { stroke: var(--oc-white) !important; }
++.context-menu-selection { background-color: rgba(var(--oc-blue-7-rgb), 0.18) !important; }
++.context-menu-selection a, .context-menu-selection a:hover { color:var(--oc-blue-9) !important; }
++.context-menu-selection:hover { background-color: rgba(var(--oc-blue-7-rgb), 0.3) !important; }
++.context-menu-selection svg.icon-svg { stroke: var(--oc-blue-9) !important; }
+ .gantt-timeline .context-menu-selection { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
+ .gantt-timeline .context-menu-selection:hover { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
+ .gantt-timeline .context-menu-selection a { color: var(--oc-blue-9) !important; }
+diff --git a/app/assets/stylesheets/gantt.css b/app/assets/stylesheets/gantt.css
+index 345be73..8ea868d 100644
+--- a/app/assets/stylesheets/gantt.css
++++ b/app/assets/stylesheets/gantt.css
+@@ -100,7 +100,7 @@
+   box-sizing: border-box;
+ }
+ 
+-.gantt-timeline-canvas > header {
++.gantt-timeline-canvas > .gantt-timeline-header {
+   position: relative;
+   z-index: 1;
+   block-size: var(--gantt-headers-height);
+@@ -154,7 +154,7 @@
+ 
+ .gantt-period-non-working {
+   background-color: var(--oc-gray-1);
+-  color: var(--oc-gray-6);
++  color: var(--oc-gray-7);
+ }
+ 
+ .gantt-timeline-body {
+@@ -177,7 +177,7 @@
+ .gantt-row {
+   position: absolute;
+   inset-block-start: var(--gantt-row-top);
+-  block-size: 20px;
++  block-size: 24px;
+   box-sizing: border-box;
+ }
+ 
+@@ -249,7 +249,7 @@
+   inline-size: var(--gantt-task-width);
+   block-size: 8px;
+   font-size: 0.8em;
+-  color: var(--oc-gray-6);
++  color: var(--oc-gray-7);
+   padding: 0;
+   margin: 0;
+   line-height: 16px;
+@@ -376,7 +376,7 @@
+ 
+ .version-behind-schedule a,
+ .issue-behind-schedule a {
+-  color: var(--oc-yellow-8);
++  color: var(--oc-red-9);
+ }
+ 
+ .version-overdue a,
+diff --git a/app/assets/stylesheets/responsive.css b/app/assets/stylesheets/responsive.css
+index baa3854..64c211e 100644
+--- a/app/assets/stylesheets/responsive.css
++++ b/app/assets/stylesheets/responsive.css
+@@ -101,9 +101,19 @@
+     z-index: 9999;
+   }
+ 
+-  /* Hide project name on mobile (project name is still visible in select menu) */
++  /* Hide project name visually on mobile but keep it accessible to
++     assistive technologies (project name is still visible in select menu) */
+   #header h1 {
+-    display: none !important;
++    position: absolute !important;
++    width: 1px !important;
++    height: 1px !important;
++    padding: 0;
++    margin: -1px;
++    overflow: hidden;
++    clip: rect(0 0 0 0);
++    clip-path: inset(50%);
++    white-space: nowrap;
++    border: 0;
+   }
+ 
+   /* reset #header a color for mobile toggle button */
+diff --git a/app/helpers/application_helper.rb b/app/helpers/application_helper.rb
+index ea533c7..ac5a805 100644
+--- a/app/helpers/application_helper.rb
++++ b/app/helpers/application_helper.rb
+@@ -629,7 +629,8 @@ module ApplicationHelper
+     q = text_field_tag('q', '', :id => 'projects-quick-search',
+                        :class => 'autocomplete',
+                        :data => {:automcomplete_url => url},
+-                       :autocomplete => 'off')
++                       :autocomplete => 'off',
++                       :aria => {:label => l(:label_jump_to_a_project)})
+     all = link_to(l(:label_project_all), projects_path(:jump => current_menu_item),
+                   :class => (@project.nil? && controller.class.main_menu ? 'selected' : nil))
+     content =
+diff --git a/app/helpers/avatars_helper.rb b/app/helpers/avatars_helper.rb
+index e5875e9..02ada29 100644
+--- a/app/helpers/avatars_helper.rb
++++ b/app/helpers/avatars_helper.rb
+@@ -96,7 +96,7 @@ module AvatarsHelper
+ 
+     css_class = ["avatar-color-#{user.id % 8}", "s#{size}", options[:class]].compact.join(' ')
+ 
+-    content_tag('span', user.initials, role: 'img', class: css_class, title: options[:title])
++    content_tag('span', user.initials, role: 'img', class: css_class, title: options[:title], 'aria-label' => options[:title] || user.name)
+   end
+ 
+   def extract_email_from_user(user)
+diff --git a/app/helpers/queries_helper.rb b/app/helpers/queries_helper.rb
+index 5b86413..5c28a48 100644
+--- a/app/helpers/queries_helper.rb
++++ b/app/helpers/queries_helper.rb
+@@ -485,7 +485,7 @@ module QueriesHelper
+         {}
+       end
+     default_query_by_class = {}
+-    content_tag('h3', title) + "\n" +
++    content_tag('h2', title) + "\n" +
+       content_tag(
+         'ul',
+         queries.collect do |query|
+diff --git a/app/helpers/reactions_helper.rb b/app/helpers/reactions_helper.rb
+index 48e65f5..9ebc0d0 100644
+--- a/app/helpers/reactions_helper.rb
++++ b/app/helpers/reactions_helper.rb
+@@ -68,7 +68,8 @@ module ReactionsHelper
+         reaction_path(reaction, object_type: object.class.name, object_id: object),
+         remote: true, method: :delete,
+         class: ['icon', 'reaction-button', 'reacted', { 'has-reactions': count.nonzero? }],
+-        title: tooltip
++        title: tooltip,
++        'aria-label': count.nonzero? ? "#{count} #{l(:label_reactions)}" : l(:label_reactions)
+       )
+     end
+   end
+@@ -80,7 +81,8 @@ module ReactionsHelper
+         reactions_path(object_type: object.class.name, object_id: object),
+         remote: true, method: :post,
+         class: ['icon', 'reaction-button', { 'has-reactions': count.nonzero? }],
+-        title: tooltip
++        title: tooltip,
++        'aria-label': count.nonzero? ? "#{count} #{l(:label_reactions)}" : l(:label_reactions)
+       )
+     end
+   end
+diff --git a/app/views/account/login.html.erb b/app/views/account/login.html.erb
+index fb8085d..a0c079d 100644
+--- a/app/views/account/login.html.erb
++++ b/app/views/account/login.html.erb
+@@ -5,19 +5,19 @@
+   <%= back_url_hidden_field_tag %>
+   
+   <label for="username"><%=l(:field_login)%></label>
+-  <%= text_field_tag 'username', params[:username], :tabindex => '1', :autocomplete => 'username', :autofocus => params[:username].blank? %>
++  <%= text_field_tag 'username', params[:username], :autocomplete => 'username', :autofocus => params[:username].blank? %>
+   
+   <label for="password">
+     <%=l(:field_password)%>
+     <%= link_to l(:label_password_lost), lost_password_path, :class => "lost_password" if Setting.lost_password? %>
+   </label>
+-  <%= password_field_tag 'password', nil, :tabindex => '2', :autocomplete => 'current-password', :autofocus => params[:username].present? %>
++  <%= password_field_tag 'password', nil, :autocomplete => 'current-password', :autofocus => params[:username].present? %>
+   
+   <% if Setting.autologin? %>
+-    <label for="autologin"><%= check_box_tag 'autologin', 1, false, :tabindex => 4 %> <%= l(:label_stay_logged_in) %></label>
++    <label for="autologin"><%= check_box_tag 'autologin', 1, false %> <%= l(:label_stay_logged_in) %></label>
+   <% end %>
+   
+-  <input type="submit" name="login" value="<%=l(:button_login)%>" tabindex="5" id="login-submit" />
++  <input type="submit" name="login" value="<%=l(:button_login)%>" id="login-submit" />
+   <% end %>
+ </div>
+ 
+diff --git a/app/views/activities/index.html.erb b/app/views/activities/index.html.erb
+index e5176d8..2893954 100644
+--- a/app/views/activities/index.html.erb
++++ b/app/views/activities/index.html.erb
+@@ -30,13 +30,14 @@
+ 
+ <% content_for :sidebar do %>
+ <%= form_tag({}, :method => :get, :id => 'activity_scope_form') do %>
+-<h3><%= l(:label_activity) %></h3>
++<h2><%= l(:label_activity) %></h2>
+ <p>
++  <%= label_tag 'from', l(:label_date), :class => 'visually-hidden' %>
+   <%= t(:label_days_to_html, :days => @days, :date => date_field_tag('from', '', :value => (@date_to - 1), :size => 10)) %>
+   <%= calendar_for('from') %>
+ </p>
+ <p>
+-  <%= l(:label_user) %>
++  <%= label_tag 'user_id', l(:label_user) %>
+   <%= select_tag('user_id', activity_authors_options_for_select(@project, params[:user_id]), include_blank: true) %>
+ </p>
+ <ul>
+diff --git a/app/views/admin/info.html.erb b/app/views/admin/info.html.erb
+index 5e87af7..3e4d7b5 100644
+--- a/app/views/admin/info.html.erb
++++ b/app/views/admin/info.html.erb
+@@ -16,7 +16,7 @@
+ </table>
+ <br />
+ <h3><%= l(:label_environment) %></h3>
+-<div class="box autoscroll">
++<div class="box autoscroll" tabindex="0">
+ <pre><%= Redmine::Info.environment %></pre>
+ </div>
+ 
+diff --git a/app/views/attachments/_form.html.erb b/app/views/attachments/_form.html.erb
+index d0e1b3b..c525b8f 100644
+--- a/app/views/attachments/_form.html.erb
++++ b/app/views/attachments/_form.html.erb
+@@ -37,6 +37,7 @@
+   <span class="add_attachment" style="<%= show_add ? nil : 'display:none;' %>">
+     <%= file_field_tag "#{attachment_param}[dummy][file]",
+         :id => nil,
++        :'aria-label' => l(:label_attachment),
+         :class => "file_selector #{css_class}",
+         :multiple => multiple,
+         :onchange => 'addInputFiles(this);',
+diff --git a/app/views/common/_tabs.html.erb b/app/views/common/_tabs.html.erb
+index 3f3dd27..2758aab 100644
+--- a/app/views/common/_tabs.html.erb
++++ b/app/views/common/_tabs.html.erb
+@@ -12,10 +12,10 @@
+   <% end -%>
+   </ul>
+   <div class="tabs-buttons" style="display:none;">
+-    <button class="tab-left icon-only" type="button" onclick="moveTabLeft(this);">
++    <button class="tab-left icon-only" type="button" onclick="moveTabLeft(this);" aria-label="<%= l(:label_previous) %>">
+       <%= sprite_icon("angle-left", rtl: true) %>
+     </button>
+-    <button class="tab-right icon-only" type="button" onclick="moveTabRight(this);">
++    <button class="tab-right icon-only" type="button" onclick="moveTabRight(this);" aria-label="<%= l(:label_next) %>">
+       <%= sprite_icon("angle-right", rtl: true) %>
+     </button>
+   </div>
+diff --git a/app/views/context_menus/issues.html.erb b/app/views/context_menus/issues.html.erb
+index 20f72fa..9aa01be 100644
+--- a/app/views/context_menus/issues.html.erb
++++ b/app/views/context_menus/issues.html.erb
+@@ -1,4 +1,4 @@
+-<ul>
++<nav aria-label="<%= l(:label_actions_column) %>"><ul>
+   <%= call_hook(:view_issues_context_menu_start, {:issues => @issues, :can => @can, :back => @back }) %>
+ 
+   <% if @issue -%>
+@@ -179,4 +179,4 @@
+   <% end %>
+ 
+   <%= call_hook(:view_issues_context_menu_end, {:issues => @issues, :can => @can, :back => @back }) %>
+-</ul>
++</ul></nav>
+diff --git a/app/views/context_menus/projects.html.erb b/app/views/context_menus/projects.html.erb
+index ea395f7..efe5a69 100644
+--- a/app/views/context_menus/projects.html.erb
++++ b/app/views/context_menus/projects.html.erb
+@@ -1,4 +1,4 @@
+-<ul>
++<nav aria-label="<%= l(:label_actions_column) %>"><ul>
+   <% if @project && !@project.scheduled_for_deletion? %>
+     <% if @project.archived? %>
+       <li><%= context_menu_link sprite_icon('unlock', l(:button_unarchive)), unarchive_project_path(@project), method: :post, class: 'icon icon-unlock' %></li>
+@@ -18,4 +18,4 @@
+                             method: :delete, data: {confirm: l(:text_projects_bulk_destroy_confirmation)}, class: 'icon icon-del' %>
+     </li>
+   <% end %>
+-</ul>
++</ul></nav>
+diff --git a/app/views/context_menus/time_entries.html.erb b/app/views/context_menus/time_entries.html.erb
+index d43021f..33e4af5 100644
+--- a/app/views/context_menus/time_entries.html.erb
++++ b/app/views/context_menus/time_entries.html.erb
+@@ -1,4 +1,4 @@
+-<ul>
++<nav aria-label="<%= l(:label_actions_column) %>"><ul>
+   <% if !@time_entry.nil? -%>
+     <li><%= context_menu_link sprite_icon('edit', l(:button_edit)), { :controller => 'timelog', :action => 'edit', :id => @time_entry},
+                               :class => 'icon icon-edit', :disabled => !@can[:edit] %></li>
+@@ -44,4 +44,4 @@
+                           {:controller => 'timelog', :action => 'destroy', :ids => @time_entries.collect(&:id), :back_url => @back},
+                           :method => :delete, :data => {:confirm => l(:text_time_entries_destroy_confirmation)}, :class => 'icon icon-del', :disabled => !@can[:delete] %>
+   </li>
+-</ul>
++</ul></nav>
+diff --git a/app/views/context_menus/users.html.erb b/app/views/context_menus/users.html.erb
+index 4fc67a0..70dbe5e 100644
+--- a/app/views/context_menus/users.html.erb
++++ b/app/views/context_menus/users.html.erb
+@@ -1,4 +1,4 @@
+-<ul>
++<nav aria-label="<%= l(:label_actions_column) %>"><ul>
+   <% if @user %>
+     <% if @user.locked? %>
+       <li>
+@@ -61,4 +61,4 @@
+       </li>
+     <% end %>
+   <% end %>
+-</ul>
++</ul></nav>
+diff --git a/app/views/documents/index.html.erb b/app/views/documents/index.html.erb
+index 2fba22f..e451a6a 100644
+--- a/app/views/documents/index.html.erb
++++ b/app/views/documents/index.html.erb
+@@ -28,7 +28,7 @@
+ </div>
+ 
+ <% content_for :sidebar do %>
+-  <h3><%= l(:label_sort_by, '') %></h3>
++  <h2><%= l(:label_sort_by, '') %></h2>
+   <ul>
+     <li><%= link_to(l(:field_category), {:sort_by => 'category'},
+                     :class => (@sort_by == 'category' ? 'selected' :nil)) %></li>
+diff --git a/app/views/enumerations/index.html.erb b/app/views/enumerations/index.html.erb
+index fa47ba8..319aae2 100644
+--- a/app/views/enumerations/index.html.erb
++++ b/app/views/enumerations/index.html.erb
+@@ -13,7 +13,7 @@
+     <th><%= l(:field_name) %></th>
+     <th><%= l(:field_is_default) %></th>
+     <th><%= l(:field_active) %></th>
+-    <th></th>
++    <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+ </tr></thead>
+ <% enumerations.each do |enumeration| %>
+ <tr>
+diff --git a/app/views/files/index.html.erb b/app/views/files/index.html.erb
+index e6f65a0..2233eec 100644
+--- a/app/views/files/index.html.erb
++++ b/app/views/files/index.html.erb
+@@ -14,7 +14,7 @@
+       <%= sort_header_tag('size', :caption => l(:field_filesize), :default_order => 'desc') %>
+       <%= sort_header_tag('downloads', :caption => l(:label_downloads_abbr), :default_order => 'desc') %>
+       <th><%= l(:field_digest) %></th>
+-      <th></th>
++      <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+     </tr></thead>
+     <tbody>
+   <% @containers.each do |container| %>
+diff --git a/app/views/gantts/_chart.html.erb b/app/views/gantts/_chart.html.erb
+index 3677cd6..0d74b60 100644
+--- a/app/views/gantts/_chart.html.erb
++++ b/app/views/gantts/_chart.html.erb
+@@ -44,7 +44,7 @@
+ 
+   <div class="gantt-timeline">
+     <div class="gantt-timeline-canvas">
+-      <header>
++      <div class="gantt-timeline-header">
+         <div class="gantt-header-row" data-gantt-period="month">
+           <% layout.months.each do |period| %>
+             <div class="gantt-period<%= ' gantt-period-spans-body' if period.spans_body %><%= ' gantt-period-last' if period.last %>"
+@@ -84,7 +84,7 @@
+             <% end %>
+           </div>
+         <% end %>
+-      </header>
++      </div>
+ 
+       <div class="gantt-timeline-body">
+         <%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
+diff --git a/app/views/gantts/_query_form.html.erb b/app/views/gantts/_query_form.html.erb
+index 31b2eef..aefd6a4 100644
+--- a/app/views/gantts/_query_form.html.erb
++++ b/app/views/gantts/_query_form.html.erb
+@@ -101,9 +101,9 @@
+ 
+     <p class="buttons">
+       <%= number_field_tag 'months', gantt.months, min: 1, max: Setting.gantt_months_limit.to_i, autocomplete: false %>
+-      <%= l(:label_months_from) %>
+-      <%= select_month(gantt.month_from, prefix: 'month', discard_type: true) %>
+-      <%= select_year(gantt.year_from, prefix: 'year', discard_type: true) %>
++      <%= label_tag 'months', l(:label_months_from) %>
++      <%= select_month(gantt.month_from, {prefix: 'month', discard_type: true}, {:'aria-label' => l(:label_month)}) %>
++      <%= select_year(gantt.year_from, {prefix: 'year', discard_type: true}, {:'aria-label' => l(:label_year)}) %>
+       <%= hidden_field_tag 'zoom', gantt.zoom %>
+ 
+       <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()',
+diff --git a/app/views/issue_statuses/index.html.erb b/app/views/issue_statuses/index.html.erb
+index c38e3b8..9036f0d 100644
+--- a/app/views/issue_statuses/index.html.erb
++++ b/app/views/issue_statuses/index.html.erb
+@@ -13,8 +13,8 @@
+   <% end %>
+   <th><%=l(:field_is_closed)%></th>
+   <th><%=l(:field_description)%></th>
+-  <th></th>
+-  <th></th>
++  <th><span class="visually-hidden"><%= l(:label_sort) %></span></th>
++  <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+   </tr></thead>
+   <tbody>
+ <% for status in @issue_statuses %>
+diff --git a/app/views/issues/_attributes.html.erb b/app/views/issues/_attributes.html.erb
+index 9707674..c305f2b 100644
+--- a/app/views/issues/_attributes.html.erb
++++ b/app/views/issues/_attributes.html.erb
+@@ -41,7 +41,6 @@
+             :remote => true,
+             :method => 'get',
+             :title => l(:label_issue_category_new),
+-            :tabindex => 200,
+             :class => 'icon-only icon-add'
+            ) if User.current.allowed_to?(:manage_categories, @issue.project) %></p>
+ <% end %>
+@@ -54,7 +53,6 @@
+             :remote => true,
+             :method => 'get',
+             :title => l(:label_version_new),
+-            :tabindex => 200,
+             :class => 'icon-only icon-add'
+            ) if User.current.allowed_to?(:manage_versions, @issue.project) %>
+ </p>
+diff --git a/app/views/issues/_edit.html.erb b/app/views/issues/_edit.html.erb
+index f86fb07..b67e92b 100644
+--- a/app/views/issues/_edit.html.erb
++++ b/app/views/issues/_edit.html.erb
+@@ -31,6 +31,7 @@
+     <% if @issue.notes_addable? %>
+       <fieldset id="add_notes"><legend><%= l(:field_notes) %></legend>
+       <%= f.textarea :notes, :cols => 60, :rows => 10, :class => 'wiki-edit',
++            :'aria-label' => l(:field_notes),
+             :data => {
+               :auto_complete => true
+             }.merge(wiki_textarea_stimulus_attributes),
+diff --git a/app/views/issues/_list.html.erb b/app/views/issues/_list.html.erb
+index b181195..ff8a8e4 100644
+--- a/app/views/issues/_list.html.erb
++++ b/app/views/issues/_list.html.erb
+@@ -10,12 +10,13 @@
+     <tr>
+       <th class="checkbox hide-when-print">
+         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+-              :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
++              :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
++              :'aria-label' => l(:label_select_all) %>
+       </th>
+       <% query.inline_columns.each do |column| %>
+         <%= column_header(query, column, query_options) %>
+       <% end %>
+-      <th class="buttons hide-when-print"></th>
++      <th class="buttons hide-when-print"><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+     </tr>
+   </thead>
+   <tbody>
+@@ -36,7 +37,7 @@
+     </tr>
+   <% end %>
+   <tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= issue.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+-    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil) %></td>
++    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", issue.id, false, :id => nil, :'aria-label' => l(:label_select_issue, :id => issue.id)) %></td>
+     <% query.inline_columns.each do |column| %>
+     <%= content_tag('td', column_content(column, issue), :class => column.css_classes) %>
+     <% end %>
+diff --git a/app/views/layouts/admin.html.erb b/app/views/layouts/admin.html.erb
+index 07f1943..cd730de 100644
+--- a/app/views/layouts/admin.html.erb
++++ b/app/views/layouts/admin.html.erb
+@@ -1,6 +1,6 @@
+ <% unless controller_name == 'admin' && action_name == 'index' %>
+   <% content_for :sidebar do %>
+-    <h3><%=l(:label_administration)%></h3>
++    <h2><%=l(:label_administration)%></h2>
+     <%= render :partial => 'admin/menu' %>
+   <% end %>
+ <% end %>
+diff --git a/app/views/layouts/base.html.erb b/app/views/layouts/base.html.erb
+index e4ffb42..4ba4d9d 100644
+--- a/app/views/layouts/base.html.erb
++++ b/app/views/layouts/base.html.erb
+@@ -22,7 +22,7 @@
+ <%= call_hook :view_layouts_base_body_top %>
+ <div id="wrapper">
+ 
+-<div class="flyout-menu js-flyout-menu">
++<nav class="flyout-menu js-flyout-menu" aria-label="<%= l(:label_mobile_menu) %>">
+ 
+     <% if User.current.logged? || !Setting.login_required? %>
+         <div class="flyout-menu__search">
+@@ -54,9 +54,9 @@
+     <h3><%= l(:label_profile) %></h3>
+     <span class="js-profile-menu"></span>
+ 
+-</div>
++</nav>
+ 
+-<nav class="top-menu" id="top-menu">
++<nav class="top-menu" id="top-menu" aria-label="<%= l(:label_top_menu) %>">
+   <div class="general-menu">
+     <div class="top-menu__links">
+         <%= render_menu :top_menu if User.current.logged? || !Setting.login_required? -%>
+@@ -87,12 +87,12 @@
+   </div>
+ </nav>
+ 
+-<div id="header">
++<div id="header" role="banner">
+ 
+-    <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button"></a>
++    <a href="#" class="mobile-toggle-button js-flyout-menu-toggle-button" aria-label="<%= l(:label_toggle_menu) %>"></a>
+ 
+     <% if User.current.logged? || !Setting.login_required? %>
+-    <div id="quick-search">
++    <div id="quick-search" role="search">
+         <%= form_tag(search_path(id: @project), :method => :get ) do %>
+         <%= hidden_field_tag 'scope', default_search_project_scope, :id => nil %>
+         <%= hidden_field_tag(controller.default_search_scope, 1, :id => nil) if controller.default_search_scope %>
+@@ -111,13 +111,13 @@
+     <h1><%= page_header_title %></h1>
+ 
+     <% if display_main_menu?(@project) %>
+-    <div id="main-menu" class="tabs">
++    <div id="main-menu" class="tabs" role="navigation" aria-label="<%= l(:label_main_menu) %>">
+         <%= render_main_menu(@project) %>
+         <div class="tabs-buttons" style="display:none;">
+-            <button class="tab-left icon-only" onclick="moveTabLeft(this); return false;">
++            <button class="tab-left icon-only" onclick="moveTabLeft(this); return false;" aria-label="<%= l(:label_previous) %>">
+               <%= sprite_icon("angle-left", rtl: true) %>
+             </button>
+-            <button class="tab-right icon-only" onclick="moveTabRight(this); return false;">
++            <button class="tab-right icon-only" onclick="moveTabRight(this); return false;" aria-label="<%= l(:label_next) %>">
+               <%= sprite_icon("angle-right", rtl: true) %>
+             </button>
+         </div>
+@@ -127,10 +127,10 @@
+ 
+ <div id="main" class="<%= sidebar_content? ? 'collapsiblesidebar' : 'nosidebar' %>">
+   <%= javascript_tag "$('#main.collapsiblesidebar').collapsibleSidebar();" if sidebar_content? %>
+-    <div id="sidebar">
++    <div id="sidebar" role="complementary" aria-label="<%= l(:label_sidebar) %>">
+         <% if sidebar_content? %>
+           <div id="sidebar-switch-panel" style="visibility: hidden;">
+-            <a id="sidebar-switch-button" class="" href="#">
++            <a id="sidebar-switch-button" class="" href="#" aria-label="<%= l(:label_toggle_sidebar) %>">
+               <%= sprite_icon("chevrons-right", size: 20, rtl: true) %></a>
+           </div>
+           <%= javascript_tag "$('#sidebar-switch-panel').css('visibility', 'visible');" %>
+@@ -141,7 +141,7 @@
+         </div>
+     </div>
+ 
+-    <div id="content">
++    <div id="content" role="main">
+         <%= render_flash_messages %>
+         <% if @project && !@project.active? %>
+           <p class="warning"><span class="icon icon-lock"><%= sprite_icon('lock', l(:text_project_closed)) %></span></p>
+@@ -151,11 +151,11 @@
+         <div style="clear:both;"></div>
+     </div>
+ </div>
+-<div id="footer">
++<div id="footer" role="contentinfo">
+     Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url, :target => '_blank', :rel => 'noopener' %> &copy; 2006-2026 Jean-Philippe Lang
+ </div>
+ 
+-<div id="ajax-indicator" style="display:none;">
++<div id="ajax-indicator" style="display:none;" role="status">
+   <span class="icon">
+     <%= sprite_icon 'loader', l(:label_loading), css_class: 'svg-loader' %>
+   </span>
+diff --git a/app/views/my/_sidebar.html.erb b/app/views/my/_sidebar.html.erb
+index cee23c5..b1fea7b 100644
+--- a/app/views/my/_sidebar.html.erb
++++ b/app/views/my/_sidebar.html.erb
+@@ -1,4 +1,4 @@
+-<h3><%=l(:label_my_account)%></h3>
++<h2><%=l(:label_my_account)%></h2>
+ 
+ <p><%=l(:field_login)%>: <strong><%= link_to_user(@user, :format => :username) %></strong><br />
+ <%=l(:field_created_on)%>: <%= format_time(@user.created_on) %></p>
+@@ -7,7 +7,7 @@
+   <p><%= link_to(sprite_icon('del', l(:button_delete_my_account)), delete_my_account_path, :class => 'icon icon-del') %></p>
+ <% end %>
+ 
+-<h4><%= l(:label_feeds_access_key) %></h4>
++<h3><%= l(:label_feeds_access_key) %></h3>
+ 
+ <p>
+ <% if @user.atom_token %>
+@@ -24,7 +24,7 @@
+ </p>
+ 
+ <% if Setting.rest_api_enabled? %>
+-<h4><%= l(:label_api_access_key) %></h4>
++<h3><%= l(:label_api_access_key) %></h3>
+ <div data-controller="api-key-copy">
+   <div class="api-key-actions">
+     <%= link_to l(:button_show), my_api_key_path, :remote => true %>
+diff --git a/app/views/projects/_list.html.erb b/app/views/projects/_list.html.erb
+index 2f5c83f..63a7ce9 100644
+--- a/app/views/projects/_list.html.erb
++++ b/app/views/projects/_list.html.erb
+@@ -9,14 +9,15 @@
+     <% if @admin_list %>
+       <th class="checkbox hide-when-print">
+         <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+-          :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
++          :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
++          :'aria-label' => l(:label_select_all) %>
+       </th>
+     <% end %>
+     <% @query.inline_columns.each do |column| %>
+       <%= column_header(@query, column) %>
+     <% end %>
+     <% if @admin_list %>
+-      <th></th>
++      <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+     <% end %>
+   </tr>
+ </thead>
+@@ -43,7 +44,7 @@
+   <tr id="project-<%= entry.id %>" class="<%= cycle('odd', 'even') %> <%= 'hascontextmenu' if @admin_list %> <%= entry.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+     <% if @admin_list %>
+       <% if !entry.scheduled_for_deletion? %>
+-        <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
++        <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil, :'aria-label' => l(:label_select_project, :name => entry.name)) %></td>
+       <% else %>
+         <td class="checkbox hide-when-print"></td>
+       <% end %>
+diff --git a/app/views/projects/show.html.erb b/app/views/projects/show.html.erb
+index ffbfcce..31a82d3 100644
+--- a/app/views/projects/show.html.erb
++++ b/app/views/projects/show.html.erb
+@@ -54,7 +54,7 @@
+     <table class="list issue-report">
+       <thead>
+         <tr>
+-          <th></th>
++          <th><span class="visually-hidden"><%= l(:label_tracker_plural) %></span></th>
+           <th><%=l(:label_open_issues_plural)%></th>
+           <th><%=l(:label_closed_issues_plural)%></th>
+           <th><%=l(:label_total)%></th>
+diff --git a/app/views/queries/_columns.html.erb b/app/views/queries/_columns.html.erb
+index 15e0b98..8151f10 100644
+--- a/app/views/queries/_columns.html.erb
++++ b/app/views/queries/_columns.html.erb
+@@ -11,8 +11,8 @@
+               :ondblclick => "moveOptions(this.form.#{available_tag_id}, this.form.#{selected_tag_id});" %>
+ </div>
+ <div class="buttons">
+-      <button type="button" class="move-right" onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);"><%= sprite_icon("arrow-narrow-right", rtl: true) %></button>
+-      <button type="button" class="move-left" onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);"><%= sprite_icon("arrow-narrow-left", rtl: true) %></button>
++      <button type="button" class="move-right" onclick="moveOptions(this.form.<%= available_tag_id %>, this.form.<%= selected_tag_id %>);" aria-label="<%= l(:label_add_selected_columns) %>"><%= sprite_icon("arrow-narrow-right", rtl: true) %></button>
++      <button type="button" class="move-left" onclick="moveOptions(this.form.<%= selected_tag_id %>, this.form.<%= available_tag_id %>);" aria-label="<%= l(:label_remove_selected_columns) %>"><%= sprite_icon("arrow-narrow-left", rtl: true) %></button>
+ </div>
+ <div class="query-columns">
+       <%= label_tag selected_tag_id, l(:description_selected_columns) %>
+@@ -23,10 +23,10 @@
+               :ondblclick => "moveOptions(this.form.#{selected_tag_id}, this.form.#{available_tag_id});" %>
+ </div>
+ <div class="buttons">
+-      <button type="button" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);">&#8648;</button>
+-      <button type="button" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);">&#8593;</button>
+-      <button type="button" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);">&#8595;</button>
+-      <button type="button" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);">&#8650;</button>
++      <button type="button" onclick="moveOptionTop(this.form.<%= selected_tag_id %>);" aria-label="<%= l(:label_move_top) %>">&#8648;</button>
++      <button type="button" onclick="moveOptionUp(this.form.<%= selected_tag_id %>);" aria-label="<%= l(:label_move_up) %>">&#8593;</button>
++      <button type="button" onclick="moveOptionDown(this.form.<%= selected_tag_id %>);" aria-label="<%= l(:label_move_down) %>">&#8595;</button>
++      <button type="button" onclick="moveOptionBottom(this.form.<%= selected_tag_id %>);" aria-label="<%= l(:label_move_bottom) %>">&#8650;</button>
+ </div>
+ 
+ <%= javascript_tag do %>
+diff --git a/app/views/queries/_filters.html.erb b/app/views/queries/_filters.html.erb
+index 4275677..282f492 100644
+--- a/app/views/queries/_filters.html.erb
++++ b/app/views/queries/_filters.html.erb
+@@ -3,6 +3,8 @@ var operatorLabels = <%= raw_json Query.operators_labels %>;
+ var operatorByType = <%= raw_json Query.operators_by_filter_type %>;
+ var availableFilters = <%= raw_json query.available_filters_as_json %>;
+ var labelDayPlural = <%= raw_json l(:label_day_plural) %>;
++var labelOperator = <%= raw_json l(:label_operator) %>;
++var labelValue = <%= raw_json l(:field_value) %>;
+ 
+ var filtersUrl = <%= raw_json queries_filter_path(:project_id => @query.project.try(:id), :type => @query.type) %>;
+ 
+diff --git a/app/views/reports/_details.html.erb b/app/views/reports/_details.html.erb
+index 566177a..b3d79a5 100644
+--- a/app/views/reports/_details.html.erb
++++ b/app/views/reports/_details.html.erb
+@@ -3,7 +3,7 @@
+ <% else %>
+ <table class="list issue-report-detailed">
+ <thead><tr>
+-<th></th>
++<th><span class="visually-hidden"><%= l(:"field_#{field_name.sub(/_id\z/,'')}", :default => field_name.humanize) %></span></th>
+ <% for status in @statuses %>
+ <th><%= status.name %></th>
+ <% end %>
+diff --git a/app/views/reports/_simple.html.erb b/app/views/reports/_simple.html.erb
+index 2237728..b1a5425 100644
+--- a/app/views/reports/_simple.html.erb
++++ b/app/views/reports/_simple.html.erb
+@@ -3,7 +3,7 @@
+ <% else %>
+ <table class="list issue-report">
+ <thead><tr>
+-<th></th>
++<th><span class="visually-hidden"><%= l(:"field_#{field_name.sub(/_id\z/,'')}", :default => field_name.humanize) %></span></th>
+ <th><%=l(:label_open_issues_plural)%></th>
+ <th><%=l(:label_closed_issues_plural)%></th>
+ <th><%=l(:label_total)%></th>
+diff --git a/app/views/roles/index.html.erb b/app/views/roles/index.html.erb
+index 9705fdd..274b32e 100644
+--- a/app/views/roles/index.html.erb
++++ b/app/views/roles/index.html.erb
+@@ -8,8 +8,8 @@
+ <table class="list roles">
+   <thead><tr>
+     <th><%=l(:label_role)%></th>
+-  <th></th>
+-  <th></th>
++  <th><span class="visually-hidden"><%= l(:label_warnings) %></span></th>
++  <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+   </tr></thead>
+   <tbody>
+ <% for role in @roles %>
+diff --git a/app/views/timelog/_list.html.erb b/app/views/timelog/_list.html.erb
+index aa1c1c2..53315c1 100644
+--- a/app/views/timelog/_list.html.erb
++++ b/app/views/timelog/_list.html.erb
+@@ -6,12 +6,13 @@
+   <tr>
+     <th class="checkbox hide-when-print">
+       <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+-        :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
++        :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
++        :'aria-label' => l(:label_select_all) %>
+     </th>
+     <% @query.inline_columns.each do |column| %>
+       <%= column_header(@query, column) %>
+     <% end %>
+-    <th class="buttons hide-when-print"></th>
++    <th class="buttons hide-when-print"><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+   </tr>
+ </thead>
+ <tbody>
+@@ -32,7 +33,7 @@
+     </tr>
+   <% end %>
+   <tr id="time-entry-<%= entry.id %>" class="time-entry <%= cycle("odd", "even") %> hascontextmenu">
+-    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil) %></td>
++    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", entry.id, false, :id => nil, :'aria-label' => l(:label_select_time_entry, :id => entry.id)) %></td>
+     <% @query.inline_columns.each do |column| %>
+     <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
+     <% end %>
+diff --git a/app/views/trackers/index.html.erb b/app/views/trackers/index.html.erb
+index 12dc0aa..3ed568a 100644
+--- a/app/views/trackers/index.html.erb
++++ b/app/views/trackers/index.html.erb
+@@ -10,8 +10,8 @@
+   <th><%=l(:label_tracker)%></th>
+   <th><%=l(:field_default_status)%></th>
+   <th><%=l(:field_description)%></th>
+-  <th></th>
+-  <th></th>
++  <th><span class="visually-hidden"><%= l(:label_sort) %></span></th>
++  <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+   </tr></thead>
+   <tbody>
+ <% for tracker in @trackers %>
+diff --git a/app/views/users/_list.html.erb b/app/views/users/_list.html.erb
+index b5d85c6..457f1a5 100644
+--- a/app/views/users/_list.html.erb
++++ b/app/views/users/_list.html.erb
+@@ -6,12 +6,13 @@
+   <tr>
+     <th class="checkbox hide-when-print">
+       <%= check_box_tag 'check_all', '', false, :class => 'toggle-selection',
+-        :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}" %>
++        :title => "#{l(:button_check_all)} / #{l(:button_uncheck_all)}",
++        :'aria-label' => l(:label_select_all) %>
+     </th>
+     <% @query.inline_columns.each do |column| %>
+       <%= column_header(@query, column) %>
+     <% end %>
+-    <th></th>
++    <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+   </tr>
+ </thead>
+ <tbody>
+@@ -32,7 +33,7 @@
+     </tr>
+   <% end %>
+   <tr id="user-<%= user.id %>" class="hascontextmenu <%= cycle("odd", "even") %> <%= user.css_classes %>">
+-    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", user.id, false, id: nil) %></td>
++    <td class="checkbox hide-when-print"><%= check_box_tag("ids[]", user.id, false, id: nil, :'aria-label' => l(:label_select_user, :name => user.name)) %></td>
+     <% @query.inline_columns.each do |column| %>
+       <% if column.name == :login %>
+         <%= content_tag('td', link_to(user.login, edit_user_path(user)), class: column.css_classes) %>
+diff --git a/app/views/versions/_sidebar.html.erb b/app/views/versions/_sidebar.html.erb
+index 4b535f7..60ed9cc 100644
+--- a/app/views/versions/_sidebar.html.erb
++++ b/app/views/versions/_sidebar.html.erb
+@@ -1,6 +1,6 @@
+ <%= form_tag({}, :method => :get) do %>
+ <%= hidden_field_tag "tracker_ids[]", nil, :id => nil %>
+-<h3><%= l(:label_roadmap) %></h3>
++<h2><%= l(:label_roadmap) %></h2>
+ <ul>
+ <% @trackers.each do |tracker| %>
+   <li>
+@@ -32,7 +32,7 @@
+ <p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
+ <% end %>
+ 
+-<h3><%= l(:label_version_plural) %></h3>
++<h2><%= l(:label_version_plural) %></h2>
+ <ul>
+ <% @versions.each do |version| %>
+   <li>
+diff --git a/app/views/versions/index.html.erb b/app/views/versions/index.html.erb
+index 79339e7..92cc0e6 100644
+--- a/app/views/versions/index.html.erb
++++ b/app/views/versions/index.html.erb
+@@ -37,7 +37,7 @@
+         <caption><%= l(:label_related_issues) %></caption>
+         <% issues.each do |issue| -%>
+           <tr class="hascontextmenu <%= issue.css_classes %>">
+-            <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
++            <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil, :'aria-label' => l(:label_select_issue, :id => issue.id) %></td>
+             <td class="assigned_to"><%= assignee_avatar(issue.assigned_to, :size => 16) %></td>
+             <td class="subject"><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+             <td class="buttons hide-when-print"><%= link_to_context_menu %></td>
+diff --git a/app/views/versions/show.html.erb b/app/views/versions/show.html.erb
+index cdd2b30..c21877f 100644
+--- a/app/views/versions/show.html.erb
++++ b/app/views/versions/show.html.erb
+@@ -51,7 +51,7 @@
+   <caption><%= l(:label_related_issues) %></caption>
+   <%- @issues.each do |issue| -%>
+     <tr class="hascontextmenu <%= issue.css_classes %>">
+-      <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil %></td>
++      <td class="checkbox"><%= check_box_tag 'ids[]', issue.id, false, :id => nil, :'aria-label' => l(:label_select_issue, :id => issue.id) %></td>
+       <td class="assigned_to"><%= assignee_avatar(issue.assigned_to, :size => 16) %></td>
+       <td class="subject"><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
+       <td class="buttons hide-when-print"><%= link_to_context_menu %></td>
+diff --git a/app/views/wiki/_sidebar.html.erb b/app/views/wiki/_sidebar.html.erb
+index cb987bb..97f7502 100644
+--- a/app/views/wiki/_sidebar.html.erb
++++ b/app/views/wiki/_sidebar.html.erb
+@@ -12,7 +12,7 @@
+   </div>
+ <% end -%>
+ 
+-<h3><%= l(:label_wiki) %></h3>
++<h2><%= l(:label_wiki) %></h2>
+ <ul>
+   <li><%= link_to(l(:field_start_page), {:action => 'show', :id => nil}) %></li>
+   <li><%= link_to(l(:label_index_by_title), {:action => 'index'}) %></li>
+diff --git a/app/views/workflows/index.html.erb b/app/views/workflows/index.html.erb
+index 8060560..48c604e 100644
+--- a/app/views/workflows/index.html.erb
++++ b/app/views/workflows/index.html.erb
+@@ -7,7 +7,7 @@
+ <table class="list">
+ <thead>
+     <tr>
+-    <th></th>
++    <th><span class="visually-hidden"><%= l(:label_tracker_plural) + ' / ' + l(:label_role_plural) %></span></th>
+     <% @roles.each do |role| %>
+     <th>
+         <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
+diff --git a/config/locales/en.yml b/config/locales/en.yml
+index 41ba864..d8478f5 100644
+--- a/config/locales/en.yml
++++ b/config/locales/en.yml
+@@ -1037,6 +1037,27 @@ en:
+   label_missing_api_access_key: Missing an API access key
+   label_api_access_key_created_on: "API access key created %{value} ago"
+   label_profile: Profile
++  label_top_menu: Top menu
++  label_main_menu: Main menu
++  label_mobile_menu: Menu
++  label_toggle_menu: Toggle menu
++  label_sidebar: Sidebar
++  label_toggle_sidebar: Toggle sidebar
++  label_add_selected_columns: Add selected columns
++  label_remove_selected_columns: Remove selected columns
++  label_move_top: Move to top
++  label_move_up: Move up
++  label_move_down: Move down
++  label_move_bottom: Move to bottom
++  label_select_issue: "Select issue #%{id}"
++  label_select_time_entry: "Select time entry #%{id}"
++  label_select_user: "Select user %{name}"
++  label_select_project: "Select project %{name}"
++  label_select_all: Select all
++  label_actions_column: Actions
++  label_operator: Operator
++  label_warnings: Warnings
++  label_reactions: Reactions
+   label_subtask: Subtask
+   label_subtask_plural: Subtasks
+   label_project_copy_notifications: Send email notifications during the project copy
+diff --git a/lib/redmine/helpers/gantt.rb b/lib/redmine/helpers/gantt.rb
+index 46a2cc2..5956980 100644
+--- a/lib/redmine/helpers/gantt.rb
++++ b/lib/redmine/helpers/gantt.rb
+@@ -219,7 +219,7 @@ module Redmine
+       end
+ 
+       def render(options={})
+-        options = {:top => 0, :top_increment => 20,
++        options = {:top => 0, :top_increment => 24,
+                    :indent_increment => 20, :render => :subject,
+                    :format => :html}.merge(options)
+         indent = options[:indent] || 4
+@@ -455,7 +455,7 @@ module Redmine
+         # width of one day in pixels
+         zoom = @zoom * 2
+         g_width = (@date_to - @date_from + 1) * zoom
+-        g_height = 20 * number_of_rows + 30
++        g_height = 24 * number_of_rows + 30
+         headers_height = (show_weeks ? 2 * header_height : header_height)
+         height = g_height + headers_height
+         # TODO: Remove rmagick_font_path in a later version
