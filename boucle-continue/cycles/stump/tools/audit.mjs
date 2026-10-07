@@ -109,7 +109,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v6';
+const RUNNER_VERSION = 'audit.mjs v7'; // v7 : garde d'hydratation (F-v4) — splash remplacé avant tout scan
 
 /**
  * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
@@ -487,9 +487,47 @@ async function run() {
     return { httpStatus, finalUrl, error };
   };
 
+  // Garde d'hydratation (F-v4, ré-audit v3) : la dist sert #root pré-rempli
+  // d'un écran de chargement statique (`div.splash-container` dans
+  // apps/web/src/index.html) que React remplace au montage. Un scan avant ce
+  // remplacement mesurait le DOM du splash → 3 fausses violations
+  // (landmark-one-main / page-has-heading-one / region sur html/#root),
+  // flake reproduit sur /settings/email/new — stall réellement intercepté
+  // sous charge par le fixer v4. Marqueur d'hydratation : le splash a
+  // disparu ET #root contient l'app.
+  // Sur timeout : reloadRetry (autorisé pré-setup / page simple — aucun
+  // état interactif à perdre) recharge une fois ; un stall survivant part
+  // en ERREUR — un résultat splash n'est pas un PASS.
+  const waitHydrated = async (reloadRetry) => {
+    const attempt = () =>
+      page
+        .waitForFunction(
+          () => {
+            if (document.querySelector('.splash-container')) return false;
+            const root = document.getElementById('root');
+            return root ? root.childElementCount > 0 : true;
+          },
+          { timeout: 15000, polling: 100 },
+        )
+        .then(() => true, () => false);
+    if (await attempt()) return true;
+    if (!reloadRetry) return false;
+    try {
+      await page.reload({ waitUntil: 'load', timeout: 30000 });
+    } catch {
+      /* reload échoué : l'attente qui suit tranche */
+    }
+    return attempt();
+  };
+
   // Préconditions métier rejouées sur le document courant : --wait-for sur
   // le document FINAL, pas seulement sur le document avant rechargement.
-  const applyPreconditions = async () => {
+  const applyPreconditions = async ({ hydrationRetry = true } = {}) => {
+    if (!(await waitHydrated(hydrationRetry))) {
+      throw new Error(
+        'écran de chargement non remplacé (splash-container persiste ou #root vide) — scan refusé',
+      );
+    }
     if (waitFor) {
       await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
     }
@@ -525,7 +563,25 @@ async function run() {
         // couvre la nav pendant setup, la redirection login différée pendant
         // --wait, et applique les préconditions sur le document réellement
         // scanné — pas celui d'avant rechargement.
-        if (!entry.error && extraSetup) await applyPreconditions();
+        if (!entry.error && extraSetup) {
+          try {
+            // Post-setup : PAS de retry reload — un reload détruirait l'état
+            // monté (modale ouverte…). Sur stall d'hydratation on REJOUÈE le
+            // setup complet une seule fois (il re-navigue about:blank → url
+            // → interactions), puis on revérifie sans retry.
+            await applyPreconditions({ hydrationRetry: false });
+          } catch (e1) {
+            if (!/écran de chargement/.test(e1.message)) throw e1;
+            const nav3 = await extraSetup(page, checkNav);
+            if (nav3) {
+              entry.httpStatus = nav3.httpStatus ?? entry.httpStatus;
+              entry.finalUrl = nav3.finalUrl;
+              if (nav3.error) entry.error = nav3.error;
+              if (expectHttp && entry.error === `HTTP ${expectHttp}`) entry.error = null;
+            }
+            if (!entry.error) await applyPreconditions({ hydrationRetry: false });
+          }
+        }
         const post = checkNav(null, gotoUrl);
         entry.httpStatus = post.httpStatus ?? entry.httpStatus;
         entry.finalUrl = post.finalUrl;

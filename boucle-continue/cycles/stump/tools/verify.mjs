@@ -392,6 +392,63 @@ if (pag.goToPageBtn) {
     await page.keyboard.press('Escape');
 } else na('PagePopoverForm', 'ellipsis non rendu (login-activity insuffisante ?)');
 
+// ── 14. F-v3 : props de `*.Trigger asChild` relayées par ToolTip ───────────
+// Sheet/ConfirmationModal wrappaient leurs triggers dans un <ToolTip> qui
+// déstructurait ses props sans les respreader : aria-haspopup/expanded/
+// controls injectés par le parent étaient avalés (widget fonctionnel,
+// contrat ARIA perdu — invisible à axe). Fix produit : ToolTip respread
+// `{...rest}` sur ToolTipPrimitive.Trigger + URLFilterDrawer : l'enfant du
+// tooltip est l'<IconButton> direct (le <span> wrapper avalait la chaîne).
+// Preuve live : les attributs sont rendus dans le DOM. NB : Radix n'émet
+// aria-controls que vers un contenu monté — mesuré fermé ET ouvert.
+await page.goto(`${base}/books`, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(1200);
+const trigClosed = await page.evaluate(() => ({
+    filter: (() => { const b = document.querySelector('button[aria-label="Configure filters"]'); return b ? { tag: b.tagName, haspopup: b.getAttribute('aria-haspopup'), expanded: b.getAttribute('aria-expanded'), state: b.getAttribute('data-state') } : null; })(),
+}));
+ok('/books: trigger « Configure filters » (URLFilterDrawer) = <button> aria-haspopup="dialog"', trigClosed.filter?.tag === 'BUTTON' && trigClosed.filter?.haspopup === 'dialog', JSON.stringify(trigClosed.filter));
+ok('/books: « Configure filters » fermé : aria-expanded=false + data-state=closed', trigClosed.filter?.expanded === 'false' && trigClosed.filter?.state === 'closed', JSON.stringify(trigClosed.filter));
+await page.locator('button[aria-label="Configure filters"]').click();
+await page.waitForSelector('[role="dialog"]', { state: 'visible', timeout: 8000 });
+const trigOpen = await page.evaluate(() => {
+    const b = document.querySelector('button[aria-label="Configure filters"]');
+    const c = b?.getAttribute('aria-controls');
+    return b ? { expanded: b.getAttribute('aria-expanded'), controls: c, target: c ? !!document.getElementById(c) : null } : null;
+});
+ok('/books: « Configure filters » ouvert : aria-expanded=true + aria-controls → id réel', trigOpen?.expanded === 'true' && !!trigOpen?.controls && trigOpen?.target === true, JSON.stringify(trigOpen));
+await page.keyboard.press('Escape');
+await page.waitForTimeout(400);
+
+// EntityTableColumnConfiguration : « Configure columns » n'existe qu'en
+// layout table (tableControls du footer de URLFilterContainer). Le layout
+// peut déjà être « Table » (§6 l'a basculé et il persiste dans le store)
+// → le toggle n'est cliqué que s'il est actif ; sinon attente directe.
+const tableToggle = page.locator('button[aria-label="Table view"]');
+if (await tableToggle.isEnabled()) {
+    await tableToggle.click();
+}
+await page.waitForSelector('button[aria-label="Configure columns"]', { state: 'attached', timeout: 15000 });
+const trigCols = await page.evaluate(() => {
+    const b = document.querySelector('button[aria-label="Configure columns"]');
+    return b ? { tag: b.tagName, haspopup: b.getAttribute('aria-haspopup'), expanded: b.getAttribute('aria-expanded'), state: b.getAttribute('data-state') } : null;
+});
+ok('/books (table): trigger « Configure columns » = <button> aria-haspopup="dialog"', trigCols?.tag === 'BUTTON' && trigCols?.haspopup === 'dialog', JSON.stringify(trigCols));
+ok('/books (table): « Configure columns » : aria-expanded=false + data-state=closed', trigCols?.expanded === 'false' && trigCols?.state === 'closed', JSON.stringify(trigCols));
+
+// « Sign out » du menu utilisateur : div[role=menuitem] qui ouvrait le
+// ConfirmationModal sans déclarer aria-haspopup (preuve live du ré-audit
+// v3). Fix produit : aria-haspopup="dialog" posé sur le Dropdown.Item —
+// DropdownItem forwardRef spreade déjà {...props}.
+await page.locator('button[aria-haspopup="menu"]:has-text("admin")').first().click();
+await page.waitForSelector('[role="menuitem"]', { state: 'visible', timeout: 8000 });
+const signOut = await page.evaluate(() => {
+    const item = [...document.querySelectorAll('[role="menuitem"]')].find(e => /sign out/i.test(e.textContent || ''));
+    return item ? { role: item.getAttribute('role'), haspopup: item.getAttribute('aria-haspopup'), tag: item.tagName } : null;
+});
+ok('user-menu: « Sign out » rendu comme menuitem', signOut?.role === 'menuitem', JSON.stringify(signOut));
+ok('user-menu: « Sign out » déclare aria-haspopup="dialog"', signOut?.haspopup === 'dialog', JSON.stringify(signOut));
+await page.keyboard.press('Escape');
+
 const passed = results.filter(r => r.pass && !r.verdict).length;
 const nas = results.filter(r => r.verdict === 'N-A').length;
 const failed = results.filter(r => !r.pass).length;
