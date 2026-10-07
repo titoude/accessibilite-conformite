@@ -10,6 +10,16 @@ const PMA = '/public';
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ storageState: state });
 const page = await ctx.newPage();
+// v3 : bloque les XHR ambiantes qui passent par UserPreferencesLoading —
+// /git-revision et /version-check partent avec le cookie d'avant mutation
+// et leur middleware re-sauve l'ANCIEN thème en préférence serveur
+// (course mesurée via docker logs dans audit.mjs). /console/update-config
+// reste libre : nos propres POSTs de reset l'utilisent ci-dessous et le
+// post ambiant de la page charge avec le cookie courant (= préférence,
+// pas de ré-écriture).
+for (const frag of ['/git-revision', '/version-check']) {
+  await page.route(`**/index.php?route=${frag}**`, route => route.abort());
+}
 await page.goto(base + PMA + '/index.php?route=/themes', { waitUntil: 'load' });
 // reset Console prefs d'abord (DarkTheme/Mode persistés serveur par
 // console-dark-pmahomme) — doit courir même si le thème est déjà pmahomme/light.
@@ -26,6 +36,7 @@ const darkReset = await page.evaluate(async () => {
   return r2.status;
 });
 if (darkReset !== 200) throw new Error('console prefs reset -> ' + darkReset);
+console.log('console prefs reset OK (DarkTheme=false, Mode=collapse)');
 const has = await page.evaluate(() => {
   const current = [...document.styleSheets].map(s => s.href).find(h => h.includes('/themes/'));
   if (current && current.includes('/pmahomme/')) return 'already';
@@ -58,17 +69,5 @@ if (!href || !href.includes('/pmahomme/') || mode !== 'light') {
   throw new Error('theme not reset: ' + href + ' mode=' + mode);
 }
 console.log('theme reset OK: ' + href + ' mode=' + mode);
-// reset Console/DarkTheme (persisted server-side by console-dark-pmahomme)
-const darkReset = await page.evaluate(async () => {
-  const t = document.querySelector('input[name=token]')?.value ?? '';
-  const res = await fetch('index.php?route=/console/update-config', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
-    body: 'ajax_request=true&server=1&key=DarkTheme&value=false&token=' + t,
-  });
-  return res.status;
-});
-if (darkReset !== 200) throw new Error('DarkTheme reset -> HTTP ' + darkReset);
-console.log('console DarkTheme reset OK');
 await ctx.storageState({ path: state });
 await browser.close();

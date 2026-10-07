@@ -605,6 +605,37 @@ index b7b2028a4b..10eddd779f 100644
 +  text-align: center;
 +}
 +
+diff --git a/public/themes/metro/scss/_root.scss b/public/themes/metro/scss/_root.scss
+index b5f3d69af9..a1bc55bfdd 100644
+--- a/public/themes/metro/scss/_root.scss
++++ b/public/themes/metro/scss/_root.scss
+@@ -36,7 +36,7 @@
+   --bs-primary-rgb: #{red($browse-pointer-color), green($browse-pointer-color), blue($browse-pointer-color)};
+   --browse-warning-color: #d44a26;
+   --browse-success-color: #01a31c;
+-  --button-background: #aaa;
++  --button-background: #04627c;
+   --button-hover: #000;
+   --blue-header: #3a7ead;
+ }
+@@ -57,7 +57,7 @@
+   --bs-primary-rgb: #{red($browse-pointer-color), green($browse-pointer-color), blue($browse-pointer-color)};
+   --browse-warning-color: #d44a26;
+   --browse-success-color: #01a31c;
+-  --button-background: #aaa;
++  --button-background: #a10707;
+   --button-hover: #000;
+   --blue-header: #3a7ead;
+ }
+@@ -99,7 +99,7 @@
+   --bs-primary-rgb: #{red($browse-pointer-color), green($browse-pointer-color), blue($browse-pointer-color)};
+   --browse-warning-color: #666;
+   --browse-success-color: #888;
+-  --button-background: #aaa;
++  --button-background: #666;
+   --button-hover: #000;
+   --blue-header: #555;
+ }
 diff --git a/public/themes/original/scss/_common.scss b/public/themes/original/scss/_common.scss
 index 5406aaae43..82d3170953 100644
 --- a/public/themes/original/scss/_common.scss
@@ -1102,6 +1133,39 @@ index 51df199ac8..d8b6ed0ded 100644
  $breadcrumb-divider-color: #fff;
  $breadcrumb-divider: quote("»");
  
+diff --git a/resources/js/database/multi_table_query.ts b/resources/js/database/multi_table_query.ts
+index 2c5e98bc81..ad39dcc5c3 100644
+--- a/resources/js/database/multi_table_query.ts
++++ b/resources/js/database/multi_table_query.ts
+@@ -227,7 +227,7 @@ AJAX.registerOnload('database/multi_table_query.js', function () {
+                 showTwoFields($(this));
+             } else {
+                 const options: JQuery<HTMLElement> = $(this).closest('table').find('.options');
+-                options.parent().prepend('<input type="text" class="rhs_text_val query-form__input--wide" placeholder="Enter criteria as free text"></input>');
++                options.parent().prepend('<input type="text" class="rhs_text_val query-form__input--wide" placeholder="Enter criteria as free text" aria-label="Enter criteria as free text"></input>');
+                 options.remove();
+             }
+         });
+@@ -243,8 +243,8 @@ AJAX.registerOnload('database/multi_table_query.js', function () {
+ 
+             critetiaCol.append(`
+                 <div class="options binary">
+-                    <input type="text" class="val" placeholder="${window.Messages.strFirstValuePlaceholder}" value="${criteriaInput.val()}" />
+-                    <input type="text" class="val" placeholder="${window.Messages.strSecondValuePlaceholder}" />
++                    <input type="text" class="val" placeholder="${window.Messages.strFirstValuePlaceholder}" aria-label="${window.Messages.strFirstValuePlaceholder}" value="${criteriaInput.val()}" />
++                    <input type="text" class="val" placeholder="${window.Messages.strSecondValuePlaceholder}" aria-label="${window.Messages.strSecondValuePlaceholder}" />
+                 </div>
+             `);
+         }
+@@ -261,7 +261,7 @@ AJAX.registerOnload('database/multi_table_query.js', function () {
+             critetiaCol.append(`
+                 <div class="options multi">
+                     <div class="option">
+-                        <input type="text" class="val" placeholder="Enter an option" value="${criteriaInput.val()}" />
++                        <input type="text" class="val" placeholder="Enter an option" aria-label="Enter an option" value="${criteriaInput.val()}" />
+                         <input type="button" class="btn btn-secondary add-option" value="+" />
+                     </div>
+                 </div>
 diff --git a/resources/js/makegrid.ts b/resources/js/makegrid.ts
 index a13641ca85..dceffeab4f 100644
 --- a/resources/js/makegrid.ts
@@ -1571,6 +1635,237 @@ index ec49619309..e650f5cefb 100644
          </div>
  
          <div class="card-footer">
+diff --git a/resources/templates/database/central_columns/edit_table_row.twig b/resources/templates/database/central_columns/edit_table_row.twig
+index 02c043823d..9bed86a463 100644
+--- a/resources/templates/database/central_columns/edit_table_row.twig
++++ b/resources/templates/database/central_columns/edit_table_row.twig
+@@ -12,20 +12,20 @@
+   </td>
+ 
+   <td name="col_type" class="text-nowrap">
+-    <select class="column_type" name="field_type[{{ row_num }}]" id="field_{{ row_num }}_1">
++    <select class="column_type" name="field_type[{{ row_num }}]" id="field_{{ row_num }}_1" aria-label="{{ t('Type') }}">
+       {{ get_supported_datatypes(row['col_type']|upper) }}
+     </select>
+   </td>
+ 
+   <td class="text-nowrap" name="col_length">
+-    <input id="field_{{ row_num }}_2" type="text" name="field_length[{{ row_num }}]" size="8" value="{{ row['col_length'] }}" class="textfield">
++    <input id="field_{{ row_num }}_2" type="text" name="field_length[{{ row_num }}]" size="8" value="{{ row['col_length'] }}" class="textfield" aria-label="{{ t('Length/Value') }}">
+     <p class="enum_notice" id="enum_notice_{{ row_num }}_2">
+       <a href="#" class="open_enum_editor">{{ t('Edit ENUM/SET values') }}</a>
+     </p>
+   </td>
+ 
+   <td class="text-nowrap" name="col_default">
+-    <select name="field_default_type[{{ row_num }}]" id="field_{{ row_num }}_3" class="default_type">
++    <select name="field_default_type[{{ row_num }}]" id="field_{{ row_num }}_3" class="default_type" aria-label="{{ t('Default') }}">
+       <option value="NONE"{{ meta['DefaultType'] is defined and meta['DefaultType'] == 'NONE' ? ' selected' }}>
+         {{ t('None', context = 'for default') }}
+       </option>
+@@ -40,14 +40,14 @@
+       </option>
+     </select>
+     {% if char_editing == 'textarea' %}
+-      <textarea name="field_default_value[{{ row_num }}]" cols="15" class="textfield default_value">{{ row['col_default'] }}</textarea>
++      <textarea name="field_default_value[{{ row_num }}]" cols="15" class="textfield default_value" aria-label="{{ t('Default value') }}">{{ row['col_default'] }}</textarea>
+     {% else %}
+-      <input type="text" name="field_default_value[{{ row_num }}]" size="12" value="{{ row['col_default'] }}" class="textfield default_value">
++      <input type="text" name="field_default_value[{{ row_num }}]" size="12" value="{{ row['col_default'] }}" class="textfield default_value" aria-label="{{ t('Default value') }}">
+     {% endif %}
+   </td>
+ 
+   <td name="collation" class="text-nowrap">
+-    <select lang="en" dir="ltr" name="field_collation[{{ row_num }}]" id="field_{{ row_num }}_4">
++    <select lang="en" dir="ltr" name="field_collation[{{ row_num }}]" id="field_{{ row_num }}_4" aria-label="{{ t('Collation') }}">
+       <option value=""></option>
+       {% for charset in charsets %}
+         <optgroup label="{{ charset.getName() }}" title="{{ charset.getDescription() }}">
+@@ -74,12 +74,13 @@
+   </td>
+ 
+   <td class="text-nowrap" name="col_isNull">
+-    <input name="field_null[{{ row_num }}]" id="field_{{ row_num }}_6" type="checkbox" value="YES" class="allow_null"
++    <input name="field_null[{{ row_num }}]" id="field_{{ row_num }}_6" type="checkbox" value="YES" class="allow_null" aria-label="{{ t('Null') }}"
+       {{- row['col_isNull'] is not empty and row['col_isNull'] != 'NO' and row['col_isNull'] != 'NOT NULL' and row['col_isNull'] != 0 ? ' checked' }}>
+   </td>
+ 
+   <td class="text-nowrap" name="col_extra">
+     <input name="col_extra[{{ row_num }}]" id="field_{{ row_num }}_7" type="checkbox" value="auto_increment"
++      aria-label="{{ t('AUTO_INCREMENT') }}"
+       {{- row['col_extra'] is not empty and row['col_extra'] == 'auto_increment' ? ' checked' }}>
+   </td>
+ </tr>
+diff --git a/resources/templates/database/central_columns/main.twig b/resources/templates/database/central_columns/main.twig
+index 3748255393..3a4a6a2953 100644
+--- a/resources/templates/database/central_columns/main.twig
++++ b/resources/templates/database/central_columns/main.twig
+@@ -11,7 +11,7 @@
+             <table class="table w-auto">
+                 <thead>
+                     <tr>
+-                        <th></th>
++                        <th><span class="visually-hidden">{{ t('Add') }}</span></th>
+                         <th class="" title="" data-column="name">
+                             {{ t('Name') }}
+                             <div class="sorticon"></div>
+@@ -44,7 +44,7 @@
+                             {{ t('A_I') }}
+                             <div class="sorticon"></div>
+                         </th>
+-                        <th></th>
++                        <th><span class="visually-hidden">{{ t('Save') }}</span></th>
+                     </tr>
+                 </thead>
+                 <tbody>
+@@ -61,31 +61,31 @@
+                             } only %}
+                         </td>
+                         <td name="col_type" class="text-nowrap">
+-                          <select class="column_type" name="field_type[0]" id="field_0_1">
++                          <select class="column_type" name="field_type[0]" id="field_0_1" aria-label="{{ t('Type') }}">
+                             {{ get_supported_datatypes('') }}
+                           </select>
+                         </td>
+                         <td class="text-nowrap" name="col_length">
+-                          <input id="field_0_2" type="text" name="field_length[0]" size="8" value="" class="textfield">
++                          <input id="field_0_2" type="text" name="field_length[0]" size="8" value="" class="textfield" aria-label="{{ t('Length/Value') }}">
+                           <p class="enum_notice" id="enum_notice_0_2">
+                             <a href="#" class="open_enum_editor">{{ t('Edit ENUM/SET values') }}</a>
+                           </p>
+                         </td>
+                         <td class="text-nowrap" name="col_default">
+-                          <select name="field_default_type[0]" id="field_0_3" class="default_type">
++                          <select name="field_default_type[0]" id="field_0_3" class="default_type" aria-label="{{ t('Default') }}">
+                             <option value="NONE">{{ t('None', context = 'for default') }}</option>
+                             <option value="USER_DEFINED">{{ t('As defined:') }}</option>
+                             <option value="NULL">NULL</option>
+                             <option value="CURRENT_TIMESTAMP">CURRENT_TIMESTAMP</option>
+                           </select>
+                           {% if char_editing == 'textarea' %}
+-                            <textarea name="field_default_value[0]" cols="15" class="textfield default_value"></textarea>
++                            <textarea name="field_default_value[0]" cols="15" class="textfield default_value" aria-label="{{ t('Default value') }}"></textarea>
+                           {% else %}
+-                            <input type="text" name="field_default_value[0]" size="12" value="" class="textfield default_value">
++                            <input type="text" name="field_default_value[0]" size="12" value="" class="textfield default_value" aria-label="{{ t('Default value') }}">
+                           {% endif %}
+                         </td>
+                         <td name="collation" class="text-nowrap">
+-                          <select lang="en" dir="ltr" name="field_collation[0]" id="field_0_4">
++                          <select lang="en" dir="ltr" name="field_collation[0]" id="field_0_4" aria-label="{{ t('Collation') }}">
+                             <option value=""></option>
+                             {% for charset in charsets %}
+                               <optgroup label="{{ charset.name }}" title="{{ charset.description }}">
+@@ -110,10 +110,10 @@
+                             } only %}
+                         </td>
+                         <td class="text-nowrap" name="col_isNull">
+-                          <input name="field_null[0]" id="field_0_6" type="checkbox" value="YES" class="allow_null">
++                          <input name="field_null[0]" id="field_0_6" type="checkbox" value="YES" class="allow_null" aria-label="{{ t('Null') }}">
+                         </td>
+                         <td class="text-nowrap" name="col_extra">
+-                          <input name="col_extra[0]" id="field_0_7" type="checkbox" value="auto_increment">
++                          <input name="col_extra[0]" id="field_0_7" type="checkbox" value="auto_increment" aria-label="{{ t('AUTO_INCREMENT') }}">
+                         </td>
+                         <td>
+                             <input id="add_column_save" class="btn btn-primary" type="submit" value="{{ t('Save') }}">
+@@ -188,7 +188,7 @@
+                 <input type="hidden" name="pos" value="{{ pos }}">
+                 <input type="hidden" name="total_rows" value="{{ total_rows }}">
+                 {# getHtmlForTableDropdown #}
+-                <select name="table-select" id="table-select">
++                <select name="table-select" id="table-select" aria-label="{{ t('Table') }}">
+                     <option value="" disabled selected>
+                         {{ t('Select a table') }}
+                     </option>
+@@ -196,7 +196,7 @@
+                         <option value="{{ table|e }}">{{ table|e }}</option>
+                     {% endfor %}
+                 </select>
+-                <select name="column-select" id="column-select">
++                <select name="column-select" id="column-select" aria-label="{{ t('Column') }}">
+                     <option value="" selected>{{ t('Select a column.') }}</option>
+                 </select>
+                 <input class="btn btn-primary" type="submit" value="{{ t('Add') }}">
+@@ -219,8 +219,8 @@
+                 {% set title = t('Click to sort.') %}
+                 <thead>
+                     <tr>
+-                        <th class="{{ class }}"></th>
+-                        <th class="hide"></th>
++                        <th class="{{ class }}"><span class="visually-hidden">{{ t('Select') }}</span></th>
++                        <th class="hide"><span class="visually-hidden">{{ t('Save') }}</span></th>
+                         <th class="column_action" colspan="2">{{ t('Action') }}</th>
+                         <th class="{{ class }}" title="{{ title }}" data-column="name">
+                             {{ t('Name') }}
+@@ -265,7 +265,8 @@
+                             <input type="hidden" name="edit_save" value="save">
+                             <td class="text-nowrap">
+                                 <input type="checkbox" class="checkall" name="selected_fld[]"
+-                                value="{{ row['col_name'] }}" id="{{ 'checkbox_row_' ~ row_num }}">
++                                value="{{ row['col_name'] }}" id="{{ 'checkbox_row_' ~ row_num }}"
++                                aria-label="{{ t('Select column %s')|format(row['col_name']) }}">
+                             </td>
+                             <td id="{{ 'edit_' ~ row_num }}" class="edit text-center">
+                                 <a href="#"> {{ get_icon('b_edit', t('Edit'))|raw }}</a>
+@@ -293,13 +294,13 @@
+                             </td>
+                             <td name="col_type" class="text-nowrap">
+                               <span>{{ row['col_type'] }}</span>
+-                              <select class="column_type" name="field_type[{{ row_num }}]" id="field_{{ row_num }}_1">
++                              <select class="column_type" name="field_type[{{ row_num }}]" id="field_{{ row_num }}_1" aria-label="{{ t('Type') }}">
+                                 {{ get_supported_datatypes(types_upper[row_num]) }}
+                               </select>
+                             </td>
+                             <td class="text-nowrap" name="col_length">
+                               <span>{{ (row['col_length'] ? (row['col_length']) : '') }}</span>
+-                              <input id="field_{{ row_num }}_2" type="text" name="field_length[{{ row_num }}]" size="8" value="{{ row['col_length'] }}" class="textfield">
++                              <input id="field_{{ row_num }}_2" type="text" name="field_length[{{ row_num }}]" size="8" value="{{ row['col_length'] }}" class="textfield" aria-label="{{ t('Length/Value') }}">
+                               <p class="enum_notice" id="enum_notice_{{ row_num }}_2">
+                                 <a href="#" class="open_enum_editor">{{ t('Edit ENUM/SET values') }}</a>
+                               </p>
+@@ -310,7 +311,7 @@
+                               {% else %}
+                                 <span>{{ t('None') }}</span>
+                               {% endif %}
+-                              <select name="field_default_type[{{ row_num }}]" id="field_{{ row_num }}_3" class="default_type">
++                              <select name="field_default_type[{{ row_num }}]" id="field_{{ row_num }}_3" class="default_type" aria-label="{{ t('Default') }}">
+                                 <option value="NONE"{{ rows_meta[row_num]['DefaultType'] is defined and rows_meta[row_num]['DefaultType'] == 'NONE' ? ' selected' }}>
+                                   {{ t('None', context = 'for default') }}
+                                 </option>
+@@ -325,14 +326,14 @@
+                                 </option>
+                               </select>
+                               {% if char_editing == 'textarea' %}
+-                                <textarea name="field_default_value[{{ row_num }}]" cols="15" class="textfield default_value">{{ default_values[row_num] }}</textarea>
++                                <textarea name="field_default_value[{{ row_num }}]" cols="15" class="textfield default_value" aria-label="{{ t('Default value') }}">{{ default_values[row_num] }}</textarea>
+                               {% else %}
+-                                <input type="text" name="field_default_value[{{ row_num }}]" size="12" value="{{ default_values[row_num] }}" class="textfield default_value">
++                                <input type="text" name="field_default_value[{{ row_num }}]" size="12" value="{{ default_values[row_num] }}" class="textfield default_value" aria-label="{{ t('Default value') }}">
+                               {% endif %}
+                             </td>
+                             <td name="collation" class="text-nowrap">
+                                 <span>{{ row['col_collation'] }}</span>
+-                                <select lang="en" dir="ltr" name="field_collation[{{ row_num }}]" id="field_{{ row_num }}_4">
++                                <select lang="en" dir="ltr" name="field_collation[{{ row_num }}]" id="field_{{ row_num }}_4" aria-label="{{ t('Collation') }}">
+                                   <option value=""></option>
+                                   {% for charset in charsets %}
+                                     <optgroup label="{{ charset.name }}" title="{{ charset.description }}">
+@@ -360,12 +361,12 @@
+                             </td>
+                             <td class="text-nowrap" name="col_isNull">
+                                 <span>{{ row['col_isNull'] ? t('Yes') : t('No') }}</span>
+-                                <input name="field_null[{{ row_num }}]" id="field_{{ row_num }}_6" type="checkbox" value="YES" class="allow_null"
++                                <input name="field_null[{{ row_num }}]" id="field_{{ row_num }}_6" type="checkbox" value="YES" class="allow_null" aria-label="{{ t('Null') }}"
+                                   {{- row['col_isNull'] is not empty and row['col_isNull'] != 'NO' and row['col_isNull'] != 'NOT NULL' and row['col_isNull'] != 0 ? ' checked' }}>
+                             </td>
+                             <td class="text-nowrap" name="col_extra">
+                               <span>{{ row['col_extra'] }}</span>
+-                              <input name="col_extra[{{ row_num }}]" id="field_{{ row_num }}_7" type="checkbox" value="auto_increment"
++                              <input name="col_extra[{{ row_num }}]" id="field_{{ row_num }}_7" type="checkbox" value="auto_increment" aria-label="{{ t('AUTO_INCREMENT') }}"
+                                 {{- row['col_extra'] is not empty and row['col_extra'] == 'auto_increment' ? ' checked' }}>
+                             </td>
+                         </tr>
 diff --git a/resources/templates/database/designer/main.twig b/resources/templates/database/designer/main.twig
 index d06976f16e..63f69244c3 100644
 --- a/resources/templates/database/designer/main.twig
@@ -1593,6 +1888,148 @@ index d06976f16e..63f69244c3 100644
            <input type="hidden" name="submit_sql" value="true">
            {{ hidden_input_fields|raw }}
          </form>
+diff --git a/resources/templates/database/multi_table_query/form.twig b/resources/templates/database/multi_table_query/form.twig
+index bf0f9bd32e..3b79360325 100644
+--- a/resources/templates/database/multi_table_query/form.twig
++++ b/resources/templates/database/multi_table_query/form.twig
+@@ -23,25 +23,25 @@
+             <div class="col{{ id == 0 ? ' d-none' }}"{{ id == 0 ? ' id="new_column_layout"' }}>
+               <div class="card">
+                 <fieldset class="card-body">
+-                  <select class="tableNameSelect">
++                  <select class="tableNameSelect" aria-label="{{ t('Table') }}">
+                     <option value="">{{ t('select table') }}</option>
+                     {% for keyTableName, table in tables %}
+                       <option data-hash="{{ table.hash }}" value="{{ keyTableName }}">{{ keyTableName }}</option>
+                     {% endfor %}
+                   </select>
+                   <span>.</span>
+-                  <select class="columnNameSelect">
++                  <select class="columnNameSelect" aria-label="{{ t('Column') }}">
+                     <option value="">{{ t('select column') }}</option>
+                   </select>
+                   <br>
+-                  <input type="checkbox" checked class="show_col">
++                  <input type="checkbox" checked class="show_col" aria-label="{{ t('Show') }}">
+                   <span>{{ t('Show') }}</span>
+                   <br>
+-                  <input type="text" placeholder="{{ t('Table alias') }}" class="table_alias">
+-                  <input type="text" placeholder="{{ t('Column alias') }}" class="col_alias">
++                  <input type="text" placeholder="{{ t('Table alias') }}" class="table_alias" aria-label="{{ t('Table alias') }}">
++                  <input type="text" placeholder="{{ t('Column alias') }}" class="col_alias" aria-label="{{ t('Column alias') }}">
+                   <br>
+                   <input type="checkbox"
+-                         title="{{ t('Use this column in criteria') }}"
++                         title="{{ t('Use this column in criteria') }}" aria-label="{{ t('Use this column in criteria') }}"
+                          class="criteria_col" data-bs-toggle="collapse" data-bs-target="#criteriaOptions{{ id }}" aria-expanded="false" aria-controls="criteriaOptions{{ id }}">
+ 
+                   <button class="btn btn-link p-0 jsCriteriaButton" type="button" data-bs-toggle="collapse" data-bs-target="#criteriaOptions{{ id }}" aria-expanded="false" aria-controls="criteriaOptions{{ id }}">
+@@ -54,33 +54,37 @@
+ 
+                         <tr class="sort_order">
+                           <td>{{ t('Sort') }}</td>
+-                          <td><input type="radio" name="sort[{{ id }}]">{{ t('Ascending') }}</td>
+-                          <td><input type="radio" name="sort[{{ id }}]">{{ t('Descending') }}</td>
++                          <td><label><input type="radio" name="sort[{{ id }}]">{{ t('Ascending') }}</label></td>
++                          <td><label><input type="radio" name="sort[{{ id }}]">{{ t('Descending') }}</label></td>
+                         </tr>
+ 
+                         <tr class="logical_operator">
+                           <td>{{ t('Add as') }}</td>
+                           <td>
+-                            <input type="radio"
+-                                   name="logical_op[{{ id }}]"
+-                                   value="AND"
+-                                   class="logical_op"
+-                                   checked>
+-                            AND
++                            <label>
++                              <input type="radio"
++                                     name="logical_op[{{ id }}]"
++                                     value="AND"
++                                     class="logical_op"
++                                     checked>
++                              AND
++                            </label>
+                           </td>
+                           <td>
+-                            <input type="radio"
+-                                   name="logical_op[{{ id }}]"
+-                                   value="OR"
+-                                   class="logical_op">
+-                            OR
++                            <label>
++                              <input type="radio"
++                                     name="logical_op[{{ id }}]"
++                                     value="OR"
++                                     class="logical_op">
++                              OR
++                            </label>
+                           </td>
+                         </tr>
+ 
+                         <tr>
+                           <td>Column</td>
+                           <td colspan="2">
+-                            <select class="columnNameSelect query-form__select--inline opColumn">
++                            <select class="columnNameSelect query-form__select--inline opColumn" aria-label="{{ t('Criteria column') }}">
+                               <option value="">{{ t('select column') }}</option>
+                             </select>
+                           </td>
+@@ -89,7 +93,7 @@
+                         <tr>
+                           <td>Op</td>
+                           <td>
+-                            <select class="criteria_op">
++                            <select class="criteria_op" aria-label="{{ t('Operator') }}">
+                               <option value="=">=</option>
+                               <option value=">">&gt;</option>
+                               <option value=">=">&gt;=</option>
+@@ -112,7 +116,7 @@
+                             </select>
+                           </td>
+                           <td>
+-                            <select class="criteria_rhs">
++                            <select class="criteria_rhs" aria-label="{{ t('Right operand') }}">
+                               <option value="text">{{ t('Text') }}</option>
+                               <option value="anotherColumn">{{ t('Another column') }}</option>
+                             </select>
+@@ -122,7 +126,7 @@
+                         <tr class="rhs_table" style="display: none;">
+                           <td></td>
+                           <td>
+-                            <select class="tableNameSelect">
++                            <select class="tableNameSelect" aria-label="{{ t('Criteria table') }}">
+                               <option value="">{{ t('select table') }}</option>
+                               {% for keyTableName, table in tables %}
+                                 <option data-hash="{{ table.hash }}" value="{{ keyTableName }}">{{ keyTableName }}</option>
+@@ -130,7 +134,7 @@
+                             </select><span>.</span>
+                           </td>
+                           <td>
+-                            <select class="columnNameSelect">
++                            <select class="columnNameSelect" aria-label="{{ t('Criteria column') }}">
+                               <option value="">{{ t('select column') }}</option>
+                             </select>
+                           </td>
+@@ -141,7 +145,8 @@
+                           <td colspan="2">
+                             <input type="text"
+                                    class="rhs_text_val"
+-                                   placeholder="{{ t('Enter criteria as free text') }}">
++                                   placeholder="{{ t('Enter criteria as free text') }}"
++                                   aria-label="{{ t('Enter criteria as free text') }}">
+                           </td>
+                         </tr>
+ 
+@@ -166,6 +171,7 @@
+                     cols="80"
+                     rows="4"
+                     name="sql_query"
++                    aria-label="{{ t('SQL query') }}"
+                     dir="ltr"></textarea>
+         </div>
+       </div>
 diff --git a/resources/templates/database/privileges/index.twig b/resources/templates/database/privileges/index.twig
 index 4c3e71a513..ba576b9d0a 100644
 --- a/resources/templates/database/privileges/index.twig
@@ -1902,6 +2339,28 @@ index bbe7f073a2..de185e45d1 100644
              </td>
              <td>
                <label for="checkbox_sel_users_{{ loop.index }}">
+diff --git a/resources/templates/server/status/advisor/index.twig b/resources/templates/server/status/advisor/index.twig
+index f2d229b538..0e0549ba30 100644
+--- a/resources/templates/server/status/advisor/index.twig
++++ b/resources/templates/server/status/advisor/index.twig
+@@ -42,7 +42,7 @@
+ 
+     {% if data.errors is defined and data.errors|length > 0 %}
+       <div class="alert alert-danger mt-2 mb-2" role="alert">
+-        <h4 class="alert-heading">{{ t('Errors occurred while executing rule expressions:') }}</h4>
++        <h3 class="alert-heading">{{ t('Errors occurred while executing rule expressions:') }}</h3>
+         <ul>
+           {% for error in data.errors %}
+             <li>{{ error }}</li>
+@@ -52,7 +52,7 @@
+     {% endif %}
+ 
+     {% if data.fired is defined and data.fired|length > 0 %}
+-      <h4>{{ t('Possible performance issues') }}</h4>
++      <h3>{{ t('Possible performance issues') }}</h3>
+ 
+       <div class="accordion mb-4" id="rulesAccordion">
+         {% for rule in data.fired %}
 diff --git a/resources/templates/server/status/status/index.twig b/resources/templates/server/status/status/index.twig
 index ad66826bf5..c2dd368a52 100644
 --- a/resources/templates/server/status/status/index.twig
@@ -2242,6 +2701,19 @@ index 5c29dcf2dc..30573c5929 100644
  
    {%- if extra matches '/(VIRTUAL|PERSISTENT|GENERATED)/' and 'DEFAULT_GENERATED' not in extra -%}
      <input type="hidden" name="virtual{{ column_name_appendix }}" value="1">
+diff --git a/resources/templates/table/normalization/normalization.twig b/resources/templates/table/normalization/normalization.twig
+index 11439c81a4..3d5541d2b4 100644
+--- a/resources/templates/table/normalization/normalization.twig
++++ b/resources/templates/table/normalization/normalization.twig
+@@ -4,7 +4,7 @@
+   <div class="card-header">{{ t('Improve table structure (Normalization):') }}</div>
+ 
+   <div class="card-body">
+-    <h3 class="card-title">{{ t('Select up to what step you want to normalize') }}</h3>
++    <h2 class="card-title">{{ t('Select up to what step you want to normalize') }}</h2>
+ 
+     {{ t('Hint: Please follow the procedure carefully in order to obtain correct normalization')|notice }}
+ 
 diff --git a/resources/templates/table/operations/index.twig b/resources/templates/table/operations/index.twig
 index ec21a0698b..864ca86859 100644
 --- a/resources/templates/table/operations/index.twig
@@ -2491,6 +2963,97 @@ index be271b551c..f8417325d1 100644
              {% for entry in selectable_tables_entries %}
                  <option value="{{ entry.name }}"
                      {{- entry.name == selected_table ? ' selected' }}>
+diff --git a/resources/templates/table/zoom_search/index.twig b/resources/templates/table/zoom_search/index.twig
+index fffc2b4c58..003d186ab2 100644
+--- a/resources/templates/table/zoom_search/index.twig
++++ b/resources/templates/table/zoom_search/index.twig
+@@ -57,7 +57,7 @@
+             {% endif %}
+             <tr class="noclick">
+               <th>
+-                <select name="criteriaColumnNames[]" id="tableid_{{ i }}">
++                <select name="criteriaColumnNames[]" id="tableid_{{ i }}" aria-label="{{ t('Criteria column %s')|format(i + 1) }}">
+                   <option value="pma_null">
+                     {{ t('None') }}
+                   </option>
+diff --git a/resources/templates/table/zoom_search/result_form.twig b/resources/templates/table/zoom_search/result_form.twig
+index 9bcf7c86e2..c36843ee2c 100644
+--- a/resources/templates/table/zoom_search/result_form.twig
++++ b/resources/templates/table/zoom_search/result_form.twig
+@@ -43,7 +43,7 @@
+                       {# Null checkbox if column can be null #}
+                       <th>
+                         {% if column_null_flags[column_index] == 'YES' %}
+-                          <input type="checkbox" class="checkbox_null" name="criteriaColumnNullFlags[{{ column_index }}]" id="edit_fields_null_id_{{ column_index }}">
++                          <input type="checkbox" class="checkbox_null" name="criteriaColumnNullFlags[{{ column_index }}]" id="edit_fields_null_id_{{ column_index }}" aria-label="{{ t('NULL for column %s')|format(field_popup) }}">
+                         {% endif %}
+                       </th>
+                       {# Column's Input box #}
+diff --git a/resources/templates/view_create.twig b/resources/templates/view_create.twig
+index 8e79905c6c..3b6e503d24 100644
+--- a/resources/templates/view_create.twig
++++ b/resources/templates/view_create.twig
+@@ -52,14 +52,14 @@
+         </tr>
+ 
+         <tr>
+-          <td class="text-nowrap">{{ t('Definer') }}</td>
+-          <td><input type="text" maxlength="100" size="50" name="view[definer]" value="{{ view['definer'] }}"></td>
++          <td class="text-nowrap"><label for="view_definer">{{ t('Definer') }}</label></td>
++          <td><input type="text" maxlength="100" size="50" name="view[definer]" id="view_definer" value="{{ view['definer'] }}"></td>
+         </tr>
+ 
+         <tr>
+-          <td class="text-nowrap">SQL SECURITY</td>
++          <td class="text-nowrap"><label for="view_sql_security">SQL SECURITY</label></td>
+           <td>
+-            <select name="view[sql_security]">
++            <select name="view[sql_security]" id="view_sql_security">
+               <option value=""></option>
+               {% for option in view_security_options %}
+                 <option value="{{ option }}"
+@@ -72,9 +72,9 @@
+ 
+         {% if view['operation'] == 'create' %}
+           <tr>
+-            <td class="text-nowrap">{{ t('VIEW name') }}</td>
++            <td class="text-nowrap"><label for="view_name">{{ t('VIEW name') }}</label></td>
+             <td>
+-              <input type="text" size="20" name="view[name]" onfocus="this.select()" maxlength="64" value="{{ view['name'] }}">
++              <input type="text" size="20" name="view[name]" id="view_name" onfocus="this.select()" maxlength="64" value="{{ view['name'] }}">
+             </td>
+           </tr>
+         {% else %}
+@@ -86,14 +86,14 @@
+         {% endif %}
+ 
+         <tr>
+-          <td class="text-nowrap">{{ t('Column names') }}</td>
++          <td class="text-nowrap"><label for="view_column_names">{{ t('Column names') }}</label></td>
+           <td>
+-            <input type="text" maxlength="100" size="50" name="view[column_names]" onfocus="this.select()" value="{{ view['column_names'] }}">
++            <input type="text" maxlength="100" size="50" name="view[column_names]" id="view_column_names" onfocus="this.select()" value="{{ view['column_names'] }}">
+           </td>
+         </tr>
+ 
+         <tr>
+-          <td class="text-nowrap">AS</td>
++          <td class="text-nowrap"><label for="view_as">AS</label></td>
+           <td>
+             <textarea name="view[as]" id="view_as" rows="15" cols="40" dir="{{ pma.text_dir }}">{{ view['as'] }}</textarea><br>
+             <input type="button" value="Format" id="format" class="btn btn-secondary button sqlbutton">
+@@ -102,9 +102,9 @@
+         </tr>
+ 
+         <tr>
+-          <td class="text-nowrap">WITH CHECK OPTION</td>
++          <td class="text-nowrap"><label for="view_with">WITH CHECK OPTION</label></td>
+           <td>
+-            <select name="view[with]">
++            <select name="view[with]" id="view_with">
+               <option value=""></option>
+               {% for option in view_with_options %}
+                 <option value="{{ option }}"
 diff --git a/src/Controllers/JavaScriptMessagesController.php b/src/Controllers/JavaScriptMessagesController.php
 index 424593c68e..dba6d73682 100644
 --- a/src/Controllers/JavaScriptMessagesController.php
