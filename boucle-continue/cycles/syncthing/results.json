@@ -1,179 +1,182 @@
 {
- "depot": "syncthing/syncthing",
- "commitEpingle": "7ad73b408adc792cabeed41d89a37b93e2bd84d0",
- "statut": "TRAVAUX TERMINÉS — verdict laissé à l'auditeur indépendant (le worker ne se note pas lui-même)",
- "resume": {
-  "baseline": {
-   "public": {
-    "regles": 3,
-    "occurrences": 6
-   },
-   "auth": {
-    "regles": 16,
-    "occurrences": 1352,
-    "pages": 53,
-    "note": "régénéré v6 : instance :8484 vanilla AVANT patch — le baseline commité ère v4 couvrait 46 pages"
-   }
+  "depot": "syncthing/syncthing",
+  "commitEpingle": "7ad73b408adc792cabeed41d89a37b93e2bd84d0",
+  "statut": "TRAVAUX TERMINÉS — verdict laissé à l'auditeur indépendant (le worker ne se note pas lui-même)",
+  "resume": {
+    "baseline": {
+      "public": {
+        "regles": 3,
+        "occurrences": 6
+      },
+      "auth": {
+        "regles": 16,
+        "occurrences": 1352,
+        "pages": 53,
+        "note": "régénéré v6 : instance :8484 vanilla AVANT patch — le baseline commité ère v4 couvrait 46 pages"
+      }
+    },
+    "final": {
+      "public": {
+        "regles": 0,
+        "occurrences": 0
+      },
+      "auth": {
+        "regles": 0,
+        "occurrences": 0,
+        "pages": 53,
+        "incomplets": 235
+      }
+    },
+    "install_build": {
+      "public": {
+        "regles": 0,
+        "occurrences": 0
+      },
+      "auth": {
+        "regles": 0,
+        "occurrences": 0,
+        "pages": 53
+      },
+      "note": "v6 rejeu complet : clone propre @7ad73b408 + apply 20 fichiers 0 rejet + go generate (5 821 912 o) + build (38 507 016 o) + serve embed :8484 — scopeHash == baseline-auth (240f664c) : comparaison à scénarios identiques"
+    },
+    "verify": "40 PASS / 0 FAIL / 1 N-A explicite — verify.mjs durci v6 : re-tirage restart sur page rechargée (CSRF par boot), flush debounced 1,5 s avant restart, memory-cache renderer neutralisée (Page.reload ignoreCache) — mesuré live thème clair rgb(255,255,255) restauré",
+    "eval_final": "1358 → 0 occurrences sur 53 scénarios (régénéré v6, exit 0), toutes les règles résolues",
+    "sondes_incomplets": "235 items axe 'incomplete' re-sondés v6 : 234 RESOLVED / 1 N-A / 0 CONFIRMED_VIOLATION — thème clair restauré prouvé en fin de run",
+    "etats_auth": 52,
+    "axe": "rapports officiels sous axe-core 4.13.0 épinglé (axeVersion dans scope.json) ; preuve F1 rejouée sous 4.14.0 scratch : label-content-name-mismatch 1→0 ×4 surfaces, rescan complet 55 pages 0 violation (reports/axe414-final), accName « Language — English » ⊇ « English »"
   },
-  "final": {
-   "public": {
-    "regles": 0,
-    "occurrences": 0
-   },
-   "auth": {
-    "regles": 0,
-    "occurrences": 0,
-    "pages": 53,
-    "incomplets": 235
-   }
+  "perimetre": "scopeHash identique baseline/final (54bb51d7…) : 1 page login + 45 états authentifiés (dashboard, 9 panneaux dossiers/devices, 20 modales, 7 onglets settings, 3 menus navbar, thème sombre, viewport mobile 390px). 7 catégories exclues documentées dans states.json (upgrade modal non déclenchable, pages erreurs transitoires, etc.)",
+  "stack": "AngularJS 1.x statique servi par Go (embed via lib/api/auto/gui.files.go généré par `go generate`). Thèmes = répertoires gui/{default,dark,light,black}, sélection lue au démarrage du serveur (changement = restart).",
+  "famillesCorrigees": {
+    "landmarks/headings (~500)": "div.container.content → <main>, h1 navbar-brand ajouté, cascade h2/h3/h4/h5 harmonisée (sections h2, groupes h3, titres de modale h3, sous-sections h4)",
+    "dialog semantics (~150)": "role=dialog + aria-modal + aria-labelledby injectés via modalDirective.js — couvre les ~29 modales utilisant le gabarit modal.html",
+    "aria-allowed-attr (20)": "Bootstrap 3.4 collapse pose aria-expanded sur l'ÉLÉMENT repliable (rôle generic) — suppression en run-block sur les 4 événements collapse",
+    "labels/selects/inputs (~200)": "for/id sur selects (thème, versioning, folderType, pullOrder, compression), aria-label sur champs inline (numConnections, rate limits, ignoresText, facilities), th vides → sr-only Actions",
+    "color-contrast (~250)": "liens #3498db → #1d6fa5 (thème clair) / #56a8e0 (sombre), .text-* utilitaires assombris/éclaircis, badge #777→#6d6d6d, dropdown/pagination .active, thème light patché de la même façon",
+    "target-size/liens-texte (~30)": "espacement boutons footers pending, soulignement des liens dans blocs de texte, marges h1",
+    "aria-prohibited-attr (5)": "span aria-label → role=img sur icônes d'état mobile",
+    "empty-heading (1)": "favicon mobile alt='' → alt='Syncthing'",
+    "navbar-overlap (14)": "menus navbar fixed-top recouvrant les contrôles pending → marge dynamique pendant l'ouverture (shown/hidden.bs.dropdown)"
   },
-  "install_build": {
-   "public": {
-    "regles": 0,
-    "occurrences": 0
-   },
-   "auth": {
-    "regles": 0,
-    "occurrences": 0,
-    "pages": 53
-   },
-   "note": "v6 rejeu complet : clone propre @7ad73b408 + apply 20 fichiers 0 rejet + go generate (5 821 912 o) + build (38 507 016 o) + serve embed :8484 — scopeHash == baseline-auth (240f664c) : comparaison à scénarios identiques"
-  },
-  "verify": "40 PASS / 0 FAIL / 1 N-A explicite — verify.mjs durci v6 : re-tirage restart sur page rechargée (CSRF par boot), flush debounced 1,5 s avant restart, memory-cache renderer neutralisée (Page.reload ignoreCache) — mesuré live thème clair rgb(255,255,255) restauré",
-  "eval_final": "1358 → 0 occurrences sur 53 scénarios (régénéré v6, exit 0), toutes les règles résolues",
-  "sondes_incomplets": "235 items axe 'incomplete' re-sondés v6 : 234 RESOLVED / 1 N-A / 0 CONFIRMED_VIOLATION — thème clair restauré prouvé en fin de run",
-  "etats_auth": 52,
-  "axe": "rapports officiels sous axe-core 4.13.0 épinglé (axeVersion dans scope.json) ; preuve F1 rejouée sous 4.14.0 scratch : label-content-name-mismatch 1→0 ×4 surfaces, rescan complet 55 pages 0 violation (reports/axe414-final), accName « Language — English » ⊇ « English »"
- },
- "perimetre": "scopeHash identique baseline/final (54bb51d7…) : 1 page login + 45 états authentifiés (dashboard, 9 panneaux dossiers/devices, 20 modales, 7 onglets settings, 3 menus navbar, thème sombre, viewport mobile 390px). 7 catégories exclues documentées dans states.json (upgrade modal non déclenchable, pages erreurs transitoires, etc.)",
- "stack": "AngularJS 1.x statique servi par Go (embed via lib/api/auto/gui.files.go généré par `go generate`). Thèmes = répertoires gui/{default,dark,light,black}, sélection lue au démarrage du serveur (changement = restart).",
- "famillesCorrigees": {
-  "landmarks/headings (~500)": "div.container.content → <main>, h1 navbar-brand ajouté, cascade h2/h3/h4/h5 harmonisée (sections h2, groupes h3, titres de modale h3, sous-sections h4)",
-  "dialog semantics (~150)": "role=dialog + aria-modal + aria-labelledby injectés via modalDirective.js — couvre les ~29 modales utilisant le gabarit modal.html",
-  "aria-allowed-attr (20)": "Bootstrap 3.4 collapse pose aria-expanded sur l'ÉLÉMENT repliable (rôle generic) — suppression en run-block sur les 4 événements collapse",
-  "labels/selects/inputs (~200)": "for/id sur selects (thème, versioning, folderType, pullOrder, compression), aria-label sur champs inline (numConnections, rate limits, ignoresText, facilities), th vides → sr-only Actions",
-  "color-contrast (~250)": "liens #3498db → #1d6fa5 (thème clair) / #56a8e0 (sombre), .text-* utilitaires assombris/éclaircis, badge #777→#6d6d6d, dropdown/pagination .active, thème light patché de la même façon",
-  "target-size/liens-texte (~30)": "espacement boutons footers pending, soulignement des liens dans blocs de texte, marges h1",
-  "aria-prohibited-attr (5)": "span aria-label → role=img sur icônes d'état mobile",
-  "empty-heading (1)": "favicon mobile alt='' → alt='Syncthing'",
-  "navbar-overlap (14)": "menus navbar fixed-top recouvrant les contrôles pending → marge dynamique pendant l'ouverture (shown/hidden.bs.dropdown)"
- },
- "bugsReelsUpstream": [
-  "localChangedHeading() jamais définie → titre de modale #localChanged vide (string vide depuis la création du template)",
-  "label for='restoreVersionDate' pointe vers un id inexistant (fautif) — corrigé vers le vrai champ de filtre date",
-  "themes : Last-Modified = mtime du fichier servi, identique pour tous les thèmes (même tarball) → revalidation 304 et thème périmé après bascule jusqu'à hard-refresh (constaté, documenté dans le manifeste, pas patché — comportement upstream établi)"
- ],
- "install_build": {
-  "steps": "git clone propre du SHA → git apply patch.diff (20 fichiers) → cd lib/api/auto && go generate (gui.files.go 5 821 912 o ré-embarqués) → go build ./cmd/syncthing (38 507 016 o) → binaire servi sur :8484 (STGUIASSETS absent → assets embed réels) → login frais → 52 états + page = 53 scénarios → 0 violation",
-  "reports": [
-   "reports/install-build-public",
-   "reports/install-build-auth"
+  "bugsReelsUpstream": [
+    "localChangedHeading() jamais définie → titre de modale #localChanged vide (string vide depuis la création du template)",
+    "label for='restoreVersionDate' pointe vers un id inexistant (fautif) — corrigé vers le vrai champ de filtre date",
+    "themes : Last-Modified = mtime du fichier servi, identique pour tous les thèmes (même tarball) → revalidation 304 et thème périmé après bascule jusqu'à hard-refresh (constaté, documenté dans le manifeste, pas patché — comportement upstream établi)"
   ],
-  "note_v6": "rejeu complet post-staleness F3 ; scopeHash install-build-auth identique à baseline-auth (mêmes 53 scénarios sur :8484) — paire A/B directe 16 règles/1352 occ → 0"
- },
- "nonCouvert": {
-  "etats": "7 catégories exclues listées dans states.json : modale upgrade (non déclenchable : upgradeInfo.newer faux), transferts en cours (dépend du cluster réel), pages d'erreur fatale, onboarding wizard (désactivé en config seed), dossiers en cours de scan, QR live camera, themes black (variante marginale de dark)",
-  "themes": "black non audité (proche de dark) ; default dépend de prefers-color-scheme → audité via dark + light explicitement",
-  "incomplets": "213 items axe incomplete — triage par sondes : color-contrast re-mesuré (RESOLVED), target-size bbox, éléments absents au rejeu = N-A explicite ; 0 CONFIRMED_VIOLATION"
- },
- "leconsHarnais": [
-  "AngularJS : pas de build frontend — le patch touche les sources servies ; STGUIASSETS=<repo>/gui permet la boucle dev sans re-générer ; install-build fait go generate + go build pour prouver l'embarqué",
-  "Thème syncthing : la bascule exige restart du serveur + hard-refresh (quirk mtime) — audit.mjs sonde la taille réelle de theme.css servi vs theme-assets/<nom>/ et recharge via CDP ignoreCache",
-  "fancytree = arbre en <table> : nœuds span.fancytree-node dans tr, sélection via dropdowns — pas de checkboxes",
-  "Bootstrap 3.4 : aria-expanded est posé sur la cible collapse ET le trigger à CHAQUE action → strip sur les 4 événements",
-  "CSRF : toute requête /rest sous cookie-auth exige l'en-tête X-CSRF-Token-<deviceIDShort> = valeur du cookie",
-  "menus fixed-top recouvrent le haut du contenu → axe target-size flag 'partially obscured' ; la marge dynamique (JS) est un vrai correctif produit, pas un contournement de scan"
- ],
- "artefacts": [
-  "manifest.json",
-  "states.json",
-  "results.json",
-  "patch.diff",
-  "scope-compare.json",
-  "provenance.json",
-  "tools/{audit,login,seed,verify,eval-final,incomplete-probes}.mjs|.sh",
-  "reports/{baseline,final,install-build}-{public,auth}/report.{md,json}",
-  "reports/eval-final.json",
-  "reports/incomplete-probes.json"
- ],
- "auditTiers": {
-  "verdict": "PARTIAL (v5, commit d291303) — fixer v6 livré, en attente ré-audit",
-  "findings_residuels": 0,
-  "session": "v5 audit a5376c73 → v6 fixer (partie 1 : 76f298a ; partie 2 : ce commit)"
- },
- "corrections_post_audit_warts": [
-  {
-   "verdict_v1": "CONFIRMED avec 3 findings résiduels + 3 warts (verdict-auditeur.md)",
-   "fixes": [
-    "F1 2.1.1 : tabindex déplacé des h4 vers les 11 .panel-heading[role=button] + handler keydown Enter/Espace → trigger(click) dans app.js — accordéon #advanced désormais opérable au clavier",
-    "F2 1.4.1 : sélecteur de soulignement élargi à .modal-body a:not(.btn) — couvre les 12 liens Help adjacents aux labels et tout lien futur en contexte texte",
-    "F3 duplicate-id : id/label share-template dédupliqués par suffixe scope (sharedwith-{{id}}-s{{$id}}) — unique même quand folder.id est vide",
-    "F4 sonde : incomplete-probes.mjs rejoue désormais le setup de chaque état (STATES extrait d'audit.mjs, source unique) au lieu de sonder l'URL nue — les 124 items jamais re-mesurés le sont désormais ; sondes ajoutées pour link-in-text-block et th-has-data-cells",
-    "W1 provenance : re-hash complet régénéré (le manifest post-édition est couvert)",
-    "W2 seed.sh : ports st2/st3 paramétrables (ST2_GUI_PORT, ST2_LISTEN_PORT, ST3_GUI_PORT, ST3_LISTEN_PORT — défauts 8484/22001/8485/22002) — plus de collision avec un GUI auditeur"
-   ],
-   "verify_v2": "verify.mjs gagne 5 assertions dures codifiant les findings : en-têtes accordéon focusables, Entrée ouvre panneau 1, Espace ouvre panneau 2, 0 doublon sharedwith-* mesuré dans #editDevice/Sharing ouvert, liens d aide soulignés",
-   "residuel_assume": [
-    "l'élément <share-template id=\"\"> hôte garde un id vide quand folder.id est vide (id vide ≠ doublon axe ; l'attribut alimente le binding @id) — documenté",
-    "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
-   ]
+  "install_build": {
+    "steps": "git clone propre du SHA → git apply patch.diff (20 fichiers) → cd lib/api/auto && go generate (gui.files.go 5 821 912 o ré-embarqués) → go build ./cmd/syncthing (38 507 016 o) → binaire servi sur :8484 (STGUIASSETS absent → assets embed réels) → login frais → 52 états + page = 53 scénarios → 0 violation",
+    "reports": [
+      "reports/install-build-public",
+      "reports/install-build-auth"
+    ],
+    "note_v6": "rejeu complet post-staleness F3 ; scopeHash install-build-auth identique à baseline-auth (mêmes 53 scénarios sur :8484) — paire A/B directe 16 règles/1352 occ → 0"
   },
-  {
-   "verdict_v2": "PARTIAL (verdict-auditeur-v2.md, commit 4782e3e) — les 4 fixes produit tous CONFIRMED réparés par rejeu (15/15 tabindex panel-headings, Enter+Espace ouvrent, 15/15 Help soulignés → link-in-text-block 12→0, sharedwith uniques → duplicate-id-aria 13→0, provenance 36/36, final 0 viol/0 err sur 2 pipelines) MAIS les fixes outillage livrés non exécutés : cassés déterministiquement",
-   "fixes": [
-    "audit.mjs : export { STATES } + garde CLI (fileURLToPath) — la sonde importe la source unique au lieu de l'eval-extraction qui échouait (185/188 ReferenceError : les setups référencent les helpers du module)",
-    "incomplete-probes.mjs : exécuté pour de vrai — 2 bugs réels trouvés : (a) les URLs enregistrées pointaient le port du worker (:8384) → goto mourait en silence, désormais réécrites sur le BASE passé ; (b) goto en échec avalé par catch → désormais N-A explicite 'navigation en échec'. Résultat rejoué : 198 RESOLVED mesurés / 15 N-A honnêtes",
-    "verify.mjs : exécuté pour de vrai — 3 bugs réels trouvés : (a) modale usage-report #ur (backdrop statique) bloque le premier boot → attendue puis déclinée ; (b) check liens Help mesurait une modale sans panneau ouvert → mesure désormais les liens VISIBLES d'un panneau accordéon ouvert (5-6 mesurés, tous soulignés) ; (c) .first() sur [data-target^=#device-] ouvrait #device-this déjà ouvert → :not([data-target=#device-this])",
-    "Résultat d'exécution : verify.mjs 32/32 PASS sur instance patchée réelle (seed complet : pending device + pending folder + dossiers/devices réels), incomplete-probes 0 CONFIRMED_VIOLATION"
-   ],
-   "lecon": "RÈGLE — jamais livrer un fix outillage/harnais non exécuté : le ré-audit l'a attrapé déterministiquement. Même discipline que la régénération de patch : le script doit tourner avant d'être commité.",
-   "residuel_assume": [
-    "15 items N-A au rejeu : 14 contrôles share-template rendus paresseusement dont les ids cibles ont changé avec le fix (élément absent honnête) + 1 th-has-data-cells (table sans <td> — revue manuelle légitime)",
-    "la modale #ur n'apparaît qu'avec urAccepted=0 — les audits la rejouent via l'état dédié ; verify la décline si présente"
-   ]
+  "nonCouvert": {
+    "etats": "7 catégories exclues listées dans states.json : modale upgrade (non déclenchable : upgradeInfo.newer faux), transferts en cours (dépend du cluster réel), pages d'erreur fatale, onboarding wizard (désactivé en config seed), dossiers en cours de scan, QR live camera, themes black (variante marginale de dark)",
+    "themes": "black non audité (proche de dark) ; default dépend de prefers-color-scheme → audité via dark + light explicitement",
+    "incomplets": "213 items axe incomplete — triage par sondes : color-contrast re-mesuré (RESOLVED), target-size bbox, éléments absents au rejeu = N-A explicite ; 0 CONFIRMED_VIOLATION"
   },
-  {
-   "verdict_v3": "PARTIAL (verdict-auditeur-v3.md, commit 6969252) — outillage v3 CONFIRMED à la lettre (STATES 45/45, sondes rejouées bit-identiques 198/15/0, verify 32/32, provenance 37/37) MAIS finding produit neuf : 39 occ color-contrast sur 25 états modaux en thème sombre — surface modale×dark jamais combinée (theme-dark ne scannait que le dashboard)",
-   "fixes": [
-    "patch gui/dark/assets/css/theme.css (régénéré depuis l'arbre appliqué+vérifié, splice recette) : nav-tabs li.active>a #3498db→#7fb3e0 (3.18→4.51:1 sur #424242), .btn-primary bg #217dbb→#145f93 (4.45→6.8:1) + hover #3498db→#1a6aa0 (5.81), .dropdown-menu>.active>a #217dbb→#145f93 !important (l'upstream !important battait la règle du patch sans !important), .fancytree-title #aaa→#d4d4d4 (4.32→10+:1)",
-    "5 états modale×sombre ajoutés (states.json + STATES, helper ensureDark idempotent) : settings-dark, edit-device-dark, edit-folder-sharing-dark, advanced-dark, actions-menu-dark — couvre tabs/fancytree/accordéon/dropdown en dark ; scan final-auth rejoué : 51 pages, 0 viol/0 err",
-    "verify.mjs : 3 assertions live mesurées (PUT theme=dark + restart → nav-tabs actif 4.5+, .btn-primary 4.5+, restauration light) — verify exécuté : 36 PASS / 0 FAIL",
-    "incomplete-probes.mjs : restauration explicite du thème clair en fin de run (les états *-dark laissent la config serveur en dark — CSRF header sur GET aussi) ; sondes rejouées : 227 items, 0 CONFIRMED_VIOLATION (les ~14 incomplets dark mesurés conformes 4.82–6.43:1)",
-    "scope-compare.json : extension de scope documentée (45→50 états, memeScopeHash=false justifié — sous-ensemble strict, aucun état retiré)"
-   ],
-   "verify_v4": "verify 36 PASS/0 FAIL live (dont 3 mesures sombres) ; sondes 227 RESOLVED/0 viol ; apply --check + grep sur clone propre @7ad73b40",
-   "residuel_assume": [
-    "5 états couvrent les familles de composants (tabs, arbre, accordéon, dropdown) — pas les 25 modales×dark exhaustives : le rejeu auditeur peut sonder d'autres combinaisons, toute occ trouvée resterait résiduel produit documenté",
-    "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
-   ]
+  "leconsHarnais": [
+    "AngularJS : pas de build frontend — le patch touche les sources servies ; STGUIASSETS=<repo>/gui permet la boucle dev sans re-générer ; install-build fait go generate + go build pour prouver l'embarqué",
+    "Thème syncthing : la bascule exige restart du serveur + hard-refresh (quirk mtime) — audit.mjs sonde la taille réelle de theme.css servi vs theme-assets/<nom>/ et recharge via CDP ignoreCache",
+    "fancytree = arbre en <table> : nœuds span.fancytree-node dans tr, sélection via dropdowns — pas de checkboxes",
+    "Bootstrap 3.4 : aria-expanded est posé sur la cible collapse ET le trigger à CHAQUE action → strip sur les 4 événements",
+    "CSRF : toute requête /rest sous cookie-auth exige l'en-tête X-CSRF-Token-<deviceIDShort> = valeur du cookie",
+    "menus fixed-top recouvrent le haut du contenu → axe target-size flag 'partially obscured' ; la marge dynamique (JS) est un vrai correctif produit, pas un contournement de scan"
+  ],
+  "artefacts": [
+    "manifest.json",
+    "states.json",
+    "results.json",
+    "patch.diff",
+    "scope-compare.json",
+    "provenance.json",
+    "tools/{audit,login,seed,verify,eval-final,incomplete-probes}.mjs|.sh",
+    "reports/{baseline,final,install-build}-{public,auth}/report.{md,json}",
+    "reports/eval-final.json",
+    "reports/incomplete-probes.json"
+  ],
+  "auditTiers": {
+    "verdict": "PARTIAL (v5, commit d291303) — fixer v6 livré, en attente ré-audit",
+    "findings_residuels": 0,
+    "session": "v5 audit a5376c73 → v6 fixer (partie 1 : 76f298a ; partie 2 : ce commit)"
   },
-  {
-   "round": "v4 PARTIAL → v5",
-   "auditeur_v4": "5d7100a — outillage v4 CONFIRMED live, mais provenance 11/37 stales + résiduels dark réels",
-   "fixes": [
-    "patch.diff gui/dark/assets/css/theme.css : .alert-info color #222→#fff (titre modale 3,41→4,67 mesuré live) ; .text-primary #3fa9f0→#7fb3e0 (4,35→6,71) ; h1..h6 small/.text-muted #777→#adadad (3,34→6,66) — git apply --check 0 rejet sur clone propre, grep des chaînes",
-    "2 états dark ajoutés : about-dark (famille alert-info) + folder-restore-versions-dark (famille fancytree — le fix .fancytree-title devient testé) ; 53 scénarios = 52 états + page de base",
-    "verify.mjs : +3 checks computed pour les paires qu'axe 'passe' à tort (titre alert-info, h1 small, .text-primary) + attente clair symétrique avec FAIL sur timeout ; exécuté live 39 PASS (le 1 FAIL = report.json v4 périmé, régénéré par rescan complet)",
-    "scope-compare.json régénéré : champs scopeHash/statesHash correctement étiquetés + detail.scenarios_final réel (52)",
-    "sondes incomplets rejouées sur instance réelle : 235 items → 234 RESOLVED / 1 N-A / 0 CONFIRMED_VIOLATION, thème restauré clair prouvé",
-    "rescan complet final-auth rejoué : 53 scénarios, 0 violation, 0 erreur, 235 incomplets — reports/ régénérés"
-   ],
-   "residuel_assume": "composant×thème couvert par famille (modales×dark : settings, editDevice, editFolder-sharing, advanced, actions-menu, about, restoreVersions) — pas exhaustif 25×dark ; autres alertes status=info dynamiques (#needed, #restarting…) même famille que la modale mesurée",
-   "provenance": "re-hachage systématique en DERNIER avant commit (leçon : reformaté≠rehaché — 11 fichiers obsolètes trouvés par l'auditeur)"
-  },
-  {
-   "round": "v5 PARTIAL → v6",
-   "auditeur_v5": "a5376c73/d291303 — patch + harnais rejoués CONFIRMED live (résiduels dark v4 tous mesurés ≥4,5, sondes 235→234R/1NA reproduites, restart POST prouvé) MAIS (a) régression WCAG 2.5.3 posée par le patch : label-content-name-mismatch ×52 sous axe 4.14 (aria-label « Language » vs texte « English » — aveugle sous le 4.13 épinglé du fixer) ; (b) provenance 14/39 = sha256 v4, 3e récidive (corrigée par l'auditeur) ; (c) install-build/eval-final/install-build.json périmés ère v4 (19 fichiers vs 20, 46 pages vs 53) ; (d) .progress .frontal #222 résiduel théorique ~3,6:1",
-   "fixes": [
-    "F1 (pré-livrée 76f298a) prouvée sous axe-core 4.14.0 installé en scratch ~/work/axe414 (npm i hors repo — minimumReleaseAge 7j respecté, leçon 30) : sonde A/B sur instance patchée, 4 surfaces (login public + dashboard + settings + ur-open auth) — AVANT état v5 : label-content-name-mismatch=1 sur chaque surface (accName « Language » vs texte « English ») ; APRÈS : 0 partout, accName « Language — English » ⊇ « English » ; + rescan complet 53 scénarios sous 4.14 : 0 violation (rapports officiels restent sous 4.13.0 épinglé — axeVersion:« 4.13.0 » dans scope/report.json)",
-    "F3 staleness : install-build REJOUÉ de bout en bout — clone propre @7ad73b408 → baseline-auth mesuré AVANT patch sur cette instance (16 règles/1352 occ/53 scénarios ; le baseline commité ère v4 couvrait 46) → git apply patch.diff (20 fichiers, 0 rejet) → go generate (gui.files.go 5 821 912 o) → go build (binaire 38 507 016 o) → serve :8484 en assets EMBARQUÉS (pas de STGUIASSETS) → rescan verbatim 53 scénarios : 0 violation / 0 erreur / 235 incomplets. eval-final régénéré sur l'instance patchée : 1358→0, exit 0. install-build.json + scope-compare.json réécrits (scopeHash baseline-auth == install-build-auth 240f664c… — mêmes 53 scénarios même port). Tous les reports/* régénérés portent axeVersion + statesHash.",
-    "F4 .progress .frontal : nœud réel prouvé rendable — injection scope AngularJS (needed={items:[progress]}, progress[folder][name]) → le template neededFilesModalView.html rend .frontal réel ; #222 sur barres translucides = aucune couleur plane ≥4,5 sur les 5 (blanc→2,57 jaune, noir→2,7 rouge) → corrigé color:#fff + chip rgba(0,0,0,.5) + text-shadow rgba(0,0,0,.8) → composite pire-cas mesuré 8,08:1 (barre jaune #c29d0b), 11,24–12,03:1 les autres — ≥4,5 partout ; patch.diff régénéré 20 fichiers +292/−131",
-    "F5 kit sync : audit.mjs du cycle = kit racine — scope.json/report.json portent axeVersion ; rapports régénérés écrivent « axeVersion »:« 4.13.0 »",
-    "verify.mjs durci contre 3 pièges réels trouvés en l'exécutant : POST /rest/system/restart pouvant mourir en vol ou partir sur un STALE config (debounced write) → PUT puis attente 1,5 s puis restart via page.evaluate ; CSRF-Token tourné à chaque boot (storage-state périmé) → re-tirage du restart sur page rechargée ; memory-cache du renderer servant l'ancien theme.css (mtime tarball identique — ni revalidation ni setCacheDisabled ne l'évincent) → Network.clearBrowserCache + Page.reload{ignoreCache:true}. Exécuté live : 40 PASS / 0 FAIL / 1 N-A.",
-    "F2 provenance : re-hash via boucle-continue/rehash-provenance.py exécuté EN DERNIER avant commit (le script échoue sur entrée sans fichier, avertit sur livré non listé)"
-   ],
-   "residuel_assume": "composant×thème couvert par famille (modales×dark) — pas exhaustif ; .progress .frontal ne se rend que sous transfert réel d'un pair en ligne : hors portée des 53 scénarios de la boucle hors-ligne, mesuré par sonde à scope injecté (DOM réel du template) ; axe 4.14 non pinéable dans le repo (minimumReleaseAge 7j) — preuve scratch documentée",
-   "provenance": "re-hachage systématique EN DERNIER avant commit via le script strict — 4e occurrence du wart, procédure tenue"
-  }
- ]
+  "corrections_post_audit_warts": [
+    {
+      "verdict_v1": "CONFIRMED avec 3 findings résiduels + 3 warts (verdict-auditeur.md)",
+      "fixes": [
+        "F1 2.1.1 : tabindex déplacé des h4 vers les 11 .panel-heading[role=button] + handler keydown Enter/Espace → trigger(click) dans app.js — accordéon #advanced désormais opérable au clavier",
+        "F2 1.4.1 : sélecteur de soulignement élargi à .modal-body a:not(.btn) — couvre les 12 liens Help adjacents aux labels et tout lien futur en contexte texte",
+        "F3 duplicate-id : id/label share-template dédupliqués par suffixe scope (sharedwith-{{id}}-s{{$id}}) — unique même quand folder.id est vide",
+        "F4 sonde : incomplete-probes.mjs rejoue désormais le setup de chaque état (STATES extrait d'audit.mjs, source unique) au lieu de sonder l'URL nue — les 124 items jamais re-mesurés le sont désormais ; sondes ajoutées pour link-in-text-block et th-has-data-cells",
+        "W1 provenance : re-hash complet régénéré (le manifest post-édition est couvert)",
+        "W2 seed.sh : ports st2/st3 paramétrables (ST2_GUI_PORT, ST2_LISTEN_PORT, ST3_GUI_PORT, ST3_LISTEN_PORT — défauts 8484/22001/8485/22002) — plus de collision avec un GUI auditeur"
+      ],
+      "verify_v2": "verify.mjs gagne 5 assertions dures codifiant les findings : en-têtes accordéon focusables, Entrée ouvre panneau 1, Espace ouvre panneau 2, 0 doublon sharedwith-* mesuré dans #editDevice/Sharing ouvert, liens d aide soulignés",
+      "residuel_assume": [
+        "l'élément <share-template id=\"\"> hôte garde un id vide quand folder.id est vide (id vide ≠ doublon axe ; l'attribut alimente le binding @id) — documenté",
+        "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
+      ]
+    },
+    {
+      "verdict_v2": "PARTIAL (verdict-auditeur-v2.md, commit 4782e3e) — les 4 fixes produit tous CONFIRMED réparés par rejeu (15/15 tabindex panel-headings, Enter+Espace ouvrent, 15/15 Help soulignés → link-in-text-block 12→0, sharedwith uniques → duplicate-id-aria 13→0, provenance 36/36, final 0 viol/0 err sur 2 pipelines) MAIS les fixes outillage livrés non exécutés : cassés déterministiquement",
+      "fixes": [
+        "audit.mjs : export { STATES } + garde CLI (fileURLToPath) — la sonde importe la source unique au lieu de l'eval-extraction qui échouait (185/188 ReferenceError : les setups référencent les helpers du module)",
+        "incomplete-probes.mjs : exécuté pour de vrai — 2 bugs réels trouvés : (a) les URLs enregistrées pointaient le port du worker (:8384) → goto mourait en silence, désormais réécrites sur le BASE passé ; (b) goto en échec avalé par catch → désormais N-A explicite 'navigation en échec'. Résultat rejoué : 198 RESOLVED mesurés / 15 N-A honnêtes",
+        "verify.mjs : exécuté pour de vrai — 3 bugs réels trouvés : (a) modale usage-report #ur (backdrop statique) bloque le premier boot → attendue puis déclinée ; (b) check liens Help mesurait une modale sans panneau ouvert → mesure désormais les liens VISIBLES d'un panneau accordéon ouvert (5-6 mesurés, tous soulignés) ; (c) .first() sur [data-target^=#device-] ouvrait #device-this déjà ouvert → :not([data-target=#device-this])",
+        "Résultat d'exécution : verify.mjs 32/32 PASS sur instance patchée réelle (seed complet : pending device + pending folder + dossiers/devices réels), incomplete-probes 0 CONFIRMED_VIOLATION"
+      ],
+      "lecon": "RÈGLE — jamais livrer un fix outillage/harnais non exécuté : le ré-audit l'a attrapé déterministiquement. Même discipline que la régénération de patch : le script doit tourner avant d'être commité.",
+      "residuel_assume": [
+        "15 items N-A au rejeu : 14 contrôles share-template rendus paresseusement dont les ids cibles ont changé avec le fix (élément absent honnête) + 1 th-has-data-cells (table sans <td> — revue manuelle légitime)",
+        "la modale #ur n'apparaît qu'avec urAccepted=0 — les audits la rejouent via l'état dédié ; verify la décline si présente"
+      ]
+    },
+    {
+      "verdict_v3": "PARTIAL (verdict-auditeur-v3.md, commit 6969252) — outillage v3 CONFIRMED à la lettre (STATES 45/45, sondes rejouées bit-identiques 198/15/0, verify 32/32, provenance 37/37) MAIS finding produit neuf : 39 occ color-contrast sur 25 états modaux en thème sombre — surface modale×dark jamais combinée (theme-dark ne scannait que le dashboard)",
+      "fixes": [
+        "patch gui/dark/assets/css/theme.css (régénéré depuis l'arbre appliqué+vérifié, splice recette) : nav-tabs li.active>a #3498db→#7fb3e0 (3.18→4.51:1 sur #424242), .btn-primary bg #217dbb→#145f93 (4.45→6.8:1) + hover #3498db→#1a6aa0 (5.81), .dropdown-menu>.active>a #217dbb→#145f93 !important (l'upstream !important battait la règle du patch sans !important), .fancytree-title #aaa→#d4d4d4 (4.32→10+:1)",
+        "5 états modale×sombre ajoutés (states.json + STATES, helper ensureDark idempotent) : settings-dark, edit-device-dark, edit-folder-sharing-dark, advanced-dark, actions-menu-dark — couvre tabs/fancytree/accordéon/dropdown en dark ; scan final-auth rejoué : 51 pages, 0 viol/0 err",
+        "verify.mjs : 3 assertions live mesurées (PUT theme=dark + restart → nav-tabs actif 4.5+, .btn-primary 4.5+, restauration light) — verify exécuté : 36 PASS / 0 FAIL",
+        "incomplete-probes.mjs : restauration explicite du thème clair en fin de run (les états *-dark laissent la config serveur en dark — CSRF header sur GET aussi) ; sondes rejouées : 227 items, 0 CONFIRMED_VIOLATION (les ~14 incomplets dark mesurés conformes 4.82–6.43:1)",
+        "scope-compare.json : extension de scope documentée (45→50 états, memeScopeHash=false justifié — sous-ensemble strict, aucun état retiré)"
+      ],
+      "verify_v4": "verify 36 PASS/0 FAIL live (dont 3 mesures sombres) ; sondes 227 RESOLVED/0 viol ; apply --check + grep sur clone propre @7ad73b40",
+      "residuel_assume": [
+        "5 états couvrent les familles de composants (tabs, arbre, accordéon, dropdown) — pas les 25 modales×dark exhaustives : le rejeu auditeur peut sonder d'autres combinaisons, toute occ trouvée resterait résiduel produit documenté",
+        "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
+      ]
+    },
+    {
+      "round": "v4 PARTIAL → v5",
+      "auditeur_v4": "5d7100a — outillage v4 CONFIRMED live, mais provenance 11/37 stales + résiduels dark réels",
+      "fixes": [
+        "patch.diff gui/dark/assets/css/theme.css : .alert-info color #222→#fff (titre modale 3,41→4,67 mesuré live) ; .text-primary #3fa9f0→#7fb3e0 (4,35→6,71) ; h1..h6 small/.text-muted #777→#adadad (3,34→6,66) — git apply --check 0 rejet sur clone propre, grep des chaînes",
+        "2 états dark ajoutés : about-dark (famille alert-info) + folder-restore-versions-dark (famille fancytree — le fix .fancytree-title devient testé) ; 53 scénarios = 52 états + page de base",
+        "verify.mjs : +3 checks computed pour les paires qu'axe 'passe' à tort (titre alert-info, h1 small, .text-primary) + attente clair symétrique avec FAIL sur timeout ; exécuté live 39 PASS (le 1 FAIL = report.json v4 périmé, régénéré par rescan complet)",
+        "scope-compare.json régénéré : champs scopeHash/statesHash correctement étiquetés + detail.scenarios_final réel (52)",
+        "sondes incomplets rejouées sur instance réelle : 235 items → 234 RESOLVED / 1 N-A / 0 CONFIRMED_VIOLATION, thème restauré clair prouvé",
+        "rescan complet final-auth rejoué : 53 scénarios, 0 violation, 0 erreur, 235 incomplets — reports/ régénérés"
+      ],
+      "residuel_assume": "composant×thème couvert par famille (modales×dark : settings, editDevice, editFolder-sharing, advanced, actions-menu, about, restoreVersions) — pas exhaustif 25×dark ; autres alertes status=info dynamiques (#needed, #restarting…) même famille que la modale mesurée",
+      "provenance": "re-hachage systématique en DERNIER avant commit (leçon : reformaté≠rehaché — 11 fichiers obsolètes trouvés par l'auditeur)"
+    },
+    {
+      "round": "v5 PARTIAL → v6",
+      "auditeur_v5": "a5376c73/d291303 — patch + harnais rejoués CONFIRMED live (résiduels dark v4 tous mesurés ≥4,5, sondes 235→234R/1NA reproduites, restart POST prouvé) MAIS (a) régression WCAG 2.5.3 posée par le patch : label-content-name-mismatch ×52 sous axe 4.14 (aria-label « Language » vs texte « English » — aveugle sous le 4.13 épinglé du fixer) ; (b) provenance 14/39 = sha256 v4, 3e récidive (corrigée par l'auditeur) ; (c) install-build/eval-final/install-build.json périmés ère v4 (19 fichiers vs 20, 46 pages vs 53) ; (d) .progress .frontal #222 résiduel théorique ~3,6:1",
+      "fixes": [
+        "F1 (pré-livrée 76f298a) prouvée sous axe-core 4.14.0 installé en scratch ~/work/axe414 (npm i hors repo — minimumReleaseAge 7j respecté, leçon 30) : sonde A/B sur instance patchée, 4 surfaces (login public + dashboard + settings + ur-open auth) — AVANT état v5 : label-content-name-mismatch=1 sur chaque surface (accName « Language » vs texte « English ») ; APRÈS : 0 partout, accName « Language — English » ⊇ « English » ; + rescan complet 53 scénarios sous 4.14 : 0 violation (rapports officiels restent sous 4.13.0 épinglé — axeVersion:« 4.13.0 » dans scope/report.json)",
+        "F3 staleness : install-build REJOUÉ de bout en bout — clone propre @7ad73b408 → baseline-auth mesuré AVANT patch sur cette instance (16 règles/1352 occ/53 scénarios ; le baseline commité ère v4 couvrait 46) → git apply patch.diff (20 fichiers, 0 rejet) → go generate (gui.files.go 5 821 912 o) → go build (binaire 38 507 016 o) → serve :8484 en assets EMBARQUÉS (pas de STGUIASSETS) → rescan verbatim 53 scénarios : 0 violation / 0 erreur / 235 incomplets. eval-final régénéré sur l'instance patchée : 1358→0, exit 0. install-build.json + scope-compare.json réécrits (scopeHash baseline-auth == install-build-auth 240f664c… — mêmes 53 scénarios même port). Tous les reports/* régénérés portent axeVersion + statesHash.",
+        "F4 .progress .frontal : nœud réel prouvé rendable — injection scope AngularJS (needed={items:[progress]}, progress[folder][name]) → le template neededFilesModalView.html rend .frontal réel ; #222 sur barres translucides = aucune couleur plane ≥4,5 sur les 5 (blanc→2,57 jaune, noir→2,7 rouge) → corrigé color:#fff + chip rgba(0,0,0,.5) + text-shadow rgba(0,0,0,.8) → composite pire-cas mesuré 8,08:1 (barre jaune #c29d0b), 11,24–12,03:1 les autres — ≥4,5 partout ; patch.diff régénéré 20 fichiers +292/−131",
+        "F5 kit sync : audit.mjs du cycle = kit racine — scope.json/report.json portent axeVersion ; rapports régénérés écrivent « axeVersion »:« 4.13.0 »",
+        "verify.mjs durci contre 3 pièges réels trouvés en l'exécutant : POST /rest/system/restart pouvant mourir en vol ou partir sur un STALE config (debounced write) → PUT puis attente 1,5 s puis restart via page.evaluate ; CSRF-Token tourné à chaque boot (storage-state périmé) → re-tirage du restart sur page rechargée ; memory-cache du renderer servant l'ancien theme.css (mtime tarball identique — ni revalidation ni setCacheDisabled ne l'évincent) → Network.clearBrowserCache + Page.reload{ignoreCache:true}. Exécuté live : 40 PASS / 0 FAIL / 1 N-A.",
+        "F2 provenance : re-hash via boucle-continue/rehash-provenance.py exécuté EN DERNIER avant commit (le script échoue sur entrée sans fichier, avertit sur livré non listé)"
+      ],
+      "residuel_assume": "composant×thème couvert par famille (modales×dark) — pas exhaustif ; .progress .frontal ne se rend que sous transfert réel d'un pair en ligne : hors portée des 53 scénarios de la boucle hors-ligne, mesuré par sonde à scope injecté (DOM réel du template) ; axe 4.14 non pinéable dans le repo (minimumReleaseAge 7j) — preuve scratch documentée",
+      "provenance": "re-hachage systématique EN DERNIER avant commit via le script strict — 4e occurrence du wart, procédure tenue"
+    }
+  ],
+  "fixes_post_audit": [
+    "v7-wart : résidu amont .progress span.frontal thème clair (3,41:1 mesuré live sur rgb(155,89,182) progress-bar-info + 4,16:1 sur danger) corrigé dans overrides.css : color #fff + chip rgba(0,0,0,.6) + text-shadow — composite pire-cas live 5,89:1 (warning), 7,01–11,35 ailleurs ; patch.diff régénéré splice + git apply --check sur worktree propre @7ad73b408"
+  ]
 }
