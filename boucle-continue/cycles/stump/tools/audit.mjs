@@ -220,6 +220,35 @@ export const STATES = {
       await page.waitForTimeout(500);
     },
   },
+  'api-key-create-modal': {
+    // F-v2 (cycle 34 v3) : la modale « Create API key » monte le DatePicker
+    // (famille trigger→<div> corrigée — couvre le fix sur une route in-scope).
+    url: b => `${b}/settings/api-keys`,
+    setup: async page => {
+      const trigger = page.getByRole('button', { name: 'Create API key' }).first();
+      await trigger.waitFor({ state: 'visible', timeout: 15000 });
+      await trigger.click();
+      await page.waitForSelector('[role="dialog"]', { state: 'visible', timeout: 10000 });
+      // le DatePicker est hors du <Form> mais monté par la modale
+      await page.waitForSelector('[role="dialog"] button:has(svg[class*="lucide"])', { state: 'visible', timeout: 10000 }).catch(() => {});
+      await page.waitForTimeout(400);
+    },
+  },
+  'login-activity-pagination': {
+    // F-v2 (cycle 34 v3) : la pagination numérique (PagePopoverForm) ne rend
+    // l'ellipsis trigger qu'avec >~10 pages — le seed peuple ≥125 entrées de
+    // login activity (POST /auth/login réels) pour la rendre. L'état ouvre le
+    // popover « Go to page » (trigger Button corrigé, pas de <div>).
+    url: b => `${b}/settings/users`,
+    setup: async page => {
+      const trigger = page.locator('button[aria-label="Go to page"]').first();
+      await trigger.waitFor({ state: 'visible', timeout: 20000 });
+      await trigger.scrollIntoViewIfNeeded();
+      await trigger.click();
+      await page.waitForSelector('[role="dialog"], [data-radix-popover-content-wrapper], form[id^="pagination-page-entry-form"]', { state: 'visible', timeout: 10000 });
+      await page.waitForTimeout(400);
+    },
+  },
   'dark-theme': {
     // Mutation CLIENT-SIDE de la classe html (useApplyTheme applique le thème
     // via classList) — fidèle au CSS 'dark' réel sans persister la préférence

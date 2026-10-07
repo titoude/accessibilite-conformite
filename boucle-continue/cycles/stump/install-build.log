@@ -52,3 +52,32 @@ donc que le backend/db de l'ib — pas son build front.
    déterministe v2, non db-dépendante)
    -> REPLAY OK : le patch reproduit 0 violation sur un build
       indépendant qui sert RÉELLEMENT sa propre dist.
+
+=== rejeu v3 (fixer v3, ports :19335) ===
+1. git clone ~/work/stump ~/work/stump-ib (reset propre)
+2. git checkout 42a9918c1542234aa35dc4250cd00e85f96c7031
+3. git apply --check /tmp/patch-v3.diff -> 0 rejet ; git apply ->
+   137 modifiés + 1 supprimé (138 entrées dans le patch)
+4. yarn install --frozen-lockfile -> exit 0 (~90s)
+5. yarn web build (vite, lerna --scope @stump/web) -> exit 0 ~20s,
+   ~/work/stump-ib/apps/web/dist
+6. cargo build -p stump_server DANS ~/work/stump-ib -> exit 0 ~4m20s ;
+   le binaire sert SA dist (STUMP_CLIENT_DIR gravé compile-time —
+   mécanisme inchangé, cf. note ci-dessus)
+7. STUMP_CONFIG_DIR=~/boucle-runs/stump-ib/config STUMP_PORT=19335
+   ./target/debug/stump_server -> 200
+8. seed.mjs http://localhost:19335 ~/work/stump-ib ~/boucle-runs/stump-ib
+   -> register 200, 9 media READY dont 2 oneshots,
+   login-activity top-up -> 125 lignes, exit 0 ;
+   UUIDs réécrits (13 refs) vers les valeurs épinglées des probes/urls
+9. login.mjs http://localhost:19335 auth-ib.json -> OK
+10. re-scan complet sur :19335 (SA dist, SA db, SON binaire) :
+    install-build-public : /auth + login-failed
+        -> 0 règle / 0 occurrence / 0 erreur / 2 incomplets
+    install-build-auth : 42 urls + 11 states = 53 scénarios
+        -> 0 règle / 0 occurrence / 0 erreur / 138 incomplets
+    incomplete-probes-ib : 140 sondes -> 140 conformes,
+        0 non conformes, 0 non retrouvées
+    -> REPLAY v3 OK : patch-v3 reproduit 0 violation sur un build
+       indépendant, y compris les 2 nouveaux états
+       (api-key-create-modal, login-activity-pagination).

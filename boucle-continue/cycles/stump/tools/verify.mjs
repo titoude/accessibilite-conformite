@@ -351,6 +351,47 @@ for (const b of badge) {
     await anon.close();
 }
 
+// ── 13. F-v2 : triggers Radix → élément interactif, jamais <div> ────────────
+// api-keys : la modale « Create API key » monte le DatePicker — son trigger
+// doit être un <button> (avant : <div> recevait aria-haspopup → 1
+// aria-allowed-attr mesuré par le re-audit v2).
+await page.goto(`${base}/settings/api-keys`, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(900);
+await page.getByRole('button', { name: 'Create API key' }).first().click();
+await page.waitForSelector('[role="dialog"]', { state: 'visible', timeout: 10000 });
+const apiModal = await page.evaluate(() => ({
+    divPopup: document.querySelectorAll('div[aria-haspopup], div[aria-expanded]').length,
+    dateTriggerBtn: [...document.querySelectorAll('button[aria-haspopup="dialog"]')].length,
+}));
+ok('api-keys modal: aucun <div> porteur aria-haspopup/expanded', apiModal.divPopup === 0, JSON.stringify(apiModal));
+ok('api-keys modal: trigger DatePicker est un <button>', apiModal.dateTriggerBtn >= 1, JSON.stringify(apiModal));
+await page.keyboard.press('Escape');
+
+// users : la table login-activity (≥125 lignes seedées) pagine → l'ellipsis
+// PagePopoverForm est un <button> nommé ; ouvert → le formulaire porte un
+// input labellé (label htmlFor ↔ id via composant Input).
+await page.goto(`${base}/settings/users`, { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(1200);
+const pag = await page.evaluate(() => ({
+    goToPageBtn: document.querySelectorAll('button[aria-label="Go to page"]').length,
+    divPopup: document.querySelectorAll('div[aria-haspopup], div[aria-expanded]').length,
+}));
+ok('login-activity: ellipsis de pagination = bouton nommé', pag.goToPageBtn >= 1, JSON.stringify(pag));
+ok('login-activity: aucun <div> aria-haspopup/expanded', pag.divPopup === 0, JSON.stringify(pag));
+if (pag.goToPageBtn) {
+    await page.locator('button[aria-label="Go to page"]').first().click();
+    await page.waitForSelector('form[id^="pagination-page-entry-form"]', { state: 'visible', timeout: 8000 });
+    const pop = await page.evaluate(`${BROWSER_HELPERS}
+        (() => {
+            const input = document.querySelector('form[id^="pagination-page-entry-form"] input');
+            return { form: !!document.querySelector('form[id^="pagination-page-entry-form"]'), named: input ? !!accName(input) : null };
+        })()
+    `);
+    ok('PagePopoverForm: popover ouvert', pop.form, JSON.stringify(pop));
+    ok('PagePopoverForm: input « Jump to another page » nommé', pop.named === true, JSON.stringify(pop));
+    await page.keyboard.press('Escape');
+} else na('PagePopoverForm', 'ellipsis non rendu (login-activity insuffisante ?)');
+
 const passed = results.filter(r => r.pass && !r.verdict).length;
 const nas = results.filter(r => r.verdict === 'N-A').length;
 const failed = results.filter(r => !r.pass).length;

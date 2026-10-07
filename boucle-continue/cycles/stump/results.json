@@ -48,27 +48,28 @@
   "violations_occ": 0,
   "violations_regles": 0,
   "erreurs": 0,
-  "incomplets": 132,
+  "incomplets": 138,
   "public": {
    "violations_occ": 0
   },
-  "note_v2": "final-public : 0/0/0/2 ; final-auth : 51 scénarios (42 urls + 9 states) 0/0/0/130 — dist rebuildée depuis sources patchées v2"
+  "note_v2": "final-public : 0/0/0/2 ; final-auth : 51 scénarios (42 urls + 9 states) 0/0/0/130 — dist rebuildée depuis sources patchées v2",
+  "note_v3": "final-public : 0/0/0/2 ; final-auth : 53 scénarios (42 urls + 11 states — +api-key-create-modal, +login-activity-pagination) 0/0/0/138 — dist rebuildée depuis sources patchées v3 (fixer v3 : DatePicker/Pagination/NextInSeries trigger→div résiduels + PagePopoverForm aria-label). Ports fixer-v3 :19334."
  },
  "incomplete_probes": {
-  "sondes": 132,
-  "conformes": 132,
+  "sondes": 140,
+  "conformes": 140,
   "non_conformes": 0,
   "non_retrouvees": 0,
   "n_a_honnetes": 0,
-  "detail": "132 sondes toutes conformes (v2 : sonde h1 bg-clip:text corrigée — mesure le pire stop de dégradé vs fond, 3.01:1 ≥ 3:1 large-text, au lieu du faux « alpha~0 non rendu »). install-build : 133 sondes → 133 conformes."
+  "detail": "140 sondes toutes conformes (v2 : sonde h1 bg-clip:text corrigée — mesure le pire stop de dégradé vs fond, 3.01:1 ≥ 3:1 large-text, au lieu du faux « alpha~0 non rendu »). install-build : 140 sondes → 140 conformes. v3 : 8 sondes nouvelles issues des 2 états ajoutés (api-key-create-modal 4, login-activity-pagination 2, ajustements adjacents) — toutes résolues dont les aria-valid-attr-value Radix (popup montée à l'ouverture)."
  },
  "final_clean_clone": {
   "violations_occ": 0,
-  "note": "v2 HONNÊTE : clone ~/work/stump-ib @42a9918 + git apply (136 fichiers, 0 rejet) + yarn install + yarn web build + cargo build -p stump_server DANS le clone ib (~3m36s) — debug_setup() grave STUMP_CLIENT_DIR=CARGO_MANIFEST_DIR/../web/dist dans le binaire (compile-time, prime sur toml ET env shell ; preuve strings). :11335 sert donc SA propre dist. Rescan : public 0/0/0/2, auth 51 scans 0/0/0/131, probes-ib 133/133, verify 40P/1N-A/0F. (v1 servait par erreur la dist du clone principal — mécanisme corrigé et documenté)."
+  "note": "v3 rejoué : clone ~/work/stump-ib @42a9918 + git apply patch-v3 (138 fichiers, 0 rejet) + yarn install + yarn web build + cargo build -p stump_server DANS le clone ib (~4m20s) — debug_setup() grave STUMP_CLIENT_DIR=CARGO_MANIFEST_DIR/../web/dist dans le binaire. :19335 sert SA propre dist. Rescan : public 0/0/0/2, auth 53 scans 0/0/0/138, probes-ib 140/140. (v2 : mécanisme corrigé et documenté — build dans le clone, jamais le binaire d'ailleurs.)"
  },
- "verify_mjs": "41 assertions : 40 PASS / 1 N-A (text-warning jamais rendu — famille absente de la db seedée) / 0 FAIL — v2 : 3 assertions déterministes (une par famille de badge, pire ratio ≥4.5) au lieu du comptage db-dépendant",
- "eval_final_mjs": "38/38 contrôles indépendants (3 N-A honnêtes) — inchangé, rejoué post-v2",
- "install_build": "OK v2 — clone ib buildé de bout en bout DANS son clone (yarn + vite + cargo 3m36s), sert sa propre dist (preuve strings), rescan 0 viol 53 scénarios, probes 133/133 (install-build.log réécrit avec le mécanisme réel)",
+ "verify_mjs": "47 assertions : 46 PASS / 1 N-A (text-warning jamais rendu — famille absente de la db seedée) / 0 FAIL — v3 : +6 assertions F-v2 (api-keys modal : 0 div aria-haspopup + trigger DatePicker=<button> ; login-activity : ellipsis=<button> nommé + 0 div popup + PagePopoverForm ouvert + input labellé)",
+ "eval_final_mjs": "38/38 contrôles indépendants (3 N-A honnêtes) — rejoué post-v3 sur :19334",
+ "install_build": "OK v3 — clone ib buildé de bout en bout DANS son clone (yarn + vite + cargo 4m20s), sert sa propre dist, rescan 0 viol 53 scénarios, probes 140/140",
  "causes_racines": [
   {
    "famille": "noms accessibles boutons-icônes",
@@ -118,6 +119,17 @@
     "pages sans h1 (empty-heading/page-has-heading-one), region manquants, main unique"
    ],
    "fix": "h1 réels + landmarks"
+  },
+  {
+   "famille": "triggers Radix sur éléments non-interactifs (résidus v2)",
+   "files": [
+    "packages/components/src/calendar/DatePicker.tsx (PopoverTrigger asChild porté sur le <div> layout — rendu dans CreateAPIKeyModal, surface prouvée /settings/api-keys)",
+    "packages/browser/src/components/Pagination.tsx (trigger={<div><button/></div>} — composant mort mais pattern réel)",
+    "packages/browser/src/components/table/Pagination.tsx (ellipsis PagePopoverForm : <Button size=icon> sans nom accessible — surface latente >10 pages)",
+    "packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx (trigger <div> pour Popover+HoverCard — hors scope, préventif)",
+    "packages/browser/src/components/PagePopoverForm.tsx (Popover.Content role=dialog sans nom — découvert par le nouvel état login-activity-pagination)"
+   ],
+   "fix": "trigger <Button>/<button> nommé direct (Radix injecte aria-haspopup/expanded/controls via asChild — un <div> les reçoit illégalement) ; Popover.Content aria-label « Jump to another page »"
   }
  ],
  "corrections_post_audit_warts": {
@@ -152,6 +164,32 @@
    "statut": "corrigé",
    "correctif": "ComboBox.tsx : useId() → Popover.Trigger aria-controls={open?listboxId:undefined} + Popover.Content id={listboxId} (Radix 1.1.1 spread triggerProps/contentProps après les défauts → surchargeable).",
    "rejeu": "baseline-newscope : 1× aria-valid-attr-value (combobox fermé) → final 0 ; probes idref 132/132 + 133/133."
+  },
+  "v3": {
+   "version": "v3",
+   "verdict_source": "verdict-auditeur-v2.md @b64058f — CONFIRMED + findings non-bloquants F-v2 (famille trigger→<div>, ≥2 sites) + wart provenance",
+   "F_v2_sites": {
+    "statut": "corrigé + mesuré live",
+    "correctif": "4 sites trigger→<div>/sans-nom corrigés (voir causes_racines). DatePicker : PopoverTrigger asChild déplacé du <div> layout sur le <Button> ; composant mort Pagination.tsx : trigger={<button aria-label>} direct ; table/Pagination.tsx : ellipsis Button + aria-label « Go to page » ; NextInSeries : <button type=button aria-label i18n>.",
+    "rejeu": "sonde live : modale « Create API key » ouverte → 0 aria-allowed-attr (0 div aria-haspopup/expanded, 9 boutons popup) ; pagination peuplée → ellipsis <button aria-label> + popover nommé, 0 viol."
+   },
+   "F_v2_etats": {
+    "statut": "corrigé + exécuté",
+    "correctif": "2 états ajoutés : api-key-create-modal (ouvre la modale Create API key → DatePicker dans le scope axe) + login-activity-pagination (seed top-up user_login_activity → 125 lignes, table pageSize 10 → 13 pages → ellipsis rendu, clic → PagePopoverForm ouvert). Mutants dark-theme/mobile-nav toujours en dernier.",
+    "rejeu": "final-auth 53 scénarios : [state:api-key-create-modal] 0 viol/2 inc ; [state:login-activity-pagination] 0 viol/2 inc — les 2 surfaces scannées."
+   },
+   "F_v2_chasse": {
+    "statut": "corrigé",
+    "correctif": "chasse exhaustive grep/AST-lite sur packages/{browser,components,client}/src : trigger={<div…}, asChild><div>, const X=<div>…Trigger — 4 sites corrigés (3 listés + NextInSeries préventif). PagePopoverForm accepte asChild=typeof trigger!=='string' ; DropdownMenu/Sheet renderTrigger : patterns OK."
+   },
+   "wart_provenance": {
+    "statut": "corrigé",
+    "correctif": "tools/package-lock.json retiré de provenance.excluded[] (reste dans files{} avec son hash) — plus de doublon files∩excluded."
+   },
+   "bonus_aria_dialog_name": {
+    "statut": "corrigé (finding découvert par le nouvel état)",
+    "correctif": "PagePopoverForm : Popover.Content role=dialog sans nom accessible → aria-dialog-name×1 quand l'ellipsis ouvre le popover — jamais mesuré avant v3 (surface jamais peuplée). aria-label « Jump to another page » (même texte que le label de l'input)."
+   }
   }
  }
 }

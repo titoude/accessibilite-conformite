@@ -66,22 +66,42 @@ index 2c142258..3713290d 100644
  							>
  								<ChevronRight className="h-4 w-4" />
  							</Button>
+diff --git a/packages/browser/src/components/PagePopoverForm.tsx b/packages/browser/src/components/PagePopoverForm.tsx
+index bb215882..7b1c224a 100644
+--- a/packages/browser/src/components/PagePopoverForm.tsx
++++ b/packages/browser/src/components/PagePopoverForm.tsx
+@@ -68,7 +68,7 @@ export default function PagePopoverForm({
+ 	return (
+ 		<Popover open={isOpen} onOpenChange={handleOpenChange}>
+ 			<Popover.Trigger asChild={typeof trigger !== 'string'}>{trigger}</Popover.Trigger>
+-			<Popover.Content size="md">
++			<Popover.Content size="md" aria-label="Jump to another page">
+ 				<div className="gap-2 flex flex-col">
+ 					<Form id={`pagination-page-entry-form-${pos}`} form={form} onSubmit={handleSubmit}>
+ 						<Input
 diff --git a/packages/browser/src/components/Pagination.tsx b/packages/browser/src/components/Pagination.tsx
-index 6edc9e72..507cd4e3 100644
+index 6edc9e72..3a0f2981 100644
 --- a/packages/browser/src/components/Pagination.tsx
 +++ b/packages/browser/src/components/Pagination.tsx
-@@ -166,7 +166,10 @@ export default function Pagination({
+@@ -165,11 +165,13 @@ export default function Pagination({
+ 									totalPages={pages}
  									onPageChange={handleEllipsisNavigate}
  									trigger={
- 										<div className="-mt-1">
+-										<div className="-mt-1">
 -											<button className="px-4 pt-4 text-xs font-medium md:text-sm flex items-center border-t-2 border-transparent text-muted-foreground hover:border-border focus:outline-none">
-+											<button
-+												className="px-4 pt-4 text-xs font-medium md:text-sm flex items-center border-t-2 border-transparent text-muted-foreground hover:border-border focus:outline-none"
-+												aria-label="Go to page"
-+											>
- 												<MoreHorizontal className="h-4 w-4" />
- 											</button>
- 										</div>
+-												<MoreHorizontal className="h-4 w-4" />
+-											</button>
+-										</div>
++										<button
++											type="button"
++											className="-mt-1 px-4 pt-4 text-xs font-medium md:text-sm flex items-center border-t-2 border-transparent text-muted-foreground hover:border-border focus:outline-none"
++											aria-label="Go to page"
++										>
++											<MoreHorizontal className="h-4 w-4" />
++										</button>
+ 									}
+ 								/>
+ 							)
 diff --git a/packages/browser/src/components/TableOrGridLayout.tsx b/packages/browser/src/components/TableOrGridLayout.tsx
 index b403a6fc..5ad00699 100644
 --- a/packages/browser/src/components/TableOrGridLayout.tsx
@@ -684,7 +704,7 @@ index c3daeb54..03557cfb 100644
  					{t('sidebar.buttons.smartlists')}
  				</Accordion.Trigger>
 diff --git a/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx b/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx
-index 35356374..2a7e9f5b 100644
+index 35356374..be0493ad 100644
 --- a/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx
 +++ b/packages/browser/src/components/readers/imageBased/container/NextInSeries.tsx
 @@ -43,6 +43,7 @@ export default function NextInSeries() {
@@ -703,6 +723,26 @@ index 35356374..2a7e9f5b 100644
  					/>
  
  					<ButtonOrLink variant="secondary" href={paths.bookReader(nextInSeries.id)}>
+@@ -66,13 +68,17 @@ export default function NextInSeries() {
+ 		)
+ 
+ 		const trigger = (
+-			<div className="bg-black/30 p-2 backdrop-blur-sm md:bg-black/5 cursor-pointer rounded-full border border-[#898d9480] transition-all duration-200 hover:border-[#898d94]">
++			<button
++				type="button"
++				aria-label={t('bookOverviewScene.nextInSeries')}
++				className="bg-black/30 p-2 backdrop-blur-sm md:bg-black/5 cursor-pointer rounded-full border border-[#898d9480] transition-all duration-200 hover:border-[#898d94]"
++			>
+ 				<ArrowRight
+ 					className={cn('h-6 w-6 text-white', {
+ 						'rotate-180 transform': readingDirection === ReadingDirection.Rtl,
+ 					})}
+ 				/>
+-			</div>
++			</button>
+ 		)
+ 
+ 		if (isMobile) {
 diff --git a/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx b/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx
 index bafd9302..1a1aca28 100644
 --- a/packages/browser/src/components/readers/imageBased/container/SettingsDialog.tsx
@@ -976,7 +1016,7 @@ index e38ef527..f396d3d3 100644
  					</IconButton>
  				</ToolTip>
 diff --git a/packages/browser/src/components/table/Pagination.tsx b/packages/browser/src/components/table/Pagination.tsx
-index 5a79fe55..aba7e267 100644
+index 5a79fe55..df5e599e 100644
 --- a/packages/browser/src/components/table/Pagination.tsx
 +++ b/packages/browser/src/components/table/Pagination.tsx
 @@ -44,6 +44,7 @@ export default function TablePagination({
@@ -987,6 +1027,15 @@ index 5a79fe55..aba7e267 100644
  			>
  				<ArrowLeft className="h-4 w-4" />
  			</Button>
+@@ -69,7 +70,7 @@ export default function TablePagination({
+ 						totalPages={pages}
+ 						onPageChange={onChangePage}
+ 						trigger={
+-							<Button size="icon" className="h-5 w-5">
++							<Button size="icon" className="h-5 w-5" aria-label="Go to page">
+ 								<MoreHorizontal className="h-4 w-4" />
+ 							</Button>
+ 						}
 @@ -84,6 +85,7 @@ export default function TablePagination({
  				onClick={() => onChangePage(currentPage + 1)}
  				onMouseEnter={onPrefetchPage ? () => onPrefetchPage(currentPage + 1) : undefined}
@@ -2019,6 +2068,50 @@ index 29950bd8..8802908c 100644
  	outline:
  		'border-border bg-input/30 hover:bg-input/50 hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground',
  	secondary:
+diff --git a/packages/components/src/calendar/DatePicker.tsx b/packages/components/src/calendar/DatePicker.tsx
+index f68fc5af..163d6f34 100644
+--- a/packages/components/src/calendar/DatePicker.tsx
++++ b/packages/components/src/calendar/DatePicker.tsx
+@@ -35,17 +35,17 @@ export function DatePicker({
+ }: DatePickerProps) {
+ 	return (
+ 		<Popover>
+-			<PopoverTrigger asChild>
+-				<div
+-					className={cn(
+-						'w-70',
+-						{
+-							'gap-1.5 flex flex-col': !!label,
+-						},
+-						className,
+-					)}
+-				>
+-					{label && <Label>{label}</Label>}
++			<div
++				className={cn(
++					'w-70',
++					{
++						'gap-1.5 flex flex-col': !!label,
++					},
++					className,
++				)}
++			>
++				{label && <Label>{label}</Label>}
++				<PopoverTrigger asChild>
+ 					<Button
+ 						variant="outline"
+ 						type="button"
+@@ -57,8 +57,8 @@ export function DatePicker({
+ 						<CalendarIcon className="mr-2 h-4 w-4" />
+ 						{selected ? format(selected, 'PPP') : <span>{placeholder || 'Pick a date'}</span>}
+ 					</Button>
+-				</div>
+-			</PopoverTrigger>
++				</PopoverTrigger>
++			</div>
+ 			<PopoverContent className="p-0 w-auto" align={popover?.align} portal={popover?.portal}>
+ 				<Calendar
+ 					mode="single"
 diff --git a/packages/components/src/context-menu/ContextMenu.tsx b/packages/components/src/context-menu/ContextMenu.tsx
 index 2a9e5228..fbd34bf7 100644
 --- a/packages/components/src/context-menu/ContextMenu.tsx

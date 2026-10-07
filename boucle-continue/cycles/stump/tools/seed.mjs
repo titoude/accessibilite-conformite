@@ -123,3 +123,20 @@ const { media: { nodes: media } } = await gql('{media{nodes{id name status}}}');
 const { series: { nodes: series } } = await gql('{series{nodes{id name}}}');
 console.log('[seed] series:', series.map(s => s.name).join(' | '));
 console.log('[seed] media:', media.map(m => `${m.name}(${m.status})`).join(' | '));
+
+// ── 6. login activity : remplir jusqu'à ≥125 lignes pour que la table de
+// /settings/users pagine (pageSize 10) et rende l'ellipsis PagePopoverForm —
+// la surface du fix F-v2 Pagination n'existe qu'au-delà de ~10 pages.
+// Chaque POST /auth/login réussi insère une vraie ligne user_login_activity.
+const TARGET_ACTIVITY = 125;
+const { loginActivity } = await gql('{loginActivity{id}}').catch(() => ({ loginActivity: [] }));
+const missing = TARGET_ACTIVITY - (loginActivity?.length || 0);
+if (missing > 0) {
+  for (let i = 0; i < missing; i++) {
+    const r = await fetch(`${base}/api/v2/auth/login`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ username: USER, password: PASS }), redirect: 'manual' });
+    if (!r.ok && r.status !== 200 && r.status !== 302) { console.error('[seed] login activity: HTTP', r.status); process.exit(1); }
+  }
+  console.log(`[seed] login activity : ${missing} lignes ajoutées → ${TARGET_ACTIVITY} total`);
+} else {
+  console.log(`[seed] login activity : ${loginActivity.length} lignes présentes (≥${TARGET_ACTIVITY})`);
+}
