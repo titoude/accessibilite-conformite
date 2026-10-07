@@ -957,10 +957,28 @@ index 32a99d6..4ad5284 100644
            >
              <div class="flex items-center text-inherit">
 diff --git a/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue b/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue
-index 10b5f62..68ea19f 100644
+index 10b5f62..e8ba40f 100644
 --- a/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue
 +++ b/packages/nc-gui/components/dashboard/Sidebar/UserInfo.vue
-@@ -35,7 +35,7 @@ onMounted(() => {
+@@ -9,6 +9,17 @@ const { leftSidebarState } = storeToRefs(useSidebarStore())
+ 
+ const name = computed(() => user.value?.display_name?.trim())
+ 
++const { t } = useI18n()
++
++// WCAG 2.5.3 : le nom accessible doit contenir le texte visible —
++// initiales en mini-sidebar, nom/email en sidebar complète
++const userMenuLabel = computed(() => {
++  const visible = isMiniSidebar?.value
++    ? getSafeInitials(extractUserDisplayNameOrEmail(user.value), 2, true)
++    : name.value || user.value?.email || ''
++  return visible ? `${visible} — ${t('labels.account')}` : t('labels.account')
++})
++
+ const isMenuOpen = ref(false)
+ 
+ const { isMobileMode } = useGlobal()
+@@ -35,7 +46,7 @@ onMounted(() => {
      }"
    >
      <div class="flex items-center justify-center h-13">
@@ -969,7 +987,7 @@ index 10b5f62..68ea19f 100644
          v-model:visible="isMenuOpen"
          placement="rightBottom"
          overlay-class-name="!min-w-44 md:!min-w-64 nc-user-menu-dropdown"
-@@ -55,9 +55,16 @@ onMounted(() => {
+@@ -55,9 +66,16 @@ onMounted(() => {
              :class="{
                'nc-mini-sidebar-ws-item flex-none': isMiniSidebar,
              }"
@@ -977,7 +995,7 @@ index 10b5f62..68ea19f 100644
 +            tabindex="0"
 +            aria-haspopup="menu"
 +            :aria-expanded="isMenuOpen"
-+            :aria-label="$t('labels.account')"
++            :aria-label="userMenuLabel"
              data-testid="nc-sidebar-userinfo"
              data-tour="sidebar-userinfo"
              :data-email="user?.email"
