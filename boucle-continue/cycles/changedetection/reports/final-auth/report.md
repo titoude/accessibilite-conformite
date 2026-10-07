@@ -2,7 +2,7 @@
 
 **0 règle(s) violée(s), 0 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 117 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `4c92a568a8cb`
+Périmètre : scope.json — hash `77135bdd37f7`
 
 ## Résultats incomplets à revoir (117)
 
@@ -16,18 +16,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.seg > .active[href="/"]`
   - `#post-list-unread`
   - `#unread-tab-counter`
-- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
+- http://127.0.0.1:5005/diff/b9067a56-31c0-41d3-810d-f2a33648a5c2
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
   - `#extract-tab > a`
-- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
+- http://127.0.0.1:5005/edit/b9067a56-31c0-41d3-810d-f2a33648a5c2
   - `#time_between_check-weeks`
   - `#time_between_check-days`
   - `#time_between_check-hours`
   - `#time_between_check-minutes`
   - `#time_between_check-seconds`
-- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
+- http://127.0.0.1:5005/edit/8ab31f7f-903b-4c33-ba56-ca2083c8d345
   - `#time_between_check-weeks`
   - `#time_between_check-days`
   - `#time_between_check-hours`
@@ -63,23 +63,23 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.modal-btn-info`
 - http://127.0.0.1:5005/ [state:bulk-proxy-modal-open]
   - `.modal-btn-info`
-- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/b9067a56-31c0-41d3-810d-f2a33648a5c2#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `a[href$="#general"]`
   - `#pro-tips > strong`
-- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/b9067a56-31c0-41d3-810d-f2a33648a5c2#conditions [state:edit-tab-conditions]
   - `a[href$="#general"]`
   - `label[for="conditions_match_logic"]`
   - `.fieldlist-header-cell:nth-child(1)`
   - `.verifyRuleRow`
   - `#save_button`
-- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/b9067a56-31c0-41d3-810d-f2a33648a5c2#notifications [state:edit-tab-notifications]
   - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p > strong`
-- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8ab31f7f-903b-4c33-ba56-ca2083c8d345#browser-steps [state:edit-rates-tab-browser-steps]
   - `a[href$="#general"]`
   - `#browsersteps-click-start`
   - `#browsersteps-click-start > h2`
   - `#save_button`
-- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8ab31f7f-903b-4c33-ba56-ca2083c8d345#request [state:edit-rates-tab-request]
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
   - `.pure-form-message-inline > p:nth-child(2)`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
@@ -122,7 +122,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 - http://127.0.0.1:5005/settings#info [state:settings-tab-info]
   - `a[href$="#general"]`
   - `#info > p:nth-child(1) > strong`
-- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/b9067a56-31c0-41d3-810d-f2a33648a5c2 [state:diff-filters-open]
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `#diff-filters-toggle`
@@ -136,7 +136,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - … +2 autres
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
   - `#add-watch-go`
-- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
+- http://127.0.0.1:5005/diff/b9067a56-31c0-41d3-810d-f2a33648a5c2 [state:diff-dark]
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
@@ -146,24 +146,24 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 - http://127.0.0.1:5005/settings
   - `#requests-time_between_check`
-- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
+- http://127.0.0.1:5005/edit/b9067a56-31c0-41d3-810d-f2a33648a5c2
   - `#time_between_check`
-- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
+- http://127.0.0.1:5005/edit/8ab31f7f-903b-4c33-ba56-ca2083c8d345
   - `#time_between_check`
-- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
+- http://127.0.0.1:5005/edit/b9067a56-31c0-41d3-810d-f2a33648a5c2 [state:edit-dark]
   - `#time_between_check`
 - http://127.0.0.1:5005/settings [state:settings-dark]
   - `#requests-time_between_check`
 
 ### aria-prohibited-attr — Elements must only use permitted ARIA attributes
 
-- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
+- http://127.0.0.1:5005/diff/b9067a56-31c0-41d3-810d-f2a33648a5c2
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/b9067a56-31c0-41d3-810d-f2a33648a5c2 [state:diff-filters-open]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
+- http://127.0.0.1:5005/diff/b9067a56-31c0-41d3-810d-f2a33648a5c2 [state:diff-dark]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
 
