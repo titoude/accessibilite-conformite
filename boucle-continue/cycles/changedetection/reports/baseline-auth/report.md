@@ -1,8 +1,8 @@
 # Audit accessibilité — 2026-10-07
 
-**14 règle(s) violée(s), 1328 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 215 résultat(s) incomplet(s).**
+**14 règle(s) violée(s), 1316 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 215 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `67af2437fcb3`
+Périmètre : scope.json — hash `4c92a568a8cb`
 
 ## [CRITICAL] label — Form elements must have labels
 
@@ -11,45 +11,45 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAP
 
 - http://127.0.0.1:5005/
   - `#check-all`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\33 0a74f31-1171-4b56-89fd-38da4340d196 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `#tag_colour_picker`
 - http://127.0.0.1:5005/ [state:heart-overlay-open]
   - `#check-all`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\33 0a74f31-1171-4b56-89fd-38da4340d196 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `#check-all`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\33 0a74f31-1171-4b56-89fd-38da4340d196 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
 - http://127.0.0.1:5005/ [state:watchlist-dark]
   - `#check-all`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\33 0a74f31-1171-4b56-89fd-38da4340d196 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
 - http://127.0.0.1:5005/ [state:mobile-drawer-open]
   - `#check-all`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
-  - `#\33 0a74f31-1171-4b56-89fd-38da4340d196 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
 
 ## [CRITICAL] image-alt — Images must have alternative text
 
 Ensure <img> elements have alternative text or a role of none or presentation
 Référence : https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI
 
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `#browsersteps-img`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `#selector-background`
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
   - `#selector-background`
@@ -59,10 +59,10 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/image-alt?application=a
 Ensure select element has an accessible name
 Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
 
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `#conditions-0-field`
   - `#conditions-0-operator`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `#browser_steps-0-operation`
   - `#browser_steps-1-operation`
   - `#browser_steps-2-operation`
@@ -83,22 +83,22 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#add-watch-go`
   - `#post-list-with-errors`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
   - … +4 autres
 - http://127.0.0.1:5005/tags/list
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#save_button`
-  - `#eac6766e-16b1-45af-900d-5f1b92df89bd > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
-  - `#c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
-  - `#\30 416613d-99f4-4c6b-a980-33238898dfeb > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
-  - `#\33 797bed1-0a3d-46ac-9e00-448e166ffff5 > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+  - `#\33 03db372-e4e9-40db-bcb6-1966abde1378 > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+  - `#b3ef8d1b-c1b7-4929-9707-82f47ac5d006 > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+  - `#\33 967e38b-aafc-4918-a786-cae72985125d > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+  - `#\37 ff1db99-ffc8-4926-b447-97efce972f9e > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#general > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
   - `fieldset > .pure-control-group:nth-child(3) > .pure-form-message-inline`
@@ -131,10 +131,10 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `p > a[href$="restore"]`
   - `.pure-input-1-2.pure-button-primary.pure-button`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.snapshot-age > a`
   - `#diff-visualiser-area-after > a[target="_blank"][rel="noopener"]`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.pure-form-message-inline`
   - `.pure-form-message-inline > strong`
@@ -146,7 +146,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `a[href$="RegExr.com/"]`
   - `.pure-form-message-inline > p:nth-child(5)`
   - … +1 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
   - `.pure-form-message:nth-child(4) > a`
@@ -158,7 +158,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `label[for="time_between_check-days"]`
   - `label[for="time_between_check-hours"]`
   - … +7 autres
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
   - `.pure-form-message:nth-child(4) > a`
@@ -170,7 +170,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `label[for="time_between_check-days"]`
   - `label[for="time_between_check-hours"]`
   - … +7 autres
-- http://127.0.0.1:5005/preview/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/preview/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `fieldset > .pure-button-primary.pure-button[type="submit"]`
   - `#btn-next`
   - `p > span:nth-child(1)`
@@ -194,24 +194,24 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `#tag-all`
   - `#post-list-unread`
   - `#post-list-with-errors`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
   - … +7 autres
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#add-watch-go`
   - `#post-list-with-errors`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
   - … +4 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1)`
@@ -223,7 +223,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `.inline-radio.pure-control-group:nth-child(2) > .pure-form-message-inline`
   - `fieldset[data-visible-for="fetch_backend=html_requests"] > .pure-control-group > .show-advanced.button-secondary.button-xsmall`
   - … +1 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#activate-text-preview`
   - `#pro-tips > ul > li:nth-child(2) > a`
@@ -235,12 +235,12 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `.pure-form-message-inline:nth-child(6)`
   - `.pure-form-message-inline:nth-child(6) > strong:nth-child(1)`
   - … +40 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#conditions > .pure-control-group > .pure-form-message-inline`
   - `#verify-state-text`
   - `#conditions > .pure-control-group > .pure-form-message-inline > a`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.inline-radio.pure-control-group > .ternary-field > .ternary-field-widget > .ternary-radio-group.pure-form > .ternary-radio-option:nth-child(2) > .ternary-radio-label`
   - `#notifications > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
@@ -251,16 +251,16 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `.pure-form-message-inline > details > summary`
   - `#notification-field-group > details > summary`
   - `#save_button`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#save_button`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#llm-intent-section-disabled > h3`
   - `#llm-intent-section-disabled > p`
   - `#llm-intent-section-disabled > p > a[href$="settings#ai"]`
   - `#save_button`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#browser_steps-0-operation`
   - `#browser_steps-1-operation`
@@ -272,7 +272,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `#browser_steps-7-operation`
   - `#browser_steps-8-operation`
   - … +1 autres
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#visual-selector-heading`
   - `#visual-selector-heading > i`
@@ -280,7 +280,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `#visual-selector-heading > strong`
   - `#clear-selector`
   - `#save_button`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1)`
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1) > strong`
@@ -371,7 +371,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
 - http://127.0.0.1:5005/settings#info [state:settings-tab-info]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `#save_button`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `.snapshot-age > a`
   - `#diff-visualiser-area-after > a[target="_blank"][rel="noopener"]`
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
@@ -386,12 +386,12 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `.tag-0aeaa5d631eb8839`
   - `#post-list-unread`
   - `#post-list-with-errors`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .watch-processor > .processor-badge.processor-badge-text_json_diff[href="/?processor=text_json_diff"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - … +12 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .watch-processor > .processor-badge.processor-badge-text_json_diff[href="/?processor=text_json_diff"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .title-col.inline > .grid-wrapper > .watch-text-info > .error-text`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - … +14 autres
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
   - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3)`
   - `.pure-form-message:nth-child(4)`
@@ -421,11 +421,11 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?applicat
   - `#tag-all`
   - `#post-list-unread`
   - `#post-list-with-errors`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
   - … +6 autres
 
 ## [SERIOUS] html-lang-valid — <html> element must have a valid value for the lang attribute
@@ -437,7 +437,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/html-lang-valid?applica
   - `html`
 - http://127.0.0.1:5005/tags/list
   - `html`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `html`
 - http://127.0.0.1:5005/queue
   - `html`
@@ -449,15 +449,15 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/html-lang-valid?applica
   - `html`
 - http://127.0.0.1:5005/imports/import
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `html`
-- http://127.0.0.1:5005/preview/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/preview/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
 - http://127.0.0.1:5005/add-watch-ui/
   - `html`
@@ -467,23 +467,23 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/html-lang-valid?applica
   - `html`
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `html`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
   - `html`
@@ -503,15 +503,15 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/html-lang-valid?applica
   - `html`
 - http://127.0.0.1:5005/settings#info [state:settings-tab-info]
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `html`
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
   - `html`
 - http://127.0.0.1:5005/ [state:watchlist-dark]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
   - `html`
 - http://127.0.0.1:5005/settings [state:settings-dark]
   - `html`
@@ -529,7 +529,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mism
 - http://127.0.0.1:5005/tags/list
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
 - http://127.0.0.1:5005/queue
@@ -547,13 +547,13 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mism
 - http://127.0.0.1:5005/imports/import
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
 - http://127.0.0.1:5005/add-watch-ui/
@@ -568,31 +568,31 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mism
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
@@ -628,7 +628,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mism
 - http://127.0.0.1:5005/ [state:watchlist-dark]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
   - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
 - http://127.0.0.1:5005/settings [state:settings-dark]
@@ -644,18 +644,18 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?appl
 
 - http://127.0.0.1:5005/settings
   - `.pure-control-group:nth-child(1) > .pure-form-message-inline > a`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
   - `.pure-form-message:nth-child(4) > a`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
   - `.pure-form-message:nth-child(4) > a`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `li:nth-child(5) > a[href$="#conditions"]`
   - `li:nth-child(1) > ul > li:nth-child(3) > a`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `#llm-intent-section-disabled > p > a[href$="settings#ai"]`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `#visual-selector-heading > a[href$="#filters-and-triggers"]`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
   - `.inline-radio.pure-control-group:nth-child(6) > .pure-form-message-inline > a`
@@ -666,7 +666,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?appl
 - http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
   - `a[target="_blank"][rel="noopener"]:nth-child(1)`
   - `a[target="_blank"][rel="noopener"]:nth-child(2)`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
   - `.pure-form-message:nth-child(4) > a`
 - http://127.0.0.1:5005/settings [state:settings-dark]
@@ -699,6 +699,9 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=a
 Ensure touch targets have sufficient size and space
 Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
 
+- http://127.0.0.1:5005/
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
 - http://127.0.0.1:5005/ [state:heart-overlay-open]
   - `.content > ul > li:nth-child(1) > a`
   - `.content > ul > li:nth-child(2) > a`
@@ -709,31 +712,36 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application
   - `a[href="/?sort=date_created&order=desc"]`
   - `a[href="/?sort=paused&order=desc"]`
   - `div > .inactive:nth-child(2)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
   - … +7 autres
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#a5d860b4-c893-4301-ba98-aa5d062f5534 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
 - http://127.0.0.1:5005/ [state:watchlist-dark]
   - `#check-all`
   - `a[href="/?sort=date_created&order=desc"]`
   - `a[href="/?sort=paused&order=desc"]`
   - `div > .inactive:nth-child(2)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
   - … +2 autres
 - http://127.0.0.1:5005/ [state:mobile-drawer-open]
   - `#check-all`
   - `a[href="/?sort=date_created&order=desc"]`
   - `a[href="/?sort=paused&order=desc"]`
   - `div > .inactive:nth-child(2)`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
-  - `#\37 a11aca2-b335-4452-bc46-5eb809e885c7 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
-  - `#\32 ec7196a-4ea3-4be3-97d4-42fe3601c5ba > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
-  - `#db221f49-097d-4375-950c-edfc05ed221e > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#a170f64c-a03c-4f9c-aa21-9b3ac241d775 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\38 b7367bd-6934-4eac-90c1-a008158fe0a2 > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
   - … +2 autres
 
 ## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
@@ -741,7 +749,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application
 Ensure elements that have scrollable content are accessible by keyboard in Safari
 Référence : https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI
 
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `#selector-wrapper`
 
 ## [MODERATE] region — All page content should be contained by landmarks
@@ -760,7 +768,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `th:nth-child(1)`
   - `#th-webpage`
   - `a[href="/?sort=last_checked&order=desc"] > .hide-on-mobile`
-  - … +35 autres
+  - … +31 autres
 - http://127.0.0.1:5005/tags/list
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
@@ -768,12 +776,12 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#watch-add-wrapper-zone > div:nth-child(1)`
   - `fieldset > div:nth-child(4)`
   - `thead`
-  - `#eac6766e-16b1-45af-900d-5f1b92df89bd > .watch-count`
-  - `#eac6766e-16b1-45af-900d-5f1b92df89bd > .title-col.inline`
-  - `#eac6766e-16b1-45af-900d-5f1b92df89bd > td:nth-child(4) > .cdio-btn:nth-child(2)`
-  - `#eac6766e-16b1-45af-900d-5f1b92df89bd > td:nth-child(4) > .cdio-btn--danger[data-confirm-type="danger"][data-confirm-title="Delete Group?"]`
+  - `#\33 03db372-e4e9-40db-bcb6-1966abde1378 > .watch-count`
+  - `#\33 03db372-e4e9-40db-bcb6-1966abde1378 > .title-col.inline`
+  - `#\33 03db372-e4e9-40db-bcb6-1966abde1378 > td:nth-child(4) > .cdio-btn:nth-child(2)`
+  - `#\33 03db372-e4e9-40db-bcb6-1966abde1378 > td:nth-child(4) > .cdio-btn--danger[data-confirm-type="danger"][data-confirm-title="Delete Group?"]`
   - … +20 autres
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -818,20 +826,20 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#overlay`
   - `.tabs`
   - `#url-list`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.current-diff-url`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
   - `#overlay`
   - `.diff-fieldset`
   - `.tabs`
   - `#text`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
   - `#extract-data-form > p`
   - `.pure-control-group:nth-child(3)`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -843,7 +851,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#time-check-widget-wrapper`
   - `#limit-between-time > .pure-form-message-inline`
   - … +5 autres
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -855,7 +863,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#time-check-widget-wrapper`
   - `#limit-between-time > .pure-form-message-inline`
   - … +5 autres
-- http://127.0.0.1:5005/preview/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/preview/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.current-diff-url`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
   - `#overlay`
@@ -892,7 +900,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `th:nth-child(1)`
   - `#th-webpage`
   - `a[href="/?sort=last_checked&order=desc"] > .hide-on-mobile`
-  - … +35 autres
+  - … +31 autres
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
@@ -904,8 +912,8 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[title="RSS Feed"]`
   - `th:nth-child(1)`
   - `#th-webpage`
-  - … +36 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+  - … +32 autres
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -916,7 +924,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[data-confirm-type="warning"]`
   - `.pure-button[data-method="POST"]:nth-child(4)`
   - `.pure-control-group > a:nth-child(5)`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -926,7 +934,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[data-confirm-type="warning"]`
   - `.pure-button[data-method="POST"]:nth-child(4)`
   - `.pure-control-group > a:nth-child(5)`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -938,7 +946,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `.fieldlist-cell:nth-child(3)`
   - `#conditions > .pure-control-group > .pure-form-message-inline`
   - … +4 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -950,7 +958,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[href$="notification-logs"]`
   - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p`
   - … +4 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -961,7 +969,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[data-confirm-type="warning"]`
   - `.pure-button[data-method="POST"]:nth-child(4)`
   - `.pure-control-group > a:nth-child(5)`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -970,7 +978,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[data-confirm-type="warning"]`
   - `.pure-button[data-method="POST"]:nth-child(4)`
   - `.pure-control-group > a:nth-child(5)`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -982,7 +990,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#browser-steps-fieldlist > span:nth-child(2)`
   - `#browser-steps-fieldlist > div:nth-child(3)`
   - … +14 autres
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -994,7 +1002,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[data-confirm-type="danger"]`
   - `a[data-confirm-type="warning"]`
   - … +2 autres
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -1080,7 +1088,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#overlay`
   - `.tabs`
   - `#info`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `.current-diff-url`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
   - `#overlay`
@@ -1110,8 +1118,8 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `th:nth-child(1)`
   - `#th-webpage`
   - `a[href="/?sort=last_checked&order=desc"] > .hide-on-mobile`
-  - … +35 autres
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+  - … +31 autres
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
   - `#overlay`
   - `.tabs`
@@ -1123,7 +1131,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `#time-check-widget-wrapper`
   - `#limit-between-time > .pure-form-message-inline`
   - … +5 autres
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
   - `.current-diff-url`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
   - `#overlay`
@@ -1153,7 +1161,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeA
   - `a[title="RSS Feed"]`
   - `th:nth-child(1)`
   - `#th-webpage`
-  - … +36 autres
+  - … +32 autres
 
 ## [MODERATE] landmark-one-main — Document should have one main landmark
 
@@ -1164,7 +1172,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?appli
   - `html`
 - http://127.0.0.1:5005/tags/list
   - `html`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `html`
 - http://127.0.0.1:5005/queue
   - `html`
@@ -1176,15 +1184,15 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?appli
   - `html`
 - http://127.0.0.1:5005/imports/import
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `html`
-- http://127.0.0.1:5005/preview/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/preview/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
 - http://127.0.0.1:5005/add-watch-ui/
   - `html`
@@ -1194,23 +1202,23 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?appli
   - `html`
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `html`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
   - `html`
@@ -1230,15 +1238,15 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?appli
   - `html`
 - http://127.0.0.1:5005/settings#info [state:settings-tab-info]
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `html`
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
   - `html`
 - http://127.0.0.1:5005/ [state:watchlist-dark]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
   - `html`
 - http://127.0.0.1:5005/settings [state:settings-dark]
   - `html`
@@ -1252,7 +1260,7 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?ap
   - `html`
 - http://127.0.0.1:5005/tags/list
   - `html`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `html`
 - http://127.0.0.1:5005/queue
   - `html`
@@ -1264,15 +1272,15 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?ap
   - `html`
 - http://127.0.0.1:5005/imports/import
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `html`
-- http://127.0.0.1:5005/preview/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/preview/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `html`
 - http://127.0.0.1:5005/add-watch-ui/
   - `html`
@@ -1282,23 +1290,23 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?ap
   - `html`
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `html`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `html`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
   - `html`
@@ -1318,15 +1326,15 @@ Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?ap
   - `html`
 - http://127.0.0.1:5005/settings#info [state:settings-tab-info]
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `html`
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
   - `html`
 - http://127.0.0.1:5005/ [state:watchlist-dark]
   - `html`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `html`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
   - `html`
 - http://127.0.0.1:5005/settings [state:settings-dark]
   - `html`
@@ -1376,7 +1384,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 - http://127.0.0.1:5005/tags/list
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/tags/edit/c2d6107d-fdeb-4a2c-95e9-35c0f4b5c2ba
+- http://127.0.0.1:5005/tags/edit/b3ef8d1b-c1b7-4929-9707-82f47ac5d006
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
 - http://127.0.0.1:5005/queue
@@ -1396,17 +1404,17 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 - http://127.0.0.1:5005/imports/import
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
   - `#extract-tab > a`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7/extract
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa/extract
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `#time_between_check-weeks`
@@ -1414,7 +1422,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#time_between_check-hours`
   - `#time_between_check-minutes`
   - `#time_between_check-seconds`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `#time_between_check-weeks`
@@ -1422,7 +1430,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#time_between_check-hours`
   - `#time_between_check-minutes`
   - `#time_between_check-seconds`
-- http://127.0.0.1:5005/preview/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/preview/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
 - http://127.0.0.1:5005/add-watch-ui/
@@ -1463,15 +1471,15 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.modal-btn-info`
 - http://127.0.0.1:5005/ [state:bulk-proxy-modal-open]
   - `.modal-btn-info`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#request [state:edit-tab-request]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#request [state:edit-tab-request]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `a[href$="#general"]`
   - `#pro-tips > strong`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#conditions [state:edit-tab-conditions]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `a[href$="#general"]`
@@ -1479,27 +1487,27 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.fieldlist-header-cell:nth-child(1)`
   - `.verifyRuleRow`
   - `#save_button`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#notifications [state:edit-tab-notifications]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p > strong`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#stats [state:edit-tab-stats]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#stats [state:edit-tab-stats]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#ai-llm [state:edit-tab-ai-llm]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa#ai-llm [state:edit-tab-ai-llm]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#browser-steps [state:edit-rates-tab-browser-steps]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `a[href$="#general"]`
   - `#browsersteps-click-start`
   - `#browsersteps-click-start > h2`
   - `#save_button`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#visualselector [state:edit-rates-tab-visualselector]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#visualselector [state:edit-rates-tab-visualselector]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2#request [state:edit-rates-tab-request]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
@@ -1562,7 +1570,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `a[href$="#general"]`
   - `#info > p:nth-child(1) > strong`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `.current-diff-url > span`
@@ -1582,7 +1590,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `#unread-tab-counter`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `#time_between_check-weeks`
@@ -1590,7 +1598,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#time_between_check-hours`
   - `#time_between_check-minutes`
   - `#time_between_check-seconds`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
   - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
   - `.current-diff-url > span`
@@ -1609,24 +1617,24 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 - http://127.0.0.1:5005/settings
   - `#requests-time_between_check`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `#time_between_check`
-- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
+- http://127.0.0.1:5005/edit/8b7367bd-6934-4eac-90c1-a008158fe0a2
   - `#time_between_check`
-- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
+- http://127.0.0.1:5005/edit/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:edit-dark]
   - `#time_between_check`
 - http://127.0.0.1:5005/settings [state:settings-dark]
   - `#requests-time_between_check`
 
 ### aria-prohibited-attr — Elements must only use permitted ARIA attributes
 
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-filters-open]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
+- http://127.0.0.1:5005/diff/af20097d-bfa5-4d2c-beb9-e8b0a1ccc6fa [state:diff-dark]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
 

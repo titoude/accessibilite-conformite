@@ -166,6 +166,11 @@ const DIALOG = 'dialog.modal-dialog[open]';
 const API_DOCS_UUID = process.env.CD_API_DOCS_UUID || '7f97a98e-0642-4765-bb4d-a00afced3dfc';
 const RATES_UUID = process.env.CD_RATES_UUID || 'c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe';
 const TAG_UUID = process.env.CD_TAG_UUID || '2599bab0-6156-4f6c-b20a-48ae53d568e3';
+// Base du serveur de fixtures (état addwatchui-live-preview) — wart W2-v2 :
+// le port était codé en dur (:5599) et l'état scannait silencieusement une
+// preview vide quand les fixtures étaient servies ailleurs. Paramétrable par
+// env + garde anti-scan-vide dans le setup de l'état.
+const FIXTURE_BASE = (process.env.CD_FIXTURE_BASE || 'http://127.0.0.1:5599').replace(/\/+$/, '');
 
 // Une page de la watchlist est prête quand la table des watches est rendue.
 const waitWatchlist = page => page.waitForSelector('#watch-table-wrapper', { timeout: 20000 });
@@ -338,8 +343,32 @@ const STATES = {
   'addwatchui-live-preview': {
     url: b => `${b}/add-watch-ui/`,
     setup: async page => {
-      await page.fill('#new-watch-form input[name="url"]', 'http://127.0.0.1:5599/api-docs.html');
+      const fixtureUrl = `${FIXTURE_BASE}/api-docs.html`;
+      // Garde anti-scan-vide (wart W2-v2) : si les fixtures ne sont pas servies
+      // sur FIXTURE_BASE, l'état scannerait une preview vide en « 0 viol/0 err ».
+      // 1) la fixture doit répondre avec SON contenu attendu ;
+      const pre = await page.request.get(fixtureUrl).catch(e => {
+        throw new Error(`fixture injoignable ${fixtureUrl} (CD_FIXTURE_BASE=${FIXTURE_BASE}) : ${e.message}`);
+      });
+      if (pre.status() !== 200 || !(await pre.text()).includes('Acme Metrics API')) {
+        throw new Error(`fixture ${fixtureUrl} ne sert pas le markup attendu (HTTP ${pre.status()}) — vérifier CD_FIXTURE_BASE / le serveur de fixtures`);
+      }
+      // 2) la réponse du snapshot doit porter les éléments de la fixture réelle
+      //    (ids amont auth/endpoints/rate-limits/changelog), jamais une page vide.
+      const snapPending = page.waitForResponse(
+        r => r.url().includes('/snapshot') && r.request().method() === 'POST', { timeout: 90000 });
+      await page.fill('#new-watch-form input[name="url"]', fixtureUrl);
       await page.locator('#add-watch-go').click();
+      const snap = await snapPending;
+      const snapData = await snap.json().catch(() => null);
+      // xpath_data = {browser_width, size_pos:[{xpath:"#changelog > h2",...}]}
+      // — une page d'erreur/vide ne porte aucun id du markup fixture.
+      const els = snapData && snapData.xpath_data && snapData.xpath_data.size_pos;
+      const hasFixtureMarkup = Array.isArray(els) && els.length > 3
+        && els.some(x => /#(auth|endpoints|rate-limits|changelog)\b/.test(x.xpath || ''));
+      if (!hasFixtureMarkup) {
+        throw new Error(`snapshot /add-watch-ui sans xpath_data de la fixture (${fixtureUrl}) — preview vide, scan refusé`);
+      }
       await page.waitForSelector('#selector-wrapper', { state: 'visible', timeout: 45000 });
       await page.waitForSelector('#selector-background[src]', { timeout: 30000 });
     },

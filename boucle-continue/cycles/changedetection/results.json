@@ -1,7 +1,7 @@
 {
  "depot": "dgtlmoon/changedetection.io",
  "commitEpingle": "a1ce35619aae9949d65ee8dcac068b76ca01ca67",
- "statut": "TRAVAUX TERMINÉS — verdict laissé à l'auditeur indépendant (le worker ne se note pas lui-même)",
+ "statut": "TRAVAUX TERMINÉS v3 — F1 corrigé+prouvé, wart port corrigé, tout rejoué à 0 ; verdict laissé à l'auditeur indépendant",
  "note_integrite": "changedetection.io figure déjà dans le REGISTRE section « Déjà testés (avant la boucle) » (V1, 0 violation axe, protocole pré-boucle allégé : pas d'auth, pas d'états, pas de patch). Ce cycle 33 le traite sous protocole complet — à l'auditeur de juger de la double-couverture.",
  "resume": {
   "baseline": {
@@ -92,6 +92,15 @@
     "W7 provenance re-hashée via boucle-continue/rehash-provenance.py après toutes les corrections"
    ],
    "rejeu": "baseline-auth 1328 occ/14 règles/215 inc/48 scénarios ; baseline-public 12/6 identique ; final-auth 0 viol/117 inc/48 sc ; final-public 0/0 ; install-build-auth 0/0/117/48 ; verify 29/0 ; sondes 117 items 0 CONFIRMED ; eval-final 1340→0 ; seed exit 0"
+  },
+  {
+   "version": 3,
+   "auditeur": "verdict-auditeur-v2.md (PARTIAL)",
+   "fixes": [
+    "F1 résidu patch /queue : renderWatchCell() 'opacity:0.7'→'var(--color-text)' était un durcissement raté (#333 sur panneau queue toujours sombre = ~1,05:1 en thème clair) → 'color: #c2c2c2', même convention que les hunks frères du fichier (la règle amont 'table.pure-table small{opacity:0.7}' compose par-dessus). Prouvé par probe-f1-queue.mjs rejoué sur l'install-build :5006 (patch v3 appliqué) avec vrais rechecks API : 20 rows JS réelles (busy=14, queued=6) dans les DEUX thèmes, composite opacity×bg mesuré = 4,60–5,05:1, pire cas 4,60:1 ≥ 4,5 — exit 0 (reports/f1-queue-probe.jsonl). À titre de repère la row amont is-completed (blanc@0,7) mesure 8,26:1 sur le même DOM.",
+    "Wart addwatchui-live-preview ':5599' hardcodé : port fixtures paramétré via env A11Y_FIXTURE_PORT (manifest.tools.fixtures port 5599) + gardes anti-scan-vide dans audit.mjs (wait-timeout fail-loud si l'état n'atteint pas sa cible + check que le container attendu est non vide avant axe.run) — rejoué avec nouveaux uuids : 3 scénarios add-watch-ui 0 viol/0 err"
+   ],
+   "rejeu": "final-public 0 viol/0 err/0 inc ; final-auth 0 viol/0 err/117 inc/48 pages ; baseline-vanilla rejouée : public 12 occ/6 règles inchangé, auth 1316 occ/14 règles/215 inc/48 pages (variance -4 région/+6 target-size/+2 cc vs livré 1328 = état watchlist muté par les rechecks F1, ids de règles identiques) ; verify.mjs 29 PASS/0 FAIL sur l'install-build :5006 ; incomplete-probes rejouées : 117 items → 75 RESOLVED + 42 N-A, 0 CONFIRMED_VIOLATION ; eval-final : baseline 1328 → final 0, toutes règles resolved, states 47/47 ; install-build : git apply --check 0 rejet sur clone propre a1ce356, npm build styles.css sha256 5c397514… byte-identique à l'artefact livré, seed exit 0, rescan auth 0 viol/0 err/118 inc/48 pages ; patch.diff régénéré (diff vs v2 = ligne F1 uniquement, 43 fichiers +273/-88)"
   }
  ],
  "corrections": "43 fichiers sources (+273/−88) : templates Jinja (landmarks header/main/nav, hiérarchie h1→h2, lang dynamique lang_code au lieu de 'None', alt images, aria sur modales/overlays, labels champs, pills pause/mute nommées, th non vides, add-watch-ui <h2>…</h3> fermé proprement, extract.html spans color:red → .regex-highlight), SCSS (tokens contraste clair+sombre, underline liens dans .pure-form, pastilles unread/erreurs #2f6d8d, tab gradient rgba .55/.8, seg #595959/dark #c2c2c2 scopé :not(.active), .js-dimmed remplace opacity inline sur textes d'aide, #records-selected pastille sombre, .ternary-default #767676, td.buttons opacity:1, queue thead couleur, warning #a36a00, toggle-ai-mode opacité bornée, .regex-highlight contraste clair+sombre), JS (plugins.js bascule classes au lieu d'opacity inline), Python (processors/__init__.py : generate_processor_badge_colors borne la lightness jusqu'à contraste ≥4.5 calculé en clair ET sombre — les couleurs badge sont générées par hash, pas dans le SCSS)",
@@ -105,11 +114,11 @@
   "incomplete-probes ne compose pas les couches alpha : bg=rgba(255,255,255,0.04) relevé → ratio 1.00 erroné ; vérifier l'élément réel (ici #records-selected blanc sur dégradé clair — vrai défaut corrigé par pastille rgba(0,0,0,.8))"
  ],
  "artefacts": {
-  "patch": "patch.diff (43 fichiers, +273/−88) — v2 régénéré depuis l'arbre appliqué (git add -N pour _a11y.scss), git apply --check 0 rejet sur clone propre", 
+  "patch": "patch.diff (43 fichiers, +273/−88) — v2 régénéré depuis l'arbre appliqué (git add -N pour _a11y.scss), git apply --check 0 rejet sur clone propre",
   "manifest": "manifest.json — boot verbatim, seed, auditCommands, installBuild rejoué",
   "rapports": "reports/{baseline,final,install-build}-{public,auth}/ + eval-final.json + incomplete-probes.json",
   "scope": "scope-compare.json — scopeHash identiques baseline↔final (périmètre inchangé), install-build hashé différemment (port+uuids)",
   "etats": "states.json + carte STATES dans tools/audit.mjs (33 états : modales, onglets, bulk, dark×5, mobile)"
  },
- "reste_a_faire": "verdict auditeur v2"
+ "reste_a_faire": "verdict auditeur v3"
 }

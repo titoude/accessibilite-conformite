@@ -23,7 +23,8 @@
   "FAST_PUPPETEER_CHROME_FETCHER": "True — html_webdriver fetch via pyppeteer-ng→CDP",
   "ALLOW_IANA_RESTRICTED_ADDRESSES": "true — sinon le SSRF guard refuse http://127.0.0.1:5599",
   "FETCH_WORKERS": "4",
-  "fixtures": "python3 -m http.server 5599 sur tools/fixtures copiés dans /tmp/cd-fixture-serve (api-docs.html, pricing.html, rates.json — bascule v1→v2 par le seed pour l'historique diff)",
+  "fixtures": "python3 -m http.server $CD_FIXTURE_PORT (défaut 5599) sur tools/fixtures copiés dans /tmp/cd-fixture-serve (api-docs.html, pricing.html, rates.json — bascule v1→v2 par le seed pour l'historique diff)",
+  "CD_FIXTURE_BASE": "base du serveur de fixtures pour l'état addwatchui-live-preview (défaut http://127.0.0.1:5599 — v3, wart W2-v2 : le port était codé en dur → preview vide scannée silencieusement) ; garde anti-scan-vide dans audit.mjs : fixture 200+'Acme Metrics API' ET xpath_data portant les ids de la fixture, sinon l'état FAIL",
   "datastore": "~/work/cd-datastore/changedetection.json (+ proxies.json écrit par le seed — hot-load, rend #checkbox-set-proxy visible dans bulk ops)"
  },
  "auth": "Login UI activé via SALTED_PASS (option native de l'app). tools/login.mjs soumet .login-form button[type=submit] et écrit le storage-state Playwright tools/auth.json — à régénérer par login.mjs après tout changement de SALTED_PASS. API REST : x-api-key imprimée au boot / dans changedetection.json.",
@@ -59,7 +60,7 @@
     "/clear_history"
    ],
    "states": "all",
-   "note": "15 URLs réelles (blueprints, $CD_*_UUID expansés par audit.mjs — défauts = uuids du seed de la session, override env pour install-build) + 33 états : modales search/language/llm, heart-overlay, watchlist-checked, bulk browser/proxy, onglets edit ×7 + rates ×3, onglets settings ×8, diff-filters, live-preview add-watch, 5 états dark (cookie css_dark_mode), mobile-drawer. /diff/<uuid>/extract ajoutée en v2 (gap périmètre relevé par l'auditeur — blueprint ui/diff.py, processor-aware). /rss est un flux tokenisé (403 sans token) → hors scope."
+   "note": "15 URLs réelles (blueprints, $CD_*_UUID expansés par audit.mjs — défauts = uuids du seed de la session, override env pour install-build) + 33 états : modales search/language/llm, heart-overlay, watchlist-checked, bulk browser/proxy, onglets edit ×7 + rates ×3, onglets settings ×8, diff-filters, live-preview add-watch (fixture = $CD_FIXTURE_BASE, défaut :5599, garde anti-scan-vide v3), 5 états dark (cookie css_dark_mode), mobile-drawer. /diff/<uuid>/extract ajoutée en v2 (gap périmètre relevé par l'auditeur — blueprint ui/diff.py, processor-aware). /rss est un flux tokenisé (403 sans token) → hors scope."
   }
  ],
  "states_exclus": {

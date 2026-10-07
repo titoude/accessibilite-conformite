@@ -13,7 +13,7 @@ CD_REPO="${CD_REPO:-$HOME/work/changedetection}"
 CYCLE_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 SERVE_DIR="${CD_FIXTURE_SERVE:-/tmp/cd-fixture-serve}"
 DATASTORE="${CD_DATASTORE:-$HOME/work/cd-datastore}"
-FIXTURE_PORT=5599
+FIXTURE_PORT="${CD_FIXTURE_PORT:-5599}"
 APP_PORT="${CD_PORT:-5005}"
 
 mkdir -p "$SERVE_DIR" "$DATASTORE"

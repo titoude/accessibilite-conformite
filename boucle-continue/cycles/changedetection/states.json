@@ -195,7 +195,7 @@
         "kind": "interaction",
         "target": "#selector-wrapper",
         "deterministic": true,
-        "setup": "saisie URL fixture + clic Go → fetch navigateur réel (proxy CDP)"
+        "setup": "saisie URL fixture + clic Go → fetch navigateur réel (proxy CDP) ; fixture = $CD_FIXTURE_BASE/api-docs.html (défaut http://127.0.0.1:5599) ; garde anti-scan-vide : HTTP 200 + marqueur 'Acme Metrics API' sur la fixture ET xpath_data portant les ids de la fixture dans la réponse /snapshot, sinon FAIL"
       },
       {
         "id": "watchlist-dark",
