@@ -1111,6 +1111,37 @@ index 177be676..aa58ad64 100644
  				<Dialog.Content size="xl">
  					<Dialog.Header>
  						<Dialog.Title>{t('thumbnailSelector.title')}</Dialog.Title>
+diff --git a/packages/browser/src/scenes/bookClub/tabs/settings/danger/DeleteBookClubSection.tsx b/packages/browser/src/scenes/bookClub/tabs/settings/danger/DeleteBookClubSection.tsx
+index 89b4bf22..428ee4cc 100644
+--- a/packages/browser/src/scenes/bookClub/tabs/settings/danger/DeleteBookClubSection.tsx
++++ b/packages/browser/src/scenes/bookClub/tabs/settings/danger/DeleteBookClubSection.tsx
+@@ -28,17 +28,15 @@ export default function DeleteBookClubSection() {
+ 				id={id}
+ 				onClose={() => setShowConfirmation(false)}
+ 				trigger={
+-					<div>
+-						<Button
+-							type="button"
+-							variant="destructive"
+-							onClick={() => setShowConfirmation(true)}
+-							className="shrink-0"
+-							size="default"
+-						>
+-							{t(getKey('trigger'))}
+-						</Button>
+-					</div>
++					<Button
++						type="button"
++						variant="destructive"
++						onClick={() => setShowConfirmation(true)}
++						className="shrink-0 self-start"
++						size="default"
++					>
++						{t(getKey('trigger'))}
++					</Button>
+ 				}
+ 			/>
+ 		</div>
 diff --git a/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx b/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx
 index 5406a433..eb688295 100644
 --- a/packages/browser/src/scenes/bookClub/tabs/settings/members/MemberActionMenu.tsx
@@ -1166,6 +1197,28 @@ index 13bc0308..8fe4c897 100644
 +		</main>
  	)
  }
+diff --git a/packages/browser/src/scenes/error/ServerConnectionErrorScene.tsx b/packages/browser/src/scenes/error/ServerConnectionErrorScene.tsx
+index 1a9504ed..36b96eed 100644
+--- a/packages/browser/src/scenes/error/ServerConnectionErrorScene.tsx
++++ b/packages/browser/src/scenes/error/ServerConnectionErrorScene.tsx
+@@ -76,7 +76,7 @@ export default function ServerConnectionErrorScene() {
+ 	}
+ 
+ 	return (
+-		<div data-tauri-drag-region className="flex h-screen w-screen items-center bg-background">
++		<main data-tauri-drag-region className="flex h-screen w-screen items-center bg-background">
+ 			<motion.div
+ 				// @ts-expect-error: It's fine
+ 				className="w-screen shrink-0"
+@@ -127,7 +127,7 @@ export default function ServerConnectionErrorScene() {
+ 					</div>
+ 				</motion.div>
+ 			)} */}
+-		</div>
++		</main>
+ 	)
+ }
+ 
 diff --git a/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx b/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx
 index 8c350aef..284945c7 100644
 --- a/packages/browser/src/scenes/library/tabs/settings/LibrarySettingsSelectNavigation.tsx
@@ -1202,6 +1255,68 @@ index 5faa4e56..c90320f2 100644
  				options={userOptions}
  				value={excludedUserIds}
  				isMultiSelect
+diff --git a/packages/browser/src/scenes/library/tabs/settings/danger/deletion/CleanLibrary.tsx b/packages/browser/src/scenes/library/tabs/settings/danger/deletion/CleanLibrary.tsx
+index 3d68faab..2d1e0d05 100644
+--- a/packages/browser/src/scenes/library/tabs/settings/danger/deletion/CleanLibrary.tsx
++++ b/packages/browser/src/scenes/library/tabs/settings/danger/deletion/CleanLibrary.tsx
+@@ -108,18 +108,16 @@ export default function CleanLibrary() {
+ 					onConfirm={handleClean}
+ 					confirmIsLoading={isPending}
+ 					trigger={
+-						<div>
+-							<Button
+-								type="button"
+-								onClick={() => setShowConfirmation(true)}
+-								className="shrink-0"
+-								disabled={isNoneMissingState || isPending}
+-								isLoading={isPending}
+-								variant="destructive"
+-							>
+-								{t(getKey('confirmation.label'))}
+-							</Button>
+-						</div>
++						<Button
++							type="button"
++							onClick={() => setShowConfirmation(true)}
++							className="shrink-0"
++							disabled={isNoneMissingState || isPending}
++							isLoading={isPending}
++							variant="destructive"
++						>
++							{t(getKey('confirmation.label'))}
++						</Button>
+ 					}
+ 				/>
+ 			</div>
+diff --git a/packages/browser/src/scenes/library/tabs/settings/danger/deletion/DeleteLibrary.tsx b/packages/browser/src/scenes/library/tabs/settings/danger/deletion/DeleteLibrary.tsx
+index fc16f33b..c2619fe8 100644
+--- a/packages/browser/src/scenes/library/tabs/settings/danger/deletion/DeleteLibrary.tsx
++++ b/packages/browser/src/scenes/library/tabs/settings/danger/deletion/DeleteLibrary.tsx
+@@ -29,16 +29,14 @@ export default function DeleteLibrary() {
+ 				libraryName={name}
+ 				onClose={() => setShowConfirmation(false)}
+ 				trigger={
+-					<div>
+-						<Button
+-							type="button"
+-							variant="destructive"
+-							onClick={() => setShowConfirmation(true)}
+-							className="shrink-0"
+-						>
+-							Delete library
+-						</Button>
+-					</div>
++					<Button
++						type="button"
++						variant="destructive"
++						onClick={() => setShowConfirmation(true)}
++						className="shrink-0 self-start"
++					>
++						Delete library
++					</Button>
+ 				}
+ 			/>
+ 		</div>
 diff --git a/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx b/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx
 index ac702ba1..bc2d6a48 100644
 --- a/packages/browser/src/scenes/library/tabs/settings/options/scanner/history/ScanHistoryTable.tsx
@@ -1862,6 +1977,35 @@ index c7c41e60..563bb30a 100644
  				id: 'actions',
  				size: 28,
  			}),
+diff --git a/packages/browser/src/scenes/smartList/settings/danger/DangerSettingsScene.tsx b/packages/browser/src/scenes/smartList/settings/danger/DangerSettingsScene.tsx
+index bd9555b9..16ecc059 100644
+--- a/packages/browser/src/scenes/smartList/settings/danger/DangerSettingsScene.tsx
++++ b/packages/browser/src/scenes/smartList/settings/danger/DangerSettingsScene.tsx
+@@ -28,16 +28,14 @@ export default function DangerSettingsScene() {
+ 					id={id}
+ 					onClose={() => setShowConfirmation(false)}
+ 					trigger={
+-						<div>
+-							<Button
+-								type="button"
+-								variant="destructive"
+-								onClick={() => setShowConfirmation(true)}
+-								className="shrink-0"
+-							>
+-								Delete list
+-							</Button>
+-						</div>
++						<Button
++							type="button"
++							variant="destructive"
++							onClick={() => setShowConfirmation(true)}
++							className="shrink-0 self-start"
++						>
++							Delete list
++						</Button>
+ 					}
+ 				/>
+ 			</div>
 diff --git a/packages/components/src/button/Button.tsx b/packages/components/src/button/Button.tsx
 index 29950bd8..8802908c 100644
 --- a/packages/components/src/button/Button.tsx
@@ -2280,7 +2424,7 @@ index e597900e..c77d03d9 100644
  				ref={ref}
  				align={align}
 diff --git a/packages/components/src/select/ComboBox.tsx b/packages/components/src/select/ComboBox.tsx
-index 9f9630d1..23e90077 100644
+index 9f9630d1..e90c06e2 100644
 --- a/packages/components/src/select/ComboBox.tsx
 +++ b/packages/components/src/select/ComboBox.tsx
 @@ -5,6 +5,7 @@ import {
@@ -2308,15 +2452,16 @@ index 9f9630d1..23e90077 100644
  	description,
  	descriptionPosition = 'bottom',
  	isMultiSelect,
-@@ -208,6 +212,7 @@ export function ComboBox({
+@@ -208,6 +212,8 @@ export function ComboBox({
  
  	const topDescription = description && descriptionPosition === 'top'
  	const bottomDescription = description && descriptionPosition === 'bottom'
 +	const labelId = useId()
++	const listboxId = useId()
  
  	/**
  	 * An effect to ensure that the value is always an array when `isMultiSelect` is true. This
-@@ -225,95 +230,120 @@ export function ComboBox({
+@@ -225,95 +231,123 @@ export function ComboBox({
  		}
  	}, [isMultiSelect, value, onChange, options])
  
@@ -2367,7 +2512,9 @@ index 9f9630d1..23e90077 100644
 +				</Button>
 +			) : (
 +				<Popover open={open} onOpenChange={setOpen}>
-+					<Popover.Trigger asChild disabled={disabled}>
++					{/* Fermé, le contenu n'est pas monté : ne pas émettre aria-controls
++						vers une idref absente. Ouvert, il pointe l'id forcé sur Content. */}
++					<Popover.Trigger asChild disabled={disabled} aria-controls={open ? listboxId : undefined}>
 +						<Button
 +							ref={mergeRefs(triggerRef, triggerRefProps)}
 +							variant="outline"
@@ -2382,6 +2529,7 @@ index 9f9630d1..23e90077 100644
 +					</Popover.Trigger>
 +					{/* FIXME: this does NOT scroll right... */}
 +					<Popover.Content
++						id={listboxId}
 +						sideOffset={6}
  						className={cn(
 -							'gap-1.5 justify-between rounded-interactive border-border bg-input/30 text-foreground outline-none hover:bg-input/50 data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/50',

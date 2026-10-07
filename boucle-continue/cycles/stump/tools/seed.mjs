@@ -54,13 +54,22 @@ for (const [src, dst] of [['leaves.epub', 'leaves.epub'], ['book_image_cover.epu
   const s = join(repo, 'core/integration-tests/data', src); const d = join(bookDir, dst);
   if (!existsSync(d) && existsSync(s)) { copyFileSync(s, d); seedFiles.push(d); }
 }
+// oneshots : `_oneshots` est un NOM de dossier matché par le walker à
+// l'intérieur de la bibliothèque (cf. core/src/scan/walk.rs) — pas un chemin
+const osDir = join(mediaRoot, 'library-comics', '_oneshots');
+mkdirSync(osDir, { recursive: true });
+for (const n of ['oneshot-alpha.cbz', 'oneshot-beta.cbz']) {
+  const p = join(osDir, n); if (!existsSync(p)) { writeFileSync(p, cbz(n)); seedFiles.push(p); }
+}
 console.log(`[seed] fichiers: ${seedFiles.length ? seedFiles.join(', ') : 'déjà en place'}`);
 
 // ── 2. claim + register admin ─────────────────────────────────────────────
 const j = async (r) => { const t = await r.text(); try { return JSON.parse(t); } catch { return t; } };
 const claim = await (await fetch(`${base}/api/v2/claim`)).json().catch(() => null);
 console.log('[seed] claim status:', JSON.stringify(claim));
-if (claim === false || (claim && claim.is_claimed === false)) {
+// l'API renvoie {"isClaimed":false} en camelCase (v0.1.10) — tolérer snake_case au cas où
+const unclaimed = claim === false || (claim && (claim.isClaimed === false || claim.is_claimed === false));
+if (unclaimed) {
   const r = await fetch(`${base}/api/v2/auth/register`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ username: USER, password: PASS }) });
   console.log('[seed] register:', r.status);
 }
@@ -89,11 +98,24 @@ for (const w of wanted) {
   } else console.log(`[seed] library déjà présente: ${w.name}`);
 }
 
-// ── 5. attente scan READY ─────────────────────────────────────────────────
+// ── 4b. oneshots : activer oneshotsDirectory='_oneshots' sur Comics + rescan
+const { libraries: { nodes: libs2 } } = await gql('{libraries{nodes{id name}}}');
+const comics = libs2.find(l => l.name === 'Comics');
+if (comics) {
+  const cur = await gql('query($id:ID!){libraryById(id:$id){config{oneshotsDirectory}}}', { id: comics.id });
+  if (!cur.libraryById.config.oneshotsDirectory) {
+    await gql('mutation($id:ID!,$i:PatchLibraryConfigInput!){patchLibraryConfig(id:$id,input:$i){id}}', { id: comics.id, i: { oneshotsDirectory: '_oneshots' } });
+    await gql('mutation($id:ID!){scanLibrary(id:$id)}', { id: comics.id });
+    console.log('[seed] oneshots_directory=_oneshots activé sur Comics + rescan');
+  }
+}
+
+// ── 5. attente scan READY (séries + oneshots) ─────────────────────────────
 for (let i = 0; i < 30; i++) {
   const { media: { nodes: media } } = await gql('{media{nodes{id status name}}}');
   const pending = media.filter(m => m.status !== 'READY' && m.status !== 'ERROR');
-  if (!pending.length) { console.log(`[seed] ${media.length} media READY`); break; }
+  const { series: { nodes: oneshots } } = await gql('{series(filter:{isOneshot:true}){nodes{id}}}');
+  if (!pending.length && oneshots.length >= 2) { console.log(`[seed] ${media.length} media READY`); break; }
   if (i === 29) { console.error('[seed] scan toujours en cours après 150s:', pending.map(m => m.name)); process.exit(1); }
   await new Promise(r => setTimeout(r, 5000));
 }

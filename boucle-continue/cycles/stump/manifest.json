@@ -10,13 +10,15 @@
   "boot": {
     "deps": "node v24 via nvm + cargo 1.97.1 (~/.cargo/bin) + yarn 1.22 ; apt pkg-config libssl-dev cmake (openssl-sys/sqlite compilés)",
     "install": "yarn install --frozen-lockfile (monorepo)",
-    "build": "yarn workspace @stump/browser build (vite → apps/web/dist) ; cargo build -p stump_server (debug, ~4min) — STUMP_CLIENT_DIR=<repo>/apps/web/dist injecté par debug_setup",
-    "run": "STUMP_CONFIG_DIR=~/boucle-runs/stump/config STUMP_PORT=11334 ./target/debug/stump_server (log ~/boucle-runs/stump/server-11334.log ; data sqlite dans CONFIG_DIR/stump.db)",
+    "build": "yarn workspace @stump/browser build (vite → apps/web/dist) ; cargo build -p stump_server (debug, ~4min)",
+    "client_dir_real": "debug_setup() dans apps/server/src/main.rs : #[cfg(debug_assertions)] → std::env::set_var(\"STUMP_CLIENT_DIR\", env!(\"CARGO_MANIFEST_DIR\")+\"/../web/dist\") — le chemin de la dist est gravé DANS le binaire à la compilation et prime sur client_dir du Stump.toml et sur l'env shell. Un binaire compilé dans le clone A sert TOUJOURS la dist de A, même copié/lancé ailleurs. Conséquence install-build : la 2e instance DOIT être compilée dans SON clone (cargo build dans ~/work/stump-ib) pour servir sa propre dist.",
+    "run": "STUMP_CONFIG_DIR=~/boucle-runs/stump/config STUMP_PORT=11334 ./target/debug/stump_server (log ~/boucle-runs/stump/server-11334.log ; sqlite dev.db dans core/ du clone) — ib : STUMP_CONFIG_DIR=~/boucle-runs/stump-ib/config STUMP_PORT=11335, binaire compilé dans ~/work/stump-ib",
     "first_boot_notes": "serveur non claimé → admin créé via POST /api/v2/auth/register (1er user = isServerOwner). PAS de wizard UI."
   },
   "seed": {
     "script": "tools/seed.mjs <baseUrl> <repo> <mediaRoot> — idempotent (fichiers + claim + register + createLibrary + attente READY)",
-    "content": "library 'Comics' (2 séries : Alpha Squadron 3 cbz, Beta Tales 2 cbz — alpha-001 = vrai cbz 36p du repo integration-tests, les autres cbz synthétiques 3 pages PNG) ; library 'Books' (série Novels : leaves.epub 697p + the-great-novel.epub 83p depuis core/integration-tests/data). Seed littéral : titres/noms de fichiers réels, pas de lorem.",
+    "content": "library 'Comics' (2 séries : Alpha Squadron 3 cbz, Beta Tales 2 cbz — alpha-001 = vrai cbz 36p du repo integration-tests, les autres cbz synthétiques 3 pages PNG ; + dossier _oneshots/ ingéré via library_config oneshotsDirectory='_oneshots' → 2 séries isOneshot pour la route /oneshots) ; library 'Books' (série Novels : leaves.epub 697p + the-great-novel.epub 83p depuis core/integration-tests/data). Seed littéral : titres/noms de fichiers réels, pas de lorem.",
+    "v2": "fixer v2 : claim check corrigé (isClaimed camelCase ET is_claimed snake) ; création _oneshots/ + PATCH library_config oneshotsDirectory + rescan si oneshots absents (oneshots_directory = NOM de dossier matché à toute profondeur dans walk.rs, PAS un chemin) ; exécuté exit 0 sur 2 bases vierges (:11334, :11335)",
     "determinism": "médias persistés dans stump.db ; aucun compteur temps réel requis par le scope ; scans idempotents"
   },
   "auth": "cookie HttpOnly stump_session persistée en SQLite (StumpSessionStore) — survit aux restarts serveur, auth.json reste valide tant que le cookie n'expire pas (Max-Age 3j) ; regénérable via tools/login.mjs (vrai formulaire /auth). storageState sauvé dans tools/auth.json (éphémère, exclu de provenance).",
@@ -40,7 +42,7 @@
         "/",
         "/libraries",
         "/libraries/create",
-        "/libraries/<comics>/{series,books,files,settings/basics,settings/scanning,settings/access-control}",
+        "/libraries/<comics>/{series,books,files,oneshots,settings/basics,settings/scanning,settings/access-control,settings/reading,settings/thumbnails,settings/analysis,settings/metadata,settings/delete}",
         "/series",
         "/series/<alpha-squadron>/{books,files,settings}",
         "/books",
@@ -52,6 +54,7 @@
         "/smart-lists",
         "/smart-lists/create",
         "/settings/{account,preferences,reader,api-keys,server,logs,jobs,users,users/create,email,email/new,metadata-integrations,tags}",
+        "/server-connection-error",
         "/not-a-route (404)"
       ],
       "states": [
@@ -75,7 +78,10 @@
     "smart-list <id> : aucune smart-list seedée (éditeur DSL volumineux) — create/list couverts",
     "OIDC providers : non configurés (bouton login OIDC absent du rendu)",
     "themes autres que light/dark (bronze/ocean/cosmic/pumpkin/autumn/midnight) : même mécanisme de classe ; dark-theme couvre la matrice sombre",
-    "états d'erreur non déterministes : 500 server, offline"
+    "états d'erreur non déterministes : 500 server, offline",
+    "/settings/users/<id>/manage : redirige vers /settings/users si l'id ne peut pas être résolu avant rendu — pas de surface stable",
+    "/settings/email/<id>/edit : nécessite une entité email existante ; aucune n'est seedable via l'API publique — /settings/email et /email/new couvrent la surface",
+    "/settings/jobs : badge rows dépendants du contenu db — couvert, mais verify.mjs n'asserte plus de comptage de badges (v2)"
   ],
   "auditCommands": [
     "cd boucle-continue/cycles/stump/tools && npm install && npx playwright install chromium",
@@ -88,8 +94,17 @@
     "node verify.mjs http://localhost:11334 auth.json",
     "node eval-final.mjs http://localhost:11334 auth.json",
     "node incomplete-probes.mjs http://localhost:11334 --storage-state auth.json --out ../reports/incomplete-probes.json",
+    "# install-build v2 : clone ~/work/stump-ib @42a9918, patch appliqué, yarn install + yarn web build + cargo build DANS le clone ib (le binaire sert SA dist via debug_setup compile-time)",
+    "cd ~/work/stump-ib && yarn install && yarn web build && cargo build -p stump_server   (~3m36s sur cette box)",
+    "STUMP_CONFIG_DIR=~/boucle-runs/stump-ib/config STUMP_PORT=11335 ~/work/stump-ib/target/debug/stump_server &",
+    "node seed.mjs http://localhost:11335 ~/work/stump-ib ~/boucle-runs/stump-ib   (serveur vierge → register exécuté, prouve le fix isClaimed)",
+    "node login.mjs http://localhost:11335 auth-11335.json",
     "node audit.mjs http://localhost:11335 --urls /auth --states login-failed --wait 500 --out ../reports/install-build-public",
-    "node audit.mjs http://localhost:11335 --urls \"$(paste -sd, urls-auth.txt)\" --states sidebar-user-menu,library-options-menu,library-delete-confirm,job-toast,book-action-menu,directory-picker-modal,book-card-hover-menu,dark-theme,mobile-nav --storage-state auth-11335.json --wait 500 --out ../reports/install-build-auth"
+    "node audit.mjs http://localhost:11335 --urls \"$(paste -sd, urls-auth.txt)\" --states sidebar-user-menu,library-options-menu,library-delete-confirm,job-toast,book-action-menu,directory-picker-modal,book-card-hover-menu,dark-theme,mobile-nav --storage-state auth-11335.json --wait 500 --out ../reports/install-build-auth",
+    "node incomplete-probes.mjs http://localhost:11335 --storage-state auth-11335.json --reports ../reports/install-build-public ../reports/install-build-auth --out ../reports/incomplete-probes-ib.json",
+    "node verify.mjs http://localhost:11335 auth-11335.json",
+    "# baseline des 7 routes ajoutées au scope v2 : dist vanilla @42a9918 (clone ~/work/stump-vanilla) swapée dans ~/work/stump/apps/web/dist puis scannée sur :11334",
+    "node audit.mjs http://localhost:11334 --urls /libraries/<comics>/settings/{delete,reading,thumbnails,analysis,metadata},/libraries/<comics>/oneshots,/server-connection-error --states none --storage-state auth.json --wait 500 --out ../reports/baseline-newscope"
   ],
   "wait_rationale": "--wait 500 : SPA ReactQuery — le rendu post-navigation est quasi-instantané après load mais les suspense-queries (sidebar sections, cards) arrivent en ~200-400ms ; settleAnimations couvre les transitions CSS ; les states attendent leurs propres sélecteurs.",
   "toolVersions": {

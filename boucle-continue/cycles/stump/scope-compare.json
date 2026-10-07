@@ -1,10 +1,12 @@
 {
- "note": "baseline=fichiers vanilla @42a9918c1542 servis par l'instance :11334 / final=même instance + dist rebuild depuis sources patchées. scopeHash identique = même périmètre exact (urls×states).",
+ "note": "baseline = baseline-public+auth (46 pages v1) + baseline-newscope (7 routes ajoutées au scope v2, dist vanilla @42a9918 swapée sur :11334) ; final = même périmètre 53 scénarios, dist rebuildée depuis sources patchées.",
  "baseline_scopeHash_auth": "f93274fc3bae13221e63f92d086a7a937a815d0d8c7abfd3ae5546973deb3439",
- "final_scopeHash_auth": "f93274fc3bae13221e63f92d086a7a937a815d0d8c7abfd3ae5546973deb3439",
+ "final_scopeHash_auth": "4bead2cbfce163de4b92b80a13d28b0e1f525365fa565cf534aa4582ad20a01d",
  "baseline_scopeHash_public": "9da0c44ce847a061d1fd81b524ac282765d3359babb5fa04cf0346752946a0b6",
  "final_scopeHash_public": "9da0c44ce847a061d1fd81b524ac282765d3359babb5fa04cf0346752946a0b6",
- "scope_identique": true,
+ "scope_note": "scopeHash auth diffère entre baseline-auth (v1, 35 urls) et final-auth (v2, 42 urls) : le scope a été ÉTENDU par le fixer v2. baseline-newscope (hash 34e23997) couvre les 7 routes ajoutées — même session :11334, dist vanilla.",
+ "baseline_newscope_scopeHash": "34e2399745439974b09aaaecf030668058da9f25df86ad11439396ecb7581b9d",
+ "scope_identique_v2": "n/a — baseline-newscope = sous-ensemble 7 urls (son hash est celui du sous-ensemble, pas du scope complet)",
  "pages": {
   "http://localhost:11334/": {
    "baseline": {
@@ -21,7 +23,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 9
+    "incomplete": 11
    }
   },
   "http://localhost:11334/ [state:book-card-hover-menu]": {
@@ -39,7 +41,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 9
+    "incomplete": 11
    }
   },
   "http://localhost:11334/ [state:dark-theme]": {
@@ -56,7 +58,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 9
+    "incomplete": 11
    }
   },
   "http://localhost:11334/ [state:job-toast]": {
@@ -74,7 +76,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 9
+    "incomplete": 11
    }
   },
   "http://localhost:11334/ [state:library-delete-confirm]": {
@@ -90,7 +92,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 10
+    "incomplete": 12
    }
   },
   "http://localhost:11334/ [state:library-options-menu]": {
@@ -111,7 +113,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 10
+    "incomplete": 12
    }
   },
   "http://localhost:11334/ [state:mobile-nav]": {
@@ -149,7 +151,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 10
+    "incomplete": 12
    }
   },
   "http://localhost:11334/auth": {
@@ -265,7 +267,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 1
+    "incomplete": 0
    }
   },
   "http://localhost:11334/clubs": {
@@ -380,6 +382,27 @@
     "incomplete": 0
    }
   },
+  "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/oneshots": {
+   "baseline": {
+    "violations": 27,
+    "rules": [
+     "aria-allowed-attr",
+     "aria-input-field-name",
+     "aria-valid-attr-value",
+     "button-name",
+     "color-contrast",
+     "label"
+    ],
+    "errors": 0,
+    "incomplete": 5
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 5
+   }
+  },
   "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/series": {
    "baseline": {
     "violations": 26,
@@ -398,7 +421,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 5
+    "incomplete": 9
    }
   },
   "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/access-control": {
@@ -422,7 +445,93 @@
     "incomplete": 0
    }
   },
+  "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/analysis": {
+   "baseline": {
+    "violations": 26,
+    "rules": [
+     "aria-allowed-attr",
+     "button-name",
+     "color-contrast",
+     "link-name",
+     "list",
+     "listitem"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
   "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/basics": {
+   "baseline": {
+    "violations": 27,
+    "rules": [
+     "aria-allowed-attr",
+     "button-name",
+     "color-contrast",
+     "link-name",
+     "list",
+     "listitem",
+     "select-name"
+    ],
+    "errors": 0,
+    "incomplete": 3
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 2
+   }
+  },
+  "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/delete": {
+   "baseline": {
+    "violations": 31,
+    "rules": [
+     "aria-allowed-attr",
+     "button-name",
+     "color-contrast",
+     "link-name",
+     "list",
+     "listitem",
+     "select-name"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/metadata": {
+   "baseline": {
+    "violations": 26,
+    "rules": [
+     "aria-allowed-attr",
+     "button-name",
+     "color-contrast",
+     "link-name",
+     "list",
+     "listitem"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
+   }
+  },
+  "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/reading": {
    "baseline": {
     "violations": 27,
     "rules": [
@@ -464,7 +573,28 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 1
+    "incomplete": 0
+   }
+  },
+  "http://localhost:11334/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/thumbnails": {
+   "baseline": {
+    "violations": 24,
+    "rules": [
+     "aria-allowed-attr",
+     "button-name",
+     "color-contrast",
+     "link-name",
+     "list",
+     "listitem"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
    }
   },
   "http://localhost:11334/libraries/create": {
@@ -483,7 +613,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 2
+    "incomplete": 1
    }
   },
   "http://localhost:11334/libraries/create [state:directory-picker-modal]": {
@@ -596,7 +726,24 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 1
+    "incomplete": 0
+   }
+  },
+  "http://localhost:11334/server-connection-error": {
+   "baseline": {
+    "violations": 2,
+    "rules": [
+     "landmark-one-main",
+     "region"
+    ],
+    "errors": 0,
+    "incomplete": 0
+   },
+   "final": {
+    "violations": 0,
+    "rules": [],
+    "errors": 0,
+    "incomplete": 0
    }
   },
   "http://localhost:11334/settings/account": {
@@ -617,7 +764,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 1
+    "incomplete": 0
    }
   },
   "http://localhost:11334/settings/api-keys": {
@@ -765,7 +912,7 @@
     "violations": 0,
     "rules": [],
     "errors": 0,
-    "incomplete": 2
+    "incomplete": 1
    }
   },
   "http://localhost:11334/settings/reader": {
@@ -911,10 +1058,5 @@
     "incomplete": 2
    }
   }
- },
- "install_build": {
-  "scopeHash_auth": "147ac02be70352815567ed90e3104eb013d29cd015401843e20ebe300deca975",
-  "statesHash_auth": "d6556ab495eeb307bf00ad54ce678a74f177c251ff941dcf503a222011ed81d5",
-  "note": "hashes différents sur :11335 = port intégré aux URLs résolues des setups (url:b=>`b/`), mêmes STATES et même périmètre ; baseline↔final identiques sur :11334"
  }
 }

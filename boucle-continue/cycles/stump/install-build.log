@@ -1,19 +1,54 @@
-=== install-build cycle 34 (stump) — rejeu indépendant ===
-1. git clone https://github.com/stumpapp/stump ~/boucle-runs/stump-clone-check
-2. git checkout 42a9918c1542                                  (SHA épinglé du cycle)
-3. git apply --check patch.diff -> 0 rejet ; git apply -> 131 fichiers modifiés
-4. yarn install --frozen-lockfile (yarn 1.22.22, workspaces+lerna)  -> exit 0 (~76s)
-5. yarn web build (lerna run --scope @stump/web build -> vite/rolldown)
-   -> exit 0 (~26s), apps/web/dist régénéré (197 entrées précachées PWA)
-6. 2e instance du binaire stump_server (debug, inchangé — patch = front only)
-   CWD=clone, STUMP_CONFIG_DIR=~/boucle-runs/stump-ib/config, port 11335
-   Stump.toml : client_dir=<clone>/apps/server/../web/dist, db_path=~/boucle-runs/stump-ib
-   (db_path=répertoire -> sqlite://.../stump.db, copie de dev.db seedée)
-7. node seed.mjs http://localhost:11335 <clone> ~/boucle-runs/stump-ib
-   -> claim déjà fait (DB copiée), 2 libs, 7 media READY ; node login.mjs -> auth-11335.json
-8. rescan : audit.mjs :11335 public (/auth + login-failed) = 0 règle / 0 occ / 2 incomplets
-   auth (36 urls + 9 states) = 0 règle / 0 occ / 111 incomplets
-   -> REPLAY OK : le patch reproduit l'état 0 violation sur build indépendant
-NOTE : le binaire sert la dist au repo compilé via client_dir du Stump.toml — le patch
-ne touchant aucun .rs, réutiliser target/debug/stump_server est exact pour la partie
-patchée (cargo build non requis, ~30min évités, honestement tracé ici).
+=== install-build cycle 34 (stump) — rejeu indépendant v2 ===
+
+NOTE MÉCANISME (correction W3 — le log v1 décrivait un mécanisme FAUX) :
+le v1 disait « le binaire sert la dist du repo compilé via client_dir du
+Stump.toml ». Réalité mesurée : apps/server/src/main.rs::debug_setup()
+(sous #[cfg(debug_assertions)]) fait
+    std::env::set_var("STUMP_CLIENT_DIR",
+        concat!(env!("CARGO_MANIFEST_DIR"), "/../web/dist"))
+→ le chemin de la dist est GRAVÉ DANS LE BINAIRE à la compilation
+(CARGO_MANIFEST_DIR du clone où cargo build a tourné) et PRIME sur
+client_dir du Stump.toml et sur l'env shell. Preuve `strings` :
+  binaire principal : /home/ubuntu/work/stump/apps/server/../web/dist
+  binaire ib        : /home/ubuntu/work/stump-ib/apps/server/../web/dist
+Conséquence : en v1 l'instance :11335 relançait le binaire du clone
+principal avec CWD=clone-ib → elle servait la dist du clone PRINCIPAL
+(le front audité, pas celui du clone indépendant). Le rejeu ne couvrait
+donc que le backend/db de l'ib — pas son build front.
+
+=== rejeu refait proprement (v2) ===
+1. git clone ~/work/stump ~/work/stump-ib
+2. git checkout 42a9918c1542234aa35dc4250cd00e85f96c7031
+3. git apply --check patch.diff -> 0 rejet ; git apply -> 136 fichiers
+   modifiés (136 après ajout des fixes F1/W4/W5/W6 ; v1 = 131)
+4. yarn install --frozen-lockfile (yarn 1.22.22) -> exit 0
+5. yarn web build (vite) -> exit 0, ~/work/stump-ib/apps/web/dist
+6. cargo build -p stump_server DANS ~/work/stump-ib (toolchain
+   rust 1.97.1, PKG_CONFIG_PATH=/usr/lib/x86_64-linux-gnu/pkgconfig:
+   /usr/share/pkgconfig, shims cmake/pkgconf ~/.pyenv/shims)
+   -> exit 0 en ~3m36s ; binaire ~/work/stump-ib/target/debug/
+   stump_server dont debug_setup pointe sur SON propre
+   apps/web/dist (vérif `strings` ci-dessus)
+7. STUMP_CONFIG_DIR=~/boucle-runs/stump-ib/config STUMP_PORT=11335
+   ~/work/stump-ib/target/debug/stump_server   (shell persistant
+   'stump-ib2', db sqlite vierge dans ~/work/stump-ib/core/dev.db)
+8. node seed.mjs http://localhost:11335 ~/work/stump-ib
+   ~/boucle-runs/stump-ib  -> serveur VRAIMENT VIERGE : claim check
+   isClaimed=false -> POST /api/v2/auth/register 200, 2 libs, 9 media
+   READY dont 2 oneshots, exit 0  (prouve le fix W2)
+   node login.mjs :11335 -> auth-11335.json
+9. re-scan complet sur :11335 (SA dist, SA db, SON binaire) :
+   install-build-public : /auth + login-failed
+       -> 0 règle / 0 occurrence / 0 erreur / 2 incomplets
+   install-build-auth : 42 urls + 9 states = 51 scénarios
+       -> 0 règle / 0 occurrence / 0 erreur / 131 incomplets
+   incomplete-probes-ib (sondés depuis les rapports ib, origine
+   réécrite :11335) : 133 sondes -> 133 conformes, 0 non conformes,
+   0 non retrouvées (dont la sonde color-contrast du <select> sur
+   settings/scanning, présente seulement sur ib — même pile de rendu
+   background-image que celles déjà résolues)
+   verify.mjs :11335 : 41 assertions -> 40 PASS / 1 N-A / 0 FAIL
+   (N-A = text-warning jamais rendu dans la db seedée — assertion
+   déterministe v2, non db-dépendante)
+   -> REPLAY OK : le patch reproduit 0 violation sur un build
+      indépendant qui sert RÉELLEMENT sa propre dist.

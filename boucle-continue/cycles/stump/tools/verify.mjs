@@ -306,22 +306,31 @@ ok('libraries/create: tous les champs ont un nom accessible', create.count > 0 &
     await anon.close();
 }
 
-// badges text-destructive/success/warning sur tint /15 (thème light)
+// badges text-destructive/success/warning sur tint /15 (thème light).
+// DÉTERMINISTE : exactement une assertion par famille sémantique (le nombre
+// d'éléments rendus dépend du contenu de la db — historique de jobs variable)
+// ; chaque assertion exige le PIRE ratio de sa famille >= 4.5.
 await page.goto(`${base}/settings/jobs`, { waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(900);
 const badge = await page.evaluate(`${BROWSER_HELPERS}
     (() => {
-        const cands = [...document.querySelectorAll('[class*="text-destructive"], [class*="text-success"], [class*="text-warning"]')]
-            .filter(e => e.getClientRects().length > 0);
-        return cands.slice(0, 6).map(el => {
-            const cs = getComputedStyle(el);
-            const fg = parse(cs.color); const bg = effectiveBg(el);
-            return { cls: String(el.className).slice(0, 60), fg, bg, ratio: fg && bg ? ratio(lum(fg), lum(bg)) : null };
+        return ['text-destructive', 'text-success', 'text-warning'].map(fam => {
+            const els = [...document.querySelectorAll('[class*="' + fam + '"]')]
+                .filter(e => e.getClientRects().length > 0);
+            const measured = els.map(el => {
+                const cs = getComputedStyle(el);
+                const fg = parse(cs.color); const bg = effectiveBg(el);
+                return { cls: String(el.className).slice(0, 60), ratio: fg && bg ? ratio(lum(fg), lum(bg)) : null };
+            });
+            const worst = measured.reduce((w, m) => (m.ratio !== null && (w === null || m.ratio < w)) ? m.ratio : w, null);
+            return { fam, count: els.length, worst, ratios: measured.map(m => m.ratio) };
         });
     })()
 `);
-if (!badge.length) na('badges sémantiques tint /15', 'aucun badge rendu sur settings/jobs');
-else for (const bdeg of badge) ok(`badge "${bdeg.cls}" ratio >= 4.5`, bdeg.ratio !== null && bdeg.ratio >= 4.5, JSON.stringify({ ratio: bdeg.ratio, fg: bdeg.fg, bg: bdeg.bg }));
+for (const b of badge) {
+    if (!b.count) na(`badge ${b.fam}`, 'aucun élément rendu sur settings/jobs');
+    else ok(`badge ${b.fam} (${b.count} élément(s)): pire ratio >= 4.5`, b.worst !== null && b.worst >= 4.5, JSON.stringify(b));
+}
 
 // ── 12. Erreur de login : message rendu + formulaire encore utilisable ─────
 {

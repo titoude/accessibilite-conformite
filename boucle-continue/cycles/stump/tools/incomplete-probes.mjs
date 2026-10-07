@@ -286,8 +286,29 @@ const EVAL_NODE = `
         const fg = parse(cs.color) || parse(cs.fill);
         const bg = effectiveBg(el);
         if (fg && fg.a <= 0.02) {
-            out.fg = fg; out.pass = null;
-            out.note = 'texte transparent (alpha ~0) — non rendu, contraste non applicable';
+            out.fg = fg;
+            const bgClip = cs.webkitBackgroundClip || cs.backgroundClip;
+            const bi = cs.backgroundImage || '';
+            if (bgClip === 'text' && /gradient/.test(bi)) {
+                // background-clip:text — les glyphes sont peints par les stops
+                // du dégradé (rendus), pas par color ; axe ne sait pas le
+                // mesurer. Verdict honnête : pire ratio stop-vs-fond, seuil
+                // 3:1 si grand texte (>=24px ou >=18.66px gras), sinon 4.5:1.
+                const stops = [...bi.matchAll(/rgba?\\([^)]*\\)|oklch\\([^)]*\\)/g)]
+                    .map(m => parse(m[0])).filter(Boolean);
+                const ratios = bg ? stops.map(s => ratio(lum(s), lum(bg))) : [];
+                const worst = ratios.length ? Math.min(...ratios) : null;
+                const fs = parseFloat(cs.fontSize), fw = parseInt(cs.fontWeight, 10) || 400;
+                const large = fs >= 24 || (fs >= 18.66 && fw >= 700);
+                const seuil = large ? 3 : 4.5;
+                out.bg = bg; out.gradientStops = stops; out.worstStopRatio = worst;
+                out.largeText = large;
+                out.pass = worst !== null && worst >= seuil;
+                out.note = 'bg-clip:text — glyphes peints par le dégradé, pire stop vs fond = ' + (worst === null ? 'n/a' : worst.toFixed(2) + ':1') + ' (seuil ' + seuil + ':1' + (large ? ' grand texte' : '') + ')';
+            } else {
+                out.pass = null;
+                out.note = 'texte transparent (alpha ~0) — non rendu, contraste non applicable';
+            }
         }
         // Fond mesuré via la PILE DE PEINTURE réelle : elementsFromPoint
         // donne les couches sous le texte (sœurs incluses), gradients

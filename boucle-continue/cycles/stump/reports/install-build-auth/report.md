@@ -1,39 +1,54 @@
 # Audit accessibilité — 2026-10-07
 
-**0 règle(s) violée(s), 0 occurrence(s), 44/44 scénario(s) audité(s), 0 erreur(s), 111 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 51/51 scénario(s) audité(s), 0 erreur(s), 131 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `147ac02be703`
+Périmètre : scope.json — hash `e2ebe7b9afdd`
 
-## Résultats incomplets à revoir (111)
+## Résultats incomplets à revoir (131)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
 - http://localhost:11335/
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/libraries/create
-  - `#_r_1c_`
+  - `#_r_16_`
 - http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/series
+  - `div:nth-child(1) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .font-bold.text-white.md\:text-lg`
+  - `div:nth-child(1) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .mt-0\.5.text-white\/90.md\:text-sm`
+  - `div:nth-child(2) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .font-bold.text-white.md\:text-lg`
+  - `div:nth-child(2) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .mt-0\.5.text-white\/90.md\:text-sm`
+  - `div:nth-child(3) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .font-bold.text-white.md\:text-lg`
+  - `div:nth-child(3) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .mt-0\.5.text-white\/90.md\:text-sm`
+  - `div:nth-child(4) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .font-bold.text-white.md\:text-lg`
+  - `div:nth-child(4) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .mt-0\.5.text-white\/90.md\:text-sm`
+- http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/oneshots
   - `div:nth-child(1) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .font-bold.text-white.md\:text-lg`
   - `div:nth-child(1) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .mt-0\.5.text-white\/90.leading-tight`
   - `div:nth-child(2) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .font-bold.text-white.md\:text-lg`
   - `div:nth-child(2) > .hover\:opacity-80.block.group > .relative > .px-2\.5.left-0.py-2 > .mt-0\.5.text-white\/90.leading-tight`
 - http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/basics
-  - `#_r_1s_`
+  - `#_r_16_`
   - `select`
 - http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/scanning
   - `select`
+- http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/reading
+  - `select[aria-label="Image scaling"]`
+  - `select[aria-label="Reading direction"]`
+  - `select[aria-label="Default reader"]`
 - http://localhost:11335/smart-lists/create
-  - `#_r_a_`
+  - `#_r_8_`
   - `select`
 - http://localhost:11335/settings/preferences
   - `.enabled\:hover\:bg-muted\/40`
@@ -42,67 +57,79 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 - http://localhost:11335/settings/email/new
   - `select`
 - http://localhost:11335/ [state:sidebar-user-menu]
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/ [state:library-options-menu]
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/ [state:library-delete-confirm]
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/ [state:job-toast]
-  - `div[data-item-index="0"][data-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-item-index="0"][data-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-item-index="0"][data-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-item-index="0"][data-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-item-index="0"][data-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/libraries/create [state:directory-picker-modal]
-  - `#_r_e_`
+  - `#_r_16_`
 - http://localhost:11335/ [state:book-card-hover-menu]
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/ [state:dark-theme]
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
+  - `div[data-index="0"][data-item-index="0"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(2) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
   - `div[data-index="1"][data-item-index="1"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="2"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
-  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="2"][data-item-index="2"][data-known-size="152"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - `div[data-index="3"] > .px-1\.5.pb-1.gap-3 > div:nth-child(1) > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-gray-200.mt-0\.5.text-xs`
+  - `div[data-index="4"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .font-semibold.text-white.line-clamp-2`
+  - … +1 autres
 - http://localhost:11335/ [state:mobile-nav]
   - `.bg-linear-to-r`
   - `div[data-index="0"][data-item-index="0"][data-known-size="124"] > .px-1\.5.pb-1.gap-3 > div > .rounded-thumbnail.transition-opacity.hover\:opacity-90 > .right-0.z-30.p-2 > .text-white.line-clamp-2.text-wrap\!`
@@ -118,32 +145,22 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### aria-valid-attr-value — ARIA attributes must conform to valid values
 
-- http://localhost:11335/libraries/create
-  - `.hover\:bg-input\/50`
 - http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/series
   - `button[aria-label="Configure ordering"]`
 - http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/books
   - `button[aria-label="Configure ordering"]`
-- http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/settings/basics
-  - `.hover\:bg-input\/50`
+- http://localhost:11335/libraries/55c9cf1e-be71-4735-b59d-13be6e6c17db/oneshots
+  - `button[aria-label="Configure ordering"]`
 - http://localhost:11335/series/cdbcfa8b-04b4-412e-9eb2-a3a1a4283bfa/books
   - `button[aria-label="Configure ordering"]`
-- http://localhost:11335/series/cdbcfa8b-04b4-412e-9eb2-a3a1a4283bfa/settings
-  - `.data-\[state\=open\]\:border-ring`
 - http://localhost:11335/books
   - `button[aria-label="Configure ordering"]`
-- http://localhost:11335/books/69a67b0a-1703-49d0-a489-f6768e2fc34e/manage
-  - `.hover\:bg-input\/50`
-- http://localhost:11335/settings/account
-  - `.data-\[state\=open\]\:border-ring`
-- http://localhost:11335/settings/preferences
-  - `.has-data-\[icon\=inline-end\]\:pr-2\.5`
 - http://localhost:11335/ [state:sidebar-user-menu]
   - `#radix-_r_7_`
 - http://localhost:11335/ [state:library-options-menu]
   - `#radix-_r_k_`
 - http://localhost:11335/books/69a67b0a-1703-49d0-a489-f6768e2fc34e [state:book-action-menu]
-  - `#radix-_r_16_`
+  - `#radix-_r_e_`
 
 ### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
 

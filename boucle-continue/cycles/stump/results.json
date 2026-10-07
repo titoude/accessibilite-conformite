@@ -8,25 +8,25 @@
   "stack": "Rust 1.97 (axum + async-graphql + sea-orm/sqlite) backend + SPA React 19 / TS / Tailwind 4 / Radix UI — monorepo yarn v1, dist servie depuis le disque (client_dir)"
  },
  "baseline": {
-  "surfaces": 46,
+  "surfaces": 53,
   "etats": 0,
-  "violations_occ": 963,
+  "violations_occ": 1126,
   "violations_regles": 20,
   "detail": {
-   "button-name": 344,
-   "color-contrast": 272,
-   "listitem": 180,
-   "aria-allowed-attr": 42,
-   "list": 38,
-   "region": 19,
-   "select-name": 16,
-   "label": 13,
+   "button-name": 383,
+   "color-contrast": 313,
+   "listitem": 220,
+   "aria-allowed-attr": 50,
+   "list": 58,
+   "region": 20,
+   "select-name": 20,
+   "label": 15,
    "image-alt": 7,
    "empty-table-header": 6,
-   "aria-valid-attr-value": 6,
-   "landmark-one-main": 4,
-   "aria-input-field-name": 3,
-   "link-name": 3,
+   "aria-valid-attr-value": 7,
+   "landmark-one-main": 5,
+   "aria-input-field-name": 4,
+   "link-name": 8,
    "empty-heading": 2,
    "heading-order": 2,
    "aria-required-parent": 2,
@@ -39,34 +39,36 @@
    "violations_regles": 4
   },
   "erreurs": 0,
-  "incomplets": 119
+  "incomplets": 127,
+  "note_v2": "scope étendu v2 : 46 surfaces v1 + 7 routes ajoutées (baseline-newscope = dist vanilla @42a9918 swapée sur :11334). Public inchangé (13 occ / 4 règles)."
  },
  "final": {
-  "surfaces": 46,
+  "surfaces": 53,
   "etats": 0,
   "violations_occ": 0,
   "violations_regles": 0,
   "erreurs": 0,
-  "incomplets": 113,
+  "incomplets": 132,
   "public": {
    "violations_occ": 0
-  }
+  },
+  "note_v2": "final-public : 0/0/0/2 ; final-auth : 51 scénarios (42 urls + 9 states) 0/0/0/130 — dist rebuildée depuis sources patchées v2"
  },
  "incomplete_probes": {
-  "sondes": 113,
-  "conformes": 111,
+  "sondes": 132,
+  "conformes": 132,
   "non_conformes": 0,
   "non_retrouvees": 0,
-  "n_a_honnetes": 2,
-  "detail": "2× h1 transparent (alpha~0, non rendu — honeypot formulaire) ; sondes composites alpha multi-couches (scrim gradient + moyenne pixels <img> via canvas), jamais rgba<1 opaque naïf ; phase-2 pour idrefs lazy-mount Radix (ouverture popup puis re-vérif)"
+  "n_a_honnetes": 0,
+  "detail": "132 sondes toutes conformes (v2 : sonde h1 bg-clip:text corrigée — mesure le pire stop de dégradé vs fond, 3.01:1 ≥ 3:1 large-text, au lieu du faux « alpha~0 non rendu »). install-build : 133 sondes → 133 conformes."
  },
  "final_clean_clone": {
   "violations_occ": 0,
-  "note": "clone propre @42a9918 + git apply (131 fichiers, 0 rejet) + yarn install --frozen-lockfile + yarn web build → dist servie par 2e instance binaire :11335 → rescan 0 viol public+auth (install-build.log). Binaire Rust réutilisé (patch = 0 .rs touché — honest)."
+  "note": "v2 HONNÊTE : clone ~/work/stump-ib @42a9918 + git apply (136 fichiers, 0 rejet) + yarn install + yarn web build + cargo build -p stump_server DANS le clone ib (~3m36s) — debug_setup() grave STUMP_CLIENT_DIR=CARGO_MANIFEST_DIR/../web/dist dans le binaire (compile-time, prime sur toml ET env shell ; preuve strings). :11335 sert donc SA propre dist. Rescan : public 0/0/0/2, auth 51 scans 0/0/0/131, probes-ib 133/133, verify 40P/1N-A/0F. (v1 servait par erreur la dist du clone principal — mécanisme corrigé et documenté)."
  },
- "verify_mjs": "44/44 assertions",
- "eval_final_mjs": "38/38 contrôles indépendants (3 N-A honnêtes)",
- "install_build": "OK — clone propre + apply + yarn + vite build + 2e instance :11335 + rescan 0 viol (install-build.log)",
+ "verify_mjs": "41 assertions : 40 PASS / 1 N-A (text-warning jamais rendu — famille absente de la db seedée) / 0 FAIL — v2 : 3 assertions déterministes (une par famille de badge, pire ratio ≥4.5) au lieu du comptage db-dépendant",
+ "eval_final_mjs": "38/38 contrôles indépendants (3 N-A honnêtes) — inchangé, rejoué post-v2",
+ "install_build": "OK v2 — clone ib buildé de bout en bout DANS son clone (yarn + vite + cargo 3m36s), sert sa propre dist (preuve strings), rescan 0 viol 53 scénarios, probes 133/133 (install-build.log réécrit avec le mécanisme réel)",
  "causes_racines": [
   {
    "famille": "noms accessibles boutons-icônes",
@@ -117,5 +119,39 @@
    ],
    "fix": "h1 réels + landmarks"
   }
- ]
+ ],
+ "corrections_post_audit_warts": {
+  "version": "v2",
+  "verdict_source": "verdict-auditeur.md @616e682 — CONFIRMED + findings F1, warts W2-W6",
+  "F1_route_hors_scope": {
+   "statut": "corrigé + rejoué",
+   "correctif": "/libraries/<id>/settings/{delete,reading,thumbnails,analysis,metadata} + /oneshots + /server-connection-error intégrés au scope auth (36→42 urls, urls-auth.txt v2). Triggers ConfirmationModal : trigger={<div><Button/></div>} remplacé par <Button> direct (DeleteLibrary, CleanLibrary, DangerSettingsScene, DeleteBookClubSection) — Radix Dialog.Trigger asChild n'injecte plus les attrs sur un div non interactif.",
+   "rejeu": "baseline-newscope (vanilla) : delete = 7 règles dont 8× aria-allowed-attr au total scope ; final : 0 viol sur les 7 routes."
+  },
+  "W2_seed_isClaimed": {
+   "statut": "corrigé + exécuté sur 2 bases vierges",
+   "correctif": "seed.mjs : claim check accepte isClaimed ET is_claimed ; ajout _oneshots/ + PATCH library_config oneshotsDirectory (NOM de dossier, walk.rs ~L183) + rescan ; attente series(filter:{isOneshot:true})≥2 + media READY.",
+   "rejeu": "exit 0 sur :11334 (db vierge) et :11335 (db vierge) — register POST 200, 9 media READY dont 2 oneshots."
+  },
+  "W3_mecanisme_client_dir": {
+   "statut": "corrigé + refait proprement",
+   "correctif": "install-build.log réécrit : debug_setup() compile-time env!('CARGO_MANIFEST_DIR') → dist gravée dans le binaire, prime sur toml+env. Instance ib recompilée DANS ~/work/stump-ib (cargo 3m36s) — sert SA dist (preuve strings des 2 binaires).",
+   "rejeu": ":11335 scan complet 53 scénarios → 0 viol ; probes-ib 133/133."
+  },
+  "W4_verify_db_dependant": {
+   "statut": "corrigé",
+   "correctif": "verify.mjs : boucle badges → exactement 3 assertions (une par famille text-destructive/success/warning, pire ratio ≥4.5 vs fond résolu).",
+   "rejeu": "41 assertions : 11334 et :11335 → 40 PASS / 1 N-A / 0 FAIL."
+  },
+  "W5_sonde_h1_gradient": {
+   "statut": "corrigé",
+   "correctif": "incomplete-probes.mjs : branche alpha~0 détecte bgClip==='text'+gradient → parse les stops (regex backslashes doublés, pas de backtick dans le template injecté) → pire ratio vs seuil large 3:1.",
+   "rejeu": "h1 bg-clip-text mesuré 3.01:1 ≥ 3:1 → conforme (au lieu du faux « non rendu »)."
+  },
+  "W6_combobox_aria_controls": {
+   "statut": "corrigé",
+   "correctif": "ComboBox.tsx : useId() → Popover.Trigger aria-controls={open?listboxId:undefined} + Popover.Content id={listboxId} (Radix 1.1.1 spread triggerProps/contentProps après les défauts → surchargeable).",
+   "rejeu": "baseline-newscope : 1× aria-valid-attr-value (combobox fermé) → final 0 ; probes idref 132/132 + 133/133."
+  }
+ }
 }
