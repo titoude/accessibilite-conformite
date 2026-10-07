@@ -1,8 +1,8 @@
 # Audit accessibilité — 2026-10-07
 
-**0 règle(s) violée(s), 0 occurrence(s), 47/47 scénario(s) audité(s), 0 erreur(s), 117 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 117 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `edab3b3a0e59`
+Périmètre : scope.json — hash `9e9a6d103564`
 
 ## Résultats incomplets à revoir (117)
 
@@ -16,18 +16,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.seg > .active[href="/"]`
   - `#post-list-unread`
   - `#unread-tab-counter`
-- http://127.0.0.1:5006/diff/e23d8590-5e71-438c-8037-e4819b235461
+- http://127.0.0.1:5006/diff/dc8f3caf-c86d-499b-b6c5-b8d6485437b3
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
   - `#extract-tab > a`
-- http://127.0.0.1:5006/edit/e23d8590-5e71-438c-8037-e4819b235461
+- http://127.0.0.1:5006/edit/dc8f3caf-c86d-499b-b6c5-b8d6485437b3
   - `#time_between_check-weeks`
   - `#time_between_check-days`
   - `#time_between_check-hours`
   - `#time_between_check-minutes`
   - `#time_between_check-seconds`
-- http://127.0.0.1:5006/edit/5876f4a0-20da-47ec-a911-6d0807da03cd
+- http://127.0.0.1:5006/edit/f715f0c3-37e2-46b6-84ae-aeae7d891ef5
   - `#time_between_check-weeks`
   - `#time_between_check-days`
   - `#time_between_check-hours`
@@ -63,23 +63,23 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.modal-btn-info`
 - http://127.0.0.1:5006/ [state:bulk-proxy-modal-open]
   - `.modal-btn-info`
-- http://127.0.0.1:5006/edit/e23d8590-5e71-438c-8037-e4819b235461#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5006/edit/dc8f3caf-c86d-499b-b6c5-b8d6485437b3#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `a[href$="#general"]`
   - `#pro-tips > strong`
-- http://127.0.0.1:5006/edit/e23d8590-5e71-438c-8037-e4819b235461#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5006/edit/dc8f3caf-c86d-499b-b6c5-b8d6485437b3#conditions [state:edit-tab-conditions]
   - `a[href$="#general"]`
   - `label[for="conditions_match_logic"]`
   - `.fieldlist-header-cell:nth-child(1)`
   - `.verifyRuleRow`
   - `#save_button`
-- http://127.0.0.1:5006/edit/e23d8590-5e71-438c-8037-e4819b235461#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5006/edit/dc8f3caf-c86d-499b-b6c5-b8d6485437b3#notifications [state:edit-tab-notifications]
   - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p > strong`
-- http://127.0.0.1:5006/edit/5876f4a0-20da-47ec-a911-6d0807da03cd#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5006/edit/f715f0c3-37e2-46b6-84ae-aeae7d891ef5#browser-steps [state:edit-rates-tab-browser-steps]
   - `a[href$="#general"]`
   - `#browsersteps-click-start`
   - `#browsersteps-click-start > h2`
   - `#save_button`
-- http://127.0.0.1:5006/edit/5876f4a0-20da-47ec-a911-6d0807da03cd#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5006/edit/f715f0c3-37e2-46b6-84ae-aeae7d891ef5#request [state:edit-rates-tab-request]
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
   - `.pure-form-message-inline > p:nth-child(2)`
 - http://127.0.0.1:5006/settings#fetching [state:settings-tab-fetching]
@@ -122,7 +122,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 - http://127.0.0.1:5006/settings#info [state:settings-tab-info]
   - `a[href$="#general"]`
   - `#info > p:nth-child(1) > strong`
-- http://127.0.0.1:5006/diff/e23d8590-5e71-438c-8037-e4819b235461 [state:diff-filters-open]
+- http://127.0.0.1:5006/diff/dc8f3caf-c86d-499b-b6c5-b8d6485437b3 [state:diff-filters-open]
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `#diff-filters-toggle`
@@ -136,7 +136,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - … +2 autres
 - http://127.0.0.1:5006/add-watch-ui/ [state:addwatchui-live-preview]
   - `#add-watch-go`
-- http://127.0.0.1:5006/diff/e23d8590-5e71-438c-8037-e4819b235461 [state:diff-dark]
+- http://127.0.0.1:5006/diff/dc8f3caf-c86d-499b-b6c5-b8d6485437b3 [state:diff-dark]
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
@@ -146,24 +146,24 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 - http://127.0.0.1:5006/settings
   - `#requests-time_between_check`
-- http://127.0.0.1:5006/edit/e23d8590-5e71-438c-8037-e4819b235461
+- http://127.0.0.1:5006/edit/dc8f3caf-c86d-499b-b6c5-b8d6485437b3
   - `#time_between_check`
-- http://127.0.0.1:5006/edit/5876f4a0-20da-47ec-a911-6d0807da03cd
+- http://127.0.0.1:5006/edit/f715f0c3-37e2-46b6-84ae-aeae7d891ef5
   - `#time_between_check`
-- http://127.0.0.1:5006/edit/e23d8590-5e71-438c-8037-e4819b235461 [state:edit-dark]
+- http://127.0.0.1:5006/edit/dc8f3caf-c86d-499b-b6c5-b8d6485437b3 [state:edit-dark]
   - `#time_between_check`
 - http://127.0.0.1:5006/settings [state:settings-dark]
   - `#requests-time_between_check`
 
 ### aria-prohibited-attr — Elements must only use permitted ARIA attributes
 
-- http://127.0.0.1:5006/diff/e23d8590-5e71-438c-8037-e4819b235461
+- http://127.0.0.1:5006/diff/dc8f3caf-c86d-499b-b6c5-b8d6485437b3
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5006/diff/e23d8590-5e71-438c-8037-e4819b235461 [state:diff-filters-open]
+- http://127.0.0.1:5006/diff/dc8f3caf-c86d-499b-b6c5-b8d6485437b3 [state:diff-filters-open]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5006/diff/e23d8590-5e71-438c-8037-e4819b235461 [state:diff-dark]
+- http://127.0.0.1:5006/diff/dc8f3caf-c86d-499b-b6c5-b8d6485437b3 [state:diff-dark]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
 

@@ -20,7 +20,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { createRequire } from 'node:module';
 
-const require = createRequire(process.env.AUDIT_TOOLS || '/home/ubuntu/audit-tools/package.json');
+// Deps : AUDIT_TOOLS, sinon le package.json épinglé à côté de ce script.
+const require = createRequire(process.env.AUDIT_TOOLS || join(dirname(fileURLToPath(import.meta.url)), 'package.json'));
 const { chromium } = require('playwright');
 
 const base = process.argv[2] || 'http://127.0.0.1:5005';

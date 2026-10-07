@@ -1,10 +1,10 @@
 # Audit accessibilité — 2026-10-07
 
-**0 règle(s) violée(s), 0 occurrence(s), 47/47 scénario(s) audité(s), 0 erreur(s), 118 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 117 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `66f458e20dbb`
+Périmètre : scope.json — hash `67af2437fcb3`
 
-## Résultats incomplets à revoir (118)
+## Résultats incomplets à revoir (117)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
@@ -16,18 +16,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.seg > .active[href="/"]`
   - `#post-list-unread`
   - `#unread-tab-counter`
-- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
   - `#extract-tab > a`
-- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
   - `#time_between_check-weeks`
   - `#time_between_check-days`
   - `#time_between_check-hours`
   - `#time_between_check-minutes`
   - `#time_between_check-seconds`
-- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
   - `#time_between_check-weeks`
   - `#time_between_check-days`
   - `#time_between_check-hours`
@@ -47,7 +47,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `li:nth-child(5) > a[rel="nofollow"]`
   - `.content > ul > li:nth-child(6)`
   - `p:nth-child(7)`
-  - … +2 autres
+  - … +1 autres
 - http://127.0.0.1:5005/ [state:watchlist-checked]
   - `#records-selected`
   - `#records-selected > strong`
@@ -63,23 +63,23 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.modal-btn-info`
 - http://127.0.0.1:5005/ [state:bulk-proxy-modal-open]
   - `.modal-btn-info`
-- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#filters-and-triggers [state:edit-tab-filters-and-triggers]
   - `a[href$="#general"]`
   - `#pro-tips > strong`
-- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#conditions [state:edit-tab-conditions]
   - `a[href$="#general"]`
   - `label[for="conditions_match_logic"]`
   - `.fieldlist-header-cell:nth-child(1)`
   - `.verifyRuleRow`
   - `#save_button`
-- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7#notifications [state:edit-tab-notifications]
   - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p > strong`
-- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#browser-steps [state:edit-rates-tab-browser-steps]
   - `a[href$="#general"]`
   - `#browsersteps-click-start`
   - `#browsersteps-click-start > h2`
   - `#save_button`
-- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e#request [state:edit-rates-tab-request]
   - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
   - `.pure-form-message-inline > p:nth-child(2)`
 - http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
@@ -122,7 +122,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 - http://127.0.0.1:5005/settings#info [state:settings-tab-info]
   - `a[href$="#general"]`
   - `#info > p:nth-child(1) > strong`
-- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `#diff-filters-toggle`
@@ -136,7 +136,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - … +2 autres
 - http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
   - `#add-watch-go`
-- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
   - `.current-diff-url > span`
   - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
   - `a[href$="#screenshot"]`
@@ -146,24 +146,24 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 - http://127.0.0.1:5005/settings
   - `#requests-time_between_check`
-- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7
   - `#time_between_check`
-- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+- http://127.0.0.1:5005/edit/db221f49-097d-4375-950c-edfc05ed221e
   - `#time_between_check`
-- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+- http://127.0.0.1:5005/edit/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:edit-dark]
   - `#time_between_check`
 - http://127.0.0.1:5005/settings [state:settings-dark]
   - `#requests-time_between_check`
 
 ### aria-prohibited-attr — Elements must only use permitted ARIA attributes
 
-- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-filters-open]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
-- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+- http://127.0.0.1:5005/diff/7a11aca2-b335-4452-bc46-5eb809e885c7 [state:diff-dark]
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
   - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
 

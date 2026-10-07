@@ -36,14 +36,18 @@
  */
 import { createRequire } from 'node:module';
 import http from 'node:http';
-import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 // Résolution des deps : AUDIT_TOOLS pointe vers un package.json disposant de
-// playwright+axe-core (ex. ~/audit-tools/package.json) — sinon CWD.
-const require = createRequire(process.env.AUDIT_TOOLS || resolve(process.cwd(), 'package.json'));
+// playwright+axe-core — sinon le package.json À CÔTÉ de ce script (tools/,
+// versions épinglées par son lockfile), sinon le CWD en dernier recours.
+const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
+const DEPS_BASE = process.env.AUDIT_TOOLS
+  || (existsSync(resolve(SCRIPT_DIR, 'package.json')) ? resolve(SCRIPT_DIR, 'package.json') : resolve(process.cwd(), 'package.json'));
+const require = createRequire(DEPS_BASE);
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
@@ -80,6 +84,18 @@ const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.tri
   if (/^https?:\/\//i.test(u)) return u;
   if (baseUrl) { try { return new URL(u, baseUrl).href; } catch { return u; } }
   return u;
+});
+
+// Expansion $VAR/${VAR} dans --urls : les URLs peuvent être paramétrées par
+// les identifiants produits par le seed (CD_API_DOCS_UUID & co.) — un rejeu
+// sur datastore frais fonctionne en exportant les mêmes env qu'à STATES,
+// sans remappage des uuids littéraux. Défauts = uuids du datastore livré ;
+// un var inconnu est laissé tel quel (la page échouera en erreur explicite,
+// jamais en faux PASS). Appelée au moment du run (API_DOCS_UUID initialisé).
+const expandEnvVars = u => u.replace(/\$(?:\{(\w+)\}|(\w+))/g, (m, braced, bare) => {
+  const n = braced || bare;
+  const seedDefaults = { CD_API_DOCS_UUID: API_DOCS_UUID, CD_RATES_UUID: RATES_UUID, CD_TAG_UUID: TAG_UUID };
+  return process.env[n] ?? seedDefaults[n] ?? m;
 });
 const outDir = resolve(opt('out', './a11y-audit'));
 const maxPages = Number(opt('max', '50'));
@@ -507,7 +523,7 @@ async function run() {
 
   let urls;
   if (explicitUrls !== null) {
-    urls = explicitUrls;
+    urls = explicitUrls.map(expandEnvVars);
   } else {
     const origin = new URL(baseUrl).origin;
     console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
@@ -524,15 +540,21 @@ async function run() {
   // évaluer la source axe directement dans le contexte de la page (CDP,
   // non soumis à la CSP), puis prouver que l'injection a marché — sinon
   // axe.run() est indéfini et le « 0 violation » serait un faux PASS.
+  let axeVersion = null;
   const injectAxe = async () => {
     try {
       await page.addScriptTag({ content: axeSource });
     } catch {
       await page.evaluate(axeSource);
     }
-    if (typeof (await page.evaluate(() => window.axe && window.axe.version)) !== 'string') {
+    const v = await page.evaluate(() => window.axe && window.axe.version);
+    if (typeof v !== 'string') {
       throw new Error("injection axe impossible (CSP ?) — scan invalide, pas un PASS");
     }
+    // axe version tracée : les règles activées diffèrent entre mineures
+    // (label-content-name-mismatch expérimentale en 4.13 → standard wcag21a
+    // en 4.14) — deux runs à versions différentes ne sont pas comparables.
+    axeVersion = v;
   };
 
   // axe mesure les couleurs calculées — une transition en cours (fondu
@@ -721,7 +743,8 @@ async function run() {
     statesHash = createHash('sha256').update(JSON.stringify(statesDigest)).digest('hex');
   }
   const scope = {
-    runId, runnerVersion: RUNNER_VERSION, generatedAt: new Date().toISOString(),
+    runId, runnerVersion: RUNNER_VERSION, axeVersion,
+    generatedAt: new Date().toISOString(),
     baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
     wait: waitMs, waitFor,
     storageState: !!storageState,
@@ -737,7 +760,7 @@ async function run() {
 
   const errorCount = scope.errored + crawlErrors.length + configErrors.length;
   writeJson('report.json', {
-    runId, runnerVersion: RUNNER_VERSION,
+    runId, runnerVersion: RUNNER_VERSION, axeVersion,
     generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
     pages: results, configErrors, crawlErrors, scopeHash,
   });

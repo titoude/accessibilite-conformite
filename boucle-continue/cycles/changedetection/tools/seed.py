@@ -139,7 +139,7 @@ def seed_extra_proxy(datastore_file):
     # auditables. Proxy volontairement non routable : présence seule requise.
     p = Path(datastore_file).parent / 'proxies.json'
     p.write_text(json.dumps({"local-fixture-proxy": {"label": "Local fixture proxy (audit seed)", "url": "http://127.0.0.1:3128"}}))
-    log(f"proxies.json écrit → {p}")
+    print(f"proxies.json écrit → {p}")
 
 
 def main():
