@@ -35,10 +35,12 @@ pkill -f 'cdp-spawn-proxy' 2>/dev/null || true
 rm -rf /tmp/cd-chrome-*
 "$CD_REPO/.venv/bin/python" "$CYCLE_DIR/tools/cdp-spawn-proxy.py" > /tmp/cd-chrome.log 2>&1 &
 
-# 3. app changedetection.io
-pkill -f 'changedetection.py' 2>/dev/null || true
+# 3. app changedetection.io — motif crochets : ne s'auto-tue pas, mais tue quand
+#    même une AUTRE instance déjà en cours (ne pas lancer 2 boots en parallèle
+#    sans ports distincts : ce pkill arrêtera la première).
+pkill -f 'changedetection[.]py' 2>/dev/null || true
 export PLAYWRIGHT_DRIVER_URL="ws://127.0.0.1:9333/devtools/browser/local"
-export FAST_PUPPETEER_CHROME_FETCHER=True   # html_webdriver => pyppeteer (playwright python non requis)
+export FAST_PUPPETEER_CHROME_FETCHER=True   # html_webdriver => pyppeteer via CDP (playwright python reste requis : browser_steps l'importe)
 export ALLOW_IANA_RESTRICTED_ADDRESSES=true # autorise les fixtures locales (SSRF guard upstream)
 export SALTED_PASS='Y3ljbGUzMy1jaGFuZ2VkZXRlY3Rpb24tYTExeS0wc2EgVp1SMwYVdjpe6TBzH18rsfEl30QagSq4fagBMT0JnQ=='
 # ^ password UI : "audit-c33-changedetection" (base64(salt32 + pbkdf2_sha256(pw, salt, 100k)))
