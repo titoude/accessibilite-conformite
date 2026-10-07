@@ -339,3 +339,8 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 ### Leçons — cycle 33 changedetection v4 (PARTIAL v3 : mesure pixel-vraie)
 
 31. **Computed-style ≠ pixel-vrai : les overlays fixes et pseudo-éléments transparaissent.** Une sonde qui plie les ancêtres DOM rate `body::after` (dégradé fixe) derrière un panneau `rgba(0,0,0,.05)` translucide → composite réel 2,82–4,43:1 alors que le modèle annonçait 4,60. Règle : pour toute paire texte/fond touchée, la mesure de référence est le **pixel screenshot** (ou le composite de la pile complète incluant pseudo-éléments positionnés fixed/absolute au-dessus). Et quand le fond est translucide, aucun choix de couleur de texte ne suffit — il faut un **fond opaque** sur la cellule/row/panneau. Corollaire : une sonde livrée fausse dans son modèle doit être corrigée avec le fix, pas laissée « verte à tort ».
+
+
+### Leçons — cycle 35 karakeep (audit v1 : menu fantôme scanné)
+
+32. **Un sélecteur d'ouverture d'état racé peut scanner un AUTRE widget sous le bon nom — en baseline ET final.** `header button`.first() prenait l'avatar ~50% du temps : le « menu view-options » livré était le menu profil, et les vraies violations du menu view-options (enfants illégaux de role=menu) sont restées invisibles des deux côtés. Règle : chaque open-action de states.json doit être **déterministe** (cibler par aria-label/texte visible unique) ET **prouvée** (après ouverture, assertion DOM sur un descendant ou texte exclusif au widget visé — sinon FAIL bruyant). Même exigence pour `nth(n)` : interdit sans assertion de contenu. Corollaire : un menu qui contient des contrôles (slider/switchs) n'est pas un `role=menu` — sortir les contrôles du menu ou changer leur rôle, pas wrapper le menu.
