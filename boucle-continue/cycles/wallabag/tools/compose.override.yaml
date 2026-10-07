@@ -1,0 +1,13 @@
+# Harness cycle 38 — boot en env=prod (serveur PHP intégré).
+# L'image upstream sert --env=dev (toolbar Symfony, bundles debug) : le bench
+# cible le produit livré, pas le chrome de dev. server:run est dev-only, donc
+# php -S + router dédié (statiques + index.php) + APP_ENV=prod.
+# Le router vit dans .bench/ (outillage hors git), monté ro hors docroot.
+services:
+  php:
+    command: ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html/web", "/opt/serve-router.php"]
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: "0"
+    volumes:
+      - ./.bench/serve-router.php:/opt/serve-router.php:ro

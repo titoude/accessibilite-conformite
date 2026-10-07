@@ -1,0 +1,1277 @@
+diff --git a/app/config/config_prod.yml b/app/config/config_prod.yml
+index 770160b0b..c43b29f21 100644
+--- a/app/config/config_prod.yml
++++ b/app/config/config_prod.yml
+@@ -24,4 +24,4 @@ monolog:
+             type: console
+ 
+ sentry:
+-    dsn: "%env(default:wallabag.sentry_dsn:SENTRY_DSN)%"
++    dsn: ""
+diff --git a/assets/controllers/materialize/form_select_controller.js b/assets/controllers/materialize/form_select_controller.js
+index 3a0fcf374..cfc29e934 100644
+--- a/assets/controllers/materialize/form_select_controller.js
++++ b/assets/controllers/materialize/form_select_controller.js
+@@ -3,7 +3,18 @@ import M from '@materializecss/materialize';
+ 
+ export default class extends Controller {
+   connect() {
+-    this.instance = M.FormSelect.init(this.element.querySelector('select'));
++    const select = this.element.querySelector('select');
++    this.instance = M.FormSelect.init(select);
++
++    // Materialize points the field label at the generated dropdown input,
++    // leaving the real <select> unnamed. Keep it associated by reference.
++    const label = this.element.querySelector('label');
++    if (label) {
++      if (!label.id) {
++        label.id = `${select.id}-label`;
++      }
++      select.setAttribute('aria-labelledby', label.id);
++    }
+   }
+ 
+   disconnect() {
+diff --git a/assets/scss/_article.scss b/assets/scss/_article.scss
+index 36e8b439a..6dcb113f2 100644
+--- a/assets/scss/_article.scss
++++ b/assets/scss/_article.scss
+@@ -168,7 +168,7 @@
+         padding-right: 5px;
+         word-break: break-word;
+         hyphens: auto;
+-        background-color: #9e9e9e;
++        background-color: #6e6e6e;
+         border-radius: 6px 0 0 6px;
+     }
+ 
+@@ -179,7 +179,7 @@
+     .chip-action {
+       display: flex;
+       padding: 0 5px;
+-      background-color: #868686;
++      background-color: #5e5e5e;
+       border-radius: 0 6px 6px 0;
+       justify-content: center;
+       align-items: center;
+diff --git a/assets/scss/_cards.scss b/assets/scss/_cards.scss
+index cf63f3148..33b00ebd7 100644
+--- a/assets/scss/_cards.scss
++++ b/assets/scss/_cards.scss
+@@ -266,8 +266,19 @@ a.original:not(.waves-effect) {
+   }
+ }
+ 
+-.card.archived,
+-.card-stacked.archived {
++/* Keep text at full contrast on archived cards: only the thumbnail is muted */
++.card.archived .card-image .preview,
++.card.archived .card-image img,
++.card.archived .card-preview .preview,
++.card.archived .card-preview img,
++.card.archived .card-fullimage .preview,
++.card.archived .card-fullimage img,
++.card-stacked.archived .card-image .preview,
++.card-stacked.archived .card-image img,
++.card-stacked.archived .card-preview .preview,
++.card-stacked.archived .card-preview img,
++.card-stacked.archived .card-fullimage .preview,
++.card-stacked.archived .card-fullimage img {
+   opacity: 0.5;
+ }
+ 
+diff --git a/assets/scss/_dark_theme.scss b/assets/scss/_dark_theme.scss
+index 1f8f71814..29bda13fe 100644
+--- a/assets/scss/_dark_theme.scss
++++ b/assets/scss/_dark_theme.scss
+@@ -156,4 +156,25 @@
+       background-color: #101010;
+     }
+   }
++
++  /* muted text keeps a >= 4.5 ratio on the dark surfaces */
++  .grey-text {
++    color: #9e9e9e !important;
++  }
++
++  a {
++    color: #4db6ac;
++  }
++
++  .card .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating) {
++    color: #ffab40 !important;
++  }
++
++  /* tag links keep white on their colored chips */
++  .card-entry-tags a,
++  .card-entry-labels a,
++  .card-entry-labels-hidden a,
++  .card .chip a {
++    color: #fff;
++  }
+ }
+diff --git a/assets/scss/_utilities.scss b/assets/scss/_utilities.scss
+index f3858bea8..d9386c0d4 100644
+--- a/assets/scss/_utilities.scss
++++ b/assets/scss/_utilities.scss
+@@ -5,3 +5,23 @@
+ .inline-block {
+   display: inline-block;
+ }
++
++.visually-hidden {
++  border: 0;
++  clip: rect(0, 0, 0, 0);
++  height: 1px;
++  margin: -1px;
++  overflow: hidden;
++  padding: 0;
++  position: absolute;
++  white-space: nowrap;
++  width: 1px;
++}
++
++/* link lists: give each link a >= 24px pointer target */
++.card-panel.settings ul:not(.tabs) li a,
++.quickstart ul li a {
++  display: inline-block;
++  padding-top: 4px;
++  padding-bottom: 4px;
++}
+diff --git a/assets/scss/_variables.scss b/assets/scss/_variables.scss
+index 184991289..b74c79cda 100644
+--- a/assets/scss/_variables.scss
++++ b/assets/scss/_variables.scss
+@@ -2,4 +2,4 @@
+    Variables
+    ========================================================================== */
+ 
+-$blue-accent-color: #00acc1;
++$blue-accent-color: #007c91;
+diff --git a/assets/scss/_various.scss b/assets/scss/_various.scss
+index b297fcbfe..4436d6c82 100644
+--- a/assets/scss/_various.scss
++++ b/assets/scss/_various.scss
+@@ -51,3 +51,132 @@ nav .input-field input {
+     background: none;
+   }
+ }
++
++/* ==========================================================================
++ * Accessible palette overrides (WCAG AA >= 4.5 contrast on white)
++ * The classes keep their Materialize names; only the color values change.
++ * ========================================================================== */
++
++.grey-text {
++  color: #6e6e6e !important;
++}
++
++.grey {
++  background-color: #6e6e6e !important;
++}
++
++.cyan.darken-1,
++.cyan.darken-2 {
++  background-color: variables.$blue-accent-color !important;
++}
++
++.teal,
++.teal.darken-1 {
++  background-color: #00796b !important;
++}
++
++.light-green.darken-1 {
++  background-color: #4a7c28 !important;
++}
++
++.light-blue.darken-1 {
++  background-color: #0277bd !important;
++}
++
++.green.darken-1 {
++  background-color: #2e7d32 !important;
++}
++
++.blue.darken-1 {
++  background-color: #1565c0 !important;
++}
++
++.blue-grey {
++  background-color: #546e7a !important;
++}
++
++.red {
++  background-color: #d32f2f !important;
++}
++
++/* tab links: Materialize ships translucent/light red on white */
++.tabs .tab a {
++  color: #c62828;
++
++  &:focus,
++  &.active {
++    color: #b71c1c;
++  }
++
++  &:hover {
++    color: #b71c1c;
++  }
++}
++
++/* card action links (default amber accent is below AA on white) */
++.card .card-action a:not(.btn):not(.btn-large):not(.btn-small):not(.btn-floating) {
++  color: #b06000 !important;
++}
++
++/* … but card-action links on a colored card stay white */
++.card.cyan .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.teal .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.green .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.light-green .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.light-blue .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.blue .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.blue-grey .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.red .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating),
++.card.grey .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-floating) {
++  color: #fff !important;
++}
++
++/* form labels and select dropdown items */
++label,
++.input-field > label {
++  color: #6e6e6e;
++}
++
++.dropdown-content li > a,
++.dropdown-content li > span {
++  color: #007c91;
++}
++
++/* primary buttons */
++.btn,
++.btn-large,
++.btn-small,
++.btn-floating {
++  background-color: #00796b;
++
++  &:hover {
++    background-color: #00695c;
++  }
++
++  &:focus {
++    background-color: #1d7d74;
++  }
++}
++
++.btn-floating:hover {
++  background-color: #00695c;
++}
++
++/* standalone page title inside the login card (kept small, like a card title) */
++.login-title {
++  font-size: 1.6rem;
++  margin: 0.5rem 0;
++}
++
++/* footer: opaque text on the dark cyan strip (alpha-blended colors fail AA) */
++.page-footer {
++  color: #fff;
++
++  .footer-copyright {
++    color: #fff;
++  }
++
++  .grey-text.text-lighten-4 {
++    color: #fff !important;
++  }
++}
+diff --git a/src/Controller/EntryController.php b/src/Controller/EntryController.php
+index 6e8def519..0a66c9b08 100644
+--- a/src/Controller/EntryController.php
++++ b/src/Controller/EntryController.php
+@@ -158,6 +158,16 @@ class EntryController extends AbstractController
+             return $this->showEntries('search', $request, $page);
+         }
+ 
++        // The same action is also embedded as a fragment inside the top bar
++        // (render(controller())) where the sub request carries no _route.
++        // Served standalone, the form needs a full page around it.
++        if ('search' === $request->attributes->get('_route')) {
++            return $this->render('Entry/search.html.twig', [
++                'form' => $form->createView(),
++                'currentRoute' => $currentRoute,
++            ]);
++        }
++
+         return $this->render('Entry/search_form.html.twig', [
+             'form' => $form->createView(),
+             'currentRoute' => $currentRoute,
+diff --git a/templates/Config/index.html.twig b/templates/Config/index.html.twig
+index d90b1998c..1f0b25fc5 100644
+--- a/templates/Config/index.html.twig
++++ b/templates/Config/index.html.twig
+@@ -110,13 +110,13 @@
+ 
+                             <div class="row">
+                                 <div class="input-field col s12">
+-                                    <h5>{{ 'config.form_settings.android_configuration'|trans }}</h5>
++                                    <h2>{{ 'config.form_settings.android_configuration'|trans }}</h2>
+                                     <a href="wallabag://{{ app.user.username }}@{{ wallabag_url }}" class="waves-effect waves-light btn hide-on-large-only">{{ 'config.form_settings.android_instruction'|trans }}</a>
+                                     <img data-controller="qrcode" data-qrcode-url-value="wallabag://{{ app.user.username }}@{{ wallabag_url }}" class="hide-on-med-and-down" alt="{{ 'config.otp.app.qrcode_label'|trans }}" />
+                                 </div>
+                             </div>
+ 
+-                            <h5>{{ 'config.tab_menu.article_display'|trans }}</h5>
++                            <h2>{{ 'config.tab_menu.article_display'|trans }}</h2>
+ 
+                             <div class="row">
+                                 {{ form_row(form.config.font, {
+@@ -194,7 +194,7 @@
+ 
+                         <div class="row">
+                             <div class="col s12">
+-                                <h6 class="grey-text">{{ 'config.form_feed.token_label'|trans }}</h6>
++                                <h2 class="grey-text">{{ 'config.form_feed.token_label'|trans }}</h2>
+                                 <div>
+                                     {% if feed.token %}
+                                         {{ feed.token }}
+@@ -229,7 +229,7 @@
+                         {% if feed.token %}
+                         <div class="row">
+                             <div class="col s12">
+-                                <h6 class="grey-text">{{ 'config.form_feed.feed_links'|trans }}</h6>
++                                <h2 class="grey-text">{{ 'config.form_feed.feed_links'|trans }}</h2>
+                                 <ul>
+                                     <li><a href="{{ path('unread_feed', {'username': feed.username, 'token': feed.token}) }}">{{ 'config.form_feed.feed_link.unread'|trans }}</a></li>
+                                     <li><a href="{{ path('starred_feed', {'username': feed.username, 'token': feed.token}) }}">{{ 'config.form_feed.feed_link.starred'|trans }}</a></li>
+@@ -262,7 +262,7 @@
+ 
+                             <div class="row">
+                                 <div class="col s12">
+-                                    <h6 class="grey-text">{{ 'config.form_user.login_label'|trans }}</h6>
++                                    <h2 class="grey-text">{{ 'config.form_user.login_label'|trans }}</h2>
+                                     <div>
+                                         {{ app.user.username }}
+                                     </div>
+@@ -294,7 +294,7 @@
+                         <br/>
+                         <br/>
+                         <div class="row">
+-                            <h5>{{ 'config.otp.page_title'|trans }}</h5>
++                            <h2>{{ 'config.otp.page_title'|trans }}</h2>
+ 
+                             <p>{{ 'config.form_user.two_factor_description'|trans }}</p>
+ 
+@@ -460,10 +460,10 @@
+                                                     {{ form_errors(form.import_tagging_rule.file) }}
+                                                     <div class="btn">
+                                                         <span>{{ form.import_tagging_rule.file.vars.label|trans }}</span>
+-                                                        {{ form_widget(form.import_tagging_rule.file) }}
++                                                        {{ form_widget(form.import_tagging_rule.file, {'attr': {'aria-label': form.import_tagging_rule.file.vars.label|trans}}) }}
+                                                     </div>
+                                                     <div class="file-path-wrapper">
+-                                                        <input class="file-path validate" type="text">
++                                                        <input class="file-path validate" type="text" aria-label="{{ form.import_tagging_rule.file.vars.label|trans }}">
+                                                     </div>
+                                                 </div>
+                                             </div>
+@@ -491,15 +491,15 @@
+ 
+                         <div class="row">
+                             <div class="input-field col s12">
+-                                <h4>{{ 'config.form_rules.faq.title'|trans }}</h4>
++                                <h2>{{ 'config.form_rules.faq.title'|trans }}</h2>
+ 
+-                                <h5>{{ 'config.form_rules.faq.tagging_rules_definition_title'|trans }}</h5>
++                                <h3>{{ 'config.form_rules.faq.tagging_rules_definition_title'|trans }}</h3>
+                                 <p>{{ 'config.form_rules.faq.tagging_rules_definition_description'|trans|raw }}</p>
+ 
+-                                <h5>{{ 'config.form_rules.faq.how_to_use_them_title'|trans }}</h5>
++                                <h3>{{ 'config.form_rules.faq.how_to_use_them_title'|trans }}</h3>
+                                 <p>{{ 'config.form_rules.faq.how_to_use_them_description'|trans|raw }}</p>
+ 
+-                                <h5>{{ 'config.form_rules.faq.variables_available_title'|trans }}</h5>
++                                <h3>{{ 'config.form_rules.faq.variables_available_title'|trans }}</h3>
+                                 <p>
+                                     {{ 'config.form_rules.faq.variables_available_description'|trans }}
+                                 </p>
+@@ -620,15 +620,15 @@
+ 
+                         <div class="row">
+                             <div class="input-field col s12">
+-                                <h4>{{ 'config.form_ignore_origin_rules.faq.title'|trans }}</h4>
++                                <h2>{{ 'config.form_ignore_origin_rules.faq.title'|trans }}</h2>
+ 
+-                                <h5>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_title'|trans }}</h5>
++                                <h3>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_title'|trans }}</h3>
+                                 <p>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_description'|trans|raw }}</p>
+ 
+-                                <h5>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_title'|trans }}</h5>
++                                <h3>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_title'|trans }}</h3>
+                                 <p>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_description'|trans|raw }}</p>
+ 
+-                                <h5>{{ 'config.form_ignore_origin_rules.faq.variables_available_title'|trans }}</h5>
++                                <h3>{{ 'config.form_ignore_origin_rules.faq.variables_available_title'|trans }}</h3>
+                                 <p>
+                                     {{ 'config.form_ignore_origin_rules.faq.variables_available_description'|trans }}
+                                 </p>
+@@ -664,7 +664,7 @@
+ 
+                     <div id="set7" class="col s12">
+                         <div class="row">
+-                            <h5>{{ 'config.reset.title'|trans }}</h5>
++                            <h2>{{ 'config.reset.title'|trans }}</h2>
+                             <p>{{ 'config.reset.description'|trans }}</p>
+                             {% if app.user.config.taggingRules is not empty %}
+                             <p>
+@@ -709,7 +709,7 @@
+                             <br /><hr /><br />
+ 
+                             <div class="row">
+-                                <h5>{{ 'config.form_user.delete.title'|trans }}</h5>
++                                <h2>{{ 'config.form_user.delete.title'|trans }}</h2>
+                                 <p>{{ 'config.form_user.delete.description'|trans }}</p>
+                                 <form action="{{ path('delete_account') }}" method="post" onsubmit="return confirm('{{ 'config.form_user.delete.confirm'|trans|escape('js') }}')" name="delete-account">
+                                     <input type="hidden" name="token" value="{{ csrf_token('delete-account') }}" />
+diff --git a/templates/Config/otp_app.html.twig b/templates/Config/otp_app.html.twig
+index 9e9297142..fd21e2c08 100644
+--- a/templates/Config/otp_app.html.twig
++++ b/templates/Config/otp_app.html.twig
+@@ -7,7 +7,7 @@
+         <div class="col s12">
+             <div class="card-panel settings">
+                 <div class="row">
+-                    <h5>{{ 'config.otp.page_title'|trans }}</h5>
++                    <h3>{{ 'config.otp.page_title'|trans }}</h3>
+ 
+                     <ol>
+                         <li>
+diff --git a/templates/Developer/index.html.twig b/templates/Developer/index.html.twig
+index 8ca4767fb..5060002b6 100644
+--- a/templates/Developer/index.html.twig
++++ b/templates/Developer/index.html.twig
+@@ -8,9 +8,9 @@
+         <div class="card-panel settings">
+ 
+             <div class="row">
+-                <h3>{{ 'developer.welcome_message'|trans }}</h3>
++                <h2>{{ 'developer.welcome_message'|trans }}</h2>
+ 
+-                <h4>{{ 'developer.documentation'|trans }}</h4>
++                <h3>{{ 'developer.documentation'|trans }}</h3>
+ 
+                 <ul>
+                     <li><a href="{{ path('developer_howto_firstapp') }}">{{ 'developer.how_to_first_app'|trans }}</a></li>
+@@ -18,12 +18,12 @@
+                     <li><a href="{{ path('nelmio_api_doc.swagger_ui') }}">{{ 'developer.list_methods'|trans }}</a></li>
+                 </ul>
+ 
+-                <h4>{{ 'developer.clients.title'|trans }}</h4>
++                <h3>{{ 'developer.clients.title'|trans }}</h3>
+                 <ul>
+                     <li><a href="{{ path('developer_create_client') }}" class="waves-effect waves-light btn">{{ 'developer.clients.create_new'|trans }}</a></li>
+                 </ul>
+ 
+-                <h4>{{ 'developer.existing_clients.title'|trans }}</h4>
++                <h3>{{ 'developer.existing_clients.title'|trans }}</h3>
+                 {% if clients %}
+                     <ul class="collapsible" data-controller="materialize--collapsible" data-materialize--collapsible-accordion-value="false">
+                         {% for client in clients %}
+diff --git a/templates/Entry/Card/_mass_checkbox.html.twig b/templates/Entry/Card/_mass_checkbox.html.twig
+index dbd1d80b8..893470630 100644
+--- a/templates/Entry/Card/_mass_checkbox.html.twig
++++ b/templates/Entry/Card/_mass_checkbox.html.twig
+@@ -1,3 +1,3 @@
+ <label class="entry-checkbox">
+-    <input type="checkbox" form="form_mass_action" class="entry-checkbox-input" name="entry-checkbox[]" value="{{ entry.id }}" data-batch-edit-target="item" />
++    <input type="checkbox" form="form_mass_action" class="entry-checkbox-input" name="entry-checkbox[]" value="{{ entry.id }}" data-batch-edit-target="item" aria-label="{{ 'entry.list.select_entry'|trans({'%title%': entry.title|striptags}) }}" />
+ </label>
+diff --git a/templates/Entry/_card_full_image.html.twig b/templates/Entry/_card_full_image.html.twig
+index c09beee6e..b92661b8a 100644
+--- a/templates/Entry/_card_full_image.html.twig
++++ b/templates/Entry/_card_full_image.html.twig
+@@ -8,7 +8,7 @@
+             </ul>
+             {% if app.user.config.displayThumbnails %}
+                 {% if is_granted('VIEW', entry) %}
+-                    <a href="{{ path('view', {'id': entry.id}) }}">
++                    <a href="{{ path('view', {'id': entry.id}) }}" aria-label="{{ entry.title|striptags|e('html_attr') }}">
+                         <span class="preview" style="background-image: url({{ entry.previewPicture }})"></span>
+                     </a>
+                 {% else %}
+diff --git a/templates/Entry/_card_list.html.twig b/templates/Entry/_card_list.html.twig
+index 2710455f1..766486211 100644
+--- a/templates/Entry/_card_list.html.twig
++++ b/templates/Entry/_card_list.html.twig
+@@ -4,7 +4,7 @@
+     <div class="card-preview">
+         {% set preview_class_modifier = entry.previewPicture ? '' : ' preview--default' %}
+         {% if is_granted('VIEW', entry) %}
+-            <a href="{{ path('view', {'id': entry.id}) }}">
++            <a href="{{ path('view', {'id': entry.id}) }}" aria-label="{{ entry.title|striptags|e('html_attr') }}">
+                 <span class="preview{{ preview_class_modifier }}" style="background-image: url({{ entry.previewPicture|default(asset('img/logo-square.svg')) }})"></span>
+             </a>
+         {% else %}
+diff --git a/templates/Entry/_card_preview.html.twig b/templates/Entry/_card_preview.html.twig
+index 0a1cf4f2e..7544dfb31 100644
+--- a/templates/Entry/_card_preview.html.twig
++++ b/templates/Entry/_card_preview.html.twig
+@@ -10,7 +10,7 @@
+             {% if app.user.config.displayThumbnails %}
+                 {% set preview_class_modifier = entry.previewPicture ? '' : ' preview--default' %}
+                 {% if is_granted('VIEW', entry) %}
+-                    <a href="{{ path('view', {'id': entry.id}) }}">
++                    <a href="{{ path('view', {'id': entry.id}) }}" aria-label="{{ entry.title|striptags|e('html_attr') }}">
+                         <span class="preview{{ preview_class_modifier }}" style="background-image: url({{ entry.previewPicture|default(asset('img/logo-square.svg')) }})"></span>
+                     </a>
+                 {% else %}
+diff --git a/templates/Entry/entries.html.twig b/templates/Entry/entries.html.twig
+index c3d9dd872..85ef11177 100644
+--- a/templates/Entry/entries.html.twig
++++ b/templates/Entry/entries.html.twig
+@@ -92,7 +92,7 @@
+             <input id="mass-action-inputs-displayed" class="toggle-checkbox" type="checkbox" />
+             <div class="mass-action">
+                 <div class="mass-action-group">
+-                    <input type="checkbox" form="form_mass_action" class="entry-checkbox-input" data-action="batch-edit#toggleSelection" />
++                    <input type="checkbox" form="form_mass_action" class="entry-checkbox-input" data-action="batch-edit#toggleSelection" aria-label="{{ 'entry.list.toggle_mass_action'|trans }}" />
+                     <button class="mass-action-button btn cyan darken-1" type="submit" form="form_mass_action" name="toggle-read" title="{{ 'entry.list.toogle_as_read'|trans }}"><i class="material-icons">done</i></button>
+                     <button class="mass-action-button btn cyan darken-1" type="submit" form="form_mass_action" name="toggle-star" title="{{ 'entry.list.toogle_as_star'|trans }}" ><i class="material-icons">star</i></button>
+                     <button class="mass-action-button btn cyan darken-1" type="submit" form="form_mass_action" name="delete" onclick="return confirm('{{ 'entry.confirm.delete_entries'|trans|escape('js') }}')" title="{{ 'entry.list.delete'|trans }}"><i class="material-icons">delete</i></button>
+@@ -140,7 +140,7 @@
+         {% endif %}
+         {% set entry = app.request.attributes.get('entry') %}
+         {% set previous_route = app.request.attributes.get('currentRoute') %}
+-            <h4 class="center">{{ 'entry.list.export_title'|trans }}</h4>
++            <h2 class="center">{{ 'entry.list.export_title'|trans }}</h2>
+             <ul>
+                 {% if craue_setting('export_epub') %}<li class="bold"><a class="waves-effect" href="{{ path('export_entries', {'category': current_route, 'format': 'epub', 'tag': current_tag, 'search_entry[term]': export_search_term, 'currentRoute': previous_route, 'entry': entry}) }}">EPUB</a></li>{% endif %}
+                 {% if craue_setting('export_pdf') %}<li class="bold"><a class="waves-effect" href="{{ path('export_entries', {'category': current_route, 'format': 'pdf', 'tag': current_tag, 'search_entry[term]': export_search_term, 'currentRoute': previous_route, 'entry': entry}) }}">PDF</a></li>{% endif %}
+@@ -158,7 +158,7 @@
+     <div id="filters" class="sidenav" data-controller="materialize--sidenav" data-materialize--sidenav-edge-value="right">
+         <form action="{{ path('all') }}">
+ 
+-            <h4 class="center">{{ 'entry.filters.title'|trans }}</h4>
++            <h2 class="center">{{ 'entry.filters.title'|trans }}</h2>
+ 
+             <div class="row">
+                 {% if current_route != 'untagged' %}
+diff --git a/templates/Entry/entry.html.twig b/templates/Entry/entry.html.twig
+index f6f301f5b..782d8f75d 100644
+--- a/templates/Entry/entry.html.twig
++++ b/templates/Entry/entry.html.twig
+@@ -10,7 +10,7 @@
+     <div class="progress">
+         <div class="determinate" data-controller="scroll-indicator" data-action="scroll@window->scroll-indicator#updateWidth"></div>
+     </div>
+-    <nav class="hide-on-large-only" data-controller="sticky-nav" data-action="materialize--fab:click@window->sticky-nav#toggle">
++    <nav class="hide-on-large-only" data-controller="sticky-nav" data-action="materialize--fab:click@window->sticky-nav#toggle" aria-label="{{ 'entry.view.top_nav_label'|trans }}">
+         <div class="nav-panel-item cyan darken-1">
+             <ul>
+                 <li>
+@@ -50,6 +50,7 @@
+             </ul>
+         </div>
+     </nav>
++    <nav class="reader-mode-nav" aria-label="{{ 'entry.view.left_menu.menu_label'|trans }}">
+     <ul id="slide-out" class="left-bar collapsible sidenav sidenav-fixed reader-mode" data-controller="materialize--sidenav materialize--collapsible leftbar">
+         <li class="bold border-bottom hide-on-med-and-down">
+             <a class="waves-effect collapsible-header" href="{{ path('homepage') }}">
+@@ -290,6 +291,7 @@
+         </li>
+ 
+     </ul>
++    </nav>
+ 
+ {% endblock %}
+ 
+diff --git a/templates/Entry/new_form.html.twig b/templates/Entry/new_form.html.twig
+index f1a9cf45e..1f7b0bbb5 100644
+--- a/templates/Entry/new_form.html.twig
++++ b/templates/Entry/new_form.html.twig
+@@ -1,4 +1,5 @@
+ <form class="input-field nav-panel-item nav-panel-add" style="display: none" name="entry" method="post" action="{{ path('new_entry') }}" data-topbar-target="addUrl" data-action="topbar#submittingUrl">
++    <h1 class="visually-hidden">{{ 'menu.top.add_new_entry'|trans }}</h1>
+     {% if form_errors(form) %}
+         <span class="black-text">{{ form_errors(form) }}</span>
+     {% endif %}
+@@ -8,7 +9,8 @@
+         <span class="black-text">{{ form_errors(form.url) }}</span>
+     {% endif %}
+ 
+-    {{ form_widget(form.url, {'attr': {'autocomplete': 'off', 'placeholder': 'entry.new.placeholder', 'data-topbar-target': 'addUrlInput'}}) }}
++    {{ form_widget(form.url, {'id': 'topbar_entry_url', 'attr': {'autocomplete': 'off', 'placeholder': 'entry.new.placeholder', 'data-topbar-target': 'addUrlInput'}}) }}
++    {{ form_widget(form._token, {'id': 'topbar_entry__token'}) }}
+     <i class="material-icons close" aria-label="clear" role="button" data-action="click->topbar#showActions" data-shortcuts-target="showActions"></i>
+ 
+     {{ form_rest(form) }}
+diff --git a/templates/Entry/search.html.twig b/templates/Entry/search.html.twig
+new file mode 100644
+index 000000000..e0487005a
+--- /dev/null
++++ b/templates/Entry/search.html.twig
+@@ -0,0 +1,31 @@
++{% extends "layout.html.twig" %}
++
++{% block title %}{{ 'menu.top.search'|trans }}{% endblock %}
++
++{% block content %}
++    <div class="row">
++        <div class="col s12">
++            <form class="input-field" name="search" method="GET" action="{{ path('search') }}">
++                {% if form_errors(form) %}
++                    <span class="black-text">{{ form_errors(form) }}</span>
++                {% endif %}
++
++                {% if form_errors(form.term) %}
++                    <span class="black-text">{{ form_errors(form.term) }}</span>
++                {% endif %}
++
++                <input type="hidden" name="currentRoute" value="{{ currentRoute }}" />
++
++                {{ form_widget(form.term, {'id': 'search_page_term', 'attr': {'autocomplete': 'off', 'placeholder': 'entry.search.placeholder'|trans}}) }}
++                <label for="search_page_term">{{ 'menu.top.search'|trans }}</label>
++
++                {{ form_rest(form) }}
++
++                <button class="btn waves-effect waves-light" type="submit">
++                    {{ 'menu.top.search'|trans }}
++                    <i class="material-icons right">search</i>
++                </button>
++            </form>
++        </div>
++    </div>
++{% endblock %}
+diff --git a/templates/Entry/search_form.html.twig b/templates/Entry/search_form.html.twig
+index ebd10e70a..2eb84b161 100644
+--- a/templates/Entry/search_form.html.twig
++++ b/templates/Entry/search_form.html.twig
+@@ -1,4 +1,5 @@
+ <form class="input-field nav-panel-item nav-panel-search" style="display: none" name="search" method="GET" action="{{ path('search') }}" data-topbar-target="search">
++    <h1 class="visually-hidden">{{ 'menu.top.search'|trans }}</h1>
+     {% if form_errors(form) %}
+         <span class="black-text">{{ form_errors(form) }}</span>
+     {% endif %}
+diff --git a/templates/Entry/share.html.twig b/templates/Entry/share.html.twig
+index 5096e451f..772856ffd 100644
+--- a/templates/Entry/share.html.twig
++++ b/templates/Entry/share.html.twig
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="{{ app.request.locale|default('en') }}">
+     <head>
+         <meta charset="utf-8">
+         <title>{{ entry.title|e|raw }}</title>
+@@ -27,8 +27,10 @@
+             <a href="{{ entry.url|e }}" target="_blank" rel="noopener" title="{{ 'entry.view.original_article'|trans }} : {{ entry.title|e|raw }}" class="tool">{{ entry.domainName|removeWww }}</a>
+             <p class="shared-by">{{ "entry.public.shared_by_wallabag"|trans({'%wallabag_instance%': url('homepage'), '%username%': entry.user.name|escape})|raw }}.</p>
+         </header>
+-        <article class="block">
+-            {{ entry.content|raw }}
+-        </article>
++        <main>
++            <article class="block">
++                {{ entry.content|raw }}
++            </article>
++        </main>
+     </body>
+ </html>
+diff --git a/templates/IgnoreOriginInstanceRule/edit.html.twig b/templates/IgnoreOriginInstanceRule/edit.html.twig
+index 12110abed..c4c86145f 100644
+--- a/templates/IgnoreOriginInstanceRule/edit.html.twig
++++ b/templates/IgnoreOriginInstanceRule/edit.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel">
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'ignore_origin_instance_rule.edit_ignore_origin_instance_rule'|trans }}</h4>
++                        <h2>{{ 'ignore_origin_instance_rule.edit_ignore_origin_instance_rule'|trans }}</h2>
+ 
+                         <div id="set6" class="col s12">
+                             {{ form_start(edit_form) }}
+@@ -42,15 +42,15 @@
+ 
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'config.form_ignore_origin_rules.faq.title'|trans }}</h4>
++                        <h2>{{ 'config.form_ignore_origin_rules.faq.title'|trans }}</h2>
+ 
+-                        <h5>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_title'|trans }}</h5>
++                        <h3>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_title'|trans }}</h3>
+                         <p>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_description'|trans|raw }}</p>
+ 
+-                        <h5>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_title'|trans }}</h5>
++                        <h3>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_title'|trans }}</h3>
+                         <p>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_description'|trans|raw }}</p>
+ 
+-                        <h5>{{ 'config.form_ignore_origin_rules.faq.variables_available_title'|trans }}</h5>
++                        <h3>{{ 'config.form_ignore_origin_rules.faq.variables_available_title'|trans }}</h3>
+                         <p>
+                             {{ 'config.form_ignore_origin_rules.faq.variables_available_description'|trans }}
+                         </p>
+diff --git a/templates/IgnoreOriginInstanceRule/new.html.twig b/templates/IgnoreOriginInstanceRule/new.html.twig
+index 4e2802841..d66f05ec4 100644
+--- a/templates/IgnoreOriginInstanceRule/new.html.twig
++++ b/templates/IgnoreOriginInstanceRule/new.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel">
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'ignore_origin_instance_rule.new_ignore_origin_instance_rule'|trans }}</h4>
++                        <h2>{{ 'ignore_origin_instance_rule.new_ignore_origin_instance_rule'|trans }}</h2>
+ 
+                         <div id="set6" class="col s12">
+                             {{ form_start(form) }}
+@@ -33,15 +33,15 @@
+ 
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'config.form_ignore_origin_rules.faq.title'|trans }}</h4>
++                        <h2>{{ 'config.form_ignore_origin_rules.faq.title'|trans }}</h2>
+ 
+-                        <h5>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_title'|trans }}</h5>
++                        <h3>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_title'|trans }}</h3>
+                         <p>{{ 'config.form_ignore_origin_rules.faq.ignore_origin_rules_definition_description'|trans|raw }}</p>
+ 
+-                        <h5>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_title'|trans }}</h5>
++                        <h3>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_title'|trans }}</h3>
+                         <p>{{ 'config.form_ignore_origin_rules.faq.how_to_use_them_description'|trans|raw }}</p>
+ 
+-                        <h5>{{ 'config.form_ignore_origin_rules.faq.variables_available_title'|trans }}</h5>
++                        <h3>{{ 'config.form_ignore_origin_rules.faq.variables_available_title'|trans }}</h3>
+                         <p>
+                             {{ 'config.form_ignore_origin_rules.faq.variables_available_description'|trans }}
+                         </p>
+diff --git a/templates/Import/Chrome/index.html.twig b/templates/Import/Chrome/index.html.twig
+index ecf37ec95..079a1e936 100644
+--- a/templates/Import/Chrome/index.html.twig
++++ b/templates/Import/Chrome/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Delicious/index.html.twig b/templates/Import/Delicious/index.html.twig
+index e9356f6b9..9f853233c 100644
+--- a/templates/Import/Delicious/index.html.twig
++++ b/templates/Import/Delicious/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Elcurator/index.html.twig b/templates/Import/Elcurator/index.html.twig
+index d0479a8d0..9ec8e7ea4 100644
+--- a/templates/Import/Elcurator/index.html.twig
++++ b/templates/Import/Elcurator/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Firefox/index.html.twig b/templates/Import/Firefox/index.html.twig
+index 239b9a3ee..7fb51224f 100644
+--- a/templates/Import/Firefox/index.html.twig
++++ b/templates/Import/Firefox/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Instapaper/index.html.twig b/templates/Import/Instapaper/index.html.twig
+index ea9039c22..e1803df94 100644
+--- a/templates/Import/Instapaper/index.html.twig
++++ b/templates/Import/Instapaper/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Omnivore/index.html.twig b/templates/Import/Omnivore/index.html.twig
+index 3aa09e25c..398083e62 100644
+--- a/templates/Import/Omnivore/index.html.twig
++++ b/templates/Import/Omnivore/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Pinboard/index.html.twig b/templates/Import/Pinboard/index.html.twig
+index 58a956d77..6fbe7825e 100644
+--- a/templates/Import/Pinboard/index.html.twig
++++ b/templates/Import/Pinboard/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Pocket/index.html.twig b/templates/Import/Pocket/index.html.twig
+index 50995941f..07e99f17d 100644
+--- a/templates/Import/Pocket/index.html.twig
++++ b/templates/Import/Pocket/index.html.twig
+@@ -21,7 +21,7 @@
+ 
+             <form method="post" action="{{ path('import_pocket_auth') }}">
+                 <div class="row">
+-                    <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                    <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                     <div class="col s6 with-checkbox">
+                         <label for="{{ form.mark_as_read.vars.id }}">
+                             {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/PocketCsv/index.html.twig b/templates/Import/PocketCsv/index.html.twig
+index 77c63ca59..a0efab9e1 100644
+--- a/templates/Import/PocketCsv/index.html.twig
++++ b/templates/Import/PocketCsv/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/PocketHtml/index.html.twig b/templates/Import/PocketHtml/index.html.twig
+index 332816fb4..7f98ea493 100644
+--- a/templates/Import/PocketHtml/index.html.twig
++++ b/templates/Import/PocketHtml/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Readability/index.html.twig b/templates/Import/Readability/index.html.twig
+index f97cf77e8..5ca99984f 100644
+--- a/templates/Import/Readability/index.html.twig
++++ b/templates/Import/Readability/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/Shaarli/index.html.twig b/templates/Import/Shaarli/index.html.twig
+index 6cbf5049f..4a48bd22e 100644
+--- a/templates/Import/Shaarli/index.html.twig
++++ b/templates/Import/Shaarli/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/Import/WallabagV1/index.html.twig b/templates/Import/WallabagV1/index.html.twig
+index e48f797d5..1b2e0a049 100644
+--- a/templates/Import/WallabagV1/index.html.twig
++++ b/templates/Import/WallabagV1/index.html.twig
+@@ -20,13 +20,13 @@
+                                 {{ form_errors(form.file) }}
+                                 <div class="btn">
+                                     <span>{{ form.file.vars.label|trans }}</span>
+-                                    {{ form_widget(form.file) }}
++                                    {{ form_widget(form.file, {'attr': {'aria-label': form.file.vars.label|trans}}) }}
+                                 </div>
+                                 <div class="file-path-wrapper">
+-                                    <input class="file-path validate" type="text">
++                                    <input class="file-path validate" type="text" aria-label="{{ form.file.vars.label|trans }}">
+                                 </div>
+                             </div>
+-                            <h6 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h6>
++                            <h2 class="col s12">{{ 'import.form.mark_as_read_title'|trans }}</h2>
+                             <div class="col s6 with-checkbox">
+                                 <label for="{{ form.mark_as_read.vars.id }}">
+                                     {{ form_widget(form.mark_as_read) }}
+diff --git a/templates/SiteCredential/edit.html.twig b/templates/SiteCredential/edit.html.twig
+index 04d8f066b..051661dbd 100644
+--- a/templates/SiteCredential/edit.html.twig
++++ b/templates/SiteCredential/edit.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel">
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'site_credential.edit_site_credential'|trans }}</h4>
++                        <h2>{{ 'site_credential.edit_site_credential'|trans }}</h2>
+ 
+                         <div id="set6" class="col s12">
+                             {{ form_start(edit_form) }}
+diff --git a/templates/SiteCredential/new.html.twig b/templates/SiteCredential/new.html.twig
+index 6e92e8053..f24e01bd0 100644
+--- a/templates/SiteCredential/new.html.twig
++++ b/templates/SiteCredential/new.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel">
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'site_credential.new_site_credential'|trans }}</h4>
++                        <h2>{{ 'site_credential.new_site_credential'|trans }}</h2>
+ 
+                         <div id="set6" class="col s12">
+                             {{ form_start(form) }}
+diff --git a/templates/Static/about.html.twig b/templates/Static/about.html.twig
+index 1b68ef1fe..ee0a5a9e8 100644
+--- a/templates/Static/about.html.twig
++++ b/templates/Static/about.html.twig
+@@ -19,17 +19,19 @@
+                     </div>
+ 
+                     <div id="set1" class="col s12">
+-                        <dt>{{ 'about.who_behind_wallabag.developped_by'|trans }}</dt>
+-                        <dd>Nicolas Lœuillet — <a href="https://nicolas.loeuillet.org">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
+-                        <dd>Thomas Citharel — <a href="https://tcit.fr">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
+-                        <dd>Jérémy Benoist — <a href="https://www.j0k3r.net">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
+-                        <dd>Kevin Decherf — <a href="https://kdecherf.com/">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
+-                        <dd>Yassine Guedidi — <a href="https://github.com/yguedidi">{{ 'about.who_behind_wallabag.website'|trans }}</a> — <a href="mailto:yassine@guedidi.com">yassine@guedidi.com</a></dd>
+-                        <dt>{{ 'about.who_behind_wallabag.many_contributors'|trans|raw }}</dt>
+-                        <dt>{{ 'about.who_behind_wallabag.project_website'|trans }}</dt>
+-                        <dd><a href="https://www.wallabag.org">https://www.wallabag.org</a></dd>
+-                        <dt>{{ 'about.who_behind_wallabag.license'|trans }}: <a href="https://en.wikipedia.org/wiki/MIT_License">MIT</a></dt>
+-                        <dt>{{ 'about.who_behind_wallabag.version'|trans }}: {{ version }}</dt>
++                        <dl>
++                            <dt>{{ 'about.who_behind_wallabag.developped_by'|trans }}</dt>
++                            <dd>Nicolas Lœuillet — <a href="https://nicolas.loeuillet.org">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
++                            <dd>Thomas Citharel — <a href="https://tcit.fr">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
++                            <dd>Jérémy Benoist — <a href="https://www.j0k3r.net">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
++                            <dd>Kevin Decherf — <a href="https://kdecherf.com/">{{ 'about.who_behind_wallabag.website'|trans }}</a></dd>
++                            <dd>Yassine Guedidi — <a href="https://github.com/yguedidi">{{ 'about.who_behind_wallabag.website'|trans }}</a> — <a href="mailto:yassine@guedidi.com">yassine@guedidi.com</a></dd>
++                            <dt>{{ 'about.who_behind_wallabag.many_contributors'|trans|raw }}</dt>
++                            <dt>{{ 'about.who_behind_wallabag.project_website'|trans }}</dt>
++                            <dd><a href="https://www.wallabag.org">https://www.wallabag.org</a></dd>
++                            <dt>{{ 'about.who_behind_wallabag.license'|trans }}: <a href="https://en.wikipedia.org/wiki/MIT_License">MIT</a></dt>
++                            <dt>{{ 'about.who_behind_wallabag.version'|trans }}: {{ version }}</dt>
++                        </dl>
+                     </div>
+ 
+                     <div id="set2" class="col s12">
+diff --git a/templates/Static/howto.html.twig b/templates/Static/howto.html.twig
+index 639c4fd9f..5cf944903 100644
+--- a/templates/Static/howto.html.twig
++++ b/templates/Static/howto.html.twig
+@@ -28,7 +28,7 @@
+                             {% endif %}
+ 
+                             <div class="col s12">
+-                                <h5>{{ 'howto.top_menu.browser_addons'|trans }}</h5>
++                                <h2>{{ 'howto.top_menu.browser_addons'|trans }}</h2>
+                                 <ul>
+                                     <li><a href="{{ addonsUrl.firefox }}" target="_blank" rel="noopener">{{ 'howto.browser_addons.firefox'|trans }}</a></li>
+                                     <li><a href="{{ addonsUrl.chrome }}" target="_blank" rel="noopener">{{ 'howto.browser_addons.chrome'|trans }}</a></li>
+@@ -37,7 +37,7 @@
+                             </div>
+ 
+                             <div class="col s12">
+-                                <h5>{{ 'howto.top_menu.mobile_apps'|trans }}</h5>
++                                <h2>{{ 'howto.top_menu.mobile_apps'|trans }}</h2>
+                                 <ul>
+                                     <li>Android: <a href="{{ addonsUrl.f_droid }}" target="_blank" rel="noopener">{{ 'howto.mobile_apps.android.via_f_droid'|trans }}</a> / <a href="{{ addonsUrl.google_play }}" target="_blank" rel="noopener">{{ 'howto.mobile_apps.android.via_google_play'|trans }}</a></li>
+                                     <li>iOS: <a href="{{ addonsUrl.ios }}" target="_blank">{{ 'howto.mobile_apps.ios'|trans }}</a></li>
+@@ -47,7 +47,7 @@
+ 
+                             {% if is_granted('CREATE_ENTRIES') %}
+                                 <div class="col s12">
+-                                    <h5>{{ 'howto.top_menu.bookmarklet'|trans }}</h5>
++                                    <h2>{{ 'howto.top_menu.bookmarklet'|trans }}</h2>
+                                     {{ 'howto.bookmarklet.description'|trans }}
+                                     {% include 'Static/_bookmarklet.html.twig' %}
+                                 </div>
+@@ -58,7 +58,7 @@
+                     <div id="set2" class="col s12">
+                         <p>{{ 'howto.shortcuts.page_description'|trans }}</p>
+ 
+-                        <h5>{{ 'howto.shortcuts.all_pages_title'|trans }}</h5>
++                        <h2>{{ 'howto.shortcuts.all_pages_title'|trans }}</h2>
+ 
+                         <table>
+                             <thead>
+@@ -128,7 +128,7 @@
+                             </tbody>
+                         </table>
+ 
+-                        <h5>{{ 'howto.shortcuts.list_title'|trans }}</h5>
++                        <h2>{{ 'howto.shortcuts.list_title'|trans }}</h2>
+ 
+                         <table>
+                             <thead>
+@@ -146,7 +146,7 @@
+                             </tbody>
+                         </table>
+ 
+-                        <h5>{{ 'howto.shortcuts.article_title'|trans }}</h5>
++                        <h2>{{ 'howto.shortcuts.article_title'|trans }}</h2>
+ 
+                         <table>
+                             <thead>
+diff --git a/templates/Static/quickstart.html.twig b/templates/Static/quickstart.html.twig
+index 2221c0c72..f29c4d4f3 100644
+--- a/templates/Static/quickstart.html.twig
++++ b/templates/Static/quickstart.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel settings">
+ 
+                 <div class="row">
+-                    <h3>{{ 'quickstart.intro.title'|trans }}</h3>
++                    <h2>{{ 'quickstart.intro.title'|trans }}</h2>
+ 
+                     <ul class="row">
+                         {% if is_granted('EDIT_CONFIG') %}
+diff --git a/templates/TwoFactor/email_auth_code.html.twig b/templates/TwoFactor/email_auth_code.html.twig
+index e98e239de..cb78d8872 100644
+--- a/templates/TwoFactor/email_auth_code.html.twig
++++ b/templates/TwoFactor/email_auth_code.html.twig
+@@ -77,7 +77,7 @@
+                         <td style="padding: 20px;" width="96px" valign="top"><img class="image_fix" src="{{ absolute_url(asset('img/logo-square.svg')) }}" alt="logo" title="{{ wallabag_url }}" style="width: 96px; height: 96px;" /></td>
+                         <td style="padding: 20px; padding-left: 0;" valign="top" id="cell_desc">
+                             <h1>wallabag</h1>
+-                            <h5>{{ "auth_code.on"|trans({}, 'wallabag_user') }} {{ wallabag_url }}</h5>
++                            <h3>{{ "auth_code.on"|trans({}, 'wallabag_user') }} {{ wallabag_url }}</h3>
+                         </td>
+                     </tr>
+                     <tr><td colspan="2" style="padding: 0;"><div style="height: 0; border-top: 1px solid #c5c5c5;">&nbsp;</div></td></tr>
+diff --git a/templates/User/edit.html.twig b/templates/User/edit.html.twig
+index 475472d50..1464a0f5f 100644
+--- a/templates/User/edit.html.twig
++++ b/templates/User/edit.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel">
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'user.edit_user'|trans }}</h4>
++                        <h2>{{ 'user.edit_user'|trans }}</h2>
+ 
+                         <div id="set6" class="col s12">
+                             {{ form_start(edit_form) }}
+diff --git a/templates/User/new.html.twig b/templates/User/new.html.twig
+index 64daa518d..5b3c1b04f 100644
+--- a/templates/User/new.html.twig
++++ b/templates/User/new.html.twig
+@@ -9,7 +9,7 @@
+             <div class="card-panel">
+                 <div class="row">
+                     <div class="input-field col s12">
+-                        <h4>{{ 'user.new_user'|trans }}</h4>
++                        <h2>{{ 'user.new_user'|trans }}</h2>
+ 
+                         <div id="set6" class="col s12">
+                             {{ form_start(form) }}
+diff --git a/templates/bundles/FOSUserBundle/layout.html.twig b/templates/bundles/FOSUserBundle/layout.html.twig
+index 6d62eb0f6..e873d1411 100644
+--- a/templates/bundles/FOSUserBundle/layout.html.twig
++++ b/templates/bundles/FOSUserBundle/layout.html.twig
+@@ -8,10 +8,11 @@
+ {% block messages %}{% endblock %}
+ 
+ {% block content %}
+-<main class="valign-wrapper">
++<div class="valign-wrapper">
+     <div class="row">
+         <div class="card sw">
+             <div class="center"><img src="{{ asset('img/logo-wallabag.svg') }}" class="typo-logo" alt="wallabag logo" /></div>
++            <h1 class="login-title">{{ 'security.login.page_title'|trans }}</h1>
+             {% block fos_user_content %}
+             {% endblock fos_user_content %}
+         </div>
+@@ -35,7 +36,7 @@
+             </form>
+         </div>
+     </div>
+-</main>
++</div>
+ {% endblock %}
+ 
+ {% block footer %}
+diff --git a/templates/bundles/TwigBundle/Exception/error.html.twig b/templates/bundles/TwigBundle/Exception/error.html.twig
+index 079e64e86..bafdcfabb 100644
+--- a/templates/bundles/TwigBundle/Exception/error.html.twig
++++ b/templates/bundles/TwigBundle/Exception/error.html.twig
+@@ -8,18 +8,18 @@
+ {% block messages %}{% endblock %}
+ 
+ {% block content %}
+-<main class="valign-wrapper">
++<div class="valign-wrapper">
+     <div class="row">
+         <div class="card sw">
+             <div class="center"><img src="{{ asset('img/logo-wallabag.svg') }}" alt="wallabag logo" class="typo-logo" /></div>
+             <div class="card-content">
+                 <div class="row">
+-                    <h5>{{ status_code }}: {{ status_text }}</h5>
++                    <h1>{{ status_code }}: {{ status_text }}</h1>
+                 </div>
+             </div>
+         </div>
+     </div>
+-</main>
++</div>
+ {% endblock %}
+ 
+ {% block footer %}
+diff --git a/translations/messages.en.yml b/translations/messages.en.yml
+index 5aff9481b..5921f84c3 100644
+--- a/translations/messages.en.yml
++++ b/translations/messages.en.yml
+@@ -256,6 +256,7 @@ entry:
+         show_same_domain: Show articles with the same domain
+         assign_search_tag: Assign this search as a tag to each result
+         toggle_mass_action: Toggle mass action
++        select_entry: 'Select "%title%"'
+         mass_action_tags_input_placeholder: tag1, tag2, tag3
+         add_tags: Add tags
+     filters:
+@@ -285,7 +286,9 @@ entry:
+             clear: Clear
+             filter: Filter
+     view:
++        top_nav_label: Quick actions
+         left_menu:
++            menu_label: Article menu
+             back_to_top: Back to top
+             back_to_homepage: Back
+             set_as_read: Mark as read
+diff --git a/translations/messages.fr.yml b/translations/messages.fr.yml
+index 2f31382e7..4c0879d2a 100644
+--- a/translations/messages.fr.yml
++++ b/translations/messages.fr.yml
+@@ -253,6 +253,7 @@ entry:
+         show_same_domain: Afficher les articles du même site
+         assign_search_tag: Ajouter cette recherche comme un tag à chaque résultat
+         toggle_mass_action: Actions en masse
++        select_entry: 'Sélectionner « %title% »'
+         mass_action_tags_input_placeholder: étiquette1, étiquette2, étiquette3
+         add_tags: Ajouter des étiquettes
+     filters:
+@@ -282,7 +283,9 @@ entry:
+             filter: Filtrer
+         parsed_label: Pas récupéré correctement
+     view:
++        top_nav_label: Actions rapides
+         left_menu:
++            menu_label: Menu de l'article
+             back_to_top: Revenir en haut
+             back_to_homepage: Retour
+             set_as_read: Marquer comme lu

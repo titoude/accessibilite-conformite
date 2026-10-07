@@ -1,0 +1,947 @@
+# Audit accessibilité — 2026-10-07
+
+**12 règle(s) violée(s), 1126 occurrence(s), 36/36 scénario(s) audité(s), 0 erreur(s), 173 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `4a8f3af16750`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://127.0.0.1:8038/unread/list/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/starred/list/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/archive/list/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/annotated/list/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/all/list/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/untagged/list/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/config
+  - `#config_action_mark_as_read`
+  - `#config_language`
+  - `#config_font`
+- http://127.0.0.1:8038/domain/1/1
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:account-dropdown]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:search-panel]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:add-url-panel]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:export-sidenav]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:filters-sidenav]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:mass-action-bar]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:dark-theme]
+  - `#entry_filter_language`
+- http://127.0.0.1:8038/unread/list/1 [state:mobile-nav-390]
+  - `#entry_filter_language`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://127.0.0.1:8038/import/pocket_csv
+  - `#upload_import_file_file`
+  - `.file-path`
+- http://127.0.0.1:8038/import/wallabag-v2
+  - `#upload_import_file_file`
+  - `.file-path`
+- http://127.0.0.1:8038/unread/list/1 [state:mass-action-bar]
+  - `input[data-action="batch-edit#toggleSelection"]`
+  - `input[value="13"]`
+  - `input[value="12"]`
+  - `input[value="10"]`
+  - `input[value="9"]`
+  - `input[value="8"]`
+  - `input[value="6"]`
+  - `input[value="3"]`
+  - `input[value="2"]`
+  - `input[value="1"][name="entry-checkbox[]"][data-batch-edit-target="item"]`
+- http://127.0.0.1:8038/config [state:config-tab-rules]
+  - `#upload_tagging_rule_file_file`
+  - `.file-path`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://127.0.0.1:8038/unread/list/1
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - … +44 autres
+- http://127.0.0.1:8038/starred/list/1
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-entry-labels > li[title="open-source"] > a[href$="open-source"]`
+  - `.card-title[href="/view/14"]`
+  - `a[title="engineering.example.org"]`
+  - `#entry-14 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-14 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `.card-entry-labels > li[title="migration"] > a[href$="migration"]`
+  - `.card-entry-labels > li[title="omnivore"] > a[href$="omnivore"]`
+  - … +19 autres
+- http://127.0.0.1:8038/archive/list/1
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-entry-labels > li[title="open-source"] > a[href$="open-source"]`
+  - `.card-title[href="/view/14"]`
+  - `a[title="engineering.example.org"]`
+  - `#entry-14 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-14 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `.card-entry-labels > li[title="read-it-later"] > a[href$="read-it-later"]`
+  - `.card-entry-labels > li[title="review"] > a[href$="review"]`
+  - … +26 autres
+- http://127.0.0.1:8038/annotated/list/1
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `.card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - … +7 autres
+- http://127.0.0.1:8038/all/list/1
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-entry-labels > li[title="open-source"] > a[href$="open-source"]`
+  - `.card-title[href="/view/14"]`
+  - `a[title="engineering.example.org"]`
+  - `#entry-14 > .archived.card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-14 > .archived.card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - … +73 autres
+- http://127.0.0.1:8038/untagged/list/1
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `.card-title[href="/view/10"]`
+  - `a[title="terminalnotes.example.org"]`
+  - `#entry-10 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - … +5 autres
+- http://127.0.0.1:8038/tag/list
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.tag-chip-link[href$="list"]`
+  - `a[href$="ereader"]`
+  - `.tag-chip-link[href$="howto"][data-tag-target="link"]`
+  - `a[href$="kobo"]`
+  - `a[href$="migration"]`
+  - `a[href$="news"]`
+  - `a[href$="omnivore"]`
+  - … +12 autres
+- http://127.0.0.1:8038/config
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="#set1"]`
+  - `a[href$="#set2"]`
+  - `a[href$="#set3"]`
+  - `a[href$="#set4"]`
+  - `a[href$="#set5"]`
+  - `a[href$="#set6"]`
+  - `a[href$="#set7"]`
+  - … +17 autres
+- http://127.0.0.1:8038/import/
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="chrome"]`
+  - `a[href$="delicious"]`
+  - `a[href$="elcurator"]`
+  - `a[href$="firefox"]`
+  - `a[href$="instapaper"]`
+  - `a[href$="omnivore"]`
+  - `a[href$="pinboard"]`
+  - … +11 autres
+- http://127.0.0.1:8038/import/pocket_csv
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.btn > span`
+  - `label > span`
+  - `#upload_import_file_save`
+  - `.m12 > .footer-text`
+  - `.l4 > .footer-text`
+  - `a[target="_blank"]`
+  - `a[href$="about"]`
+- http://127.0.0.1:8038/import/wallabag-v2
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.btn > span`
+  - `label > span`
+  - `#upload_import_file_save`
+  - `.m12 > .footer-text`
+  - `.l4 > .footer-text`
+  - `a[target="_blank"]`
+  - `a[href$="about"]`
+- http://127.0.0.1:8038/new
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.m12 > p`
+  - `.s12 > p`
+  - `a[target="_blank"]`
+  - `a[href$="about"]`
+- http://127.0.0.1:8038/view/12
+  - `li:nth-child(1) > span`
+  - `.stats > li:nth-child(2)`
+  - `.grey-text[target="_blank"][rel="noopener"]`
+  - `.stats > li:nth-child(4)`
+  - `a[href$="wallabag"]`
+  - `a[href$="tutorial"]`
+  - `p:nth-child(2) > a`
+- http://127.0.0.1:8038/view/14
+  - `li:nth-child(1) > span`
+  - `.stats > li:nth-child(2)`
+  - `.grey-text[target="_blank"][rel="noopener"]`
+  - `.chip-label`
+- http://127.0.0.1:8038/edit/3
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.required`
+  - `label[for="entry_url"]`
+  - `label[for="entry_origin_url"]`
+  - `#entry_save`
+  - `.m12 > p`
+  - `.l4 > p`
+  - `a[target="_blank"]`
+  - … +1 autres
+- http://127.0.0.1:8038/users/list
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="edit"]`
+  - `.waves-light`
+  - `.m12 > .footer-text`
+  - `.l4 > .footer-text`
+  - `a[target="_blank"]`
+  - `a[href$="about"]`
+- http://127.0.0.1:8038/users/new
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `label[for="new_user_username"]`
+  - `label[for="new_user_plainPassword_first"]`
+  - `label[for="new_user_plainPassword_second"]`
+  - `label[for="new_user_email"]`
+  - `#new_user_save`
+  - `.blue-grey`
+  - `.m12 > .footer-text`
+  - … +3 autres
+- http://127.0.0.1:8038/settings
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="#set-analytics"]`
+  - `a[href$="#set-api"]`
+  - `a[href$="#set-entry"]`
+  - `a[href$="#set-export"]`
+  - `a[href$="#set-import"]`
+  - `a[href$="#set-misc"]`
+  - `#set-analytics > .row:nth-child(1) > .input-field.s12.col > div > label`
+  - … +7 autres
+- http://127.0.0.1:8038/howto
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="#set1"]`
+  - `a[href$="#set2"]`
+  - `.s12.col:nth-child(1) > a[href$="new"]`
+  - `.s12.col:nth-child(2) > ul > li:nth-child(1) > a[rel="noopener"][target="_blank"]`
+  - `li:nth-child(2) > a[rel="noopener"][target="_blank"]`
+  - `.s12.col:nth-child(2) > ul > li:nth-child(3) > a[rel="noopener"][target="_blank"]`
+  - `.s12.col:nth-child(3) > ul > li:nth-child(1) > a[rel="noopener"][target="_blank"]:nth-child(1)`
+  - … +8 autres
+- http://127.0.0.1:8038/about
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="#set1"]`
+  - `a[href$="#set2"]`
+  - `a[href$="#set3"]`
+  - `a[href$="#set4"]`
+  - `a[href$="nicolas.loeuillet.org"]`
+  - `a[href$="tcit.fr"]`
+  - `a[href$="www.j0k3r.net"]`
+  - … +10 autres
+- http://127.0.0.1:8038/quickstart
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.teal > .card-content.white-text > .card-title.white-text`
+  - `.teal > .card-content.white-text > p`
+  - `.card-action > ul > li:nth-child(1) > a[href$="config"]`
+  - `a[href$="config#set2"]`
+  - `a[href$="config#set5"]`
+  - `.green > .card-content.white-text > .card-title.white-text`
+  - `.green > .card-content.white-text > p`
+  - … +26 autres
+- http://127.0.0.1:8038/developer
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="first-app"]`
+  - `ul:nth-child(3) > li:nth-child(2) > a`
+  - `a[href$="doc/"]`
+  - `.waves-light`
+  - `.m12 > p`
+  - `.l4 > p`
+  - `a[target="_blank"]`
+  - … +1 autres
+- http://127.0.0.1:8038/domain/1/1
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `.m12 > p`
+  - `.l4 > p`
+  - `a[target="_blank"]`
+  - `a[href$="about"]`
+- http://127.0.0.1:8038/ignore-origin-instance-rules
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `tr:nth-child(1) > td:nth-child(2) > a`
+  - `tr:nth-child(2) > td:nth-child(2) > a`
+  - `tr:nth-child(3) > td:nth-child(2) > a`
+  - `.waves-light`
+  - `.m12 > .footer-text`
+  - `.l4 > .footer-text`
+  - `a[target="_blank"]`
+  - … +1 autres
+- http://127.0.0.1:8038/unread/list/1 [state:account-dropdown]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `a[href$="config"]`
+  - `a[href$="developer"]`
+  - `a[href$="import/"]`
+  - `#dropdown-account > li:nth-child(5) > a[href$="list"]`
+  - `a[href$="settings"]`
+  - `a[href="/ignore-origin-instance-rules"]`
+  - `li:nth-child(9) > a[href="#"] > span`
+  - … +55 autres
+- http://127.0.0.1:8038/unread/list/1 [state:search-panel]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - `a[title="tutorials.example.org"]`
+  - … +43 autres
+- http://127.0.0.1:8038/unread/list/1 [state:add-url-panel]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - `a[title="tutorials.example.org"]`
+  - … +43 autres
+- http://127.0.0.1:8038/unread/list/1 [state:export-sidenav]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - … +44 autres
+- http://127.0.0.1:8038/unread/list/1 [state:filters-sidenav]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - … +58 autres
+- http://127.0.0.1:8038/unread/list/1 [state:mass-action-bar]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `#entry-9 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="self-hosted"] > a[href$="self-hosted"]`
+  - `#entry-8 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="news"] > a[href$="news"]`
+  - `.card-entry-labels > li[title="ereader"] > a[href$="ereader"]`
+  - `.card-entry-labels > li[title="kobo"] > a[href$="kobo"]`
+  - `.card-entry-labels > li[title="privacy"] > a[href$="privacy"]`
+  - … +8 autres
+- http://127.0.0.1:8038/config [state:config-tab-rules]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `h1`
+  - `a[href$="#set1"]`
+  - `a[href$="#set2"]`
+  - `a[href$="#set3"]`
+  - `a[href$="#set4"]`
+  - `a[href$="#set5"]`
+  - `a[href$="#set6"]`
+  - `a[href$="#set7"]`
+  - … +9 autres
+- http://127.0.0.1:8038/view/12 [state:entry-annotated]
+  - `li:nth-child(1) > span`
+  - `.stats > li:nth-child(2)`
+  - `.grey-text[target="_blank"][rel="noopener"]`
+  - `.stats > li:nth-child(4)`
+  - `a[href$="wallabag"]`
+  - `a[href$="tutorial"]`
+  - `p:nth-child(2) > a`
+- http://127.0.0.1:8038/view/3 [state:entry-leftbar-theme]
+  - `li:nth-child(1) > span`
+  - `.stats > li:nth-child(2)`
+  - `.grey-text[target="_blank"][rel="noopener"]`
+  - `.chip-label`
+  - `p:nth-child(2) > a`
+- http://127.0.0.1:8038/unread/list/1 [state:dark-theme]
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `#entry-9 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="self-hosted"] > a[href$="self-hosted"]`
+  - `#entry-8 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="news"] > a[href$="news"]`
+  - `.card-entry-labels > li[title="ereader"] > a[href$="ereader"]`
+  - `.card-entry-labels > li[title="kobo"] > a[href$="kobo"]`
+  - `.card-entry-labels > li[title="privacy"] > a[href$="privacy"]`
+  - `#entry-2 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="self-hosted"] > a[href$="self-hosted"]`
+  - `.card-entry-labels > li[title="read-it-later"] > a[href$="read-it-later"]`
+  - `#entry-1 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - … +1 autres
+- http://127.0.0.1:8038/unread/list/1 [state:mobile-nav-390]
+  - `.bold:nth-child(6) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(7) > .waves-effect[href$="list"] > .items-number`
+  - `h1`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `#entry-12 > .card.entry-card > .card-body > .card-image.waves-block.waves-light > .card-entry-labels > li[title="wallabag"] > a[href$="wallabag"]`
+  - `.card-entry-labels > li[title="tutorial"] > a[href$="tutorial"]`
+  - `.card-title[href="/view/12"]`
+  - … +44 autres
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://127.0.0.1:8038/unread/list/1
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/starred/list/1
+  - `.card-image.waves-block.waves-light > a[href="/view/14"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/5"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/archive/list/1
+  - `.card-image.waves-block.waves-light > a[href="/view/14"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/11"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/7"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/5"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/4"]`
+- http://127.0.0.1:8038/annotated/list/1
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+- http://127.0.0.1:8038/all/list/1
+  - `.card-image.waves-block.waves-light > a[href="/view/14"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/11"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/7"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/5"]`
+  - … +4 autres
+- http://127.0.0.1:8038/untagged/list/1
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+- http://127.0.0.1:8038/unread/list/1 [state:account-dropdown]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:search-panel]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:add-url-panel]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:export-sidenav]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:filters-sidenav]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:mass-action-bar]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:dark-theme]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+- http://127.0.0.1:8038/unread/list/1 [state:mobile-nav-390]
+  - `.card-image.waves-block.waves-light > a[href="/view/13"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/12"]`
+  - `.card-image.waves-block.waves-light > a[href="/view/10"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/9"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/8"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/6"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/3"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/2"]`
+  - `.card-image.waves-block.waves-light > a[href$="view/1"]`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://127.0.0.1:8038/howto
+  - `.s12.col:nth-child(2) > ul > li:nth-child(1) > a[rel="noopener"][target="_blank"]`
+  - `li:nth-child(2) > a[rel="noopener"][target="_blank"]`
+  - `.s12.col:nth-child(2) > ul > li:nth-child(3) > a[rel="noopener"][target="_blank"]`
+- http://127.0.0.1:8038/quickstart
+  - `a[href$="readability"]`
+  - `a[href$="instapaper"]`
+  - `.cyan.card.darken-1 > .card-action > ul > li:nth-child(1) > a`
+  - `a[href$="mailto:hello@wallabag.org"]`
+  - `.cyan.card.darken-1 > .card-action > ul > li:nth-child(3) > a`
+
+## [SERIOUS] document-title — Documents must have <title> element to aid in navigation
+
+Ensure each HTML document contains a non-empty <title> element
+Référence : https://dequeuniversity.com/rules/axe/4.14/document-title?application=axeAPI
+
+- http://127.0.0.1:8038/search/1?search%5Bterm%5D=wallabag
+  - `html`
+
+## [SERIOUS] html-has-lang — <html> element must have a lang attribute
+
+Ensure every HTML document has a lang attribute
+Référence : https://dequeuniversity.com/rules/axe/4.14/html-has-lang?application=axeAPI
+
+- http://127.0.0.1:8038/search/1?search%5Bterm%5D=wallabag
+  - `html`
+
+## [SERIOUS] dlitem — <dt> and <dd> elements must be contained by a <dl>
+
+Ensure <dt> and <dd> elements are contained by a <dl>
+Référence : https://dequeuniversity.com/rules/axe/4.14/dlitem?application=axeAPI
+
+- http://127.0.0.1:8038/about
+  - `#set1 > dt:nth-child(1)`
+  - `dd:nth-child(2)`
+  - `#set1 > dd:nth-child(3)`
+  - `dd:nth-child(4)`
+  - `dd:nth-child(5)`
+  - `dd:nth-child(6)`
+  - `dt:nth-child(7)`
+  - `dt:nth-child(8)`
+  - `dd:nth-child(9)`
+  - `dt:nth-child(10)`
+  - … +1 autres
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI
+
+- http://127.0.0.1:8038/unread/list/1
+  - `#export > h4`
+- http://127.0.0.1:8038/starred/list/1
+  - `#export > h4`
+- http://127.0.0.1:8038/archive/list/1
+  - `#export > h4`
+- http://127.0.0.1:8038/annotated/list/1
+  - `#export > h4`
+- http://127.0.0.1:8038/all/list/1
+  - `#export > h4`
+- http://127.0.0.1:8038/untagged/list/1
+  - `#export > h4`
+- http://127.0.0.1:8038/config
+  - `.row:nth-child(7) > .input-field.s12.col > h5`
+- http://127.0.0.1:8038/import/pocket_csv
+  - `h6`
+- http://127.0.0.1:8038/import/wallabag-v2
+  - `h6`
+- http://127.0.0.1:8038/users/new
+  - `h4`
+- http://127.0.0.1:8038/howto
+  - `.s12.col:nth-child(2) > h5`
+- http://127.0.0.1:8038/quickstart
+  - `h3`
+- http://127.0.0.1:8038/developer
+  - `h3`
+- http://127.0.0.1:8038/domain/1/1
+  - `#export > h4`
+- http://127.0.0.1:8038/unread/list/1 [state:account-dropdown]
+  - `#export > h4`
+- http://127.0.0.1:8038/unread/list/1 [state:export-sidenav]
+  - `#export > h4`
+- http://127.0.0.1:8038/unread/list/1 [state:filters-sidenav]
+  - `#export > h4`
+- http://127.0.0.1:8038/unread/list/1 [state:mass-action-bar]
+  - `#export > h4`
+- http://127.0.0.1:8038/config [state:config-tab-rules]
+  - `#set5 > .row:nth-child(3) > .input-field.s12.col > h4`
+- http://127.0.0.1:8038/unread/list/1 [state:dark-theme]
+  - `#export > h4`
+- http://127.0.0.1:8038/unread/list/1 [state:mobile-nav-390]
+  - `#export > h4`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://127.0.0.1:8038/view/12
+  - `.collapsible-header.waves-effect[href="/"]`
+  - `.original`
+  - `#nav-btn-add-tag`
+  - `.bold:nth-child(8) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(9) > .collapsible-header.waves-effect`
+  - `a[title="Print"]`
+  - `.border-top`
+  - `.bold:nth-child(12) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(13) > .collapsible-header.waves-effect`
+- http://127.0.0.1:8038/view/14
+  - `.collapsible-header.waves-effect[href="/"]`
+  - `.original`
+  - `#nav-btn-add-tag`
+  - `.bold:nth-child(8) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(9) > .collapsible-header.waves-effect`
+  - `a[title="Print"]`
+  - `.border-top`
+  - `.bold:nth-child(12) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(13) > .collapsible-header.waves-effect`
+- http://127.0.0.1:8038/view/12 [state:entry-annotated]
+  - `.collapsible-header.waves-effect[href="/"]`
+  - `.original`
+  - `#nav-btn-add-tag`
+  - `.bold:nth-child(8) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(9) > .collapsible-header.waves-effect`
+  - `a[title="Print"]`
+  - `.border-top`
+  - `.bold:nth-child(12) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(13) > .collapsible-header.waves-effect`
+- http://127.0.0.1:8038/view/3 [state:entry-leftbar-theme]
+  - `.collapsible-header.waves-effect[href="/"]`
+  - `.original`
+  - `#nav-btn-add-tag`
+  - `.active`
+  - `.bold:nth-child(9) > .collapsible-header.waves-effect`
+  - `a[title="Print"]`
+  - `.border-top`
+  - `.bold:nth-child(12) > .collapsible-header.waves-effect`
+  - `.bold:nth-child(13) > .collapsible-header.waves-effect`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://127.0.0.1:8038/search/1?search%5Bterm%5D=wallabag
+  - `html`
+- http://127.0.0.1:8038/unread/list/1 [state:search-panel]
+  - `html`
+- http://127.0.0.1:8038/unread/list/1 [state:add-url-panel]
+  - `html`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://127.0.0.1:8038/search/1?search%5Bterm%5D=wallabag
+  - `html`
+
+## Résultats incomplets à revoir (173)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://127.0.0.1:8038/unread/list/1
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/starred/list/1
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number`
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/archive/list/1
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/annotated/list/1
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/all/list/1
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/untagged/list/1
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/tag/list
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/config
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/import/
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/import/pocket_csv
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/import/wallabag-v2
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/new
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/edit/3
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/users/list
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/users/new
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/settings
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/howto
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/about
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/quickstart
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/developer
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/domain/1/1
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/ignore-origin-instance-rules
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+- http://127.0.0.1:8038/unread/list/1 [state:account-dropdown]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+  - `.card-title[href="/view/12"]`
+- http://127.0.0.1:8038/unread/list/1 [state:search-panel]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/unread/list/1 [state:add-url-panel]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/unread/list/1 [state:export-sidenav]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/unread/list/1 [state:filters-sidenav]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+- http://127.0.0.1:8038/unread/list/1 [state:mass-action-bar]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+  - `.card-title[href="/view/13"]`
+  - `a[title="cssnotes.example.net"]`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-reading-time > span`
+  - `#entry-13 > .card.entry-card > .card-action > .reading-time.grey-text > .card-created-at > span`
+  - `.card-title[href="/view/12"]`
+  - `a[title="tutorials.example.org"]`
+  - … +30 autres
+- http://127.0.0.1:8038/config [state:config-tab-rules]
+  - `.bold:nth-child(2) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number.grey-text`
+  - `#tagging_rule_rule`
+  - `#tagging_rule_tags`
+  - `.btn > span`
+  - `.file-path`
+- http://127.0.0.1:8038/unread/list/1 [state:mobile-nav-390]
+  - `.active.bold > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(3) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(4) > .waves-effect[href$="list"] > .items-number`
+  - `.bold:nth-child(5) > .waves-effect[href$="list"] > .items-number`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://127.0.0.1:8038/view/12
+  - `.title-edit`
+- http://127.0.0.1:8038/view/14
+  - `.title-edit`
+- http://127.0.0.1:8038/config [state:config-tab-rules]
+  - `#set5 > .row:nth-child(1) > .input-field.s12.col > ul > li:nth-child(1) > a[href$="edit/1"]`
+  - `#set5 > .row:nth-child(1) > .input-field.s12.col > ul > li:nth-child(2) > a[href$="edit/2"]`
+  - `a[href$="edit/3"]`
+  - `a[href$="edit/4"]`
+  - `a[href$="edit/5"]`
+  - `a[href$="edit/6"]`
+  - `a[href$="edit/7"]`
+- http://127.0.0.1:8038/view/12 [state:entry-annotated]
+  - `.title-edit`
+- http://127.0.0.1:8038/view/3 [state:entry-leftbar-theme]
+  - `.title-edit`
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://127.0.0.1:8038/edit/3
+  - `input[placeholder="http://website.com"]`
+

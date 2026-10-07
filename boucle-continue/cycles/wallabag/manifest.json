@@ -1,0 +1,42 @@
+{
+ "cycle": 38,
+ "produit": "wallabag",
+ "repo": "https://github.com/wallabag/wallabag",
+ "commit": "496db5b457755bbf7d46f314716c8aad1b80fcfb",
+ "pinned": "496db5b457755bbf7d46f314716c8aad1b80fcfb (git ls-remote HEAD, 2026-10-07)",
+ "baseUrl": "http://127.0.0.1:8038",
+ "stack": "PHP 8.2 (image wallabag38-php = docker/php upstream target 'default') + SQLite file + Redis (sessions) — SSR Symfony/Twig + Materialize 1.x + Stimulus ; build assets = yarn/webpack encore",
+ "boot": {
+  "clone": "git clone https://github.com/wallabag/wallabag target && git checkout 496db5b457755bbf7d46f314716c8aad1b80fcfb",
+  "override": "cp tools/compose.override.yaml . && mkdir -p .bench && cp tools/serve-router.php .bench/ — l'override gitignored force APP_ENV=prod + php -S 0.0.0.0:8000 -t web /opt/serve-router.php (le serveur amont sert --env=dev ; le bench cible le produit livré). cp docker/php/env.example docker/php/env",
+  "up": "PORT=8038 docker compose -p wallabag38 up -d [--build]  (si Docker Hub rate-limit : docker tag <image déjà buildée> <projet>-php)",
+  "deps": "docker exec <projet>-php-1 sh -c 'cd /var/www/html && composer install --no-interaction --prefer-dist && yarn install --frozen-lockfile && yarn build:prod' — vendor/ et web/build/ sont gitignored : hors patch, toujours rebuilder",
+  "install": "docker exec <projet>-php-1 php bin/console wallabag:install --env=prod -n — crée le schéma sqlite data/db/wallabag.sqlite + user admin wallabag/wallabag",
+  "seed": "docker cp tools/seed.php <projet>-php-1:/tmp/seed.php && docker exec <projet>-php-1 php /tmp/seed.php — idempotent : 14 entrées HTML réelles (9 unread, 5 archived, 4 starred, 2 annotées, 2 untagged), 14 tags, 7 tagging-rules, config items_per_page=30 lang=en ; entry#1 public share uid 0af38edc9ca4c9157176453",
+  "login": "node tools/login.mjs http://127.0.0.1:8038 wallabag wallabag auth.json — storageState cookies"
+ },
+ "auth": "storageState auth.json (PHPSESSID_8038, wallabag/wallabag)",
+ "urls": "tools/urls-auth.txt — 25 pages auth (listes unread/starred/archive/annotated/all/untagged, tags, config, import+2 sous-pages, new, view×2, edit, search résultats, users list/new, settings, howto, about, quickstart, developer, domain, ignore-origin-instance-rules) + tools/urls-public.txt (/login + /share/<uid>)",
+ "states": "voir states.json — 11 états : account-dropdown, search-panel, add-url-panel, export-sidenav, filters-sidenav, mass-action-bar, config-tab-rules, entry-annotated, entry-leftbar-theme, dark-theme, mobile-nav-390 — triggers dispatchEvent('click') (Materialize capte mousedown), sélecteurs déterministes + stateProof (leçon 32)",
+ "axe": "4.14.0 (tools/package.json épinglé — axeVersion reporté dans scope.json + report.json)",
+ "auditCommands": {
+  "baseline_auth": "node tools/audit.mjs http://127.0.0.1:8038 --urls \"$(cat tools/urls-auth.txt | tr '\\n' ',')\" --states all --storage-state auth.json --wait 1000 --out reports/baseline/auth",
+  "baseline_public": "node tools/audit.mjs http://127.0.0.1:8038 --urls \"$(cat tools/urls-public.txt | tr '\\n' ',')\" --states none --wait 1000 --out reports/baseline/public",
+  "final_auth": "idem baseline_auth → reports/final/auth (produit patché, rebuild yarn build:prod + cache:clear --env=prod)",
+  "final_public": "idem baseline_public → reports/final/public",
+  "verify": "node tools/verify.mjs http://127.0.0.1:8038 auth.json — 29 assertions DOM indépendantes du score axe",
+  "probes": "node tools/incomplete-probes.mjs <base> <report.json> <out.json> [auth.json] — mesure pixel-vraie des incomplets (leçon 31)",
+  "eval_final": "node tools/eval-final.mjs http://127.0.0.1:8038 auth.json — 16 pages hors périmètre + 404 + replays à froid + public /resetting/request /login",
+  "install_build": "clone propre → git apply patch.diff → boot identique sur PORT=8039 projet wallabag38ib → seed+login auth-ib.json → rescan verbatim → reports/install-build/{auth,public}"
+ },
+ "notes": [
+  "Bug amont corrigé dans le patch : config_prod.yml dsn Sentry '%env(default:...)%' invalide sans la clé d'env -> dsn vide.",
+  "Materialize force !important sur toutes les classes couleur (570.*.css) — les overrides doivent porter !important (mesuré computed, pas supposé).",
+  "Opacity .5 sur .card.archived mutait le texte (leçon 31) -> restreinte aux vignettes .preview/img ; les libellés de tags vivent DANS .card-image.",
+  "NewEntryType/EditEntryType partagent blockPrefix 'entry' -> ids dupliqués topbar vs /edit (entry_url, entry__token) -> ids topbar préfixés via vars widget id= (name POST inchangé, tests amont préservés).",
+  "select-name : Materialize réécrit label[for] vers l'input dropdown généré -> aria-labelledby dans form_select_controller.js.",
+  "/search/{page} standalone rendait un fragment nu -> render() page complète quand _route='search' (sous-requête embarquée sans _route inchangée).",
+  "site-credentials volontairement hors scope : voter LIST_SITE_CREDENTIALS -> 404 pour le user seed.",
+  "install-build scopeHash diffère : hash inclut baseUrl (8039 vs 8038) ; scénarios identiques 36+2."
+ ]
+}

@@ -1,0 +1,16 @@
+{
+ "states": {
+  "account-dropdown": "sur /unread/list/1 : dispatchEvent click a.dropdown-trigger[data-target=dropdown-account] → #dropdown-account a[href*=logout] visible",
+  "search-panel": "sur /unread/list/1 : click a[data-action*=topbar#showSearch] → .nav-panel-search input visible",
+  "add-url-panel": "sur /unread/list/1 : click a.toggle-add-url[data-action*=topbar#showAddUrl] → .nav-panel-add input visible",
+  "export-sidenav": "sur /unread/list/1 : click a.sidenav-trigger[data-target=export] → #export translateX≈0 + lien visible",
+  "filters-sidenav": "sur /unread/list/1 : click a.sidenav-trigger[data-target=filters] → #filters translateX≈0 + champ visible",
+  "mass-action-bar": "sur /unread/list/1 : click label.mass-action-toggle → .mass-action + input.entry-checkbox-input visibles",
+  "config-tab-rules": "sur /config : click ul.tabs a[href=#set5] → onglet actif + panneau rules visible",
+  "entry-annotated": "sur /view/12 : attend .annotator-hl injecté en XHR (leçon 34 — garde hydratation annotator.js)",
+  "entry-leftbar-theme": "sur /view/3 : click header collapsible 'display settings' du #slide-out → liens thème visibles",
+  "dark-theme": "sur /unread/list/1 : dropdown compte → click a[data-action*=dark-theme#useDark] → html.dark-theme + cookie theme=dark",
+  "mobile-nav-390": "sur /unread/list/1 : RESTORE symétrique du thème (cookie + classe retirés) puis viewport 390×844 + sidenav principale ouverte → translateX≈0 + lien unread visible"
+ },
+ "note": "triggers = dispatchEvent('click') (Materialize n'ouvre pas sur mousedown/up synthétique Playwright) ; chaque état a un stateProof — leçon 32 ; restore symétrique des préfs persistées (leçon mémoire : cookie 'theme' + classe html pour dark-theme)."
+}

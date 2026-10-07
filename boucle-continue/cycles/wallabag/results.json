@@ -1,0 +1,116 @@
+{
+ "cycle": 38,
+ "produit": "wallabag",
+ "commit": "496db5b457755bbf7d46f314716c8aad1b80fcfb",
+ "axe": "4.14.0",
+ "statut_execution": "complet",
+ "baseline": {
+  "auth": {
+   "violations_occ": 1126,
+   "violations_regles": 12,
+   "regles": {
+    "color-contrast": 902,
+    "heading-order": 21,
+    "link-name": 108,
+    "select-name": 18,
+    "label": 16,
+    "region": 36,
+    "document-title": 1,
+    "html-has-lang": 1,
+    "landmark-one-main": 1,
+    "page-has-heading-one": 3,
+    "target-size": 8,
+    "dlitem": 11
+   },
+   "erreurs": 0,
+   "incomplets": 173,
+   "note": "36 scénarios : 25 pages auth + 11 états dynamiques"
+  },
+  "public": {
+   "violations_occ": 15,
+   "violations_regles": 8,
+   "regles": {
+    "color-contrast": 8,
+    "landmark-main-is-top-level": 1,
+    "landmark-no-duplicate-main": 1,
+    "landmark-unique": 1,
+    "page-has-heading-one": 1,
+    "html-has-lang": 1,
+    "landmark-one-main": 1,
+    "region": 1
+   },
+   "erreurs": 0,
+   "incomplets": 2,
+   "note": "/login + /share/<uid> sans session"
+  }
+ },
+ "final": {
+  "auth": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": {
+    "total": 45,
+    "detail": {
+     "link-in-text-block": 4,
+     "color-contrast": 41
+    }
+   }
+  },
+  "public": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": {
+    "total": 2,
+    "detail": {
+     "color-contrast": 2
+    }
+   }
+  },
+  "note": "mêmes scénarios que baseline (scopeHash identique) ; produit patché, assets rebuildés, env=prod"
+ },
+ "install_build": {
+  "auth": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": {
+    "total": 45,
+    "detail": {
+     "link-in-text-block": 4,
+     "color-contrast": 41
+    }
+   }
+  },
+  "public": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": {
+    "total": 2,
+    "detail": {
+     "color-contrast": 2
+    }
+   }
+  },
+  "note": "clone propre + patch.diff → composer/yarn/build → wallabag:install → seed → rescan verbatim :8039"
+ },
+ "verify": {
+  "assertions": 29,
+  "fail": 0,
+  "script": "tools/verify.mjs"
+ },
+ "eval_final": {
+  "assertions": 26,
+  "fail": 0,
+  "script": "tools/eval-final.mjs",
+  "note": "16 pages hors périmètre + 404 + replays à froid (panneau recherche, carte archivée, dropdown) + public /resetting/request /login"
+ },
+ "probes_incomplets": {
+  "link-in-text-block|PASS": 4,
+  "color-contrast|PASS": 39,
+  "color-contrast|N-A": 4
+ },
+ "probes_note": "N-A = élément masqué par design (select Materialize masqué, champ de panneau topbar fermé, dup-id corrigé absent) — voir reports/probes/*.json"
+}

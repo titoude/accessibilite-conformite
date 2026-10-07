@@ -1,0 +1,47 @@
+install-build — cycle 38 wallabag — replay complet sur clone propre
+=====================================================================
+
+# clone propre + pin
+git clone https://github.com/wallabag/wallabag wallabag-ib
+cd wallabag-ib && git checkout 496db5b457755bbf7d46f314716c8aad1b80fcfb
+496db5b457755bbf7d46f314716c8aad1b80fcfb  (OK, identique au pin)
+
+# apply patch
+git apply --check ../work/patch.diff   -> OK, 0 rejet
+git apply ../work/patch.diff           -> 49 fichiers (48 modifiés + search.html.twig nouveau)
+
+# pièces de boot gitignored (hors patch, livrées dans tools/)
+cp tools/compose.override.yaml . && mkdir -p .bench && cp tools/serve-router.php .bench/
+cp docker/php/env.example docker/php/env
+   (env.example = env utilisé par la stack initiale — SENTRY_DSN factice désactivé
+    via le fix config_prod.yml du patch)
+
+# stack docker fraîche (projet wallabag38ib, :8039)
+# Docker Hub rate-limité -> image wallabag38-php retaguée wallabag38ib-php
+# (même Dockerfile upstream docker/php, aucune modif d'image)
+PORT=8039 docker compose -p wallabag38ib up -d
+docker exec wallabag38ib-php-1 sh -c 'cd /var/www/html && composer install --no-interaction --prefer-dist'
+docker exec wallabag38ib-php-1 sh -c 'cd /var/www/html && yarn install --frozen-lockfile && yarn build:prod'
+   -> webpack OK : web/build/main.*.css régénéré avec les overrides
+docker exec wallabag38ib-php-1 php bin/console wallabag:install --env=prod -n
+   -> schéma sqlite + user wallabag/wallabag
+
+# seed (verbatim manifest)
+docker cp tools/seed.php wallabag38ib-php-1:/tmp/seed.php
+docker exec wallabag38ib-php-1 php /tmp/seed.php
+   -> unread: 9 / archived: 5 / starred: 4 / tags linked: 20 / annotations: 2 / untagged: 2
+
+# login
+node tools/login.mjs http://127.0.0.1:8039 wallabag wallabag auth-ib.json -> auth saved
+
+# rescan verbatim (36 scénarios : 25 pages + 11 états)
+node tools/audit.mjs http://127.0.0.1:8039 --urls "$(cat tools/urls-auth.txt | tr '\n' ',')" \
+    --states all --storage-state auth-ib.json --wait 1000 --out reports/install-build/auth
+node tools/audit.mjs http://127.0.0.1:8039 --urls "$(cat tools/urls-public.txt | tr '\n' ',')" \
+    --states none --wait 1000 --out reports/install-build/public
+
+# résultat
+auth   : 0 règle, 0 occurrence, 0 erreur, 45 incomplets (sondes rejouables)
+public : 0 règle, 0 occurrence, 0 erreur, 2 incomplets
+scopeHash diffère du run :8038 — le hash inclut baseUrl ; scénarios identiques.
+Aucune itération nécessaire : le patch couvre l'intégralité du périmètre.
