@@ -332,10 +332,10 @@ index 283187cc11..8546cb9757 100644
 +}
 +
 diff --git a/public/themes/bootstrap/scss/_variables.scss b/public/themes/bootstrap/scss/_variables.scss
-index 202a45a87a..e27acbce64 100644
+index 202a45a87a..4abca27abb 100644
 --- a/public/themes/bootstrap/scss/_variables.scss
 +++ b/public/themes/bootstrap/scss/_variables.scss
-@@ -6,6 +6,10 @@ $navigation-width: 240px !default;
+@@ -6,6 +6,14 @@ $navigation-width: 240px !default;
  
  $link-decoration: none;
  $link-hover-decoration: underline;
@@ -343,6 +343,10 @@ index 202a45a87a..e27acbce64 100644
 +// white and card surfaces; blue-700 passes with margin.
 +$link-color: #0a58ca;
 +$link-hover-color: #084298;
++// WCAG 1.4.3: Bootstrap's default <code> pink #d63384 measures 3.9:1 on
++// grey config surfaces (e.g. /preferences/navigation); a darker rose passes
++// >=4.5:1. Dark mode keeps $code-color-dark untouched.
++$code-color: #ad1457;
  
  // Breadcrumbs
  
@@ -636,6 +640,22 @@ index b5f3d69af9..a1bc55bfdd 100644
    --button-hover: #000;
    --blue-header: #555;
  }
+diff --git a/public/themes/metro/scss/_variables.scss b/public/themes/metro/scss/_variables.scss
+index 9a71a9808e..14bab5aa92 100644
+--- a/public/themes/metro/scss/_variables.scss
++++ b/public/themes/metro/scss/_variables.scss
+@@ -23,6 +23,11 @@ $body-bg: #fff;
+ 
+ $link-decoration: none;
+ $link-hover-decoration: underline;
++// WCAG 1.4.3: Bootstrap's default <code> pink #d63384 measures 3.9:1 on
++// grey config surfaces (e.g. /preferences/navigation); a darker rose passes
++// >=4.5:1. (Plain code is already body-colored in _common.scss; this covers
++// the code.json/php/sql/xml var rule.)
++$code-color: #ad1457;
+ 
+ // Components
+ 
 diff --git a/public/themes/original/scss/_common.scss b/public/themes/original/scss/_common.scss
 index 5406aaae43..82d3170953 100644
 --- a/public/themes/original/scss/_common.scss
@@ -843,6 +863,21 @@ index bb7443e3a1..4e527c790e 100644
 +  text-align: center;
 +}
 +
+diff --git a/public/themes/original/scss/_variables.scss b/public/themes/original/scss/_variables.scss
+index 58eb7725da..ec8d99486a 100644
+--- a/public/themes/original/scss/_variables.scss
++++ b/public/themes/original/scss/_variables.scss
+@@ -63,6 +63,10 @@ $link-color: #00f;
+ $link-decoration: none;
+ $link-hover-color: #f00;
+ $link-hover-decoration: underline;
++// WCAG 1.4.3: Bootstrap's default <code> pink #d63384 measures 3.9:1 on
++// grey config surfaces (e.g. /preferences/navigation); a darker rose passes
++// >=4.5:1.
++$code-color: #ad1457;
+ 
+ // Buttons
+ 
 diff --git a/public/themes/pmahomme/scss/_breadcrumb.scss b/public/themes/pmahomme/scss/_breadcrumb.scss
 index 513f5874c3..de8a4ead79 100644
 --- a/public/themes/pmahomme/scss/_breadcrumb.scss
@@ -1119,10 +1154,21 @@ index 350135c732..42f144bb26 100644
 +}
 +
 diff --git a/public/themes/pmahomme/scss/_variables.scss b/public/themes/pmahomme/scss/_variables.scss
-index 51df199ac8..d8b6ed0ded 100644
+index 51df199ac8..d000942d91 100644
 --- a/public/themes/pmahomme/scss/_variables.scss
 +++ b/public/themes/pmahomme/scss/_variables.scss
-@@ -162,8 +162,8 @@ $accordion-button-active-bg: $navi-background;
+@@ -62,6 +62,10 @@ $link-color: #235a81;
+ $link-decoration: none;
+ $link-hover-color: #235a81;
+ $link-hover-decoration: underline;
++// WCAG 1.4.3: Bootstrap's default <code> pink #d63384 measures 3.9:1 on
++// grey config surfaces (e.g. /preferences/navigation); a darker rose passes
++// >=4.5:1.
++$code-color: #ad1457;
+ 
+ // Components
+ 
+@@ -162,8 +166,8 @@ $accordion-button-active-bg: $navi-background;
  $breadcrumb-navbar-padding-y: 0.5rem;
  $breadcrumb-navbar-padding-x: 2.2em;
  $breadcrumb-navbar-margin-bottom: 0;
@@ -1888,6 +1934,19 @@ index d06976f16e..63f69244c3 100644
            <input type="hidden" name="submit_sql" value="true">
            {{ hidden_input_fields|raw }}
          </form>
+diff --git a/resources/templates/database/events/index.twig b/resources/templates/database/events/index.twig
+index 18f97dda66..78c449eeac 100644
+--- a/resources/templates/database/events/index.twig
++++ b/resources/templates/database/events/index.twig
+@@ -117,7 +117,7 @@
+         <div class="wrapper toggleAjax hide">
+           <div class="toggleButton">
+             <div title="{{ t('Click to toggle') }}" class="toggle-container {{ scheduler_state ? 'on' : 'off' }}">
+-              <img src="{{ image('toggle-' ~ pma.text_dir ~ '.png') }}">
++              <img src="{{ image('toggle-' ~ pma.text_dir ~ '.png') }}" alt="" aria-hidden="true">
+               <table>
+                 <tbody>
+                 <tr>
 diff --git a/resources/templates/database/multi_table_query/form.twig b/resources/templates/database/multi_table_query/form.twig
 index bf0f9bd32e..3b79360325 100644
 --- a/resources/templates/database/multi_table_query/form.twig
@@ -2125,6 +2184,19 @@ index b4f9c32029..fefd691baa 100644
              <th>{{ sortable_table_header(t('Table'), 'table') }}</th>
              {% if replication %}
                  <th>{{ t('Replication') }}</th>
+diff --git a/resources/templates/database/tracking/tables.twig b/resources/templates/database/tracking/tables.twig
+index dce8005e60..985135c106 100644
+--- a/resources/templates/database/tracking/tables.twig
++++ b/resources/templates/database/tracking/tables.twig
+@@ -45,7 +45,7 @@
+                               <div class="wrapper toggleAjax hide">
+                                 <div class="toggleButton">
+                                   <div title="{{ t('Click to toggle') }}" class="toggle-container {{ version.tracking_active == 1 ? 'on' : 'off' }}">
+-                                    <img src="{{ image('toggle-' ~ pma.text_dir ~ '.png') }}">
++                                    <img src="{{ image('toggle-' ~ pma.text_dir ~ '.png') }}" alt="" aria-hidden="true">
+                                     <table>
+                                       <tbody>
+                                       <tr>
 diff --git a/resources/templates/display/results/checkbox_and_links.twig b/resources/templates/display/results/checkbox_and_links.twig
 index a526bc2d79..6852c6fe21 100644
 --- a/resources/templates/display/results/checkbox_and_links.twig
@@ -2361,6 +2433,23 @@ index f2d229b538..0e0549ba30 100644
  
        <div class="accordion mb-4" id="rulesAccordion">
          {% for rule in data.fired %}
+diff --git a/resources/templates/server/status/queries/index.twig b/resources/templates/server/status/queries/index.twig
+index 11fc45ed50..878a5e0195 100644
+--- a/resources/templates/server/status/queries/index.twig
++++ b/resources/templates/server/status/queries/index.twig
+@@ -5,10 +5,10 @@
+     {% if not is_data_loaded %}
+       {{ t('Not enough privilege to view query statistics.')|error }}
+     {% else %}
+-      <h3>
++      <h2>
+         {{ t('Questions since startup:', notes = 'Questions is the name of a MySQL Status variable') }} {{ format_number(stats.total, 0) }}
+         {{ show_mysql_docu('server-status-variables', false, null, null, 'statvar_Questions') }}
+-      </h3>
++      </h2>
+ 
+       <div class="row">
+         <ul>
 diff --git a/resources/templates/server/status/status/index.twig b/resources/templates/server/status/status/index.twig
 index ad66826bf5..c2dd368a52 100644
 --- a/resources/templates/server/status/status/index.twig

@@ -1,244 +1,248 @@
 {
-  "cycle": 31,
-  "produit": "phpmyadmin",
-  "statut_execution": "complet",
-  "baseline": {
-    "public": {
-      "violations_occ": 18,
-      "violations_regles": 2,
-      "regles": [
-        "landmark-one-main",
-        "region"
-      ],
-      "erreurs": 0,
-      "incomplets": 2,
-      "note": "46 scénarios : 37 pages auth + 9 états dynamiques ; public = / + /themes + login-failed sans session (v3 : /themes ajouté — wart 2)"
-    },
-    "auth": {
-      "violations_occ": 5045,
-      "violations_regles": 14,
-      "regles": {
-        "region": 2969,
-        "image-redundant-alt": 1368,
-        "target-size": 183,
-        "color-contrast": 137,
-        "label": 86,
-        "select-name": 69,
-        "link-name": 57,
-        "landmark-one-main": 43,
-        "page-has-heading-one": 42,
-        "tabindex": 38,
-        "link-in-text-block": 18,
-        "empty-table-header": 17,
-        "label-title-only": 17,
-        "scrollable-region-focusable": 1
-      },
-      "erreurs": 0,
-      "incomplets": 3641,
-      "note": "45 scénarios : 36 pages auth + 9 états dynamiques (baseline conservée v1)"
-    },
-    "note": "45 scénarios : 36 pages auth + 9 états dynamiques ; public = / + /themes sans session"
+ "cycle": 31,
+ "produit": "phpmyadmin",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "violations_occ": 18,
+   "violations_regles": 2,
+   "regles": [
+    "landmark-one-main",
+    "region"
+   ],
+   "erreurs": 0,
+   "incomplets": 2,
+   "note": "46 scénarios : 37 pages auth + 9 états dynamiques ; public = / + /themes + login-failed sans session (v3 : /themes ajouté — wart 2)"
   },
-  "final": {
-    "violations_occ": 0,
-    "violations_regles": 0,
-    "erreurs": 0,
-    "incomplets": {
-      "total": 1613,
-      "detail": {
-        "color-contrast": 1585,
-        "th-has-data-cells": 12,
-        "target-size": 10,
-        "aria-allowed-role": 1,
-        "duplicate-id-aria": 4,
-        "aria-prohibited-attr": 1
-      }
-    }
+  "auth": {
+   "violations_occ": 5045,
+   "violations_regles": 14,
+   "regles": {
+    "region": 2969,
+    "image-redundant-alt": 1368,
+    "target-size": 183,
+    "color-contrast": 137,
+    "label": 86,
+    "select-name": 69,
+    "link-name": 57,
+    "landmark-one-main": 43,
+    "page-has-heading-one": 42,
+    "tabindex": 38,
+    "link-in-text-block": 18,
+    "empty-table-header": 17,
+    "label-title-only": 17,
+    "scrollable-region-focusable": 1
+   },
+   "erreurs": 0,
+   "incomplets": 3641,
+   "note": "45 scénarios : 36 pages auth + 9 états dynamiques (baseline conservée v1)"
   },
-  "final_clean_clone": {
-    "violations_occ": 0,
-    "violations_regles": 0,
-    "erreurs": 0,
-    "incomplets": 1071,
-    "note": "patch.diff appliqué sur clone propre @e7e3f96 (git apply --check OK, 68 fichiers) + composer --ignore-platform-reqs + yarn build + stack docker fraîche pma31ib-* :8081 + seed avec NULL + rescan complet 45 scénarios — voir install-build.log"
+  "note": "45 scénarios : 36 pages auth + 9 états dynamiques ; public = / + /themes sans session"
+ },
+ "final": {
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": {
+   "total": 1670,
+   "detail": {
+    "color-contrast": 1642,
+    "th-has-data-cells": 12,
+    "target-size": 10,
+    "aria-allowed-role": 1,
+    "duplicate-id-aria": 4,
+    "aria-prohibited-attr": 1
+   }
   },
-  "verify_mjs": "25/25 assertions dures (landmarks, h1/heading-order ×8 pages, dup ids scope axe sur 45 pages, navtree/navipanellinks ≥24px mesuré, form-check non couverts, labels pagination, contrastes mesurés composite alpha ≥4.5, underlines delete_row/Sort, CodeMirror screenReaderLabel)",
-  "eval_final_mjs": "0 FAIL — 6 pages hors scope + dup-ids + rejoues indépendantes (navtree 24px, modale add-index aria-labelledby + focusables, configFormDisplayTab uniques, text-danger)",
-  "incomplete_probes": "1613 sondes : 1573 PASS, 40 N-A documentés (color-contrast noeuds masqués/alpha indécidable, th-has-data-cells 6, target-size 10, dup-id 4 hidden-inputs hors scope axe, aria-allowed-role 1, aria-prohibited-attr 1), 0 FAIL — reports/probes/incomplete-probes.json",
-  "causes_racines": [
-    {
-      "famille": "landmarks/structure sémantique",
-      "files": [
-        "resources/templates/base.twig",
-        "resources/templates/navigation/main.twig",
-        "resources/templates/menu/main.twig",
-        "public/themes/*/scss/_common.scss"
-      ],
-      "occ_couvertes": 3054,
-      "detail": "region 2969 + landmark-one-main 43 + page-has-heading-one 42 : <main id=page_content>, nav aria-label, footer, h1 manquants"
-    },
-    {
-      "famille": "alternatives textuelles",
-      "files": [
-        "resources/templates/**/*.twig (14 fichiers)",
-        "src/Navigation/Nodes/Node.php"
-      ],
-      "occ_couvertes": 1368,
-      "detail": "image-redundant-alt : icons dot.gif décoratives alt='' + aria-hidden"
-    },
-    {
-      "famille": "taille de cible 24px",
-      "files": [
-        "public/themes/*/scss/_navigation.scss",
-        "public/themes/*/scss/_common.scss",
-        "resources/templates/table/structure/display_structure.twig",
-        "resources/templates/display/results/table.twig"
-      ],
-      "occ_couvertes": 183,
-      "detail": "navtree anchors absolues left:50% débordaient (occlusion), checkboxes 13px, liens d'action compacts"
-    },
-    {
-      "famille": "contraste",
-      "files": [
-        "public/themes/*/scss/_common.scss",
-        "public/themes/*/scss/_codemirror.scss",
-        "public/themes/bootstrap/scss/_common.scss (dark)"
-      ],
-      "occ_couvertes": 137,
-      "detail": "tons mutés bootstrap/pmahomme sur surfaces panneau + td.null striées + cm-number sur alert + dark-mode counterparts"
-    },
-    {
-      "famille": "labels/noms accessibles",
-      "files": [
-        "resources/templates/**/form*.twig",
-        "resources/templates/table/insert/*.twig",
-        "resources/templates/server/privileges/users_overview.twig",
-        "resources/templates/console/display.twig",
-        "resources/js/modules/console.ts"
-      ],
-      "occ_couvertes": 192,
-      "detail": "label 86 + select-name 69 + link-name 57 : for/id pairs, aria-label sur boutons-icônes, selects sans label"
-    },
-    {
-      "famille": "tabindex/tab order",
-      "files": [
-        "resources/templates/**/*.twig"
-      ],
-      "occ_couvertes": 38,
-      "detail": "tabindex positifs supprimés"
-    },
-    {
-      "famille": "ids dupliqués",
-      "files": [
-        "resources/templates/display/results/table.twig",
-        "resources/templates/config/form_display/display.twig"
-      ],
-      "occ_couvertes": "incomplets dup-id",
-      "detail": "navigation_html émis 2× (haut+bas) → suffixe _bottom via |replace ; configFormDisplayTab → suffixe nom d'onglet"
-    },
-    {
-      "famille": "divers",
-      "files": [
-        "resources/templates/table/index_form.twig (th empty)",
-        "resources/templates/server/binlog/index.twig",
-        "resources/templates/database/structure/*.twig"
-      ],
-      "occ_couvertes": 36,
-      "detail": "th vides (header-vs-data ambiguity), scrollable-region tabindex, link-in-text-block underlines, label-title-only titles complets"
-    }
-  ],
-  "hors_perimetre": [
-    "duplicate-id-aria 4 noeuds restants = hidden inputs (non-focusables → hors scope axe strict, documenté)",
-    "aria-allowed-role 1 incomplet : role=main sur <main> déjà implicite — N-A"
-  ],
-  "notes": [
-    "Leçon IB : seed avec NULL expose td.null jamais rendu localement — données de bench identiques exigées entre runs.",
-    "Leçon thème : préférence persistante côté serveur — reset-theme obligatoire avant chaque scan sinon les pages tournent sous le dernier thème utilisé par un état.",
-    "audit.mjs état navtree robustifié : li.database a11ydb ciblé + .container facultatif + retry ×3 (IB fraîche expande a11ydb sans sous-groupe)."
-  ],
-  "corrections_post_audit": [
-    {
-      "round": "v2 — corrections_post_audit_warts",
-      "verdict": "CONFIRMED (v1) — v2 fixes appliqués et rejoués",
-      "base": "verdict-auditeur.md (CONFIRMED + résiduels produit hors-scope + warts doc)",
-      "fixes_produit": {
-        "table_tracking": "/table/tracking ajouté au scope (urls-auth.txt 36→38). 10 checkboxes sans nom accessible dans create_tracking_version.twig (alter_table, rename_table, create_table, drop_table, create_index, drop_index, insert, update, delete, truncate) → id tracking_* + <label for> ; 13 checkboxes labellées (dont les 3 view-mode). Mesuré rejoué : 29/29 checkboxes avec labels, 0 violation label.",
-        "database_designer": "/database/designer ajouté au scope. #newPage img alt='' → alt=t('New page') (link-name). .owner #888 → #4a4a4a dans _designer.scss pmahomme+metro+bootstrap (original importe celui de pmahomme) + #a8a8a8 sous [data-bs-theme=dark] bootstrap. Mesuré : .owner rendu, 0 violation contrast/link-name.",
-        "themes": "États ajoutés : theme-metro + theme-original sur /database/designer (CSS compilés réels vérifiés), console-dark-pmahomme (SUBSTITUTION : pmahomme n'a pas de colorMode dark — theme.json=[light], setColorMode ignore les modes invalides ; la surface sombre réelle = Console/DarkTheme persistée serveur via /console/update-config + Mode=show).",
-        "metro_decouvert": "Le nouvel état theme-metro a révélé 3 vraies violations non couvertes par v1 — CORRIGÉES : (a) color-contrast breadcrumb data-raw-text #0a58ca sur --navi-background #377796 = 1.3 → .breadcrumb-navbar .breadcrumb-item a { color: inherit } en metro (spécificité égale au partial bootstrap partagé, appliquée après) ; (b) link-name a[href=index.php] vide car #imgpmalogo display:none retire l'alt de l'arbre a11y → visually-hidden (position absolute + clip) au lieu de display:none ; (c) target-size navtree .hover_show_full 16.5px sous metro (font 11px) → line-height:24px + min-height:24px alignés sur pmahomme."
-      },
-      "warts_doc": {
-        "seed": "manifest.json : « 1 table users 4 col » → recette réelle réécrite (3 tables + 1 vue : users 7 cols id/username/email/bio/homepage/is_admin/created_at + uq_username, access_log, projects, v_open_projects ; script tools/seed.sql livré)",
-        "probes_off_by_one": "1353/36 écrit → 1352/35 réel (comptage du fichier commité)",
-        "baseline_public": "--states none documenté → statesRequested=[login-failed] réel (scope.json)",
-        "baseline_auth_wait": "--wait 2000 documenté → wait=1200 mesuré (scope.json)",
-        "statesHash": "baseline b961f439 ≠ final v1 546c483a = durcissement navtree mi-cycle (attendu, documenté) ; final v2 ecc3f5a4 (12 états)"
-      },
-      "rejeu_final_auth": {
-        "scenarios": 50,
-        "urls": 38,
-        "etats": 12,
-        "violations": 0,
-        "occurrences": 0,
-        "erreurs": 0,
-        "incomplets": 1446,
-        "wait": 2000,
-        "statesHash": "ecc3f5a4b76d26707c18fc993ab2bf9c8561a1a46878c91acfbb6b3de80a8b56",
-        "scopeHash": "bc0ff401d080"
-      },
-      "verify": "25/25 assertions dures PASS (rejoué post-v2)",
-      "eval_final": "0 FAIL (rejoué post-v2)",
-      "probes": "1446 sondes : 1423 PASS / 23 N-A / 0 FAIL — reports/probes/incomplete-probes.json (incl. les incomplets des nouvelles pages/états, mesurés sur la surface courante après reset)",
-      "residuel": "0 violation sur les 38 URLs + 12 états. Non exécuté : rescan install-build (stack v1 conservée au verdict — v2 rejoué sur la build patchée locale :8080 uniquement). Le re-audit indépendant reste au cycle suivant."
-    },
-    {
-      "round": "v3 — corrections_post_audit_warts",
-      "verdict": "CONFIRMED (v3 audit 559d1ba) — warts corrigés + résiduels intégrés, tout rejoué",
-      "base": "verdict-auditeur-v3.md (CONFIRMED + 3 warts outillage/doc + 33 occ résiduelles hors-scope)",
-      "warts": {
-        "reset_theme_mjs": "SyntaxError (const darkReset déclaré ×2) corrigé ; outil EXÉCUTÉ live : 'theme reset OK: pmahomme mode=light' — bascule vérifiée dans les deux sens. RÈGLE D'OR respectée.",
-        "baseline_public": "rejouée COMPLÈTE sur vanilla :8090 avec /themes dans les urls publiques : 3 scénarios (/ + /themes + login-failed), 2 règles × 6 occ = 18 occurrences (landmark-one-main×3, region×15). count réel documenté.",
-        "axe_core_pin": "axe-core épinglé à 4.13.0 (version des testEngine des rapports baseline) dans tools/package.json + package-lock.json généré (npm ci reproductible) ; note ajoutée au manifest."
-      },
-      "residues_to_scope_v3": {
-        "pages_ajoutees": "/database/central-columns, /database/multi-table-query, /table/zoom-search, /view/create, /server/status/advisor, /normalization — urls-auth.txt 38→44 (routes vérifiées dans tests/unit/Routing/RoutesTest.php)",
-        "fixes_patch_v3": "même famille labels/for + heading-order : aria-label sur les contrôles de lignes central_columns (th vides <span visually-hidden>, field_0_*/field_rownum_*), selects/inputs multi_table_query (form.twig + 3 strings JS dynamiques dans multi_table_query.ts ; .show_col gardé sibling input+span car le JS lit .siblings('.show_col')), criteria zoom-search + checkbox NULL, <label for>+ids view_create, h4→h3 advisor, h3.card-title→h2 normalization",
-        "rejeu": "0 violation sur les 6 pages intégrées dans le run final complet"
-      },
-      "themes_v3": {
-        "viables": "metro teal/redmond/blueeyes/mono (4 états data-bs-theme vérifiés sur /database/designer) + bootstrap light (état ajouté — dark déjà couvert en v2). Tous rejoués 0 violation.",
-        "non_viables": "pmahomme/original dark : colorModes=[light] dans theme.json — setColorMode ignore les modes invalides → non-viables documentés (console-dark-pmahomme couvre la surface sombre réelle).",
-        "fix_metro": "color-contrast révélé par les nouveaux états (bouton #aaa/texte blanc = 2.32:1 sur teal/redmond/mono) — --button-background → #04627c/#a10707/#666 (≥4.5:1) dans public/themes/metro/scss/_root.scss"
-      },
-      "outillage_race_fix": "Course mutation thème DIAGNOSTIQUÉE et tuée (v3) : les XHR ambiantes pma (/git-revision, /version-check, /console/update-config) partent avec le cookie d'avant mutation → UserPreferencesHandler re-sauve l'ancien thème en préférence serveur (save session mesuré via docker logs). Audit.mjs : mutations via page.request.post + ajax_request=true (JSON, pas de 302 suivi à cookie périmé) + blocage page.route des 3 routes ambiantes + normalisation instance au démarrage (pmahomme/light + console collapse) + vérif CSS/themeColorMode par état.",
-      "rejeu_final_auth": {
-        "scenarios": 61,
-        "urls": 44,
-        "etats": 17,
-        "violations": 0,
-        "occurrences": 0,
-        "erreurs": 0,
-        "incomplets": 1613,
-        "wait": 1500,
-        "scopeHash": "058660352721730fe69b49269349f7d8ed0f776b45c2f2008ef68106f3dda4dc",
-        "statesHash": "aaac665addabb22610a3d138ddda025a748333a5e2f349b058efa822d71218dc"
-      },
-      "verify": "25/25 assertions dures PASS (rejoué post-v3)",
-      "eval_final": "0 FAIL (rejoué post-v3)",
-      "probes": "1613 sondes : 1573 PASS / 40 N-A / 0 FAIL",
-      "patch": "patch.diff régénéré depuis l'arbre patché vérifié : 83 fichiers, 3179 lignes (sources scss/ts/twig uniquement — build outputs gitignored)"
-    }
-  ],
-  "corrections_post_audit_warts": {
-    "verdict_auditeur_v4": "CONFIRMED (devin-9711d03, commit 0d96566) — rejeu indépendant :8510/:8511, 61/61 sc. 0 viol, résiduels v3 36→0, sondes 2.5.3 axe4.14 = 0/44 pages",
-    "fixes_appliques_v4_warts": [
-      "patch.diff.sha256 : sidecar périmé régénéré (vrai hash v3 = 34364b06…, contenait hash v2 d10fea)",
-      "results.json : prose sondes corrigée 1567P/46NA → 1573P/40NA (= fichier reports/probes/incomplete-probes.json réel)",
-      "provenance.json re-hachée en dernier via rehash-provenance.py strict"
-    ],
-    "reste_v4": [
-      "course thème résiduelle : /navigation&ajax_request=1 non bloquée par page.route (1/122 mutations annulée, échec bruyant via garde pmahomme-link, retry OK) — fixer v4",
-      "4 occ hors-scope découvertes en chasse : /database/events image-alt ×1, /server/status/queries heading-order ×1, /preferences/navigation color-contrast ×2 (#d63384/#eee 3,90:1) — candidats scope v4"
-    ]
+  "note": "v4 : 64 scénarios (47 pages auth — +/database/events, +/server/status/queries, +/preferences/navigation — + 17 états dynamiques), wait=1500, rejoué sur stack fixer pma31f-* :8520 après durcissement du verrou de mutation"
+ },
+ "final_clean_clone": {
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": 1071,
+  "note": "patch.diff appliqué sur clone propre @e7e3f96 (git apply --check OK, 68 fichiers) + composer --ignore-platform-reqs + yarn build + stack docker fraîche pma31ib-* :8081 + seed avec NULL + rescan complet 45 scénarios — voir install-build.log"
+ },
+ "verify_mjs": "25/25 assertions dures rejouées en v4 sur :8520 (landmarks, h1/heading-order ×8 pages, dup ids scope axe, navtree/navipanellinks ≥24px mesuré, form-check non couverts, labels pagination, contrastes mesurés composite alpha ≥4.5, underlines delete_row/Sort, CodeMirror screenReaderLabel)",
+ "eval_final_mjs": "0 FAIL — v4 : 9 pages en axe indépendant (6 hors scope + les 3 intégrées /database/events, /server/status/queries, /preferences/navigation — 0 viol chacune) + dup-ids + rejoues (navtree 24px, modale add-index aria-labelledby + focusables, configFormDisplayTab uniques)",
+ "incomplete_probes": "v4 : 1670 sondes — 1630 PASS, 40 N-A documentés (color-contrast noeuds masqués/alpha indécidable, th-has-data-cells 6, target-size 10, dup-id 4 hidden-inputs hors scope axe, aria-allowed-role 1, aria-prohibited-attr 1), 0 FAIL — reports/probes/incomplete-probes.json",
+ "causes_racines": [
+  {
+   "famille": "landmarks/structure sémantique",
+   "files": [
+    "resources/templates/base.twig",
+    "resources/templates/navigation/main.twig",
+    "resources/templates/menu/main.twig",
+    "public/themes/*/scss/_common.scss"
+   ],
+   "occ_couvertes": 3054,
+   "detail": "region 2969 + landmark-one-main 43 + page-has-heading-one 42 : <main id=page_content>, nav aria-label, footer, h1 manquants"
+  },
+  {
+   "famille": "alternatives textuelles",
+   "files": [
+    "resources/templates/**/*.twig (14 fichiers)",
+    "src/Navigation/Nodes/Node.php"
+   ],
+   "occ_couvertes": 1368,
+   "detail": "image-redundant-alt : icons dot.gif décoratives alt='' + aria-hidden"
+  },
+  {
+   "famille": "taille de cible 24px",
+   "files": [
+    "public/themes/*/scss/_navigation.scss",
+    "public/themes/*/scss/_common.scss",
+    "resources/templates/table/structure/display_structure.twig",
+    "resources/templates/display/results/table.twig"
+   ],
+   "occ_couvertes": 183,
+   "detail": "navtree anchors absolues left:50% débordaient (occlusion), checkboxes 13px, liens d'action compacts"
+  },
+  {
+   "famille": "contraste",
+   "files": [
+    "public/themes/*/scss/_common.scss",
+    "public/themes/*/scss/_codemirror.scss",
+    "public/themes/bootstrap/scss/_common.scss (dark)"
+   ],
+   "occ_couvertes": 137,
+   "detail": "tons mutés bootstrap/pmahomme sur surfaces panneau + td.null striées + cm-number sur alert + dark-mode counterparts"
+  },
+  {
+   "famille": "labels/noms accessibles",
+   "files": [
+    "resources/templates/**/form*.twig",
+    "resources/templates/table/insert/*.twig",
+    "resources/templates/server/privileges/users_overview.twig",
+    "resources/templates/console/display.twig",
+    "resources/js/modules/console.ts"
+   ],
+   "occ_couvertes": 192,
+   "detail": "label 86 + select-name 69 + link-name 57 : for/id pairs, aria-label sur boutons-icônes, selects sans label"
+  },
+  {
+   "famille": "tabindex/tab order",
+   "files": [
+    "resources/templates/**/*.twig"
+   ],
+   "occ_couvertes": 38,
+   "detail": "tabindex positifs supprimés"
+  },
+  {
+   "famille": "ids dupliqués",
+   "files": [
+    "resources/templates/display/results/table.twig",
+    "resources/templates/config/form_display/display.twig"
+   ],
+   "occ_couvertes": "incomplets dup-id",
+   "detail": "navigation_html émis 2× (haut+bas) → suffixe _bottom via |replace ; configFormDisplayTab → suffixe nom d'onglet"
+  },
+  {
+   "famille": "divers",
+   "files": [
+    "resources/templates/table/index_form.twig (th empty)",
+    "resources/templates/server/binlog/index.twig",
+    "resources/templates/database/structure/*.twig"
+   ],
+   "occ_couvertes": 36,
+   "detail": "th vides (header-vs-data ambiguity), scrollable-region tabindex, link-in-text-block underlines, label-title-only titles complets"
   }
+ ],
+ "hors_perimetre": [
+  "duplicate-id-aria 4 noeuds restants = hidden inputs (non-focusables → hors scope axe strict, documenté)",
+  "aria-allowed-role 1 incomplet : role=main sur <main> déjà implicite — N-A"
+ ],
+ "notes": [
+  "Leçon IB : seed avec NULL expose td.null jamais rendu localement — données de bench identiques exigées entre runs.",
+  "Leçon thème : préférence persistante côté serveur — reset-theme obligatoire avant chaque scan sinon les pages tournent sous le dernier thème utilisé par un état.",
+  "audit.mjs état navtree robustifié : li.database a11ydb ciblé + .container facultatif + retry ×3 (IB fraîche expande a11ydb sans sous-groupe)."
+ ],
+ "corrections_post_audit": [
+  {
+   "round": "v2 — corrections_post_audit_warts",
+   "verdict": "CONFIRMED (v1) — v2 fixes appliqués et rejoués",
+   "base": "verdict-auditeur.md (CONFIRMED + résiduels produit hors-scope + warts doc)",
+   "fixes_produit": {
+    "table_tracking": "/table/tracking ajouté au scope (urls-auth.txt 36→38). 10 checkboxes sans nom accessible dans create_tracking_version.twig (alter_table, rename_table, create_table, drop_table, create_index, drop_index, insert, update, delete, truncate) → id tracking_* + <label for> ; 13 checkboxes labellées (dont les 3 view-mode). Mesuré rejoué : 29/29 checkboxes avec labels, 0 violation label.",
+    "database_designer": "/database/designer ajouté au scope. #newPage img alt='' → alt=t('New page') (link-name). .owner #888 → #4a4a4a dans _designer.scss pmahomme+metro+bootstrap (original importe celui de pmahomme) + #a8a8a8 sous [data-bs-theme=dark] bootstrap. Mesuré : .owner rendu, 0 violation contrast/link-name.",
+    "themes": "États ajoutés : theme-metro + theme-original sur /database/designer (CSS compilés réels vérifiés), console-dark-pmahomme (SUBSTITUTION : pmahomme n'a pas de colorMode dark — theme.json=[light], setColorMode ignore les modes invalides ; la surface sombre réelle = Console/DarkTheme persistée serveur via /console/update-config + Mode=show).",
+    "metro_decouvert": "Le nouvel état theme-metro a révélé 3 vraies violations non couvertes par v1 — CORRIGÉES : (a) color-contrast breadcrumb data-raw-text #0a58ca sur --navi-background #377796 = 1.3 → .breadcrumb-navbar .breadcrumb-item a { color: inherit } en metro (spécificité égale au partial bootstrap partagé, appliquée après) ; (b) link-name a[href=index.php] vide car #imgpmalogo display:none retire l'alt de l'arbre a11y → visually-hidden (position absolute + clip) au lieu de display:none ; (c) target-size navtree .hover_show_full 16.5px sous metro (font 11px) → line-height:24px + min-height:24px alignés sur pmahomme."
+   },
+   "warts_doc": {
+    "seed": "manifest.json : « 1 table users 4 col » → recette réelle réécrite (3 tables + 1 vue : users 7 cols id/username/email/bio/homepage/is_admin/created_at + uq_username, access_log, projects, v_open_projects ; script tools/seed.sql livré)",
+    "probes_off_by_one": "1353/36 écrit → 1352/35 réel (comptage du fichier commité)",
+    "baseline_public": "--states none documenté → statesRequested=[login-failed] réel (scope.json)",
+    "baseline_auth_wait": "--wait 2000 documenté → wait=1200 mesuré (scope.json)",
+    "statesHash": "baseline b961f439 ≠ final v1 546c483a = durcissement navtree mi-cycle (attendu, documenté) ; final v2 ecc3f5a4 (12 états)"
+   },
+   "rejeu_final_auth": {
+    "scenarios": 50,
+    "urls": 38,
+    "etats": 12,
+    "violations": 0,
+    "occurrences": 0,
+    "erreurs": 0,
+    "incomplets": 1446,
+    "wait": 2000,
+    "statesHash": "ecc3f5a4b76d26707c18fc993ab2bf9c8561a1a46878c91acfbb6b3de80a8b56",
+    "scopeHash": "bc0ff401d080"
+   },
+   "verify": "25/25 assertions dures PASS (rejoué post-v2)",
+   "eval_final": "0 FAIL (rejoué post-v2)",
+   "probes": "1446 sondes : 1423 PASS / 23 N-A / 0 FAIL — reports/probes/incomplete-probes.json (incl. les incomplets des nouvelles pages/états, mesurés sur la surface courante après reset)",
+   "residuel": "0 violation sur les 38 URLs + 12 états. Non exécuté : rescan install-build (stack v1 conservée au verdict — v2 rejoué sur la build patchée locale :8080 uniquement). Le re-audit indépendant reste au cycle suivant."
+  },
+  {
+   "round": "v3 — corrections_post_audit_warts",
+   "verdict": "CONFIRMED (v3 audit 559d1ba) — warts corrigés + résiduels intégrés, tout rejoué",
+   "base": "verdict-auditeur-v3.md (CONFIRMED + 3 warts outillage/doc + 33 occ résiduelles hors-scope)",
+   "warts": {
+    "reset_theme_mjs": "SyntaxError (const darkReset déclaré ×2) corrigé ; outil EXÉCUTÉ live : 'theme reset OK: pmahomme mode=light' — bascule vérifiée dans les deux sens. RÈGLE D'OR respectée.",
+    "baseline_public": "rejouée COMPLÈTE sur vanilla :8090 avec /themes dans les urls publiques : 3 scénarios (/ + /themes + login-failed), 2 règles × 6 occ = 18 occurrences (landmark-one-main×3, region×15). count réel documenté.",
+    "axe_core_pin": "axe-core épinglé à 4.13.0 (version des testEngine des rapports baseline) dans tools/package.json + package-lock.json généré (npm ci reproductible) ; note ajoutée au manifest."
+   },
+   "residues_to_scope_v3": {
+    "pages_ajoutees": "/database/central-columns, /database/multi-table-query, /table/zoom-search, /view/create, /server/status/advisor, /normalization — urls-auth.txt 38→44 (routes vérifiées dans tests/unit/Routing/RoutesTest.php)",
+    "fixes_patch_v3": "même famille labels/for + heading-order : aria-label sur les contrôles de lignes central_columns (th vides <span visually-hidden>, field_0_*/field_rownum_*), selects/inputs multi_table_query (form.twig + 3 strings JS dynamiques dans multi_table_query.ts ; .show_col gardé sibling input+span car le JS lit .siblings('.show_col')), criteria zoom-search + checkbox NULL, <label for>+ids view_create, h4→h3 advisor, h3.card-title→h2 normalization",
+    "rejeu": "0 violation sur les 6 pages intégrées dans le run final complet"
+   },
+   "themes_v3": {
+    "viables": "metro teal/redmond/blueeyes/mono (4 états data-bs-theme vérifiés sur /database/designer) + bootstrap light (état ajouté — dark déjà couvert en v2). Tous rejoués 0 violation.",
+    "non_viables": "pmahomme/original dark : colorModes=[light] dans theme.json — setColorMode ignore les modes invalides → non-viables documentés (console-dark-pmahomme couvre la surface sombre réelle).",
+    "fix_metro": "color-contrast révélé par les nouveaux états (bouton #aaa/texte blanc = 2.32:1 sur teal/redmond/mono) — --button-background → #04627c/#a10707/#666 (≥4.5:1) dans public/themes/metro/scss/_root.scss"
+   },
+   "outillage_race_fix": "Course mutation thème DIAGNOSTIQUÉE et tuée (v3) : les XHR ambiantes pma (/git-revision, /version-check, /console/update-config) partent avec le cookie d'avant mutation → UserPreferencesHandler re-sauve l'ancien thème en préférence serveur (save session mesuré via docker logs). Audit.mjs : mutations via page.request.post + ajax_request=true (JSON, pas de 302 suivi à cookie périmé) + blocage page.route des 3 routes ambiantes + normalisation instance au démarrage (pmahomme/light + console collapse) + vérif CSS/themeColorMode par état.",
+   "rejeu_final_auth": {
+    "scenarios": 61,
+    "urls": 44,
+    "etats": 17,
+    "violations": 0,
+    "occurrences": 0,
+    "erreurs": 0,
+    "incomplets": 1613,
+    "wait": 1500,
+    "scopeHash": "058660352721730fe69b49269349f7d8ed0f776b45c2f2008ef68106f3dda4dc",
+    "statesHash": "aaac665addabb22610a3d138ddda025a748333a5e2f349b058efa822d71218dc"
+   },
+   "verify": "25/25 assertions dures PASS (rejoué post-v3)",
+   "eval_final": "0 FAIL (rejoué post-v3)",
+   "probes": "1613 sondes : 1573 PASS / 40 N-A / 0 FAIL",
+   "patch": "patch.diff régénéré depuis l'arbre patché vérifié : 83 fichiers, 3179 lignes (sources scss/ts/twig uniquement — build outputs gitignored)"
+  }
+ ],
+ "corrections_post_audit_warts": {
+  "verdict_auditeur_v4": "CONFIRMED (devin-9711d03, commit 0d96566) — rejeu indépendant :8510/:8511, 61/61 sc. 0 viol, résiduels v3 36→0, sondes 2.5.3 axe4.14 = 0/44 pages",
+  "fixes_appliques_v4_warts": [
+   "patch.diff.sha256 : sidecar périmé régénéré (vrai hash v3 = 34364b06…, contenait hash v2 d10fea)",
+   "results.json : prose sondes corrigée 1567P/46NA → 1573P/40NA (= fichier reports/probes/incomplete-probes.json réel)",
+   "provenance.json re-hachée en dernier via rehash-provenance.py strict"
+  ],
+  "reste_v4": [],
+  "fixes_appliques_v4": [
+   "course thème éliminée — garantie « aucun écrivain en vol » rendue vraie dans audit.mjs / reset-theme.mjs / login.mjs : verrou de mutation couvrant TOUTE requête index.php (route enregistrée en dernier → avort pendant la fenêtre, incl. /navigation&ajax_request=1 et /error-report ambiant), quiescence pré-mutation sur critère 'response' (en-têtes reçus = write engagé ; requestfinished différable à vie par body non consommé), settle 300 ms, WeakSet abortedInLock (route.abort n'émet pas toujours requestfailed) et époques de navigation (loader tué par goto/about:blank → événements terminaux jamais émis : marquage killedAt + grâce serveur 2 s)",
+   "prouvé par exécution : 20 mutations réelles alternées (bootstrap/dark, pmahomme/light, metro win/teal/redmond/blueeyes/mono, original/light) sous spam continu POST /navigation&ajax_request=1 (~30 ms) → 20/20 PASS, 216 requêtes avortées en fenêtre ; sonde indépendante docker logs : 22 route=/themes/set servis + theme.css des 4 thèmes mutés réellement servis (bootstrap 373, metro 210, original 105, pmahomme 198)",
+   "scope v4 : 3 pages intégrées (urls-auth 44→47) — /database/events image-alt ×1 corrigée (toggle img décorative alt=\"\" aria-hidden), /server/status/queries heading-order corrigée (h3→h2 « Questions since startup », cohérent fix v3 status/index), /preferences/navigation color-contrast ×2 corrigée ($code-color #d63384→#ad1457 = 6,0:1 vs #eee, ≥4,75 sur tous les gris clairs ; dark #ce729a inchangé — vérifié compilé dans les 4 theme.css)",
+   "rejeu complet v4 : 64 scénarios 0 viol/0 err (1670 incomplets), verify 25/25, eval-final 0 FAIL (9 pages dont les 3 nouvelles), sondes 1670 : 1630 PASS/40 N-A/0 FAIL, patch.diff régénéré 88 fichiers + sidecar sha256 frais, git apply --check OK sur clone vierge @e7e3f96"
+  ]
+ }
 }

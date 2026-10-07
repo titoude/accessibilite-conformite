@@ -153,10 +153,68 @@ const TBL = '&table=users';
 //    ambiantes sont bloquées (voir context.route plus bas) ; les
 //    mutations passent par la stack Node de playwright (hors
 //    interception) mais partagent le jar à cookies du contexte.
+// v4 — VERROU « aucun écrivain en vol » : le blocage v3 laissait passer
+// /navigation (XHR ambiante écrivant des prefs par le même middleware, que
+// l'on ne peut pas bloquer en permanence car elle porte l'expansion
+// navtree) — 1 mutation annulée sur 122 au ré-audit. Désormais TOUTE
+// requête index.php est tracée ; avant chaque mutation on attend la
+// quiescence (aucune requête index.php en vol, donc aucun écrivain
+// d'ancienne pref susceptible d'atterrir après le save), et pendant la
+// fenêtre de mutation toute nouvelle requête index.php est avortée.
+// Map<request, {epoch, killedAt}> : l'époque de navigation distingue les
+// requêtes d'un document mort — une navigation (goto/reload/about:blank)
+// tue le loader de l'ancien document et ses événements terminaux
+// (response/finished/failed) ne sont JAMAIS émis alors qu'Apache les a
+// servis : sans libération elles fuiteraient dans le suivi et bloqueraient
+// la quiescence. Elles restent bloquantes 2 s après la mort du document
+// pour couvrir un traitement serveur résiduel (écriture pref lente).
+const pendingIndexReqs = new Map();
+let navEpoch = 0;
+// route.abort() n'émet pas toujours 'requestfailed' : les requêtes avortées
+// sous verrou fuiteraient dans pendingIndexReqs et bloqueraient l'attente
+// pour toujours — on les marque à l'évaluation de la route et on les exclut
+// du suivi quel que soit l'ordre des événements.
+const abortedInLock = new WeakSet();
+let prefMutationLock = 0;
+const withPrefMutation = async fn => {
+  prefMutationLock++;
+  try {
+    // Fenêtre résiduelle : une requête dont la route a été évaluée juste
+    // avant le verrou a été continuée mais son événement 'request' peut ne
+    // pas être encore arrivé — 300 ms d'affaissement la capturent dans le
+    // snapshot. Ensuite quiescence des écrivains POTENTIELS : seules les
+    // requêtes déjà en vol peuvent atterrir après le save — on attend leur
+    // fin (leur ré-écriture d'ancienne pref précède alors la mutation →
+    // inoffensive). Toute requête évaluée sous verrou est avortée par la
+    // route et n'atteint jamais le middleware — elle ne bloque pas
+    // l'attente (trafic ambiant dense toléré, sinon échec BRUYANT au
+    // timeout). Filet de sécurité : la garde reload des états thème
+    // (link[href*=theme.css]) rendrait bruyant tout survivant.
+    await new Promise(r => setTimeout(r, 300));
+    const inFlightAtLock = new Set(pendingIndexReqs.keys());
+    const deadline = Date.now() + 15000;
+    while ([...inFlightAtLock].some(r => {
+      const e = pendingIndexReqs.get(r);
+      return e && !(e.killedAt && Date.now() - e.killedAt > 2000);
+    })) {
+      if (Date.now() > deadline) {
+        const stuck = [...inFlightAtLock].filter(r => {
+          const e = pendingIndexReqs.get(r);
+          return e && !(e.killedAt && Date.now() - e.killedAt > 2000);
+        }).map(r => `${r.resourceType()} ${r.method()} ${r.url()}`);
+        throw new Error(`requête(s) index.php pré-verrou encore en vol — écrivain de pref possible, mutation refusée : ${stuck.join(' | ')}`);
+      }
+      await new Promise(r => setTimeout(r, 100));
+    }
+    return await fn();
+  } finally {
+    prefMutationLock--;
+  }
+};
 const readToken = async page =>
   page.evaluate(() => document.querySelector('input[name=token]')?.value ?? '');
 const absUrl = page => new URL('index.php', page.url()).href;
-const setTheme = async (page, theme, mode) => {
+const setTheme = async (page, theme, mode) => withPrefMutation(async () => {
   const token = await readToken(page);
   const res = await page.request.post(absUrl(page) + '?route=/themes/set', {
     form: {
@@ -171,8 +229,8 @@ const setTheme = async (page, theme, mode) => {
   if (applied !== null && applied !== mode) {
     throw new Error(`themes/set ${theme} ${mode} -> mode appliqué ${applied}`);
   }
-};
-const setConsole = async (page, key, value) => {
+});
+const setConsole = async (page, key, value) => withPrefMutation(async () => {
   const token = await readToken(page);
   const res = await page.request.post(absUrl(page) + '?route=/console/update-config', {
     form: { ajax_request: 'true', server: '1', token, key, value },
@@ -180,7 +238,7 @@ const setConsole = async (page, key, value) => {
     maxRedirects: 0,
   });
   if (!res.ok()) throw new Error(`update-config ${key}=${value} -> HTTP ${res.status()}`);
-};
+});
 const STATES = {
   'navtree-a11ydb': {
     url: b => b + PMA + '/',
@@ -523,6 +581,41 @@ async function run() {
   for (const frag of ['/git-revision', '/version-check', '/console/update-config']) {
     await page.route(`**/index.php?route=${frag}**`, route => route.abort());
   }
+
+  // v4 : la fenêtre résiduelle était /navigation&ajax_request=1 — XHR
+  // ambiante émette par chaque page et qui porte aussi l'expansion
+  // navtree, donc impossible à bloquer en permanence. Verrou de mutation :
+  // toute requête vers index.php est tracée ; avecPrefMutation attend la
+  // quiescence puis tient le verrou, et cette route (enregistrée EN
+  // DERNIER, donc évaluée en premier) avorte toute requête index.php
+  // pendant la fenêtre ; hors verrou, fallback() rend la main aux
+  // blocages permanents ci-dessus. Garantie « aucun écrivain en vol ».
+  page.on('request', r => {
+    if (r.url().includes('index.php') && !abortedInLock.has(r)) pendingIndexReqs.set(r, { epoch: navEpoch, killedAt: 0 });
+  });
+  // 'response' = en-têtes reçus → le middleware s'est déjà exécuté et
+  // l'écriture de pref est engagée : la requête est libérée. Critère plus
+  // juste que 'requestfinished', qu'un body non consommé (fetch fire-and-
+  // forget) peut différer indéfiniment.
+  page.on('response', r => { if (r.url().includes('index.php')) pendingIndexReqs.delete(r.request()); });
+  page.on('requestfinished', r => pendingIndexReqs.delete(r));
+  page.on('requestfailed', r => pendingIndexReqs.delete(r));
+  // Navigation du document principal : toute requête d'une époque passée a
+  // son loader tué — plus d'événement terminal à venir, on la marque pour
+  // libération différée (grâce 2 s côté serveur, voir withPrefMutation).
+  page.on('framenavigated', f => {
+    if (f === page.mainFrame()) {
+      navEpoch++;
+      const now = Date.now();
+      for (const e of pendingIndexReqs.values()) {
+        if (e.epoch !== navEpoch && !e.killedAt) e.killedAt = now;
+      }
+    }
+  });
+  await page.route('**/index.php**', route =>
+    prefMutationLock > 0
+      ? (abortedInLock.add(route.request()), pendingIndexReqs.delete(route.request()), route.abort())
+      : route.fallback());
 
   if (storageState) {
     // v3 : normalise l'instance avant le premier scan — les mutations

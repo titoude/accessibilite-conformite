@@ -25,7 +25,10 @@ const VIS = `const vis = el => !!(el.offsetParent || el.offsetWidth || el.offset
 
 // A. Pages hors périmètre — axe brut (état froid : aucune préparation d'état)
 const EXTRA = ['/server/collations', '/server/engines', '/server/variables',
-  '/server/status', '/table/search&db=a11ydb&table=users', '/server/replication'];
+  '/server/status', '/table/search&db=a11ydb&table=users', '/server/replication',
+  // v4 : les 3 pages intégrées au scope — évaluation indépendante des
+  // corrections (image-alt events, heading-order status/queries, contrastes)
+  '/database/events&db=a11ydb', '/server/status/queries', '/preferences/navigation'];
 for (const path of EXTRA) {
   await page.goto(BASE + path, { waitUntil: 'load' });
   await page.waitForTimeout(2000);
