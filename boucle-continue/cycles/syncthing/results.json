@@ -92,9 +92,9 @@
   "reports/incomplete-probes.json"
  ],
  "auditTiers": {
-  "verdict": "v1 CONFIRMED (c6699ce) ; v2 PARTIAL (4782e3e) outillage corrigé+exécuté ; v3 PARTIAL (6969252) outillage CONFIRMED + finding produit dark-modal → corrigé v4 (patch dark css + 5 états modale×dark + verify 36/36 + sondes 227/0)",
-  "findings_residuels": "v3 : contrastes modales×dark corrigés dans le patch (#7fb3e0, #145f93, !important, fancytree #d4d4d4) + surface couverte par 5 états dédiés ; aucun résiduel produit connu",
-  "session": "devin-e9fee71217104445b432087597191063 + devin-5f6867d78c0e46d6a7690a801060e819 + devin-f57ea1f59b2b4cefa04f87e811c5ab1e"
+  "verdict": "PARTIAL (v4) — résiduels corrigés v5, en attente ré-audit",
+  "findings_residuels": 0,
+  "session": "v5 self-fix + audit e0ba7677"
  },
  "corrections_post_audit_warts": [
   {
@@ -141,6 +141,20 @@
     "5 états couvrent les familles de composants (tabs, arbre, accordéon, dropdown) — pas les 25 modales×dark exhaustives : le rejeu auditeur peut sonder d'autres combinaisons, toute occ trouvée resterait résiduel produit documenté",
     "±1–2 incomplets par état entre runs (contenu dynamique) — attendu"
    ]
+  },
+  {
+   "round": "v4 PARTIAL → v5",
+   "auditeur_v4": "5d7100a — outillage v4 CONFIRMED live, mais provenance 11/37 stales + résiduels dark réels",
+   "fixes": [
+    "patch.diff gui/dark/assets/css/theme.css : .alert-info color #222→#fff (titre modale 3,41→4,67 mesuré live) ; .text-primary #3fa9f0→#7fb3e0 (4,35→6,71) ; h1..h6 small/.text-muted #777→#adadad (3,34→6,66) — git apply --check 0 rejet sur clone propre, grep des chaînes",
+    "2 états dark ajoutés : about-dark (famille alert-info) + folder-restore-versions-dark (famille fancytree — le fix .fancytree-title devient testé) ; 53 scénarios = 52 états + page de base",
+    "verify.mjs : +3 checks computed pour les paires qu'axe 'passe' à tort (titre alert-info, h1 small, .text-primary) + attente clair symétrique avec FAIL sur timeout ; exécuté live 39 PASS (le 1 FAIL = report.json v4 périmé, régénéré par rescan complet)",
+    "scope-compare.json régénéré : champs scopeHash/statesHash correctement étiquetés + detail.scenarios_final réel (52)",
+    "sondes incomplets rejouées sur instance réelle : 235 items → 234 RESOLVED / 1 N-A / 0 CONFIRMED_VIOLATION, thème restauré clair prouvé",
+    "rescan complet final-auth rejoué : 53 scénarios, 0 violation, 0 erreur, 235 incomplets — reports/ régénérés"
+   ],
+   "residuel_assume": "composant×thème couvert par famille (modales×dark : settings, editDevice, editFolder-sharing, advanced, actions-menu, about, restoreVersions) — pas exhaustif 25×dark ; autres alertes status=info dynamiques (#needed, #restarting…) même famille que la modale mesurée",
+   "provenance": "re-hachage systématique en DERNIER avant commit (leçon : reformaté≠rehaché — 11 fichiers obsolètes trouvés par l'auditeur)"
   }
  ]
 }

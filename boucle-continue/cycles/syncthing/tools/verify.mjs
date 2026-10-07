@@ -189,9 +189,11 @@ await closeModal(page, '#advanced');
 
 // ids dupliqués share-template (finding auditeur : 3× input#sharedwith- quand
 // folder.id vide — rendu paresseux, mesuré dans #editDevice ouvert, onglet Sharing)
-await page.locator('button.panel-heading[data-target^="#device-"]:not([data-target="#device-this"])').first().click();
-await page.waitForSelector('button[ng-click*="editDeviceExisting"]', { timeout: 10000 });
-await page.locator('button[ng-click*="editDeviceExisting"]').first().click();
+const devHead = page.locator('button.panel-heading[data-target^="#device-"]:not([data-target="#device-this"])').first();
+const devTarget = await devHead.getAttribute('data-target');
+await devHead.click();
+await page.waitForSelector(`${devTarget}.in`, { timeout: 10000 });
+await page.locator(`${devTarget} button[ng-click*="editDeviceExisting"]`).first().click();
 await page.waitForSelector('#editDevice.in', { timeout: 10000 });
 const sharingTab = page.locator('#editDevice a[data-toggle="tab"][href="#device-sharing"]');
 if (await sharingTab.count()) { await sharingTab.click(); await page.waitForTimeout(400); }
@@ -280,13 +282,43 @@ ok('dark : onglet actif nav-tabs ≥4.5:1', darkPairs.navTab && ratio_(darkPairs
 ok('dark : .btn-primary ≥4.5:1', darkPairs.btnPrimary && ratio_(darkPairs.btnPrimary) >= 4.5,
    darkPairs.btnPrimary ? `${ratio_(darkPairs.btnPrimary).toFixed(2)}:1` : 'sélecteur absent');
 await closeModal(page, '#settings');
+
+// --- Paires qu'axe « passe » à tort : entête alert-info (#9b59b6 — axe ne
+// remonte pas sa couleur de fond) + h1 small (.text-muted #777 hérité). Une
+// modale status=info réelle est ouverte (Help > About) pour les mesurer en
+// dark — un scan axe ici rapporterait 0 violation même si les fix étaient
+// absents ; les mesures computed ne peuvent pas être trompées ainsi.
+await page.locator('li.action-menu:has(.fa-question-circle) > a.dropdown-toggle').click();
+await page.locator('li.action-menu:has(.fa-question-circle) ul.dropdown-menu a', { hasText: 'About' }).first().click();
+await page.waitForSelector('#about.in', { timeout: 10000 });
+await page.waitForTimeout(400);
+const infoPairs = await page.evaluate(() => {
+  const rgb = s => { const m = s && s.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)/); return m ? [+m[1], +m[2], +m[3]] : null; };
+  const effBg = el => { let n = el; while (n && n !== document.body) { const c = getComputedStyle(n).backgroundColor; if (c && c !== 'rgba(0, 0, 0, 0)') return rgb(c); n = n.parentElement; } return rgb(getComputedStyle(document.body).backgroundColor); };
+  const pick = sel => { const el = document.querySelector(sel); return el ? { fg: rgb(getComputedStyle(el).color), bg: effBg(el) } : null; };
+  return {
+    alertTitle: pick('#about .modal-header.alert-info .modal-title, #about .modal-header.alert-info, #about .modal-title'),
+    aboutSmall: pick('#about h1 small'),
+    textPrimary: pick('#about .text-primary') || (() => { const d = document.createElement('span'); d.className = 'text-primary'; document.querySelector('#about .modal-body').appendChild(d); const r = { fg: rgb(getComputedStyle(d).color), bg: effBg(d) }; d.remove(); return r; })(),
+  };
+});
+ok('dark : titre modale alert-info ≥4.5:1 (axe passe ce nœud à tort)', infoPairs.alertTitle && ratio_(infoPairs.alertTitle) >= 4.5,
+   infoPairs.alertTitle ? `${ratio_(infoPairs.alertTitle).toFixed(2)}:1` : 'sélecteur absent');
+ok('dark : h1 small (version/codename About) ≥4.5:1', infoPairs.aboutSmall && ratio_(infoPairs.aboutSmall) >= 4.5,
+   infoPairs.aboutSmall ? `${ratio_(infoPairs.aboutSmall).toFixed(2)}:1` : 'sélecteur absent');
+ok('dark : .text-primary ≥4.5:1', infoPairs.textPrimary && ratio_(infoPairs.textPrimary) >= 4.5,
+   infoPairs.textPrimary ? `${ratio_(infoPairs.textPrimary).toFixed(2)}:1` : 'sélecteur absent');
+await closeModal(page, '#about');
+
 ok('restauration theme=light acceptée', await putTheme('light'));
+let lightBack = false;
 for (let i = 0; i < 40; i++) {
   await page.waitForTimeout(1000);
   await page.goto(`${BASE}/`, { waitUntil: 'load' }).catch(() => {});
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor).catch(() => '');
-  if (bg === 'rgb(255, 255, 255)') break;
+  if (bg === 'rgb(255, 255, 255)') { lightBack = true; break; }
 }
+ok('thème clair restauré (symétrie du check dark)', lightBack);
 
 // login page : titre présent
 const page2 = await (await browser.newContext()).newPage();

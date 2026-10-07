@@ -1,60 +1,60 @@
-# Audit accessibilité — 2026-10-05
+# Audit accessibilité — 2026-10-07
 
-**0 règle(s) violée(s), 0 occurrence(s), 51/51 scénario(s) audité(s), 0 erreur(s), 227 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 53/53 scénario(s) audité(s), 0 erreur(s), 235 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `ca0ae73b44b3`
+Périmètre : scope.json — hash `1ec7c127ef93`
 
-## Résultats incomplets à revoir (227)
+## Résultats incomplets à revoir (235)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
 - http://127.0.0.1:8386/
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:usage-report-open]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:usage-report-dismissed]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:folder-archives-expanded]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:folder-local-additions]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(2) > .ng-binding[href="#"]`
   - `div[ng-switch="localChangedType"] > .pagination > li[ng-repeat="option in [10, 25, 50]"]:nth-child(3) > .ng-binding[href="#"]`
 - http://127.0.0.1:8386/ [state:folder-revert-confirmation]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `div[ng-switch="revertOverrideParams.type"] > div[ng-switch-default=""] > p:nth-child(1)`
 - http://127.0.0.1:8386/ [state:folder-restore-versions]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `.btn-xs > span[translate=""]`
   - `label[for="restoreVersionSearch"] > span[translate=""]`
   - `#restoreVersionSearch`
   - `label[for="restoreVersionDateRange"] > span[translate=""]`
   - `#restoreVersionDateRange`
 - http://127.0.0.1:8386/ [state:folder-restore-confirm]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `.btn-xs > .ng-binding`
   - `label[for="restoreVersionSearch"] > span[translate=""]`
   - `#restoreVersionSearch`
   - `label[for="restoreVersionDateRange"] > span[translate=""]`
   - `#restoreVersionDateRange`
 - http://127.0.0.1:8386/ [state:folder-main-expanded]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:folder-broken-expanded]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-folder-general]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-folder-sharing]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `#H5TRW4T-N6OBRP7-ZRPPVBJ-KU67Y4G-GWHN3IW-KVNYZVI-C4BYAJV-H7P2HAZ > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
-  - `#R4DVN7U-KZ7PJRK-PXUUN4L-YISY6BA-ZTDZU6R-Z7LSKA2-YEFKEBV-ZF2JOQK > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `#CN5LSJU-A7TVHPB-Y763I5B-ZYSFG4T-G42VLEM-CZFNKRE-22TVGGO-HEIUNQT > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
 - http://127.0.0.1:8386/ [state:edit-folder-versioning]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-folder-ignores]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-folder-advanced]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `.col-md-12 > label`
   - `.col-md-12 > a[target="_blank"] > span[translate=""]`
   - `.col-md-12 > .row > .col-md-6:nth-child(1) > label > span[translate=""]`
@@ -66,23 +66,23 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.col-md-6.form-group:nth-child(1) > a[target="_blank"] > span[translate=""]`
   - … +15 autres
 - http://127.0.0.1:8386/ [state:add-folder]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:remove-folder-confirm]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:device-bob-expanded]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:device-alice-expanded]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-device-general]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-device-sharing]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `.col-md-6:nth-child(2) > .form-group > .checkbox[title=""][ng-disabled="currentDevice.untrusted"] > label > .help-block`
   - `span[data-original-title="archives"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
   - `span[data-original-title="broken"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
   - `span[data-original-title="sync-main"][tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
 - http://127.0.0.1:8386/ [state:edit-device-advanced]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="addresses"]`
   - `#addresses`
   - `.row.form-group > .col-md-6:nth-child(1) > .form-group > .help-block`
@@ -94,20 +94,20 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `#numConnections`
   - … +9 autres
 - http://127.0.0.1:8386/ [state:add-device]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `div[ng-if="editingDeviceNew()"] > .help-block > span[translate=""]:nth-child(1)`
 - http://127.0.0.1:8386/ [state:remove-device-confirm]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:share-device-id]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:show-id-qr]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:log-viewer]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:recent-changes]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:settings-general]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
   - `.col-sm-3`
@@ -119,7 +119,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="upgradesSelect"]`
   - … +2 autres
 - http://127.0.0.1:8386/ [state:settings-gui]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="guiUser"]`
   - `#guiUser`
   - `label[for="guiPassword"]`
@@ -127,7 +127,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="guiTheme"]`
   - `#guiTheme`
 - http://127.0.0.1:8386/ [state:settings-connections]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="MaxRecvKbps"]`
   - `#MaxRecvKbps`
   - `label[for="MaxSendKbps"]`
@@ -135,11 +135,11 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="GlobalAnnServersStr"]`
   - `#GlobalAnnServersStr`
 - http://127.0.0.1:8386/ [state:settings-ignored-devices]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:settings-ignored-folders]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:settings-ur-preview]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
   - `.col-sm-3`
@@ -151,7 +151,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="upgradesSelect"]`
   - … +3 autres
 - http://127.0.0.1:8386/ [state:settings-discard]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
   - `.col-sm-3`
@@ -163,7 +163,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="upgradesSelect"]`
   - … +2 autres
 - http://127.0.0.1:8386/ [state:advanced-settings]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="optionsInput3"]`
   - `#optionsInput3`
   - `label[for="optionsInput4"]`
@@ -175,7 +175,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="optionsInput8"]`
   - … +11 autres
 - http://127.0.0.1:8386/ [state:advanced-folder-section]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="folder0Input0"]`
   - `label[for="folder0Input1"]`
   - `label[for="folder0Input2"]`
@@ -187,27 +187,27 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="folder0Input6"]`
   - … +1 autres
 - http://127.0.0.1:8386/ [state:about]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `#contributor-list`
 - http://127.0.0.1:8386/ [state:about-includes]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:connectivity-listeners]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:connectivity-discovery]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `li[ng-repeat="discovery in discoveryFailed"]`
   - `.panel-body[translate=""]`
 - http://127.0.0.1:8386/ [state:help-menu-open]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:actions-menu-open]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h2 > .pull-right.ng-binding`
 - http://127.0.0.1:8386/ [state:lang-menu-open]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:theme-dark]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:settings-dark]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="minHomeDiskFree"] > span[translate=""]`
   - `#minHomeDiskFree`
   - `.col-sm-3`
@@ -219,13 +219,13 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="upgradesSelect"]`
   - … +2 autres
 - http://127.0.0.1:8386/ [state:edit-device-dark]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
 - http://127.0.0.1:8386/ [state:edit-folder-sharing-dark]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `#H5TRW4T-N6OBRP7-ZRPPVBJ-KU67Y4G-GWHN3IW-KVNYZVI-C4BYAJV-H7P2HAZ > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
-  - `#R4DVN7U-KZ7PJRK-PXUUN4L-YISY6BA-ZTDZU6R-Z7LSKA2-YEFKEBV-ZF2JOQK > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
+  - `#CN5LSJU-A7TVHPB-Y763I5B-ZYSFG4T-G42VLEM-CZFNKRE-22TVGGO-HEIUNQT > .checkbox.col-md-6 > label > span[tooltip=""] > span[ng-switch="remoteState"] > .ng-binding[ng-switch-default=""]`
 - http://127.0.0.1:8386/ [state:advanced-dark]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `label[for="optionsInput3"]`
   - `#optionsInput3`
   - `label[for="optionsInput4"]`
@@ -237,8 +237,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `label[for="optionsInput8"]`
   - … +11 autres
 - http://127.0.0.1:8386/ [state:actions-menu-dark]
-  - `span[translate-value-version="v2.1.5"]`
+  - `span[translate-value-version="v2.1.6"]`
   - `div[ng-if="config"] > .row > .col-md-12 > .panel-warning.panel > .panel-heading > h2 > .pull-right.ng-binding`
+- http://127.0.0.1:8386/ [state:about-dark]
+  - `span[translate-value-version="v2.1.6"]`
+  - `#contributor-list`
+- http://127.0.0.1:8386/ [state:folder-restore-versions-dark]
+  - `span[translate-value-version="v2.1.6"]`
+  - `.btn-xs > span[translate=""]`
+  - `label[for="restoreVersionSearch"] > span[translate=""]`
+  - `#restoreVersionSearch`
+  - `label[for="restoreVersionDateRange"] > span[translate=""]`
+  - `#restoreVersionDateRange`
 
 ### th-has-data-cells — Table headers in a data table must refer to data cells
 

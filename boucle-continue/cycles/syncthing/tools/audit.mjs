@@ -773,6 +773,31 @@ const STATES = {
       await page.waitForSelector('li.action-menu:has(.fa-cog).open ul.dropdown-menu', { timeout: 5000 });
     },
   },
+  // Famille alert-info : les entêtes de modales status=info (violet #9b59b6)
+  // étaient #222 en dark = 3,41:1, ET axe « passe » ce nœud (heuristique de
+  // fond) — une sonde computed dans verify.mjs couvre ce qu'axe ne voit pas.
+  'about-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      await helpMenuClick(page, 'About');
+      await page.waitForSelector(MODAL('#about'), { timeout: 10000 });
+    },
+  },
+  // Famille restoreVersions : fancytree de restauration + modale status=info,
+  // exercée en dark (le fix .fancytree-title devient réellement testé).
+  'folder-restore-versions-dark': {
+    url: b => `${b}/`,
+    setup: async page => {
+      await dashReady(page);
+      await ensureDark(page);
+      const t = await expandPanel(page, 'Archives');
+      await page.locator(`${t} button[ng-click*="restoreVersions.show"]`).click();
+      await page.waitForSelector(MODAL('#restoreVersions'), { timeout: 10000 });
+      await page.waitForSelector('#restoreTree .fancytree-node', { timeout: 45000 });
+    },
+  },
   'mobile-home': {
     url: b => `${b}/`,
     setup: async page => {

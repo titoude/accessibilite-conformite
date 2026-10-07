@@ -1,5 +1,5 @@
 diff --git a/gui/dark/assets/css/theme.css b/gui/dark/assets/css/theme.css
-index 5b27328cc..909f3f7f6 100644
+index 5b27328cc..e10b007bb 100644
 --- a/gui/dark/assets/css/theme.css
 +++ b/gui/dark/assets/css/theme.css
 @@ -31,7 +31,7 @@ a:hover,a:focus,a.focus{
@@ -34,7 +34,25 @@ index 5b27328cc..909f3f7f6 100644
  }
  
  .btn-success {
-@@ -323,3 +323,21 @@ code.ng-binding{
+@@ -200,7 +200,7 @@ li.hidden-xs:hover, .navbar-link:hover, .navbar-link:focus {
+ }
+ 
+ .alert-info {
+-    color: #222 !important;
++    color: #fff !important;
+ }
+ 
+ .alert-success,
+@@ -293,7 +293,7 @@ code.ng-binding{
+ }
+ 
+ .text-primary {
+-    color: #3fa9f0;
++    color: #7fb3e0;
+ }
+ 
+ /*
+@@ -323,3 +323,28 @@ code.ng-binding{
  .checkbox[disabled] .help-block {
      color: #999999 !important;
  }
@@ -48,6 +66,13 @@ index 5b27328cc..909f3f7f6 100644
 +a:not(.btn), a:not(.btn):hover, a:not(.btn):focus { color: #56a8e0 !important; }
 +/* fancytree-title héritait #aaa = <4.5 sur les fonds dark */
 +.fancytree-title { color: #d4d4d4 !important; }
++/* h1..h6 small + .text-muted héritent #777 du bootstrap vendu = 3,34:1 sur #272727.
++   #adadad = 4,9+ sur #3B3B3B, 6,6+ sur #272727 (WCAG 1.4.3). */
++h1 small, h2 small, h3 small, h4 small, h5 small, h6 small,
++h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small,
++.text-muted {
++  color: #adadad;
++}
 +.dropdown-menu > .active > a,
 +.pagination > .active > a,
 +.dropdown-menu > .active > a:hover,
