@@ -1,0 +1,1460 @@
+diff --git a/bookmarks/frontend/components/filter-drawer.js b/bookmarks/frontend/components/filter-drawer.js
+index 1b7e8dd..02dcaf8 100644
+--- a/bookmarks/frontend/components/filter-drawer.js
++++ b/bookmarks/frontend/components/filter-drawer.js
+@@ -25,9 +25,14 @@ class FilterDrawer extends Modal {
+     render(
+       html`
+         <div class="modal-overlay" data-close-modal></div>
+-        <div class="modal-container" role="dialog" aria-modal="true">
++        <div
++          class="modal-container"
++          role="dialog"
++          aria-modal="true"
++          aria-labelledby="ld-filter-drawer-title"
++        >
+           <div class="modal-header">
+-            <h2>Filters</h2>
++            <h2 id="ld-filter-drawer-title">Filters</h2>
+             <button
+               class="btn btn-noborder close"
+               aria-label="Close dialog"
+diff --git a/bookmarks/static/admin/css/linkding-admin.css b/bookmarks/static/admin/css/linkding-admin.css
+new file mode 100644
+index 0000000..aa36eb0
+--- /dev/null
++++ b/bookmarks/static/admin/css/linkding-admin.css
+@@ -0,0 +1,28 @@
++/* linkding admin accessibility overrides — WCAG 2.2 AA target size */
++
++/* Filter sidebar + faceted nav links: full-row >= 24px hit area */
++#changelist-filter li a,
++#changelist-filter details summary,
++details[data-filter-title] ul li a,
++.module h2 a {
++  display: flex;
++  align-items: center;
++  min-height: 24px;
++}
++
++/* Result-list links (results table + pagination) */
++#result_list td a,
++#result_list th a,
++.paginator a:link,
++.paginator a:visited {
++  display: inline-flex;
++  align-items: center;
++  min-height: 24px;
++}
++
++/* Sidebar navigation links */
++#nav-sidebar a {
++  display: inline-flex;
++  align-items: center;
++  min-height: 24px;
++}
+diff --git a/bookmarks/static/rest_framework/css/bootstrap-tweaks.css b/bookmarks/static/rest_framework/css/bootstrap-tweaks.css
+new file mode 100644
+index 0000000..0ee6950
+--- /dev/null
++++ b/bookmarks/static/rest_framework/css/bootstrap-tweaks.css
+@@ -0,0 +1,255 @@
++/*
++
++This CSS file contains some tweaks specific to the included Bootstrap theme.
++It's separate from `style.css` so that it can be easily overridden by replacing
++a single block in the template.
++
++*/
++
++.form-actions {
++  background: transparent;
++  border-top-color: transparent;
++  padding-top: 0;
++  text-align: right;
++}
++
++#generic-content-form textarea {
++  font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
++  font-size: 80%;
++}
++
++.navbar-inverse .brand a {
++  color: #999999;
++}
++.navbar-inverse .brand:hover a {
++  color: white;
++  text-decoration: none;
++}
++
++/* custom navigation styles */
++.navbar {
++  width: 100%;
++  position: fixed;
++  left: 0;
++  top: 0;
++}
++
++.navbar {
++  background: #2C2C2C;
++  color: white;
++  border: none;
++  border-top: 5px solid #A30000;
++  border-radius: 0px;
++}
++
++.navbar .nav li, .navbar .nav li a, .navbar .brand:hover {
++  color: white;
++}
++
++.nav-list > .active > a, .nav-list > .active > a:hover {
++  background: #2C2C2C;
++}
++
++.navbar .dropdown-menu li a, .navbar .dropdown-menu li {
++  color: #A30000;
++}
++
++.navbar .dropdown-menu li a:hover {
++  background: #EEEEEE;
++  color: #C20000;
++}
++
++ul.breadcrumb {
++  margin: 70px 0 0 0;
++}
++
++.breadcrumb li.active a {
++  color: #777;
++}
++
++.pagination>.disabled>a,
++.pagination>.disabled>a:hover,
++.pagination>.disabled>a:focus {
++  cursor: not-allowed;
++  pointer-events: none;
++}
++
++.pager>.disabled>a,
++.pager>.disabled>a:hover,
++.pager>.disabled>a:focus {
++  pointer-events: none;
++}
++
++.pager .next {
++  margin-left: 10px;
++}
++
++/*=== dabapps bootstrap styles ====*/
++
++html {
++  width:100%;
++  background: none;
++}
++
++/*body, .navbar .container-fluid {
++  max-width: 1150px;
++  margin: 0 auto;
++}*/
++
++body {
++  background: url("../img/grid.png") repeat-x;
++  background-attachment: fixed;
++}
++
++#content {
++  margin: 0;
++  padding-bottom: 60px;
++}
++
++/* sticky footer and footer */
++html, body {
++  height: 100%;
++}
++
++.wrapper {
++  position: relative;
++  top: 0;
++  left: 0;
++  padding-top: 60px;
++  margin: -60px 0;
++  min-height: 100%;
++}
++
++.form-switcher {
++  margin-bottom: 0;
++}
++
++.well {
++  -webkit-box-shadow: none;
++     -moz-box-shadow: none;
++          box-shadow: none;
++}
++
++.well .form-actions {
++  padding-bottom: 0;
++  margin-bottom: 0;
++}
++
++.well form {
++  margin-bottom: 0;
++}
++
++.nav-tabs {
++  border: 0;
++}
++
++.nav-tabs > li {
++  float: right;
++}
++
++.nav-tabs li a {
++  margin-right: 0;
++}
++
++.nav-tabs > .active > a {
++  background: #F5F5F5;
++}
++
++.nav-tabs > .active > a:hover {
++  background: #F5F5F5;
++}
++
++.tabbable.first-tab-active .tab-content {
++  border-top-right-radius: 0;
++}
++
++footer {
++  position: absolute;
++  bottom: 0;
++  left: 0;
++  clear: both;
++  z-index: 10;
++  height: 60px;
++  width: 95%;
++  margin: 0 2.5%;
++}
++
++footer p {
++  text-align: center;
++  color: gray;
++  border-top: 1px solid #DDDDDD;
++  padding-top: 10px;
++}
++
++footer a {
++  color: gray !important;
++  font-weight: bold;
++}
++
++footer a:hover {
++  color: gray;
++}
++
++.page-header {
++  border-bottom: none;
++  padding-bottom: 0px;
++  margin: 0;
++}
++
++/* custom general page styles */
++.hero-unit h1, .hero-unit h2 {
++  color: #A30000;
++}
++
++body a {
++  color: #A30000;
++}
++
++body a:hover {
++  color: #c20000;
++}
++
++.request-info {
++  clear:both;
++}
++
++.horizontal-checkbox label {
++  padding-top: 0;
++}
++
++.horizontal-checkbox label {
++  padding-top: 0 !important;
++}
++
++.horizontal-checkbox input {
++  float: left;
++  width: 20px;
++  margin-top: 3px;
++}
++
++.modal-footer form {
++  margin-left: 5px;
++  margin-right: 5px;
++}
++
++.pagination {
++  margin: 5px 0 10px 0;
++}
++
++/* WCAG AA: active breadcrumb at 4.5:1+ (upstream "#777" = 4.46:1 fails) */
++ul.breadcrumb li.active a,
++ul.breadcrumb li.active a:hover,
++ul.breadcrumb li.active a:focus {
++  color: #23527c;
++}
++
++/* Danger buttons: deepen background so white text reaches 4.5:1 (#d9534f was 3.96) */
++.btn-danger {
++  background-color: #d43f3a;
++}
++
++/* JSON pretty-print links (rel=nofollow inside .response-info) must be
++   distinguishable without color: underline them. */
++.prettyprint a[rel="nofollow"] {
++  text-decoration: underline;
++}
+diff --git a/bookmarks/styles/bookmark-details.css b/bookmarks/styles/bookmark-details.css
+index 63c7ab6..573adfc 100644
+--- a/bookmarks/styles/bookmark-details.css
++++ b/bookmarks/styles/bookmark-details.css
+@@ -79,7 +79,12 @@
+   }
+ 
+   & .tags a {
+-    color: var(--alternative-color);
++    /* Darker alternative-color: 6.2:1 on white (was 3.9:1) */
++    color: var(--alternative-color-dark);
++    /* WCAG 2.5.8 target size: 24px minimum click area */
++    display: inline-flex;
++    align-items: center;
++    min-height: 24px;
+   }
+ 
+   & .tags a::before {
+diff --git a/bookmarks/styles/bookmark-page.css b/bookmarks/styles/bookmark-page.css
+index 2b049fd..448a32a 100644
+--- a/bookmarks/styles/bookmark-page.css
++++ b/bookmarks/styles/bookmark-page.css
+@@ -203,7 +203,10 @@ ul.bookmark-list {
+     & .title a {
+       color: var(--bookmark-title-color);
+       font-weight: var(--bookmark-title-weight);
+-      display: block;
++      display: flex;
++      align-items: center;
++      /* WCAG 2.5.8 target size: 24px minimum click area */
++      min-height: 24px;
+       width: 100%;
+       white-space: nowrap;
+       overflow: hidden;
+@@ -264,7 +267,12 @@ ul.bookmark-list {
+     & .tags {
+       & a,
+       & a:visited:hover {
+-        color: var(--alternative-color);
++        /* Darker alternative-color: 6.2:1 on white (was 3.9:1) */
++        color: var(--alternative-color-dark);
++        /* WCAG 2.5.8 target size: 24px minimum click area */
++        display: inline-flex;
++        align-items: center;
++        min-height: 24px;
+       }
+       & a::before {
+         content: "#";
+@@ -298,13 +306,17 @@ ul.bookmark-list {
+         color: var(--bookmark-actions-color);
+         --btn-icon-color: var(--bookmark-actions-color);
+         font-weight: var(--bookmark-actions-weight);
+-        padding: 0;
++        padding: var(--unit-1) 0;
+         height: auto;
+         vertical-align: unset;
+         border: none;
+         box-sizing: border-box;
+         transition: none;
+         text-decoration: none;
++        /* WCAG 2.5.8 target size: 24px minimum click area */
++        min-height: 24px;
++        display: inline-flex;
++        align-items: center;
+ 
+         &:focus,
+         &:hover,
+@@ -380,13 +392,22 @@ ul.bookmark-list {
+     & a,
+     & a:visited:hover {
+       color: var(--error-color);
++      /* WCAG 2.5.8 target size: 24px minimum click area */
++      display: inline-flex;
++      align-items: center;
++      min-height: 24px;
+     }
+   }
+ 
+   & .unselected-tags {
+     & a,
+     & a:visited:hover {
+-      color: var(--alternative-color);
++      /* Darker alternative-color: 6.2:1 on white (was 3.9:1) */
++      color: var(--alternative-color-dark);
++      /* WCAG 2.5.8 target size: 24px minimum click area */
++      display: inline-flex;
++      align-items: center;
++      min-height: 24px;
+     }
+   }
+ 
+diff --git a/bookmarks/styles/markdown.css b/bookmarks/styles/markdown.css
+index a85ea40..05b76dc 100644
+--- a/bookmarks/styles/markdown.css
++++ b/bookmarks/styles/markdown.css
+@@ -44,3 +44,8 @@
+     border-radius: 0;
+   }
+ }
++
++/* WCAG 1.4.1: links in running text must be distinguishable without color alone */
++.markdown a {
++  text-decoration: underline;
++}
+diff --git a/bookmarks/styles/settings.css b/bookmarks/styles/settings.css
+index 789eebc..ef57495 100644
+--- a/bookmarks/styles/settings.css
++++ b/bookmarks/styles/settings.css
+@@ -30,3 +30,10 @@
+     margin-bottom: var(--unit-4);
+   }
+ }
++
++/* WCAG 1.4.1: links in running text must be distinguishable without color alone */
++.settings-page p a:not(.btn),
++.settings-page li a:not(.btn),
++.settings-page .form-input-hint a {
++  text-decoration: underline;
++}
+diff --git a/bookmarks/styles/theme-dark.css b/bookmarks/styles/theme-dark.css
+index bec8ca3..534e2ec 100644
+--- a/bookmarks/styles/theme-dark.css
++++ b/bookmarks/styles/theme-dark.css
+@@ -28,7 +28,10 @@
+   --warning-color-highlight: hsl(38, 92%, 55%);
+   --warning-color-shade: hsla(38, 92%, 50%, 0.1);
+ 
+-  --error-color: hsl(0, 80%, 60%);
++  /* Text-level error color: >=4.5:1 on dark modal #323248 and body (60% was ~4.1:1)
++     --error-color-strong keeps a darker red for error *backgrounds* (white text) */
++  --error-color: hsl(0, 75%, 72%);
++  --error-color-strong: hsl(0, 60%, 45%);
+   --error-color-highlight: hsl(0, 72%, 60%);
+   --error-color-shade: hsla(0, 72%, 51%, 0.1);
+ 
+@@ -36,6 +39,7 @@
+   --text-color: var(--gray-300);
+   --secondary-text-color: var(--gray-400);
+   --tertiary-text-color: var(--gray-500);
++  --empty-text-color: var(--gray-400);
+   --contrast-text-color: #fff;
+   --primary-text-color: hsl(241, 82%, 82%);
+ 
+diff --git a/bookmarks/styles/theme/dropdowns.css b/bookmarks/styles/theme/dropdowns.css
+index 1d58ac9..43aa71e 100644
+--- a/bookmarks/styles/theme/dropdowns.css
++++ b/bookmarks/styles/theme/dropdowns.css
+@@ -40,3 +40,29 @@
+     }
+   }
+ }
++
++/* Mobile nav menu expands in-flow: the absolute dropdown overlaid the list
++   and partially obscured underlying targets (WCAG 2.5.8). */
++@media (max-width: 840px) {
++  /* Give the mobile nav its own full-width row so the expanded menu spans the
++     header instead of a narrow column next to the logo. */
++  header .d-flex {
++    flex-wrap: wrap;
++  }
++
++  header .d-flex nav {
++    flex: 1 1 100%;
++  }
++
++  .show-md .dropdown {
++    display: block;
++    text-align: right;
++  }
++
++  .show-md .dropdown .menu {
++    position: static;
++    max-height: none;
++    overflow-y: visible;
++    text-align: left;
++  }
++}
+diff --git a/bookmarks/styles/theme/empty.css b/bookmarks/styles/theme/empty.css
+index 580d5d1..6b62f84 100644
+--- a/bookmarks/styles/theme/empty.css
++++ b/bookmarks/styles/theme/empty.css
+@@ -2,7 +2,7 @@
+ .empty {
+   background: var(--body-color-contrast);
+   border-radius: var(--border-radius);
+-  color: var(--secondary-text-color);
++  color: var(--empty-text-color);
+   text-align: center;
+   padding: var(--unit-8) var(--unit-8);
+ 
+@@ -15,6 +15,10 @@
+     margin: var(--layout-spacing) auto;
+   }
+ 
++  .empty-subtitle a {
++    text-decoration: underline;
++  }
++
+   .empty-action {
+     margin-top: var(--layout-spacing-lg);
+   }
+diff --git a/bookmarks/styles/theme/pagination.css b/bookmarks/styles/theme/pagination.css
+index 704ef82..a270ad2 100644
+--- a/bookmarks/styles/theme/pagination.css
++++ b/bookmarks/styles/theme/pagination.css
+@@ -28,7 +28,8 @@
+     &.disabled {
+       & a {
+         cursor: default;
+-        opacity: 0.5;
++        /* opacity .5 composited on background failed WCAG AA; use muted color */
++        color: var(--secondary-text-color);
+         pointer-events: none;
+       }
+     }
+@@ -60,7 +61,7 @@
+ 
+     & .page-item-subtitle {
+       margin: 0;
+-      opacity: 0.5;
++      color: var(--secondary-text-color);
+     }
+   }
+ }
+diff --git a/bookmarks/styles/theme/toasts.css b/bookmarks/styles/theme/toasts.css
+index b2eeec4..19b169e 100644
+--- a/bookmarks/styles/theme/toasts.css
++++ b/bookmarks/styles/theme/toasts.css
+@@ -20,7 +20,8 @@
+   }
+ 
+   &.toast-error {
+-    background: var(--error-color);
++    /* strong = darker red: white toast text stays >=4.5:1 in dark theme too */
++    background: var(--error-color-strong);
+   }
+ 
+   .btn-clear {
+diff --git a/bookmarks/styles/theme/variables.css b/bookmarks/styles/theme/variables.css
+index 4071c2f..e994bfc 100644
+--- a/bookmarks/styles/theme/variables.css
++++ b/bookmarks/styles/theme/variables.css
+@@ -27,6 +27,8 @@
+   --warning-color-shade: hsla(38, 92%, 50%, 0.1);
+ 
+   --error-color: hsl(0, 72%, 51%);
++  /* Darker red for error *backgrounds* (white text); dark theme overrides */
++  --error-color-strong: var(--error-color);
+   --error-color-highlight: hsl(0, 72%, 60%);
+   --error-color-shade: hsla(0, 72%, 51%, 0.1);
+ 
+@@ -34,6 +36,7 @@
+   --text-color: var(--gray-700);
+   --secondary-text-color: var(--gray-500);
+   --tertiary-text-color: var(--gray-500);
++  --empty-text-color: var(--gray-600);
+   --contrast-text-color: #fff;
+   --primary-text-color: hsl(241, 63%, 55%);
+ 
+diff --git a/bookmarks/templates/admin/base_site.html b/bookmarks/templates/admin/base_site.html
+new file mode 100644
+index 0000000..8d8ca54
+--- /dev/null
++++ b/bookmarks/templates/admin/base_site.html
+@@ -0,0 +1,18 @@
++{% extends "admin/base.html" %}
++{% load i18n static %}
++
++{% block extrastyle %}
++  {{ block.super }}
++  <link rel="stylesheet" href="{% static "admin/css/linkding-admin.css" %}">
++{% endblock %}
++
++{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
++
++{% block branding %}
++<div id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></div>
++{% if user.is_anonymous %}
++  {% include "admin/color_theme_toggle.html" %}
++{% endif %}
++{% endblock %}
++
++{% block nav-global %}{% endblock %}
+diff --git a/bookmarks/templates/bookmarks/bookmark_list.html b/bookmarks/templates/bookmarks/bookmark_list.html
+index 86d42f9..5c96efc 100644
+--- a/bookmarks/templates/bookmarks/bookmark_list.html
++++ b/bookmarks/templates/bookmarks/bookmark_list.html
+@@ -16,7 +16,7 @@
+             <div class="title">
+               {% if not bookmark_list.is_preview %}
+                 <label class="form-checkbox bulk-edit-checkbox">
+-                  <input type="checkbox" name="bookmark_id" value="{{ bookmark_item.id }}">
++                  <input type="checkbox" name="bookmark_id" value="{{ bookmark_item.id }}" aria-label="Select bookmark">
+                   <i class="form-icon"></i>
+                 </label>
+               {% endif %}
+diff --git a/bookmarks/templates/bookmarks/bulk_edit_bar.html b/bookmarks/templates/bookmarks/bulk_edit_bar.html
+index 9e4a0d9..b8179f1 100644
+--- a/bookmarks/templates/bookmarks/bulk_edit_bar.html
++++ b/bookmarks/templates/bookmarks/bulk_edit_bar.html
+@@ -2,10 +2,10 @@
+ {% htmlmin %}
+ <div class="bulk-edit-bar">
+   <label class="form-checkbox bulk-edit-checkbox all">
+-    <input type="checkbox">
++    <input type="checkbox" aria-label="Select all bookmarks">
+     <i class="form-icon"></i>
+   </label>
+-  <select name="bulk_action" class="form-select select-sm">
++  <select name="bulk_action" class="form-select select-sm" aria-label="Bulk action">
+     {% if not 'bulk_archive' in bookmark_list.bulk_edit_disabled_actions %}
+       <option value="bulk_archive">Archive</option>
+     {% endif %}
+diff --git a/bookmarks/templates/bookmarks/details/modal.html b/bookmarks/templates/bookmarks/details/modal.html
+index e4cd657..fc3b02e 100644
+--- a/bookmarks/templates/bookmarks/details/modal.html
++++ b/bookmarks/templates/bookmarks/details/modal.html
+@@ -5,8 +5,8 @@
+                     data-close-url="{{ details.close_url }}"
+                     data-turbo-frame="details-modal">
+     <div class="modal-overlay" data-close-modal></div>
+-    <div class="modal-container" role="dialog" aria-modal="true">
+-      {% include 'shared/modal_header.html' with title=details.bookmark.resolved_title %}
++    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="ld-details-modal-title">
++      {% include 'shared/modal_header.html' with title=details.bookmark.resolved_title heading_id="ld-details-modal-title" %}
+       <div class="modal-body">{% include 'bookmarks/details/form.html' %}</div>
+       {% if details.is_editable %}
+         <div class="modal-footer">
+diff --git a/bookmarks/templates/bookmarks/user_section.html b/bookmarks/templates/bookmarks/user_section.html
+index 360e9e2..4f1cecd 100644
+--- a/bookmarks/templates/bookmarks/user_section.html
++++ b/bookmarks/templates/bookmarks/user_section.html
+@@ -9,7 +9,7 @@
+         {% for hidden_field in user_list.form.hidden_fields %}{{ hidden_field }}{% endfor %}
+         <div class="form-group">
+           <div class="d-flex">
+-            {% formfield user_list.form.user data_submit_on_change="" %}
++            {% formfield user_list.form.user data_submit_on_change="" aria_labelledby="user-heading" %}
+             <noscript>
+               <button type="submit" class="btn btn-link ml-2">Apply</button>
+             </noscript>
+diff --git a/bookmarks/templates/registration/password_change_form.html b/bookmarks/templates/registration/password_change_form.html
+index 3ea88b0..6a8cd94 100644
+--- a/bookmarks/templates/registration/password_change_form.html
++++ b/bookmarks/templates/registration/password_change_form.html
+@@ -19,11 +19,18 @@
+         {% formlabel form.new_password1 'New password' %}
+         {% formfield form.new_password1 class='form-input' %}
+         {{ form.new_password1.errors }}
++        {# Django marks the widget aria-describedby=<auto_id>_helptext; render it #}
++        {% if form.new_password1.help_text %}
++          <div id="id_new_password1_helptext" class="form-input-hint helptext">{{ form.new_password1.help_text }}</div>
++        {% endif %}
+       </div>
+       <div class="form-group">
+         {% formlabel form.new_password2 'Confirm new password' %}
+         {% formfield form.new_password2 class='form-input' %}
+         {{ form.new_password2.errors }}
++        {% if form.new_password2.help_text %}
++          <div id="id_new_password2_helptext" class="form-input-hint helptext">{{ form.new_password2.help_text }}</div>
++        {% endif %}
+       </div>
+       <input type="submit"
+              value="Change Password"
+diff --git a/bookmarks/templates/rest_framework/base.html b/bookmarks/templates/rest_framework/base.html
+new file mode 100644
+index 0000000..0cccb98
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/base.html
+@@ -0,0 +1,309 @@
++{% load static %}
++{% load i18n %}
++{% load rest_framework %}
++
++<!DOCTYPE html>
++<html lang="en">
++  <head>
++    {% block head %}
++
++      {% block meta %}
++        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
++        <meta name="robots" content="NONE,NOARCHIVE" />
++      {% endblock %}
++
++      <title>{% block title %}{% if name %}{{ name }} – {% endif %}Django REST framework{% endblock %}</title>
++
++      {% block style %}
++        {% block bootstrap_theme %}
++          <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap.min.css" %}"/>
++          <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/bootstrap-tweaks.css" %}"/>
++        {% endblock %}
++
++        <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/prettify.css" %}"/>
++        <link rel="stylesheet" type="text/css" href="{% static "rest_framework/css/default.css" %}"/>
++        {% if code_style %}<style>{{ code_style }}</style>{% endif %}
++      {% endblock %}
++
++    {% endblock %}
++  </head>
++
++  {% block body %}
++  <body class="{% block bodyclass %}{% endblock %}">
++
++    <div class="wrapper">
++      {% block navbar %}
++        <div class="navbar navbar-static-top {% block bootstrap_navbar_variant %}navbar-inverse{% endblock %}"
++             role="navigation" aria-label="{% trans "navbar" %}">
++          <div class="container">
++            <span>
++              {% block branding %}
++                <a class='navbar-brand' rel="nofollow" href='https://www.django-rest-framework.org/'>
++                    Django REST framework
++                </a>
++              {% endblock %}
++            </span>
++            <ul class="nav navbar-nav pull-right">
++              {% block userlinks %}
++                {% if user.is_authenticated %}
++                  {% optional_logout request user csrf_token %}
++                {% else %}
++                  {% optional_login request %}
++                {% endif %}
++              {% endblock %}
++            </ul>
++          </div>
++        </div>
++      {% endblock %}
++
++      <div class="container">
++        {% block breadcrumbs %}
++          <nav aria-label="{% trans "Breadcrumb" %}">
++          <ul class="breadcrumb">
++            {% for breadcrumb_name, breadcrumb_url in breadcrumblist %}
++              {% if forloop.last %}
++                <li class="active"><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
++              {% else %}
++                <li><a href="{{ breadcrumb_url }}">{{ breadcrumb_name }}</a></li>
++              {% endif %}
++            {% empty %}
++              {% block breadcrumbs_empty %}&nbsp;{% endblock breadcrumbs_empty %}
++            {% endfor %}
++          </ul>
++          </nav>
++        {% endblock %}
++
++        <!-- Content -->
++        <div id="content" role="main" aria-label="{% trans "content" %}">
++          {% block content %}
++
++          <div class="region" role="region" aria-label="{% trans "request form" %}">
++          {% block request_forms %}
++
++          {% if 'GET' in allowed_methods %}
++            <form id="get-form" class="pull-right">
++              <fieldset>
++                {% if api_settings.URL_FORMAT_OVERRIDE %}
++                  <div class="btn-group format-selection">
++                    <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>
++
++                    <button class="btn btn-primary dropdown-toggle js-tooltip" data-toggle="dropdown" title="Specify a format for the GET request" aria-label="Specify a format for the GET request">
++                      <span class="caret"></span>
++                    </button>
++                    <ul class="dropdown-menu">
++                      {% for format in available_formats %}
++                        <li>
++                          <a class="js-tooltip format-option" href="{% add_query_param request api_settings.URL_FORMAT_OVERRIDE format %}" rel="nofollow" title="Make a GET request on the {{ name }} resource with the format set to `{{ format }}`">{{ format }}</a>
++                        </li>
++                      {% endfor %}
++                    </ul>
++                  </div>
++                {% else %}
++                  <a class="btn btn-primary js-tooltip" href="{{ request.get_full_path }}" rel="nofollow" title="Make a GET request on the {{ name }} resource">GET</a>
++                {% endif %}
++              </fieldset>
++            </form>
++          {% endif %}
++
++          {% if options_form %}
++            <form class="button-form" action="{{ request.get_full_path }}" data-method="OPTIONS">
++              <button class="btn btn-primary js-tooltip" title="Make an OPTIONS request on the {{ name }} resource">OPTIONS</button>
++            </form>
++          {% endif %}
++
++          {% if delete_form %}
++            <button class="btn btn-danger button-form js-tooltip" title="Make a DELETE request on the {{ name }} resource" data-toggle="modal" data-target="#deleteModal">DELETE</button>
++
++            <!-- Delete Modal -->
++            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
++              <div class="modal-dialog">
++                <div class="modal-content">
++                  <div class="modal-body">
++                    <h4 class="text-center">Are you sure you want to delete this {{ name }}?</h4>
++                  </div>
++                  <div class="modal-footer">
++                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
++                    <form class="button-form" action="{{ request.get_full_path }}" data-method="DELETE">
++                      <button class="btn btn-danger">Delete</button>
++                    </form>
++                  </div>
++                </div>
++              </div>
++            </div>
++          {% endif %}
++
++          {% if extra_actions %}
++            <div class="dropdown" style="float: right; margin-right: 10px">
++              <button class="btn btn-default" id="extra-actions-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
++                {% trans "Extra Actions" %}
++                <span class="caret"></span>
++              </button>
++              <ul class="dropdown-menu" aria-labelledby="extra-actions-menu">
++                {% for action_name, url in extra_actions|items %}
++                <li><a href="{{ url }}">{{ action_name }}</a></li>
++                {% endfor %}
++              </ul>
++            </div>
++          {% endif %}
++
++          {% if filter_form %}
++            <button style="float: right; margin-right: 10px" data-toggle="modal" data-target="#filtersModal" class="btn btn-default">
++              <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
++              {% trans "Filters" %}
++            </button>
++          {% endif %}
++
++          {% endblock request_forms %}
++          </div>
++
++            <div class="content-main">
++              <div class="page-header">
++                <h1>{{ name }}</h1>
++              </div>
++              <div class="pull-left">
++                {% block description %}
++                  {{ description }}
++                {% endblock %}
++              </div>
++
++              {% if paginator %}
++                <nav class="pull-right">
++                  {% get_pagination_html paginator %}
++                </nav>
++              {% endif %}
++
++              <div class="request-info" role="region" aria-label="{% trans "request info" %}">
++                <pre class="prettyprint"><b>{{ request.method }}</b> {{ request.get_full_path }}</pre>
++              </div>
++
++              <div class="response-info" role="region" aria-label="{% trans "response info" %}">
++                <pre class="prettyprint"><span class="meta nocode"><b>HTTP {{ response.status_code }} {{ response.status_text }}</b>{% for key, val in response_headers|items %}
++<b>{{ key }}:</b> <span class="lit">{{ val|urlize }}</span>{% endfor %}
++
++</span>{{ content|urlize }}</pre>
++              </div>
++            </div>
++
++            {% if display_edit_forms %}
++              {% if post_form or raw_data_post_form %}
++                <div {% if post_form %}class="tabbable"{% endif %}>
++                  {% if post_form %}
++                    <ul class="nav nav-tabs form-switcher">
++                      <li>
++                        <a name='html-tab' href="#post-object-form" data-toggle="tab">HTML form</a>
++                      </li>
++                      <li>
++                        <a name='raw-tab' href="#post-generic-content-form" data-toggle="tab">Raw data</a>
++                      </li>
++                    </ul>
++                  {% endif %}
++
++                  <div class="well tab-content">
++                    {% if post_form %}
++                      <div class="tab-pane" id="post-object-form">
++                        {% with form=post_form %}
++                          <form action="{{ request.get_full_path }}" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate>
++                            <fieldset>
++                              {% csrf_token %}
++                              {{ post_form }}
++                              <div class="form-actions">
++                                <button class="btn btn-primary js-tooltip" title="Make a POST request on the {{ name }} resource">POST</button>
++                              </div>
++                            </fieldset>
++                          </form>
++                        {% endwith %}
++                      </div>
++                    {% endif %}
++
++                    <div {% if post_form %}class="tab-pane"{% endif %} id="post-generic-content-form">
++                      {% with form=raw_data_post_form %}
++                        <form action="{{ request.get_full_path }}" method="POST" class="form-horizontal">
++                          <fieldset>
++                            {% include "rest_framework/raw_data_form.html" %}
++                            <div class="form-actions">
++                              <button class="btn btn-primary js-tooltip" title="Make a POST request on the {{ name }} resource">POST</button>
++                            </div>
++                          </fieldset>
++                        </form>
++                      {% endwith %}
++                    </div>
++                  </div>
++                </div>
++              {% endif %}
++
++              {% if put_form or raw_data_put_form or raw_data_patch_form %}
++                <div {% if put_form %}class="tabbable"{% endif %}>
++                  {% if put_form %}
++                    <ul class="nav nav-tabs form-switcher">
++                      <li>
++                        <a name='html-tab' href="#put-object-form" data-toggle="tab">HTML form</a>
++                      </li>
++                      <li>
++                        <a  name='raw-tab' href="#put-generic-content-form" data-toggle="tab">Raw data</a>
++                      </li>
++                    </ul>
++                  {% endif %}
++
++                  <div class="well tab-content">
++                    {% if put_form %}
++                      <div class="tab-pane" id="put-object-form">
++                        <form action="{{ request.get_full_path }}" data-method="PUT" enctype="multipart/form-data" class="form-horizontal" novalidate>
++                          <fieldset>
++                            {{ put_form }}
++                            <div class="form-actions">
++                              <button class="btn btn-primary js-tooltip" title="Make a PUT request on the {{ name }} resource">PUT</button>
++                            </div>
++                          </fieldset>
++                        </form>
++                      </div>
++                    {% endif %}
++
++                    <div {% if put_form %}class="tab-pane"{% endif %} id="put-generic-content-form">
++                      {% with form=raw_data_put_or_patch_form %}
++                        <form action="{{ request.get_full_path }}" data-method="PUT" class="form-horizontal">
++                          <fieldset>
++                            {% include "rest_framework/raw_data_form.html" %}
++                            <div class="form-actions">
++                              {% if raw_data_put_form %}
++                                <button class="btn btn-primary js-tooltip" title="Make a PUT request on the {{ name }} resource">PUT</button>
++                              {% endif %}
++                              {% if raw_data_patch_form %}
++                              <button data-method="PATCH" class="btn btn-primary js-tooltip" title="Make a PATCH request on the {{ name }} resource">PATCH</button>
++                                {% endif %}
++                            </div>
++                          </fieldset>
++                        </form>
++                      {% endwith %}
++                    </div>
++                  </div>
++                </div>
++              {% endif %}
++            {% endif %}
++          {% endblock content %}
++        </div><!-- /.content -->
++      </div><!-- /.container -->
++    </div><!-- ./wrapper -->
++
++    {% if filter_form %}
++      {{ filter_form }}
++    {% endif %}
++
++    {% block script %}
++      <script type="application/json" id="drf_csrf">
++        {
++          "csrfHeaderName": "{{ csrf_header_name|default:'X-CSRFToken' }}",
++          "csrfToken": "{% if request %}{{ csrf_token }}{% endif %}"
++        }
++      </script>
++      <script src="{% static "rest_framework/js/jquery-3.7.1.min.js" %}"></script>
++      <script src="{% static "rest_framework/js/ajax-form.js" %}"></script>
++      <script src="{% static "rest_framework/js/csrf.js" %}"></script>
++      <script src="{% static "rest_framework/js/bootstrap.min.js" %}"></script>
++      <script src="{% static "rest_framework/js/prettify-min.js" %}"></script>
++      <script src="{% static "rest_framework/js/default.js" %}"></script>
++      <script src="{% static "rest_framework/js/load-ajax-form.js" %}"></script>
++    {% endblock %}
++
++  </body>
++  {% endblock %}
++</html>
+diff --git a/bookmarks/templates/rest_framework/horizontal/checkbox.html b/bookmarks/templates/rest_framework/horizontal/checkbox.html
+new file mode 100644
+index 0000000..5172389
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/checkbox.html
+@@ -0,0 +1,21 @@
++<div class="form-group horizontal-checkbox {% if field.errors %}has-error{% endif %}">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <input id="id_{{ field.name }}" type="checkbox" name="{{ field.name }}" value="true" {% if field.value %}checked{% endif %}>
++
++    {% if field.errors %}
++      {% for error in field.errors %}
++        <span class="help-block">{{ error }}</span>
++      {% endfor %}
++    {% endif %}
++
++    {% if field.help_text %}
++      <span class="help-block">{{ field.help_text|safe }}</span>
++    {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/checkbox_multiple.html b/bookmarks/templates/rest_framework/horizontal/checkbox_multiple.html
+new file mode 100644
+index 0000000..675e857
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/checkbox_multiple.html
+@@ -0,0 +1,41 @@
++{% load rest_framework %}
++
++<div class="form-group">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    {% if style.inline %}
++      {% for key, text in field.choices|items %}{% with cid=forloop.counter %}
++        <label class="checkbox-inline">
++          <input id="id_{{ field.name }}{% if cid != 1 %}_{{ cid }}{% endif %}" type="checkbox" name="{{ field.name }}" value="{{ key }}" {% if key|as_string in field.value|as_list_of_strings %}checked{% endif %}>
++          {{ text }}
++        </label>
++      {% endwith %}
++      {% endfor %}
++    {% else %}
++      {% for key, text in field.choices|items %}{% with cid=forloop.counter %}
++        <div class="checkbox">
++          <label>
++            <input id="id_{{ field.name }}{% if cid != 1 %}_{{ cid }}{% endif %}" type="checkbox" name="{{ field.name }}" value="{{ key }}" {% if key|as_string in field.value|as_list_of_strings %}checked{% endif %}>
++            {{ text }}
++          </label>
++        </div>
++      {% endwith %}
++      {% endfor %}
++    {% endif %}
++
++  {% if field.errors %}
++    {% for error in field.errors %}
++      <span class="help-block">{{ error }}</span>
++    {% endfor %}
++  {% endif %}
++
++  {% if field.help_text %}
++    <span class="help-block">{{ field.help_text|safe }}</span>
++  {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/dict_field.html b/bookmarks/templates/rest_framework/horizontal/dict_field.html
+new file mode 100644
+index 0000000..7c7414b
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/dict_field.html
+@@ -0,0 +1,11 @@
++<div class="form-group">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <p class="form-control-static">Dictionaries are not currently supported in HTML input.</p>
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/fieldset.html b/bookmarks/templates/rest_framework/horizontal/fieldset.html
+new file mode 100644
+index 0000000..1747d25
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/fieldset.html
+@@ -0,0 +1,16 @@
++{% load rest_framework %}
++<fieldset>
++  {% if field.label %}
++    <div class="form-group" style="border-bottom: 1px solid #e5e5e5">
++      <legend class="control-label col-sm-2 {% if style.hide_label %}sr-only{% endif %}" style="border-bottom: 0">
++        {{ field.label }}
++      </legend>
++    </div>
++  {% endif %}
++
++  {% for nested_field in field %}
++    {% if not nested_field.read_only %}
++      {% render_field nested_field style=style %}
++    {% endif %}
++  {% endfor %}
++</fieldset>
+diff --git a/bookmarks/templates/rest_framework/horizontal/input.html b/bookmarks/templates/rest_framework/horizontal/input.html
+new file mode 100644
+index 0000000..37451d4
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/input.html
+@@ -0,0 +1,21 @@
++<div class="form-group {% if field.errors %}has-error{% endif %}">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <input id="id_{{ field.name }}" name="{{ field.name }}" {% if style.input_type != "file" %}class="form-control"{% endif %} type="{{ style.input_type }}" {% if style.placeholder %}placeholder="{{ style.placeholder }}"{% endif %} {% if field.value is not None %}value="{{ field.value }}"{% endif %} {% if style.autofocus and style.input_type != "hidden" %}autofocus{% endif %}>
++
++    {% if field.errors %}
++      {% for error in field.errors %}
++        <span class="help-block">{{ error }}</span>
++      {% endfor %}
++    {% endif %}
++
++    {% if field.help_text %}
++      <span class="help-block">{{ field.help_text|safe }}</span>
++    {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/list_field.html b/bookmarks/templates/rest_framework/horizontal/list_field.html
+new file mode 100644
+index 0000000..46a9b7e
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/list_field.html
+@@ -0,0 +1,11 @@
++<div class="form-group">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <p class="form-control-static">Lists are not currently supported in HTML input.</p>
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/list_fieldset.html b/bookmarks/templates/rest_framework/horizontal/list_fieldset.html
+new file mode 100644
+index 0000000..962c333
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/list_fieldset.html
+@@ -0,0 +1,13 @@
++{% load rest_framework %}
++
++<fieldset>
++  {% if field.label %}
++    <div class="form-group" style="border-bottom: 1px solid #e5e5e5">
++      <legend class="control-label col-sm-2 {% if style.hide_label %}sr-only{% endif %}" style="border-bottom: 0">
++        {{ field.label }}
++      </legend>
++    </div>
++  {% endif %}
++
++  <p>Lists are not currently supported in HTML input.</p>
++</fieldset>
+diff --git a/bookmarks/templates/rest_framework/horizontal/radio.html b/bookmarks/templates/rest_framework/horizontal/radio.html
+new file mode 100644
+index 0000000..25f77c5
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/radio.html
+@@ -0,0 +1,57 @@
++{% load i18n %}
++{% load rest_framework %}
++
++{% trans "None" as none_choice %}
++
++<div class="form-group">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    {% if style.inline %}
++      {% if field.allow_null or field.allow_blank %}
++        <label class="radio-inline">
++          <input id="id_{{ field.name }}" type="radio" name="{{ field.name }}" value="" {% if not field.value %}checked{% endif %} />
++          {{ none_choice }}
++        </label>
++      {% endif %}
++
++      {% for key, text in field.choices|items %}
++        <label class="radio-inline">
++          <input id="id_{{ field.name }}{% if field.allow_null or field.allow_blank %}_{{ forloop.counter }}{% else %}{% if forloop.counter != 1 %}_{{ forloop.counter }}{% endif %}{% endif %}" type="radio" name="{{ field.name }}" value="{{ key }}" {% if key|as_string == field.value|as_string %}checked{% endif %} />
++          {{ text }}
++        </label>
++      {% endfor %}
++    {% else %}
++      {% if field.allow_null or field.allow_blank %}
++        <div class="radio">
++          <label>
++            <input id="id_{{ field.name }}" type="radio" name="{{ field.name }}" value="" {% if not field.value %}checked{% endif %} />
++            {{ none_choice }}
++          </label>
++        </div>
++      {% endif %}
++        {% for key, text in field.choices|items %}
++          <div class="radio">
++            <label>
++              <input id="id_{{ field.name }}{% if field.allow_null or field.allow_blank %}_{{ forloop.counter }}{% else %}{% if forloop.counter != 1 %}_{{ forloop.counter }}{% endif %}{% endif %}" type="radio" name="{{ field.name }}" value="{{ key }}" {% if key|as_string == field.value|as_string %}checked{% endif %} />
++              {{ text }}
++            </label>
++          </div>
++        {% endfor %}
++    {% endif %}
++
++    {% if field.errors %}
++      {% for error in field.errors %}
++        <span class="help-block">{{ error }}</span>
++      {% endfor %}
++    {% endif %}
++
++    {% if field.help_text %}
++      <span class="help-block">{{ field.help_text|safe }}</span>
++    {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/select.html b/bookmarks/templates/rest_framework/horizontal/select.html
+new file mode 100644
+index 0000000..92a8fbd
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/select.html
+@@ -0,0 +1,36 @@
++{% load rest_framework %}
++
++<div class="form-group">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <select class="form-control" id="id_{{ field.name }}" name="{{ field.name }}">
++      {% if field.allow_null or field.allow_blank %}
++        <option value="" {% if not field.value %}selected{% endif %}>--------</option>
++      {% endif %}
++      {% for select in field.iter_options %}
++          {% if select.start_option_group %}
++            <optgroup label="{{ select.label }}">
++          {% elif select.end_option_group %}
++            </optgroup>
++          {% else %}
++            <option value="{{ select.value }}" {% if select.value|as_string == field.value|as_string %}selected{% endif %} {% if select.disabled %}disabled{% endif %}>{{ select.display_text }}</option>
++          {% endif %}
++      {% endfor %}
++    </select>
++
++    {% if field.errors %}
++      {% for error in field.errors %}
++        <span class="help-block">{{ error }}</span>
++      {% endfor %}
++    {% endif %}
++
++    {% if field.help_text %}
++      <span class="help-block">{{ field.help_text|safe }}</span>
++    {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/select_multiple.html b/bookmarks/templates/rest_framework/horizontal/select_multiple.html
+new file mode 100644
+index 0000000..0475896
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/select_multiple.html
+@@ -0,0 +1,38 @@
++{% load i18n %}
++{% load rest_framework %}
++
++{% trans "No items to select." as no_items %}
++
++<div class="form-group">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <select multiple class="form-control" id="id_{{ field.name }}" name="{{ field.name }}">
++      {% for select in field.iter_options %}
++        {% if select.start_option_group %}
++          <optgroup label="{{ select.label }}">
++        {% elif select.end_option_group %}
++          </optgroup>
++        {% else %}
++          <option value="{{ select.value }}" {% if select.value|as_string in field.value|as_list_of_strings %}selected{% endif %} {% if select.disabled %}disabled{% endif %}>{{ select.display_text }}</option>
++        {% endif %}
++      {% empty %}
++          <option>{{ no_items }}</option>
++      {% endfor %}
++    </select>
++
++    {% if field.errors %}
++      {% for error in field.errors %}
++        <span class="help-block">{{ error }}</span>
++      {% endfor %}
++    {% endif %}
++
++    {% if field.help_text %}
++      <span class="help-block">{{ field.help_text|safe }}</span>
++    {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/rest_framework/horizontal/textarea.html b/bookmarks/templates/rest_framework/horizontal/textarea.html
+new file mode 100644
+index 0000000..d740ed1
+--- /dev/null
++++ b/bookmarks/templates/rest_framework/horizontal/textarea.html
+@@ -0,0 +1,21 @@
++<div class="form-group {% if field.errors %}has-error{% endif %}">
++  {% if field.label %}
++    <label class="col-sm-2 control-label {% if style.hide_label %}sr-only{% endif %}" for="id_{{ field.name }}">
++      {{ field.label }}
++    </label>
++  {% endif %}
++
++  <div class="col-sm-10">
++    <textarea id="id_{{ field.name }}" name="{{ field.name }}" class="form-control" {% if style.placeholder %}placeholder="{{ style.placeholder }}"{% endif %} {% if style.rows %}rows="{{ style.rows }}"{% endif %}>{% if field.value %}{{ field.value }}{% endif %}</textarea>
++
++    {% if field.errors %}
++      {% for error in field.errors %}
++        <span class="help-block">{{ error }}</span>
++      {% endfor %}
++    {% endif %}
++
++    {% if field.help_text %}
++      <span class="help-block">{{ field.help_text|safe }}</span>
++    {% endif %}
++  </div>
++</div>
+diff --git a/bookmarks/templates/settings/create_api_token_modal.html b/bookmarks/templates/settings/create_api_token_modal.html
+index 175709e..43bdf9b 100644
+--- a/bookmarks/templates/settings/create_api_token_modal.html
++++ b/bookmarks/templates/settings/create_api_token_modal.html
+@@ -7,8 +7,8 @@
+             data-close-url="{% url 'linkding:settings.integrations' %}"
+             data-turbo-frame="api-modal">
+     <div class="modal-overlay" data-close-modal></div>
+-    <div class="modal-container" role="dialog" aria-modal="true">
+-      {% include 'shared/modal_header.html' with title="Create API Token" %}
++    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="ld-api-token-title">
++      {% include 'shared/modal_header.html' with title="Create API Token" heading_id="ld-api-token-title" %}
+       <div class="modal-body">
+         <div class="form-group">
+           <label class="form-label" for="token-name">Token name</label>
+diff --git a/bookmarks/templates/settings/general.html b/bookmarks/templates/settings/general.html
+index 36a2ef5..076ed46 100644
+--- a/bookmarks/templates/settings/general.html
++++ b/bookmarks/templates/settings/general.html
+@@ -310,7 +310,7 @@ reddit.com/r/Music music reddit</pre>
+         </div>
+         <div class="form-group">
+           <div class="input-group width-75 width-md-100">
+-            <input class="form-input" type="file" name="import_file">
++            <input class="form-input" type="file" name="import_file" aria-label="Bookmarks file to import">
+             <input type="submit" class="input-group-btn btn btn-primary" value="Upload">
+           </div>
+         </div>
+diff --git a/bookmarks/templates/shared/layout.html b/bookmarks/templates/shared/layout.html
+index 0a44714..efcdbf0 100644
+--- a/bookmarks/templates/shared/layout.html
++++ b/bookmarks/templates/shared/layout.html
+@@ -18,7 +18,9 @@
+                 <button type="submit"
+                         name="toast"
+                         value="{{ toast.id }}"
+-                        class="btn btn-clear"></button>
++                        class="btn btn-clear"
++                        aria-label="Dismiss"
++                        title="Dismiss"></button>
+               </div>
+             {% endfor %}
+           </form>
+diff --git a/bookmarks/templates/shared/modal_header.html b/bookmarks/templates/shared/modal_header.html
+index 4189551..4de5d12 100644
+--- a/bookmarks/templates/shared/modal_header.html
++++ b/bookmarks/templates/shared/modal_header.html
+@@ -1,6 +1,6 @@
+ {% load static %}
+ <div class="modal-header">
+-  <h2 class="title">{{ title }}</h2>
++  <h2 class="title"{% if heading_id %} id="{{ heading_id }}"{% endif %}>{{ title }}</h2>
+   <button type="button"
+           class="btn btn-noborder close"
+           aria-label="Close dialog"
+diff --git a/bookmarks/templates/tags/edit.html b/bookmarks/templates/tags/edit.html
+index 85d31e4..66cade5 100644
+--- a/bookmarks/templates/tags/edit.html
++++ b/bookmarks/templates/tags/edit.html
+@@ -8,8 +8,8 @@
+             data-close-url="{% url 'linkding:tags.index' %}?{{ request.GET.urlencode }}"
+             data-turbo-frame="tag-modal">
+     <div class="modal-overlay" data-close-modal></div>
+-    <div class="modal-container" role="dialog" aria-modal="true">
+-      {% include 'shared/modal_header.html' with title="Edit Tag" %}
++    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="ld-tag-edit-title">
++      {% include 'shared/modal_header.html' with title="Edit Tag" heading_id="ld-tag-edit-title" %}
+       <div class="modal-body">{% include 'tags/form.html' %}</div>
+       <div class="modal-footer d-flex justify-between">
+         <button type="button" class="btn btn-wide" data-close-modal>Cancel</button>
+diff --git a/bookmarks/templates/tags/index.html b/bookmarks/templates/tags/index.html
+index 732917c..0629f76 100644
+--- a/bookmarks/templates/tags/index.html
++++ b/bookmarks/templates/tags/index.html
+@@ -64,7 +64,7 @@
+           </form>
+         </ld-form>
+         {# Tags count #}
+-        <p class="text-secondary text-small m-0">
++        <p class="text-small m-0">
+           {% if search or unused_only %}
+             Showing {{ page.paginator.count }} of {{ total_tags }} tags
+           {% else %}
+diff --git a/bookmarks/templates/tags/merge.html b/bookmarks/templates/tags/merge.html
+index 5869191..780297e 100644
+--- a/bookmarks/templates/tags/merge.html
++++ b/bookmarks/templates/tags/merge.html
+@@ -9,8 +9,8 @@
+             data-close-url="{% url 'linkding:tags.index' %}"
+             data-turbo-frame="tag-modal">
+     <div class="modal-overlay" data-close-modal></div>
+-    <div class="modal-container" role="dialog" aria-modal="true">
+-      {% include 'shared/modal_header.html' with title="Merge Tags" %}
++    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="ld-tag-merge-title">
++      {% include 'shared/modal_header.html' with title="Merge Tags" heading_id="ld-tag-merge-title" %}
+       <div class="modal-body">
+         <details class="mb-4">
+           <summary>
+diff --git a/bookmarks/templates/tags/new.html b/bookmarks/templates/tags/new.html
+index 163b17f..2b5d50c 100644
+--- a/bookmarks/templates/tags/new.html
++++ b/bookmarks/templates/tags/new.html
+@@ -8,8 +8,8 @@
+             data-close-url="{% url 'linkding:tags.index' %}"
+             data-turbo-frame="tag-modal">
+     <div class="modal-overlay" data-close-modal></div>
+-    <div class="modal-container" role="dialog" aria-modal="true">
+-      {% include 'shared/modal_header.html' with title="Create Tag" %}
++    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="ld-tag-new-title">
++      {% include 'shared/modal_header.html' with title="Create Tag" heading_id="ld-tag-new-title" %}
+       <div class="modal-body">{% include 'tags/form.html' %}</div>
+       <div class="modal-footer d-flex justify-between">
+         <button type="button" class="btn btn-wide" data-close-modal>Cancel</button>

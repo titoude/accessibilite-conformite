@@ -1,0 +1,113 @@
+{
+  "cycle": 37,
+  "produit": "linkding",
+  "repo": "https://github.com/sissbruecker/linkding",
+  "commit": "27b7303baf41bb28babc610ac8eaa486e1ddfab5",
+  "axeVersion": "4.14.0",
+  "baseline": {
+    "auth": {
+      "scenarios": 30,
+      "violations": 1695,
+      "occurrences": 1695,
+      "rules": 14,
+      "incomplete": 129,
+      "errors": 0,
+      "rules_detail": {
+        "target-size": 930,
+        "color-contrast": 667,
+        "label": 36,
+        "button-name": 25,
+        "link-in-text-block": 10,
+        "html-has-lang": 6,
+        "aria-dialog-name": 6,
+        "document-title": 4,
+        "region": 3,
+        "select-name": 2,
+        "landmark-no-duplicate-main": 2,
+        "landmark-main-is-top-level": 2,
+        "landmark-one-main": 1,
+        "page-has-heading-one": 1
+      }
+    },
+    "public": {
+      "scenarios": 3,
+      "violations": 38,
+      "rules": 3,
+      "incomplete": 0,
+      "errors": 0,
+      "rules_detail": {
+        "color-contrast": 31,
+        "target-size": 6,
+        "select-name": 1
+      }
+    }
+  },
+  "final": {
+    "auth": {
+      "scenarios": 30,
+      "violations": 0,
+      "occurrences": 0,
+      "incomplete": 68,
+      "errors": 0
+    },
+    "public": {
+      "scenarios": 3,
+      "violations": 0,
+      "occurrences": 0,
+      "incomplete": 1,
+      "errors": 0
+    }
+  },
+  "install_build": {
+    "auth": {
+      "scenarios": 30,
+      "violations": 0,
+      "occurrences": 0,
+      "incomplete": 68,
+      "errors": 0
+    },
+    "public": {
+      "scenarios": 3,
+      "violations": 0,
+      "occurrences": 0,
+      "incomplete": 1,
+      "errors": 0
+    },
+    "note": "clone vierge @27b7303 + git apply (0 rejet) + docker build Dockerfile amont (target linkding — voir install-build.log pour la déviation documentée rate-limit uBlock) + seed + rescan :9091"
+  },
+  "verify": "0 FAIL (30 sondes)",
+  "eval_final": "0 FAIL (15 pages axe hors périmètre + rejoues)",
+  "probes": {
+    "auth": {
+      "file": "reports/probes-auth.json",
+      "distribution": {
+        "color-contrast|PASS": 63,
+        "color-contrast|N-A": 3,
+        "aria-valid-attr-value|PASS": 2
+      },
+      "fail": 0
+    },
+    "public": {
+      "file": "reports/probes-public.json",
+      "distribution": {
+        "color-contrast|PASS": 1
+      },
+      "fail": 0
+    }
+  },
+  "theme_persistence": "theme=auto persisté serveur (POST /settings/update) — restauration prouvée par verify.mjs (POST dark → link theme-dark sans media → POST auto → link retiré) et reset-theme.mjs avant chaque run",
+  "patch": {
+    "file": "patch.diff",
+    "sha256": "214854c060cb19b7256d06373099b5bf29c415345e5722abc3901346e0196d13",
+    "files": 28,
+    "insertions": 1017,
+    "deletions": 30
+  },
+  "fixes": {
+    "templates": "18 fichiers Django : aria-labels (toast dismiss, checkbox/select bulk, import file), aria-labelledby modales (param heading_id dans modal_header + ids ld-*), helptext mot de passe rendu (aria-describedby pendante Django), text-secondary→text-small sur nuage de tags",
+    "drf_overrides": "12 templates rest_framework (base.html : lang=en, nav breadcrumb, dropdown-toggle nommé, main unique ; horizontal/* : label for + id sur input/select/textarea/radio/checkbox)",
+    "admin": "admin/base_site.html + admin/css/linkding-admin.css : liens filtres/sidebar/pagination admin >=24px",
+    "css": "9 fichiers : tags/actions/title >=24px + couleur alternative-dark 6.17:1, pagination disabled sans opacité, toasts --error-color-strong 72% (dark 4.8:1 sur #323248), liens soulignés dans texte (settings, markdown, DRF prettyprint), menu mobile in-flow <=840px, empty state --empty-text-color, btn-danger DRF #d43f3a",
+    "js": "filter-drawer.js : aria-labelledby ld-filter-drawer-title + h2 titre"
+  }
+}

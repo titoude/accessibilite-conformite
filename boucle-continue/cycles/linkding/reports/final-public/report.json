@@ -1,0 +1,102 @@
+{
+  "runId": "36db3d65-5f30-4e0d-aa9d-2bed65647b30",
+  "runnerVersion": "audit.mjs v6-linkding",
+  "axeVersion": "4.14.0",
+  "generatedAt": "2026-10-07T19:57:17.618Z",
+  "baseUrl": "http://localhost:9090",
+  "pages": [
+    {
+      "url": "http://localhost:9090/login/",
+      "requestedUrl": "http://localhost:9090/login/",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9090/login/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9090/bookmarks/shared",
+      "requestedUrl": "http://localhost:9090/bookmarks/shared",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgImage",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<select name=\"user\" class=\"form-select\" data-submit-on-change=\"\" aria-labelledby=\"user-heading\" id=\"id_user\">\n  <option value=\"\" selected=\"\">Everyone</option>\n\n  <option value=\"admin\">admin</option>\n\n  <option value=\"alice\">alice</option>\n\n  <option value=\"bob\">bob</option>\n\n</select>",
+                      "target": [
+                        "#id_user"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background image"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<select name=\"user\" class=\"form-select\" data-submit-on-change=\"\" aria-labelledby=\"user-heading\" id=\"id_user\">\n  <option value=\"\" selected=\"\">Everyone</option>\n\n  <option value=\"admin\">admin</option>\n\n  <option value=\"alice\">alice</option>\n\n  <option value=\"bob\">bob</option>\n\n</select>",
+              "target": [
+                "#id_user"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background image"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9090/bookmarks/shared",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9090/login/ [state:login-failed]",
+      "requestedUrl": "http://localhost:9090/login/",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9090/login/",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "70cc5166e02b746fa5a226dc3e847ccb13051e7c85483036bb43a95ab49045ee"
+}

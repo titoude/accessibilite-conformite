@@ -1,0 +1,19 @@
+{
+  "states": {
+    "nav-bookmarks-menu": "sur /bookmarks, clic .hide-md ld-dropdown .dropdown-toggle texte « Bookmarks » ; stateProof : ld-dropdown.active .menu a[href=/bookmarks/archived] visible",
+    "nav-settings-menu": "sur /bookmarks, clic .hide-md ld-dropdown .dropdown-toggle texte « Settings » ; stateProof : menu a[href=/settings/general] visible",
+    "filter-drawer": "sur /bookmarks, clic ld-filter-drawer-trigger button texte « Filters » → ld-filter-drawer [role=dialog] ; stateProof : dialog contenant texte « Filters » visible",
+    "details-modal": "sur /bookmarks, clic 1er a.view-action → ld-details-modal chargé via turbo-frame ; stateProof : .modal-container[role=dialog] visible + ld-details-modal[data-bookmark-id] présent + lien « Edit »",
+    "bulk-edit": "sur /bookmarks, clic button.bulk-edit-active-toggle ; stateProof : .bulk-edit-bar select[name=bulk_action] + button[name=bulk_execute] visibles",
+    "confirm-dropdown": "sur /bookmarks, clic button[name=remove][data-confirm] d'une ligne (suppression interceptée, non soumise) ; stateProof : ld-confirm-dropdown [role=alertdialog] + button « Confirm »",
+    "tag-autocomplete": "sur /bookmarks/new, fill « py » dans ld-tag-autocomplete input ; stateProof : ul.menu.open li texte « python » visible",
+    "theme-dark": "POST formulaire /settings/update theme=dark (pref serveur persistée) → reload ; stateProof : link[href*=theme-dark.css]:not([media]) attaché",
+    "theme-dark-dialog": "theme-dark actif + details-modal ouverte ; stateProof : link dark non-media + ld-details-modal[data-bookmark-id]",
+    "tag-modal-new": "sur /tags, clic a.btn[data-turbo-frame=tag-modal] « Create Tag » ; stateProof : turbo-frame#tag-modal #ld-tag-new-title texte « Create Tag »",
+    "tag-modal-edit": "sur /tags, clic td.actions a[data-turbo-frame=tag-modal] « Edit » ; stateProof : #ld-tag-edit-title « Edit Tag »",
+    "tag-modal-merge": "sur /tags, clic a.btn[data-turbo-frame=tag-modal] « Merge Tags » ; stateProof : #ld-tag-merge-title « Merge Tags »",
+    "api-token-modal": "sur /settings/integrations, clic a.btn[data-turbo-frame=api-modal] « Create API token » ; stateProof : #ld-api-token-title « Create API Token »",
+    "mobile-nav-390": "MUTANT restore : setTheme(auto) via POST settings/update + viewport 390×844 + reload + clic button[aria-label=Navigation menu] ; stateProof : ld-dropdown.active .menu a[href=/bookmarks/archived] visible. Dernier état — restaure le thème avant de poser le viewport.",
+    "login-failed": "public /login : fill admin/mauvais-mot-de-passe + submit ; stateProof : p.form-input-hint.is-error texte « didn »"
+  }
+}

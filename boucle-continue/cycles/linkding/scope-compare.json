@@ -1,0 +1,57 @@
+{
+  "baseline_auth": {
+    "scopeHash": "d9b3b9bb7709b5e73b0ccfa7e464dae1804dd3c1f47f98e78815e2b4f64055e3",
+    "statesHash": "3c608e167604e64b0fcfdfa678718ccc78ddf71b136ec136774df4c346ca8078",
+    "wait": 0,
+    "total": 30,
+    "audited": 30,
+    "errored": 0,
+    "states": ["nav-bookmarks-menu", "nav-settings-menu", "filter-drawer", "details-modal", "bulk-edit", "confirm-dropdown", "tag-autocomplete", "theme-dark", "theme-dark-dialog", "mobile-nav-390"]
+  },
+  "final_auth": {
+    "scopeHash": "4605402eb560dbe7a7fad90cef50e1c6db5f91d0186e0c9ec4a7d36ee8900b88",
+    "statesHash": "ab8cc8e39275a2efac62589c4c8ba2d0e948e2bec4576248be35395d16ceb6c2",
+    "wait": 0,
+    "total": 30,
+    "audited": 30,
+    "errored": 0,
+    "states": ["nav-bookmarks-menu", "nav-settings-menu", "filter-drawer", "details-modal", "bulk-edit", "confirm-dropdown", "tag-autocomplete", "theme-dark", "theme-dark-dialog", "tag-modal-new", "tag-modal-edit", "tag-modal-merge", "api-token-modal", "mobile-nav-390"]
+  },
+  "baseline_public": {
+    "scopeHash": "70cc5166e02b746fa5a226dc3e847ccb13051e7c85483036bb43a95ab49045ee",
+    "statesHash": "61f71971444eac6fe4be2c517a06ae8c72a95f0b395017cadb5199981653ea98",
+    "wait": 0,
+    "total": 3,
+    "audited": 3,
+    "errored": 0,
+    "states": ["login-failed"]
+  },
+  "final_public": {
+    "scopeHash": "70cc5166e02b746fa5a226dc3e847ccb13051e7c85483036bb43a95ab49045ee",
+    "statesHash": "61f71971444eac6fe4be2c517a06ae8c72a95f0b395017cadb5199981653ea98",
+    "wait": 0,
+    "total": 3,
+    "audited": 3,
+    "errored": 0,
+    "states": ["login-failed"]
+  },
+  "install_build_auth": {
+    "scopeHash": "24b9def30235549238393239befe7d8096ee7ddc52e29ea9744f4bfb67b05f36",
+    "statesHash": "df53f0e4b7ea9af1e6ec2dc56b8e0e5b3400ac3e09c575b283251dada6dddd5b",
+    "wait": 0,
+    "total": 30,
+    "audited": 30,
+    "errored": 0,
+    "states": ["nav-bookmarks-menu", "nav-settings-menu", "filter-drawer", "details-modal", "bulk-edit", "confirm-dropdown", "tag-autocomplete", "theme-dark", "theme-dark-dialog", "tag-modal-new", "tag-modal-edit", "tag-modal-merge", "api-token-modal", "mobile-nav-390"]
+  },
+  "install_build_public": {
+    "scopeHash": "847a4fab4b7b99b342588f0cd4edd9c8b35939a136d9e217e5b44127b92a8a39",
+    "statesHash": "e1995689a5884e2327d8b056487700610f789fcc856852ee6ed1c8dcc1ceda46",
+    "wait": 0,
+    "total": 3,
+    "audited": 3,
+    "errored": 0,
+    "states": ["login-failed"]
+  },
+  "note": "scopeHash intègre baseUrl (port 9090 vs 9091 install-build) et statesRequested — hashes différents attendus et documentés. baseline→final auth : même total (30 scénarios) ; le scope final remplace 4 URLs de fragments turbo-frame (/tags/new, /tags/1/edit, /tags/merge, /bundles/preview — fragments HTML, pas des documents) par 4 états modaux audités dans leur document parent + modale API token ; 20→16 URLs + 10→14 états. Public : hash identique baseline=final."
+}

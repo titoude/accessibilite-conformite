@@ -1,0 +1,26 @@
+# install-build — cycle 37 linkding @27b7303
+
+## Étapes rejouées
+1. `git clone --depth 1 https://github.com/sissbruecker/linkding linkding37-clean`
+2. `git fetch --depth 1 origin 27b7303baf41bb28babc610ac8eaa486e1ddfab5 && git checkout 27b7303` — HEAD now at 27b7303 "Update CHANGELOG.md"
+3. `git apply cycles/linkding/patch.diff` → 28 fichiers modifiés/créés, **0 rejet**
+4. `docker build -f docker/default.Dockerfile --target linkding -t linkding37-verify .` → EXIT=0
+
+   Déviation documentée : la cible finale `linkding-plus` embarque un stage
+   `ublock-build` qui liste les releases uBlock via api.github.com **sans auth** —
+   HTTP 403 (rate limit 60/h par IP partagée). uBOLite ne sert qu'aux snapshots
+   (LD_ENABLE_SNAPSHOTS, inactif). La cible `linkding` (image de base officielle)
+   est bâtie avec le Dockerfile **verbatim** : aucune modif du repo ni du build.
+5. `docker run -d --name linkding37-verify -p 9091:9090 -v ~/work/ld37-verify-data:/etc/linkding/data -e LD_SUPERUSER_NAME=admin -e LD_SUPERUSER_PASSWORD=linkding37-pw -e LD_DISABLE_BACKGROUND_TASKS=True -e LD_ENABLE_REFRESH_FAVICONS=False linkding37-verify` → /health 200 après ~10 s
+6. `docker exec -i linkding37-verify python manage.py shell < ~/work/seed-linkding37.py` → 35 bookmarks, 54 tags, 2 bundles
+7. `node tools/login.mjs http://localhost:9091 auth-install.json admin linkding37-pw` → storageState OK
+8. `node tools/reset-theme.mjs http://localhost:9091 auth-install.json` → OK theme=auto
+9. `node tools/audit.mjs http://localhost:9091 --urls <urls-auth.txt> --states <14 états> --storage-state auth-install.json --out reports/install-build`
+   → **0 règle violée, 0 occurrence, 0 erreur, 68 incomplets** (identique au run final :9090)
+10. `node tools/audit.mjs http://localhost:9091 --urls "/login/,/bookmarks/shared" --states "login-failed" --out reports/install-build-public`
+    → **0 violation, 0 erreur, 1 incomplet** (identique au final public)
+
+## Conclusion
+Le patch s'applique sur un clone vierge @SHA, le Dockerfile amont build sans
+retouche, le service boote, le seed rejoue, et le rescan complet (30 scénarios
+auth + 3 publics) confirme 0 violation axe — reproductible.

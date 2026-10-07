@@ -1,0 +1,46 @@
+{
+  "cycle": 37,
+  "produit": "linkding",
+  "repo": "https://github.com/sissbruecker/linkding",
+  "commit": "27b7303baf41bb28babc610ac8eaa486e1ddfab5",
+  "pinned": "27b7303baf41bb28babc610ac8eaa486e1ddfab5 (HEAD amont vérifié via `git ls-remote https://github.com/sissbruecker/linkding HEAD` le 2026-10-07, v1.47.0)",
+  "baseUrl": "http://localhost:9090",
+  "stack": "Django 6.0.7 + DRF + uwsgi + sqlite+ICU + esbuild (lit/turbo/@floating-ui, custom elements ld-*) — Python 3.13. Image amont docker/default.Dockerfile (multi-stage node22 + python3.13-slim)",
+  "boot": {
+    "clone": "git clone https://github.com/sissbruecker/linkding linkding37 && cd linkding37 && git checkout 27b7303baf41bb28babc610ac8eaa486e1ddfab5",
+    "patch": "git apply cycles/linkding/patch.diff — 0 rejet (verifié sur clone vierge)",
+    "vendor": "rien — Dockerfile amont : npm ci (stage node-build) + uv sync (stage build-deps) + collectstatic",
+    "assets": "docker build -f docker/default.Dockerfile --target linkding -t linkding-img .  (stages node-build + collectstatic inclus ; la cible linkding-plus requiert le stage ublock-build → api.github.com rate-limit non auth — voir install-build.log)",
+    "image": "docker build -f docker/default.Dockerfile --target linkding -t linkding37 .",
+    "db": "sqlite + ICU générée au 1er boot dans /etc/linkding/data (volume monté)",
+    "seed": "docker exec -i linkding37 python manage.py shell < ~/work/seed-linkding37.py → admin:30 bookmarks, alice:3, bob:2, 54 tags, 2 bundles, archives/shared/unread, toasts (idempotent)",
+    "config": "env LD_SUPERUSER_NAME=admin LD_SUPERUSER_PASSWORD=linkding37-pw LD_DISABLE_BACKGROUND_TASKS=True LD_ENABLE_REFRESH_FAVICONS=False",
+    "web": "docker run -d --name linkding37 -p 9090:9090 -v ~/work/ld37-data:/etc/linkding/data -e LD_SUPERUSER_NAME=admin -e LD_SUPERUSER_PASSWORD=linkding37-pw -e LD_DISABLE_BACKGROUND_TASKS=True -e LD_ENABLE_REFRESH_FAVICONS=False linkding37-img",
+    "router": "aucun — uwsgi.ini amont (static-map /static)",
+    "login": "node tools/login.mjs http://localhost:9090 auth.json admin linkding37-pw — #id_username/#id_password/submit, attend redirect /bookmarks, écrit storageState"
+  },
+  "auth": "storageState tools/auth.json (cookie sessionid ; admin/linkding37-pw via LD_SUPERUSER_*)",
+  "urls": "tools/urls-auth.txt — 16 routes auth : /bookmarks /bookmarks/archived /bookmarks/shared /bookmarks/new /bookmarks/1/edit /bookmarks/19/edit /tags /bundles /bundles/new /bundles/1/edit /settings/general /settings/integrations /change-password/ /admin/ /api/ /api/bookmarks/ ; tools/urls-public.txt = /login/ /bookmarks/shared (partage public activé par le seed)",
+  "states": "14 états dynamiques auth (states.json) + 1 public login-failed — sélecteurs déterministes (texte/aria-label) + stateProof exclusif (leçon 32). Mutants en fin de liste : theme-dark → theme-dark-dialog → mobile-nav-390 (restore theme=auto).",
+  "auditCommands": {
+    "baseline_auth": "node tools/audit.mjs http://localhost:9090 --urls $(paste -sd, tools/urls-auth.txt) --states nav-bookmarks-menu,nav-settings-menu,filter-drawer,details-modal,bulk-edit,confirm-dropdown,tag-autocomplete,theme-dark,theme-dark-dialog,mobile-nav-390 --storage-state tools/auth.json --out reports/baseline-auth",
+    "baseline_public": "node tools/audit.mjs http://localhost:9090 --urls \"/login/,/bookmarks/shared\" --states login-failed --out reports/baseline-public",
+    "reset_theme_obligatoire": "node tools/reset-theme.mjs http://localhost:9090 tools/auth.json — AVANT chaque run (pref serveur persistée)",
+    "final_auth": "node tools/reset-theme.mjs http://localhost:9090 tools/auth.json && node tools/audit.mjs http://localhost:9090 --urls $(paste -sd, tools/urls-auth.txt) --states nav-bookmarks-menu,nav-settings-menu,filter-drawer,details-modal,bulk-edit,confirm-dropdown,tag-autocomplete,theme-dark,theme-dark-dialog,tag-modal-new,tag-modal-edit,tag-modal-merge,api-token-modal,mobile-nav-390 --storage-state tools/auth.json --out reports/final-auth",
+    "final_public": "node tools/audit.mjs http://localhost:9090 --urls \"/login/,/bookmarks/shared\" --states login-failed --out reports/final-public",
+    "install_build": "voir install-build.log — clone vierge @SHA + git apply + docker build (target linkding) + run :9091 + seed + audit complet → reports/install-build{,-public}",
+    "axe_pin": "axe-core@4.14.0 (tools/package.json, installé via npm i dans tools/)"
+  },
+  "verify": "node tools/verify.mjs http://localhost:9090 tools/auth.json — 30 sondes computed/rect/pixel : noms accessibles, labelledby, contrastes composites (walk-up alpha), min-heights 24px, menu mobile in-flow, theme persist/restore, DRF lang/main/label-for, pagination",
+  "eval": "node tools/eval-final.mjs http://localhost:9090 tools/auth.json — pages hors périmètre axe brut + dup-ids + modale + helptext + mobile + table (état froid)",
+  "probes": "node tools/incomplete-probes.mjs http://localhost:9090 reports/final-auth/report.json reports/probes-auth.json tools/auth.json — mesure réelle des incomplets (composite alpha, occlusion, refs ARIA) → PASS/FAIL/N-A honnête",
+  "patch": "patch.diff — régénéré depuis l'arbre appliqué+vérifié (git add -N + git diff HEAD @27b7303) — 28 fichiers, 1017 insertions / 30 suppressions",
+  "results": "results.json — SANS auto-verdict (leçon: c'est l'auditeur qui conclut)",
+  "notes": [
+    "Fragments turbo-frame (/tags/new, /tags/1/edit, /tags/merge, /bundles/preview) retirés de l'url list : ce sont des fragments, audités via les états modaux dans leur document parent.",
+    "DRF browsable API + Django admin couverts : overrides de templates (rest_framework/, admin/base_site.html) + statics (bootstrap-tweaks.css, admin/css/linkding-admin.css) suivant la convention Django app-loader (bookmarks avant contrib dans INSTALLED_APPS).",
+    "Templates Django en cache par worker : docker restart après docker cp de templates sinon l'ancienne version peut persister dans un worker.",
+    "uwsgi est PID 1 dans le conteneur — ne JAMAIS docker exec kill sur le pidfile (leçon vécue : ça arrête le conteneur).",
+    "Thème = préférence serveur : reset-theme.mjs obligatoire avant chaque run ; restauration auto prouvée dans verify.mjs (POST→read-back→link dark retiré)."
+  ]
+}
