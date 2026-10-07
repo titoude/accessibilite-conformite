@@ -60,7 +60,11 @@ await page.addInitScript(() => {
         }
         n = n.parentElement;
       }
-      if (acc[3] < 1) acc = [255, 255, 255, 1].map((v, i) => i < 3 ? (v * (1 - acc[3]) + acc[i]) : 1);
+      // Pile translucide composée sur le blanc du document : la couleur acc
+      // doit être pondérée par son propre alpha (255*(1-a) + acc*a) — la
+      // version antérieure omettait le ×acc[3] et surestimait les canaux
+      // (wart F4, pouvait dépasser 255).
+      if (acc[3] < 1) acc = acc.slice(0, 3).map(v => v * acc[3] + 255 * (1 - acc[3])).concat(1);
       return acc;
     },
   };

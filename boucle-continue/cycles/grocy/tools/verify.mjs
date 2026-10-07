@@ -77,20 +77,24 @@ await page.keyboard.press('Escape');
 await page.waitForTimeout(400);
 
 // ---------- 5. Contraste boutons jour ----------
+// Cibles déterministes : l'absence de l'élément = FAIL (jamais ?? 9 vacuole,
+// wart F3 — l'auditeur a vu « PASS btn-success jour ratio=undefined »).
+const measureBtn = async sel => page.evaluate(([sel, contrastSrc]) => {
+  const ratio = eval(contrastSrc);
+  const parse = s => s.match(/\d+/g).map(Number);
+  const b = document.querySelector(sel);
+  if (!b) return { found: false };
+  const cs = getComputedStyle(b);
+  return { found: true, r: ratio(parse(cs.color), parse(cs.backgroundColor)), fg: cs.color, bg: cs.backgroundColor };
+}, [sel, contrast]);
 await page.goto(`${BASE}/products`, { waitUntil: 'load' });
 await page.waitForTimeout(800);
-m = await page.evaluate(contrast => {
-  const ratio = eval(contrast);
-  const parse = s => s.match(/\d+/g).map(Number);
-  const out = {};
-  const b1 = document.querySelector('.btn-primary');
-  if (b1) { const cs = getComputedStyle(b1); out.primary = ratio(parse(cs.color), parse(cs.backgroundColor)); }
-  const b2 = document.querySelector('.btn-success');
-  if (b2) { const cs = getComputedStyle(b2); out.success = ratio(parse(cs.color), parse(cs.backgroundColor)); }
-  return out;
-}, contrast);
-check('btn-primary jour >= 4.5', (m.primary ?? 9) >= 4.5, `ratio=${m.primary?.toFixed(2)}`);
-check('btn-success jour >= 4.5', (m.success ?? 9) >= 4.5, `ratio=${m.success?.toFixed(2)}`);
+m = await measureBtn('.related-links a.btn-primary');
+check('btn-primary jour >= 4.5', m.found === true && m.r >= 4.5, m.found ? `ratio=${m.r.toFixed(2)} fg=${m.fg}` : 'élément .related-links a.btn-primary absent');
+await page.goto(`${BASE}/purchase`, { waitUntil: 'load' });
+await page.waitForTimeout(800);
+m = await measureBtn('#save-purchase-button');
+check('btn-success jour >= 4.5', m.found === true && m.r >= 4.5, m.found ? `ratio=${m.r.toFixed(2)} fg=${m.fg}` : 'élément #save-purchase-button absent');
 
 // ---------- 6. Calendrier : fonds événements vs texte ----------
 await page.goto(`${BASE}/calendar`, { waitUntil: 'load' });
@@ -115,21 +119,16 @@ check('calendrier : texte des événements >= 4.5', m.bad.length === 0, `${m.eve
 await page.evaluate(async () => {
   await fetch('/api/user/settings/night_mode', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ value: 'on' }) });
 });
-await page.reload({ waitUntil: 'load' });
+await page.goto(`${BASE}/products`, { waitUntil: 'load' });
 await page.waitForSelector('body.night-mode', { state: 'attached' });
 await page.waitForTimeout(800);
-m = await page.evaluate(contrast => {
-  const ratio = eval(contrast);
-  const parse = s => s.match(/\d+/g).map(Number);
-  const out = {};
-  for (const cls of ['btn-primary', 'btn-success']) {
-    const b = document.querySelector(`.${cls}`);
-    if (b) { const cs = getComputedStyle(b); out[cls] = { r: ratio(parse(cs.color), parse(cs.backgroundColor)), fg: cs.color }; }
-  }
-  return out;
-}, contrast);
-check('btn-primary nuit >= 4.5', (m['btn-primary']?.r ?? 9) >= 4.5, `ratio=${m['btn-primary']?.r?.toFixed(2)} fg=${m['btn-primary']?.fg}`);
-check('btn-success nuit >= 4.5', (m['btn-success']?.r ?? 9) >= 4.5, `ratio=${m['btn-success']?.r?.toFixed(2)} fg=${m['btn-success']?.fg}`);
+m = await measureBtn('.related-links a.btn-primary');
+check('btn-primary nuit >= 4.5', m.found === true && m.r >= 4.5, m.found ? `ratio=${m.r.toFixed(2)} fg=${m.fg}` : 'élément .related-links a.btn-primary absent (nuit)');
+await page.goto(`${BASE}/purchase`, { waitUntil: 'load' });
+await page.waitForSelector('body.night-mode', { state: 'attached' });
+await page.waitForTimeout(800);
+m = await measureBtn('#save-purchase-button');
+check('btn-success nuit >= 4.5', m.found === true && m.r >= 4.5, m.found ? `ratio=${m.r.toFixed(2)} fg=${m.fg}` : 'élément #save-purchase-button absent (nuit)');
 
 // restauration de la préférence persistée
 await page.evaluate(async () => {

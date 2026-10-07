@@ -1,88 +1,114 @@
 {
- "cycle": 36,
- "produit": "grocy",
- "commit": "41206cb90154e0d17d3e108cc1f182b94fdb465d",
- "axeVersion": "4.13.0",
- "baseline": {
-  "auth": {
-   "scenarios": 85,
-   "violations": 727,
-   "occurrences": 6554,
-   "rules": 22,
-   "incomplete": 783,
-   "errors": 3,
-   "rules_detail": {
-    "region": 3710,
-    "link-name": 1267,
-    "button-name": 510,
-    "color-contrast": 216,
-    "target-size": 185,
-    "image-alt": 95,
-    "empty-table-header": 89,
-    "nested-interactive": 87,
-    "list": 81,
-    "landmark-one-main": 77,
-    "page-has-heading-one": 74,
-    "select-name": 53,
-    "label": 46,
-    "empty-heading": 26,
-    "heading-order": 20,
-    "aria-input-field-name": 4,
-    "aria-prohibited-attr": 4,
-    "aria-dialog-name": 4,
-    "aria-required-parent": 2,
-    "listitem": 2,
-    "aria-required-children": 1,
-    "frame-title": 1
-   }
-  }
- },
- "final": {
-  "auth": {
-   "scenarios": 84,
-   "violations": 0,
-   "occurrences": 0,
-   "incomplete": 471,
-   "errors": 0
-  },
-  "public": {
-   "scenarios": 2,
-   "violations": 0,
-   "occurrences": 0,
-   "incomplete": 0,
-   "errors": 0
-  }
- },
- "install_build": {
-  "scenarios": 84,
-  "violations": 0,
-  "occurrences": 0,
-  "incomplete": 466,
-  "errors": 0,
-  "note": "clone vierge @SHA + git apply (0 rejet) + composer install + yarn --frozen-lockfile + seed démo→prod + rescan wait=1500 :8081"
- },
- "verify": "16/16 PASS",
- "eval_final": "0 FAIL",
- "probes": {
-  "file": "reports/iter6-auth/incomplete-probes.json",
-  "distribution": {
-   "color-contrast|PASS": 277,
-   "color-contrast|N-A": 19,
-   "aria-prohibited-attr|N-A": 87,
-   "th-has-data-cells|N-A": 46,
-   "aria-allowed-role|N-A": 36,
-   "target-size|PASS": 4,
-   "form-field-multiple-labels|PASS": 1,
-   "frame-tested|N-A": 1
-  },
-  "fail": 0
- },
- "theme_persistence": "night_mode persisté serveur (PUT /api/user/settings/night_mode) — restauré off prouvé par verify.mjs + reset-night-mode.mjs avant chaque run",
- "patch": {
-  "file": "patch.diff",
-  "sha256": "ff06b8a035a26658f823fefaadd132740d2ada35a6b262099b0b6b67ae284d6f",
-  "files": 96,
-  "insertions": 1426,
-  "deletions": 569
- }
+    "cycle": 36,
+    "produit": "grocy",
+    "commit": "41206cb90154e0d17d3e108cc1f182b94fdb465d",
+    "axeVersion": "4.13.0",
+    "baseline": {
+        "auth": {
+            "scenarios": 85,
+            "violations": 727,
+            "occurrences": 6554,
+            "rules": 22,
+            "incomplete": 783,
+            "errors": 3,
+            "rules_detail": {
+                "region": 3710,
+                "link-name": 1267,
+                "button-name": 510,
+                "color-contrast": 216,
+                "target-size": 185,
+                "image-alt": 95,
+                "empty-table-header": 89,
+                "nested-interactive": 87,
+                "list": 81,
+                "landmark-one-main": 77,
+                "page-has-heading-one": 74,
+                "select-name": 53,
+                "label": 46,
+                "empty-heading": 26,
+                "heading-order": 20,
+                "aria-input-field-name": 4,
+                "aria-prohibited-attr": 4,
+                "aria-dialog-name": 4,
+                "aria-required-parent": 2,
+                "listitem": 2,
+                "aria-required-children": 1,
+                "frame-title": 1
+            }
+        }
+    },
+    "final": {
+        "auth": {
+            "scenarios": 84,
+            "violations": 0,
+            "occurrences": 0,
+            "incomplete": 471,
+            "errors": 0
+        },
+        "public": {
+            "scenarios": 2,
+            "violations": 0,
+            "occurrences": 0,
+            "incomplete": 0,
+            "errors": 0
+        }
+    },
+    "install_build": {
+        "scenarios": 84,
+        "violations": 0,
+        "occurrences": 0,
+        "incomplete": 466,
+        "errors": 0,
+        "note": "clone vierge @SHA + git apply (0 rejet) + composer install + yarn --frozen-lockfile + seed démo→prod + rescan wait=1500 :8081"
+    },
+    "verify": "16/16 PASS — wart `?? 9` corrigé : ratios réels 5.14/5.12 mesurés sur #save-purchase-button /purchase (mesureBtn retourne found:false → FAIL réel si absent)",
+    "eval_final": "0 FAIL",
+    "probes": {
+        "file": "reports/finalv2-auth/incomplete-probes.json",
+        "distribution": {
+            "color-contrast|PASS": 279,
+            "color-contrast|N-A": 21,
+            "aria-prohibited-attr|N-A": 87,
+            "th-has-data-cells|N-A": 46,
+            "aria-allowed-role|N-A": 36,
+            "target-size|PASS": 4,
+            "form-field-multiple-labels|PASS": 1,
+            "frame-tested|N-A": 1
+        },
+        "fail": 0,
+        "note": "280 PASS / 191 N-A / 0 FAIL — composite alpha corrigé (×acc[3])"
+    },
+    "theme_persistence": "night_mode persisté serveur (PUT /api/user/settings/night_mode) — restauré off prouvé par verify.mjs + reset-night-mode.mjs avant chaque run",
+    "patch": {
+        "file": "patch.diff",
+        "sha256": "dca4207515bb41b386cee8a16b160c171579b27c36cc426ed627286f6de9b9d7",
+        "files": 96,
+        "insertions": 1447,
+        "deletions": 567,
+        "note": "régénéré depuis l'arbre fixer-v2 vérifié — git apply --check propre @41206cb"
+    },
+    "final_fixer_v2": {
+        "auth": {
+            "scenarios": 85,
+            "violations": 0,
+            "occurrences": 0,
+            "incomplete": 471,
+            "errors": 0,
+            "note": "72 urls (incl. /transfer intégré au scope) + 13 états — axe 4.13.0 épinglé"
+        },
+        "public": {
+            "scenarios": 2,
+            "violations": 0,
+            "occurrences": 0,
+            "incomplete": 0,
+            "errors": 0
+        },
+        "axe414_scratch": {
+            "probe": "tools/lcnm-414.mjs (npm i axe-core@4.14 en scratch)",
+            "pages": 18,
+            "lcnm_occurrences": 0,
+            "other_violations": 0,
+            "accName_probes": "3/3 accName ⊇ visible (nav-link-collapse, productcard Show more, Font Size '13 — Font Size') + select /transfer nommé"
+        }
+    }
 }

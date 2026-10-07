@@ -1,0 +1,409 @@
+# Audit accessibilité — 2026-10-07
+
+**0 règle(s) violée(s), 0 occurrence(s), 85/85 scénario(s) audité(s), 0 erreur(s), 471 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `244bf321fe76`
+
+## Résultats incomplets à revoir (471)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:8360/api
+  - `#operations-Generic_entity_interactions-get_objects__entity_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-post_objects__entity_ > .opblock-summary-post.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-get_objects__entity___objectId_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-put_objects__entity___objectId_ > .opblock-summary-put.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-delete_objects__entity___objectId_ > .opblock-summary-delete.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-get_userfields__entity___objectId_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-put_userfields__entity___objectId_ > .opblock-summary-put.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-System-get_system_info > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-System-get_system_db_changed_time > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-System-get_system_config > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - … +77 autres
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:8360/batteries
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/batteriesjournal
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/batteriesoverview
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/calendar
+  - `.fc-row.table-bordered > table`
+- http://localhost:8360/chores
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/choresjournal
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/choresoverview
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/equipment
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/locations
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/manageapikeys
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/mealplan
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-head > tr > .fc-head-container > .fc-row.table-bordered > table`
+- http://localhost:8360/mealplansections
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/product/1
+  - `#barcode-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+  - `#qu-conversions-table-products_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+- http://localhost:8360/productgroups
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/products
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/quantityunit/1
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/quantityunitconversionsresolved
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/quantityunits
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/recipe/1
+  - `#recipes-pos-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+  - `#recipes-includes-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+- http://localhost:8360/recipes
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/shoppinglist
+  - `.dataTables_scrollHeadInner > .w-100`
+- http://localhost:8360/shoppinglocations
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockentries
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockjournal
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockjournal/summary
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockreports/spendings
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/taskcategories
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/tasks
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/user/1/sessions
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/userentities
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/userfields
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/userobjects/exampleuserentity
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/users
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview [state:header-user-menu]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview [state:view-settings-menu]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview [state:settings-menu]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview [state:about-iframe-dialog]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/products [state:delete-confirm]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/choresoverview [state:chores-filter-expanded]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/choresoverview [state:chore-reschedule-modal]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview [state:night-mode]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/products [state:night-mode-dialog]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8360/stockoverview [state:mobile-nav-390]
+  - `.dataTables_scrollHeadInner > table`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8360/batteriesjournal
+  - `#battery-filter`
+  - `#daterange-filter`
+- http://localhost:8360/batteriesoverview
+  - `#status-filter`
+- http://localhost:8360/battery/1
+  - `label[for="active"]`
+- http://localhost:8360/batterytracking
+  - `#batterycard-battery-journal-button`
+- http://localhost:8360/chore/1
+  - `label[for="active"]`
+  - `#period_type`
+  - `#assignment_type`
+- http://localhost:8360/choresjournal
+  - `#chore-filter`
+  - `#daterange-filter`
+- http://localhost:8360/choresoverview
+  - `#status-filter`
+  - `#user-filter`
+- http://localhost:8360/choretracking
+  - `#chorecard-chore-journal-button`
+- http://localhost:8360/consume
+  - `#qu_id`
+  - `#location_id`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8360/equipment
+  - `.odd > .sorting_1`
+- http://localhost:8360/inventory
+  - `#qu_id`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8360/mealplan
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-bg > table > tbody > tr > .fc-axis > div`
+  - `div[data-section-id="2"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-bg > table > tbody > tr > .fc-axis > div`
+  - `div[data-section-id="3"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-bg > table > tbody > tr > .fc-axis > div`
+- http://localhost:8360/product/1
+  - `label[for="active"]`
+  - `#location_id`
+  - `#default_consume_location_id`
+  - `#product_group_id`
+  - `#qu_id_stock`
+  - `#qu_id_purchase`
+  - `#qu_id_consume`
+  - `#qu_id_price`
+  - `.form-group:nth-child(28) > .mt-n2.custom-radio.custom-control:nth-child(2) > .custom-control-label`
+- http://localhost:8360/productbarcodes/1
+  - `#qu_id`
+  - `#shopping_location_id`
+- http://localhost:8360/productgroup/1
+  - `label[for="active"]`
+- http://localhost:8360/products
+  - `#product-group-filter`
+  - `#status-filter`
+  - `.even:nth-child(2) > td:nth-child(7)`
+  - `.even:nth-child(4) > td:nth-child(7)`
+  - `.odd:nth-child(9) > td:nth-child(7)`
+  - `.even:nth-child(14) > td:nth-child(7)`
+  - `.odd:nth-child(17) > td:nth-child(7)`
+  - `.even:nth-child(20) > td:nth-child(7)`
+  - `.even:nth-child(22) > td:nth-child(7)`
+  - `.odd:nth-child(29) > td:nth-child(7)`
+- http://localhost:8360/purchase
+  - `#qu_id`
+  - `label[for="price-type-unit-price"]`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8360/quantityunitconversion/1
+  - `#from_qu_id`
+  - `#to_qu_id`
+- http://localhost:8360/quantityunitconversionsresolved
+  - `#quantity-unit-filter`
+- http://localhost:8360/quantityunitpluraltesting
+  - `#qu_id`
+- http://localhost:8360/recipe/1
+  - `#recipe-picture-label`
+- http://localhost:8360/recipe/1/pos/1
+  - `#qu_id`
+- http://localhost:8360/recipes
+  - `#status-filter`
+  - `#recipe-row-5 > .sorting_1`
+  - `#recipe-row-5 > td:nth-child(3)`
+  - `#recipe-row-5 > td:nth-child(4) > .timeago-contextual`
+- http://localhost:8360/shoppinglist
+  - `#selected-shopping-list`
+  - `#status-filter`
+- http://localhost:8360/shoppinglistitem/1
+  - `#shopping_list_id`
+  - `#qu_id`
+- http://localhost:8360/shoppinglocation/1
+  - `label[for="active"]`
+- http://localhost:8360/stockentries
+  - `#location-filter`
+  - `#stock-81-purchased-date-timeago`
+  - `#stock-36-purchased-date-timeago`
+  - `#stock-37-purchased-date-timeago`
+  - `#stock-38-purchased-date-timeago`
+  - `#stock-39-purchased-date-timeago`
+  - `#stock-40-purchased-date-timeago`
+  - `#stock-75-purchased-date-timeago`
+  - `#stock-84-purchased-date-timeago`
+  - `#stock-41-purchased-date-timeago`
+  - … +47 autres
+- http://localhost:8360/stockjournal
+  - `#product-filter`
+  - `#transaction-type-filter`
+  - `#location-filter`
+  - `#user-filter`
+  - `#daterange-filter`
+- http://localhost:8360/stockjournal/summary
+  - `#product-filter`
+  - `#transaction-type-filter`
+  - `#user-filter`
+- http://localhost:8360/stockoverview
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8360/stockreports/spendings
+  - `#daterange-filter`
+  - `#product-group-filter`
+- http://localhost:8360/stocksettings
+  - `#product_presets_location_id`
+  - `#product_presets_product_group_id`
+  - `#product_presets_qu_id`
+- http://localhost:8360/task/2
+  - `#category_id`
+- http://localhost:8360/taskcategory/1
+  - `label[for="active"]`
+- http://localhost:8360/tasks
+  - `#category-filter`
+  - `#user-filter`
+- http://localhost:8360/user/1/sessions
+  - `td:nth-child(7)`
+- http://localhost:8360/userfield/1
+  - `#entity`
+  - `#type`
+- http://localhost:8360/userfields
+  - `#entity-filter`
+- http://localhost:8360/usersettings
+  - `#locale`
+- http://localhost:8360/transfer
+  - `#location_id_from`
+  - `#qu_id`
+  - `#location_id_to`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8360/stockoverview [state:header-user-menu]
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8360/stockoverview [state:view-settings-menu]
+  - `label[for="night-mode-on"]`
+  - `label[for="night-mode-off"]`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#location-filter`
+  - `label[for="product-group-filter"]`
+  - `#product-group-filter`
+  - `label[for="status-filter"]`
+  - `#status-filter`
+  - … +11 autres
+- http://localhost:8360/stockoverview [state:settings-menu]
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#location-filter`
+  - `#product-group-filter`
+  - `label[for="status-filter"]`
+  - `#status-filter`
+  - `#product-13-next-due-date-timeago`
+  - `#product-15-next-due-date-timeago`
+  - `#product-20-next-due-date-timeago`
+  - … +3 autres
+- http://localhost:8360/stockoverview [state:about-iframe-dialog]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8360/products [state:delete-confirm]
+  - `#product-group-filter`
+  - `#status-filter`
+  - `.bootbox-body`
+- http://localhost:8360/purchase [state:combobox-open]
+  - `div[data-next-input-selector="#display_amount"] > .invalid-feedback`
+  - `label[for="display_amount"]`
+  - `#display_amount`
+  - `#group-display_amount > .input-group > .invalid-feedback`
+  - `#qu_id`
+  - `label[for="best_before_date_input"]`
+  - `#best_before_date_input`
+  - `#best_before_date > .invalid-feedback`
+  - `label[for="datetimepicker-shortcut"]`
+  - `label[for="price"]`
+  - … +9 autres
+- http://localhost:8360/purchase [state:datepicker-open]
+  - `#qu_id`
+  - `label[for="price-type-unit-price"]`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8360/choresoverview [state:chores-filter-expanded]
+  - `#status-filter`
+  - `#user-filter`
+  - `#chore-6-next-execution-time`
+  - `#chore-6-next-execution-time-timeago`
+  - `#chore-6-last-tracked-time`
+  - `#chore-6-last-tracked-time-timeago`
+- http://localhost:8360/stockoverview [state:night-mode]
+  - `#info-duesoon-products > .d-block.d-md-none`
+  - `#product-11-next-due-date`
+  - `#product-11-next-due-date-timeago`
+  - `#product-9-next-due-date`
+  - `#product-9-next-due-date-timeago`
+  - `#product-10-next-due-date`
+  - `#product-10-next-due-date-timeago`
+  - `#product-27-next-due-date`
+  - `#product-27-next-due-date-timeago`
+  - `#product-1-next-due-date`
+  - … +25 autres
+- http://localhost:8360/products [state:night-mode-dialog]
+  - `.bootbox-body`
+- http://localhost:8360/stockoverview [state:mobile-nav-390]
+  - `.nav-item.dropdown:nth-child(1) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `a[aria-label="View settings"] > .d-lg-none.d-inline`
+  - `a[aria-label="Settings"] > .d-lg-none.d-inline`
+  - `#product-11-next-due-date`
+  - `#product-11-next-due-date-timeago`
+  - `#product-9-next-due-date`
+  - `#product-9-next-due-date-timeago`
+  - `#product-10-next-due-date`
+  - `#product-10-next-due-date-timeago`
+  - `#product-27-next-due-date`
+  - … +27 autres
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:8360/equipment/1
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+- http://localhost:8360/product/1
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+- http://localhost:8360/recipe/1
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+- http://localhost:8360/shoppinglist
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+
+### form-field-multiple-labels — Form field must not have multiple label elements
+
+- http://localhost:8360/product/1
+  - `#location_id`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://localhost:8360/stockoverview [state:about-iframe-dialog]
+  - `iframe`
+

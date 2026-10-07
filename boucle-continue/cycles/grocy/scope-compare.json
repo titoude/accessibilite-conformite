@@ -1,58 +1,80 @@
 {
- "baseline_auth": {
-  "scopeHash": "cf89baa2c751d8359dfa5fb9173e288b9e5b7eaafc8a69d15f32782bd9294f1c",
-  "statesHash": "01d23bcc26bbfd7d7df0ca4247f8dfb6785cfd2a40381104a5a83b98bef1f378",
-  "wait": 1000,
-  "total": 85,
-  "audited": 82,
-  "errored": 3,
-  "states": [
-   "header-user-menu",
-   "view-settings-menu",
-   "settings-menu",
-   "about-iframe-dialog",
-   "delete-confirm",
-   "combobox-open",
-   "datepicker-open",
-   "chores-filter-expanded",
-   "chore-reschedule-modal",
-   "night-mode",
-   "night-mode-dialog",
-   "mobile-nav-390"
-  ]
- },
- "final_iter6_auth": {
-  "scopeHash": "2d13b452fe0e96b8636a40fa5d7972de4cc48e1ec37a74e2edc4d2fdfdd7d337",
-  "statesHash": "ceeb025de83bd88e79219ccb0d5efef60c320221ed8140b91b2d3d38e9e73459",
-  "wait": 1500,
-  "total": 84,
-  "audited": 84,
-  "errored": 0,
-  "states": [
-   "all"
-  ]
- },
- "final_public": {
-  "scopeHash": "6737d63409afd5b8332fb79111db077337bbed23befc41137da1f7ecda0bcfb9",
-  "statesHash": "e397d10d472aa78af3f83d7c31fcf52815bd815ad2f107fb1f945b64edd35992",
-  "wait": 1000,
-  "total": 2,
-  "audited": 2,
-  "errored": 0,
-  "states": [
-   "login-failed"
-  ]
- },
- "install_build": {
-  "scopeHash": "f15e3a519acc0bf98156c0d4efc4faf9883a62aa01eaf97ae5de02bc5da0ff76",
-  "statesHash": "8ca55035c15e7650cde29871cac41288a8881e14323ee4cbf23048b7bff5429c",
-  "wait": 1500,
-  "total": 84,
-  "audited": 84,
-  "errored": 0,
-  "states": [
-   "all"
-  ]
- },
- "note": "scopeHash/statesHash diffèrent entre runs : le hash intègre baseUrl (port 8080 vs 8081), wait (1000 vs 1500) et statesRequested ([all] vs liste explicite) — mêmes 12 états dynamiques sinon. Différence attendue et documentée (pattern stump)."
+    "baseline_auth": {
+        "scopeHash": "cf89baa2c751d8359dfa5fb9173e288b9e5b7eaafc8a69d15f32782bd9294f1c",
+        "statesHash": "01d23bcc26bbfd7d7df0ca4247f8dfb6785cfd2a40381104a5a83b98bef1f378",
+        "wait": 1000,
+        "total": 85,
+        "audited": 82,
+        "errored": 3,
+        "states": [
+            "header-user-menu",
+            "view-settings-menu",
+            "settings-menu",
+            "about-iframe-dialog",
+            "delete-confirm",
+            "combobox-open",
+            "datepicker-open",
+            "chores-filter-expanded",
+            "chore-reschedule-modal",
+            "night-mode",
+            "night-mode-dialog",
+            "mobile-nav-390"
+        ]
+    },
+    "final_iter6_auth": {
+        "scopeHash": "2d13b452fe0e96b8636a40fa5d7972de4cc48e1ec37a74e2edc4d2fdfdd7d337",
+        "statesHash": "ceeb025de83bd88e79219ccb0d5efef60c320221ed8140b91b2d3d38e9e73459",
+        "wait": 1500,
+        "total": 84,
+        "audited": 84,
+        "errored": 0,
+        "states": [
+            "all"
+        ]
+    },
+    "final_public": {
+        "scopeHash": "6737d63409afd5b8332fb79111db077337bbed23befc41137da1f7ecda0bcfb9",
+        "statesHash": "e397d10d472aa78af3f83d7c31fcf52815bd815ad2f107fb1f945b64edd35992",
+        "wait": 1000,
+        "total": 2,
+        "audited": 2,
+        "errored": 0,
+        "states": [
+            "login-failed"
+        ]
+    },
+    "install_build": {
+        "scopeHash": "f15e3a519acc0bf98156c0d4efc4faf9883a62aa01eaf97ae5de02bc5da0ff76",
+        "statesHash": "8ca55035c15e7650cde29871cac41288a8881e14323ee4cbf23048b7bff5429c",
+        "wait": 1500,
+        "total": 84,
+        "audited": 84,
+        "errored": 0,
+        "states": [
+            "all"
+        ]
+    },
+    "note": "scopeHash/statesHash diffèrent entre runs : le hash intègre baseUrl (port), wait et statesRequested. finalv2 : port 8360, /transfer ajouté au scope (72 urls), statesHash changé car les setups des 3 menus header sont passés en sélecteurs par contenu + stateProof (leçon 32). Différences attendues et documentées.",
+    "finalv2_auth": {
+        "scopeHash": "244bf321fe76bcb319b1d4e80be83fc00875121e12d67c86539b4601e7e1eac0",
+        "statesHash": "f693113b86a4e15e79c63c84945a91f15e7517bd38115310e2b60e80ffee64f6",
+        "wait": 1500,
+        "total": 85,
+        "audited": 85,
+        "errored": 0,
+        "states": [
+            "all"
+        ]
+    },
+    "finalv2_public": {
+        "scopeHash": "b6613ba6aab34f43d2faecf16f7dd1eeeebfdd23629c7919a2592d47e8186a70",
+        "statesHash": "c17ab2a0fb5a13e55d13ee90ef0bf66e3ef8572170508dcdbf9d0722d5bf9dec",
+        "wait": 1500,
+        "total": 2,
+        "audited": 2,
+        "errored": 0,
+        "states": [
+            "login-failed"
+        ]
+    }
 }

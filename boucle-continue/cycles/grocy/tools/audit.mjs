@@ -149,35 +149,43 @@ const STATES = {
   'header-user-menu': {
     url: b => `${b}/stockoverview`,
     setup: async page => {
-      await page.waitForSelector('nav .nav-item.dropdown > a.dropdown-toggle', { state: 'visible' });
-      // 1er dropdown du header = menu utilisateur (avatar → Logout, sessions)
-      await page.locator('nav .nav-item.dropdown > a.dropdown-toggle').first().click();
-      await page.waitForSelector('.dropdown-menu.show', { state: 'visible' });
+      // menu utilisateur = le dropdown header contenant les liens .logout-button
+      // (leçon 32 : sélecteur par contenu exclusif, jamais positionnel nu)
+      const trigger = page.locator('nav .nav-item.dropdown:has(.logout-button) > a.dropdown-toggle');
+      await trigger.waitFor({ state: 'visible' });
+      await trigger.click();
+      // stateProof : le menu ouvert DOIT contenir le lien Logout, sinon FAIL
+      await page.waitForSelector('.dropdown-menu.show .logout-button', { state: 'visible' });
     },
   },
   'view-settings-menu': {
     url: b => `${b}/stockoverview`,
     setup: async page => {
-      await page.waitForSelector('nav .nav-item.dropdown > a.dropdown-toggle', { state: 'visible' });
-      // 2e dropdown = « View settings » (radios night-mode, keep-screen-on…)
-      await page.locator('nav .nav-item.dropdown > a.dropdown-toggle').nth(1).click();
-      await page.waitForSelector('.dropdown-menu.show', { state: 'visible' });
+      // « View settings » = dropdown contenant les radios night-mode
+      const trigger = page.locator('nav .nav-item.dropdown:has(input[name="night-mode"]) > a.dropdown-toggle');
+      await trigger.waitFor({ state: 'visible' });
+      await trigger.click();
+      // stateProof : un groupe radio night-mode visible dans le menu ouvert
+      await page.waitForSelector('.dropdown-menu.show .custom-radio', { state: 'visible' });
     },
   },
   'settings-menu': {
     url: b => `${b}/stockoverview`,
     setup: async page => {
-      await page.waitForSelector('nav .nav-item.dropdown > a.dropdown-toggle', { state: 'visible' });
-      // 3e dropdown = menu wrench (liens settings + « About Grocy » dialog)
-      await page.locator('nav .nav-item.dropdown > a.dropdown-toggle').nth(2).click();
-      await page.waitForSelector('.dropdown-menu.show', { state: 'visible' });
+      // menu wrench = dropdown contenant le lien « Stock settings »
+      const trigger = page.locator('nav .nav-item.dropdown:has(a[href*="/stocksettings"]) > a.dropdown-toggle');
+      await trigger.waitFor({ state: 'visible' });
+      await trigger.click();
+      // stateProof : le lien settings présent dans le menu ouvert
+      await page.waitForSelector('.dropdown-menu.show a[href*="/stocksettings"]', { state: 'visible' });
     },
   },
   'about-iframe-dialog': {
     url: b => `${b}/stockoverview`,
     setup: async page => {
-      await page.waitForSelector('nav .nav-item.dropdown > a.dropdown-toggle', { state: 'visible' });
-      await page.locator('nav .nav-item.dropdown > a.dropdown-toggle').nth(2).click();
+      const trigger = page.locator('nav .nav-item.dropdown:has(a[href*="/stocksettings"]) > a.dropdown-toggle');
+      await trigger.waitFor({ state: 'visible' });
+      await trigger.click();
       await page.waitForSelector('.dropdown-menu.show a.show-as-dialog-link', { state: 'visible' });
       await page.locator('.dropdown-menu.show a.show-as-dialog-link').first().click();
       await page.waitForSelector('.modal.show iframe', { state: 'visible', timeout: 10000 });
