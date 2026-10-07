@@ -157,6 +157,9 @@ if (incompletes.length) {
       if (gui.theme !== 'dark') return 'pas-en-sombre';
       gui.theme = 'light';
       const w = await fetch('/rest/config/gui', { method: 'PUT', headers: h, body: JSON.stringify(gui) });
+      // Restart explicite : sans lui, setTheme applique le thème MAIS laisse
+      // « Restart Needed » en file — la bannière pollue les scans suivants.
+      if (w.ok) await fetch('/rest/system/restart', { method: 'POST', headers: h }).catch(() => {});
       return w.ok ? 'clair-restauré' : `HTTP ${w.status}`;
     });
     console.log(`thème après run : ${restored}`);
