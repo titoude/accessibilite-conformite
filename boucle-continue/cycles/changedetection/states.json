@@ -1,0 +1,238 @@
+{
+  "_comment": "Miroir machine-lisible de la STATES map de tools/audit.mjs (source de vérité = audit.mjs). Ordre = ordre d'exécution. 'deterministic' = l'état rejoue à l'identique sur le seed.",
+  "public": {
+    "urls": [
+      "/login"
+    ],
+    "states": []
+  },
+  "auth": {
+    "urls": [
+      "/",
+      "/tags/list",
+      "/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3",
+      "/queue",
+      "/settings",
+      "/settings/notification-logs",
+      "/backups/",
+      "/imports/import",
+      "/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc",
+      "/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc",
+      "/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe",
+      "/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc",
+      "/add-watch-ui/",
+      "/clear_history"
+    ],
+    "states": [
+      {
+        "id": "search-modal-open",
+        "kind": "dialog",
+        "target": "#search-modal",
+        "deterministic": true,
+        "setup": "clic .js-open-search-modal (sidebar)"
+      },
+      {
+        "id": "language-modal-open",
+        "kind": "dialog",
+        "target": "#language-modal",
+        "deterministic": true,
+        "setup": "clic #menu-ui-language a.language-selector"
+      },
+      {
+        "id": "llm-not-configured-modal-open",
+        "kind": "dialog",
+        "target": "#llm-not-configured-modal",
+        "deterministic": true,
+        "setup": "clic .toggle-ai-mode (LLM non configuré → modale info)"
+      },
+      {
+        "id": "heart-overlay-open",
+        "kind": "offcanvas",
+        "target": "#overlay.visible",
+        "deterministic": true,
+        "setup": "clic #heart-us (drawer 'support us')"
+      },
+      {
+        "id": "watchlist-checked",
+        "kind": "interaction",
+        "target": "#checkbox-operations",
+        "deterministic": true,
+        "setup": "check 1re checkbox de watch → barre bulk ops"
+      },
+      {
+        "id": "bulk-browser-modal-open",
+        "kind": "dialog",
+        "target": "dialog.modal-dialog[open]",
+        "deterministic": true,
+        "setup": "watchlist-checked + clic #checkbox-set-browser"
+      },
+      {
+        "id": "bulk-proxy-modal-open",
+        "kind": "dialog",
+        "target": "dialog.modal-dialog[open]",
+        "deterministic": true,
+        "setup": "watchlist-checked + clic #checkbox-set-proxy"
+      },
+      {
+        "id": "edit-tab-request",
+        "kind": "hash-tab",
+        "target": "/edit/<api-docs>#request",
+        "deterministic": true
+      },
+      {
+        "id": "edit-tab-filters-and-triggers",
+        "kind": "hash-tab",
+        "target": "/edit/<api-docs>#filters-and-triggers",
+        "deterministic": true
+      },
+      {
+        "id": "edit-tab-conditions",
+        "kind": "hash-tab",
+        "target": "/edit/<api-docs>#conditions",
+        "deterministic": true
+      },
+      {
+        "id": "edit-tab-notifications",
+        "kind": "hash-tab",
+        "target": "/edit/<api-docs>#notifications",
+        "deterministic": true
+      },
+      {
+        "id": "edit-tab-stats",
+        "kind": "hash-tab",
+        "target": "/edit/<api-docs>#stats",
+        "deterministic": true
+      },
+      {
+        "id": "edit-tab-ai-llm",
+        "kind": "hash-tab",
+        "target": "/edit/<api-docs>#ai-llm",
+        "deterministic": true
+      },
+      {
+        "id": "edit-rates-tab-browser-steps",
+        "kind": "hash-tab",
+        "target": "/edit/<rates>#browser-steps",
+        "deterministic": true,
+        "setup": "watch html_webdriver → onglet présent"
+      },
+      {
+        "id": "edit-rates-tab-visualselector",
+        "kind": "hash-tab",
+        "target": "/edit/<rates>#visualselector",
+        "deterministic": true
+      },
+      {
+        "id": "edit-rates-tab-request",
+        "kind": "hash-tab",
+        "target": "/edit/<rates>#request",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-fetching",
+        "kind": "hash-tab",
+        "target": "/settings#fetching",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-filters",
+        "kind": "hash-tab",
+        "target": "/settings#filters",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-ui-options",
+        "kind": "hash-tab",
+        "target": "/settings#ui-options",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-api",
+        "kind": "hash-tab",
+        "target": "/settings#api",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-rss",
+        "kind": "hash-tab",
+        "target": "/settings#rss",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-timedate",
+        "kind": "hash-tab",
+        "target": "/settings#timedate",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-proxies",
+        "kind": "hash-tab",
+        "target": "/settings#proxies",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-ai",
+        "kind": "hash-tab",
+        "target": "/settings#ai",
+        "deterministic": true
+      },
+      {
+        "id": "settings-tab-info",
+        "kind": "hash-tab",
+        "target": "/settings#info",
+        "deterministic": true
+      },
+      {
+        "id": "diff-filters-open",
+        "kind": "collapse",
+        "target": "#diff-filters-toggle[aria-expanded=true]",
+        "deterministic": true,
+        "setup": "clic toggle filtres diff"
+      },
+      {
+        "id": "addwatchui-live-preview",
+        "kind": "interaction",
+        "target": "#selector-wrapper",
+        "deterministic": true,
+        "setup": "saisie URL fixture + clic Go → fetch navigateur réel (proxy CDP)"
+      },
+      {
+        "id": "watchlist-dark",
+        "kind": "theme",
+        "deterministic": true,
+        "setup": "cookie css_dark_mode=true + reload"
+      },
+      {
+        "id": "edit-dark",
+        "kind": "theme",
+        "deterministic": true,
+        "setup": "cookie css_dark_mode=true + reload"
+      },
+      {
+        "id": "diff-dark",
+        "kind": "theme",
+        "deterministic": true,
+        "setup": "cookie css_dark_mode=true + reload"
+      },
+      {
+        "id": "settings-dark",
+        "kind": "theme",
+        "deterministic": true,
+        "setup": "cookie css_dark_mode=true + reload"
+      },
+      {
+        "id": "search-modal-dark",
+        "kind": "theme+dialog",
+        "deterministic": true,
+        "setup": "cookie dark + clic .js-open-search-modal"
+      },
+      {
+        "id": "mobile-drawer-open",
+        "kind": "viewport+drawer",
+        "target": "#mobile-menu-drawer.active",
+        "deterministic": true,
+        "setup": "viewport 390x844 + clic #hamburger-toggle (DERNIER : viewport partagé)"
+      }
+    ]
+  }
+}

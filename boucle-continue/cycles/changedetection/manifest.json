@@ -1,0 +1,105 @@
+{
+ "cycle": 33,
+ "project": "dgtlmoon/changedetection.io",
+ "commit": "a1ce35619aae9949d65ee8dcac068b76ca01ca67",
+ "framework": "Flask + Jinja2 SSR (Python 3.11), PureCSS + SCSS buildé (sass → changedetectionio/static/styles/styles.css commité), datastore JSON local, fetchers html_requests / html_webdriver (pyppeteer→CDP) + playwright python",
+ "base_url": "http://127.0.0.1:5005",
+ "boot": {
+  "verbatim": [
+   "git clone https://github.com/dgtlmoon/changedetection.io ~/work/changedetection && cd ~/work/changedetection && git checkout a1ce35619aae9949d65ee8dcac068b76ca01ca67",
+   "~/.pyenv/versions/3.11.15/bin/python -m venv .venv",
+   ".venv/bin/pip install -r requirements.txt playwright",
+   "# ^ playwright python NON couvert par requirements.txt (dep du Dockerfile amont) — requis pour add-watch-ui/browser-steps live (acquire_browser_for_fetcher → connect_over_cdp PLAYWRIGHT_DRIVER_URL)",
+   "bash tools/boot.sh            # fixtures :5599 + proxy CDP :9333 (spawn chromium/connexion) + app :5005",
+   ".venv/bin/python tools/seed.py  # 2 tags + 4 watches + diffs + watch en erreur + proxies.json",
+   "node tools/login.mjs http://127.0.0.1:5005   # → tools/auth.json (session UI, password SALTED_PASS)"
+  ]
+ },
+ "env": {
+  "app": "changedetection.py -d ~/work/cd-datastore -h 127.0.0.1 -p 5005 (PID tué par pkill -f 'changedetection[.]py')",
+  "SALTED_PASS": "mot de passe UI actif : 'audit-c33-changedetection' — surface /login + session Flask",
+  "PLAYWRIGHT_DRIVER_URL": "ws://127.0.0.1:9333/devtools/browser/local — pointe vers tools/cdp-spawn-proxy.py (spawn 1 chromium playwright par connexion CDP entrante ; le fetcher pyppeteer fait browser.close() à chaque fetch → proxy obligatoire)",
+  "FAST_PUPPETEER_CHROME_FETCHER": "True — html_webdriver fetch via pyppeteer-ng→CDP",
+  "ALLOW_IANA_RESTRICTED_ADDRESSES": "true — sinon le SSRF guard refuse http://127.0.0.1:5599",
+  "FETCH_WORKERS": "4",
+  "fixtures": "python3 -m http.server 5599 sur tools/fixtures copiés dans /tmp/cd-fixture-serve (api-docs.html, pricing.html, rates.json — bascule v1→v2 par le seed pour l'historique diff)",
+  "datastore": "~/work/cd-datastore/changedetection.json (+ proxies.json écrit par le seed — hot-load, rend #checkbox-set-proxy visible dans bulk ops)"
+ },
+ "auth": "Login UI activé via SALTED_PASS (option native de l'app). tools/login.mjs soumet .login-form button[type=submit] et écrit le storage-state Playwright tools/auth.json — à régénérer par login.mjs après tout changement de SALTED_PASS. API REST : x-api-key imprimée au boot / dans changedetection.json.",
+ "seed": "tools/seed.py idempotent via API : supprime watches par défaut ; 2 tags (monitoring 2599bab0, infra 59497b76) ; 4 watches — api-docs 7f97a98e (html_requests, diffs v1→v2), pricing 7509e587 (html_requests, diffs), rates c29a7e2f (html_webdriver → exerce le fetcher navigateur réel via CDP, last_error=False, check_count=8), legacy-down 1661de3e (port fermé → last_error, surface erreur) ; historique ≥2 snapshots avant audit ; seed_extra_proxy() écrit proxies.json (label 'Local fixture proxy (audit seed)') pour la surface proxy bulk/settings.",
+ "runs": [
+  {
+   "name": "public",
+   "storage_state": null,
+   "urls": [
+    "/login"
+   ],
+   "states": "none",
+   "note": "page de login — seule surface publique ; /login redirige vers / si authentifié"
+  },
+  {
+   "name": "auth",
+   "storage_state": "tools/auth.json",
+   "urls": [
+    "/",
+    "/tags/list",
+    "/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3",
+    "/queue",
+    "/settings",
+    "/settings/notification-logs",
+    "/backups/",
+    "/imports/import",
+    "/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc",
+    "/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc",
+    "/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe",
+    "/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc",
+    "/add-watch-ui/",
+    "/clear_history"
+   ],
+   "states": "all",
+   "note": "14 URLs réelles (blueprints) + 33 états : modales search/language/llm, heart-overlay, watchlist-checked, bulk browser/proxy, onglets edit ×7 + rates ×3, onglets settings ×8, diff-filters, live-preview add-watch, 5 états dark (cookie css_dark_mode), mobile-drawer. /rss est un flux tokenisé (403 sans token) → hors scope."
+  }
+ ],
+ "states_exclus": {
+  "raison": "surfaces impossibles à produire déterministement dans cette boucle",
+  "rss_feed": "/rss exige un token applicatif ; c'est un flux XML, pas du HTML UI",
+  "realtime_websocket": "connexion socket.io de recheck live — transitoire, non jouable à la demande",
+  "watch_history_empty_states": "vues d'erreur supplémentaires de diff/preview sur watch sans historique — non déterministes une fois l'historique seedé"
+ },
+ "toolVersions": {
+  "node": "v24.19.0",
+  "python": "3.11.15 (~/.pyenv) — venv app",
+  "playwright": "1.63.0 (npm ~/audit-tools + pip .venv)",
+  "chromium": "1243 (Chrome 153)",
+  "axe-core": "4.13.0",
+  "sass": "^1.77.8 (changedetectionio/static/styles build)",
+  "runner": "audit.mjs v6",
+  "app": "changedetection.io @ a1ce35619aae9949d65ee8dcac068b76ca01ca67 (= HEAD amont au démarrage)"
+ },
+ "auditCommands": [
+  ".venv/bin/python tools/seed.py",
+  "node tools/login.mjs http://127.0.0.1:5005",
+  "node tools/audit.mjs http://127.0.0.1:5005 --urls '/login' --wait 800 --wait-for '.login-form' --states none --out reports/baseline-public",
+  "node tools/audit.mjs http://127.0.0.1:5005 --urls '/,/tags/list,/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3,/queue,/settings,/settings/notification-logs,/backups/,/imports/import,/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc,/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc,/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe,/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc,/add-watch-ui/,/clear_history' --wait 800 --wait-for '#watch-table-wrapper,.login-form,.tabs,#add-watch-ui,#queue-page,#notification-error-log,.edit-form,#statistics,.import-form,.backups-table,.tag-overview,#clear-history-form,.tag-edit-form' --states all --storage-state tools/auth.json --out reports/baseline-auth",
+  "node tools/audit.mjs http://127.0.0.1:5005 --urls '/login' --wait 800 --wait-for '.login-form' --states none --out reports/final-public",
+  "node tools/audit.mjs http://127.0.0.1:5005 --urls '/,/tags/list,/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3,/queue,/settings,/settings/notification-logs,/backups/,/imports/import,/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc,/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc,/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe,/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc,/add-watch-ui/,/clear_history' --wait 800 --wait-for '#watch-table-wrapper,.login-form,.tabs,#add-watch-ui,#queue-page,#notification-error-log,.edit-form,#statistics,.import-form,.backups-table,.tag-overview,#clear-history-form,.tag-edit-form' --states all --storage-state tools/auth.json --out reports/final-auth"
+ ],
+ "notes": [
+  "Sélection watch (watch-overview.js) : le store 'cdio-watch-selection' en sessionStorage persiste entre pages — l'état watchlist-checked vérifie body.watch-selection-active AVANT de cliquer (ne jamais re-cliquer une case déjà cochée) ; teardown = #check-cancel.",
+  "Les thématiques 'dim' de plugins.js (toggleOpacity/toggleOpacityByRadioValue) sont passées du style opacity inline au marqueur de classe .js-dimmed : le voile 0.6 sur TOUT le bloc faisait chuter les textes d'aide sous 4.5:1 — le CSS ne voile que les contrôles, le texte garde sa couleur de thème.",
+  "processor-badge : les couleurs ne sont PAS dans le SCSS — generate_processor_badge_colors() (processors/__init__.py) produit hsl depuis md5 du nom ; le fix borne la lightness jusqu'à ≥4.5:1 calculé (light + dark).",
+  "styles.css est commité minifié : rebuild requis après tout fix SCSS — npm install && npm run build dans changedetectionio/static/styles.",
+  "Auth Flask session : auth.json survit aux restarts applicatifs (cookie signé, pas de store serveur) — pas besoin de régénérer à chaque restart.",
+  "Bug amont documenté : requirements.txt n'installe pas playwright python alors que le fetcher browser_steps l'importe — le Dockerfile amont le fournit ; le manifest le documente pour rejouabilité."
+ ],
+ "installBuild": {
+  "clone": "git clone https://github.com/dgtlmoon/changedetection.io ~/work/cd-install && cd ~/work/cd-install && git checkout a1ce35619aae9949d65ee8dcac068b76ca01ca67",
+  "apply": "git apply <cycle>/patch.diff",
+  "install": "~/.pyenv/versions/3.11.15/bin/python -m venv .venv && .venv/bin/pip install -r requirements.txt playwright && cd changedetectionio/static/styles && npm install && npm run build (styles.css déjà patché — le build vérifie la régénérabilité SCSS)",
+  "boot": "CD_REPO=~/work/cd-install CD_DATASTORE=~/work/cd-install-datastore CD_PORT=5006 bash tools/boot.sh",
+  "seed": "cd ~/work/cd-install && .venv/bin/python <cycle>/tools/seed.py --base http://127.0.0.1:5006 --datastore ~/work/cd-install-datastore",
+  "login": "node tools/login.mjs http://127.0.0.1:5006",
+  "rescan": "node tools/audit.mjs http://127.0.0.1:5006 --urls <mêmes 14 URLs> --states all --storage-state tools/auth.json --out reports/install-build-auth",
+  "resultat": "0 violation / 0 erreur / 117 incomplets sur 47 scénarios (reports/install-build-{public,auth}) — clone @SHA + git apply 0 rejet + venv+npm build + datastore frais seedé (uuids régénérés passés via CD_*_UUID)"
+ }
+}

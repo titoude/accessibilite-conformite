@@ -1,0 +1,1609 @@
+# Audit accessibilité — 2026-10-07
+
+**14 règle(s) violée(s), 1307 occurrence(s), 47/47 scénario(s) audité(s), 0 erreur(s), 213 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `66f458e20dbb`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `#check-all`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\31 661de3e-8fe2-4b87-a023-5f6ac86b7327 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `#tag_colour_picker`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `#check-all`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\31 661de3e-8fe2-4b87-a023-5f6ac86b7327 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `#check-all`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\31 661de3e-8fe2-4b87-a023-5f6ac86b7327 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `#check-all`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\31 661de3e-8fe2-4b87-a023-5f6ac86b7327 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `#check-all`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+  - `#\31 661de3e-8fe2-4b87-a023-5f6ac86b7327 > .checkbox-uuid.inline > div > input[name="uuids"][type="checkbox"]`
+
+## [CRITICAL] image-alt — Images must have alternative text
+
+Ensure <img> elements have alternative text or a role of none or presentation
+Référence : https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI
+
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `#browsersteps-img`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `#selector-background`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `#selector-background`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `#conditions-0-field`
+  - `#conditions-0-operator`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `#browser_steps-0-operation`
+  - `#browser_steps-1-operation`
+  - `#browser_steps-2-operation`
+  - `#browser_steps-3-operation`
+  - `#browser_steps-4-operation`
+  - `#browser_steps-5-operation`
+  - `#browser_steps-6-operation`
+  - `#browser_steps-7-operation`
+  - `#browser_steps-8-operation`
+  - `#browser_steps-9-operation`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#add-watch-go`
+  - `#post-list-with-errors`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - … +4 autres
+- http://127.0.0.1:5005/tags/list
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#save_button`
+  - `#\35 9497b76-17a6-4c0e-800a-a6346711e59f > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+  - `#\32 599bab0-6156-4f6c-b20a-48ae53d568e3 > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+  - `#\32 a4af02d-80e7-4616-987f-0e6746300f20 > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+  - `#bf5dada9-5c54-4ed9-a56f-19f8e5c2c1d3 > td:nth-child(4) > .cdio-btn--warning[data-confirm-type="warning"][data-confirm-title="Unlink Group?"]`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#general > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(3) > .pure-form-message-inline`
+  - `#save_button`
+- http://127.0.0.1:5005/queue
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.button-secondary`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+- http://127.0.0.1:5005/settings
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `fieldset > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `.pure-control-group:nth-child(1) > .pure-form-message-inline > a`
+  - `#limit-between-time > .pure-form-message-inline`
+  - `a[href$="settings#timedate"]`
+  - `fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(3) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(4) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(6) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(7) > .pure-form-message-inline`
+  - … +2 autres
+- http://127.0.0.1:5005/settings/notification-logs
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-form-message-inline`
+- http://127.0.0.1:5005/backups/
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `form[action="/backups/request-backup"] > .pure-button-primary.pure-button[type="submit"]`
+- http://127.0.0.1:5005/imports/import
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `p > a[href$="restore"]`
+  - `.pure-input-1-2.pure-button-primary.pure-button`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.snapshot-age > a`
+  - `#diff-visualiser-area-after > a[target="_blank"][rel="noopener"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
+  - `.pure-form-message:nth-child(4) > a`
+  - `#general > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(4) > .pure-form-message-inline`
+  - `.pure-control-group:nth-child(5) > details > summary`
+  - `label[for="time_between_check"]`
+  - `label[for="time_between_check-weeks"]`
+  - `label[for="time_between_check-days"]`
+  - `label[for="time_between_check-hours"]`
+  - … +7 autres
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
+  - `.pure-form-message:nth-child(4) > a`
+  - `#general > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(4) > .pure-form-message-inline`
+  - `.pure-control-group:nth-child(5) > details > summary`
+  - `label[for="time_between_check"]`
+  - `label[for="time_between_check-weeks"]`
+  - `label[for="time_between_check-days"]`
+  - `label[for="time_between_check-hours"]`
+  - … +7 autres
+- http://127.0.0.1:5005/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `fieldset > .pure-button-primary.pure-button[type="submit"]`
+  - `#btn-next`
+  - `p > span:nth-child(1)`
+  - `p > span:nth-child(2)`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#add-watch-go`
+  - `#watch_submit_button`
+  - `#edit_and_watch_submit_button`
+- http://127.0.0.1:5005/clear_history
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-form-message-inline`
+  - `.pure-form-message-inline > strong`
+  - `.pure-control-group:nth-child(5) > .pure-button-primary.pure-button[type="submit"]`
+- http://127.0.0.1:5005/ [state:search-modal-open]
+  - `button[form="search-form"]`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#chrome-extension-link`
+  - `#add-watch-go`
+  - `#tag-all`
+  - `#post-list-unread`
+  - `#post-list-with-errors`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - … +7 autres
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#add-watch-go`
+  - `#post-list-with-errors`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - … +4 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1)`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1) > strong`
+  - `.pure-form-message-inline > p:nth-child(2)`
+  - `p:nth-child(2) > strong`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > a`
+  - `#check-all-proxies`
+  - `.inline-radio.pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset[data-visible-for="fetch_backend=html_requests"] > .pure-control-group > .show-advanced.button-secondary.button-xsmall`
+  - … +1 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#activate-text-preview`
+  - `#pro-tips > ul > li:nth-child(2) > a`
+  - `#edit-text-filter > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `.pure-control-group:nth-child(2) > .pure-form-message-inline > i`
+  - `#edit-text-filter > fieldset > .pure-form-message-inline > ul > li:nth-child(1)`
+  - `#edit-text-filter > fieldset > .pure-form-message-inline > ul > li:nth-child(2)`
+  - `#edit-text-filter > fieldset > .pure-form-message-inline > ul > li:nth-child(3)`
+  - `.pure-form-message-inline:nth-child(6)`
+  - `.pure-form-message-inline:nth-child(6) > strong:nth-child(1)`
+  - … +40 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#conditions > .pure-control-group > .pure-form-message-inline`
+  - `#verify-state-text`
+  - `#conditions > .pure-control-group > .pure-form-message-inline > a`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.inline-radio.pure-control-group > .ternary-field > .ternary-field-widget > .ternary-radio-group.pure-form > .ternary-radio-option:nth-child(2) > .ternary-radio-label`
+  - `#notifications > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `a[href$="notification-logs"]`
+  - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p`
+  - `a[target="newwindow"]:nth-child(2)`
+  - `a[target="newwindow"]:nth-child(3) > i`
+  - `.pure-form-message-inline > details > summary`
+  - `#notification-field-group > details > summary`
+  - `#save_button`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#save_button`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#llm-intent-section-disabled > h3`
+  - `#llm-intent-section-disabled > p`
+  - `#llm-intent-section-disabled > p > a[href$="settings#ai"]`
+  - `#save_button`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#browser_steps-0-operation`
+  - `#browser_steps-1-operation`
+  - `#browser_steps-2-operation`
+  - `#browser_steps-3-operation`
+  - `#browser_steps-4-operation`
+  - `#browser_steps-5-operation`
+  - `#browser_steps-6-operation`
+  - `#browser_steps-7-operation`
+  - `#browser_steps-8-operation`
+  - … +1 autres
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#visual-selector-heading`
+  - `#visual-selector-heading > i`
+  - `#visual-selector-heading > a[href$="#filters-and-triggers"]`
+  - `#visual-selector-heading > strong`
+  - `#clear-selector`
+  - `#save_button`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1)`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > p:nth-child(1) > strong`
+  - `p:nth-child(2) > strong`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline > a`
+  - `#check-all-proxies`
+  - `#request > .inline-radio.pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset[data-visible-for="fetch_backend=html_webdriver"] > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `.pure-control-group:nth-child(1) > .pure-form-message-inline > strong:nth-child(1)`
+  - `strong:nth-child(5)`
+  - … +2 autres
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-form-message-inline > p:nth-child(1) > strong`
+  - `.pure-form-message-inline > p:nth-child(2) > strong`
+  - `#fetching > .pure-control-group:nth-child(3) > .pure-form-message-inline`
+  - `#fetching > .pure-control-group:nth-child(4) > .pure-form-message-inline`
+  - `#fetching > .pure-control-group:nth-child(5) > .pure-form-message-inline`
+  - `.inline-radio.pure-control-group:nth-child(6) > .pure-form-message-inline`
+  - `.inline-radio.pure-control-group:nth-child(6) > .pure-form-message-inline > a`
+  - `a[href$="settings#proxies"]`
+  - `#save_button`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-group:nth-child(1) > .pure-form-message-inline`
+  - `#filters > .pure-group:nth-child(2) > .pure-form-message-inline`
+  - `.pure-group:nth-child(3) > .pure-form-message-inline > ul > li:nth-child(1)`
+  - `.pure-group:nth-child(3) > .pure-form-message-inline > ul > li:nth-child(2)`
+  - `.pure-group:nth-child(3) > .pure-form-message-inline > ul > li:nth-child(3)`
+  - `.pure-group:nth-child(4) > .pure-form-message-inline:nth-child(3)`
+  - `.pure-form-message-inline:nth-child(5) > ul > li:nth-child(1)`
+  - `.pure-form-message-inline:nth-child(5) > ul > li:nth-child(2)`
+  - `.pure-form-message-inline:nth-child(5) > ul > li:nth-child(3)`
+  - … +5 autres
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#ui-options > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `#ui-options > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `#ui-options > .pure-control-group:nth-child(3) > .pure-form-message-inline:nth-child(2)`
+  - `#ui-options > .pure-control-group:nth-child(3) > .pure-form-message-inline:nth-child(4)`
+  - `#ui-options > .pure-control-group:nth-child(5) > .pure-form-message-inline`
+  - `#ui-options > .pure-control-group:nth-child(6) > .pure-form-message-inline`
+  - `#ui-options > .pure-control-group:nth-child(7) > .pure-form-message-inline`
+  - `#ui-options > .pure-control-group:nth-child(8) > .pure-form-message-inline`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#api > p > a`
+  - `#api > .pure-control-group:nth-child(3) > .pure-form-message-inline:nth-child(2)`
+  - `#api-key`
+  - `a[title="Try our new Chrome Extension!"]`
+  - `#save_button`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#rss > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `#rss > .pure-control-group:nth-child(3) > .pure-form-message-inline`
+  - `.grey-form-border > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `.grey-form-border > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `.pure-controls > .pure-form-message-inline`
+  - `.pure-controls > .pure-form-message-inline > a[target="newwindow"]`
+  - `summary`
+  - `#save_button`
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `strong > a`
+  - `a[target="new"]`
+  - `div:nth-child(1) > p:nth-child(4) > a:nth-child(1)`
+  - `div:nth-child(1) > p:nth-child(4) > a:nth-child(2)`
+  - `p:nth-child(6) > a`
+  - `a > strong`
+  - `div:nth-child(2) > p:nth-child(4) > a:nth-child(1)`
+  - `div:nth-child(2) > p:nth-child(4) > a:nth-child(2)`
+  - `p:nth-child(4) > a:nth-child(3)`
+  - … +9 autres
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.stab-overview-hero > p`
+  - `.stab-overview-feature:nth-child(1) > .stab-overview-text > p:nth-child(2)`
+  - `.stab-overview-feature:nth-child(1) > .stab-overview-text > p:nth-child(2) > strong:nth-child(1)`
+  - `.stab-overview-feature:nth-child(1) > .stab-overview-text > p:nth-child(2) > strong:nth-child(2)`
+  - `p:nth-child(3) > small`
+  - `.stab-overview-feature:nth-child(2) > .stab-overview-text > p`
+  - `.stab-overview-feature:nth-child(2) > .stab-overview-text > p > strong:nth-child(1)`
+  - `.stab-overview-feature:nth-child(2) > .stab-overview-text > p > strong:nth-child(2)`
+  - `.stab-overview-feature:nth-child(3) > .stab-overview-text > p`
+  - … +4 autres
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#save_button`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `.snapshot-age > a`
+  - `#diff-visualiser-area-after > a[target="_blank"][rel="noopener"]`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#clear-selector`
+  - `#watch_submit_button`
+  - `#edit_and_watch_submit_button`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#add-watch-go`
+  - `#tag-all`
+  - `.tag-0aeaa5d631eb8839`
+  - `#post-list-unread`
+  - `#post-list-with-errors`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .watch-processor > .processor-badge.processor-badge-text_json_diff[href="/?processor=text_json_diff"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - … +12 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3)`
+  - `.pure-form-message:nth-child(4)`
+  - `#general > fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(4) > .pure-form-message-inline`
+  - `#time-check-widget-wrapper > .pure-form-message-inline`
+  - `#limit-between-time > .pure-form-message-inline`
+  - `a[href$="settings#timedate"]`
+  - `.pure-control-group:nth-child(7) > .pure-form-message-inline`
+  - `#save_button`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `#top-right-menu > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `fieldset > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `#limit-between-time > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(2) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(3) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(4) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(6) > .pure-form-message-inline`
+  - `fieldset > .pure-control-group:nth-child(7) > .pure-form-message-inline`
+  - `div:nth-child(8) > .inline-radio > .pure-form-message-inline`
+  - `#save_button`
+- http://127.0.0.1:5005/ [state:search-modal-dark]
+  - `button[form="search-form"]`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `.mobile-menu-items > .menu-collapsible.pure-menu-item:nth-child(6) > .toggle-ai-mode[title="Toggle AI Mode"][data-llm-configured="false"] > .ai-mode-label`
+  - `#add-watch-go`
+  - `#tag-all`
+  - `#post-list-unread`
+  - `#post-list-with-errors`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .buttons > div > .history-link.ai-history-btn.cdio-btn--primary > .btn-label-history`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .recheck.ajax-op[data-op="recheck"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .buttons > div > .cdio-btn--primary.cdio-btn--sm.cdio-btn:nth-child(3)`
+  - … +6 autres
+
+## [SERIOUS] html-lang-valid — <html> element must have a valid value for the lang attribute
+
+Ensure the lang attribute of the <html> element has a valid value
+Référence : https://dequeuniversity.com/rules/axe/4.14/html-lang-valid?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `html`
+- http://127.0.0.1:5005/tags/list
+  - `html`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `html`
+- http://127.0.0.1:5005/queue
+  - `html`
+- http://127.0.0.1:5005/settings
+  - `html`
+- http://127.0.0.1:5005/settings/notification-logs
+  - `html`
+- http://127.0.0.1:5005/backups/
+  - `html`
+- http://127.0.0.1:5005/imports/import
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `html`
+- http://127.0.0.1:5005/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `html`
+- http://127.0.0.1:5005/clear_history
+  - `html`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `html`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `html`
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `html`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `html`
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `html`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `html`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `html`
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `html`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `html`
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `html`
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `html`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `html`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+  - `html`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `html`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `html`
+
+## [SERIOUS] label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+Ensure that elements labelled through their content must have their visible text as part of their accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/tags/list
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/queue
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings/notification-logs
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/backups/
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/imports/import
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/clear_history
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+  - `#top-right-menu > .pure-menu-item:nth-child(2) > form[action="/settings/toggle-all-muted"][method="POST"] > .status-pill[aria-label="Mute notifications"][title="Mute notifications"]`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `#top-right-menu > .pure-menu-item:nth-child(1) > form[action="/settings/toggle-all-paused"][method="POST"] > .status-pill[type="submit"]`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI
+
+- http://127.0.0.1:5005/settings
+  - `.pure-control-group:nth-child(1) > .pure-form-message-inline > a`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
+  - `.pure-form-message:nth-child(4) > a`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
+  - `.pure-form-message:nth-child(4) > a`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `li:nth-child(5) > a[href$="#conditions"]`
+  - `li:nth-child(1) > ul > li:nth-child(3) > a`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `#llm-intent-section-disabled > p > a[href$="settings#ai"]`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `#visual-selector-heading > a[href$="#filters-and-triggers"]`
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `.inline-radio.pure-control-group:nth-child(6) > .pure-form-message-inline > a`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `.pure-controls > .pure-form-message-inline > a[target="newwindow"]`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `p > .pure-form-message-inline:nth-child(3) > a`
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `a[target="_blank"][rel="noopener"]:nth-child(1)`
+  - `a[target="_blank"][rel="noopener"]:nth-child(2)`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `.pure-control-group:nth-child(1) > .pure-form-message:nth-child(3) > a`
+  - `.pure-form-message:nth-child(4) > a`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `.pure-control-group:nth-child(1) > .pure-form-message-inline > a`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `#mobile-home`
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `.content > ul > li:nth-child(1) > a`
+  - `.content > ul > li:nth-child(2) > a`
+  - `li:nth-child(3) > a[rel="nofollow"]`
+  - `li:nth-child(4) > a[rel="nofollow"]`
+  - `li:nth-child(5) > a[rel="nofollow"]`
+  - `#check-all`
+  - `a[href="/?sort=date_created&order=desc"]`
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - … +7 autres
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `#check-all`
+  - `a[href="/?sort=date_created&order=desc"]`
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - … +2 autres
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `#check-all`
+  - `a[href="/?sort=date_created&order=desc"]`
+  - `a[href="/?sort=paused&order=desc"]`
+  - `div > .inactive:nth-child(2)`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\37 f97a98e-0642-4765-bb4d-a00afced3dfc > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .watch-controls.inline > div > .state-off[aria-label="Pause checks"][title="Pause checks"]`
+  - `#\37 509e587-bde6-45e8-a12b-7b6e305666df > .watch-controls.inline > div > .state-off[aria-label="Mute notification"][title="Mute notification"]`
+  - … +2 autres
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI
+
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `#selector-wrapper`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `label[for="url"]`
+  - `#url`
+  - `#tag-lister`
+  - `.seg`
+  - `a[title="RSS Feed"]`
+  - `th:nth-child(1)`
+  - `#th-webpage`
+  - `a[href="/?sort=last_checked&order=desc"] > .hide-on-mobile`
+  - … +35 autres
+- http://127.0.0.1:5005/tags/list
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `legend`
+  - `#watch-add-wrapper-zone > div:nth-child(1)`
+  - `fieldset > div:nth-child(4)`
+  - `thead`
+  - `#\35 9497b76-17a6-4c0e-800a-a6346711e59f > .watch-count`
+  - `#\35 9497b76-17a6-4c0e-800a-a6346711e59f > .title-col.inline`
+  - `#\35 9497b76-17a6-4c0e-800a-a6346711e59f > td:nth-child(4) > .cdio-btn:nth-child(2)`
+  - `#\35 9497b76-17a6-4c0e-800a-a6346711e59f > td:nth-child(4) > .cdio-btn--danger[data-confirm-type="danger"][data-confirm-title="Delete Group?"]`
+  - … +20 autres
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#general > fieldset > .pure-control-group:nth-child(1)`
+  - `#general > fieldset > .pure-control-group:nth-child(2)`
+  - `.pure-control-group:nth-child(3) > label`
+  - `#use_custom_colour`
+  - `label[for="use_custom_colour"]`
+  - `#tag_colour_picker`
+  - `fieldset > .pure-control-group:nth-child(3) > .pure-form-message-inline`
+- http://127.0.0.1:5005/queue
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.queue-panel:nth-child(1)`
+  - `.queue-stat:nth-child(1)`
+  - `.queue-stat:nth-child(2)`
+  - `.queue-stat:nth-child(3)`
+  - `.queue-panel:nth-child(3)`
+- http://127.0.0.1:5005/settings
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `fieldset > .pure-control-group:nth-child(1) > div:nth-child(1)`
+  - `fieldset > .pure-control-group:nth-child(1) > div:nth-child(2)`
+  - `fieldset > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `#limit-between-time > .pure-form-message-inline`
+  - `#general > fieldset > .pure-control-group:nth-child(2)`
+  - `fieldset > .pure-control-group:nth-child(3)`
+  - `fieldset > .pure-control-group:nth-child(4)`
+  - … +4 autres
+- http://127.0.0.1:5005/settings/notification-logs
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `section`
+- http://127.0.0.1:5005/backups/
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#general > p:nth-child(1)`
+  - `p:nth-child(3)`
+- http://127.0.0.1:5005/imports/import
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#url-list`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.current-diff-url`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
+  - `#overlay`
+  - `.diff-fieldset`
+  - `.tabs`
+  - `#text`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#general > fieldset > .pure-control-group:nth-child(1)`
+  - `#general > fieldset > .pure-control-group:nth-child(2)`
+  - `#general > fieldset > .inline-radio.pure-control-group`
+  - `fieldset > .pure-control-group:nth-child(4)`
+  - `.time-between-check > .checkbox`
+  - `#time-check-widget-wrapper`
+  - `#limit-between-time > .pure-form-message-inline`
+  - … +5 autres
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#general > fieldset > .pure-control-group:nth-child(1)`
+  - `#general > fieldset > .pure-control-group:nth-child(2)`
+  - `#general > fieldset > .inline-radio.pure-control-group`
+  - `fieldset > .pure-control-group:nth-child(4)`
+  - `.time-between-check > .checkbox`
+  - `#time-check-widget-wrapper`
+  - `#limit-between-time > .pure-form-message-inline`
+  - … +5 autres
+- http://127.0.0.1:5005/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.current-diff-url`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
+  - `#overlay`
+  - `label[for="preview-version"]`
+  - `#preview-version`
+  - `#diff-form > strong`
+  - `#btn-next`
+  - `.tabs`
+  - `#text`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `#add-watch-legend`
+  - `#add-watch-url-row > span`
+  - `#add-watch-empty-state > strong`
+  - `#add-watch-empty-state > span`
+  - `#quick-watch-processor-type`
+  - `#quick-watch-fetch-backend`
+  - `#watch-group-tag`
+- http://127.0.0.1:5005/clear_history
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `fieldset > .pure-control-group:nth-child(1)`
+  - `.pure-control-group:nth-child(3)`
+  - `.pure-control-group:nth-child(7)`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `label[for="url"]`
+  - `#url`
+  - `#tag-lister`
+  - `.seg`
+  - `a[title="RSS Feed"]`
+  - `th:nth-child(1)`
+  - `#th-webpage`
+  - `a[href="/?sort=last_checked&order=desc"] > .hide-on-mobile`
+  - … +35 autres
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `label[for="url"]`
+  - `#url`
+  - `#stats_row`
+  - `#tag-lister`
+  - `.seg`
+  - `a[title="RSS Feed"]`
+  - `th:nth-child(1)`
+  - `#th-webpage`
+  - … +36 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#request > .inline-radio.pure-control-group:nth-child(1)`
+  - `.inline-radio.pure-control-group:nth-child(2)`
+  - `fieldset[data-visible-for="fetch_backend=html_requests"] > .pure-control-group`
+  - `a[data-confirm-type="danger"]`
+  - `a[data-confirm-type="warning"]`
+  - `.pure-button[data-method="POST"]:nth-child(4)`
+  - `.pure-control-group > a:nth-child(5)`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#activate-text-preview`
+  - `#edit-text-filter`
+  - `a[data-confirm-type="danger"]`
+  - `a[data-confirm-type="warning"]`
+  - `.pure-button[data-method="POST"]:nth-child(4)`
+  - `.pure-control-group > a:nth-child(5)`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#conditions > .pure-control-group > div:nth-child(1)`
+  - `#conditions > .pure-control-group > div:nth-child(2)`
+  - `.fieldlist-header`
+  - `.fieldlist-cell:nth-child(1)`
+  - `.fieldlist-cell:nth-child(2)`
+  - `.fieldlist-cell:nth-child(3)`
+  - `#conditions > .pure-control-group > .pure-form-message-inline`
+  - … +4 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#notifications > fieldset > .inline-radio.pure-control-group`
+  - `#notifications > fieldset > .pure-control-group:nth-child(2)`
+  - `#notification-setting-reset-to-default`
+  - `#notification-field-group > .pure-control-group > div:nth-child(2)`
+  - `#notification-field-group > .pure-control-group > div:nth-child(3)`
+  - `a[href$="notification-logs"]`
+  - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p`
+  - … +4 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#stats-table`
+  - `.plugin-stats-extras`
+  - `#stats > .pure-control-group > p`
+  - `a[data-confirm-type="danger"]`
+  - `a[data-confirm-type="warning"]`
+  - `.pure-button[data-method="POST"]:nth-child(4)`
+  - `.pure-control-group > a:nth-child(5)`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#llm-intent-section-disabled`
+  - `a[data-confirm-type="danger"]`
+  - `a[data-confirm-type="warning"]`
+  - `.pure-button[data-method="POST"]:nth-child(4)`
+  - `.pure-control-group > a:nth-child(5)`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#browser-steps > .beta-logo[alt="New beta functionality"]`
+  - `#browsersteps-click-start`
+  - `#browsersteps-img`
+  - `#browsersteps-selector-canvas`
+  - `#browser-seconds-remaining`
+  - `#browser-steps-fieldlist > span:nth-child(2)`
+  - `#browser-steps-fieldlist > div:nth-child(3)`
+  - … +14 autres
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#visualselector > .beta-logo[alt="New beta functionality"]`
+  - `#visual-selector-heading`
+  - `#clear-selector`
+  - `#selector-wrapper`
+  - `#selector-current-xpath`
+  - `a[data-confirm-type="danger"]`
+  - `a[data-confirm-type="warning"]`
+  - … +2 autres
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#request > .inline-radio.pure-control-group:nth-child(1)`
+  - `#request > .inline-radio.pure-control-group:nth-child(2)`
+  - `fieldset[data-visible-for="fetch_backend=html_webdriver"] > .pure-control-group:nth-child(1)`
+  - `fieldset[data-visible-for="fetch_backend=html_webdriver"] > .pure-control-group:nth-child(2)`
+  - `a[data-confirm-type="danger"]`
+  - `a[data-confirm-type="warning"]`
+  - `.pure-button[data-method="POST"]:nth-child(4)`
+  - … +1 autres
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `.inline-radio.pure-control-group:nth-child(1)`
+  - `#fetching > .pure-control-group:nth-child(3)`
+  - `#fetching > .pure-control-group:nth-child(4)`
+  - `#fetching > .pure-control-group:nth-child(5)`
+  - `.inline-radio.pure-control-group:nth-child(6)`
+  - `#fetching > .pure-control-group:nth-child(7)`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#filters`
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#ui-options`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#api > h4`
+  - `#api > p`
+  - `#api > .pure-control-group:nth-child(3)`
+  - `#api > .pure-control-group:nth-child(5)`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#rss > .pure-control-group:nth-child(1)`
+  - `#rss > .pure-control-group:nth-child(2)`
+  - `#rss > .pure-control-group:nth-child(3)`
+  - `.grey-form-border > .pure-control-group:nth-child(1)`
+  - `.grey-form-border > .pure-control-group:nth-child(2)`
+  - `.grey-form-border > div:nth-child(3) > div:nth-child(1)`
+  - `.grey-form-border > div:nth-child(3) > div:nth-child(2)`
+  - … +1 autres
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#timedate > .pure-control-group:nth-child(1)`
+  - `.pure-control-group:nth-child(2) > p:nth-child(1)`
+  - `.pure-control-group:nth-child(2) > p:nth-child(2)`
+  - `.pure-control-group:nth-child(2) > div > div:nth-child(1)`
+  - `.pure-control-group:nth-child(2) > div > div:nth-child(2)`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#recommended-proxy`
+  - `#proxies > p`
+  - `#extra-proxies-setting > div:nth-child(1)`
+  - `#requests-extra_proxies-0`
+  - `#requests-extra_proxies-1`
+  - `#requests-extra_proxies-2`
+  - `#requests-extra_proxies-3`
+  - … +10 autres
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `.stab-overview-hero`
+  - `.stab-overview-feature:nth-child(1) > .stab-overview-text`
+  - `.stab-overview-feature:nth-child(2) > .stab-overview-text`
+  - `.stab-overview-feature:nth-child(3) > .stab-overview-text`
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#info`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `.current-diff-url`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
+  - `#overlay`
+  - `.diff-fieldset`
+  - `#diff-style`
+  - `.tabs`
+  - `#text`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `#add-watch-legend`
+  - `#add-watch-url-row > span`
+  - `#selector-wrapper`
+  - `#selector-current-xpath`
+  - `#quick-watch-processor-type`
+  - `#quick-watch-fetch-backend`
+  - `#by-element-toggle-group`
+  - `#watch-group-tag`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `label[for="url"]`
+  - `#url`
+  - `#tag-lister`
+  - `.seg`
+  - `a[title="RSS Feed"]`
+  - `th:nth-child(1)`
+  - `#th-webpage`
+  - `a[href="/?sort=last_checked&order=desc"] > .hide-on-mobile`
+  - … +35 autres
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `#general > fieldset > .pure-control-group:nth-child(1)`
+  - `#general > fieldset > .pure-control-group:nth-child(2)`
+  - `#general > fieldset > .inline-radio.pure-control-group`
+  - `fieldset > .pure-control-group:nth-child(4)`
+  - `.time-between-check > .checkbox`
+  - `#time-check-widget-wrapper`
+  - `#limit-between-time > .pure-form-message-inline`
+  - … +5 autres
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+  - `.current-diff-url`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1)`
+  - `#overlay`
+  - `.diff-fieldset`
+  - `.tabs`
+  - `#text`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `#top-right-menu > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `#overlay`
+  - `.tabs`
+  - `fieldset > .pure-control-group:nth-child(1) > div:nth-child(1)`
+  - `fieldset > .pure-control-group:nth-child(1) > div:nth-child(2)`
+  - `fieldset > .pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `#limit-between-time > .pure-form-message-inline`
+  - `#general > fieldset > .pure-control-group:nth-child(2)`
+  - `fieldset > .pure-control-group:nth-child(3)`
+  - `fieldset > .pure-control-group:nth-child(4)`
+  - … +4 autres
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `.mobile-menu-items > .pure-menu-item:nth-child(4) > a[href$="settings"][title="Settings"] > span`
+  - `.menu-collapsible:nth-child(7) > div`
+  - `#overlay`
+  - `label[for="url"]`
+  - `#url`
+  - `#tag-lister`
+  - `.seg`
+  - `a[title="RSS Feed"]`
+  - `th:nth-child(1)`
+  - `#th-webpage`
+  - … +36 autres
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `html`
+- http://127.0.0.1:5005/tags/list
+  - `html`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `html`
+- http://127.0.0.1:5005/queue
+  - `html`
+- http://127.0.0.1:5005/settings
+  - `html`
+- http://127.0.0.1:5005/settings/notification-logs
+  - `html`
+- http://127.0.0.1:5005/backups/
+  - `html`
+- http://127.0.0.1:5005/imports/import
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `html`
+- http://127.0.0.1:5005/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `html`
+- http://127.0.0.1:5005/clear_history
+  - `html`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `html`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `html`
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `html`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `html`
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `html`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `html`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `html`
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `html`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `html`
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `html`
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `html`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `html`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+  - `html`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `html`
+- http://127.0.0.1:5005/tags/list
+  - `html`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `html`
+- http://127.0.0.1:5005/queue
+  - `html`
+- http://127.0.0.1:5005/settings
+  - `html`
+- http://127.0.0.1:5005/settings/notification-logs
+  - `html`
+- http://127.0.0.1:5005/backups/
+  - `html`
+- http://127.0.0.1:5005/imports/import
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `html`
+- http://127.0.0.1:5005/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `html`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `html`
+- http://127.0.0.1:5005/clear_history
+  - `html`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `html`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `html`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `html`
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `html`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `html`
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `html`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `html`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `html`
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `html`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `html`
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `html`
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `html`
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `html`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `html`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `html`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+  - `html`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `html`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://127.0.0.1:5005/
+  - `#mute-pause`
+  - `th:nth-child(3)`
+  - `.empty-cell`
+- http://127.0.0.1:5005/tags/list
+  - `th:nth-child(1)`
+  - `th:nth-child(4)`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `#mute-pause`
+  - `th:nth-child(3)`
+  - `.empty-cell`
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `#mute-pause`
+  - `th:nth-child(3)`
+  - `.empty-cell`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `#mute-pause`
+  - `th:nth-child(3)`
+  - `.empty-cell`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `#mute-pause`
+  - `th:nth-child(3)`
+
+## Résultats incomplets à revoir (213)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://127.0.0.1:5005/
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#tag-all`
+  - `.tag-b624a9c3c3bf143f.button-tag.pure-button`
+  - `.seg > .active[href="/"]`
+  - `#post-list-unread`
+  - `#unread-tab-counter`
+- http://127.0.0.1:5005/tags/list
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/tags/edit/2599bab0-6156-4f6c-b20a-48ae53d568e3
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/queue
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .active[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/settings
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `.pure-control-group:nth-child(1) > .pure-form-message-inline > i`
+  - `.pure-control-group:nth-child(2) > .pure-form-message-inline > strong`
+- http://127.0.0.1:5005/settings/notification-logs
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/backups/
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/imports/import
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `.current-diff-url > span`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
+  - `a[href$="#screenshot"]`
+  - `#extract-tab > a`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#time_between_check-weeks`
+  - `#time_between_check-days`
+  - `#time_between_check-hours`
+  - `#time_between_check-minutes`
+  - `#time_between_check-seconds`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#time_between_check-weeks`
+  - `#time_between_check-days`
+  - `#time_between_check-hours`
+  - `#time_between_check-minutes`
+  - `#time_between_check-seconds`
+- http://127.0.0.1:5005/preview/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/add-watch-ui/
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/clear_history
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/ [state:llm-not-configured-modal-open]
+  - `p:nth-child(1)`
+  - `a[href$="settings#ai"]`
+- http://127.0.0.1:5005/ [state:heart-overlay-open]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#overlay > .content`
+  - `h4:nth-child(1)`
+  - `p:nth-child(4)`
+  - `.content > ul > li:nth-child(1) > a`
+  - `.content > ul > li:nth-child(2) > a`
+  - `li:nth-child(3) > a[rel="nofollow"]`
+  - `li:nth-child(4) > a[rel="nofollow"]`
+  - `li:nth-child(5) > a[rel="nofollow"]`
+  - … +5 autres
+- http://127.0.0.1:5005/ [state:watchlist-checked]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#records-selected`
+  - `#records-selected > strong`
+  - `#tag-all`
+  - `.tag-b624a9c3c3bf143f.button-tag.pure-button`
+  - `.seg > .active[href="/"]`
+  - `#post-list-unread`
+  - `#unread-tab-counter`
+  - `#check-cancel`
+  - … +1 autres
+- http://127.0.0.1:5005/ [state:bulk-browser-modal-open]
+  - `.bulk-choice-row:nth-child(3)`
+  - `.modal-btn-info`
+- http://127.0.0.1:5005/ [state:bulk-proxy-modal-open]
+  - `.modal-btn-info`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#request [state:edit-tab-request]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#filters-and-triggers [state:edit-tab-filters-and-triggers]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#pro-tips > strong`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#conditions [state:edit-tab-conditions]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `label[for="conditions_match_logic"]`
+  - `.fieldlist-header-cell:nth-child(1)`
+  - `.verifyRuleRow`
+  - `#save_button`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#notifications [state:edit-tab-notifications]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#notification-field-group > .pure-control-group > .pure-form-message-inline > p > strong`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#stats [state:edit-tab-stats]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc#ai-llm [state:edit-tab-ai-llm]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#browser-steps [state:edit-rates-tab-browser-steps]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#browsersteps-click-start`
+  - `#browsersteps-click-start > h2`
+  - `#save_button`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#visualselector [state:edit-rates-tab-visualselector]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe#request [state:edit-rates-tab-request]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `.inline-radio.pure-control-group:nth-child(1) > .pure-form-message-inline`
+  - `.pure-form-message-inline > p:nth-child(2)`
+  - `fieldset[data-visible-for="fetch_backend=html_webdriver"] > .pure-control-group:nth-child(1) > .pure-form-message-inline > i`
+- http://127.0.0.1:5005/settings#fetching [state:settings-tab-fetching]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `.pure-form-message-inline > p:nth-child(1)`
+  - `.pure-form-message-inline > p:nth-child(2)`
+  - `.pure-control-group:nth-child(3) > .pure-form-message-inline > strong`
+- http://127.0.0.1:5005/settings#filters [state:settings-tab-filters]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `.pure-group:nth-child(1) > .pure-form-message-inline > i`
+  - `#filters > .pure-group:nth-child(2) > .pure-form-message-inline > i`
+- http://127.0.0.1:5005/settings#ui-options [state:settings-tab-ui-options]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#save_button`
+- http://127.0.0.1:5005/settings#api [state:settings-tab-api]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#api > .pure-control-group:nth-child(3) > .pure-form-message-inline:nth-child(4)`
+  - `.pure-control-group:nth-child(5) > strong:nth-child(3)`
+- http://127.0.0.1:5005/settings#rss [state:settings-tab-rss]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `label[for="application-rss_template_type"]`
+- http://127.0.0.1:5005/settings#timedate [state:settings-tab-timedate]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#save_button`
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#recommended-proxy > div:nth-child(1) > p:nth-child(4)`
+  - `p:nth-child(5) > code`
+  - `#proxies > p > strong`
+  - `#requests-extra_proxies-0 > tbody > tr:nth-child(1) > th > label`
+  - `#requests-extra_proxies-1 > tbody > tr:nth-child(1) > th > label`
+- http://127.0.0.1:5005/settings#ai [state:settings-tab-ai]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `button[aria-controls="stab-pane-overview"]`
+  - `button[aria-controls="stab-pane-provider"]`
+  - `button[aria-controls="stab-pane-prompts"]`
+  - `button[aria-controls="stab-pane-behaviour"]`
+  - `button[aria-controls="stab-pane-usage"]`
+- http://127.0.0.1:5005/settings#info [state:settings-tab-info]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `a[href$="#general"]`
+  - `#info > p:nth-child(1) > strong`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `.current-diff-url > span`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
+  - `#diff-filters-toggle`
+  - `label[for="diffWords"]`
+  - `label[for="diffLines"]`
+  - `#label-diff-ignorewhitespace`
+  - `#label-diff-changes`
+  - `#label-diff-removed`
+  - … +4 autres
+- http://127.0.0.1:5005/add-watch-ui/ [state:addwatchui-live-preview]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#add-watch-go`
+- http://127.0.0.1:5005/ [state:watchlist-dark]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#unread-tab-counter`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .active[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `#time_between_check-weeks`
+  - `#time_between_check-days`
+  - `#time_between_check-hours`
+  - `#time_between_check-minutes`
+  - `#time_between_check-seconds`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(7) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `.current-diff-url > span`
+  - `#top-right-menu > .pure-menu-item.menu-collapsible:nth-child(1) > .pure-menu-link`
+  - `a[href$="#screenshot"]`
+  - `#extract-tab > a`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(3) > .action-sidebar-item[title="Page Watches"][href="/"] > .js-unread-count.action-badge--count[title="Unread changes"]`
+  - `.action-sidebar-inner > .action-sidebar-list--top.action-sidebar-list > .action-sidebar-li:nth-child(8) > .action-sidebar-item[title="Queue"][href$="queue"] > .queue-size-int.action-badge--count.action-badge`
+  - `.pure-control-group:nth-child(1) > .pure-form-message-inline > i`
+  - `.pure-control-group:nth-child(2) > .pure-form-message-inline > strong`
+- http://127.0.0.1:5005/ [state:mobile-drawer-open]
+  - `#unread-tab-counter`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://127.0.0.1:5005/settings
+  - `#requests-time_between_check`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `#time_between_check`
+- http://127.0.0.1:5005/edit/c29a7e2f-32c8-4c4d-b7cf-d92d9a1fc3fe
+  - `#time_between_check`
+- http://127.0.0.1:5005/edit/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:edit-dark]
+  - `#time_between_check`
+- http://127.0.0.1:5005/settings [state:settings-dark]
+  - `#requests-time_between_check`
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc
+  - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
+  - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-filters-open]
+  - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
+  - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
+- http://127.0.0.1:5005/diff/7f97a98e-0642-4765-bb4d-a00afced3dfc [state:diff-dark]
+  - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(3)`
+  - `span[role="insertion"][aria-label="Added text"][title="Added text"]:nth-child(4)`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://127.0.0.1:5005/settings#proxies [state:settings-tab-proxies]
+  - `div:nth-child(1) > p:nth-child(4) > a:nth-child(1)`
+  - `div:nth-child(1) > p:nth-child(4) > a:nth-child(2)`
+  - `div:nth-child(2) > p:nth-child(3) > a`
+

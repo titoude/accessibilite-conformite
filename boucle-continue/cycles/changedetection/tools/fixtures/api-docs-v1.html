@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Acme Metrics API — Reference v2.4</title>
+</head>
+<body>
+<header>
+  <h1>Acme Metrics API</h1>
+  <p>REST API reference — version <strong>2.4.1</strong> (stable). Last updated 2026-09-18.</p>
+  <nav>
+    <a href="#auth">Authentication</a> ·
+    <a href="#rate-limits">Rate limits</a> ·
+    <a href="#endpoints">Endpoints</a> ·
+    <a href="#changelog">Changelog</a>
+  </nav>
+</header>
+<main>
+  <section id="auth">
+    <h2>Authentication</h2>
+    <p>All requests require a Bearer token in the <code>Authorization</code> header.
+       Tokens are issued from the <a href="/console/keys">developer console</a> and
+       expire after 90 days of inactivity.</p>
+    <pre><code>curl -H "Authorization: Bearer $TOKEN" https://api.acme-metrics.example/v2/series</code></pre>
+  </section>
+  <section id="rate-limits">
+    <h2>Rate limits</h2>
+    <p>The free tier allows <strong>120 requests/minute</strong> and
+       <strong>10,000 requests/day</strong>. Team plans allow 600 requests/minute.
+       Responses include <code>X-RateLimit-Remaining</code> and
+       <code>X-RateLimit-Reset</code> headers.</p>
+  </section>
+  <section id="endpoints">
+    <h2>Endpoints</h2>
+    <table>
+      <thead><tr><th>Method</th><th>Path</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>GET</td><td>/v2/series</td><td>List metric series for the account</td></tr>
+        <tr><td>GET</td><td>/v2/series/{id}</td><td>Read a single series</td></tr>
+        <tr><td>POST</td><td>/v2/series/{id}/points</td><td>Append data points (max 500 per call)</td></tr>
+        <tr><td>DELETE</td><td>/v2/series/{id}</td><td>Delete a series and its history</td></tr>
+      </tbody>
+    </table>
+  </section>
+  <section id="changelog">
+    <h2>Changelog</h2>
+    <ul>
+      <li><strong>2.4.1</strong> — 2026-09-18 — fixed pagination cursor on /v2/series</li>
+      <li><strong>2.4.0</strong> — 2026-09-01 — added batch point ingestion endpoint</li>
+      <li><strong>2.3.2</strong> — 2026-08-12 — deprecate /v1 endpoints (sunset 2026-12-31)</li>
+    </ul>
+  </section>
+</main>
+<footer><p>Acme Metrics Inc — <a href="/status">status page</a></p></footer>
+</body>
+</html>

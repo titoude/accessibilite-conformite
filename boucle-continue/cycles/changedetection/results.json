@@ -1,0 +1,95 @@
+{
+ "depot": "dgtlmoon/changedetection.io",
+ "commitEpingle": "a1ce35619aae9949d65ee8dcac068b76ca01ca67",
+ "statut": "TRAVAUX TERMINÉS — verdict laissé à l'auditeur indépendant (le worker ne se note pas lui-même)",
+ "note_integrite": "changedetection.io figure déjà dans le REGISTRE section « Déjà testés (avant la boucle) » (V1, 0 violation axe, protocole pré-boucle allégé : pas d'auth, pas d'états, pas de patch). Ce cycle 33 le traite sous protocole complet — à l'auditeur de juger de la double-couverture.",
+ "resume": {
+  "baseline": {
+   "public": {
+    "regles": 6,
+    "occurrences": 12
+   },
+   "auth": {
+    "regles": 14,
+    "occurrences": 1307,
+    "pages": 47,
+    "incomplets": 53
+   },
+   "total": 1319
+  },
+  "final": {
+   "public": {
+    "regles": 0,
+    "occurrences": 0
+   },
+   "auth": {
+    "regles": 0,
+    "occurrences": 0,
+    "pages": 47,
+    "incomplets": 34
+   },
+   "total": 0
+  },
+  "install_build": {
+   "public": {
+    "regles": 0,
+    "occurrences": 0
+   },
+   "auth": {
+    "regles": 0,
+    "occurrences": 0,
+    "pages": 47,
+    "erreurs": 0,
+    "incomplets": 117
+   }
+  },
+  "verify": "29 PASS / 0 FAIL — sondes computed clair+sombre (liens watch, boutons primaires, badges unread/erreurs/tag, thème restauré)",
+  "eval_final": "1319 → 0 occurrences ; missing_states=[] ; unresolved_rules=[] ; 0 erreur de crawl",
+  "sondes_incompletes": "118 items : 100% décidés — 0 CONFIRMED_VIOLATION (RESOLVED mesurés ; N-A explicites : aria-prohibited-attr sans sonde implémentée + navigations #hash HTTP null — limite documentée de la sonde)",
+  "restauration": "cookie css_dark_mode restauré false + html[data-darkmode] absent vérifié après run (leçon 28 — préférence client seule, rien côté serveur)"
+ },
+ "regles_baseline": {
+  "auth": [
+   "color-contrast",
+   "button-name",
+   "link-name",
+   "aria-prohibited-attr",
+   "heading-order",
+   "page-has-heading-one",
+   "landmark-one-main",
+   "landmark-main-is-top-level",
+   "region",
+   "label-title-only",
+   "select-name",
+   "empty-heading",
+   "empty-table-header",
+   "html-has-lang"
+  ],
+  "public": [
+   "color-contrast",
+   "button-name",
+   "html-has-lang",
+   "landmark-one-main",
+   "page-has-heading-one",
+   "region"
+  ]
+ },
+ "corrections": "43 fichiers sources (+261/−86) : templates Jinja (landmarks header/main/nav, hiérarchie h1→h2, lang dynamique lang_code au lieu de 'None', alt images, aria sur modales/overlays, labels champs, pills pause/mute nommées, th non vides), SCSS (tokens contraste clair+sombre, underline liens dans .pure-form, pastilles unread/erreurs #2f6d8d, tab gradient rgba .55/.8, seg #595959/dark #c2c2c2 scopé :not(.active), .js-dimmed remplace opacity inline sur textes d'aide, #records-selected pastille sombre, .ternary-default #767676, td.buttons opacity:1, queue thead couleur, warning #a36a00, toggle-ai-mode opacité bornée), JS (plugins.js bascule classes au lieu d'opacity inline), Python (processors/__init__.py : generate_processor_badge_colors borne la lightness jusqu'à contraste ≥4.5 calculé en clair ET sombre — les couleurs badge sont générées par hash, pas dans le SCSS)",
+ "lecons": [
+  "processor-badge : couleurs calculées par md5(nom) en Python — grep css ne les trouve pas ; patcher la GÉNÉRATION (borne luminance 4.5), pas les classes",
+  "requirements.txt amont n'installe pas playwright python (dep Dockerfile) — le fetcher browser_steps l'exige : documenté dans manifest.boot",
+  "seed webdriver : last_checked est posé avant le commit du snapshot → attendre len(history)≥1 avant de basculer la fixture v1→v2, sinon snapshot1=v2 et aucun diff (corrigé dans seed.py min_snapshots)",
+  "sélection watchlist persiste en sessionStorage (cdio-watch-selection) : vérifier body.watch-selection-active avant de cliquer, jamais re-cliquer une case cochée",
+  "états UUID dépendants du seed : audit.mjs les lit via CD_API_DOCS_UUID/CD_RATES_UUID/CD_TAG_UUID (défauts = uuids du datastore :5005) pour le rejeu install-build",
+  "proxies.json est lu à chaud : le seed l'écrit à côté du datastore passé en --datastore (prouvé : oublier = #checkbox-set-proxy absent → état bulk-proxy en échec)",
+  "incomplete-probes ne compose pas les couches alpha : bg=rgba(255,255,255,0.04) relevé → ratio 1.00 erroné ; vérifier l'élément réel (ici #records-selected blanc sur dégradé clair — vrai défaut corrigé par pastille rgba(0,0,0,.8))"
+ ],
+ "artefacts": {
+  "patch": "patch.diff (43 fichiers, +261/−86) — régénéré depuis l'arbre appliqué, 0 rejet au git apply du clone propre",
+  "manifest": "manifest.json — boot verbatim, seed, auditCommands, installBuild rejoué",
+  "rapports": "reports/{baseline,final,install-build}-{public,auth}/ + eval-final.json + incomplete-probes.json",
+  "scope": "scope-compare.json — scopeHash identiques baseline↔final (périmètre inchangé), install-build hashé différemment (port+uuids)",
+  "etats": "states.json + carte STATES dans tools/audit.mjs (33 états : modales, onglets, bulk, dark×5, mobile)"
+ },
+ "reste_a_faire": "verdict auditeur"
+}
