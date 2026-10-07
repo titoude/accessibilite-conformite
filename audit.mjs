@@ -270,15 +270,21 @@ async function run() {
   // évaluer la source axe directement dans le contexte de la page (CDP,
   // non soumis à la CSP), puis prouver que l'injection a marché — sinon
   // axe.run() est indéfini et le « 0 violation » serait un faux PASS.
+  let axeVersion = null;
   const injectAxe = async () => {
     try {
       await page.addScriptTag({ content: axeSource });
     } catch {
       await page.evaluate(axeSource);
     }
-    if (typeof (await page.evaluate(() => window.axe && window.axe.version)) !== 'string') {
+    const v = await page.evaluate(() => window.axe && window.axe.version);
+    if (typeof v !== 'string') {
       throw new Error("injection axe impossible (CSP ?) — scan invalide, pas un PASS");
     }
+    // axe version tracée : les règles activées diffèrent entre mineures
+    // (label-content-name-mismatch expérimentale en 4.13 → standard wcag21a
+    // en 4.14) — deux runs à versions différentes ne sont pas comparables.
+    axeVersion = v;
   };
 
   // axe mesure les couleurs calculées — une transition en cours (fondu
@@ -463,6 +469,7 @@ async function run() {
   }
   const scope = {
     runId, runnerVersion: RUNNER_VERSION, generatedAt: new Date().toISOString(),
+    axeVersion,
     baseUrl: baseUrl ?? null, depth, maxPages, statesRequested: statesArg,
     wait: waitMs, waitFor,
     storageState: !!storageState,
@@ -478,7 +485,7 @@ async function run() {
 
   const errorCount = scope.errored + crawlErrors.length + configErrors.length;
   writeJson('report.json', {
-    runId, runnerVersion: RUNNER_VERSION,
+    runId, runnerVersion: RUNNER_VERSION, axeVersion,
     generatedAt: new Date().toISOString(), baseUrl: baseUrl ?? null,
     pages: results, configErrors, crawlErrors, scopeHash,
   });
