@@ -1,0 +1,19 @@
+install-build — clone vierge + patch + build + seed + rescan (2026-10-07)
+
+1. git clone https://github.com/grocy/grocy /tmp/grocy-ib && git checkout 41206cb90154e0d17d3e108cc1f182b94fdb465d
+2. git apply patch.diff → 0 rejet (96 fichiers modifiés ; avertissements "trailing whitespace" cosmétiques uniquement)
+3. cp tools/router.php (harnais php -S, hors patch)
+4. docker run --rm -v /tmp/grocy-ib:/app -w /app grocy36-web composer install → packages/ (vendor-dir) OK
+5. yarn install --frozen-lockfile (nvm node 24.19.0) → public/packages 42 entrées OK
+6. cp config-dist.php data/config.php (requis — erreur 500 sinon)
+7. docker run -d --name grocy36ib -p 8081:8080 -v /tmp/grocy-ib:/app -e GROCY_MODE=demo grocy36-web php -S 0.0.0.0:8080 -t /app/public /app/router.php
+   GET / → migration + DemoDataGeneratorService → data/grocy_en.db (38 tables ; 29 produits/23 recettes/83 stock/5 courses/6 chores/4 batteries — identique stack live)
+8. cp data/grocy_en.db data/grocy.db ; restart -e GROCY_MODE=production ; UPDATE users SET username='admin',password=password_hash('admin') WHERE id=1
+9. node login.mjs http://localhost:8081 auth-ib.json → OK
+10. node reset-night-mode.mjs http://localhost:8081 auth-ib.json
+11. node audit.mjs http://localhost:8081 --urls "$(cat urls-auth.txt|tr '\n' ',')" --states all --storage-state auth-ib.json --wait 1500 --out ../reports/install-build
+
+RÉSULTAT : 84 scénarios — 0 violation / 0 erreur / 466 incomplets (log complet : reports/install-build-scan.log, rapport : reports/install-build/report.{json,md})
+[scan] http://localhost:8081/login [state:login-failed] — 0 règle(s) violée(s)
+
+/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/grocy/reports/install-build/report.md — 0 règle(s), 0 occurrence(s), 0 erreur(s), 466 incomplet(s)

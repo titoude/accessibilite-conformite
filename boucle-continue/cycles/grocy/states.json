@@ -1,0 +1,17 @@
+{
+ "states": {
+  "header-user-menu": "sur /stockoverview, clic 1er nav .nav-item.dropdown > a.dropdown-toggle (menu utilisateur avatar) → .dropdown-menu.show",
+  "view-settings-menu": "sur /stockoverview, clic 2e dropdown header (radios night-mode, keep-screen-on…) → .dropdown-menu.show",
+  "settings-menu": "sur /stockoverview, clic 3e dropdown header (liens settings + About Grocy) → .dropdown-menu.show",
+  "about-iframe-dialog": "depuis settings-menu, clic « About Grocy » → IframeModal bootbox ouvert (iframe title + dialog aria-label patchés)",
+  "delete-confirm": "sur /products, clic bouton delete d'une ligne → bootbox de confirmation (dialog nommé via hook .modal)",
+  "combobox-open": "sur /purchase, focus + ouverture du bootstrap-combobox produit (listbox visible)",
+  "datepicker-open": "sur /purchase, ouverture du tempusdominus datepicker (widget visible)",
+  "chores-filter-expanded": "sur /choresoverview, expansion du panneau filtres",
+  "chore-reschedule-modal": "sur /choresoverview, ouverture modale reprogrammation (h5→div.h5 patché)",
+  "night-mode": "PUT /api/user/settings/night_mode {value:'on'} (pref persistée serveur) → reload /stockoverview en night-mode ; reset-night-mode.mjs restaure 'off' avant chaque run",
+  "night-mode-dialog": "night-mode actif + modale ouverte sur /products (matrice composant×thème, leçon 20)",
+  "mobile-nav-390": "viewport 390px sur /stockoverview + toggler navbar cliqué → collapse ouvert (dernier mutant : restaure viewport)",
+  "login-failed": "public /login : submit avec mauvais mot de passe → #login-error visible"
+ }
+}

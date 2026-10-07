@@ -1,0 +1,3361 @@
+# Audit accessibilité — 2026-10-07
+
+**22 règle(s) violée(s), 6554 occurrence(s), 82/85 scénario(s) audité(s), 3 erreur(s), 783 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `cf89baa2c751`
+
+## [CRITICAL] image-alt — Images must have alternative text
+
+Ensure <img> elements have alternative text or a role of none or presentation
+Référence : https://dequeuniversity.com/rules/axe/4.13/image-alt?application=axeAPI
+
+- http://localhost:8080/about
+  - `img`
+- http://localhost:8080/barcodescannertesting
+  - `img`
+- http://localhost:8080/batteries
+  - `img`
+- http://localhost:8080/batteriesjournal
+  - `img`
+- http://localhost:8080/batteriesoverview
+  - `img`
+- http://localhost:8080/batteriessettings
+  - `img`
+- http://localhost:8080/battery/1
+  - `img[width="114"]`
+  - `.float-lg-left`
+- http://localhost:8080/batterytracking
+  - `img`
+- http://localhost:8080/calendar
+  - `img`
+- http://localhost:8080/chore/1
+  - `img[width="114"]`
+  - `.float-lg-left`
+- http://localhost:8080/chores
+  - `img`
+- http://localhost:8080/choresjournal
+  - `img`
+- http://localhost:8080/choresoverview
+  - `img`
+- http://localhost:8080/choressettings
+  - `img`
+- http://localhost:8080/choretracking
+  - `img`
+- http://localhost:8080/consume
+  - `img[width="114"]`
+- http://localhost:8080/equipment
+  - `img`
+- http://localhost:8080/equipment/1
+  - `img`
+- http://localhost:8080/inventory
+  - `img[width="114"]`
+- http://localhost:8080/location/1
+  - `img`
+- http://localhost:8080/locationcontentsheet
+  - `.navbar-brand > img`
+- http://localhost:8080/locations
+  - `img`
+- http://localhost:8080/manageapikeys
+  - `img`
+- http://localhost:8080/mealplan
+  - `img[width="114"]`
+  - `.fc-event-container:nth-child(6) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+  - `.fc-event-container:nth-child(3) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+  - `.fc-event-container:nth-child(4) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+  - `.fc-event-container:nth-child(7) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+  - `.fc-event-container:nth-child(8) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+  - `.fc-event-container:nth-child(2) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+  - `.fc-event-container:nth-child(5) > .fc-day-grid-event.fc-h-event.fc-start > .mx-auto.mb-1 > .rounded-circle.img-fluid[loading="lazy"]`
+- http://localhost:8080/mealplansection/1
+  - `img`
+- http://localhost:8080/mealplansections
+  - `img`
+- http://localhost:8080/product/1
+  - `img[width="114"]`
+  - `.float-lg-left`
+  - `#current-product-picture`
+- http://localhost:8080/productbarcodes/1
+  - `img`
+- http://localhost:8080/productgroup/1
+  - `img`
+- http://localhost:8080/productgroups
+  - `img`
+- http://localhost:8080/products
+  - `img[width="114"]`
+- http://localhost:8080/purchase
+  - `img[width="114"]`
+- http://localhost:8080/quantityunit/1
+  - `img`
+- http://localhost:8080/quantityunitconversion/1
+  - `img`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `img`
+- http://localhost:8080/quantityunitpluraltesting
+  - `img`
+- http://localhost:8080/quantityunits
+  - `img`
+- http://localhost:8080/recipe/1
+  - `img[width="114"]`
+  - `#current-recipe-picture`
+  - `.float-lg-left`
+- http://localhost:8080/recipe/1/pos/1
+  - `img`
+- http://localhost:8080/recipes
+  - `img[width="114"]`
+  - `#recipe-1 > .card-img-top[loading="lazy"]`
+- http://localhost:8080/recipessettings
+  - `img`
+- http://localhost:8080/shoppinglist
+  - `.navbar-brand > img[width="114"][height="30"]`
+- http://localhost:8080/shoppinglist/1
+  - `img`
+- http://localhost:8080/shoppinglistitem/1
+  - `img`
+- http://localhost:8080/shoppinglistsettings
+  - `img`
+- http://localhost:8080/shoppinglocation/1
+  - `img`
+- http://localhost:8080/shoppinglocations
+  - `img`
+- http://localhost:8080/stockentries
+  - `img[width="114"]`
+- http://localhost:8080/stockentry/1
+  - `img`
+- http://localhost:8080/stockjournal
+  - `img[width="114"]`
+- http://localhost:8080/stockjournal/summary
+  - `img`
+- http://localhost:8080/stockoverview
+  - `img[width="114"]`
+- http://localhost:8080/stockreports/spendings
+  - `img`
+- http://localhost:8080/stocksettings
+  - `img`
+- http://localhost:8080/task/2
+  - `img`
+- http://localhost:8080/taskcategories
+  - `img`
+- http://localhost:8080/taskcategory/1
+  - `img`
+- http://localhost:8080/tasks
+  - `img`
+- http://localhost:8080/taskssettings
+  - `img`
+- http://localhost:8080/user/1
+  - `img`
+- http://localhost:8080/user/1/permissions
+  - `img`
+- http://localhost:8080/user/1/sessions
+  - `img`
+- http://localhost:8080/userentities
+  - `img`
+- http://localhost:8080/userentity/1
+  - `img`
+- http://localhost:8080/userfield/1
+  - `img`
+- http://localhost:8080/userfields
+  - `img`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `img`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `img`
+- http://localhost:8080/users
+  - `img`
+- http://localhost:8080/usersettings
+  - `img`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `img[width="114"]`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `img[width="114"]`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `img[width="114"]`
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `img[width="114"]`
+- http://localhost:8080/products [state:delete-confirm]
+  - `img[width="114"]`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `img[width="114"]`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `img[width="114"]`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `img`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `img[width="114"]`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `img[width="114"]`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `img[width="114"]`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI
+
+- http://localhost:8080/batteries
+  - `#clear-filter-button`
+- http://localhost:8080/batteriesjournal
+  - `#clear-filter-button`
+- http://localhost:8080/batteriesoverview
+  - `#clear-filter-button`
+  - `#battery-2-row > .border-right.fit-content > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#battery-3-row > .border-right.fit-content > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#battery-1-row > .border-right.fit-content > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#battery-4-row > .border-right.fit-content > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+- http://localhost:8080/chores
+  - `#clear-filter-button`
+  - `.odd:nth-child(1) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(4) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(5) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(6) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+- http://localhost:8080/choresjournal
+  - `#clear-filter-button`
+- http://localhost:8080/choresoverview
+  - `#clear-filter-button`
+  - `#chore-2-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-3-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-1-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-4-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-6-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+- http://localhost:8080/equipment
+  - `#clear-filter-button`
+  - `.odd > .fit-content > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even > .fit-content > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+- http://localhost:8080/locations
+  - `#clear-filter-button`
+- http://localhost:8080/manageapikeys
+  - `#clear-filter-button`
+- http://localhost:8080/mealplan
+  - `.fc-sun.fc-day-header[data-date="2026-10-04"] > .mr-2.btn-group.my-1 > .add-recipe-button.btn-outline-dark[data-original-title="Add recipe"]`
+  - `.fc-sun.fc-day-header[data-date="2026-10-04"] > .mr-2.btn-group.my-1 > .dropdown-toggle-split.dropdown-toggle[data-toggle="dropdown"]`
+  - `.fc-mon.fc-day-header[data-date="2026-10-05"] > .mr-2.btn-group.my-1 > .add-recipe-button.btn-outline-dark[data-original-title="Add recipe"]`
+  - `.fc-mon.fc-day-header[data-date="2026-10-05"] > .mr-2.btn-group.my-1 > .dropdown-toggle-split.dropdown-toggle[data-toggle="dropdown"]`
+  - `.fc-tue.fc-day-header[data-date="2026-10-06"] > .mr-2.btn-group.my-1 > .add-recipe-button.btn-outline-dark[data-original-title="Add recipe"]`
+  - `.fc-tue.fc-day-header[data-date="2026-10-06"] > .mr-2.btn-group.my-1 > .dropdown-toggle-split.dropdown-toggle[data-toggle="dropdown"]`
+  - `.fc-wed.fc-today[data-date="2026-10-07"] > .mr-2.btn-group.my-1 > .add-recipe-button.btn-outline-dark[data-original-title="Add recipe"]`
+  - `.fc-wed.fc-today[data-date="2026-10-07"] > .mr-2.btn-group.my-1 > .dropdown-toggle-split.dropdown-toggle[data-toggle="dropdown"]`
+  - `.fc-thu.fc-day-header[data-date="2026-10-08"] > .mr-2.btn-group.my-1 > .add-recipe-button.btn-outline-dark[data-original-title="Add recipe"]`
+  - `.fc-thu.fc-day-header[data-date="2026-10-08"] > .mr-2.btn-group.my-1 > .dropdown-toggle-split.dropdown-toggle[data-toggle="dropdown"]`
+  - … +4 autres
+- http://localhost:8080/mealplansections
+  - `#clear-filter-button`
+- http://localhost:8080/productgroups
+  - `#clear-filter-button`
+- http://localhost:8080/products
+  - `#clear-filter-button`
+  - `.odd:nth-child(1) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(4) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(5) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(6) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(7) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(8) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(9) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - … +20 autres
+- http://localhost:8080/quantityunitconversionsresolved
+  - `#clear-filter-button`
+- http://localhost:8080/quantityunits
+  - `#clear-filter-button`
+- http://localhost:8080/recipes
+  - `#clear-filter-button`
+  - `#recipe-row-5 > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#recipe-row-4 > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#recipe-row-6 > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#recipe-row-1 > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#recipe-row-3 > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#recipe-row-2 > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+- http://localhost:8080/shoppinglist
+  - `#clear-filter-button`
+- http://localhost:8080/shoppinglocations
+  - `#clear-filter-button`
+- http://localhost:8080/stockentries
+  - `#clear-filter-button`
+  - `#stock-81-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-36-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-37-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-38-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-39-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-40-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-75-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-84-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#stock-41-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +74 autres
+- http://localhost:8080/stockjournal
+  - `#clear-filter-button`
+  - `#stock-booking-3-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-4-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-6-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-7-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-8-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-10-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#stock-booking-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - … +79 autres
+- http://localhost:8080/stockjournal/summary
+  - `#clear-filter-button`
+- http://localhost:8080/stockoverview
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +15 autres
+- http://localhost:8080/stockreports/spendings
+  - `#clear-filter-button`
+- http://localhost:8080/taskcategories
+  - `#clear-filter-button`
+- http://localhost:8080/tasks
+  - `#clear-filter-button`
+- http://localhost:8080/user/1/sessions
+  - `#clear-filter-button`
+- http://localhost:8080/userentities
+  - `#clear-filter-button`
+- http://localhost:8080/userfields
+  - `#clear-filter-button`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `#clear-filter-button`
+- http://localhost:8080/users
+  - `#clear-filter-button`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +15 autres
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +15 autres
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +15 autres
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +15 autres
+- http://localhost:8080/products [state:delete-confirm]
+  - `#clear-filter-button`
+  - `.odd:nth-child(1) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(4) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(5) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(6) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(7) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(8) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(9) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - … +20 autres
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `#clear-filter-button`
+  - `#chore-2-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-3-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-1-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-4-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `#chore-6-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-11-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-9-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +15 autres
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `#clear-filter-button`
+  - `.odd:nth-child(1) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(4) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(5) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(6) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(7) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.even:nth-child(8) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - `.odd:nth-child(9) > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary[data-toggle="dropdown"]`
+  - … +20 autres
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.navbar-toggler`
+  - `.mt-2`
+  - `#clear-filter-button`
+  - `#product-13-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-15-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-20-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-5-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-12-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-14-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - `#product-23-row > .fit-content.border-right > .d-inline-block.dropdown > .btn-light.text-secondary`
+  - … +17 autres
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI
+
+- http://localhost:8080/batteriesjournal
+  - `#battery-filter`
+  - `#daterange-filter`
+- http://localhost:8080/batteriesoverview
+  - `#status-filter`
+- http://localhost:8080/choresjournal
+  - `#chore-filter`
+  - `#daterange-filter`
+- http://localhost:8080/choresoverview
+  - `#status-filter`
+  - `#user-filter`
+- http://localhost:8080/consume
+  - `#specific_stock_entry`
+- http://localhost:8080/productbarcodes/1
+  - `#shopping_location_id`
+- http://localhost:8080/products
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `#quantity-unit-filter`
+- http://localhost:8080/recipes
+  - `#status-filter`
+- http://localhost:8080/shoppinglist
+  - `#selected-shopping-list`
+  - `#status-filter`
+- http://localhost:8080/stockentries
+  - `#location-filter`
+- http://localhost:8080/stockjournal
+  - `#product-filter`
+  - `#transaction-type-filter`
+  - `#location-filter`
+  - `#user-filter`
+  - `#daterange-filter`
+- http://localhost:8080/stockjournal/summary
+  - `#product-filter`
+  - `#transaction-type-filter`
+  - `#user-filter`
+- http://localhost:8080/stockoverview
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/stockreports/spendings
+  - `#product-group-filter`
+- http://localhost:8080/tasks
+  - `#status-filter`
+  - `#category-filter`
+  - `#user-filter`
+- http://localhost:8080/userfields
+  - `#entity-filter`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/products [state:delete-confirm]
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `#status-filter`
+  - `#user-filter`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `#product-group-filter`
+  - `#status-filter`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.13/label?application=axeAPI
+
+- http://localhost:8080/battery/1
+  - `#used_in`
+- http://localhost:8080/batterytracking
+  - `#battery_id_text_input`
+  - `.datetimepicker-input`
+- http://localhost:8080/chore/1
+  - `.datetimepicker-input`
+  - `#product_id_text_input`
+- http://localhost:8080/choretracking
+  - `#chore_id_text_input`
+  - `.datetimepicker-input`
+  - `#user_id_text_input`
+- http://localhost:8080/consume
+  - `#product_id_text_input`
+  - `#recipe_id_text_input`
+- http://localhost:8080/inventory
+  - `#product_id_text_input`
+  - `.datetimepicker-input`
+  - `#shopping_location_id_text_input`
+  - `#location_id_text_input`
+- http://localhost:8080/product/1
+  - `#product_id_text_input`
+  - `#shopping_location_id_text_input`
+- http://localhost:8080/productbarcodes/1
+  - `#barcode`
+- http://localhost:8080/purchase
+  - `#product_id_text_input`
+  - `.datetimepicker-input`
+  - `#shopping_location_id_text_input`
+  - `#location_id_text_input`
+- http://localhost:8080/recipe/1
+  - `#product_id_text_input`
+- http://localhost:8080/recipe/1/pos/1
+  - `#product_id_text_input`
+- http://localhost:8080/shoppinglistitem/1
+  - `#product_id_text_input`
+- http://localhost:8080/stockentries
+  - `#product_id_text_input`
+- http://localhost:8080/stockentry/1
+  - `.datetimepicker2-input`
+  - `.datetimepicker-input`
+  - `#shopping_location_id_text_input`
+  - `#location_id_text_input`
+- http://localhost:8080/stockreports/spendings
+  - `#daterange-filter`
+- http://localhost:8080/task/2
+  - `.datetimepicker-input`
+  - `#user_id_text_input`
+- http://localhost:8080/userentity/1
+  - `#caption`
+- http://localhost:8080/userfield/1
+  - `#caption`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `input[data-userfield-name="customfield1"]`
+  - `input[data-userfield-name="customfield2"]`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `#product_id_text_input`
+  - `.datetimepicker-input`
+  - `#shopping_location_id_text_input`
+  - `#location_id_text_input`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `#product_id_text_input`
+  - `.datetimepicker-input`
+  - `#shopping_location_id_text_input`
+  - `#location_id_text_input`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `.datetimepicker-input`
+  - `#user_id_text_input`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-required-children?application=axeAPI
+
+- http://localhost:8080/recipes
+  - `ul[role="tablist"]`
+
+## [CRITICAL] aria-required-parent — Certain ARIA roles must be contained by particular parents
+
+Ensure elements with an ARIA role that require parent roles are contained by them
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-required-parent?application=axeAPI
+
+- http://localhost:8080/recipes
+  - `a[href$="#ingredients-0"]`
+  - `a[href$="#prep-0"]`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/link-name?application=axeAPI
+
+- http://localhost:8080/about
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+- http://localhost:8080/api
+  - `hgroup > .link[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:8080/barcodescannertesting
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/batteries
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#batteries-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#batteries-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-battery-id="1"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-battery-id="2"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - … +3 autres
+- http://localhost:8080/batteriesjournal
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#batteries-journal-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#batteries-journal-table"][data-original-title="Table options"]`
+  - `a[data-charge-cycle-id="8"]`
+  - `a[data-charge-cycle-id="10"]`
+  - `a[data-charge-cycle-id="9"]`
+  - `a[data-charge-cycle-id="7"]`
+  - `a[data-charge-cycle-id="6"]`
+  - … +5 autres
+- http://localhost:8080/batteriesoverview
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#batteries-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#batteries-overview-table"][data-original-title="Table options"]`
+  - `a[data-battery-name="Battery2"]`
+  - `a[data-battery-name="Battery3"]`
+  - `a[data-battery-name="Battery1"]`
+  - `a[data-battery-name="Battery4"]`
+- http://localhost:8080/batteriessettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/battery/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/batterytracking
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `#batterycard-battery-edit-button`
+- http://localhost:8080/calendar
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+- http://localhost:8080/chore/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/chores
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#chores-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#chores-table"][data-original-title="Table options"]`
+  - `a[href$="chore/6"]`
+  - `a[data-chore-name="Change the bed sheets"]`
+  - `a[href$="chore/1"]`
+  - `a[data-chore-name="Change towels in the bathroom"]`
+  - `a[href$="chore/5"]`
+  - … +7 autres
+- http://localhost:8080/choresjournal
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#chores-journal-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#chores-journal-table"][data-original-title="Table options"]`
+  - `a[data-execution-id="151"]`
+  - `a[data-execution-id="152"]`
+  - `a[data-execution-id="5"]`
+  - `a[data-execution-id="11"]`
+  - `a[data-execution-id="3"]`
+  - … +139 autres
+- http://localhost:8080/choresoverview
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#chores-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#chores-overview-table"][data-original-title="Table options"]`
+  - `a[data-chore-name="Mop the kitchen floor"][data-chore-id="2"][data-original-title="Track next chore schedule"]`
+  - `.skip[data-chore-name="Mop the kitchen floor"][data-chore-id="2"]`
+  - `a[data-chore-name="Take out the trash"][data-chore-id="3"][data-original-title="Track next chore schedule"]`
+  - `.skip[data-chore-name="Take out the trash"][data-chore-id="3"]`
+  - `a[data-chore-name="Clean the litter box"][data-chore-id="5"][data-original-title="Track next chore schedule"]`
+  - … +7 autres
+- http://localhost:8080/choressettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/choretracking
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `#chorecard-chore-edit-button`
+- http://localhost:8080/consume
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `#productcard-product-edit-button`
+  - `#productcard-product-shoppinglist-button`
+- http://localhost:8080/equipment
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#equipment-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#equipment-table"][data-original-title="Table options"]`
+  - `.odd > .fit-content > .btn-info.hide-when-embedded[data-original-title="Edit this item"]`
+  - `.even > .fit-content > .btn-info.hide-when-embedded[data-original-title="Edit this item"]`
+  - `.selectedEquipmentInstructionManualToggleFullscreenButton`
+  - `#selectedEquipmentInstructionManualDownloadButton`
+- http://localhost:8080/equipment/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+- http://localhost:8080/inventory
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `#productcard-product-edit-button`
+  - `#productcard-product-shoppinglist-button`
+- http://localhost:8080/location/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/locationcontentsheet
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+- http://localhost:8080/locations
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#locations-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#locations-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-location-id="4"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-location-id="6"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - … +5 autres
+- http://localhost:8080/manageapikeys
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.border-right.sorting_disabled[data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#apikeys-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#apikeys-table"][data-original-title="Table options"]`
+- http://localhost:8080/mealplan
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `a[data-recipe-id="-96"][data-recipe-name="2026-40"][data-recipe-type="mealplan-week"]:nth-child(2)`
+  - `a[data-recipe-id="-96"][data-recipe-name="2026-40"][data-recipe-type="mealplan-week"]:nth-child(3)`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-content-skeleton > table > tbody > tr > .fc-event-container:nth-child(3) > .fc-day-grid-event.fc-h-event.fc-start > div > .d-print-none > .btn-outline-info.edit-meal-plan-entry-button[data-original-title="Edit this item"]`
+  - `.fc-event-container:nth-child(3) > .fc-day-grid-event.fc-h-event.fc-start > div > .d-print-none > .remove-product-button.btn-outline-danger[data-original-title="Delete this item"]`
+  - `a[data-original-title="Consume 1 Glass of Yogurt"]`
+  - `a[data-product-name="Yogurt"][data-product-id="9"][data-original-title="Add to shopping list"]`
+  - `.mealplan-entry-done-button[data-mealplan-entry-id="10"][data-original-title="Mark this item as done"]`
+  - … +46 autres
+- http://localhost:8080/mealplansection/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/mealplansections
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#mealplansections-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#mealplansections-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-mealplansection-id="1"]`
+  - `.even > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-mealplansection-id="2"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - … +1 autres
+- http://localhost:8080/product/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.border-right.sorting_disabled[data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#barcode-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#barcode-table"][data-original-title="Table options"]`
+  - `.border-right.sorting_disabled[data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#qu-conversions-table-products"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#qu-conversions-table-products"][data-original-title="Table options"]`
+- http://localhost:8080/productbarcodes/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/productgroup/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/productgroups
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#productgroups-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#productgroups-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-group-id="1"]`
+  - `.odd:nth-child(1) > td:nth-child(4) > .btn-link.text-body.btn-sm`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-group-id="2"]`
+  - … +16 autres
+- http://localhost:8080/products
+  - `.navbar-brand`
+  - `.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#products-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#products-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - `a[data-product-name="Beer"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - `a[data-product-name="Cheese"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - … +53 autres
+- http://localhost:8080/purchase
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `#productcard-product-edit-button`
+  - `#productcard-product-shoppinglist-button`
+- http://localhost:8080/quantityunit/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.border-right.sorting_disabled[data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#qu-conversions-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#qu-conversions-table"][data-original-title="Table options"]`
+- http://localhost:8080/quantityunitconversion/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.border-right.sorting_disabled[data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#qu-conversions-resolved-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#qu-conversions-resolved-table"][data-original-title="Table options"]`
+- http://localhost:8080/quantityunitpluraltesting
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/quantityunits
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#quantityunits-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#quantityunits-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info.btn-sm[data-original-title="Edit this item"]`
+  - `a[data-quantityunit-id="10"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info.btn-sm[data-original-title="Edit this item"]`
+  - `a[data-quantityunit-id="7"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info.btn-sm[data-original-title="Edit this item"]`
+  - … +21 autres
+- http://localhost:8080/recipe/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#recipes-pos-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#recipes-pos-table"][data-original-title="Table options"]`
+  - `a[data-product-id="10"]`
+  - `a[data-recipe-pos-name="Cheese"]`
+  - `.odd:nth-child(2) > .fit-content:nth-child(4) > .disabled.recipe-pos-show-note-button[data-recipe-pos-note=""]`
+  - `a[data-product-id="16"]`
+  - `a[data-recipe-pos-name="Pizza dough"]`
+  - … +9 autres
+- http://localhost:8080/recipe/1/pos/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/recipes
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#recipes-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#recipes-table"][data-original-title="Table options"]`
+  - `.btn-info.recipe-edit-button[href$="recipe/5"]`
+  - `.btn-info.recipe-edit-button[href$="recipe/4"]`
+  - `.btn-info.recipe-edit-button[href$="recipe/6"]`
+  - `.btn-info.recipe-edit-button[href$="recipe/1"]`
+  - `.btn-info.recipe-edit-button[href$="recipe/3"]`
+  - … +5 autres
+- http://localhost:8080/recipessettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/shoppinglist
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#shoppinglist-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#shoppinglist-table"][data-original-title="Table options"]`
+  - `a[data-item-id="5"]`
+  - `#shoppinglistitem-5-row > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-shoppinglist-id="5"]`
+  - `#shoppinglistitem-5-row > .fit-content.border-right > .shopping-list-stock-add-workflow-list-item-button.btn-primary[data-original-title="Add this item to stock"]`
+  - `a[data-item-id="4"]`
+  - … +15 autres
+- http://localhost:8080/shoppinglist/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/shoppinglistitem/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/shoppinglistsettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/shoppinglocation/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/shoppinglocations
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#shoppinglocations-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#shoppinglocations-table"][data-original-title="Table options"]`
+  - `.odd > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-shoppinglocation-id="1"]`
+  - `.even > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-shoppinglocation-id="2"]`
+- http://localhost:8080/stockentries
+  - `.navbar-brand`
+  - `.nav-item:nth-child(2) > .dropdown-toggle.nav-link.discrete-link`
+  - `.nav-item:nth-child(3) > .dropdown-toggle.nav-link.discrete-link`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#stockentries-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stockentries-table"][data-original-title="Table options"]`
+  - `a[data-stock-id="6ac65344c85cb"][data-stockrow-id="81"][data-product-name="Beer"]:nth-child(1)`
+  - `a[data-product-name="Beer"][data-stock-id="6ac65344c85cb"][data-stockrow-id="81"]:nth-child(2)`
+  - `#stock-81-row > .fit-content.border-right > .btn-info[data-original-title="Edit stock entry"][data-placement="left"]`
+  - `a[data-stock-id="6ac6534443356"][data-stockrow-id="36"][data-product-name="Cheese"]:nth-child(1)`
+  - `a[data-stock-id="6ac6534443356"][data-stockrow-id="36"][data-product-name="Cheese"]:nth-child(2)`
+  - … +244 autres
+- http://localhost:8080/stockentry/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/stockjournal
+  - `.navbar-brand`
+  - `.nav-item:nth-child(2) > .dropdown-toggle.nav-link.discrete-link`
+  - `.nav-item:nth-child(3) > .dropdown-toggle.nav-link.discrete-link`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#stock-journal-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-journal-table"][data-original-title="Table options"]`
+  - `a[data-booking-id="3"]`
+  - `a[data-booking-id="4"]`
+  - `a[data-booking-id="5"]`
+  - `a[data-booking-id="6"]`
+  - `a[data-booking-id="7"]`
+  - … +83 autres
+- http://localhost:8080/stockjournal/summary
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#stock-journal-summary-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-journal-summary-table"][data-original-title="Table options"]`
+- http://localhost:8080/stockoverview
+  - `.navbar-brand`
+  - `.nav-item.dropdown:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item.dropdown:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+- http://localhost:8080/stockreports/spendings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+- http://localhost:8080/stocksettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/task/2
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/taskcategories
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#taskcategories-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#taskcategories-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-category-id="1"]`
+  - `.even > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-category-id="2"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - … +1 autres
+- http://localhost:8080/taskcategory/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/tasks
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#tasks-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#tasks-table"][data-original-title="Table options"]`
+  - `.btn-success[data-task-id="1"][data-task-name="Task1"]`
+  - `#task-1-row > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `.btn-danger[data-task-id="1"][data-task-name="Task1"]`
+  - `.btn-success[data-task-id="2"][data-task-name="Task2"]`
+  - `#task-2-row > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - … +10 autres
+- http://localhost:8080/taskssettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/user/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/user/1/permissions
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/user/1/sessions
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#sessions-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#sessions-table"][data-original-title="Table options"]`
+  - `a[data-session-id="2"]`
+  - `a[data-session-id="1"]`
+- http://localhost:8080/userentities
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#userentities-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#userentities-table"][data-original-title="Table options"]`
+  - `.btn-info`
+  - `.btn-danger`
+- http://localhost:8080/userentity/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/userfield/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/userfields
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#userfields-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#userfields-table"][data-original-title="Table options"]`
+  - `.odd > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-userfield-id="1"]`
+  - `.even > .fit-content.border-right > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-userfield-id="2"]`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \a \9 \9 \9 \9 \9 \9 \a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#userobjects-table-1"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#userobjects-table-1"][data-original-title="Table options"]`
+  - `.odd > .fit-content.border-right.d-print-none > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-userobject-id="1"]`
+  - `.even > .fit-content.border-right.d-print-none > .btn-info.show-as-dialog-link[data-original-title="Edit this item"]`
+  - `a[data-userobject-id="2"]`
+- http://localhost:8080/users
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "] > .change-table-columns-visibility-button[data-table-selector="#users-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#users-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-primary.btn-sm[data-original-title="Configure user permissions"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-primary.btn-sm[data-original-title="Manage user sessions"]`
+  - `a[href$="user/2"]`
+  - `a[data-user-id="2"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-primary.btn-sm[data-original-title="Configure user permissions"]`
+  - … +11 autres
+- http://localhost:8080/usersettings
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[href="#"][data-toggle="dropdown"]`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `.navbar-brand`
+  - `.nav-item.dropdown:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item.dropdown:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `.navbar-brand`
+  - `.show.nav-item.dropdown > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item.dropdown:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `.navbar-brand`
+  - `.nav-item.dropdown:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.show.nav-item.dropdown > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `.navbar-brand`
+  - `.nav-item.dropdown:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item.dropdown:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+- http://localhost:8080/products [state:delete-confirm]
+  - `.navbar-brand`
+  - `.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#products-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#products-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - `a[data-product-name="Beer"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - `a[data-product-name="Cheese"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - … +53 autres
+- http://localhost:8080/purchase [state:combobox-open]
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `#productcard-product-edit-button`
+  - `#productcard-product-shoppinglist-button`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle[data-toggle="dropdown"][href="#"]`
+  - `#productcard-product-edit-button`
+  - `#productcard-product-shoppinglist-button`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `.navbar-brand`
+  - `.dropdown.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.dropdown.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#chores-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#chores-overview-table"][data-original-title="Table options"]`
+  - `a[data-chore-name="Mop the kitchen floor"][data-chore-id="2"][data-original-title="Track next chore schedule"]`
+  - `.skip[data-chore-name="Mop the kitchen floor"][data-chore-id="2"]`
+  - `a[data-chore-name="Take out the trash"][data-chore-id="3"][data-original-title="Track next chore schedule"]`
+  - `.skip[data-chore-name="Take out the trash"][data-chore-id="3"]`
+  - `a[data-chore-name="Clean the litter box"][data-chore-id="5"][data-original-title="Track next chore schedule"]`
+  - … +7 autres
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `.navbar-brand`
+  - `.nav-item.dropdown:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item.dropdown:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `.navbar-brand`
+  - `.nav-item:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#products-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#products-table"][data-original-title="Table options"]`
+  - `.odd:nth-child(1) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - `a[data-product-name="Beer"]`
+  - `.even:nth-child(2) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - `a[data-product-name="Cheese"]`
+  - `.odd:nth-child(3) > .fit-content.border-right > .btn-info[data-original-title="Edit this item"][data-toggle="tooltip"]`
+  - … +53 autres
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.navbar-brand`
+  - `a[href$="#table-filter-row"]`
+  - `.sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"] > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+  - `.dataTables_sizing > .change-table-columns-visibility-button[data-table-selector="#stock-overview-table"][data-original-title="Table options"]`
+
+## [SERIOUS] list — <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+
+Ensure that lists are structured correctly
+Référence : https://dequeuniversity.com/rules/axe/4.13/list?application=axeAPI
+
+- http://localhost:8080/about
+  - `.navbar-sidenav`
+- http://localhost:8080/barcodescannertesting
+  - `.navbar-sidenav`
+- http://localhost:8080/batteries
+  - `.navbar-sidenav`
+- http://localhost:8080/batteriesjournal
+  - `.navbar-sidenav`
+- http://localhost:8080/batteriesoverview
+  - `.navbar-sidenav`
+- http://localhost:8080/batteriessettings
+  - `.navbar-sidenav`
+- http://localhost:8080/battery/1
+  - `.navbar-sidenav`
+- http://localhost:8080/batterytracking
+  - `.navbar-sidenav`
+- http://localhost:8080/calendar
+  - `.navbar-sidenav`
+- http://localhost:8080/chore/1
+  - `.navbar-sidenav`
+- http://localhost:8080/chores
+  - `.navbar-sidenav`
+- http://localhost:8080/choresjournal
+  - `.navbar-sidenav`
+- http://localhost:8080/choresoverview
+  - `.navbar-sidenav`
+- http://localhost:8080/choressettings
+  - `.navbar-sidenav`
+- http://localhost:8080/choretracking
+  - `.navbar-sidenav`
+- http://localhost:8080/consume
+  - `.navbar-sidenav`
+- http://localhost:8080/equipment
+  - `.navbar-sidenav`
+- http://localhost:8080/equipment/1
+  - `.navbar-sidenav`
+- http://localhost:8080/inventory
+  - `.navbar-sidenav`
+- http://localhost:8080/location/1
+  - `.navbar-sidenav`
+- http://localhost:8080/locationcontentsheet
+  - `.navbar-sidenav`
+- http://localhost:8080/locations
+  - `.navbar-sidenav`
+- http://localhost:8080/manageapikeys
+  - `.navbar-sidenav`
+- http://localhost:8080/mealplan
+  - `.navbar-sidenav`
+- http://localhost:8080/mealplansection/1
+  - `.navbar-sidenav`
+- http://localhost:8080/mealplansections
+  - `.navbar-sidenav`
+- http://localhost:8080/product/1
+  - `.navbar-sidenav`
+- http://localhost:8080/productbarcodes/1
+  - `.navbar-sidenav`
+- http://localhost:8080/productgroup/1
+  - `.navbar-sidenav`
+- http://localhost:8080/productgroups
+  - `.navbar-sidenav`
+- http://localhost:8080/products
+  - `.navbar-sidenav`
+- http://localhost:8080/purchase
+  - `.navbar-sidenav`
+- http://localhost:8080/quantityunit/1
+  - `.navbar-sidenav`
+- http://localhost:8080/quantityunitconversion/1
+  - `.navbar-sidenav`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `.navbar-sidenav`
+- http://localhost:8080/quantityunitpluraltesting
+  - `.navbar-sidenav`
+- http://localhost:8080/quantityunits
+  - `.navbar-sidenav`
+- http://localhost:8080/recipe/1
+  - `.navbar-sidenav`
+- http://localhost:8080/recipe/1/pos/1
+  - `.navbar-sidenav`
+- http://localhost:8080/recipes
+  - `.navbar-sidenav`
+- http://localhost:8080/recipessettings
+  - `.navbar-sidenav`
+- http://localhost:8080/shoppinglist
+  - `.navbar-sidenav`
+- http://localhost:8080/shoppinglist/1
+  - `.navbar-sidenav`
+- http://localhost:8080/shoppinglistitem/1
+  - `.navbar-sidenav`
+- http://localhost:8080/shoppinglistsettings
+  - `.navbar-sidenav`
+- http://localhost:8080/shoppinglocation/1
+  - `.navbar-sidenav`
+- http://localhost:8080/shoppinglocations
+  - `.navbar-sidenav`
+- http://localhost:8080/stockentries
+  - `.navbar-sidenav`
+- http://localhost:8080/stockentry/1
+  - `.navbar-sidenav`
+- http://localhost:8080/stockjournal
+  - `.navbar-sidenav`
+- http://localhost:8080/stockjournal/summary
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview
+  - `.navbar-sidenav`
+- http://localhost:8080/stockreports/spendings
+  - `.navbar-sidenav`
+- http://localhost:8080/stocksettings
+  - `.navbar-sidenav`
+- http://localhost:8080/task/2
+  - `.navbar-sidenav`
+- http://localhost:8080/taskcategories
+  - `.navbar-sidenav`
+- http://localhost:8080/taskcategory/1
+  - `.navbar-sidenav`
+- http://localhost:8080/tasks
+  - `.navbar-sidenav`
+- http://localhost:8080/taskssettings
+  - `.navbar-sidenav`
+- http://localhost:8080/user/1
+  - `.navbar-sidenav`
+- http://localhost:8080/user/1/permissions
+  - `.navbar-sidenav`
+- http://localhost:8080/user/1/sessions
+  - `.navbar-sidenav`
+- http://localhost:8080/userentities
+  - `.navbar-sidenav`
+- http://localhost:8080/userentity/1
+  - `.navbar-sidenav`
+- http://localhost:8080/userfield/1
+  - `.navbar-sidenav`
+- http://localhost:8080/userfields
+  - `.navbar-sidenav`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `.navbar-sidenav`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.navbar-sidenav`
+- http://localhost:8080/users
+  - `.navbar-sidenav`
+- http://localhost:8080/usersettings
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `.navbar-sidenav`
+- http://localhost:8080/products [state:delete-confirm]
+  - `.navbar-sidenav`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `.navbar-sidenav`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `.navbar-sidenav`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `.navbar-sidenav`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `.navbar-sidenav`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.navbar-sidenav`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI
+
+- http://localhost:8080/about
+  - `tr:nth-child(1) > td:nth-child(2) > code`
+  - `tr:nth-child(2) > td:nth-child(2) > code`
+  - `tr:nth-child(3) > td:nth-child(2) > code`
+  - `tr:nth-child(4) > td:nth-child(2) > code`
+  - `tr:nth-child(5) > td:nth-child(2) > code`
+  - `tr:nth-child(6) > td:nth-child(2) > code`
+  - `tr:nth-child(7) > td:nth-child(2) > code`
+  - `.btn`
+- http://localhost:8080/api
+  - `small:nth-child(1) > pre`
+  - `.version-stamp > pre`
+  - `p > a[target="_blank"][rel="noopener noreferrer"]`
+  - `a[href$="grocy.info/"]`
+  - `.btn > span`
+  - `#operations-Generic_entity_interactions-get_objects__entity_ > .opblock-summary-get.opblock-summary > .opblock-summary-control > .opblock-summary-method`
+  - `#operations-Generic_entity_interactions-post_objects__entity_ > .opblock-summary-post.opblock-summary > .opblock-summary-control > .opblock-summary-method`
+  - `#operations-Generic_entity_interactions-get_objects__entity___objectId_ > .opblock-summary-get.opblock-summary > .opblock-summary-control > .opblock-summary-method`
+  - `#operations-Generic_entity_interactions-put_objects__entity___objectId_ > .opblock-summary-put.opblock-summary > .opblock-summary-control > .opblock-summary-method`
+  - `#operations-Generic_entity_interactions-delete_objects__entity___objectId_ > .opblock-summary-delete.opblock-summary > .opblock-summary-control > .opblock-summary-method`
+  - … +82 autres
+- http://localhost:8080/barcodescannertesting
+  - `.text-success`
+- http://localhost:8080/batteries
+  - `.btn-primary`
+- http://localhost:8080/batteriessettings
+  - `.btn`
+- http://localhost:8080/battery/1
+  - `#save-battery-button`
+  - `.btn-outline-primary`
+- http://localhost:8080/batterytracking
+  - `#save-batterytracking-button`
+- http://localhost:8080/calendar
+  - `.fc-agendaWeek-button`
+  - `.fc-agendaDay-button`
+  - `.fc-listWeek-button`
+  - `.fc-sun.fc-past[data-date="2026-09-27"] > .fc-day-number`
+  - `.fc-mon.fc-past[data-date="2026-09-28"] > .fc-day-number`
+  - `.fc-tue.fc-past[data-date="2026-09-29"] > .fc-day-number`
+  - `.fc-wed.fc-past[data-date="2026-09-30"] > .fc-day-number`
+  - `td[rowspan="6"] > .fc-day-grid-event.fc-h-event.fc-event > .fc-content > .fc-title`
+  - `tr:nth-child(1) > .fc-event-container:nth-child(3) > .fc-day-grid-event.fc-h-event.fc-event > .fc-content > .fc-title`
+  - `.fc-week.fc-row.table-bordered:nth-child(2) > .fc-content-skeleton > table > tbody > tr:nth-child(1) > .fc-event-container:nth-child(4) > .fc-day-grid-event.fc-h-event.fc-event > .fc-content > .fc-title`
+  - … +20 autres
+- http://localhost:8080/chore/1
+  - `#chore-schedule-info`
+  - `#chore-assignment-type-info`
+  - `#save-chore-button`
+  - `.btn-outline-primary`
+- http://localhost:8080/chores
+  - `.responsive-button`
+- http://localhost:8080/choressettings
+  - `.btn`
+- http://localhost:8080/choretracking
+  - `.btn-success`
+- http://localhost:8080/consume
+  - `#save-consume-button`
+- http://localhost:8080/equipment
+  - `.btn-primary`
+- http://localhost:8080/equipment/1
+  - `#save-equipment-button`
+- http://localhost:8080/inventory
+  - `#save-inventory-button`
+- http://localhost:8080/location/1
+  - `#save-location-button`
+- http://localhost:8080/locations
+  - `.btn-primary`
+- http://localhost:8080/manageapikeys
+  - `#add-api-key-button`
+- http://localhost:8080/mealplan
+  - `.fc-agendaDay-button`
+- http://localhost:8080/mealplansection/1
+  - `#save-mealplansection-button`
+- http://localhost:8080/mealplansections
+  - `.btn-primary`
+- http://localhost:8080/product/1
+  - `#save-product-button`
+  - `.btn-info`
+  - `.col-lg-6.col-12:nth-child(2) > .row:nth-child(1) > .col > .title-related-links > .related-links.d-md-flex.order-2 > .m-1.mt-md-0.mb-md-0`
+  - `p:nth-child(3) > .btn-outline-primary.btn-sm.btn`
+  - `.m-1.mt-md-0[data-dialog-type="wider"]:nth-child(1)`
+  - `.btn-outline-primary.m-1[data-dialog-type="wider"]`
+- http://localhost:8080/productbarcodes/1
+  - `#save-barcode-button`
+- http://localhost:8080/productgroup/1
+  - `#save-product-group-button`
+- http://localhost:8080/productgroups
+  - `.btn-primary`
+- http://localhost:8080/products
+  - `.responsive-button`
+- http://localhost:8080/purchase
+  - `#save-purchase-button`
+- http://localhost:8080/quantityunit/1
+  - `.btn-success`
+  - `.btn-info`
+  - `.btn-outline-primary`
+- http://localhost:8080/quantityunitconversion/1
+  - `#qu-conversion-info`
+  - `#qu-conversion-inverse-info`
+  - `#save-quconversion-button`
+- http://localhost:8080/quantityunits
+  - `.btn-primary`
+- http://localhost:8080/recipe/1
+  - `button[data-location="continue"]`
+  - `button[data-location="return"]`
+  - `#recipe-pos-add-button`
+  - `#recipe-include-add-button`
+  - `p:nth-child(3) > .btn-outline-primary.btn-sm.btn`
+- http://localhost:8080/recipe/1/pos/1
+  - `#save-recipe-pos-button`
+- http://localhost:8080/recipes
+  - `.btn-primary`
+  - `span[data-product-id="23"]`
+  - `span[data-product-id="23"] > .locale-number-quantity-amount.number-parsing-done.locale-number`
+- http://localhost:8080/recipessettings
+  - `.btn`
+- http://localhost:8080/shoppinglist
+  - `.d-md-inline-block.mb-1.responsive-button`
+  - `#save-description-button`
+  - `#clear-description-button`
+- http://localhost:8080/shoppinglist/1
+  - `#save-shopping-list-button`
+- http://localhost:8080/shoppinglistitem/1
+  - `#save-shoppinglist-button`
+- http://localhost:8080/shoppinglistsettings
+  - `.btn`
+- http://localhost:8080/shoppinglocation/1
+  - `#save-shopping-location-button`
+- http://localhost:8080/shoppinglocations
+  - `.btn-primary`
+- http://localhost:8080/stockentry/1
+  - `#save-stockentry-button`
+- http://localhost:8080/stocksettings
+  - `.btn`
+- http://localhost:8080/task/2
+  - `.btn`
+- http://localhost:8080/taskcategories
+  - `.btn-primary`
+- http://localhost:8080/taskcategory/1
+  - `#save-task-category-button`
+- http://localhost:8080/tasks
+  - `.btn-primary`
+- http://localhost:8080/taskssettings
+  - `.btn`
+- http://localhost:8080/user/1
+  - `#save-user-button`
+- http://localhost:8080/user/1/permissions
+  - `#permission-save`
+- http://localhost:8080/user/1/sessions
+  - `.badge`
+- http://localhost:8080/userentities
+  - `.btn-primary`
+- http://localhost:8080/userentity/1
+  - `#save-userentity-button`
+- http://localhost:8080/userfield/1
+  - `#save-userfield-button`
+- http://localhost:8080/userfields
+  - `#new-userfield-button`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `#save-userobject-button`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.btn-primary`
+- http://localhost:8080/users
+  - `.responsive-button`
+- http://localhost:8080/usersettings
+  - `.btn`
+- http://localhost:8080/products [state:delete-confirm]
+  - `.responsive-button`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `#save-purchase-button`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `#save-purchase-button`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `#reschedule-chore-save-button`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `.pl-1`
+  - `#product-2-amount-aggregated`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `.responsive-button`
+  - `.btn-success`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.13/target-size?application=axeAPI
+
+- http://localhost:8080/api
+  - `.opblock-summary-get.opblock-summary > .opblock-summary-control > .opblock-summary-path-description-wrapper > .opblock-summary-path[data-path="/objects/{entity}"] > .nostyle`
+  - `#operations-Generic_entity_interactions-get_objects__entity_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"] > button[type="button"][aria-label="Copy path to clipboard"][title="Copy path to clipboard"]`
+  - `.opblock-summary-post.opblock-summary > .opblock-summary-control > .opblock-summary-path-description-wrapper > .opblock-summary-path[data-path="/objects/{entity}"] > .nostyle`
+  - `#operations-Generic_entity_interactions-post_objects__entity_ > .opblock-summary-post.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"] > button[type="button"][aria-label="Copy path to clipboard"][title="Copy path to clipboard"]`
+  - `.opblock-summary-get.opblock-summary > .opblock-summary-control > .opblock-summary-path-description-wrapper > .opblock-summary-path[data-path="/objects/{entity}/{objectId}"] > .nostyle`
+  - `#operations-Generic_entity_interactions-get_objects__entity___objectId_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"] > button[type="button"][aria-label="Copy path to clipboard"][title="Copy path to clipboard"]`
+  - `.opblock-summary-put.opblock-summary > .opblock-summary-control > .opblock-summary-path-description-wrapper > .opblock-summary-path[data-path="/objects/{entity}/{objectId}"] > .nostyle`
+  - `#operations-Generic_entity_interactions-put_objects__entity___objectId_ > .opblock-summary-put.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"] > button[type="button"][aria-label="Copy path to clipboard"][title="Copy path to clipboard"]`
+  - `.opblock-summary-delete.opblock-summary > .opblock-summary-control > .opblock-summary-path-description-wrapper > .opblock-summary-path[data-path="/objects/{entity}/{objectId}"] > .nostyle`
+  - `#operations-Generic_entity_interactions-delete_objects__entity___objectId_ > .opblock-summary-delete.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"] > button[type="button"][aria-label="Copy path to clipboard"][title="Copy path to clipboard"]`
+  - … +164 autres
+- http://localhost:8080/batteries
+  - `.navbar-brand`
+- http://localhost:8080/chores
+  - `.navbar-brand`
+- http://localhost:8080/locations
+  - `.navbar-brand`
+- http://localhost:8080/productgroups
+  - `.navbar-brand`
+- http://localhost:8080/products
+  - `.navbar-brand`
+- http://localhost:8080/quantityunits
+  - `.navbar-brand`
+- http://localhost:8080/shoppinglocations
+  - `.navbar-brand`
+- http://localhost:8080/taskcategories
+  - `.navbar-brand`
+- http://localhost:8080/userentities
+  - `.navbar-brand`
+- http://localhost:8080/userfields
+  - `.navbar-brand`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.navbar-brand`
+
+## [SERIOUS] aria-input-field-name — ARIA input fields must have an accessible name
+
+Ensure every ARIA input field has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-input-field-name?application=axeAPI
+
+- http://localhost:8080/equipment/1
+  - `.note-editable`
+- http://localhost:8080/product/1
+  - `.note-editable`
+- http://localhost:8080/recipe/1
+  - `.note-editable`
+- http://localhost:8080/shoppinglist
+  - `.note-editable`
+
+## [SERIOUS] aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+Ensure ARIA attributes are not prohibited for an element's role
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-prohibited-attr?application=axeAPI
+
+- http://localhost:8080/equipment/1
+  - `.note-resizebar`
+- http://localhost:8080/product/1
+  - `.note-resizebar`
+- http://localhost:8080/recipe/1
+  - `.note-resizebar`
+- http://localhost:8080/shoppinglist
+  - `.note-resizebar`
+
+## [SERIOUS] aria-dialog-name — ARIA dialog and alertdialog nodes should have an accessible name
+
+Ensure every ARIA dialog and alertdialog node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/aria-dialog-name?application=axeAPI
+
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `.bootbox`
+- http://localhost:8080/products [state:delete-confirm]
+  - `.bootbox`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `#reschedule-chore-modal`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `.bootbox`
+
+## [SERIOUS] nested-interactive — Interactive controls must not be nested
+
+Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
+Référence : https://dequeuniversity.com/rules/axe/4.13/nested-interactive?application=axeAPI
+
+- http://localhost:8080/api
+  - `#operations-Generic_entity_interactions-get_objects__entity_ > .opblock-summary-get.opblock-summary > .opblock-summary-control`
+  - `#operations-Generic_entity_interactions-post_objects__entity_ > .opblock-summary-post.opblock-summary > .opblock-summary-control`
+  - `#operations-Generic_entity_interactions-get_objects__entity___objectId_ > .opblock-summary-get.opblock-summary > .opblock-summary-control`
+  - `#operations-Generic_entity_interactions-put_objects__entity___objectId_ > .opblock-summary-put.opblock-summary > .opblock-summary-control`
+  - `#operations-Generic_entity_interactions-delete_objects__entity___objectId_ > .opblock-summary-delete.opblock-summary > .opblock-summary-control`
+  - `#operations-Generic_entity_interactions-get_userfields__entity___objectId_ > .opblock-summary-get.opblock-summary > .opblock-summary-control`
+  - `#operations-Generic_entity_interactions-put_userfields__entity___objectId_ > .opblock-summary-put.opblock-summary > .opblock-summary-control`
+  - `#operations-System-get_system_info > .opblock-summary-get.opblock-summary > .opblock-summary-control`
+  - `#operations-System-get_system_db_changed_time > .opblock-summary-get.opblock-summary > .opblock-summary-control`
+  - `#operations-System-get_system_config > .opblock-summary-get.opblock-summary > .opblock-summary-control`
+  - … +77 autres
+
+## [SERIOUS] listitem — <li> elements must be contained in a <ul> or <ol>
+
+Ensure <li> elements are used semantically
+Référence : https://dequeuniversity.com/rules/axe/4.13/listitem?application=axeAPI
+
+- http://localhost:8080/recipes
+  - `ul[role="tablist"] > .nav-item:nth-child(1)`
+  - `ul[role="tablist"] > .nav-item:nth-child(2)`
+
+## [SERIOUS] frame-title — Frames must have an accessible name
+
+Ensure <iframe> and <frame> elements have an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.13/frame-title?application=axeAPI
+
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `iframe`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.13/region?application=axeAPI
+
+- http://localhost:8080/about
+  - `.title`
+  - `.nav`
+  - `#system-info`
+  - `.small`
+- http://localhost:8080/api
+  - `h1`
+  - `.info__description`
+  - `.info__license`
+- http://localhost:8080/barcodescannertesting
+  - `.content-wrapper`
+- http://localhost:8080/batteries
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/batteriesjournal
+  - `h2`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(3)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/batteriesoverview
+  - `h2`
+  - `#related-links`
+  - `#info-overdue-batteries > .d-md-block.d-none`
+  - `#info-due-today-batteries > .d-md-block.d-none`
+  - `#info-due-soon-batteries > .d-md-block.d-none`
+  - `#table-filter-row`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="1"][aria-controls="batteries-overview-table"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping.sorting[data-column-index="2"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="3"][aria-controls="batteries-overview-table"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_asc[data-column-index="4"][aria-sort="ascending"]`
+  - … +20 autres
+- http://localhost:8080/batteriessettings
+  - `#page-content > .row:nth-child(1)`
+  - `h4`
+  - `.w-100`
+  - `#batteries_due_soon_days`
+  - `.btn`
+- http://localhost:8080/battery/1
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(1) > label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+  - `.form-group:nth-child(4)`
+  - `.w-100`
+  - `#charge_interval_days`
+  - `.border-top`
+- http://localhost:8080/batterytracking
+  - `h2`
+  - `label[for="battery_id"]`
+  - `#battery_id_text_input`
+  - `.form-group:nth-child(1) > .invalid-feedback`
+  - `label[for="tracked_time"]`
+  - `.datetimepicker-input`
+  - `.col-12.col-md-6.col-xl-4:nth-child(2)`
+- http://localhost:8080/calendar
+  - `.title`
+  - `#related-links`
+  - `.fc-center`
+  - `.fc-view-container`
+- http://localhost:8080/chore/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+  - `label[for="period_type"]`
+  - `#period_type`
+  - `label[for="period_interval"]`
+  - `#period_interval`
+  - `#chore-schedule-info`
+  - … +16 autres
+- http://localhost:8080/chores
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.dataTables_scrollHead`
+  - `#chores-table > thead`
+  - `.odd:nth-child(1) > .sorting_1`
+  - `.odd:nth-child(1) > td:nth-child(3)`
+  - `.even:nth-child(2) > .sorting_1`
+  - `.even:nth-child(2) > td:nth-child(3)`
+  - … +8 autres
+- http://localhost:8080/choresjournal
+  - `h2`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(3)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/choresoverview
+  - `h2`
+  - `#related-links`
+  - `#info-overdue-chores > .d-md-block.d-none`
+  - `#info-due-today-chores > .d-md-block.d-none`
+  - `#info-due-soon-chores > .d-md-block.d-none`
+  - `#info-assigned-to-me-chores > .d-md-block.d-none`
+  - `#table-filter-row`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="1"][aria-controls="chores-overview-table"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_asc[data-column-index="2"][aria-sort="ascending"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="3"][aria-controls="chores-overview-table"]`
+  - … +29 autres
+- http://localhost:8080/choressettings
+  - `#page-content > .row:nth-child(1)`
+  - `h4`
+  - `.w-100`
+  - `#chores_due_soon_days`
+  - `.form-group:nth-child(3)`
+  - `.btn`
+- http://localhost:8080/choretracking
+  - `h2`
+  - `label[for="chore_id"]`
+  - `#chore_id_text_input`
+  - `.form-group:nth-child(1) > .invalid-feedback`
+  - `label[for="tracked_time"]`
+  - `.datetimepicker-input`
+  - `label[for="user_id"]`
+  - `#user_id_text_input`
+  - `.col-12.col-md-6.col-xl-4:nth-child(2)`
+- http://localhost:8080/consume
+  - `h2`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `div[data-next-input-selector="#amount"] > .invalid-feedback`
+  - `label[for="display_amount"]`
+  - `#display_amount`
+  - `.col-sm-7`
+  - `.form-group:nth-child(4)`
+  - `.form-group:nth-child(5)`
+  - `.form-group:nth-child(6)`
+  - … +13 autres
+- http://localhost:8080/equipment
+  - `h2`
+  - `#related-links`
+  - `#table-filter-row > .col:nth-child(1)`
+  - `.dataTables_scrollHead`
+  - `#equipment-table > thead`
+  - `.odd > .sorting_1`
+  - `.even > .sorting_1`
+  - `.nav`
+  - `.selectedEquipmentInstructionManualCard > .card-header.card-header-fullscreen`
+- http://localhost:8080/equipment/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `label[for="description"]`
+  - `.note-editable`
+  - `.title-related-links > h4`
+  - `#instruction-manual`
+  - `#instruction-manual-label`
+- http://localhost:8080/inventory
+  - `h2`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `div[data-next-input-selector="#new_amount"] > .invalid-feedback`
+  - `#group-display_amount`
+  - `.col-sm-7`
+  - `label[for="best_before_date"]`
+  - `#best_before_date`
+  - `.mt-n2`
+  - `label[for="price"]`
+  - … +18 autres
+- http://localhost:8080/location/1
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(1)`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+  - `.form-group:nth-child(4)`
+- http://localhost:8080/locationcontentsheet
+  - `h2`
+  - `.custom-checkbox`
+  - `#related-links`
+  - `.page:nth-child(3) > h1`
+  - `.page:nth-child(3) > .row`
+  - `.page:nth-child(4) > h1`
+  - `.page:nth-child(4) > .row`
+  - `.page:nth-child(5) > h1`
+  - `.page:nth-child(5) > .row`
+  - `.page:nth-child(6) > h1`
+  - … +3 autres
+- http://localhost:8080/locations
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/manageapikeys
+  - `h2`
+  - `#related-links`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/mealplan
+  - `.title`
+  - `#related-links`
+  - `div[data-section-id="1"] > .fc-toolbar.fc-header-toolbar > .fc-left`
+  - `div[data-section-id="1"] > .fc-toolbar.fc-header-toolbar > .fc-center`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-head > tr > .fc-head-container > .fc-row.table-bordered > table > thead > tr > .fc-sun.fc-day-header[data-date="2026-10-04"] > span`
+  - `.fc-sun.fc-day-header[data-date="2026-10-04"] > .small.text-truncate:nth-child(4)`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-head > tr > .fc-head-container > .fc-row.table-bordered > table > thead > tr > .fc-mon.fc-day-header[data-date="2026-10-05"] > span`
+  - `.fc-mon.fc-day-header[data-date="2026-10-05"] > .small.text-truncate:nth-child(4)`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-head > tr > .fc-head-container > .fc-row.table-bordered > table > thead > tr > .fc-tue.fc-day-header[data-date="2026-10-06"] > span`
+  - `.fc-tue.fc-day-header[data-date="2026-10-06"] > .small.text-truncate:nth-child(4)`
+  - … +11 autres
+- http://localhost:8080/mealplansection/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `.w-100`
+  - `#sort_number`
+  - `.form-group:nth-child(3)`
+- http://localhost:8080/mealplansections
+  - `h2`
+  - `#related-links`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/product/1
+  - `h2`
+  - `#page-content > .row:nth-child(1) > .col > .title-related-links > .related-links.d-md-flex.order-2`
+  - `label[for="name"]`
+  - `#name`
+  - `#product-form > .form-group:nth-child(2)`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `label[for="description"]`
+  - `.note-editable`
+  - `.form-group:nth-child(5) > label[for="location_id"]`
+  - … +52 autres
+- http://localhost:8080/productbarcodes/1
+  - `.row:nth-child(2)`
+  - `.form-group:nth-child(2)`
+  - `label[for="display_amount"]`
+  - `#display_amount`
+  - `label[for="qu_id"]`
+  - `#qu_id`
+  - `.form-group:nth-child(4)`
+  - `.form-group:nth-child(5)`
+- http://localhost:8080/productgroup/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+- http://localhost:8080/productgroups
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/products
+  - `h2`
+  - `#related-links`
+  - `.col-xl-3.col-12.col-md-6:nth-child(1)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(2)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(3)`
+  - `.col-xl-2`
+  - `.dataTables_scrollHead`
+  - `#products-table > thead`
+  - `.productcard-trigger.cursor-link[data-product-id="29"]`
+  - `.odd:nth-child(1) > td:nth-child(3)`
+  - … +172 autres
+- http://localhost:8080/purchase
+  - `h2`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `div[data-next-input-selector="#display_amount"] > .invalid-feedback`
+  - `#group-display_amount`
+  - `.col-sm-7`
+  - `label[for="best_before_date"]`
+  - `#best_before_date`
+  - `.mb-0.mt-n2.form-group`
+  - `label[for="price"]`
+  - … +19 autres
+- http://localhost:8080/quantityunit/1
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(1)`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+  - `.form-group:nth-child(4)`
+  - `h4`
+  - `#related-links`
+  - `.row:nth-child(2)`
+- http://localhost:8080/quantityunitconversion/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="from_qu_id"]`
+  - `#from_qu_id`
+  - `label[for="to_qu_id"]`
+  - `#to_qu_id`
+  - `.w-100`
+  - `#factor`
+  - `#qu-conversion-info`
+  - `#qu-conversion-inverse-info`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `h2`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/quantityunitpluraltesting
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(1)`
+  - `.w-100`
+  - `#amount`
+  - `.col-lg-6 > h2`
+- http://localhost:8080/quantityunits
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/recipe/1
+  - `h2`
+  - `label[for="name"]`
+  - `#name`
+  - `label[for="base_servings"]`
+  - `#base_servings`
+  - `.form-group:nth-child(3)`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `label[for="description"]`
+  - `.note-editable`
+  - … +11 autres
+- http://localhost:8080/recipe/1/pos/1
+  - `.row:nth-child(2)`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `div[data-next-input-selector="#amount"] > .invalid-feedback`
+  - `.mb-2.form-group:nth-child(2)`
+  - `label[for="display_amount"]`
+  - `#display_amount`
+  - `.col-sm-7`
+  - `.form-group:nth-child(4)`
+  - `.form-group:nth-child(5)`
+  - … +4 autres
+- http://localhost:8080/recipes
+  - `h2`
+  - `#related-links`
+  - `.col-md-5.col-12:nth-child(1)`
+  - `.col-md-5.col-12:nth-child(2)`
+  - `.col-12.col-md-6.d-print-none > .nav.nav-tabs.grocy-tabs`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_asc[data-column-index="1"][aria-sort="ascending"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping.sorting[data-column-index="3"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping[data-shadow-rowgroup-column="8"][data-column-index="4"]`
+  - `#recipes-table > thead > tr > .sorting_asc[data-column-index="1"][aria-sort="ascending"]`
+  - `#recipes-table > thead > tr > .allow-grouping.sorting[data-column-index="3"]`
+  - … +27 autres
+- http://localhost:8080/recipessettings
+  - `.content-wrapper`
+- http://localhost:8080/shoppinglist
+  - `.title`
+  - `.order-3`
+  - `.my-auto`
+  - `.m-1`
+  - `.d-md-block.d-none`
+  - `.d-md-inline-block.mb-1.responsive-button`
+  - `.d-md-block.mt-1.collapse > .btn-group`
+  - `.btn-outline-dark.mb-1.responsive-button`
+  - `.col-xl-3.col-12.col-md-6:nth-child(1)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(2)`
+  - … +22 autres
+- http://localhost:8080/shoppinglist/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+- http://localhost:8080/shoppinglistitem/1
+  - `.row:nth-child(2)`
+  - `#shoppinglist-form > .form-group:nth-child(1)`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `label[for="display_amount"]`
+  - `#display_amount`
+  - `label[for="qu_id"]`
+  - `#qu_id`
+  - `label[for="note"]`
+  - `#note`
+- http://localhost:8080/shoppinglistsettings
+  - `.content-wrapper`
+- http://localhost:8080/shoppinglocation/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+- http://localhost:8080/shoppinglocations
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/stockentries
+  - `h2`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `.col-12.col-xl-3.mt-auto`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_asc[data-column-index="2"][aria-sort="ascending"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="3"][aria-controls="stockentries-table"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping.sorting[data-column-index="4"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping.sorting[data-column-index="5"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping.sorting[data-column-index="6"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="7"][aria-controls="stockentries-table"]`
+  - … +677 autres
+- http://localhost:8080/stockentry/1
+  - `.row:nth-child(2)`
+  - `label[for="amount"]`
+  - `#amount`
+  - `label[for="purchase_date"]`
+  - `.datetimepicker2-input`
+  - `label[for="best_before_date"]`
+  - `.datetimepicker-input`
+  - `.mt-n2`
+  - `label[for="price"]`
+  - `#price`
+  - … +6 autres
+- http://localhost:8080/stockjournal
+  - `h2`
+  - `#related-links`
+  - `.col-xl-2.col-12.col-md-6:nth-child(1)`
+  - `.hide-when-embedded.col-xl-3.col-12`
+  - `.col-xl-3.col-12.col-md-6:nth-child(3)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(4)`
+  - `.col-xl-2.mt-1.col-12`
+  - `.col-xl-3.mt-1.col-12`
+  - `.dataTables_scrollHead`
+  - `#stock-journal-table > thead`
+  - … +528 autres
+- http://localhost:8080/stockjournal/summary
+  - `h2`
+  - `.col-xl-2`
+  - `.hide-when-embedded`
+  - `.col-xl-3.col-12.col-md-6:nth-child(3)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(4)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/stockoverview
+  - `.title`
+  - `.mr-auto`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-expired-products > .d-md-block.d-none`
+  - `#info-overdue-products > .d-md-block.d-none`
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#table-filter-row`
+  - … +147 autres
+- http://localhost:8080/stockreports/spendings
+  - `h2`
+  - `#related-links`
+  - `.col-xl-3`
+  - `.col-xl-4`
+  - `#metrics-chart`
+  - `.row:nth-child(2)`
+- http://localhost:8080/stocksettings
+  - `#page-content > .row:nth-child(1)`
+  - `#productpresets > h4`
+  - `.form-group:nth-child(2)`
+  - `#productpresets > .form-group:nth-child(3)`
+  - `#productpresets > .form-group:nth-child(4)`
+  - `#group-product_presets_default_due_days > .w-100`
+  - `#product_presets_default_due_days`
+  - `.form-group:nth-child(6)`
+  - `.mt-5:nth-child(2)`
+  - `label[for="stock_due_soon_days"]`
+  - … +21 autres
+- http://localhost:8080/task/2
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2)`
+  - `label[for="due_date"]`
+  - `.datetimepicker-input`
+  - `.form-group:nth-child(4)`
+  - `label[for="user_id"]`
+  - `#user_id_text_input`
+- http://localhost:8080/taskcategories
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/taskcategory/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+- http://localhost:8080/tasks
+  - `h2`
+  - `#related-links`
+  - `#info-overdue-tasks > .d-md-block.d-none`
+  - `#info-due-today-tasks > .d-md-block.d-none`
+  - `#info-due-soon-tasks > .d-md-block.d-none`
+  - `#table-filter-row`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="1"][aria-controls="tasks-table"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_asc[data-column-index="2"][aria-sort="ascending"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping[data-shadow-rowgroup-column="6"][data-column-index="3"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .allow-grouping.sorting[data-column-index="4"]`
+  - … +21 autres
+- http://localhost:8080/taskssettings
+  - `#page-content > .row:nth-child(1)`
+  - `.w-100`
+  - `#tasks_due_soon_days`
+  - `.btn`
+- http://localhost:8080/user/1
+  - `#page-content > .row:nth-child(1)`
+  - `label[for="username"]`
+  - `#username`
+  - `#user-form > .form-group:nth-child(2)`
+  - `.form-group:nth-child(3)`
+  - `.mb-1`
+  - `.form-group:nth-child(5)`
+  - `label[for="password_confirm"]`
+  - `#password_confirm`
+  - `h4`
+  - … +3 autres
+- http://localhost:8080/user/1/permissions
+  - `#page-content > .row:nth-child(1)`
+  - `.pl-0`
+- http://localhost:8080/user/1/sessions
+  - `h2`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/userentities
+  - `h2`
+  - `#related-links`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/userentity/1
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(1) > label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(2) > label[for="name"]`
+  - `#caption`
+  - `.form-group:nth-child(3)`
+  - `.form-group:nth-child(4)`
+  - `.form-group:nth-child(5)`
+- http://localhost:8080/userfield/1
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(1) > label[for="entity"]`
+  - `#entity`
+  - `.form-group:nth-child(2) > label[for="name"]`
+  - `#name`
+  - `.form-group:nth-child(3) > label[for="name"]`
+  - `#caption`
+  - `.w-100`
+  - `#sort_number`
+  - `label[for="type"]`
+  - … +3 autres
+- http://localhost:8080/userfields
+  - `h2`
+  - `#related-links`
+  - `.col-12.col-xl-3.col-md-6:nth-child(1)`
+  - `.col-12.col-xl-3.col-md-6:nth-child(2)`
+  - `.row:nth-child(2)`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `#page-content > .row:nth-child(1)`
+  - `.form-group:nth-child(2) > label`
+  - `input[data-userfield-name="customfield1"]`
+  - `.form-group:nth-child(3) > label`
+  - `input[data-userfield-name="customfield2"]`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.title`
+  - `.mb-0`
+  - `#related-links`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/users
+  - `h2`
+  - `#related-links`
+  - `.col-12`
+  - `.row:nth-child(2)`
+- http://localhost:8080/usersettings
+  - `.content-wrapper`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `.title`
+  - `.mr-auto`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-expired-products > .d-md-block.d-none`
+  - `#info-overdue-products > .d-md-block.d-none`
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#table-filter-row`
+  - … +147 autres
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `.title`
+  - `.mr-auto`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-expired-products > .d-md-block.d-none`
+  - `#info-overdue-products > .d-md-block.d-none`
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#table-filter-row`
+  - … +147 autres
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `.title`
+  - `.mr-auto`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-expired-products > .d-md-block.d-none`
+  - `#info-overdue-products > .d-md-block.d-none`
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#table-filter-row`
+  - … +147 autres
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `.title`
+  - `.mr-auto`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-expired-products > .d-md-block.d-none`
+  - `#info-overdue-products > .d-md-block.d-none`
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#table-filter-row`
+  - … +147 autres
+- http://localhost:8080/products [state:delete-confirm]
+  - `h2`
+  - `#related-links`
+  - `.col-xl-3.col-12.col-md-6:nth-child(1)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(2)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(3)`
+  - `.col-xl-2`
+  - `.dataTables_scrollHead`
+  - `#products-table > thead`
+  - `.productcard-trigger.cursor-link[data-product-id="29"]`
+  - `.odd:nth-child(1) > td:nth-child(3)`
+  - … +172 autres
+- http://localhost:8080/purchase [state:combobox-open]
+  - `h2`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `.input-group > .typeahead.typeahead-long.dropdown-menu`
+  - `div[data-next-input-selector="#display_amount"] > .invalid-feedback`
+  - `#group-display_amount`
+  - `.col-sm-7`
+  - `label[for="best_before_date"]`
+  - `#best_before_date`
+  - `.mb-0.mt-n2.form-group`
+  - … +20 autres
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `h2`
+  - `label[for="product_id"]`
+  - `#product_id_text_input`
+  - `div[data-next-input-selector="#display_amount"] > .invalid-feedback`
+  - `#group-display_amount`
+  - `.col-sm-7`
+  - `label[for="best_before_date"]`
+  - `#best_before_date`
+  - `.mb-0.mt-n2.form-group`
+  - `label[for="price"]`
+  - … +19 autres
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `h2`
+  - `#related-links`
+  - `#info-overdue-chores > .d-md-block.d-none`
+  - `#info-due-today-chores > .d-md-block.d-none`
+  - `#info-due-soon-chores > .d-md-block.d-none`
+  - `#info-assigned-to-me-chores > .d-md-block.d-none`
+  - `#table-filter-row`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="1"][aria-controls="chores-overview-table"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_asc[data-column-index="2"][aria-sort="ascending"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="3"][aria-controls="chores-overview-table"]`
+  - … +29 autres
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `.title`
+  - `.mr-auto`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-expired-products > .d-md-block.d-none`
+  - `#info-overdue-products > .d-md-block.d-none`
+  - `#info-duesoon-products > .d-md-block.d-none`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#table-filter-row`
+  - … +147 autres
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `h2`
+  - `#related-links`
+  - `.col-xl-3.col-12.col-md-6:nth-child(1)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(2)`
+  - `.col-xl-3.col-12.col-md-6:nth-child(3)`
+  - `.col-xl-2`
+  - `.dataTables_scrollHead`
+  - `#products-table > thead`
+  - `.productcard-trigger.cursor-link[data-product-id="29"]`
+  - `.odd:nth-child(1) > td:nth-child(3)`
+  - … +172 autres
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.title`
+  - `.mr-auto`
+  - `#info-expired-products > .d-block.d-md-none`
+  - `#info-overdue-products > .d-block.d-md-none`
+  - `#info-duesoon-products > .d-block.d-md-none`
+  - `#info-missing-products > .d-block.d-md-none`
+  - `.dataTables_scrollHead`
+  - `#stock-overview-table > thead`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"]`
+  - `#product-13-consume-all-button`
+  - … +143 autres
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.13/landmark-one-main?application=axeAPI
+
+- http://localhost:8080/about
+  - `html`
+- http://localhost:8080/barcodescannertesting
+  - `html`
+- http://localhost:8080/batteries
+  - `html`
+- http://localhost:8080/batteriesjournal
+  - `html`
+- http://localhost:8080/batteriesoverview
+  - `html`
+- http://localhost:8080/batteriessettings
+  - `html`
+- http://localhost:8080/battery/1
+  - `html`
+- http://localhost:8080/batterytracking
+  - `html`
+- http://localhost:8080/calendar
+  - `html`
+- http://localhost:8080/chore/1
+  - `html`
+- http://localhost:8080/chores
+  - `html`
+- http://localhost:8080/choresjournal
+  - `html`
+- http://localhost:8080/choresoverview
+  - `html`
+- http://localhost:8080/choressettings
+  - `html`
+- http://localhost:8080/choretracking
+  - `html`
+- http://localhost:8080/consume
+  - `html`
+- http://localhost:8080/equipment
+  - `html`
+- http://localhost:8080/equipment/1
+  - `html`
+- http://localhost:8080/inventory
+  - `html`
+- http://localhost:8080/location/1
+  - `html`
+- http://localhost:8080/locationcontentsheet
+  - `html`
+- http://localhost:8080/locations
+  - `html`
+- http://localhost:8080/manageapikeys
+  - `html`
+- http://localhost:8080/mealplan
+  - `html`
+- http://localhost:8080/mealplansection/1
+  - `html`
+- http://localhost:8080/mealplansections
+  - `html`
+- http://localhost:8080/product/1
+  - `html`
+- http://localhost:8080/productbarcodes/1
+  - `html`
+- http://localhost:8080/productgroup/1
+  - `html`
+- http://localhost:8080/productgroups
+  - `html`
+- http://localhost:8080/products
+  - `html`
+- http://localhost:8080/purchase
+  - `html`
+- http://localhost:8080/quantityunit/1
+  - `html`
+- http://localhost:8080/quantityunitconversion/1
+  - `html`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `html`
+- http://localhost:8080/quantityunitpluraltesting
+  - `html`
+- http://localhost:8080/quantityunits
+  - `html`
+- http://localhost:8080/recipe/1
+  - `html`
+- http://localhost:8080/recipe/1/pos/1
+  - `html`
+- http://localhost:8080/recipes
+  - `html`
+- http://localhost:8080/recipessettings
+  - `html`
+- http://localhost:8080/shoppinglist
+  - `html`
+- http://localhost:8080/shoppinglist/1
+  - `html`
+- http://localhost:8080/shoppinglistitem/1
+  - `html`
+- http://localhost:8080/shoppinglistsettings
+  - `html`
+- http://localhost:8080/shoppinglocation/1
+  - `html`
+- http://localhost:8080/shoppinglocations
+  - `html`
+- http://localhost:8080/stockentries
+  - `html`
+- http://localhost:8080/stockentry/1
+  - `html`
+- http://localhost:8080/stockjournal
+  - `html`
+- http://localhost:8080/stockjournal/summary
+  - `html`
+- http://localhost:8080/stockoverview
+  - `html`
+- http://localhost:8080/stockreports/spendings
+  - `html`
+- http://localhost:8080/stocksettings
+  - `html`
+- http://localhost:8080/task/2
+  - `html`
+- http://localhost:8080/taskcategories
+  - `html`
+- http://localhost:8080/taskcategory/1
+  - `html`
+- http://localhost:8080/tasks
+  - `html`
+- http://localhost:8080/taskssettings
+  - `html`
+- http://localhost:8080/user/1
+  - `html`
+- http://localhost:8080/user/1/permissions
+  - `html`
+- http://localhost:8080/user/1/sessions
+  - `html`
+- http://localhost:8080/userentities
+  - `html`
+- http://localhost:8080/userentity/1
+  - `html`
+- http://localhost:8080/userfield/1
+  - `html`
+- http://localhost:8080/userfields
+  - `html`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `html`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `html`
+- http://localhost:8080/users
+  - `html`
+- http://localhost:8080/usersettings
+  - `html`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `html`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `html`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `html`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `html`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `html`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `html`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.13/page-has-heading-one?application=axeAPI
+
+- http://localhost:8080/about
+  - `html`
+- http://localhost:8080/barcodescannertesting
+  - `html`
+- http://localhost:8080/batteries
+  - `html`
+- http://localhost:8080/batteriesjournal
+  - `html`
+- http://localhost:8080/batteriesoverview
+  - `html`
+- http://localhost:8080/batteriessettings
+  - `html`
+- http://localhost:8080/battery/1
+  - `html`
+- http://localhost:8080/batterytracking
+  - `html`
+- http://localhost:8080/calendar
+  - `html`
+- http://localhost:8080/chore/1
+  - `html`
+- http://localhost:8080/chores
+  - `html`
+- http://localhost:8080/choresjournal
+  - `html`
+- http://localhost:8080/choresoverview
+  - `html`
+- http://localhost:8080/choressettings
+  - `html`
+- http://localhost:8080/choretracking
+  - `html`
+- http://localhost:8080/consume
+  - `html`
+- http://localhost:8080/equipment
+  - `html`
+- http://localhost:8080/inventory
+  - `html`
+- http://localhost:8080/location/1
+  - `html`
+- http://localhost:8080/locations
+  - `html`
+- http://localhost:8080/manageapikeys
+  - `html`
+- http://localhost:8080/mealplan
+  - `html`
+- http://localhost:8080/mealplansection/1
+  - `html`
+- http://localhost:8080/mealplansections
+  - `html`
+- http://localhost:8080/product/1
+  - `html`
+- http://localhost:8080/productbarcodes/1
+  - `html`
+- http://localhost:8080/productgroup/1
+  - `html`
+- http://localhost:8080/productgroups
+  - `html`
+- http://localhost:8080/products
+  - `html`
+- http://localhost:8080/purchase
+  - `html`
+- http://localhost:8080/quantityunit/1
+  - `html`
+- http://localhost:8080/quantityunitconversion/1
+  - `html`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `html`
+- http://localhost:8080/quantityunitpluraltesting
+  - `html`
+- http://localhost:8080/quantityunits
+  - `html`
+- http://localhost:8080/recipe/1/pos/1
+  - `html`
+- http://localhost:8080/recipes
+  - `html`
+- http://localhost:8080/recipessettings
+  - `html`
+- http://localhost:8080/shoppinglist
+  - `html`
+- http://localhost:8080/shoppinglist/1
+  - `html`
+- http://localhost:8080/shoppinglistitem/1
+  - `html`
+- http://localhost:8080/shoppinglistsettings
+  - `html`
+- http://localhost:8080/shoppinglocation/1
+  - `html`
+- http://localhost:8080/shoppinglocations
+  - `html`
+- http://localhost:8080/stockentries
+  - `html`
+- http://localhost:8080/stockentry/1
+  - `html`
+- http://localhost:8080/stockjournal
+  - `html`
+- http://localhost:8080/stockjournal/summary
+  - `html`
+- http://localhost:8080/stockoverview
+  - `html`
+- http://localhost:8080/stockreports/spendings
+  - `html`
+- http://localhost:8080/stocksettings
+  - `html`
+- http://localhost:8080/task/2
+  - `html`
+- http://localhost:8080/taskcategories
+  - `html`
+- http://localhost:8080/taskcategory/1
+  - `html`
+- http://localhost:8080/tasks
+  - `html`
+- http://localhost:8080/taskssettings
+  - `html`
+- http://localhost:8080/user/1
+  - `html`
+- http://localhost:8080/user/1/permissions
+  - `html`
+- http://localhost:8080/user/1/sessions
+  - `html`
+- http://localhost:8080/userentities
+  - `html`
+- http://localhost:8080/userentity/1
+  - `html`
+- http://localhost:8080/userfield/1
+  - `html`
+- http://localhost:8080/userfields
+  - `html`
+- http://localhost:8080/userobject/exampleuserentity/1
+  - `html`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `html`
+- http://localhost:8080/users
+  - `html`
+- http://localhost:8080/usersettings
+  - `html`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `html`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `html`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `html`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `html`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `html`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `html`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI
+
+- http://localhost:8080/api
+  - `#operations-tag-Generic_entity_interactions`
+- http://localhost:8080/batteriessettings
+  - `h4`
+- http://localhost:8080/battery/1
+  - `h4`
+- http://localhost:8080/chore/1
+  - `h4`
+- http://localhost:8080/choressettings
+  - `h4`
+- http://localhost:8080/consume
+  - `h5`
+- http://localhost:8080/equipment/1
+  - `.title-related-links > h4`
+- http://localhost:8080/inventory
+  - `h5`
+- http://localhost:8080/mealplan
+  - `.fc-center > h4`
+- http://localhost:8080/product/1
+  - `.row:nth-child(1) > .col > .title-related-links > h4`
+- http://localhost:8080/purchase
+  - `h5`
+- http://localhost:8080/quantityunit/1
+  - `h4`
+- http://localhost:8080/recipe/1
+  - `.row:nth-child(1) > .col > .title-related-links > h4`
+- http://localhost:8080/recipessettings
+  - `h4`
+- http://localhost:8080/shoppinglistsettings
+  - `h4:nth-child(1)`
+- http://localhost:8080/stocksettings
+  - `#productpresets > h4`
+- http://localhost:8080/user/1
+  - `h4`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `h5`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `h5`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `h4`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-table-header?application=axeAPI
+
+- http://localhost:8080/batteries
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#batteries-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/batteriesjournal
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#batteries-journal-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/batteriesoverview
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#batteries-overview-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/chores
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#chores-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/choresjournal
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#chores-journal-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/choresoverview
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#chores-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/equipment
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#equipment-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/locations
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#locations-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/manageapikeys
+  - `.dataTables_scrollHeadInner > table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `#apikeys-table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+- http://localhost:8080/mealplan
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-head > tr > .fc-head-container > .fc-row.table-bordered > table > thead > tr > .fc-axis`
+- http://localhost:8080/mealplansections
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#mealplansections-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/product/1
+  - `#barcode-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `#barcode-table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `#qu-conversions-table-products_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="4"][aria-controls="qu-conversions-table-products"]`
+  - `#qu-conversions-table-products > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `#qu-conversions-table-products > thead > tr > .sorting[data-column-index="4"][aria-controls="qu-conversions-table-products"]`
+- http://localhost:8080/productgroups
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#productgroups-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/products
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#products-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/quantityunit/1
+  - `.dataTables_scrollHeadInner > table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `#qu-conversions-table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `.dataTables_scrollHeadInner > table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting[data-column-index="4"][aria-controls="qu-conversions-resolved-table"]`
+  - `#qu-conversions-resolved-table > thead > tr > .border-right.sorting_disabled[data-column-index="0"]`
+  - `#qu-conversions-resolved-table > thead > tr > .sorting[data-column-index="4"][aria-controls="qu-conversions-resolved-table"]`
+- http://localhost:8080/quantityunits
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#quantityunits-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/recipe/1
+  - `#recipes-pos-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "]`
+  - `#recipes-pos-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "]`
+  - `#recipes-includes-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "]`
+  - `#recipes-includes-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/recipes
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "]`
+  - `#recipes-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/shoppinglist
+  - `.dataTables_scrollHeadInner > .w-100 > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#shoppinglist-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/shoppinglocations
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#shoppinglocations-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/stockentries
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#stockentries-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/stockjournal
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#stock-journal-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/stockjournal/summary
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#stock-journal-summary-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/stockoverview
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/taskcategories
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#taskcategories-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/tasks
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#tasks-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/user/1/sessions
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#sessions-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/userentities
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#userentities-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/userfields
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#userfields-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \a \9 \9 \9 \9 \9 \9 \a \9 \9 \9 \9 \9 "]`
+  - `#userobjects-table-1 > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 \9 \a \9 \9 \9 \9 \9 \9 \a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/users
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+  - `#users-table > thead > tr > .sorting_disabled[data-column-index="0"][aria-label="\a \9 \9 \9 \9 \9 "]`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/products [state:delete-confirm]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#products-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#chores-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#products-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.dataTables_scrollHeadInner > table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+  - `#stock-overview-table > thead > tr > .sorting_disabled[aria-label="\a \9 \9 \9 \9 \9 "][data-column-index="0"]`
+
+## [MINOR] empty-heading — Headings should not be empty
+
+Ensure headings have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.13/empty-heading?application=axeAPI
+
+- http://localhost:8080/batterytracking
+  - `h3`
+- http://localhost:8080/choretracking
+  - `h3`
+- http://localhost:8080/consume
+  - `h3`
+- http://localhost:8080/inventory
+  - `h3`
+- http://localhost:8080/mealplan
+  - `#day-summary-2026-10-04`
+  - `#day-summary-2026-10-05`
+  - `#day-summary-2026-10-06`
+  - `#day-summary-2026-10-07`
+  - `#day-summary-2026-10-08`
+  - `#day-summary-2026-10-09`
+  - `#day-summary-2026-10-10`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-content-skeleton > table > tbody > tr > .fc-event-container:nth-child(3) > .fc-day-grid-event.fc-h-event.fc-start > div > .d-print-none`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-content-skeleton > table > tbody > tr > .fc-event-container:nth-child(4) > .fc-day-grid-event.fc-h-event.fc-start > div > .d-print-none`
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-content-skeleton > table > tbody > tr > .fc-event-container:nth-child(5) > .fc-day-grid-event.fc-h-event.fc-start > div > .d-print-none`
+  - … +8 autres
+- http://localhost:8080/product/1
+  - `#barcode-headline-info`
+- http://localhost:8080/purchase
+  - `h3`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `h3`
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `h3`
+
+## Résultats incomplets à revoir (783)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:8080/api
+  - `#operations-Generic_entity_interactions-get_objects__entity_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-post_objects__entity_ > .opblock-summary-post.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-get_objects__entity___objectId_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-put_objects__entity___objectId_ > .opblock-summary-put.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-delete_objects__entity___objectId_ > .opblock-summary-delete.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-get_userfields__entity___objectId_ > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-Generic_entity_interactions-put_userfields__entity___objectId_ > .opblock-summary-put.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-System-get_system_info > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-System-get_system_db_changed_time > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - `#operations-System-get_system_config > .opblock-summary-get.opblock-summary > .view-line-link.copy-to-clipboard[title="Copy path to clipboard"]`
+  - … +77 autres
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8080/barcodescannertesting
+  - `#hit-count`
+- http://localhost:8080/batteriesjournal
+  - `#battery-filter`
+  - `#daterange-filter`
+- http://localhost:8080/batteriesoverview
+  - `#status-filter`
+- http://localhost:8080/battery/1
+  - `label[for="active"]`
+- http://localhost:8080/batterytracking
+  - `#batterycard-battery-journal-button`
+- http://localhost:8080/calendar
+  - `.fc-sun.fc-other-month[data-date="2026-11-01"] > .fc-day-number`
+  - `.fc-mon.fc-other-month[data-date="2026-11-02"] > .fc-day-number`
+  - `.fc-tue.fc-other-month[data-date="2026-11-03"] > .fc-day-number`
+  - `.fc-wed.fc-other-month[data-date="2026-11-04"] > .fc-day-number`
+  - `.fc-thu.fc-other-month[data-date="2026-11-05"] > .fc-day-number`
+  - `.fc-fri.fc-other-month[data-date="2026-11-06"] > .fc-day-number`
+  - `.fc-sat.fc-other-month[data-date="2026-11-07"] > .fc-day-number`
+- http://localhost:8080/chore/1
+  - `label[for="active"]`
+  - `#period_type`
+  - `#assignment_type`
+- http://localhost:8080/choresjournal
+  - `#chore-filter`
+  - `#daterange-filter`
+- http://localhost:8080/choresoverview
+  - `#status-filter`
+  - `#user-filter`
+- http://localhost:8080/choretracking
+  - `#chorecard-chore-journal-button`
+- http://localhost:8080/consume
+  - `#qu_id`
+  - `#location_id`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8080/equipment
+  - `.odd > .sorting_1`
+- http://localhost:8080/inventory
+  - `#qu_id`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8080/mealplan
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-bg > table > tbody > tr > .fc-axis > div`
+  - `div[data-section-id="2"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-bg > table > tbody > tr > .fc-axis > div`
+  - `div[data-section-id="3"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-body > tr > td > .fc-day-grid.fc-unselectable > .fc-week.fc-row.table-bordered > .fc-bg > table > tbody > tr > .fc-axis > div`
+- http://localhost:8080/product/1
+  - `label[for="active"]`
+  - `#location_id`
+  - `#default_consume_location_id`
+  - `#product_group_id`
+  - `#qu_id_stock`
+  - `#qu_id_purchase`
+  - `#qu_id_consume`
+  - `#qu_id_price`
+  - `.form-group:nth-child(28) > .mt-n2.custom-radio.custom-control:nth-child(2) > .custom-control-label`
+- http://localhost:8080/productbarcodes/1
+  - `#qu_id`
+  - `#shopping_location_id`
+- http://localhost:8080/productgroup/1
+  - `label[for="active"]`
+- http://localhost:8080/products
+  - `#product-group-filter`
+  - `#status-filter`
+  - `.even:nth-child(2) > td:nth-child(7)`
+  - `.even:nth-child(4) > td:nth-child(7)`
+  - `.odd:nth-child(9) > td:nth-child(7)`
+  - `.even:nth-child(14) > td:nth-child(7)`
+  - `.odd:nth-child(17) > td:nth-child(7)`
+  - `.even:nth-child(20) > td:nth-child(7)`
+  - `.even:nth-child(22) > td:nth-child(7)`
+  - `.odd:nth-child(29) > td:nth-child(7)`
+- http://localhost:8080/purchase
+  - `#qu_id`
+  - `label[for="price-type-unit-price"]`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8080/quantityunitconversion/1
+  - `#from_qu_id`
+  - `#to_qu_id`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `#quantity-unit-filter`
+- http://localhost:8080/quantityunitpluraltesting
+  - `#qu_id`
+- http://localhost:8080/recipe/1
+  - `#recipe-picture-label`
+- http://localhost:8080/recipe/1/pos/1
+  - `#qu_id`
+- http://localhost:8080/recipes
+  - `#status-filter`
+  - `#recipe-row-5 > .sorting_1`
+  - `#recipe-row-5 > td:nth-child(3)`
+  - `#recipe-row-5 > td:nth-child(4) > .timeago-contextual`
+- http://localhost:8080/shoppinglist
+  - `#selected-shopping-list`
+  - `#status-filter`
+- http://localhost:8080/shoppinglistitem/1
+  - `#shopping_list_id`
+  - `#qu_id`
+- http://localhost:8080/shoppinglocation/1
+  - `label[for="active"]`
+- http://localhost:8080/stockentries
+  - `#location-filter`
+  - `#stock-81-purchased-date-timeago`
+  - `#stock-36-purchased-date-timeago`
+  - `#stock-37-purchased-date-timeago`
+  - `#stock-38-purchased-date-timeago`
+  - `#stock-39-purchased-date-timeago`
+  - `#stock-40-purchased-date-timeago`
+  - `#stock-75-purchased-date-timeago`
+  - `#stock-84-purchased-date-timeago`
+  - `#stock-41-purchased-date-timeago`
+  - … +47 autres
+- http://localhost:8080/stockjournal
+  - `#product-filter`
+  - `#transaction-type-filter`
+  - `#location-filter`
+  - `#user-filter`
+  - `#daterange-filter`
+- http://localhost:8080/stockjournal/summary
+  - `#product-filter`
+  - `#transaction-type-filter`
+  - `#user-filter`
+- http://localhost:8080/stockoverview
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-product-name="Cucumber"][data-product-id="13"][data-product-qu-name="Piece"]:nth-child(3) > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Tomato"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Mark 1 Piece of Tomato as open"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Pack of Minced meat"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `.product-open-button[data-product-name="Minced meat"][data-product-id="20"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Eggs"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - … +41 autres
+- http://localhost:8080/stockreports/spendings
+  - `#daterange-filter`
+  - `#product-group-filter`
+- http://localhost:8080/stocksettings
+  - `#product_presets_location_id`
+  - `#product_presets_product_group_id`
+  - `#product_presets_qu_id`
+- http://localhost:8080/task/2
+  - `#category_id`
+- http://localhost:8080/taskcategory/1
+  - `label[for="active"]`
+- http://localhost:8080/tasks
+  - `#category-filter`
+  - `#user-filter`
+- http://localhost:8080/user/1/sessions
+  - `#session-2-row > td:nth-child(7)`
+- http://localhost:8080/userfield/1
+  - `#entity`
+  - `#type`
+- http://localhost:8080/userfields
+  - `#entity-filter`
+- http://localhost:8080/usersettings
+  - `#locale`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-product-name="Cucumber"][data-product-id="13"][data-product-qu-name="Piece"]:nth-child(3) > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Tomato"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Mark 1 Piece of Tomato as open"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - … +44 autres
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `label[for="night-mode-on"]`
+  - `label[for="night-mode-off"]`
+  - `#related-links > .m-1.mt-md-0.mb-md-0:nth-child(1)`
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#location-filter`
+  - `.col-12.col-xl-3.col-md-6:nth-child(3) > .input-group > .input-group-prepend > .input-group-text`
+  - `#product-group-filter`
+  - `.col-12.col-xl-3.col-md-6:nth-child(4) > .input-group > .input-group-prepend > .input-group-text`
+  - `#status-filter`
+  - … +59 autres
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `.m-1.mt-md-0.mb-md-0:nth-child(2)`
+  - `.dropdown > .m-1.mt-md-0.mb-md-0`
+  - `#info-missing-products > .d-md-block.d-none`
+  - `#location-filter`
+  - `#product-group-filter`
+  - `.col-12.col-xl-3.col-md-6:nth-child(4) > .input-group > .input-group-prepend > .input-group-text`
+  - `#status-filter`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-product-name="Cucumber"][data-product-id="13"][data-product-qu-name="Piece"]:nth-child(3) > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `#product-13-next-due-date-timeago`
+  - … +51 autres
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-product-name="Cucumber"][data-product-id="13"][data-product-qu-name="Piece"]:nth-child(3) > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Tomato"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Mark 1 Piece of Tomato as open"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Pack of Minced meat"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `.product-open-button[data-product-name="Minced meat"][data-product-id="20"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Eggs"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - … +41 autres
+- http://localhost:8080/products [state:delete-confirm]
+  - `#product-group-filter`
+  - `#status-filter`
+  - `.bootbox-body`
+- http://localhost:8080/purchase [state:combobox-open]
+  - `div[data-next-input-selector="#display_amount"] > .invalid-feedback`
+  - `label[for="display_amount"]`
+  - `#display_amount`
+  - `#group-display_amount > .input-group > .invalid-feedback`
+  - `#qu_id`
+  - `label[for="best_before_date"]`
+  - `.datetimepicker-input`
+  - `#best_before_date > .invalid-feedback`
+  - `label[for="datetimepicker-shortcut"]`
+  - `label[for="price"]`
+  - … +9 autres
+- http://localhost:8080/purchase [state:datepicker-open]
+  - `#qu_id`
+  - `label[for="price-type-unit-price"]`
+  - `#productcard-product-journal-button`
+  - `#productcard-product-stock-button`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `#status-filter`
+  - `#user-filter`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `#location-filter`
+  - `#product-group-filter`
+  - `#status-filter`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-product-name="Cucumber"][data-product-id="13"][data-product-qu-name="Piece"]:nth-child(3) > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Tomato"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Mark 1 Piece of Tomato as open"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Pack of Minced meat"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `.product-open-button[data-product-name="Minced meat"][data-product-id="20"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Eggs"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - … +41 autres
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `#product-group-filter`
+  - `#status-filter`
+  - `.bootbox-body`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.nav-item.dropdown:nth-child(1) > .dropdown-toggle.nav-link[data-toggle="dropdown"]`
+  - `.nav-item.dropdown:nth-child(2) > .dropdown-toggle.nav-link[data-toggle="dropdown"] > .d-lg-none.d-inline`
+  - `.nav-item.dropdown:nth-child(3) > .dropdown-toggle.nav-link[data-toggle="dropdown"] > .d-lg-none.d-inline`
+  - `a[data-original-title="Consume 1 Piece of Cucumber"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-product-name="Cucumber"][data-product-id="13"][data-product-qu-name="Piece"]:nth-child(3) > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Tomato"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Mark 1 Piece of Tomato as open"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Pack of Minced meat"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `.product-open-button[data-product-name="Minced meat"][data-product-id="20"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - `a[data-original-title="Consume 1 Piece of Eggs"] > .number-parsing-done.locale-number-quantity-amount.locale-number`
+  - … +75 autres
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:8080/batteries
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/batteriesjournal
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/batteriesoverview
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/calendar
+  - `.fc-row.table-bordered > table`
+- http://localhost:8080/chores
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/choresjournal
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/choresoverview
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/equipment
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/locations
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/manageapikeys
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/mealplan
+  - `div[data-section-id="1"] > .fc-view-container > .fc-view.fc-agendaWeek-view.fc-agenda-view > table > .fc-head > tr > .fc-head-container > .fc-row.table-bordered > table`
+- http://localhost:8080/mealplansections
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/product/1
+  - `#barcode-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+  - `#qu-conversions-table-products_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+- http://localhost:8080/productgroups
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/products
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/quantityunit/1
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/quantityunitconversionsresolved
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/quantityunits
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/recipe/1
+  - `#recipes-pos-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+  - `#recipes-includes-table_wrapper > .row:nth-child(2) > .col-sm-12 > .dataTables_scroll > .dataTables_scrollHead > .dataTables_scrollHeadInner > table`
+- http://localhost:8080/recipes
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/shoppinglist
+  - `.dataTables_scrollHeadInner > .w-100`
+- http://localhost:8080/shoppinglocations
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockentries
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockjournal
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockjournal/summary
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockreports/spendings
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/taskcategories
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/tasks
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/user/1/sessions
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/userentities
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/userfields
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/userobjects/exampleuserentity
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/users
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview [state:header-user-menu]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview [state:view-settings-menu]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview [state:settings-menu]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/products [state:delete-confirm]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/choresoverview [state:chore-reschedule-modal]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview [state:night-mode]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/products [state:night-mode-dialog]
+  - `.dataTables_scrollHeadInner > table`
+- http://localhost:8080/stockoverview [state:mobile-nav-390]
+  - `.dataTables_scrollHeadInner > table`
+
+### form-field-multiple-labels — Form field must not have multiple label elements
+
+- http://localhost:8080/battery/1
+  - `#name`
+- http://localhost:8080/product/1
+  - `#location_id`
+- http://localhost:8080/userentity/1
+  - `#name`
+- http://localhost:8080/userfield/1
+  - `#name`
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:8080/equipment/1
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+- http://localhost:8080/product/1
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+- http://localhost:8080/recipe/1
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+- http://localhost:8080/shoppinglist
+  - `a[data-value="8"]`
+  - `a[data-value="9"]`
+  - `a[data-value="10"]`
+  - `a[data-value="11"]`
+  - `a[data-value="12"]`
+  - `a[data-value="14"]`
+  - `a[data-value="18"]`
+  - `a[data-value="24"]`
+  - `a[data-value="36"]`
+
+### target-size — All touch targets must be 24px large, or leave sufficient space
+
+- http://localhost:8080/equipment/1
+  - `button[aria-label="More Color"]`
+- http://localhost:8080/product/1
+  - `button[aria-label="More Color"]`
+- http://localhost:8080/recipe/1
+  - `button[aria-label="More Color"]`
+- http://localhost:8080/shoppinglist
+  - `button[aria-label="More Color"]`
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://localhost:8080/mealplan
+  - `.datetimepicker`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://localhost:8080/stockoverview [state:about-iframe-dialog]
+  - `iframe`
+
+## Erreurs (3) — exit code != 0
+
+Ces scénarios n'ont pas été audités. Un audit partiel n'est pas un PASS : le gate CI échoue tant qu'un scénario demandé manque.
+
+- http://localhost:8080/chores/1 — HTTP 404
+- http://localhost:8080/manageapikeys/new — le document final diffère du document demandé (http://localhost:8080/manageapikeys?key=1) — déclarer l'URL réelle de l'état dans STATES
+- http://localhost:8080/choresoverview [state:chores-filter-expanded] — page.waitForSelector: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('a[href="#table-filter-row"]') to be visible
+    63 × locator resolved to hidden <a role="button" data-toggle="collapse" href="#table-filter-row" class="btn btn-sm btn-outline-info d-md-none">…</a>
+
+
