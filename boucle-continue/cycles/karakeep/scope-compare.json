@@ -1,37 +1,98 @@
 {
- "baseline": {
-  "dir": "reports/baseline-auth",
-  "scopeHash": "f5c34938505f168159b8",
-  "statesHash": "44bb6dccfb0319069fb7",
-  "pages": 37,
-  "statesRequested": ["all"]
- },
- "final": {
-  "dir": "reports/final-auth",
-  "scopeHash": "f5c34938505f168159b8",
-  "statesHash": "0da6bf9dc69bffdeba7f",
-  "pages": 37,
-  "statesRequested": ["all"],
-  "note": "scopeHash IDENTIQUE à baseline (mêmes 37 scénarios). statesHash différent : le setup de new-list-dialog a été mis à jour (sélecteur button après link→button) et waitDialog exige désormais [role=dialog]:visible (les popovers forceMount+hidden ne satisfont plus le premier match). Mêmes 13 états, mêmes URLs."
- },
- "installBuild": {
-  "dir": "reports/install-build-auth",
-  "scopeHash": "68f57a7aef905918d932",
-  "statesHash": "8fe874705a10c4299911",
-  "pages": 37,
-  "statesRequested": ["all"],
-  "note": "scopeHash différent : l'id de scénario embarque l'URL de base (:3000 vs :3100). Même ensemble de 37 scénarios — identiques après normalisation du port."
- },
- "public": {
-  "baseline": "reports/baseline-public scopeHash 732fadb25260649aabeb (3 pages)",
-  "final": "reports/final-public scopeHash 732fadb25260649aabeb (3 pages) — identique",
-  "installBuild": "reports/install-build-public scopeHash c36833b725f919712068 (3 pages, port :3100) — identique après normalisation"
- },
- "memeScopeHash": true,
- "memeScopeHash_baseline_final_public": true,
- "detail": {
-  "urls_auth": ["/dashboard/bookmarks","/dashboard/lists","/dashboard/tags","/dashboard/archive","/dashboard/favourites","/dashboard/highlights","/dashboard/search","/dashboard/search?q=accessibilit%C3%A9","/dashboard/cleanups","/settings/info","/settings/import","/settings/rules","/settings/feeds","/settings/broken-links","/settings/api-keys","/settings/backups","/settings/stats","/settings/assets","/settings/webhooks","/settings/ai","/admin/overview","/admin/users","/admin/background_jobs","/admin/admin_tools"],
-  "states": ["card-actions-menu","edit-bookmark-dialog","view-options-menu","sort-menu","profile-menu","keyboard-shortcuts-dialog","new-list-dialog","list-detail-page","tag-detail-page","preview-page","preview-modal","theme-dark","mobile-390"],
-  "urls_public": ["/signin","/signup","/forgot-password"]
- }
+    "v2": {
+        "baseline": {
+            "dir": "reports/baseline-auth",
+            "scopeHash": "be25a2de9fc8277834bfe27556760b04e7edbd1a3a2f330b73dc74db750ad1ab",
+            "statesHash": "62184d84cc86ce5566b77e2c5ffb4b34ec210d85ad2eb64c1005a280a500d990",
+            "pages": 39,
+            "statesRequested": ["all"],
+            "baseUrl": "http://localhost:3301 (instance vanilla @SHA, DATA_DIR/seed dédiés)"
+        },
+        "final": {
+            "dir": "reports/final-auth",
+            "scopeHash": "d8511f9d15d4ff16a695ea45d2067ae232642d4371ae5db8b91d56e78ba85f3c",
+            "statesHash": "6990d70ec0900e392f855cef298d63679cc022b35fe78a79f86f8fd012842c0c",
+            "pages": 39,
+            "statesRequested": ["all"],
+            "baseUrl": "http://localhost:3300 (standalone build patché, DATA_DIR/seed dédiés)"
+        },
+        "note_scopeHash": "scopeHash DIFFÉRENT baseline↔final : l'URL de base embarque le port (:3301 vanilla vs :3300 patché) — v2 mesure la baseline sur une instance vanilla séparée pour un recompte honnête de l'auditeur (course sélecteur v1 exclue). Ensembles de scénarios IDENTIQUES après normalisation port + ids de seed (39 auth + 7 public, vérifiés par diff).",
+        "note_statesHash": "statesHash DIFFÉRENT : les états v2 ajoutent stateProof (preuve DOM consignée) + sélecteurs déclencheurs par icône lucide/aria-label (view-options, sort, new-list) + 2 nouveaux états (reader-page, public-list-page). Même ensemble nominal augmenté — 15 états requis et présents des 2 côtés.",
+        "memes_scenarios_apres_normalisation": {
+            "auth": true,
+            "public": true,
+            "methode": "URLs de report.json normalisées (port→PORT, ids de seed→<seedId>) puis comparées triées — égalité exacte des 39+7 entrées"
+        },
+        "public": {
+            "baseline": "reports/baseline-public scopeHash dace901723bc8fd0573894283296d356e4cfaa12bd487f489d1e07cedde484c3 (7 pages, :3301)",
+            "final": "reports/final-public scopeHash e0a5ebaa4919182db9b9e3e896ca4fbb070d4cb0c276a86f3ce31152a82368aa (7 pages, :3300)",
+            "identique_apres_normalisation": true
+        }
+    },
+    "v1_conserve": {
+        "baseline": {
+            "dir": "reports/baseline-auth (v1, écrasé par baseline v2 — valeurs d'époque : scopeHash f5c34938505f168159b8 / statesHash 44bb6dccfb0319069fb7 / 37 pages)"
+        },
+        "installBuild": {
+            "dir": "reports/install-build-auth",
+            "scopeHash": "68f57a7aef905918d932",
+            "statesHash": "8fe874705a10c4299911",
+            "pages": 37,
+            "note": "rapports v1 conservés à titre de rejeu historique (37 scénarios v1, :3100)"
+        }
+    },
+    "detail": {
+        "urls_auth": [
+            "/dashboard/bookmarks",
+            "/dashboard/lists",
+            "/dashboard/tags",
+            "/dashboard/archive",
+            "/dashboard/favourites",
+            "/dashboard/highlights",
+            "/dashboard/search",
+            "/dashboard/search?q=accessibilit%C3%A9",
+            "/dashboard/cleanups",
+            "/settings/info",
+            "/settings/import",
+            "/settings/rules",
+            "/settings/feeds",
+            "/settings/broken-links",
+            "/settings/api-keys",
+            "/settings/backups",
+            "/settings/stats",
+            "/settings/assets",
+            "/settings/webhooks",
+            "/settings/ai",
+            "/admin/overview",
+            "/admin/users",
+            "/admin/background_jobs",
+            "/admin/admin_tools"
+        ],
+        "states": [
+            "card-actions-menu",
+            "edit-bookmark-dialog",
+            "view-options-menu",
+            "sort-menu",
+            "profile-menu",
+            "keyboard-shortcuts-dialog",
+            "new-list-dialog",
+            "list-detail-page",
+            "tag-detail-page",
+            "preview-page",
+            "preview-modal",
+            "reader-page",
+            "public-list-page",
+            "theme-dark",
+            "mobile-390"
+        ],
+        "urls_public": [
+            "/signin",
+            "/signup",
+            "/forgot-password",
+            "/check-email?email=audit.c35%40example.com",
+            "/verify-email",
+            "/invite/token-inexistant-c35",
+            "/public/lists/<publicListId du seed>"
+        ]
+    }
 }

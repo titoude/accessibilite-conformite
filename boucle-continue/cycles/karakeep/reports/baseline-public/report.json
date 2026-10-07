@@ -1,13 +1,13 @@
 {
-  "runId": "c2112800-6446-40d3-8330-04a2a9fa9d4d",
+  "runId": "63bf1128-f77b-4c45-8788-f1eadff1441a",
   "runnerVersion": "audit.mjs v6",
   "axeVersion": "4.14.0",
-  "generatedAt": "2026-10-07T12:56:00.330Z",
-  "baseUrl": "http://localhost:3000",
+  "generatedAt": "2026-10-07T17:09:04.754Z",
+  "baseUrl": "http://localhost:3301",
   "pages": [
     {
-      "url": "http://localhost:3000/signin",
-      "requestedUrl": "http://localhost:3000/signin",
+      "url": "http://localhost:3301/signin",
+      "requestedUrl": "http://localhost:3301/signin",
       "violations": [
         {
           "id": "landmark-one-main",
@@ -297,15 +297,15 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://localhost:3000/signin",
+      "finalUrl": "http://localhost:3301/signin",
       "testEngine": {
         "name": "axe-core",
         "version": "4.14.0"
       }
     },
     {
-      "url": "http://localhost:3000/signup",
-      "requestedUrl": "http://localhost:3000/signup",
+      "url": "http://localhost:3301/signup",
+      "requestedUrl": "http://localhost:3301/signup",
       "violations": [
         {
           "id": "landmark-one-main",
@@ -660,15 +660,15 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://localhost:3000/signup",
+      "finalUrl": "http://localhost:3301/signup",
       "testEngine": {
         "name": "axe-core",
         "version": "4.14.0"
       }
     },
     {
-      "url": "http://localhost:3000/forgot-password",
-      "requestedUrl": "http://localhost:3000/forgot-password",
+      "url": "http://localhost:3301/forgot-password",
+      "requestedUrl": "http://localhost:3301/forgot-password",
       "violations": [
         {
           "id": "landmark-one-main",
@@ -873,7 +873,844 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://localhost:3000/forgot-password",
+      "finalUrl": "http://localhost:3301/forgot-password",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3301/check-email?email=audit.c35%40example.com",
+      "requestedUrl": "http://localhost:3301/check-email?email=audit.c35%40example.com",
+      "violations": [
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\" style=\"color-scheme: light;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "meta-viewport",
+          "impact": "moderate",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+          "help": "Zooming and scaling must not be disabled",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/meta-viewport?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "meta-viewport",
+                  "data": "user-scalable=no",
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "user-scalable=no on <meta> tag disables zooming on mobile devices"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">",
+              "target": [
+                "meta[name=\"viewport\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\" style=\"color-scheme: light;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col space-y-1.5 p-6 text-center\"><h3 class=\"tracking-tight text-2xl font-bold\">Check Your Email</h3><p class=\"text-sm text-muted-foreground\">We've sent a verification link to your email address</p></div>",
+              "target": [
+                ".flex-col"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"space-y-2 text-center\">",
+              "target": [
+                ".space-y-2.text-center"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3301/check-email?email=audit.c35%40example.com",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3301/verify-email",
+      "requestedUrl": "http://localhost:3301/verify-email",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ef4444",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 3.76,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md\">",
+                      "target": [
+                        ".bg-card"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.76 (foreground color: #ef4444, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"text-sm [&amp;_p]:leading-relaxed text-center\">Invalid verification link. Missing token.</div>",
+              "target": [
+                ".\\[\\&_p\\]\\:leading-relaxed"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.76 (foreground color: #ef4444, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\" style=\"color-scheme: light;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "meta-viewport",
+          "impact": "moderate",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+          "help": "Zooming and scaling must not be disabled",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/meta-viewport?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "meta-viewport",
+                  "data": "user-scalable=no",
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "user-scalable=no on <meta> tag disables zooming on mobile devices"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">",
+              "target": [
+                "meta[name=\"viewport\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\" style=\"color-scheme: light;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col space-y-1.5 p-6 text-center\"><h3 class=\"tracking-tight text-2xl font-bold\">Email Verification</h3><p class=\"text-sm text-muted-foreground\">Verification failed</p></div>",
+              "target": [
+                ".flex-col"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3301/verify-email",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3301/invite/token-inexistant-c35",
+      "requestedUrl": "http://localhost:3301/invite/token-inexistant-c35",
+      "violations": [
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\" style=\"color-scheme: light;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "meta-viewport",
+          "impact": "moderate",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+          "help": "Zooming and scaling must not be disabled",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/meta-viewport?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "meta-viewport",
+                  "data": "user-scalable=no",
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "user-scalable=no on <meta> tag disables zooming on mobile devices"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">",
+              "target": [
+                "meta[name=\"viewport\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" dir=\"ltr\" class=\"light\" style=\"color-scheme: light;\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col space-y-1.5 p-6 text-center\"><h3 class=\"tracking-tight text-2xl font-bold\">Loading Invitation</h3><p class=\"text-sm text-muted-foreground\">Please wait while we verify your invitation...</p></div>",
+              "target": [
+                ".flex-col"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3301/invite/token-inexistant-c35",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3301/public/lists/u3vj1bynb1l958g65bkc6ka0",
+      "requestedUrl": "http://localhost:3301/public/lists/u3vj1bynb1l958g65bkc6ka0",
+      "violations": [
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a target=\"_blank\" class=\"inline-flex items-ce...\" href=\"/api/v1/rss/lists/u3...\">",
+              "target": [
+                ".whitespace-nowrap"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "meta-viewport",
+          "impact": "moderate",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag2aa",
+            "wcag144",
+            "EN-301-549",
+            "EN-9.1.4.4",
+            "ACT",
+            "RGAAv4",
+            "RGAA-10.4.2"
+          ],
+          "description": "Ensure <meta name=\"viewport\"> does not disable text scaling and zooming",
+          "help": "Zooming and scaling must not be disabled",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/meta-viewport?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "meta-viewport",
+                  "data": "user-scalable=no",
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "user-scalable=no on <meta> tag disables zooming on mobile devices"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">",
+              "target": [
+                "meta[name=\"viewport\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  user-scalable=no on <meta> tag disables zooming on mobile devices"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "22.5pt (30px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h1 class=\"text-3xl font-bold leading-tight text-foreground\">Veille accessibilité</h1>",
+              "target": [
+                "h1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "13.5pt (18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"mt-2 text-lg leading-relaxed text-muted-foreground\">Références WCAG et méthodo d’audit, mises à jour en continu.</p>",
+              "target": [
+                ".leading-relaxed"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"text-sm text-muted-foreground\">Created by</p>",
+              "target": [
+                ".text-sm.text-muted-foreground"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"font-medium text-foreground\">Auditeur Cycle35</p>",
+              "target": [
+                ".gap-3.md\\:justify-end.flex > div:nth-child(2) > .text-foreground"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>2<!-- --> bookmarks</span>",
+              "target": [
+                ".uppercase > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3301/public/lists/u3vj1bynb1l958g65bkc6ka0",
       "testEngine": {
         "name": "axe-core",
         "version": "4.14.0"
@@ -882,5 +1719,5 @@
   ],
   "configErrors": [],
   "crawlErrors": [],
-  "scopeHash": "732fadb25260649aabeb0c0999256e02296d0a8a413a0b39e972fb35e9da55cc"
+  "scopeHash": "dace901723bc8fd0573894283296d356e4cfaa12bd487f489d1e07cedde484c3"
 }

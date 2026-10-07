@@ -1,66 +1,103 @@
 {
- "depot": "karakeep-app/karakeep",
- "commitEpingle": "75aeaaa4eb71b1d3143d7bdc6b88c66fbcfb5fea",
- "statut": "TRAVAUX TERMINÉS — verdict laissé à l'auditeur indépendant (le worker ne se note pas lui-même)",
- "resume": {
-  "baseline": {
-   "public": { "regles": 4, "occurrences": 22, "pages": 3 },
-   "auth": { "regles": 16, "occurrences": 485, "pages": 37, "erreurs": 0 }
-  },
-  "final": {
-   "public": { "regles": 0, "occurrences": 0, "pages": 3 },
-   "auth": { "regles": 0, "occurrences": 0, "pages": 37, "incomplets_items": 156, "erreurs": 0 }
-  },
-  "install_build": {
-   "public": { "regles": 0, "occurrences": 0, "pages": 3 },
-   "auth": { "regles": 0, "occurrences": 0, "pages": 37, "erreurs": 0 },
-   "note": "rejeu complet : clone propre @75aeaaa4 + apply 64 fichiers 0 rejet + pnpm install + build standalone + serve :3100 (DATA_DIR copié du seed) — même ensemble de scénarios (scopeHash normalisé au port)"
-  },
-  "verify": "37 PASS / 0 FAIL — verify.mjs : artefacts + landmarks/skip-link/h1/viewport-zoom + roles list/listitem + leçon 29 (label ⊇ texte visible) + target-size + cmdk aria-controls résolu + menu/dialog (role/aria-modal/nom) + contrastes computed clair ET sombre + preview h1/actionbar + public signin",
-  "eval_final": "507 → 0 occurrences sur 37+3 scénarios (exit 0), toutes les règles résolues, 0 état manquant, 0 erreur",
-  "sondes_incomplets": "156 items axe 'incomplete' re-sondés : 55 RESOLVED / 101 N-A honnêtes / 0 CONFIRMED_VIOLATION — N-A = IDREF vers popups Radix montés à l'ouverture, describedby conditionnels, contenu aria-hidden sous FocusScope pendant modale",
-  "etats_auth": 13,
-  "axe": "axe-core 4.14.0 épinglé (tools/package.json) ; axeVersion tracé dans scope.json + report.json"
- },
- "perimetre": "24 pages auth (dashboard, settings ×11, admin ×4) + 3 pages publiques + 13 états dynamiques (menus dropdown, 3 modales, pages détail seedées, modale de route interceptée, thème sombre, mobile 390px). Exclusions documentées dans states.json (confirmations destructives, file picker, workers temps réel, partage public, apps extension/mobile).",
- "stack": "Next.js 16 app router (SSR ƒ sur toutes les routes) + tRPC + drizzle/sqlite + Better Auth + Meilisearch + Radix UI + Tailwind 4 + next-themes (localStorage) — monorepo pnpm/turborepo. Production standalone (.next/standalone) servi par node :3000.",
- "famillesCorrigees": {
-  "structure": [
-   "layout.tsx : viewport explicite {width, initialScale:1} — le meta par défaut de Next désactivait le pinch-zoom (meta-viewport)",
-   "SidebarLayout : skip-link <a href=#main-content> + <main id=main-content tabIndex=0> + #karakeep-modal-root (conteneur Portal dans main) (landmark-one-main, region)",
-   "pages publiques signin/signup/forgot-password/reset-password : <main> + h1 sr-only (page-has-heading-one)",
-   "pages dashboard (bookmarks/archive/favourites/highlights/cleanups/tags/search) : h1 réels ou sr-only i18n (page-has-heading-one)",
-   "CardTitle <h3>→<h2> ; RuleEngineRuleList h3→h2 ; BackgroundJobs h4→h3 ; preview <p>→<h1> (heading-order)"
-  ],
-  "aria": [
-   "portal vers #karakeep-modal-root (dans <main>) pour Dialog/Popover/DropdownMenu/Select via useModalContainer() — évite hideOthers hors main",
-   "DropdownMenu modal={false} par défaut (hideOthers aria-hidden=true global → aria-hidden-focus)",
-   "PopoverTrigger→PopoverAnchor pour les popovers pilotées par le focus (SearchInput, TagsEditor) : supprime aria-haspopup/aria-expanded/aria-controls usurpés sur div (aria-allowed-attr)",
-   "Popover forceMount propagé au Portal ET au Content (role=dialog monté+hidden) — aria-controls cmdk résout en permanence (aria-valid-attr-value)",
-   "ViewOptions : role=group sur les blocs slider/switchs (aria-required-children) ; Slider wrapper propage aria-label au Thumb (aria-input-field-name)",
-   "DialogContent : aria-modal=true explicite (le radix de la version lock n'en pose pas — hideOthers seul)"
-  ],
-  "noms": [
-   "boutons icon-only : Edit/Favorite/Archive/Delete (ActionBar, HoverActionBar, BookmarkOptions), options de liste (AllLists/AllListsView), toggles preview/détails, boutons X (clear parent) — aria-labels i18n",
-   "ButtonWithTooltip/ActionButtonWithTooltip propagent aria-label=tooltip (header view/sort/profile, admin row actions)",
-   "Select triggers : aria-labels sur settings (langue, timezone, bookmark_click_action, archive_behaviour, backup_frequency, appliquer-à ×2) + EditListModal + ManageCollaborators + Add/UpdateUserDialog + ImportExport + BookmarkListSelector (combobox exempté de nom-par-contenu, label requis quand même)",
-   "radios AISettings : aria-label={option.label} ; inputs custom prompt : aria-label 'Add a custom prompt' ; EditorCard textarea : aria-label new_item ; ModileSidebarItem : name→aria-label sur liens icon-only",
-   "LinkCard/AssetCard : alt={bookmark.title||fallback} sur les bannières image (link-name) ; NotePreview : div→button (le texte de la note devient l'accName)",
-   "new-list : Link href='#'→<button aria-label=New List> (leçon 29 : label contient texte — ici bouton icon-only sans texte, label libre)"
-  ],
-  "semantique": [
-   "listes sidebar : <ul>→<div role=list> + Collapsible role=listitem + CollapsibleContent role=list + prop nested (listitem hors list ne contenant que list) ; SidebarItem/ListItem prop as=li|div",
-   "aria-progressbar-name : aria-label sur les 4 Progress de stats + QuotaProgress",
-   "scrollable-region-focusable : <main tabIndex=0>"
-  ],
-  "contrastes": [
-   "globals.css : --muted-foreground 215.4 16.3% 46.9% → 215.3 19.3% 34.5% (slate-600, ratio 6.92 sur fond muted)",
-   "globals.css : --destructive 0 84.2% 60.2% → 0 72.2% 50.6% (red-600 : blanc 4.62:1 ; le même token corrige aussi les items de menu destructifs)",
-   "gray-400→gray-500 + dark:gray-400 : SidebarVersion ×2, BasicStats ×3, ProfileOptions email, BookmarkLayoutAdaptingCard BottomRow ×4, AllHighlights, ImportSessionsSection",
-   "blue-500→blue-600 + dark:blue-400 : BasicStats (5.17:1 clair / 7.87:1 sombre)"
-  ],
-  "i18n": [
-   "8 clés ajoutées à en/translation.json : actions.more_options/open_preview/account_menu, lists.list_options/clear_parent/collaborators.role, tags.tag_options, preview.toggle_details"
-  ]
- }
+    "depot": "karakeep-app/karakeep",
+    "commitEpingle": "75aeaaa4eb71b1d3143d7bdc6b88c66fbcfb5fea",
+    "statut": "FIXER-V2 TERMINÉ — verdict laissé à l'auditeur indépendant (le fixer ne se note pas lui-même)",
+    "resume": {
+        "baseline_v2": {
+            "public": {
+                "regles": 6,
+                "occurrences": 38,
+                "pages": 7
+            },
+            "auth": {
+                "regles": 19,
+                "occurrences": 484,
+                "pages": 39,
+                "erreurs": 0
+            },
+            "note": "scope élargi v2 : +4 routes publiques livrées (check-email, verify-email, invite, public/lists) + 2 états (reader-page, public-list-page) + VRAI menu view-options mesuré (sélecteur icône — v1 scannait le menu profil par race ~50 %)"
+        },
+        "final_v2": {
+            "public": {
+                "regles": 0,
+                "occurrences": 0,
+                "pages": 7
+            },
+            "auth": {
+                "regles": 0,
+                "occurrences": 0,
+                "pages": 39,
+                "incomplets_items": 169,
+                "erreurs": 0
+            }
+        },
+        "install_build": {
+            "note": "build standalone de l'arbre patché v2 servi par node sur :3300 (env -i, DATA_DIR/ports dédiés) — c'est la cible des rapports final-* (0/0/0). Les scans install-build v1 (:3100) sont conservés dans reports/install-build-*"
+        },
+        "verify": "51 PASS / 0 FAIL — verify.mjs : artefacts + landmarks/skip-link/h1/viewport-zoom + roles list/listitem + leçon 29 + target-size + cmdk aria-controls résolu + menu/dialog + contrastes computed clair ET sombre (primary mesuré sur /settings/info) + §8 view-options popover (switches/radiogroups/slider/dialog nommé + aria-required-children=0 live) + §9 reader (1 h1, 0 bouton sans nom) + §10 routes publiques (check-email/verify-email/invite/public-list/404 contrast)",
+        "eval_final": "522 → 0 occurrences sur 39+7 scénarios (exit 0), toutes les règles résolues, 0 état manquant, 0 erreur — comptage d'états corrigé (filtre '(page)')",
+        "sondes_incomplets": "169 items auth + 12 items public re-sondés : RESOLVED ou N-A honnêtes, 0 CONFIRMED_VIOLATION — dont le compteur 'N bookmarks' de la liste publique (4.41:1 → corrigé text-gray-600 → 6.90:1 mesuré)",
+        "etats_auth": 15,
+        "axe": "axe-core 4.14.0 épinglé (tools/package.json) ; axeVersion tracé dans scope.json + report.json"
+    },
+    "perimetre": "24 pages auth (dashboard, settings ×11, admin ×4) + 7 pages publiques (signin, signup, forgot-password, check-email, verify-email, invite, public/lists) + 15 états dynamiques (menus, 3 modales, pages détail seedées, /reader/[id], /public/lists/[id], modale route interceptée, thème sombre, mobile 390px) — chaque état laisse stateProof dans le rapport. Exclusions dans states.json (confirmations destructives, file picker, workers temps réel, apps extension/mobile ; 404 /public/lists/<inconnu> non scannable → sonde contraste verify §10).",
+    "stack": "Next.js 16 app router (SSR ƒ sur toutes les routes) + tRPC + drizzle/sqlite + Better Auth + Meilisearch + Radix UI + Tailwind 4 + next-themes (localStorage) — monorepo pnpm/turborepo. Production standalone (.next/standalone) servi par node — instance fixer-v2 : patché :3300, vanilla :3301, meili :33700, chrome :33222.",
+    "famillesCorrigees": {
+        "structure": [
+            "layout.tsx : viewport explicite {width, initialScale:1} — le meta par défaut de Next désactivait le pinch-zoom (meta-viewport)",
+            "SidebarLayout : skip-link <a href=#main-content> + <main id=main-content tabIndex=0> + #karakeep-modal-root (conteneur Portal dans main) (landmark-one-main, region)",
+            "pages publiques signin/signup/forgot-password/reset-password : <main> + h1 sr-only (page-has-heading-one)",
+            "v2 : check-email (2 branches), verify-email, invite/[token] : <main> + h1 sr-only (region + page-has-heading-one + landmark)",
+            "pages dashboard (bookmarks/archive/favourites/highlights/cleanups/tags/search) : h1 réels ou sr-only i18n",
+            "CardTitle <h3>→<h2> ; RuleEngineRuleList h3→h2 ; BackgroundJobs h4→h3 ; preview <p>→<h1> (heading-order)",
+            "v2 reader/[id] : h1 toujours rendu (« Reader View » pendant le chargement, titre ensuite) — page-has-heading-one même avant réponse tRPC ; spinner sous role=status ; ReaderView h3 'Content Unavailable' → h2 (heading-order après h1)"
+        ],
+        "aria": [
+            "portal vers #karakeep-modal-root (dans <main>) pour Dialog/Popover/DropdownMenu/Select via useModalContainer() — évite hideOthers hors main",
+            "v2 : useModalContainer résout le conteneur dès le 1er rendu client (élément déjà dans le HTML SSR) — supprime le re-portail body→modal-root après useEffect, fenêtre où les overlays forceMount disparaissent et où aria-controls pend",
+            "DropdownMenu modal={false} par défaut (hideOthers aria-hidden=true global → aria-hidden-focus)",
+            "v2 ViewOptions : DropdownMenu→Popover (panneau de réglages — parent légal pour contrôles) : RadioGroup role=radiogroup aria-label (layout + image-fit), groupe de switches role=group + Label htmlFor, slider dans role=group aria-label ; PopoverContent forceMount+hidden role=dialog aria-label — supprime aria-required-children critique du vrai menu (slider+3 switches enfants illégaux de role=menu)",
+            "PopoverTrigger→PopoverAnchor pour les popovers pilotées par le focus (SearchInput, TagsEditor) : supprime aria-haspopup/aria-expanded/aria-controls usurpés sur div (aria-allowed-attr)",
+            "v2 SearchInput : listbox rendue dans le même arbre React que l'input (div absolue hidden, plus de portail) — le portail Radix monte un commit après l'input et laissait aria-controls pendre (aria-valid-attr-value transitoire)",
+            "Popover forceMount propagé au Portal ET au Content (role=dialog monté+hidden) — aria-controls résout en permanence",
+            "DialogContent : aria-modal=true explicite"
+        ],
+        "noms": [
+            "boutons icon-only : Edit/Favorite/Archive/Delete (ActionBar, HoverActionBar, BookmarkOptions), options de liste, toggles preview/détails, boutons X — aria-labels i18n",
+            "v2 reader/[id] : Close/Print/Highlights (+aria-pressed) + X sidebar highlights ; ReaderSettingsPopover trigger + 3 clear + 4 Minus/Plus — aria-labels i18n (actions.close/print/decrease/increase ajoutées)",
+            "v2 : PublicListHeader lien RSS icon-only → aria-label 'RSS feed' (link-name sur /public/lists)",
+            "ButtonWithTooltip/ActionButtonWithTooltip propagent aria-label=tooltip (header view/sort/profile, admin row actions)",
+            "Select triggers : aria-labels sur settings + EditListModal + ManageCollaborators + Add/UpdateUserDialog + ImportExport + BookmarkListSelector",
+            "radios AISettings ; inputs custom prompt ; EditorCard textarea ; ModileSidebarItem liens icon-only",
+            "LinkCard/AssetCard : alt sur bannières ; NotePreview : div→button",
+            "new-list : Link href='#'→<button aria-label=New List>"
+        ],
+        "semantique": [
+            "listes sidebar : role=list/listitem + CollapsibleContent role=list + prop nested ; SidebarItem/ListItem prop as=li|div",
+            "aria-progressbar-name : aria-label sur les Progress",
+            "scrollable-region-focusable : <main tabIndex=0>"
+        ],
+        "contrastes": [
+            "globals.css : --muted-foreground 215.4 16.3% 46.9% → 215.3 19.3% 34.5% (slate-600, 6.92)",
+            "globals.css : --destructive 0 84.2% 60.2% → 0 72.2% 50.6% (red-600 : blanc 4.62:1)",
+            "gray-400→gray-500 + dark:gray-400 : SidebarVersion ×2, BasicStats ×3, ProfileOptions email, BottomRow ×4, AllHighlights, ImportSessionsSection",
+            "blue-500→blue-600 + dark:blue-400 : BasicStats",
+            "v2 : 404 /public/lists — icône text-gray-300→gray-500 dark:gray-300, h1 +dark:text-gray-100, p gray-500→gray-600 dark:gray-300",
+            "v2 : PublicListHeader compteur 'N bookmarks' uppercase text-gray-500→gray-600 + RssIcon idem (4.41:1 → 6.90:1 mesuré par la sonde)"
+        ],
+        "i18n": [
+            "v1 : 8 clés en/translation.json (more_options/open_preview/account_menu/list_options/clear_parent/role/tag_options/toggle_details)",
+            "v2 : +3 clés actions.print/decrease/increase (reader + reader settings)"
+        ],
+        "outillage_v2": [
+            "audit.mjs : sélecteurs déclencheurs par icône lucide/aria-label (viewOptionsTrigger, sortTrigger) — jamais .first()/.nth() positionnels (race GlobalActions) ; stateProof consigné par état dans report.json ; +états reader-page/public-list-page ; new-list trigger par icône plus",
+            "login.mjs : attend l'hydratation (networkidle) + retry borné ×3 — le clic pré-hydratation était ignoré silencieusement",
+            "verify.mjs : +§8 view-options popover assertions DOM, +§9 reader, +§10 routes publiques + sonde contraste 404 ; bouton primary mesuré sur /settings/info (aucun .bg-primary sur la grille)",
+            "eval-final.mjs : comptage d'états honnête (filtre '(page)' — 'states:36' cosmétique corrigé)",
+            "incomplete-probes.mjs : --out pour sondes séparées par rapport (auth + public — les 7 incomplets public jamais sondés le sont désormais)",
+            "seed.mjs : publie la liste « veille » (publicListId) pour /public/lists",
+            "manifest.json : ports réels documentés (le compose upstream ne publie aucun port pour meili/chrome — verbatim corrigé)",
+            "provenance : re-hash complète après régénération de patch.diff (72 fichiers incluse useModalContainer.ts) — .gitignore inclus dans le hachage (v1 --strict exit 1 corrigé)"
+        ]
+    }
 }

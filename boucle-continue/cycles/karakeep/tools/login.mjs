@@ -32,12 +32,19 @@ const page = await browser.newPage();
 try {
   await page.goto(`${base}/signin`, { waitUntil: 'load', timeout: 30000 });
   await page.waitForSelector('input[name="email"]', { timeout: 15000 });
+  // Le clic doit attendre l'hydratation React (serveur froid = plusieurs
+  // secondes) : un clic avant hydratation est ignoré silencieusement.
+  // networkidle est le proxy ; le retry borne absorbe les cas limites.
+  await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
   await page.fill('input[name="email"]', email);
   await page.fill('input[name="password"]', password);
-  await Promise.all([
-    page.waitForURL((u) => u.pathname.startsWith('/dashboard'), { timeout: 30000 }),
-    page.click('button[type="submit"]'),
-  ]);
+  let reached = false;
+  for (let attempt = 1; attempt <= 3 && !reached; attempt++) {
+    await page.click('button[type="submit"]');
+    reached = await page.waitForURL((u) => u.pathname.startsWith('/dashboard'), { timeout: 15000 })
+      .then(() => true).catch(() => false);
+  }
+  if (!reached) throw new Error('soumission du formulaire de connexion sans effet après 3 essais');
   // Preuve de session : la sidebar du dashboard, pas juste l'URL.
   await page.waitForSelector('nav, aside, [data-sidebar]', { timeout: 30000 });
   await page.waitForSelector('text=/bookmarks/i', { timeout: 15000 }).catch(() => null);

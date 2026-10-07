@@ -164,6 +164,20 @@ const pairs = await page.evaluate(() => {
     h1: pick('main h1'),
   };
 });
+// La grille bookmarks n'a aucun bouton primaire : le contraste se mesure là
+// où il existe — « Change Password » (bg-primary) de /settings/info.
+if (!pairs.primary) {
+  await page.goto(`${BASE}/settings/info`, { waitUntil: 'load' });
+  await page.waitForSelector('main button.bg-primary', { timeout: 15000 }).catch(() => {});
+  pairs.primary = await page.evaluate(() => {
+    const rgb = s => { const m = s && s.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/); return m ? [+m[1], +m[2], +m[3]] : null; };
+    const effBg = el => { let n = el; while (n && n !== document.documentElement) { const c = getComputedStyle(n).backgroundColor; if (c && c !== 'rgba(0, 0, 0, 0)') return rgb(c); n = n.parentElement; } return rgb(getComputedStyle(document.body).backgroundColor); };
+    const b = document.querySelector('main button.bg-primary');
+    return b ? { fg: rgb(getComputedStyle(b).color), bg: effBg(b), sel: 'main button.bg-primary@/settings/info' } : null;
+  });
+  await page.goto(`${BASE}/dashboard/bookmarks`, { waitUntil: 'load' });
+  await page.waitForSelector('main', { timeout: 30000 });
+}
 const ratio_ = p => { const f = x => { x /= 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); }; const l = c => 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]); return (Math.max(l(p.fg), l(p.bg)) + 0.05) / (Math.min(l(p.fg), l(p.bg)) + 0.05); };
 ok('texte muted-foreground ≥4.5:1 (token patché)', pairs.muted && ratio_(pairs.muted) >= 4.5,
    pairs.muted ? `${ratio_(pairs.muted).toFixed(2)}:1` : 'sélecteur absent');
@@ -211,6 +225,98 @@ await page2.goto(`${BASE}/signin`, { waitUntil: 'load' });
 ok('signin : <main> présent', await page2.locator('main').count() === 1);
 ok('signin : h1 présent (sr-only toléré)', await page2.locator('h1').count() === 1);
 ok('signin : formulaire labellisé (email input)', await page2.locator('input[type="email"], input[name="email"]').count() === 1);
+
+// ---------- 8. F1 — vrai widget View Options : popover, pas menu ----------
+// Sélecteur déterministe : icône lucide-settings (vanilla) ou aria-label
+// (patché) — jamais la position (leçon apprise : .first() prenait l'avatar).
+await page.goto(`${BASE}/dashboard/bookmarks`, { waitUntil: 'load' });
+await page.waitForSelector('main a[href*="/dashboard/preview/"]:visible, main [data-bookmark-id]:visible', { timeout: 30000 });
+await page.locator('header button:has(svg.lucide-settings), header button[aria-label="View Options"]').first().click();
+await page.waitForSelector('[role="switch"]:visible', { timeout: 10000 });
+const vo = await page.evaluate(() => {
+  const q = s => [...document.querySelectorAll(s)]
+    .filter(e => e.getClientRects().length > 0);
+  return {
+    menus: q('[role="menu"]').length,
+    radiogroups: q('[role="radiogroup"]').length,
+    switches: q('[role="switch"]').length,
+    sliders: q('[role="slider"]').length,
+    // contrôles illégaux : switch/slider/radiogroup DANS un role=menu
+    illegal: q('[role="menu"] [role="switch"], [role="menu"] [role="slider"], [role="menu"] [role="radiogroup"], [role="menu"] [role="radio"]').length,
+    dialogNamed: [...document.querySelectorAll('[role="dialog"]')]
+      .some(d => d.getAttribute('aria-label') === 'View Options'),
+  };
+});
+ok('view-options : ≥3 switches visibles (bon widget ouvert)', vo.switches >= 3, JSON.stringify(vo));
+ok('view-options : 0 role=menu ouvert (popover remplace le menu)', vo.menus === 0, JSON.stringify(vo));
+ok('view-options : 2 radiogroups (layout + image fit)', vo.radiogroups === 2, JSON.stringify(vo));
+ok('view-options : slider colonnes présent (layout grid/masonry)', vo.sliders >= 1, JSON.stringify(vo));
+ok('aria-required-children : 0 contrôle sous role=menu (mesure live)', vo.illegal === 0, JSON.stringify(vo));
+ok('view-options : popover nommée (role=dialog + aria-label)', vo.dialogNamed, JSON.stringify(vo));
+await page.keyboard.press('Escape');
+await page.waitForTimeout(400);
+
+// ---------- 9. F2 — /reader/[id] : h1 inconditionnel + boutons nommés ----------
+await page.goto(`${BASE}/reader/${IDS.bookmarkLinkId}`, { waitUntil: 'load' });
+await page.waitForSelector('main', { timeout: 30000 });
+await page.waitForTimeout(1500);
+const reader = await page.evaluate(() => {
+  const h1 = [...document.querySelectorAll('main h1')].filter(h => h.getClientRects().length > 0 || h.classList.contains('sr-only'));
+  const unnamed = [...document.querySelectorAll('header button, main button')]
+    .filter(b => b.getClientRects().length > 0)
+    .map(b => ({ n: (b.getAttribute('aria-label') || b.textContent || '').trim() }))
+    .filter(b => !b.n);
+  return { h1: h1.length, unnamedCount: unnamed.length };
+});
+ok('reader : exactement 1 h1 (même avant chargement du bookmark)', reader.h1 === 1, JSON.stringify(reader));
+ok('reader : 0 bouton sans nom dans header+main', reader.unnamedCount === 0, JSON.stringify(reader));
+
+// ---------- 10. F2 — routes publiques élargies ----------
+for (const path of [
+  '/check-email?email=audit.c35%40example.com',
+  '/verify-email',
+  '/invite/token-inexistant-c35',
+]) {
+  const r = await page2.goto(`${BASE}${path}`, { waitUntil: 'load' });
+  const status = r ? r.status() : 0;
+  const m = await page2.locator('main').count();
+  const h1 = await page2.evaluate(() =>
+    [...document.querySelectorAll('h1')].filter(h => h.classList.contains('sr-only') || h.getClientRects().length > 0).length);
+  ok(`public ${path} : HTTP ${status} + <main> + 1 h1`, status === 200 && m >= 1 && h1 === 1,
+     `status=${status} main=${m} h1=${h1}`);
+}
+
+// Liste publique vivante (seed publie « Veille accessibilité »).
+if (IDS.publicListId) {
+  const r = await page2.goto(`${BASE}/public/lists/${IDS.publicListId}`, { waitUntil: 'load' });
+  await page2.waitForSelector('main', { timeout: 30000 }).catch(() => {});
+  const pubList = await page2.evaluate(() => ({
+    main: document.querySelectorAll('main').length,
+    h1: document.querySelectorAll('h1').length,
+    links: document.querySelectorAll('main a[href]').length,
+  }));
+  ok('public-list : page vivante 200 + main + h1', (r ? r.status() : 0) === 200 && pubList.main >= 1 && pubList.h1 >= 1,
+     JSON.stringify(pubList));
+} else {
+  ok('public-list : publicListId présent dans seed-ids.json', false, 'seed-ids.json sans publicListId');
+}
+
+// 404 /public/lists : axe ne scanne pas un HTTP 4xx (checkNav) — la page est
+// sondée ici : landmark+h1 présents ET contraste du texte mesuré ≥4.5:1.
+await page2.goto(`${BASE}/public/lists/00000000-0000-0000-0000-000000000000`, { waitUntil: 'load' });
+const nf = await page2.evaluate(() => {
+  const p = document.querySelector('p');
+  const rgb = s => { const m = s && s.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/); return m ? [+m[1], +m[2], +m[3]] : null; };
+  const effBg = el => { let n = el; while (n && n !== document.documentElement) { const c = getComputedStyle(n).backgroundColor; if (c && c !== 'rgba(0, 0, 0, 0)') return rgb(c); n = n.parentElement; } return rgb(getComputedStyle(document.body).backgroundColor); };
+  return {
+    main: document.querySelectorAll('main').length,
+    h1: document.querySelectorAll('h1').length,
+    pair: p ? { fg: rgb(getComputedStyle(p).color), bg: effBg(p) } : null,
+  };
+});
+ok('404 public/lists : <main> + h1 présents', nf.main >= 1 && nf.h1 >= 1, JSON.stringify(nf));
+ok('404 public/lists : texte ≥4.5:1', nf.pair && ratio_(nf.pair) >= 4.5,
+   nf.pair ? `${ratio_(nf.pair).toFixed(2)}:1` : 'pas de <p> mesuré');
 
 await browser.close();
 console.log(`\nverify: ${pass} PASS, ${fail} FAIL`);

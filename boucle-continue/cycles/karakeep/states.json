@@ -1,19 +1,29 @@
 {
- "_comment": "Miroir machine-lisible de la STATES map de tools/audit.mjs (source de vérité = audit.mjs). Ordre = ordre d'exécution. 'deterministic' = l'état rejoue à l'identique sur le seed.",
- "public": { "urls": ["/signin", "/signup", "/forgot-password"], "states": [] },
+ "_comment": "Miroir machine-lisible de la STATES map de tools/audit.mjs (source de vérité = audit.mjs). Ordre = ordre d'exécution. 'deterministic' = l'état rejoue à l'identique sur le seed. v2 : sélecteurs par icône lucide/aria-label (jamais .first()/.nth() — race GlobalActions hydratée), preuve DOM 'stateProof' consignée par état dans report.json, + reader-page + public-list-page.",
+ "public": {
+  "urls": ["/signin", "/signup", "/forgot-password", "/check-email?email=audit.c35%40example.com", "/verify-email", "/invite/token-inexistant-c35"],
+  "states": [
+   { "id": "public-list-page", "kind": "page", "deterministic": true, "setup": "/public/lists/<seed publicListId> (liste publiée par le seed)" }
+  ],
+  "not_scannees": [
+   "/public/lists/<id-inconnu> (404) : checkNav consigne les HTTP>=400 comme erreur, sans scan — couverte par la sonde contraste de verify.mjs"
+  ]
+ },
  "auth": {
   "urls": ["/dashboard/bookmarks", "/dashboard/lists", "/dashboard/tags", "/dashboard/archive", "/dashboard/favourites", "/dashboard/highlights", "/dashboard/search", "/dashboard/search?q=accessibilit%C3%A9", "/dashboard/cleanups", "/settings/info", "/settings/import", "/settings/rules", "/settings/feeds", "/settings/broken-links", "/settings/api-keys", "/settings/backups", "/settings/stats", "/settings/assets", "/settings/webhooks", "/settings/ai", "/admin/overview", "/admin/users", "/admin/background_jobs", "/admin/admin_tools"],
   "states": [
    { "id": "card-actions-menu", "kind": "dropdown", "deterministic": true, "setup": "menu ⋯ de la 1re carte bookmark" },
    { "id": "edit-bookmark-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "menu carte → Edit" },
-   { "id": "view-options-menu", "kind": "dropdown", "deterministic": true, "setup": "1er bouton header (layout)" },
-   { "id": "sort-menu", "kind": "dropdown", "deterministic": true, "setup": "2e bouton header (tri)" },
-   { "id": "profile-menu", "kind": "dropdown", "deterministic": true, "setup": "avatar header" },
+   { "id": "view-options-menu", "kind": "dropdown|popover", "deterministic": true, "setup": "bouton header à l'icône lucide-settings (jamais position) + preuve switches visibles" },
+   { "id": "sort-menu", "kind": "dropdown", "deterministic": true, "setup": "bouton header à l'icône sort/list-filter + preuve items *First" },
+   { "id": "profile-menu", "kind": "dropdown", "deterministic": true, "setup": "avatar header (.last(), stable) + preuve item *Mode" },
    { "id": "keyboard-shortcuts-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "menu profil → Keyboard shortcuts" },
-   { "id": "new-list-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "bouton + de la sidebar listes" },
+   { "id": "new-list-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "icône lucide-plus sidebar (a|button)" },
    { "id": "list-detail-page", "kind": "page", "deterministic": true, "setup": "/dashboard/lists/<seed listId>" },
    { "id": "tag-detail-page", "kind": "page", "deterministic": true, "setup": "/dashboard/tags/<seed tagId>" },
    { "id": "preview-page", "kind": "page", "deterministic": true, "setup": "/dashboard/preview/<seed bookmarkLinkId>" },
+   { "id": "reader-page", "kind": "page", "deterministic": true, "setup": "/reader/<seed bookmarkLinkId> — attend main h1" },
+   { "id": "public-list-page", "kind": "page", "deterministic": true, "setup": "/public/lists/<seed publicListId> (rejouée sous session — rendu identique anonyme)" },
    { "id": "preview-modal", "kind": "modal-route", "target": "[role=dialog]", "deterministic": true, "setup": "route interceptée depuis /dashboard/bookmarks" },
    { "id": "theme-dark", "kind": "theme", "deterministic": true, "setup": "menu profil → Dark Mode (localStorage theme → .dark sur <html>)" },
    { "id": "mobile-390", "kind": "viewport", "deterministic": true, "setup": "theme=light + viewport 390×844 (barre mobile remplace la sidebar)" }
@@ -22,8 +32,7 @@
    "modales destructive-confirm (Delete list/tag/account) : actions irréversibles sur le seed",
    "import file picker (fileInput natif OS, non rejouable)",
    "states nécessitant des workers (crawler actif, indexation meilisearch temps réel)",
-   "browser-extension / mobile app (hors périmètre web)",
-   "/public/lists/[listId] (partage public de liste : nécessite liste publique seedée — la seed ne publie pas de liste)"
+   "browser-extension / mobile app (hors périmètre web)"
   ]
  }
 }

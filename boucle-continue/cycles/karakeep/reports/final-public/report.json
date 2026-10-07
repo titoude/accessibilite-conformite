@@ -1,13 +1,13 @@
 {
-  "runId": "e33fbbe0-0f83-413e-a8df-c7efdd41d282",
+  "runId": "4b9f72fb-c69d-497a-a023-d2d1a92a0f60",
   "runnerVersion": "audit.mjs v6",
   "axeVersion": "4.14.0",
-  "generatedAt": "2026-10-07T15:03:02.371Z",
-  "baseUrl": "http://localhost:3000",
+  "generatedAt": "2026-10-07T17:35:01.129Z",
+  "baseUrl": "http://localhost:3300",
   "pages": [
     {
-      "url": "http://localhost:3000/signin",
-      "requestedUrl": "http://localhost:3000/signin",
+      "url": "http://localhost:3300/signin",
+      "requestedUrl": "http://localhost:3300/signin",
       "violations": [],
       "incomplete": [
         {
@@ -74,15 +74,15 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://localhost:3000/signin",
+      "finalUrl": "http://localhost:3300/signin",
       "testEngine": {
         "name": "axe-core",
         "version": "4.14.0"
       }
     },
     {
-      "url": "http://localhost:3000/signup",
-      "requestedUrl": "http://localhost:3000/signup",
+      "url": "http://localhost:3300/signup",
+      "requestedUrl": "http://localhost:3300/signup",
       "violations": [],
       "incomplete": [
         {
@@ -193,15 +193,15 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://localhost:3000/signup",
+      "finalUrl": "http://localhost:3300/signup",
       "testEngine": {
         "name": "axe-core",
         "version": "4.14.0"
       }
     },
     {
-      "url": "http://localhost:3000/forgot-password",
-      "requestedUrl": "http://localhost:3000/forgot-password",
+      "url": "http://localhost:3300/forgot-password",
+      "requestedUrl": "http://localhost:3300/forgot-password",
       "violations": [],
       "incomplete": [
         {
@@ -246,7 +246,237 @@
         }
       ],
       "httpStatus": 200,
-      "finalUrl": "http://localhost:3000/forgot-password",
+      "finalUrl": "http://localhost:3300/forgot-password",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3300/check-email?email=audit.c35%40example.com",
+      "requestedUrl": "http://localhost:3300/check-email?email=audit.c35%40example.com",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3300/check-email?email=audit.c35%40example.com",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3300/verify-email",
+      "requestedUrl": "http://localhost:3300/verify-email",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3300/verify-email",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3300/invite/token-inexistant-c35",
+      "requestedUrl": "http://localhost:3300/invite/token-inexistant-c35",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3300/invite/token-inexistant-c35",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:3300/public/lists/kuz9xs5ixnvcio1zv43f9d1d",
+      "requestedUrl": "http://localhost:3300/public/lists/kuz9xs5ixnvcio1zv43f9d1d",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "22.5pt (30px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<h1 class=\"text-3xl font-bold leading-tight text-foreground\">Veille accessibilité</h1>",
+              "target": [
+                "h1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "13.5pt (18px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"mt-2 text-lg leading-relaxed text-muted-foreground\">Références WCAG et méthodo d’audit, mises à jour en continu.</p>",
+              "target": [
+                ".leading-relaxed"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"text-sm text-muted-foreground\">Created by</p>",
+              "target": [
+                ".text-sm.text-muted-foreground"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<p class=\"font-medium text-foreground\">Auditeur Cycle35</p>",
+              "target": [
+                ".gap-3.md\\:justify-end.flex > div:nth-child(2) > .text-foreground"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"rounded-lg border bg-gradient-to-br from-purple-50/50 via-purple-100/30 to-purple-200/40 p-6 transition-all duration-300 dark:from-purple-950/20 dark:via-purple-900/15 dark:to-purple-800/20\">",
+                      "target": [
+                        ".bg-gradient-to-br"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>2<!-- --> bookmarks</span>",
+              "target": [
+                ".uppercase > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:3300/public/lists/kuz9xs5ixnvcio1zv43f9d1d",
       "testEngine": {
         "name": "axe-core",
         "version": "4.14.0"
@@ -255,5 +485,5 @@
   ],
   "configErrors": [],
   "crawlErrors": [],
-  "scopeHash": "732fadb25260649aabeb0c0999256e02296d0a8a413a0b39e972fb35e9da55cc"
+  "scopeHash": "e0a5ebaa4919182db9b9e3e896ca4fbb070d4cb0c276a86f3ce31152a82368aa"
 }

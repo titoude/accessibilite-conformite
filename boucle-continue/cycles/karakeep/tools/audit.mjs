@@ -169,12 +169,28 @@ const openCardMenu = async page => {
   await page.waitForSelector('[role="menu"]', { state: 'visible', timeout: 10000 });
 };
 
-// Menu déroulant de l'avatar (header, dernier bouton) — contient le toggle
-// de thème et l'entrée « Keyboard shortcuts ».
+// Menu déroulant de l'avatar — toujours le DERNIER bouton du header
+// (GlobalActions rend avant lui dans le DOM même quand la grille hydrate
+// tard ; .last() est stable, contrairement à .first()/.nth()).
 const openProfileMenu = async page => {
   await page.locator('header button').last().click();
   await page.waitForSelector('[role="menu"]', { state: 'visible', timeout: 10000 });
 };
+
+// Déclencheurs du header identifiés par leur icône lucide — jamais par
+// position : GlobalActions (View Options / tri) se monte APRÈS la première
+// passe de rendu (inBookmarkGrid), ce qui rendait .first()/.nth() non
+// déterministes (~50 % d'avatar capturé au lieu de View Options — v1).
+const viewOptionsTrigger = page =>
+  page.locator('header button:has(svg.lucide-settings), header button[aria-label="View Options"]').first();
+const sortTrigger = page =>
+  page.locator('header button[aria-label="Sort"], header button:has(svg.lucide-arrow-down-wide-narrow), header button:has(svg.lucide-arrow-up-narrow-wide), header button:has(svg.lucide-sort-desc), header button:has(svg.lucide-sort-asc), header button:has(svg.lucide-list-filter)').first();
+
+// Chaque état laisse une preuve DOM du widget réellement ouvert — relue dans
+// le rapport (stateProof) : un sélecteur déterministe ne suffit pas, il faut
+// prouver que le BON widget s'est ouvert (leçon 32).
+const stateProof = async (page, text) =>
+  page.evaluate(t => { window.__stateProof = t; }, text).catch(() => {});
 
 const MENU_ITEM = name => `[role="menuitem"]:has-text("${name}")`;
 
@@ -210,17 +226,31 @@ const STATES = {
   'view-options-menu': {
     url: b => `${b}/dashboard/bookmarks`,
     setup: async page => {
-      // Premier bouton du header = déclencheur « View options » (icône layout).
-      await page.locator('header button').first().click();
-      await page.waitForSelector('[role="menu"]', { state: 'visible', timeout: 10000 });
+      // Le bouton n'existe qu'une fois la grille hydratée (GlobalActions).
+      await waitGrid(page);
+      await viewOptionsTrigger(page).click();
+      // Ouvert soit en menu (baseline) soit en popover (patché) : le contenu
+      // exclusif = les switches « Show title/tags/notes » — aucun autre
+      // widget du header n'en contient. La preuve compte les rôles visibles.
+      await page.waitForSelector('[role="switch"]:visible', { timeout: 10000 });
+      const counts = await page.evaluate(() => {
+        const q = s => [...document.querySelectorAll(s)]
+          .filter(e => e.getClientRects().length > 0).length;
+        return { menus: q('[role="menu"]'), radiogroups: q('[role="radiogroup"]'),
+                 switches: q('[role="switch"]'), sliders: q('[role="slider"]') };
+      });
+      await stateProof(page, `view-options ${JSON.stringify(counts)}`);
     },
   },
   'sort-menu': {
     url: b => `${b}/dashboard/bookmarks`,
     setup: async page => {
-      // Deuxième bouton du header = déclencheur de tri (icône ListFilter).
-      await page.locator('header button').nth(1).click();
+      await waitGrid(page);
+      await sortTrigger(page).click();
       await page.waitForSelector('[role="menu"]', { state: 'visible', timeout: 10000 });
+      // Items exclusifs au menu de tri (i18n actions.sort.*_first).
+      await page.waitForSelector(`${MENU_ITEM('Newest First')}, ${MENU_ITEM('Oldest First')}`, { timeout: 10000 });
+      await stateProof(page, 'sort-menu: items *First présents');
     },
   },
   'profile-menu': {
@@ -228,6 +258,7 @@ const STATES = {
     setup: async page => {
       await openProfileMenu(page);
       await page.waitForSelector(`${MENU_ITEM('Dark Mode')}, ${MENU_ITEM('Light Mode')}`, { timeout: 10000 });
+      await stateProof(page, 'profile-menu: item *Mode présent');
     },
   },
   'keyboard-shortcuts-dialog': {
@@ -241,9 +272,11 @@ const STATES = {
   'new-list-dialog': {
     url: b => `${b}/dashboard/lists`,
     setup: async page => {
-      // « + » de création de liste dans la sidebar (bouton + icône Plus).
-      await page.locator('aside button:has(svg.lucide-plus)').first().click();
+      // « + » de création de liste dans la sidebar : <a> avant le patch,
+      // <button> après — les deux portent l'icône lucide-plus.
+      await page.locator('aside button:has(svg.lucide-plus), aside a:has(svg.lucide-plus)').first().click();
       await waitDialog(page);
+      await stateProof(page, 'new-list-dialog: [role=dialog] visible');
     },
   },
   'list-detail-page': {
@@ -264,6 +297,24 @@ const STATES = {
       // Le titre de la fiche est un <p> (pas un heading) — on attend le lien
       // « View Original », monté quand le bookmark a répondu côté tRPC.
       await page.waitForSelector('main a:has-text("View Original")', { timeout: 30000 });
+    },
+  },
+  'reader-page': {
+    // Mode lecture d'un bookmark lien — hors dashboard, header propre.
+    url: b => `${b}/reader/${IDS.bookmarkLinkId}`,
+    setup: async page => {
+      await page.waitForSelector('main h1', { state: 'visible', timeout: 30000 });
+      await stateProof(page, 'reader: main+h1 présents');
+    },
+  },
+  'public-list-page': {
+    // Liste publiée par le seed (seed-ids.json). Rendue anonymement dans le
+    // run public ; rejouée aussi sous session dans le run auth — la page est
+    // identique (layout public minimal, sans header authentifié).
+    url: b => `${b}/public/lists/${IDS.publicListId}`,
+    setup: async page => {
+      await page.waitForSelector('main', { state: 'visible', timeout: 30000 });
+      await stateProof(page, 'public-list: main présent');
     },
   },
   'preview-modal': {
@@ -540,8 +591,9 @@ async function run() {
           const nav2 = await extraSetup(page, checkNav);
           if (nav2) {
             entry.httpStatus = nav2.httpStatus ?? entry.httpStatus;
-            entry.finalUrl = nav2.finalUrl;
+            if (nav2.finalUrl) entry.finalUrl = nav2.finalUrl;
             if (nav2.error) entry.error = nav2.error;
+            if (nav2.stateProof) entry.stateProof = nav2.stateProof;
           }
         }
         // Re-vérification SYSTÉMATIQUE du document final (pages comme états) :
@@ -612,8 +664,11 @@ async function run() {
         const nav2 = check(await p.goto(st.url(origin), { waitUntil: 'load', timeout: 30000 }), st.url(origin));
         if (nav2.error) return nav2;
         await st.setup(p);
+        // Preuve DOM déposée par le setup (leçon 32) — consignée dans le
+        // rapport pour prouver QUE le bon widget a été ouvert.
+        const stateProof = await p.evaluate(() => window.__stateProof || null).catch(() => null);
         const nav3 = check(null, st.url(origin));
-        return nav3.error ? nav3 : nav2;
+        return { ...(nav3.error ? nav3 : nav2), stateProof };
       });
     }
   }

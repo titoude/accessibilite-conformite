@@ -1,71 +1,64 @@
 # Audit accessibilité — 2026-10-07
 
-**0 règle(s) violée(s), 0 occurrence(s), 37/37 scénario(s) audité(s), 0 erreur(s), 156 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 39/39 scénario(s) audité(s), 0 erreur(s), 169 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `f5c34938505f`
+Périmètre : scope.json — hash `d8511f9d15d4`
 
-## Résultats incomplets à revoir (156)
+## Résultats incomplets à revoir (169)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### aria-valid-attr-value — ARIA attributes must conform to valid values
 
-- http://localhost:3000/dashboard/bookmarks
+- http://localhost:3300/dashboard/bookmarks
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/lists
+- http://localhost:3300/dashboard/lists
   - `button[aria-label="New List"]`
   - `.focus-visible\:ring-\[3px\]`
-- http://localhost:3000/dashboard/tags
+- http://localhost:3300/dashboard/tags
   - `button[aria-label="New List"]`
   - `button[aria-controls="radix-_R_cklubsv5tjb_"]`
-- http://localhost:3000/dashboard/archive
+- http://localhost:3300/dashboard/archive
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_79ulubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/favourites
+- http://localhost:3300/dashboard/favourites
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_79ulubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/highlights
+- http://localhost:3300/dashboard/highlights
   - `button[aria-label="New List"]`
-- http://localhost:3000/dashboard/search
+- http://localhost:3300/dashboard/search
   - `button[aria-label="New List"]`
-- http://localhost:3000/dashboard/search?q=accessibilit%C3%A9
+- http://localhost:3300/dashboard/search?q=accessibilit%C3%A9
   - `button[aria-label="New List"]`
-- http://localhost:3000/dashboard/cleanups
+- http://localhost:3300/dashboard/cleanups
   - `button[aria-label="New List"]`
-- http://localhost:3000/settings/info
+- http://localhost:3300/settings/info
   - `button[aria-controls="radix-_R_kclubsv5tjb_"]`
   - `#current-password`
   - `#new-password`
   - `#confirm-password`
   - `.bg-destructive`
-- http://localhost:3000/settings/feeds
+- http://localhost:3300/settings/feeds
   - `.focus-visible\:ring-\[3px\]`
-- http://localhost:3000/settings/api-keys
+- http://localhost:3300/settings/api-keys
   - `.bg-primary`
-  - `button[aria-controls="radix-_R_smklubsv5tjb_"]`
-  - `button[aria-controls="radix-_R_1cmklubsv5tjb_"]`
-  - `button[aria-controls="radix-_R_t6klubsv5tjb_"]`
-  - `button[aria-controls="radix-_R_1d6klubsv5tjb_"]`
-- http://localhost:3000/settings/assets
-  - `button[aria-controls="radix-_r_0_"]`
-  - `button[aria-controls="radix-_r_3_"]`
-  - `button[aria-controls="radix-_r_6_"]`
-  - `button[aria-controls="radix-_r_9_"]`
-  - `button[aria-controls="radix-_r_c_"]`
-  - `button[aria-controls="radix-_r_f_"]`
-  - `button[aria-controls="radix-_r_i_"]`
-- http://localhost:3000/settings/webhooks
+  - `.h-9`
+  - `button[title="Delete"]`
+- http://localhost:3300/settings/webhooks
   - `.focus-visible\:ring-\[3px\]`
-- http://localhost:3000/settings/ai
-  - `#_R_7l4lubsv5tjb_-form-item`
-- http://localhost:3000/admin/users
+- http://localhost:3300/settings/ai
+  - `#_r_b_-form-item`
+- http://localhost:3300/admin/users
   - `button[aria-label="Create User"]`
   - `button[aria-label="Delete User"]`
   - `button[aria-label="Reset Password"]`
   - `button[aria-label="Edit User"]`
   - `button[aria-label="Send Invite"]`
-- http://localhost:3000/admin/background_jobs
+- http://localhost:3300/admin/background_jobs
   - `button[aria-controls="radix-_r_0_"]`
   - `button[aria-controls="radix-_r_3_"]`
   - `button[aria-controls="radix-_r_6_"]`
@@ -77,168 +70,189 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `button[aria-controls="radix-_r_o_"]`
   - `button[aria-controls="radix-_r_r_"]`
   - … +7 autres
-- http://localhost:3000/dashboard/bookmarks [state:card-actions-menu]
+- http://localhost:3300/dashboard/bookmarks [state:card-actions-menu]
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_1l7slubsv5tjb_-form-item`
   - `#radix-_R_1fb97slubsv5tjb_`
-  - `#radix-_r_19_`
-- http://localhost:3000/dashboard/bookmarks [state:edit-bookmark-dialog]
-  - `#_r_1c_-form-item`
-  - `#_r_1d_-form-item`
+  - `#radix-_r_18_`
+  - `#radix-_r_1b_`
+- http://localhost:3300/dashboard/bookmarks [state:edit-bookmark-dialog]
   - `#_r_1e_-form-item`
   - `#_r_1f_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:view-options-menu]
+  - `#_r_1g_-form-item`
+  - `#_r_1h_-form-item`
+  - `#_r_1i_-form-item`
+  - `#_r_1j_-form-item`
+  - `#_r_1k_-form-item`
+  - `#_r_1l_-form-item`
+  - `#_r_1n_-form-item`
+- http://localhost:3300/dashboard/bookmarks [state:view-options-menu]
+  - `button[aria-controls="radix-_r_h_"]`
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3300/dashboard/bookmarks [state:sort-menu]
+  - `button[aria-label="View Options"]`
+  - `#radix-_r_v_`
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3300/dashboard/bookmarks [state:profile-menu]
+  - `button[aria-label="View Options"]`
   - `#radix-_R_t5tjb_`
   - `button[aria-label="New List"]`
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:sort-menu]
-  - `#radix-_r_11_`
-  - `button[aria-label="New List"]`
-  - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:profile-menu]
-  - `#radix-_R_t5tjb_`
-  - `button[aria-label="New List"]`
-  - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:keyboard-shortcuts-dialog]
+- http://localhost:3300/dashboard/bookmarks [state:keyboard-shortcuts-dialog]
   - `#radix-_R_fslubsv5tjb_`
-- http://localhost:3000/dashboard/lists [state:new-list-dialog]
+- http://localhost:3300/dashboard/lists [state:new-list-dialog]
   - `#radix-_R_8qn5tjb_`
   - `.rounded`
   - `#_r_2_-form-item`
   - `#_r_3_-form-item`
   - `button[aria-label="No Parent"]`
-- http://localhost:3000/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+- http://localhost:3300/dashboard/lists/kuz9xs5ixnvcio1zv43f9d1d [state:list-detail-page]
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_3kvav5ubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/tags/hgbyciltjdgu97x66duu4gps [state:tag-detail-page]
+- http://localhost:3300/dashboard/tags/b1qwa0zqku2u9bg6mizlokde [state:tag-detail-page]
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_3kvav5ubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-page]
+- http://localhost:3300/dashboard/preview/iti826egxgnz2wa1b2zp489r [state:preview-page]
   - `button[aria-label="New List"]`
-- http://localhost:3000/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-modal]
-  - `#radix-_r_14_`
-- http://localhost:3000/dashboard/bookmarks [state:theme-dark]
+- http://localhost:3300/reader/iti826egxgnz2wa1b2zp489r [state:reader-page]
+  - `.relative`
+- http://localhost:3300/dashboard/preview/iti826egxgnz2wa1b2zp489r [state:preview-modal]
+  - `#radix-_r_12_`
+- http://localhost:3300/dashboard/bookmarks [state:theme-dark]
+  - `button[aria-label="View Options"]`
   - `button[aria-label="New List"]`
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:mobile-390]
+- http://localhost:3300/dashboard/bookmarks [state:mobile-390]
+  - `button[aria-label="View Options"]`
   - `#_R_1l7slubsv5tjb_-form-item`
 
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
-- http://localhost:3000/dashboard/bookmarks
+- http://localhost:3300/dashboard/bookmarks
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/archive
+- http://localhost:3300/dashboard/archive
   - `#_R_79ulubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/favourites
+- http://localhost:3300/dashboard/favourites
   - `#_R_79ulubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:card-actions-menu]
+- http://localhost:3300/dashboard/bookmarks [state:card-actions-menu]
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:view-options-menu]
+- http://localhost:3300/dashboard/bookmarks [state:view-options-menu]
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:sort-menu]
+- http://localhost:3300/dashboard/bookmarks [state:sort-menu]
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:profile-menu]
+- http://localhost:3300/dashboard/bookmarks [state:profile-menu]
   - `#_R_1l7slubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+- http://localhost:3300/dashboard/lists/kuz9xs5ixnvcio1zv43f9d1d [state:list-detail-page]
   - `#_R_3kvav5ubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/tags/hgbyciltjdgu97x66duu4gps [state:tag-detail-page]
+- http://localhost:3300/dashboard/tags/b1qwa0zqku2u9bg6mizlokde [state:tag-detail-page]
   - `#_R_3kvav5ubsv5tjb_-form-item`
-- http://localhost:3000/dashboard/bookmarks [state:theme-dark]
+- http://localhost:3300/public/lists/kuz9xs5ixnvcio1zv43f9d1d [state:public-list-page]
+  - `h1`
+  - `.leading-relaxed`
+  - `.text-sm.text-muted-foreground`
+  - `.gap-3.md\:justify-end.flex > div:nth-child(2) > .text-foreground`
+  - `.uppercase > span`
+- http://localhost:3300/dashboard/bookmarks [state:theme-dark]
   - `#_R_1l7slubsv5tjb_-form-item`
 
 ### label-content-name-mismatch — Elements must have their visible text as part of their accessible name
 
-- http://localhost:3000/dashboard/bookmarks
+- http://localhost:3300/dashboard/bookmarks
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/lists
+- http://localhost:3300/dashboard/lists
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/tags
+- http://localhost:3300/dashboard/tags
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/archive
+- http://localhost:3300/dashboard/archive
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/favourites
+- http://localhost:3300/dashboard/favourites
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/highlights
+- http://localhost:3300/dashboard/highlights
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/search
+- http://localhost:3300/dashboard/search
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/search?q=accessibilit%C3%A9
+- http://localhost:3300/dashboard/search?q=accessibilit%C3%A9
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/cleanups
+- http://localhost:3300/dashboard/cleanups
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/info
+- http://localhost:3300/settings/info
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/import
+- http://localhost:3300/settings/import
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/rules
+- http://localhost:3300/settings/rules
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/feeds
+- http://localhost:3300/settings/feeds
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/broken-links
+- http://localhost:3300/settings/broken-links
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/api-keys
+- http://localhost:3300/settings/api-keys
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/backups
+- http://localhost:3300/settings/backups
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/stats
+- http://localhost:3300/settings/stats
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/assets
+- http://localhost:3300/settings/assets
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/webhooks
+- http://localhost:3300/settings/webhooks
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/settings/ai
+- http://localhost:3300/settings/ai
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/admin/overview
+- http://localhost:3300/admin/overview
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/admin/users
+- http://localhost:3300/admin/users
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/admin/background_jobs
+- http://localhost:3300/admin/background_jobs
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/admin/admin_tools
+- http://localhost:3300/admin/admin_tools
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/bookmarks [state:card-actions-menu]
+- http://localhost:3300/dashboard/bookmarks [state:card-actions-menu]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/bookmarks [state:view-options-menu]
+- http://localhost:3300/dashboard/bookmarks [state:view-options-menu]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/bookmarks [state:sort-menu]
+- http://localhost:3300/dashboard/bookmarks [state:sort-menu]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/bookmarks [state:profile-menu]
+- http://localhost:3300/dashboard/bookmarks [state:profile-menu]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+- http://localhost:3300/dashboard/lists/kuz9xs5ixnvcio1zv43f9d1d [state:list-detail-page]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/tags/hgbyciltjdgu97x66duu4gps [state:tag-detail-page]
+- http://localhost:3300/dashboard/tags/b1qwa0zqku2u9bg6mizlokde [state:tag-detail-page]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-page]
+- http://localhost:3300/dashboard/preview/iti826egxgnz2wa1b2zp489r [state:preview-page]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/bookmarks [state:theme-dark]
+- http://localhost:3300/dashboard/bookmarks [state:theme-dark]
   - `#radix-_R_t5tjb_`
-- http://localhost:3000/dashboard/bookmarks [state:mobile-390]
+- http://localhost:3300/dashboard/bookmarks [state:mobile-390]
   - `#radix-_R_t5tjb_`
 
 ### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
 
-- http://localhost:3000/dashboard/bookmarks [state:edit-bookmark-dialog]
+- http://localhost:3300/dashboard/bookmarks [state:edit-bookmark-dialog]
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(1)`
   - `.focus\:not-sr-only`
   - `header`
   - `.sm\:flex.flex-none[data-aria-hidden="true"]`
   - `.min-h-30`
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(12)`
-- http://localhost:3000/dashboard/bookmarks [state:keyboard-shortcuts-dialog]
+- http://localhost:3300/dashboard/bookmarks [state:keyboard-shortcuts-dialog]
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(1)`
   - `.focus\:not-sr-only`
   - `header`
   - `.sm\:flex.flex-none[data-aria-hidden="true"]`
   - `.min-h-30`
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(12)`
-- http://localhost:3000/dashboard/lists [state:new-list-dialog]
+- http://localhost:3300/dashboard/lists [state:new-list-dialog]
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(1)`
   - `.focus\:not-sr-only`
   - `header`
   - `.flex-none`
   - `.min-h-30`
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(12)`
-- http://localhost:3000/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-modal]
+- http://localhost:3300/dashboard/preview/iti826egxgnz2wa1b2zp489r [state:preview-modal]
   - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(1)`
   - `.focus\:not-sr-only`
   - `header`
@@ -248,6 +262,6 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### aria-required-children — Certain ARIA roles must contain particular children
 
-- http://localhost:3000/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+- http://localhost:3300/dashboard/lists/kuz9xs5ixnvcio1zv43f9d1d [state:list-detail-page]
   - `#radix-_R_ean5tjb_`
 

@@ -192,6 +192,12 @@ const listImages = await post('/lists', {
 }, 'list smart images');
 console.log('[seed] 3 listes (2 manuelles + 1 smart)');
 
+// La liste « Veille accessibilité » est publiée : la route publique
+// /public/lists/<id> doit servir une page vivante à auditer (fixer-v2,
+// wart « routes publiques livrées hors scope »).
+await patch(`/lists/${listVeille.id}`, { public: true }, 'list veille publique');
+console.log('[seed] liste veille publiée (/public/lists/<id>)');
+
 // Remplissage des listes manuelles.
 await put(`/lists/${listVeille.id}/bookmarks/${bm[0].id}`, 'list+mdn');
 await put(`/lists/${listVeille.id}/bookmarks/${bm[1].id}`, 'list+wcag');
@@ -237,6 +243,7 @@ fs.writeFileSync(idsPath, JSON.stringify({
   bookmarkNoteId: bm[5].id,      // note « Checklist audit a11y »
   bookmarkImageId: imgBm.id,     // bookmark image
   listId: listVeille.id,         // « Veille accessibilité »
+  publicListId: listVeille.id,   // même liste, publiée (route /public/lists)
   tagId: tagA11y.id,             // tag « accessibilité »
 }, null, 2) + '\n');
 console.log(`[seed] ids → ${idsPath}`);

@@ -19,6 +19,9 @@ const DIR = dirname(fileURLToPath(import.meta.url));
 const CYCLE = opt('--cycle-dir', join(DIR, '..'));
 const AUTH = opt('--auth-file', join(DIR, 'auth.json'));
 const REPORT = opt('--report', join(CYCLE, 'reports/final-auth/report.json'));
+// --out : nom du fichier dans reports/ (permet une sonde par rapport —
+// final-auth ET final-public — sans écraser le précédent).
+const OUT = opt('--out', 'incomplete-probes.json');
 
 const luminance = ([r, g, b]) => {
   const f = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
@@ -234,7 +237,7 @@ if (incompletes.length) {
   await browser.close();
 }
 const out = { report: REPORT, count: results.length, results };
-writeFileSync(join(CYCLE, 'reports/incomplete-probes.json'), JSON.stringify(out, null, 1));
+writeFileSync(join(CYCLE, 'reports', OUT), JSON.stringify(out, null, 1));
 const confirmed = results.filter(r => r.verdict === 'CONFIRMED_VIOLATION').length;
 console.log(`\nsondes: ${results.length} items, ${confirmed} CONFIRMED_VIOLATION`);
 process.exit(confirmed ? 1 : 0);

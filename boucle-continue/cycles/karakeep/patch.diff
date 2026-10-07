@@ -1,3 +1,41 @@
+diff --git a/apps/web/app/check-email/page.tsx b/apps/web/app/check-email/page.tsx
+index 83241fc4..924d0573 100644
+--- a/apps/web/app/check-email/page.tsx
++++ b/apps/web/app/check-email/page.tsx
+@@ -55,7 +55,8 @@ export default function CheckEmailPage() {
+ 
+   if (!email) {
+     return (
+-      <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++      <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++        <h1 className="sr-only">Check your email</h1>
+         <Card className="w-full max-w-md">
+           <CardHeader className="text-center">
+             <CardTitle className="text-2xl font-bold">
+@@ -71,12 +72,13 @@ export default function CheckEmailPage() {
+             </Button>
+           </CardContent>
+         </Card>
+-      </div>
++      </main>
+     );
+   }
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++      <h1 className="sr-only">Check your email</h1>
+       <Card className="w-full max-w-md">
+         <CardHeader className="text-center">
+           <CardTitle className="text-2xl font-bold">Check Your Email</CardTitle>
+@@ -134,6 +136,6 @@ export default function CheckEmailPage() {
+           </div>
+         </CardContent>
+       </Card>
+-    </div>
++    </main>
+   );
+ }
 diff --git a/apps/web/app/dashboard/archive/page.tsx b/apps/web/app/dashboard/archive/page.tsx
 index 33a6e610..b9411093 100644
 --- a/apps/web/app/dashboard/archive/page.tsx
@@ -128,6 +166,27 @@ index 0b765cf6..794e6f73 100644
 +    </main>
    );
  }
+diff --git a/apps/web/app/invite/[token]/page.tsx b/apps/web/app/invite/[token]/page.tsx
+index 761ee5f6..fc712820 100644
+--- a/apps/web/app/invite/[token]/page.tsx
++++ b/apps/web/app/invite/[token]/page.tsx
+@@ -14,13 +14,14 @@ export default async function InvitePage({
+   const { token } = await params;
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+       <div className="w-full max-w-md space-y-8">
++        <h1 className="sr-only">Accept your invite</h1>
+         <div className="flex items-center justify-center">
+           <KarakeepLogo height={80} />
+         </div>
+         <InviteAcceptForm token={token} />
+       </div>
+-    </div>
++    </main>
+   );
+ }
 diff --git a/apps/web/app/layout.tsx b/apps/web/app/layout.tsx
 index 80436962..71898a5b 100644
 --- a/apps/web/app/layout.tsx
@@ -141,6 +200,158 @@ index 80436962..71898a5b 100644
    // Values match the `--background` token in tooling/tailwind/globals.css.
    // These follow the OS color scheme only. An in-app theme override via
    // next-themes is not reflected here, so chrome can differ from the page
+diff --git a/apps/web/app/public/lists/[listId]/not-found.tsx b/apps/web/app/public/lists/[listId]/not-found.tsx
+index a6fd71dc..b764082c 100644
+--- a/apps/web/app/public/lists/[listId]/not-found.tsx
++++ b/apps/web/app/public/lists/[listId]/not-found.tsx
+@@ -4,12 +4,15 @@ export default function PublicListPageNotFound() {
+   return (
+     <div className="mx-auto flex max-w-md flex-1 flex-col items-center justify-center px-4 py-16 text-center">
+       <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700">
+-        <X className="h-12 w-12 text-gray-300" strokeWidth={1.5} />
++        <X
++          className="h-12 w-12 text-gray-500 dark:text-gray-300"
++          strokeWidth={1.5}
++        />
+       </div>
+-      <h1 className="mb-3 text-2xl font-semibold text-gray-800">
++      <h1 className="mb-3 text-2xl font-semibold text-gray-800 dark:text-gray-100">
+         List not found
+       </h1>
+-      <p className="text-center text-gray-500">
++      <p className="text-center text-gray-600 dark:text-gray-300">
+         The list you&apos;re looking for doesn&apos;t exist or may have been
+         removed.
+       </p>
+diff --git a/apps/web/app/reader/[bookmarkId]/page.tsx b/apps/web/app/reader/[bookmarkId]/page.tsx
+index 7efa4110..431a0d1e 100644
+--- a/apps/web/app/reader/[bookmarkId]/page.tsx
++++ b/apps/web/app/reader/[bookmarkId]/page.tsx
+@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
+ import { FullPageSpinner } from "@/components/ui/full-page-spinner";
+ import { Separator } from "@/components/ui/separator";
+ import { useSession } from "@/lib/auth/client";
++import { useTranslation } from "@/lib/i18n/client";
+ import { useReaderSettings } from "@/lib/readerSettings";
+ import { useQuery } from "@tanstack/react-query";
+ import { HighlighterIcon as Highlight, Printer, X } from "lucide-react";
+@@ -36,6 +37,7 @@ export default function ReaderViewPage() {
+   const { data: session } = useSession();
+   const router = useRouter();
+   const { settings } = useReaderSettings();
++  const { t } = useTranslation();
+   const [showHighlights, setShowHighlights] = useState(false);
+   const isOwner = session?.user?.id === bookmark?.userId;
+ 
+@@ -57,14 +59,24 @@ export default function ReaderViewPage() {
+       <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 print:hidden">
+         <div className="flex h-14 items-center justify-between px-4">
+           <div className="flex items-center gap-2">
+-            <Button variant="ghost" size="icon" onClick={onClose}>
++            <Button
++              variant="ghost"
++              size="icon"
++              onClick={onClose}
++              aria-label={t("actions.close")}
++            >
+               <X className="h-4 w-4" />
+             </Button>
+             <span className="text-sm text-muted-foreground">Reader View</span>
+           </div>
+ 
+           <div className="flex items-center gap-2">
+-            <Button variant="ghost" size="icon" onClick={handlePrint}>
++            <Button
++              variant="ghost"
++              size="icon"
++              onClick={handlePrint}
++              aria-label={t("actions.print")}
++            >
+               <Printer className="h-4 w-4" />
+             </Button>
+ 
+@@ -74,6 +86,8 @@ export default function ReaderViewPage() {
+               variant={showHighlights ? "default" : "ghost"}
+               size="icon"
+               onClick={() => setShowHighlights(!showHighlights)}
++              aria-label={t("common.highlights")}
++              aria-pressed={showHighlights}
+             >
+               <Highlight className="h-4 w-4" />
+             </Button>
+@@ -101,29 +115,32 @@ export default function ReaderViewPage() {
+           className={`flex-1 overflow-x-hidden transition-all duration-300 ${showHighlights ? "lg:mr-80" : ""}`}
+         >
+           <article className="mx-auto max-w-3xl overflow-x-hidden px-4 py-8 sm:px-6">
++            {/* Le h1 doit exister quoi qu'il arrive (page-has-heading-one) :
++                pendant le chargement il porte le nom de la page. */}
++            <header className="mb-8 space-y-4">
++              <h1
++                className="font-bold leading-tight"
++                style={{
++                  fontFamily: READER_FONT_FAMILIES[settings.fontFamily],
++                  fontSize: `${settings.fontSize * 1.8}px`,
++                  lineHeight: settings.lineHeight * 0.9,
++                }}
++              >
++                {bookmark ? getBookmarkTitle(bookmark) : "Reader View"}
++              </h1>
++              {bookmark && (
++                <div className="flex items-center gap-4 text-sm text-muted-foreground">
++                  {bookmark.content.type == BookmarkTypes.LINK && (
++                    <span>By {bookmark.content.author}</span>
++                  )}
++                  <Separator orientation="vertical" className="h-4" />
++                  <span>8 min</span>
++                </div>
++              )}
++            </header>
++
+             {bookmark ? (
+               <>
+-                {/* Article Header */}
+-                <header className="mb-8 space-y-4">
+-                  <h1
+-                    className="font-bold leading-tight"
+-                    style={{
+-                      fontFamily: READER_FONT_FAMILIES[settings.fontFamily],
+-                      fontSize: `${settings.fontSize * 1.8}px`,
+-                      lineHeight: settings.lineHeight * 0.9,
+-                    }}
+-                  >
+-                    {getBookmarkTitle(bookmark)}
+-                  </h1>
+-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+-                    {bookmark.content.type == BookmarkTypes.LINK && (
+-                      <span>By {bookmark.content.author}</span>
+-                    )}
+-                    <Separator orientation="vertical" className="h-4" />
+-                    <span>8 min</span>
+-                  </div>
+-                </header>
+-
+                 {/* Article Content */}
+                 <Suspense fallback={<FullPageSpinner />}>
+                   <div className="overflow-x-hidden">
+@@ -141,7 +158,9 @@ export default function ReaderViewPage() {
+                 </Suspense>
+               </>
+             ) : (
+-              <FullPageSpinner />
++              <div role="status" aria-label="Loading">
++                <FullPageSpinner />
++              </div>
+             )}
+           </article>
+         </main>
+@@ -162,6 +181,7 @@ export default function ReaderViewPage() {
+                       size="icon"
+                       className="h-6 w-6 lg:hidden"
+                       onClick={() => setShowHighlights(false)}
++                      aria-label={t("actions.close")}
+                     >
+                       <X className="h-4 w-4" />
+                     </Button>
 diff --git a/apps/web/app/reset-password/page.tsx b/apps/web/app/reset-password/page.tsx
 index 369e2a49..2f20882e 100644
 --- a/apps/web/app/reset-password/page.tsx
@@ -238,6 +449,28 @@ index 6f1ec400..b06a801e 100644
          </div>
          <SignUpForm redirectUrl={redirectUrl} />
        </div>
+-    </div>
++    </main>
+   );
+ }
+diff --git a/apps/web/app/verify-email/page.tsx b/apps/web/app/verify-email/page.tsx
+index 2aba8ff1..5cc684e3 100644
+--- a/apps/web/app/verify-email/page.tsx
++++ b/apps/web/app/verify-email/page.tsx
+@@ -110,7 +110,8 @@ export default function VerifyEmailPage() {
+   };
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++      <h1 className="sr-only">Email verification</h1>
+       <Card className="w-full max-w-md">
+         <CardHeader className="text-center">
+           <CardTitle className="text-2xl font-bold">
+@@ -185,6 +186,6 @@ export default function VerifyEmailPage() {
+           )}
+         </CardContent>
+       </Card>
 -    </div>
 +    </main>
    );
@@ -359,51 +592,448 @@ index 95ccb6fd..70a5a6a7 100644
                          </SelectTrigger>
                          <SelectContent>
 diff --git a/apps/web/components/dashboard/ViewOptions.tsx b/apps/web/components/dashboard/ViewOptions.tsx
-index 4c10801f..1196b356 100644
+index 4c10801f..30293070 100644
 --- a/apps/web/components/dashboard/ViewOptions.tsx
 +++ b/apps/web/components/dashboard/ViewOptions.tsx
-@@ -160,12 +160,13 @@ export default function ViewOptions() {
-         {showColumnSlider && (
-           <>
-             <DropdownMenuSeparator />
+@@ -1,22 +1,13 @@
+ "use client";
+ 
+-import {
+-  createElement,
+-  useEffect,
+-  useOptimistic,
+-  useState,
+-  useTransition,
+-} from "react";
++import { createElement, useOptimistic, useState, useTransition } from "react";
+ import { ButtonWithTooltip } from "@/components/ui/button";
+-import {
+-  DropdownMenu,
+-  DropdownMenuContent,
+-  DropdownMenuItem,
+-  DropdownMenuLabel,
+-  DropdownMenuSeparator,
+-  DropdownMenuTrigger,
+-} from "@/components/ui/dropdown-menu";
+ import { Label } from "@/components/ui/label";
++import {
++  Popover,
++  PopoverContent,
++  PopoverTrigger,
++} from "@/components/ui/popover";
+ import { Slider } from "@/components/ui/slider";
+ import { Switch } from "@/components/ui/switch";
+ import { useTranslation } from "@/lib/i18n/client";
+@@ -33,6 +24,7 @@ import {
+   updateShowTags,
+   updateShowTitle,
+ } from "@/lib/userLocalSettings/userLocalSettings";
++import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+ import {
+   Check,
+   Heading,
+@@ -47,7 +39,8 @@ import {
+   Tag,
+ } from "lucide-react";
+ 
+-type LayoutType = "masonry" | "grid" | "list" | "compact";
++type LayoutType = "grid" | "masonry" | "list" | "compact";
++type ImageFitType = "cover" | "contain";
+ 
+ const iconMap: Record<LayoutType, LucideIcon> = {
+   masonry: LayoutDashboard,
+@@ -56,202 +49,238 @@ const iconMap: Record<LayoutType, LucideIcon> = {
+   compact: List,
+ };
+ 
++const iconMapImageFit: Record<ImageFitType, LucideIcon> = {
++  cover: Image,
++  contain: Image,
++};
++
++function OptionRadioGroup<T extends string>({
++  label,
++  iconMap: icons,
++  value,
++  onChange,
++  optionLabel,
++}: {
++  label: string;
++  iconMap: Record<T, LucideIcon>;
++  value: T;
++  onChange: (v: T) => void;
++  optionLabel: (v: T) => string;
++}) {
++  return (
++    // Le libellé visible de la section sert de nom au radiogroup.
++    <RadioGroupPrimitive.Root
++      value={value}
++      onValueChange={(v) => onChange(v as T)}
++      aria-label={label}
++      className="flex flex-col"
++    >
++      {(Object.keys(icons) as T[]).map((key) => (
++        <RadioGroupPrimitive.Item
++          key={key}
++          value={key}
++          className="relative flex w-full cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground"
++        >
++          <div className="flex items-center gap-2">
++            {createElement(icons[key])}
++            <span>{optionLabel(key)}</span>
++          </div>
++          {value === key && <Check className="ml-auto" />}
++        </RadioGroupPrimitive.Item>
++      ))}
++    </RadioGroupPrimitive.Root>
++  );
++}
++
++// Ce panneau mélange des choix exclusifs (layout, image fit), des bascules
++// (titre/tags/notes) et un slider (colonnes) : c'est une boîte de réglages,
++// pas un menu. Il est donc rendu en Popover — un role=menu n'admettrait pas
++// les sliders/switches comme descendants (aria-required-children).
+ export default function ViewOptions() {
+   const { t } = useTranslation();
+-  const layout = useBookmarkLayout();
+-  const gridColumns = useGridColumns();
+-  const actualDisplaySettings = useBookmarkDisplaySettings();
+-  const [tempColumns, setTempColumns] = useState(gridColumns);
++  const [open, setOpen] = useState(false);
+   const [, startTransition] = useTransition();
+ 
+-  // Optimistic state for all toggles
+-  const [optimisticDisplaySettings, setOptimisticDisplaySettings] =
+-    useOptimistic(actualDisplaySettings);
+-
+-  const [optimisticLayout, setOptimisticLayout] = useOptimistic(layout);
+-
++  const [optimisticLayout, setOptimisticLayout] =
++    useOptimistic(useBookmarkLayout());
++  const [optimisticColumns, setOptimisticColumns] =
++    useOptimistic(useGridColumns());
++  const [optimisticShowTitle, setOptimisticShowTitle] = useOptimistic(
++    useBookmarkDisplaySettings().showTitle,
++  );
++  const [optimisticShowTags, setOptimisticShowTags] = useOptimistic(
++    useBookmarkDisplaySettings().showTags,
++  );
++  const [optimisticShowNotes, setOptimisticShowNotes] = useOptimistic(
++    useBookmarkDisplaySettings().showNotes,
++  );
+   const [optimisticImageFit, setOptimisticImageFit] = useOptimistic(
+-    actualDisplaySettings.imageFit,
++    useBookmarkDisplaySettings().imageFit,
+   );
+ 
+-  const showColumnSlider =
+-    optimisticLayout === "grid" || optimisticLayout === "masonry";
+-
+-  // Update temp value when actual value changes
+-  useEffect(() => {
+-    setTempColumns(gridColumns);
+-  }, [gridColumns]);
++  const handleLayoutChange = (value: LayoutType) => {
++    startTransition(async () => {
++      setOptimisticLayout(value);
++      await updateBookmarksLayout(value);
++    });
++  };
+ 
+-  // Handlers with optimistic updates
+-  const handleLayoutChange = (newLayout: LayoutType) => {
++  const handleColumnsChange = (value: number[]) => {
+     startTransition(async () => {
+-      setOptimisticLayout(newLayout);
+-      await updateBookmarksLayout(newLayout);
++      setOptimisticColumns(value[0]);
++      await updateGridColumns(value[0]);
+     });
+   };
+ 
+-  const handleShowNotesChange = (checked: boolean) => {
++  const handleShowTitleChange = (checked: boolean) => {
+     startTransition(async () => {
+-      setOptimisticDisplaySettings({
+-        ...optimisticDisplaySettings,
+-        showNotes: checked,
+-      });
+-      await updateShowNotes(checked);
++      setOptimisticShowTitle(checked);
++      await updateShowTitle(checked);
+     });
+   };
+ 
+   const handleShowTagsChange = (checked: boolean) => {
+     startTransition(async () => {
+-      setOptimisticDisplaySettings({
+-        ...optimisticDisplaySettings,
+-        showTags: checked,
+-      });
++      setOptimisticShowTags(checked);
+       await updateShowTags(checked);
+     });
+   };
+ 
+-  const handleShowTitleChange = (checked: boolean) => {
++  const handleShowNotesChange = (checked: boolean) => {
+     startTransition(async () => {
+-      setOptimisticDisplaySettings({
+-        ...optimisticDisplaySettings,
+-        showTitle: checked,
+-      });
+-      await updateShowTitle(checked);
++      setOptimisticShowNotes(checked);
++      await updateShowNotes(checked);
+     });
+   };
+ 
+-  const handleImageFitChange = (fit: "cover" | "contain") => {
++  const handleImageFitChange = (value: ImageFitType) => {
+     startTransition(async () => {
+-      setOptimisticImageFit(fit);
+-      await updateImageFit(fit);
++      setOptimisticImageFit(value);
++      await updateImageFit(value);
+     });
+   };
+ 
++  const showColumnSlider =
++    optimisticLayout === "grid" || optimisticLayout === "masonry";
++
+   return (
+-    <DropdownMenu>
+-      <DropdownMenuTrigger asChild>
++    <Popover open={open} onOpenChange={setOpen}>
++      <PopoverTrigger asChild>
+         <ButtonWithTooltip
+           tooltip={t("view_options.title")}
+-          delayDuration={100}
+           variant="ghost"
++          size="icon"
+         >
+-          <Settings size={18} />
++          <Settings className="size-4" />
+         </ButtonWithTooltip>
+-      </DropdownMenuTrigger>
+-      <DropdownMenuContent className="w-56">
+-        <DropdownMenuLabel className="text-xs text-muted-foreground">
++      </PopoverTrigger>
++      <PopoverContent
++        hidden={!open}
++        className="w-56 p-1"
++        align="start"
++        role="dialog"
++        aria-label={t("view_options.title")}
++      >
++        <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+           {t("view_options.layout")}
+-        </DropdownMenuLabel>
+-        {(Object.keys(iconMap) as LayoutType[]).map((key) => (
+-          <DropdownMenuItem
+-            key={key}
+-            className="cursor-pointer"
+-            onSelect={(e) => {
+-              e.preventDefault();
+-              handleLayoutChange(key);
+-            }}
+-          >
+-            {createElement(iconMap[key])}
+-            <span>{t(`layouts.${key}`)}</span>
+-            {optimisticLayout === key && <Check className="ml-auto" />}
+-          </DropdownMenuItem>
+-        ))}
+-
+-        {showColumnSlider && (
+-          <>
+-            <DropdownMenuSeparator />
 -            <div className="px-2 pb-3 pt-1.5">
-+            <div className="px-2 pb-3 pt-1.5" role="group">
-               <div className="mb-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
-                 <span>{t("view_options.columns")}</span>
-                 <span>{tempColumns}</span>
-               </div>
-               <Slider
-+                aria-label={t("view_options.columns")}
-                 value={[tempColumns]}
-                 onValueChange={([value]) => setTempColumns(value)}
-                 onValueCommit={([value]) => updateGridColumns(value)}
-@@ -182,7 +183,7 @@ export default function ViewOptions() {
-         <DropdownMenuLabel className="text-xs text-muted-foreground">
+-              <div className="mb-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
+-                <span>{t("view_options.columns")}</span>
+-                <span>{tempColumns}</span>
+-              </div>
+-              <Slider
+-                value={[tempColumns]}
+-                onValueChange={([value]) => setTempColumns(value)}
+-                onValueCommit={([value]) => updateGridColumns(value)}
+-                min={1}
+-                max={6}
+-                step={1}
+-                className="w-full"
+-              />
+-            </div>
+-          </>
+-        )}
++        </div>
++        <OptionRadioGroup<LayoutType>
++          label={t("view_options.layout")}
++          iconMap={iconMap}
++          value={optimisticLayout}
++          onChange={handleLayoutChange}
++          optionLabel={(key) => t(`layouts.${key}`)}
++        />
+ 
+-        <DropdownMenuSeparator />
+-        <DropdownMenuLabel className="text-xs text-muted-foreground">
++        <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
            {t("view_options.display_options")}
-         </DropdownMenuLabel>
+-        </DropdownMenuLabel>
 -        <div className="flex items-center justify-between px-2 py-1.5">
-+        <div className="flex items-center justify-between px-2 py-1.5" role="group">
-           <Label
-             htmlFor="show-notes"
-             className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
-@@ -196,7 +197,7 @@ export default function ViewOptions() {
-             onCheckedChange={handleShowNotesChange}
-           />
+-          <Label
+-            htmlFor="show-notes"
+-            className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
+-          >
+-            <NotepadText className="size-4 text-muted-foreground" />
+-            <span>{t("view_options.show_note_previews")}</span>
+-          </Label>
+-          <Switch
+-            id="show-notes"
+-            checked={optimisticDisplaySettings.showNotes}
+-            onCheckedChange={handleShowNotesChange}
+-          />
          </div>
 -        <div className="flex items-center justify-between px-2 py-1.5">
-+        <div className="flex items-center justify-between px-2 py-1.5" role="group">
-           <Label
-             htmlFor="show-tags"
-             className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
-@@ -210,7 +211,7 @@ export default function ViewOptions() {
-             onCheckedChange={handleShowTagsChange}
-           />
+-          <Label
+-            htmlFor="show-tags"
+-            className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
+-          >
+-            <Tag className="size-4 text-muted-foreground" />
+-            <span>{t("view_options.show_tags")}</span>
+-          </Label>
+-          <Switch
+-            id="show-tags"
+-            checked={optimisticDisplaySettings.showTags}
+-            onCheckedChange={handleShowTagsChange}
+-          />
++        <div
++          role="group"
++          aria-label={t("view_options.display_options")}
++          className="flex flex-col"
++        >
++          <div className="flex items-center justify-between px-2 py-1.5">
++            <Label
++              htmlFor="viewopt-show-title"
++              className="flex items-center gap-2 text-sm"
++            >
++              <Heading />
++              {t("view_options.show_title")}
++            </Label>
++            <Switch
++              id="viewopt-show-title"
++              checked={optimisticShowTitle}
++              onCheckedChange={handleShowTitleChange}
++            />
++          </div>
++          <div className="flex items-center justify-between px-2 py-1.5">
++            <Label
++              htmlFor="viewopt-show-tags"
++              className="flex items-center gap-2 text-sm"
++            >
++              <Tag />
++              {t("view_options.show_tags")}
++            </Label>
++            <Switch
++              id="viewopt-show-tags"
++              checked={optimisticShowTags}
++              onCheckedChange={handleShowTagsChange}
++            />
++          </div>
++          <div className="flex items-center justify-between px-2 py-1.5">
++            <Label
++              htmlFor="viewopt-show-notes"
++              className="flex items-center gap-2 text-sm"
++            >
++              <NotepadText />
++              {t("view_options.show_note_previews")}
++            </Label>
++            <Switch
++              id="viewopt-show-notes"
++              checked={optimisticShowNotes}
++              onCheckedChange={handleShowNotesChange}
++            />
++          </div>
          </div>
 -        <div className="flex items-center justify-between px-2 py-1.5">
-+        <div className="flex items-center justify-between px-2 py-1.5" role="group">
-           <Label
-             htmlFor="show-title"
-             className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
+-          <Label
+-            htmlFor="show-title"
+-            className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
++
++        {showColumnSlider && (
++          <div
++            role="group"
++            aria-label={t("view_options.columns")}
++            className="px-2 py-1.5"
+           >
+-            <Heading className="size-4 text-muted-foreground" />
+-            <span>{t("view_options.show_title")}</span>
+-          </Label>
+-          <Switch
+-            id="show-title"
+-            checked={optimisticDisplaySettings.showTitle}
+-            onCheckedChange={handleShowTitleChange}
+-          />
+-        </div>
++            <div className="mb-2 flex items-center justify-between">
++              <span className="text-sm">{t("view_options.columns")}</span>
++              <span className="text-sm text-muted-foreground">
++                {optimisticColumns}
++              </span>
++            </div>
++            <Slider
++              id="viewopt-columns"
++              value={[optimisticColumns]}
++              min={1}
++              max={6}
++              step={1}
++              onValueChange={handleColumnsChange}
++              aria-label={t("view_options.columns")}
++            />
++          </div>
++        )}
++
++        <div className="-mx-1 my-1 h-px bg-muted" />
+ 
+-        <DropdownMenuSeparator />
+-        <DropdownMenuLabel className="text-xs text-muted-foreground">
++        <div className="px-2 py-1.5 text-xs font-semibold text-muted-foreground">
+           {t("view_options.image_options")}
+-        </DropdownMenuLabel>
+-        <DropdownMenuItem
+-          className="cursor-pointer"
+-          onSelect={(e) => {
+-            e.preventDefault();
+-            handleImageFitChange("cover");
+-          }}
+-        >
+-          <Image />
+-          <span>{t("view_options.image_fit_cover")}</span>
+-          {optimisticImageFit === "cover" && <Check className="ml-auto" />}
+-        </DropdownMenuItem>
+-        <DropdownMenuItem
+-          className="cursor-pointer"
+-          onSelect={(e) => {
+-            e.preventDefault();
+-            handleImageFitChange("contain");
+-          }}
+-        >
+-          <Image />
+-          <span>{t("view_options.image_fit_contain")}</span>
+-          {optimisticImageFit === "contain" && <Check className="ml-auto" />}
+-        </DropdownMenuItem>
+-      </DropdownMenuContent>
+-    </DropdownMenu>
++        </div>
++        <OptionRadioGroup<ImageFitType>
++          label={t("view_options.image_options")}
++          iconMap={iconMapImageFit}
++          value={optimisticImageFit}
++          onChange={handleImageFitChange}
++          optionLabel={(key) => t(`view_options.image_fit_${key}`)}
++        />
++      </PopoverContent>
++    </Popover>
+   );
+ }
 diff --git a/apps/web/components/dashboard/bookmarks/AssetCard.tsx b/apps/web/components/dashboard/bookmarks/AssetCard.tsx
 index 713bdd9a..fe5625bc 100644
 --- a/apps/web/components/dashboard/bookmarks/AssetCard.tsx
@@ -940,6 +1570,102 @@ index ba29aad1..79034449 100644
              >
                {sidebarCollapsed ? (
                  <PanelRightOpen size={20} />
+diff --git a/apps/web/components/dashboard/preview/ReaderSettingsPopover.tsx b/apps/web/components/dashboard/preview/ReaderSettingsPopover.tsx
+index f37b8263..08e49a55 100644
+--- a/apps/web/components/dashboard/preview/ReaderSettingsPopover.tsx
++++ b/apps/web/components/dashboard/preview/ReaderSettingsPopover.tsx
+@@ -96,7 +96,12 @@ export default function ReaderSettingsPopover({
+       <Tooltip>
+         <TooltipTrigger asChild>
+           <PopoverTrigger asChild>
+-            <Button variant={variant} size="icon" className="relative">
++            <Button
++              variant={variant}
++              size="icon"
++              className="relative"
++              aria-label={t("settings.info.reader_settings.title")}
++            >
+               <Settings className="h-4 w-4" />
+               {(hasSessionChanges || hasLocalOverrides) && (
+                 <span className="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-primary" />
+@@ -153,6 +158,9 @@ export default function ReaderSettingsPopover({
+                             size="icon"
+                             className="h-5 w-5 text-muted-foreground hover:text-foreground"
+                             onClick={() => clearLocalOverride("fontFamily")}
++                            aria-label={t(
++                              "settings.info.reader_settings.clear_local_overrides",
++                            )}
+                           >
+                             <X className="h-3 w-3" />
+                           </Button>
+@@ -228,6 +236,9 @@ export default function ReaderSettingsPopover({
+                             size="icon"
+                             className="h-5 w-5 text-muted-foreground hover:text-foreground"
+                             onClick={() => clearLocalOverride("fontSize")}
++                            aria-label={t(
++                              "settings.info.reader_settings.clear_local_overrides",
++                            )}
+                           >
+                             <X className="h-3 w-3" />
+                           </Button>
+@@ -253,6 +264,7 @@ export default function ReaderSettingsPopover({
+                   variant="outline"
+                   size="icon"
+                   className="h-7 w-7 bg-transparent"
++                  aria-label={`${t("actions.decrease")} ${t("settings.info.reader_settings.font_size")}`}
+                   onClick={() =>
+                     updateSession({
+                       fontSize: Math.max(
+@@ -284,6 +296,7 @@ export default function ReaderSettingsPopover({
+                   variant="outline"
+                   size="icon"
+                   className="h-7 w-7 bg-transparent"
++                  aria-label={`${t("actions.increase")} ${t("settings.info.reader_settings.font_size")}`}
+                   onClick={() =>
+                     updateSession({
+                       fontSize: Math.min(
+@@ -322,6 +335,9 @@ export default function ReaderSettingsPopover({
+                             size="icon"
+                             className="h-5 w-5 text-muted-foreground hover:text-foreground"
+                             onClick={() => clearLocalOverride("lineHeight")}
++                            aria-label={t(
++                              "settings.info.reader_settings.clear_local_overrides",
++                            )}
+                           >
+                             <X className="h-3 w-3" />
+                           </Button>
+@@ -347,6 +363,7 @@ export default function ReaderSettingsPopover({
+                   variant="outline"
+                   size="icon"
+                   className="h-7 w-7 bg-transparent"
++                  aria-label={`${t("actions.decrease")} ${t("settings.info.reader_settings.line_height")}`}
+                   onClick={() =>
+                     updateSession({
+                       lineHeight: Math.max(
+@@ -381,6 +398,7 @@ export default function ReaderSettingsPopover({
+                   variant="outline"
+                   size="icon"
+                   className="h-7 w-7 bg-transparent"
++                  aria-label={`${t("actions.increase")} ${t("settings.info.reader_settings.line_height")}`}
+                   onClick={() =>
+                     updateSession({
+                       lineHeight: Math.min(
+diff --git a/apps/web/components/dashboard/preview/ReaderView.tsx b/apps/web/components/dashboard/preview/ReaderView.tsx
+index 49976249..40a7f540 100644
+--- a/apps/web/components/dashboard/preview/ReaderView.tsx
++++ b/apps/web/components/dashboard/preview/ReaderView.tsx
+@@ -121,9 +121,9 @@ export default function ReaderView({
+             </div>
+           </div>
+           <div className="space-y-2">
+-            <h3 className="text-lg font-medium text-foreground">
++            <h2 className="text-lg font-medium text-foreground">
+               {t("preview.fetch_error_title")}
+-            </h3>
++            </h2>
+             <p className="text-sm leading-relaxed text-muted-foreground">
+               {t("preview.fetch_error_description")}
+             </p>
 diff --git a/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx b/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx
 index ce654052..a5a06858 100644
 --- a/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx
@@ -957,20 +1683,40 @@ index ce654052..a5a06858 100644
            {t("settings.rules.create_your_first_rule")}
          </p>
 diff --git a/apps/web/components/dashboard/search/SearchInput.tsx b/apps/web/components/dashboard/search/SearchInput.tsx
-index ed3aeb1e..9c5dc625 100644
+index ed3aeb1e..dd885503 100644
 --- a/apps/web/components/dashboard/search/SearchInput.tsx
 +++ b/apps/web/components/dashboard/search/SearchInput.tsx
-@@ -19,8 +19,8 @@ import {
+@@ -17,11 +17,6 @@ import {
+   CommandItem,
+   CommandList,
  } from "@/components/ui/command";
- import {
-   Popover,
-+  PopoverAnchor,
-   PopoverContent,
+-import {
+-  Popover,
+-  PopoverContent,
 -  PopoverTrigger,
- } from "@/components/ui/popover";
+-} from "@/components/ui/popover";
  import { useClientConfig } from "@/lib/clientConfig";
  import { useDoBookmarkSearch } from "@/lib/hooks/bookmark-search";
-@@ -226,6 +226,7 @@ const SearchInput = React.forwardRef<
+ import { useTranslation } from "@/lib/i18n/client";
+@@ -60,10 +55,13 @@ function useFocusSearchOnKeyPress(
+         inputRef.current.setSelectionRange(length, length);
+         setPopoverOpen(true);
+       }
+-      if (e.code === "Escape" && e.target == inputRef.current && value !== "") {
+-        e.preventDefault();
+-        inputRef.current.blur();
+-        setValue("");
++      if (e.code === "Escape" && e.target == inputRef.current) {
++        setPopoverOpen(false);
++        if (value !== "") {
++          e.preventDefault();
++          inputRef.current.blur();
++          setValue("");
++        }
+       }
+     }
+ 
+@@ -226,6 +224,7 @@ const SearchInput = React.forwardRef<
            href="https://docs.karakeep.app/Guides/search-query-language"
            target="_blank"
            className="flex size-7 shrink-0 items-center justify-center rounded-md stroke-foreground transition-colors hover:bg-background/80"
@@ -978,31 +1724,154 @@ index ed3aeb1e..9c5dc625 100644
          >
            <QueryExplainerTooltip
              parsedSearchQuery={parsedValue}
-@@ -245,7 +246,9 @@ const SearchInput = React.forwardRef<
+@@ -244,81 +243,81 @@ const SearchInput = React.forwardRef<
+         className="relative rounded-md bg-transparent"
          onKeyDown={handleCommandKeyDown}
        >
-         <Popover open={isPopoverVisible}>
+-        <Popover open={isPopoverVisible}>
 -          <PopoverTrigger asChild>
-+          {/* Anchor (not Trigger): the popover opens on input focus via
-+              `open`, so the wrapper div must not carry trigger ARIA. */}
-+          <PopoverAnchor asChild>
-             <div className="relative">
-               <CommandInput
-                 ref={inputRef}
-@@ -267,8 +270,12 @@ const SearchInput = React.forwardRef<
-                 onKeyDown={handleInputKeyDown}
-               />
-             </div>
+-            <div className="relative">
+-              <CommandInput
+-                ref={inputRef}
+-                placeholder={t(SEARCH_PLACEHOLDERS[searchMode])}
+-                value={value}
+-                onValueChange={handleValueChange}
+-                onCompositionStart={handleCompositionStart}
+-                onCompositionEnd={handleCompositionEnd}
+-                onFocus={handleFocus}
+-                onBlur={handleBlur}
+-                className={cn(
+-                  "h-10",
+-                  semanticSearchEnabled ? "pr-20 sm:pr-36" : "pr-10",
+-                  canSaveSearch &&
+-                    (semanticSearchEnabled ? "pr-32 sm:pr-48" : "pr-24"),
+-                  className,
+-                )}
+-                {...props}
+-                onKeyDown={handleInputKeyDown}
+-              />
+-            </div>
 -          </PopoverTrigger>
-+          </PopoverAnchor>
-+          {/* forceMount + hidden keeps the listbox mounted so the cmdk
-+              input's aria-controls always resolves. */}
-           <PopoverContent
-+            forceMount
-+            hidden={!isPopoverVisible}
-             className="w-[--radix-popover-trigger-width] p-0"
-             onOpenAutoFocus={(e) => e.preventDefault()}
-             onCloseAutoFocus={(e) => e.preventDefault()}
+-          <PopoverContent
+-            className="w-[--radix-popover-trigger-width] p-0"
+-            onOpenAutoFocus={(e) => e.preventDefault()}
+-            onCloseAutoFocus={(e) => e.preventDefault()}
+-          >
+-            <CommandList className="max-h-96 overflow-y-auto">
+-              {hasSuggestions && <CommandItem value="-" className="hidden" />}
+-              {suggestionGroups.map((group) => (
+-                <CommandGroup key={group.id} heading={group.label}>
+-                  {group.items.map((item) => {
+-                    if (item.type === "history") {
+-                      return (
+-                        <CommandItem
+-                          key={item.id}
+-                          value={item.label}
+-                          onSelect={() => handleHistorySelect(item.term)}
+-                          onMouseDown={() => {
+-                            isHistorySelected.current = true;
+-                          }}
+-                          className="cursor-pointer"
+-                        >
+-                          <item.Icon className="mr-2 h-4 w-4" />
+-                          <span>{item.label}</span>
+-                        </CommandItem>
+-                      );
+-                    }
+-
++        <div className="relative">
++          <CommandInput
++            ref={inputRef}
++            placeholder={t(SEARCH_PLACEHOLDERS[searchMode])}
++            value={value}
++            onValueChange={handleValueChange}
++            onCompositionStart={handleCompositionStart}
++            onCompositionEnd={handleCompositionEnd}
++            onFocus={handleFocus}
++            onBlur={handleBlur}
++            className={cn(
++              "h-10",
++              semanticSearchEnabled ? "pr-20 sm:pr-36" : "pr-10",
++              canSaveSearch &&
++                (semanticSearchEnabled ? "pr-32 sm:pr-48" : "pr-24"),
++              className,
++            )}
++            {...props}
++            onKeyDown={handleInputKeyDown}
++          />
++        </div>
++        {/* Pas de portail ici : le cmdk input porte aria-controls vers la
++            listbox ; un portail Radix ne monte son contenu qu'un commit
++            après l'input, ce qui laisse aria-controls pendre
++            (aria-valid-attr-value). hidden (pas un rendu conditionnel)
++            garde la listbox montée dans le même arbre que l'input. */}
++        <div
++          hidden={!isPopoverVisible}
++          className="absolute top-full z-50 mt-1 w-full rounded-md border bg-popover text-popover-foreground shadow-md"
++        >
++          <CommandList className="max-h-96 overflow-y-auto">
++            {hasSuggestions && <CommandItem value="-" className="hidden" />}
++            {suggestionGroups.map((group) => (
++              <CommandGroup key={group.id} heading={group.label}>
++                {group.items.map((item) => {
++                  if (item.type === "history") {
+                     return (
+                       <CommandItem
+                         key={item.id}
+                         value={item.label}
+-                        onSelect={() => handleSuggestionSelect(item)}
++                        onSelect={() => handleHistorySelect(item.term)}
++                        onMouseDown={() => {
++                          isHistorySelected.current = true;
++                        }}
+                         className="cursor-pointer"
+                       >
+                         <item.Icon className="mr-2 h-4 w-4" />
+-                        <div className="flex flex-col">
+-                          <span>{item.label}</span>
+-                          {item.description && (
+-                            <span className="text-xs text-muted-foreground">
+-                              {item.description}
+-                            </span>
+-                          )}
+-                        </div>
++                        <span>{item.label}</span>
+                       </CommandItem>
+                     );
+-                  })}
+-                </CommandGroup>
+-              ))}
+-            </CommandList>
+-          </PopoverContent>
+-        </Popover>
++                  }
++
++                  return (
++                    <CommandItem
++                      key={item.id}
++                      value={item.label}
++                      onSelect={() => handleSuggestionSelect(item)}
++                      className="cursor-pointer"
++                    >
++                      <item.Icon className="mr-2 h-4 w-4" />
++                      <div className="flex flex-col">
++                        <span>{item.label}</span>
++                        {item.description && (
++                          <span className="text-xs text-muted-foreground">
++                            {item.description}
++                          </span>
++                        )}
++                      </div>
++                    </CommandItem>
++                  );
++                })}
++              </CommandGroup>
++            ))}
++          </CommandList>
++        </div>
+       </Command>
+     </div>
+   );
 diff --git a/apps/web/components/dashboard/sidebar/AllLists.tsx b/apps/web/components/dashboard/sidebar/AllLists.tsx
 index d638697c..1f9bd478 100644
 --- a/apps/web/components/dashboard/sidebar/AllLists.tsx
@@ -1140,6 +2009,31 @@ index e56d3049..56002d9f 100644
              <MoreHorizontal />
            </Button>
          </TagOptions>
+diff --git a/apps/web/components/public/lists/PublicListHeader.tsx b/apps/web/components/public/lists/PublicListHeader.tsx
+index fa0cccfa..593aaaf3 100644
+--- a/apps/web/components/public/lists/PublicListHeader.tsx
++++ b/apps/web/components/public/lists/PublicListHeader.tsx
+@@ -50,7 +50,7 @@ export default function PublicListHeader({
+         </div>
+         {/* Options */}
+         <div className="flex items-center justify-start gap-1 md:justify-end">
+-          <div className="flex items-center gap-1 text-xs font-light uppercase text-gray-500 transition-colors duration-200 hover:text-gray-700 dark:hover:text-gray-300">
++          <div className="flex items-center gap-1 text-xs font-light uppercase text-gray-600 transition-colors duration-200 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
+             <BookmarkIcon
+               size={12}
+               className="transition-transform duration-200 hover:scale-110"
+@@ -60,9 +60,10 @@ export default function PublicListHeader({
+           <Link
+             href={rssLink}
+             target="_blank"
++            aria-label="RSS feed"
+             className={buttonVariants({ variant: "none", size: "icon" })}
+           >
+-            <RssIcon className="size-3 text-gray-500" />
++            <RssIcon className="size-3 text-gray-600 dark:text-gray-400" />
+           </Link>
+         </div>
+       </div>
 diff --git a/apps/web/components/settings/AISettings.tsx b/apps/web/components/settings/AISettings.tsx
 index fa1348ba..39031cdd 100644
 --- a/apps/web/components/settings/AISettings.tsx
@@ -1716,7 +2610,7 @@ index c35e5735..6e4bb683 100644
  ));
  Slider.displayName = SliderPrimitive.Root.displayName;
 diff --git a/apps/web/lib/i18n/locales/en/translation.json b/apps/web/lib/i18n/locales/en/translation.json
-index 5bd1f3b9..bb9e1749 100644
+index 5bd1f3b9..de669033 100644
 --- a/apps/web/lib/i18n/locales/en/translation.json
 +++ b/apps/web/lib/i18n/locales/en/translation.json
 @@ -87,6 +87,8 @@
@@ -1736,7 +2630,19 @@ index 5bd1f3b9..bb9e1749 100644
      "replace_banner": "Replace Banner",
      "add_banner": "Add Banner",
      "download": "Download",
-@@ -801,6 +804,8 @@
+@@ -117,7 +120,10 @@
+       "newest_first": "Newest First",
+       "oldest_first": "Oldest First"
+     },
+-    "load_more": "Load More"
++    "load_more": "Load More",
++    "print": "Print",
++    "decrease": "Decrease",
++    "increase": "Increase"
+   },
+   "highlights": {
+     "no_highlights": "You don't have any highlights yet."
+@@ -801,6 +807,8 @@
        "private": "Private"
      },
      "new_list": "New List",
@@ -1745,7 +2651,7 @@ index 5bd1f3b9..bb9e1749 100644
      "edit_list": "Edit List",
      "share_list": "Share List",
      "new_nested_list": "New Nested List",
-@@ -854,6 +859,7 @@
+@@ -854,6 +862,7 @@
        "owner": "Owner",
        "pending": "Pending",
        "revoke": "Revoke",
@@ -1753,7 +2659,7 @@ index 5bd1f3b9..bb9e1749 100644
        "declined": "Declined",
        "viewer_description": "Can view bookmarks in the list",
        "editor_description": "Can add and remove bookmarks",
-@@ -888,6 +894,7 @@
+@@ -888,6 +897,7 @@
      "items_count_other": "{{count}} items"
    },
    "tags": {
@@ -1761,7 +2667,7 @@ index 5bd1f3b9..bb9e1749 100644
      "all_tags": "All Tags",
      "your_tags": "Your Tags",
      "your_tags_info": "Tags that were attached at least once by you",
-@@ -998,7 +1005,8 @@
+@@ -998,7 +1008,8 @@
      "tabs": {
        "content": "Content",
        "details": "Details"
@@ -1829,10 +2735,10 @@ index 30645cc8..fcfef40b 100644
 +export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent };
 diff --git a/packages/shared-react/hooks/useModalContainer.ts b/packages/shared-react/hooks/useModalContainer.ts
 new file mode 100644
-index 00000000..b0e5a6a9
+index 00000000..41bd1168
 --- /dev/null
 +++ b/packages/shared-react/hooks/useModalContainer.ts
-@@ -0,0 +1,20 @@
+@@ -0,0 +1,28 @@
 +"use client";
 +
 +import * as React from "react";
@@ -1844,10 +2750,18 @@ index 00000000..b0e5a6a9
 +//    s'ouvre (sinon axe signale aria-hidden-focus + perte de landmark/h1).
 +export const MODAL_ROOT_ID = "karakeep-modal-root";
 +
-+// Retourne l'élément hôte une fois le DOM prêt ; undefined => document.body
-+// (comportement Radix par défaut — utilisé hors des pages dashboard).
++// Retourne l'élément hôte dès le premier rendu client : le div est déjà
++// présent dans le HTML SSR, le lire dans l'initialiseur évite le re-portal
++// body → modal-root après useEffect — fenêtre où les overlays forceMount
++// (listbox cmdk) disparaissent et où aria-controls pend (axe
++// aria-valid-attr-value). L'effect reste en filet si le div monte plus tard.
 +export function useModalContainer(): HTMLElement | undefined {
-+  const [container, setContainer] = React.useState<HTMLElement | undefined>();
++  const [container, setContainer] = React.useState<HTMLElement | undefined>(
++    () =>
++      typeof document === "undefined"
++        ? undefined
++        : (document.getElementById(MODAL_ROOT_ID) ?? undefined),
++  );
 +  React.useEffect(() => {
 +    setContainer(document.getElementById(MODAL_ROOT_ID) ?? undefined);
 +  }, []);

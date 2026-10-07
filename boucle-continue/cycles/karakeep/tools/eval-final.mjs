@@ -50,13 +50,14 @@ const perRule = allRules.map(id => ({
 const baseStates = baseAuth.pages.map(p => stateOf(p.url));
 const finStates = finAuth.pages.map(p => stateOf(p.url));
 const missing = baseStates.filter(s => s !== '(page)' && !finStates.includes(s));
+const countStates = arr => arr.filter(s => s !== '(page)').length;
 
 const out = {
   generated: new Date().toISOString(),
   baseline: { public: { pages: bP.pages, violations: bP.occ, rules: Object.keys(bP.rules).length, errors: bP.err }, auth: { pages: bA.pages, violations: bA.occ, rules: Object.keys(bA.rules).length, errors: bA.err } },
   final: { public: { pages: fP.pages, violations: fP.occ, rules: Object.keys(fP.rules).length, errors: fP.err }, auth: { pages: fA.pages, violations: fA.occ, rules: Object.keys(fA.rules).length, errors: fA.err } },
   per_rule: perRule,
-  states: { baseline: baseStates.length - 1, final: finStates.length - 1, missing_in_final: missing },
+  states: { baseline: countStates(baseStates), final: countStates(finStates), missing_in_final: missing },
   residual_errors_final: finAuth.pages.filter(p => p.error).map(p => ({ url: p.url, error: p.error })),
   incompletes_final: finAuth.pages.flatMap(p => (p.incomplete || []).map(i => ({ url: p.url, id: i.id }))),
 };

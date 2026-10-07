@@ -7,38 +7,40 @@
   "boot": {
     "verbatim": [
       "git clone https://github.com/karakeep-app/karakeep.git ~/work/karakeep && cd ~/work/karakeep && git checkout 75aeaaa4eb71b1d3143d7bdc6b88c66fbcfb5fea",
-      "docker compose -f docker/docker-compose.yml up -d meilisearch chrome   # 2 conteneurs : karakeep-meili (:7700), karakeep-chrome (:9222)",
+      "# ATTENTION : `docker compose -f docker/docker-compose.yml up -d meilisearch chrome` ne publie AUCUN port hôte (les services meilisearch/chrome n'ont pas de clé `ports:` — réseau interne compose uniquement). Pour un app hors-compose il faut exposer les services :",
+      "docker run -d --name karakeep-chrome -p 9222:9222 ghcr.io/karakeep-app/karakeep-chrome:release",
+      "docker run -d --name karakeep-meili -p 7700:7700 -e MEILI_MASTER_KEY=<rand> getmeili/meilisearch:v1.41.0 meilisearch --master-key=<rand>   # OU le binaire : meilisearch --master-key=<rand> --db-path <dir>/meili --http-addr 127.0.0.1:7700",
       "cat > .env   # DATA_DIR=~/work/karakeep-data NEXTAUTH_SECRET=<rand> MEILI_MASTER_KEY=<rand> NEXTAUTH_URL=http://localhost:3000 MEILISEARCH_HOST=http://localhost:7700 BROWSER_WEB_URL=http://localhost:9222 OPENAI_API_KEY= (vide)",
-      "corepack pnpm install",
-      "pnpm run db:migrate && pnpm run db:migrate:queue   # drizzle : web + workers queues, LES DEUX requis",
-      "pnpm --filter @karakeep/web build",
-      "cd apps/web && cp -r public .next/standalone/apps/web/public && rm -rf .next/standalone/apps/web/.next/static && cp -r .next/static .next/standalone/apps/web/.next/static",
-      "cd .next/standalone/apps/web && set -a && . ~/work/karakeep/.env && set +a && node server.js   # écoute :3000",
-      "node tools/seed.mjs http://localhost:3000   # compte + bookmarks + listes + tags + archives via API",
+      "corepack pnpm install   # pnpm 11.2.1 via corepack — le shim résout la version du packageManager",
+      "cd packages/db && node --import tsx migrate.ts && cd ../../apps/workers && node --import tsx scripts/migrateQueue.ts   # drizzle : web + workers queues, LES DEUX requis (tsx via --import : évite le shebang IPC)",
+      "cd apps/web && ../../node_modules/.bin/next build --experimental-build-mode compile   # turbo/pnpm imbriqué retombe sur le shim 11.21 (devEngines) — next direct",
+      "cp -r public .next/standalone/apps/web/public && rm -rf .next/standalone/apps/web/.next/static && cp -r .next/static .next/standalone/apps/web/.next/static",
+      "cd .next/standalone/apps/web && env -i PATH=<node>/bin:/usr/bin:/bin DATA_DIR=<dir> NEXTAUTH_SECRET=<rand> MEILI_MASTER_KEY=<rand> NEXTAUTH_URL=http://localhost:3000 MEILISEARCH_HOST=http://localhost:7700 PORT=3000 node server.js",
+      "node tools/seed.mjs http://localhost:3000   # compte + bookmarks + listes (dont 1 publique) + tags + archives via API",
       "node tools/login.mjs http://localhost:3000  # → tools/auth.json (storage-state Better Auth)"
     ]
   },
   "env": {
-    "DATA_DIR": "~/work/karakeep-data (sqlite db.db + assets)",
-    "ports": "app :3000 ; meilisearch :7700 ; chrome headless :9222 (containers)",
-    "note": ".env NON commité — recréé verbatim ci-dessus"
+    "DATA_DIR": "~/work/karakeep-data (sqlite db.db + queue.db + assets + meili)",
+    "ports": "recipe : app :3000 ; meilisearch :7700 ; chrome :9222 — instance fixer-v2 : app :3300 (patché) / :3301 (vanilla baseline) ; meili :33700 ; chrome :33222",
+    "note": ".env NON commité — recréé verbatim ci-dessus. Les ports de l'instance sont explicitement publiés (le compose upstream n'en publie aucun pour meili/chrome)."
   },
   "auth": "Better Auth email/password : compte audit.c35@example.com créé par tools/seed.mjs via l'API signup (admin via role fixe). Storage-state Playwright produit par tools/login.mjs (POST /api/auth/sign-in/email → cookies de session).",
-  "seed": "tools/seed.mjs (Node, API uniquement) : compte + 3 bookmarks (lien seedé 'accessibilité' indexable, note markdown, image uploadée /api/assets), 2 listes imbriquées, 1 tag appliqué, 1 bookmark archivé + 1 favori, ids persistés dans tools/seed-ids.json (listId/tagId/bookmarkLinkId/bookmarkNoteId/bookmarkImageId) — rejouable idempotent.",
+  "seed": "tools/seed.mjs (Node, API uniquement) : compte + 8 bookmarks (5 liens dont 'accessibilité', 2 notes, 1 image uploadée), 3 listes (2 manuelles + 1 smart ; la liste « veille » publiée via PATCH /api/v1/lists/:id {public:true}), 6 tags attachés, 1 favori + 2 archivés ; ids persistés dans tools/seed-ids.json (listId/tagId/bookmarkLinkId/publicListId/…).",
   "runs": [
     {
       "name": "public",
       "storage_state": null,
-      "urls": ["/signin", "/signup", "/forgot-password"],
+      "urls": ["/signin", "/signup", "/forgot-password", "/check-email?email=audit.c35%40example.com", "/verify-email", "/invite/token-inexistant-c35", "/public/lists/<seed publicListId>"],
       "states": "none",
-      "note": "pages pré-auth — seules surfaces publiques (la racine / redirige vers /signin)"
+      "note": "pages pré-auth + routes publiques livrées — la racine / redirige vers /signin. La page 404 /public/lists/<id-inconnu> n'est pas scannable (HTTP>=400 = erreur de nav, pas de scan) : couverte par la sonde contraste de verify.mjs §10."
     },
     {
       "name": "auth",
       "storage_state": "tools/auth.json",
       "urls": ["/dashboard/bookmarks", "/dashboard/lists", "/dashboard/tags", "/dashboard/archive", "/dashboard/favourites", "/dashboard/highlights", "/dashboard/search", "/dashboard/search?q=accessibilit%C3%A9", "/dashboard/cleanups", "/settings/info", "/settings/import", "/settings/rules", "/settings/feeds", "/settings/broken-links", "/settings/api-keys", "/settings/backups", "/settings/stats", "/settings/assets", "/settings/webhooks", "/settings/ai", "/admin/overview", "/admin/users", "/admin/background_jobs", "/admin/admin_tools"],
       "states": "all",
-      "note": "24 pages + 13 états dynamiques (menus, 3 modales, pages détail seed, modale route interceptée, thème sombre, mobile 390px)"
+      "note": "24 pages + 15 états dynamiques (menus, 3 modales, pages détail seed, /reader/[id], /public/lists/[id], modale route interceptée, thème sombre, mobile 390px) — chaque état laisse une preuve DOM stateProof dans le rapport"
     }
   ],
   "states_exclus": {
@@ -46,7 +48,6 @@
     "confirmations destructives": "Delete list/tag/account : actions irréversibles sur le seed (pas de modale rejouable sans détruire la donnée)",
     "import file picker": "input file natif OS — non rejouable en headless",
     "workers": "crawler/indexation meilisearch temps réel : états transitoires non déterministes",
-    "public list share": "/public/lists/[listId] : nécessiterait une liste publique seedée — la seed ne publie pas de liste",
     "browser-extension / mobile": "apps/browser-extension + apps/mobile hors périmètre web"
   },
   "toolVersions": {
@@ -57,35 +58,41 @@
     "runner": "audit.mjs v6",
     "karakeep": "75aeaaa4eb71 (HEAD vérifié par git ls-remote au début du cycle)",
     "next": "16.3.8",
-    "radix": "react-popover/dialog/dropdown-menu/select/slider (versions lock)"
+    "meilisearch": "1.41.0",
+    "chrome": "ghcr.io/karakeep-app/karakeep-chrome:release (151)",
+    "radix": "react-popover/dialog/dropdown-menu/select/slider/radio-group (versions lock)"
   },
   "auditCommands": [
     "node tools/seed.mjs http://localhost:3000",
     "node tools/login.mjs http://localhost:3000",
-    "node tools/audit.mjs http://localhost:3000 --urls \"$(cat tools/urls-public.txt)\" --states none --out reports/baseline-public",
+    "node tools/audit.mjs http://localhost:3000 --urls \"$(cat tools/urls-public.txt),http://localhost:3000/public/lists/<publicListId>\" --states none --out reports/baseline-public",
     "node tools/audit.mjs http://localhost:3000 --urls \"$(cat tools/urls-auth.txt)\" --storage-state tools/auth.json --states all --out reports/baseline-auth",
-    "node tools/audit.mjs http://localhost:3000 --urls \"$(cat tools/urls-public.txt)\" --states none --out reports/final-public",
+    "node tools/audit.mjs http://localhost:3000 --urls \"$(cat tools/urls-public.txt),http://localhost:3000/public/lists/<publicListId>\" --states none --out reports/final-public",
     "node tools/audit.mjs http://localhost:3000 --urls \"$(cat tools/urls-auth.txt)\" --storage-state tools/auth.json --states all --out reports/final-auth",
     "node tools/verify.mjs http://localhost:3000 --auth-file tools/auth.json --cycle-dir .",
     "node tools/incomplete-probes.mjs http://localhost:3000 --auth-file tools/auth.json --report reports/final-auth/report.json",
+    "node tools/incomplete-probes.mjs http://localhost:3000 --report reports/final-public/report.json --out incomplete-probes-public.json",
     "node tools/eval-final.mjs"
   ],
   "notes": [
     "audit.mjs : <url> positionnelle = base de crawl ; la liste explicite passe par --urls (chemins relatifs résolus contre la base).",
-    "Radix : les PopoverContents désormais forceMount+hidden sur les 2 combobox pilotées par le focus (SearchInput, TagsEditor) — aria-controls/cmdk résout en permanence ; Portal container dans <main> via useModalContainer pour préserver les landmarks (hideOthers cassait la hiérarchie).",
+    "Sélecteurs d'états par icône lucide / aria-label (jamais .first()/.nth() positionnels : GlobalActions hydrate après le 1er rendu → race ~50 % sur le v1). stateProof = comptage de rôles visibles consigné par état.",
+    "View Options = Popover (panneau de réglages), pas DropdownMenu : radiogroups (layout, image-fit) + groupe de switches + slider sont des enfants légaux ; un role=menu ne peut porter que des menuitems (aria-required-children critique sur vanilla).",
+    "Combobox cmdk : la listbox vit dans le même arbre React que l'input (div absolue hidden, pas de portail) — un portail Radix monte son contenu un commit après l'input et laisse aria-controls pendre (aria-valid-attr-value transitoire).",
+    "useModalContainer résout #karakeep-modal-root dès le 1er rendu client (l'élément est dans le HTML SSR) : évite le re-portail body→modal-root après useEffect.",
     "DropdownMenu modal={false} par défaut dans le wrapper ui (hideOthers Radix aria-hidden=true sur tout le document → aria-hidden-focus massif).",
-    "Thème = localStorage uniquement (pas de préférence serveur) : la restauration prouvée = check symétrique light/dark de verify.mjs (bascule .dark + retour clair mesuré).",
-    "Leçon 29 appliquée : les aria-labels sur boutons affichant un compteur incluent le nombre (« 2 List options » contient « 2 »).",
-    "Leçon 26 appliquée : verify.mjs mesure les ratios computed muted-foreground/primary/destructive en clair ET sombre (tokens globals.css).",
-    "Le standalone .next ne rebuild pas les routes — TOUTES les pages sont ƒ (SSR on demand) : le build prod est l'unique cible d'audit (dev-server non nécessaire)."
+    "Thème = localStorage uniquement : la restauration prouvée = check symétrique light/dark de verify.mjs.",
+    "Leçon 29 : les aria-labels sur boutons affichant un compteur incluent le nombre (« 2 List options » contient « 2 »).",
+    "Leçon 26 : verify.mjs mesure les ratios computed muted-foreground/primary/destructive en clair ET sombre ; le bouton primaire se mesure sur /settings/info (aucun .bg-primary sur la grille).",
+    "Le standalone .next ne rebuild pas les routes — TOUTES les pages sont ƒ (SSR on demand) : le build prod est l'unique cible d'audit."
   ],
   "installBuild": {
-    "clone": "git clone ~/work/karakeep ~/work/karakeep-ib && cd ~/work/karakeep-ib && git checkout 75aeaaa4eb71b1d3143d7bdc6b88c66fbcfb5fea",
-    "apply": "git apply patch.diff  (64 fichiers, 0 rejet — useModalContainer.ts inclus)",
+    "clone": "git clone ~/work/karakeep-f2v ~/work/karakeep-ib (ou clone frais @SHA) && git checkout 75aeaaa4eb71b1d3143d7bdc6b88c66fbcfb5fea",
+    "apply": "git apply patch.diff  (72 fichiers, 0 rejet — useModalContainer.ts inclus)",
     "install": "corepack pnpm install",
-    "build": "pnpm --filter @karakeep/web build",
-    "serve": "cp public+static dans .next/standalone/apps/web ; .env identique sauf DATA_DIR=~/work/karakeep-data-ib (copie du seed) ; PORT=3100 node server.js",
-    "rescan": "node tools/audit.mjs http://localhost:3100 --urls \"$(cat tools/urls-auth.txt)\" --storage-state tools/auth.json --states all --out reports/install-build-auth (+ --urls urls-public → install-build-public)",
-    "resultat": "0 violation / 0 erreur sur 37+13 scénarios auth et 3 pages publiques"
+    "build": "cd apps/web && ../../node_modules/.bin/next build --experimental-build-mode compile",
+    "serve": "cp public+static dans .next/standalone/apps/web ; .env dédié (DATA_DIR dédié) ; PORT=<libre> node server.js — instance fixer-v2 : app patchée :3300, vanilla :3301",
+    "rescan": "node tools/audit.mjs <url> --urls \"$(cat tools/urls-auth.txt)\" --storage-state tools/auth.json --states all --out reports/install-build-auth (+ urls-public → install-build-public)",
+    "resultat": "v1 : 0 violation / 0 erreur sur 37+13 scénarios auth et 3 pages publiques (install-build-auth/install-build-public conservés) ; v2 : le build standalone :3300 est celui des rapports final-* (0/0/0)"
   }
 }
