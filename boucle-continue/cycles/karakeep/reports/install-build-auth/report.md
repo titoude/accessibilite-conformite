@@ -1,0 +1,253 @@
+# Audit accessibilité — 2026-10-07
+
+**0 règle(s) violée(s), 0 occurrence(s), 37/37 scénario(s) audité(s), 0 erreur(s), 156 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `68f57a7aef90`
+
+## Résultats incomplets à revoir (156)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:3100/dashboard/bookmarks
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/lists
+  - `button[aria-label="New List"]`
+  - `.focus-visible\:ring-\[3px\]`
+- http://localhost:3100/dashboard/tags
+  - `button[aria-label="New List"]`
+  - `button[aria-controls="radix-_R_cklubsv5tjb_"]`
+- http://localhost:3100/dashboard/archive
+  - `button[aria-label="New List"]`
+  - `#_R_79ulubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/favourites
+  - `button[aria-label="New List"]`
+  - `#_R_79ulubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/highlights
+  - `button[aria-label="New List"]`
+- http://localhost:3100/dashboard/search
+  - `button[aria-label="New List"]`
+- http://localhost:3100/dashboard/search?q=accessibilit%C3%A9
+  - `button[aria-label="New List"]`
+- http://localhost:3100/dashboard/cleanups
+  - `button[aria-label="New List"]`
+- http://localhost:3100/settings/info
+  - `button[aria-controls="radix-_R_kclubsv5tjb_"]`
+  - `#current-password`
+  - `#new-password`
+  - `#confirm-password`
+  - `.bg-destructive`
+- http://localhost:3100/settings/feeds
+  - `.focus-visible\:ring-\[3px\]`
+- http://localhost:3100/settings/api-keys
+  - `.bg-primary`
+  - `button[aria-controls="radix-_R_smklubsv5tjb_"]`
+  - `button[aria-controls="radix-_R_1cmklubsv5tjb_"]`
+  - `button[aria-controls="radix-_R_t6klubsv5tjb_"]`
+  - `button[aria-controls="radix-_R_1d6klubsv5tjb_"]`
+- http://localhost:3100/settings/assets
+  - `button[aria-controls="radix-_r_0_"]`
+  - `button[aria-controls="radix-_r_3_"]`
+  - `button[aria-controls="radix-_r_6_"]`
+  - `button[aria-controls="radix-_r_9_"]`
+  - `button[aria-controls="radix-_r_c_"]`
+  - `button[aria-controls="radix-_r_f_"]`
+  - `button[aria-controls="radix-_r_i_"]`
+- http://localhost:3100/settings/webhooks
+  - `.focus-visible\:ring-\[3px\]`
+- http://localhost:3100/settings/ai
+  - `#_R_7l4lubsv5tjb_-form-item`
+- http://localhost:3100/admin/users
+  - `button[aria-label="Create User"]`
+  - `button[aria-label="Delete User"]`
+  - `button[aria-label="Reset Password"]`
+  - `button[aria-label="Edit User"]`
+  - `button[aria-label="Send Invite"]`
+- http://localhost:3100/admin/background_jobs
+  - `button[aria-controls="radix-_r_0_"]`
+  - `button[aria-controls="radix-_r_3_"]`
+  - `button[aria-controls="radix-_r_6_"]`
+  - `button[aria-controls="radix-_r_9_"]`
+  - `button[aria-controls="radix-_r_c_"]`
+  - `button[aria-controls="radix-_r_f_"]`
+  - `button[aria-controls="radix-_r_i_"]`
+  - `button[aria-controls="radix-_r_l_"]`
+  - `button[aria-controls="radix-_r_o_"]`
+  - `button[aria-controls="radix-_r_r_"]`
+  - … +7 autres
+- http://localhost:3100/dashboard/bookmarks [state:card-actions-menu]
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+  - `#radix-_R_1fb97slubsv5tjb_`
+  - `#radix-_r_19_`
+- http://localhost:3100/dashboard/bookmarks [state:edit-bookmark-dialog]
+  - `#_r_1c_-form-item`
+  - `#_r_1d_-form-item`
+  - `#_r_1e_-form-item`
+  - `#_r_1f_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:view-options-menu]
+  - `#radix-_R_t5tjb_`
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:sort-menu]
+  - `#radix-_r_11_`
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:profile-menu]
+  - `#radix-_R_t5tjb_`
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:keyboard-shortcuts-dialog]
+  - `#radix-_R_fslubsv5tjb_`
+- http://localhost:3100/dashboard/lists [state:new-list-dialog]
+  - `#radix-_R_8qn5tjb_`
+  - `.rounded`
+  - `#_r_2_-form-item`
+  - `#_r_3_-form-item`
+  - `button[aria-label="No Parent"]`
+- http://localhost:3100/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+  - `button[aria-label="New List"]`
+  - `#_R_3kvav5ubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/tags/hgbyciltjdgu97x66duu4gps [state:tag-detail-page]
+  - `button[aria-label="New List"]`
+  - `#_R_3kvav5ubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-page]
+  - `button[aria-label="New List"]`
+- http://localhost:3100/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-modal]
+  - `#radix-_r_14_`
+- http://localhost:3100/dashboard/bookmarks [state:theme-dark]
+  - `button[aria-label="New List"]`
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:mobile-390]
+  - `#_R_1l7slubsv5tjb_-form-item`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:3100/dashboard/bookmarks
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/archive
+  - `#_R_79ulubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/favourites
+  - `#_R_79ulubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:card-actions-menu]
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:view-options-menu]
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:sort-menu]
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:profile-menu]
+  - `#_R_1l7slubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+  - `#_R_3kvav5ubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/tags/hgbyciltjdgu97x66duu4gps [state:tag-detail-page]
+  - `#_R_3kvav5ubsv5tjb_-form-item`
+- http://localhost:3100/dashboard/bookmarks [state:theme-dark]
+  - `#_R_1l7slubsv5tjb_-form-item`
+
+### label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+- http://localhost:3100/dashboard/bookmarks
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/lists
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/tags
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/archive
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/favourites
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/highlights
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/search
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/search?q=accessibilit%C3%A9
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/cleanups
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/info
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/import
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/rules
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/feeds
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/broken-links
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/api-keys
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/backups
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/stats
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/assets
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/webhooks
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/settings/ai
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/admin/overview
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/admin/users
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/admin/background_jobs
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/admin/admin_tools
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/bookmarks [state:card-actions-menu]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/bookmarks [state:view-options-menu]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/bookmarks [state:sort-menu]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/bookmarks [state:profile-menu]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/tags/hgbyciltjdgu97x66duu4gps [state:tag-detail-page]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-page]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/bookmarks [state:theme-dark]
+  - `#radix-_R_t5tjb_`
+- http://localhost:3100/dashboard/bookmarks [state:mobile-390]
+  - `#radix-_R_t5tjb_`
+
+### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
+
+- http://localhost:3100/dashboard/bookmarks [state:edit-bookmark-dialog]
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(1)`
+  - `.focus\:not-sr-only`
+  - `header`
+  - `.sm\:flex.flex-none[data-aria-hidden="true"]`
+  - `.min-h-30`
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(12)`
+- http://localhost:3100/dashboard/bookmarks [state:keyboard-shortcuts-dialog]
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(1)`
+  - `.focus\:not-sr-only`
+  - `header`
+  - `.sm\:flex.flex-none[data-aria-hidden="true"]`
+  - `.min-h-30`
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(12)`
+- http://localhost:3100/dashboard/lists [state:new-list-dialog]
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(1)`
+  - `.focus\:not-sr-only`
+  - `header`
+  - `.flex-none`
+  - `.min-h-30`
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"][aria-hidden="true"]:nth-child(12)`
+- http://localhost:3100/dashboard/preview/b5slvptj880pjbtroya5m9wu [state:preview-modal]
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(1)`
+  - `.focus\:not-sr-only`
+  - `header`
+  - `.sm\:flex.flex-none[data-aria-hidden="true"]`
+  - `.min-h-30`
+  - `span[data-radix-focus-guard=""][data-aria-hidden="true"]:nth-child(12)`
+
+### aria-required-children — Certain ARIA roles must contain particular children
+
+- http://localhost:3100/dashboard/lists/c62jucbbqu9yf8tflmsqv48w [state:list-detail-page]
+  - `#radix-_R_ean5tjb_`
+

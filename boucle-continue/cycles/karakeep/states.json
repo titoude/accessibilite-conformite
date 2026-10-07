@@ -1,0 +1,29 @@
+{
+ "_comment": "Miroir machine-lisible de la STATES map de tools/audit.mjs (source de vérité = audit.mjs). Ordre = ordre d'exécution. 'deterministic' = l'état rejoue à l'identique sur le seed.",
+ "public": { "urls": ["/signin", "/signup", "/forgot-password"], "states": [] },
+ "auth": {
+  "urls": ["/dashboard/bookmarks", "/dashboard/lists", "/dashboard/tags", "/dashboard/archive", "/dashboard/favourites", "/dashboard/highlights", "/dashboard/search", "/dashboard/search?q=accessibilit%C3%A9", "/dashboard/cleanups", "/settings/info", "/settings/import", "/settings/rules", "/settings/feeds", "/settings/broken-links", "/settings/api-keys", "/settings/backups", "/settings/stats", "/settings/assets", "/settings/webhooks", "/settings/ai", "/admin/overview", "/admin/users", "/admin/background_jobs", "/admin/admin_tools"],
+  "states": [
+   { "id": "card-actions-menu", "kind": "dropdown", "deterministic": true, "setup": "menu ⋯ de la 1re carte bookmark" },
+   { "id": "edit-bookmark-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "menu carte → Edit" },
+   { "id": "view-options-menu", "kind": "dropdown", "deterministic": true, "setup": "1er bouton header (layout)" },
+   { "id": "sort-menu", "kind": "dropdown", "deterministic": true, "setup": "2e bouton header (tri)" },
+   { "id": "profile-menu", "kind": "dropdown", "deterministic": true, "setup": "avatar header" },
+   { "id": "keyboard-shortcuts-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "menu profil → Keyboard shortcuts" },
+   { "id": "new-list-dialog", "kind": "modal", "target": "[role=dialog]", "deterministic": true, "setup": "bouton + de la sidebar listes" },
+   { "id": "list-detail-page", "kind": "page", "deterministic": true, "setup": "/dashboard/lists/<seed listId>" },
+   { "id": "tag-detail-page", "kind": "page", "deterministic": true, "setup": "/dashboard/tags/<seed tagId>" },
+   { "id": "preview-page", "kind": "page", "deterministic": true, "setup": "/dashboard/preview/<seed bookmarkLinkId>" },
+   { "id": "preview-modal", "kind": "modal-route", "target": "[role=dialog]", "deterministic": true, "setup": "route interceptée depuis /dashboard/bookmarks" },
+   { "id": "theme-dark", "kind": "theme", "deterministic": true, "setup": "menu profil → Dark Mode (localStorage theme → .dark sur <html>)" },
+   { "id": "mobile-390", "kind": "viewport", "deterministic": true, "setup": "theme=light + viewport 390×844 (barre mobile remplace la sidebar)" }
+  ],
+  "excluded": [
+   "modales destructive-confirm (Delete list/tag/account) : actions irréversibles sur le seed",
+   "import file picker (fileInput natif OS, non rejouable)",
+   "states nécessitant des workers (crawler actif, indexation meilisearch temps réel)",
+   "browser-extension / mobile app (hors périmètre web)",
+   "/public/lists/[listId] (partage public de liste : nécessite liste publique seedée — la seed ne publie pas de liste)"
+  ]
+ }
+}

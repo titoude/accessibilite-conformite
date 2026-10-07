@@ -1,0 +1,10 @@
+{
+ "clone": "git clone ~/work/karakeep ~/work/karakeep-ib && git checkout 75aeaaa4eb71b1d3143d7bdc6b88c66fbcfb5fea (HEAD pin égal au SHA vérifié)",
+ "apply": "git apply patch.diff → 64 fichiers (63 modifiés + useModalContainer.ts créé), 0 rejet",
+ "install": "corepack pnpm install → OK (store tiède, 4.9 s)",
+ "build": "pnpm --filter @karakeep/web build → OK (compile standalone)",
+ "serve": "cp public + .next/static dans .next/standalone/apps/web ; .env régénéré (DATA_DIR=~/work/karakeep-data-ib copie du seed) ; PORT=3100 node server.js → 200 sur /signin",
+ "rescan": "install-build-auth : 24 pages + 13 états → 0 violation / 0 erreur ; install-build-public : 3 pages → 0 violation",
+ "duree": "clone+apply+install+build ≈ 5 min ; scan ≈ 3 min",
+ "note": "storage-state auth.json réutilisé tel quel : les cookies Better Auth sont domain-scoped localhost (port-agnostique) — le même compte seedé (db copiée) authentifie :3100."
+}

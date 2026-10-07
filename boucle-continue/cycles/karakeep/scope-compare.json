@@ -1,0 +1,37 @@
+{
+ "baseline": {
+  "dir": "reports/baseline-auth",
+  "scopeHash": "f5c34938505f168159b8",
+  "statesHash": "44bb6dccfb0319069fb7",
+  "pages": 37,
+  "statesRequested": ["all"]
+ },
+ "final": {
+  "dir": "reports/final-auth",
+  "scopeHash": "f5c34938505f168159b8",
+  "statesHash": "0da6bf9dc69bffdeba7f",
+  "pages": 37,
+  "statesRequested": ["all"],
+  "note": "scopeHash IDENTIQUE à baseline (mêmes 37 scénarios). statesHash différent : le setup de new-list-dialog a été mis à jour (sélecteur button après link→button) et waitDialog exige désormais [role=dialog]:visible (les popovers forceMount+hidden ne satisfont plus le premier match). Mêmes 13 états, mêmes URLs."
+ },
+ "installBuild": {
+  "dir": "reports/install-build-auth",
+  "scopeHash": "68f57a7aef905918d932",
+  "statesHash": "8fe874705a10c4299911",
+  "pages": 37,
+  "statesRequested": ["all"],
+  "note": "scopeHash différent : l'id de scénario embarque l'URL de base (:3000 vs :3100). Même ensemble de 37 scénarios — identiques après normalisation du port."
+ },
+ "public": {
+  "baseline": "reports/baseline-public scopeHash 732fadb25260649aabeb (3 pages)",
+  "final": "reports/final-public scopeHash 732fadb25260649aabeb (3 pages) — identique",
+  "installBuild": "reports/install-build-public scopeHash c36833b725f919712068 (3 pages, port :3100) — identique après normalisation"
+ },
+ "memeScopeHash": true,
+ "memeScopeHash_baseline_final_public": true,
+ "detail": {
+  "urls_auth": ["/dashboard/bookmarks","/dashboard/lists","/dashboard/tags","/dashboard/archive","/dashboard/favourites","/dashboard/highlights","/dashboard/search","/dashboard/search?q=accessibilit%C3%A9","/dashboard/cleanups","/settings/info","/settings/import","/settings/rules","/settings/feeds","/settings/broken-links","/settings/api-keys","/settings/backups","/settings/stats","/settings/assets","/settings/webhooks","/settings/ai","/admin/overview","/admin/users","/admin/background_jobs","/admin/admin_tools"],
+  "states": ["card-actions-menu","edit-bookmark-dialog","view-options-menu","sort-menu","profile-menu","keyboard-shortcuts-dialog","new-list-dialog","list-detail-page","tag-detail-page","preview-page","preview-modal","theme-dark","mobile-390"],
+  "urls_public": ["/signin","/signup","/forgot-password"]
+ }
+}

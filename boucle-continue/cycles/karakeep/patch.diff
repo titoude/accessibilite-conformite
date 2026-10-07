@@ -1,0 +1,1874 @@
+diff --git a/apps/web/app/dashboard/archive/page.tsx b/apps/web/app/dashboard/archive/page.tsx
+index 33a6e610..b9411093 100644
+--- a/apps/web/app/dashboard/archive/page.tsx
++++ b/apps/web/app/dashboard/archive/page.tsx
+@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
+ function header() {
+   return (
+     <div className="flex gap-2">
+-      <p className="text-2xl">🗄️ Archive</p>
++      <h1 className="text-2xl">🗄️ Archive</h1>
+       <InfoTooltip size={17} className="my-auto" variant="explain">
+         <p>Archived bookmarks won&apos;t appear in the homepage</p>
+       </InfoTooltip>
+diff --git a/apps/web/app/dashboard/bookmarks/page.tsx b/apps/web/app/dashboard/bookmarks/page.tsx
+index a7b22fef..b5ce9873 100644
+--- a/apps/web/app/dashboard/bookmarks/page.tsx
++++ b/apps/web/app/dashboard/bookmarks/page.tsx
+@@ -1,9 +1,13 @@
+ import React from "react";
+ import Bookmarks from "@/components/dashboard/bookmarks/Bookmarks";
++import { useTranslation } from "@/lib/i18n/server";
+ 
+ export default async function BookmarksPage() {
++  // oxlint-disable-next-line rules-of-hooks
++  const { t } = await useTranslation();
+   return (
+     <div>
++      <h1 className="sr-only">{t("common.bookmarks")}</h1>
+       <Bookmarks query={{ archived: false }} showEditorCard={true} />
+     </div>
+   );
+diff --git a/apps/web/app/dashboard/cleanups/page.tsx b/apps/web/app/dashboard/cleanups/page.tsx
+index 8da6e75b..0549a55f 100644
+--- a/apps/web/app/dashboard/cleanups/page.tsx
++++ b/apps/web/app/dashboard/cleanups/page.tsx
+@@ -9,15 +9,15 @@ export default async function Cleanups() {
+ 
+   return (
+     <div className="flex flex-col gap-y-4 rounded-md border bg-background p-4">
+-      <span className="flex items-center gap-1 text-2xl">
++      <h1 className="flex items-center gap-1 text-2xl">
+         <Paintbrush />
+         {t("cleanups.cleanups")}
+-      </span>
++      </h1>
+       <Separator />
+-      <span className="flex items-center gap-1 text-xl">
++      <h2 className="flex items-center gap-1 text-xl">
+         <Tags />
+         {t("cleanups.duplicate_tags.title")}
+-      </span>
++      </h2>
+       <Separator />
+       <TagDuplicationDetection />
+     </div>
+diff --git a/apps/web/app/dashboard/favourites/page.tsx b/apps/web/app/dashboard/favourites/page.tsx
+index 7ece9cdf..5041adbb 100644
+--- a/apps/web/app/dashboard/favourites/page.tsx
++++ b/apps/web/app/dashboard/favourites/page.tsx
+@@ -15,7 +15,7 @@ export default async function FavouritesBookmarkPage() {
+     <Bookmarks
+       header={
+         <div className="flex items-center justify-between">
+-          <p className="text-2xl">⭐️ Favourites</p>
++          <h1 className="text-2xl">⭐️ Favourites</h1>
+         </div>
+       }
+       query={{ favourited: true }}
+diff --git a/apps/web/app/dashboard/highlights/page.tsx b/apps/web/app/dashboard/highlights/page.tsx
+index ed0b16c0..0ebd966c 100644
+--- a/apps/web/app/dashboard/highlights/page.tsx
++++ b/apps/web/app/dashboard/highlights/page.tsx
+@@ -20,7 +20,7 @@ export default async function HighlightsPage() {
+     <div className="flex flex-col gap-4">
+       <div className="flex items-center">
+         <Highlighter className="mr-2" />
+-        <p className="text-2xl">{t("common.highlights")}</p>
++        <h1 className="text-2xl">{t("common.highlights")}</h1>
+       </div>
+       <div className="flex flex-col gap-8 rounded-md border bg-background p-4">
+         <AllHighlights highlights={highlights} />
+diff --git a/apps/web/app/dashboard/search/page.tsx b/apps/web/app/dashboard/search/page.tsx
+index 5ad339ca..db5dff12 100644
+--- a/apps/web/app/dashboard/search/page.tsx
++++ b/apps/web/app/dashboard/search/page.tsx
+@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
+ import BookmarksGrid from "@/components/dashboard/bookmarks/BookmarksGrid";
+ import BookmarksGridSkeleton from "@/components/dashboard/bookmarks/BookmarksGridSkeleton";
+ import { useBookmarkSearch } from "@/lib/hooks/bookmark-search";
++import { useTranslation } from "@/lib/i18n/client";
+ import { useInSearchPageStore } from "@/lib/store/useInSearchPageStore";
+ import { useSortOrderStore } from "@/lib/store/useSortOrderStore";
+ 
+@@ -11,6 +12,7 @@ function SearchComp() {
+   const { data, error, hasNextPage, fetchNextPage, isFetchingNextPage } =
+     useBookmarkSearch();
+ 
++  const { t } = useTranslation();
+   const { setInSearchPage } = useInSearchPageStore();
+ 
+   const { setSortOrder } = useSortOrderStore();
+@@ -31,6 +33,7 @@ function SearchComp() {
+ 
+   return (
+     <div className="flex flex-col gap-3">
++      <h1 className="sr-only">{t("common.search")}</h1>
+       {data ? (
+         <BookmarksGrid
+           hasNextPage={hasNextPage}
+diff --git a/apps/web/app/forgot-password/page.tsx b/apps/web/app/forgot-password/page.tsx
+index 0b765cf6..794e6f73 100644
+--- a/apps/web/app/forgot-password/page.tsx
++++ b/apps/web/app/forgot-password/page.tsx
+@@ -10,13 +10,14 @@ export default async function ForgotPasswordPage() {
+   }
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+       <div className="w-full max-w-md space-y-8">
++        <h1 className="sr-only">Reset your password</h1>
+         <div className="flex items-center justify-center">
+           <KarakeepLogo height={80} />
+         </div>
+         <ForgotPasswordForm />
+       </div>
+-    </div>
++    </main>
+   );
+ }
+diff --git a/apps/web/app/layout.tsx b/apps/web/app/layout.tsx
+index 80436962..71898a5b 100644
+--- a/apps/web/app/layout.tsx
++++ b/apps/web/app/layout.tsx
+@@ -53,8 +53,6 @@ export const metadata: Metadata = {
+ export const viewport: Viewport = {
+   width: "device-width",
+   initialScale: 1,
+-  maximumScale: 1,
+-  userScalable: false,
+   // Values match the `--background` token in tooling/tailwind/globals.css.
+   // These follow the OS color scheme only. An in-app theme override via
+   // next-themes is not reflected here, so chrome can differ from the page
+diff --git a/apps/web/app/reset-password/page.tsx b/apps/web/app/reset-password/page.tsx
+index 369e2a49..2f20882e 100644
+--- a/apps/web/app/reset-password/page.tsx
++++ b/apps/web/app/reset-password/page.tsx
+@@ -18,13 +18,14 @@ export default async function ResetPasswordPage({
+   }
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+       <div className="w-full max-w-md space-y-8">
++        <h1 className="sr-only">Choose a new password</h1>
+         <div className="flex items-center justify-center">
+           <KarakeepLogo height={80} />
+         </div>
+         <ResetPasswordForm token={token} />
+       </div>
+-    </div>
++    </main>
+   );
+ }
+diff --git a/apps/web/app/settings/stats/page.tsx b/apps/web/app/settings/stats/page.tsx
+index 9820e1ea..40dcb608 100644
+--- a/apps/web/app/settings/stats/page.tsx
++++ b/apps/web/app/settings/stats/page.tsx
+@@ -296,6 +296,7 @@ export default function StatsPage() {
+                 </span>
+               </div>
+               <Progress
++                aria-label={t("settings.stats.bookmark_types.links")}
+                 value={
+                   stats.numBookmarks > 0
+                     ? (stats.bookmarksByType.link / stats.numBookmarks) * 100
+@@ -317,6 +318,7 @@ export default function StatsPage() {
+                 </span>
+               </div>
+               <Progress
++                aria-label={t("settings.stats.bookmark_types.text_notes")}
+                 value={
+                   stats.numBookmarks > 0
+                     ? (stats.bookmarksByType.text / stats.numBookmarks) * 100
+@@ -338,6 +340,7 @@ export default function StatsPage() {
+                 </span>
+               </div>
+               <Progress
++                aria-label={t("settings.stats.bookmark_types.assets")}
+                 value={
+                   stats.numBookmarks > 0
+                     ? (stats.bookmarksByType.asset / stats.numBookmarks) * 100
+@@ -589,6 +592,9 @@ export default function StatsPage() {
+                       {formatBytes(asset.totalSize)}
+                     </div>
+                     <Progress
++                      aria-label={asset.type
++                        .replace(/([A-Z])/g, " $1")
++                        .trim()}
+                       value={
+                         stats.totalAssetSize > 0
+                           ? (asset.totalSize / stats.totalAssetSize) * 100
+diff --git a/apps/web/app/signin/page.tsx b/apps/web/app/signin/page.tsx
+index 166e946a..0ae08e34 100644
+--- a/apps/web/app/signin/page.tsx
++++ b/apps/web/app/signin/page.tsx
+@@ -10,13 +10,14 @@ export default async function SignInPage() {
+   }
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+       <div className="w-full max-w-md space-y-8">
++        <h1 className="sr-only">Sign in to Karakeep</h1>
+         <div className="flex items-center justify-center">
+           <KarakeepLogo height={80} />
+         </div>
+         <SignInForm />
+       </div>
+-    </div>
++    </main>
+   );
+ }
+diff --git a/apps/web/app/signup/page.tsx b/apps/web/app/signup/page.tsx
+index 6f1ec400..b06a801e 100644
+--- a/apps/web/app/signup/page.tsx
++++ b/apps/web/app/signup/page.tsx
+@@ -25,13 +25,14 @@ export default async function SignUpPage({
+   }
+ 
+   return (
+-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
++    <main className="flex min-h-screen items-center justify-center bg-background px-4 py-12 sm:px-6 lg:px-8">
+       <div className="w-full max-w-md space-y-8">
++        <h1 className="sr-only">Sign up for Karakeep</h1>
+         <div className="flex items-center justify-center">
+           <KarakeepLogo height={80} />
+         </div>
+         <SignUpForm redirectUrl={redirectUrl} />
+       </div>
+-    </div>
++    </main>
+   );
+ }
+diff --git a/apps/web/components/admin/AddUserDialog.tsx b/apps/web/components/admin/AddUserDialog.tsx
+index b5843eab..5b363540 100644
+--- a/apps/web/components/admin/AddUserDialog.tsx
++++ b/apps/web/components/admin/AddUserDialog.tsx
+@@ -181,7 +181,7 @@ export default function AddUserDialog({
+                         value={field.value}
+                         onValueChange={field.onChange}
+                       >
+-                        <SelectTrigger className="w-full">
++                        <SelectTrigger className="w-full" aria-label="Role">
+                           <SelectValue />
+                         </SelectTrigger>
+                         <SelectContent>
+diff --git a/apps/web/components/admin/BackgroundJobs.tsx b/apps/web/components/admin/BackgroundJobs.tsx
+index fada6c2f..06daa804 100644
+--- a/apps/web/components/admin/BackgroundJobs.tsx
++++ b/apps/web/components/admin/BackgroundJobs.tsx
+@@ -66,9 +66,9 @@ function JobStatusExplanation() {
+               <Clock className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+             </div>
+             <div>
+-              <h4 className="font-medium text-blue-900 dark:text-blue-200">
++              <h3 className="font-medium text-blue-900 dark:text-blue-200">
+                 {t("admin.background_jobs.status.queued.title")}
+-              </h4>
++              </h3>
+               <p className="text-sm text-blue-700 dark:text-blue-300">
+                 {t("admin.background_jobs.status.queued.description")}
+               </p>
+@@ -79,9 +79,9 @@ function JobStatusExplanation() {
+               <RefreshCw className="h-4 w-4 text-yellow-600 dark:text-yellow-400" />
+             </div>
+             <div>
+-              <h4 className="font-medium text-yellow-900 dark:text-yellow-400">
++              <h3 className="font-medium text-yellow-900 dark:text-yellow-400">
+                 {t("admin.background_jobs.status.unprocessed.title")}
+-              </h4>
++              </h3>
+               <p className="text-sm text-yellow-700 dark:text-yellow-500">
+                 {t("admin.background_jobs.status.unprocessed.description")}
+               </p>
+@@ -92,9 +92,9 @@ function JobStatusExplanation() {
+               <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-500" />
+             </div>
+             <div>
+-              <h4 className="font-medium text-red-900 dark:text-red-500">
++              <h3 className="font-medium text-red-900 dark:text-red-500">
+                 {t("admin.background_jobs.status.failed.title")}
+-              </h4>
++              </h3>
+               <p className="text-sm text-red-700 dark:text-red-500">
+                 {t("admin.background_jobs.status.failed.description")}
+               </p>
+@@ -222,9 +222,9 @@ function JobCard({
+ 
+         {actions.length > 0 && (
+           <div className="space-y-3 border-t pt-4">
+-            <h4 className="text-sm font-medium text-muted-foreground">
++            <h3 className="text-sm font-medium text-muted-foreground">
+               {t("admin.background_jobs.available_actions")}
+-            </h4>
++            </h3>
+             <div className="grid gap-2">
+               {actions.map((action, index) => (
+                 <ActionConfirmingDialog
+diff --git a/apps/web/components/admin/BasicStats.tsx b/apps/web/components/admin/BasicStats.tsx
+index ec2b73a9..120db20b 100644
+--- a/apps/web/components/admin/BasicStats.tsx
++++ b/apps/web/components/admin/BasicStats.tsx
+@@ -39,7 +39,7 @@ function ReleaseInfo() {
+       <a
+         href={REPO_RELEASE_PAGE}
+         target="_blank"
+-        className="text-blue-500"
++        className="text-blue-600 dark:text-blue-400"
+         rel="noreferrer"
+         title="Update available"
+       >
+@@ -91,13 +91,13 @@ export default function BasicStats() {
+       </div>
+       <div className="flex flex-col gap-4 sm:flex-row">
+         <div className="rounded-md border bg-background p-4 sm:w-1/4">
+-          <div className="text-sm font-medium text-gray-400">
++          <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+             {t("admin.server_stats.total_users")}
+           </div>
+           <div className="text-3xl font-semibold">{serverStats.numUsers}</div>
+         </div>
+         <div className="rounded-md border bg-background p-4 sm:w-1/4">
+-          <div className="text-sm font-medium text-gray-400">
++          <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+             {t("admin.server_stats.total_bookmarks")}
+           </div>
+           <div className="text-3xl font-semibold">
+@@ -105,7 +105,7 @@ export default function BasicStats() {
+           </div>
+         </div>
+         <div className="rounded-md border bg-background p-4 sm:w-1/4">
+-          <div className="text-sm font-medium text-gray-400">
++          <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
+             {t("admin.server_stats.server_version")}
+           </div>
+           <ReleaseInfo />
+diff --git a/apps/web/components/admin/UpdateUserDialog.tsx b/apps/web/components/admin/UpdateUserDialog.tsx
+index 95ccb6fd..70a5a6a7 100644
+--- a/apps/web/components/admin/UpdateUserDialog.tsx
++++ b/apps/web/components/admin/UpdateUserDialog.tsx
+@@ -118,7 +118,7 @@ export default function UpdateUserDialog({
+                         onValueChange={field.onChange}
+                         defaultValue={field.value}
+                       >
+-                        <SelectTrigger className="w-full">
++                        <SelectTrigger className="w-full" aria-label="Role">
+                           <SelectValue />
+                         </SelectTrigger>
+                         <SelectContent>
+diff --git a/apps/web/components/dashboard/ViewOptions.tsx b/apps/web/components/dashboard/ViewOptions.tsx
+index 4c10801f..1196b356 100644
+--- a/apps/web/components/dashboard/ViewOptions.tsx
++++ b/apps/web/components/dashboard/ViewOptions.tsx
+@@ -160,12 +160,13 @@ export default function ViewOptions() {
+         {showColumnSlider && (
+           <>
+             <DropdownMenuSeparator />
+-            <div className="px-2 pb-3 pt-1.5">
++            <div className="px-2 pb-3 pt-1.5" role="group">
+               <div className="mb-3 flex items-center justify-between text-xs font-medium text-muted-foreground">
+                 <span>{t("view_options.columns")}</span>
+                 <span>{tempColumns}</span>
+               </div>
+               <Slider
++                aria-label={t("view_options.columns")}
+                 value={[tempColumns]}
+                 onValueChange={([value]) => setTempColumns(value)}
+                 onValueCommit={([value]) => updateGridColumns(value)}
+@@ -182,7 +183,7 @@ export default function ViewOptions() {
+         <DropdownMenuLabel className="text-xs text-muted-foreground">
+           {t("view_options.display_options")}
+         </DropdownMenuLabel>
+-        <div className="flex items-center justify-between px-2 py-1.5">
++        <div className="flex items-center justify-between px-2 py-1.5" role="group">
+           <Label
+             htmlFor="show-notes"
+             className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
+@@ -196,7 +197,7 @@ export default function ViewOptions() {
+             onCheckedChange={handleShowNotesChange}
+           />
+         </div>
+-        <div className="flex items-center justify-between px-2 py-1.5">
++        <div className="flex items-center justify-between px-2 py-1.5" role="group">
+           <Label
+             htmlFor="show-tags"
+             className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
+@@ -210,7 +211,7 @@ export default function ViewOptions() {
+             onCheckedChange={handleShowTagsChange}
+           />
+         </div>
+-        <div className="flex items-center justify-between px-2 py-1.5">
++        <div className="flex items-center justify-between px-2 py-1.5" role="group">
+           <Label
+             htmlFor="show-title"
+             className="flex flex-1 cursor-pointer items-center gap-2 font-normal leading-normal"
+diff --git a/apps/web/components/dashboard/bookmarks/AssetCard.tsx b/apps/web/components/dashboard/bookmarks/AssetCard.tsx
+index 713bdd9a..fe5625bc 100644
+--- a/apps/web/components/dashboard/bookmarks/AssetCard.tsx
++++ b/apps/web/components/dashboard/bookmarks/AssetCard.tsx
+@@ -25,7 +25,7 @@ function AssetImage({
+       return (
+         <Link href={`/dashboard/preview/${bookmark.id}`}>
+           <Image
+-            alt="asset"
++            alt={bookmark.title || "asset"}
+             src={getAssetUrl(bookmarkedAsset.assetId)}
+             fill={true}
+             unoptimized
+@@ -51,7 +51,7 @@ function AssetImage({
+       return (
+         <Link href={`/dashboard/preview/${bookmark.id}`}>
+           <Image
+-            alt="asset"
++            alt={bookmark.title || "asset"}
+             src={getAssetUrl(screenshotAssetId)}
+             fill={true}
+             unoptimized
+diff --git a/apps/web/components/dashboard/bookmarks/BookmarkActionBar.tsx b/apps/web/components/dashboard/bookmarks/BookmarkActionBar.tsx
+index 8fbb8701..962e96c5 100644
+--- a/apps/web/components/dashboard/bookmarks/BookmarkActionBar.tsx
++++ b/apps/web/components/dashboard/bookmarks/BookmarkActionBar.tsx
+@@ -3,6 +3,8 @@ import { buttonVariants } from "@/components/ui/button";
+ import { cn } from "@/lib/utils";
+ import { Maximize2 } from "lucide-react";
+ 
++import { useTranslation } from "@/lib/i18n/client";
++
+ import type { ZBookmark } from "@karakeep/shared/types/bookmarks";
+ 
+ import BookmarkOptions from "./BookmarkOptions";
+@@ -15,6 +17,7 @@ export default function BookmarkActionBar({
+   bookmark: ZBookmark;
+   favouritedClassName?: string;
+ }) {
++  const { t } = useTranslation();
+   return (
+     <div className="flex text-gray-500">
+       {bookmark.favourited && (
+@@ -26,6 +29,7 @@ export default function BookmarkActionBar({
+       <Link
+         href={`/dashboard/preview/${bookmark.id}`}
+         className={cn(buttonVariants({ variant: "ghost" }), "px-2")}
++        aria-label={t("actions.open_preview")}
+       >
+         <Maximize2 size={16} />
+       </Link>
+diff --git a/apps/web/components/dashboard/bookmarks/BookmarkLayoutAdaptingCard.tsx b/apps/web/components/dashboard/bookmarks/BookmarkLayoutAdaptingCard.tsx
+index d4cb34ec..c57b3f96 100644
+--- a/apps/web/components/dashboard/bookmarks/BookmarkLayoutAdaptingCard.tsx
++++ b/apps/web/components/dashboard/bookmarks/BookmarkLayoutAdaptingCard.tsx
+@@ -65,7 +65,7 @@ function BottomRow({
+   bookmark: ZBookmark;
+ }) {
+   return (
+-    <div className="justify flex w-full shrink-0 justify-between text-gray-500">
++    <div className="justify flex w-full shrink-0 justify-between text-gray-500 dark:text-gray-400">
+       <div className="flex items-center gap-2 overflow-hidden text-nowrap font-light">
+         {footer && <>{footer}•</>}
+         <Link
+@@ -268,6 +268,11 @@ function HoverActionBar({
+       {!demoMode && (
+         <>
+           <button
++            aria-label={
++              bookmark.favourited
++                ? t("actions.unfavorite")
++                : t("actions.favorite")
++            }
+             title={
+               bookmark.favourited
+                 ? t("actions.unfavorite")
+@@ -286,6 +291,9 @@ function HoverActionBar({
+             <FavouritedActionIcon favourited={bookmark.favourited} size={16} />
+           </button>
+           <button
++            aria-label={
++              bookmark.archived ? t("actions.unarchive") : t("actions.archive")
++            }
+             title={
+               bookmark.archived ? t("actions.unarchive") : t("actions.archive")
+             }
+@@ -476,13 +484,15 @@ function CompactView({
+             </div>
+           )}
+           {footer && (
+-            <p className="flex shrink-0 gap-2 text-gray-500">•{footer}</p>
++            <p className="flex shrink-0 gap-2 text-gray-500 dark:text-gray-400">
++              •{footer}
++            </p>
+           )}
+-          <p className="text-gray-500">•</p>
++          <p className="text-gray-500 dark:text-gray-400">•</p>
+           <Link
+             href={`/dashboard/preview/${bookmark.id}`}
+             suppressHydrationWarning
+-            className="shrink-0 gap-2 text-gray-500"
++            className="shrink-0 gap-2 text-gray-500 dark:text-gray-400"
+           >
+             <BookmarkFormattedCreatedAt createdAt={bookmark.createdAt} />
+           </Link>
+diff --git a/apps/web/components/dashboard/bookmarks/BookmarkOptions.tsx b/apps/web/components/dashboard/bookmarks/BookmarkOptions.tsx
+index b0a41a22..84ff3802 100644
+--- a/apps/web/components/dashboard/bookmarks/BookmarkOptions.tsx
++++ b/apps/web/components/dashboard/bookmarks/BookmarkOptions.tsx
+@@ -506,7 +506,11 @@ export default function BookmarkOptions({ bookmark }: { bookmark: ZBookmark }) {
+       />
+       <DropdownMenu>
+         <DropdownMenuTrigger asChild>
+-          <Button variant="ghost" className="px-1 focus-visible:ring-0">
++          <Button
++            variant="ghost"
++            className="px-1 focus-visible:ring-0"
++            aria-label={t("actions.more_options")}
++          >
+             <MoreHorizontal />
+           </Button>
+         </DropdownMenuTrigger>
+diff --git a/apps/web/components/dashboard/bookmarks/EditorCard.tsx b/apps/web/components/dashboard/bookmarks/EditorCard.tsx
+index 76424a38..cdfc8777 100644
+--- a/apps/web/components/dashboard/bookmarks/EditorCard.tsx
++++ b/apps/web/components/dashboard/bookmarks/EditorCard.tsx
+@@ -204,6 +204,7 @@ export default function EditorCard({ className }: { className?: string }) {
+           <FormControl>
+             <Textarea
+               ref={inputRef}
++              aria-label={t("editor.new_item")}
+               disabled={isPending}
+               className={cn(
+                 "text-md h-full w-full border-none p-0 font-light focus-visible:ring-0",
+diff --git a/apps/web/components/dashboard/bookmarks/LinkCard.tsx b/apps/web/components/dashboard/bookmarks/LinkCard.tsx
+index 230baf02..54ea62ba 100644
+--- a/apps/web/components/dashboard/bookmarks/LinkCard.tsx
++++ b/apps/web/components/dashboard/bookmarks/LinkCard.tsx
+@@ -53,7 +53,7 @@ function LinkImage({
+     <Image
+       unoptimized={unoptimized}
+       className={className}
+-      alt="card banner"
++      alt={bookmark.title || "card banner"}
+       fill={true}
+       src={url}
+     />
+diff --git a/apps/web/components/dashboard/bookmarks/NotePreview.tsx b/apps/web/components/dashboard/bookmarks/NotePreview.tsx
+index 19ce090e..361713c8 100644
+--- a/apps/web/components/dashboard/bookmarks/NotePreview.tsx
++++ b/apps/web/components/dashboard/bookmarks/NotePreview.tsx
+@@ -29,15 +29,16 @@ export function NotePreview({ note, bookmarkId, className }: NotePreviewProps) {
+   return (
+     <Popover open={isOpen} onOpenChange={setIsOpen}>
+       <PopoverTrigger asChild>
+-        <div
++        <button
++          type="button"
+           className={cn(
+-            "flex cursor-pointer items-center gap-1.5 text-sm font-light italic text-gray-500 dark:text-gray-400",
++            "flex cursor-pointer items-center gap-1.5 text-left text-sm font-light italic text-gray-500 dark:text-gray-400",
+             className,
+           )}
+         >
+           <NotepadText className="size-5 shrink-0" />
+-          <div className="min-w-0 flex-1 truncate">{note}</div>
+-        </div>
++          <span className="min-w-0 flex-1 truncate">{note}</span>
++        </button>
+       </PopoverTrigger>
+       <PopoverContent className="w-96 max-w-[calc(100vw-2rem)]" align="start">
+         <div className="space-y-3">
+diff --git a/apps/web/components/dashboard/bookmarks/TagsEditor.tsx b/apps/web/components/dashboard/bookmarks/TagsEditor.tsx
+index 2c3d7b1c..f9ae99da 100644
+--- a/apps/web/components/dashboard/bookmarks/TagsEditor.tsx
++++ b/apps/web/components/dashboard/bookmarks/TagsEditor.tsx
+@@ -9,8 +9,8 @@ import {
+ } from "@/components/ui/command";
+ import {
+   Popover,
++  PopoverAnchor,
+   PopoverContent,
+-  PopoverTrigger,
+ } from "@/components/ui/popover";
+ import { useClientConfig } from "@/lib/clientConfig";
+ import { useTranslation } from "@/lib/i18n/client";
+@@ -310,7 +310,7 @@ export function TagsEditor({
+     <div ref={containerRef} className="w-full">
+       <Popover open={open && !isDisabled} onOpenChange={handleOpenChange}>
+         <Command shouldFilter={false}>
+-          <PopoverTrigger asChild>
++          <PopoverAnchor asChild>
+             <div
+               className={cn(
+                 "relative flex min-h-10 w-full flex-wrap items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm transition-[color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50",
+@@ -372,8 +372,10 @@ export function TagsEditor({
+                 </div>
+               )}
+             </div>
+-          </PopoverTrigger>
++          </PopoverAnchor>
+           <PopoverContent
++            forceMount
++            hidden={!open}
+             className="w-[--radix-popover-trigger-width] p-0"
+             align="start"
+             onWheel={(e) => e.stopPropagation()}
+diff --git a/apps/web/components/dashboard/header/Header.tsx b/apps/web/components/dashboard/header/Header.tsx
+index 2e9aa9da..748e7d9f 100644
+--- a/apps/web/components/dashboard/header/Header.tsx
++++ b/apps/web/components/dashboard/header/Header.tsx
+@@ -15,7 +15,11 @@ export default async function Header() {
+   return (
+     <header className="sticky left-0 right-0 top-0 z-50 flex h-16 w-full items-center justify-between overflow-x-auto overflow-y-hidden bg-background p-4 shadow">
+       <div className="hidden items-center sm:flex">
+-        <Link href={"/dashboard/bookmarks"} className="w-56 xl:w-[17rem]">
++        <Link
++          href={"/dashboard/bookmarks"}
++          className="w-56 xl:w-[17rem]"
++          aria-label="karakeep"
++        >
+           <KarakeepLogo height={38} />
+         </Link>
+       </div>
+diff --git a/apps/web/components/dashboard/header/ProfileOptions.tsx b/apps/web/components/dashboard/header/ProfileOptions.tsx
+index 64de9fbf..6e5d993e 100644
+--- a/apps/web/components/dashboard/header/ProfileOptions.tsx
++++ b/apps/web/components/dashboard/header/ProfileOptions.tsx
+@@ -81,6 +81,7 @@ export default function SidebarProfileOptions() {
+           className="border-new-gray-200 shrink-0 rounded-full border-4 bg-black p-0 text-white"
+           variant="ghost"
+           size="icon"
++          aria-label={t("actions.account_menu")}
+         >
+           <UserAvatar
+             image={avatarUrl}
+@@ -100,7 +101,9 @@ export default function SidebarProfileOptions() {
+           </div>
+           <div className="flex flex-col">
+             <p>{session.user.name}</p>
+-            <p className="text-sm text-gray-400">{session.user.email}</p>
++            <p className="text-sm text-gray-500 dark:text-gray-400">
++              {session.user.email}
++            </p>
+           </div>
+         </div>
+         <Separator className="my-2" />
+diff --git a/apps/web/components/dashboard/highlights/AllHighlights.tsx b/apps/web/components/dashboard/highlights/AllHighlights.tsx
+index f0bfcff6..5a8dc7af 100644
+--- a/apps/web/components/dashboard/highlights/AllHighlights.tsx
++++ b/apps/web/components/dashboard/highlights/AllHighlights.tsx
+@@ -29,7 +29,7 @@ function Highlight({ highlight }: { highlight: ZHighlight }) {
+   return (
+     <div className="flex flex-col gap-2">
+       <HighlightCard highlight={highlight} clickable={false} readOnly={false} />
+-      <span className="flex items-center gap-0.5 text-xs italic text-gray-400">
++      <span className="flex items-center gap-0.5 text-xs italic text-gray-500 dark:text-gray-400">
+         <span title={localCreatedAt}>{fromNow}</span>
+         <Dot />
+         <Link
+diff --git a/apps/web/components/dashboard/lists/AllListsView.tsx b/apps/web/components/dashboard/lists/AllListsView.tsx
+index 056ad943..f13b9e3b 100644
+--- a/apps/web/components/dashboard/lists/AllListsView.tsx
++++ b/apps/web/components/dashboard/lists/AllListsView.tsx
+@@ -34,6 +34,7 @@ function ListItem({
+   itemCount,
+   pinned,
+   description,
++  as: Tag = "li",
+ }: {
+   name: string;
+   icon: string;
+@@ -46,7 +47,9 @@ function ListItem({
+   pinned?: boolean;
+   description?: string;
+   style?: React.CSSProperties;
++  as?: "li" | "div";
+ }) {
++  const { t } = useTranslation();
+   const accentColors = [
+     "bg-sky-500",
+     "bg-slate-400",
+@@ -60,7 +63,7 @@ function ListItem({
+     itemCount !== undefined ? itemCount.toLocaleString() : undefined;
+ 
+   return (
+-    <li
++    <Tag
+       className="group/list-row flex min-h-20 items-center justify-between gap-x-3 gap-y-2 px-4 py-4 transition-colors hover:bg-accent/30"
+       style={style}
+     >
+@@ -117,6 +120,7 @@ function ListItem({
+               <Button
+                 className="flex items-center justify-center"
+                 variant="ghost"
++                aria-label={t("lists.list_options")}
+               >
+                 <MoreHorizontal className="size-4" />
+               </Button>
+@@ -129,7 +133,7 @@ function ListItem({
+           </span>
+         )}
+       </div>
+-    </li>
++    </Tag>
+   );
+ }
+ 
+@@ -211,6 +215,7 @@ export default function AllListsView({
+             filter={(node) => node.item.userRole === "owner"}
+             render={({ node, level, open, numBookmarks }) => (
+               <ListItem
++                as="div"
+                 name={node.item.name}
+                 icon={node.item.icon}
+                 itemCount={numBookmarks}
+@@ -234,6 +239,7 @@ export default function AllListsView({
+             filter={(node) => node.item.userRole !== "owner"}
+             render={({ node, level, open, numBookmarks }) => (
+               <ListItem
++                as="div"
+                 name={node.item.name}
+                 icon={node.item.icon}
+                 itemCount={numBookmarks}
+diff --git a/apps/web/components/dashboard/lists/BookmarkListSelector.tsx b/apps/web/components/dashboard/lists/BookmarkListSelector.tsx
+index 154732c4..6544290e 100644
+--- a/apps/web/components/dashboard/lists/BookmarkListSelector.tsx
++++ b/apps/web/components/dashboard/lists/BookmarkListSelector.tsx
+@@ -166,6 +166,7 @@ function BookmarkListSingleSelector({
+         variant="outline"
+         role="combobox"
+         aria-expanded={open}
++        aria-label={selectedListName || placeholder}
+         className={cn("w-full justify-between", className)}
+         disabled={disabled}
+       >
+@@ -221,6 +222,7 @@ function BookmarkListMultiSelector({
+         tabIndex={disabled ? -1 : 0}
+         aria-disabled={disabled}
+         aria-expanded={disabled ? false : open}
++        aria-label={placeholder}
+         className={cn(
+           "relative flex min-h-10 w-full cursor-pointer flex-wrap items-center gap-2 rounded-md border border-input bg-background px-3 py-1 text-sm transition-[color,box-shadow] focus-visible:border-ring focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50",
+           disabled && "cursor-not-allowed opacity-50",
+diff --git a/apps/web/components/dashboard/lists/CollapsibleBookmarkLists.tsx b/apps/web/components/dashboard/lists/CollapsibleBookmarkLists.tsx
+index 0070b827..5da5e492 100644
+--- a/apps/web/components/dashboard/lists/CollapsibleBookmarkLists.tsx
++++ b/apps/web/components/dashboard/lists/CollapsibleBookmarkLists.tsx
+@@ -51,7 +51,12 @@ function ListItem({
+   }, [node, isOpenFunc]);
+ 
+   return (
+-    <Collapsible open={open} onOpenChange={setOpen} className={className}>
++    <Collapsible
++      open={open}
++      onOpenChange={setOpen}
++      className={className}
++      role="listitem"
++    >
+       {render({
+         node,
+         level: level + indentOffset,
+@@ -59,7 +64,7 @@ function ListItem({
+         onOpenChange: setOpen,
+         numBookmarks: listStats?.get(node.item.id),
+       })}
+-      <CollapsibleContent>
++      <CollapsibleContent role="list">
+         {node.children
+           .sort((a, b) => a.item.name.localeCompare(b.item.name))
+           .map((l) => (
+@@ -87,6 +92,7 @@ export function CollapsibleBookmarkLists({
+   isOpenFunc,
+   filter,
+   indentOffset = 0,
++  nested = false,
+ }: {
+   initialData?: ZBookmarkList[];
+   listsData?: {
+@@ -100,6 +106,8 @@ export function CollapsibleBookmarkLists({
+   className?: string;
+   filter?: (node: ZBookmarkListTreeNode) => boolean;
+   indentOffset?: number;
++  /** When rendered inside another role="list", items join that list. */
++  nested?: boolean;
+ }) {
+   const api = useTRPC();
+   // If listsData is provided, use it directly. Otherwise, fetch it.
+@@ -123,7 +131,7 @@ export function CollapsibleBookmarkLists({
+   const filteredRoots = filter ? rootNodes.filter(filter) : rootNodes;
+ 
+   return (
+-    <div>
++    <div role={nested ? "none" : "list"}>
+       {filteredRoots
+         .sort((a, b) => a.item.name.localeCompare(b.item.name))
+         .map((node) => (
+diff --git a/apps/web/components/dashboard/lists/EditListModal.tsx b/apps/web/components/dashboard/lists/EditListModal.tsx
+index 09127357..67c57c45 100644
+--- a/apps/web/components/dashboard/lists/EditListModal.tsx
++++ b/apps/web/components/dashboard/lists/EditListModal.tsx
+@@ -258,6 +258,7 @@ export function EditListModal({
+                         <Input
+                           type="text"
+                           className="w-full"
++                          aria-label="List Name"
+                           placeholder="List Name"
+                           {...field}
+                         />
+@@ -308,6 +309,7 @@ export function EditListModal({
+                       <Button
+                         type="button"
+                         variant="ghost"
++                        aria-label={t("lists.clear_parent")}
+                         onClick={() => {
+                           form.setValue("parentId", "");
+                         }}
+@@ -333,7 +335,10 @@ export function EditListModal({
+                         onValueChange={field.onChange}
+                         value={field.value}
+                       >
+-                        <SelectTrigger className="w-full">
++                        <SelectTrigger
++                          className="w-full"
++                          aria-label={t("lists.list_type")}
++                        >
+                           <SelectValue />
+                         </SelectTrigger>
+                         <SelectContent>
+diff --git a/apps/web/components/dashboard/lists/ListHeader.tsx b/apps/web/components/dashboard/lists/ListHeader.tsx
+index 975f0417..822c1552 100644
+--- a/apps/web/components/dashboard/lists/ListHeader.tsx
++++ b/apps/web/components/dashboard/lists/ListHeader.tsx
+@@ -102,7 +102,7 @@ export default function ListHeader({
+       </div>
+       <div className="flex shrink-0 items-center">
+         <ListOptions list={list}>
+-          <Button variant="ghost">
++          <Button variant="ghost" aria-label={t("lists.list_options")}>
+             <MoreHorizontal />
+           </Button>
+         </ListOptions>
+diff --git a/apps/web/components/dashboard/lists/ManageCollaboratorsModal.tsx b/apps/web/components/dashboard/lists/ManageCollaboratorsModal.tsx
+index 0506df4f..a5e3e1b0 100644
+--- a/apps/web/components/dashboard/lists/ManageCollaboratorsModal.tsx
++++ b/apps/web/components/dashboard/lists/ManageCollaboratorsModal.tsx
+@@ -230,7 +230,10 @@ export function ManageCollaboratorsModal({
+                     setNewCollaboratorRole(value as "viewer" | "editor")
+                   }
+                 >
+-                  <SelectTrigger className="w-32">
++                  <SelectTrigger
++                    className="w-32"
++                    aria-label={t("lists.collaborators.role")}
++                  >
+                     <SelectValue />
+                   </SelectTrigger>
+                   <SelectContent>
+@@ -374,7 +377,10 @@ export function ManageCollaboratorsModal({
+                               })
+                             }
+                           >
+-                            <SelectTrigger className="w-28">
++                            <SelectTrigger
++                              className="w-28"
++                              aria-label={t("lists.collaborators.role")}
++                            >
+                               <SelectValue />
+                             </SelectTrigger>
+                             <SelectContent>
+diff --git a/apps/web/components/dashboard/preview/ActionBar.tsx b/apps/web/components/dashboard/preview/ActionBar.tsx
+index 6514fd8b..ae74eba2 100644
+--- a/apps/web/components/dashboard/preview/ActionBar.tsx
++++ b/apps/web/components/dashboard/preview/ActionBar.tsx
+@@ -63,6 +63,7 @@ export default function ActionBar({ bookmark }: { bookmark: ZBookmark }) {
+             variant="ghost"
+             size="none"
+             className="size-8 rounded-md"
++            aria-label={t("actions.edit")}
+             onClick={() => {
+               setEditBookmarkDialogOpen(true);
+             }}
+@@ -78,6 +79,11 @@ export default function ActionBar({ bookmark }: { bookmark: ZBookmark }) {
+             variant="ghost"
+             size="none"
+             className="size-8 rounded-md"
++            aria-label={
++              bookmark.favourited
++                ? t("actions.unfavorite")
++                : t("actions.favorite")
++            }
+             loading={pendingFav}
+             onClick={() => {
+               favBookmark({
+@@ -106,6 +112,9 @@ export default function ActionBar({ bookmark }: { bookmark: ZBookmark }) {
+             size="none"
+             loading={pendingArchive}
+             className="size-8 rounded-md"
++            aria-label={
++              bookmark.archived ? t("actions.unarchive") : t("actions.archive")
++            }
+             onClick={() => {
+               archiveBookmark({
+                 bookmarkId: bookmark.id,
+@@ -135,6 +144,7 @@ export default function ActionBar({ bookmark }: { bookmark: ZBookmark }) {
+             className="size-8 rounded-md"
+             variant="ghost"
+             size="none"
++            aria-label={t("actions.delete")}
+             onClick={() => setDeleteBookmarkDialogOpen(true)}
+           >
+             <Trash2 size={18} strokeWidth={1.5} />
+diff --git a/apps/web/components/dashboard/preview/BookmarkPreview.tsx b/apps/web/components/dashboard/preview/BookmarkPreview.tsx
+index ba29aad1..79034449 100644
+--- a/apps/web/components/dashboard/preview/BookmarkPreview.tsx
++++ b/apps/web/components/dashboard/preview/BookmarkPreview.tsx
+@@ -192,9 +192,9 @@ export default function BookmarkPreview({
+   const detailsSection = (
+     <div className="flex flex-col gap-5">
+       <div className="flex flex-col gap-1">
+-        <p className="line-clamp-2 text-ellipsis break-words text-lg font-medium">
++        <h1 className="line-clamp-2 text-ellipsis break-words text-lg font-medium">
+           {!title ? "Untitled" : title}
+-        </p>
++        </h1>
+         {sourceUrl && (
+           <Link
+             href={sourceUrl}
+@@ -240,6 +240,7 @@ export default function BookmarkPreview({
+             <button
+               onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+               className="absolute right-4 top-4 z-10 rounded-md p-1.5 text-muted-foreground hover:bg-muted hover:text-foreground"
++              aria-label={t("preview.toggle_details")}
+             >
+               {sidebarCollapsed ? (
+                 <PanelRightOpen size={20} />
+diff --git a/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx b/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx
+index ce654052..a5a06858 100644
+--- a/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx
++++ b/apps/web/components/dashboard/rules/RuleEngineRuleList.tsx
+@@ -57,9 +57,9 @@ export default function RuleList({
+   if (rules.length === 0) {
+     return (
+       <div className="rounded-lg border border-dashed p-8 text-center">
+-        <h3 className="text-lg font-medium">
++        <h2 className="text-lg font-medium">
+           {t("settings.rules.no_rules_created_yet")}
+-        </h3>
++        </h2>
+         <p className="mt-2 text-sm text-muted-foreground">
+           {t("settings.rules.create_your_first_rule")}
+         </p>
+diff --git a/apps/web/components/dashboard/search/SearchInput.tsx b/apps/web/components/dashboard/search/SearchInput.tsx
+index ed3aeb1e..9c5dc625 100644
+--- a/apps/web/components/dashboard/search/SearchInput.tsx
++++ b/apps/web/components/dashboard/search/SearchInput.tsx
+@@ -19,8 +19,8 @@ import {
+ } from "@/components/ui/command";
+ import {
+   Popover,
++  PopoverAnchor,
+   PopoverContent,
+-  PopoverTrigger,
+ } from "@/components/ui/popover";
+ import { useClientConfig } from "@/lib/clientConfig";
+ import { useDoBookmarkSearch } from "@/lib/hooks/bookmark-search";
+@@ -226,6 +226,7 @@ const SearchInput = React.forwardRef<
+           href="https://docs.karakeep.app/Guides/search-query-language"
+           target="_blank"
+           className="flex size-7 shrink-0 items-center justify-center rounded-md stroke-foreground transition-colors hover:bg-background/80"
++          aria-label={t("lists.search_query_help")}
+         >
+           <QueryExplainerTooltip
+             parsedSearchQuery={parsedValue}
+@@ -245,7 +246,9 @@ const SearchInput = React.forwardRef<
+         onKeyDown={handleCommandKeyDown}
+       >
+         <Popover open={isPopoverVisible}>
+-          <PopoverTrigger asChild>
++          {/* Anchor (not Trigger): the popover opens on input focus via
++              `open`, so the wrapper div must not carry trigger ARIA. */}
++          <PopoverAnchor asChild>
+             <div className="relative">
+               <CommandInput
+                 ref={inputRef}
+@@ -267,8 +270,12 @@ const SearchInput = React.forwardRef<
+                 onKeyDown={handleInputKeyDown}
+               />
+             </div>
+-          </PopoverTrigger>
++          </PopoverAnchor>
++          {/* forceMount + hidden keeps the listbox mounted so the cmdk
++              input's aria-controls always resolves. */}
+           <PopoverContent
++            forceMount
++            hidden={!isPopoverVisible}
+             className="w-[--radix-popover-trigger-width] p-0"
+             onOpenAutoFocus={(e) => e.preventDefault()}
+             onCloseAutoFocus={(e) => e.preventDefault()}
+diff --git a/apps/web/components/dashboard/sidebar/AllLists.tsx b/apps/web/components/dashboard/sidebar/AllLists.tsx
+index d638697c..1f9bd478 100644
+--- a/apps/web/components/dashboard/sidebar/AllLists.tsx
++++ b/apps/web/components/dashboard/sidebar/AllLists.tsx
+@@ -103,6 +103,7 @@ function DroppableListSidebarItem({
+   selectedListId: string | null;
+   setSelectedListId: (id: string | null) => void;
+ }) {
++  const { t } = useTranslation();
+   const canDrop =
+     node.item.type === "manual" &&
+     (node.item.userRole === "owner" || node.item.userRole === "editor");
+@@ -111,6 +112,7 @@ function DroppableListSidebarItem({
+ 
+   return (
+     <SidebarItem
++      as="div"
+       collapseButton={
+         node.children.length > 0 ? (
+           <CollapsibleTriggerChevron className="size-4" open={open} />
+@@ -137,7 +139,12 @@ function DroppableListSidebarItem({
+           }}
+           list={node.item}
+         >
+-          <Button size="none" variant="ghost" className="relative">
++          <Button
++            size="none"
++            variant="ghost"
++            className="relative min-w-6"
++            aria-label={`${numBookmarks ?? ""} ${t("lists.list_options")}`}
++          >
+             <MoreHorizontal
+               className={cn(
+                 "absolute inset-0 m-auto size-4 opacity-0 transition-opacity duration-100 group-hover:opacity-100",
+@@ -213,18 +220,21 @@ export default function AllLists({
+   }, [isViewingSharedList, sharedListsOpen]);
+ 
+   return (
+-    <ul className="sidebar-scrollbar max-h-full gap-y-2 overflow-auto text-sm">
++    <div
++      role="list"
++      className="sidebar-scrollbar max-h-full gap-y-2 overflow-auto text-sm"
++    >
+       <li className="flex justify-between pb-3">
+         <p className="pl-2 text-xs uppercase tracking-wider text-muted-foreground">
+           Lists
+         </p>
+         <EditListModal>
+-          <Link href="#">
++          <button type="button" aria-label={t("lists.new_list")}>
+             <Plus
+               className="mr-2 size-4 text-muted-foreground"
+               strokeWidth={1.5}
+             />
+-          </Link>
++          </button>
+         </EditListModal>
+       </li>
+       <SidebarItem
+@@ -245,6 +255,7 @@ export default function AllLists({
+ 
+       {/* Owned Lists */}
+       <CollapsibleBookmarkLists
++        nested
+         listsData={lists}
+         filter={(node) => node.item.userRole === "owner"}
+         isOpenFunc={isNodeOpen}
+@@ -262,7 +273,11 @@ export default function AllLists({
+ 
+       {/* Shared Lists */}
+       {hasSharedLists && (
+-        <Collapsible open={sharedListsOpen} onOpenChange={setSharedListsOpen}>
++        <Collapsible
++          open={sharedListsOpen}
++          onOpenChange={setSharedListsOpen}
++          role="listitem"
++        >
+           <SidebarItem
+             collapseButton={
+               <CollapsibleTriggerChevron
+@@ -272,11 +287,13 @@ export default function AllLists({
+             }
+             logo={<span className="text-lg">👥</span>}
+             name={t("lists.shared_lists")}
++            as="div"
+             path="#"
+             linkClassName="py-0.5 px-1"
+           />
+-          <CollapsibleContent>
++          <CollapsibleContent role="list">
+             <CollapsibleBookmarkLists
++              nested
+               listsData={lists}
+               filter={(node) => node.item.userRole !== "owner"}
+               isOpenFunc={isNodeOpen}
+@@ -295,6 +312,6 @@ export default function AllLists({
+           </CollapsibleContent>
+         </Collapsible>
+       )}
+-    </ul>
++    </div>
+   );
+ }
+diff --git a/apps/web/components/dashboard/tags/AllTagsView.tsx b/apps/web/components/dashboard/tags/AllTagsView.tsx
+index a58b9183..7a9f5207 100644
+--- a/apps/web/components/dashboard/tags/AllTagsView.tsx
++++ b/apps/web/components/dashboard/tags/AllTagsView.tsx
+@@ -257,7 +257,7 @@ export default function AllTagsView() {
+       )}
+       <div className="flex flex-col gap-4">
+         <div className="flex flex-wrap items-center justify-between gap-x-2 gap-y-3">
+-          <span className="text-2xl">{t("tags.all_tags")}</span>
++          <h1 className="text-2xl">{t("tags.all_tags")}</h1>
+           <div className="flex flex-wrap items-center justify-end gap-2">
+             <CreateTagModal />
+             <BulkTagAction />
+@@ -297,6 +297,7 @@ export default function AllTagsView() {
+                 <Button
+                   variant="outline"
+                   className="flex-shrink-0 bg-background"
++                  aria-label={sortLabels[sortBy]}
+                 >
+                   <ArrowDownAZ className="mr-2 size-4" />
+                   <span className="hidden text-sm font-medium sm:inline">
+diff --git a/apps/web/components/dashboard/tags/TagHeader.tsx b/apps/web/components/dashboard/tags/TagHeader.tsx
+index e56d3049..56002d9f 100644
+--- a/apps/web/components/dashboard/tags/TagHeader.tsx
++++ b/apps/web/components/dashboard/tags/TagHeader.tsx
+@@ -64,7 +64,7 @@ export default function TagHeader({
+       </div>
+       <div className="flex shrink-0 items-center">
+         <TagOptions tag={tag}>
+-          <Button variant="ghost">
++          <Button variant="ghost" aria-label={t("tags.tag_options")}>
+             <MoreHorizontal />
+           </Button>
+         </TagOptions>
+diff --git a/apps/web/components/settings/AISettings.tsx b/apps/web/components/settings/AISettings.tsx
+index fa1348ba..39031cdd 100644
+--- a/apps/web/components/settings/AISettings.tsx
++++ b/apps/web/components/settings/AISettings.tsx
+@@ -309,7 +309,11 @@ export function TagStyleSelector() {
+                   ))}
+                 </div>
+               </FieldContent>
+-              <RadioGroupItem value={option.value} id={option.value} />
++              <RadioGroupItem
++                value={option.value}
++                id={option.value}
++                aria-label={option.label}
++              />
+             </Field>
+           </FieldLabel>
+         ))}
+@@ -495,6 +499,7 @@ export function PromptEditor() {
+               <FormItem className="flex-1">
+                 <FormControl>
+                   <Input
++                    aria-label="Add a custom prompt"
+                     placeholder="Add a custom prompt"
+                     type="text"
+                     {...field}
+@@ -517,7 +522,7 @@ export function PromptEditor() {
+                     onValueChange={field.onChange}
+                     defaultValue={field.value}
+                   >
+-                    <SelectTrigger>
++                    <SelectTrigger aria-label="Applies To">
+                       <SelectValue placeholder="Applies To" />
+                     </SelectTrigger>
+                     <SelectContent>
+@@ -621,6 +626,7 @@ export function PromptRow({ prompt }: { prompt: ZPrompt }) {
+               <FormItem className="flex-1">
+                 <FormControl>
+                   <Input
++                    aria-label="Add a custom prompt"
+                     placeholder="Add a custom prompt"
+                     type="text"
+                     {...field}
+@@ -643,7 +649,7 @@ export function PromptRow({ prompt }: { prompt: ZPrompt }) {
+                     onValueChange={field.onChange}
+                     defaultValue={field.value}
+                   >
+-                    <SelectTrigger>
++                    <SelectTrigger aria-label="Applies To">
+                       <SelectValue placeholder="Applies To" />
+                     </SelectTrigger>
+                     <SelectContent>
+diff --git a/apps/web/components/settings/BackupSettings.tsx b/apps/web/components/settings/BackupSettings.tsx
+index a6bddbed..501650cc 100644
+--- a/apps/web/components/settings/BackupSettings.tsx
++++ b/apps/web/components/settings/BackupSettings.tsx
+@@ -138,7 +138,11 @@ function BackupConfigurationForm() {
+                     defaultValue={field.value}
+                     {...field}
+                   >
+-                    <SelectTrigger>
++                    <SelectTrigger
++                      aria-label={t(
++                        "settings.backups.configuration.backup_frequency",
++                      )}
++                    >
+                       <SelectValue
+                         placeholder={t(
+                           "settings.backups.configuration.select_frequency",
+diff --git a/apps/web/components/settings/ImportExport.tsx b/apps/web/components/settings/ImportExport.tsx
+index 7937688e..df553611 100644
+--- a/apps/web/components/settings/ImportExport.tsx
++++ b/apps/web/components/settings/ImportExport.tsx
+@@ -106,7 +106,10 @@ function ExportButton() {
+             value={format}
+             onValueChange={(value) => setFormat(value as "json" | "netscape")}
+           >
+-            <SelectTrigger className="mt-2 w-[180px]">
++            <SelectTrigger
++              className="mt-2 w-[180px]"
++              aria-label="Export format"
++            >
+               <SelectValue placeholder="Format" />
+             </SelectTrigger>
+             <SelectContent>
+diff --git a/apps/web/components/settings/ImportSessionsSection.tsx b/apps/web/components/settings/ImportSessionsSection.tsx
+index 661b27d6..532c1b5d 100644
+--- a/apps/web/components/settings/ImportSessionsSection.tsx
++++ b/apps/web/components/settings/ImportSessionsSection.tsx
+@@ -59,7 +59,7 @@ export function ImportSessionsSection() {
+             <p className="mb-2 text-center text-gray-600">
+               {t("settings.import_sessions.no_sessions")}
+             </p>
+-            <p className="text-center text-sm text-gray-500">
++            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+               {t("settings.import_sessions.no_sessions_detail")}
+             </p>
+           </CardContent>
+diff --git a/apps/web/components/settings/UserOptions.tsx b/apps/web/components/settings/UserOptions.tsx
+index 76ec0f3f..fca662ec 100644
+--- a/apps/web/components/settings/UserOptions.tsx
++++ b/apps/web/components/settings/UserOptions.tsx
+@@ -32,6 +32,7 @@ import { SettingsSection } from "./SettingsPage";
+ 
+ const LanguageSelect = () => {
+   const lang = useInterfaceLang();
++  const { t } = useTranslation();
+   return (
+     <Select
+       value={lang}
+@@ -39,7 +40,10 @@ const LanguageSelect = () => {
+         await updateInterfaceLang(val);
+       }}
+     >
+-      <SelectTrigger className="h-11">
++      <SelectTrigger
++        className="h-11"
++        aria-label={t("settings.info.interface_lang")}
++      >
+         <SelectValue />
+       </SelectTrigger>
+       <SelectContent>
+@@ -165,7 +169,10 @@ export default function UserOptions() {
+                   });
+                 }}
+               >
+-                <SelectTrigger className="h-11">
++                <SelectTrigger
++                  className="h-11"
++                  aria-label="Timezone"
++                >
+                   <SelectValue>
+                     {timezones?.find(
+                       (tz: { value: string; label: string }) =>
+@@ -205,7 +212,12 @@ export default function UserOptions() {
+                     });
+                   }}
+                 >
+-                  <SelectTrigger className="h-11">
++                  <SelectTrigger
++                    className="h-11"
++                    aria-label={t(
++                      "settings.info.user_settings.bookmark_click_action.title",
++                    )}
++                  >
+                     <SelectValue>
+                       {bookmarkClickActionTranslation[field.value]}
+                     </SelectValue>
+@@ -245,7 +257,12 @@ export default function UserOptions() {
+                     });
+                   }}
+                 >
+-                  <SelectTrigger className="h-11">
++                  <SelectTrigger
++                    className="h-11"
++                    aria-label={t(
++                      "settings.info.user_settings.archive_display_behaviour.title",
++                    )}
++                  >
+                     <SelectValue>
+                       {archiveDisplayBehaviourTranslation[field.value]}
+                     </SelectValue>
+diff --git a/apps/web/components/shared/sidebar/MobileSidebar.tsx b/apps/web/components/shared/sidebar/MobileSidebar.tsx
+index c512a981..ad1fda9c 100644
+--- a/apps/web/components/shared/sidebar/MobileSidebar.tsx
++++ b/apps/web/components/shared/sidebar/MobileSidebar.tsx
+@@ -19,6 +19,7 @@ export default async function MobileSidebar({
+             key={item.name}
+             logo={item.icon}
+             path={item.path}
++            name={item.name}
+           />
+         ))}
+       </ul>
+diff --git a/apps/web/components/shared/sidebar/ModileSidebarItem.tsx b/apps/web/components/shared/sidebar/ModileSidebarItem.tsx
+index e2cdf6ba..62eec3fc 100644
+--- a/apps/web/components/shared/sidebar/ModileSidebarItem.tsx
++++ b/apps/web/components/shared/sidebar/ModileSidebarItem.tsx
+@@ -8,9 +8,11 @@ import { cn } from "@/lib/utils";
+ export default function MobileSidebarItem({
+   logo,
+   path,
++  name,
+ }: {
+   logo: React.ReactNode;
+   path: string;
++  name?: string;
+ }) {
+   const currentPath = usePathname();
+   return (
+@@ -20,7 +22,12 @@ export default function MobileSidebarItem({
+         path == currentPath ? "bg-background" : "",
+       )}
+     >
+-      <Link onClick={haptic} href={path} className="m-auto px-3 py-2">
++      <Link
++        onClick={haptic}
++        href={path}
++        className="m-auto px-3 py-2"
++        aria-label={name}
++      >
+         {logo}
+       </Link>
+     </li>
+diff --git a/apps/web/components/shared/sidebar/SidebarItem.tsx b/apps/web/components/shared/sidebar/SidebarItem.tsx
+index 98824f5b..4c963f64 100644
+--- a/apps/web/components/shared/sidebar/SidebarItem.tsx
++++ b/apps/web/components/shared/sidebar/SidebarItem.tsx
+@@ -15,6 +15,7 @@ export default function SidebarItem({
+   collapseButton,
+   right = null,
+   dropHighlight = false,
++  as: Tag = "li",
+   onDrop,
+   onDragOver,
+   onDragEnter,
+@@ -33,10 +34,13 @@ export default function SidebarItem({
+   onDragOver?: React.DragEventHandler;
+   onDragEnter?: React.DragEventHandler;
+   onDragLeave?: React.DragEventHandler;
++  /** Root element — "li" inside a native list, "div" inside a
++      role="listitem" wrapper (e.g. Collapsible). */
++  as?: "li" | "div";
+ }) {
+   const currentPath = usePathname();
+   return (
+-    <li
++    <Tag
+       className={cn(
+         "relative flex justify-between rounded-lg text-sm transition-colors hover:bg-accent",
+         path == currentPath
+@@ -67,6 +71,6 @@ export default function SidebarItem({
+         </Link>
+       </div>
+       {right}
+-    </li>
++    </Tag>
+   );
+ }
+diff --git a/apps/web/components/shared/sidebar/SidebarLayout.tsx b/apps/web/components/shared/sidebar/SidebarLayout.tsx
+index 940542a1..639a2a3e 100644
+--- a/apps/web/components/shared/sidebar/SidebarLayout.tsx
++++ b/apps/web/components/shared/sidebar/SidebarLayout.tsx
+@@ -22,11 +22,21 @@ export default function SidebarLayout({
+ }) {
+   return (
+     <div className="sm:fixed sm:inset-0 sm:overflow-hidden">
++      <a
++        href="#main-content"
++        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-foreground focus:shadow-md focus:outline-none focus:ring-2 focus:ring-ring"
++      >
++        Skip to main content
++      </a>
+       <Header />
+       <div className="flex min-h-[calc(100vh-64px)] w-full flex-col sm:h-[calc(100dvh-64px)] sm:flex-row sm:overflow-hidden">
+         <ValidAccountCheck />
+         <div className="hidden flex-none sm:flex">{sidebar}</div>
+-        <main className="flex-1 bg-muted sm:min-h-0 sm:overflow-y-auto">
++        <main
++          id="main-content"
++          tabIndex={0}
++          className="flex-1 bg-muted sm:min-h-0 sm:overflow-y-auto"
++        >
+           {serverConfig.demoMode && <DemoModeBanner />}
+           <div className="block w-full sm:hidden">
+             {mobileSidebar}
+@@ -38,6 +48,10 @@ export default function SidebarLayout({
+               <Suspense fallback={<LoadingSpinner />}>{children}</Suspense>
+             </ErrorBoundary>
+           </div>
++          {/* Point de chute des overlays portalés (menus, dialogues) : les
++              garde dans le landmark <main> et hors de data-aria-hidden —
++              voir useModalContainer dans @karakeep/shared-react. */}
++          <div id="karakeep-modal-root" />
+         </main>
+       </div>
+     </div>
+diff --git a/apps/web/components/shared/sidebar/SidebarVersion.tsx b/apps/web/components/shared/sidebar/SidebarVersion.tsx
+index cd2e64cf..a0babacf 100644
+--- a/apps/web/components/shared/sidebar/SidebarVersion.tsx
++++ b/apps/web/components/shared/sidebar/SidebarVersion.tsx
+@@ -184,7 +184,7 @@ export default function SidebarVersion({
+         href={releasePageUrl}
+         target="_blank"
+         rel="noopener noreferrer"
+-        className="mt-auto flex items-center border-t pt-2 text-sm text-gray-400 hover:underline"
++        className="mt-auto flex items-center border-t pt-2 text-sm text-gray-500 hover:underline dark:text-gray-400"
+       >
+         {versionLabel}
+       </Link>
+@@ -200,7 +200,7 @@ export default function SidebarVersion({
+           aria-label={
+             shouldNotify ? t("version.new_release_available") : undefined
+           }
+-          className="flex w-full items-center justify-between rounded-sm text-left text-sm text-gray-400 transition hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
++          className="flex w-full items-center justify-between rounded-sm text-left text-sm text-gray-500 transition hover:text-foreground hover:underline focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 dark:text-gray-400"
+         >
+           <span aria-hidden={shouldNotify}>{versionLabel}</span>
+           {shouldNotify && (
+diff --git a/apps/web/components/subscription/QuotaProgress.tsx b/apps/web/components/subscription/QuotaProgress.tsx
+index 29bb7fc9..7eecb1b0 100644
+--- a/apps/web/components/subscription/QuotaProgress.tsx
++++ b/apps/web/components/subscription/QuotaProgress.tsx
+@@ -78,6 +78,7 @@ function QuotaProgressItem({
+ 
+         {!unlimited && quota && (
+           <Progress
++            aria-label={title}
+             value={percentage}
+             className={`h-2 ${
+               isAtLimit
+diff --git a/apps/web/components/ui/action-button.tsx b/apps/web/components/ui/action-button.tsx
+index b7cd9b3d..1aac0b57 100644
+--- a/apps/web/components/ui/action-button.tsx
++++ b/apps/web/components/ui/action-button.tsx
+@@ -47,7 +47,7 @@ const ActionButtonWithTooltip = React.forwardRef<
+   return (
+     <Tooltip delayDuration={delayDuration}>
+       <TooltipTrigger asChild>
+-        <ActionButton ref={ref} {...props} />
++        <ActionButton ref={ref} aria-label={tooltip} {...props} />
+       </TooltipTrigger>
+       <TooltipPortal>
+         <TooltipContent>{tooltip}</TooltipContent>
+diff --git a/apps/web/components/ui/button.tsx b/apps/web/components/ui/button.tsx
+index 05d0231b..67fc3cce 100644
+--- a/apps/web/components/ui/button.tsx
++++ b/apps/web/components/ui/button.tsx
+@@ -23,7 +23,7 @@ const ButtonWithTooltip = React.forwardRef<
+   return (
+     <Tooltip delayDuration={delayDuration}>
+       <TooltipTrigger asChild>
+-        <Button ref={ref} {...props} />
++        <Button ref={ref} aria-label={tooltip} {...props} />
+       </TooltipTrigger>
+       <TooltipPortal>
+         <TooltipContent>{tooltip}</TooltipContent>
+diff --git a/apps/web/components/ui/card.tsx b/apps/web/components/ui/card.tsx
+index 9df66460..ef8cbbd7 100644
+--- a/apps/web/components/ui/card.tsx
++++ b/apps/web/components/ui/card.tsx
+@@ -33,7 +33,7 @@ const CardTitle = React.forwardRef<
+   React.HTMLAttributes<HTMLHeadingElement>
+ >(({ className, ...props }, ref) => (
+   // eslint-disable-next-line jsx-a11y/heading-has-content
+-  <h3
++  <h2
+     ref={ref}
+     className={cn(
+       "text-2xl font-semibold leading-none tracking-tight",
+diff --git a/apps/web/components/ui/dialog.tsx b/apps/web/components/ui/dialog.tsx
+index c748a22a..120cc0b4 100644
+--- a/apps/web/components/ui/dialog.tsx
++++ b/apps/web/components/ui/dialog.tsx
+@@ -2,6 +2,7 @@
+ 
+ import * as React from "react";
+ import { cn } from "@/lib/utils";
++import { useModalContainer } from "@karakeep/shared-react/hooks/useModalContainer";
+ import * as DialogPrimitive from "@radix-ui/react-dialog";
+ import { X } from "lucide-react";
+ 
+@@ -33,27 +34,31 @@ const DialogContent = React.forwardRef<
+   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
+     hideCloseBtn?: boolean;
+   }
+->(({ className, children, hideCloseBtn = false, ...props }, ref) => (
+-  <DialogPortal>
+-    <DialogOverlay />
++>(({ className, children, hideCloseBtn = false, ...props }, ref) => {
++  const container = useModalContainer();
++  return (
++    <DialogPortal container={container}>
++      <DialogOverlay />
+     <DialogPrimitive.Content
+       ref={ref}
++      aria-modal="true"
+       className={cn(
+         "fixed left-[50%] top-[50%] z-50 grid w-[calc(100%-2rem)] max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-xl border bg-background p-6 shadow-2xl duration-150 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-1/2 data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-1/2",
+         className,
+       )}
+       {...props}
+     >
+-      {children}
+-      {!hideCloseBtn && (
+-        <DialogPrimitive.Close className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none">
+-          <X className="size-4" />
+-          <span className="sr-only">Close</span>
+-        </DialogPrimitive.Close>
+-      )}
+-    </DialogPrimitive.Content>
+-  </DialogPortal>
+-));
++        {children}
++        {!hideCloseBtn && (
++          <DialogPrimitive.Close className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none">
++            <X className="size-4" />
++            <span className="sr-only">Close</span>
++          </DialogPrimitive.Close>
++        )}
++      </DialogPrimitive.Content>
++    </DialogPortal>
++  );
++});
+ DialogContent.displayName = DialogPrimitive.Content.displayName;
+ 
+ const DialogHeader = ({
+diff --git a/apps/web/components/ui/dropdown-menu.tsx b/apps/web/components/ui/dropdown-menu.tsx
+index fe7a9813..ba06e39c 100644
+--- a/apps/web/components/ui/dropdown-menu.tsx
++++ b/apps/web/components/ui/dropdown-menu.tsx
+@@ -2,10 +2,19 @@
+ 
+ import * as React from "react";
+ import { cn } from "@/lib/utils";
++import { useModalContainer } from "@karakeep/shared-react/hooks/useModalContainer";
+ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
+ import { Check, ChevronRight, Circle } from "lucide-react";
+ 
+-const DropdownMenu = DropdownMenuPrimitive.Root;
++// Non-modal par défaut : en mode modal, Radix applique aria-hidden sur tout
++// le document hors du menu (sans aria-modal associé), ce qui masque les
++// landmarks et les éléments focusables aux technologies d'assistance.
++const DropdownMenu = ({
++  modal = false,
++  ...props
++}: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) => (
++  <DropdownMenuPrimitive.Root modal={modal} {...props} />
++);
+ 
+ const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
+ 
+@@ -58,19 +67,22 @@ DropdownMenuSubContent.displayName =
+ const DropdownMenuContent = React.forwardRef<
+   React.ElementRef<typeof DropdownMenuPrimitive.Content>,
+   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
+->(({ className, sideOffset = 4, ...props }, ref) => (
+-  <DropdownMenuPrimitive.Portal>
+-    <DropdownMenuPrimitive.Content
+-      ref={ref}
+-      sideOffset={sideOffset}
+-      className={cn(
+-        "z-50 max-h-[--radix-dropdown-menu-content-available-height] min-w-[8rem] origin-[--radix-dropdown-menu-content-transform-origin] overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+-        className,
+-      )}
+-      {...props}
+-    />
+-  </DropdownMenuPrimitive.Portal>
+-));
++>(({ className, sideOffset = 4, ...props }, ref) => {
++  const container = useModalContainer();
++  return (
++    <DropdownMenuPrimitive.Portal container={container}>
++      <DropdownMenuPrimitive.Content
++        ref={ref}
++        sideOffset={sideOffset}
++        className={cn(
++          "z-50 max-h-[--radix-dropdown-menu-content-available-height] min-w-[8rem] origin-[--radix-dropdown-menu-content-transform-origin] overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
++          className,
++        )}
++        {...props}
++      />
++    </DropdownMenuPrimitive.Portal>
++  );
++});
+ DropdownMenuContent.displayName = DropdownMenuPrimitive.Content.displayName;
+ 
+ const DropdownMenuItem = React.forwardRef<
+diff --git a/apps/web/components/ui/popover.tsx b/apps/web/components/ui/popover.tsx
+index 91b1863b..9864d820 100644
+--- a/apps/web/components/ui/popover.tsx
++++ b/apps/web/components/ui/popover.tsx
+@@ -1,5 +1,6 @@
+ export {
+   Popover,
+   PopoverTrigger,
++  PopoverAnchor,
+   PopoverContent,
+ } from "@karakeep/shared-react/components/ui/popover";
+diff --git a/apps/web/components/ui/select.tsx b/apps/web/components/ui/select.tsx
+index 6d434fb2..3fbff136 100644
+--- a/apps/web/components/ui/select.tsx
++++ b/apps/web/components/ui/select.tsx
+@@ -2,6 +2,7 @@
+ 
+ import * as React from "react";
+ import { cn } from "@/lib/utils";
++import { useModalContainer } from "@karakeep/shared-react/hooks/useModalContainer";
+ import * as SelectPrimitive from "@radix-ui/react-select";
+ import { Check, ChevronDown, ChevronUp } from "lucide-react";
+ 
+@@ -69,33 +70,36 @@ SelectScrollDownButton.displayName =
+ const SelectContent = React.forwardRef<
+   React.ElementRef<typeof SelectPrimitive.Content>,
+   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+->(({ className, children, position = "popper", ...props }, ref) => (
+-  <SelectPrimitive.Portal>
+-    <SelectPrimitive.Content
+-      ref={ref}
+-      className={cn(
+-        "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+-        position === "popper" &&
+-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+-        className,
+-      )}
+-      position={position}
+-      {...props}
+-    >
+-      <SelectScrollUpButton />
+-      <SelectPrimitive.Viewport
++>(({ className, children, position = "popper", ...props }, ref) => {
++  const container = useModalContainer();
++  return (
++    <SelectPrimitive.Portal container={container}>
++      <SelectPrimitive.Content
++        ref={ref}
+         className={cn(
+-          "p-1",
++          "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+           position === "popper" &&
+-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
++            "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
++          className,
+         )}
++        position={position}
++        {...props}
+       >
+-        {children}
+-      </SelectPrimitive.Viewport>
+-      <SelectScrollDownButton />
+-    </SelectPrimitive.Content>
+-  </SelectPrimitive.Portal>
+-));
++        <SelectScrollUpButton />
++        <SelectPrimitive.Viewport
++          className={cn(
++            "p-1",
++            position === "popper" &&
++              "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
++          )}
++        >
++          {children}
++        </SelectPrimitive.Viewport>
++        <SelectScrollDownButton />
++      </SelectPrimitive.Content>
++    </SelectPrimitive.Portal>
++  );
++});
+ SelectContent.displayName = SelectPrimitive.Content.displayName;
+ 
+ const SelectLabel = React.forwardRef<
+diff --git a/apps/web/components/ui/slider.tsx b/apps/web/components/ui/slider.tsx
+index c35e5735..6e4bb683 100644
+--- a/apps/web/components/ui/slider.tsx
++++ b/apps/web/components/ui/slider.tsx
+@@ -7,7 +7,7 @@ import * as SliderPrimitive from "@radix-ui/react-slider";
+ const Slider = React.forwardRef<
+   React.ElementRef<typeof SliderPrimitive.Root>,
+   React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+->(({ className, ...props }, ref) => (
++>(({ className, "aria-label": ariaLabel, ...props }, ref) => (
+   <SliderPrimitive.Root
+     ref={ref}
+     className={cn(
+@@ -19,7 +19,10 @@ const Slider = React.forwardRef<
+     <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+       <SliderPrimitive.Range className="absolute h-full bg-primary" />
+     </SliderPrimitive.Track>
+-    <SliderPrimitive.Thumb className="block h-5 w-5 rounded-full border-2 border-primary bg-background transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50" />
++    <SliderPrimitive.Thumb
++      aria-label={ariaLabel}
++      className="block h-5 w-5 rounded-full border-2 border-primary bg-background transition-colors focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50"
++    />
+   </SliderPrimitive.Root>
+ ));
+ Slider.displayName = SliderPrimitive.Root.displayName;
+diff --git a/apps/web/lib/i18n/locales/en/translation.json b/apps/web/lib/i18n/locales/en/translation.json
+index 5bd1f3b9..bb9e1749 100644
+--- a/apps/web/lib/i18n/locales/en/translation.json
++++ b/apps/web/lib/i18n/locales/en/translation.json
+@@ -87,6 +87,8 @@
+     "copy_link": "Copy Link",
+     "close_bulk_edit": "Close Bulk Edit",
+     "bulk_edit": "Bulk Edit",
++    "account_menu": "Account menu",
++    "open_preview": "Open preview",
+     "manage_lists": "Manage Lists",
+     "remove_from_list": "Remove from List",
+     "save": "Save",
+@@ -108,6 +110,7 @@
+     "apply_all": "Apply All",
+     "ignore": "Ignore",
+     "more": "More",
++    "more_options": "More options",
+     "replace_banner": "Replace Banner",
+     "add_banner": "Add Banner",
+     "download": "Download",
+@@ -801,6 +804,8 @@
+       "private": "Private"
+     },
+     "new_list": "New List",
++    "list_options": "List options",
++    "clear_parent": "Clear parent list",
+     "edit_list": "Edit List",
+     "share_list": "Share List",
+     "new_nested_list": "New Nested List",
+@@ -854,6 +859,7 @@
+       "owner": "Owner",
+       "pending": "Pending",
+       "revoke": "Revoke",
++      "role": "Role",
+       "declined": "Declined",
+       "viewer_description": "Can view bookmarks in the list",
+       "editor_description": "Can add and remove bookmarks",
+@@ -888,6 +894,7 @@
+     "items_count_other": "{{count}} items"
+   },
+   "tags": {
++    "tag_options": "Tag options",
+     "all_tags": "All Tags",
+     "your_tags": "Your Tags",
+     "your_tags_info": "Tags that were attached at least once by you",
+@@ -998,7 +1005,8 @@
+     "tabs": {
+       "content": "Content",
+       "details": "Details"
+-    }
++    },
++    "toggle_details": "Toggle details"
+   },
+   "editor": {
+     "multiple_urls_dialog_title": "Importing URLs as separate Bookmarks?",
+diff --git a/packages/shared-react/components/ui/popover.tsx b/packages/shared-react/components/ui/popover.tsx
+index 30645cc8..fcfef40b 100644
+--- a/packages/shared-react/components/ui/popover.tsx
++++ b/packages/shared-react/components/ui/popover.tsx
+@@ -2,29 +2,36 @@
+ 
+ import * as React from "react";
+ import { cn } from "@/lib/utils";
++import { useModalContainer } from "../../hooks/useModalContainer";
+ import * as PopoverPrimitive from "@radix-ui/react-popover";
+ 
+ const Popover = PopoverPrimitive.Root;
+ 
+ const PopoverTrigger = PopoverPrimitive.Trigger;
+ 
++const PopoverAnchor = PopoverPrimitive.Anchor;
++
+ const PopoverContent = React.forwardRef<
+   React.ElementRef<typeof PopoverPrimitive.Content>,
+   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
+->(({ className, align = "center", sideOffset = 4, ...props }, ref) => (
+-  <PopoverPrimitive.Portal>
+-    <PopoverPrimitive.Content
+-      ref={ref}
+-      align={align}
+-      sideOffset={sideOffset}
+-      className={cn(
+-        "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+-        className,
+-      )}
+-      {...props}
+-    />
+-  </PopoverPrimitive.Portal>
+-));
++>(({ className, align = "center", sideOffset = 4, forceMount, ...props }, ref) => {
++  const container = useModalContainer();
++  return (
++    <PopoverPrimitive.Portal container={container} forceMount={forceMount}>
++      <PopoverPrimitive.Content
++        ref={ref}
++        align={align}
++        sideOffset={sideOffset}
++        className={cn(
++          "z-50 w-72 rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
++          className,
++        )}
++        forceMount={forceMount}
++        {...props}
++      />
++    </PopoverPrimitive.Portal>
++  );
++});
+ PopoverContent.displayName = PopoverPrimitive.Content.displayName;
+ 
+-export { Popover, PopoverTrigger, PopoverContent };
++export { Popover, PopoverTrigger, PopoverAnchor, PopoverContent };
+diff --git a/packages/shared-react/hooks/useModalContainer.ts b/packages/shared-react/hooks/useModalContainer.ts
+new file mode 100644
+index 00000000..b0e5a6a9
+--- /dev/null
++++ b/packages/shared-react/hooks/useModalContainer.ts
+@@ -0,0 +1,20 @@
++"use client";
++
++import * as React from "react";
++
++// Monté dans <main> (voir apps/web/components/shared/sidebar/SidebarLayout.tsx) :
++// les overlays Radix (menus, selects, dialogues) sont portalés dedans pour que
++// 1) le contenu des overlays reste dans un landmark (WCAG 1.3.1 / axe "region")
++// 2) le wrapper applicatif ne soit pas aria-hidden quand un overlay modal
++//    s'ouvre (sinon axe signale aria-hidden-focus + perte de landmark/h1).
++export const MODAL_ROOT_ID = "karakeep-modal-root";
++
++// Retourne l'élément hôte une fois le DOM prêt ; undefined => document.body
++// (comportement Radix par défaut — utilisé hors des pages dashboard).
++export function useModalContainer(): HTMLElement | undefined {
++  const [container, setContainer] = React.useState<HTMLElement | undefined>();
++  React.useEffect(() => {
++    setContainer(document.getElementById(MODAL_ROOT_ID) ?? undefined);
++  }, []);
++  return container;
++}
+diff --git a/tooling/tailwind/globals.css b/tooling/tailwind/globals.css
+index b7369bd5..4457dd37 100644
+--- a/tooling/tailwind/globals.css
++++ b/tooling/tailwind/globals.css
+@@ -20,12 +20,12 @@
+     --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+     --muted: 210 40% 96.1%;
+-    --muted-foreground: 215.4 16.3% 46.9%;
++    --muted-foreground: 215.3 19.3% 34.5%;
+ 
+     --accent: 210 40% 96.1%;
+     --accent-foreground: 222.2 47.4% 11.2%;
+ 
+-    --destructive: 0 84.2% 60.2%;
++    --destructive: 0 72.2% 50.6%;
+     --destructive-foreground: 210 40% 98%;
+ 
+     --border: 214.3 31.8% 91.4%;
