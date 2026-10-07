@@ -356,3 +356,7 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 
 35. **Une sonde de contraste qui ignore l'alpha du FOREGROUND surestime le ratio.** `effFg` rapportait 11,37:1 pour un texte `rgba(fg,.6)` dont le ratio réel est ~5,3:1 — conforme mais faux : si le composite fg×bg avait été <4,5, la sonde aurait rendu un PASS mensonger. Règle : effective-fg doit être composité sur l'effective-bg (alpha du texte inclus) AVANT le ratio — symétrique au composite du fond (leçon 31). Un PASS surestimé est aussi grave qu'un FAIL manqué : il masque le site exact où la violation vivrait.
 36. **Un gate de sonde qui sort au 1er statut terminal peut rater le résultat lent.** La sonde F2 sortait exit 0 au premier ✓/✗ vu — le X du proxy-mort arrivait à 31 s, jamais mesuré. Règle : attendre TOUS les glyphes/statuts terminaux attendus (timeout dur + FAIL si jamais apparus), pas « au moins un ».
+
+### Leçons — cycle 37 linkding (audit : seed non livré)
+
+37. **Un seed décrit en prose n'est pas rejouable — le seed est un artefact.** Le manifeste linkding décrivait le contenu à seed mais ne livrait ni dump ni script → l'auditeur a dû reconstruire un seed « équivalent », et le delta de comptes incomplets (68→70) vient exactement de cette reconstruction. Règle : tout cycle livre `tools/seed.*` (sql dump, script http, fixtures json…) exécutable verbatim, et le manifeste pointe dessus — « boot rejouable » inclut les données.
