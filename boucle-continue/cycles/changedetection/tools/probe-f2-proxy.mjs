@@ -144,9 +144,20 @@ const measure = async (theme, reload) => {
   await page.waitForSelector('.tabs li.active a[href="#request"]', { timeout: 10000 });
   await page.waitForSelector('#request', { state: 'visible', timeout: 10000 });
   await page.click('#check-all-proxies');
-  // le proxy seedé est mort (127.0.0.1:3128) → statut terminal ERROR/ERROR OTHER
-  await page.waitForSelector('#request .proxy-status .proxy-check-err, #request .proxy-status .proxy-check-ok', { timeout: 60000 });
+  // Gate v5 (wart W-sonde-F2) : attendre que CHAQUE slot .proxy-status porte un
+  // glyphe terminal, pas seulement le premier — le X du proxy mort peut
+  // arriver ~30 s après le 1er OK et le gate exit 0 mentait alors.
+  await page.waitForFunction(() => {
+    const sts = [...document.querySelectorAll('#request .proxy-status')];
+    return sts.length > 0 && sts.every(s => s.querySelector('.proxy-check-err, .proxy-check-ok'));
+  }, null, { timeout: 120000 });
   await page.waitForTimeout(500); // laisse les détails/timing s'écrire
+  const errSeen = await page.evaluate(() =>
+    document.querySelectorAll('#request .proxy-status .proxy-check-err').length);
+  if (!errSeen) {
+    console.error(JSON.stringify({ theme, fatal: 'statuts terminaux capturés mais aucun .proxy-check-err — le proxy mort seedé (127.0.0.1:3128) n\'a pas produit le X requis' }));
+    process.exit(2);
+  }
   const items = await collect();
   const shot = await page.screenshot({ type: 'png', fullPage: true });
   const scrollY = await page.evaluate(() => window.scrollY);
