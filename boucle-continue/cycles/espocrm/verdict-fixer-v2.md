@@ -14,7 +14,7 @@ actionnable, inchangé. R5 est appliqué : sabotage et mesures visent
 **(a) État déterministe ajouté** — `nav-more-tabs` devient le 13e état
 (état déterministe, leçon 32) : viewport 1050px, trigger
 `#nav-more-tabs-dropdown`, preuve `.more-dropdown-menu` visible + `> li a`
-visibles. Mesure sur **vanilla :8648** : **12 règles / 71 occurrences** dont
+visibles. Mesure sur **vanilla :8648** : **12 règles / 102 occurrences** dont
 `aria-required-children` ×1 sur `ul.more-dropdown-menu` (enfants `li a[href]`
 sans `role=menuitem`) — la violation amont est reproduite par le nouvel état.
 
@@ -77,7 +77,7 @@ role=menuitem`). Restauration → **42/42, 0 FAIL**.
 
 | mesure | :8647 patché v2 | :8648 vanilla |
 |---|---|---|
-| axe auth | **0 règle, 0 occurrence**, 245 inc, **45 scénarios** (32 routes + 13 états) | état `nav-more-tabs` : 12 règles / 71 occ dont `aria-required-children` ×1 |
+| axe auth | **0 règle, 0 occurrence**, 245 inc, **45 scénarios** (32 routes + 13 états) | état `nav-more-tabs` : 12 règles / 102 occ dont `aria-required-children` ×1 |
 | axe public | 0 règle, 0 occurrence, 0 inc | — |
 | verify.mjs | **42/42, 0 FAIL** | — |
 | eval-final | **6/6 (2 N-A)** | — |

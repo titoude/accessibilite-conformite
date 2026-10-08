@@ -338,11 +338,17 @@ if (!existsSync(authPath)) {
 
     // detail record : stream, liens cibles
     const SEED = JSON.parse((await import('node:fs')).readFileSync(new URL('./seed-info.json', import.meta.url), 'utf8').toString());
-    await ap.goto(`${base}/#Account/view/${SEED.accountAcmeId}`, { waitUntil: 'domcontentloaded' });
-    await ap.waitForSelector('.detail, .record .panel, #content .middle', { timeout: 30000, state: 'attached' });
+    let detailReachable = true;
+    try {
+        await ap.goto(`${base}/#Account/view/${SEED.accountAcmeId}`, { waitUntil: 'domcontentloaded' });
+        await ap.waitForSelector('.detail, .record .panel, #content .middle', { timeout: 30000, state: 'attached' });
+    } catch (e) {
+        detailReachable = false;
+        ok('detail: seed-info résolu (accountAcmeId joint)', false, `${e.constructor.name}: ${String(e.message).slice(0, 120)} — seed-info.json ≠ DB ?`);
+    }
     await ap.waitForTimeout(1500);
 
-    const detailChecks = await ap.evaluate(`${BROWSER_HELPERS}
+    const detailChecks = detailReachable ? await ap.evaluate(`${BROWSER_HELPERS}
         (() => {
             const urlLink = document.querySelector('.field a[href^="http"]');
             let linkSize = null;
@@ -357,7 +363,7 @@ if (!existsSync(authPath)) {
                 iframe: document.querySelector('iframe') ? (document.querySelector('iframe').getAttribute('title') || '') : null,
             };
         })()
-    `);
+    `) : { linkSize: null, infoName: null, iframe: null };
     if (detailChecks.linkSize === null) na('detail: lien externe >= 24px', 'pas de lien http dans la fiche');
     else ok('detail: lien externe hauteur >= 24px', detailChecks.linkSize.h >= 24, `${detailChecks.linkSize.h}px`);
     if (detailChecks.infoName === null) na('detail: icône field-info nommée', 'aucune icône info'); else ok('detail: icône field-info nommée', detailChecks.infoName.length > 0, detailChecks.infoName);
