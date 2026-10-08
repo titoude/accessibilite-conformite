@@ -1,0 +1,791 @@
+diff --git a/netbox/dcim/tables/template_code.py b/netbox/dcim/tables/template_code.py
+index fe75164c..c80be483 100644
+--- a/netbox/dcim/tables/template_code.py
++++ b/netbox/dcim/tables/template_code.py
+@@ -192,8 +192,8 @@ CONSOLEPORT_BUTTONS = """
+         </span>
+     {% endif %}
+ {% elif perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     <span class="dropdown">
+         <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <span class="mdi mdi-ethernet-cable" aria-hidden="true"></span>
+@@ -242,8 +242,8 @@ CONSOLESERVERPORT_BUTTONS = """
+         </span>
+     {% endif %}
+ {% elif perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     <span class="dropdown">
+         <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <span class="mdi mdi-ethernet-cable" aria-hidden="true"></span>
+@@ -292,8 +292,8 @@ POWERPORT_BUTTONS = """
+         </span>
+     {% endif %}
+ {% elif perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     <span class="dropdown">
+         <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+             <span class="mdi mdi-ethernet-cable" aria-hidden="true"></span>
+@@ -341,8 +341,8 @@ POWEROUTLET_BUTTONS = """
+         </span>
+     {% endif %}
+ {% elif perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     {% if not record.mark_connected %}
+         <a href="{% url 'dcim:cable_add' %}?a_terminations_type=dcim.poweroutlet&a_terminations={{ record.pk }}&b_terminations_type=dcim.powerport&termination_b_site={{ object.site.pk }}&termination_b_rack={{ object.rack.pk }}&return_url={% url 'dcim:device_poweroutlets' pk=object.pk %}" title="Connect" class="btn btn-success btn-sm">
+             <i class="mdi mdi-ethernet-cable" aria-hidden="true"></i>
+@@ -435,8 +435,8 @@ INTERFACE_BUTTONS = """
+         </a>
+     {% endif %}
+ {% elif record.is_wired and perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     {% if not record.mark_connected %}
+     <span class="dropdown">
+         <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Connect cable">
+@@ -492,8 +492,8 @@ FRONTPORT_BUTTONS = """
+         </span>
+     {% endif %}
+ {% elif perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     {% if not record.mark_connected %}
+         <span class="dropdown">
+             <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+@@ -547,8 +547,8 @@ REARPORT_BUTTONS = """
+         </span>
+     {% endif %}
+ {% elif perms.dcim.add_cable %}
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
+-    <a href="#" class="btn btn-outline-secondary btn-sm disabled"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Trace" aria-label="Trace" aria-disabled="true"><i class="mdi mdi-transit-connection-variant" aria-hidden="true"></i></a>
++    <a href="#" class="btn btn-outline-secondary btn-sm disabled" title="Connect" aria-label="Connect" aria-disabled="true"><i class="mdi mdi-lan-connect" aria-hidden="true"></i></a>
+     {% if not record.mark_connected %}
+         <span class="dropdown">
+             <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+diff --git a/netbox/netbox/tables/columns.py b/netbox/netbox/tables/columns.py
+index 314bb712..e0341a9f 100644
+--- a/netbox/netbox/tables/columns.py
++++ b/netbox/netbox/tables/columns.py
+@@ -211,8 +211,8 @@ class BooleanColumn(tables.Column):
+     Custom implementation of BooleanColumn to render a nicely-formatted checkmark or X icon instead of a Unicode
+     character.
+     """
+-    TRUE_MARK = mark_safe('<span class="text-success"><i class="mdi mdi-check-bold"></i></span>')
+-    FALSE_MARK = mark_safe('<span class="text-danger"><i class="mdi mdi-close-thick"></i></span>')
++    TRUE_MARK = mark_safe('<span class="text-success"><i class="mdi mdi-check-bold" aria-hidden="true"></i><span class="visually-hidden">{}</span></span>'.format(_('Yes')))
++    FALSE_MARK = mark_safe('<span class="text-danger"><i class="mdi mdi-close-thick" aria-hidden="true"></i><span class="visually-hidden">{}</span></span>'.format(_('No')))
+     EMPTY_MARK = mark_safe('<span class="text-muted">&mdash;</span>')  # Placeholder
+ 
+     def __init__(self, *args, true_mark=TRUE_MARK, false_mark=FALSE_MARK, **kwargs):
+@@ -443,7 +443,7 @@ class ColoredLabelColumn(tables.TemplateColumn):
+ {% load helpers %}
+   {% if value %}
+   <span class="badge" style="color: {{ value.color|fgcolor }}; background-color: #{{ value.color }}">
+-    <a href="{{ value.get_absolute_url }}">{{ value }}</a>
++    <a href="{{ value.get_absolute_url }}" style="color: inherit">{{ value }}</a>
+   </span>
+ {% else %}
+   &mdash;
+diff --git a/netbox/netbox/tables/tables.py b/netbox/netbox/tables/tables.py
+index 50563fed..46d94321 100644
+--- a/netbox/netbox/tables/tables.py
++++ b/netbox/netbox/tables/tables.py
+@@ -436,8 +436,7 @@ class NestedGroupModelTable(NetBoxTable):
+         verbose_name=_('Owner'),
+     )
+     name = columns.TreeColumn(
+-        verbose_name=_('Name'),
+-        linkify=True
++        verbose_name=_('Name')
+     )
+     parent = tables.Column(
+         verbose_name=_('Parent'),
+diff --git a/netbox/project-static/dist/netbox.css b/netbox/project-static/dist/netbox.css
+index d9ea5ad9516f9883cb580d1e172997c66777ab48..63e721ca9c2ab96b003f5c91bc72404ec16914ea 100644
+GIT binary patch
+delta 7688
+zcma($X>b(RnKgPd{dy#HYjkl95|^A&yU*z!$q0eLn`;ZGY-&@RIPpjtfnsSSi{Xlm
+z1tAVGUTl(Hcy=XQEZGD|0<l;njGZ_>Qd_&pE{DPPZX9e58*nf-F}3?=Q_g0;@4fEU
+zHHx=N>Y4uD_rCXC@4M#InWmq<+BEu5C~RxVl)EET(`D&aPqM4MwKdn(Kis-;Q+Ib}
+z<Hojlv({^?hUvrmvb}={bdpw=;{&&(hqHaz^#HfiR=2A9@Sb#beP$TIU8<he(`@g5
+zka_H$-;kKwQZ#QQZS{5ssOhh48qQ23+?Va?TaV`%X)D<iFfp`gc&Hz-)4E}G1w0S+
+zW$y=Ix2|WB0pa0H55NQiK3{{wz}N^9=(0>(4dmFC>F*!h0^rGF^!E)Qu9>ziHSN<_
+zKb*;A0XkVdxlFnrfNIiKE!#)!-j+s8wI`Xedwt*#`&F-89@R7>5!Y0!ogK;-)s(iy
+z9X%0GahUDyAhGp^2J0FCE#2RWHfSAQ-_;h^P27waPM{pm7y?1lksSO7`VcnpR_$aW
+zZo;amyMH9v5lsbT3#g@nv$$PmK1>)$tXobZ?f^ku3w8@bd50xY2$akTG=moNR#Rr8
+zIc~!CRMM9dOy@0*^T|f9k(v?B0hw+1pJF->eVWi{L9u3|#xxrqfkwC`#cBa%qeaCc
+z@Wu_{*z<i3(X!r|C>ZKb)9rS);-8A<xJpba0f1>KLc?XT#bt)BfR+r~11+epW)B?+
+zl>#m;)fM2)G!a2p-G^e$<tYX2qaxfkl%zWvTUc&7oI(<xYD+sCcsexuTeVV^&CxUt
+z$0sb^9xG~e6SUH8q@5*t5{c=$1q&z6!@>xaEBPK>*S#ghbbnDBuhumc`O{$woUCgm
+zz~8H#8`D*Owyv9e85qM;zWGW~eM4Iu{BfzSJA4Na#Eq&6%jx5xx;k&!Nb!xDSk`oR
+zux^f<lkc6Sr5s$*Qpnwl{}`I*?a&+x<<wG~Ay{@7)Gv-{Nek&~DVr~XYLJhSAA}la
+zi-WWzmq<$)f*lYY5Gs#_=D4S$v_#eTJ}0F(?vJ7^H9ALwILN{H0odwjsBx^Q_&gC2
+z@_0kN`$1_~64%xJL+SEjU<$Z!P{<dThU(leltrZ!7~C=4fwJRO1$43QV^a0lvhwpq
+z)QcMK$m{c>K@f58tBSd6uS5_c0v13PN?!0h)Kav1>}*xCDC#q6xn;2>HI~LzX9;B_
+zlZp-u4IBYk!Ktcr6>W>Mp?(cR(cOn*O;z9_s6nA8xUgVhaIRUJ&7D;PV!C@V)>5O|
+ze7nva7F?SX=YD0?u89i2(cnDKqofLtu){q{6Ao1lJfS=BBSC5COqHIW<BB2N6&<O<
+z^AvD7U=O^>U0&BT%ivsb-*UibHWw$kut@_|58hHOc9~pAi@QwHt&A?M<ZJ*k9s+6t
+zbo3I>ThXr*@uW}?xI7vXeZ->%ZUx(b8a!2ZG}>GZVVaA@K{`BP1G<STH*6>gjDkF&
+zJE&z+l?L}6)$f3WTp+_e)-YeTF-{~Q=5xe%8)iukMkL4mu%Wwj(gk-%8)NQB<DQ!7
+zc5G=!?{Oc0OsdfetoqL64$h|41<VNR&F;R(r1B{i9(!r_1HI88TDZ3#X>#xVDlLZF
+zV)Cn~xkF!F3Z9}EpcozOZMi$Xwz3*!1R*d+s30nQwzxZ=h`ANJWcSn)O>Wz+l44K>
+z1~+gw_r#tp?!W9>RyH{TxkHaFjA@RpSU?*o>f%VnaL+xuAO=Rl)TnC)N5I1!2TorV
+z15d-~rh-Yu;fj%*bbg(#CKU)EoHHfmv60l>b-OmZhaYJxpAz!i2OevVX|@S;kdqXb
+zmUD)j)IbQq+^d5cFd`sv)78GQI;L}$bx=5_LX2zX6h^cZC<>XyTPGNTFQ&T|7}>eo
+zu9_ZX!3NDW;EmjaY{lY|LOw9T5({clN(vI8u319w;OCZx7OB%xnxdkOz-=8A7;d1h
+zPu2=(1Q<lE-~~X!V0kCWnfdIaZ53047`j81<0x2Cpnb3~0WG<Q_BOc7zaA}xD~l-}
+zEo2z(|33Pu7>JYP3`5d@PgJEgiH8bqPTw*%#P}cX$yZEE72F;W@lkrscErgJI0Ux`
+z@M)*uTorNww}%OCseR+_IvqGNxD&yB#jT+I<YbF9=#T&`hu1wR#WJ~%sEP%gg!XM3
+zBYRhsgu9$Bldbz~(E@hxi*hO3W60Xr51;%&S)m2?#`mO>v6qf~oCd44?AZ4t%l-A!
+z)noTReO)RR!9ZQ4r`(RQdiUBh4P$?M@`yyt9^GB@^SNW6`Nf_hd>Om^!k=m*JXyH$
+z3%gnN9=XKbckSV^|NhS<M8L=57mh~#9C7>O@-N5sU3)V;0gxZN<L0UuHPCx>o2~nV
+z6nkV(=#f1|Kixz6|9uYD|9&|$G~73k9^Qtvs)}&-La$s;y%Lpar^r1rI6mC+l*x9S
+zBAaBW06^)c%KmtY{9HmeG*xUSsMkysC~Db<r^)In%-N7B4NfenU?3l9h}5zEGvsp>
+zP#$3<F+{Zi)YqLMF?Qn&Ikpf@sT*i%GpOIDwklXQmrSVS*z0G>iZaMuuuW4r%cdKz
+zuVI(t5s7X6Em^?!E{e$P{+CIjQlvB}Z8!&}VzZ+!lan3jQzpu1SiZ6fc0z?qbM~Ec
+zq`gwtFc(18fP6p+lVmr}k?u+j-$5pxT1?=Qef~T-vK%k233);{gBo|HHmgv@&sM%d
+zR+VTfuW2BlI_z7okZg&`&4;SBS@c!%+)Aweg+h%$p;Ov6U*H)!2S#5bofQ_(&R{t(
+z5I)&ozeYAxfjC@g+|D{wA2vJp8X28s3hm<2W*)l2nus!~8|>=e<kjm1S`u7jD^5Wx
+z`Thk`Sq9pJDiLq5jbfI)K{5?^g@u=Zpe?=tu#uhnkSt<jZ;;KMoH10r8TfzUCUk}t
+zi1ocmmK8ASGjEdK0!D4UNRF*2VAL5}+!-1x)_4h&4RIVg0-M)J;7<-)c8S!pul$zG
+zXUD%3q3q}-^07)wL8k>vqo5WzG<)k3IkA$f25*t2`FfeDo#tJ(*WOHM-q>rGNoO^*
+zH9!Rn45rkQ5M<#B-`5?fVRv02pMk@@`-3MzMWeHSxI#`W1OJB`#6iK~g_`!seWBMD
+zvM1gmcU3@21}fmk5YHe1nQZheQp^4=6mDYGZ<9N!;4prlOyPNuZP=Q($>F<90YwG^
+zdl#Aw6l^-RtE6qZi?6#1VQJr0^2tJe{@zt`sClBF`vUXf!}#ohH?+m$4J|u+jVy;U
+zT1PRG20o#FW%I6!>%=uES~){i4EE%8GD@*9(+!)gd56?4m^`}>BMr}pqAzB<-yti@
+zCWHp4Z`tv8z=J+`hpe3xB0ljulJ6)KA_|T~3U=9S`3=%u25kv&js-M0Ws2Q*18nyB
+z55Zqwx<Oj2paDSZfKhogg4}!HU2?e7KpzrOH}KWMW0%4$JiGob-q1;bAF3N>-h>-E
+zJ<#vGNvhfNH_20X6^Ql)2Rnsk18o0$q`g8ks3O@wv0|{x?~zP7-b6pO;GOuZ_sNkC
+z9^-j13Ict>fl=XE154c^?d6)t%AiCIx*CIh{T3t^KRIJ;)J=#P><_odkrK`Xf9Si9
+z{hs8H{XYC$oH$($t2|p&&CdQ^xP-kZ7s+hR^{~W7%B2$4|4O)mRg_B-d!{0yhpn__
+zvIokg`MXOiBl*%w>B}3udLzGmoAh{;mp%FNUDA%FK79X=q(c$jN$1;6NSYMk;XXf<
+zm%d*kzzwIQv>D;m2-Cu}npK3URE&+1Xu0=)m);SS6#+uYgmKya|Dj9##(JE@q)OmZ
+zA-a%4-HNkIj&dMEX$e+F-Vlv_J4Ba6_!ZiJj?R(18}n|6woq?|IDxb_K9|aO6w$g+
+z7{!8(bEDwppmrFfu@OQS{rNLrCUi0NCY%$fPnf5%1!1~G62s1Mj0T7j!ANbpvN4y=
+zZQ9t1v2%Z#)<yUn6s4$z*_sza11t!0i1g=$VwDl#%$t!;JU1A>1@uIm;pa}%-e?32
+z<4sQ|P?<1_3&`+`%o+10B;)w?6H2-OA8#O_*GppH8er2}bR5u*V+Xi+fjF+1!v?t0
+zEbd|6@Gk#f620PZpJcyT4q6wbEQ@r~MWW(ncXrZdNq7<a9Du_pG27Wm7yD)R@lN{p
+z!o}H|730WTSI~tu!qD55++ccRu2tk-_RUUOD~V|~JGFu~Rf-|Dj|J8eDBdh+_DTwK
+zAwIiitKqxgU;v>)&y204%^tfi064<+!+y7tHc4U*ov*l?u5H7C6*MF4cAm~=BQDrU
+zO>hu<;Kww{vJcZJ`+kjF#df?-=dyz%bPoIAAiXo+|1doojzVJxMubLpe823&1cCV1
+zD9s<<MQ??px`mV>nF!?Nw`hwbARIM6|55sEIHIKzj>al)&=|Y?BsIeRYdd@XUyEpd
+z;BoqXI0EgvZL+jWSC4<K&cEnV8i_)_fK~_o0-l!2K1>|6?kRe@CJH2y3C;5H{&bWs
+zr5-2`vXjV+thBKmKcP~d{)Ao#%g{3?QwhyxSN76XQU6U9Ck;GH-wuODL1@k57{!|5
+zy?Q7Yo~J(xM=dJ>$<DSXFikxe8~QP|^Yj0i9uEIMWLxuV`c^msEv#j;oo675q7ub>
+z9^M-w;|iOoyOXcdi(%PHB_L8b<4i1}9!QAO_c}fO(RO_4BG^&l#^zdC&8=(;dD)Ju
+zG@OrKr6<E-@H~fII!gZ{0#{Fbjj_(h>EisSZ_sB`A}vIl<uw&SA1&JNJhb1RE}sJA
+zJ$XKLx4gB;zlG2ZpLd_TX0n58<wX9*J#vx1l!v8TUIXnn)(_^d|E2t^(By7=w);0X
+zKbeR9=N6TVySH8GO82bK#MA6$TW-#OceA{N_*w4kHu>9PUYyTvmrvJC$~`X}kY}^>
+zet9u;W#id_Lyzy5mCEs-Y7%ipvs$*ZiwER6EP6nmJBf~VKwefRaw23HfvG(uH{|yp
+zkWW^uQ*!C9{!CnO*^y3o@3{@}w35qg&9#a)E}=lDe}B*5mTZUEFdc!**^y>Dza!U<
+z4D@ANxAgVoHni#H(AIW*-H_>9zab~yhtfSg_zNJ6Wvt=MKwRM;+m-J0a8Eqf)3I?V
+zo$W}sWe0Ohm9AX2CE>5cd-^uVr>}ZE1si*VogNLe0Z^GLM6h87{B$li-0BmbcJ71j
+z!KOym)EHV38Q7G=n46JTvlCwkHQf84_q!;E!+<2!oi@_F+naj_2Xh(txips^7>X<X
+zeGt<7vi*J8Olw~*GmsF=(-$7>9_$|+Zfo|E3(WRo3*sL|jNSgS9IKy+B=XsK=SR@+
+N&jsc)UA^0j{|`SsM&bYf
+
+delta 6998
+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
+
+diff --git a/netbox/project-static/dist/netbox.js b/netbox/project-static/dist/netbox.js
+index 29d8c792aa316b5e7c7af247c567ecd806cef840..f1db2b714b94da0189e019acb7daff764b9520ef 100644
+GIT binary patch
+delta 43
+xcmeC3CNXWAL_-T>3)2?n-9fy{1&QgYy2<%@C8>EO?fZk6ftY3c{vcMr9RO#!5Y7Mq
+
+delta 34
+ocmbO>O`><2L_-T>3)2?n-9ao#`6-p{CxV!Pm}UEkAXdK}0P0E&rT_o{
+
+diff --git a/netbox/project-static/dist/netbox.js.map b/netbox/project-static/dist/netbox.js.map
+index 56d3feb388d9c8eb70f1d6e57737882553e52003..ac41ce26be23d4549bb56702ff57ea9793c723d3 100644
+GIT binary patch
+delta 145
+zcmdn@GylZT{Dv0B7N!>F7M2#)7Pc1l7LFFq7OpMaNlF6B1&QgYy2<%@C8>EO>I${f
+zI)%mC8<e<#m<Nb?ftU}7`GHsfhy{UI2#AG&SOkbgfmm#NgOd1+r2?srj_FQ1&W?`G
+bK*F`mrCt4mI1oz!u_O>nZC5`bJ>3KVISer-
+
+delta 128
+zcmX@{Gk@RD{Dv0B7N!>F7M2#)7Pc1l7LFFq7OpMaNlGk9`6-p{`AXbC%mc){K+Ffk
+z{6H)K#DYL91jNEXECR%$KrFUBUrBt^Qhr}YM}Hk>M@MHM;cDsJZg@f*h$Vnn5{RX?
+K8=jD!ZUO+|&?=Dt
+
+diff --git a/netbox/project-static/src/bs.ts b/netbox/project-static/src/bs.ts
+index 8605e2c9..b25252fe 100644
+--- a/netbox/project-static/src/bs.ts
++++ b/netbox/project-static/src/bs.ts
+@@ -13,7 +13,7 @@ window.Tooltip = Tooltip;
+ 
+ function initTooltips() {
+   for (const tooltip of getElements('[data-bs-toggle="tooltip"]')) {
+-    new Tooltip(tooltip, { container: 'body' });
++    new Tooltip(tooltip, { container: '#page-content' });
+   }
+ }
+ 
+diff --git a/netbox/project-static/styles/_variables.scss b/netbox/project-static/styles/_variables.scss
+index a04f5db8..11b9b985 100644
+--- a/netbox/project-static/styles/_variables.scss
++++ b/netbox/project-static/styles/_variables.scss
+@@ -35,3 +35,22 @@ $primary: $dark-teal;
+ 
+ // Navbar active dropdown border color
+ $navbar-active-border-color: $dark-teal;
++
++// Palette AA — couleurs pleines avec texte blanc >= 4.5:1 (WCAG 1.4.3).
++// Les défauts Tabler échouent (btn-primary ~4.0, btn-yellow ~1.9, btn-green ~2.5) :
++// chaque teinte est assombrie vers son équivalent 700, famille conservée.
++$primary:   #007169;
++$dark-teal: #007169; // #00857D = ~3.8:1 sur le dégradé sidebar (1.4.3)
++$secondary: #525d6b;
++$blue:      #0a5fc0;
++$azure:     #1865b8;
++$indigo:    #3a56d4;
++$purple:    #a235bb;
++$pink:      #c22e60;
++$red:       #b02a2a;
++$orange:    #b54708;
++$yellow:    #7a5c00;
++$lime:      #4a750a;
++$green:     #1f7034;
++$teal:      #067057;
++$cyan:      #0d6e7f;
+diff --git a/netbox/project-static/styles/custom/_a11y.scss b/netbox/project-static/styles/custom/_a11y.scss
+new file mode 100644
+index 00000000..14754b0e
+--- /dev/null
++++ b/netbox/project-static/styles/custom/_a11y.scss
+@@ -0,0 +1,51 @@
++// Accessibilité WCAG 2.x — correctifs du banc (cycle 52).
++// La palette AA vit dans styles/_variables.scss (avant import Tabler).
++
++// 1) Cibles tactiles : les liens très compacts (badges dans les cellules de
++//    table, icône "clear ordering" des en-têtes triables) descendent sous les
++//    24x24 px requis par WCAG 2.5.8 (AA). On élargit la zone cliquable sans
++//    changer le rendu visuel (padding transparent).
++.table .badge > a,
++.table th a.text-danger,
++.badge > a {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  padding: 0.125rem 0.25rem;
++}
++
++// 2) Liens au fil du texte : WCAG 1.4.1 exige une distinction non colorimétrique
++//    quand le contraste du lien vs texte environnant < 3:1 — soulignement dans
++//    les cellules d'attributs (valeurs linkifiées des panels).
++.card td > span > a:not(.btn),
++.card td div span > a:not(.btn),
++.table td > span > a:not(.btn):not(.badge),
++.attr-table td span > a:not(.btn) {
++  text-decoration: underline;
++}
++
++// 3) Éléments désactivés : color-mix(40%) échoue partout — repli sur --tblr-muted.
++.dropdown-item.disabled,
++.dropdown-item:disabled {
++  color: var(--tblr-muted);
++}
++
++// 4) Thème sombre : --tblr-muted (gris-500) échoue sur fonds sombres
++//    (pied de page #081b2a ≈ 3.6:1). Basculer sur un gris plus clair.
++[data-bs-theme=dark],
++body[data-bs-theme=dark] {
++  --tblr-muted: #9ca3af;
++}
++
++// 5) Pied de page : le bandeau est sombre dans les deux thèmes (#081b2a) —
++//    --tblr-muted n'y atteint jamais 4.5:1. Texte clair dédié.
++#footer-stamp .list-inline-item,
++footer .list-inline-item {
++  color: #525d6b;
++}
++
++[data-bs-theme=dark] #footer-stamp .list-inline-item,
++[data-bs-theme=dark] footer .list-inline-item,
++body[data-bs-theme=dark] #footer-stamp .list-inline-item {
++  color: #a3aebf;
++}
+diff --git a/netbox/project-static/styles/netbox.scss b/netbox/project-static/styles/netbox.scss
+index 6dbd3484..75c90346 100644
+--- a/netbox/project-static/styles/netbox.scss
++++ b/netbox/project-static/styles/netbox.scss
+@@ -28,3 +28,4 @@
+ @import 'custom/misc';
+ @import 'custom/notifications';
+ @import 'custom/racks';
++@import 'custom/a11y';
+diff --git a/netbox/templates/base/40x.html b/netbox/templates/base/40x.html
+index 003da1a7..7ef453d6 100644
+--- a/netbox/templates/base/40x.html
++++ b/netbox/templates/base/40x.html
+@@ -7,7 +7,7 @@
+ <div class="row my-5">
+     <div class="col-6 offset-3">
+         <div class="card">
+-            <h2 class="card-header text-danger">
++            <h2 class="card-header text-bg-danger">
+                 {{ request_path }}
+             </h2>
+             <div class="card-body">
+diff --git a/netbox/templates/base/layout.html b/netbox/templates/base/layout.html
+index d8580837..cefc1d71 100644
+--- a/netbox/templates/base/layout.html
++++ b/netbox/templates/base/layout.html
+@@ -95,7 +95,7 @@ Blocks:
+ 
+     {# Page content #}
+     <div class="page-wrapper">
+-      <div id="page-content">
++      <main id="page-content">
+ 
+       {# Page header #}
+       {% block header %}
+@@ -230,7 +230,7 @@ Blocks:
+       {# /Page footer #}
+ 
+     {# /Page content #}
+-    </div>
++    </main>
+ 
+   </div>
+ {% endblock layout %}
+diff --git a/netbox/templates/dcim/device/inc/interface_table_controls.html b/netbox/templates/dcim/device/inc/interface_table_controls.html
+index 98371d41..fd831b39 100644
+--- a/netbox/templates/dcim/device/inc/interface_table_controls.html
++++ b/netbox/templates/dcim/device/inc/interface_table_controls.html
+@@ -2,7 +2,7 @@
+ {% load i18n %}
+ 
+ {% block extra_table_controls %}
+-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
++  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% trans "Display filters" %}">
+     <i class="mdi mdi-eye" aria-hidden="true"></i>
+   </button>
+   <ul class="dropdown-menu">
+diff --git a/netbox/templates/dcim/inc/rack_elevation.html b/netbox/templates/dcim/inc/rack_elevation.html
+index d2fb62e0..6b22cbcd 100644
+--- a/netbox/templates/dcim/inc/rack_elevation.html
++++ b/netbox/templates/dcim/inc/rack_elevation.html
+@@ -4,6 +4,7 @@
+     hx-get="{% url 'dcim-api:rack-elevation' pk=object.pk %}?face={{ face }}&render=svg{% if extra_params %}&{{ extra_params }}{% endif %}"
+     hx-trigger="intersect"
+     hx-swap="outerHTML"
++    role="img"
+     aria-label="{% trans "Rack elevation" %}"
+   >
+     <div class="d-flex justify-content-center align-items-center rack-loading-container">
+diff --git a/netbox/templates/extras/dashboard/widget.html b/netbox/templates/extras/dashboard/widget.html
+index 0238f4f4..d86b3e86 100644
+--- a/netbox/templates/extras/dashboard/widget.html
++++ b/netbox/templates/extras/dashboard/widget.html
+@@ -39,7 +39,7 @@
+         </a>
+       </div>
+     {% endwith %}
+-    <div class="card-body p-2 pt-1 overflow-auto">
++    <div class="card-body p-2 pt-1 overflow-auto" tabindex="0">
+       {% render_widget widget %}
+     </div>
+   </div>
+diff --git a/netbox/templates/generic/object_edit.html b/netbox/templates/generic/object_edit.html
+index 2149cae2..811ccb56 100644
+--- a/netbox/templates/generic/object_edit.html
++++ b/netbox/templates/generic/object_edit.html
+@@ -32,7 +32,7 @@ Context:
+ 
+     {# Link to model documentation #}
+     {% if settings.DOCS_ROOT and object.docs_url %}
+-      <a href="{{ object.docs_url }}" target="_blank" class="btn btn-outline-secondary" title="{% trans "View model documentation" %}" aria-label="{% trans "View model documentation" %}">
++      <a href="{{ object.docs_url }}" target="_blank" class="btn btn-outline-secondary" title="{% trans "View model documentation" %}" aria-label="{% trans "Help" %} — {% trans "View model documentation" %}">
+         <i class="mdi mdi-help-circle" aria-hidden="true"></i> {% trans "Help" %}
+       </a>
+     {% endif %}
+diff --git a/netbox/templates/htmx/delete_form.html b/netbox/templates/htmx/delete_form.html
+index c07e83d0..9f7f922b 100644
+--- a/netbox/templates/htmx/delete_form.html
++++ b/netbox/templates/htmx/delete_form.html
+@@ -9,7 +9,7 @@
+   {% endfor %}
+ 
+   <div class="modal-header">
+-    <h5 class="modal-title">{% trans "Confirm Deletion" %}</h5>
++    <h2 class="modal-title" id="htmx-modal-title">{% trans "Confirm Deletion" %}</h5>
+   </div>
+ 
+   <div class="modal-body">
+diff --git a/netbox/templates/htmx/notifications.html b/netbox/templates/htmx/notifications.html
+index bb28a108..012c711b 100644
+--- a/netbox/templates/htmx/notifications.html
++++ b/netbox/templates/htmx/notifications.html
+@@ -1,6 +1,6 @@
+ {% load i18n %}
+ <div class="card-header px-2 py-1">
+-  <h3 class="card-title flex-fill">Notifications</h3>
++  <h2 class="card-title flex-fill">Notifications</h2>
+   {% if notifications %}
+     <a href="#" hx-get="{% url 'extras:notification_dismiss_all' %}" hx-target="closest .notifications"
+        hx-confirm="{% blocktrans trimmed count count=unread_count %}Dismiss {{ count }} unread notification?{% plural %}Dismiss {{ count }} unread notifications?{% endblocktrans %}"
+diff --git a/netbox/templates/htmx/object_selector.html b/netbox/templates/htmx/object_selector.html
+index fa5bf510..44945d16 100644
+--- a/netbox/templates/htmx/object_selector.html
++++ b/netbox/templates/htmx/object_selector.html
+@@ -2,7 +2,7 @@
+ {% load i18n %}
+ 
+ <div class="modal-header">
+-  <h5 class="modal-title">{% trans "Select" %} {{ model|meta:"verbose_name"|bettertitle }}</h5>
++  <h2 class="modal-title" id="htmx-modal-title">{% trans "Select" %} {{ model|meta:"verbose_name"|bettertitle }}</h5>
+   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+ </div>
+ <div class="modal-body row">
+diff --git a/netbox/templates/htmx/quick_add.html b/netbox/templates/htmx/quick_add.html
+index 627657e7..f0a69817 100644
+--- a/netbox/templates/htmx/quick_add.html
++++ b/netbox/templates/htmx/quick_add.html
+@@ -3,7 +3,7 @@
+ {% load i18n %}
+ 
+ <div class="modal-header">
+-  <h2 class="modal-title">
++  <h2 class="modal-title" id="htmx-modal-title">
+     {% trans "Quick Add" %} {{ model|meta:"verbose_name"|bettertitle }}
+   </h2>
+   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+diff --git a/netbox/templates/htmx/quick_add_created.html b/netbox/templates/htmx/quick_add_created.html
+index 3b1a24c4..3d13bc31 100644
+--- a/netbox/templates/htmx/quick_add_created.html
++++ b/netbox/templates/htmx/quick_add_created.html
+@@ -3,7 +3,7 @@
+ {% load i18n %}
+ 
+ <div class="modal-header">
+-  <h2 class="modal-title">
++  <h2 class="modal-title" id="htmx-modal-title">
+     {{ object|meta:"verbose_name"|bettertitle }} {% trans "Created" %}
+   </h2>
+   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+diff --git a/netbox/templates/inc/htmx_modal.html b/netbox/templates/inc/htmx_modal.html
+index 1a475644..8269b975 100644
+--- a/netbox/templates/inc/htmx_modal.html
++++ b/netbox/templates/inc/htmx_modal.html
+@@ -1,4 +1,4 @@
+-<div class="modal modal-lg fade" id="htmx-modal" tabindex="-1" aria-hidden="true">
++<div class="modal modal-lg fade" id="htmx-modal" tabindex="-1" aria-hidden="true" aria-labelledby="htmx-modal-title">
+   <div class="modal-dialog{% if size %} modal-{{ size }}{% endif %}">
+     <div class="modal-content" id="htmx-modal-content">
+       {# Dynamic content goes here #}
+diff --git a/netbox/templates/inc/paginator.html b/netbox/templates/inc/paginator.html
+index 7b5ded15..5e27f2a1 100644
+--- a/netbox/templates/inc/paginator.html
++++ b/netbox/templates/inc/paginator.html
+@@ -12,7 +12,7 @@
+ 
+     {# Pages carousel #}
+     {% if paginator.num_pages > 1 %}
+-      <nav aria-label="{% trans "Page selection" %}">
++      {% if table.htmx_url %}<nav aria-label="{% trans "Page selection for" %} {{ table.htmx_url }}">{% else %}<nav aria-label="{% trans "Page selection" %}">{% endif %}
+         <ul class="pagination mb-0">
+ 
+           {# Previous page #}
+@@ -79,7 +79,7 @@
+     {# /Showing #}
+ 
+     {# Pagination options #}
+-    <nav aria-label="{% trans "Pagination options" %}">
++    {% if table.htmx_url %}<nav aria-label="{% trans "Pagination options for" %} {{ table.htmx_url }}">{% else %}<nav aria-label="{% trans "Pagination options" %}">{% endif %}
+       {% if page %}
+         <div class="dropdown dropdown-menu-end">
+           <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+diff --git a/netbox/templates/inc/table.html b/netbox/templates/inc/table.html
+index 90de745b..82d84c14 100644
+--- a/netbox/templates/inc/table.html
++++ b/netbox/templates/inc/table.html
+@@ -1,4 +1,5 @@
+ {% load django_tables2 %}
++{% load helpers %}
+ 
+ <table{% if table.attrs %} {{ table.attrs.as_html }}{% endif %}>
+   {% if table.show_header %}
+@@ -6,9 +7,9 @@
+       <tr>
+         {% for column in table.columns %}
+           {% if column.orderable %}
+-            <th {{ column.attrs.th.as_html }}><a href="{% querystring_replace table.prefixed_order_by_field=column.order_by_alias.next %}">{{ column.header }}</a></th>
++            <th {{ column.attrs.th.as_html }}><a href="{% querystring_replace table.prefixed_order_by_field=column.order_by_alias.next %}">{% if column.header %}{{ column.header }}{% elif column.attrs.th|get_key:"aria-label" %}<span class="visually-hidden">{{ column.attrs.th|get_key:"aria-label" }}</span>{% endif %}</a></th>
+           {% else %}
+-            <th {{ column.attrs.th.as_html }}>{{ column.header }}</th>
++            <th {{ column.attrs.th.as_html }}>{% if column.header %}{{ column.header }}{% elif column.attrs.th|get_key:"aria-label" %}<span class="visually-hidden">{{ column.attrs.th|get_key:"aria-label" }}</span>{% endif %}</th>
+           {% endif %}
+         {% endfor %}
+       </tr>
+diff --git a/netbox/templates/inc/table_controls_htmx.html b/netbox/templates/inc/table_controls_htmx.html
+index 67f2c950..84db60d4 100644
+--- a/netbox/templates/inc/table_controls_htmx.html
++++ b/netbox/templates/inc/table_controls_htmx.html
+@@ -37,7 +37,7 @@
+           <i class="mdi mdi-cog" aria-hidden="true"></i> {% trans "Configure Table" %}
+         </button>
+         {% if table.config_params or table_configs %}
+-          <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
++          <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{% trans "Saved table views" %}">
+             <span class="visually-hidden">{% trans "Toggle Dropdown" %}</span>
+           </button>
+           <div class="dropdown-menu">
+diff --git a/netbox/templates/inc/table_htmx.html b/netbox/templates/inc/table_htmx.html
+index bcb92965..c2194538 100644
+--- a/netbox/templates/inc/table_htmx.html
++++ b/netbox/templates/inc/table_htmx.html
+@@ -1,5 +1,6 @@
+ {% load django_tables2 %}
+ {% load i18n %}
++{% load helpers %}
+ <table{% if table.attrs %} {{ table.attrs.as_html }}{% endif %} hx-disinherit="hx-target hx-select" hx-swap="outerHTML">
+   {% if table.show_header %}
+     <thead
+@@ -21,10 +22,10 @@
+               {% endif %}
+               <a href="#"
+                  hx-get="{{ table.htmx_url }}{% querystring_replace table.prefixed_order_by_field=column.order_by_alias.next %}"
+-              >{{ column.header }}</a>
++              >{% if column.header %}{{ column.header }}{% elif column.attrs.th|get_key:"aria-label" %}<span class="visually-hidden">{{ column.attrs.th|get_key:"aria-label" }}</span>{% endif %}</a>
+             </th>
+           {% else %}
+-            <th {{ column.attrs.th.as_html }}>{{ column.header }}</th>
++            <th {{ column.attrs.th.as_html }}>{% if column.header %}{{ column.header }}{% elif column.attrs.th|get_key:"aria-label" %}<span class="visually-hidden">{{ column.attrs.th|get_key:"aria-label" }}</span>{% endif %}</th>
+           {% endif %}
+         {% endfor %}
+       </tr>
+diff --git a/netbox/templates/inc/user_menu.html b/netbox/templates/inc/user_menu.html
+index 327739c3..a7e49be5 100644
+--- a/netbox/templates/inc/user_menu.html
++++ b/netbox/templates/inc/user_menu.html
+@@ -21,7 +21,7 @@
+ 
+   {# User menu #}
+   <div class="nav-item dropdown">
+-    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="{% trans "Open user menu" %}" aria-expanded="false" role="button">
++    <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="{{ request.user }} {% if request.user.is_superuser %}{% trans "Admin" %}{% else %}{% trans "User" %}{% endif %} — {% trans "Open user menu" %}" aria-expanded="false" role="button">
+       <div class="d-xl-block ps-2">
+         <div>{{ request.user }}</div>
+         <div class="mt-1 small text-secondary">
+diff --git a/netbox/templates/login.html b/netbox/templates/login.html
+index f21d80e9..1abad892 100644
+--- a/netbox/templates/login.html
++++ b/netbox/templates/login.html
+@@ -7,7 +7,7 @@
+ {% block layout %}
+ 
+   <div class="page page-center">
+-    <div class="container container-tight py-4">
++    <main class="container container-tight py-4">
+ 
+       {# NetBox logo #}
+       <div class="text-center mb-4">
+@@ -36,7 +36,7 @@
+       <div class="card card-md">
+         {% if not login_form_hidden %}
+           <div class="card-body">
+-            <h2 class="text-center mb-4">{% trans "Log In" %}</h2>
++            <h1 class="text-center mb-4 h2">{% trans "Log In" %}</h1>
+ 
+             {# Login form #}
+             <form action="{% url 'login' %}" method="post">
+@@ -111,6 +111,6 @@
+       </div>
+ 
+     </div>
+-  </div>
++  </main>
+ 
+ {% endblock layout %}
+diff --git a/netbox/templates/search.html b/netbox/templates/search.html
+index 0ce0c029..50bed7dd 100644
+--- a/netbox/templates/search.html
++++ b/netbox/templates/search.html
+@@ -7,7 +7,7 @@
+ {% block title %}{% trans "Search" %}{% endblock %}
+ 
+ {% block tabs %}
+-  <ul class="nav nav-tabs">
++  <ul class="nav nav-tabs" role="tablist">
+     <li class="nav-item" role="presentation">
+       <button class="nav-link active" type="button" role="tab">
+         {% trans "Results" %}
+diff --git a/netbox/utilities/html.py b/netbox/utilities/html.py
+index 913680e8..0f283b5d 100644
+--- a/netbox/utilities/html.py
++++ b/netbox/utilities/html.py
+@@ -44,19 +44,34 @@ def clean_html(html, schemes):
+     )
+ 
+ 
++def _relative_luminance(hex_color):
++    r, g, b = [int(hex_color[c:c + 2], 16) / 255 for c in (0, 2, 4)]
++
++    def channel(c):
++        return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
++
++    return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
++
++
++def _contrast_ratio(lum1, lum2):
++    l1, l2 = max(lum1, lum2), min(lum1, lum2)
++    return (l1 + 0.05) / (l2 + 0.05)
++
++
+ def foreground_color(bg_color, dark='000000', light='ffffff'):
+     """
+     Return the ideal foreground color (dark or light) for a given background color in hexadecimal RGB format.
++    The candidate with the better WCAG 2.x contrast ratio is returned, so the chosen foreground always meets
++    the best achievable contrast for the pair of candidates.
+ 
+     :param dark: RBG color code for dark text
+     :param light: RBG color code for light text
+     """
+-    THRESHOLD = 150
+     bg_color = bg_color.strip('#')
+-    r, g, b = [int(bg_color[c:c + 2], 16) for c in (0, 2, 4)]
+-    if r * 0.299 + g * 0.587 + b * 0.114 > THRESHOLD:
+-        return dark
+-    return light
++    bg_lum = _relative_luminance(bg_color)
++    dark_ratio = _contrast_ratio(bg_lum, _relative_luminance(dark))
++    light_ratio = _contrast_ratio(bg_lum, _relative_luminance(light))
++    return dark if dark_ratio >= light_ratio else light
+ 
+ 
+ def highlight(value, highlight, trim_pre=None, trim_post=None, trim_placeholder='...'):
+diff --git a/netbox/utilities/templates/builtins/badge.html b/netbox/utilities/templates/builtins/badge.html
+index 85ce15c3..0791effc 100644
+--- a/netbox/utilities/templates/builtins/badge.html
++++ b/netbox/utilities/templates/builtins/badge.html
+@@ -1,5 +1,5 @@
+ {% load helpers %}
+ 
+ {% if value or show_empty %}
+-  {% if url %}<a href="{{ url }}">{% endif %}<span class="badge{% if not hex_color %} text-bg-{{ bg_color }}{% endif %}"{% if hex_color %} style="color: {{ hex_color|fgcolor }}; background-color: #{{ hex_color }}"{% endif %}>{{ value }}</span>{% if url %}</a>{% endif %}
++  {% if url %}<a href="{{ url }}" style="color: inherit">{% endif %}<span class="badge{% if not hex_color %} text-bg-{{ bg_color }}{% endif %}"{% if hex_color %} style="color: {{ hex_color|fgcolor }}; background-color: #{{ hex_color }}"{% endif %}>{{ value }}</span>{% if url %}</a>{% endif %}
+ {% endif %}
+diff --git a/netbox/utilities/templates/helpers/table_config_form.html b/netbox/utilities/templates/helpers/table_config_form.html
+index 2e7e1e68..beae386c 100644
+--- a/netbox/utilities/templates/helpers/table_config_form.html
++++ b/netbox/utilities/templates/helpers/table_config_form.html
+@@ -1,17 +1,17 @@
+ {% load form_helpers %}
+ {% load i18n %}
+ 
+-<div class="modal fade" tabindex="-1" id="{{ table_name }}_config">
++<div class="modal fade" tabindex="-1" id="{{ table_name }}_config" aria-labelledby="{{ table_name }}_config-title">
+   <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+       <div class="modal-header">
+-        <h5 class="modal-title">{% trans "Table Configuration" %}</h5>
++        <h2 class="modal-title" id="{{ table_name }}_config-title">{% trans "Table Configuration" %}</h2>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <form class="form-horizontal userconfigform" data-url="{% url 'users-api:userconfig-list' %}" data-config-root="tables.{{ form.table_name }}">
+         <div class="modal-body row">
+           <div class="col-5 text-center">
+-            {{ form.available_columns.label }}
++            {{ form.available_columns.label_tag }}
+             {{ form.available_columns }}
+           </div>
+           <div class="col-2 d-flex align-items-center">
+@@ -25,7 +25,7 @@
+             </div>
+           </div>
+           <div class="col-5 text-center">
+-            {{ form.columns.label }}
++            {{ form.columns.label_tag }}
+             {{ form.columns }}
+             <a tabindex="0" class="btn btn-primary btn-sm mt-2 move-option-up" data-target="columns">
+               <i class="mdi mdi-arrow-up-bold"></i> {% trans "Move Up" %}

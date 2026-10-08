@@ -1,0 +1,43 @@
+{
+ "cycle": 52,
+ "produit": "netbox",
+ "repo": "https://github.com/netbox-community/netbox",
+ "commit": "251458b89a5eb2f5fe0d20ecd1140ba08f141a9c",
+ "tag": "v4.7.2",
+ "stack": "Django 5 + django-tables2 + HTMX 2 + jQuery + Tabler/Bootstrap 5.3 (server-rendered) + TomSelect — DCIM/IPAM ; PostgreSQL 17 + Redis 7 — première stack Django SSR de la boucle",
+ "boot": {
+  "clone": "git clone + checkout du tag v4.7.2 (SHA épinglé 251458b89a5eb2f5fe0d20ecd1140ba08f141a9c)",
+  "install": "image nb52-app:v4.7.2 (tools/Dockerfile : python:3.12-slim + gcc/libpq + pip install -r requirements.txt verbatim du SHA)",
+  "run": "tools/boot.sh <checkout> [9300 9311 9312 \"\"] — postgres:17-alpine + redis:7-alpine + runserver --insecure (DEBUG=False, production-like) ; checkout bind-monté /opt/netbox → templates+static servis depuis les sources patchées du SHA",
+  "notes": [
+   "Écart image/SHA : AUCUN — pas d'image upstream utilisée ; l'image cycle n'embarque que les dépendances pip, le produit tourne depuis le checkout @SHA monté",
+   "static dist/ est suivi par git upstream : le patch inclut le bundle rebuildé (yarn bundle) — install-build applique le patch et sert déjà les bons assets sans node",
+   "DEBUG=False + --insecure → production-like ; INTERNAL_IPS=['8.8.8.8'] coupe la debug-toolbar ; les templates sont cachés en mémoire (cached loader, --noreload) : docker restart requis après édition template",
+   "seed : tools/seed.sh <app> <db> — manage.py shell + seed.py (superadmin bench-admin/AuditC52-Pass-Seed!, site dc-bench-paris, rack R01, device bench-srv-01, prefix 10.52.0.0/16, IPs, VLANs, VM, circuit, tunnel, tag) ; seed-info.json + urls-auth.resolved.txt régénérés par tools/gen-urls.sh <db-container> qui interroge la DB (leçons 44/46 — rejouable seul)",
+   "login : BASE_URL=http://localhost:9300 node tools/login.mjs — ATTENTION : argv ignoré, BASE_URL env obligatoire (wart connu login.mjs)"
+  ]
+ },
+ "tools": {
+  "runner": "tools/audit.mjs (runner v12-c50 ; STATES : nav-user-menu, nav-notifications-menu, nav-sidebar-section, table-config-modal, quick-add-modal, color-mode-toggle, mobile-390, route-404)",
+  "login": "tools/login.mjs (POST /login/ → storageState auth.json ; BASE_URL env)",
+  "verify": "tools/verify.mjs (23 assertions — helpers __c52 contraste/luminance, ids seed résolus dynamiquement)",
+  "eval": "tools/eval-final.mjs (12 contrôles indépendants — viewport zoom, lang, clavier, Escape, mobile 390, h1, titres)",
+  "probes": "tools/incomplete-probes.mjs (rejeu des états via [state:nom] + STATES ; gradients composés stop-par-stop, overlays d'état → N-A honnête, aria-controls TomSelect matérialisé à l'ouverture, duplicate-id compté live)",
+  "seed": "tools/seed.py + tools/seed.sh + tools/gen-urls.sh",
+  "boot": "tools/boot.sh + tools/Dockerfile + tools/configuration.py"
+ },
+ "auditCommands": [
+  "bash tools/boot.sh ~/work/netbox 9300 9311 9312",
+  "bash tools/seed.sh netbox52-app netbox52-db",
+  "bash tools/gen-urls.sh netbox52-db",
+  "BASE_URL=http://localhost:9300 node tools/login.mjs   # régénère tools/auth.json (avant chaque scan)",
+  "node audit.mjs http://localhost:9300 --urls $(tr '\\n' ',' < tools/urls-public.txt) --states none --out reports/final-public",
+  "node audit.mjs http://localhost:9300 --urls $(tr '\\n' ',' < tools/urls-auth.resolved.txt) --states all --storage-state tools/auth.json --out reports/final-auth",
+  "node tools/verify.mjs http://localhost:9300 tools/auth.json",
+  "node tools/eval-final.mjs http://localhost:9300 tools/auth.json",
+  "node tools/incomplete-probes.mjs http://localhost:9300 tools/auth.json",
+  "# install-build verbatim : git clone + checkout 251458b89a5eb2f5fe0d20ecd1140ba08f141a9c + git apply --check patch.diff + git apply patch.diff + bash tools/boot.sh <clone> 9380 9381 9382 -i + bash tools/seed.sh netbox52-app-i netbox52-db-i + bash tools/gen-urls.sh netbox52-db-i + BASE_URL=:9380 login + mêmes rescans :9380"
+ ],
+ "patch": "patch.diff (32 fichiers, +142/−54 — diff binaire inclus : dist/netbox.css|js|map rebuildés via yarn bundle) — sha256: b619add5aa2dd06b26ae93263daee2ea772aff30efbf189bbee00a349d4955b8",
+ "environnement": "node v24.19.0 (nvm), yarn 1.22 (project-static), python:3.12-slim (image nb52-app:v4.7.2, Dockerfile cycle), postgres:17-alpine, redis:7-alpine, axe-core 4.14.0 + playwright 1.63.0, chromium headless"
+}

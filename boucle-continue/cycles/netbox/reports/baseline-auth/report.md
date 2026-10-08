@@ -1,0 +1,2251 @@
+# Audit accessibilité — 2026-10-08
+
+**16 règle(s) violée(s), 1047 occurrence(s), 65/65 scénario(s) audité(s), 0 erreur(s), 1850 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `892e053dce50`
+
+## [CRITICAL] aria-required-parent — Certain ARIA roles must be contained by particular parents
+
+Ensure elements with an ARIA role that require parent roles are contained by them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-parent?application=axeAPI
+
+- http://localhost:9300/search/?q=bench
+  - `.active`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `.input-group-flat > .dropdown-toggle[data-bs-toggle="dropdown"][type="button"]`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `#id_available_columns`
+  - `#id_columns`
+
+## [SERIOUS] label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+Ensure that elements labelled through their content must have their visible text as part of their accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI
+
+- http://localhost:9300/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/search/?q=bench
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/sites/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/sites/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/sites/1/edit/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[href$="site/"]`
+- http://localhost:9300/dcim/sites/add/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[href$="site/"]`
+- http://localhost:9300/dcim/sites/import/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/racks/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/racks/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/device-types/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/device-types/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/1/edit/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[title="View model documentation"]`
+- http://localhost:9300/dcim/devices/add/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[title="View model documentation"]`
+- http://localhost:9300/dcim/devices/import/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/prefixes/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/prefixes/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/ip-addresses/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[title="View model documentation"]`
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[title="View model documentation"]`
+- http://localhost:9300/ipam/ip-ranges/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/vlans/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/vlans/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/vlan-groups/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/vlan-groups/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ipam/vrfs/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/tenancy/tenants/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/tenancy/tenants/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/virtualization/clusters/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/virtualization/clusters/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[title="View model documentation"]`
+- http://localhost:9300/wireless/wireless-lans/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/circuits/providers/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/circuits/providers/1/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/circuits/circuits/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/circuits/circuits/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/vpn/tunnels/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/vpn/tunnels/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/extras/tags/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/extras/tags/1/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/extras/journal-entries/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/extras/config-contexts/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/core/data-sources/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/core/config-revisions/
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/user/profile/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+- http://localhost:9300/user/preferences/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+- http://localhost:9300/user/bookmarks/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/user/api-tokens/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+- http://localhost:9300/user/password/
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+- http://localhost:9300/ [state:nav-user-menu]
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `.order-md-last > .dropdown.nav-item > .lh-1.text-reset[href="#"]`
+  - `a[title="View model documentation"]`
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `.order-md-last > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/ [state:mobile-390]
+  - `.d-lg-none.navbar-nav.flex-row > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"]`
+- http://localhost:9300/dcim/devices/99999/ [state:route-404]
+  - `.flex-row.d-lg-none.navbar-nav > .nav-item.dropdown > .lh-1.text-reset[href="#"]`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:9300/
+  - `.text-bg-orange.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+  - `.text-bg-green.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+- http://localhost:9300/search/?q=bench
+  - `.btn-primary`
+- http://localhost:9300/dcim/sites/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.text-bg-green`
+- http://localhost:9300/dcim/sites/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.align-items-start.justify-content-between.d-flex > .text-bg-green.badge`
+  - `.card-body > a > .badge`
+  - `.col-12.col-md:nth-child(2) > .card:nth-child(2) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.card:nth-child(1) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `td:nth-child(2) > .text-bg-green.badge`
+  - … +1 autres
+- http://localhost:9300/dcim/sites/1/edit/
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+- http://localhost:9300/dcim/sites/add/
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+  - `.btn-outline-primary`
+- http://localhost:9300/dcim/sites/import/
+  - `button[name="data_submit"]`
+- http://localhost:9300/dcim/racks/
+  - `a[href="/dcim/rack-elevations/?"]`
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.even > td:nth-child(9) > .badge > a[href="/dcim/rack-roles/1/"]`
+  - `.text-bg-yellow`
+  - `.odd > td:nth-child(9) > .badge > a[href="/dcim/rack-roles/1/"]`
+- http://localhost:9300/dcim/racks/1/
+  - `.btn-primary.dropdown-toggle[data-bs-toggle="dropdown"]`
+  - `.btn-primary.btn[href="/dcim/racks/2/"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `a[href="/dcim/rack-roles/1/"] > .badge`
+  - `.btn-ghost-primary`
+  - `.col.col-md-6.col-sm-6:nth-child(1) > div > .mt-3.text-center > .btn-outline-primary.btn[hx-boost="false"]`
+  - … +1 autres
+- http://localhost:9300/dcim/device-types/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/dcim/device-types/1/
+  - `.btn-primary`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.btn-ghost-primary`
+- http://localhost:9300/dcim/devices/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.even:nth-child(1) > td:nth-child(3) > .text-bg-green.badge`
+  - `.even:nth-child(1) > td:nth-child(8) > .badge > a[href="/dcim/device-roles/1/"]`
+  - `.odd > td:nth-child(3) > .text-bg-green.badge`
+  - `.text-bg-info`
+  - `.text-bg-cyan`
+  - `.even:nth-child(3) > td:nth-child(8) > .badge > a[href="/dcim/device-roles/1/"]`
+- http://localhost:9300/dcim/devices/1/
+  - `#add-components`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.card-body > a:nth-child(1) > .badge`
+  - `.card:nth-child(4) > .card-header > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.text-bg-green`
+  - `a[href="/dcim/device-roles/1/"] > .badge`
+  - … +6 autres
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `#add-components`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `a[href$="edit/"]`
+  - `a[hx-get="/dcim/devices/1/delete/"]`
+- http://localhost:9300/dcim/devices/1/edit/
+  - `a[href$="json.org/"]`
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+- http://localhost:9300/dcim/devices/add/
+  - `a[href$="json.org/"]`
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+  - `.btn-outline-primary`
+- http://localhost:9300/dcim/devices/import/
+  - `button[name="data_submit"]`
+- http://localhost:9300/ipam/prefixes/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/ipam/prefixes/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.btn-ghost-primary`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `.mb-2 > .btn-primary.btn`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `a[href$="edit/"]`
+  - `a[hx-get="/ipam/prefixes/1/delete/"]`
+  - `.success.even > td:nth-child(2) > .btn-success.btn-sm.btn`
+  - `.success.even > td:nth-child(4) > .text-bg-success.badge`
+  - `.success.odd > td:nth-child(2) > .btn-success.btn-sm.btn`
+  - `.success.odd > td:nth-child(4) > .text-bg-success.badge`
+- http://localhost:9300/ipam/ip-addresses/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `#pc3upatf_1_tab`
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `#pc3upatf_1_tab`
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+  - `.btn-outline-primary`
+- http://localhost:9300/ipam/ip-ranges/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+- http://localhost:9300/ipam/vlans/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.text-bg-red`
+- http://localhost:9300/ipam/vlans/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.btn-ghost-primary`
+- http://localhost:9300/ipam/vlan-groups/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/ipam/vlan-groups/1/
+  - `.btn-primary`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-yellow`
+  - `.btn-red`
+- http://localhost:9300/ipam/vrfs/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/tenancy/tenants/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/tenancy/tenants/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+- http://localhost:9300/virtualization/clusters/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.text-bg-green`
+- http://localhost:9300/virtualization/clusters/1/
+  - `.btn-primary.btn:nth-child(1)`
+  - `.btn-primary.btn:nth-child(2)`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(4) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.text-bg-green`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `.btn-primary.btn[role="button"]`
+  - `.btn-cyan`
+  - `.text-bg-green`
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `#add-components`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.text-bg-green`
+  - `.card:nth-child(3) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.card:nth-child(4) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.row:nth-child(2) > .col-12.col-md > .card > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `a[href$="json.org/"]`
+  - `#comments-input-tab`
+  - `#id_comments_helptext > a[target="_blank"]`
+  - `.btn-primary`
+- http://localhost:9300/wireless/wireless-lans/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.text-bg-green`
+  - `.text-bg-orange`
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.badge`
+- http://localhost:9300/circuits/providers/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/circuits/providers/1/
+  - `.btn-primary`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.card:nth-child(1) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.card:nth-child(2) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.text-bg-green`
+- http://localhost:9300/circuits/circuits/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.text-bg-green`
+- http://localhost:9300/circuits/circuits/1/
+  - `form[method="post"]:nth-child(1) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.badge`
+  - `.col-12.col-md:nth-child(1) > .card:nth-child(2) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.card:nth-child(1) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.col-12.col-md:nth-child(2) > .card:nth-child(2) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+  - `.card:nth-child(3) > h2 > .card-actions > .btn-ghost-primary.btn-sm.btn`
+- http://localhost:9300/vpn/tunnels/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.text-bg-green`
+- http://localhost:9300/vpn/tunnels/1/
+  - `.btn-primary`
+  - `form[method="post"]:nth-child(2) > .btn-cyan[type="submit"]`
+  - `form[method="post"]:nth-child(3) > .btn-cyan[type="submit"]`
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+  - `.badge`
+  - `.btn-ghost-primary`
+- http://localhost:9300/extras/tags/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/extras/tags/1/
+  - `.btn-green`
+  - `.btn-yellow`
+  - `.btn-red`
+- http://localhost:9300/extras/journal-entries/
+  - `.btn-cyan`
+- http://localhost:9300/extras/config-contexts/
+  - `.btn-primary[role="button"][href$="add/"]`
+- http://localhost:9300/core/data-sources/
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+- http://localhost:9300/core/config-revisions/
+  - `.btn-primary[role="button"][href$="add/"]`
+- http://localhost:9300/user/profile/
+  - `.btn-ghost-primary`
+- http://localhost:9300/user/preferences/
+  - `.btn-primary`
+- http://localhost:9300/user/api-tokens/
+  - `.btn-primary`
+- http://localhost:9300/user/password/
+  - `.btn-primary`
+- http://localhost:9300/ [state:nav-user-menu]
+  - `.text-bg-orange.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `.disabled`
+  - `.text-bg-orange.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `.text-bg-orange.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+  - `.text-bg-green.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `.btn-primary[role="button"][href$="add/"]`
+  - `.btn-cyan`
+  - `.even:nth-child(1) > td:nth-child(3) > .text-bg-green.badge`
+  - `.even:nth-child(1) > td:nth-child(8) > .badge > a[href="/dcim/device-roles/1/"]`
+  - `.odd > td:nth-child(3) > .text-bg-green.badge`
+  - `.text-bg-info`
+  - `.text-bg-cyan`
+  - `.even:nth-child(3) > td:nth-child(8) > .badge > a[href="/dcim/device-roles/1/"]`
+  - `#add_columns`
+  - `#remove_columns`
+  - … +4 autres
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `button[name="_create"]`
+  - `.btn-outline-primary`
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `.text-bg-orange.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+  - `.text-bg-green.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+  - `#footer-stamp > .list-inline-item:nth-child(1)`
+  - `#footer-stamp > .list-inline-item:nth-child(2)`
+- http://localhost:9300/ [state:mobile-390]
+  - `.text-bg-orange.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+  - `.text-bg-green.card-header.flex-row > .card-title.text-center.flex-fill > .fs-4`
+  - `#footer-stamp > .list-inline-item:nth-child(1)`
+  - `#footer-stamp > .list-inline-item:nth-child(2)`
+- http://localhost:9300/dcim/devices/99999/ [state:route-404]
+  - `h2`
+  - `#footer-stamp > .list-inline-item:nth-child(1)`
+  - `#footer-stamp > .list-inline-item:nth-child(2)`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:9300/
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/dcim/sites/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/dcim/sites/1/
+  - `.col-12.col-md:nth-child(2) > .card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `a[href="/dcim/locations/1/"]:nth-child(1)`
+  - `.row:nth-child(2) > .col-12.col-md > .card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/dcim/racks/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/dcim/racks/1/
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/dcim/device-types/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/dcim/device-types/1/
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/dcim/devices/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/dcim/devices/1/
+  - `.card:nth-child(4) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.card:nth-child(3) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `a[hx-get="?sort=actions"]`
+  - `tr[data-name="eth0"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(2)`
+  - `tr[data-name="eth0"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(3)`
+  - `tr[data-name="eth1"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(2)`
+  - `tr[data-name="eth1"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(3)`
+  - `tr[data-name="eth2"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(2)`
+  - `tr[data-name="eth2"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(3)`
+  - `tr[data-name="eth3"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(2)`
+  - `tr[data-name="eth3"] > .noprint.p-1.text-end > .disabled.btn-outline-secondary[href="#"]:nth-child(3)`
+- http://localhost:9300/ipam/prefixes/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `a[hx-get="?sort=actions"]`
+  - `a[href="/dcim/interfaces/1/"]`
+- http://localhost:9300/ipam/ip-addresses/
+  - `a[hx-get="?sort=actions"]`
+  - `a[href="/dcim/interfaces/1/"]`
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `.orderable[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/ipam/ip-ranges/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/ipam/vlans/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/ipam/vlans/1/
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/ipam/vlan-groups/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/ipam/vrfs/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/tenancy/tenants/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/virtualization/clusters/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `.card:nth-child(3) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.card:nth-child(4) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.row:nth-child(2) > .col-12.col-md > .card > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/wireless/wireless-lans/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/circuits/providers/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/circuits/providers/1/
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/circuits/circuits/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/circuits/circuits/1/
+  - `.card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+  - `.card:nth-child(3) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/vpn/tunnels/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/vpn/tunnels/1/
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/extras/tags/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/extras/journal-entries/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/extras/config-contexts/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/core/data-sources/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/core/config-revisions/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/user/bookmarks/
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/user/api-tokens/
+  - `a[href="?sort=actions"]`
+- http://localhost:9300/ [state:nav-user-menu]
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `a[hx-get="?sort=actions"]`
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `th[aria-label="Actions"] > a[href="#"]`
+- http://localhost:9300/ [state:mobile-390]
+  - `th[aria-label="Actions"] > a[href="#"]`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:9300/search/?q=bench
+  - `.even:nth-child(3) > td:nth-child(5) > .badge.text-bg-secondary:nth-child(2) > a[href="/dcim/locations/1/"]`
+  - `a[href="/dcim/device-roles/1/"]`
+  - `.odd:nth-child(4) > td:nth-child(5) > .badge.text-bg-secondary:nth-child(2) > a[href="/dcim/locations/1/"]`
+  - `a[href="/dcim/device-roles/2/"]`
+  - `.odd:nth-child(22) > td:nth-child(5) > .badge.text-bg-secondary:nth-child(1) > a`
+  - `.badge.text-bg-secondary:nth-child(4) > a[href="/dcim/sites/1/"]`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `.text-danger`
+
+## [SERIOUS] aria-dialog-name — ARIA dialog and alertdialog nodes should have an accessible name
+
+Ensure every ARIA dialog and alertdialog node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-dialog-name?application=axeAPI
+
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `#ObjectTable_config`
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `#htmx-modal`
+
+## [SERIOUS] list — <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+
+Ensure that lists are structured correctly
+Référence : https://dequeuniversity.com/rules/axe/4.14/list?application=axeAPI
+
+- http://localhost:9300/search/?q=bench
+  - `.nav`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI
+
+- http://localhost:9300/dcim/devices/1/
+  - `span > a[href="/dcim/racks/1/"]`
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI
+
+- http://localhost:9300/ [state:mobile-390]
+  - `div[gs-h="2"][gs-x="8"][gs-y="0"] > .card.grid-stack-item-content > .card-body.p-2.pt-1`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:9300/
+  - `#dashboard`
+- http://localhost:9300/search/?q=bench
+  - `.page-header`
+  - `.mb-3.row:nth-child(1)`
+  - `.mb-3.row:nth-child(2) > .col-sm-3.text-lg-end`
+  - `.ts-wrapper.multi.plugin-remove_button > .ts-control`
+  - `.mb-3.row:nth-child(3) > .col-sm-3.text-lg-end`
+  - `.ts-wrapper.single.form-select > .ts-control`
+  - `table`
+  - `small`
+- http://localhost:9300/dcim/sites/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/dcim/sites/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.row:nth-child(1)`
+  - `.row:nth-child(2) > .col-12.col-md > .card:nth-child(1) > h2`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead`
+  - `.text-nowrap:nth-child(1)`
+  - `.even > td:nth-child(2)`
+  - `td:nth-child(3)`
+  - `td:nth-child(4)`
+  - … +8 autres
+- http://localhost:9300/dcim/sites/1/edit/
+  - `.page-header`
+  - `.page-body`
+- http://localhost:9300/dcim/sites/add/
+  - `.page-header`
+  - `.page-body`
+- http://localhost:9300/dcim/sites/import/
+  - `.page-header`
+  - `#import-form`
+  - `.my-3.row`
+  - `p:nth-child(5)`
+  - `p:nth-child(6)`
+- http://localhost:9300/dcim/racks/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `a[href="/dcim/rack-elevations/?"]`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/dcim/racks/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.mt-2.d-print-none.container-fluid > .justify-content-between.d-flex > div:nth-child(1)`
+  - `div[aria-label="RackNavigation"]`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/dcim/device-types/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/dcim/device-types/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/dcim/devices/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/dcim/devices/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `label[for="quicksearch"]`
+  - `#quicksearch`
+  - `#saved-filter-select-ts-label > .visually-hidden`
+  - `.ts-control`
+  - `thead`
+  - `tr[data-name="eth0"] > .w-1`
+  - `tr[data-name="eth0"] > .text-nowrap:nth-child(2)`
+  - … +52 autres
+- http://localhost:9300/dcim/devices/1/edit/
+  - `.page-header`
+  - `.page-body`
+- http://localhost:9300/dcim/devices/add/
+  - `.page-header`
+  - `.page-body`
+- http://localhost:9300/dcim/devices/import/
+  - `.page-header`
+  - `#import-form`
+  - `.my-3.row`
+  - `p:nth-child(5)`
+  - `p:nth-child(6)`
+- http://localhost:9300/ipam/prefixes/
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/ipam/prefixes/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.mt-2.d-print-none.container-fluid > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.mb-2 > .btn-primary.btn`
+  - `.page-tabs`
+  - `label[for="quicksearch"]`
+  - `#quicksearch`
+  - `#saved-filter-select-ts-label > .visually-hidden`
+  - `.ts-control`
+  - `thead`
+  - `.success.even`
+  - … +133 autres
+- http://localhost:9300/ipam/ip-addresses/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.row:nth-child(1) > .col-12.col-md:nth-child(1)`
+  - `.col-12.col-md:nth-child(2) > .card:nth-child(1) > h2`
+  - `.card:nth-child(1) > .table-responsive > .object-list > thead`
+  - `.even > .text-nowrap:nth-child(1)`
+  - `.even > td:nth-child(2)`
+  - `.even > td:nth-child(3)`
+  - `.even > td:nth-child(4)`
+  - … +17 autres
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `.page-header`
+  - `.field-group[aria-label="IP Address"][role="group"]`
+  - `div[aria-label="Tenancy"]`
+  - `div[aria-label="Assignment"]`
+  - `div[aria-label="NAT IP (Inside)"]`
+  - `.field-group.mb-5:nth-child(6) > .row:nth-child(1)`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(2) > .col-sm-3.text-lg-end`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(2) > .col > .d-flex > .ts-wrapper.api-select.single > .ts-control`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(3) > .col-sm-3.text-lg-end`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(3) > .col > .d-flex > .has-options.ts-wrapper.api-select > .ts-control`
+  - … +6 autres
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `.page-header`
+  - `.field-group[aria-label="IP Address"][role="group"]`
+  - `div[aria-label="Tenancy"]`
+  - `div[aria-label="Assignment"]`
+  - `div[aria-label="NAT IP (Inside)"]`
+  - `.field-group.mb-5:nth-child(6) > .row:nth-child(1)`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(2) > .col-sm-3.text-lg-end`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(2) > .col > .d-flex > .ts-wrapper.api-select.single > .ts-control`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(3) > .col-sm-3.text-lg-end`
+  - `.field-group.mb-5:nth-child(6) > .mb-3.row:nth-child(3) > .col > .d-flex > .has-options.ts-wrapper.api-select > .ts-control`
+  - … +6 autres
+- http://localhost:9300/ipam/ip-ranges/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.mt-2.d-print-none.container-fluid > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/ipam/vlans/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/ipam/vlans/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/ipam/vlan-groups/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/ipam/vlan-groups/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.mt-2.d-print-none.container-fluid > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.btn-primary`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/ipam/vrfs/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/tenancy/tenants/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/tenancy/tenants/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/virtualization/clusters/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/virtualization/clusters/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.mt-2.d-print-none.container-fluid > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.btn-primary.btn:nth-child(1)`
+  - `.btn-primary.btn:nth-child(2)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `.page-header`
+  - `.page-body`
+- http://localhost:9300/wireless/wireless-lans/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/circuits/providers/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/circuits/providers/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.btn-primary`
+  - `.page-tabs`
+  - `.row:nth-child(1)`
+  - `.row:nth-child(2) > .col-12.col-md > .card:nth-child(1) > h2`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > tbody > .even > td:nth-child(1)`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > tbody > .even > td:nth-child(2)`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > tbody > .even > td:nth-child(3)`
+  - … +15 autres
+- http://localhost:9300/circuits/circuits/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/circuits/circuits/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.mt-2.d-print-none.container-fluid > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/vpn/tunnels/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/vpn/tunnels/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.btn-primary`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/extras/tags/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/extras/tags/1/
+  - `.page-header > .container-fluid:nth-child(1)`
+  - `.justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `.page-body`
+- http://localhost:9300/extras/journal-entries/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/extras/config-contexts/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/core/data-sources/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/core/config-revisions/
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/user/profile/
+  - `#page-content`
+- http://localhost:9300/user/preferences/
+  - `.page-header`
+  - `div[aria-label="User Interface"]`
+  - `div[aria-label="Miscellaneous"]`
+  - `.my-5`
+  - `.btn-outline-secondary`
+- http://localhost:9300/user/bookmarks/
+  - `.page-header`
+  - `.row`
+- http://localhost:9300/user/api-tokens/
+  - `.page-header`
+  - `.row:nth-child(1)`
+  - `thead`
+  - `td:nth-child(1)`
+  - `td:nth-child(2)`
+  - `td:nth-child(5)`
+  - `td:nth-child(6)`
+  - `a[aria-label="Edit"]`
+  - `.btn-warning.dropdown-toggle[data-bs-toggle="dropdown"]`
+  - `small`
+- http://localhost:9300/user/password/
+  - `.page-header`
+  - `.field-group`
+  - `.btn-outline-secondary`
+- http://localhost:9300/ [state:nav-user-menu]
+  - `#dashboard`
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `#dashboard`
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `#dashboard`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `.mt-2.container-fluid.d-print-none > .justify-content-between.d-flex > div:nth-child(1)`
+  - `.page-tabs`
+  - `#object-list`
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `.page-header`
+  - `.page-body`
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `#dashboard`
+  - `#tooltip565712`
+  - `#tooltip594133`
+- http://localhost:9300/ [state:mobile-390]
+  - `#dashboard`
+- http://localhost:9300/dcim/devices/99999/ [state:route-404]
+  - `#page-content`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://localhost:9300/
+  - `html`
+- http://localhost:9300/search/?q=bench
+  - `html`
+- http://localhost:9300/dcim/sites/
+  - `html`
+- http://localhost:9300/dcim/sites/1/
+  - `html`
+- http://localhost:9300/dcim/sites/1/edit/
+  - `html`
+- http://localhost:9300/dcim/sites/add/
+  - `html`
+- http://localhost:9300/dcim/sites/import/
+  - `html`
+- http://localhost:9300/dcim/racks/
+  - `html`
+- http://localhost:9300/dcim/racks/1/
+  - `html`
+- http://localhost:9300/dcim/device-types/
+  - `html`
+- http://localhost:9300/dcim/device-types/1/
+  - `html`
+- http://localhost:9300/dcim/devices/
+  - `html`
+- http://localhost:9300/dcim/devices/1/
+  - `html`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `html`
+- http://localhost:9300/dcim/devices/1/edit/
+  - `html`
+- http://localhost:9300/dcim/devices/add/
+  - `html`
+- http://localhost:9300/dcim/devices/import/
+  - `html`
+- http://localhost:9300/ipam/prefixes/
+  - `html`
+- http://localhost:9300/ipam/prefixes/1/
+  - `html`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `html`
+- http://localhost:9300/ipam/ip-addresses/
+  - `html`
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `html`
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `html`
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `html`
+- http://localhost:9300/ipam/ip-ranges/
+  - `html`
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `html`
+- http://localhost:9300/ipam/vlans/
+  - `html`
+- http://localhost:9300/ipam/vlans/1/
+  - `html`
+- http://localhost:9300/ipam/vlan-groups/
+  - `html`
+- http://localhost:9300/ipam/vlan-groups/1/
+  - `html`
+- http://localhost:9300/ipam/vrfs/
+  - `html`
+- http://localhost:9300/tenancy/tenants/
+  - `html`
+- http://localhost:9300/tenancy/tenants/1/
+  - `html`
+- http://localhost:9300/virtualization/clusters/
+  - `html`
+- http://localhost:9300/virtualization/clusters/1/
+  - `html`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `html`
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `html`
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `html`
+- http://localhost:9300/wireless/wireless-lans/
+  - `html`
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `html`
+- http://localhost:9300/circuits/providers/
+  - `html`
+- http://localhost:9300/circuits/providers/1/
+  - `html`
+- http://localhost:9300/circuits/circuits/
+  - `html`
+- http://localhost:9300/circuits/circuits/1/
+  - `html`
+- http://localhost:9300/vpn/tunnels/
+  - `html`
+- http://localhost:9300/vpn/tunnels/1/
+  - `html`
+- http://localhost:9300/extras/tags/
+  - `html`
+- http://localhost:9300/extras/tags/1/
+  - `html`
+- http://localhost:9300/extras/journal-entries/
+  - `html`
+- http://localhost:9300/extras/config-contexts/
+  - `html`
+- http://localhost:9300/core/data-sources/
+  - `html`
+- http://localhost:9300/core/config-revisions/
+  - `html`
+- http://localhost:9300/user/profile/
+  - `html`
+- http://localhost:9300/user/preferences/
+  - `html`
+- http://localhost:9300/user/bookmarks/
+  - `html`
+- http://localhost:9300/user/api-tokens/
+  - `html`
+- http://localhost:9300/user/password/
+  - `html`
+- http://localhost:9300/ [state:nav-user-menu]
+  - `html`
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `html`
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `html`
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `html`
+- http://localhost:9300/ [state:mobile-390]
+  - `html`
+- http://localhost:9300/dcim/devices/99999/ [state:route-404]
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI
+
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `h3`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `h5`
+
+## [MODERATE] landmark-unique — Landmarks should have a unique role or role/label/title (i.e. accessible name) combination
+
+Ensure landmarks are unique
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-unique?application=axeAPI
+
+- http://localhost:9300/circuits/providers/1/
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .border-top.p-2[hx-disinherit="hx-select"] > nav`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:9300/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/sites/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/sites/1/
+  - `.col-12.col-md:nth-child(2) > .card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.row:nth-child(2) > .col-12.col-md > .card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"]`
+- http://localhost:9300/dcim/racks/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/racks/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/device-types/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/device-types/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/devices/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/devices/1/
+  - `.card:nth-child(4) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.card:nth-child(3) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/prefixes/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/prefixes/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/ip-addresses/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `.card:nth-child(1) > .table-responsive > .object-list > thead > tr > th[aria-label="Actions"]`
+  - `.orderable[aria-label="Actions"]`
+- http://localhost:9300/ipam/ip-ranges/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/vlans/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/vlans/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/vlan-groups/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ipam/vrfs/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/tenancy/tenants/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/virtualization/clusters/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `.card:nth-child(3) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.card:nth-child(4) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.row:nth-child(2) > .col-12.col-md > .card > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+- http://localhost:9300/wireless/wireless-lans/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/circuits/providers/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/circuits/providers/1/
+  - `.card:nth-child(1) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"] > thead > tr > .orderable[aria-label="Actions"]`
+- http://localhost:9300/circuits/circuits/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/circuits/circuits/1/
+  - `.card:nth-child(2) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+  - `.card:nth-child(3) > .htmx-container.table-responsive > .object-list[hx-disinherit="hx-target hx-select"][hx-swap="outerHTML"] > thead > tr > .orderable[aria-label="Actions"]`
+- http://localhost:9300/vpn/tunnels/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/vpn/tunnels/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/extras/tags/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/extras/tags/1/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/extras/journal-entries/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/extras/config-contexts/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/core/data-sources/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/core/config-revisions/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/user/profile/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/user/bookmarks/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/user/api-tokens/
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ [state:nav-user-menu]
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `th[aria-label="Actions"]`
+- http://localhost:9300/ [state:mobile-390]
+  - `th[aria-label="Actions"]`
+
+## Résultats incomplets à revoir (1850)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9300/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +24 autres
+- http://localhost:9300/search/?q=bench
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +12 autres
+- http://localhost:9300/dcim/sites/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +11 autres
+- http://localhost:9300/dcim/sites/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +17 autres
+- http://localhost:9300/dcim/sites/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +20 autres
+- http://localhost:9300/dcim/sites/add/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +20 autres
+- http://localhost:9300/dcim/sites/import/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pb-1.fw-bold:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pb-1.fw-bold:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +12 autres
+- http://localhost:9300/dcim/racks/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="racks/"]`
+  - `a[href$="rack-reservations/"]`
+  - `a[href$="rack-elevations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(5)`
+  - `a[href$="rack-groups/"]`
+  - `a[href$="rack-roles/"]`
+  - … +10 autres
+- http://localhost:9300/dcim/racks/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="racks/"]`
+  - `a[href$="rack-reservations/"]`
+  - `a[href$="rack-elevations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(5)`
+  - `a[href$="rack-groups/"]`
+  - `a[href$="rack-roles/"]`
+  - … +10 autres
+- http://localhost:9300/dcim/device-types/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/device-types/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/devices/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/devices/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +12 autres
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/devices/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +34 autres
+- http://localhost:9300/dcim/devices/add/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +31 autres
+- http://localhost:9300/dcim/devices/import/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pb-1.fs-5:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +14 autres
+- http://localhost:9300/ipam/prefixes/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/prefixes/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `.flex-fill.py-1[href$="ip-ranges/"]`
+  - … +10 autres
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `.flex-fill.py-1[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/ip-addresses/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +12 autres
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +19 autres
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +20 autres
+- http://localhost:9300/ipam/ip-ranges/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.py-0.align-items-center.dropdown-item:nth-child(2) > a[href$="ip-addresses/"]`
+  - `.flex-fill.py-1[href$="ip-ranges/"]`
+  - … +10 autres
+- http://localhost:9300/ipam/vlans/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +16 autres
+- http://localhost:9300/ipam/vlans/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +15 autres
+- http://localhost:9300/ipam/vlan-groups/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +17 autres
+- http://localhost:9300/ipam/vlan-groups/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +17 autres
+- http://localhost:9300/ipam/vrfs/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +17 autres
+- http://localhost:9300/tenancy/tenants/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +15 autres
+- http://localhost:9300/tenancy/tenants/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `.flex-fill.py-1[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +15 autres
+- http://localhost:9300/virtualization/clusters/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +14 autres
+- http://localhost:9300/virtualization/clusters/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +14 autres
+- http://localhost:9300/virtualization/virtual-machines/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +14 autres
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +13 autres
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - … +29 autres
+- http://localhost:9300/wireless/wireless-lans/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3`
+  - `a[href$="wireless-lans/"]`
+  - `a[href$="wireless-lan-groups/"]`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - … +13 autres
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3`
+  - `.flex-fill.py-1[href$="wireless-lans/"]`
+  - `a[href$="wireless-lan-groups/"]`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - … +12 autres
+- http://localhost:9300/circuits/providers/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +15 autres
+- http://localhost:9300/circuits/providers/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +16 autres
+- http://localhost:9300/circuits/circuits/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +15 autres
+- http://localhost:9300/circuits/circuits/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/vpn/tunnels/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="tunnels/"]`
+  - … +14 autres
+- http://localhost:9300/vpn/tunnels/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="tunnels/"]`
+  - … +13 autres
+- http://localhost:9300/extras/tags/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/extras/tags/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +15 autres
+- http://localhost:9300/extras/journal-entries/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +16 autres
+- http://localhost:9300/extras/config-contexts/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/core/data-sources/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/core/config-revisions/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +20 autres
+- http://localhost:9300/user/profile/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/user/preferences/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +17 autres
+- http://localhost:9300/user/bookmarks/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/user/api-tokens/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/user/password/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/ [state:nav-user-menu]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +27 autres
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +25 autres
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `div[data-bs-popper="static"] > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pt-3.pb-1:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `div[data-bs-popper="static"] > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pt-3.pb-1:nth-child(6)`
+  - `.flex-fill.py-1[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +26 autres
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +15 autres
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +21 autres
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +24 autres
+- http://localhost:9300/ [state:mobile-390]
+  - `.netbox-edition`
+  - `.d-lg-none.navbar-nav.flex-row > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"] > .d-xl-block.ps-2 > div:nth-child(1)`
+  - `.d-lg-none.navbar-nav.flex-row > .nav-item.dropdown > .lh-1.text-reset[aria-label="Open user menu"] > .d-xl-block.ps-2 > .mt-1.small.text-secondary`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - … +34 autres
+- http://localhost:9300/dcim/devices/99999/ [state:route-404]
+  - `.netbox-edition`
+  - `.flex-row.d-lg-none.navbar-nav > .nav-item.dropdown > .lh-1.text-reset[href="#"] > .d-xl-block.ps-2 > div:nth-child(1)`
+  - `.flex-row.d-lg-none.navbar-nav > .nav-item.dropdown > .lh-1.text-reset[href="#"] > .d-xl-block.ps-2 > .mt-1.small.text-secondary`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:9300/search/?q=bench
+  - `#id_obj_types-ts-control`
+  - `#id_lookup-ts-control`
+- http://localhost:9300/dcim/sites/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/sites/1/edit/
+  - `#id_status-ts-control`
+  - `#id_region-ts-control`
+  - `#id_group-ts-control`
+  - `#id_asns-ts-control`
+  - `#id_time_zone-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_owner_group-ts-control`
+  - `#id_owner-ts-control`
+- http://localhost:9300/dcim/sites/add/
+  - `#id_status-ts-control`
+  - `#id_region-ts-control`
+  - `#id_group-ts-control`
+  - `#id_asns-ts-control`
+  - `#id_time_zone-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_owner_group-ts-control`
+  - `#id_owner-ts-control`
+- http://localhost:9300/dcim/sites/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+- http://localhost:9300/dcim/racks/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/device-types/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/1/edit/
+  - `#id_role-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_device_type-ts-control`
+  - `#id_cooling_method-ts-control`
+  - `#id_airflow-ts-control`
+  - `#id_site-ts-control`
+  - `#id_location-ts-control`
+  - `#id_rack-ts-control`
+  - `#id_face-ts-control`
+  - `#id_position-ts-control`
+  - … +12 autres
+- http://localhost:9300/dcim/devices/add/
+  - `#id_role-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_device_type-ts-control`
+  - `#id_cooling_method-ts-control`
+  - `#id_airflow-ts-control`
+  - `#id_site-ts-control`
+  - `#id_location-ts-control`
+  - `#id_rack-ts-control`
+  - `#id_face-ts-control`
+  - `#id_position-ts-control`
+  - … +9 autres
+- http://localhost:9300/dcim/devices/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+- http://localhost:9300/ipam/prefixes/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/ip-addresses/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `#edit-form`
+  - `#id_status-ts-control`
+  - `#id_role-ts-control`
+  - `#id_vrf-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_interface-ts-control`
+  - `#id_nat_inside-ts-control`
+  - `#id_owner_group-ts-control`
+  - … +1 autres
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `#edit-form`
+  - `#id_status-ts-control`
+  - `#id_role-ts-control`
+  - `#id_vrf-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_interface-ts-control`
+  - `#id_nat_inside-ts-control`
+  - `#id_owner_group-ts-control`
+  - … +1 autres
+- http://localhost:9300/ipam/ip-ranges/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/vlans/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/vlan-groups/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/vrfs/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/tenancy/tenants/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/virtualization/clusters/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `#id_virtual_machine_type-ts-control`
+  - `#id_role-ts-control`
+  - `#id_status-ts-control`
+  - `#id_start_on_boot-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_site-ts-control`
+  - `#id_cluster-ts-control`
+  - `#id_device-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - … +6 autres
+- http://localhost:9300/wireless/wireless-lans/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/circuits/providers/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/circuits/circuits/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/vpn/tunnels/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/extras/tags/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/extras/journal-entries/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/extras/config-contexts/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/core/data-sources/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/core/config-revisions/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/user/preferences/
+  - `#id_locale\.language-ts-control`
+  - `#id_ui\.copilot_enabled-ts-control`
+  - `#id_pagination\.per_page-ts-control`
+  - `#id_pagination\.placement-ts-control`
+  - `#id_ui\.tables\.striping-ts-control`
+  - `#id_ui\.measurement_system-ts-control`
+  - `#id_data_format-ts-control`
+  - `#id_csv_delimiter-ts-control`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `#id_role-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_device_type-ts-control`
+  - `#id_cooling_method-ts-control`
+  - `#id_airflow-ts-control`
+  - `#id_site-ts-control`
+  - `#id_location-ts-control`
+  - `#id_rack-ts-control`
+  - `#id_face-ts-control`
+  - `#id_position-ts-control`
+  - … +15 autres
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://localhost:9300/dcim/sites/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col-sm-3.text-lg-end > .required.col-form-label[for="id_format-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-dropdown.single > .ts-dropdown-content[aria-labelledby="id_format-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col-sm-3.text-lg-end > .col-form-label.d-inline-block[for="id_csv_delimiter-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-dropdown.plugin-clear_button.single > .ts-dropdown-content[aria-labelledby="id_csv_delimiter-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .form-text`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(1) > .col > .form-control[name="changelog_message"][maxlength="200"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-check-input[type="checkbox"][aria-describedby="id_background_job_helptext"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-text`
+- http://localhost:9300/dcim/devices/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col-sm-3.text-lg-end > .required.col-form-label[for="id_format-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-dropdown.single > .ts-dropdown-content[aria-labelledby="id_format-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col-sm-3.text-lg-end > .col-form-label.d-inline-block[for="id_csv_delimiter-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-dropdown.plugin-clear_button.single > .ts-dropdown-content[aria-labelledby="id_csv_delimiter-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .form-text`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(1) > .col > .form-control[name="changelog_message"][maxlength="200"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-check-input[type="checkbox"][aria-describedby="id_background_job_helptext"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-text`
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:9300/dcim/racks/1/
+  - `.col.col-md-6.col-sm-6:nth-child(1) > div > .rack_elevation > div[hx-trigger="intersect"][aria-label="Rack elevation"][hx-swap="outerHTML"]`
+  - `.col.col-md-6.col-sm-6:nth-child(2) > div > .rack_elevation > div[hx-trigger="intersect"][aria-label="Rack elevation"][hx-swap="outerHTML"]`
+- http://localhost:9300/dcim/devices/1/
+  - `.col.col-md-6.col-sm-6:nth-child(2) > div > .rack_elevation > div[hx-trigger="intersect"][aria-label="Rack elevation"][hx-swap="outerHTML"]`
+  - `.col.col-md-6.col-sm-6:nth-child(3) > div > .rack_elevation > div[hx-trigger="intersect"][aria-label="Rack elevation"][hx-swap="outerHTML"]`
+

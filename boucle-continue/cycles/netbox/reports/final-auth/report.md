@@ -1,0 +1,975 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 65/65 scénario(s) audité(s), 0 erreur(s), 1830 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `892e053dce50`
+
+## Résultats incomplets à revoir (1830)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9300/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +24 autres
+- http://localhost:9300/search/?q=bench
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +11 autres
+- http://localhost:9300/dcim/sites/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +11 autres
+- http://localhost:9300/dcim/sites/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +11 autres
+- http://localhost:9300/dcim/sites/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +20 autres
+- http://localhost:9300/dcim/sites/add/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +20 autres
+- http://localhost:9300/dcim/sites/import/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pb-1.fw-bold:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pb-1.fw-bold:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +12 autres
+- http://localhost:9300/dcim/racks/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="racks/"]`
+  - `a[href$="rack-reservations/"]`
+  - `a[href$="rack-elevations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(5)`
+  - `a[href$="rack-groups/"]`
+  - `a[href$="rack-roles/"]`
+  - … +10 autres
+- http://localhost:9300/dcim/racks/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="racks/"]`
+  - `a[href$="rack-reservations/"]`
+  - `a[href$="rack-elevations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(5)`
+  - `a[href$="rack-groups/"]`
+  - `a[href$="rack-roles/"]`
+  - … +9 autres
+- http://localhost:9300/dcim/device-types/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/device-types/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +12 autres
+- http://localhost:9300/dcim/devices/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/devices/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +12 autres
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +13 autres
+- http://localhost:9300/dcim/devices/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +34 autres
+- http://localhost:9300/dcim/devices/add/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +31 autres
+- http://localhost:9300/dcim/devices/import/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pb-1.fs-5:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +14 autres
+- http://localhost:9300/ipam/prefixes/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/prefixes/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `.flex-fill.py-1[href$="ip-ranges/"]`
+  - … +10 autres
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `.flex-fill.py-1[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/ip-addresses/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/ip-addresses/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +12 autres
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +19 autres
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `.flex-fill.py-1[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +20 autres
+- http://localhost:9300/ipam/ip-ranges/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +11 autres
+- http://localhost:9300/ipam/ip-ranges/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.py-0.align-items-center.dropdown-item:nth-child(2) > a[href$="ip-addresses/"]`
+  - `.flex-fill.py-1[href$="ip-ranges/"]`
+  - … +10 autres
+- http://localhost:9300/ipam/vlans/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +16 autres
+- http://localhost:9300/ipam/vlans/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +15 autres
+- http://localhost:9300/ipam/vlan-groups/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +17 autres
+- http://localhost:9300/ipam/vlan-groups/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +16 autres
+- http://localhost:9300/ipam/vrfs/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="ip-addresses/"]`
+  - `a[href$="ip-ranges/"]`
+  - … +17 autres
+- http://localhost:9300/tenancy/tenants/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `a[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +15 autres
+- http://localhost:9300/tenancy/tenants/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `a[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(6)`
+  - `.flex-fill.py-1[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +14 autres
+- http://localhost:9300/virtualization/clusters/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +14 autres
+- http://localhost:9300/virtualization/clusters/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +13 autres
+- http://localhost:9300/virtualization/virtual-machines/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +14 autres
+- http://localhost:9300/virtualization/virtual-machines/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - … +13 autres
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - … +29 autres
+- http://localhost:9300/wireless/wireless-lans/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3`
+  - `a[href$="wireless-lans/"]`
+  - `a[href$="wireless-lan-groups/"]`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - … +13 autres
+- http://localhost:9300/wireless/wireless-lans/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3`
+  - `.flex-fill.py-1[href$="wireless-lans/"]`
+  - `a[href$="wireless-lan-groups/"]`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - … +12 autres
+- http://localhost:9300/circuits/providers/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +15 autres
+- http://localhost:9300/circuits/providers/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/circuits/circuits/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +15 autres
+- http://localhost:9300/circuits/circuits/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/vpn/tunnels/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="tunnels/"]`
+  - … +14 autres
+- http://localhost:9300/vpn/tunnels/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `.flex-fill.py-1[href$="tunnels/"]`
+  - … +13 autres
+- http://localhost:9300/extras/tags/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/extras/tags/1/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +13 autres
+- http://localhost:9300/extras/journal-entries/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +16 autres
+- http://localhost:9300/extras/config-contexts/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/core/data-sources/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +14 autres
+- http://localhost:9300/core/config-revisions/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +20 autres
+- http://localhost:9300/user/profile/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/user/preferences/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +17 autres
+- http://localhost:9300/user/bookmarks/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/user/api-tokens/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/user/password/
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +9 autres
+- http://localhost:9300/ [state:nav-user-menu]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +27 autres
+- http://localhost:9300/ [state:nav-notifications-menu]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +25 autres
+- http://localhost:9300/ [state:nav-sidebar-section]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `div[data-bs-popper="static"] > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pt-3.pb-1:nth-child(1)`
+  - `a[href$="regions/"]`
+  - `a[href$="site-groups/"]`
+  - `.flex-fill.py-1[href$="sites/"]`
+  - `a[href$="locations/"]`
+  - `div[data-bs-popper="static"] > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.pt-3.pb-1:nth-child(6)`
+  - `.flex-fill.py-1[href$="tenants/"]`
+  - `a[href$="tenant-groups/"]`
+  - … +26 autres
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pt-3:nth-child(1)`
+  - `a[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +15 autres
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `.show.dropdown-menu > .dropdown-menu-columns > .dropdown-menu-column.pb-2 > .text-uppercase.fw-bold.pb-1:nth-child(1)`
+  - `.flex-fill.py-1[href$="devices/"]`
+  - `a[href$="modules/"]`
+  - `a[href$="device-roles/"]`
+  - `a[href$="platforms/"]`
+  - `a[href$="virtual-chassis/"]`
+  - … +21 autres
+- http://localhost:9300/ [state:color-mode-toggle]
+  - `.netbox-edition`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - `button[aria-label="Virtualization"] > .nav-link-title`
+  - `button[aria-label="Circuits"] > .nav-link-title`
+  - … +24 autres
+- http://localhost:9300/ [state:mobile-390]
+  - `.netbox-edition`
+  - `.d-lg-none.navbar-nav.flex-row > .nav-item.dropdown > .lh-1.text-reset[role="button"] > .d-xl-block.ps-2 > div:nth-child(1)`
+  - `.d-lg-none.navbar-nav.flex-row > .nav-item.dropdown > .lh-1.text-reset[role="button"] > .d-xl-block.ps-2 > .mt-1.small.text-secondary`
+  - `button[aria-label="Organization"] > .nav-link-title`
+  - `button[aria-label="Racks"] > .nav-link-title`
+  - `button[aria-label="Devices"] > .nav-link-title`
+  - `button[aria-label="Connections"] > .nav-link-title`
+  - `button[aria-label="Wireless"] > .nav-link-title`
+  - `button[aria-label="IPAM"] > .nav-link-title`
+  - `button[aria-label="VPN"] > .nav-link-title`
+  - … +34 autres
+- http://localhost:9300/dcim/devices/99999/ [state:route-404]
+  - `.netbox-edition`
+  - `.flex-row.d-lg-none.navbar-nav > .nav-item.dropdown > .lh-1.text-reset[href="#"] > .d-xl-block.ps-2 > div:nth-child(1)`
+  - `.flex-row.d-lg-none.navbar-nav > .nav-item.dropdown > .lh-1.text-reset[href="#"] > .d-xl-block.ps-2 > .mt-1.small.text-secondary`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:9300/search/?q=bench
+  - `#id_obj_types-ts-control`
+  - `#id_lookup-ts-control`
+- http://localhost:9300/dcim/sites/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/sites/1/edit/
+  - `#id_status-ts-control`
+  - `#id_region-ts-control`
+  - `#id_group-ts-control`
+  - `#id_asns-ts-control`
+  - `#id_time_zone-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_owner_group-ts-control`
+  - `#id_owner-ts-control`
+- http://localhost:9300/dcim/sites/add/
+  - `#id_status-ts-control`
+  - `#id_region-ts-control`
+  - `#id_group-ts-control`
+  - `#id_asns-ts-control`
+  - `#id_time_zone-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_owner_group-ts-control`
+  - `#id_owner-ts-control`
+- http://localhost:9300/dcim/sites/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+- http://localhost:9300/dcim/racks/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/device-types/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/1/interfaces/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/1/edit/
+  - `#id_role-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_device_type-ts-control`
+  - `#id_cooling_method-ts-control`
+  - `#id_airflow-ts-control`
+  - `#id_site-ts-control`
+  - `#id_location-ts-control`
+  - `#id_rack-ts-control`
+  - `#id_face-ts-control`
+  - `#id_position-ts-control`
+  - … +12 autres
+- http://localhost:9300/dcim/devices/add/
+  - `#id_role-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_device_type-ts-control`
+  - `#id_cooling_method-ts-control`
+  - `#id_airflow-ts-control`
+  - `#id_site-ts-control`
+  - `#id_location-ts-control`
+  - `#id_rack-ts-control`
+  - `#id_face-ts-control`
+  - `#id_position-ts-control`
+  - … +9 autres
+- http://localhost:9300/dcim/devices/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+- http://localhost:9300/ipam/prefixes/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/prefixes/1/ip-addresses/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/ip-addresses/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/ip-addresses/1/edit/
+  - `#edit-form`
+  - `#id_status-ts-control`
+  - `#id_role-ts-control`
+  - `#id_vrf-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_interface-ts-control`
+  - `#id_nat_inside-ts-control`
+  - `#id_owner_group-ts-control`
+  - … +1 autres
+- http://localhost:9300/ipam/ip-addresses/add/
+  - `#edit-form`
+  - `#id_status-ts-control`
+  - `#id_role-ts-control`
+  - `#id_vrf-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - `#id_interface-ts-control`
+  - `#id_nat_inside-ts-control`
+  - `#id_owner_group-ts-control`
+  - … +1 autres
+- http://localhost:9300/ipam/ip-ranges/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/vlans/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/vlan-groups/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/ipam/vrfs/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/tenancy/tenants/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/virtualization/clusters/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/virtualization/virtual-machines/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/virtualization/virtual-machines/1/edit/
+  - `#id_virtual_machine_type-ts-control`
+  - `#id_role-ts-control`
+  - `#id_status-ts-control`
+  - `#id_start_on_boot-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_site-ts-control`
+  - `#id_cluster-ts-control`
+  - `#id_device-ts-control`
+  - `#id_tenant_group-ts-control`
+  - `#id_tenant-ts-control`
+  - … +6 autres
+- http://localhost:9300/wireless/wireless-lans/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/circuits/providers/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/circuits/circuits/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/vpn/tunnels/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/extras/tags/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/extras/journal-entries/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/extras/config-contexts/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/core/data-sources/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/core/config-revisions/
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/user/preferences/
+  - `#id_locale\.language-ts-control`
+  - `#id_ui\.copilot_enabled-ts-control`
+  - `#id_pagination\.per_page-ts-control`
+  - `#id_pagination\.placement-ts-control`
+  - `#id_ui\.tables\.striping-ts-control`
+  - `#id_ui\.measurement_system-ts-control`
+  - `#id_data_format-ts-control`
+  - `#id_csv_delimiter-ts-control`
+- http://localhost:9300/dcim/devices/ [state:table-config-modal]
+  - `#saved-filter-select-ts-control`
+- http://localhost:9300/dcim/devices/add/ [state:quick-add-modal]
+  - `#id_role-ts-control`
+  - `#id_tags-ts-control`
+  - `#id_device_type-ts-control`
+  - `#id_cooling_method-ts-control`
+  - `#id_airflow-ts-control`
+  - `#id_site-ts-control`
+  - `#id_location-ts-control`
+  - `#id_rack-ts-control`
+  - `#id_face-ts-control`
+  - `#id_position-ts-control`
+  - … +15 autres
+
+### duplicate-id-aria — IDs used in ARIA and labels must be unique
+
+- http://localhost:9300/dcim/sites/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col-sm-3.text-lg-end > .required.col-form-label[for="id_format-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-dropdown.single > .ts-dropdown-content[aria-labelledby="id_format-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col-sm-3.text-lg-end > .col-form-label.d-inline-block[for="id_csv_delimiter-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-dropdown.plugin-clear_button.single > .ts-dropdown-content[aria-labelledby="id_csv_delimiter-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .form-text`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(1) > .col > .form-control[name="changelog_message"][maxlength="200"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-check-input[type="checkbox"][aria-describedby="id_background_job_helptext"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-text`
+- http://localhost:9300/dcim/devices/import/
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col-sm-3.text-lg-end > .required.col-form-label[for="id_format-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-control > input[aria-controls="id_format-ts-dropdown"][aria-label="Format"][aria-labelledby="id_format-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(4) > .col > .input-hidden.required.full > .ts-dropdown.single > .ts-dropdown-content[aria-labelledby="id_format-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col-sm-3.text-lg-end > .col-form-label.d-inline-block[for="id_csv_delimiter-ts-control"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-control > input[aria-controls="id_csv_delimiter-ts-dropdown"][aria-label="CSV delimiter"][aria-labelledby="id_csv_delimiter-ts-label"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .input-hidden.full.has-items > .ts-dropdown.plugin-clear_button.single > .ts-dropdown-content[aria-labelledby="id_csv_delimiter-ts-label"][role="listbox"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .row.mb-3:nth-child(5) > .col > .form-text`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(1) > .col > .form-control[name="changelog_message"][maxlength="200"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-check-input[type="checkbox"][aria-describedby="id_background_job_helptext"]`
+  - `#import-form > .col-lg-10.offset-lg-1.col-md-12 > .form[action=""][method="post"] > .bg-primary-subtle.border.border-primary > .row.mb-3:nth-child(2) > .offset-3.col > .form-check.mb-0 > .form-text`
+

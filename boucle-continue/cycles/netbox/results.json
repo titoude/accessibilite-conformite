@@ -1,0 +1,140 @@
+{
+ "cycle": 52,
+ "produit": "netbox",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "scenarios": 1,
+   "audited": 1,
+   "violations_occ": 8,
+   "violations_regles": 4,
+   "erreurs": 0,
+   "erreurs_liste": [],
+   "incomplets": 0,
+   "detail": { "region": 5, "color-contrast": 1, "landmark-one-main": 1, "page-has-heading-one": 1 }
+  },
+  "auth": {
+   "scenarios": 65,
+   "audited": 65,
+   "violations_occ": 1047,
+   "violations_regles": 16,
+   "erreurs": 0,
+   "erreurs_liste": [],
+   "incomplets": 1850,
+   "detail": {
+    "region": 498,
+    "color-contrast": 274,
+    "label-content-name-mismatch": 73,
+    "landmark-one-main": 63,
+    "link-name": 63,
+    "empty-table-header": 57,
+    "target-size": 7,
+    "heading-order": 2,
+    "aria-dialog-name": 2,
+    "select-name": 2,
+    "aria-required-parent": 1,
+    "list": 1,
+    "link-in-text-block": 1,
+    "button-name": 1,
+    "landmark-unique": 1,
+    "scrollable-region-focusable": 1
+   }
+  },
+  "total_occ": 1055,
+  "total_regles": 17,
+  "note": "Vanilla vérifiée AVANT baseline (leçon 40) : git status propre @251458b8. 66 scénarios (1 public /login/ + 57 routes auth + 8 états : nav-user-menu, nav-notifications-menu, nav-sidebar-section, table-config-modal, quick-add-modal, color-mode-toggle, mobile-390, route-404) — 0 scénario sauté, erreurs_liste nominative vide. union réelle 17 règles."
+ },
+ "final": {
+  "public": {
+   "scenarios": 1,
+   "audited": 1,
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "erreurs_liste": [],
+   "incomplets": 0,
+   "detail": {}
+  },
+  "auth": {
+   "scenarios": 65,
+   "audited": 65,
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "erreurs_liste": [],
+   "incomplets": 1830,
+   "detail": {}
+  },
+  "note": "0 violation / 0 erreur sur 66 scénarios. incomplets = nœuds axe indécidables (color-contrast bgGradient sidebar 1398, emptyValue TomSelect 112, elmPartiallyObscured 100, bgImage 31, bgOverlap 5, aria-valid-attr-value aria-controls ts-dropdown 163, duplicate-id-aria 20, aria-prohibited-attr 4 corrigés puis absents) — chacun mesuré ou N-A justifié par incomplete-probes.mjs.",
+  "total_occ": 0,
+  "total_regles": 0
+ },
+ "install_build_verbatim": {
+  "checkout": "clone propre @251458b89a5e + git apply --check patch.diff b619add5 (0 rejet, diff binaire dist/) + git apply + boot.sh :9380/:9381/:9382 -i (image nb52-app:v4.7.2 depuis requirements.txt verbatim) + seed.sh netbox52-app-i netbox52-db-i + gen-urls.sh netbox52-db-i + BASE_URL=:9380 login",
+  "public": {
+   "scenarios": 1,
+   "audited": 1,
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "erreurs_liste": [],
+   "incomplets": 0,
+   "detail": {}
+  },
+  "auth": {
+   "scenarios": 65,
+   "audited": 65,
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "erreurs_liste": [],
+   "incomplets": 1830,
+   "detail": {}
+  },
+  "note": "rescan identique à l'instance dev (0 viol/0 err/1830 inc) — patch porte les dist rebuildés, aucun build node requis au rejeu",
+  "total_occ": 0,
+  "total_regles": 0
+ },
+ "verify_mjs": "23/23 assertions OK (0 FAIL, 0 N-A) sur instance patchée",
+ "eval_final_mjs": "12/12 contrôles OK (0 FAIL, 2 N-A honnêtes : pas de skip-link dans le produit, aucune région aria-live/status)",
+ "sabotage": {
+  "mutant": "revert de <main id=page-content> → <div> (templates/base/layout.html) + docker restart (cached template loader)",
+  "resultat": "verify.mjs FAIL nommés : 'layout: #page-content est <main> unique' + 'region: tooltips rendus dans <main>' (21/23) — restore → 23/23",
+  "vanilla_attendu": "verify.mjs sur clone vierge v4.7.2 (conteneur :9301, même DB seedée) → 20 FAIL nommés sur 22 assertions (2/22 OK) — login <main>/h1, layout main, 2.5.3 user-menu+Help, th vides, modales, contrastes, cibles, pagination, tooltips, footer, 40x, widget tabindex, notifications h3"
+ },
+ "incomplete_probes": {
+  "sondes": 1830,
+  "conformes": 1662,
+  "non_conformes": 0,
+  "non_applicables": 168,
+  "detail": "1398 bgGradient (sidebar linear-gradient + dégradés header) mesurés stop-par-stop composites ≥4.5 depuis la palette AA ; 163 aria-controls TomSelect → dropdown matérialisé live à l'ouverture du combobox ; 20 duplicate-id-aria → doublons uniquement dans gabarits masqués (0 ou 1 visible) ; 112 emptyValue + 31 bgImage + overlays d'état ouverts = N-A honnêtes (ratio non calculable / contenu vide / recouvert par l'overlay du scénario)"
+ },
+ "modifications": {
+  "fichiers": 32,
+  "insertions": 142,
+  "suppressions": 54,
+  "zones": [
+   "templates/base/layout.html + login.html : <main id=page-content> landmark unique + h1 login (region, landmark-one-main, page-has-heading-one)",
+   "templates/inc/table.html + table_htmx.html : <th> vides garnies depuis column.attrs.th[aria-label] via filtre get_key (empty-table-header)",
+   "templates/inc/htmx_modal.html + htmx/{quick_add,object_selector,delete_form,quick_add_created}.html : aria-labelledby=htmx-modal-title + titres h2 (aria-dialog-name, heading-order)",
+   "utilities/templates/helpers/table_config_form.html : modale Configure Table aria-labelledby + h2 + .label→.label_tag (select-name)",
+   "templates/inc/user_menu.html + generic/object_edit.html : aria-label ⊇ texte visible — « bench-admin Admin — Open user menu », « Help — View model documentation » (2.5.3 / label-content-name-mismatch)",
+   "templates/inc/paginator.html : nav aria-label par table — 'Page selection for <htmx_url>' / 'Pagination options for <htmx_url>' (landmark-unique)",
+   "templates/inc/table_controls_htmx.html + dcim/device/inc/interface_table_controls.html : split dropdown 'Saved table views' + 'Display filters' nommés",
+   "templates/htmx/notifications.html : titre de carte h3→h2 (heading-order) ; search.html : nav-tabs role=tablist ; extras/dashboard/widget.html : tabindex=0 sur card-body scrollable (scrollable-region-focusable) ; base/40x.html : card-header text-danger→text-bg-danger (contrast)",
+   "netbox/tables/columns.py : BooleanColumn check/cross + texte sr 'Yes'/'No' (link-name icônes), ColoredLabelColumn liens color:inherit ; tables.py : TreeColumn linkify retiré (double <a> vide nested)",
+   "utilities/html.py : foreground_color() choisit le meilleur ratio WCAG réel (était heuristique de seuil → texte clair sur badges vifs) ; builtins/badge.html : <a style=color:inherit>",
+   "dcim/tables/template_code.py : 14 boutons-icônes désactivés 'Trace'/'Connect' → aria-label + aria-disabled (link-name)",
+   "templates/dcim/inc/rack_elevation.html : role=img sur le conteneur aria-label lazy-svg (aria-prohibited-attr)",
+   "project-static/src/bs.ts : Tooltip container '#page-content' (était 'body' — tooltips hors landmark, region)",
+   "project-static/styles/_variables.scss : palette AA 14 teintes (primary #007169, secondary #525d6b, blue/azure/indigo/purple/pink/red/orange/yellow/lime/green/teal/cyan) + $dark-teal #007169 (était #00857D = 3.8:1 sur le dégradé sidebar)",
+   "project-static/styles/custom/_a11y.scss (nouveau) + netbox.scss @import : cibles tactiles ≥24px (.badge>a, th a.text-danger), soulignement des liens dans les tables/panels (link-in-text-block), .dropdown-item.disabled couleur muted, --tblr-muted dark #9ca3af, footer-stamp par thème (#525d6b clair / #a3aebf sombre)",
+   "project-static/dist/netbox.css + netbox.js + .map : bundle rebuildé (yarn bundle) — diff binaire dans patch.diff"
+  ]
+ },
+ "hors_patch": [
+  "tools/configuration.py copié dans le checkout par boot.sh (gitignoré upstream — SECRET_KEY banc, ALLOWED_HOSTS, DB/Redis hosts netbox52-*)",
+  "netbox/project-static/node_modules + yarn.lock génération build (non commités)",
+  "tools/auth.json = storageState Playwright éphémère (session Django db-backed — régénéré par login.mjs avant chaque scan)"
+ ]
+}
