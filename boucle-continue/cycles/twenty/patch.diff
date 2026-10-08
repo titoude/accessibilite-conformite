@@ -1,0 +1,462 @@
+diff --git a/packages/twenty-front/src/modules/auth/components/Title.tsx b/packages/twenty-front/src/modules/auth/components/Title.tsx
+index eb81b167..52427c66 100644
+--- a/packages/twenty-front/src/modules/auth/components/Title.tsx
++++ b/packages/twenty-front/src/modules/auth/components/Title.tsx
+@@ -8,13 +8,14 @@ type TitleProps = React.PropsWithChildren & {
+   noMarginTop?: boolean;
+ };
+ 
+-const StyledTitle = styled.div<Pick<TitleProps, 'noMarginTop'>>`
++const StyledTitle = styled.h1<Pick<TitleProps, 'noMarginTop'>>`
+   color: ${themeCssVariables.font.color.primary};
+   font-size: ${themeCssVariables.font.size.xl};
+   font-weight: ${themeCssVariables.font.weight.semiBold};
+-  margin-bottom: ${themeCssVariables.spacing[4]};
+-  margin-top: ${({ noMarginTop }) =>
+-    !noMarginTop ? themeCssVariables.spacing[4] : '0'};
++  margin: ${({ noMarginTop }) =>
++    !noMarginTop
++      ? `${themeCssVariables.spacing[4]} 0 ${themeCssVariables.spacing[4]}`
++      : `0 0 ${themeCssVariables.spacing[4]}`};
+   text-align: center;
+ `;
+ 
+diff --git a/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx b/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
+index 4a113fb6..47311c99 100644
+--- a/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
+@@ -131,6 +131,7 @@ export const RecordBoardCardHeader = () => {
+                 });
+               }}
+               variant="outline"
++              aria-label={t`Select record`}
+             />
+           </StopPropagationContainer>
+         </StyledCheckboxContainer>
+diff --git a/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx b/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx
+index ed1e366e..4ddfc9a2 100644
+--- a/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx
+@@ -10,6 +10,7 @@ import { useAtomComponentFamilyState } from '@/ui/utilities/state/jotai/hooks/us
+ import { useAtomComponentStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomComponentStateValue';
+ import { useGetCurrentViewOnly } from '@/views/hooks/useGetCurrentViewOnly';
+ import { styled } from '@linaria/react';
++import { t } from '@lingui/core/macro';
+ import { useAtomFamilyStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomFamilyStateValue';
+ import { isDefined } from 'twenty-shared/utils';
+ import { Checkbox } from 'twenty-ui/primitives/input';
+@@ -96,6 +97,7 @@ export const RecordCalendarCardHeader = ({
+             checked={isRecordSelected}
+             onCheckedChange={setIsRecordSelected}
+             variant="outline"
++            aria-label={t`Select record`}
+           />
+         </StopPropagationContainer>
+       </StyledCheckboxContainer>
+diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx
+index e95908df..3900ece3 100644
+--- a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx
+@@ -1,4 +1,5 @@
+ import { styled } from '@linaria/react';
++import { t } from '@lingui/core/macro';
+ 
+ import { RECORD_TABLE_COLUMN_CHECKBOX_WIDTH } from '@/object-record/record-table/constants/RecordTableColumnCheckboxWidth';
+ import { themeCssVariables } from 'twenty-ui/theme';
+@@ -29,7 +30,11 @@ export const RecordTableCellCheckboxPlaceholder = () => {
+       widthClassName={RECORD_TABLE_COLUMN_CHECKBOX_WIDTH_CLASS_NAME}
+     >
+       <StyledContainer data-select-disable>
+-        <Checkbox hoverable checked={hasUserSelectedAllRecords === true} />
++        <Checkbox
++          hoverable
++          checked={hasUserSelectedAllRecords === true}
++          aria-label={t`Select all rows`}
++        />
+       </StyledContainer>
+     </RecordTableCellStyleWrapper>
+   );
+diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
+index c513fd1e..a8577c78 100644
+--- a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
+@@ -1,5 +1,6 @@
+ import { styled } from '@linaria/react';
+-import { useContext } from 'react';
++import { useLingui } from '@lingui/react/macro';
++import { useCallback, useContext } from 'react';
+ 
+ import { RECORD_TABLE_COLUMN_DRAG_AND_DROP_WIDTH_CLASS_NAME } from '@/object-record/record-table/constants/RecordTableColumnDragAndDropWidthClassName';
+ import { RECORD_TABLE_ROW_HEIGHT } from '@/object-record/record-table/constants/RecordTableRowHeight';
+@@ -8,6 +9,7 @@ import { useRecordTableRowDraggableContextOrThrow } from '@/object-record/record
+ import { RecordTableCellStyleWrapper } from '@/object-record/record-table/record-table-cell/components/RecordTableCellStyleWrapper';
+ import { IconListViewGrip } from '@/object-record/record-table/record-table-cell/components/internal/IconListViewGrip/IconListViewGrip';
+ import { DragDropItemSortableHandleRefContext } from '@/ui/utilities/drag-and-drop/context/DragDropItemSortableHandleRefContext';
++import { observeDragActivatorAccessibleName } from '@/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName';
+ import { themeCssVariables } from 'twenty-ui/theme';
+ 
+ const StyledContainer = styled.div`
+@@ -34,10 +36,21 @@ const StyledIconWrapper = styled.div<{ isDragging: boolean }>`
+ `;
+ 
+ export const RecordTableCellDragAndDrop = () => {
++  const { t } = useLingui();
+   const { isDragging } = useRecordTableRowDraggableContextOrThrow();
+ 
+   const sortableHandleRef = useContext(DragDropItemSortableHandleRefContext);
+ 
++  const setHandleRef = useCallback(
++    (element: HTMLElement | null) => {
++      sortableHandleRef?.(element);
++      if (element !== null) {
++        observeDragActivatorAccessibleName(element, t`Drag to reorder row`);
++      }
++    },
++    [sortableHandleRef, t],
++  );
++
+   return (
+     <RecordTableCellStyleWrapper
+       data-select-disable
+@@ -46,7 +59,7 @@ export const RecordTableCellDragAndDrop = () => {
+       hasBottomBorder={false}
+       widthClassName={RECORD_TABLE_COLUMN_DRAG_AND_DROP_WIDTH_CLASS_NAME}
+     >
+-      <StyledContainer ref={sortableHandleRef}>
++      <StyledContainer ref={setHandleRef} aria-label={t`Drag to reorder row`}>
+         <StyledIconWrapper className="icon" isDragging={isDragging}>
+           <IconListViewGrip />
+         </StyledIconWrapper>
+diff --git a/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx b/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx
+index 6f069d12..9d56a31d 100644
+--- a/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx
++++ b/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx
+@@ -23,7 +23,7 @@ const getMatchingSettingsPath = (pathname: string) =>
+     return isDefined(match);
+   });
+ 
+-const StyledSettingsPageContainer = styled.div<{
++const StyledSettingsPageContainer = styled.main<{
+   width?: number;
+   isMobile?: boolean;
+   isInSidePanel?: boolean;
+diff --git a/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx b/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx
+index 526a5d37..65170d92 100644
+--- a/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx
++++ b/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx
+@@ -99,6 +99,7 @@ export const EmailField = () => {
+           disabled={!canEdit || !isEditing}
+           fullWidth
+           type="email"
++          aria-label={t`Email`}
+           onInputEnter={handleSave}
+         />
+         {isEditing ? (
+diff --git a/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx b/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx
+index 659f13e2..5066331f 100644
+--- a/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx
+@@ -25,6 +25,8 @@ import {
+ } from '@floating-ui/react';
+ import { styled } from '@linaria/react';
+ import {
++  cloneElement,
++  isValidElement,
+   type MouseEvent,
+   type ReactNode,
+   useCallback,
+@@ -214,13 +216,17 @@ export const Dropdown = ({
+         <StyledClickableComponent
+           ref={refs.setReference}
+           onClick={handleClickableComponentClick}
+-          aria-controls={`${dropdownId}-options`}
+-          aria-expanded={isDropdownOpen}
+-          aria-haspopup={true}
+-          role="button"
+           width={clickableComponentWidth}
+         >
+-          {clickableComponent}
++          {isValidElement(clickableComponent)
++            ? // The trigger keeps popup semantics on itself — wrapping it in
++              // another role="button" would nest interactive controls.
++              cloneElement(clickableComponent, {
++                'aria-controls': `${dropdownId}-options`,
++                'aria-expanded': isDropdownOpen,
++                'aria-haspopup': true,
++              } as Record<string, unknown>)
++            : clickableComponent}
+         </StyledClickableComponent>
+       ) : (
+         <StyledDropdownFallbackAnchor ref={refs.setReference} />
+diff --git a/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx b/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx
+index 1ad15cfc..284a774d 100644
+--- a/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx
+@@ -76,7 +76,6 @@ export const DropdownMenuItemsContainer = ({
+   children,
+   hasMaxHeight,
+   scrollable = true,
+-  isMultiSelect = false,
+   className,
+ }: {
+   children: React.ReactNode;
+@@ -92,19 +91,12 @@ export const DropdownMenuItemsContainer = ({
+         hasMaxHeight ? DROPDOWN_MENU_ITEMS_CONTAINER_MAX_HEIGHT : undefined
+       }
+     >
+-      <StyledExternalContainer
+-        role="listbox"
+-        aria-multiselectable={isMultiSelect || undefined}
+-      >
++      <StyledExternalContainer>
+         <StyledInternalContainer>{children}</StyledInternalContainer>
+       </StyledExternalContainer>
+     </StyledScrollableContainer>
+   ) : (
+-    <StyledExternalContainer
+-      role="listbox"
+-      aria-multiselectable={isMultiSelect || undefined}
+-      className={className}
+-    >
++    <StyledExternalContainer className={className}>
+       <StyledInternalContainer>{children}</StyledInternalContainer>
+     </StyledExternalContainer>
+   );
+diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx
+index 365936af..81a1614d 100644
+--- a/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx
+@@ -1,6 +1,6 @@
+ import { styled } from '@linaria/react';
+ 
+-const StyledContainer = styled.div`
++const StyledContainer = styled.main`
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx
+index 2bbf317b..3ec28450 100644
+--- a/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx
+@@ -47,12 +47,12 @@ const StyledLeftContainer = styled.div`
+   }
+ `;
+ 
+-const StyledTitleContainer = styled.div`
++const StyledTitleContainer = styled.h1`
+   align-items: center;
+   display: flex;
+   font-size: ${themeCssVariables.font.size.md};
+   font-weight: ${themeCssVariables.font.weight.medium};
+-  margin-right: ${themeCssVariables.spacing[1]};
++  margin: 0 ${themeCssVariables.spacing[1]} 0 0;
+   overflow: hidden;
+   width: 100%;
+ `;
+diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx
+index 40f5688b..76eeef96 100644
+--- a/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx
+@@ -12,7 +12,7 @@ const StyledOuterContainer = styled.div`
+   width: 100%;
+ `;
+ 
+-const StyledInnerContainer = styled.div`
++const StyledInnerContainer = styled.main`
+   display: flex;
+   flex-direction: var(--show-page-direction, row);
+   height: 100%;
+diff --git a/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx b/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx
+index 8a3f56bb..bbdf7ee5 100644
+--- a/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx
++++ b/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx
+@@ -29,7 +29,7 @@ export type NavigationDrawerProps = {
+   header?: ReactNode;
+ };
+ 
+-const StyledAnimatedContainer = styled.div<{
++const StyledAnimatedContainer = styled.nav<{
+   isExpanded: boolean;
+   isResizing: boolean;
+ }>`
+diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx
+index 49ae574e..4c80d5ff 100644
+--- a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx
++++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx
+@@ -6,6 +6,7 @@ import {
+ } from '@dnd-kit/abstract/modifiers';
+ import { type UseSortableInput, useSortable } from '@dnd-kit/react/sortable';
+ import { styled } from '@linaria/react';
++import { useLingui } from '@lingui/react/macro';
+ import { type ReactNode, useCallback, useState } from 'react';
+ import { isDefined } from 'twenty-shared/utils';
+ import { themeCssVariables } from 'twenty-ui/theme';
+@@ -16,6 +17,7 @@ import { DragDropItemSortableHandleRefContext } from '@/ui/utilities/drag-and-dr
+ import { type DragDropItemDropTargetOrientation } from '@/ui/utilities/drag-and-drop/types/DragDropItemDropTargetOrientation';
+ import { preventNativeDragStart } from '@/ui/utilities/drag-and-drop/utils/preventNativeDragStart';
+ import { getOwnDndKitAccessibilityAttributes } from '@/ui/utilities/drag-and-drop/utils/getOwnDndKitAccessibilityAttributes';
++import { observeDragActivatorAccessibleName } from '@/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName';
+ import { removeDndKitAccessibilityAttributes } from '@/ui/utilities/drag-and-drop/utils/removeDndKitAccessibilityAttributes';
+ 
+ const SORTABLE_COLLISION_PRIORITY = 3;
+@@ -94,6 +96,7 @@ export const DragDropItemSortableCell = ({
+   orientation,
+   type,
+ }: DragDropItemSortableCellProps) => {
++  const { t } = useLingui();
+   const { handleRef, ref, isDragging, isDragSource } = useSortable({
+     id,
+     index,
+@@ -138,6 +141,9 @@ export const DragDropItemSortableCell = ({
+           );
+         }
+         connect(element);
++        if (element instanceof HTMLElement) {
++          observeDragActivatorAccessibleName(element, t`Drag to reorder`);
++        }
+         return;
+       }
+ 
+@@ -151,7 +157,7 @@ export const DragDropItemSortableCell = ({
+         removeDndKitAccessibilityAttributes({ element, ownAttributes });
+       }
+     },
+-    [disabled, ownAccessibilityAttributesByElement],
++    [disabled, ownAccessibilityAttributesByElement, t],
+   );
+ 
+   const setSortableRef = useCallback(
+diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx
+index 3a076973..7a9eaa40 100644
+--- a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx
++++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx
+@@ -1,4 +1,5 @@
+ import { styled } from '@linaria/react';
++import { useLingui } from '@lingui/react/macro';
+ import { type ReactNode, useContext } from 'react';
+ import { themeCssVariables } from 'twenty-ui/theme';
+ 
+@@ -11,7 +12,8 @@ const StyledSortableHandle = styled.div<{
+   cursor: ${({ $disabled }) => ($disabled ? 'default' : 'grab')};
+   display: ${({ $fill }) => ($fill ? 'flex' : 'block')};
+   height: 100%;
+-  min-width: 0;
++  min-height: 24px;
++  min-width: 24px;
+   outline: none;
+   width: ${({ $fill }) => ($fill ? '100%' : 'auto')};
+   &:focus-visible {
+@@ -31,6 +33,7 @@ export const DragDropItemSortableHandle = ({
+   fill = false,
+   disabled = false,
+ }: DragDropItemSortableHandleProps) => {
++  const { t } = useLingui();
+   const sortableHandleRef = useContext(DragDropItemSortableHandleRefContext);
+ 
+   return (
+@@ -39,6 +42,7 @@ export const DragDropItemSortableHandle = ({
+       $fill={fill}
+       $disabled={disabled}
+       data-dnd-sortable-handle
++      aria-label={t`Drag to reorder`}
+     >
+       {children}
+     </StyledSortableHandle>
+diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName.ts b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName.ts
+new file mode 100644
+index 00000000..eddff3f1
+--- /dev/null
++++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName.ts
+@@ -0,0 +1,32 @@
++const observersByElement = new WeakMap<Element, MutationObserver>();
++
++// dnd-kit names each activator after its sortable id (e.g. "KGi3u9") and
++// applies it asynchronously, overwriting whatever aria-label React rendered.
++// The observer rewrites the name every time: the element's visible text when
++// there is one (WCAG 2.5.3 label = visible text), otherwise a fallback.
++export const observeDragActivatorAccessibleName = (
++  element: HTMLElement,
++  fallbackAccessibleName: string,
++) => {
++  const restoreAccessibleName = () => {
++    const text = element.textContent?.trim();
++    const wanted =
++      text === undefined || text === ''
++        ? fallbackAccessibleName
++        : text;
++    if (element.getAttribute('aria-label') !== wanted) {
++      element.setAttribute('aria-label', wanted);
++    }
++  };
++
++  restoreAccessibleName();
++
++  if (!observersByElement.has(element)) {
++    const observer = new MutationObserver(restoreAccessibleName);
++    observer.observe(element, {
++      attributes: true,
++      attributeFilter: ['aria-label'],
++    });
++    observersByElement.set(element, observer);
++  }
++};
+diff --git a/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx b/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx
+index 2d6e99ab..1174d8b7 100644
+--- a/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx
++++ b/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx
+@@ -73,6 +73,8 @@ export const ScrollWrapper = ({
+         className={className}
+         autoHeight={autoHeight}
+         onScroll={handleScroll}
++        // Keyboard focus lets scroll-only regions be operated without a pointer.
++        tabIndex={0}
+       >
+         {children}
+       </StyledScrollWrapper>
+diff --git a/packages/twenty-front/src/pages/auth/SignInUp.tsx b/packages/twenty-front/src/pages/auth/SignInUp.tsx
+index 7030ce0b..f01dfa91 100644
+--- a/packages/twenty-front/src/pages/auth/SignInUp.tsx
++++ b/packages/twenty-front/src/pages/auth/SignInUp.tsx
+@@ -49,7 +49,7 @@ const StyledLoaderContainer = styled.div`
+   width: 100%;
+ `;
+ 
+-const StyledBackground = styled.div`
++const StyledBackground = styled.main`
+   background: ${themeCssVariables.background.secondary};
+   display: flex;
+   flex-direction: column;
+diff --git a/packages/twenty-ui/src/theme/constants/ThemeDark.ts b/packages/twenty-ui/src/theme/constants/ThemeDark.ts
+index 11360517..ab5193b9 100644
+--- a/packages/twenty-ui/src/theme/constants/ThemeDark.ts
++++ b/packages/twenty-ui/src/theme/constants/ThemeDark.ts
+@@ -175,9 +175,9 @@ export const THEME_DARK: typeof THEME_LIGHT = {
+     color: {
+       primary: 'color(display-p3 0.922 0.922 0.922)',
+       secondary: 'color(display-p3 0.702 0.702 0.702)',
+-      tertiary: 'color(display-p3 0.506 0.506 0.506)',
+-      light: 'color(display-p3 0.4 0.4 0.4)',
+-      extraLight: 'color(display-p3 0.298 0.298 0.298)',
++      tertiary: 'color(display-p3 0.68 0.68 0.68)',
++      light: 'color(display-p3 0.55 0.55 0.55)',
++      extraLight: 'color(display-p3 0.4 0.4 0.4)',
+       inverted: 'color(display-p3 0.09 0.09 0.09)',
+       danger: 'color(display-p3 0.83 0.329 0.324)',
+     },
+diff --git a/packages/twenty-ui/src/theme/constants/ThemeLight.ts b/packages/twenty-ui/src/theme/constants/ThemeLight.ts
+index 5a774042..f0dfe323 100644
+--- a/packages/twenty-ui/src/theme/constants/ThemeLight.ts
++++ b/packages/twenty-ui/src/theme/constants/ThemeLight.ts
+@@ -174,9 +174,9 @@ export const THEME_LIGHT = {
+     color: {
+       primary: 'color(display-p3 0.2 0.2 0.2)',
+       secondary: 'color(display-p3 0.4 0.4 0.4)',
+-      tertiary: 'color(display-p3 0.6 0.6 0.6)',
+-      light: 'color(display-p3 0.702 0.702 0.702)',
+-      extraLight: 'color(display-p3 0.8 0.8 0.8)',
++      tertiary: 'color(display-p3 0.46 0.46 0.46)',
++      light: 'color(display-p3 0.46 0.46 0.46)',
++      extraLight: 'color(display-p3 0.55 0.55 0.55)',
+       inverted: 'color(display-p3 1 1 1)',
+       danger: 'color(display-p3 0.83 0.329 0.324)',
+     },

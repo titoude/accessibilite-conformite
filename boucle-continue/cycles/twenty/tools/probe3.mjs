@@ -1,0 +1,20 @@
+import { createRequire } from 'node:module';
+const require = createRequire(new URL('./package.json', import.meta.url));
+const { chromium } = require('playwright');
+const BASE = 'http://localhost:9540';
+const b = await chromium.launch();
+const ctx = await b.newContext({ locale: 'en-US', storageState: './auth.json' });
+const p = await ctx.newPage();
+await p.goto(`${BASE}/objects/companies`, { waitUntil: 'load' });
+await p.waitForTimeout(6000);
+const asideBefore = await p.evaluate(() => document.querySelector('aside')?.outerHTML?.slice(0, 400) || 'pas-d-aside');
+console.log('aside avant:', asideBefore.replace(/\s+/g,' '));
+await p.keyboard.press('Control+k');
+await p.waitForTimeout(3000);
+const after = await p.evaluate(() => {
+  const asides = [...document.querySelectorAll('aside')].map(e => e.outerHTML.slice(0, 800));
+  return asides.join('\n===\n');
+});
+console.log('asides après Ctrl+K:', after.replace(/\s+/g,' ').slice(0, 2500));
+await p.screenshot({ path: '/tmp/cmdk3.png' });
+await b.close();

@@ -1,0 +1,67 @@
+{
+  "cycle": 54,
+  "target": "twentyhq/twenty@a9df5c3aad6c4cd4060b0f8bdc1a5f369acaf7b7",
+  "status": "INCOMPLETE — 3 rounds de correction livrés (patch 20 fichiers, rebuild+rescan) mais rescan ≠0 : 934 occ/15 règles restantes sur 15 scénarios",
+  "baseline": {
+    "public": {
+      "rules": 3,
+      "occurrences": 6,
+      "errors": 0,
+      "incomplete": 1
+    },
+    "auth": {
+      "rules": 97,
+      "occurrences": 6184,
+      "errors": 0,
+      "incomplete": 35
+    }
+  },
+  "round1Auth": {
+    "rules": 15,
+    "occurrences": 1072,
+    "errors": 0,
+    "incomplete": 658
+  },
+  "round2Auth": {
+    "rules": 15,
+    "occurrences": 949,
+    "errors": 0,
+    "incomplete": 34,
+    "byRule": {
+      "landmark-one-main": 3,
+      "page-has-heading-one": 15,
+      "aria-allowed-attr": 13,
+      "aria-prohibited-attr": 160,
+      "color-contrast": 154,
+      "label-content-name-mismatch": 61,
+      "nested-interactive": 271,
+      "aria-command-name": 28,
+      "target-size": 114,
+      "region": 123,
+      "aria-input-field-name": 1,
+      "aria-required-children": 1,
+      "listitem": 1,
+      "landmark-no-duplicate-banner": 2,
+      "landmark-unique": 2
+    },
+    "pagesAudited": 15
+  },
+  "patchFiles": 20,
+  "patchSha256": "10ad117953200c3dd2aba6dc55479637545bdcb9830992df4de931059c00073f",
+  "pending": [
+    "verify.mjs + eval-final.mjs + sabotage FAIL nommé",
+    "incomplete-probes (chaque incomplet mesuré ou N-A)",
+    "install-build verbatim clone propre @SHA + git apply --check + rescan 0 viol",
+    "provenance.json --strict régénéré en dernier",
+    "règles restantes: aria-prohibited-attr(160) target-size(114) label-content-name-mismatch(61) nested-interactive(271) color-contrast(154) region(123) + aria-allowed-attr/aria-command-name/listitem/landmark-*/aria-input-field-name/aria-required-children/page-has-heading-one/landmark-one-main"
+  ],
+  "round3Auth": {
+    "rules": 15,
+    "occurrences": 934,
+    "errors": 0,
+    "incomplete": 516,
+    "note": "fix MutationObserver dnd-kit vérifié en live (aria-label \"KGi3u9\" -> texte visible \"EmailsContact's Emails\") ; résidu dominé par nested-interactive, aria-allowed-attr .sx5718n/.sbv3a8t, region, color-contrast, target-size — mécanismes non dnd",
+    "pagesAudited": 15,
+    "scenariosSkipped": []
+  }
+}

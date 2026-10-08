@@ -1,0 +1,41 @@
+{
+  "cycle": 54,
+  "target": "twentyhq/twenty",
+  "description": "CRM moderne — React 18 + NestJS + GraphQL + PostgreSQL + Linaria + Lingui",
+  "repository": "https://github.com/twentyhq/twenty",
+  "commit": "a9df5c3aad6c4cd4060b0f8bdc1a5f369acaf7b7",
+  "commitSubject": "Let app page layout manifests set isFirstTabPinned (#27629)",
+  "commitDate": "2026-10-08",
+  "pinSource": "main HEAD au moment du clone",
+  "baseUrl": "http://localhost:9540",
+  "ports": { "app": 9540, "postgres": 9543, "redis": 9544 },
+  "bootMethod": "build local depuis sources @SHA (docker compose officiel non pinnable/patchable — écart image/SHA nul par construction)",
+  "axeCore": "4.14.0",
+  "playwright": "1.64.0",
+  "auditCommands": [
+    "node tools/login.mjs",
+    "node tools/audit.mjs http://localhost:9540 --urls /objects/companies,/objects/people,/objects/opportunities,/objects/tasks,/settings/profile,/settings/general,/settings/members,/settings/experience --states all --storage-state tools/auth.json --out reports/final-auth",
+    "node tools/audit.mjs http://localhost:9540 --urls /welcome --states none --out reports/final-public"
+  ],
+  "tools": {
+    "env.sh": "constantes env-paramétrées (ports 95xx, images miroir gcr)",
+    "boot.sh": "boot idempotent : containers PG/Redis -> .env -> yarn -> nx builds -> copy front -> migrate/seed -> serveur + healthcheck",
+    "seed.mjs": "auth /metadata puis find-or-create company/person/opportunity via /graphql + viewId kanban dynamique -> seed-info.json (source unique des ids)",
+    "seed-info.json": "ids committés des fixtures (leçons 44/46)",
+    "login.mjs": "login UI /welcome -> storageState auth.json",
+    "audit.mjs": "runner axe-core 4.14.0, STATES avec stateProof (leçon 32), garde hydratation (leçon 34), assertAuthed",
+    "urls-public.txt": "/welcome",
+    "urls-auth.txt": "8 routes authentifiées"
+  },
+  "surfaces": [
+    "index records (companies/people/opportunities/tasks)",
+    "kanban opportunity By Stage",
+    "record show person/company",
+    "filtres ouverts",
+    "command menu (Ctrl+K -> side panel twenty)",
+    "settings workspace (profile/general/members/experience)",
+    "mobile 390px",
+    "thème dark (persistedColorSchemeState)",
+    "login /welcome public"
+  ]
+}
