@@ -173,6 +173,23 @@ export const STATES = {
       await page.waitForTimeout(500);
     },
   },
+  'nav-more-tabs': {
+    url: b => `${b}/#`,
+    setup: async page => {
+      // le menu « more tabs » ne se peuple que si la barre déborde : viewport
+      // 1050 px force updateWidth() — déterministe (leçon 32). Le déclencheur
+      // est l'icône … unique de la navbar (id stable).
+      await page.setViewportSize({ width: 1050, height: 800 });
+      const t = page.locator('#nav-more-tabs-dropdown');
+      await t.waitFor({ state: 'visible', timeout: 30000 });
+      await page.waitForSelector('.more-dropdown-menu > li', { state: 'attached', timeout: 15000 });
+      await t.click();
+      // preuve d'état : le <ul> propre au widget est visible ET contient un
+      // descendant exclusif (liens d'onglets rangée 2 / déplacés).
+      await page.waitForSelector('.more-dropdown-menu', { state: 'visible', timeout: 10000 });
+      await page.waitForSelector('.more-dropdown-menu > li a', { state: 'visible', timeout: 10000 });
+    },
+  },
 
   // ---------- liste Account ----------
   'list-row-menu': {

@@ -1262,7 +1262,7 @@ index 3ee5fff041..599e99070e 100644
 +<h1 class="sr-only">{{translate 'Home' scope='Global' category='labels'}}</h1>
  <div class="home-content">{{{content}}}</div>
 diff --git a/client/res/templates/import/index.tpl b/client/res/templates/import/index.tpl
-index 8d7248e4ff..fa775c5d95 100644
+index 8d7248e4ff..483978389b 100644
 --- a/client/res/templates/import/index.tpl
 +++ b/client/res/templates/import/index.tpl
 @@ -1,13 +1,13 @@
@@ -1270,19 +1270,19 @@ index 8d7248e4ff..fa775c5d95 100644
  	<div class="row">
  	    <div class="col-lg-7 col-sm-7">
 -	    	<h3>
-+	    	<h1>
++		<h1>
  	    	{{#if fromAdmin}}
      		<a href="#Admin">{{translate 'Administration' scope='Admin'}}</a>
      		<span class="breadcrumb-separator"><span></span></span>
  		   	{{/if}}
  		   	{{translate 'Import' category='scopeNames'}}
 -	   		</h3>
-+	   		</h1>
++			</h1>
  	    </div>
  	    <div class="col-lg-5 col-sm-5">
  	        <div class="header-buttons btn-group pull-right">
 diff --git a/client/res/templates/login.tpl b/client/res/templates/login.tpl
-index 13dc12a06b..6fa8d323ee 100644
+index 13dc12a06b..f0f1eb2864 100644
 --- a/client/res/templates/login.tpl
 +++ b/client/res/templates/login.tpl
 @@ -1,9 +1,10 @@
@@ -1303,7 +1303,7 @@ index 13dc12a06b..6fa8d323ee 100644
                              autocapitalize="off"
                              spellcheck="false"
 -                            tabindex="1"
-+                            
++
                              autocomplete="username"
                              maxlength="255"
                          >
@@ -1312,7 +1312,7 @@ index 13dc12a06b..6fa8d323ee 100644
                                  id="field-password"
                                  class="form-control"
 -                                tabindex="2"
-+                                
++
                                  autocomplete="current-password"
                                  maxlength="255"
                              >
@@ -1321,7 +1321,7 @@ index 13dc12a06b..6fa8d323ee 100644
                              class="btn btn-primary btn-s-wide"
                              id="btn-login"
 -                            tabindex="3"
-+                            
++
                          >{{logInText}}</button>
                      </div>
                  </form>
@@ -1584,7 +1584,7 @@ index 25d2c8d854..2b986504c0 100644
  <footer id="footer">{{{footer}}}</footer>
  <div class="collapsed-modal-bar"></div>
 diff --git a/client/res/templates/site/navbar.tpl b/client/res/templates/site/navbar.tpl
-index b078fe9ca0..20c495a055 100644
+index b078fe9ca0..2c8c5c9950 100644
 --- a/client/res/templates/site/navbar.tpl
 +++ b/client/res/templates/site/navbar.tpl
 @@ -1,6 +1,6 @@
@@ -1646,19 +1646,20 @@ index b078fe9ca0..20c495a055 100644
                                  data-name="{{name}}"
                                  class="in-more tab{{#if className}} {{className}}{{/if}}{{#if isGroup}} dropdown tab-group{{/if}}{{#if isDivider}} tab-divider{{/if}}"
                              >
-@@ -110,9 +111,9 @@
+@@ -110,9 +111,10 @@
                                  {{/if}}
                                  {{#unless isDivider}}
                                      <a
 -                                            {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
-+                                            {{#if link}}href="{{link}}"{{else}}role="menuitem"{{/if}}
++                                            role="menuitem"
++                                            {{#if link}}href="{{link}}"{{/if}}
                                              tabindex="0"
 -                                            class="{{aClassName}}"
 +                                            class="{{aClassName}}" {{#if label}}aria-label="{{label}}"{{else}}aria-label="{{name}}"{{/if}}
                                          {{#if color}} style="border-color: {{color}}"{{/if}}
                                          {{#if isGroup}}
                                              id="nav-tab-group-{{name}}"
-@@ -144,13 +145,13 @@
+@@ -144,13 +146,14 @@
                                      <ul class="dropdown-menu" role="menu" aria-labelledby="nav-tab-group-{{name}}">
                                          {{#each itemList}}
                                              {{#if isDivider}}
@@ -1669,14 +1670,15 @@ index b078fe9ca0..20c495a055 100644
 +                                                <li role="none" data-name="{{name}}" class="in-group tab">
                                                      <a
 -                                                            {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
-+                                                            {{#if link}}href="{{link}}"{{else}}role="menuitem"{{/if}}
++                                                            role="menuitem"
++                                                            {{#if link}}href="{{link}}"{{/if}}
                                                              tabindex="0"
 -                                                            class="{{aClassName}}"
 +                                                            class="{{aClassName}}" {{#if label}}aria-label="{{label}}"{{else}}aria-label="{{name}}"{{/if}}
                                                          {{#if color}}
                                                              style="border-color: {{color}}"
                                                          {{/if}}
-@@ -182,7 +183,7 @@
+@@ -182,7 +185,7 @@
                      </ul>
                  </li>
              </ul>
@@ -1685,7 +1687,7 @@ index b078fe9ca0..20c495a055 100644
                  <span class="fas fa-chevron-right right"></span>
                  <span class="fas fa-chevron-left left"></span>
              </a>
-@@ -204,9 +205,9 @@
+@@ -204,9 +207,9 @@
                      <ul class="dropdown-menu" role="menu" aria-labelledby="nav-menu-dropdown">
                          {{#each menuDataList}}
                              {{#unless divider}}
@@ -1697,7 +1699,7 @@ index b078fe9ca0..20c495a055 100644
                                      tabindex="0"
                                      class="nav-link{{#if handler}} action{{/if}}"
                                  >
-@@ -221,7 +222,7 @@
+@@ -221,7 +224,7 @@
                                      </a>
                                  </li>
                              {{else}}
@@ -1967,6 +1969,34 @@ index 7c26bf7b1c..378a4a2d62 100644
                  tabindex="0"
              ><span class="caret"></span></a>
              <ul class="dropdown-menu pull-right">
+diff --git a/client/src/views/site/navbar.js b/client/src/views/site/navbar.js
+index 31d59954fb..c45857eecf 100644
+--- a/client/src/views/site/navbar.js
++++ b/client/src/views/site/navbar.js
+@@ -636,13 +636,22 @@ class NavbarSiteView extends View {
+ 
+             const $one = $tabs.children().eq(count - 2);
+ 
++            if ($one.hasClass('tab-divider')) {
++                $one.attr('role', 'separator');
++            } else {
++                $one.attr('role', 'none');
++                $one.children('a').attr('role', 'menuitem');
++            }
++
+             $one.prependTo($more);
+         };
+ 
+         const unhideOneTab = () => {
+-            const $one = $more.children().eq(0);
++            const $one = $more.children('li.not-in-more').eq(0);
+ 
+             if ($one.length) {
++                $one.removeAttr('role');
++                $one.children('a').removeAttr('role');
+                 $one.insertBefore($moreDropdown);
+             }
+         };
 diff --git a/client/src/views/site/navbar/quick-create.js b/client/src/views/site/navbar/quick-create.js
 index 4e4984318b..3dc5873d0a 100644
 --- a/client/src/views/site/navbar/quick-create.js

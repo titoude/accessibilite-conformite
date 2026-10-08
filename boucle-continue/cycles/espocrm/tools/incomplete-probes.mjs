@@ -1,6 +1,6 @@
 /**
  * incomplete-probes.mjs — résolution EXHAUSTIVE des résultats « incomplets »
- * axe des rapports finaux du cycle 34 (stump).
+ * axe des rapports finaux du cycle 47 (espocrm).
  *
  * Chaque nœud incomplet est re-sondé avec une mesure adaptée à sa règle :
  *  - color-contrast          : composite alpha top→down de tous les calques bg,
@@ -597,8 +597,46 @@ for (const [key, t] of targets) {
     const rel = new URL(t.url, base);
     const targetUrl = st?.url ? st.url(base) : `${base}${rel.pathname}${rel.search}${rel.hash}`;
     try {
+        // hydratation Backbone + stabilisation de la route avant tout setup
+        // d'état — l'app rejoue le hash après restauration de session
+        // (settleEspoSession d'audit.mjs). Les 3 timeouts « flaky » du rejeu
+        // auditeur (stream-*, mobile-nav-390) venaient d'un setup lancé
+        // pendant ce rebond de route.
         await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-        await page.waitForTimeout(600);
+        await page.waitForSelector('#navbar .navbar, #login-form', { timeout: 30000 }).catch(() => {});
+        for (let i = 0, last = ''; i < 40; i++) {
+            await page.waitForTimeout(150);
+            const cur = page.url();
+            if (cur === last) break;
+            last = cur;
+        }
+        // si le rebond de session a perdu la route cible, on la rejoue une
+        // fois — la session déjà restaurée la conserve alors.
+        const wantHash = new URL(targetUrl).hash;
+        if (wantHash && new URL(page.url()).hash !== wantHash) {
+            await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForSelector('#navbar .navbar, #login-form', { timeout: 30000 }).catch(() => {});
+        }
+        // restes d'état de la sonde précédente : Espo ne détruit PAS ses
+        // .modal-dialog/.modal-backdrop au changement de route hash (éprouvé) —
+        // une modale ouverte masque les clics des setups suivants
+        // (stream-*, mobile-nav-390 timeouts du rejeu auditeur). Viewport
+        // également remis à la taille par défaut.
+        await page.keyboard.press('Escape').catch(() => {});
+        await page.waitForTimeout(300);
+        const closeBtn = page.locator('.modal:visible .close, .modal-dialog:visible .close').first();
+        if (await closeBtn.count()) await closeBtn.click({ timeout: 1500 }).catch(() => {});
+        await page.waitForTimeout(200);
+        await page.evaluate(() => {
+            // filet de sécurité : s'il reste un reste de modale/backdrop après
+            // la fermeture normale, on le retire du DOM — il appartient à la
+            // sonde précédente, pas à l'état mesuré.
+            if (document.querySelector('.modal-backdrop, .modal.in, .modal.fade.in')) {
+                document.querySelectorAll('.modal.in, .modal-backdrop').forEach(e => { e.classList.remove('in'); e.remove(); });
+            }
+        }).catch(() => {});
+        await page.setViewportSize({ width: 1280, height: 800 });
+        await page.waitForTimeout(400);
         if (st?.setup) await st.setup(page);
         // les sondes d'image lisent les pixels : attendre leur chargement
         await page.waitForFunction(() => [...document.images].every(i => i.complete), { timeout: 5000 }).catch(() => {});

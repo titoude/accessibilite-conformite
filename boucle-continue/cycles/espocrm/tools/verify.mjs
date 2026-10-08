@@ -227,6 +227,58 @@ if (!existsSync(authPath)) {
     }
     await ap.keyboard.press('Escape');
 
+    // menu « more tabs » navbar — assertion live à l'ouverture (résidu auditeur
+    // cycle 47 : .more-dropdown-menu gardait aria-required-children). Viewport
+    // 1050 px pour forcer le débordement (le menu n'apparaît qu'en overflow).
+    await ap.setViewportSize({ width: 1050, height: 800 });
+    await ap.waitForTimeout(1500); // updateWidth() boucle ~1 s
+    const moreTrigger = ap.locator('#nav-more-tabs-dropdown');
+    if (!(await moreTrigger.isVisible().catch(() => false))) {
+        na('menu more-tabs: ouvert, rôles valides, fermeture', 'déclencheur absent/masqué — pas de débordement à 1050px');
+    } else {
+        await moreTrigger.click();
+        const opened = await ap.waitForSelector('.more-dropdown-menu', { state: 'visible', timeout: 8000 }).then(() => true).catch(() => false);
+        ok('menu more-tabs: le menu s\'ouvre', opened);
+        if (opened) {
+            const moreRoles = await ap.evaluate(`(() => {
+                const ul = document.querySelector('.more-dropdown-menu');
+                const liRoles = [...ul.children].map(li => li.getAttribute('role') || '(aucun)');
+                const aRoles = [...ul.querySelectorAll(':scope > li > a')].map(a => a.getAttribute('role') || '(aucun)');
+                return { liRoles, aRoles, count: ul.children.length };
+            })()`);
+            ok('menu more-tabs: li role=none|separator', moreRoles.liRoles.every(r => r === 'none' || r === 'separator'), JSON.stringify(moreRoles.liRoles));
+            ok('menu more-tabs: liens role=menuitem', moreRoles.aRoles.length > 0 && moreRoles.aRoles.every(r => r === 'menuitem'), JSON.stringify(moreRoles.aRoles));
+            await ap.keyboard.press('Escape');
+            await ap.waitForTimeout(400);
+            const closed = await ap.evaluate(`(() => {
+                const li = document.querySelector('li.more');
+                const ul = document.querySelector('.more-dropdown-menu');
+                return li && !li.classList.contains('open') && ul && ul.offsetParent === null;
+            })()`);
+            ok('menu more-tabs: se referme (Escape)', closed);
+        }
+    }
+
+    // sonde anti-slug i18n (leçon 43) : tout nom accessible ou texte rendu qui
+    // ressemble à une clé i18n non résolue (« navbar.moreTabsLabel ») = FAIL.
+    const slugHits = await ap.evaluate(`(() => {
+        const re = /^[a-z][a-z0-9-]*(\\.[a-z0-9-]+)+$/i;
+        const hits = [];
+        for (const el of document.querySelectorAll('[aria-label],[title],[placeholder]')) {
+            for (const a of ['aria-label', 'title', 'placeholder']) {
+                const v = (el.getAttribute(a) || '').trim();
+                if (v && re.test(v)) hits.push(el.tagName.toLowerCase() + '[' + a + '=' + v + ']');
+            }
+        }
+        for (const el of document.querySelectorAll('.label-text,.full-label,.short-label,.dropdown-menu a')) {
+            const v = (el.innerText || '').trim();
+            if (v && re.test(v)) hits.push('texte:"' + v.slice(0, 60) + '"');
+        }
+        return [...new Set(hits)].slice(0, 20);
+    })()`);
+    const slugNav = Object.entries(navNames).filter(([k, v]) => v && /^[a-z][a-z0-9-]*(\.[a-z0-9-]+)+$/i.test(v)).map(([k, v]) => `${k}="${v}"`);
+    ok('anti-slug i18n: aucun nom rendu en clé i18n non résolue', slugHits.length === 0 && slugNav.length === 0, JSON.stringify(slugHits.concat(slugNav)));
+
     // page liste : checkbox, en-têtes, champs de recherche, menus de lignes
     await ap.goto(`${base}/#Account`, { waitUntil: 'domcontentloaded' });
     await ap.waitForSelector('.list-container, #main .panel, #content .list', { timeout: 30000, state: 'attached' });
@@ -285,7 +337,6 @@ if (!existsSync(authPath)) {
     if (contrasts.labelState === undefined) na('liste: contraste .label-state >= 4.5', 'absent'); else ok('liste: contraste .label-state >= 4.5', contrasts.labelState >= 4.5, `ratio ${contrasts.labelState}`);
 
     // detail record : stream, liens cibles
-    await ap.goto(`${base}/#Account/view/${process.env.SEED_ACCOUNT_ID || ''}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
     const SEED = JSON.parse((await import('node:fs')).readFileSync(new URL('./seed-info.json', import.meta.url), 'utf8').toString());
     await ap.goto(`${base}/#Account/view/${SEED.accountAcmeId}`, { waitUntil: 'domcontentloaded' });
     await ap.waitForSelector('.detail, .record .panel, #content .middle', { timeout: 30000, state: 'attached' });

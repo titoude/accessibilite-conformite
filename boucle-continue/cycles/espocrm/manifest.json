@@ -7,7 +7,10 @@
  "framework": "PHP 8 + Backbone.js (templates Handlebars/Espo maison, LESS→CSS via grunt) + MariaDB. Première stack PHP/Backbone de la boucle.",
  "served_source": "Image docker espocrm/espocrm:latest (10.0.9 = SHA pinné exact) sert Apache+PHP ; seuls les livrables patchés sont montés : client/ → /usr/src/espocrm/client (l'entrypoint resynchronise vers /var/www/html/client dans le volume espo47-client-served à chaque boot), html/main.html et application/.../ClientManager.php en file-mount RO sur leurs chemins servis. Écart image/SHA : NUL (image = tag exact). ATTENTION : mounts de dossiers entiers html//application/ cassent le boot (@@version non substitué) — file-mounts obligatoires.",
  "base_url": "http://localhost:7747",
- "ports": {"app": 7747, "db": "interne (réseau docker espo47)"},
+ "ports": {
+  "app": 7747,
+  "db": "interne (réseau docker espo47)"
+ },
  "boot": {
   "deps": "docker + node v24 (nvm : export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh)",
   "images": "docker pull espocrm/espocrm:latest ; docker pull mariadb:11.4",
@@ -16,7 +19,10 @@
   "seed": "node tools/seed.mjs  # API v1 admin ; écrit tools/seed-info.json (ids records + entité custom CSiteAudit)",
   "login": "node tools/login.mjs  # écrit tools/auth.json (storageState Playwright, gitignored)"
  },
- "credentials_bench": {"admin": "admin / AuditC47-Espo-Pass!", "user": "claire.martin / AuditC47-Claire-Pass!"},
+ "credentials_bench": {
+  "admin": "admin / AuditC47-Espo-Pass!",
+  "user": "claire.martin / AuditC47-Claire-Pass!"
+ },
  "auditCommands": {
   "baseline-public": "node tools/audit.mjs --urls $(tr '\\n' ',' < tools/urls-public.txt | sed 's/,$//') --states none --out reports/baseline-public",
   "baseline-auth": "node tools/login.mjs && node tools/audit.mjs --urls $(tr '\\n' ',' < tools/urls-auth.txt | sed 's/,$//') --storage-state tools/auth.json --states all --out reports/baseline-auth",
@@ -27,7 +33,21 @@
   "eval": "node tools/eval-final.mjs http://localhost:7747 tools/auth.json",
   "probes": "node tools/incomplete-probes.mjs http://localhost:7747 tools/auth.json"
  },
- "states": ["nav-user-menu","nav-notifications","nav-quick-create","nav-side-menu","list-row-menu","list-filters-menu","list-add-filter-menu","quick-create-modal","stream-composer","stream-panel-menu","mobile-nav-390","route-404"],
+ "states": [
+  "nav-user-menu",
+  "nav-notifications",
+  "nav-quick-create",
+  "nav-side-menu",
+  "nav-more-tabs",
+  "list-row-menu",
+  "list-filters-menu",
+  "list-add-filter-menu",
+  "quick-create-modal",
+  "stream-composer",
+  "stream-panel-menu",
+  "mobile-nav-390",
+  "route-404"
+ ],
  "gotchas": [
   "API : ?where=<json> ignoré → where[i][type|attribute|value] ; entité custom via EntityManager/action/createEntity (fichiers dans /var/www/html/custom → volume espo47-custom persistant sinon 404)",
   "panels bas (stream) lazy-rendered → scrollIntoViewIfNeeded avant attente ; .panel-stream = panel-{{name}} généré",
