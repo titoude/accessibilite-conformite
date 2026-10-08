@@ -52,8 +52,6 @@ if [ "${SKIP_FRONT_BUILD:-0}" != "1" ]; then
   npx nx run twenty-front:lingui:extract
   npx nx run twenty-front:lingui:compile
   NODE_OPTIONS=--max-old-space-size=12288 npx nx build twenty-front
-  rm -rf packages/twenty-server/dist/front
-  cp -r packages/twenty-front/build packages/twenty-server/dist/front
 fi
 
 # --- 4. DB : init + migrations + seed dev (crée workspaces Apple + YCombinator,
@@ -62,6 +60,13 @@ cd packages/twenty-server
 node dist/database/scripts/setup-db.js || node dist/scripts/setup-db.js || true
 npx nx run twenty-server:database:migrate -- --include-slow || npx nx run twenty-server:database:migrate
 npx nx command-no-deps twenty-server -- workspace:seed:dev || true
+
+# dist/front APRÈS les commandes nx : elles ré-émettent dist/ et effacent un
+# dist/front copié trop tôt (course constatée : /welcome 404 en fin de boot).
+if [ -d ../twenty-front/build ]; then
+  rm -rf dist/front
+  cp -r ../twenty-front/build dist/front
+fi
 
 # --- 5. Serveur ---
 PID=$(ss -tlnp 2>/dev/null | grep ":${APP_PORT} " | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2); [ -n "${PID:-}" ] && kill "$PID" 2>/dev/null || true
