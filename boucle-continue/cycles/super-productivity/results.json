@@ -1,0 +1,71 @@
+{
+ "cycle": 51,
+ "product": {
+  "repo": "https://github.com/johannesjo/super-productivity",
+  "sha": "71eb7780bcf5d6b1dfdcd39a8a8265547d040760",
+  "versionPinned": "v19.1.0 (master HEAD au pin)",
+  "servingImage": "n/a — checkout local + `ng build --configuration stage` (SHA réel, pas d'image)",
+  "imageVsSha": "n/a : build depuis les sources pinnées, écart NUL"
+ },
+ "axeVersion": "4.14.0",
+ "runnerVersion": "audit.mjs v10-sup",
+ "playwright": "1.64.0",
+ "baseline": {
+  "rules": {
+   "aria-required-parent": 392,
+   "aria-required-children": 85,
+   "button-name": 82,
+   "region": 46,
+   "color-contrast": 44,
+   "label": 42,
+   "aria-allowed-attr": 34,
+   "tabindex": 20,
+   "empty-table-header": 12,
+   "aria-tab-name": 7,
+   "landmark-unique": 6,
+   "aria-allowed-role": 2,
+   "heading-order": 2,
+   "aria-input-field-name": 1,
+   "aria-command-name": 1,
+   "scrollable-region-focusable": 1
+  },
+  "ruleCount": 16,
+  "occurrences": 777,
+  "incomplete": 569,
+  "errors": 0,
+  "scenarios": 35
+ },
+ "rescan": [
+  {"run": "rescan-1", "rules": 8, "occurrences": 693, "errors": 0},
+  {"run": "rescan-2", "rules": 5, "occurrences": 58, "errors": 0},
+  {"run": "rescan-3", "rules": 3, "occurrences": 23, "errors": 1},
+  {"run": "rescan-4", "rules": 2, "occurrences": 11, "errors": 2},
+  {"run": "rescan-5", "rules": 2, "occurrences": 9, "errors": 0},
+  {"run": "rescan-6", "rules": 2, "occurrences": 6, "errors": 0},
+  {"run": "rescan-7", "rules": 1, "occurrences": 4, "errors": 0},
+  {"run": "rescan-8", "rules": 0, "occurrences": 0, "errors": 0, "incomplete": 548, "scenarios": 34}
+ ],
+ "final": {
+  "ruleCount": 0,
+  "occurrences": 0,
+  "errors": 0,
+  "incomplete": 548,
+  "scenarios": 34
+ },
+ "installBuild": {
+  "pages": {"rules": 0, "occurrences": 0, "errors": 0, "incomplete": 521, "scenarios": 34},
+  "states": {"rules": 0, "occurrences": 0, "errors": 0, "incomplete": 55, "scenarios": 3},
+  "note": "clone vierge @SHA + git apply patch.diff + build stage + seed + rescan verbatim ; les 2 états liés aux ids seed re-scannés sur l'instance install (seed-info-9253)"
+ },
+ "verify": {
+  "patched": {"pass": 39, "fail": 0, "na": 0},
+  "vanilla": {"pass": 25, "fail": 14, "na": 0},
+  "vanillaFails": ["tabindex>0", "overlay role=region", "overlay aria-label", "nav hr role=none", "resize-handle orientation", "nav ancres role=link 5/5", "add-task-bar role=search", "add-task-bar main-input type", "menu contextuel role=menuitem", "daily-summary inline-inputs 10/16", "daily-summary h2", "daily-summary contraste onglet 2.8", "history th vides 2/5", "history cdk-visually-hidden"]
+ },
+ "evalFinal": {"patched": {"ok": 8, "fail": 0, "na": 1}, "na": "skip-link absent (non fourni par le produit)"},
+ "sabotage": {"detections": 4, "missed": 0},
+ "incompleteProbes": {"total": 546, "conformes": 442, "nonConformes": 0, "nonRetrouvees": 106},
+ "patch": {"files": 54, "insertions": 227, "deletions": 86, "sha256": "53f13af693c1a25021860c1e00fd494a0c6b2b7b7845cb264b1a2a358e6e247e"},
+ "scope": "21 routes + 13 états (mobile 390 inclus) — voir scope-compare.json (ids seed régénérés baseline→final, contrast-test retirée)",
+ "verdict": null
+}

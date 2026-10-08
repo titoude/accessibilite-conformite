@@ -1,0 +1,821 @@
+# Audit accessibilité — 2026-10-08
+
+**8 règle(s) violée(s), 693 occurrence(s), 34/34 scénario(s) audité(s), 0 erreur(s), 549 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `738654c22bb8`
+
+## [CRITICAL] aria-required-parent — Certain ARIA roles must be contained by particular parents
+
+Ensure elements with an ARIA role that require parent roles are contained by them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-parent?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/tasks
+  - `ul > li:nth-child(1)`
+  - `.active`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/metrics
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/daily-summary
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/history
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/INBOX/tasks
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/e1U1qVWfULQ-WL1fI3kXg/tasks
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/nuzGMB4quMWcjd_Nc0Dkr/tasks
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/tasks
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `.active`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/metrics
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/daily-summary
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/project/lygcIEdvcG5hdgx6m6dbh/tasks
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `.active`
+  - … +14 autres
+- http://localhost:9251/#/project/lygcIEdvcG5hdgx6m6dbh/history
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/planner
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `.active`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/schedule
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/boards
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/habits
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/search
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/scheduled-list
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/archived-projects
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/config
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/donate
+  - `ul > li:nth-child(1)`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-detail-panel]
+  - `ul > li:nth-child(1)`
+  - `.active`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-context-menu]
+  - `ul > li:nth-child(1)`
+  - `.active`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .nav-link.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.nav-link.mat-mdc-menu-item`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.nav-link[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.nav-link[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/tasks [state:task-done-toggle]
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-19.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `.active`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:nav-item-kebab-menu]
+  - `ul > li:nth-child(1)`
+  - `.active`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .nav-link.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-23.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.nav-link.mat-mdc-menu-trigger`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.nav-link[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.nav-link[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:add-task-bar-open]
+  - `ul > li:nth-child(1)`
+  - `.active`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-23.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/tasks [state:notes-panel]
+  - `ul > li:nth-child(1)`
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - `li:nth-child(2)`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"]`
+  - `li:nth-child(3)`
+  - `a[href$="#/planner"]`
+  - `.has-children:nth-child(5)`
+  - `.ng-tns-c1945631534-19.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link`
+  - `.active`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"]`
+  - … +14 autres
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/daily-summary
+  - `.day-end-note > .mat-mdc-tooltip-trigger.mdc-icon-button[cdk-describedby-host="ng-1"]`
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/metrics
+  - `button[_ngcontent-ng-c2331991770=""][type="button"][cdk-describedby-host="ng-1"]`
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/daily-summary
+  - `.day-end-note > .mat-mdc-tooltip-trigger.mdc-icon-button[cdk-describedby-host="ng-1"]`
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-detail-panel]
+  - `.ng-tns-c1390280783-28[_ngcontent-ng-c1390280783=""][cdk-describedby-host="ng-1"]:nth-child(1)`
+  - `.ng-tns-c1390280783-28[_ngcontent-ng-c1390280783=""][cdk-describedby-host="ng-1"]:nth-child(2)`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-context-menu]
+  - `#mat-menu-panel-31`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/daily-summary
+  - `#mat-tab-group-0-label-0 > .mdc-tab__content > .mdc-tab__text-label`
+- http://localhost:9251/#/planner
+  - `planner-task[data-task-id="6KbYetUtFQZY2Ij2Yox6f"] > swipe-block > .inner-wrapper[_ngcontent-ng-c2829168662=""][pangesture=""] > .task-content[_ngcontent-ng-c1368260370=""] > .no-drag[_ngcontent-ng-c1368260370=""] > .wrap[_ngcontent-ng-c1368260370=""] > .title.ng-star-inserted[_ngcontent-ng-c1368260370=""]`
+  - `.ng-tns-c1094811487-81 > .tag-title[_ngcontent-ng-c4033909443=""]`
+  - `planner-task[data-task-id="6KbYetUtFQZY2Ij2Yox6f"] > swipe-block > .inner-wrapper[_ngcontent-ng-c2829168662=""][pangesture=""] > .task-content[_ngcontent-ng-c1368260370=""] > .no-drag[_ngcontent-ng-c1368260370=""] > .planner-time-remaining-shared[_ngcontent-ng-c1368260370=""] > inline-input > .inline-input-wrapper[_ngcontent-ng-c1337211046=""] > .value-wrapper[_ngcontent-ng-c1337211046=""]`
+  - `planner-task[data-task-id="aeH3c9nrC1Zzx8HnCMbCG"] > swipe-block > .inner-wrapper[_ngcontent-ng-c2829168662=""][pangesture=""] > .task-content[_ngcontent-ng-c1368260370=""] > .no-drag[_ngcontent-ng-c1368260370=""] > .wrap[_ngcontent-ng-c1368260370=""] > .title.ng-star-inserted[_ngcontent-ng-c1368260370=""]`
+  - `.ng-tns-c1094811487-82 > .tag-title[_ngcontent-ng-c4033909443=""]`
+  - `planner-task[data-task-id="aeH3c9nrC1Zzx8HnCMbCG"] > swipe-block > .inner-wrapper[_ngcontent-ng-c2829168662=""][pangesture=""] > .task-content[_ngcontent-ng-c1368260370=""] > .no-drag[_ngcontent-ng-c1368260370=""] > .planner-time-remaining-shared[_ngcontent-ng-c1368260370=""] > inline-input > .inline-input-wrapper[_ngcontent-ng-c1337211046=""] > .value-wrapper[_ngcontent-ng-c1337211046=""]`
+- http://localhost:9251/#/habits
+  - `.mdc-button__label[_ngcontent-ng-c1142341894=""]`
+  - `.disabled-section-header > span[_ngcontent-ng-c1142341894=""]`
+- http://localhost:9251/#/search
+  - `mat-label`
+  - `p`
+- http://localhost:9251/#/archived-projects
+  - `p`
+- http://localhost:9251/#/config
+  - `#mat-tab-group-3-label-0 > .mdc-tab__content > .mdc-tab__text-label > .tab-label[_ngcontent-ng-c3120737029=""]`
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-detail-panel]
+  - `.edit-date-info`
+- http://localhost:9251/#/tag/TODAY/tasks [state:create-project-dialog]
+  - `#mat-mdc-form-field-label-2 > mat-label`
+  - `#mat-mdc-form-field-label-3 > mat-label`
+- http://localhost:9251/#/search [state:search-results]
+  - `mat-label`
+
+## [SERIOUS] aria-tab-name — ARIA tab nodes must have an accessible name
+
+Ensure every ARIA tab node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-tab-name?application=axeAPI
+
+- http://localhost:9251/#/boards
+  - `#mat-tab-group-2-label-2`
+- http://localhost:9251/#/config [state:config-section-open]
+  - `#mat-tab-group-0-label-0`
+  - `#mat-tab-group-0-label-1`
+  - `#mat-tab-group-0-label-2`
+  - `#mat-tab-group-0-label-3`
+  - `#mat-tab-group-0-label-4`
+  - `#mat-tab-group-0-label-5`
+
+## [SERIOUS] aria-input-field-name — ARIA input fields must have an accessible name
+
+Ensure every ARIA input field has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-input-field-name?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-detail-panel]
+  - `.cm-content`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/tasks [state:add-task-bar-open]
+  - `input`
+- http://localhost:9251/#/tag/TODAY/tasks [state:mobile-add-task-390]
+  - `input`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:9251/#/tag/TODAY/daily-summary
+  - `.project-section:nth-child(1) > task-summary-table > .table-wrapper.mat-elevation-z1[_ngcontent-ng-c2100237450=""] > .mat-mdc-table.mdc-data-table__table.cdk-table > thead > .mat-mdc-header-row.mdc-data-table__header-row.cdk-header-row > .cdk-column-done.mat-column-done`
+  - `.project-section:nth-child(2) > task-summary-table > .table-wrapper.mat-elevation-z1[_ngcontent-ng-c2100237450=""] > .mat-mdc-table.mdc-data-table__table.cdk-table > thead > .mat-mdc-header-row.mdc-data-table__header-row.cdk-header-row > .cdk-column-done.mat-column-done`
+- http://localhost:9251/#/tag/TODAY/history
+  - `th:nth-child(1)`
+  - `th[aria-label="Working times"]`
+  - `th:nth-child(5)`
+- http://localhost:9251/#/tag/INBOX/tasks
+  - `th:nth-child(1)`
+  - `th[aria-label="Working times"]`
+  - `th:nth-child(5)`
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/daily-summary
+  - `.mat-mdc-header-row > .cdk-column-done.mat-column-done`
+- http://localhost:9251/#/project/lygcIEdvcG5hdgx6m6dbh/history
+  - `th:nth-child(1)`
+  - `th[aria-label="Working times"]`
+  - `th:nth-child(5)`
+
+## Résultats incomplets à revoir (549)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9251/#/tag/TODAY/tasks
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/tag/TODAY/metrics
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +4 autres
+- http://localhost:9251/#/tag/TODAY/daily-summary
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/tag/TODAY/history
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/tag/INBOX/tasks
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/tag/e1U1qVWfULQ-WL1fI3kXg/tasks
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +9 autres
+- http://localhost:9251/#/tag/nuzGMB4quMWcjd_Nc0Dkr/tasks
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +9 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/tasks
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +9 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/metrics
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +41 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/daily-summary
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +32 autres
+- http://localhost:9251/#/project/lygcIEdvcG5hdgx6m6dbh/tasks
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +9 autres
+- http://localhost:9251/#/project/lygcIEdvcG5hdgx6m6dbh/history
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +22 autres
+- http://localhost:9251/#/planner
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/schedule
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +4 autres
+- http://localhost:9251/#/boards
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +5 autres
+- http://localhost:9251/#/habits
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/search
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +4 autres
+- http://localhost:9251/#/scheduled-list
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/archived-projects
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +4 autres
+- http://localhost:9251/#/config
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +8 autres
+- http://localhost:9251/#/donate
+  - `.isActiveContext > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-detail-panel]
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +9 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:task-context-menu]
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .nav-link.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.nav-link.mat-mdc-menu-item > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23:nth-child(1) > .expanded.nav-link.mat-mdc-menu-item > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +20 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/tasks [state:task-done-toggle]
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-19.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +10 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:nav-item-kebab-menu]
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .nav-link.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.nav-link.mat-mdc-menu-trigger > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-25:nth-child(1) > .expanded.nav-link.mat-mdc-menu-trigger > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +9 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:create-project-dialog]
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-25:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:add-task-bar-open]
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-23.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="9Y0xk1owrp0iXXYZqE7nB"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-25:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="e1U1qVWfULQ-WL1fI3kXg"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="nuzGMB4quMWcjd_Nc0Dkr"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/search"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +3 autres
+- http://localhost:9251/#/project/9Y0xk1owrp0iXXYZqE7nB/tasks [state:notes-panel]
+  - `nav-item[data-tag-id="TODAY"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-tag-id="TODAY"] > .task-count.ng-star-inserted[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="INBOX_PROJECT"] > .mat-mdc-menu-item.nav-link[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `a[href$="#/planner"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-19.g-multi-btn-wrapper[_ngcontent-ng-c1945631534=""] > nav-item > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.active > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `.isActiveContext > .task-count.ng-star-inserted[_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .has-tasks.mat-mdc-menu-item[routerlinkactive="active"] > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - `nav-item[data-project-id="lygcIEdvcG5hdgx6m6dbh"] > .task-count.ng-star-inserted[_ngcontent-ng-c579443960=""]`
+  - `.ng-tns-c1945631534-21:nth-child(1) > .expanded.mat-mdc-menu-item.nav-link > .mat-mdc-menu-item-text > .nav-label[aria-hidden="false"][_ngcontent-ng-c579443960=""]`
+  - … +12 autres
+- http://localhost:9251/#/tag/TODAY/tasks [state:mobile-menu-open-390]
+  - `span[_ngcontent-ng-c950344250=""]`
+- http://localhost:9251/#/tag/TODAY/tasks [state:mobile-add-task-390]
+  - `.has-value.action-btn.mat-mdc-menu-trigger > .mdc-button__label > span[_ngcontent-ng-c1204000809=""]`
+  - `button[data-test="add-task-bar-due-btn"] > .mdc-button__label > span[_ngcontent-ng-c1204000809=""]`
+  - `.action-btn.mat-mdc-menu-trigger.mat-mdc-button:nth-child(5) > .mdc-button__label > span[_ngcontent-ng-c1204000809=""]`
+  - `.estimate-btn > .mdc-button__label > span[_ngcontent-ng-c1204000809=""]`
+- http://localhost:9251/#/config [state:config-section-open]
+  - `#mat-button-toggle-0-button > .mat-button-toggle-label-content > .dark-mode-toggle__content[_ngcontent-ng-c544133472=""] > .dark-mode-toggle__label[_ngcontent-ng-c544133472=""]`
+  - `#mat-button-toggle-1-button > .mat-button-toggle-label-content > .dark-mode-toggle__content[_ngcontent-ng-c544133472=""] > .dark-mode-toggle__label[_ngcontent-ng-c544133472=""]`
+  - `#mat-button-toggle-2-button > .mat-button-toggle-label-content > .dark-mode-toggle__content[_ngcontent-ng-c544133472=""] > .dark-mode-toggle__label[_ngcontent-ng-c544133472=""]`
+  - `.mat-mdc-select-value-text > .mat-mdc-select-min-line`
+  - `#mat-mdc-form-field-label-6 > mat-label`
+  - `#mat-mdc-form-field-label-7 > mat-label`
+  - `#mat-mdc-form-field-label-8 > mat-label`
+- http://localhost:9251/#/search [state:search-results]
+  - `#mat-input-0`
+  - `.task-title`
+  - `.tag-title`
+
+### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
+
+- http://localhost:9251/#/tag/TODAY/tasks [state:create-project-dialog]
+  - `app-root`
+  - `#cdk-overlay-2 > .cdk-focus-trap-anchor.cdk-visually-hidden[aria-hidden="true"]:nth-child(1)`
+  - `#cdk-overlay-2 > .cdk-focus-trap-anchor.cdk-visually-hidden[aria-hidden="true"]:nth-child(3)`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:9251/#/tag/TODAY/tasks [state:mobile-menu-open-390]
+  - `button[aria-label="Side Panel Menu"]`
+

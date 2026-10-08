@@ -1,0 +1,47 @@
+{
+ "cycle": 51,
+ "project": "johannesjo/super-productivity",
+ "commit": "71eb7780bcf5d6b1dfdcd39a8a8265547d040760",
+ "commit_date": "v19.1.0 (branche master, HEAD pinné au clone)",
+ "branch_upstream": "master @71eb7780",
+ "framework": "Angular 21 + Angular Material MDC + NgRx — PWA task manager 100% client-side, persistance IndexedDB (offline-first, aucun backend). Première surface offline-first/PWA de la boucle.",
+ "served_source": "checkout local ~/work/super-productivity @71eb7780 ; build `npx ng build --configuration stage` → .tmp/angular-dist/browser servi par `npx http-server -p 9251 -c-1 --proxy`. versions.ts régénéré via `GITHUB_SHA=<sha> node tools/git-version.js` (fichier généré, exclu du patch).",
+ "base_url": "http://localhost:9251",
+ "ports": {
+  "app": 9251,
+  "vanilla": 9252,
+  "install-build": 9253
+ },
+ "boot": {
+  "deps": "node 22.18.0 via nvm (export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh && nvm use 22.18.0) ; node_modules copiés depuis le checkout principal pour l'install-build",
+  "build": "cd ~/work/super-productivity && GITHUB_SHA=71eb7780bcf5d6b1dfdcd39a8a8265547d040760 node tools/git-version.js && node tools/load-env.js --ensure && GITHUB_SHA=71eb7780bcf5d6b1dfdcd39a8a8265547d040760 npx ng build --configuration stage",
+  "run": "cd .tmp/angular-dist/browser && npx http-server . -p 9251 -c-1 --proxy http://localhost:9251?",
+  "seed": "cd cycles/super-productivity/tools && node seed.mjs http://localhost:9251/ seed-profile  # crée 2 projets + 2 tags + 9 tâches via UI + IndexedDB ; réécrit tools/seed-info.json (ids régénérés à chaque run)",
+  "profile": "chromium.launchPersistentContext(<profileDir>, {locale:'en-US'}) — IndexedDB persiste dans le profil"
+ },
+ "auditCommands": {
+  "baseline": "URLS=$(paste -sd, urls.txt) && node audit.mjs http://localhost:9251/ --profile seed-profile --out ../reports/baseline --urls \"$URLS\" --states all",
+  "final": "identique baseline --out ../reports/rescan-8.json (post-patch, 0 viol/0 err — copié dans ../reports/final)",
+  "install-build": "git clone --no-hardlinks ~/work/super-productivity ~/work/sp-clean @71eb7780 + git apply patch.diff + GITHUB_SHA=71eb7780 node tools/git-version.js && node tools/load-env.js --ensure && npx ng build --configuration stage --output-path .tmp/patched-dist + http-server :9253 + node seed.mjs http://localhost:9253/ patched-profile + rescan verbatim --out ../reports/install-build.json (+ install-build-states.json pour les 2 états à id seed)",
+  "verify": "node verify.mjs http://localhost:9251/ seed-profile",
+  "eval": "node eval-final.mjs http://localhost:9251/ seed-profile",
+  "sabotage": "node sabotage.mjs http://localhost:9251/ seed-profile",
+  "probes": "node incomplete-probes.mjs http://localhost:9251/ --profile seed-profile --reports ../reports/final --out ../reports/incomplete-probes.json"
+ },
+ "states": [
+  "task-detail-panel", "task-context-menu", "task-done-toggle", "nav-item-kebab-menu",
+  "create-project-dialog", "add-task-bar-open", "notes-panel", "mobile-nav-390",
+  "mobile-menu-open-390", "mobile-add-task-390", "config-section-open", "search-results", "route-404"
+ ],
+ "gotchas": [
+  "Hash router — routes `#/...`; hydration marker `.route-wrapper`",
+  "--urls de audit.mjs = liste séparée par virgules (pas un fichier)",
+  "mat-menu-item sur des ancres = role=menuitem implicite → aria-required-parent ; fix = role=\"link\" explicite",
+  "élément hôte Angular Material v21 = `mat-form-field` (mat-mdc-form-field est la CLASSE) — un sélecteur d'élément `mat-mdc-form-field` ne matche rien",
+  "tokens contraste Material : --mat-tab-(in)active-label-text-color (pas -header-), --mat-form-field-*-label-text-color sous .mat-mdc-form-field.mat-accent",
+  "mat-tab [ariaLabel] input ne remonte pas au role=tab en M21 — utiliser [aria-label]",
+  "add-task-bar ne se monte qu'après clic .tour-addBtn ; FAB mobile = mobile-bottom-nav button[aria-label='Add new task']",
+  "seed.mjs régénère les ids à CHAQUE run — fixer seed-info.json committé sur l'instance des artefacts",
+  "#/contrast-test exclu : fixture dev interne volontairement non conforme"
+ ]
+}

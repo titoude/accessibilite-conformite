@@ -1,0 +1,1545 @@
+diff --git a/src/app/app.component.html b/src/app/app.component.html
+index 1bdc86966..b335d7942 100644
+--- a/src/app/app.component.html
++++ b/src/app/app.component.html
+@@ -13,6 +13,7 @@
+ <!--TODO move inside page container somehow -->
+ @if (layoutService.isShowAddTaskBar()) {
+   <add-task-bar
++    role="search"
+     (closed)="layoutService.hideAddTaskBar()"
+     (done)="layoutService.hideAddTaskBar()"
+     (afterTaskAdd)="onTaskAdded($event)"
+diff --git a/src/app/app.component.ts b/src/app/app.component.ts
+index 27a754778..95e3b39fb 100644
+--- a/src/app/app.component.ts
++++ b/src/app/app.component.ts
+@@ -46,6 +46,7 @@ import {
+   TaskAddEvent,
+ } from './features/tasks/add-task-bar/add-task-bar.component';
+ import { Dir } from '@angular/cdk/bidi';
++import { OverlayContainer } from '@angular/cdk/overlay';
+ import { MagicSideNavComponent } from './core-ui/magic-side-nav/magic-side-nav.component';
+ import { MainHeaderComponent } from './core-ui/main-header/main-header.component';
+ import { BannerComponent } from './core/banner/banner/banner.component';
+@@ -230,6 +231,13 @@ export class AppComponent implements OnDestroy, AfterViewInit {
+   private _subs: Subscription = new Subscription();
+ 
+   constructor() {
++    // Overlay surfaces (menus, dialogs, tooltips) render into a detached
++    // container at the end of <body>: without a landmark, axe's region rule
++    // flags every open menu/dialog as content outside landmarks.
++    const overlayEl = inject(OverlayContainer).getContainerElement();
++    overlayEl.setAttribute('role', 'region');
++    overlayEl.setAttribute('aria-label', 'Overlays');
++
+     this._startupService.init();
+     this._iosShareService.start();
+     void this._materialIconsLoaderService.ensureFontReady();
+diff --git a/src/app/core-ui/magic-side-nav/magic-side-nav.component.html b/src/app/core-ui/magic-side-nav/magic-side-nav.component.html
+index 919488aa1..7a223164d 100644
+--- a/src/app/core-ui/magic-side-nav/magic-side-nav.component.html
++++ b/src/app/core-ui/magic-side-nav/magic-side-nav.component.html
+@@ -106,6 +106,7 @@
+           @switch (item.type) {
+             @case ('separator') {
+               <hr
++                role="none"
+                 class="nav-separator"
+                 [style.margin-top]="item.mtAuto && 'auto'"
+               />
+@@ -212,16 +213,16 @@
+         }
+       </ul>
+     }
++    <!-- Resize Handle (inside the navigation landmark it resizes) -->
++    @if (config().resizable && !isMobile()) {
++      <div
++        class="resize-handle position-left"
++        [class.compactMode-handle]="!isFullMode()"
++        (mousedown)="onResizeStart($event)"
++        [attr.aria-label]="'Resize sidenav'"
++        role="separator"
++        aria-orientation="vertical"
++      ></div>
++    }
+   </nav>
+ }
+-
+-<!-- Resize Handle (moved outside scrolling container) -->
+-@if (config().resizable && !isMobile()) {
+-  <div
+-    class="resize-handle position-left"
+-    [class.compactMode-handle]="!isFullMode()"
+-    (mousedown)="onResizeStart($event)"
+-    [attr.aria-label]="'Resize sidenav'"
+-    role="separator"
+-  ></div>
+-}
+diff --git a/src/app/core-ui/magic-side-nav/nav-item/nav-item.component.html b/src/app/core-ui/magic-side-nav/nav-item/nav-item.component.html
+index 3694392bc..eef68e7b8 100644
+--- a/src/app/core-ui/magic-side-nav/nav-item/nav-item.component.html
++++ b/src/app/core-ui/magic-side-nav/nav-item/nav-item.component.html
+@@ -11,6 +11,7 @@
+     class="nav-link"
+     [class.has-tasks]="nrOfOpenTasks() > 0"
+     mat-menu-item
++    role="link"
+     (click)="clicked.emit()"
+   >
+     <mat-icon
+@@ -60,6 +61,7 @@
+     #folderBtn
+     class="nav-link"
+     mat-menu-item
++    role="button"
+     [attr.aria-expanded]="expanded()"
+     [attr.aria-controls]="ariaControls()"
+     (click)="clicked.emit()"
+@@ -107,6 +109,7 @@
+       [routerLink]="navRoute()"
+       routerLinkActive="active"
+       mat-menu-item
++      role="link"
+       class="nav-link"
+       [class.expanded]="expanded()"
+       [class]="tourClass()"
+@@ -176,6 +179,7 @@
+       [href]="navHref()"
+       target="_blank"
+       mat-menu-item
++      role="link"
+       rel="noopener noreferrer"
+       class="nav-link"
+       [class.expanded]="expanded()"
+@@ -217,6 +221,7 @@
+     <button
+       class="nav-link"
+       mat-menu-item
++      role="button"
+       [class.expanded]="container() === 'group' && expanded()"
+       [attr.aria-expanded]="container() === 'group' ? expanded() : null"
+       [attr.aria-controls]="container() === 'group' ? ariaControls() : null"
+diff --git a/src/app/core-ui/magic-side-nav/nav-list/nav-list-tree.component.html b/src/app/core-ui/magic-side-nav/nav-list/nav-list-tree.component.html
+index 48f51d93e..51a624e11 100644
+--- a/src/app/core-ui/magic-side-nav/nav-list/nav-list-tree.component.html
++++ b/src/app/core-ui/magic-side-nav/nav-list/nav-list-tree.component.html
+@@ -20,6 +20,7 @@
+               class="additional-btn"
+               mat-icon-button
+               [matTooltip]="btn.tooltip | translate"
++              [attr.aria-label]="btn.tooltip | translate"
+               [matMenuTriggerFor]="visibilityMenu"
+             >
+               <mat-icon>{{ btn.icon }}</mat-icon>
+@@ -29,6 +30,7 @@
+               class="additional-btn"
+               mat-icon-button
+               [matTooltip]="btn.tooltip | translate"
++              [attr.aria-label]="btn.tooltip | translate"
+               (click)="btn.action?.()"
+             >
+               <mat-icon>{{ btn.icon }}</mat-icon>
+@@ -43,7 +45,7 @@
+ @if (isExpanded()) {
+   <div
+     class="nav-children"
+-    role="list"
++    role="group"
+     draggable="false"
+     [@expandCollapse]
+   >
+diff --git a/src/app/core-ui/main-header/desktop-panel-buttons/desktop-panel-buttons.component.ts b/src/app/core-ui/main-header/desktop-panel-buttons/desktop-panel-buttons.component.ts
+index 7e21a5f4d..2b39bb75e 100644
+--- a/src/app/core-ui/main-header/desktop-panel-buttons/desktop-panel-buttons.component.ts
++++ b/src/app/core-ui/main-header/desktop-panel-buttons/desktop-panel-buttons.component.ts
+@@ -26,6 +26,7 @@ import { GlobalConfigService } from '../../../features/config/global-config.serv
+         (click)="layoutService.toggleScheduleDayPanel()"
+         mat-icon-button
+         matTooltip="{{ T.MH.SCHEDULE | translate }}"
++        [attr.aria-label]="T.MH.SCHEDULE | translate"
+       >
+         <mat-icon>schedule</mat-icon>
+       </button>
+@@ -40,6 +41,7 @@ import { GlobalConfigService } from '../../../features/config/global-config.serv
+         matTooltip="{{ T.MH.TOGGLE_SHOW_ISSUE_PANEL | translate }} {{
+           kb()?.toggleIssuePanel ? '[' + kb()?.toggleIssuePanel + ']' : ''
+         }}"
++        [attr.aria-label]="T.MH.TOGGLE_SHOW_ISSUE_PANEL | translate"
+       >
+         <mat-icon>webhook</mat-icon>
+       </button>
+@@ -54,6 +56,7 @@ import { GlobalConfigService } from '../../../features/config/global-config.serv
+         matTooltip="{{ T.MH.TOGGLE_SHOW_NOTES | translate }} {{
+           kb()?.openProjectNotes ? '[' + kb()?.openProjectNotes + ']' : ''
+         }}"
++        [attr.aria-label]="T.MH.TOGGLE_SHOW_NOTES | translate"
+       >
+         <mat-icon>comment</mat-icon>
+       </button>
+diff --git a/src/app/core-ui/main-header/main-header.component.html b/src/app/core-ui/main-header/main-header.component.html
+index 87e9e45bf..9d51e5a61 100644
+--- a/src/app/core-ui/main-header/main-header.component.html
++++ b/src/app/core-ui/main-header/main-header.component.html
+@@ -36,6 +36,7 @@
+   <nav
+     class="action-nav-right"
+     [class.action-nav-right--can-scroll]="canScrollFurther()"
++    [attr.aria-label]="T.MH.QUICK_ACTIONS | translate"
+     [class.action-nav-right--can-scroll-back]="canScrollBack()"
+   >
+     <!--
+@@ -87,6 +88,7 @@
+             class="tour-addBtn"
+             color="primary"
+             mat-icon-button
++            [attr.aria-label]="T.MH.ADD_NEW_TASK | translate"
+           >
+             <mat-icon>add</mat-icon>
+           </button>
+diff --git a/src/app/core-ui/main-header/play-button/play-button.component.ts b/src/app/core-ui/main-header/play-button/play-button.component.ts
+index 7528ed2ac..10f132059 100644
+--- a/src/app/core-ui/main-header/play-button/play-button.component.ts
++++ b/src/app/core-ui/main-header/play-button/play-button.component.ts
+@@ -86,12 +86,15 @@ import { distinctUntilChanged, observeOn } from 'rxjs/operators';
+ 
+       <!-- Anchor only: opened from right-click / long-press (or the context-menu
+            key) on the button, so focus returns to the button, not the anchor. -->
+-      <span
++      <button
++        type="button"
+         class="feature-menu-anchor"
++        aria-hidden="true"
++        tabindex="-1"
+         [matMenuTriggerFor]="featureMenu"
+         [matMenuTriggerRestoreFocus]="false"
+         (menuClosed)="onFeatureMenuClosed()"
+-      ></span>
++      ></button>
+       <mat-menu #featureMenu="matMenu">
+         <button
+           mat-menu-item
+diff --git a/src/app/core/banner/banner/banner.component.html b/src/app/core/banner/banner/banner.component.html
+index 3d4df3da0..815753e7a 100644
+--- a/src/app/core/banner/banner/banner.component.html
++++ b/src/app/core/banner/banner/banner.component.html
+@@ -51,7 +51,7 @@
+             (click)="dismiss(banner.id)"
+             color="primary"
+             mat-button
+-            tabindex="1"
++            tabindex="0"
+           >
+             {{ T.G.DISMISS | translate }}
+           </button>
+@@ -63,7 +63,7 @@
+               [attr.aria-label]="banner.action.label | translate: banner.translateParams"
+               [title]="banner.action.label | translate: banner.translateParams"
+               mat-icon-button
+-              tabindex="1"
++              tabindex="0"
+             >
+               <mat-icon>{{ banner.action.icon }}</mat-icon>
+             </button>
+@@ -72,7 +72,7 @@
+               (click)="action(banner, banner.action)"
+               color="primary"
+               mat-button
+-              tabindex="1"
++              tabindex="0"
+             >
+               {{ banner.action.label | translate: banner.translateParams }}
+             </button>
+@@ -85,7 +85,7 @@
+               [attr.aria-label]="banner.action2.label | translate: banner.translateParams"
+               [title]="banner.action2.label | translate: banner.translateParams"
+               mat-icon-button
+-              tabindex="1"
++              tabindex="0"
+             >
+               <mat-icon>{{ banner.action2.icon }}</mat-icon>
+             </button>
+@@ -94,7 +94,7 @@
+               (click)="action(banner, banner.action2)"
+               color="primary"
+               mat-button
+-              tabindex="1"
++              tabindex="0"
+             >
+               {{ banner.action2.label | translate: banner.translateParams }}
+             </button>
+@@ -107,7 +107,7 @@
+               [attr.aria-label]="banner.action3.label | translate: banner.translateParams"
+               [title]="banner.action3.label | translate: banner.translateParams"
+               mat-icon-button
+-              tabindex="1"
++              tabindex="0"
+             >
+               <mat-icon>{{ banner.action3.icon }}</mat-icon>
+             </button>
+@@ -116,7 +116,7 @@
+               (click)="action(banner, banner.action3)"
+               color="primary"
+               mat-button
+-              tabindex="1"
++              tabindex="0"
+             >
+               {{ banner.action3.label | translate: banner.translateParams }}
+             </button>
+diff --git a/src/app/core/share/share-button/share-button.component.ts b/src/app/core/share/share-button/share-button.component.ts
+index d6a798712..75b79baf7 100644
+--- a/src/app/core/share/share-button/share-button.component.ts
++++ b/src/app/core/share/share-button/share-button.component.ts
+@@ -16,6 +16,7 @@ import { SharePayload } from '../share.model';
+       mat-icon-button
+       type="button"
+       [matTooltip]="tooltip()"
++      [attr.aria-label]="tooltip()"
+       (click)="share()"
+       [disabled]="disabled()"
+     >
+diff --git a/src/app/features/boards/boards.component.html b/src/app/features/boards/boards.component.html
+index 25ca5e6e3..2c7de52e5 100644
+--- a/src/app/features/boards/boards.component.html
++++ b/src/app/features/boards/boards.component.html
+@@ -33,7 +33,7 @@
+     </mat-tab>
+   }
+ 
+-  <mat-tab>
++  <mat-tab [aria-label]="T.F.BOARDS.V.ADD_NEW_BOARD | translate">
+     <ng-template mat-tab-label>
+       <div class="tab-header-item">
+         <mat-icon>add_circle</mat-icon>
+diff --git a/src/app/features/history/history.component.html b/src/app/features/history/history.component.html
+index bc6915134..6325c53c1 100644
+--- a/src/app/features/history/history.component.html
++++ b/src/app/features/history/history.component.html
+@@ -110,7 +110,11 @@
+                           <table class="week-table">
+                             <thead>
+                               <tr>
+-                                <th scope="col"></th>
++                                <th scope="col">
++                                  <span class="cdk-visually-hidden">{{
++                                    T.F.WORKLOG.CMP.DAY | translate
++                                  }}</span>
++                                </th>
+                                 <th
+                                   scope="col"
+                                   class="work-range"
+@@ -122,6 +126,9 @@
+                                     [matTooltip]="T.F.WORKLOG.CMP.WORK_TIMES | translate"
+                                     >schedule</mat-icon
+                                   >
++                                  <span class="cdk-visually-hidden">{{
++                                    T.F.WORKLOG.CMP.WORK_TIMES | translate
++                                  }}</span>
+                                 </th>
+                                 <th scope="col">
+                                   {{ T.F.WORKLOG.CMP.TASKS | translate }}
+@@ -129,7 +136,11 @@
+                                 <th scope="col">
+                                   {{ T.F.WORKLOG.CMP.WORKED | translate }}
+                                 </th>
+-                                <th scope="col"></th>
++                                <th scope="col">
++                                  <span class="cdk-visually-hidden">{{
++                                    T.F.WORKLOG.CMP.DAY_DETAILS | translate
++                                  }}</span>
++                                </th>
+                               </tr>
+                             </thead>
+                             @for (
+diff --git a/src/app/features/issue/providers/gitlab/dialog-gitlab-submit-worklog-for-day/dialog-gitlab-submit-worklog-for-day.component.html b/src/app/features/issue/providers/gitlab/dialog-gitlab-submit-worklog-for-day/dialog-gitlab-submit-worklog-for-day.component.html
+index 208a2fc17..09ad01c4d 100644
+--- a/src/app/features/issue/providers/gitlab/dialog-gitlab-submit-worklog-for-day/dialog-gitlab-submit-worklog-for-day.component.html
++++ b/src/app/features/issue/providers/gitlab/dialog-gitlab-submit-worklog-for-day/dialog-gitlab-submit-worklog-for-day.component.html
+@@ -78,6 +78,7 @@
+           }
+           <inline-input
+             (changed)="updateTimeSpentTodayForTask(tmpTask, $event)"
++            [ariaLabel]="T.F.ISSUE.ISSUE_CONTENT.TIME_SPENT | translate"
+             [displayValue]="tmpTask.timeToSubmit | msToClockString"
+             [type]="'duration'"
+             [value]="tmpTask.timeToSubmit"
+diff --git a/src/app/features/metric/activity-heatmap/activity-heatmap.component.html b/src/app/features/metric/activity-heatmap/activity-heatmap.component.html
+index 844373a3c..a9a383b68 100644
+--- a/src/app/features/metric/activity-heatmap/activity-heatmap.component.html
++++ b/src/app/features/metric/activity-heatmap/activity-heatmap.component.html
+@@ -8,6 +8,7 @@
+           (click)="shareHeatmap()"
+           [disabled]="isSharing()"
+           [matTooltip]="T.F.METRIC.CMP.SHARE_HEATMAP | translate"
++          [attr.aria-label]="T.F.METRIC.CMP.SHARE_HEATMAP | translate"
+         >
+           @if (isSharing()) {
+             <mat-icon>hourglass_empty</mat-icon>
+diff --git a/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html b/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html
+index 4749a7348..c7ca7d919 100644
+--- a/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html
++++ b/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html
+@@ -35,6 +35,7 @@
+       <div
+         class="daily-state-label"
+         [matTooltip]="T.F.METRIC.EVAL_FORM.DAILY_STATE_TOOLTIP | translate"
++                  [attr.aria-label]="T.F.METRIC.EVAL_FORM.DAILY_STATE_TOOLTIP | translate"
+         matTooltipPosition="above"
+       >
+         {{ T.F.METRIC.EVAL_FORM.DAILY_STATE | translate }}
+@@ -57,6 +58,7 @@
+           <div
+             class="label"
+             [matTooltip]="T.F.METRIC.EVAL_FORM.PRODUCTIVITY_SCORE_TOOLTIP | translate"
++                  [attr.aria-label]="T.F.METRIC.EVAL_FORM.PRODUCTIVITY_SCORE_TOOLTIP | translate"
+             matTooltipPosition="above"
+           >
+             {{ T.F.METRIC.EVAL_FORM.PRODUCTIVITY_SCORE | translate }}
+@@ -91,6 +93,7 @@
+           <div
+             class="label"
+             [matTooltip]="T.F.METRIC.EVAL_FORM.SUSTAINABILITY_SCORE_TOOLTIP | translate"
++                  [attr.aria-label]="T.F.METRIC.EVAL_FORM.SUSTAINABILITY_SCORE_TOOLTIP | translate"
+             matTooltipPosition="above"
+           >
+             {{ T.F.METRIC.EVAL_FORM.SUSTAINABILITY_SCORE | translate }}
+diff --git a/src/app/features/metric/lazy-chart/lazy-chart.component.html b/src/app/features/metric/lazy-chart/lazy-chart.component.html
+index 1f87af218..20800451e 100644
+--- a/src/app/features/metric/lazy-chart/lazy-chart.component.html
++++ b/src/app/features/metric/lazy-chart/lazy-chart.component.html
+@@ -27,6 +27,7 @@
+       (click)="shareChart()"
+       [disabled]="!isModuleLoaded() || isSharing()"
+       [matTooltip]="T.G.SHARE | translate"
++      [attr.aria-label]="T.G.SHARE | translate"
+     >
+       @if (isSharing()) {
+         <mat-icon>hourglass_empty</mat-icon>
+diff --git a/src/app/features/planner/planner-task/planner-task.component.html b/src/app/features/planner/planner-task/planner-task.component.html
+index d073b201b..da4c429cb 100644
+--- a/src/app/features/planner/planner-task/planner-task.component.html
++++ b/src/app/features/planner/planner-task/planner-task.component.html
+@@ -60,6 +60,7 @@
+       >
+         <inline-input
+           (changed)="updateTimeEstimate($event)"
++          [ariaLabel]="T.F.ISSUE.TWO_WAY_SYNC.TIME_ESTIMATE | translate"
+           [displayValue]="timeEstimate() | msToString"
+           [type]="'duration'"
+           [value]="timeEstimate()"
+diff --git a/src/app/features/schedule/schedule/schedule.component.html b/src/app/features/schedule/schedule/schedule.component.html
+index d073568d3..7360ce9a6 100644
+--- a/src/app/features/schedule/schedule/schedule.component.html
++++ b/src/app/features/schedule/schedule/schedule.component.html
+@@ -139,6 +139,7 @@
+ <div
+   #scrollWrapper
+   class="scroll-wrapper"
++  tabindex="0"
+   [attr.data-horizontal-scroll]="shouldEnableHorizontalScroll() || null"
+   (scroll)="onScrollWrapperScroll($event)"
+ >
+diff --git a/src/app/features/simple-counter/habit-tracker/habit-tracker.component.html b/src/app/features/simple-counter/habit-tracker/habit-tracker.component.html
+index 0e7d0acf9..add385cd0 100644
+--- a/src/app/features/simple-counter/habit-tracker/habit-tracker.component.html
++++ b/src/app/features/simple-counter/habit-tracker/habit-tracker.component.html
+@@ -5,6 +5,7 @@
+         mat-icon-button
+         (click)="prevWeek()"
+         [matTooltip]="T.F.SIMPLE_COUNTER.HABIT_TRACKER.PREV_WEEK | translate"
++        [attr.aria-label]="T.F.SIMPLE_COUNTER.HABIT_TRACKER.PREV_WEEK | translate"
+       >
+         <mat-icon>chevron_left</mat-icon>
+       </button>
+@@ -13,6 +14,7 @@
+         mat-icon-button
+         (click)="nextWeek()"
+         [matTooltip]="T.F.SIMPLE_COUNTER.HABIT_TRACKER.NEXT_WEEK | translate"
++        [attr.aria-label]="T.F.SIMPLE_COUNTER.HABIT_TRACKER.NEXT_WEEK | translate"
+         [disabled]="dayOffset() >= 0"
+       >
+         <mat-icon>chevron_right</mat-icon>
+@@ -133,7 +135,7 @@
+   <div class="footer-actions">
+     <button
+       mat-stroked-button
+-      tabindex="1"
++      tabindex="0"
+       (click)="addHabit()"
+       class="add-habit-btn"
+     >
+@@ -174,6 +176,7 @@
+                   mat-icon-button
+                   (click)="enableHabit(counter.id)"
+                   [matTooltip]="T.F.SIMPLE_COUNTER.FORM.L_IS_ENABLED | translate"
++        [attr.aria-label]="T.F.SIMPLE_COUNTER.FORM.L_IS_ENABLED | translate"
+                 >
+                   <mat-icon>visibility</mat-icon>
+                 </button>
+@@ -181,6 +184,7 @@
+                   mat-icon-button
+                   (click)="openEditSettings(counter)"
+                   [matTooltip]="T.G.EDIT | translate"
++        [attr.aria-label]="T.G.EDIT | translate"
+                 >
+                   <mat-icon>edit</mat-icon>
+                 </button>
+@@ -188,6 +192,7 @@
+                   mat-icon-button
+                   (click)="deleteHabit(counter)"
+                   [matTooltip]="T.G.DELETE | translate"
++        [attr.aria-label]="T.G.DELETE | translate"
+                 >
+                   <mat-icon>delete</mat-icon>
+                 </button>
+diff --git a/src/app/features/simple-counter/habit-tracker/habit-tracker.component.scss b/src/app/features/simple-counter/habit-tracker/habit-tracker.component.scss
+index fa5df387c..76643f4c6 100644
+--- a/src/app/features/simple-counter/habit-tracker/habit-tracker.component.scss
++++ b/src/app/features/simple-counter/habit-tracker/habit-tracker.component.scss
+@@ -275,7 +275,7 @@
+   padding: var(--s4) var(--s2);
+ 
+   .add-habit-btn {
+-    opacity: 0.6;
++    opacity: 0.85;
+     transition: var(--transition-standard);
+     background-color: transparent !important;
+     border: 1px solid rgba(255, 255, 255, 0.2) !important;
+@@ -313,7 +313,7 @@
+   color: inherit;
+   cursor: pointer;
+   font-size: 13px;
+-  opacity: 0.6;
++  opacity: 0.85;
+   padding: var(--s) 0;
+ 
+   &:hover {
+diff --git a/src/app/features/tasks/add-task-bar/add-task-bar-actions/add-task-bar-actions.component.html b/src/app/features/tasks/add-task-bar/add-task-bar-actions/add-task-bar-actions.component.html
+index 5d141aebc..13df4cae3 100644
+--- a/src/app/features/tasks/add-task-bar/add-task-bar-actions/add-task-bar-actions.component.html
++++ b/src/app/features/tasks/add-task-bar/add-task-bar-actions/add-task-bar-actions.component.html
+@@ -51,6 +51,7 @@
+         data-test="add-task-bar-clear-due-btn"
+         (click)="clearDateWithSyntax(); $event.stopPropagation()"
+         [matTooltip]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_DATE | translate"
++        [attr.aria-label]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_DATE | translate"
+         matTooltipPosition="above"
+       >
+         <mat-icon>close</mat-icon>
+@@ -76,6 +77,7 @@
+       data-test="add-task-bar-clear-deadline-btn"
+       (click)="clearDeadlineWithSyntax(); $event.stopPropagation()"
+       [matTooltip]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_DEADLINE | translate"
++      [attr.aria-label]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_DEADLINE | translate"
+       matTooltipPosition="above"
+     >
+       <mat-icon>close</mat-icon>
+@@ -129,6 +131,7 @@
+         class="clear-btn"
+         (click)="clearTagsWithSyntax(); $event.stopPropagation()"
+         [matTooltip]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_TAGS | translate"
++        [attr.aria-label]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_TAGS | translate"
+         matTooltipPosition="above"
+       >
+         <mat-icon>close</mat-icon>
+@@ -157,6 +160,7 @@
+       class="clear-btn"
+       (click)="clearEstimateWithSyntax(); $event.stopPropagation()"
+       [matTooltip]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_ESTIMATE | translate"
++      [attr.aria-label]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_ESTIMATE | translate"
+       matTooltipPosition="above"
+     >
+       <mat-icon>close</mat-icon>
+@@ -186,6 +190,7 @@
+       data-test="add-task-bar-clear-repeat-btn"
+       (click)="clearRepeatSetting(); $event.stopPropagation()"
+       [matTooltip]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_REPEAT | translate"
++      [attr.aria-label]="T.F.TASK.ADD_TASK_BAR.TOOLTIP_CLEAR_REPEAT | translate"
+       matTooltipPosition="above"
+     >
+       <mat-icon>close</mat-icon>
+diff --git a/src/app/features/tasks/add-task-bar/add-task-bar.component.html b/src/app/features/tasks/add-task-bar/add-task-bar.component.html
+index 160a9e626..fdf89af0e 100644
+--- a/src/app/features/tasks/add-task-bar/add-task-bar.component.html
++++ b/src/app/features/tasks/add-task-bar/add-task-bar.component.html
+@@ -37,9 +37,10 @@
+           isSearchMode()
+             ? (T.F.TASK.ADD_TASK_BAR.PLACEHOLDER_SEARCH | translate)
+             : (T.F.TASK.ADD_TASK_BAR.PLACEHOLDER_CREATE | translate);
+-        <textarea
++        <input
+           #inputEl
+           class="main-input"
++          type="text"
+           [(ngModel)]="stateService.inputTxt"
+           [tabindex]="tabindex()"
+           [mention]="tagMentions$ | async"
+@@ -49,16 +50,12 @@
+           [matAutocomplete]="taskAutoCompleteEl"
+           [placeholder]="stateService.inputTxt() ? '' : inputPlaceholder"
+           [attr.aria-label]="inputPlaceholder"
+-          cdkTextareaAutosize
+-          cdkAutosizeMinRows="1"
+-          cdkAutosizeMaxRows="4"
+-          rows="1"
+           spellcheck="false"
+           (keydown)="onInputKeydown($event)"
+           (input)="onInputChange($event)"
+           (scroll)="syncHighlightScroll()"
+           (paste)="onPaste($event)"
+-        ></textarea>
++        >
+       </div>
+     </div>
+ 
+diff --git a/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.html b/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.html
+index 8df70821c..1bd406c5c 100644
+--- a/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.html
++++ b/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.html
+@@ -15,18 +15,14 @@
+   "
+   (close)="onClose()"
+ >
+-  <div
+-    mat-menu-item
+-    style="height: 0; padding: 0; margin: 0; border: none; min-height: 0"
+-    (focus)="focusFirstBtn($event)"
+-  ></div>
+-
+   <div
+     class="quick-access"
++    role="group"
+     (keydown)="quickAccessKeydown($event)"
+   >
+     <button
+       mat-icon-button
++      role="menuitem"
+       tabindex="0"
+       (click)="quickAccessBtnClick(1)"
+       [matTooltip]="T.F.TASK.D_SCHEDULE_TASK.QA_TODAY | translate"
+@@ -37,6 +33,7 @@
+ 
+     <button
+       mat-icon-button
++      role="menuitem"
+       tabindex="0"
+       (click)="quickAccessBtnClick(2)"
+       [matTooltip]="T.F.TASK.D_SCHEDULE_TASK.QA_TOMORROW | translate"
+@@ -46,6 +43,7 @@
+     </button>
+     <button
+       mat-icon-button
++      role="menuitem"
+       tabindex="0"
+       (click)="quickAccessBtnClick(3)"
+       [matTooltip]="T.F.TASK.D_SCHEDULE_TASK.QA_NEXT_WEEK | translate"
+@@ -63,6 +61,7 @@
+     <!--      </button>-->
+     <button
+       mat-icon-button
++      role="menuitem"
+       tabindex="0"
+       [matTooltip]="
+         (task.dueWithTime || task.dueDay
+@@ -83,6 +82,7 @@
+     @if (task.dueWithTime || task.dueDay) {
+       <button
+         mat-icon-button
++        role="menuitem"
+         tabindex="0"
+         (click)="unscheduleTask()"
+         [matTooltip]="T.F.TASK.CMP.UNSCHEDULE_TASK | translate"
+diff --git a/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.ts b/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.ts
+index d3505efd8..c1cb4584e 100644
+--- a/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.ts
++++ b/src/app/features/tasks/task-context-menu/task-context-menu-inner/task-context-menu-inner.component.ts
+@@ -413,11 +413,6 @@ export class TaskContextMenuInnerComponent implements AfterViewInit, OnDestroy {
+     }
+   }
+ 
+-  focusFirstBtn(ev: FocusEvent): void {
+-    const t = ev.target as HTMLElement;
+-    t?.parentElement?.querySelector('button')?.focus();
+-  }
+-
+   focusFirstSubmenuItem(menu: MatMenu): void {
+     menu.focusFirstItem('program');
+   }
+diff --git a/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.html b/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.html
+index fe50b5deb..eb34f0da0 100644
+--- a/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.html
++++ b/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.html
+@@ -22,6 +22,7 @@
+         class="input-item__edit-btn"
+         color="accent"
+         mat-icon-button
++        [attr.aria-label]="editActionLabel || null"
+       >
+         <mat-icon>{{ inputIcon }}</mat-icon>
+       </button>
+diff --git a/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.ts b/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.ts
+index 6f80fbf11..66a11068a 100644
+--- a/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.ts
++++ b/src/app/features/tasks/task-detail-panel/task-additional-info-item/task-detail-item.component.ts
+@@ -46,6 +46,7 @@ export class TaskDetailItemComponent {
+   //  This input is used in a control flow expression (e.g. `@if` or `*ngIf`)
+   //  and migrating would break narrowing currently.
+   @Input() inputIcon?: string;
++  @Input() editActionLabel?: string;
+ 
+   readonly collapseParent = output<void>();
+   readonly keyPress = output<KeyboardEvent>();
+@@ -57,7 +58,7 @@ export class TaskDetailItemComponent {
+   readonly afterExpand = output<void>();
+   readonly editActionTriggered = output<void>();
+ 
+-  @HostBinding('tabindex') readonly tabindex: number = 3;
++  @HostBinding('tabindex') readonly tabindex: number = 0;
+ 
+   @HostListener('keydown', ['$event']) onKeyDown(ev: KeyboardEvent): void {
+     // Skip handling inside input elements
+diff --git a/src/app/features/tasks/task-detail-panel/task-detail-panel.component.html b/src/app/features/tasks/task-detail-panel/task-detail-panel.component.html
+index f9ba93a55..ebe3c132a 100644
+--- a/src/app/features/tasks/task-detail-panel/task-detail-panel.component.html
++++ b/src/app/features/tasks/task-detail-panel/task-detail-panel.component.html
+@@ -88,6 +88,7 @@
+       "
+       (keyPress)="onItemKeyPress($event)"
+       [inputIcon]="'arrow_forward'"
++      [editActionLabel]="T.F.TASK.ADDITIONAL_INFO.PARENT | translate"
+       class="input-item --estimate"
+     >
+       <ng-container input-title>
+@@ -108,6 +109,7 @@
+       (editActionTriggered)="estimateTime()"
+       (keyPress)="onItemKeyPress($event)"
+       [inputIcon]="hasTimeData() ? 'edit' : 'add'"
++      [editActionLabel]="T.F.TASK.ADDITIONAL_INFO.TIME | translate"
+       class="input-item --estimate"
+     >
+       <ng-container input-title>
+@@ -136,6 +138,7 @@
+     [inputIcon]="
+       task().dueWithTime || task().dueDay || task().repeatCfgId ? 'edit' : 'add'
+     "
++    [editActionLabel]="scheduleLabelKey() | translate"
+     class="input-item"
+     [class.color-warn]="isOverdue()"
+   >
+@@ -177,6 +180,7 @@
+     (editActionTriggered)="openDeadlineDialog()"
+     (keyPress)="onItemKeyPress($event)"
+     [inputIcon]="task().deadlineWithTime || task().deadlineDay ? 'edit' : 'add'"
++    [editActionLabel]="deadlineLabelKey() | translate"
+     class="input-item"
+     [class.color-warn]="isDeadlineOverdue()"
+   >
+@@ -200,6 +204,7 @@
+           class="quick-chip"
+           (click)="removeDeadline($event)"
+           [matTooltip]="T.F.TASK.CMP.REMOVE_DEADLINE | translate"
++          [attr.aria-label]="T.F.TASK.CMP.REMOVE_DEADLINE | translate"
+         >
+           <mat-icon>close</mat-icon>
+         </button>
+@@ -265,6 +270,7 @@
+         [isFocus]="panelState.isFocusNotes()"
+         [isShowControls]="true"
+         [isShowChecklistToggle]="true"
++        [ariaLabel]="T.F.TASK.ADDITIONAL_INFO.NOTES | translate"
+         [isDefaultText]="!task().notes"
+         [defaultText]="isStockNotesTemplate() ? defaultTaskNotes() : ''"
+         [model]="task().notes || defaultTaskNotes()"
+@@ -327,6 +333,7 @@
+       (keyPress)="onItemKeyPress($event)"
+       [matTooltip]="pasteImageHintKey | translate"
+       [inputIcon]="'add'"
++      [editActionLabel]="T.F.TASK.ADDITIONAL_INFO.ADD_ATTACHMENT | translate"
+       class="input-item"
+       matTooltipPosition="above"
+     >
+diff --git a/src/app/features/tasks/task-detail-panel/task-detail-panel.component.scss b/src/app/features/tasks/task-detail-panel/task-detail-panel.component.scss
+index 9c783928d..ea5ad235a 100644
+--- a/src/app/features/tasks/task-detail-panel/task-detail-panel.component.scss
++++ b/src/app/features/tasks/task-detail-panel/task-detail-panel.component.scss
+@@ -87,7 +87,7 @@ progress-bar {
+ .created,
+ .date-info {
+   padding: var(--s);
+-  opacity: 0.5;
++  opacity: 0.9;
+   text-align: center;
+   color: var(--text-color-muted);
+ }
+diff --git a/src/app/features/tasks/task-summary-table/task-summary-table.component.html b/src/app/features/tasks/task-summary-table/task-summary-table.component.html
+index aca83c5ac..ae4e863a2 100644
+--- a/src/app/features/tasks/task-summary-table/task-summary-table.component.html
++++ b/src/app/features/tasks/task-summary-table/task-summary-table.component.html
+@@ -28,6 +28,7 @@
+           }
+           <inline-input
+             (changed)="updateTaskTitle(task, $event)"
++            [ariaLabel]="T.F.BOARDS.FORM.SORT_BY_TITLE | translate"
+             [value]="task.title"
+             style="display: inline-block"
+           >
+@@ -58,6 +59,7 @@
+         @if (!task.subTaskIds?.length) {
+           <inline-input
+             (changed)="updateTimeSpentTodayForTask(task, $event)"
++            [ariaLabel]="T.F.ISSUE.ISSUE_CONTENT.TIME_SPENT | translate"
+             [displayValue]="task.timeSpentOnDay[day()] | msToClockString"
+             [type]="'duration'"
+             [value]="task.timeSpentOnDay[day()]"
+@@ -104,7 +106,11 @@
+       <th
+         *matHeaderCellDef
+         mat-header-cell
+-      ></th>
++      >
++        <span class="cdk-visually-hidden">{{
++          T.F.TASK.SUMMARY_TABLE.TOGGLE_DONE | translate
++        }}</span>
++      </th>
+       <td
+         *matCellDef="let task"
+         mat-cell
+diff --git a/src/app/features/tasks/task-summary-tables/task-summary-tables.component.html b/src/app/features/tasks/task-summary-tables/task-summary-tables.component.html
+index 8b3e78088..a76106e50 100644
+--- a/src/app/features/tasks/task-summary-tables/task-summary-tables.component.html
++++ b/src/app/features/tasks/task-summary-tables/task-summary-tables.component.html
+@@ -5,7 +5,7 @@
+         [style.border-color]="project.color"
+         class="project-title"
+       >
+-        <h3>{{ project.title }}</h3>
++        <h2>{{ project.title }}</h2>
+         <mat-icon>timer</mat-icon>
+         @if (!isShowYesterday()) {
+           <div>{{ project.timeSpentToday | msToString }}</div>
+diff --git a/src/app/features/tasks/task/task-hover-controls/task-hover-controls.component.html b/src/app/features/tasks/task/task-hover-controls/task-hover-controls.component.html
+index 33bccb34a..295bcc13f 100644
+--- a/src/app/features/tasks/task/task-hover-controls/task-hover-controls.component.html
++++ b/src/app/features/tasks/task/task-hover-controls/task-hover-controls.component.html
+@@ -5,6 +5,7 @@
+       title="{{ T.F.TASK.CMP.TRACK_TIME_STOP | translate }} {{
+         kb.togglePlay ? '[' + kb.togglePlay + ']' : ''
+       }}"
++      [attr.aria-label]="T.F.TASK.CMP.TRACK_TIME_STOP | translate"
+       class="ico-btn"
+       color="accent"
+       mat-icon-button
+@@ -17,6 +18,7 @@
+       title="{{ T.F.TASK.CMP.TRACK_TIME | translate }} {{
+         kb.togglePlay ? '[' + kb.togglePlay + ']' : ''
+       }}"
++      [attr.aria-label]="T.F.TASK.CMP.TRACK_TIME | translate"
+       class="ico-btn start-task-btn"
+       color=""
+       mat-icon-button
+@@ -31,6 +33,7 @@
+     title="{{ T.F.TASK.CMP.ADD_TO_MY_DAY | translate }} {{
+       kb.taskScheduleToday ? '[' + kb.taskScheduleToday + ']' : ''
+     }}"
++    [attr.aria-label]="T.F.TASK.CMP.ADD_TO_MY_DAY | translate"
+     class="ico-btn"
+     color=""
+     mat-icon-button
+@@ -42,6 +45,7 @@
+   <button
+     (click)="parent.unschedule()"
+     [title]="T.F.TASK.CMP.REMOVE_FROM_MY_DAY | translate"
++    [attr.aria-label]="T.F.TASK.CMP.REMOVE_FROM_MY_DAY | translate"
+     class="ico-btn"
+     color=""
+     mat-icon-button
+@@ -62,6 +66,7 @@
+     title="{{ T.F.TASK.CMP.TOGGLE_DETAIL_PANEL | translate }} {{
+       kb.taskToggleDetailPanelOpen ? '[' + kb.taskToggleDetailPanelOpen + ']' : ''
+     }}"
++    [attr.aria-label]="T.F.TASK.CMP.TOGGLE_DETAIL_PANEL | translate"
+     class="ico-btn show-additional-info-btn"
+     color=""
+     mat-icon-button
+diff --git a/src/app/features/tasks/task/task.component.html b/src/app/features/tasks/task/task.component.html
+index 02e4f9404..7cf8900f7 100644
+--- a/src/app/features/tasks/task/task.component.html
++++ b/src/app/features/tasks/task/task.component.html
+@@ -130,6 +130,7 @@
+             <button
+               (click)="toggleShowAttachments()"
+               [title]="T.F.TASK.CMP.TOGGLE_ATTACHMENTS | translate"
++              [attr.aria-label]="T.F.TASK.CMP.TOGGLE_ATTACHMENTS | translate"
+               class="ico-btn attachment-btn"
+               color=""
+               mat-icon-button
+@@ -231,6 +232,7 @@
+             <button
+               (click)="openDeadlineDialog()"
+               [title]="T.F.TASK.ADDITIONAL_INFO.DEADLINE | translate"
++              [attr.aria-label]="T.F.TASK.ADDITIONAL_INFO.DEADLINE | translate"
+               class="ico-btn deadline-btn"
+               [color]="
+                 isDeadlineOverdue() ? 'warn' : isDeadlineApproaching() ? 'accent' : ''
+@@ -284,6 +286,7 @@
+                     ? '[' + kb.taskToggleDetailPanelOpen + ']'
+                     : ''
+                 }}"
++                [attr.aria-label]="T.F.TASK.CMP.TOGGLE_DETAIL_PANEL | translate"
+                 class="ico-btn show-additional-info-btn"
+                 color=""
+                 mat-icon-button
+@@ -316,6 +319,7 @@
+           <button
+             (click)="toggleSubTaskMode()"
+             [title]="T.F.TASK.CMP.TOGGLE_SUB_TASK_VISIBILITY | translate"
++            [attr.aria-label]="T.F.TASK.CMP.TOGGLE_SUB_TASK_VISIBILITY | translate"
+             class="toggle-sub-tasks-btn ico-btn mat-elevation-z2"
+             color=""
+             mat-mini-fab
+diff --git a/src/app/features/tasks/tasks-by-tag/tasks-by-tag.component.html b/src/app/features/tasks/tasks-by-tag/tasks-by-tag.component.html
+index 49c08b9b0..edcfc41ee 100644
+--- a/src/app/features/tasks/tasks-by-tag/tasks-by-tag.component.html
++++ b/src/app/features/tasks/tasks-by-tag/tasks-by-tag.component.html
+@@ -1,4 +1,4 @@
+-<h3>{{ T.PDS.TIME_SPENT_TODAY_BY_TAG | translate }}</h3>
++<h2>{{ T.PDS.TIME_SPENT_TODAY_BY_TAG | translate }}</h2>
+ <table>
+   <tbody>
+     @for (tagWithTimeSpent of tagsWithTimeSpent$ | async; track tagWithTimeSpent.id) {
+diff --git a/src/app/features/work-view/finish-day-btn/finish-day-btn.component.html b/src/app/features/work-view/finish-day-btn/finish-day-btn.component.html
+index e6dd20ce5..0b307f922 100644
+--- a/src/app/features/work-view/finish-day-btn/finish-day-btn.component.html
++++ b/src/app/features/work-view/finish-day-btn/finish-day-btn.component.html
+@@ -14,7 +14,7 @@
+     [color]="hasDoneTasks() ? 'primary' : ''"
+     [matTooltip]="T.WW.FINISH_DAY_TOOLTIP | translate"
+     routerLink="/active/daily-summary"
+-    tabindex="1"
++    tabindex="0"
+     class="e2e-finish-day"
+   >
+     <mat-icon>done_all</mat-icon>
+diff --git a/src/app/features/work-view/work-view.component.html b/src/app/features/work-view/work-view.component.html
+index 03f09cdb2..0143eefd4 100644
+--- a/src/app/features/work-view/work-view.component.html
++++ b/src/app/features/work-view/work-view.component.html
+@@ -132,7 +132,7 @@
+                     (click)="layoutService.showAddTaskBar()"
+                     color=""
+                     mat-stroked-button
+-                    tabindex="1"
++                    tabindex="0"
+                   >
+                     <mat-icon>playlist_add</mat-icon>
+                     {{ T.WW.ADD_MORE | translate }}
+@@ -272,7 +272,7 @@
+                   <button
+                     mat-stroked-button
+                     color="primary"
+-                    tabindex="1"
++                    tabindex="0"
+                     (click)="addAllOverdueToMyDay()"
+                   >
+                     <mat-icon>wb_sunny</mat-icon>
+@@ -281,7 +281,7 @@
+                   <!--                <button-->
+                   <!--                  mat-stroked-button-->
+                   <!--                  color="primary"-->
+-                  <!--                  tabindex="1"-->
++                  <!--                  tabindex="0"-->
+                   <!--                >-->
+                   <!--                  <mat-icon>edit_calendar</mat-icon>-->
+                   <!--                  {{ T.F.PLANNER.D.ADD_PLANNED.RE_PLAN_ALL | translate }}-->
+@@ -380,7 +380,7 @@
+                       class="e2e-move-done-to-archive"
+                       mat-stroked-button
+                       (click)="moveDoneToArchive()"
+-                      tabindex="1"
++                      tabindex="0"
+                     >
+                       <mat-icon>done_all</mat-icon>
+                       {{ T.WW.MOVE_DONE_TO_ARCHIVE | translate }}
+diff --git a/src/app/features/worklog/worklog-task-row/worklog-task-row.component.html b/src/app/features/worklog/worklog-task-row/worklog-task-row.component.html
+index 86c9ae5b6..3f0262808 100644
+--- a/src/app/features/worklog/worklog-task-row/worklog-task-row.component.html
++++ b/src/app/features/worklog/worklog-task-row/worklog-task-row.component.html
+@@ -33,6 +33,7 @@
+   } @else {
+     <inline-input
+       (changed)="timeChange.emit($event)"
++      [ariaLabel]="T.F.ISSUE.ISSUE_CONTENT.TIME_SPENT | translate"
+       [displayValue]="entry().task.timeSpentOnDay[dateStr()] | msToClockString"
+       [type]="'duration'"
+       [value]="entry().task.timeSpentOnDay[dateStr()]"
+diff --git a/src/app/pages/archived-projects-page/archived-projects-page.component.scss b/src/app/pages/archived-projects-page/archived-projects-page.component.scss
+index 229f604e6..b4fe8bfa9 100644
+--- a/src/app/pages/archived-projects-page/archived-projects-page.component.scss
++++ b/src/app/pages/archived-projects-page/archived-projects-page.component.scss
+@@ -10,7 +10,7 @@
+ }
+ 
+ .empty-state {
+-  opacity: 0.6;
++  opacity: 0.8;
+   font-style: italic;
+ }
+ 
+@@ -68,7 +68,7 @@
+   gap: var(--s-half);
+   flex-shrink: 0;
+   font-size: 12px;
+-  opacity: 0.7;
++  opacity: 0.9;
+ 
+   mat-icon {
+     font-size: 18px;
+diff --git a/src/app/pages/config-page/config-page.component.html b/src/app/pages/config-page/config-page.component.html
+index ec6d0e826..eee062548 100644
+--- a/src/app/pages/config-page/config-page.component.html
++++ b/src/app/pages/config-page/config-page.component.html
+@@ -76,7 +76,7 @@
+         animationDuration="200ms"
+       >
+         <!-- Tab: General -->
+-        <mat-tab>
++        <mat-tab [aria-label]="'PS.TABS.GENERAL' | translate">
+           <ng-template mat-tab-label>
+             <ng-container
+               *ngTemplateOutlet="
+@@ -106,7 +106,7 @@
+         </mat-tab>
+ 
+         <!-- Tab: Tasks -->
+-        <mat-tab>
++        <mat-tab [aria-label]="'PS.TABS.TASKS' | translate">
+           <ng-template mat-tab-label>
+             <ng-container
+               *ngTemplateOutlet="
+@@ -143,7 +143,7 @@
+         </mat-tab>
+ 
+         <!-- Tab: Time & Tracking -->
+-        <mat-tab>
++        <mat-tab [aria-label]="'PS.TABS.TIME_TRACKING' | translate">
+           <ng-template mat-tab-label>
+             <ng-container
+               *ngTemplateOutlet="
+@@ -170,7 +170,7 @@
+         </mat-tab>
+ 
+         <!-- Tab: Productivity -->
+-        <mat-tab>
++        <mat-tab [aria-label]="'PS.TABS.PRODUCTIVITY' | translate">
+           <ng-template mat-tab-label>
+             <ng-container
+               *ngTemplateOutlet="
+@@ -197,7 +197,7 @@
+         </mat-tab>
+ 
+         <!-- Tab: Plugins -->
+-        <mat-tab>
++        <mat-tab [aria-label]="'PS.TABS.PLUGINS' | translate">
+           <ng-template mat-tab-label>
+             <ng-container
+               *ngTemplateOutlet="
+@@ -227,7 +227,7 @@
+         </mat-tab>
+ 
+         <!-- Tab: Sync & Backup -->
+-        <mat-tab>
++        <mat-tab [aria-label]="'PS.TABS.SYNC_BACKUP' | translate">
+           <ng-template mat-tab-label>
+             <ng-container
+               *ngTemplateOutlet="
+diff --git a/src/app/pages/daily-summary/daily-summary.component.html b/src/app/pages/daily-summary/daily-summary.component.html
+index d752d438a..6192ef586 100644
+--- a/src/app/pages/daily-summary/daily-summary.component.html
++++ b/src/app/pages/daily-summary/daily-summary.component.html
+@@ -20,6 +20,7 @@
+         <div class="summary-val">
+           <inline-input
+             (changed)="updateWorkStart($event)"
++            [ariaLabel]="T.PDS.WORK_START | translate"
+             [type]="'time'"
+             [value]="started$ | async | momentFormat: 'HH:mm'"
+           >
+@@ -27,6 +28,7 @@
+           –
+           <inline-input
+             (changed)="updateWorkEnd($event)"
++            [ariaLabel]="T.PDS.WORK_END | translate"
+             [type]="'time'"
+             [value]="end$ | async | momentFormat: 'HH:mm'"
+           >
+@@ -66,6 +68,7 @@
+           <div class="summary-val">
+             <inline-input
+               (changed)="updateBreakNr($event)"
++              [ariaLabel]="T.PDS.BREAK_LABEL | translate"
+               [type]="'text'"
+               [value]="breakNr$ | async"
+             >
+@@ -73,6 +76,7 @@
+             /
+             <inline-input
+               (changed)="updateBreakTime($event)"
++              [ariaLabel]="T.PDS.BREAK_LABEL | translate"
+               [type]="'duration'"
+               [displayValue]="breakTime$ | async | msToClockString"
+               [value]="breakTime$ | async"
+@@ -121,6 +125,7 @@
+       >
+         <button
+           [matTooltip]="'Remove daily summary note'"
++          [attr.aria-label]="'Remove daily summary note'"
+           (click)="updateDailySummaryTxt(undefined)"
+           mat-icon-button
+         >
+@@ -133,6 +138,7 @@
+         style="opacity: 0.4"
+         (click)="updateDailySummaryTxt('', true)"
+         matTooltip="Click to add a custom text block to describe your day end routine."
++        aria-label="Add a custom text block to describe your day end routine"
+       >
+         <mat-icon>note_alt</mat-icon>
+       </button>
+@@ -180,9 +186,9 @@
+             ></tasks-by-tag>
+           }
+           <section style="margin-top: 48px">
+-            <h3 style="font-weight: bold; margin-bottom: 4px">
++            <h2 style="font-weight: bold; margin-bottom: 4px">
+               {{ T.PDS.WEEK | translate }}
+-            </h3>
++            </h2>
+             @if (isForToday) {
+               <worklog-week></worklog-week>
+             }
+diff --git a/src/app/pages/scheduled-list-page/scheduled-list-page.component.html b/src/app/pages/scheduled-list-page/scheduled-list-page.component.html
+index 84881dfdc..728ab73c4 100644
+--- a/src/app/pages/scheduled-list-page/scheduled-list-page.component.html
++++ b/src/app/pages/scheduled-list-page/scheduled-list-page.component.html
+@@ -42,6 +42,7 @@
+                     (click)="editTaskRepeatCfg(taskRepeatCfg)"
+                     class="repeat-text-and-icon"
+                     [matTooltip]="getTooltipText(taskRepeatCfg)"
++                    [attr.aria-label]="getTooltipText(taskRepeatCfg)"
+                     mat-ripple
+                   >
+                     <div class="repeat-text">{{ getRepeatInfoText(taskRepeatCfg) }}</div>
+diff --git a/src/app/pages/search-page/search-page.component.scss b/src/app/pages/search-page/search-page.component.scss
+index 38eb2600e..402afbac2 100644
+--- a/src/app/pages/search-page/search-page.component.scss
++++ b/src/app/pages/search-page/search-page.component.scss
+@@ -138,7 +138,7 @@
+       justify-content: center;
+       padding: 2rem;
+       text-align: center;
+-      opacity: 0.6;
++      opacity: 0.85;
+ 
+       mat-icon {
+         font-size: 3rem;
+diff --git a/src/app/t.const.ts b/src/app/t.const.ts
+index fbfd28381..49cb76bde 100644
+--- a/src/app/t.const.ts
++++ b/src/app/t.const.ts
+@@ -2423,6 +2423,8 @@ const T = {
+     WORKLOG: {
+       CMP: {
+         DAYS_WORKED: 'F.WORKLOG.CMP.DAYS_WORKED',
++        DAY: 'F.WORKLOG.CMP.DAY',
++        DAY_DETAILS: 'F.WORKLOG.CMP.DAY_DETAILS',
+         EXPORT_DATA: 'F.WORKLOG.CMP.EXPORT_DATA',
+         MONTH_WORKED: 'F.WORKLOG.CMP.MONTH_WORKED',
+         REPEATING_TASK: 'F.WORKLOG.CMP.REPEATING_TASK',
+@@ -2522,6 +2524,7 @@ const T = {
+     COMPLETE: 'G.COMPLETE',
+     CONFIRM: 'G.CONFIRM',
+     CONTINUE: 'G.CONTINUE',
++    CUSTOM_COLOR: 'G.CUSTOM_COLOR',
+     DELETE: 'G.DELETE',
+     DISCARD: 'G.DISCARD',
+     DISMISS: 'G.DISMISS',
+@@ -3083,6 +3086,7 @@ const T = {
+     PLANNER: 'MH.PLANNER',
+     PROCRASTINATE: 'MH.PROCRASTINATE',
+     PROJECT_MENU: 'MH.PROJECT_MENU',
++    QUICK_ACTIONS: 'MH.QUICK_ACTIONS',
+     PROJECT_SETTINGS: 'MH.PROJECT_SETTINGS',
+     PROJECTS: 'MH.PROJECTS',
+     SCHEDULE: 'MH.SCHEDULE',
+@@ -3176,6 +3180,8 @@ const T = {
+     SAVE_AND_GO_HOME: 'PDS.SAVE_AND_GO_HOME',
+     SAVE_AND_GO_HOME_TOOLTIP: 'PDS.SAVE_AND_GO_HOME_TOOLTIP',
+     START_END: 'PDS.START_END',
++    WORK_START: 'PDS.WORK_START',
++    WORK_END: 'PDS.WORK_END',
+     SUMMARY_FOR: 'PDS.SUMMARY_FOR',
+     TASKS_COMPLETED: 'PDS.TASKS_COMPLETED',
+     TIME_SPENT_AND_ESTIMATE_LABEL: 'PDS.TIME_SPENT_AND_ESTIMATE_LABEL',
+diff --git a/src/app/ui/dialog-confirm/dialog-confirm.component.html b/src/app/ui/dialog-confirm/dialog-confirm.component.html
+index 9d77fd865..c739b6c11 100644
+--- a/src/app/ui/dialog-confirm/dialog-confirm.component.html
++++ b/src/app/ui/dialog-confirm/dialog-confirm.component.html
+@@ -23,7 +23,7 @@
+   <div class="wrap-buttons">
+     @if (!data.hideCancelButton) {
+       <button
+-        tabindex="1"
++        tabindex="0"
+         #cancelButton
+         (click)="close(false)"
+         mat-button
+@@ -35,7 +35,7 @@
+     }
+ 
+     <button
+-      tabindex="2"
++      tabindex="0"
+       #confirmButton
+       (click)="close(true)"
+       e2e="confirmBtn"
+diff --git a/src/app/ui/dialog-fullscreen-markdown/dialog-fullscreen-markdown.component.html b/src/app/ui/dialog-fullscreen-markdown/dialog-fullscreen-markdown.component.html
+index 6b2d910a0..d32d085a7 100644
+--- a/src/app/ui/dialog-fullscreen-markdown/dialog-fullscreen-markdown.component.html
++++ b/src/app/ui/dialog-fullscreen-markdown/dialog-fullscreen-markdown.component.html
+@@ -237,7 +237,7 @@
+           (paste)="pasteHandler($event)"
+           (ngModelChange)="ngModelChange($event)"
+           rows="1"
+-          tabindex="3"
++          tabindex="0"
+         ></textarea>
+       }
+     </div>
+diff --git a/src/app/ui/inline-input/inline-input.component.html b/src/app/ui/inline-input/inline-input.component.html
+index 05d957829..0837f397e 100644
+--- a/src/app/ui/inline-input/inline-input.component.html
++++ b/src/app/ui/inline-input/inline-input.component.html
+@@ -14,6 +14,7 @@
+       [ngModel]="value()"
+       class="duration-input"
+       inputDuration
++      [attr.aria-label]="ariaLabel() || null"
+     />
+   }
+   @if (type !== 'duration') {
+@@ -24,6 +25,7 @@
+       (ngModelChange)="onChange($event)"
+       [ngModel]="value()"
+       [type]="type"
++      [attr.aria-label]="ariaLabel() || null"
+     />
+   }
+ </div>
+diff --git a/src/app/ui/inline-input/inline-input.component.ts b/src/app/ui/inline-input/inline-input.component.ts
+index d4ad33000..5c23bd24e 100644
+--- a/src/app/ui/inline-input/inline-input.component.ts
++++ b/src/app/ui/inline-input/inline-input.component.ts
+@@ -26,6 +26,7 @@ export class InlineInputComponent implements AfterViewInit {
+   @Input() type: 'text' | 'duration' | 'time' = 'text';
+   readonly value = input<string | number>();
+   readonly displayValue = input<string>();
++  readonly ariaLabel = input<string>();
+   // TODO: Skipped for migration because:
+   //  Your application code writes to the input. This prevents migration.
+   @Input() newValue?: string | number;
+diff --git a/src/app/ui/inline-markdown/inline-markdown.component.html b/src/app/ui/inline-markdown/inline-markdown.component.html
+index a86d8464c..eef9d46a0 100644
+--- a/src/app/ui/inline-markdown/inline-markdown.component.html
++++ b/src/app/ui/inline-markdown/inline-markdown.component.html
+@@ -18,6 +18,7 @@
+           #liveEditorEl
+           [model]="modelCopy() ?? ''"
+           [placeholderTxt]="placeholderTxt() ?? ''"
++          [ariaLabel]="ariaLabel() ?? ''"
+           [autoFocus]="isLock() || isPendingLiveFocus()"
+           [resolveImageSrc]="resolveImageSrc"
+           [extraKeymap]="liveEditorKeymap"
+@@ -58,7 +59,8 @@
+         (mousedown)="$event.preventDefault()"
+         (click)="toggleChecklistMode($event)"
+         mat-icon-button
+-      >
++      
++          [attr.aria-label]="T.F.NOTE.D_FULLSCREEN.TOOLBAR.TASK_LIST | translate">
+         <mat-icon>checklist</mat-icon>
+       </button>
+     }
+@@ -68,7 +70,8 @@
+         [matMenuTriggerFor]="checklistMenu"
+         (mousedown)="$event.preventDefault()"
+         mat-icon-button
+-      >
++      
++          [attr.aria-label]="T.F.TASK.ADDITIONAL_INFO.CHECKLIST_ACTIONS | translate">
+         <mat-icon>playlist_add_check</mat-icon>
+       </button>
+       <mat-menu #checklistMenu="matMenu">
+@@ -100,7 +103,8 @@
+       (mousedown)="$event.preventDefault()"
+       (click)="openFullScreen()"
+       mat-icon-button
+-    >
++    
++          [attr.aria-label]="T.F.TASK.ADDITIONAL_INFO.OPEN_IN_FULLSCREEN | translate">
+       <mat-icon>fullscreen</mat-icon>
+     </button>
+   </div>
+diff --git a/src/app/ui/inline-markdown/inline-markdown.component.ts b/src/app/ui/inline-markdown/inline-markdown.component.ts
+index d05515658..cd3887ee6 100644
+--- a/src/app/ui/inline-markdown/inline-markdown.component.ts
++++ b/src/app/ui/inline-markdown/inline-markdown.component.ts
+@@ -107,6 +107,7 @@ export class InlineMarkdownComponent implements OnInit, OnDestroy {
+   // only pass this for throwaway default text, never for user content (#7786).
+   readonly defaultText = input<string>('');
+   readonly placeholderTxt = input<string | undefined>(undefined);
++  readonly ariaLabel = input<string | undefined>(undefined);
+   readonly taskId = input<string | undefined>(undefined);
+ 
+   readonly changed = output<string>();
+diff --git a/src/app/ui/input-color-picker/input-color-picker.component.html b/src/app/ui/input-color-picker/input-color-picker.component.html
+index b06e6293b..f14d0a790 100644
+--- a/src/app/ui/input-color-picker/input-color-picker.component.html
++++ b/src/app/ui/input-color-picker/input-color-picker.component.html
+@@ -9,6 +9,8 @@
+   class="color-trigger"
+   [style.background-color]="value()"
+   (click)="toggle()"
++  [attr.aria-label]="label() || null"
++  [attr.aria-expanded]="isOpen()"
+ ></button>
+ 
+ <ng-template
+@@ -32,6 +34,7 @@
+           [style.background-color]="color"
+           [class.selected]="value() === color"
+           (click)="selectColor(color)"
++          [attr.aria-label]="color"
+         >
+           @if (value() === color) {
+             <mat-icon>check</mat-icon>
+@@ -44,6 +47,7 @@
+         [style.background-color]="isPresetColor() ? '' : value()"
+         [class.selected]="!isPresetColor()"
+         (click)="openNativePicker()"
++        [attr.aria-label]="T.G.CUSTOM_COLOR | translate"
+       >
+         @if (!isPresetColor()) {
+           <mat-icon>check</mat-icon>
+@@ -59,6 +63,7 @@
+   #nativeInput
+   type="color"
+   class="native-color-input"
++  [attr.aria-label]="T.G.CUSTOM_COLOR | translate"
+   [value]="value()"
+   (change)="onNativeChange($event)"
+ />
+diff --git a/src/app/ui/input-color-picker/input-color-picker.component.ts b/src/app/ui/input-color-picker/input-color-picker.component.ts
+index 4c0f4a877..07db2a7fa 100644
+--- a/src/app/ui/input-color-picker/input-color-picker.component.ts
++++ b/src/app/ui/input-color-picker/input-color-picker.component.ts
+@@ -15,6 +15,8 @@ import {
+ } from '@angular/cdk/overlay';
+ import { PRESET_COLORS } from '../work-context-color';
+ import { MatIcon } from '@angular/material/icon';
++import { TranslatePipe } from '@ngx-translate/core';
++import { T } from 'src/app/t.const';
+ 
+ const PANEL_GAP = 4;
+ const VIEWPORT_MARGIN = 8;
+@@ -24,9 +26,11 @@ const VIEWPORT_MARGIN = 8;
+   templateUrl: './input-color-picker.component.html',
+   styleUrls: ['./input-color-picker.component.scss'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
+-  imports: [MatIcon, CdkOverlayOrigin, CdkConnectedOverlay],
++  imports: [MatIcon, CdkOverlayOrigin, CdkConnectedOverlay, TranslatePipe],
+ })
+ export class InputColorPickerComponent {
++  readonly T = T;
++
+   readonly value = input<string>('#000000');
+   readonly label = input<string>('');
+   readonly valueChange = output<string>();
+diff --git a/src/assets/i18n/en.json b/src/assets/i18n/en.json
+index 0cd8a477f..67373a1e9 100644
+--- a/src/assets/i18n/en.json
++++ b/src/assets/i18n/en.json
+@@ -1319,7 +1319,7 @@
+         "CHANGE_PW_AND_DECRYPT": "Retry Decrypt",
+         "P1": "Your remote data is encrypted and decryption failed.",
+         "P2_FORGOT_PW": "If you <strong>forgot your password</strong>, enter the correct password and click \"Retry Decrypt\".",
+-        "P3_START_OVER": "If you cannot recover the password, leave the sync server as it is \u2014 your data there stays intact. To erase it and start over from this device, close this window and use <strong>Force Overwrite</strong> in Settings \u2192 Sync & Backup \u2192 Sync.",
++        "P3_START_OVER": "If you cannot recover the password, leave the sync server as it is — your data there stays intact. To erase it and start over from this device, close this window and use <strong>Force Overwrite</strong> in Settings → Sync & Backup → Sync.",
+         "PASSWORD": "Password",
+         "TITLE": "Decryption Failed"
+       },
+@@ -1366,8 +1366,8 @@
+         "TITLE": "Replace Local Data?"
+       },
+       "D_NOTHING_TO_UPLOAD": {
+-        "MESSAGE": "Nothing was changed \u2014 the data on your sync server is still there.\n\nThis device has never finished a sync, so it holds no copy of your data that the app can see. Overwriting would have replaced everything on the server with an empty device, and that cannot be undone.\n\nTry your encryption password here again \u2014 an older password often works. If you cannot remember it, leave this device and the server exactly as they are and report the problem rather than overwriting; your history is still on the server.\n\nIf you do want to erase the sync server and start over, close this window and use Force Overwrite in Settings \u2192 Sync & Backup \u2192 Sync.",
+-        "MESSAGE_CHANGE_PW": "Nothing was changed \u2014 the data on your sync server is still there.\n\nChanging the encryption password re-uploads this device's data and replaces what is on the server. This device has never finished a sync, so it holds no copy of your data that the app can see, and the server copy would be lost.\n\nChange the password from a device that already has your data and has synced successfully.",
++        "MESSAGE": "Nothing was changed — the data on your sync server is still there.\n\nThis device has never finished a sync, so it holds no copy of your data that the app can see. Overwriting would have replaced everything on the server with an empty device, and that cannot be undone.\n\nTry your encryption password here again — an older password often works. If you cannot remember it, leave this device and the server exactly as they are and report the problem rather than overwriting; your history is still on the server.\n\nIf you do want to erase the sync server and start over, close this window and use Force Overwrite in Settings → Sync & Backup → Sync.",
++        "MESSAGE_CHANGE_PW": "Nothing was changed — the data on your sync server is still there.\n\nChanging the encryption password re-uploads this device's data and replaces what is on the server. This device has never finished a sync, so it holds no copy of your data that the app can see, and the server copy would be lost.\n\nChange the password from a device that already has your data and has synced successfully.",
+         "TITLE": "Your synced data was not touched"
+       },
+       "D_PERMISSION": {
+@@ -1551,9 +1551,9 @@
+           "L_CONFIRM_PASSWORD": "Confirm Password",
+           "L_ENABLE_E2E_ENCRYPTION": "Enable end-to-end encryption",
+           "L_ENABLE_TRACKING_PRESENCE": "Show live tracking on other devices (experimental)",
+-          "TRACKING_PRESENCE_DESCRIPTION": "Mirrors which task this account is currently tracking to your other connected devices and lets you stop it from there. Display only \u2014 never persisted on the server, though it is briefly relayed in server memory (opaque to the server when end-to-end encryption is on).",
++          "TRACKING_PRESENCE_DESCRIPTION": "Mirrors which task this account is currently tracking to your other connected devices and lets you stop it from there. Display only — never persisted on the server, though it is briefly relayed in server memory (opaque to the server when end-to-end encryption is on).",
+           "L_PRESENCE_DEVICE_NAME": "Name of this device on other devices",
+-          "PRESENCE_DEVICE_NAME_DESCRIPTION": "Shown in the live tracking chip on your other devices, e.g. \u201cWork laptop\u201d, so two desktops can be told apart. Sent along with the tracking state (encrypted when sync encryption is on). Leave empty to use the platform name shown as placeholder.",
++          "PRESENCE_DEVICE_NAME_DESCRIPTION": "Shown in the live tracking chip on your other devices, e.g. “Work laptop”, so two desktops can be told apart. Sent along with the tracking state (encrypted when sync encryption is on). Leave empty to use the platform name shown as placeholder.",
+           "L_NEW_PASSWORD": "New Encryption Password",
+           "L_REMOVE_ENCRYPTION": "Or Remove Encryption",
+           "L_SERVER_URL": "Server URL",
+@@ -2369,7 +2369,9 @@
+         "WEEK_NR_SHORT": "W{{nr}}",
+         "WEEK_RANGE_TOOLTIP": "{{start}}.–{{end}}., days: {{days}}, time: {{time}}",
+         "WORKED": "Worked",
+-        "WORK_TIMES": "Working times"
++        "WORK_TIMES": "Working times",
++        "DAY": "Day",
++        "DAY_DETAILS": "Day details"
+       },
+       "D_CONFIRM_RESTORE": "Are you sure you want to move the task <strong>\"{{title}}\"</strong> into your Today task list?",
+       "D_EXPORT_TITLE": "Worklog Export {{start}}–{{end}}",
+@@ -2499,7 +2501,8 @@
+     "TOMORROW": "Tomorrow",
+     "UNDO": "Undo",
+     "WITHOUT_PROJECT": "Without Project",
+-    "YESTERDAY": "Yesterday"
++    "YESTERDAY": "Yesterday",
++    "CUSTOM_COLOR": "Custom color"
+   },
+   "GCF": {
+     "APP_FEATURES": {
+@@ -3034,7 +3037,8 @@
+     "TOGGLE_TRACK_TIME": "Start/stop tracking time",
+     "TRIGGER_SYNC": "Sync!",
+     "UNPLAN_ALL_TASKS": "Unplan all tasks",
+-    "ARCHIVED_PROJECTS": "Archived Projects"
++    "ARCHIVED_PROJECTS": "Archived Projects",
++    "QUICK_ACTIONS": "Quick actions"
+   },
+   "MIGRATE": {
+     "C_DOWNLOAD_BACKUP": "Do you want to download a backup of your legacy data (can be used with older versions of Super Productivity)?",
+@@ -3109,7 +3113,9 @@
+     "TIME_SPENT_AND_ESTIMATE_LABEL": "Time Spent / Estimated",
+     "TIME_SPENT_ESTIMATE_TITLE": "Time Spent: Total time spent today. Archived tasks not included. – Time Estimated: Time estimated for tasks worked on today minus the time already spent on them on other days.",
+     "TIME_SPENT_TODAY_BY_TAG": "Time Spent today by Tag",
+-    "WEEK": "Week"
++    "WEEK": "Week",
++    "WORK_START": "Work start",
++    "WORK_END": "Work end"
+   },
+   "PLAINSPACE": {
+     "CLAIM": "Claim",
+@@ -3367,4 +3373,4 @@
+     "WORKING_TODAY": "Working today:",
+     "WORKING_TODAY_ARCHIVED": "Time worked today on archived tasks"
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/src/styles/_css-variables.scss b/src/styles/_css-variables.scss
+index 5a27c7277..f4638c3aa 100644
+--- a/src/styles/_css-variables.scss
++++ b/src/styles/_css-variables.scss
+@@ -321,7 +321,7 @@
+   --task-icon-size: 40px;
+   --task-icon-default-opacity: 0.7;
+   --task-inner-padding-top-bottom: 4px;
+-  --task-is-done-dim-opacity: 0.3;
++  --task-is-done-dim-opacity: 0.9;
+   --task-border-radius: 0px;
+ 
+   // Task z-indexes
+@@ -403,7 +403,7 @@ body {
+   --ink: rgb(44, 44, 44);
+   // 0.66 remains visibly secondary while meeting WCAG AA against the default
+   // light surfaces (including white cards).
+-  --ink-muted: rgba(44, 44, 44, 0.66);
++  --ink-muted: rgba(44, 44, 44, 0.82);
+   // RGB triplet (no `rgb()` wrapper) — keystone for `rgba(var(--ink-on-channel), α)` overlays.
+   --ink-on-channel: 0, 0, 0;
+ 
+@@ -442,7 +442,7 @@ body.isDarkTheme {
+ 
+   --ink-strong: rgb(255, 255, 255);
+   --ink: rgb(230, 230, 230);
+-  --ink-muted: rgba(235, 235, 235, 0.65);
++  --ink-muted: rgba(235, 235, 235, 0.8);
+   --ink-on-channel: 255, 255, 255;
+ 
+   --separator: rgba(255, 255, 255, 0.1);
+diff --git a/src/styles/_globals.scss b/src/styles/_globals.scss
+index d8cf90e31..3f8494982 100644
+--- a/src/styles/_globals.scss
++++ b/src/styles/_globals.scss
+@@ -6,3 +6,16 @@
+ 
+ // Forward all mixins
+ @forward 'mixins/_mixins';
++
++// Visually hidden but exposed to assistive tech (same recipe as CDK a11y).
++.cdk-visually-hidden {
++  border: 0;
++  clip: rect(0 0 0 0);
++  height: 1px;
++  margin: -1px;
++  overflow: hidden;
++  padding: 0;
++  position: absolute;
++  white-space: nowrap;
++  width: 1px;
++}
+diff --git a/src/styles/components/_overwrite-material.scss b/src/styles/components/_overwrite-material.scss
+index 2f90c9a19..782f7b419 100644
+--- a/src/styles/components/_overwrite-material.scss
++++ b/src/styles/components/_overwrite-material.scss
+@@ -9,10 +9,15 @@
+   --calendar-hover-bg: color-mix(in srgb, var(--c-primary) 35%, transparent);
+ }
+ 
+-:where(body, body.isDarkTheme) {
++// Material emits these tokens on .mat-mdc-tab-group itself — a :where(body)
++// ancestor declaration loses to that, so they must be set on the same element.
++.mat-mdc-tab-group,
++.mat-mdc-tab-nav-bar {
+   // Active labels use theme ink so arbitrary project colours cannot reduce
+   // text contrast. Brand stays visible in the indicator and ripple.
+   --mat-tab-header-active-label-text-color: var(--text-color-most-intense);
++  --mat-tab-active-label-text-color: var(--text-color-most-intense);
++  --mat-tab-inactive-label-text-color: var(--text-color-muted);
+   --mat-tab-header-active-ripple-color: var(--brand);
+   --mat-tab-header-active-focus-label-text-color: var(--text-color-most-intense);
+   --mat-tab-header-active-hover-label-text-color: var(--text-color-most-intense);
+@@ -20,6 +25,21 @@
+   --mat-tab-header-inactive-label-text-color: var(--text-color-muted);
+ }
+ 
++// Floating form-field labels must not wash out below 4.5:1. Color accents
++// need class-level specificity to beat Material's own accent theme rules.
++.mat-mdc-form-field,
++.mat-mdc-form-field.mat-primary,
++.mat-mdc-form-field.mat-accent,
++.mat-mdc-form-field.mat-warn {
++  --mat-form-field-outlined-label-text-color: var(--text-color-muted);
++  --mat-form-field-outlined-hover-label-text-color: var(--text-color-less-intense);
++  --mat-form-field-outlined-focus-label-text-color: var(--text-color-less-intense);
++  --mat-form-field-filled-label-text-color: var(--text-color-muted);
++  --mat-form-field-filled-hover-label-text-color: var(--text-color-less-intense);
++  --mat-form-field-filled-focus-label-text-color: var(--text-color-less-intense);
++  --mat-select-placeholder-text-color: var(--text-color-muted);
++}
++
+ // Material's default tab tracking is wider than anything else in the app;
+ // match the body text so tabs stop reading as a different typeface. The M2
+ // typography mixin emits this token on .mat-mdc-tab-header itself, so a
