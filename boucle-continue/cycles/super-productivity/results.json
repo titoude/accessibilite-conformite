@@ -58,14 +58,14 @@
   "note": "clone vierge @SHA + git apply patch.diff + build stage + seed + rescan verbatim ; les 2 états liés aux ids seed re-scannés sur l'instance install (seed-info-9253)"
  },
  "verify": {
-  "patched": {"pass": 39, "fail": 0, "na": 0},
-  "vanilla": {"pass": 25, "fail": 14, "na": 0},
-  "vanillaFails": ["tabindex>0", "overlay role=region", "overlay aria-label", "nav hr role=none", "resize-handle orientation", "nav ancres role=link 5/5", "add-task-bar role=search", "add-task-bar main-input type", "menu contextuel role=menuitem", "daily-summary inline-inputs 10/16", "daily-summary h2", "daily-summary contraste onglet 2.8", "history th vides 2/5", "history cdk-visually-hidden"]
+  "patched": {"pass": 45, "fail": 0, "na": 0},
+  "vanilla": {"pass": 28, "fail": 17, "na": 0},
+  "vanillaFails": ["tabindex>0", "overlay role=region", "overlay aria-label", "nav hr role=none", "resize-handle orientation", "nav ancres role=link 5/5", "add-task-bar role=search", "add-task-bar main-input type", "menu contextuel role=menuitem", "daily-summary inline-inputs 10/16", "daily-summary h2", "daily-summary contraste onglet 2.8", "history th vides 2/5", "history cdk-visually-hidden", "i18n overlay en dur amont", "i18n resize sidenav en dur amont", "i18n daily-summary slug"]
  },
  "evalFinal": {"patched": {"ok": 8, "fail": 0, "na": 1}, "na": "skip-link absent (non fourni par le produit)"},
  "sabotage": {"detections": 4, "missed": 0},
- "incompleteProbes": {"total": 546, "conformes": 442, "nonConformes": 0, "nonRetrouvees": 106},
- "patch": {"files": 54, "insertions": 227, "deletions": 86, "sha256": "53f13af693c1a25021860c1e00fd494a0c6b2b7b7845cb264b1a2a358e6e247e"},
+ "incompleteProbes": {"total": 556, "conformes": 542, "nonConformes": 0, "nonRetrouvees": 16, "note": "flake mobile-menu-open-390 click-timeout (rejeu auditeur :9293)"},
+ "patch": {"files": 54, "insertions": 241, "deletions": 89, "sha256": "65a524681cd099a04b61dbcf23449fd542ac1e03757cfb7ff21be81d615878c6"},
  "scope": "21 routes + 13 états (mobile 390 inclus) — voir scope-compare.json (ids seed régénérés baseline→final, contrast-test retirée)",
  "verdict": null
 }
