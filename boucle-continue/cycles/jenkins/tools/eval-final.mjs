@@ -119,14 +119,17 @@ ok('buildWithParameters : champs nommés', bp.unnamed.length === 0, JSON.stringi
 await page.goto(BASE + '/job/docs-build/', { waitUntil: 'load' });
 await page.waitForTimeout(800);
 const dlg = await page.evaluate(async () => {
-  const a = [...document.querySelectorAll('#side-panel a')].find(x => /delete/i.test(x.href || ''));
+  // le lien « Delete … » est un confirmation-link dont href='#': le cibler par texte+classe
+  const a = [...document.querySelectorAll('#side-panel a')].find(x => /delete/i.test(x.innerText || '') && x.className.includes('confirmation-link'));
   if (!a) return { found: false };
   a.click();
   await new Promise(r => setTimeout(r, 900));
-  const d = document.querySelector('[role="dialog"], .jenkins-dialog, dialog');
-  return { found: true, role: d?.getAttribute('role') || d?.tagName, labelled: !!(d?.getAttribute('aria-labelledby') || d?.getAttribute('aria-label') || d?.querySelector('h1,h2,.jenkins-dialog__title')) };
+  // la modale Jenkins est un <dialog class="jenkins-dialog" open>; exclure la palette de commandes
+  const d = document.querySelector('dialog.jenkins-dialog[open]');
+  if (!d) return { found: false };
+  return { found: true, role: d.getAttribute('role') || d.tagName, labelled: !!(d.getAttribute('aria-labelledby') || d.getAttribute('aria-label') || d.querySelector('h1,h2,.jenkins-dialog__title')) };
 });
-ok('dialogue suppression : ouvert + nommé', dlg.found ? dlg.labelled === true : true, JSON.stringify(dlg));
+ok('dialogue suppression : ouvert + nommé', dlg.found === true && dlg.labelled === true, JSON.stringify(dlg));
 await page.keyboard.press('Escape');
 
 await browser.close();

@@ -41,3 +41,13 @@ Objectif : rejouer le patch sur un clone VIERGE au SHA pinné et re-scanner.
     --storage-state ../auth-v.json --out ../reports/install-build
   → reports/install-build/report.md : 0 règle(s), 0 occurrence(s), 0 erreur(s), 240 incomplet(s)
   → 26/26 scénarios — identique au final-auth primaire
+
+=== v2 (fixer) ===
+clone vierge : git clone ~/work/jenkins42-vanilla jenkins42-ib && git checkout db0e08291b113878ba08f97274d56c321be32078
+patch : git apply patch.diff (53 fichiers, +232/-77, 0 rejet ; git apply --check OK)
+build : JAVA_HOME=~/work/jdk-21 mvn -am -pl war,bom -Pquick-build clean install -DskipTests → BUILD SUCCESS 20s → war/target/jenkins.war 56.4MB
+boot  : JENKINS_HOME=~/work/jk42-home-ib java -jar war/target/jenkins.war --httpPort=6943 --prefix=/ → 200 /login
+seed  : bash tools/seed.sh http://localhost:6943 → SEED_DONE jobs=6 creds=4
+login : node login.mjs http://localhost:6943 ../auth-ib6943.json admin jk42-admin-pw
+scan  : node audit.mjs http://localhost:6943 --urls $(paste -sd, urls-auth.txt) --states user-menu,job-row-menu,build-badge-menu,command-palette,theme-dark,mobile-nav-390 --storage-state ../auth-ib6943.json --out ../reports/install-build-v2
+résultat : 0 règle(s), 0 occurrence(s), 0 erreur(s), 507 incomplet(s) — distribution IDENTIQUE au build primaire :6942 (color-contrast 382 + label-content-name-mismatch 125)

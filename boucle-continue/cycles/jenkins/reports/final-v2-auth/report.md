@@ -1,0 +1,375 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 48/48 scénario(s) audité(s), 0 erreur(s), 507 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `6a1dc46a7dac`
+
+## Résultats incomplets à revoir (507)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:6942/
+  - `#description-link > span`
+  - `.active > a[href="/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `#job_api-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `#job_docs-build > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_nightly-backup > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_release-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `td[data="2026-10-08T02:16:07Z"] > .jenkins-badge.model-link`
+- http://localhost:6942/view/release/
+  - `#description-link > span`
+  - `a[href$="release/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `.jenkins-badge.model-link`
+- http://localhost:6942/job/webapp-deploy/
+  - `#description-link > span`
+- http://localhost:6942/job/webapp-deploy/lastBuild/
+  - `#description-link > span`
+  - `.jenkins-submit-button`
+- http://localhost:6942/job/webapp-deploy/lastBuild/console
+  - `a[download="#2.txt"]`
+  - `.copy-button`
+  - `.jenkins-button[href$="consoleText"]:nth-child(4)`
+- http://localhost:6942/job/webapp-deploy/configure
+  - `#id33`
+  - `#id34`
+  - `#id35`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(1) > .jenkins-repeated-chunk__content > .jenkins-form-item.tr:nth-child(3) > .setting-main > .textarea-preview-container > .textarea-show-preview[href="#"]`
+  - `label[for="cb4"]`
+  - `#id36`
+  - `#id37`
+  - `#id38`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(2) > .jenkins-repeated-chunk__content > .jenkins-form-item.tr:nth-child(3) > .setting-main > .textarea-preview-container > .textarea-show-preview[href="#"]`
+  - `#id39`
+  - … +12 autres
+- http://localhost:6942/job/api-pipeline/
+  - `#description-link > span`
+- http://localhost:6942/job/api-pipeline/lastBuild/
+  - `#description-link > span`
+  - `.jenkins-submit-button`
+- http://localhost:6942/job/services/
+  - `#description-link > span`
+  - `.active > a[href$="services/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `.jenkins-badge.model-link`
+- http://localhost:6942/job/services/job/worker-queue/
+  - `#description-link > span`
+- http://localhost:6942/manage/configure
+  - `a[href$="new"]`
+  - `.jenkins-button--primary.jenkins-button[href$="cloud"]`
+  - `.jenkins-alert-warning.app-adminmonitor.jenkins-alert:nth-child(8) > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `.jenkins-alert-danger.app-adminmonitor.jenkins-alert:nth-child(9) > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `.jenkins-alert-info > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `button[suffix="healthMetrics"]`
+  - `section[nameref="rowSetStart68"] > .jenkins-form-item.tr > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `section[nameref="rowSetStart71"] > .jenkins-form-item--tight.jenkins-form-item.tr > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `button[suffix="configuredBuildDiscarders"]`
+  - `section[nameref="rowSetStart74"] > .jenkins-form-item.tr > .setting-main.help-sibling > .with-drag-drop.repeated-container[data-minimum="0"] > .repeatable-add[type="button"]`
+  - … +4 autres
+- http://localhost:6942/configureSecurity/
+  - `label[for="radio-slaveAgentPort-fixed"]`
+  - `label[for="radio-slaveAgentPort-random"]`
+  - `label[for="radio-slaveAgentPort-disable"]`
+  - `.api-token-list > .repeated-container[data-minimum="0"] > .repeatable-add[type="button"]`
+  - `#sourceDirectories > .repeated-container[data-minimum="0"] > .repeatable-add[type="button"]`
+  - `.advanced-button`
+  - `.jenkins-submit-button`
+- http://localhost:6942/manage/pluginManager/
+  - `summary:nth-child(17)`
+  - `summary:nth-child(22)`
+  - `summary:nth-child(24)`
+  - `.confirmation-link > span:nth-child(2)`
+- http://localhost:6942/manage/securityRealm/
+  - `summary:nth-child(17)`
+  - `summary:nth-child(22)`
+  - `summary:nth-child(24)`
+  - `.confirmation-link > span:nth-child(2)`
+  - `.jenkins-button--primary`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+- http://localhost:6942/credentials/store/system/domain/_/
+  - `.jenkins-button--primary`
+- http://localhost:6942/configure
+  - `#redirect-error > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `a[href$="new"]`
+  - `.jenkins-button--primary.jenkins-button[href$="cloud"]`
+  - `.jenkins-alert-warning.app-adminmonitor.jenkins-alert:nth-child(8) > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `.jenkins-alert-danger.app-adminmonitor.jenkins-alert:nth-child(9) > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `.jenkins-alert-info > .app-adminmonitor-content > .app-adminmonitor-controls > .jenkins-button--primary.jenkins-button`
+  - `button[suffix="healthMetrics"]`
+  - `section[nameref="rowSetStart68"] > .jenkins-form-item.tr > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `section[nameref="rowSetStart71"] > .jenkins-form-item--tight.jenkins-form-item.tr > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `button[suffix="configuredBuildDiscarders"]`
+  - … +5 autres
+- http://localhost:6942/user/admin/
+  - `#description-link > span`
+- http://localhost:6942/log/all
+  - `button[aria-haspopup="true"]`
+- http://localhost:6942/computer/
+  - `summary:nth-child(17)`
+  - `summary:nth-child(22)`
+  - `summary:nth-child(24)`
+  - `.confirmation-link > span:nth-child(2)`
+  - `.jenkins-button--primary`
+  - `a[tooltip="Configure Node Monitors"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `.error`
+- http://localhost:6942/manage/pluginManager/available
+  - `#filter-box`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `tr[data-plugin-id="matrix-project"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge[href="?filter=Miscellaneous"]`
+  - `tr[data-plugin-id="trilead-api"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge`
+  - `tr[data-plugin-id="ssh-slaves"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge[href="?filter=Agent Management"]`
+  - `tr[data-plugin-id="github-api"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge[href="?filter=github"]`
+  - `tr[data-plugin-id="github-api"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge:nth-child(2)`
+  - `tr[data-plugin-id="ws-cleanup"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge[href="?filter=Build Wrappers"]`
+  - `tr[data-plugin-id="ws-cleanup"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge:nth-child(2)`
+  - `tr[data-plugin-id="github"] > td:nth-child(2) > .app-plugin-manager__categories > .jenkins-badge:nth-child(1)`
+  - … +57 autres
+- http://localhost:6942/manage/pluginManager/updates
+  - `summary:nth-child(17)`
+  - `summary:nth-child(22)`
+  - `summary:nth-child(24)`
+  - `.confirmation-link > span:nth-child(2)`
+- http://localhost:6942/manage/pluginManager/installed
+  - `#filter-box`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+- http://localhost:6942/script
+  - `summary:nth-child(17)`
+  - `summary:nth-child(22)`
+  - `summary:nth-child(24)`
+  - `.confirmation-link > span:nth-child(2)`
+  - `.jenkins-submit-button`
+- http://localhost:6942/systemInfo
+  - `.active > a[href="#"]`
+  - `.app-all-hidden-reveal-all.jenkins-button--transparent[data-table-id="id357"]`
+  - `#id357 > thead > tr > th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `#id357 > tbody > tr:nth-child(1) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - `#id357 > tbody > tr:nth-child(2) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - `#id357 > tbody > tr:nth-child(3) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - `#id357 > tbody > tr:nth-child(4) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - `#id357 > tbody > tr:nth-child(5) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - `#id357 > tbody > tr:nth-child(6) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - `#id357 > tbody > tr:nth-child(7) > .property-table__value > .app-hidden-info-reveal > .jenkins-button--transparent.jenkins-\!-color-dark-blue`
+  - … +50 autres
+- http://localhost:6942/cli/
+  - `li:nth-child(1) > .jenkins-instructions__label`
+  - `.jenkins-button--primary`
+  - `p`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+- http://localhost:6942/restart
+  - `.jenkins-submit-button`
+- http://localhost:6942/safeRestart
+  - `.jenkins-submit-button`
+- http://localhost:6942/about/
+  - `summary:nth-child(17)`
+  - `summary:nth-child(22)`
+  - `summary:nth-child(24)`
+  - `.confirmation-link > span:nth-child(2)`
+  - `a[target="_blank"]`
+  - `.active > a[href="#"]`
+- http://localhost:6942/securityRealm/addUser
+  - `.jenkins-submit-button`
+- http://localhost:6942/computer/(built-in)/
+  - `.jenkins-submit-button`
+  - `.advanced-button`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `#job_docs-build > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_nightly-backup > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_worker-queue > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `td[data="2026-10-08T02:16:07Z"] > .jenkins-badge.model-link`
+- http://localhost:6942/computer/(built-in)/configure
+  - `.jenkins-submit-button`
+  - `.apply-button`
+- http://localhost:6942/credentials/store/system/domain/_/credential/github-token/
+  - `.jenkins-button--primary`
+- http://localhost:6942/view/release/configure
+  - `button[suffix="jobFilters"]`
+  - `button[suffix="columns"]`
+  - `.jenkins-submit-button`
+  - `.apply-button`
+- http://localhost:6942/job/docs-build/configure
+  - `.jenkins-form-item--tight.jenkins-form-item.tr > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `label[for="radio-block-0"]`
+  - `label[for="radio-block-1"]`
+  - `.jenkins-form-item.tr:nth-child(2) > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `button[suffix="builder"]`
+  - `button[suffix="publisher"]`
+  - `.jenkins-submit-button`
+  - `.apply-button`
+- http://localhost:6942/job/api-pipeline/configure
+  - `#id438`
+  - `.ace_gutter-cell[aria-hidden="true"]:nth-child(1)`
+  - `.ace_gutter-cell[aria-hidden="false"]:nth-child(2)`
+  - `.ace_gutter-cell[aria-hidden="false"]:nth-child(3)`
+  - `.ace_gutter-cell[aria-hidden="true"]:nth-child(4)`
+  - `.ace_gutter-cell[aria-hidden="true"]:nth-child(5)`
+  - `.ace_gutter-cell[aria-hidden="true"]:nth-child(6)`
+  - `.ace_gutter-cell[aria-hidden="true"]:nth-child(7)`
+  - `.ace_gutter-active-line`
+  - `.ace_line:nth-child(2) > .ace_identifier:nth-child(1)`
+  - … +26 autres
+- http://localhost:6942/job/nightly-backup/configure
+  - `.jenkins-form-item--tight.jenkins-form-item.tr > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `label[for="radio-block-0"]`
+  - `label[for="radio-block-1"]`
+  - `.jenkins-form-item.tr:nth-child(2) > .advancedLink.jenkins-buttons-row > .advanced-button.advancedButton[type="button"]`
+  - `button[suffix="builder"]`
+  - `button[suffix="publisher"]`
+  - `.jenkins-submit-button`
+  - `.apply-button`
+- http://localhost:6942/job/nightly-backup/lastBuild/console
+  - `a[download="#1.txt"]`
+  - `.copy-button`
+  - `.jenkins-button[href$="consoleText"]:nth-child(4)`
+- http://localhost:6942/job/api-pipeline/lastBuild/console
+  - `a[download="#2.txt"]`
+  - `.copy-button`
+  - `.jenkins-button[href$="consoleText"]:nth-child(4)`
+- http://localhost:6942/ [state:user-menu]
+  - `a[href$="security"]`
+  - `#description-link > span`
+  - `.active > a[href="/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `#job_api-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `#job_docs-build > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_nightly-backup > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_release-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `td[data="2026-10-08T02:16:07Z"] > .jenkins-badge.model-link`
+- http://localhost:6942/ [state:job-row-menu]
+  - `#description-link > span`
+  - `.active > a[href="/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `#job_api-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `#job_docs-build > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_nightly-backup > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_release-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `.model-link--open > span`
+  - `td[data="2026-10-08T02:16:07Z"] > .jenkins-badge.model-link`
+  - `a[href$="changes"]`
+  - … +6 autres
+- http://localhost:6942/ [state:build-badge-menu]
+  - `#description-link > span`
+  - `.active > a[href="/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `.model-link--open`
+  - `#job_docs-build > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_nightly-backup > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_release-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `td[data="2026-10-08T02:16:07Z"] > .jenkins-badge.model-link`
+  - `.jenkins-dropdown__item:nth-child(1)`
+  - `.jenkins-dropdown__item:nth-child(2)`
+  - … +5 autres
+- http://localhost:6942/ [state:command-palette]
+  - `#command-bar`
+  - `.jenkins-command-palette__results__heading`
+  - `.jenkins-command-palette__results__item`
+- http://localhost:6942/ [state:theme-dark]
+  - `a[href$="security"]`
+  - `#description-link > span`
+  - `.active > a[href="/"]`
+  - `th[initialsortdir="down"] > .sortheader[href="#"] > .sortarrow`
+  - `#job_api-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `#job_docs-build > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_nightly-backup > td[data="2026-10-08T02:16:08Z"] > .jenkins-badge.model-link`
+  - `#job_release-pipeline > td[data="2026-10-08T02:16:09Z"] > .jenkins-badge.model-link`
+  - `td[data="2026-10-08T02:16:07Z"] > .jenkins-badge.model-link`
+- http://localhost:6942/ [state:mobile-nav-390]
+  - `#description-link > span`
+  - `.active > a[href="/"]`
+
+### label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+- http://localhost:6942/job/webapp-deploy/configure
+  - `div[ref="cb2"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb3"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[helpurl="/help/parameter/string.html"]`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(1) > .jenkins-repeated-chunk__content > .jenkins-form-item.tr:nth-child(1) > .jenkins-form-label.help-sibling > .jenkins-help-button[helpurl="/help/parameter/name.html"][aria-label="? Help for feature: Name"]`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(1) > .jenkins-repeated-chunk__content > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(1) > .jenkins-repeated-chunk__content > .jenkins-form-item.tr:nth-child(3) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(1) > .jenkins-repeated-chunk__content > .jenkins-form-item--tight.jenkins-form-item.tr > .setting-main.help-sibling > .jenkins-help-button[aria-label="? Help"][href="#"]`
+  - `a[helpurl="/help/parameter/choice.html"]`
+  - `.repeated-chunk[name="parameterDefinitions"]:nth-child(2) > .jenkins-repeated-chunk__content > .jenkins-form-item.tr:nth-child(1) > .jenkins-form-label.help-sibling > .jenkins-help-button[helpurl="/help/parameter/name.html"][aria-label="? Help for feature: Name"]`
+  - `a[aria-label="? Help for feature: Choices"]`
+  - … +14 autres
+- http://localhost:6942/manage/configure
+  - `.jenkins-section:nth-child(1) > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.jenkins-form-item.tr[nameref="rowSetStart56"] > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.jenkins-form-item.tr[nameref="rowSetStart57"] > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart61"] > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart61"] > .jenkins-form-item.tr:nth-child(3) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.jenkins-section[nameref="rowSetStart62"] > .jenkins-form-item.tr > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart65"] > .jenkins-form-item.tr > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `div[ref="cb7"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart69"] > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart69"] > .jenkins-form-item.tr:nth-child(3) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - … +14 autres
+- http://localhost:6942/configureSecurity/
+  - `section:nth-child(1) > .jenkins-form-item--tight.jenkins-form-item.tr > .setting-main.help-sibling > .jenkins-help-button[aria-label="? Help"][href="#"]`
+  - `div[name="securityRealm"] > .jenkins-select-help.help-sibling > .jenkins-help-button[href="#"]`
+  - `div[name="securityRealm"] > .jenkins-form-item--tight.jenkins-form-item.tr > .setting-main.help-sibling > .jenkins-help-button[aria-label="? Help"][href="#"]`
+  - `div[name="authorizationStrategy"] > .jenkins-select-help.help-sibling > .jenkins-help-button[href="#"]`
+  - `div[name="authorizationStrategy"] > .jenkins-form-item--tight.jenkins-form-item.tr > .setting-main.help-sibling > .jenkins-help-button[aria-label="? Help"][href="#"]`
+  - `#form-label-21 > .jenkins-help-button[href="#"]`
+  - `section:nth-child(3) > .jenkins-form-item.tr > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart10"] > .jenkins-form-item.tr > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart11"] > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart12"] > .jenkins-form-item--tight.jenkins-form-item.tr:nth-child(2) > .setting-main.help-sibling > .jenkins-help-button[aria-label="? Help"][href="#"]`
+  - … +6 autres
+- http://localhost:6942/configure
+  - `.jenkins-section:nth-child(1) > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.jenkins-form-item.tr[nameref="rowSetStart56"] > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.jenkins-form-item.tr[nameref="rowSetStart57"] > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart61"] > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart61"] > .jenkins-form-item.tr:nth-child(3) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `.jenkins-section[nameref="rowSetStart62"] > .jenkins-form-item.tr > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart65"] > .jenkins-form-item.tr > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `div[ref="cb7"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart69"] > .jenkins-form-item.tr:nth-child(2) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `section[nameref="rowSetStart69"] > .jenkins-form-item.tr:nth-child(3) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - … +14 autres
+- http://localhost:6942/computer/(built-in)/configure
+  - `div[width="100%"] > .jenkins-form-item.tr:nth-child(1) > .jenkins-form-label.help-sibling > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Labels"]`
+  - `a[aria-label="? Help for feature: Usage"]`
+- http://localhost:6942/view/release/configure
+  - `.jenkins-help-button`
+- http://localhost:6942/job/docs-build/configure
+  - `div[ref="cb2"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb3"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb4"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb6"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Git"]`
+  - `div[ref="cb13"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb14"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb15"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Poll SCM"]`
+  - `div[ref="cb18"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - … +1 autres
+- http://localhost:6942/job/api-pipeline/configure
+  - `div[ref="cb0"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb4"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb5"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb6"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb7"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb9"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb10"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Poll SCM"]`
+  - `div[ref="cb13"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Script"]`
+  - … +1 autres
+- http://localhost:6942/job/nightly-backup/configure
+  - `div[ref="cb2"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb3"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb4"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb6"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Git"]`
+  - `div[ref="cb13"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb14"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `div[ref="cb15"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - `a[aria-label="? Help for feature: Poll SCM"]`
+  - `div[ref="cb18"] > .jenkins-checkbox-help-wrapper > .jenkins-help-button[href="#"]`
+  - … +1 autres
+

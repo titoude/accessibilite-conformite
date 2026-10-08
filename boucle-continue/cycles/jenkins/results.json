@@ -5,102 +5,59 @@
   "version_servie": "2.586-SNAPSHOT (war construit depuis les sources pinnées)",
   "axe": "4.14.0",
   "statut_execution": "complet",
-  "baseline": {
-    "auth": {
-      "violations_occ": 1546,
-      "violations_regles": 15,
+  "v2_fixer": {
+    "perimetre": "48 scénarios : 42 routes auth + 6 états (user-menu, job-row-menu, build-badge-menu, command-palette, theme-dark, mobile-nav-390) — scope étendu F-v2-1 : +pluginManager/available+updates+installed, /script, /systemInfo, /cli/, /restart, /safeRestart, /about/, /securityRealm/addUser, /computer/new + (built-in), /credential/github-token/, /oops, configures et consoles supplémentaires (v1 = 20 routes)",
+    "baseline": {
+      "violations_occ": 3003,
+      "violations_regles": 16,
       "regles": {
-        "region": 867,
-        "color-contrast": 221,
-        "label": 93,
-        "tabindex": 88,
-        "button-name": 84,
-        "aria-allowed-attr": 38,
-        "link-name": 32,
-        "html-has-lang": 25,
-        "landmark-one-main": 25,
-        "target-size": 21,
-        "aria-prohibited-attr": 19,
-        "empty-table-header": 13,
-        "select-name": 11,
-        "page-has-heading-one": 7,
-        "heading-order": 2
+        "region": 1680,
+        "color-contrast": 521,
+        "label": 281,
+        "tabindex": 125,
+        "button-name": 89,
+        "aria-allowed-attr": 77,
+        "html-has-lang": 47,
+        "landmark-one-main": 47,
+        "aria-prohibited-attr": 37,
+        "link-name": 36,
+        "target-size": 23,
+        "empty-table-header": 15,
+        "select-name": 13,
+        "page-has-heading-one": 9,
+        "heading-order": 2,
+        "image-alt": 1
       },
       "erreurs": 0,
-      "incomplets": {
-        "total": 261,
-        "detail": {
-          "color-contrast": 153,
-          "label-content-name-mismatch": 88,
-          "aria-prohibited-attr": 19,
-          "th-has-data-cells": 1
-        }
-      },
-      "note": "26 scénarios : 20 routes auth + 6 états (user-menu, job-row-menu, build-badge-menu, command-palette, theme-dark, mobile-nav-390)"
+      "incomplets": { "total": 541, "detail": { "color-contrast": 375, "aria-prohibited-attr": 40, "label-content-name-mismatch": 125, "th-has-data-cells": 1 } },
+      "note": "vanilla :6950, reports/baseline-v2-auth"
     },
-    "public": {
-      "violations_occ": 1,
-      "violations_regles": 1,
-      "regles": { "region": 1 },
+    "final": {
+      "violations_occ": 0,
+      "violations_regles": 0,
       "erreurs": 0,
-      "incomplets": { "total": 1, "detail": { "color-contrast": 1 } },
-      "note": "/login — .app-branding hors landmark ; /loginError non servi sans POST échoué"
+      "incomplets": { "total": 507, "detail": { "color-contrast": 382, "label-content-name-mismatch": 125 } },
+      "note": "patché :6942 (war v5 depuis patch.diff livré), reports/final-v2-auth"
+    },
+    "install_build": {
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "erreurs": 0,
+      "incomplets": { "total": 507, "detail": { "color-contrast": 382, "label-content-name-mismatch": 125 } },
+      "note": "clone vierge @db0e0829 + git apply patch.diff (53 fichiers, 0 rejet) + mvn quick-build + boot :6943 (jk42-home-ib) + seed + rescan verbatim — distribution des incomplets IDENTIQUE au build primaire (382+125), reports/install-build-v2"
+    },
+    "verify": { "assertions": 31, "fail": 0, "sabotage_vanilla": "25 FAIL (assertions discriminantes)", "script": "tools/verify.mjs" },
+    "eval_final": { "assertions": 25, "fail": 0, "script": "tools/eval-final.mjs", "note": "assertion 'dialogue suppression' durcie : ouverture réelle de dialog.jenkins-dialog + nom accessible vérifié" },
+    "probes_incomplets": {
+      "patched": { "color-contrast|PASS": 312, "color-contrast|N-A": 64, "color-contrast|FAIL": 6, "label-content-name-mismatch|PASS": 125 },
+      "vanilla": { "color-contrast|PASS": 163, "color-contrast|N-A": 55, "color-contrast|FAIL": 157, "aria-prohibited-attr|N-A": 40, "label-content-name-mismatch|FAIL": 125, "th-has-data-cells|PASS": 1 },
+      "residus": "6 FAIL patched = strictement ⊆ 282 FAIL vanilla — tous .ace_string du thème éditeur workflow-cps (jpi binaire, repo workflow-cps-plugin hors périmètre produit) — zéro introduite ; les 8 .ace_gutter-cell vanilla ont été résolus par --secondary 60%→55%"
     }
   },
-  "final": {
-    "auth": {
-      "violations_occ": 0,
-      "violations_regles": 0,
-      "erreurs": 0,
-      "incomplets": {
-        "total": 247,
-        "detail": {
-          "color-contrast": 159,
-          "label-content-name-mismatch": 88
-        }
-      }
-    },
-    "public": {
-      "violations_occ": 0,
-      "violations_regles": 0,
-      "erreurs": 0,
-      "incomplets": { "total": 1, "detail": { "color-contrast": 1 } }
-    },
-    "note": "mêmes 26 scénarios que baseline (scopeHash identique dc6410df…) ; war rebuilt maven quick-build"
-  },
-  "install_build": {
-    "auth": {
-      "violations_occ": 0,
-      "violations_regles": 0,
-      "erreurs": 0,
-      "incomplets": {
-        "total": 240,
-        "detail": {
-          "color-contrast": 152,
-          "label-content-name-mismatch": 88
-        }
-      }
-    },
-    "public": {
-      "note": "non rescanée — public identique au build primaire (mêmes sources)"
-    },
-    "note": "clone vierge @db0e0829 + git apply patch.diff (41 fichiers) → mvn quick-build → boot :6043 JENKINS_HOME vierge + init.groovy + 75 plugins + seed → rescan verbatim, 26/26 scénarios"
-  },
-  "verify": {
-    "assertions": 32,
-    "fail": 0,
-    "script": "tools/verify.mjs"
-  },
-  "eval_final": {
-    "assertions": 25,
-    "fail": 0,
-    "script": "tools/eval-final.mjs",
-    "note": "16 pages hors périmètre + dup-ids + replays à froid (menu user, newJob, mobile 390, build paramétré, dialogue suppression)"
-  },
-  "probes_incomplets": {
-    "color-contrast|PASS": 130,
-    "color-contrast|N-A": 29,
-    "label-content-name-mismatch|PASS": 88
-  },
-  "probes_note": "N-A = nœud introuvable/masqué au rejeu (menus fermés, états transitoires) ; sonde composite ::before/::after + mask-image ignorée — voir reports/probes/*.json"
+  "v1": {
+    "statut": "CONFIRMED devin-1a2cfe0 — trou de périmètre documenté (107 occ amont hors-scope dont 101 pluginManager/available ⊆ 622 vanilla, zéro introduite)",
+    "baseline_auth": "1546 occ / 15 règles sur 26 scénarios (20 routes + 6 états)",
+    "final_auth": "0 viol / 247 incomplets",
+    "note": "artefacts v1 : reports/baseline-auth|baseline-public|final-auth|final-public|install-build|probes — conservés pour traçabilité"
+  }
 }

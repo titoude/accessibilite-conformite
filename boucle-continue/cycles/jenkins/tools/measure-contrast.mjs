@@ -15,15 +15,36 @@ await page.waitForTimeout(1200);
 const out = await page.evaluate((sels) => {
   const parse = (c) => {
     const m = c.match(/rgba?\(([\d.]+)[ ,]+([\d.]+)[ ,]+([\d.]+)(?:[ ,/]+([\d.]+))?/);
-    return m ? { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] } : null;
+    if (m) return { r: +m[1], g: +m[2], b: +m[3], a: m[4] === undefined ? 1 : +m[4] };
+    const s = /color\(srgb\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)(?:\s*\/\s*([\d.]+))?\)/.exec(c || '');
+    if (s) return { r: +s[1] * 255, g: +s[2] * 255, b: +s[3] * 255, a: s[4] === undefined ? 1 : +s[4] };
+    const o = /oklch\(([\d.]+)%?\s+([\d.]+)\s+([\d.]+)(?:deg)?(?:\s*\/\s*([\d.]+))?\)/.exec(c || '');
+    if (o) {
+      const L = Number(o[1]) > 1 ? Number(o[1]) / 100 : Number(o[1]);
+      const hr = Number(o[3]) * Math.PI / 180;
+      const aa = Number(o[2]) * Math.cos(hr), bb = Number(o[2]) * Math.sin(hr);
+      const l_ = Math.pow(L + 0.3963377774 * aa + 0.2158037573 * bb, 3);
+      const m_ = Math.pow(L - 0.1055613458 * aa - 0.0638541728 * bb, 3);
+      const s_ = Math.pow(L - 0.0894841775 * aa - 1.2914855480 * bb, 3);
+      const lin = (v) => Math.max(0, Math.min(255, (v <= 0.0031308 ? 12.92 * v : 1.055 * Math.pow(v, 1 / 2.4) - 0.055) * 255));
+      return {
+        r: lin(4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_),
+        g: lin(-1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_),
+        b: lin(-0.0041960863 * l_ - 0.7034186147 * m_ + 1.7076147010 * s_),
+        a: o[4] === undefined ? 1 : Number(o[4]),
+      };
+    }
+    return null;
   };
   const composite = (fg, bg) => {
     const a = fg.a + bg.a * (1 - fg.a);
-    if (a === 0) return { r: 0, g: 0, b: 0 };
+    if (a === 0) return { r: 0, g: 0, b: 0, a: 0 };
+    // propager l'alpha : la couche composée doit rester opaque pour les plis suivants
     return {
       r: (fg.r * fg.a + bg.r * bg.a * (1 - fg.a)) / a,
       g: (fg.g * fg.a + bg.g * bg.a * (1 - fg.a)) / a,
       b: (fg.b * fg.a + bg.b * bg.a * (1 - fg.a)) / a,
+      a,
     };
   };
   const lum = (c) => {

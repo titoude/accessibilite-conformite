@@ -1,5 +1,5 @@
 diff --git a/core/src/main/resources/hudson/PluginManager/installed.jelly b/core/src/main/resources/hudson/PluginManager/installed.jelly
-index 88c30c0..c4cee0d 100644
+index 88c30c0..e6f0fbc 100644
 --- a/core/src/main/resources/hudson/PluginManager/installed.jelly
 +++ b/core/src/main/resources/hudson/PluginManager/installed.jelly
 @@ -88,7 +88,7 @@ THE SOFTWARE.
@@ -11,6 +11,42 @@ index 88c30c0..c4cee0d 100644
                </l:isAdmin>
              </tr>
              </thead>
+@@ -194,7 +194,7 @@ THE SOFTWARE.
+                                url="plugin/${p.shortName}"
+                                disabled="${readOnlyMode ? 'true' : null}"
+                                original="${p.active?'true':'false'}"/>
+-                        <label class="attach-previous"></label>
++                        <label class="attach-previous"><span class="jenkins-visually-hidden">${p.displayName}</span></label>
+                       </span>
+                     </div>
+                   </td>
+@@ -287,7 +287,7 @@ THE SOFTWARE.
+                     <div class="jenkins-table__cell__button-wrapper">
+                       <span class="jenkins-toggle-switch">
+                         <input type="checkbox" disabled="disabled"/>
+-                        <label class="attach-previous"></label>
++                        <label class="attach-previous"><span class="jenkins-visually-hidden">${p.displayName}</span></label>
+                       </span>
+                     </div>
+                   </td>
+diff --git a/core/src/main/resources/hudson/PluginManager/updates.jelly b/core/src/main/resources/hudson/PluginManager/updates.jelly
+index fcc1426..a2fe05c 100644
+--- a/core/src/main/resources/hudson/PluginManager/updates.jelly
++++ b/core/src/main/resources/hudson/PluginManager/updates.jelly
+@@ -250,7 +250,12 @@ THE SOFTWARE.
+             <l:notice icon="symbol-up-to-date" title="${%No updates available}" />
+           </j:otherwise>
+         </j:choose>
+-        <d:invokeBody/>
++        <!-- When this file renders as a view (e.g. /pluginManager/updates) there
++             is no calling tag and invokeBody would fail; only invoke the body
++             when invoked as a taglib (local:updates from index.jelly). -->
++        <j:if test="${attrs != null}">
++          <d:invokeBody/>
++        </j:if>
+       </form>
+   </l:settings-subpage>
+ </j:jelly>
 diff --git a/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly b/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly
 index 772a534..cf300cb 100644
 --- a/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly
@@ -183,6 +219,43 @@ index cc1db08..689b772 100644
            </tr>
          </thead>
          <tbody>
+diff --git a/core/src/main/resources/jenkins/model/Jenkins/MasterComputer/configure.jelly b/core/src/main/resources/jenkins/model/Jenkins/MasterComputer/configure.jelly
+index d01b9dc..9ff7738 100644
+--- a/core/src/main/resources/jenkins/model/Jenkins/MasterComputer/configure.jelly
++++ b/core/src/main/resources/jenkins/model/Jenkins/MasterComputer/configure.jelly
+@@ -33,6 +33,7 @@ THE SOFTWARE.
+     <st:include page="sidepanel.jelly"/>
+     <l:breadcrumb title="${%Configure}" />
+     <l:main-panel>
++      <l:app-bar title="${%Configure}" />
+       <f:form method="post" action="configSubmit" name="config">
+         <j:set var="instance" value="${it.node}" />
+         <j:set var="descriptor" value="${instance.descriptor}" />
+diff --git a/core/src/main/resources/jenkins/model/Jenkins/_restart.jelly b/core/src/main/resources/jenkins/model/Jenkins/_restart.jelly
+index 391dbd3..8472329 100644
+--- a/core/src/main/resources/jenkins/model/Jenkins/_restart.jelly
++++ b/core/src/main/resources/jenkins/model/Jenkins/_restart.jelly
+@@ -29,6 +29,7 @@ THE SOFTWARE.
+ 		<st:include page="sidepanel.jelly" />
+ 		<l:breadcrumb title="${%Restart}" />
+ 		<l:main-panel>
++			<l:app-bar title="${%Restart}" />
+ 			<j:choose>
+ 				<j:when test="${app.lifecycle.canRestart()}">
+ 					<form method="post" action="restart">
+diff --git a/core/src/main/resources/jenkins/model/Jenkins/oops.jelly b/core/src/main/resources/jenkins/model/Jenkins/oops.jelly
+index f64af02..638e1ab 100644
+--- a/core/src/main/resources/jenkins/model/Jenkins/oops.jelly
++++ b/core/src/main/resources/jenkins/model/Jenkins/oops.jelly
+@@ -32,7 +32,7 @@ THE SOFTWARE.
+     <l:header />
+     <l:main-panel>
+         <h1 style="text-align: center">
+-          <img src="${imagesURL}/rage.svg" height="179" width="154"/> <span style="font-size:50px"><st:nbsp/>${%Oops!}</span>
++          <img src="${imagesURL}/rage.svg" height="179" width="154" alt=""/> <span style="font-size:50px"><st:nbsp/>${%Oops!}</span>
+         </h1>
+         <div id="error-description">
+           <h2 style="text-align: center">${%problemHappened}</h2>
 diff --git a/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly b/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly
 index 6a18e75..ab3b4cf 100644
 --- a/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly
@@ -235,6 +308,22 @@ index bf2639d..5415934 100644
        <a href="#" class="jenkins-help-button" aria-label="${altText}" helpURL="${rootURL}${attrs.url}">
          <!-- .jenkins-help-button span element is required as it's restyled in CSS -->
          <span>?</span>
+diff --git a/core/src/main/resources/lib/form/textarea/textarea.js b/core/src/main/resources/lib/form/textarea/textarea.js
+index 52ffda5..27bd927 100644
+--- a/core/src/main/resources/lib/form/textarea/textarea.js
++++ b/core/src/main/resources/lib/form/textarea/textarea.js
+@@ -33,6 +33,11 @@ Behaviour.specify("TEXTAREA.codemirror", "textarea", 0, function (e) {
+   }
+   var codemirror = CodeMirror.fromTextArea(e, config);
+   e.codemirrorObject = codemirror;
++  var input = codemirror.getInputField();
++  input.setAttribute(
++    "aria-label",
++    e.getAttribute("aria-label") || e.getAttribute("name") || "Code editor",
++  );
+   if (typeof codemirror.getScrollerElement !== "function") {
+     // Maybe older versions of CodeMirror do not provide getScrollerElement method.
+     codemirror.getScrollerElement = function () {
 diff --git a/core/src/main/resources/lib/hudson/buildHealth.jelly b/core/src/main/resources/lib/hudson/buildHealth.jelly
 index 6b0e7c1..62c3773 100644
 --- a/core/src/main/resources/lib/hudson/buildHealth.jelly
@@ -261,6 +350,65 @@ index c819964..cbbbb6a 100644
          </tr>
      </thead>
      <tbody></tbody>
+diff --git a/core/src/main/resources/lib/hudson/property-table.css b/core/src/main/resources/lib/hudson/property-table.css
+index 3f4d843..b71315a 100644
+--- a/core/src/main/resources/lib/hudson/property-table.css
++++ b/core/src/main/resources/lib/hudson/property-table.css
+@@ -7,6 +7,6 @@
+   user-select: text;
+ }
+ 
+-span.jenkins-\!-color-blue > svg {
++span.jenkins-\!-color-dark-blue > svg {
+   vertical-align: text-top;
+ }
+diff --git a/core/src/main/resources/lib/hudson/propertyTable.jelly b/core/src/main/resources/lib/hudson/propertyTable.jelly
+index eac4b21..ad3f1df 100644
+--- a/core/src/main/resources/lib/hudson/propertyTable.jelly
++++ b/core/src/main/resources/lib/hudson/propertyTable.jelly
+@@ -40,11 +40,11 @@ THE SOFTWARE.
+   <j:set var="tableId" value="${h.generateId()}"/>
+   <j:if test="${attrs.sensitive}">
+     <div class="jenkins-!-margin-bottom-2">
+-      <button class="app-all-hidden-reveal-all jenkins-button jenkins-button--transparent jenkins-!-color-blue" data-table-id="${tableId}">
++      <button class="app-all-hidden-reveal-all jenkins-button jenkins-button--transparent jenkins-!-color-dark-blue" data-table-id="${tableId}">
+         <l:icon src="symbol-view"/>
+         ${%revealAll}
+       </button>
+-      <button class="app-all-hidden-hide-all jenkins-hidden jenkins-button jenkins-button--transparent jenkins-!-color-blue" data-table-id="${tableId}">
++      <button class="app-all-hidden-hide-all jenkins-hidden jenkins-button jenkins-button--transparent jenkins-!-color-dark-blue" data-table-id="${tableId}">
+         <l:icon src="symbol-view"/>
+         ${%hideAll}
+       </button>
+@@ -67,13 +67,13 @@ THE SOFTWARE.
+             <j:choose>
+               <j:when test="${attrs.sensitive}">
+                 <div class="app-hidden-info-reveal">
+-                  <button class="jenkins-button jenkins-button--transparent jenkins-!-color-blue">
++                  <button class="jenkins-button jenkins-button--transparent jenkins-!-color-dark-blue">
+                     <l:icon src="symbol-view"/> ${%reveal}
+                   </button>
+                 </div>
+                 <div class="app-hidden-info-hide jenkins-hidden">
+                   <button class="jenkins-button jenkins-button--transparent">
+-                    <span class="jenkins-!-color-blue">
++                    <span class="jenkins-!-color-dark-blue">
+                       <l:icon src="symbol-eye-off-outline"/><j:out value=" "/><l:breakable value="${e.value}"/>
+                     </span>
+                   </button>
+diff --git a/core/src/main/resources/lib/hudson/scriptConsole.jelly b/core/src/main/resources/lib/hudson/scriptConsole.jelly
+index 77ba8d9..f1f0143 100644
+--- a/core/src/main/resources/lib/hudson/scriptConsole.jelly
++++ b/core/src/main/resources/lib/hudson/scriptConsole.jelly
+@@ -78,7 +78,7 @@ THE SOFTWARE.
+ 
+           <f:section title="${%Console}">
+             <form action="script" method="post">
+-              <textarea id="script" name="script" class="script">${request2.getParameter('script')}</textarea>
++              <textarea id="script" name="script" class="script" aria-label="${%Script}">${request2.getParameter('script')}</textarea>
+               <div align="right">
+                 <f:submit  value="${%Run}"/>
+               </div>
 diff --git a/core/src/main/resources/lib/layout/branding.jelly b/core/src/main/resources/lib/layout/branding.jelly
 index d051f15..fd391c6 100644
 --- a/core/src/main/resources/lib/layout/branding.jelly
@@ -345,14 +493,14 @@ index a097d8d..6db58a6 100644
    </j:if>
  </j:jelly>
 diff --git a/core/src/main/resources/lib/layout/overflowButton.jelly b/core/src/main/resources/lib/layout/overflowButton.jelly
-index a411a11..187096f 100644
+index a411a11..6807188 100644
 --- a/core/src/main/resources/lib/layout/overflowButton.jelly
 +++ b/core/src/main/resources/lib/layout/overflowButton.jelly
 @@ -53,9 +53,10 @@ THE SOFTWARE.
  
    <button class="jenkins-button ${attrs.clazz}"
            tooltip="${attrs.containsKey('tooltip') ? attrs.tooltip : '%More actions'}"
-+          aria-label="${(attrs.text == null and attrs.html == null) ? (attrs.containsKey('tooltip') ? attrs.tooltip : '%More actions') : null}"
++          aria-label="${(attrs.text == null and attrs.html == null) ? (attrs.containsKey('tooltip') and attrs.tooltip != null ? attrs.tooltip : '%More actions') : null}"
            id="${attrs.id}"
            data-testid="${attrs.containsKey('testId') ? attrs.testid  : attrs.containsKey('id') ? attrs.id : ''}"
 -          type="button" data-dropdown="true">
@@ -387,6 +535,35 @@ index 6972c1e..a88e1dd 100644
 +    </aside>
    </j:if>
  </j:jelly>
+diff --git a/src/main/js/components/dialogs/index.js b/src/main/js/components/dialogs/index.js
+index 3d1aba1..63c794b 100644
+--- a/src/main/js/components/dialogs/index.js
++++ b/src/main/js/components/dialogs/index.js
+@@ -21,6 +21,8 @@ let _typeClassMap = {
+   destructive: "jenkins-!-destructive-color",
+ };
+ 
++let _dialogCount = 0;
++
+ jenkins.loadTranslations("jenkins.dialogs", function (localizations) {
+   window.dialog.translations = localizations;
+   _defaults.cancelText = localizations.cancel;
+@@ -40,11 +42,13 @@ Dialog.prototype.init = function () {
+   this.dialog.style.minWidth = this.options.minWidth;
+   document.body.appendChild(this.dialog);
+ 
+-  // Append title element
++  // Append title element and expose it as the dialog's accessible name
++  const titleId = `jenkins-dialog-title-${++_dialogCount}`;
+   const title = createElementFromHtml(
+-    `<div class='jenkins-dialog__title'><span></span></div>`,
++    `<div class='jenkins-dialog__title'><span id='${titleId}'></span></div>`,
+   );
+   this.dialog.appendChild(title);
++  this.dialog.setAttribute("aria-labelledby", titleId);
+   title.querySelector("span").innerText = this.options.title;
+ 
+   const content = createElementFromHtml(
 diff --git a/src/main/js/components/dropdowns/jumplists.js b/src/main/js/components/dropdowns/jumplists.js
 index ddadec3..88b2351 100644
 --- a/src/main/js/components/dropdowns/jumplists.js
@@ -443,6 +620,19 @@ index d5f691e..c56cfbf 100644
      }
    }
  }
+diff --git a/src/main/js/templates/plugin-manager/available.hbs b/src/main/js/templates/plugin-manager/available.hbs
+index eb5617f..4a7818a 100644
+--- a/src/main/js/templates/plugin-manager/available.hbs
++++ b/src/main/js/templates/plugin-manager/available.hbs
+@@ -4,7 +4,7 @@
+             <td class="jenkins-table__cell--checkbox">
+                 <span class="jenkins-checkbox">
+                     <input type="checkbox" name="plugin.{{ this.name }}.{{ this.sourceId }}" id="plugin.{{ this.name }}.{{ this.sourceId }}">
+-                    <label for="plugin.{{ this.name }}.{{ this.sourceId }}"></label>
++                    <label for="plugin.{{ this.name }}.{{ this.sourceId }}"><span class="jenkins-visually-hidden">{{ this.displayName }}</span></label>
+                 </span>
+             </td>
+         {{/if}}
 diff --git a/src/main/scss/abstracts/_theme.scss b/src/main/scss/abstracts/_theme.scss
 index b7ff9d1..e6dcb34 100644
 --- a/src/main/scss/abstracts/_theme.scss
@@ -489,6 +679,28 @@ index ba653a9..e6bfb1d 100644
        }
      }
    }
+diff --git a/src/main/scss/base/_typography.scss b/src/main/scss/base/_typography.scss
+index c8d105a..34d63b2 100644
+--- a/src/main/scss/base/_typography.scss
++++ b/src/main/scss/base/_typography.scss
+@@ -103,10 +103,16 @@ h6,
+ .jenkins-label {
+   &--tertiary {
+     color: var(--text-color-secondary);
+-    opacity: 0.7;
+   }
+ }
+ 
++// Tertiary label links must meet the 24px minimum target size
++a.jenkins-label--tertiary {
++  display: inline-flex;
++  align-items: center;
++  min-height: 24px;
++}
++
+ a {
+   @include mixins.link;
+ }
 diff --git a/src/main/scss/components/_badges.scss b/src/main/scss/components/_badges.scss
 index 054a4c9..fc01246 100644
 --- a/src/main/scss/components/_badges.scss
@@ -574,6 +786,25 @@ index 3e18a91..2e4d7b5 100644
  
          &::after {
            opacity: 0.5;
+diff --git a/src/main/scss/components/_buttons.scss b/src/main/scss/components/_buttons.scss
+index 02834fe..57b1ad9 100644
+--- a/src/main/scss/components/_buttons.scss
++++ b/src/main/scss/components/_buttons.scss
+@@ -58,9 +58,11 @@
+ }
+ 
+ .jenkins-button--primary[class*="color"] {
+-  --button-background: oklch(from var(--color) l c h);
+-  --button-background--hover: oklch(from var(--color) l c h / 0.9);
+-  --button-background--active: oklch(from var(--color) l c h / 0.8);
++  // White button text needs >= 4.5:1 against the button background (WCAG 1.4.3);
++  // darken the variant color so it lands below the threshold (e.g. --red).
++  --button-background: oklch(from var(--color) calc(l - 0.08) c h);
++  --button-background--hover: oklch(from var(--color) calc(l - 0.08) c h / 0.9);
++  --button-background--active: oklch(from var(--color) calc(l - 0.08) c h / 0.8);
+   --button-box-shadow--focus: oklch(from var(--color) l c h / 0.4);
+ 
+   color: var(--background) !important;
 diff --git a/src/main/scss/components/_notice.scss b/src/main/scss/components/_notice.scss
 index 6491b8b..72f07bf 100644
 --- a/src/main/scss/components/_notice.scss
@@ -735,7 +966,7 @@ index 2e1933d..5b4c171 100644
  
  .logrecord-metadata-old {
 diff --git a/war/src/main/webapp/scripts/hudson-behavior.js b/war/src/main/webapp/scripts/hudson-behavior.js
-index a0cbee0..8e0d2ee 100644
+index a0cbee0..3d9aa85 100644
 --- a/war/src/main/webapp/scripts/hudson-behavior.js
 +++ b/war/src/main/webapp/scripts/hudson-behavior.js
 @@ -1341,7 +1341,32 @@ function rowvgStartEachRow(recursive, f) {
@@ -789,7 +1020,31 @@ index a0cbee0..8e0d2ee 100644
    });
  
    // Script Console : settings and shortcut key
-@@ -1586,7 +1611,10 @@ function rowvgStartEachRow(recursive, f) {
+@@ -1444,7 +1469,6 @@ function rowvgStartEachRow(recursive, f) {
+       var cmdKeyDown = false;
+       var mode = e.getAttribute("script-mode") || "text/x-groovy";
+ 
+-      // eslint-disable-next-line no-unused-vars
+       var w = CodeMirror.fromTextArea(e, {
+         mode: mode,
+         lineNumbers: true,
+@@ -1477,7 +1501,14 @@ function rowvgStartEachRow(recursive, f) {
+             }
+           }
+         },
+-      }).getWrapperElement();
++      });
++      var input = w.getInputField();
++      input.setAttribute(
++        "aria-label",
++        e.getAttribute("aria-label") || e.getAttribute("name") || "Code editor",
++      );
++      // eslint-disable-next-line no-unused-vars
++      w = w.getWrapperElement();
+     })();
+   });
+ 
+@@ -1586,7 +1617,10 @@ function rowvgStartEachRow(recursive, f) {
        var checkbox = e.querySelector("input[type='checkbox']");
  
        // Set start.ref to checkbox in preparation of row-set-end processing
@@ -801,7 +1056,7 @@ index a0cbee0..8e0d2ee 100644
      },
    );
  
-@@ -1948,6 +1976,42 @@ function rowvgStartEachRow(recursive, f) {
+@@ -1948,6 +1982,42 @@ function rowvgStartEachRow(recursive, f) {
        label.appendChild(spanTag);
      },
    );

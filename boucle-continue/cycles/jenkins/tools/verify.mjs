@@ -55,7 +55,7 @@ let m = await page.evaluate(() => ({
   navId: document.querySelector('nav')?.id,
   pageHeader: !!document.querySelector('header#page-header'),
   pageHeaderTag: document.querySelector('#page-header')?.tagName,
-  header: true,
+  
   h1: document.querySelector('h1')?.textContent.trim().slice(0, 40),
 }));
 check('html lang renseigné', !!m.lang, m.lang);
@@ -63,7 +63,8 @@ check('un seul <main> (id=main-panel)', m.mains === 1 && m.mainId === 'main-pane
 check('side-panel est <aside>', m.asideId === 'side-panel', m.asideId);
 check('breadcrumbBar est <nav>', m.navId === 'breadcrumbBar', m.navId);
 check('dashboard: en-tête de page est <header>', m.pageHeader === true, m.pageHeaderTag);
-check('branding est <header>', m.header === true);
+// « branding est <header> » : doublon tautologique supprimé — .app-branding n'existe
+// que sur /login, où 'login: header branding' vérifie réellement header.app-branding.
 check('dashboard a un <h1> (sr-only toléré)', !!m.h1, m.h1);
 
 // ---------- 2. /login public : branding landmark + pas de region orphelin ----------
