@@ -1,0 +1,106 @@
+{
+  "cycle": 46,
+  "project": "metabase/metabase",
+  "commit": "811914645ddf9c92e997914ddb9ca3d9e148abed",
+  "framework": "Clojure/JVM backend (deps.edn, uberjar metabase.jar) + React 18/TypeScript frontend (Bun + Rspack, Mantine v8, dnd-kit, kbar) ; H2 embarqué pour les données",
+  "base_url": "http://localhost:7600",
+  "boot": {
+    "note": "Image Docker officielle metabase/metabase:v0.64.1.x (build v0.64.1.1, tag upstream le plus proche du SHA pinné — écart : le jar embarque le backend de l'image, pas celui du SHA ; le frontend servi est rebuildé depuis le SHA exact et monté AVANT le jar dans le classpath). Mécanisme : metabase sert tout le frontend via io/resource sur le classpath → `-cp /patched:/app/metabase.jar` fait précéder le répertoire monté au jar pour frontend_client/. Le frontend se patch dans frontend/src/metabase puis `WEBPACK_BUNDLE=production bun run build-release:js` regénère resources/frontend_client (~30s). shadow-cljs (build-release:cljs) exige JDK 21 — la box a JDK 17 : les artefacts target/cljs_release sont copiés depuis le même clone (le patch ne touche aucun fichier .cljs/.clj, 0 divergences cljs). L'entrypoint de l'image est /app/run_metabase.sh (su) — les args JVM exigent --entrypoint java.",
+    "commands": [
+      "git clone https://github.com/metabase/metabase.git ~/work/metabase && cd ~/work/metabase && git checkout 811914645ddf9c92e997914ddb9ca3d9e148abed",
+      "export NVM_DIR=\"$HOME/.nvm\" && source \"$NVM_DIR/nvm.sh\" && bun install",
+      "WEBPACK_BUNDLE=production bun run build-release:js   # régénère resources/frontend_client (js/css/html servis)",
+      "mkdir -p ~/work/mb46-data",
+      "docker run -d --name mb46 -p 7600:3000 --entrypoint java -e MB_DB_TYPE=h2 -e MB_DB_FILE=/data/metabase46.db -e MB_JETTY_HOST=0.0.0.0 -v ~/work/metabase/resources/frontend_client:/patched/frontend_client:ro -v ~/work/mb46-data:/data metabase/metabase:v0.64.1.x -Dfile.encoding=UTF-8 -server --add-opens java.base/java.nio=ALL-UNNAMED --enable-native-access=ALL-UNNAMED -Dlogfile.path=/data/log -cp /patched:/app/metabase.jar metabase.core.bootstrap",
+      "# attendre 'Metabase Initialization COMPLETE' dans `docker logs -f mb46` (~90s au premier boot)",
+      "# setup admin (POST /api/setup avec setup-token de GET /api/session/properties) : voir tools/seed.mjs --setup",
+      "node tools/seed.mjs http://localhost:7600   # seed littéral verbatim (collection, 3 questions, dashboard, viewer)",
+      "node tools/make-state.mjs http://localhost:7600 admin@boucle46.local Boucle46!A11y tools/state-admin.json"
+    ],
+    "port": 7600,
+    "app_image": "metabase/metabase:v0.64.1.x (v0.64.1.1) — entrypoint remplacé par `java` direct, classpath /patched:/app/metabase.jar",
+    "db": "H2 embarqué dans /data (volume ~/work/mb46-data) — aucune DB externe",
+    "install_build": "clone vierge ~/work/mb-install au même SHA + git apply patch.diff + bun install + WEBPACK_BUNDLE=production bun run build-release:js + copie de ~/work/metabase/target/cljs_release → target/cljs_release (artefacts cljs du même SHA, 0 fichier cljs dans le patch — shadow-cljs exige JDK 21, la box a JDK 17) + docker mb46-install identique sur :7603"
+  },
+  "seed": {
+    "upstream": "Sample Database intégrée à l'image (schéma ORDERS/PRODUCTS/PEOPLE/REVIEWS, chargée au premier boot). Sample content optionnel non utilisé (non déterministe).",
+    "litteral": [
+      "POST /api/setup {token: setup-token de /api/session/properties, user: admin@boucle46.local / Boucle46!A11y, site_name 'Boucle 46', locale en}",
+      "POST /api/collection {name:'Boucle 46 — Audit', color:'#509EE2'} → id 6",
+      "POST /api/card ×3 : 'B46 — Products par catégorie' (id 40, bar chart count×category sur PRODUCTS), 'B46 — Orders mensuels' (id 41, line), 'B46 — Commandes > 100$' (id 42, table) — dataset_query MBQL sur la Sample Database",
+      "POST /api/dashboard 'B46 — Ventes' (id 2) + POST /api/dashboard/2/cards avec les 3 cards (grid 8×6 chacune)",
+      "POST /api/user {email: viewer@boucle46.local, password: Boucle46!View, is_superuser:false} — compte non-admin",
+      "tools/seed.mjs est idempotent (lookup par nom/email avant create) — verbatim rejouable, y compris après recréation H2"
+    ],
+    "admin": "admin@boucle46.local / Boucle46!A11y (compte créé par le setup, superuser)"
+  },
+  "scope": {
+    "runs": [
+      {
+        "name": "public",
+        "storage_state": null,
+        "urls": ["/auth/login", "/auth/forgot_password"],
+        "states": []
+      },
+      {
+        "name": "admin",
+        "storage_state": "tools/state-admin.json (make-state.mjs : formulaire login admin)",
+        "urls": [
+          "/", "/browse/models", "/browse/databases",
+          "/collection/root/our-analytics", "/collection/6-boucle-46-audit",
+          "/dashboard/2", "/question/40-b46-products-par-categorie", "/question",
+          "/search?q=orders", "/trash",
+          "/admin/settings/general", "/admin/people", "/admin/databases",
+          "/account/profile", "/nosuchpage-46"
+        ],
+        "states": "all"
+      }
+    ],
+    "states_carte": [
+      "nav-new-menu", "nav-search-palette (Control+k)", "nav-mobile-sidebar-390",
+      "dashboard-actions-menu", "dashboard-info-sidebar",
+      "question-notebook-editor", "question-viz-settings", "admin-settings-nav"
+    ],
+    "hors_scope": [
+      "Setup wizard /setup (usage unique, page dédiée — vérifiée manuellement)",
+      "Flows admin payants/whitelabel (upsell), impersonation, sandboxes (EE désactivé dans l'image OSS)",
+      "Email/SMTP, LDAP, SSO pages (non configurables sans infra externe)",
+      "Actions publiques de dashboard (public sharing désactivé par défaut)",
+      "Embedding SDK / static embed preview (build séparé)",
+      "API JSON endpoints, /api/docs, exports CSV/PNG/PDF",
+      "Mantine devtools, routes de développement internes"
+    ]
+  },
+  "notes": [
+    "La carte STATES du kit couvre 8 états déterministes (open-actions + stateProof) ; --states all est passé avec --urls http://localhost:7600/ seul (chaque état porte sa propre url).",
+    "Deux passes de scan par run : pages (--states none) puis états (--states all). Les reports sont séparés (reports/<run>/{admin,public,states}).",
+    "Le backend jar de l'image v0.64.1.1 ≠ SHA pinné : écart honnête et assumé — l'audit porte sur le frontend rebuildé du SHA exact ; les routes auditées sont des pages React servies depuis /patched. Le backend n'est jamais patché (0 fichier hors frontend/src dans le diff).",
+    "L'observer bootstrap ui/utils/markMantineFocusSentinels.ts couvre les défauts systémiques Mantine v8 : sentinels autofocus (role=separator, tabindex retiré), portails peuplés (role=complementary + aria-label numéroté), aria-labelledby orphelin des radiogroups (InputsGroupFieldset émet ctx.labelId inconditionnellement), aria-controls orphelin des tabs, aria-haspopup/expanded clonés sur des targets sans rôle.",
+    "dnd-kit useSortable met role=button sur la ligne sortable ; les cellules internes interactives (popover target) faisaient nested-interactive → ClausePopover déplacé à l'intérieur du wrapper DnD (role=group) et la cellule porte popoverTarget (role=button+tabIndex+Enter/Space).",
+    "kbar li[role=option] : tout descendant focusable (même tabIndex=-1) = nested-interactive → PaletteResultItem rend un Box neutre + onAuxClick middle-click → window.open(url) pour parité lien.",
+    "Contrastes : text-disabled/text-tertiary → alpha 0.62 ; texte blanc sur couleurs de step (#509ee2, #689735, #7d7de3) → color-mix black 30–45% selon le composant (45% requis sur ViewButton : 35% donnait 4.07).",
+    "mb46-install reproduit le bug install-build : la copie H2 ne porte pas l'état setup → rejouer POST /api/setup + seed.mjs verbatim (mêmes ids)."
+  ],
+  "auditCommands": [
+    "node tools/make-state.mjs http://localhost:7600 admin@boucle46.local Boucle46!A11y tools/state-admin.json",
+    "node tools/audit.mjs http://localhost:7600 --urls $(paste -sd, tools/urls-admin.txt) --storage-state tools/state-admin.json --states none --out reports/final/admin",
+    "node tools/audit.mjs http://localhost:7600 --urls $(paste -sd, tools/urls-public.txt) --states none --out reports/final/public",
+    "node tools/audit.mjs http://localhost:7600 --urls http://localhost:7600/ --storage-state tools/state-admin.json --states all --out reports/final/states",
+    "node tools/verify.mjs http://localhost:7600 tools/state-admin.json",
+    "node tools/eval-final.mjs http://localhost:7600 tools/state-admin.json",
+    "node tools/incomplete-probes.mjs reports",
+    "# install-build : mêmes commandes avec base http://localhost:7603 + state-install-admin.json, --out reports/install-build/{admin,public}"
+  ],
+  "toolVersions": {
+    "node": "v24.19.0",
+    "bun": "1.4.2",
+    "axe-core": "4.14.0",
+    "playwright": "1.63.0",
+    "java": "openjdk 17.0.19 (box) — shadow-cljs exige JDK 21, contourné par artefacts cljs_release du même SHA",
+    "clojure_cli": "/usr/local/bin/clojure présent ; non utilisé (shadow-cljs seul concerné par le build cljs)",
+    "docker": "29.7.2",
+    "metabase_image": "metabase/metabase:v0.64.1.x",
+    "runner": "audit.mjs (copie kit boucle-continue, axe 4.14.0, locale en-US)"
+  },
+  "frozen_at": "2026-10-08T07:00:00Z"
+}

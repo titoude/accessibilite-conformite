@@ -1,0 +1,2384 @@
+{
+  "runId": "ffbb9af5-a37b-4788-ad7b-262335cdc24b",
+  "runnerVersion": "audit.mjs v9-metabase",
+  "generatedAt": "2026-10-08T04:35:27.980Z",
+  "baseUrl": "http://localhost:7600",
+  "pages": [
+    {
+      "url": "http://localhost:7600/question/40-b46-products-par-categorie",
+      "requestedUrl": "http://localhost:7600/question/40-b46-products-par-categorie",
+      "violations": [
+        {
+          "id": "aria-allowed-attr",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure an element's role supports its ARIA attributes",
+          "help": "Elements must only use supported ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-allowed-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-allowed-attr",
+                  "data": {
+                    "messageKey": "singular",
+                    "values": [
+                      "aria-expanded=\"false\""
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-0x4y4zknq-target\">",
+              "target": [
+                "#mantine-0x4y4zknq-target"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-allowed-attr",
+                  "data": {
+                    "messageKey": "singular",
+                    "values": [
+                      "aria-expanded=\"false\""
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-ky3xj6ilg-target\" class=\"\">",
+              "target": [
+                "#mantine-ky3xj6ilg-target"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-allowed-attr",
+                  "data": {
+                    "messageKey": "singular",
+                    "values": [
+                      "aria-expanded=\"false\""
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"Qe7tL c6Kfz m_8bffd616 mb-mantine-Flex-root __m__-rb1\" aria-haspopup=\"dialog\" aria-expanded=\"false\" id=\"mantine-rrj41ym3p-target\">",
+              "target": [
+                "#mantine-rrj41ym3p-target"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+            }
+          ]
+        },
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<section class=\"J7aUr m_fd1ab0aa ND0...\" data-modal-content=\"true\" role=\"dialog\" tabindex=\"-1\" aria-modal=\"true\" aria-describedby=\"mantine-eajqyfqge-bo...\" style=\"--paper-radius: var(...\">",
+              "target": [
+                "section"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure all ARIA attributes have valid values",
+          "help": "ARIA attributes must conform to valid values",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-valid-attr-value",
+                  "data": [
+                    "aria-controls=\"limit-popover\""
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Invalid ARIA attribute value: aria-controls=\"limit-popover\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<span class=\"C_jSL\" data-testid=\"question-row-count\" aria-label=\"Row count\" aria-controls=\"limit-popover\">Showing 4 rows</span>",
+              "target": [
+                ".C_jSL"
+              ],
+              "failureSummary": "Fix all of the following:\n  Invalid ARIA attribute value: aria-controls=\"limit-popover\""
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#92999e",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.88,
+                    "fontSize": "9.2pt (12.25px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"emotion-qgkugz e1ti2xdz0\">",
+                      "target": [
+                        ".emotion-qgkugz"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.2pt (12.25px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"QSUlZ C3IpM UoGAO m_...\" data-size=\"md\" data-truncate=\"end\" color=\"text-primary\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                ".n7I0X[href$=\"6-boucle-46-audit\"] > .c6DUo.XSImJ.m_4081bf90 > .UoGAO.C3IpM[data-truncate=\"end\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.2pt (12.25px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#92999e",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.88,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+                      "target": [
+                        ".siit6"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Search...</span>",
+              "target": [
+                ".WzMo8.m_811560b9.mb-mantine-Button-label > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#92999e",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.88,
+                    "fontSize": "9.2pt (12.25px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"DzAmW\">",
+                      "target": [
+                        ".DzAmW"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.2pt (12.25px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"QSUlZ C3IpM UoGAO m_...\" data-size=\"md\" data-truncate=\"end\" color=\"text-primary\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                ".RiN7y > .PGwTJ.n7I0X > .c6DUo.XSImJ.m_4081bf90 > .UoGAO.C3IpM[data-truncate=\"end\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.2pt (12.25px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#92999e",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.88,
+                    "fontSize": "9.2pt (12.25px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"DzAmW\">",
+                      "target": [
+                        ".DzAmW"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.2pt (12.25px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Products</span>",
+              "target": [
+                ".UoGAO.C3IpM[data-truncate=\"end\"] > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.2pt (12.25px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#92999e",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.88,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"DzAmW\">",
+                      "target": [
+                        ".DzAmW"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"QSUlZ qBRlJ m_87cf2631 mb-mantine-UnstyledButton-root\" type=\"button\" data-testid=\"revision-history-button\" style=\"font-size: var(--mantine-font-size-sm); font-weight: bold;\">Edited 20 minutes ago by you</button>",
+              "target": [
+                ".qBRlJ"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 9.0pt (12px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "tags": [
+            "cat.semantics",
+            "wcag21a",
+            "wcag253",
+            "EN-301-549",
+            "EN-9.2.5.3",
+            "RGAAv4",
+            "RGAA-6.1.5"
+          ],
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "label-content-name-mismatch",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Text inside the element is not included in the accessible name"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+              "target": [
+                ".siit6"
+              ],
+              "failureSummary": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"xewzp\" data-testid=\"query-builder-main\">",
+              "target": [
+                ".xewzp"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-banner",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one banner landmark",
+          "help": "Document should not have more than one banner landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-banner?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-banner",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<header class=\"m_b5489c3c KcYkN m_d0e2b9cd mb-mantine-Modal-header\" style=\"margin-inline: auto; margin-block: var(--mantine-spacing-lg); padding-bottom: var(--mantine-spacing-sm); max-width: 28rem;\">",
+                      "target": [
+                        ".m_b5489c3c"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one banner landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<header class=\"MdZZp\" data-element-id=\"app-bar\" data-testid=\"app-bar\" data-with-border=\"false\" aria-label=\"Navigation bar\">",
+              "target": [
+                ".MdZZp"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one banner landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"xewzp\" data-testid=\"query-builder-main\">",
+                      "target": [
+                        ".xewzp"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"emotion-1mqhnoc ebcggy02\">",
+              "target": [
+                ".emotion-1mqhnoc"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"xewzp\" data-testid=\"query-builder-main\">",
+                      "target": [
+                        ".xewzp"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"emotion-1mqhnoc ebcggy02\">",
+              "target": [
+                ".emotion-1mqhnoc"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            },
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "complementary",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<aside class=\"fAGIR SzaO8\" data-testid=\"sidebar-right\" style=\"right: 0rem;\"><div class=\"\" style=\"width: calc(22.1875rem * var(--mantine-scale)); height: 100%; position: absolute;\"></div></aside>",
+                      "target": [
+                        ".SzaO8"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<aside class=\"fAGIR i8roT\" data-testid=\"sidebar-left\" style=\"left: 0rem;\"><div class=\"\" style=\"width: calc(25rem * var(--mantine-scale)); height: 100%; position: absolute;\"></div></aside>",
+              "target": [
+                ".i8roT"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a data-testid=\"main-logo-link\" aria-disabled=\"false\" class=\"KKzUO emotion-f9ufz5 e7xmd9r0\" href=\"/\" data-discover=\"true\">",
+              "target": [
+                ".emotion-f9ufz5"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div>",
+              "target": [
+                "body > div:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        },
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258",
+            "EN-301-549v4",
+            "EN-9.2.5.8"
+          ],
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "target-size",
+                  "data": {
+                    "minSize": 24,
+                    "width": 90,
+                    "height": 15
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Target has insufficient size (90px by 15px, should be at least 24px by 24px)"
+                },
+                {
+                  "id": "target-offset",
+                  "data": {
+                    "closestOffset": 17,
+                    "minOffset": 24
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<textarea placeholder=\"Add title\" maxlength=\"254\" data-testid=\"saved-question-header-title\" data-mantine-stop-propagation=\"true\" class=\"emotion-pojurp evfvfyh1\">B46 — Products par catégorie</textarea>",
+                      "target": [
+                        "textarea"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 17px instead of at least 24px."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"KKzUO n7I0X PGwTJ\" href=\"/browse/databases/1-sample-database\" data-discover=\"true\">",
+              "target": [
+                ".RiN7y > .PGwTJ.n7I0X"
+              ],
+              "failureSummary": "Fix any of the following:\n  Target has insufficient size (90px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 17px instead of at least 24px."
+            },
+            {
+              "any": [
+                {
+                  "id": "target-size",
+                  "data": {
+                    "minSize": 24,
+                    "width": 50,
+                    "height": 15
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Target has insufficient size (50px by 15px, should be at least 24px by 24px)"
+                },
+                {
+                  "id": "target-offset",
+                  "data": {
+                    "closestOffset": 17,
+                    "minOffset": 24
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<textarea placeholder=\"Add title\" maxlength=\"254\" data-testid=\"saved-question-header-title\" data-mantine-stop-propagation=\"true\" class=\"emotion-pojurp evfvfyh1\">B46 — Products par catégorie</textarea>",
+                      "target": [
+                        "textarea"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 17px instead of at least 24px."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"KKzUO n7I0X PGwTJ\" href=\"/question#eyJkYXRhc2...\" data-discover=\"true\">",
+              "target": [
+                ".__m__-r9h > .PGwTJ.n7I0X"
+              ],
+              "failureSummary": "Fix any of the following:\n  Target has insufficient size (50px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 17px instead of at least 24px."
+            },
+            {
+              "any": [
+                {
+                  "id": "target-size",
+                  "data": {
+                    "minSize": 24,
+                    "width": 154,
+                    "height": 15
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Target has insufficient size (154px by 15px, should be at least 24px by 24px)"
+                },
+                {
+                  "id": "target-offset",
+                  "data": {
+                    "closestOffset": 17,
+                    "minOffset": 24
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<textarea placeholder=\"Add title\" maxlength=\"254\" data-testid=\"saved-question-header-title\" data-mantine-stop-propagation=\"true\" class=\"emotion-pojurp evfvfyh1\">B46 — Products par catégorie</textarea>",
+                      "target": [
+                        "textarea"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 17px instead of at least 24px."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"QSUlZ qBRlJ m_87cf2631 mb-mantine-UnstyledButton-root\" type=\"button\" data-testid=\"revision-history-button\" style=\"font-size: var(--mantine-font-size-sm); font-weight: bold;\">Edited 20 minutes ago by you</button>",
+              "target": [
+                ".qBRlJ"
+              ],
+              "failureSummary": "Fix any of the following:\n  Target has insufficient size (154px by 15px, should be at least 24px by 24px)\n  Target has insufficient space to its closest neighbors. Safe clickable space has a diameter of 17px instead of at least 24px."
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div class=\"\" aria-label=\"Settings menu\" style=\"color: var(--mantine-color-text-primary-text);\">",
+              "target": [
+                "div[aria-label=\"Settings menu\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+            },
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div class=\"m_8bffd616 mb-mantine-Flex-root __m__-raj\" data-testid=\"execution-time\" aria-label=\"How long this query took\" style=\"gap: var(--mantine-spacing-xxs); align-items: center; font-weight: bold;\">",
+              "target": [
+                ".__m__-raj"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+                      "target": [
+                        ".siit6"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"K0fzS\">Ctrl</span>",
+              "target": [
+                ".K0fzS:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+                      "target": [
+                        ".siit6"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"K0fzS\">K</span>",
+              "target": [
+                ".K0fzS:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"middle\" y=\"-3.5\" transform=\"matrix(0,-1,1,0,21,241.25)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">Count</text>",
+              "target": [
+                "text[y=\"-3.5\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"middle\" y=\"3.5\" transform=\"translate(641.5 500.5)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">Category</text>",
+              "target": [
+                "text[transform=\"translate(641.5 500.5)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 470.5)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">0</text>",
+              "target": [
+                "text[transform=\"translate(49 470.5)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 394.0833)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">10</text>",
+              "target": [
+                "text[transform=\"translate(49 394.0833)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 317.6667)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">20</text>",
+              "target": [
+                "text[transform=\"translate(49 317.6667)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 241.25)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">30</text>",
+              "target": [
+                "text[transform=\"translate(49 241.25)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 164.8333)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">40</text>",
+              "target": [
+                "text[transform=\"translate(49 164.8333)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 88.4167)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">50</text>",
+              "target": [
+                "text[transform=\"translate(49 88.4167)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"end\" transform=\"translate(49 12)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\">60</text>",
+              "target": [
+                "text[transform=\"translate(49 12)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"middle\" xml:space=\"preserve\" y=\"3.5\" transform=\"translate(204.625 475.5)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\"> Doohickey </text>",
+              "target": [
+                "text[transform=\"translate(204.625 475.5)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"middle\" xml:space=\"preserve\" y=\"3.5\" transform=\"translate(495.875 475.5)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\"> Gadget </text>",
+              "target": [
+                "text[transform=\"translate(495.875 475.5)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"middle\" xml:space=\"preserve\" y=\"3.5\" transform=\"translate(787.125 475.5)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\"> Gizmo </text>",
+              "target": [
+                "text[transform=\"translate(787.125 475.5)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text dominant-baseline=\"central\" text-anchor=\"middle\" xml:space=\"preserve\" y=\"3.5\" transform=\"translate(1078.375 475.5)\" fill=\"hsla(204, 66%, 8%, 0.84)\" style=\"font-size: 13px; font-family: Lato, Arial, sans-serif; font-weight: 400;\"> Widget </text>",
+              "target": [
+                "text[transform=\"translate(1078.375 475.5)\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/question/40-b46-products-par-categorie",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:7600/question",
+      "requestedUrl": "http://localhost:7600/question",
+      "violations": [
+        {
+          "id": "aria-allowed-attr",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure an element's role supports its ARIA attributes",
+          "help": "Elements must only use supported ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-allowed-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-allowed-attr",
+                  "data": {
+                    "messageKey": "singular",
+                    "values": [
+                      "aria-expanded=\"false\""
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute is not allowed: aria-expanded=\"false\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"mantine-vrcei4flk-target\">",
+              "target": [
+                "#mantine-vrcei4flk-target"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"false\""
+            },
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-allowed-attr",
+                  "data": {
+                    "messageKey": "singular",
+                    "values": [
+                      "aria-expanded=\"true\""
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute is not allowed: aria-expanded=\"true\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"\" data-expanded=\"true\" aria-haspopup=\"menu\" aria-expanded=\"true\" aria-controls=\"mantine-0550qvvru-dropdown\" id=\"mantine-0550qvvru-target\"></div>",
+              "target": [
+                "#mantine-0550qvvru-target"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute is not allowed: aria-expanded=\"true\""
+            }
+          ]
+        },
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require child roles contain them",
+          "help": "Certain ARIA roles must contain particular children",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-children",
+                  "data": {
+                    "messageKey": "unallowed",
+                    "values": "div[tabindex]"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div tabindex=\"-1\" data-autofocus=\"true\" data-mantine-stop-propagation=\"true\" style=\"outline: 0px;\"></div>",
+                      "target": [
+                        "div[data-autofocus=\"true\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "critical",
+                  "message": "Element has children which are not allowed: div[tabindex]"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"hGV3a m_38a85659 mb-...\" aria-labelledby=\"mantine-0550qvvru-ta...\" id=\"mantine-0550qvvru-dr...\" role=\"menu\" tabindex=\"-1\" data-testid=\"mini-picker\" aria-orientation=\"vertical\" data-menu-dropdown=\"true\" data-element-id=\"mantine-popover\" data-position=\"bottom-start\" ...>",
+              "target": [
+                "#mantine-0550qvvru-dropdown"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has children which are not allowed: div[tabindex]"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#92999e",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.88,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+                      "target": [
+                        ".siit6"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span>Search...</span>",
+              "target": [
+                ".WzMo8.m_811560b9.mb-mantine-Button-label > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.88 (foreground color: #92999e, background color: #ffffff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#509ee2",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.86,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "bold",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"m_8bffd616 mb-mantine-Flex-root __m__-r47\" style=\"transform: translateY(0px); transition: transform 10ms, opacity 10ms; z-index: 2; overflow-y: hidden; background: var(--mantine-color-background_page-primary-filled); opacity: 1; position: absolute; inset: 0rem;\">",
+                      "target": [
+                        ".__m__-r47"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.86 (foreground color: #509ee2, background color: #ffffff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"m_8bffd616 mb-mantine-Flex-root __m__-r4d\" style=\"margin-bottom: var(--mantine-spacing-sm); color: var(--mantine-color-core-brand-text); font-weight: bold;\">Data</div>",
+              "target": [
+                ".__m__-r4d"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.86 (foreground color: #509ee2, background color: #ffffff, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "tags": [
+            "cat.semantics",
+            "wcag21a",
+            "wcag253",
+            "EN-301-549",
+            "EN-9.2.5.3",
+            "RGAAv4",
+            "RGAA-6.1.5"
+          ],
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "label-content-name-mismatch",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Text inside the element is not included in the accessible name"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+              "target": [
+                ".siit6"
+              ],
+              "failureSummary": "Fix any of the following:\n  Text inside the element is not included in the accessible name"
+            }
+          ]
+        },
+        {
+          "id": "landmark-main-is-top-level",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the main landmark is at top level",
+          "help": "Main landmark should not be contained in another landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-main-is-top-level?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-top-level",
+                  "data": {
+                    "role": "main"
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "The main landmark is contained in another landmark."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"xewzp\" data-testid=\"query-builder-main\">",
+              "target": [
+                ".xewzp"
+              ],
+              "failureSummary": "Fix any of the following:\n  The main landmark is contained in another landmark."
+            }
+          ]
+        },
+        {
+          "id": "landmark-no-duplicate-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has at most one main landmark",
+          "help": "Document should not have more than one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "page-no-duplicate-main",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"xewzp\" data-testid=\"query-builder-main\">",
+                      "target": [
+                        ".xewzp"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Document has more than one main landmark"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"emotion-1mqhnoc ebcggy02\">",
+              "target": [
+                ".emotion-1mqhnoc"
+              ],
+              "failureSummary": "Fix any of the following:\n  Document has more than one main landmark"
+            }
+          ]
+        },
+        {
+          "id": "landmark-unique",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure landmarks are unique",
+          "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-unique?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "main",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<main class=\"xewzp\" data-testid=\"query-builder-main\">",
+                      "target": [
+                        ".xewzp"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<main class=\"emotion-1mqhnoc ebcggy02\">",
+              "target": [
+                ".emotion-1mqhnoc"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            },
+            {
+              "any": [
+                {
+                  "id": "landmark-is-unique",
+                  "data": {
+                    "role": "complementary",
+                    "accessibleText": null
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<aside class=\"fAGIR SzaO8\" data-testid=\"sidebar-right\" style=\"right: 0rem;\"><div class=\"\" style=\"width: calc(22.1875rem * var(--mantine-scale)); height: 100%; position: absolute;\"></div></aside>",
+                      "target": [
+                        ".SzaO8"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<aside class=\"fAGIR i8roT\" data-testid=\"sidebar-left\" style=\"left: 0rem;\"><div class=\"\" style=\"width: calc(25rem * var(--mantine-scale)); height: 100%; position: absolute;\"></div></aside>",
+              "target": [
+                ".i8roT"
+              ],
+              "failureSummary": "Fix any of the following:\n  The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a data-testid=\"main-logo-link\" aria-disabled=\"false\" class=\"KKzUO emotion-f9ufz5 e7xmd9r0\" href=\"/\" data-discover=\"true\">",
+              "target": [
+                ".emotion-f9ufz5"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div>",
+              "target": [
+                "body > div:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"sox6y m_5476e0d3 mb-mantine-Menu-itemLabel\">",
+              "target": [
+                "div[data-index=\"0\"] > div > .eGlL9.m_99ac2aa1.mb-mantine-Menu-item > .m_5476e0d3.mb-mantine-Menu-itemLabel.sox6y"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"sox6y m_5476e0d3 mb-mantine-Menu-itemLabel\">",
+              "target": [
+                "div[data-index=\"1\"] > div > .eGlL9.m_99ac2aa1.mb-mantine-Menu-item > .m_5476e0d3.mb-mantine-Menu-itemLabel.sox6y"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"sox6y m_5476e0d3 mb-mantine-Menu-itemLabel\">",
+              "target": [
+                "button[data-variant=\"mb-light\"] > .m_5476e0d3.mb-mantine-Menu-itemLabel.sox6y"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div class=\"\" aria-label=\"Settings menu\" style=\"color: var(--mantine-color-text-primary-text);\">",
+              "target": [
+                "div[aria-label=\"Settings menu\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+            }
+          ]
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure all ARIA attributes have valid values",
+          "help": "ARIA attributes must conform to valid values",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-valid-attr-value",
+                  "data": {
+                    "messageKey": "controlsWithinPopup",
+                    "needsReview": "aria-controls=\"mantine-0550qvvru-dropdown\""
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"mantine-0550qvvru-dropdown\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"\" data-expanded=\"true\" aria-haspopup=\"menu\" aria-expanded=\"true\" aria-controls=\"mantine-0550qvvru-dropdown\" id=\"mantine-0550qvvru-target\"></div>",
+              "target": [
+                "#mantine-0550qvvru-target"
+              ],
+              "failureSummary": "Fix all of the following:\n  Unable to determine if aria-controls referenced ID exists on the page while using aria-haspopup: aria-controls=\"mantine-0550qvvru-dropdown\""
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+                      "target": [
+                        ".siit6"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"K0fzS\">Ctrl</span>",
+              "target": [
+                ".K0fzS:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 1,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "equalRatio",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button class=\"QSUlZ mantine-active...\" data-variant=\"default\" data-size=\"md\" data-with-left-secti...=\"true\" type=\"button\" aria-label=\"Search\" style=\"--button-height: var...\">",
+                      "target": [
+                        ".siit6"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has a 1:1 contrast ratio with the background"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"K0fzS\">K</span>",
+              "target": [
+                ".K0fzS:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has a 1:1 contrast ratio with the background"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"QSUlZ C3IpM m_b6d8b162 mb-mantine-Text-root\" data-size=\"md\" color=\"text-primary\" style=\"--text-fz: var(--mantine-font-size-md); --text-lh: var(--mantine-line-height-md); --text-color: var(--mantine-color-text-primary-filled); color: var(--mantine-color-text-secondary-text);\">",
+              "target": [
+                ".C3IpM.m_b6d8b162.mb-mantine-Text-root:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "bold",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<b>(Ctrl + enter)</b>",
+              "target": [
+                "b"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"QSUlZ C3IpM m_b6d8b162 mb-mantine-Text-root\" data-size=\"md\" color=\"text-primary\" style=\"--text-fz: var(--mantine-font-size-md); --text-lh: var(--mantine-line-height-md); --text-color: var(--mantine-color-text-primary-filled); color: var(--mantine-color-text-secondary-text);\">",
+              "target": [
+                ".C3IpM.m_b6d8b162.mb-mantine-Text-root:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/question#eyJkYXRhc2V0X3F1ZXJ5Ijp7ImRhdGFiYXNlIjpudWxsLCJxdWVyeSI6eyJzb3VyY2UtdGFibGUiOm51bGx9LCJ0eXBlIjoicXVlcnkifSwiZGlzcGxheSI6InRhYmxlIiwidmlzdWFsaXphdGlvbl9zZXR0aW5ncyI6e319",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:7600/admin/settings/general",
+      "requestedUrl": "http://localhost:7600/admin/settings/general",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div>",
+              "target": [
+                "body > div:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-prohibited-attr",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure ARIA attributes are not prohibited for an element's role",
+          "help": "Elements must only use permitted ARIA attributes",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "aria-prohibited-attr",
+                  "data": {
+                    "role": null,
+                    "nodeName": "div",
+                    "messageKey": "noRoleSingular",
+                    "prohibited": [
+                      "aria-label"
+                    ]
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+                }
+              ],
+              "impact": "serious",
+              "html": "<div class=\"m_46b77525 mb-mantine-InputWrapper-root mb-mantine-RadioGroup-root\" data-size=\"md\" aria-label=\"Homepage\">",
+              "target": [
+                ".mb-mantine-RadioGroup-root"
+              ],
+              "failureSummary": "Fix all of the following:\n  aria-label attribute is not well supported on \"div\" elements with no valid role attribute."
+            }
+          ]
+        },
+        {
+          "id": "aria-valid-attr-value",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure all ARIA attributes have valid values",
+          "help": "ARIA attributes must conform to valid values",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-valid-attr-value?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "aria-valid-attr-value",
+                  "data": {
+                    "messageKey": "noId",
+                    "needsReview": "aria-labelledby=\"mantine-cj55xcthw-label\""
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "ARIA attribute element ID does not exist on the page: aria-labelledby=\"mantine-cj55xcthw-label\""
+                }
+              ],
+              "none": [],
+              "impact": "critical",
+              "html": "<div role=\"radiogroup\" aria-labelledby=\"mantine-cj55xcthw-label\">",
+              "target": [
+                "div[role=\"radiogroup\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  ARIA attribute element ID does not exist on the page: aria-labelledby=\"mantine-cj55xcthw-label\""
+            }
+          ]
+        },
+        {
+          "id": "form-field-multiple-labels",
+          "impact": "moderate",
+          "tags": [
+            "cat.forms",
+            "wcag2a",
+            "wcag332",
+            "TTv5",
+            "TT5.c",
+            "EN-301-549",
+            "EN-9.3.3.2",
+            "RGAAv4",
+            "RGAA-11.2.1"
+          ],
+          "description": "Ensure form field does not have multiple label elements",
+          "help": "Form field must not have multiple label elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/form-field-multiple-labels?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "multiple-label",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<label class=\"QSUlZ C3IpM m_b6d8b1...\" data-size=\"md\" color=\"text-primary\" for=\"enable-xrays\" style=\"--text-fz: var(--man...\">",
+                      "target": [
+                        "div:nth-child(1) > label[for=\"enable-xrays\"]"
+                      ]
+                    },
+                    {
+                      "html": "<label class=\"UNSWZ m_5f6e695e mb-mantine-Switch-body\" for=\"enable-xrays\">",
+                      "target": [
+                        ".UNSWZ.mb-mantine-Switch-body[for=\"enable-xrays\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Multiple label elements is not widely supported in assistive technologies. Ensure the first label contains all necessary information."
+                }
+              ],
+              "impact": "moderate",
+              "html": "<input data-checked=\"true\" id=\"enable-xrays\" type=\"checkbox\" role=\"switch\" class=\"m_926b4011 mb-mantine-Switch-input\" checked=\"\">",
+              "target": [
+                "#enable-xrays"
+              ],
+              "failureSummary": "Fix all of the following:\n  Multiple label elements is not widely supported in assistive technologies. Ensure the first label contains all necessary information."
+            },
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "multiple-label",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<label class=\"QSUlZ C3IpM m_b6d8b1...\" data-size=\"md\" color=\"text-primary\" for=\"anon-tracking-enable...\" style=\"--text-fz: var(--man...\">",
+                      "target": [
+                        "div:nth-child(1) > label[for=\"anon-tracking-enabled\"]"
+                      ]
+                    },
+                    {
+                      "html": "<label class=\"UNSWZ m_5f6e695e mb-mantine-Switch-body\" for=\"anon-tracking-enabled\">",
+                      "target": [
+                        ".UNSWZ.mb-mantine-Switch-body[for=\"anon-tracking-enabled\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "moderate",
+                  "message": "Multiple label elements is not widely supported in assistive technologies. Ensure the first label contains all necessary information."
+                }
+              ],
+              "impact": "moderate",
+              "html": "<input data-checked=\"true\" id=\"anon-tracking-enabled\" type=\"checkbox\" role=\"switch\" class=\"m_926b4011 mb-mantine-Switch-input\" checked=\"\">",
+              "target": [
+                "#anon-tracking-enabled"
+              ],
+              "failureSummary": "Fix all of the following:\n  Multiple label elements is not widely supported in assistive technologies. Ensure the first label contains all necessary information."
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/admin/settings/general",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "d29fb9d6814cd14376135d24bb5fead696152251a61d13c08117808a2a8b50c9"
+}

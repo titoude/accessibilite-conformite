@@ -1,0 +1,1962 @@
+diff --git a/frontend/src/metabase/account/app/components/AccountHeader/AccountHeader.tsx b/frontend/src/metabase/account/app/components/AccountHeader/AccountHeader.tsx
+index ce47f483..b26c5d6c 100644
+--- a/frontend/src/metabase/account/app/components/AccountHeader/AccountHeader.tsx
++++ b/frontend/src/metabase/account/app/components/AccountHeader/AccountHeader.tsx
+@@ -1,4 +1,4 @@
+-import { useMemo } from "react";
++import { useEffect, useMemo, useRef } from "react";
+ import { t } from "ttag";
+ 
+ import { UserAvatar } from "metabase/common/components/UserAvatar";
+@@ -21,6 +21,31 @@ export const AccountHeader = ({
+   path,
+   onChangeLocation,
+ }: AccountHeaderProps) => {
++  const tabListRef = useRef<HTMLDivElement | null>(null);
++
++  // These tabs navigate between routes and render no Tabs.Panel, so the
++  // aria-controls Mantine generates on each tab points at a missing id.
++  // Strip it (aria-controls is optional on tabs) and keep stripping it
++  // whenever React re-renders the tab attributes.
++  useEffect(() => {
++    const listElement = tabListRef.current;
++    if (!listElement) {
++      return;
++    }
++    const strip = () =>
++      listElement
++        .querySelectorAll('[role="tab"]')
++        .forEach((tab) => tab.removeAttribute("aria-controls"));
++    strip();
++    const observer = new MutationObserver(strip);
++    observer.observe(listElement, {
++      subtree: true,
++      attributes: true,
++      attributeFilter: ["aria-controls"],
++    });
++    return () => observer.disconnect();
++  }, []);
++
+   const canChangePassword = useMemo(
+     () => PLUGIN_IS_PASSWORD_USER.every((predicate) => predicate(user)),
+     [user],
+@@ -32,12 +57,26 @@ export const AccountHeader = ({
+ 
+   const tabs = useMemo(
+     () => [
+-      { name: t`Profile`, value: "/account/profile" },
++      { name: t`Profile`, value: "profile", path: "/account/profile" },
+       ...(hasAuthenticationTab
+-        ? [{ name: t`Authentication`, value: "/account/password" }]
++        ? [
++            {
++              name: t`Authentication`,
++              value: "password",
++              path: "/account/password",
++            },
++          ]
+         : []),
+-      { name: t`Login History`, value: "/account/login-history" },
+-      { name: t`Notifications`, value: "/account/notifications" },
++      {
++        name: t`Login History`,
++        value: "login-history",
++        path: "/account/login-history",
++      },
++      {
++        name: t`Notifications`,
++        value: "notifications",
++        path: "/account/notifications",
++      },
+     ],
+     [hasAuthenticationTab],
+   );
+@@ -69,10 +108,15 @@ export const AccountHeader = ({
+       </Flex>
+       <Tabs
+         listBorder={false}
+-        value={path ?? null}
+-        onChange={(value) => value && onChangeLocation?.(value)}
++        value={tabs.find((tab) => tab.path === path)?.value ?? null}
++        onChange={(value) => {
++          const nextPath = tabs.find((tab) => tab.value === value)?.path;
++          if (nextPath) {
++            onChangeLocation?.(nextPath);
++          }
++        }}
+       >
+-        <Tabs.List>
++        <Tabs.List ref={tabListRef}>
+           {tabs.map((tab) => (
+             <Tabs.Tab key={tab.value} value={tab.value}>
+               {tab.name}
+diff --git a/frontend/src/metabase/admin/people/components/MembershipSelect/MembershipSelect.tsx b/frontend/src/metabase/admin/people/components/MembershipSelect/MembershipSelect.tsx
+index 85eb0d14..e477db32 100644
+--- a/frontend/src/metabase/admin/people/components/MembershipSelect/MembershipSelect.tsx
++++ b/frontend/src/metabase/admin/people/components/MembershipSelect/MembershipSelect.tsx
+@@ -166,8 +166,15 @@ export const MembershipSelect = ({
+         <Flex
+           display="inline-flex"
+           onClick={openPopover}
++          onKeyDown={(event) => {
++            if (event.key === "Enter" || event.key === " ") {
++              event.preventDefault();
++              openPopover();
++            }
++          }}
+           align="center"
+-          aria-label="group-summary"
++          role="button"
++          tabIndex={0}
+         >
+           <GroupSummary
+             me="sm"
+diff --git a/frontend/src/metabase/admin/people/components/PeopleList.tsx b/frontend/src/metabase/admin/people/components/PeopleList.tsx
+index 89e6bf63..45dcc087 100644
+--- a/frontend/src/metabase/admin/people/components/PeopleList.tsx
++++ b/frontend/src/metabase/admin/people/components/PeopleList.tsx
+@@ -179,19 +179,19 @@ export const PeopleList = ({
+           <thead>
+             <tr>
+               <th>{t`Name`}</th>
+-              <th />
++              <th aria-hidden="true" />
+               <th>{t`Email`}</th>
+               {showDeactivated ? (
+                 <Fragment>
+                   {external && <th>{t`Tenant`}</th>}
+                   <th>{t`Deactivated`}</th>
+-                  <th />
++                  <th aria-hidden="true" />
+                 </Fragment>
+               ) : (
+                 <Fragment>
+                   {external ? <th>{t`Tenant`}</th> : <th>{t`Groups`}</th>}
+                   <th>{t`Last Login`}</th>
+-                  <th />
++                  <th aria-hidden="true" />
+                 </Fragment>
+               )}
+             </tr>
+diff --git a/frontend/src/metabase/admin/settings/components/widgets/FormattingWidget.tsx b/frontend/src/metabase/admin/settings/components/widgets/FormattingWidget.tsx
+index 57b28c8f..b146f65e 100644
+--- a/frontend/src/metabase/admin/settings/components/widgets/FormattingWidget.tsx
++++ b/frontend/src/metabase/admin/settings/components/widgets/FormattingWidget.tsx
+@@ -254,9 +254,11 @@ function FormattingInput({
+ 
+   return (
+     <Box data-testid={`${id}-formatting-setting`}>
+-      <Text htmlFor={id} component="label" fw="bold" display="block" mb="xxs">
+-        {label}
+-      </Text>
++      {inputType !== "radio" && (
++        <Text htmlFor={id} component="label" fw="bold" display="block" mb="xxs">
++          {label}
++        </Text>
++      )}
+       {inputType === "select" && (
+         <Select
+           id={id}
+@@ -276,7 +278,12 @@ function FormattingInput({
+         />
+       )}
+       {inputType === "radio" && (
+-        <Radio.Group id={id} value={localValue} onChange={handleChange}>
++        <Radio.Group
++          id={id}
++          value={localValue}
++          onChange={handleChange}
++          label={label}
++        >
+           <Stack gap="sm">
+             {options?.map(({ label, value }) => (
+               <Radio key={value} value={value} label={label} />
+diff --git a/frontend/src/metabase/app.tsx b/frontend/src/metabase/app.tsx
+index 3c7817a3..97197423 100644
+--- a/frontend/src/metabase/app.tsx
++++ b/frontend/src/metabase/app.tsx
+@@ -43,6 +43,7 @@ import { GlobalStyles } from "metabase/styled-components/containers/GlobalStyles
+ import { PortalContainer } from "metabase/ui";
+ import { EmotionCacheProvider } from "metabase/ui/components/theme/EmotionCacheProvider";
+ import { captureClickModifierKeys } from "metabase/urls";
++import { markMantineFocusSentinels } from "metabase/ui/utils/markMantineFocusSentinels";
+ import { setBasename } from "metabase/utils/basename";
+ import { captureConsoleErrors } from "metabase/utils/errors";
+ import { initMetaplow } from "metabase/utils/metaplow";
+@@ -165,6 +166,7 @@ function _init(
+ }
+ 
+ export function init(...args: Parameters<typeof _init>) {
++  markMantineFocusSentinels();
+   if (document.readyState !== "loading") {
+     _init(...args);
+   } else {
+diff --git a/frontend/src/metabase/auth/components/AuthButton/AuthButton.tsx b/frontend/src/metabase/auth/components/AuthButton/AuthButton.tsx
+index aa4b6afa..b3047275 100644
+--- a/frontend/src/metabase/auth/components/AuthButton/AuthButton.tsx
++++ b/frontend/src/metabase/auth/components/AuthButton/AuthButton.tsx
+@@ -28,6 +28,7 @@ export function AuthTextLink({ className, ...props }: AuthTextLinkProps) {
+       component={Link}
+       className={cx(S.link, className)}
+       underline="never"
++      c="text-primary"
+       {...props}
+     />
+   );
+diff --git a/frontend/src/metabase/auth/components/Login/Login.tsx b/frontend/src/metabase/auth/components/Login/Login.tsx
+index 4902b160..6f47b2cb 100644
+--- a/frontend/src/metabase/auth/components/Login/Login.tsx
++++ b/frontend/src/metabase/auth/components/Login/Login.tsx
+@@ -44,6 +44,7 @@ export const Login = (): JSX.Element => {
+     <AuthLayout>
+       <Box
+         role="heading"
++        aria-level={1}
+         c="text-primary"
+         fz="1.25rem"
+         fw="bold"
+diff --git a/frontend/src/metabase/browse/metrics/BrowseMetrics.tsx b/frontend/src/metabase/browse/metrics/BrowseMetrics.tsx
+index 98a719cf..42714386 100644
+--- a/frontend/src/metabase/browse/metrics/BrowseMetrics.tsx
++++ b/frontend/src/metabase/browse/metrics/BrowseMetrics.tsx
+@@ -75,7 +75,7 @@ export function BrowseMetrics() {
+       <Flex
+         className={S.browseHeader}
+         direction="column"
+-        role="heading"
++        
+         data-testid="browse-metrics-header"
+       >
+         <Flex maw="64rem" mx="auto" w="100%">
+diff --git a/frontend/src/metabase/browse/models/BrowseModels.tsx b/frontend/src/metabase/browse/models/BrowseModels.tsx
+index 51197b49..b9fbca71 100644
+--- a/frontend/src/metabase/browse/models/BrowseModels.tsx
++++ b/frontend/src/metabase/browse/models/BrowseModels.tsx
+@@ -76,7 +76,6 @@ export const BrowseModels = () => {
+       <Flex
+         className={S.browseHeader}
+         direction="column"
+-        role="heading"
+         data-testid="browse-models-header"
+       >
+         <Flex maw="64rem" mx="auto" w="100%">
+diff --git a/frontend/src/metabase/common/components/AccordionList/AccordionListCell.tsx b/frontend/src/metabase/common/components/AccordionList/AccordionListCell.tsx
+index 4de3051c..aaa4a497 100644
+--- a/frontend/src/metabase/common/components/AccordionList/AccordionListCell.tsx
++++ b/frontend/src/metabase/common/components/AccordionList/AccordionListCell.tsx
+@@ -213,6 +213,7 @@ export const AccordionListCell = forwardRef(function AccordionListCell<
+           {name && (
+             <Text
+               role="heading"
++              aria-level={2}
+               data-element-id="list-section-title"
+               className={cx(ListS.ListSectionTitle, CS.textWrap)}
+               fz="lg"
+@@ -380,6 +381,7 @@ export const AccordionListCell = forwardRef(function AccordionListCell<
+             {name && (
+               <Text
+                 role="heading"
++                aria-level={3}
+                 lh="normal"
+                 fw="bold"
+                 data-element-id="list-item-title"
+diff --git a/frontend/src/metabase/common/components/CollapseSection/CollapseSection.tsx b/frontend/src/metabase/common/components/CollapseSection/CollapseSection.tsx
+index c51326e4..86328dd7 100644
+--- a/frontend/src/metabase/common/components/CollapseSection/CollapseSection.tsx
++++ b/frontend/src/metabase/common/components/CollapseSection/CollapseSection.tsx
+@@ -112,10 +112,10 @@ export const CollapseSection = ({
+           </Flex>
+           {iconPosition === "right" && headerIcon}
+         </Flex>
+-        {rightAction && (
+-          <div onClick={handleRightActionClick}>{rightAction}</div>
+-        )}
+       </Flex>
++      {rightAction && (
++        <div onClick={handleRightActionClick}>{rightAction}</div>
++      )}
+       {isExpanded && (
+         <div
+           id={regionId}
+diff --git a/frontend/src/metabase/common/components/ColorScheme/ColorSchemeSelect.tsx b/frontend/src/metabase/common/components/ColorScheme/ColorSchemeSelect.tsx
+index 8cbbcce1..940aa408 100644
+--- a/frontend/src/metabase/common/components/ColorScheme/ColorSchemeSelect.tsx
++++ b/frontend/src/metabase/common/components/ColorScheme/ColorSchemeSelect.tsx
+@@ -12,6 +12,7 @@ export function ColorSchemeSelect(
+     <Select
+       {...props}
+       value={colorScheme}
++      label={props.label ?? t`Color scheme`}
+       data={[
+         { value: "auto", label: t`Use system default` },
+         { value: "dark", label: t`Dark` },
+diff --git a/frontend/src/metabase/common/components/ColorSelector/ColorSelector.tsx b/frontend/src/metabase/common/components/ColorSelector/ColorSelector.tsx
+index cf049cdb..ee1010b8 100644
+--- a/frontend/src/metabase/common/components/ColorSelector/ColorSelector.tsx
++++ b/frontend/src/metabase/common/components/ColorSelector/ColorSelector.tsx
+@@ -3,7 +3,7 @@ import type { HTMLAttributes } from "react";
+ 
+ import type { PillSize } from "metabase/common/components/ColorPill";
+ import { ColorPill } from "metabase/common/components/ColorPill";
+-import { Center, Popover } from "metabase/ui";
++import { Popover } from "metabase/ui";
+ 
+ import type { ColorSelectorOption } from "./ColorSelectorPopover";
+ import { ColorSelectorPopover } from "./ColorSelectorPopover";
+@@ -40,9 +40,12 @@ export const ColorSelector = ({
+       trapFocus
+     >
+       <Popover.Target>
+-        <Center data-testid="color-selector-button">
+-          <ColorPill {...props} color={value} onClick={toggle} />
+-        </Center>
++        <ColorPill
++          {...props}
++          color={value}
++          onClick={toggle}
++          data-testid="color-selector-button"
++        />
+       </Popover.Target>
+       <Popover.Dropdown>
+         <ColorSelectorPopover
+diff --git a/frontend/src/metabase/common/components/EmptyState/EmptyState.tsx b/frontend/src/metabase/common/components/EmptyState/EmptyState.tsx
+index 2961efdd..66195709 100644
+--- a/frontend/src/metabase/common/components/EmptyState/EmptyState.tsx
++++ b/frontend/src/metabase/common/components/EmptyState/EmptyState.tsx
+@@ -92,15 +92,19 @@ export const EmptyState = ({
+         {isValidIconName(icon) && <LegacyIcon icon={icon} {...rest} />}
+         {image && <LegacyImage image={image} {...rest} />}
+       </div>
+-      {title && (
+-        <Title order={2} role="status" aria-live="polite" c="text-secondary">
+-          {title}
+-        </Title>
+-      )}
+-      {message && (
+-        <Text role="status" c="text-secondary" lh="1.25rem" mt="xxs">
+-          {message}
+-        </Text>
++      {(title || message) && (
++        <div role="status" aria-live="polite">
++          {title && (
++            <Title order={2} c="text-secondary">
++              {title}
++            </Title>
++          )}
++          {message && (
++            <Text c="text-secondary" lh="1.25rem" mt="xxs">
++              {message}
++            </Text>
++          )}
++        </div>
+       )}
+     </Flex>
+     {/* TODO - we should make this children or some other more flexible way to
+diff --git a/frontend/src/metabase/common/components/EntityItemName.tsx b/frontend/src/metabase/common/components/EntityItemName.tsx
+index a6729de5..d108e228 100644
+--- a/frontend/src/metabase/common/components/EntityItemName.tsx
++++ b/frontend/src/metabase/common/components/EntityItemName.tsx
+@@ -4,7 +4,7 @@ import { Ellipsified, Text } from "metabase/ui";
+ export function EntityItemName({ name, id }: { name: string; id?: string }) {
+   return (
+     <Text
+-      component="h3"
++      component="h2"
+       fw="bold"
+       fz="inherit"
+       c="inherit"
+diff --git a/frontend/src/metabase/common/components/ErrorPages/ErrorPages.tsx b/frontend/src/metabase/common/components/ErrorPages/ErrorPages.tsx
+index 1000d9b1..d029df49 100644
+--- a/frontend/src/metabase/common/components/ErrorPages/ErrorPages.tsx
++++ b/frontend/src/metabase/common/components/ErrorPages/ErrorPages.tsx
+@@ -78,7 +78,7 @@ export const NotFound = ({
+     align="center"
+   >
+     <EmptyState
+-      illustrationElement={<img src={NoResults} />}
++      illustrationElement={<img src={NoResults} alt="" />}
+       title={title}
+       message={message}
+     />
+diff --git a/frontend/src/metabase/common/components/ItemsTable/Columns.tsx b/frontend/src/metabase/common/components/ItemsTable/Columns.tsx
+index 6dfe45af..9d587308 100644
+--- a/frontend/src/metabase/common/components/ItemsTable/Columns.tsx
++++ b/frontend/src/metabase/common/components/ItemsTable/Columns.tsx
+@@ -350,7 +350,7 @@ export const Columns = {
+     },
+   },
+   ActionMenu: {
+-    Header: () => <th></th>,
++    Header: () => <th aria-hidden="true"></th>,
+     Col: () => <col style={{ width: "100px" }} />,
+     Cell: (props: ActionMenuProps) => {
+       return (
+@@ -363,7 +363,7 @@ export const Columns = {
+     },
+   },
+   Archive: {
+-    Header: () => <th></th>,
++    Header: () => <th aria-hidden="true"></th>,
+     Col: () => <col style={{ width: "100px" }} />,
+     Cell: ({ item }: { item: CollectionItem }) => {
+       return (
+@@ -379,7 +379,7 @@ export const Columns = {
+    * This is needed since columns can be hidden responsively,
+    * and so we can't just apply the border-radius to the last column in the DOM */
+   RightEdge: {
+-    Header: () => <th></th>,
++    Header: () => <th aria-hidden="true"></th>,
+     Col: () => <col style={{ width: "1rem" }} />,
+     Cell: () => <ItemCell />,
+   },
+diff --git a/frontend/src/metabase/common/components/LastEditInfoLabel/LastEditInfoLabel.tsx b/frontend/src/metabase/common/components/LastEditInfoLabel/LastEditInfoLabel.tsx
+index d7789114..7851bce8 100644
+--- a/frontend/src/metabase/common/components/LastEditInfoLabel/LastEditInfoLabel.tsx
++++ b/frontend/src/metabase/common/components/LastEditInfoLabel/LastEditInfoLabel.tsx
+@@ -97,6 +97,7 @@ function LastEditInfoLabelInner({
+           className={className}
+           fz="sm"
+           fw="bold"
++          lh="24px"
+           onClick={onClick}
+           data-testid="revision-history-button"
+         >
+diff --git a/frontend/src/metabase/common/components/Link/Link.module.css b/frontend/src/metabase/common/components/Link/Link.module.css
+index 67b3e223..5ee18a53 100644
+--- a/frontend/src/metabase/common/components/Link/Link.module.css
++++ b/frontend/src/metabase/common/components/Link/Link.module.css
+@@ -16,7 +16,7 @@
+ }
+ 
+ .brand {
+-  color: var(--mb-color-core-brand);
++  color: color-mix(in srgb, var(--mb-color-core-brand), black 28%);
+ 
+   &:hover {
+     text-decoration: underline;
+@@ -24,7 +24,7 @@
+ }
+ 
+ .brandBold {
+-  color: var(--mb-color-core-brand);
++  color: color-mix(in srgb, var(--mb-color-core-brand), black 28%);
+   font-weight: bold;
+ 
+   &:hover {
+diff --git a/frontend/src/metabase/common/components/Pickers/MiniPicker/components/MiniPicker/MiniPicker.tsx b/frontend/src/metabase/common/components/Pickers/MiniPicker/components/MiniPicker/MiniPicker.tsx
+index 920199ef..c08616a0 100644
+--- a/frontend/src/metabase/common/components/Pickers/MiniPicker/components/MiniPicker/MiniPicker.tsx
++++ b/frontend/src/metabase/common/components/Pickers/MiniPicker/components/MiniPicker/MiniPicker.tsx
+@@ -1,8 +1,9 @@
+ import { type Ref, useCallback, useEffect, useMemo } from "react";
++import { t } from "ttag";
+ 
+ import { PLUGIN_LIBRARY } from "metabase/plugins";
+ import type { MenuDropdownProps, MenuProps } from "metabase/ui";
+-import { Box, Menu } from "metabase/ui";
++import { Box, Menu, UnstyledButton } from "metabase/ui";
+ 
+ import type { DataPickerValue } from "../../../DataPicker";
+ import { useLogRecentItem } from "../../../EntityPicker/hooks/use-log-recent-item";
+@@ -58,7 +59,7 @@ export function MiniPicker({
+   searchInputPlaceholder,
+   searchParams,
+   onSearchResults,
+-  children = <Box />,
++  children = <UnstyledButton display="contents" aria-label={t`Select data`} />,
+   menuProps,
+   menuDropdownProps,
+   closeOnClickOutside = true,
+@@ -128,7 +129,14 @@ export function MiniPicker({
+         trapFocus={false}
+         {...menuProps}
+       >
+-        <Menu.Target>{children}</Menu.Target>
++        <Menu.Target>
++          {children ?? (
++            <UnstyledButton
++              display="contents"
++              aria-label={t`Select data`}
++            />
++          )}
++        </Menu.Target>
+ 
+         <Menu.Dropdown
+           px={0}
+diff --git a/frontend/src/metabase/common/components/SearchResult/SearchResult.tsx b/frontend/src/metabase/common/components/SearchResult/SearchResult.tsx
+index a942616a..d5689751 100644
+--- a/frontend/src/metabase/common/components/SearchResult/SearchResult.tsx
++++ b/frontend/src/metabase/common/components/SearchResult/SearchResult.tsx
+@@ -199,7 +199,6 @@ export function SearchResult({
+       <ResultNameSection justify="center" gap="xxs">
+         <Group gap="xxs" align="center" wrap="nowrap">
+           <ResultTitle
+-            role="heading"
+             data-testid="search-result-item-name"
+             truncate
+             href={url}
+diff --git a/frontend/src/metabase/common/components/SearchResultLink/SearchResultLink.module.css b/frontend/src/metabase/common/components/SearchResultLink/SearchResultLink.module.css
+index 870821ee..e44f4e0d 100644
+--- a/frontend/src/metabase/common/components/SearchResultLink/SearchResultLink.module.css
++++ b/frontend/src/metabase/common/components/SearchResultLink/SearchResultLink.module.css
+@@ -1,13 +1,13 @@
+ .resultLink {
+   color: var(--mb-color-text-secondary);
+-  line-height: unset;
++  line-height: 24px;
+   transition: color 0.2s ease-in-out;
+ }
+ 
+ .resultLink[href]:hover,
+ .resultLink[href]:focus,
+ .resultLink[href]:focus-within {
+-  color: var(--mb-color-core-brand);
++  color: color-mix(in srgb, var(--mb-color-core-brand), black 30%);
+   outline: 0;
+ }
+ 
+diff --git a/frontend/src/metabase/common/components/Sidesheet/SidesheetCard.tsx b/frontend/src/metabase/common/components/Sidesheet/SidesheetCard.tsx
+index f57ff85f..23d33061 100644
+--- a/frontend/src/metabase/common/components/Sidesheet/SidesheetCard.tsx
++++ b/frontend/src/metabase/common/components/Sidesheet/SidesheetCard.tsx
+@@ -41,5 +41,5 @@ export const SidesheetCard = ({
+ };
+ 
+ export const SidesheetCardTitle = (props: TitleProps) => (
+-  <Title mb="sm" c="text-secondary" order={4} {...props} />
++  <Title mb="sm" c="text-secondary" order={3} {...props} />
+ );
+diff --git a/frontend/src/metabase/common/components/Sortable/Sortable.tsx b/frontend/src/metabase/common/components/Sortable/Sortable.tsx
+index 9be9d69b..e7f86769 100644
+--- a/frontend/src/metabase/common/components/Sortable/Sortable.tsx
++++ b/frontend/src/metabase/common/components/Sortable/Sortable.tsx
+@@ -42,7 +42,7 @@ export function Sortable({
+   className,
+   style,
+   draggingStyle,
+-  role = "button",
++  role,
+ }: SortableProps) {
+   const dragHandleRef = useRef(null);
+ 
+diff --git a/frontend/src/metabase/common/components/ToolbarButton/ToolbarButton.tsx b/frontend/src/metabase/common/components/ToolbarButton/ToolbarButton.tsx
+index 426737f9..f40a52d8 100644
+--- a/frontend/src/metabase/common/components/ToolbarButton/ToolbarButton.tsx
++++ b/frontend/src/metabase/common/components/ToolbarButton/ToolbarButton.tsx
+@@ -85,7 +85,7 @@ export const ToolbarButton = forwardRef(function ToolbarButton(
+   }
+   return (
+     <Tooltip label={tooltipLabel} position={tooltipPosition}>
+-      <Box>{actionButton}</Box>
++      {actionButton}
+     </Tooltip>
+   );
+ });
+diff --git a/frontend/src/metabase/common/components/UndoListing.tsx b/frontend/src/metabase/common/components/UndoListing.tsx
+index 94412650..a5cbd9cb 100644
+--- a/frontend/src/metabase/common/components/UndoListing.tsx
++++ b/frontend/src/metabase/common/components/UndoListing.tsx
+@@ -330,9 +330,10 @@ export function UndoListOverlay({
+   return (
+     <Portal target={target}>
+       <Stack
+-        component="ul"
++        component="div"
++        role="region"
+         data-testid="undo-list"
+-        aria-label="undo-list"
++        aria-label={t`Notifications`}
+         className={ZIndex.Overlay}
+         pos="fixed"
+         left={0}
+diff --git a/frontend/src/metabase/common/components/UserAvatar/UserAvatar.styled.tsx b/frontend/src/metabase/common/components/UserAvatar/UserAvatar.styled.tsx
+index bc88c26b..1f8a78c0 100644
+--- a/frontend/src/metabase/common/components/UserAvatar/UserAvatar.styled.tsx
++++ b/frontend/src/metabase/common/components/UserAvatar/UserAvatar.styled.tsx
+@@ -21,6 +21,7 @@ export const Avatar = styled.div<AvatarProps>`
+   border-radius: 999px;
+   font-weight: 900;
+   line-height: 1;
+-  background-color: ${({ bg = color("core-brand") }) => bg};
++  background-color: ${({ bg = color("core-brand") }) =>
++    `color-mix(in srgb, ${bg}, black 35%)`};
+   flex-shrink: 0;
+ `;
+diff --git a/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css b/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css
+index 5178661f..96cd7bef 100644
+--- a/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css
++++ b/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css
+@@ -39,14 +39,20 @@
+   }
+ 
+   &.active {
+-    background-color: var(--view-button-color);
++    /* WCAG: inverse-white text on --view-button-color (core-brand #509ee2)
++       fails 4.5:1 — darken the solid fill. */
++    background-color: color-mix(
++      in srgb,
++      var(--view-button-color),
++      black 45%
++    );
+     color: var(--mb-color-text-primary-inverse);
+ 
+     &:hover {
+       background-color: color-mix(
+         in srgb,
+-        var(--view-button-color) 80%,
+-        transparent
++        var(--view-button-color),
++        black 30%
+       );
+     }
+   }
+diff --git a/frontend/src/metabase/common/components/tree/TreeNode.styled.tsx b/frontend/src/metabase/common/components/tree/TreeNode.styled.tsx
+index 715edee7..561cc777 100644
+--- a/frontend/src/metabase/common/components/tree/TreeNode.styled.tsx
++++ b/frontend/src/metabase/common/components/tree/TreeNode.styled.tsx
+@@ -5,7 +5,7 @@ import styled from "@emotion/styled";
+ 
+ import type { IconProps } from "metabase/ui";
+ import { Icon } from "metabase/ui";
+-import { lighten } from "metabase/ui/colors";
++import { darken, lighten } from "metabase/ui/colors";
+ import { color } from "metabase/ui/utils/colors";
+ 
+ interface TreeNodeRootProps {
+@@ -13,11 +13,11 @@ interface TreeNodeRootProps {
+   depth: number;
+ }
+ 
+-export const TreeNodeRoot = styled.li<TreeNodeRootProps>`
++export const TreeNodeRoot = styled.div<TreeNodeRootProps>`
+   display: flex;
+   align-items: center;
+   color: ${(props) =>
+-    props.isSelected ? color("text-primary-inverse") : color("core-brand")};
++    props.isSelected ? color("text-primary-inverse") : darken("core-brand", 0.3)};
+   background-color: ${(props) =>
+     props.isSelected ? color("core-brand") : "unset"};
+   padding-left: ${(props) => props.depth + 0.5}rem;
+diff --git a/frontend/src/metabase/common/components/tree/TreeNode.tsx b/frontend/src/metabase/common/components/tree/TreeNode.tsx
+index 7fceb494..481dc12c 100644
+--- a/frontend/src/metabase/common/components/tree/TreeNode.tsx
++++ b/frontend/src/metabase/common/components/tree/TreeNode.tsx
+@@ -12,7 +12,7 @@ import {
+ } from "./TreeNode.styled";
+ import type { TreeNodeProps } from "./types";
+ 
+-const BaseTreeNode = React.forwardRef<HTMLLIElement, TreeNodeProps>(
++const BaseTreeNode = React.forwardRef<HTMLDivElement, TreeNodeProps>(
+   function TreeNode(
+     {
+       item,
+diff --git a/frontend/src/metabase/common/components/tree/TreeNodeList.tsx b/frontend/src/metabase/common/components/tree/TreeNodeList.tsx
+index 6d750dce..0388b8b8 100644
+--- a/frontend/src/metabase/common/components/tree/TreeNodeList.tsx
++++ b/frontend/src/metabase/common/components/tree/TreeNodeList.tsx
+@@ -35,7 +35,7 @@ function BaseTreeNodeList<TData = unknown>({
+   wrapNodes,
+   ...boxProps
+ }: TreeNodeListProps<TData>) {
+-  const selectedRef = useScrollOnMount<HTMLLIElement>();
++  const selectedRef = useScrollOnMount<HTMLDivElement>();
+ 
+   return (
+     <Box component="ul" role={role} {...boxProps}>
+diff --git a/frontend/src/metabase/common/components/tree/types.ts b/frontend/src/metabase/common/components/tree/types.ts
+index abd4f266..eb0b6b46 100644
+--- a/frontend/src/metabase/common/components/tree/types.ts
++++ b/frontend/src/metabase/common/components/tree/types.ts
+@@ -28,6 +28,6 @@ export interface TreeNodeProps<TData = unknown> {
+ 
+ export type TreeNodeComponent<TData = unknown> = React.ComponentType<
+   React.PropsWithChildren<
+-    TreeNodeProps<TData> & React.RefAttributes<HTMLLIElement>
++    TreeNodeProps<TData> & React.RefAttributes<HTMLDivElement>
+   >
+ >;
+diff --git a/frontend/src/metabase/css/core/link.module.css b/frontend/src/metabase/css/core/link.module.css
+index a8fce5ad..69e28e45 100644
+--- a/frontend/src/metabase/css/core/link.module.css
++++ b/frontend/src/metabase/css/core/link.module.css
+@@ -5,7 +5,8 @@
+ .link {
+   cursor: pointer;
+   text-decoration: none;
+-  color: var(--mb-color-core-brand);
++  /* WCAG 2.1 AA: raw brand blue is ~2.4:1 on white; darken to keep links >= 4.5:1. */
++  color: color-mix(in srgb, var(--mb-color-core-brand), black 28%);
+ }
+ 
+ .link:hover {
+diff --git a/frontend/src/metabase/dashboard/components/DashboardHeader/buttons/DashboardActionMenu.tsx b/frontend/src/metabase/dashboard/components/DashboardHeader/buttons/DashboardActionMenu.tsx
+index 1d5dd2c9..4f4d6247 100644
+--- a/frontend/src/metabase/dashboard/components/DashboardHeader/buttons/DashboardActionMenu.tsx
++++ b/frontend/src/metabase/dashboard/components/DashboardHeader/buttons/DashboardActionMenu.tsx
+@@ -93,13 +93,11 @@ const DashboardActionMenuInner = ({
+   return (
+     <Menu position="bottom-end" opened={opened} onChange={handleOpenChange}>
+       <Menu.Target>
+-        <div>
+-          <ToolbarButton
++        <ToolbarButton
+             icon="ellipsis"
+             aria-label={t`Move, trash, and more…`}
+             tooltipLabel={t`Move, trash, and more…`}
+           />
+-        </div>
+       </Menu.Target>
+       <Menu.Dropdown>
+         {showAutoRefreshOptions ? (
+diff --git a/frontend/src/metabase/nav/components/AdminNavbar/AdminNavbar.tsx b/frontend/src/metabase/nav/components/AdminNavbar/AdminNavbar.tsx
+index 74d845a5..87ba6885 100644
+--- a/frontend/src/metabase/nav/components/AdminNavbar/AdminNavbar.tsx
++++ b/frontend/src/metabase/nav/components/AdminNavbar/AdminNavbar.tsx
+@@ -73,6 +73,7 @@ export const AdminNavbar = ({
+       <Flex
+         component={Link}
+         to="/admin"
++        aria-label={t`Metabase Admin`}
+         align="center"
+         justify="center"
+         miw={32}
+diff --git a/frontend/src/metabase/nav/components/AppBar/AppBarLogo.tsx b/frontend/src/metabase/nav/components/AppBar/AppBarLogo.tsx
+index f58f16c9..e9dc3f41 100644
+--- a/frontend/src/metabase/nav/components/AppBar/AppBarLogo.tsx
++++ b/frontend/src/metabase/nav/components/AppBar/AppBarLogo.tsx
+@@ -1,4 +1,5 @@
+ import type { MouseEvent } from "react";
++import { t } from "ttag";
+ 
+ import { LogoIcon } from "metabase/common/components/LogoIcon";
+ import { useIsAtHomepageDashboard } from "metabase/common/hooks/use-is-at-homepage-dashboard";
+@@ -42,6 +43,7 @@ export function AppBarLogo({
+       isGitSyncVisible={Boolean(isGitSyncVisible)}
+       onClick={handleClick}
+       disabled={!isNavBarEnabled}
++      aria-label={t`Metabase`}
+       data-testid="main-logo-link"
+     >
+       <LogoIcon height={32} />
+diff --git a/frontend/src/metabase/nav/components/AppSwitcher/AppSwitcher.tsx b/frontend/src/metabase/nav/components/AppSwitcher/AppSwitcher.tsx
+index c7e9bb0c..13e58eb3 100644
+--- a/frontend/src/metabase/nav/components/AppSwitcher/AppSwitcher.tsx
++++ b/frontend/src/metabase/nav/components/AppSwitcher/AppSwitcher.tsx
+@@ -32,6 +32,7 @@ import {
+   Menu,
+   Stack,
+   Text,
++  UnstyledButton,
+ } from "metabase/ui";
+ import type { ColorName } from "metabase/ui/colors/types";
+ import * as Urls from "metabase/urls";
+@@ -194,15 +195,21 @@ export const AppSwitcher = ({ className }: { className?: string }) => {
+               />
+             </ActionIcon>
+           ) : (
+-            <Avatar
+-              radius="lg"
+-              size={32}
+-              className={S.Avatar}
+-              bd="1px solid var(--mb-color-border-neutral)"
++            <UnstyledButton
++              aria-label={t`Settings`}
++              bdrs="50%"
++              className={className}
+               data-testid="app-switcher-target"
+             >
+-              {user ? prepareInitials(user) : "?"}
+-            </Avatar>
++              <Avatar
++                radius="lg"
++                size={32}
++                className={S.Avatar}
++                bd="1px solid var(--mb-color-border-neutral)"
++              >
++                {user ? prepareInitials(user) : "?"}
++              </Avatar>
++            </UnstyledButton>
+           )}
+         </Menu.Target>
+         <Menu.Dropdown w={320} px="0">
+diff --git a/frontend/src/metabase/nav/components/NewItemMenu/NewItemMenuView.tsx b/frontend/src/metabase/nav/components/NewItemMenu/NewItemMenuView.tsx
+index bd4d7e36..b53b07ea 100644
+--- a/frontend/src/metabase/nav/components/NewItemMenu/NewItemMenuView.tsx
++++ b/frontend/src/metabase/nav/components/NewItemMenu/NewItemMenuView.tsx
+@@ -1,5 +1,5 @@
+ import type { ReactNode } from "react";
+-import { useMemo } from "react";
++import { useEffect, useMemo, useState } from "react";
+ import { t } from "ttag";
+ 
+ import { ForwardRefLink } from "metabase/common/components/Link";
+@@ -35,6 +35,22 @@ export const NewItemMenuView = ({
+   hasDatabaseWithJsonEngine,
+ }: NewItemMenuProps) => {
+   const dispatch = useDispatch();
++  const [menuOpened, setMenuOpened] = useState(false);
++
++  // Mantine's closeOnEscape only fires for keydown inside the dropdown;
++  // when focus stays on the trigger, Escape must still close the menu.
++  useEffect(() => {
++    if (!menuOpened) {
++      return;
++    }
++    const onKeyDown = (event: KeyboardEvent) => {
++      if (event.key === "Escape") {
++        setMenuOpened(false);
++      }
++    };
++    document.addEventListener("keydown", onKeyDown);
++    return () => document.removeEventListener("keydown", onKeyDown);
++  }, [menuOpened]);
+ 
+   const lastUsedDatabaseId = useSelector((state) =>
+     getSetting(state, "last-used-native-database-id"),
+@@ -141,10 +157,8 @@ export const NewItemMenuView = ({
+   }
+ 
+   return (
+-    <Menu position="bottom-end">
+-      <Menu.Target>
+-        <Box>{trigger}</Box>
+-      </Menu.Target>
++    <Menu position="bottom-end" opened={menuOpened} onChange={setMenuOpened}>
++      <Menu.Target>{trigger}</Menu.Target>
+       <Menu.Dropdown>{menuItems}</Menu.Dropdown>
+     </Menu>
+   );
+diff --git a/frontend/src/metabase/nav/components/StoreLink/StoreLink.tsx b/frontend/src/metabase/nav/components/StoreLink/StoreLink.tsx
+index 50152290..5dd49d05 100644
+--- a/frontend/src/metabase/nav/components/StoreLink/StoreLink.tsx
++++ b/frontend/src/metabase/nav/components/StoreLink/StoreLink.tsx
+@@ -12,6 +12,7 @@ const StoreLink = () => {
+         href="https://metabase.com/upgrade"
+         data-testid="store-link"
+         className={S.root}
++        aria-label={t`Explore paid features`}
+       >
+         <Flex align="center" justify="center" className={S.iconWrapper}>
+           <Icon name="store" size={20} />
+diff --git a/frontend/src/metabase/nav/components/search/SearchBar/SearchBar.module.css b/frontend/src/metabase/nav/components/search/SearchBar/SearchBar.module.css
+index 054afcae..af37988a 100644
+--- a/frontend/src/metabase/nav/components/search/SearchBar/SearchBar.module.css
++++ b/frontend/src/metabase/nav/components/search/SearchBar/SearchBar.module.css
+@@ -40,7 +40,7 @@
+ .closeButton {
+   align-items: center;
+   justify-content: center;
+-  color: var(--mb-color-text-disabled);
++  color: var(--mb-color-text-secondary);
+ 
+   &:hover {
+     color: var(--mb-color-text-secondary);
+diff --git a/frontend/src/metabase/nav/components/search/SearchButton/SearchButton.tsx b/frontend/src/metabase/nav/components/search/SearchButton/SearchButton.tsx
+index a406f400..b2bfbf84 100644
+--- a/frontend/src/metabase/nav/components/search/SearchButton/SearchButton.tsx
++++ b/frontend/src/metabase/nav/components/search/SearchButton/SearchButton.tsx
+@@ -39,7 +39,7 @@ export const SearchButton = (props: ButtonProps) => {
+   return (
+     <Button
+       w="240px"
+-      c={searchText ? "text-primary" : "text-disabled"}
++      c={searchText ? "text-primary" : "text-secondary"}
+       leftSection={<Icon name="search" c="text-primary" />}
+       onClick={handleClick}
+       styles={{
+@@ -53,7 +53,6 @@ export const SearchButton = (props: ButtonProps) => {
+         },
+       }}
+       className={S.searchTextButton}
+-      aria-label="Search"
+       {...props}
+     >
+       <span>{searchText || t`Search...`}</span>
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbar.tsx b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbar.tsx
+index f89561f6..6ab5389e 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbar.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbar.tsx
+@@ -1,3 +1,4 @@
++import { t } from "ttag";
+ import { useEffect, useMemo } from "react";
+ 
+ import {
+@@ -113,6 +114,7 @@ function MainNavbarInner({
+       isOpen={isOpen}
+       side="left"
+       aria-hidden={!isOpen}
++      aria-label={t`Main navigation`}
+       data-testid="main-navbar-root"
+       data-element-id="navbar-root"
+     >
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BookmarkList/BookmarkList.tsx b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BookmarkList/BookmarkList.tsx
+index c6d080fb..76ce575c 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BookmarkList/BookmarkList.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BookmarkList/BookmarkList.tsx
+@@ -175,7 +175,7 @@ const BookmarkList = ({
+       initialState={initialState}
+       iconPosition="right"
+       iconSize={8}
+-      role="section"
++      role="region"
+       aria-label={t`Bookmarks`}
+       onToggle={onToggle}
+     >
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.tsx b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.tsx
+index 921d70a8..29d3c94d 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.tsx
+@@ -65,7 +65,7 @@ export const BrowseNavSection = ({
+           </Tooltip>
+         ) : undefined
+       }
+-      role="section"
++      role="region"
+       aria-label={t`Data`}
+     >
+       {hasDataAccess &&
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.unit.spec.tsx b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.unit.spec.tsx
+index 3c31c145..5e7f5fdd 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.unit.spec.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/BrowseNavSection.unit.spec.tsx
+@@ -27,7 +27,7 @@ describe("BrowseNavSection", () => {
+   it("should render a section title and an 'Add data' button", async () => {
+     setup({ isAdmin: true });
+ 
+-    const section = screen.getByRole("section", { name: "Data" });
++    const section = screen.getByRole("region", { name: "Data" });
+ 
+     expect(section).toBeInTheDocument();
+     expect(
+@@ -41,7 +41,7 @@ describe("BrowseNavSection", () => {
+   it("should not render a section title and an 'Add data' button for users without enough permissions", async () => {
+     setup({ isAdmin: false });
+ 
+-    const section = screen.getByRole("section", { name: "Data" });
++    const section = screen.getByRole("region", { name: "Data" });
+ 
+     expect(section).toBeInTheDocument();
+     expect(
+@@ -55,7 +55,7 @@ describe("BrowseNavSection", () => {
+   it("should not render the 'Add data' button for full app embedding", () => {
+     setup({ isEmbeddingIframe: true });
+ 
+-    const section = screen.getByRole("section", { name: "Data" });
++    const section = screen.getByRole("region", { name: "Data" });
+ 
+     expect(section).toBeInTheDocument();
+     expect(
+@@ -69,7 +69,7 @@ describe("BrowseNavSection", () => {
+   it("should be expanded by default but collapsible", async () => {
+     setup();
+ 
+-    const section = screen.getByRole("section", { name: "Data" });
++    const section = screen.getByRole("region", { name: "Data" });
+     const addDataButton = within(section).getByRole("button", {
+       name: "Add data",
+     });
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/GettingStartedSection.tsx b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/GettingStartedSection.tsx
+index c289cf54..df7de67c 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/GettingStartedSection.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/GettingStartedSection.tsx
+@@ -26,7 +26,7 @@ export const GettingStartedSection = ({
+   const isOnboardingPageSelected = nonEntityItem?.url === ONBOARDING_URL;
+ 
+   return (
+-    <div aria-selected={opened} role="tab">
++    <div>
+       <Group
+         align="center"
+         gap="sm"
+@@ -35,6 +35,8 @@ export const GettingStartedSection = ({
+         c="text-secondary"
+         mb="sm"
+         className={CS.cursorPointer}
++        aria-expanded={opened}
++        aria-controls="getting-started-section"
+       >
+         <SidebarHeading>{t`Getting Started`}</SidebarHeading>
+         <Icon name={opened ? "chevrondown" : "chevronright"} size={8} />
+@@ -43,8 +45,9 @@ export const GettingStartedSection = ({
+       <Collapse
+         in={opened}
+         transitionDuration={0}
+-        role="tabpanel"
+-        aria-expanded={opened}
++        id="getting-started-section"
++        role="region"
++        aria-label={t`Getting Started`}
+       >
+         {canAddData && (
+           <PaddedSidebarLink icon="add_data" onClick={onAddDataModalOpen}>
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/MainNavbarView.tsx b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/MainNavbarView.tsx
+index 7fa0fcc9..b0384eb0 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/MainNavbarView.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/MainNavbarContainer/MainNavbarView.tsx
+@@ -276,7 +276,7 @@ export function MainNavbarView({
+                     </Tooltip>
+                   ) : null
+                 }
+-                role="section"
++                role="region"
+                 aria-label={t`Collections`}
+               >
+                 {PLUGIN_REMOTE_SYNC.CollectionsNavTree ? (
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/NavbarLibrarySection/NavbarLibrarySection.tsx b/frontend/src/metabase/nav/containers/MainNavbar/NavbarLibrarySection/NavbarLibrarySection.tsx
+index 48d833fa..29b9b5b0 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/NavbarLibrarySection/NavbarLibrarySection.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/NavbarLibrarySection/NavbarLibrarySection.tsx
+@@ -150,7 +150,7 @@ export function NavbarLibrarySection({
+           initialState={expandLibrary ? "expanded" : "collapsed"}
+           iconPosition="right"
+           iconSize={8}
+-          role="section"
++          role="region"
+           aria-label={t`Library`}
+           onToggle={setExpandLibrary}
+         >
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarCollectionLink.tsx b/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarCollectionLink.tsx
+index 10d32d92..c52d75bf 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarCollectionLink.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarCollectionLink.tsx
+@@ -37,7 +37,7 @@ type Props = DroppableProps &
+ 
+ const TIME_BEFORE_EXPANDING_ON_HOVER = 600;
+ 
+-const SidebarCollectionLink = forwardRef<HTMLLIElement, Props>(
++const SidebarCollectionLink = forwardRef<HTMLDivElement, Props>(
+   function SidebarCollectionLink(
+     {
+       collection,
+@@ -141,7 +141,7 @@ const SidebarCollectionLink = forwardRef<HTMLLIElement, Props>(
+   },
+ );
+ 
+-const DroppableSidebarCollectionLink = forwardRef<HTMLLIElement, TreeNodeProps>(
++const DroppableSidebarCollectionLink = forwardRef<HTMLDivElement, TreeNodeProps>(
+   function DroppableSidebarCollectionLink(
+     { item, ...props }: TreeNodeProps,
+     ref,
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarItems.styled.tsx b/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarItems.styled.tsx
+index 630becc1..4aef7604 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarItems.styled.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarItems.styled.tsx
+@@ -40,7 +40,11 @@ const activeColorCSS = css`
+ `;
+ 
+ function getTextColor(isSelected: boolean) {
+-  return isSelected ? color("core-brand") : color("text-primary");
++  // WCAG 2.1 AA: brand blue (#509ee2) on the 20%-alpha brand tint is only
++  // ~2.4:1 — darken the selected label to keep text contrast >= 4.5:1.
++  return isSelected
++    ? `color-mix(in srgb, ${color("core-brand")}, black 45%)`
++    : color("text-primary");
+ }
+ 
+ type NodeRootProps = ComponentProps<typeof TreeNode.Root> & {
+diff --git a/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarLink.tsx b/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarLink.tsx
+index 0db9b70f..bcbf59a3 100644
+--- a/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarLink.tsx
++++ b/frontend/src/metabase/nav/containers/MainNavbar/SidebarItems/SidebarLink.tsx
+@@ -98,6 +98,7 @@ function SidebarLink({
+             target={target}
+             rel={rel}
+             onClick={onClick}
++            aria-current={isSelected ? "page" : undefined}
+           />
+         )
+       : (props: ContentProps) => (
+@@ -105,6 +106,7 @@ function SidebarLink({
+             {...props}
+             isSelected={isSelected}
+             onClick={onClick}
++            aria-current={isSelected ? "page" : undefined}
+           />
+         );
+   }, [url, isSelected, onClick, target, rel]);
+@@ -114,8 +116,6 @@ function SidebarLink({
+       depth={0}
+       isSelected={isSelected}
+       hasDefaultIconStyle={hasDefaultIconStyle}
+-      aria-label={children}
+-      aria-selected={isSelected}
+       onMouseDown={disableImageDragging}
+       {...props}
+     >
+diff --git a/frontend/src/metabase/palette/components/PaletteResultItem.tsx b/frontend/src/metabase/palette/components/PaletteResultItem.tsx
+index f7243436..1c598bc8 100644
+--- a/frontend/src/metabase/palette/components/PaletteResultItem.tsx
++++ b/frontend/src/metabase/palette/components/PaletteResultItem.tsx
+@@ -1,6 +1,4 @@
+ import { EntityIcon } from "metabase/common/components/EntityIcon";
+-import { ExternalLink } from "metabase/common/components/ExternalLink";
+-import { Link } from "metabase/common/components/Link";
+ import CS from "metabase/css/core/index.css";
+ import { PLUGIN_MODERATION } from "metabase/plugins";
+ import { Box, Flex, Group, Stack, Text } from "metabase/ui";
+@@ -106,26 +104,33 @@ export const PaletteResultItem = ({ item, active }: PaletteResultItemProps) => {
+   if (item.extra?.href) {
+     const url = navigationTargetToURL(item.extra.href);
+     if (isAbsoluteURL(url)) {
++      // The kbar <li role="option"> owns selection/navigation; an anchor
++      // inside it is a focusable descendant (nested-interactive — even a
++      // negative tabindex does not exempt it). Render plain content;
++      // middle-click opens the target in a new tab for parity.
++      const openAux = (event: React.MouseEvent) => {
++        if (event.button === 1) {
++          event.preventDefault();
++          window.open(url, "_blank", "noopener");
++        }
++      };
+       return (
+-        <Box
+-          component={
+-            // This is needed to make external links work when Metabase is
+-            // hosted on a subpath
+-            ExternalLink
+-          }
+-          href={url}
+-          target="_blank"
+-          role="link"
+-          w="100%"
+-          lh={1}
+-          className={CS.noDecoration}
+-        >
++        <Box w="100%" lh={1} className={CS.noDecoration} onAuxClick={openAux}>
+           {content}
+         </Box>
+       );
+     } else {
+       return (
+-        <Box component={Link} to={item.extra.href} role="link" w="100%" lh={1}>
++        <Box
++          w="100%"
++          lh={1}
++          onAuxClick={(event: React.MouseEvent) => {
++            if (event.button === 1) {
++              event.preventDefault();
++              window.open(url, "_blank", "noopener");
++            }
++          }}
++        >
+           {content}
+         </Box>
+       );
+diff --git a/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx b/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx
+index d0e94091..deee649e 100644
+--- a/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx
++++ b/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx
+@@ -10,14 +10,7 @@ import {
+ } from "metabase/common/components/QuestionDownloadWidget";
+ import { canDownloadResults } from "metabase/common/utils/dataset";
+ import { useEmbeddingEntityContext } from "metabase/embedding/context";
+-import {
+-  ActionIcon,
+-  type ActionIconProps,
+-  Flex,
+-  Icon,
+-  Popover,
+-  Tooltip,
+-} from "metabase/ui";
++import {ActionIcon, type ActionIconProps, Icon, Popover, Tooltip, } from "metabase/ui";
+ import type { Dataset } from "metabase-types/api";
+ 
+ import S from "./QuestionDownloadPopover.module.css";
+@@ -62,18 +55,17 @@ const BaseQuestionDownloadPopover = ({
+   return (
+     <Popover opened={isPopoverOpen} onChange={setIsPopoverOpen}>
+       <Popover.Target>
+-        <Flex className={cx(className, { [S.FloatingButton]: floating })}>
+-          <Tooltip label={t`Download results`} disabled={isPopoverOpen}>
+-            <ActionIcon
+-              data-testid="question-results-download-button"
+-              onClick={() => setIsPopoverOpen(!isPopoverOpen)}
+-              aria-label={t`Download results`}
+-              variant={variant}
+-            >
+-              <Icon name="download" />
+-            </ActionIcon>
+-          </Tooltip>
+-        </Flex>
++        <Tooltip label={t`Download results`} disabled={isPopoverOpen}>
++          <ActionIcon
++            className={cx(className, { [S.FloatingButton]: floating })}
++            data-testid="question-results-download-button"
++            onClick={() => setIsPopoverOpen(!isPopoverOpen)}
++            aria-label={t`Download results`}
++            variant={variant}
++          >
++            <Icon name="download" />
++          </ActionIcon>
++        </Tooltip>
+       </Popover.Target>
+       <Popover.Dropdown p="md">
+         <QuestionDownloadWidget
+diff --git a/frontend/src/metabase/query_builder/components/SavedQuestionIntroModal.tsx b/frontend/src/metabase/query_builder/components/SavedQuestionIntroModal.tsx
+index dad3e3b5..b418078f 100644
+--- a/frontend/src/metabase/query_builder/components/SavedQuestionIntroModal.tsx
++++ b/frontend/src/metabase/query_builder/components/SavedQuestionIntroModal.tsx
+@@ -3,7 +3,7 @@ import { t } from "ttag";
+ import EmptyMetric from "assets/img/empty-states/qbnewb-metric.svg";
+ import EmptyModel from "assets/img/empty-states/qbnewb-model.svg";
+ import EmptyQuestion from "assets/img/empty-states/qbnewq-question.svg";
+-import { Box, Button, Modal, Stack, Text, Title } from "metabase/ui";
++import { Box, Button, Modal, Stack, Text } from "metabase/ui";
+ import type Question from "metabase-lib/v1/Question";
+ 
+ interface Props {
+@@ -67,7 +67,7 @@ export const SavedQuestionIntroModal = ({
+                 alt={t`Saved entity modal empty state illustration`}
+               />
+             </Box>
+-            <Title order={3}>{title}</Title>
++            <Modal.Title>{title}</Modal.Title>
+           </Stack>
+         </Modal.Header>
+         <Modal.Body maw={contentWidth} mx="auto" my="lg">
+diff --git a/frontend/src/metabase/query_builder/components/view/QuestionRowCount/QuestionRowCount.tsx b/frontend/src/metabase/query_builder/components/view/QuestionRowCount/QuestionRowCount.tsx
+index 0492cf74..cb1bdc94 100644
+--- a/frontend/src/metabase/query_builder/components/view/QuestionRowCount/QuestionRowCount.tsx
++++ b/frontend/src/metabase/query_builder/components/view/QuestionRowCount/QuestionRowCount.tsx
+@@ -117,7 +117,12 @@ function QuestionRowCountInner({
+   return (
+     <Popover opened={opened} onDismiss={close} position="bottom-end">
+       <Popover.Target>
+-        <UnstyledButton onClick={toggle} id={POPOVER_ID} aria-haspopup="dialog">
++        <UnstyledButton
++          onClick={toggle}
++          id={POPOVER_ID}
++          aria-haspopup="dialog"
++          aria-controls={opened ? `${POPOVER_ID}-content` : undefined}
++        >
+           <RowCountLabel
+             className={className}
+             data-testid="question-row-count"
+@@ -128,7 +133,7 @@ function QuestionRowCountInner({
+           </RowCountLabel>
+         </UnstyledButton>
+       </Popover.Target>
+-      <Popover.Dropdown>
++      <Popover.Dropdown id={`${POPOVER_ID}-content`}>
+         <LimitPopover
+           className={CS.p2}
+           limit={limit}
+@@ -150,7 +155,6 @@ function RowCountLabel({
+   disabled: boolean;
+   className?: string;
+ }) {
+-  const label = t`Row count`;
+   const { highlighted, ...propsForChild } = props;
+   return (
+     <Box
+@@ -165,8 +169,6 @@ function RowCountLabel({
+         className,
+       )}
+       {...propsForChild}
+-      aria-label={label}
+-      aria-controls={disabled ? undefined : POPOVER_ID}
+     />
+   );
+ }
+diff --git a/frontend/src/metabase/query_builder/components/view/View/ViewMainContainer/ViewMainContainer.tsx b/frontend/src/metabase/query_builder/components/view/View/ViewMainContainer/ViewMainContainer.tsx
+index 61fb8b34..80bd3289 100644
+--- a/frontend/src/metabase/query_builder/components/view/View/ViewMainContainer/ViewMainContainer.tsx
++++ b/frontend/src/metabase/query_builder/components/view/View/ViewMainContainer/ViewMainContainer.tsx
+@@ -1,3 +1,4 @@
++import { t } from "ttag";
+ import { useElementSize } from "@mantine/hooks";
+ import cx from "classnames";
+ 
+@@ -122,7 +123,8 @@ export const ViewMainContainer = (props: ViewMainContainerProps) => {
+ 
+   return (
+     <Box
+-      component="main"
++      component="section"
++      aria-label={t`Query builder`}
+       className={cx(ViewMainContainerS.QueryBuilderMain, {
+         [ViewMainContainerS.isSidebarOpen]: isSidebarOpen,
+       })}
+diff --git a/frontend/src/metabase/query_builder/components/view/ViewHeader/components/QuestionActions/QuestionMoreActionsMenu/QuestionMoreActionsMenu.tsx b/frontend/src/metabase/query_builder/components/view/ViewHeader/components/QuestionActions/QuestionMoreActionsMenu/QuestionMoreActionsMenu.tsx
+index 8d97c071..00e87494 100644
+--- a/frontend/src/metabase/query_builder/components/view/ViewHeader/components/QuestionActions/QuestionMoreActionsMenu/QuestionMoreActionsMenu.tsx
++++ b/frontend/src/metabase/query_builder/components/view/ViewHeader/components/QuestionActions/QuestionMoreActionsMenu/QuestionMoreActionsMenu.tsx
+@@ -245,13 +245,11 @@ export const QuestionMoreActionsMenu = ({
+   return (
+     <Menu position="bottom-end" opened={opened} onChange={setOpened}>
+       <Menu.Target>
+-        <div>
+-          <ToolbarButton
++        <ToolbarButton
+             icon="ellipsis"
+             aria-label={label}
+             tooltipLabel={label}
+           />
+-        </div>
+       </Menu.Target>
+ 
+       <Menu.Dropdown>{menuItems}</Menu.Dropdown>
+diff --git a/frontend/src/metabase/query_builder/components/view/ViewHeader/components/SavedQuestionLeftSide/SavedQuestionLeftSide.tsx b/frontend/src/metabase/query_builder/components/view/ViewHeader/components/SavedQuestionLeftSide/SavedQuestionLeftSide.tsx
+index df216e02..05d9aef3 100644
+--- a/frontend/src/metabase/query_builder/components/view/ViewHeader/components/SavedQuestionLeftSide/SavedQuestionLeftSide.tsx
++++ b/frontend/src/metabase/query_builder/components/view/ViewHeader/components/SavedQuestionLeftSide/SavedQuestionLeftSide.tsx
+@@ -88,11 +88,20 @@ export function SavedQuestionLeftSide({
+                     ]
+                   : []),
+ 
+-                <SavedQuestionHeaderButton
++                <h1
+                   key={question.displayName()}
+-                  question={question}
+-                  onSave={onHeaderChange}
+-                />,
++                  style={{
++                    font: "inherit",
++                    margin: 0,
++                    minWidth: 0,
++                    overflow: "hidden",
++                  }}
++                >
++                  <SavedQuestionHeaderButton
++                    question={question}
++                    onSave={onHeaderChange}
++                  />
++                </h1>,
+               ]}
+             />
+ 
+diff --git a/frontend/src/metabase/query_builder/components/view/ViewHeader/components/ToggleNativeQueryPreview/ToggleNativeQueryPreview.tsx b/frontend/src/metabase/query_builder/components/view/ViewHeader/components/ToggleNativeQueryPreview/ToggleNativeQueryPreview.tsx
+index 458cef9f..ec209a83 100644
+--- a/frontend/src/metabase/query_builder/components/view/ViewHeader/components/ToggleNativeQueryPreview/ToggleNativeQueryPreview.tsx
++++ b/frontend/src/metabase/query_builder/components/view/ViewHeader/components/ToggleNativeQueryPreview/ToggleNativeQueryPreview.tsx
+@@ -61,6 +61,7 @@ export const ToggleNativeQueryPreview = ({
+         aria-label={buttonText}
+         size={32}
+         role="switch"
++        aria-checked={isShowingNotebookNativePreview}
+         variant="viewHeader"
+         onClick={handleClick}
+       >
+diff --git a/frontend/src/metabase/query_builder/components/view/ViewSidebar/ViewSidebar.tsx b/frontend/src/metabase/query_builder/components/view/ViewSidebar/ViewSidebar.tsx
+index cf4ac3a2..598afa2f 100644
+--- a/frontend/src/metabase/query_builder/components/view/ViewSidebar/ViewSidebar.tsx
++++ b/frontend/src/metabase/query_builder/components/view/ViewSidebar/ViewSidebar.tsx
+@@ -1,3 +1,4 @@
++import { t } from "ttag";
+ import cx from "classnames";
+ import type { ReactNode } from "react";
+ 
+@@ -27,6 +28,7 @@ export const ViewSidebar = ({
+       [ViewSidebarS.isOpen]: isOpen,
+     })}
+     component="aside"
++    aria-label={side === "left" ? t`Left sidebar` : t`Right sidebar`}
+     data-testid={`sidebar-${side}`}
+     w={isOpen ? width : undefined}
+     left={side === "left" ? 0 : undefined}
+diff --git a/frontend/src/metabase/querying/notebook/components/ClauseStep/ClauseStep.tsx b/frontend/src/metabase/querying/notebook/components/ClauseStep/ClauseStep.tsx
+index b2284477..f5de991d 100644
+--- a/frontend/src/metabase/querying/notebook/components/ClauseStep/ClauseStep.tsx
++++ b/frontend/src/metabase/querying/notebook/components/ClauseStep/ClauseStep.tsx
+@@ -73,12 +73,12 @@ export const ClauseStep = <T,>({
+     onOpen,
+     hasPopover,
+   }: RenderItemOpts<T>) => (
+-    <ClauseStepDndItem index={index} readOnly={readOnly}>
+       <NotebookCellItem
+         color={color}
+         readOnly={readOnly}
+         onClick={onOpen}
+         hasPopover={hasPopover}
++        popoverTarget={hasPopover}
+       >
+         {renderName(item, index)}
+         {hasRemoveButton && (
+@@ -92,15 +92,21 @@ export const ClauseStep = <T,>({
+           />
+         )}
+       </NotebookCellItem>
+-    </ClauseStepDndItem>
+   );
+ 
+-  const renderNewItem = ({ onOpen }: { onOpen?: () => void }) => (
++  const renderNewItem = ({
++    onOpen,
++    hasPopover,
++  }: {
++    onOpen?: () => void;
++    hasPopover?: boolean;
++  }) => (
+     <NotebookCellAdd
+       initialAddText={items.length === 0 && initialAddText}
+       color={color}
+       disabled={isAddButtonDisabled}
+       onClick={onOpen}
++      popoverTarget={hasPopover}
+     />
+   );
+ 
+@@ -108,20 +114,25 @@ export const ClauseStep = <T,>({
+     <NotebookCell color={color} data-testid={props["data-testid"]}>
+       <ClauseStepDndContext items={items} onReorder={onReorder}>
+         {items.map((item, index) => (
+-          <ClausePopover
+-            key={index}
+-            disabled={readOnly}
+-            renderItem={(onOpen, hasPopover) =>
+-              renderItem({ item, index, onOpen, hasPopover })
+-            }
+-            renderPopover={(onClose) => renderPopover({ item, index, onClose })}
+-          />
++          <ClauseStepDndItem key={index} index={index} readOnly={readOnly}>
++            <ClausePopover
++              disabled={readOnly}
++              renderItem={(onOpen, hasPopover) =>
++                renderItem({ item, index, onOpen, hasPopover })
++              }
++              renderPopover={(onClose) =>
++                renderPopover({ item, index, onClose })
++              }
++            />
++          </ClauseStepDndItem>
+         ))}
+       </ClauseStepDndContext>
+       {hasAddButton && (
+         <ClausePopover
+           isInitiallyOpen={isLastOpened}
+-          renderItem={(onOpen) => renderNewItem({ onOpen })}
++          renderItem={(onOpen, hasPopover) =>
++            renderNewItem({ onOpen, hasPopover })
++          }
+           renderPopover={(onClose) => renderPopover({ onClose })}
+         />
+       )}
+@@ -193,6 +204,11 @@ const ClauseStepDndItem = forwardRef(function ClauseStepDndItem(
+       ref={mergedRef}
+       {...attributes}
+       {...listeners}
++      // dnd-kit defaults role="button" on the sortable node — the row wraps
++      // interactive cells (popover target, remove/picker buttons), which is
++      // nested-interactive. role="group" keeps the sortable
++      // aria-roledescription meaningful without claiming an interactive role.
++      role="group"
+       style={{
+         transition,
+         transform: CSS.Translate.toString(transform),
+diff --git a/frontend/src/metabase/querying/notebook/components/DataStep/DataStep.tsx b/frontend/src/metabase/querying/notebook/components/DataStep/DataStep.tsx
+index b181cd06..48114d02 100644
+--- a/frontend/src/metabase/querying/notebook/components/DataStep/DataStep.tsx
++++ b/frontend/src/metabase/querying/notebook/components/DataStep/DataStep.tsx
+@@ -88,6 +88,7 @@ export const DataStep = ({
+         <NotebookCellItem
+           color={color}
+           inactive={!table}
++          popoverTarget
+           right={
+             canSelectTableColumns && (
+               <DataFieldPopover
+diff --git a/frontend/src/metabase/querying/notebook/components/JoinStep/JoinTablePicker/JoinTablePicker.tsx b/frontend/src/metabase/querying/notebook/components/JoinStep/JoinTablePicker/JoinTablePicker.tsx
+index 49c4e3d9..f02e2bdf 100644
+--- a/frontend/src/metabase/querying/notebook/components/JoinStep/JoinTablePicker/JoinTablePicker.tsx
++++ b/frontend/src/metabase/querying/notebook/components/JoinStep/JoinTablePicker/JoinTablePicker.tsx
+@@ -65,6 +65,7 @@ export function JoinTablePicker({
+           readOnly={isReadOnly}
+           disabled={isReadOnly}
+           color={color}
++          popoverTarget
+           right={
+             table != null && !isReadOnly ? (
+               <JoinTableColumnPicker columnPicker={columnPicker} />
+diff --git a/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.module.css b/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.module.css
+index d768bf58..3af9796a 100644
+--- a/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.module.css
++++ b/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.module.css
+@@ -25,7 +25,12 @@
+   }
+ 
+   &.inactive {
+-    color: var(--notebook-cell-item-container-color);
++    /* Step-colored labels on the 10% tint fail 4.5:1 — darken 30%. */
++    color: color-mix(
++      in srgb,
++      var(--notebook-cell-item-container-color),
++      black 30%
++    );
+     border-color: color-mix(
+       in srgb,
+       var(--notebook-cell-item-container-color),
+@@ -49,7 +54,13 @@
+ .NotebookCellItemContentContainer {
+   display: flex;
+   align-items: center;
+-  background-color: var(--notebook-cell-item-content-container-color);
++  /* WCAG: inverse-white text on the solid step color falls below 4.5:1
++     (e.g. core-brand #509ee2 -> 2.85). Darken the chip to restore it. */
++  background-color: color-mix(
++    in srgb,
++    var(--notebook-cell-item-content-container-color),
++    black 40%
++  );
+   transition: background 300ms linear;
+ 
+   &.inactive {
+@@ -60,7 +71,7 @@
+     background-color: color-mix(
+       in srgb,
+       var(--notebook-cell-item-content-container-color),
+-      transparent 20%
++      black 25%
+     );
+   }
+ 
+diff --git a/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.tsx b/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.tsx
+index f4f97924..2524e109 100644
+--- a/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.tsx
++++ b/frontend/src/metabase/querying/notebook/components/NotebookCell/NotebookCell.tsx
+@@ -39,6 +39,9 @@ interface NotebookCellItemProps {
+   ref?: React.Ref<HTMLDivElement>;
+   className?: string;
+   hasPopover?: boolean;
++  /** true when this cell is itself the Popover.Target child (the sortable
++      wrapper owns that role for clause items). */
++  popoverTarget?: boolean;
+ }
+ 
+ export const NotebookCellItem = forwardRef<
+@@ -80,6 +83,21 @@ export const NotebookCellItem = forwardRef<
+         "--notebook-cell-item-container-color": `var(--mb-color-${color})`,
+       }}
+       {...restProps}
++      // ClausePopover mounts this div as its Popover.Target: Mantine clones
++      // aria-haspopup/aria-expanded onto it, so it must be an interactive
++      // element (aria-allowed-attr) — role=button + keyboard activation.
++      role={hasPopover && !readOnly ? "button" : undefined}
++      tabIndex={hasPopover && !readOnly ? 0 : undefined}
++      onKeyDown={
++        hasPopover && !readOnly
++          ? (event) => {
++              if (event.key === "Enter" || event.key === " ") {
++                event.preventDefault();
++                event.currentTarget.click();
++              }
++            }
++          : undefined
++      }
+       data-testid={restProps["data-testid"] ?? "notebook-cell-item"}
+       ref={ref}
+     >
+diff --git a/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookActionButton/NotebookActionButton.module.css b/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookActionButton/NotebookActionButton.module.css
+index 76bea21c..abb43b1c 100644
+--- a/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookActionButton/NotebookActionButton.module.css
++++ b/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookActionButton/NotebookActionButton.module.css
+@@ -6,7 +6,12 @@
+   font-weight: bold;
+   border-radius: var(--mantine-radius-xs);
+   transition: background 300ms;
+-  color: var(--notebook-action-button-color);
++  /* Step colors fail 4.5:1 on their own 20% tint — darken text 35%. */
++  color: color-mix(
++    in srgb,
++    var(--notebook-action-button-color),
++    black 35%
++  );
+   background-color: color-mix(
+     in srgb,
+     var(--notebook-action-button-color),
+@@ -40,7 +45,7 @@
+       var(--notebook-action-button-color),
+       transparent 35%
+     );
+-    color: color-mix(in srgb, var(--notebook-action-button-color), black 11.5%);
++    color: color-mix(in srgb, var(--notebook-action-button-color), black 35%);
+   }
+ }
+ 
+diff --git a/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookStepHeader/NotebookStepHeader.tsx b/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookStepHeader/NotebookStepHeader.tsx
+index fb3c5fa5..edb9485b 100644
+--- a/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookStepHeader/NotebookStepHeader.tsx
++++ b/frontend/src/metabase/querying/notebook/components/NotebookStep/NotebookStepHeader/NotebookStepHeader.tsx
+@@ -15,7 +15,15 @@ export function NotebookStepHeader({
+   onRevert,
+ }: NotebookStepHeaderProps) {
+   return (
+-    <Flex c={color} fw="bold" mb="sm">
++    <Flex
++      // Step colors (core-summarize #689735, core-brand #509ee2, ...) are
++      // too light on white for 4.5:1 — darken the title text.
++      style={{
++        color: `color-mix(in srgb, var(--mb-color-${color}), black 30%)`,
++      }}
++      fw="bold"
++      mb="sm"
++    >
+       {title}
+       {canRevert && (
+         <IconButtonWrapper
+diff --git a/frontend/src/metabase/search/components/DropdownSidebarFilter/DropdownSidebarFilter.tsx b/frontend/src/metabase/search/components/DropdownSidebarFilter/DropdownSidebarFilter.tsx
+index 8af9cd5e..0bcb3fb3 100644
+--- a/frontend/src/metabase/search/components/DropdownSidebarFilter/DropdownSidebarFilter.tsx
++++ b/frontend/src/metabase/search/components/DropdownSidebarFilter/DropdownSidebarFilter.tsx
+@@ -16,7 +16,16 @@ import type {
+ import CS from "metabase/css/core/index.css";
+ import { useSelector } from "metabase/redux";
+ import { getIsNavbarOpen } from "metabase/selectors/app";
+-import { Box, Button, Group, Icon, Popover, Stack, Text } from "metabase/ui";
++import {
++  Box,
++  Button,
++  Group,
++  Icon,
++  Popover,
++  Stack,
++  Text,
++  UnstyledButton,
++} from "metabase/ui";
+ import { isNotNull } from "metabase/utils/types";
+ import type { IconName } from "metabase-types/api";
+ 
+@@ -105,50 +114,65 @@ export const DropdownSidebarFilter = ({
+       onChange={onOpenChange}
+       position="bottom-end"
+     >
+-      <Popover.Target>
+-        <Box
+-          data-testid={dataTestId}
+-          ref={dropdownRef}
+-          onClick={() => onOpenChange(!isPopoverOpen)}
+-          w="100%"
+-          mt={fieldHasValue ? "0.25rem" : 0}
+-        >
+-          <FieldSet
+-            className={cx(S.dropdownFieldSet, { [S.hasValue]: fieldHasValue })}
+-            noPadding
+-            legend={fieldHasValue ? label() : undefined}
++      <Box pos="relative" ref={dropdownRef} w="100%">
++        <Popover.Target>
++          <UnstyledButton
++            data-testid={dataTestId}
++            onClick={() => onOpenChange(!isPopoverOpen)}
++            w="100%"
++            display="block"
++            mt={fieldHasValue ? "0.25rem" : 0}
+           >
+-            <Group
+-              className={CS.overflowHidden}
+-              justify="space-between"
+-              wrap="nowrap"
+-              w="100%"
++            <FieldSet
++              className={cx(S.dropdownFieldSet, {
++                [S.hasValue]: fieldHasValue,
++              })}
++              noPadding
++              legend={fieldHasValue ? label() : undefined}
+             >
+-              {fieldHasValue ? (
+-                <DisplayComponent value={value} />
+-              ) : (
+-                <Group className={CS.overflowHidden} wrap="nowrap">
+-                  {iconName && (
+-                    <Icon className={S.labelIcon} size={16} name={iconName} />
+-                  )}
+-                  <Text fw={700} truncate>
+-                    {label()}
+-                  </Text>
+-                </Group>
+-              )}
+-              {/* TODO: replace with ActionIcon (GDGT-2457) */}
+-              <Button
+-                variant="subtle"
+-                color="neutral"
+-                size="sm"
+-                data-testid="sidebar-filter-dropdown-button"
+-                onClick={onClearFilter}
+-                leftSection={<Icon name={getDropdownIcon()} />}
+-              />
+-            </Group>
+-          </FieldSet>
+-        </Box>
+-      </Popover.Target>
++              <Group
++                className={CS.overflowHidden}
++                justify="space-between"
++                wrap="nowrap"
++                w="100%"
++                pr={fieldHasValue ? "2.25rem" : undefined}
++              >
++                {fieldHasValue ? (
++                  <DisplayComponent value={value} />
++                ) : (
++                  <Group className={CS.overflowHidden} wrap="nowrap">
++                    {iconName && (
++                      <Icon className={S.labelIcon} size={16} name={iconName} />
++                    )}
++                    <Text fw={700} truncate>
++                      {label()}
++                    </Text>
++                  </Group>
++                )}
++                <Icon
++                  name={isPopoverOpen ? "chevronup" : "chevrondown"}
++                  size={16}
++                  c="text-secondary"
++                />
++              </Group>
++            </FieldSet>
++          </UnstyledButton>
++        </Popover.Target>
++        {fieldHasValue && (
++          <Button
++            variant="subtle"
++            color="neutral"
++            size="sm"
++            data-testid="sidebar-filter-dropdown-button"
++            onClick={onClearFilter}
++            leftSection={<Icon name="close" />}
++            pos="absolute"
++            top="50%"
++            right={8}
++            style={{ transform: "translateY(-50%)" }}
++          />
++        )}
++      </Box>
+ 
+       <Popover.Dropdown data-testid="popover">
+         <EventSandbox className={S.eventSandbox}>
+diff --git a/frontend/src/metabase/ui/colors/constants/themes/light.ts b/frontend/src/metabase/ui/colors/constants/themes/light.ts
+index 3290931d..d5e51f4d 100644
+--- a/frontend/src/metabase/ui/colors/constants/themes/light.ts
++++ b/frontend/src/metabase/ui/colors/constants/themes/light.ts
+@@ -62,7 +62,7 @@ const getDeprecatedColors = (brand: BrandRamp) => ({
+   summarize: baseColors.palm[50],
+   "syntax-parameters-active": baseColors.mango[10],
+   "syntax-parameters": baseColors.mango[60],
+-  "text-tertiary": baseColors.orionAlpha[40],
++  "text-tertiary": baseColors.orionAlpha[60],
+   "text-tertiary-inverse": baseColors.orionAlphaInverse[40],
+   "text-hover": brand[60],
+   "text-secondary-opaque": baseColors.orion[60],
+@@ -262,7 +262,9 @@ const getActualColors = (brand: BrandRamp) => ({
+   "text-brand-hover": brand[60],
+   "text-brand-strong": brand[60],
+   "text-brand-strong-hover": brand[70],
+-  "text-disabled": baseColors.orionAlpha[40],
++  // WCAG 2.1 AA: 0.44 alpha renders ~2.9:1 on white; 0.62 keeps the
++  // "disabled" tint while reaching >= 4.5:1 for non-disabled text using it.
++  "text-disabled": baseColors.orionAlpha[60],
+   "text-disabled-inverse": baseColors.orionAlphaInverse[40],
+   "text-filter": baseColors.filter[50],
+   "text-primary": baseColors.orionAlpha[80],
+diff --git a/frontend/src/metabase/ui/components/theme/ThemeProvider/ThemeProvider.tsx b/frontend/src/metabase/ui/components/theme/ThemeProvider/ThemeProvider.tsx
+index 69a7c86b..14811c36 100644
+--- a/frontend/src/metabase/ui/components/theme/ThemeProvider/ThemeProvider.tsx
++++ b/frontend/src/metabase/ui/components/theme/ThemeProvider/ThemeProvider.tsx
+@@ -116,6 +116,64 @@ export const ThemeProvider = ({
+   return (
+     <MantineProvider
+       theme={theme}
++      cssVariablesResolver={() => ({
++        variables: {},
++        // WCAG 2.1 AA: Mantine generates `--mantine-color-<name>-text`
++        // variables equal to the base color for single-value palette
++        // entries. The light accent colors (brand, filter, summarize, and
++        // the accent ramp) fail the 4.5:1 contrast requirement when those
++        // variables are used as foreground text, so darken them in light
++        // mode and lighten them in dark mode. They stay derived from the
++        // (possibly whitelabeled) base colors.
++        light: {
++          "--mantine-color-core-brand-text":
++            "color-mix(in srgb, var(--mb-color-core-brand), black 45%)",
++          "--mantine-color-core-filter-text":
++            "color-mix(in srgb, var(--mb-color-core-filter), black 45%)",
++          "--mantine-color-core-summarize-text":
++            "color-mix(in srgb, var(--mb-color-core-summarize), black 45%)",
++          "--mantine-color-accent0-text":
++            "color-mix(in srgb, var(--mb-color-accent0), black 45%)",
++          "--mantine-color-accent1-text":
++            "color-mix(in srgb, var(--mb-color-accent1), black 45%)",
++          "--mantine-color-accent2-text":
++            "color-mix(in srgb, var(--mb-color-accent2), black 55%)",
++          "--mantine-color-accent3-text":
++            "color-mix(in srgb, var(--mb-color-accent3), black 55%)",
++          "--mantine-color-accent4-text":
++            "color-mix(in srgb, var(--mb-color-accent4), black 62%)",
++          "--mantine-color-accent5-text":
++            "color-mix(in srgb, var(--mb-color-accent5), black 55%)",
++          "--mantine-color-accent6-text":
++            "color-mix(in srgb, var(--mb-color-accent6), black 58%)",
++          "--mantine-color-accent7-text":
++            "color-mix(in srgb, var(--mb-color-accent7), black 30%)",
++        },
++        dark: {
++          "--mantine-color-core-brand-text":
++            "color-mix(in srgb, var(--mb-color-core-brand), white 35%)",
++          "--mantine-color-core-filter-text":
++            "color-mix(in srgb, var(--mb-color-core-filter), white 35%)",
++          "--mantine-color-core-summarize-text":
++            "color-mix(in srgb, var(--mb-color-core-summarize), white 35%)",
++          "--mantine-color-accent0-text":
++            "color-mix(in srgb, var(--mb-color-accent0), white 35%)",
++          "--mantine-color-accent1-text":
++            "color-mix(in srgb, var(--mb-color-accent1), white 35%)",
++          "--mantine-color-accent2-text":
++            "color-mix(in srgb, var(--mb-color-accent2), white 45%)",
++          "--mantine-color-accent3-text":
++            "color-mix(in srgb, var(--mb-color-accent3), white 45%)",
++          "--mantine-color-accent4-text":
++            "color-mix(in srgb, var(--mb-color-accent4), white 45%)",
++          "--mantine-color-accent5-text":
++            "color-mix(in srgb, var(--mb-color-accent5), white 45%)",
++          "--mantine-color-accent6-text":
++            "color-mix(in srgb, var(--mb-color-accent6), white 45%)",
++          "--mantine-color-accent7-text":
++            "color-mix(in srgb, var(--mb-color-accent7), white 25%)",
++        },
++      })}
+       forceColorScheme={resolvedColorScheme}
+       getStyleNonce={() => getCspNonce() ?? "metabase"}
+       classNamesPrefix="mb-mantine"
+diff --git a/frontend/src/metabase/ui/theme.ts b/frontend/src/metabase/ui/theme.ts
+index f950c6e6..ec67ab0e 100644
+--- a/frontend/src/metabase/ui/theme.ts
++++ b/frontend/src/metabase/ui/theme.ts
+@@ -154,6 +154,7 @@ export const getThemeOverrides = ({
+   }),
+   primaryColor: "core-brand",
+   primaryShade: 0,
++
+   // Store colorScheme in other property for access later
+   other: {
+     ...DEFAULT_METABASE_COMPONENT_THEME,
+diff --git a/frontend/src/metabase/ui/utils/markMantineFocusSentinels.ts b/frontend/src/metabase/ui/utils/markMantineFocusSentinels.ts
+new file mode 100644
+index 00000000..d3c5d72a
+--- /dev/null
++++ b/frontend/src/metabase/ui/utils/markMantineFocusSentinels.ts
+@@ -0,0 +1,126 @@
++/**
++ * Overlay accessibility fixes applied at bootstrap.
++ *
++ * Mantine injects `<div tabindex="-1" data-autofocus>` focus sentinels inside
++ * focus-trapped overlays (menus, modals, popovers). They are purely
++ * presentational but axe flags them as illegal children of `role="menu"`
++ * (aria-required-children), so give them a `separator` role and strip their
++ * tabindex: a non-focusable separator is a valid menu child, while a
++ * focusable one would need slider attributes (aria-required-attr).
++ *
++ * Mantine portals (`<div data-portal="true">` siblings of #root) mount overlay
++ * content outside every landmark, which axe flags under the `region` rule.
++ * Each portal host is promoted to a named `role="complementary"` landmark so
++ * the transient overlay content stays inside a landmark.
++ */
++const SENTINEL_SELECTOR = 'div[data-autofocus="true"]:not([role])';
++const PORTAL_SELECTOR = 'body > div[data-portal="true"]';
++
++function markSentinels(root: ParentNode) {
++  root.querySelectorAll(SENTINEL_SELECTOR).forEach((element) => {
++    element.setAttribute("role", "separator");
++    element.removeAttribute("tabindex");
++  });
++}
++
++let portalCounter = 0;
++
++function markPortalHosts() {
++  document.querySelectorAll(PORTAL_SELECTOR).forEach((element) => {
++    // Empty portal hosts carry no overlay content; leaving them role-less
++    // keeps the landmark list clean and avoids empty named landmarks.
++    if (element.childElementCount === 0) {
++      return;
++    }
++    // Labels must be unique across the page (landmark-unique): a running
++    // counter survives portals being inserted/removed in any order, unlike
++    // a positional index which can repeat after DOM churn.
++    if (!element.hasAttribute("role")) {
++      portalCounter += 1;
++      element.setAttribute("role", "complementary");
++      element.setAttribute("aria-label", `Overlay ${portalCounter}`);
++    }
++  });
++}
++
++const RADIOGROUP_SELECTOR = 'div[role="radiogroup"][aria-labelledby]';
++
++function cleanRadiogroupLabels(root: ParentNode) {
++  // Mantine's InputsGroupFieldset always emits aria-labelledby pointing at
++  // ctx.labelId, even when the Radio.Group has no `label` prop and no label
++  // element is ever rendered (orphan idref — aria-valid-attr-value). Strip
++  // it when the referenced element does not exist.
++  root.querySelectorAll(RADIOGROUP_SELECTOR).forEach((element) => {
++    const labelledBy = element.getAttribute("aria-labelledby");
++    if (
++      labelledBy &&
++      !labelledBy
++        .split(/\s+/)
++        .some((id) => root.querySelector(`#${CSS.escape(id)}`))
++    ) {
++      element.removeAttribute("aria-labelledby");
++    }
++  });
++}
++
++const TAB_SELECTOR = '[role="tab"][aria-controls]';
++
++function cleanTabControls(root: ParentNode) {
++  // Mantine Tabs emit aria-controls={ctx.getPanelId(value)} unconditionally;
++  // tabs rendered without a matching Tabs.Panel (AccountHeader nav, chart
++  // settings sidebars) get an orphan idref — strip it when the target is
++  // absent from the document.
++  root.querySelectorAll(TAB_SELECTOR).forEach((element) => {
++    const controls = element.getAttribute("aria-controls");
++    if (controls && !document.getElementById(controls)) {
++      element.removeAttribute("aria-controls");
++    }
++  });
++}
++
++const TARGET_SELECTOR = '[id$="-target"][aria-haspopup]';
++
++function cleanTargetAria(root: ParentNode) {
++  // Mantine's Popover/Menu Target clones popup aria (target id, aria-haspopup,
++  // aria-expanded) onto the first child regardless of that child's role. When
++  // the cloned target carries no role at all, aria-allowed-attr rejects
++  // aria-expanded — strip the popup attrs on role-less targets.
++  root.querySelectorAll(TARGET_SELECTOR).forEach((element) => {
++    if (!element.getAttribute("role")) {
++      element.removeAttribute("aria-haspopup");
++      element.removeAttribute("aria-expanded");
++    }
++  });
++}
++
++let started = false;
++
++export function markMantineFocusSentinels() {
++  if (started || typeof document === "undefined") {
++    return;
++  }
++  started = true;
++  markSentinels(document.body);
++  markPortalHosts();
++  cleanRadiogroupLabels(document.body);
++  cleanTabControls(document.body);
++  cleanTargetAria(document.body);
++  new MutationObserver((mutations) => {
++    for (const mutation of mutations) {
++      mutation.addedNodes.forEach((node) => {
++        if (!(node instanceof HTMLElement)) {
++          return;
++        }
++        if (node.matches(SENTINEL_SELECTOR)) {
++          node.setAttribute("role", "separator");
++          node.removeAttribute("tabindex");
++        }
++        markSentinels(node);
++      });
++    }
++    markPortalHosts();
++    cleanRadiogroupLabels(document.body);
++    cleanTabControls(document.body);
++    cleanTargetAria(document.body);
++  }).observe(document.body, { childList: true, subtree: true });
++}

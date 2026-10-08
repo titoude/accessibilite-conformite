@@ -1,0 +1,15 @@
+import { chromium } from 'playwright';
+const B = 'http://localhost:7600';
+const br = await chromium.launch();
+const pg = await (await br.newContext({ locale: 'en-US' })).newPage();
+const errs = []; pg.on('pageerror', e => errs.push(e.message.slice(0,150)));
+await pg.goto(`${B}/auth/login`); await pg.waitForSelector('#root form', { timeout: 60000 });
+await pg.fill('input[name="username"]', 'admin@boucle46.local');
+await pg.fill('input[type="password"]', 'Boucle46!A11y'); await pg.click('button[type="submit"]');
+await pg.waitForURL(u => !u.pathname.includes('/auth/'), { timeout: 60000 }).catch(()=>{});
+await pg.waitForTimeout(4000);
+console.log('url:', pg.url());
+console.log('text:', (await pg.evaluate(() => (document.body.innerText||'').slice(0,150).replace(/\n/g,' | '))));
+console.log('pageerrors:', errs.slice(0,5));
+await pg.screenshot({ path: '/tmp/mb-head.png' });
+await br.close();

@@ -1,0 +1,261 @@
+{
+  "runId": "c3d85efa-edba-48ea-a4e2-194b3482bc2b",
+  "runnerVersion": "audit.mjs v9-metabase",
+  "generatedAt": "2026-10-08T04:34:15.634Z",
+  "baseUrl": "http://localhost:7600",
+  "pages": [
+    {
+      "url": "http://localhost:7600/auth/login",
+      "requestedUrl": "http://localhost:7600/auth/login",
+      "violations": [
+        {
+          "id": "aria-required-attr",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag412",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-7.1.1"
+          ],
+          "description": "Ensure elements with ARIA roles have all required ARIA attributes",
+          "help": "Required ARIA attributes must be provided",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-attr?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-attr",
+                  "data": [
+                    "aria-level"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA attribute not present: aria-level"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<div class=\"\" role=\"heading\" style=\"color: var(--mantine-color-text-primary-text); font-size: 1.25rem; font-weight: bold; text-align: center; line-height: 1.5rem;\">Sign in to Metabase</div>",
+              "target": [
+                "div[role=\"heading\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA attribute not present: aria-level"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#509ee2",
+                    "bgColor": "#ffffff",
+                    "contrastRatio": 2.86,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"emotion-4khg5n erkbo4y2\">",
+                      "target": [
+                        ".emotion-4khg5n"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.86 (foreground color: #509ee2, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a data-size=\"md\" data-underline=\"never\" color=\"text-primary\" class=\"KKzUO QSUlZ C3IpM eW...\" href=\"/auth/forgot_passwor...\" data-discover=\"true\" style=\"--text-fz: var(--man...\">",
+              "target": [
+                "a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.86 (foreground color: #509ee2, background color: #ffffff, font size: 10.5pt (14px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div>",
+              "target": [
+                "body > div:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/auth/login",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:7600/auth/forgot_password",
+      "requestedUrl": "http://localhost:7600/auth/forgot_password",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div>",
+              "target": [
+                "body > div:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"\" style=\"margin-bottom: var(--mantine-spacing-lg); color: var(--mantine-color-text-primary-text); text-align: center;\">Please contact an administrator to have them reset your password.</div>",
+              "target": [
+                ".m_8bffd616 > div"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/auth/forgot_password",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:7600/setup",
+      "requestedUrl": "http://localhost:7600/setup",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/auth/login?redirect=%2F",
+      "error": "redirection vers une page de connexion (http://localhost:7600/auth/login?redirect=%2F) — la page demandée n'a pas été auditée"
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "466868186497a8d6af2aa489a191450673bb1e290a5b446ad88ba4ea418a7ea0"
+}

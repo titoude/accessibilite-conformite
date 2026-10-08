@@ -1,0 +1,84 @@
+{
+  "runId": "7663f5bc-145c-45da-9fcf-fa8483e1ee41",
+  "runnerVersion": "audit.mjs v9-metabase",
+  "generatedAt": "2026-10-08T06:54:05.347Z",
+  "baseUrl": "http://localhost:7600",
+  "pages": [
+    {
+      "url": "http://localhost:7600/auth/login",
+      "requestedUrl": "http://localhost:7600/auth/login",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/auth/login",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:7600/auth/forgot_password",
+      "requestedUrl": "http://localhost:7600/auth/forgot_password",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscuring",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it partially overlaps other elements"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div class=\"\" style=\"margin-bottom: var(--mantine-spacing-lg); color: var(--mantine-color-text-primary-text); text-align: center;\">Please contact an administrator to have them reset your password.</div>",
+              "target": [
+                ".m_8bffd616 > div"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it partially overlaps other elements"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7600/auth/forgot_password",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "03101b187135aef394166066cfd77835f16677852cb0fd8a0c4b46ea5d691f87"
+}
