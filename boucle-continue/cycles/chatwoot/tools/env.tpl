@@ -1,0 +1,9 @@
+SECRET_KEY_BASE=c56secretkeybaseauditbouclecontinueaccessibiliteconformite56
+FRONTEND_URL=http://localhost:9700
+POSTGRES_PASSWORD=c56pgsecret
+REDIS_PASSWORD=c56redissecret
+APP_PORT=9700
+DB_PORT=9701
+REDIS_PORT=9702
+CW_IMAGE=cw56-app:f4bc89957b5e49dab3cd1d1c074248e60ac43d2e
+COMPOSE_PROJECT_NAME=cw56

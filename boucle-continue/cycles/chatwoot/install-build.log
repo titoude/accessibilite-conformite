@@ -1,0 +1,797 @@
++ SHA=f4bc89957b5e49dab3cd1d1c074248e60ac43d2e
++ PORT=9760
++ WORK=/home/ubuntu/work/chatwoot56-install
++++ dirname tools/install-build.sh
+++ cd tools
+++ pwd
++ HERE=/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools
+++ dirname /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools
++ CYCLE=/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot
++ SFX=i
++ rm -rf /home/ubuntu/work/chatwoot56-install
++ git clone https://github.com/chatwoot/chatwoot.git /home/ubuntu/work/chatwoot56-install
+Cloning into '/home/ubuntu/work/chatwoot56-install'...
++ cd /home/ubuntu/work/chatwoot56-install
++ git checkout f4bc89957b5e49dab3cd1d1c074248e60ac43d2e
+Note: switching to 'f4bc89957b5e49dab3cd1d1c074248e60ac43d2e'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at f4bc89957b feat: add account and user search to command bar (#16162)
++ git apply --check /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/patch.diff
++ git apply /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/patch.diff
++ docker build -f docker/Dockerfile -t cw56i-app:latest .
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 4.59kB done
+#1 WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 2)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 13)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 17)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 20)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 23)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 107)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 111)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 114)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 117)
+#1 WARN: LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 120)
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/node:24-alpine
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/ruby:3.4.4-alpine3.21
+#3 DONE 0.0s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 222B done
+#4 DONE 0.0s
+
+#5 [node 1/1] FROM docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+#5 resolve docker.io/library/node:24-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1 done
+#5 DONE 0.0s
+
+#6 [pre-builder  1/19] FROM docker.io/library/ruby:3.4.4-alpine3.21@sha256:5bdfa2312f3f0bc9bd077e954c943652155a093db228af978873ff92389300d3
+#6 resolve docker.io/library/ruby:3.4.4-alpine3.21@sha256:5bdfa2312f3f0bc9bd077e954c943652155a093db228af978873ff92389300d3 0.0s done
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 526.13MB 1.8s done
+#7 DONE 1.8s
+
+#8 [pre-builder  4/19] COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+#8 CACHED
+
+#9 [pre-builder  7/19] RUN echo 'export PNPM_HOME="/root/.local/share/pnpm"' >> /root/.shrc   && echo 'export PATH="$PNPM_HOME:$PATH"' >> /root/.shrc   && export PNPM_HOME="/root/.local/share/pnpm"   && export PATH="$PNPM_HOME:/usr/local/bundle/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"   && pnpm --version
+#9 CACHED
+
+#10 [pre-builder  6/19] RUN npm install -g pnpm@10.2.0
+#10 CACHED
+
+#11 [pre-builder  9/19] COPY Gemfile Gemfile.lock ./
+#11 CACHED
+
+#12 [pre-builder  5/19] RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm   && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+#12 CACHED
+
+#13 [pre-builder  8/19] WORKDIR /app
+#13 CACHED
+
+#14 [pre-builder  2/19] RUN apk update && apk add --no-cache   openssl   tar   build-base   tzdata   postgresql-dev   postgresql-client   git   curl   xz   && mkdir -p /var/app   && gem install bundler -v "2.5.16"
+#14 CACHED
+
+#15 [pre-builder 13/19] COPY package.json pnpm-lock.yaml ./
+#15 CACHED
+
+#16 [pre-builder 11/19] RUN bundle config set --local force_ruby_platform true
+#16 CACHED
+
+#17 [pre-builder 12/19] RUN if [ "production" = "production" ]; then   bundle config set without 'development test'; bundle install -j 4 -r 3;   else bundle install -j 4 -r 3;   fi
+#17 CACHED
+
+#18 [pre-builder 10/19] RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
+#18 CACHED
+
+#19 [pre-builder  3/19] COPY --from=node /usr/local/bin/node /usr/local/bin/
+#19 CACHED
+
+#20 [pre-builder 14/19] RUN pnpm i
+#20 CACHED
+
+#21 [pre-builder 15/19] COPY . /app
+#21 DONE 1.4s
+
+#22 [pre-builder 16/19] RUN mkdir -p /app/log
+#22 DONE 0.1s
+
+#23 [pre-builder 17/19] RUN if [ "production" = "production" ]; then   SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile   && rm -rf spec node_modules tmp/cache;   fi
+#23 6.458 E, [2026-10-08T22:35:13.933108 #7] ERROR -- : Failed to configure AI Agents SDK: connection to server at "::1", port 5432 failed: Connection refused
+#23 6.458 	Is the server running on that host and accepting TCP/IP connections?
+#23 6.458 connection to server at "127.0.0.1", port 5432 failed: Connection refused
+#23 6.458 	Is the server running on that host and accepting TCP/IP connections?
+#23 6.458 
+#23 6.458 I, [2026-10-08T22:35:13.933813 #7]  INFO -- : [rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup
+#23 7.009 Lockfile is up to date, resolution step is skipped
+#23 7.080 Already up to date
+#23 7.351 
+#23 7.370 
+#23 7.370 > @chatwoot/chatwoot@4.18.0 prepare /app
+#23 7.370 > husky install
+#23 7.370 
+#23 7.404 husky - Git hooks installed
+#23 7.410 Done in 715ms
+#23 7.427 -------------- Bulding SDK for Production --------------
+#23 7.709 
+#23 7.709 > @chatwoot/chatwoot@4.18.0 build:sdk /app
+#23 7.709 > vite build --config vite.lib.config.ts
+#23 7.709 
+#23 7.871 vite v6.4.2 building for production...
+#23 7.904 transforming...
+#23 8.106 Browserslist: caniuse-lite is outdated. Please run:
+#23 8.106   npx update-browserslist-db@latest
+#23 8.106   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+#23 8.227 Browserslist: caniuse-lite is outdated. Please run:
+#23 8.227   npx update-browserslist-db@latest
+#23 8.227   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+#23 9.706 ✓ 18 modules transformed.
+#23 9.707 
+#23 9.707 (!) The public directory feature may not work correctly. outDir /app/public/packs and publicDir /app/public are not separate folders.
+#23 9.707 
+#23 9.805 rendering chunks...
+#23 9.829 computing gzip size...
+#23 9.831 public/packs/js/sdk.js.br   6.20 kB
+#23 9.831 public/packs/js/sdk.js.gz   7.01 kB
+#23 9.831 public/packs/js/sdk.js     22.00 kB │ gzip: 7.03 kB
+#23 9.831 ✓ built in 1.94s
+#23 9.901 -------------- Bulding App for Production --------------
+#23 10.24 I, [2026-10-08T22:35:17.712744 #7]  INFO -- : Writing /app/public/assets/manifest-b84bfa46a33d7f0dc4d2e7b8889486c9a957a5e40713d58f54be71b66954a1ff.js
+#23 10.24 I, [2026-10-08T22:35:17.712968 #7]  INFO -- : Writing /app/public/assets/manifest-b84bfa46a33d7f0dc4d2e7b8889486c9a957a5e40713d58f54be71b66954a1ff.js.gz
+#23 10.24 I, [2026-10-08T22:35:17.713108 #7]  INFO -- : Writing /app/public/assets/administrate/application-58b002dc4eaa66352196d085ad7ece38baae577016b20fba2f97989f32fc7cbe.css
+#23 10.24 I, [2026-10-08T22:35:17.713231 #7]  INFO -- : Writing /app/public/assets/administrate/application-58b002dc4eaa66352196d085ad7ece38baae577016b20fba2f97989f32fc7cbe.css.gz
+#23 10.24 I, [2026-10-08T22:35:17.713536 #7]  INFO -- : Writing /app/public/assets/administrate/application-0ca1ebe5baf40d486024c2af43f59c99db8ee966ae8440eaa75b247d725f91f1.js
+#23 10.24 I, [2026-10-08T22:35:17.716182 #7]  INFO -- : Writing /app/public/assets/administrate/application-0ca1ebe5baf40d486024c2af43f59c99db8ee966ae8440eaa75b247d725f91f1.js.gz
+#23 10.24 I, [2026-10-08T22:35:17.716567 #7]  INFO -- : Writing /app/public/assets/administrate-field-active_storage/application-491e0febefaa4b7923c60e77838dadb71e679fcc07232cd97198fb364d300152.css
+#23 10.24 I, [2026-10-08T22:35:17.716866 #7]  INFO -- : Writing /app/public/assets/administrate-field-active_storage/application-491e0febefaa4b7923c60e77838dadb71e679fcc07232cd97198fb364d300152.css.gz
+#23 10.24 I, [2026-10-08T22:35:17.717119 #7]  INFO -- : Writing /app/public/assets/actiontext-78de0ebeae470799f9ec25fd0e20ae2d931df88c2ff9315918d1054a2fca2596.js
+#23 10.24 I, [2026-10-08T22:35:17.717427 #7]  INFO -- : Writing /app/public/assets/actiontext-78de0ebeae470799f9ec25fd0e20ae2d931df88c2ff9315918d1054a2fca2596.js.gz
+#23 10.24 I, [2026-10-08T22:35:17.717726 #7]  INFO -- : Writing /app/public/assets/actiontext.esm-328ef022563f73c1b9b45ace742bd21330da0f6bd6c1c96d352d52fc8b8857e5.js
+#23 10.24 I, [2026-10-08T22:35:17.717900 #7]  INFO -- : Writing /app/public/assets/actiontext.esm-328ef022563f73c1b9b45ace742bd21330da0f6bd6c1c96d352d52fc8b8857e5.js.gz
+#23 10.24 I, [2026-10-08T22:35:17.718554 #7]  INFO -- : Writing /app/public/assets/trix-b6d103912a6c8078fed14e45716425fb78de5abfbe7b626cd5d9b25b35265066.js
+#23 10.24 I, [2026-10-08T22:35:17.718748 #7]  INFO -- : Writing /app/public/assets/trix-b6d103912a6c8078fed14e45716425fb78de5abfbe7b626cd5d9b25b35265066.js.gz
+#23 10.24 I, [2026-10-08T22:35:17.719006 #7]  INFO -- : Writing /app/public/assets/trix-fac9fbf27cd0745d3679d5bcb2f03808303584fba37b06fde11061331daac7a6.css
+#23 10.24 I, [2026-10-08T22:35:17.719352 #7]  INFO -- : Writing /app/public/assets/trix-fac9fbf27cd0745d3679d5bcb2f03808303584fba37b06fde11061331daac7a6.css.gz
+#23 10.24 I, [2026-10-08T22:35:17.719836 #7]  INFO -- : Writing /app/public/assets/administrate/application-0ca1ebe5baf40d486024c2af43f59c99db8ee966ae8440eaa75b247d725f91f1.js.gz
+#23 10.24 I, [2026-10-08T22:35:17.720226 #7]  INFO -- : Writing /app/public/assets/belongs_to_search-25faa07e8d60e491e6f1218e5307b9e70ea1bb0a51e4a724a37e797cea81e9da.js
+#23 10.25 I, [2026-10-08T22:35:17.721283 #7]  INFO -- : Writing /app/public/assets/belongs_to_search-25faa07e8d60e491e6f1218e5307b9e70ea1bb0a51e4a724a37e797cea81e9da.js.gz
+#23 10.25 I, [2026-10-08T22:35:17.721703 #7]  INFO -- : Writing /app/public/assets/activestorage-503a4fe23aabfbcb752dad255f01835904e6961d5f20d1de13987a691c27d9cd.js
+#23 10.25 I, [2026-10-08T22:35:17.721808 #7]  INFO -- : Writing /app/public/assets/activestorage-503a4fe23aabfbcb752dad255f01835904e6961d5f20d1de13987a691c27d9cd.js.gz
+#23 10.25 I, [2026-10-08T22:35:17.722022 #7]  INFO -- : Writing /app/public/assets/activestorage.esm-b3f7f0a5ef90530b509c5e681c4b3ef5d5046851e5b70d57fdb45e32b039c883.js
+#23 10.25 I, [2026-10-08T22:35:17.722165 #7]  INFO -- : Writing /app/public/assets/activestorage.esm-b3f7f0a5ef90530b509c5e681c4b3ef5d5046851e5b70d57fdb45e32b039c883.js.gz
+#23 10.25 I, [2026-10-08T22:35:17.722367 #7]  INFO -- : Writing /app/public/assets/actioncable-323d156a10054ee2c94ba8a17c20458f542a17234f934ea53d16e0e1899fda5e.js
+#23 10.25 I, [2026-10-08T22:35:17.722538 #7]  INFO -- : Writing /app/public/assets/actioncable-323d156a10054ee2c94ba8a17c20458f542a17234f934ea53d16e0e1899fda5e.js.gz
+#23 10.25 I, [2026-10-08T22:35:17.722696 #7]  INFO -- : Writing /app/public/assets/actioncable.esm-b66d83871f0a453b10ba8b4c147c2bafa655caaa5d13fa34e9bf361c1c2aedb7.js
+#23 10.25 I, [2026-10-08T22:35:17.725062 #7]  INFO -- : Writing /app/public/assets/actioncable.esm-b66d83871f0a453b10ba8b4c147c2bafa655caaa5d13fa34e9bf361c1c2aedb7.js.gz
+#23 10.64 Lockfile is up to date, resolution step is skipped
+#23 10.71 Already up to date
+#23 11.01 
+#23 11.03 
+#23 11.03 > @chatwoot/chatwoot@4.18.0 prepare /app
+#23 11.03 > husky install
+#23 11.03 
+#23 11.06 husky - Git hooks installed
+#23 11.07 Done in 750ms
+#23 11.31 Building with Vite ⚡️
+#23 11.85 vite v6.4.2 building for production...
+#23 11.90 transforming...
+#23 45.15 ✓ 5104 modules transformed.
+#23 48.12 rendering chunks...
+#23 53.06 computing gzip size...
+#23 54.28 ../../public/vite/.vite/manifest-assets.json                          0.00 kB │ gzip:     0.02 kB
+#23 54.28 ../../public/vite/assets/pf-CEX9Vx76.svg                              4.11 kB │ gzip:     1.73 kB
+#23 54.28 ../../public/vite/assets/pf-CMTHIumB.svg                              4.15 kB │ gzip:     1.72 kB
+#23 54.28 ../../public/vite/assets/sz-DpZ3V1AK.svg                              4.75 kB │ gzip:     1.95 kB
+#23 54.28 ../../public/vite/assets/sz-BC3w3Gmj.svg                              4.80 kB │ gzip:     1.97 kB
+#23 54.28 ../../public/vite/assets/gu-wFhsTC1Y.svg                              4.91 kB │ gzip:     1.91 kB
+#23 54.28 ../../public/vite/assets/gq-OBiOttRB.svg                              5.07 kB │ gzip:     2.05 kB
+#23 54.28 ../../public/vite/assets/gu-Bkjkorus.svg                              5.10 kB │ gzip:     2.00 kB
+#23 54.28 ../../public/vite/assets/gq-BvOxIUGP.svg                              5.16 kB │ gzip:     2.15 kB
+#23 54.28 ../../public/vite/assets/zm-CNg0kgkw.svg                              5.41 kB │ gzip:     2.29 kB
+#23 54.28 ../../public/vite/assets/zm-BmHUGSoa.svg                              5.51 kB │ gzip:     2.29 kB
+#23 54.28 ../../public/vite/assets/nf--j2oelto.svg                              5.56 kB │ gzip:     2.44 kB
+#23 54.28 ../../public/vite/assets/ki-COZ8g898.svg                              5.64 kB │ gzip:     1.64 kB
+#23 54.28 ../../public/vite/assets/ki-CM44VBPm.svg                              5.81 kB │ gzip:     1.70 kB
+#23 54.28 ../../public/vite/assets/nf-COchEj81.svg                              5.81 kB │ gzip:     2.55 kB
+#23 54.28 ../../public/vite/assets/cy-VQFkW-qk.svg                              5.91 kB │ gzip:     2.52 kB
+#23 54.28 ../../public/vite/assets/cy-Bgo0XIP0.svg                              6.00 kB │ gzip:     2.57 kB
+#23 54.28 ../../public/vite/assets/ms-7tNehsjt.svg                              6.07 kB │ gzip:     2.61 kB
+#23 54.28 ../../public/vite/assets/ms-D--tLJBo.svg                              6.12 kB │ gzip:     2.56 kB
+#23 54.28 ../../public/vite/assets/no-chat-dark-BSWrQBd3.svg                    6.35 kB │ gzip:     2.40 kB
+#23 54.28 ../../public/vite/assets/zw-DGkTG73v.svg                              6.65 kB │ gzip:     2.61 kB
+#23 54.28 ../../public/vite/assets/zw-Ceqd3Xj3.svg                              6.67 kB │ gzip:     2.64 kB
+#23 54.28 ../../public/vite/assets/no-chat-okxWD-4P.svg                         6.68 kB │ gzip:     2.48 kB
+#23 54.28 ../../public/vite/assets/tc-CYGgqbY-.svg                              7.15 kB │ gzip:     3.00 kB
+#23 54.28 ../../public/vite/assets/tc-BB3tFO-G.svg                              7.15 kB │ gzip:     3.00 kB
+#23 54.28 ../../public/vite/assets/kh-V4Sa3vlt.svg                              7.28 kB │ gzip:     2.77 kB
+#23 54.28 ../../public/vite/assets/kh-CAffWc0R.svg                              7.28 kB │ gzip:     2.78 kB
+#23 54.28 ../../public/vite/assets/kz-DBjWpOlG.svg                              7.29 kB │ gzip:     2.99 kB
+#23 54.28 ../../public/vite/assets/kz-BBCbe9jj.svg                              7.29 kB │ gzip:     2.98 kB
+#23 54.28 ../../public/vite/assets/br-Yf30zEjB.svg                              7.68 kB │ gzip:     2.54 kB
+#23 54.28 ../../public/vite/assets/br-DaE4AJQY.svg                              8.10 kB │ gzip:     2.74 kB
+#23 54.28 ../../public/vite/assets/li-DgeenFRc.svg                              8.25 kB │ gzip:     3.25 kB
+#23 54.28 ../../public/vite/assets/li-y6TPS81M.svg                              8.27 kB │ gzip:     3.26 kB
+#23 54.28 ../../public/vite/assets/pt-BV5okG4O.svg                              8.32 kB │ gzip:     3.34 kB
+#23 54.28 ../../public/vite/assets/vi-1FTBesw2.svg                              8.62 kB │ gzip:     3.61 kB
+#23 54.28 ../../public/vite/assets/xk-B6uU6dIH.svg                              8.63 kB │ gzip:     3.24 kB
+#23 54.28 ../../public/vite/assets/pt-BLLm3V0o.svg                              8.67 kB │ gzip:     3.36 kB
+#23 54.28 ../../public/vite/assets/vi-DatfOFqY.svg                              8.68 kB │ gzip:     3.65 kB
+#23 54.28 ../../public/vite/assets/aw-W0PWLK5p.svg                              9.00 kB │ gzip:     1.67 kB
+#23 54.28 ../../public/vite/assets/gb-wls-lLp_JivI.svg                          9.07 kB │ gzip:     4.05 kB
+#23 54.28 ../../public/vite/assets/gb-wls-C4LdH8Nd.svg                          9.18 kB │ gzip:     4.17 kB
+#23 54.28 ../../public/vite/assets/xk-F5dDvX79.svg                              9.31 kB │ gzip:     3.50 kB
+#23 54.28 ../../public/vite/assets/eg-BIzzVp3n.svg                              9.85 kB │ gzip:     3.88 kB
+#23 54.28 ../../public/vite/assets/eg-C1MYAOXe.svg                              9.87 kB │ gzip:     3.89 kB
+#23 54.28 ../../public/vite/assets/im-BAoxVCMv.svg                              9.90 kB │ gzip:     3.77 kB
+#23 54.28 ../../public/vite/assets/sa-eH5F7cXy.svg                             10.17 kB │ gzip:     4.26 kB
+#23 54.28 ../../public/vite/assets/im-deD7ny0b.svg                             10.22 kB │ gzip:     4.01 kB
+#23 54.28 ../../public/vite/assets/sa-DLf2NaXn.svg                             10.24 kB │ gzip:     4.31 kB
+#23 54.28 ../../public/vite/assets/aw-CLCX8uk5.svg                             10.36 kB │ gzip:     1.79 kB
+#23 54.28 ../../public/vite/assets/vg-qlt33Cv3.svg                             10.39 kB │ gzip:     4.28 kB
+#23 54.28 ../../public/vite/assets/vg-DKEU1GdO.svg                             10.41 kB │ gzip:     4.27 kB
+#23 54.28 ../../public/vite/assets/md-DArlF80d.svg                             11.20 kB │ gzip:     2.85 kB
+#23 54.28 ../../public/vite/assets/md-DRw6DF0o.svg                             11.31 kB │ gzip:     2.72 kB
+#23 54.28 ../../public/vite/assets/lk-B2IfFxoh.svg                             11.34 kB │ gzip:     4.63 kB
+#23 54.28 ../../public/vite/assets/lk-DIvkWByA.svg                             11.35 kB │ gzip:     4.63 kB
+#23 54.28 ../../public/vite/assets/sx-DzlMoqh2.svg                             12.95 kB │ gzip:     4.40 kB
+#23 54.28 ../../public/vite/assets/sx-4BiL6F_v.svg                             13.14 kB │ gzip:     4.61 kB
+#23 54.28 ../../public/vite/assets/mt-DeenPMqd.svg                             13.73 kB │ gzip:     5.65 kB
+#23 54.28 ../../public/vite/assets/pn-DEs-Vj71.svg                             13.84 kB │ gzip:     5.03 kB
+#23 54.28 ../../public/vite/assets/pn-vyD5VXw1.svg                             13.88 kB │ gzip:     5.09 kB
+#23 54.28 ../../public/vite/assets/eac-CZCl_pn7.svg                            14.22 kB │ gzip:     4.98 kB
+#23 54.28 ../../public/vite/assets/eac-D_uIzpYR.svg                            14.23 kB │ gzip:     4.98 kB
+#23 54.28 ../../public/vite/assets/bn-BDKbSv-u.svg                             14.32 kB │ gzip:     5.94 kB
+#23 54.28 ../../public/vite/assets/bn-UGyQANfK.svg                             14.46 kB │ gzip:     5.96 kB
+#23 54.28 ../../public/vite/assets/ht-DPCqX9cm.svg                             14.57 kB │ gzip:     5.13 kB
+#23 54.28 ../../public/vite/assets/mt-0OWB-5b3.svg                             14.64 kB │ gzip:     6.04 kB
+#23 54.28 ../../public/vite/assets/ht-HoSCtdNQ.svg                             14.70 kB │ gzip:     5.17 kB
+#23 54.28 ../../public/vite/assets/ir-CXFV1BFU.svg                             15.31 kB │ gzip:     2.29 kB
+#23 54.28 ../../public/vite/assets/ir-cCIgaNf6.svg                             15.40 kB │ gzip:     2.24 kB
+#23 54.28 ../../public/vite/assets/sm-DHRSzt4z.svg                             15.66 kB │ gzip:     5.38 kB
+#23 54.28 ../../public/vite/assets/sm-1NcqoN_z.svg                             15.77 kB │ gzip:     5.28 kB
+#23 54.28 ../../public/vite/assets/dm-BlhP-6zy.svg                             15.82 kB │ gzip:     3.08 kB
+#23 54.28 ../../public/vite/assets/dm-ClJ_IDld.svg                             16.31 kB │ gzip:     3.24 kB
+#23 54.28 ../../public/vite/assets/facebook_login-_skaVloV.png                 16.39 kB
+#23 54.28 ../../public/vite/assets/py-BfpB8kRi.svg                             17.19 kB │ gzip:     6.09 kB
+#23 54.28 ../../public/vite/assets/py-CRTEf2ay.svg                             17.36 kB │ gzip:     6.17 kB
+#23 54.28 ../../public/vite/assets/ni-CC3zFI7h.svg                             18.44 kB │ gzip:     5.75 kB
+#23 54.28 ../../public/vite/assets/ni-ChnV2lR-.svg                             18.49 kB │ gzip:     5.81 kB
+#23 54.28 ../../public/vite/assets/typing-DYm07fFx.gif                         19.30 kB
+#23 54.28 ../../public/vite/assets/un-0G1DCZ6c.svg                             20.05 kB │ gzip:     7.92 kB
+#23 54.28 ../../public/vite/assets/un-BQ1kEGox.svg                             20.29 kB │ gzip:     8.04 kB
+#23 54.28 ../../public/vite/assets/af-Cc32fsDB.svg                             20.92 kB │ gzip:     8.30 kB
+#23 54.28 ../../public/vite/assets/af-CI4E3ER1.svg                             21.06 kB │ gzip:     8.36 kB
+#23 54.28 ../../public/vite/assets/om-Ri__rIwP.svg                             22.61 kB │ gzip:     4.45 kB
+#23 54.28 ../../public/vite/assets/om-DnUPbroW.svg                             22.62 kB │ gzip:     4.44 kB
+#23 54.28 ../../public/vite/assets/bm-D2j4bkLD.svg                             22.73 kB │ gzip:     7.25 kB
+#23 54.28 ../../public/vite/assets/bm-BoWRAtUx.svg                             22.81 kB │ gzip:     7.25 kB
+#23 54.28 ../../public/vite/assets/io-BzKkDPkD.svg                             22.88 kB │ gzip:     4.14 kB
+#23 54.28 ../../public/vite/assets/dg-CPWO5scz.svg                             22.88 kB │ gzip:     4.14 kB
+#23 54.28 ../../public/vite/assets/io-Bkx8USW1.svg                             23.16 kB │ gzip:     4.16 kB
+#23 54.28 ../../public/vite/assets/dg-B55Nvqqm.svg                             23.16 kB │ gzip:     4.16 kB
+#23 54.28 ../../public/vite/assets/mp-xI88Vk3c.svg                             23.33 kB │ gzip:     7.19 kB
+#23 54.28 ../../public/vite/assets/mp-DOjKDFJv.svg                             23.58 kB │ gzip:     7.25 kB
+#23 54.28 ../../public/vite/assets/gb-nir-BOm9QMOa.svg                         23.59 kB │ gzip:     6.30 kB
+#23 54.28 ../../public/vite/assets/ky-D_l3blFP.svg                             23.99 kB │ gzip:     8.63 kB
+#23 54.28 ../../public/vite/assets/ky-BqProAqG.svg                             24.01 kB │ gzip:     8.62 kB
+#23 54.28 ../../public/vite/assets/bt-Cm0R6rAQ.svg                             24.91 kB │ gzip:    10.08 kB
+#23 54.28 ../../public/vite/assets/bt-Csq9bKsA.svg                             25.12 kB │ gzip:    10.18 kB
+#23 54.28 ../../public/vite/assets/gb-nir-BZUeOVwE.svg                         25.13 kB │ gzip:     5.79 kB
+#23 54.28 ../../public/vite/assets/fj-DLvzYbo8.svg                             25.69 kB │ gzip:     9.56 kB
+#23 54.28 ../../public/vite/assets/fj-CJDn3VQ8.svg                             25.79 kB │ gzip:     9.65 kB
+#23 54.28 ../../public/vite/assets/arab-DwNob5Qo.svg                           26.34 kB │ gzip:     9.21 kB
+#23 54.28 ../../public/vite/assets/arab-PzQTPYwO.svg                           26.46 kB │ gzip:     9.21 kB
+#23 54.28 ../../public/vite/assets/es-ga-BbFllROk.svg                          28.63 kB │ gzip:     6.35 kB
+#23 54.28 ../../public/vite/assets/es-ga-RI_ZudJJ.svg                          28.74 kB │ gzip:     6.34 kB
+#23 54.28 ../../public/vite/assets/ec-LNhQ9L4k.svg                             28.97 kB │ gzip:     6.89 kB
+#23 54.28 ../../public/vite/assets/va-BntFJQHU.svg                             29.40 kB │ gzip:     9.89 kB
+#23 54.28 ../../public/vite/assets/va-maDzWwNR.svg                             29.46 kB │ gzip:     9.91 kB
+#23 54.28 ../../public/vite/assets/ec-sTVr1A3S.svg                             29.55 kB │ gzip:     6.77 kB
+#23 54.28 ../../public/vite/assets/fk-Ck9cznm4.svg                             30.04 kB │ gzip:     9.56 kB
+#23 54.28 ../../public/vite/assets/fk-Be42QBCW.svg                             30.31 kB │ gzip:     9.37 kB
+#23 54.28 ../../public/vite/assets/sh-ta-DNDOtP8t.svg                          30.57 kB │ gzip:    11.36 kB
+#23 54.28 ../../public/vite/assets/sh-ta-clv2MsBt.svg                          30.83 kB │ gzip:    11.52 kB
+#23 54.28 ../../public/vite/assets/as-D2gsNMrP.svg                             32.25 kB │ gzip:    11.92 kB
+#23 54.28 ../../public/vite/assets/ad-CDtWnnSA.svg                             32.46 kB │ gzip:    11.62 kB
+#23 54.28 ../../public/vite/assets/as-_t1IQUdv.svg                             32.50 kB │ gzip:    12.02 kB
+#23 54.28 ../../public/vite/assets/gs-Di8hLP4g.svg                             32.53 kB │ gzip:    11.73 kB
+#23 54.28 ../../public/vite/assets/gs-PK6r6yhR.svg                             33.02 kB │ gzip:    11.45 kB
+#23 54.28 ../../public/vite/assets/ad-BOo-tPI4.svg                             33.68 kB │ gzip:    12.13 kB
+#23 54.28 ../../public/vite/assets/gt-CovS1bZs.svg                             35.09 kB │ gzip:    12.35 kB
+#23 54.28 ../../public/vite/assets/gt-Ufdm0MFv.svg                             35.09 kB │ gzip:    12.35 kB
+#23 54.28 ../../public/vite/assets/sh-hl-DWwv0HRi.svg                          38.31 kB │ gzip:    13.42 kB
+#23 54.28 ../../public/vite/assets/tm-CCv743R_.svg                             38.37 kB │ gzip:    12.01 kB
+#23 54.28 ../../public/vite/assets/tm-DYhdxDK7.svg                             38.50 kB │ gzip:    12.11 kB
+#23 54.28 ../../public/vite/assets/sh-hl-CnGxQM93.svg                          38.83 kB │ gzip:    13.71 kB
+#23 54.28 ../../public/vite/assets/hr-cWEworf7.svg                             41.18 kB │ gzip:    15.80 kB
+#23 54.28 ../../public/vite/assets/hr-C7VqhX5l.svg                             41.37 kB │ gzip:    15.98 kB
+#23 54.28 ../../public/vite/assets/je-PUw16g1j.svg                             46.07 kB │ gzip:    12.13 kB
+#23 54.28 ../../public/vite/assets/bz-YpwBidLU.svg                             46.67 kB │ gzip:    16.80 kB
+#23 54.28 ../../public/vite/assets/je-YWv5VSiQ.svg                             46.77 kB │ gzip:    12.47 kB
+#23 54.28 ../../public/vite/assets/bz-CqiVUvof.svg                             46.96 kB │ gzip:    16.82 kB
+#23 54.28 ../../public/vite/assets/do--tGVu9lQ.svg                             50.07 kB │ gzip:    16.78 kB
+#23 54.28 ../../public/vite/assets/do-DJGo0v5t.svg                             50.86 kB │ gzip:    17.04 kB
+#23 54.28 ../../public/vite/assets/me-B32CQdRA.svg                             62.57 kB │ gzip:    23.16 kB
+#23 54.28 ../../public/vite/assets/me-BUFcTh_w.svg                             63.55 kB │ gzip:    23.56 kB
+#23 54.28 ../../public/vite/.vite/manifest.json                                71.92 kB │ gzip:     7.36 kB
+#23 54.28 ../../public/vite/assets/sv-n55iiUxg.svg                             82.82 kB │ gzip:    23.62 kB
+#23 54.28 ../../public/vite/assets/sv-BGK8a8aZ.svg                             83.34 kB │ gzip:    23.81 kB
+#23 54.28 ../../public/vite/assets/mx-4c9y9ryX.svg                             88.84 kB │ gzip:    30.39 kB
+#23 54.28 ../../public/vite/assets/es-DL6RIaKh.svg                             91.01 kB │ gzip:    16.37 kB
+#23 54.28 ../../public/vite/assets/es-CR0ZfKpD.svg                             92.80 kB │ gzip:    17.17 kB
+#23 54.28 ../../public/vite/assets/mx-C7ivyfFO.svg                             93.45 kB │ gzip:    32.18 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-Regular-C0mmbI_t.woff2        105.57 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-Thin-DMFvXDOM.woff2           106.24 kB
+#23 54.28 ../../public/vite/assets/Inter-Thin-B4o5siQk.woff2                  106.62 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-Black-DM1fLmGj.woff2          107.22 kB
+#23 54.28 ../../public/vite/assets/Inter-Regular-B0QUfDW0.woff2               108.49 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-ExtraLight-CkrcZ2OC.woff2     109.66 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-Light-DB1R7qf0.woff2          109.86 kB
+#23 54.28 ../../public/vite/assets/Inter-Light-MWFfSqj5.woff2                 109.99 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-Medium-BRBaQVhl.woff2         110.01 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-Bold-CXJyJlfA.woff2           110.18 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-SemiBold-J6ePsRbj.woff2       110.23 kB
+#23 54.28 ../../public/vite/assets/InterDisplay-ExtraBold-DsWMgBJM.woff2      110.30 kB
+#23 54.28 ../../public/vite/assets/Inter-Bold-CytjP_7U.woff2                  111.04 kB
+#23 54.28 ../../public/vite/assets/Inter-Medium-B0NFony0.woff2                111.38 kB
+#23 54.28 ../../public/vite/assets/Inter-SemiBold-_JLwM7Yv.woff2              111.59 kB
+#23 54.28 ../../public/vite/assets/bo-BqtZbaiW.svg                            112.08 kB │ gzip:    27.17 kB
+#23 54.28 ../../public/vite/assets/bo-CP9m75_5.svg                            114.01 kB │ gzip:    27.60 kB
+#23 54.28 ../../public/vite/assets/Inter-Italic-B_ozvy2G.woff2                114.58 kB
+#23 54.28 ../../public/vite/assets/signup-bg-DFyqN1ma.jpg                     132.94 kB
+#23 54.28 ../../public/vite/assets/sh-ac-6pU0wZVL.svg                         153.41 kB │ gzip:    50.86 kB
+#23 54.28 ../../public/vite/assets/sh-ac-Ch9Jh9Lp.svg                         156.13 kB │ gzip:    51.52 kB
+#23 54.28 ../../public/vite/assets/rs-D2wyuxjv.svg                            184.05 kB │ gzip:    50.63 kB
+#23 54.28 ../../public/vite/assets/rs-Dv4N4BPN.svg                            184.17 kB │ gzip:    50.88 kB
+#23 54.28 ../../public/vite/assets/InterVariable-CWi-zmRD.woff2               345.59 kB
+#23 54.28 ../../public/vite/assets/InterVariable-Italic-d6KXgdvN.woff2        380.90 kB
+#23 54.28 ../../public/vite/assets/CategoryHeaderControls-BUZSH_Ej.css          0.05 kB │ gzip:     0.07 kB
+#23 54.28 ../../public/vite/assets/commandbar-DaCNDihA.css                      0.41 kB │ gzip:     0.23 kB
+#23 54.28 ../../public/vite/assets/DashboardIcon-D6Vr3b2Z.css                   1.24 kB │ gzip:     0.26 kB
+#23 54.28 ../../public/vite/assets/useBranding-DSFJg_40.css                     1.42 kB │ gzip:     0.49 kB
+#23 54.28 ../../public/vite/assets/PreChatForm-B-cW-ypb.css                     2.08 kB │ gzip:     0.45 kB
+#23 54.28 ../../public/vite/assets/UnreadMessageList-CNZAxjrf.css               3.36 kB │ gzip:     0.83 kB
+#23 54.28 ../../public/vite/assets/Messages-ClhzlGIL.css                       14.36 kB │ gzip:     2.41 kB
+#23 54.28 ../../public/vite/assets/ArticleEditor-Bl7UYPWs.css                  23.42 kB │ gzip:     4.76 kB
+#23 54.28 ../../public/vite/assets/chatwoot-viz-CjR1jhrx.css                   24.89 kB │ gzip:     3.83 kB
+#23 54.28 ../../public/vite/assets/superadmin-DLxuh851.css                    255.58 kB │ gzip:    33.14 kB
+#23 54.28 ../../public/vite/assets/v3app-D_nlLp5m.css                       1,613.09 kB │ gzip:   154.60 kB
+#23 54.28 ../../public/vite/assets/survey-CC6dRYXt.css                      1,614.84 kB │ gzip:   155.30 kB
+#23 54.28 ../../public/vite/assets/portal-DA8NZNyW.css                      1,615.36 kB │ gzip:   155.34 kB
+#23 54.28 ../../public/vite/assets/widget-DXNGRjeV.css                      1,631.27 kB │ gzip:   156.94 kB
+#23 54.28 ../../public/vite/assets/dashboard-DE_Kl4Aw.css                   3,428.69 kB │ gzip:   363.99 kB
+#23 54.28 ../../public/vite/assets/constants-lVAyZKq6.js                        0.16 kB │ gzip:     0.17 kB │ map:     0.58 kB
+#23 54.28 ../../public/vite/assets/ArticleViewer-CGThItN-.js                    0.51 kB │ gzip:     0.37 kB │ map:     0.75 kB
+#23 54.28 ../../public/vite/assets/sharedFrameEvents-Cz3L815q.js                0.94 kB │ gzip:     0.54 kB │ map:     3.50 kB
+#23 54.28 ../../public/vite/assets/UnreadMessages-CK3HpJgX.js                   1.03 kB │ gzip:     0.59 kB │ map:     1.16 kB
+#23 54.28 ../../public/vite/assets/Button-zhfkTscI.js                           1.03 kB │ gzip:     0.60 kB │ map:     2.29 kB
+#23 54.28 ../../public/vite/assets/StarRating-CsGc-MvI.js                       1.18 kB │ gzip:     0.69 kB │ map:     2.27 kB
+#23 54.28 ../../public/vite/assets/Campaigns-CqupG5AV.js                        1.19 kB │ gzip:     0.66 kB │ map:     1.73 kB
+#23 54.28 ../../public/vite/assets/pickerHelper-BXxXN_DK.js                     1.23 kB │ gzip:     0.78 kB │ map:     4.93 kB
+#23 54.28 ../../public/vite/assets/sdk-CfhCp6_B.js                              1.38 kB │ gzip:     0.63 kB │ map:     2.95 kB
+#23 54.28 ../../public/vite/assets/js.cookie-Cz0CWeBA.js                        1.46 kB │ gzip:     0.76 kB │ map:     5.89 kB
+#23 54.28 ../../public/vite/assets/Branding-D17oWQFw.js                         1.58 kB │ gzip:     0.89 kB │ map:     3.52 kB
+#23 54.28 ../../public/vite/assets/articleDiffHelper-B-DwkaH_.js                2.10 kB │ gzip:     1.14 kB │ map:     9.86 kB
+#23 54.28 ../../public/vite/assets/IframeLoader-CRl5ZO8P.js                     2.57 kB │ gzip:     0.95 kB │ map:     4.47 kB
+#23 54.28 ../../public/vite/assets/PortalsArticlesNewPage-BRYu3pZK.js           2.64 kB │ gzip:     1.28 kB │ map:     6.14 kB
+#23 54.28 ../../public/vite/assets/EmojiPicker-D6bpGgxE.js                      2.65 kB │ gzip:     1.46 kB │ map:     4.32 kB
+#23 54.28 ../../public/vite/assets/index-BzsA7Fck.js                            2.91 kB │ gzip:     1.36 kB │ map:    14.82 kB
+#23 54.28 ../../public/vite/assets/PortalsArticlesEditPage-CP_gc_UD.js          3.02 kB │ gzip:     1.42 kB │ map:     8.33 kB
+#23 54.28 ../../public/vite/assets/UnreadMessageList-BVKkHjHb.js                4.14 kB │ gzip:     1.83 kB │ map:    11.37 kB
+#23 54.28 ../../public/vite/assets/useKeyboardNavigableList-Dr2LyJfM.js         4.39 kB │ gzip:     2.15 kB │ map:    22.38 kB
+#23 54.28 ../../public/vite/assets/colorHelper-DkkSNPxc.js                      4.45 kB │ gzip:     2.51 kB │ map:    23.99 kB
+#23 54.28 ../../public/vite/assets/superadmin_pages-Ba-cqsAS.js                 4.48 kB │ gzip:     2.08 kB │ map:     9.96 kB
+#23 54.28 ../../public/vite/assets/Home-BGGyrvwu.js                             5.74 kB │ gzip:     2.46 kB │ map:    13.94 kB
+#23 54.28 ../../public/vite/assets/HelpCenterLayout-BGe_cGnc.js                 5.93 kB │ gzip:     2.47 kB │ map:    12.10 kB
+#23 54.28 ../../public/vite/assets/Icon-CuaRTnnP.js                             5.97 kB │ gzip:     2.10 kB │ map:    18.07 kB
+#23 54.28 ../../public/vite/assets/index-lVzqX2jn.js                            9.36 kB │ gzip:     2.95 kB │ map:    31.78 kB
+#23 54.28 ../../public/vite/assets/module-B75GzuKk.js                           9.61 kB │ gzip:     4.22 kB │ map:     3.64 kB
+#23 54.28 ../../public/vite/assets/FloatingCallWidget-BTjD4rAb.js               9.66 kB │ gzip:     3.59 kB │ map:    22.59 kB
+#23 54.28 ../../public/vite/assets/superadmin-P_n2lFAp.js                      10.29 kB │ gzip:     3.74 kB │ map:    31.88 kB
+#23 54.28 ../../public/vite/assets/PreChatForm-BEHr088d.js                     12.64 kB │ gzip:     4.92 kB │ map:    33.30 kB
+#23 54.28 ../../public/vite/assets/CategoryHeaderControls-CBr_zob_.js          12.77 kB │ gzip:     4.39 kB │ map:    24.72 kB
+#23 54.28 ../../public/vite/assets/PortalsCategoriesIndexPage-xInzLTiI.js      12.81 kB │ gzip:     4.86 kB │ map:    27.87 kB
+#23 54.28 ../../public/vite/assets/index-NHRbwQpw.js                           16.74 kB │ gzip:     5.94 kB │ map:    76.72 kB
+#23 54.28 ../../public/vite/assets/sdk-XBHLQe7h.js                             20.07 kB │ gzip:     6.24 kB │ map:    45.76 kB
+#23 54.28 ../../public/vite/assets/index-DJvsux1d.js                           21.78 kB │ gzip:     6.05 kB │ map:   124.51 kB
+#23 54.28 ../../public/vite/assets/PortalsLocalesIndexPage-CgybPGqy.js         22.88 kB │ gzip:     7.23 kB │ map:    53.48 kB
+#23 54.28 ../../public/vite/assets/EmojiIconPicker-Dv4WaU2Q.js                 23.78 kB │ gzip:     6.95 kB │ map:    44.25 kB
+#23 54.28 ../../public/vite/assets/PortalsArticlesIndexPage-B1_VrMmC.js        31.07 kB │ gzip:    10.47 kB │ map:    83.66 kB
+#23 54.28 ../../public/vite/assets/PortalsSettingsIndexPage-C8jE4Suf.js        35.75 kB │ gzip:     9.50 kB │ map:    74.64 kB
+#23 54.28 ../../public/vite/assets/survey-BHfC3qsA.js                          36.45 kB │ gzip:    14.87 kB │ map:    26.06 kB
+#23 54.28 ../../public/vite/assets/ArticleEditor-BKfxUFW3.js                   40.78 kB │ gzip:    13.52 kB │ map:   112.29 kB
+#23 54.28 ../../public/vite/assets/Messages-B9n1-Yc1.js                        49.64 kB │ gzip:    14.12 kB │ map:   118.73 kB
+#23 54.28 ../../public/vite/assets/chatwoot-viz-BFWK5sx_.js                    52.03 kB │ gzip:    14.60 kB │ map:   151.03 kB
+#23 54.28 ../../public/vite/assets/widget-XHTg3ZaA.js                          53.14 kB │ gzip:    16.18 kB │ map:   171.41 kB
+#23 54.28 ../../public/vite/assets/helper-BVTgYTlr.js                          59.49 kB │ gzip:    16.28 kB │ map:   163.46 kB
+#23 54.28 ../../public/vite/assets/useBranding-DOYy-1mC.js                     92.35 kB │ gzip:    30.95 kB │ map:   496.33 kB
+#23 54.28 ../../public/vite/assets/commandbar-3h53cFbB.js                     101.49 kB │ gzip:    30.41 kB │ map:   239.13 kB
+#23 54.28 ../../public/vite/assets/vue-dompurify-html-Dy7NmH7X.js             109.49 kB │ gzip:    48.75 kB │ map:   455.04 kB
+#23 54.28 ../../public/vite/assets/Validators-BhOM-Zda.js                     114.50 kB │ gzip:    37.49 kB │ map:   696.38 kB
+#23 54.28 ../../public/vite/assets/purify.es-BpmnC4gd.js                      129.78 kB │ gzip:    42.67 kB │ map:   551.31 kB
+#23 54.28 ../../public/vite/assets/index-7PpfYK-v.js                          134.64 kB │ gzip:    32.65 kB │ map:    43.82 kB
+#23 54.28 ../../public/vite/assets/portal-CIFBPShW.js                         157.71 kB │ gzip:    47.10 kB │ map:   497.19 kB
+#23 54.28 ../../public/vite/assets/vue.esm-bundler-D9G7PuHL.js                172.06 kB │ gzip:    64.75 kB │ map:   914.48 kB
+#23 54.28 ../../public/vite/assets/index-BlSjgUWe.js                          175.56 kB │ gzip:    48.83 kB │ map:   778.81 kB
+#23 54.28 ../../public/vite/assets/v3app-BX20j1-y.js                          279.07 kB │ gzip:    99.54 kB │ map:   456.47 kB
+#23 54.28 ../../public/vite/assets/index-2d-tlyyQ.js                          343.67 kB │ gzip:   103.05 kB │ map: 1,183.79 kB
+#23 54.28 ../../public/vite/assets/typing-DutZU_oZ.js                         405.35 kB │ gzip:   127.38 kB │ map: 1,754.51 kB
+#23 54.28 ../../public/vite/assets/dashboard-YKF217ts.js                    3,506.14 kB │ gzip:   979.70 kB │ map: 9,519.70 kB
+#23 54.28 ../../public/vite/assets/DashboardIcon-DCkkDUuG.js               15,805.52 kB │ gzip: 4,344.52 kB │ map: 3,276.52 kB
+#23 54.28 ✓ built in 42.42s
+#23 54.60 Build with Vite complete: /app/public/vite
+#23 54.60 Browserslist: caniuse-lite is outdated. Please run:
+#23 54.60   npx update-browserslist-db@latest
+#23 54.60   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+#23 54.60 Browserslist: caniuse-lite is outdated. Please run:
+#23 54.60   npx update-browserslist-db@latest
+#23 54.60   Why you should do it regularly: https://github.com/browserslist/update-db#readme
+#23 54.60 
+#23 54.60 (!) Some chunks are larger than 500 kB after minification. Consider:
+#23 54.60 - Using dynamic import() to code-split the application
+#23 54.60 - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+#23 54.60 - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+#23 54.60 
+#23 DONE 57.0s
+
+#24 [pre-builder 18/19] RUN git rev-parse HEAD > /app/.git_sha
+#24 DONE 0.1s
+
+#25 [pre-builder 19/19] RUN rm -rf /gems/ruby/3.4.0/cache/*.gem   && find /gems/ruby/3.4.0/gems/ ( -name "*.c" -o -name "*.o" ) -delete   && rm -rf .git   && rm .gitignore
+#25 DONE 0.4s
+
+#26 [stage-2 5/9] RUN if [ "production" != "production" ]; then   apk add --no-cache curl   && ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm   && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx   && npm install -g pnpm@10.2.0   && pnpm --version;   fi
+#26 CACHED
+
+#27 [stage-2 4/9] COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+#27 CACHED
+
+#28 [stage-2 3/9] COPY --from=node /usr/local/bin/node /usr/local/bin/
+#28 CACHED
+
+#29 [stage-2 2/9] RUN apk update && apk add --no-cache   build-base   openssl   tzdata   postgresql-client   imagemagick   git   vips   && gem install bundler -v "2.5.16"
+#29 CACHED
+
+#30 [stage-2 6/9] COPY --from=pre-builder /gems/ /gems/
+#30 CACHED
+
+#31 [stage-2 7/9] COPY --from=pre-builder /app /app
+#31 DONE 0.6s
+
+#32 [stage-2 8/9] COPY --from=pre-builder /app/.git_sha /app/.git_sha
+#32 DONE 0.0s
+
+#33 [stage-2 9/9] WORKDIR /app
+#33 DONE 0.0s
+
+#34 exporting to image
+#34 exporting layers
+#34 exporting layers 8.6s done
+#34 exporting manifest sha256:856db3b60501c23ba8aaaaf07a0d9b894c6009742692a765a12d7a58be2afa6d done
+#34 exporting config sha256:4107e88cbaa9245da087b24476ca307331baee7172ae3448757bc7fa7bb5e4ca done
+#34 exporting attestation manifest sha256:86fd2ce5ca524cd6ab8b2b2a4a4a24f6edf4fc0898b61c836dfbb9157c5efe90 done
+#34 exporting manifest list sha256:43a2fc2ab4d04626adabaa3db05398903f4550f7392cc66c996b08ec7d8c8b74 done
+#34 naming to docker.io/library/cw56i-app:latest done
+#34 unpacking to docker.io/library/cw56i-app:latest
+#34 unpacking to docker.io/library/cw56i-app:latest 1.8s done
+#34 DONE 10.4s
+
+ [33m10 warnings found (use docker --debug to expand):
+[0m - FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 2)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 13)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 20)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 23)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 107)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 111)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 114)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 117)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 17)
+ - LegacyKeyValueFormat: "ENV key=value" should be used instead of legacy "ENV key value" format (line 120)
++ CW_IMAGE=cw56i-app:latest
++ bash /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/boot.sh /home/ubuntu/work/chatwoot56-install 9760 i --no-build
+time="2026-10-08T22:36:18Z" level=warning msg="/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container cw56i-postgres-1 Running 
+ Container cw56i-redis-1 Running 
+ Container cw56i-rails-1 Recreate 
+ Container cw56i-sidekiq-1 Recreate 
+ Container cw56i-rails-1 Recreated 
+ Container cw56i-sidekiq-1 Recreated 
+ Container cw56i-sidekiq-1 Starting 
+ Container cw56i-rails-1 Starting 
+ Container cw56i-sidekiq-1 Started 
+ Container cw56i-rails-1 Started 
+[boot] attente http :9760…
+[boot] rails-1 exited — migration probablement requise (db:prepare)
+time="2026-10-08T22:36:29Z" level=warning msg="/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+rails-1  | 	from /gems/ruby/3.4.0/gems/rackup-2.2.1/lib/rackup/server.rb:326:in 'block in Rackup::Server#start'
+rails-1  | 	from /gems/ruby/3.4.0/gems/rackup-2.2.1/lib/rackup/server.rb:382:in 'Rackup::Server#handle_profiling'
+rails-1  | 	from /gems/ruby/3.4.0/gems/rackup-2.2.1/lib/rackup/server.rb:325:in 'Rackup::Server#start'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/commands/server/server_command.rb:38:in 'Rails::Server#start'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/commands/server/server_command.rb:145:in 'block in Rails::Command::ServerCommand#perform'
+rails-1  | 	from <internal:kernel>:91:in 'Kernel#tap'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/commands/server/server_command.rb:136:in 'Rails::Command::ServerCommand#perform'
+rails-1  | 	from /gems/ruby/3.4.0/gems/thor-1.4.0/lib/thor/command.rb:28:in 'Thor::Command#run'
+rails-1  | 	from /gems/ruby/3.4.0/gems/thor-1.4.0/lib/thor/invocation.rb:127:in 'Thor::Invocation#invoke_command'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/command/base.rb:178:in 'Rails::Command::Base#invoke_command'
+rails-1  | 	from /gems/ruby/3.4.0/gems/thor-1.4.0/lib/thor.rb:538:in 'Thor.dispatch'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/command/base.rb:73:in 'Rails::Command::Base.perform'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/command.rb:71:in 'block in Rails::Command.invoke'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/command.rb:149:in 'Rails::Command.with_argv'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/command.rb:69:in 'Rails::Command.invoke'
+rails-1  | 	from /gems/ruby/3.4.0/gems/railties-7.2.3.1/lib/rails/commands.rb:18:in '<main>'
+rails-1  | 	from /usr/local/lib/ruby/3.4.0/bundled_gems.rb:82:in 'Kernel.require'
+rails-1  | 	from /usr/local/lib/ruby/3.4.0/bundled_gems.rb:82:in 'block (2 levels) in Kernel#replace_require'
+rails-1  | 	from /gems/ruby/3.4.0/gems/bootsnap-1.16.0/lib/bootsnap/load_path_cache/core_ext/kernel_require.rb:32:in 'Kernel#require'
+rails-1  | 	from bin/rails:4:in '<main>'
++ true
++ CW_IMAGE=cw56i-app:latest
++ docker compose --env-file /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/.envi -f /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/docker-compose.yml run --rm --entrypoint bundle rails exec rails db:prepare
+time="2026-10-08T22:36:29Z" level=warning msg="/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion"
+ Container cw56i-redis-1 Running 
+ Container cw56i-postgres-1 Running 
+ Container cw56i-rails-run-9679b5328830 Creating 
+ Container cw56i-rails-run-9679b5328830 Created 
+E, [2026-10-08T22:36:36.103103 #1] ERROR -- : Failed to configure AI Agents SDK: PG::UndefinedTable: ERROR:  relation "installation_configs" does not exist
+LINE 10:  WHERE a.attrelid = '"installation_configs"'::regclass
+                             ^
+
+I, [2026-10-08T22:36:36.103850 #1]  INFO -- : [rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup
++ docker start cw56i-rails-1 cw56i-sidekiq-1
+cw56i-rails-1
+cw56i-sidekiq-1
+++ seq 1 120
++ for i in $(seq 1 120)
++ curl -fsS -o /dev/null http://localhost:9760/app/login
++ sleep 5
++ for i in $(seq 1 120)
++ curl -fsS -o /dev/null http://localhost:9760/app/login
++ sleep 5
++ for i in $(seq 1 120)
++ curl -fsS -o /dev/null http://localhost:9760/app/login
++ sleep 5
++ for i in $(seq 1 120)
++ curl -fsS -o /dev/null http://localhost:9760/app/login
++ sleep 5
++ for i in $(seq 1 120)
++ curl -fsS -o /dev/null http://localhost:9760/app/login
++ break
++ bash /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools/seed.sh i
+[seed] container=cw56i-rails-1
+I, [2026-10-08T22:37:02.668217 #44]  INFO -- : [rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup
+I, [2026-10-08T22:37:06.528121 #61]  INFO -- : [rake ip_lookup:setup] IP_LOOKUP_API_KEY empty. Skipping geoip database setup
+2026-10-08T22:37:06.907Z pid=61 tid=2cl INFO: Sidekiq 7.3.10 connecting to Redis with options {size: 10, pool_name: "internal", url: "redis://:REDACTED@redis:6379", reconnect_attempts: 2, timeout: 1, password: "REDACTED"}
+I, [2026-10-08T22:37:06.909327 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 67d4cc04-554a-4cd3-a795-7b240421b668) to Sidekiq(critical) with arguments: "account.created", Thu, 08 Oct 2026 22:37:06.906481123 UTC +00:00, {account: #<GlobalID:0x00007be884fc0e20 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.032219 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromGravatarJob (Job ID: a582b470-016c-4eb7-9b4f-61af29717b3e) to Sidekiq(purgable) at 2026-10-08 22:37:37 UTC with arguments: #<GlobalID:0x00007be884d6d358 @uri=#<URI::GID gid://chatwoot/User/1>>, "admin@cycle56.local"
+I, [2026-10-08T22:37:07.061222 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: f731b8f9-2ffc-4e8b-bf10-67918b70bc90) to Sidekiq(critical) with arguments: "agent.added", Thu, 08 Oct 2026 22:37:07.060427741 UTC +00:00, {account: #<GlobalID:0x00007be88518b200 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.164539 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromGravatarJob (Job ID: 7e539d95-4efe-4e40-a030-8c9c68c1b74b) to Sidekiq(purgable) at 2026-10-08 22:37:37 UTC with arguments: #<GlobalID:0x00007be8852267a0 @uri=#<URI::GID gid://chatwoot/User/2>>, "maya.kernel@cycle56.local"
+I, [2026-10-08T22:37:07.174088 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: d2bb8a66-9929-44e5-8c35-c6fe8c70c0f9) to Sidekiq(critical) with arguments: "agent.added", Thu, 08 Oct 2026 22:37:07.173157987 UTC +00:00, {account: #<GlobalID:0x00007be8852367b8 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.286069 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromGravatarJob (Job ID: e1493c68-0c62-482e-ad44-0d1d843aa84d) to Sidekiq(purgable) at 2026-10-08 22:37:37 UTC with arguments: #<GlobalID:0x00007be885251fb8 @uri=#<URI::GID gid://chatwoot/User/3>>, "omar.fuseau@cycle56.local"
+I, [2026-10-08T22:37:07.293190 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 60e72019-c087-4de4-9245-5a4cdaf7fec2) to Sidekiq(critical) with arguments: "agent.added", Thu, 08 Oct 2026 22:37:07.292405807 UTC +00:00, {account: #<GlobalID:0x00007be885262228 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.342664 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: bbd23e9d-d604-4269-8ab7-d19f23ac6d55) to Sidekiq(critical) with arguments: ["6mTLfN2oXiP2ZPfLPdDw4teY", "DvyPGYS7Damd6uWfP8XvjGPs", "zBqygiwGE5kAe6tE3qFJudz1"], "account.cache_invalidated", {cache_keys: {label: "0000000000", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account_id: 1}
+I, [2026-10-08T22:37:07.343554 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: cea0ea5b-362a-4319-9e7d-0f93f3894eda) to Sidekiq(critical) with arguments: "account.cache_invalidated", Thu, 08 Oct 2026 22:37:07.339682989 UTC +00:00, {cache_keys: {label: "0000000000", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account: #<GlobalID:0x00007be8858d7b30 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.350623 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: e0ff3460-6848-41c6-b219-1dfff866c94c) to Sidekiq(critical) with arguments: ["6mTLfN2oXiP2ZPfLPdDw4teY", "DvyPGYS7Damd6uWfP8XvjGPs", "zBqygiwGE5kAe6tE3qFJudz1"], "account.cache_invalidated", {cache_keys: {label: "0000000000", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account_id: 1}
+I, [2026-10-08T22:37:07.351278 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: f4420b0c-7e94-48bd-b656-cb4625bc0450) to Sidekiq(critical) with arguments: "account.cache_invalidated", Thu, 08 Oct 2026 22:37:07.349086804 UTC +00:00, {cache_keys: {label: "0000000000", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account: #<GlobalID:0x00007be885901a20 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.360345 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: b46ad807-0ec0-4ba8-ab55-9e21387f8cf2) to Sidekiq(critical) with arguments: ["6mTLfN2oXiP2ZPfLPdDw4teY", "DvyPGYS7Damd6uWfP8XvjGPs", "zBqygiwGE5kAe6tE3qFJudz1"], "account.cache_invalidated", {cache_keys: {label: "1791499027", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account_id: 1}
+I, [2026-10-08T22:37:07.361147 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: bf3ec8f8-59b4-46a1-856f-5b07e0b997da) to Sidekiq(critical) with arguments: "account.cache_invalidated", Thu, 08 Oct 2026 22:37:07.358908323 UTC +00:00, {cache_keys: {label: "1791499027", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account: #<GlobalID:0x00007be885a2ebf0 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.364719 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 49c27683-c440-4103-b495-b7ced2a58769) to Sidekiq(critical) with arguments: ["6mTLfN2oXiP2ZPfLPdDw4teY", "DvyPGYS7Damd6uWfP8XvjGPs", "zBqygiwGE5kAe6tE3qFJudz1"], "account.cache_invalidated", {cache_keys: {label: "1791499027", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account_id: 1}
+I, [2026-10-08T22:37:07.365457 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: a3750e63-68d6-4684-a7c8-4c05d3c1f312) to Sidekiq(critical) with arguments: "account.cache_invalidated", Thu, 08 Oct 2026 22:37:07.363466287 UTC +00:00, {cache_keys: {label: "1791499027", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account: #<GlobalID:0x00007be885a22940 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.369248 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: bc7e497d-90d4-4e2f-b79a-a355851d38b0) to Sidekiq(critical) with arguments: ["6mTLfN2oXiP2ZPfLPdDw4teY", "DvyPGYS7Damd6uWfP8XvjGPs", "zBqygiwGE5kAe6tE3qFJudz1"], "account.cache_invalidated", {cache_keys: {label: "1791499027", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account_id: 1}
+I, [2026-10-08T22:37:07.369960 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 04875016-c163-4baa-abaa-4032e4be613a) to Sidekiq(critical) with arguments: "account.cache_invalidated", Thu, 08 Oct 2026 22:37:07.368051665 UTC +00:00, {cache_keys: {label: "1791499027", inbox: "1791499027", team: "0000000000", canned_response: "0000000000"}, account: #<GlobalID:0x00007be885a76928 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.381543 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 87f8a215-c040-4313-a36d-376d8dc214b0) to Sidekiq(critical) with arguments: ["6mTLfN2oXiP2ZPfLPdDw4teY", "DvyPGYS7Damd6uWfP8XvjGPs", "zBqygiwGE5kAe6tE3qFJudz1"], "account.cache_invalidated", {cache_keys: {label: "1791499027", inbox: "1791499027", team: "1791499027", canned_response: "0000000000"}, account_id: 1}
+I, [2026-10-08T22:37:07.382019 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 45d7c852-019c-4a40-b1a9-591415d17897) to Sidekiq(critical) with arguments: "account.cache_invalidated", Thu, 08 Oct 2026 22:37:07.380010073 UTC +00:00, {cache_keys: {label: "1791499027", inbox: "1791499027", team: "1791499027", canned_response: "0000000000"}, account: #<GlobalID:0x00007be885b1dc78 @uri=#<URI::GID gid://chatwoot/Account/1>>}
+I, [2026-10-08T22:37:07.403342 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromGravatarJob (Job ID: b623f81c-2419-4802-b911-d3b1a5bc4f84) to Sidekiq(purgable) at 2026-10-08 22:37:37 UTC with arguments: #<GlobalID:0x00007be885d1f328 @uri=#<URI::GID gid://chatwoot/Contact/1>>, "lina.parment@example.test"
+I, [2026-10-08T22:37:07.854551 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromFaviconJob (Job ID: ad664729-9c0e-4e16-afea-e6c1fa4dfb2c) to Sidekiq(purgable) at 2026-10-08 22:37:12 UTC with arguments: #<GlobalID:0x00007be886aa0b50 @uri=#<URI::GID gid://chatwoot/Company/1>>
+I, [2026-10-08T22:37:07.857286 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: c970a48a-0ee3-4bf8-8087-f305f378aeeb) to Sidekiq(critical) with arguments: ["account_1"], "contact.created", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:07.858478 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 45fed68c-22ea-493d-893c-373885cfdef6) to Sidekiq(critical) with arguments: "contact.created", Thu, 08 Oct 2026 22:37:07.856386206 UTC +00:00, {contact: #<GlobalID:0x00007be886a6a488 @uri=#<URI::GID gid://chatwoot/Contact/1>>}
+I, [2026-10-08T22:37:07.914406 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: b938c85c-3b09-497b-aea5-b1e60c0ad829) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "conversation.created", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be88664e520 @uri=#<URI::GID gid://chatwoot/ContactInbox/1>>, id: 1, inbox_id: 1, messages: [], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 0, first_reply_created_at: nil, priority: nil, waiting_since: 1791499027, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499027, timestamp: 1791499027, created_at: 1791499027, updated_at: 1791499027.8825972, account_id: 1}
+I, [2026-10-08T22:37:07.915161 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 6e74199f-ab77-46a5-a01c-0a620f61041c) to Sidekiq(critical) with arguments: "conversation.created", Thu, 08 Oct 2026 22:37:07.902230251 UTC +00:00, {conversation: #<GlobalID:0x00007be88664b488 @uri=#<URI::GID gid://chatwoot/Conversation/1>>, notifiable_assignee_change: true, changed_attributes: nil, performed_by: nil}
+I, [2026-10-08T22:37:07.917562 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 6a7810ab-1ff6-422b-b340-0e98d42c3e78) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1"], "assignee.changed", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be88684d970 @uri=#<URI::GID gid://chatwoot/ContactInbox/1>>, id: 1, inbox_id: 1, messages: [], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 0, first_reply_created_at: nil, priority: nil, waiting_since: 1791499027, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499027, timestamp: 1791499027, created_at: 1791499027, updated_at: 1791499027.8825972, automatic_assignment: false, account_id: 1}
+I, [2026-10-08T22:37:07.918496 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 815511a5-9ff9-4f17-99f5-49fe6d96fe73) to Sidekiq(critical) with arguments: "assignee.changed", Thu, 08 Oct 2026 22:37:07.915354151 UTC +00:00, {conversation: #<GlobalID:0x00007be88684a0e0 @uri=#<URI::GID gid://chatwoot/Conversation/1>>, notifiable_assignee_change: true, changed_attributes: {"id" => [nil, 1], "account_id" => [nil, 1], "inbox_id" => [nil, 1], "assignee_id" => [nil, 2], "created_at" => [nil, Thu, 08 Oct 2026 22:37:07.882597009 UTC +00:00], "updated_at" => [nil, Thu, 08 Oct 2026 22:37:07.882597009 UTC +00:00], "contact_id" => [nil, 1], "contact_inbox_id" => [nil, 1], "uuid" => [nil, "2b7e559f-1e57-42a2-a56f-adf389fca6d1"], "last_activity_at" => [nil, Thu, 08 Oct 2026 22:37:07.879672000 UTC +00:00], "waiting_since" => [nil, Thu, 08 Oct 2026 22:37:07.882597000 UTC +00:00], "status_changed_at" => [nil, Thu, 08 Oct 2026 22:37:07.882553000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:07.919632 #61]  INFO -- : [ActiveJob] Enqueued AutoAssignment::AssignmentJob (Job ID: d7382163-9506-4482-9171-034cf64d4354) to Sidekiq(default) with arguments: {inbox_id: 1, token: "71cac955-dc0d-4c53-afba-8f5f764d1fe6"}
+I, [2026-10-08T22:37:07.947530 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 44ac1268-9b74-497b-91a6-da31e359f7fd) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "message.created", {id: 1, content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-1. Pouvez-vous regarder ?", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 0, created_at: 1791499027, updated_at: Thu, 08 Oct 2026 22:37:07.933299582 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 1, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-1. Pouvez-vous regarder ?", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499027, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}
+I, [2026-10-08T22:37:07.949408 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: adcae426-9352-4901-904c-8a50e522c6a1) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:07.941572531 UTC +00:00, {message: #<GlobalID:0x00007be88647d368 @uri=#<URI::GID gid://chatwoot/Message/1>>, performed_by: nil}
+I, [2026-10-08T22:37:07.949889 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: c3b87eec-42d7-4380-8cf2-3bb8328021a4) to Sidekiq(high) with arguments: 1
+I, [2026-10-08T22:37:07.969675 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 560e3bfc-e747-4e07-805e-2434305e3f45) to Sidekiq(critical) with arguments: ["account_1"], "contact.updated", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:07.970285 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 228c9239-2882-498c-932a-79f19a50da8b) to Sidekiq(critical) with arguments: "contact.updated", Thu, 08 Oct 2026 22:37:07.969138162 UTC +00:00, {contact: #<GlobalID:0x00007be8867d1f78 @uri=#<URI::GID gid://chatwoot/Contact/1>>, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:07.400317623 UTC +00:00, Thu, 08 Oct 2026 22:37:07.962681518 UTC +00:00], "last_activity_at" => [nil, Thu, 08 Oct 2026 22:37:07.961114605 UTC +00:00]}}
+I, [2026-10-08T22:37:07.978688 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 0ce5e322-77ce-43e3-81bc-40d6bfabe31f) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "message.created", {id: 2, content: "Bonjour Lina Parment, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 1, created_at: 1791499027, updated_at: Thu, 08 Oct 2026 22:37:07.971501545 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Lina Parment, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499027, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}
+I, [2026-10-08T22:37:07.982353 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 54cdcbfe-98b1-492a-b7c7-dae34b3a9e2e) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:07.975393076 UTC +00:00, {message: #<GlobalID:0x00007be8865e0430 @uri=#<URI::GID gid://chatwoot/Message/2>>, performed_by: nil}
+I, [2026-10-08T22:37:07.984729 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 629ab026-3494-4418-93c8-a09f72ff5fbc) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1"], "first.reply.created", {id: 2, content: "Bonjour Lina Parment, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 1, created_at: 1791499027, updated_at: Thu, 08 Oct 2026 22:37:07.971501545 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Lina Parment, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499027, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}
+I, [2026-10-08T22:37:07.985182 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 4b917da1-7358-4a31-bca4-7ee93e0f199a) to Sidekiq(critical) with arguments: "first.reply.created", Thu, 08 Oct 2026 22:37:07.983261797 UTC +00:00, {message: #<GlobalID:0x00007be88632bfa0 @uri=#<URI::GID gid://chatwoot/Message/2>>, performed_by: nil}
+I, [2026-10-08T22:37:07.994737 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: dd2226c6-c3d5-4cdb-8d37-5d19106c55ad) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be8868d8f48 @uri=#<URI::GID gid://chatwoot/ContactInbox/1>>, id: 1, inbox_id: 1, messages: [{id: 2, content: "Bonjour Lina Parment, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 1, created_at: 1791499027, updated_at: Thu, 08 Oct 2026 22:37:07.971501000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Lina Parment, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499027, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 1, first_reply_created_at: Thu, 08 Oct 2026 22:37:07.971501545 UTC +00:00, priority: nil, waiting_since: 0, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499027, timestamp: 1791499027, created_at: 1791499027, updated_at: 1791499027.9858315, account_id: 1}
+I, [2026-10-08T22:37:07.998662 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 2615d31a-f217-47a4-9407-0d62b043700c) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:07.988203646 UTC +00:00, {conversation: #<GlobalID:0x00007be886af1910 @uri=#<URI::GID gid://chatwoot/Conversation/1>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:07.974847027 UTC +00:00, Thu, 08 Oct 2026 22:37:07.985831485 UTC +00:00], "first_reply_created_at" => [nil, Thu, 08 Oct 2026 22:37:07.971501545 UTC +00:00], "waiting_since" => [Thu, 08 Oct 2026 22:37:07.882597000 UTC +00:00, nil]}, performed_by: nil}
+I, [2026-10-08T22:37:07.998934 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: 1807bff2-f3ed-4f24-82c1-648799625999) to Sidekiq(high) with arguments: 2
+I, [2026-10-08T22:37:08.008020 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: fa9735e2-00c9-4b24-9f18-5c1ebb9e1158) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "message.created", {id: 3, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.001660735 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 1, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}
+I, [2026-10-08T22:37:08.008386 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 725fdfd2-0f8a-439a-9d17-c53047dd641e) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.005314068 UTC +00:00, {message: #<GlobalID:0x00007be886b6abf8 @uri=#<URI::GID gid://chatwoot/Message/3>>, performed_by: nil}
+I, [2026-10-08T22:37:08.016033 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 9f74bed4-e564-4f57-bd20-ffc7044b70dd) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be886df6778 @uri=#<URI::GID gid://chatwoot/ContactInbox/1>>, id: 1, inbox_id: 1, messages: [{id: 3, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.001660000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 1, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 2, first_reply_created_at: Thu, 08 Oct 2026 22:37:07.971501545 UTC +00:00, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499027, updated_at: 1791499028.0090158, account_id: 1}
+I, [2026-10-08T22:37:08.020232 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 5f089320-f03d-417a-8bd6-de9a559b9e8a) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.010974931 UTC +00:00, {conversation: #<GlobalID:0x00007be886287680 @uri=#<URI::GID gid://chatwoot/Conversation/1>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.004572361 UTC +00:00, Thu, 08 Oct 2026 22:37:08.009015923 UTC +00:00], "waiting_since" => [nil, Thu, 08 Oct 2026 22:37:08.001660000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:08.020466 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: 9305424c-8708-40da-b452-835c4ce21151) to Sidekiq(high) with arguments: 3
+I, [2026-10-08T22:37:08.026921 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: c05156cf-894e-46e0-bd62-101f477c0863) to Sidekiq(critical) with arguments: ["account_1"], "contact.updated", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.027347 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: e8df25da-9edc-46fb-a437-179d2df88bea) to Sidekiq(critical) with arguments: "contact.updated", Thu, 08 Oct 2026 22:37:08.026177757 UTC +00:00, {contact: #<GlobalID:0x00007be886e03f40 @uri=#<URI::GID gid://chatwoot/Contact/1>>, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:07.962681518 UTC +00:00, Thu, 08 Oct 2026 22:37:08.024400408 UTC +00:00], "last_activity_at" => [Thu, 08 Oct 2026 22:37:07.961114605 UTC +00:00, Thu, 08 Oct 2026 22:37:08.023216751 UTC +00:00]}}
+I, [2026-10-08T22:37:08.043733 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 21731373-d273-42a1-aded-73bf955dadb6) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "6fUK5RPNodC18bmy19y7L6mj"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be8861742c0 @uri=#<URI::GID gid://chatwoot/ContactInbox/1>>, id: 1, inbox_id: 1, messages: [{id: 3, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 1, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.001660000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 1, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "6e0639cb-3722-4ea3-937a-08cb60880432"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: ["urgent"], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "lina.parment@example.test", id: 1, identifier: nil, name: "Lina Parment", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 2, first_reply_created_at: Thu, 08 Oct 2026 22:37:07.971501545 UTC +00:00, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499027, updated_at: 1791499028.0281951, account_id: 1}
+I, [2026-10-08T22:37:08.052769 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: c552ca69-4dff-4335-ac22-560927aae3f1) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.038618581 UTC +00:00, {conversation: #<GlobalID:0x00007be8870047e0 @uri=#<URI::GID gid://chatwoot/Conversation/1>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.009015923 UTC +00:00, Thu, 08 Oct 2026 22:37:08.028195102 UTC +00:00], "cached_label_list" => ["", "urgent"], "label_list" => [[], ["urgent"]]}, performed_by: nil}
+I, [2026-10-08T22:37:08.060631 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromGravatarJob (Job ID: fc0c8ea9-fe7c-4319-aaf6-72d3d2ed73dd) to Sidekiq(purgable) at 2026-10-08 22:37:38 UTC with arguments: #<GlobalID:0x00007be88701b3a0 @uri=#<URI::GID gid://chatwoot/Contact/2>>, "theo.mareschal@example.test"
+I, [2026-10-08T22:37:08.065079 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 96222bb0-0b41-4352-a729-9a6a893b815f) to Sidekiq(critical) with arguments: ["account_1"], "contact.created", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.065545 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 80a613b7-93cb-46c6-b229-e80d0795e380) to Sidekiq(critical) with arguments: "contact.created", Thu, 08 Oct 2026 22:37:08.064624524 UTC +00:00, {contact: #<GlobalID:0x00007be88704ef98 @uri=#<URI::GID gid://chatwoot/Contact/2>>}
+I, [2026-10-08T22:37:08.079270 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 062f4f3c-7bef-405c-818d-cac9de2c2ebe) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "conversation.created", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be887116160 @uri=#<URI::GID gid://chatwoot/ContactInbox/2>>, id: 2, inbox_id: 1, messages: [], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 3, name: "Omar Fuseau", available_name: "Omar Fuseau", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "pending", custom_attributes: {}, snoozed_until: nil, unread_count: 0, first_reply_created_at: nil, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.0701244, account_id: 1}
+I, [2026-10-08T22:37:08.079736 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 4bdddc41-b433-4ab0-b14b-86c0a2183513) to Sidekiq(critical) with arguments: "conversation.created", Thu, 08 Oct 2026 22:37:08.074668933 UTC +00:00, {conversation: #<GlobalID:0x00007be887113be0 @uri=#<URI::GID gid://chatwoot/Conversation/2>>, notifiable_assignee_change: true, changed_attributes: nil, performed_by: nil}
+I, [2026-10-08T22:37:08.081614 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 729eabed-0097-4f65-aab9-1346e865bd14) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1"], "assignee.changed", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be887147328 @uri=#<URI::GID gid://chatwoot/ContactInbox/2>>, id: 2, inbox_id: 1, messages: [], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 3, name: "Omar Fuseau", available_name: "Omar Fuseau", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "pending", custom_attributes: {}, snoozed_until: nil, unread_count: 0, first_reply_created_at: nil, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.0701244, automatic_assignment: false, account_id: 1}
+I, [2026-10-08T22:37:08.082100 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 441d3de4-480f-4757-a6b7-81ea9dcc8b33) to Sidekiq(critical) with arguments: "assignee.changed", Thu, 08 Oct 2026 22:37:08.079896723 UTC +00:00, {conversation: #<GlobalID:0x00007be887143930 @uri=#<URI::GID gid://chatwoot/Conversation/2>>, notifiable_assignee_change: true, changed_attributes: {"id" => [nil, 2], "account_id" => [nil, 1], "inbox_id" => [nil, 1], "status" => ["open", "pending"], "assignee_id" => [nil, 3], "created_at" => [nil, Thu, 08 Oct 2026 22:37:08.070124372 UTC +00:00], "updated_at" => [nil, Thu, 08 Oct 2026 22:37:08.070124372 UTC +00:00], "contact_id" => [nil, 2], "contact_inbox_id" => [nil, 2], "uuid" => [nil, "d0024b6d-1881-4fbb-adb9-2b4afdd13af5"], "last_activity_at" => [nil, Thu, 08 Oct 2026 22:37:08.068726000 UTC +00:00], "waiting_since" => [nil, Thu, 08 Oct 2026 22:37:08.070124000 UTC +00:00], "status_changed_at" => [nil, Thu, 08 Oct 2026 22:37:08.070095000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:08.093497 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: aa9c59bf-83cc-4b0f-b45e-b76a858dcc9d) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "message.created", {id: 4, content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-2. Pouvez-vous regarder ?", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.086550277 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-2. Pouvez-vous regarder ?", sentiment: {}, conversation: {assignee_id: 3, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}
+I, [2026-10-08T22:37:08.093887 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 1883966b-5f8e-4af6-8784-5a2905fce7ba) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.091150279 UTC +00:00, {message: #<GlobalID:0x00007be885f348c0 @uri=#<URI::GID gid://chatwoot/Message/4>>, performed_by: nil}
+I, [2026-10-08T22:37:08.094087 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: 32c56c2c-fa7b-4f80-93b8-626517c237a4) to Sidekiq(high) with arguments: 4
+I, [2026-10-08T22:37:08.109363 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 0c02c8ae-d1b3-459f-8d15-016bc51444b0) to Sidekiq(critical) with arguments: ["account_1"], "contact.updated", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.109788 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 1893f516-1024-4204-a38a-a7405a24bd43) to Sidekiq(critical) with arguments: "contact.updated", Thu, 08 Oct 2026 22:37:08.108913027 UTC +00:00, {contact: #<GlobalID:0x00007be8871d68c0 @uri=#<URI::GID gid://chatwoot/Contact/2>>, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.056054361 UTC +00:00, Thu, 08 Oct 2026 22:37:08.107159279 UTC +00:00], "last_activity_at" => [nil, Thu, 08 Oct 2026 22:37:08.102475268 UTC +00:00]}}
+I, [2026-10-08T22:37:08.119932 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 64d402ce-fb5b-42da-86ab-1a84344869cb) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "message.created", {id: 5, content: "Bonjour Theo Mareschal, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 1, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.114187998 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Theo Mareschal, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 3, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}
+I, [2026-10-08T22:37:08.121020 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 06cf6cf4-a8f4-4430-a1ec-8c4c4e5128d9) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.117975237 UTC +00:00, {message: #<GlobalID:0x00007be885ef6de0 @uri=#<URI::GID gid://chatwoot/Message/5>>, performed_by: nil}
+I, [2026-10-08T22:37:08.123134 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 98dced18-dc00-4de1-9067-92de604f3538) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1"], "first.reply.created", {id: 5, content: "Bonjour Theo Mareschal, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 1, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.114187998 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Theo Mareschal, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 3, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}
+I, [2026-10-08T22:37:08.123468 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 847b69c0-5b3f-469e-bed5-d900c4b37559) to Sidekiq(critical) with arguments: "first.reply.created", Thu, 08 Oct 2026 22:37:08.121717043 UTC +00:00, {message: #<GlobalID:0x00007be885f05f20 @uri=#<URI::GID gid://chatwoot/Message/5>>, performed_by: nil}
+I, [2026-10-08T22:37:08.131015 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 1c578af1-bef9-4fcb-befd-5456500a87f7) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be88749e918 @uri=#<URI::GID gid://chatwoot/ContactInbox/2>>, id: 2, inbox_id: 1, messages: [{id: 5, content: "Bonjour Theo Mareschal, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 1, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.114187000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Theo Mareschal, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 3, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 3, name: "Omar Fuseau", available_name: "Omar Fuseau", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "pending", custom_attributes: {}, snoozed_until: nil, unread_count: 1, first_reply_created_at: Thu, 08 Oct 2026 22:37:08.114187998 UTC +00:00, priority: nil, waiting_since: 0, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.1240697, account_id: 1}
+I, [2026-10-08T22:37:08.134938 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 6cff0094-ba9c-4748-9575-f72e82b4e344) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.126146008 UTC +00:00, {conversation: #<GlobalID:0x00007be885ea7740 @uri=#<URI::GID gid://chatwoot/Conversation/2>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.117486599 UTC +00:00, Thu, 08 Oct 2026 22:37:08.124069650 UTC +00:00], "first_reply_created_at" => [nil, Thu, 08 Oct 2026 22:37:08.114187998 UTC +00:00], "waiting_since" => [Thu, 08 Oct 2026 22:37:08.070124000 UTC +00:00, nil]}, performed_by: nil}
+I, [2026-10-08T22:37:08.135169 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: dc5118ea-0248-405c-86f0-9d52527f214f) to Sidekiq(high) with arguments: 5
+I, [2026-10-08T22:37:08.145624 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 123f2cc2-c412-4f8a-ae67-72786898663f) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "message.created", {id: 6, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.138099173 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 3, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}
+I, [2026-10-08T22:37:08.146002 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 272c72e0-26ba-4763-ab7b-700bb4becbb3) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.142235137 UTC +00:00, {message: #<GlobalID:0x00007be8874c82e0 @uri=#<URI::GID gid://chatwoot/Message/6>>, performed_by: nil}
+I, [2026-10-08T22:37:08.152925 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 8ad8e9ed-6c92-4366-bcfa-4e8e622a41ea) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be885e5ff80 @uri=#<URI::GID gid://chatwoot/ContactInbox/2>>, id: 2, inbox_id: 1, messages: [{id: 6, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.138099000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 3, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 3, name: "Omar Fuseau", available_name: "Omar Fuseau", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "pending", custom_attributes: {}, snoozed_until: nil, unread_count: 2, first_reply_created_at: Thu, 08 Oct 2026 22:37:08.114187998 UTC +00:00, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.1466024, account_id: 1}
+I, [2026-10-08T22:37:08.157693 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 259a6c16-965c-4931-a441-cd96b5675eb6) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.148345866 UTC +00:00, {conversation: #<GlobalID:0x00007be887557f80 @uri=#<URI::GID gid://chatwoot/Conversation/2>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.141739530 UTC +00:00, Thu, 08 Oct 2026 22:37:08.146602511 UTC +00:00], "waiting_since" => [nil, Thu, 08 Oct 2026 22:37:08.138099000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:08.157928 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: 81409cac-4286-41ed-97b8-fc0a78219daa) to Sidekiq(high) with arguments: 6
+I, [2026-10-08T22:37:08.163369 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 53fc161b-a82a-42cb-863f-e59526057209) to Sidekiq(critical) with arguments: ["account_1"], "contact.updated", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.163811 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 77984222-63cc-4514-a284-4ab8095e6e88) to Sidekiq(critical) with arguments: "contact.updated", Thu, 08 Oct 2026 22:37:08.162950649 UTC +00:00, {contact: #<GlobalID:0x00007be887580430 @uri=#<URI::GID gid://chatwoot/Contact/2>>, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.107159279 UTC +00:00, Thu, 08 Oct 2026 22:37:08.161726134 UTC +00:00], "last_activity_at" => [Thu, 08 Oct 2026 22:37:08.102475268 UTC +00:00, Thu, 08 Oct 2026 22:37:08.160687553 UTC +00:00]}}
+I, [2026-10-08T22:37:08.173621 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 176ee2f8-ba4a-46d2-8dd1-01c54f855975) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "JNHFtbVr5Ui229h4jR4Eqk9q"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be88765e140 @uri=#<URI::GID gid://chatwoot/ContactInbox/2>>, id: 2, inbox_id: 1, messages: [{id: 6, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 2, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.138099000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 3, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "a81714e0-aba3-4e6f-b687-bb5b359bf884"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: ["billing"], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "theo.mareschal@example.test", id: 2, identifier: nil, name: "Theo Mareschal", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 3, name: "Omar Fuseau", available_name: "Omar Fuseau", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "pending", custom_attributes: {}, snoozed_until: nil, unread_count: 2, first_reply_created_at: Thu, 08 Oct 2026 22:37:08.114187998 UTC +00:00, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.164668, account_id: 1}
+I, [2026-10-08T22:37:08.178170 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 8e7f1a06-3be6-4a19-a5d5-1c9c7c476400) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.168938657 UTC +00:00, {conversation: #<GlobalID:0x00007be8876b4d60 @uri=#<URI::GID gid://chatwoot/Conversation/2>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.146602511 UTC +00:00, Thu, 08 Oct 2026 22:37:08.164668125 UTC +00:00], "cached_label_list" => ["", "billing"], "label_list" => [[], ["billing"]]}, performed_by: nil}
+I, [2026-10-08T22:37:08.181057 #61]  INFO -- : [ActiveJob] Enqueued Avatar::AvatarFromGravatarJob (Job ID: 8320142b-4b88-4d42-b87c-7e0d37fd096e) to Sidekiq(purgable) at 2026-10-08 22:37:38 UTC with arguments: #<GlobalID:0x00007be88770b610 @uri=#<URI::GID gid://chatwoot/Contact/3>>, "sonia.kervel@example.test"
+I, [2026-10-08T22:37:08.184499 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 1d07c628-2044-49c7-93ca-7e6279ec7310) to Sidekiq(critical) with arguments: ["account_1"], "contact.created", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.184911 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: e12cf06b-1da6-4547-923a-4cf938d55505) to Sidekiq(critical) with arguments: "contact.created", Thu, 08 Oct 2026 22:37:08.184110763 UTC +00:00, {contact: #<GlobalID:0x00007be885d3f4e8 @uri=#<URI::GID gid://chatwoot/Contact/3>>}
+I, [2026-10-08T22:37:08.198657 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 08082930-4e80-48fb-a7e3-3527fcd47125) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "conversation.created", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be8877a3fc8 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "resolved", custom_attributes: {}, snoozed_until: nil, unread_count: 0, first_reply_created_at: nil, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.1891375, account_id: 1}
+I, [2026-10-08T22:37:08.199173 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 2b340ad1-c2d9-4ffc-bf0c-e18eebc80ed7) to Sidekiq(critical) with arguments: "conversation.created", Thu, 08 Oct 2026 22:37:08.193717080 UTC +00:00, {conversation: #<GlobalID:0x00007be8877a10c0 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: true, changed_attributes: nil, performed_by: nil}
+I, [2026-10-08T22:37:08.203371 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: ed91d0f7-000a-4303-adfa-fc810dae396b) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1"], "assignee.changed", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be885cf64f0 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "resolved", custom_attributes: {}, snoozed_until: nil, unread_count: 0, first_reply_created_at: nil, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.1891375, automatic_assignment: false, account_id: 1}
+I, [2026-10-08T22:37:08.204159 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 0d387b47-a29f-4694-b211-9ea9866cdbf6) to Sidekiq(critical) with arguments: "assignee.changed", Thu, 08 Oct 2026 22:37:08.199321331 UTC +00:00, {conversation: #<GlobalID:0x00007be885cf3750 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: true, changed_attributes: {"id" => [nil, 3], "account_id" => [nil, 1], "inbox_id" => [nil, 1], "status" => ["open", "resolved"], "assignee_id" => [nil, 2], "created_at" => [nil, Thu, 08 Oct 2026 22:37:08.189137449 UTC +00:00], "updated_at" => [nil, Thu, 08 Oct 2026 22:37:08.189137449 UTC +00:00], "contact_id" => [nil, 3], "contact_inbox_id" => [nil, 3], "uuid" => [nil, "1eef0030-ca40-4310-9cf6-2cf74a8e80e3"], "last_activity_at" => [nil, Thu, 08 Oct 2026 22:37:08.187800000 UTC +00:00], "waiting_since" => [nil, Thu, 08 Oct 2026 22:37:08.189137000 UTC +00:00], "status_changed_at" => [nil, Thu, 08 Oct 2026 22:37:08.189109000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:08.204604 #61]  INFO -- : [ActiveJob] Enqueued AutoAssignment::AssignmentJob (Job ID: 03496c53-c43e-49fd-b367-c2efaaa0966b) to Sidekiq(default) with arguments: {inbox_id: 1, token: "c877ada9-2832-4b1e-a0d7-d86fe0a8881d"}
+I, [2026-10-08T22:37:08.234167 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: e5b14f5b-d4ec-466b-91ef-f635a04d1443) to Sidekiq(critical) with arguments: "conversation.opened", Thu, 08 Oct 2026 22:37:08.228605998 UTC +00:00, {conversation: #<GlobalID:0x00007be885b78b00 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: false, changed_attributes: nil, performed_by: nil}
+I, [2026-10-08T22:37:08.238103 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 3954b800-64ea-4206-a613-407ba7fae0ca) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "conversation.status_changed", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be8878e5ff8 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [{id: 7, content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-3. Pouvez-vous regarder ?", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.215065000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 3, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-3. Pouvez-vous regarder ?", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 1, first_reply_created_at: nil, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.2218251, account_id: 1}
+I, [2026-10-08T22:37:08.242146 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 5c16b916-b518-4935-9e06-789a2b8cc7dd) to Sidekiq(critical) with arguments: "conversation.status_changed", Thu, 08 Oct 2026 22:37:08.234210947 UTC +00:00, {conversation: #<GlobalID:0x00007be88796b590 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: false, changed_attributes: nil, performed_by: nil}
+I, [2026-10-08T22:37:08.245960 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: f051afb5-722e-44fa-9364-3c2a7652b30f) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be885b12af8 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [{id: 7, content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-3. Pouvez-vous regarder ?", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.215065000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 3, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-3. Pouvez-vous regarder ?", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 1, first_reply_created_at: nil, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.2218251, account_id: 1}
+I, [2026-10-08T22:37:08.250669 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 49a86128-86e6-4555-8e95-7394969d53a7) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.242509119 UTC +00:00, {conversation: #<GlobalID:0x00007be887a17a98 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: false, changed_attributes: {"status" => ["resolved", "open"], "updated_at" => [Thu, 08 Oct 2026 22:37:08.205172878 UTC +00:00, Thu, 08 Oct 2026 22:37:08.221824936 UTC +00:00], "status_changed_at" => [Thu, 08 Oct 2026 22:37:08.189109000 UTC +00:00, Thu, 08 Oct 2026 22:37:08.221781000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:08.253488 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: e661f208-a90f-48cc-adf0-f5befafbcf43) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "message.created", {id: 7, content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-3. Pouvez-vous regarder ?", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.215065854 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 3, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour, j'ai une question sur **ma facture** — voici le détail : https://example.test/facture-3. Pouvez-vous regarder ?", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}
+I, [2026-10-08T22:37:08.253982 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: fe34c300-147b-4453-8aa2-d621c9b15ed5) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.251472041 UTC +00:00, {message: #<GlobalID:0x00007be887a39c60 @uri=#<URI::GID gid://chatwoot/Message/7>>, performed_by: nil}
+I, [2026-10-08T22:37:08.254263 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: d69a47fa-51cd-48e2-ba70-0848d01f2b5a) to Sidekiq(high) with arguments: 7
+I, [2026-10-08T22:37:08.260266 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: c0fd34dd-42c0-4496-8fdd-ce9b21549b75) to Sidekiq(critical) with arguments: ["account_1"], "contact.updated", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.260704 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 9cc2d3c5-6ab9-41ce-a0bb-da4b80263745) to Sidekiq(critical) with arguments: "contact.updated", Thu, 08 Oct 2026 22:37:08.259606517 UTC +00:00, {contact: #<GlobalID:0x00007be887af8458 @uri=#<URI::GID gid://chatwoot/Contact/3>>, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.179871053 UTC +00:00, Thu, 08 Oct 2026 22:37:08.258175764 UTC +00:00], "last_activity_at" => [nil, Thu, 08 Oct 2026 22:37:08.257295419 UTC +00:00]}}
+I, [2026-10-08T22:37:08.267669 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: cd911dae-1f5e-4d20-9b2f-fa403350178c) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "message.created", {id: 8, content: "Bonjour Sonia Kervel, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 1, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.261818836 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Sonia Kervel, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}
+I, [2026-10-08T22:37:08.268910 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 4f0035da-1e2a-4d7e-8472-609a9b696242) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.265026230 UTC +00:00, {message: #<GlobalID:0x00007be885afaf70 @uri=#<URI::GID gid://chatwoot/Message/8>>, performed_by: nil}
+I, [2026-10-08T22:37:08.271136 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 16efa78f-e63f-476a-b5de-5eca3f0948b2) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1"], "first.reply.created", {id: 8, content: "Bonjour Sonia Kervel, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 1, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.261818836 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Sonia Kervel, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}
+I, [2026-10-08T22:37:08.271618 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 06871957-943f-4bed-94f4-49238d0b21d4) to Sidekiq(critical) with arguments: "first.reply.created", Thu, 08 Oct 2026 22:37:08.269676862 UTC +00:00, {message: #<GlobalID:0x00007be887b0ff68 @uri=#<URI::GID gid://chatwoot/Message/8>>, performed_by: nil}
+I, [2026-10-08T22:37:08.279020 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: e2d0cf37-52d8-432b-8d29-bf3ca9f17a2e) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be885a7c080 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [{id: 8, content: "Bonjour Sonia Kervel, nous regardons votre dossier et revenons vers vous rapidement.", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 1, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.261818000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "User", sender_id: 2, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Bonjour Sonia Kervel, nous regardons votre dossier et revenons vers vous rapidement.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 1, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 1, first_reply_created_at: Thu, 08 Oct 2026 22:37:08.261818836 UTC +00:00, priority: nil, waiting_since: 0, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.2721982, account_id: 1}
+I, [2026-10-08T22:37:08.282745 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: aaa07d7f-e2b6-4eac-9d0b-8dd181a5c9c9) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.274809199 UTC +00:00, {conversation: #<GlobalID:0x00007be885a85130 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.264502259 UTC +00:00, Thu, 08 Oct 2026 22:37:08.272198193 UTC +00:00], "first_reply_created_at" => [nil, Thu, 08 Oct 2026 22:37:08.261818836 UTC +00:00], "waiting_since" => [Thu, 08 Oct 2026 22:37:08.189137000 UTC +00:00, nil]}, performed_by: nil}
+I, [2026-10-08T22:37:08.282979 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: 55cdf7cc-0a4c-4871-9225-a6902f5bb43f) to Sidekiq(high) with arguments: 8
+I, [2026-10-08T22:37:08.289946 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 9ad75d77-c887-4276-8ec1-5d2b8f364647) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "message.created", {id: 9, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.285230137 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 3, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}
+I, [2026-10-08T22:37:08.290313 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: 99fe9baa-7864-4a35-a0fb-dac1290ee801) to Sidekiq(critical) with arguments: "message.created", Thu, 08 Oct 2026 22:37:08.287911775 UTC +00:00, {message: #<GlobalID:0x00007be887e9f520 @uri=#<URI::GID gid://chatwoot/Message/9>>, performed_by: nil}
+I, [2026-10-08T22:37:08.298814 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: bbce414f-9afe-4eff-8a99-ddc76cd79998) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be885a3d1f0 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [{id: 9, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.285230000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 3, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: [], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 2, first_reply_created_at: Thu, 08 Oct 2026 22:37:08.261818836 UTC +00:00, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.2909513, account_id: 1}
+I, [2026-10-08T22:37:08.303230 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: c2fa4771-1ecf-47e7-88d7-a52c429e02c9) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.293284875 UTC +00:00, {conversation: #<GlobalID:0x00007be8881bacf0 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.287377597 UTC +00:00, Thu, 08 Oct 2026 22:37:08.290951106 UTC +00:00], "waiting_since" => [nil, Thu, 08 Oct 2026 22:37:08.285230000 UTC +00:00]}, performed_by: nil}
+I, [2026-10-08T22:37:08.303591 #61]  INFO -- : [ActiveJob] Enqueued SendReplyJob (Job ID: a653f12c-23aa-4efe-9255-1c3d6e397a19) to Sidekiq(high) with arguments: 9
+I, [2026-10-08T22:37:08.308562 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: 2817a245-5e8d-4a7a-a824-d89c248be059) to Sidekiq(critical) with arguments: ["account_1"], "contact.updated", {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1, account_id: 1}
+I, [2026-10-08T22:37:08.309263 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: dfaea1ad-4ee6-462b-83cd-d6d8ad52356b) to Sidekiq(critical) with arguments: "contact.updated", Thu, 08 Oct 2026 22:37:08.308111586 UTC +00:00, {contact: #<GlobalID:0x00007be8859cd210 @uri=#<URI::GID gid://chatwoot/Contact/3>>, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.258175764 UTC +00:00, Thu, 08 Oct 2026 22:37:08.307129713 UTC +00:00], "last_activity_at" => [Thu, 08 Oct 2026 22:37:08.257295419 UTC +00:00, Thu, 08 Oct 2026 22:37:08.306212532 UTC +00:00]}}
+I, [2026-10-08T22:37:08.319336 #61]  INFO -- : [ActiveJob] Enqueued ActionCableBroadcastJob (Job ID: e0f30ac7-cd90-43a4-b1c9-537883aced8a) to Sidekiq(critical) with arguments: ["zBqygiwGE5kAe6tE3qFJudz1", "F6PkEXWcdnoTkvyoVzYywHkY"], "conversation.updated", {additional_attributes: {}, can_reply: true, channel: "Channel::WebWidget", contact_inbox: #<GlobalID:0x00007be88587e940 @uri=#<URI::GID gid://chatwoot/ContactInbox/3>>, id: 3, inbox_id: 1, messages: [{id: 9, content: "Merci, je reste en ligne.", account_id: 1, inbox_id: 1, conversation_id: 3, message_type: 0, created_at: 1791499028, updated_at: Thu, 08 Oct 2026 22:37:08.285230000 UTC +00:00, private: false, status: "sent", source_id: nil, content_type: "text", content_attributes: {}, sender_type: "Contact", sender_id: 3, external_source_ids: {}, additional_attributes: {}, processed_message_content: "Merci, je reste en ligne.", sentiment: {}, conversation: {assignee_id: 2, unread_count: 2, last_activity_at: 1791499028, contact_inbox: {source_id: "9c163138-e71f-41fb-b221-1b8013c475ac"}}, sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}}], labels: ["bug"], meta: {sender: {additional_attributes: {"company_name" => "Example"}, custom_attributes: {}, email: "sonia.kervel@example.test", id: 3, identifier: nil, name: "Sonia Kervel", phone_number: nil, thumbnail: "", blocked: false, contact_type: "lead", type: "contact", company_id: 1}, assignee: {id: 2, name: "Maya Kernel", available_name: "Maya Kernel", avatar_url: "", type: "user", availability_status: nil, thumbnail: ""}, assignee_type: "User", team: nil, hmac_verified: false}, status: "open", custom_attributes: {}, snoozed_until: nil, unread_count: 2, first_reply_created_at: Thu, 08 Oct 2026 22:37:08.261818836 UTC +00:00, priority: nil, waiting_since: 1791499028, agent_last_seen_at: 0, contact_last_seen_at: 0, last_activity_at: 1791499028, timestamp: 1791499028, created_at: 1791499028, updated_at: 1791499028.310075, account_id: 1}
+I, [2026-10-08T22:37:08.323676 #61]  INFO -- : [ActiveJob] Enqueued EventDispatcherJob (Job ID: fdbbd7ae-0ebf-49d5-aff3-447e92736a23) to Sidekiq(critical) with arguments: "conversation.updated", Thu, 08 Oct 2026 22:37:08.314815515 UTC +00:00, {conversation: #<GlobalID:0x00007be88568f288 @uri=#<URI::GID gid://chatwoot/Conversation/3>>, notifiable_assignee_change: false, changed_attributes: {"updated_at" => [Thu, 08 Oct 2026 22:37:08.290951106 UTC +00:00, Thu, 08 Oct 2026 22:37:08.310075010 UTC +00:00], "cached_label_list" => ["", "bug"], "label_list" => [[], ["bug"]]}, performed_by: nil}
+[seed] account=1 inbox=1 convs=[1, 2, 3]
+[seed] seed-info.json :
+{
+  "account_id": 1,
+  "admin": {
+    "email": "admin@cycle56.local",
+    "password": "C56audit!Pwd"
+  },
+  "agents": [
+    {
+      "email": "maya.kernel@cycle56.local",
+      "id": 2
+    },
+    {
+      "email": "omar.fuseau@cycle56.local",
+      "id": 3
+    }
+  ],
+  "inbox_id": 1,
+  "inbox_name": "Site web",
+  "website_token": "rMj9wagvpdNptwTQ1qSNZumx",
+  "contacts": [
+    {
+      "id": 1,
+      "email": "lina.parment@example.test"
+    },
+    {
+      "id": 2,
+      "email": "theo.mareschal@example.test"
+    },
+    {
+      "id": 3,
+      "email": "sonia.kervel@example.test"
+    }
+  ],
+  "conversations": [
+    {
+      "id": 1,
+      "display_id": 1,
+      "status": "open",
+      "contact": "Lina Parment"
+    },
+    {
+      "id": 2,
+      "display_id": 2,
+      "status": "pending",
+      "contact": "Theo Mareschal"
+    },
+    {
+      "id": 3,
+      "display_id": 3,
+      "status": "open",
+      "contact": "Sonia Kervel"
+    }
+  ],
+  "labels": [
+    "urgent",
+    "billing",
+    "bug"
+  ],
+  "team_id": 1
+}[gen-urls] account=1 conv=1,2 contact=1 label=urgent team=1 token=rMj9wagvpdNptwTQ1qSNZumx
+[seed] OK — 15 urls auth, 4 urls public
++ cd /home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/tools
++ node login.mjs http://localhost:9760
+auth.json écrit (http://localhost:9760, user=admin@cycle56.local)
++ mv -f auth.json auth-install.json
+++ paste -sd, urls-public.txt
++ PUB='/app/login,/app/auth/signup,/app/auth/reset/password,/widget?website_token=rMj9wagvpdNptwTQ1qSNZumx'
+++ paste -sd, urls-auth.resolved.txt
++ AUTH=/app/accounts/1/dashboard,/app/accounts/1/inbox-view,/app/accounts/1/inbox/1,/app/accounts/1/conversations/1,/app/accounts/1/conversations/2,/app/accounts/1/contacts,/app/accounts/1/contacts/1,/app/accounts/1/label/urgent,/app/accounts/1/reports/overview,/app/accounts/1/profile/settings,/app/accounts/1/settings/agents/list,/app/accounts/1/settings/inboxes/list,/app/accounts/1/settings/labels/list,/app/accounts/1/settings/teams/list,/app/accounts/1/settings/general
++ node audit.mjs http://localhost:9760 --urls '/app/login,/app/auth/signup,/app/auth/reset/password,/widget?website_token=rMj9wagvpdNptwTQ1qSNZumx' --states none --out ../reports/installbuild-public
+[scan] http://localhost:9760/app/login — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/auth/signup — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/auth/reset/password — 0 règle(s) violée(s)
+[scan] http://localhost:9760/widget?website_token=rMj9wagvpdNptwTQ1qSNZumx — 0 règle(s) violée(s)
+
+/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/reports/installbuild-public/report.md — 0 règle(s), 0 occurrence(s), 0 erreur(s), 0 incomplet(s)
++ node audit.mjs http://localhost:9760 --urls /app/accounts/1/dashboard,/app/accounts/1/inbox-view,/app/accounts/1/inbox/1,/app/accounts/1/conversations/1,/app/accounts/1/conversations/2,/app/accounts/1/contacts,/app/accounts/1/contacts/1,/app/accounts/1/label/urgent,/app/accounts/1/reports/overview,/app/accounts/1/profile/settings,/app/accounts/1/settings/agents/list,/app/accounts/1/settings/inboxes/list,/app/accounts/1/settings/labels/list,/app/accounts/1/settings/teams/list,/app/accounts/1/settings/general --states all --storage-state auth-install.json --out ../reports/installbuild-auth
+[scan] http://localhost:9760/app/accounts/1/dashboard — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/inbox-view — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/inbox/1 — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/conversations/1 — 0 règle(s) violée(s), 2 incomplete
+[scan] http://localhost:9760/app/accounts/1/conversations/2 — 0 règle(s) violée(s), 2 incomplete
+[scan] http://localhost:9760/app/accounts/1/contacts — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/contacts/1 — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/label/urgent — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/reports/overview — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/profile/settings — 0 règle(s) violée(s), 2 incomplete
+[scan] http://localhost:9760/app/accounts/1/settings/agents/list — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/settings/inboxes/list — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/settings/labels/list — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/settings/teams/list — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/settings/general — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/conversations/1 [state:conv-thread] — 0 règle(s) violée(s), 2 incomplete
+[scan] http://localhost:9760/app/accounts/1/dashboard [state:profile-menu] — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/inbox-view [state:notifications-panel] — 0 règle(s) violée(s)
+[scan] http://localhost:9760/app/accounts/1/dashboard [state:command-bar] — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/app/accounts/1/conversations/1 [state:inbox-filters] — 0 règle(s) violée(s), 2 incomplete
+[scan] http://localhost:9760/app/accounts/1/dashboard [state:mobile-390] — 0 règle(s) violée(s), 1 incomplete
+[scan] http://localhost:9760/route-c56-inexistante [state:route-404] — 0 règle(s) violée(s), 1 incomplete
+
+/home/ubuntu/repos/accessibilite-conformite/boucle-continue/cycles/chatwoot/reports/installbuild-auth/report.md — 0 règle(s), 0 occurrence(s), 0 erreur(s), 75 incomplet(s)

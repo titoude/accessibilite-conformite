@@ -1,0 +1,49 @@
+{
+ "cycle": 56,
+ "project": "chatwoot/chatwoot",
+ "commit": "f4bc89957b5e49dab3cd1d1c074248e60ac43d2e",
+ "commit_date": "2026-10 (HEAD develop pinné via git ls-remote https://github.com/chatwoot/chatwoot refs/heads/develop)",
+ "branch_upstream": "develop @f4bc89957b5e",
+ "framework": "Rails 7 + Vue 3.5 + Tailwind (design tokens n-*) + vite/pnpm — support inbox : fils de conversation, contacts, rapports, réglages agents, widget chat public",
+ "served_source": "Image docker construite VERBATIM depuis docker/Dockerfile upstream sur le checkout @SHA (écart image/SHA nul : le patch est compilé DANS l'image par vite/precompile) + compose officiel adapté (rails+sidekiq+postgres+redis)",
+ "base_url": "http://localhost:9700",
+ "ports": {
+  "app": 9700,
+  "db": 9701,
+  "redis": 9702,
+  "install_build": 9760
+ },
+ "boot": {
+  "deps": "docker (node:24-alpine + ruby:3.4.4-alpine3.21 tirées via mirror.gcr.io — docker.io 429) ; playwright + axe-core 4.14.0 dans tools/",
+  "clone": "git clone https://github.com/chatwoot/chatwoot ~/work/chatwoot && git -C ~/work/chatwoot checkout f4bc89957b5e49dab3cd1d1c074248e60ac43d2e",
+  "build": "docker build -f docker/Dockerfile -t cw56-app:patched . (~11 min : apk + bundle + pnpm + rake assets:precompile/vite)",
+  "boot": "CW_IMAGE=cw56-app:patched bash tools/boot.sh ~/work/chatwoot 9700",
+  "seed": "bash tools/seed.sh  # rails runner tools/seed.rb dans cw56-rails-1 + lever flag onboarding Redis::Alfred → tools/seed-info.json (ids source unique, leçons 44/46)",
+  "login": "node tools/login.mjs http://localhost:9700  # → tools/auth.json (storageState)"
+ },
+ "seed_data": {
+  "compte": "Cycle 56 Support (account_id=1, locale en)",
+  "admin": "admin@cycle56.local / C56audit!Pwd (administrator)",
+  "inbox": "WebWidget #1 (website_token jq9nkJGuA8cqr28foveZ5wmA, widget_color #1E6DE0)",
+  "conversations": "display_id 1 (ouverte, 3 messages), 2 (ouverte, 2 messages), 3 (résolue)",
+  "contacts": "ids 1-3 (Maya Kernel, Idris Seok, Nadia Ferreira) — ids relus via API après seed",
+  "labels": "urgent, billing, bug ; team 1 ; custom_role absent (non seedé)"
+ },
+ "urls": {
+  "public": ["/app/login", "/app/auth/signup", "/app/auth/reset/password", "/widget?website_token=jq9nkJGuA8cqr28foveZ5wmA"],
+  "auth": ["/app/accounts/1/dashboard", "/app/accounts/1/inbox-view", "/app/accounts/1/inbox/1", "/app/accounts/1/conversations/1", "/app/accounts/1/conversations/2", "/app/accounts/1/contacts", "/app/accounts/1/contacts/1", "/app/accounts/1/label/urgent", "/app/accounts/1/reports/overview", "/app/accounts/1/profile/settings", "/app/accounts/1/settings/agents/list", "/app/accounts/1/settings/inboxes/list", "/app/accounts/1/settings/labels/list", "/app/accounts/1/settings/teams/list", "/app/accounts/1/settings/general"]
+ },
+ "states": ["conv-thread", "profile-menu", "notifications-panel", "command-bar", "inbox-filters", "mobile-390", "route-404"],
+ "audit": {
+  "tool": "tools/audit.mjs (runner v12-c50 commun, hashes normalisés leçon 48)",
+  "engine": "axe-core 4.14.0, contexte Chromium locale en-US (leçon 38), storageState tools/auth.json",
+  "auditCommands": [
+   "node audit.mjs http://localhost:9700 --urls \"$(paste -sd, urls-public.txt)\" --states none --out ../reports/final-public",
+   "node audit.mjs http://localhost:9700 --urls \"$(paste -sd, urls-auth.resolved.txt)\" --states all --storage-state auth.json --out ../reports/final-auth"
+  ],
+  "verify": "node verify.mjs http://localhost:9700 auth.json",
+  "eval": "node eval-final.mjs http://localhost:9700 auth.json",
+  "probes": "node incomplete-probes.mjs http://localhost:9700 auth.json --reports ../reports/final-public ../reports/final-auth"
+ },
+ "notes": "URLs auth générées par tools/gen-urls.sh depuis seed-info.json — ids jamais recopiés à la main (leçons 44/46). Vanilla : image cw56-app:f4bc89957b5e buildée depuis checkout VIERGE @SHA avant tout patch (pureté leçon 40)."
+}

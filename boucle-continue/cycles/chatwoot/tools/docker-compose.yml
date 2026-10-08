@@ -1,0 +1,77 @@
+# docker-compose.yml — cycle 56 chatwoot. Adaptation du compose officiel
+# (docker-compose.production.yaml) : même graphe de services
+# rails+sidekiq+postgres(pgvector/pg16)+redis, mais l'image `cw56-app` est
+# BUILDÉE depuis le checkout @SHA par tools/boot.sh (docker/Dockerfile
+# upstream verbatim — écart image/SHA nul).
+version: '3'
+
+x-app-env: &app-env
+  NODE_ENV: production
+  RAILS_ENV: production
+  INSTALLATION_ENV: docker
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+  FRONTEND_URL: ${FRONTEND_URL}
+  FORCE_SSL: 'false'
+  RAILS_LOG_TO_STDOUT: 'enabled'
+  POSTGRES_HOST: postgres
+  POSTGRES_USERNAME: postgres
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  POSTGRES_DATABASE: chatwoot
+  REDIS_URL: redis://:${REDIS_PASSWORD}@redis:6379
+  REDIS_PASSWORD: ${REDIS_PASSWORD}
+  MAILER_SENDER_EMAIL: 'Chatwoot <accounts@chatwoot.com>'
+  ENABLE_ACCOUNT_SIGNUP: 'true'
+  ACTIVE_STORAGE_SERVICE: local
+  CW_ADMIN: 'true'
+
+services:
+  rails:
+    image: ${CW_IMAGE:-cw56-app:local}
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "127.0.0.1:${APP_PORT:-9700}:3000"
+    environment:
+      <<: *app-env
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    volumes:
+      - storage_data:/app/storage
+
+  sidekiq:
+    image: ${CW_IMAGE:-cw56-app:local}
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      <<: *app-env
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    volumes:
+      - storage_data:/app/storage
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "127.0.0.1:${DB_PORT:-9701}:5432"
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    ports:
+      - "127.0.0.1:${REDIS_PORT:-9702}:6379"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+
+volumes:
+  storage_data:
+  postgres_data:
+  redis_data:

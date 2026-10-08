@@ -1,0 +1,87 @@
+{
+  "cycle": 56,
+  "produit": "chatwoot",
+  "statut_execution": "complet",
+  "target": {
+    "repo": "https://github.com/chatwoot/chatwoot",
+    "sha": "f4bc89957b5e49dab3cd1d1c074248e60ac43d2e",
+    "stack": "Rails 7 + Vue 3.5 + Tailwind (design tokens n-*) + vite/pnpm — inbox support client (fils de conversation, contacts, rapports, réglages agents, widget chat public)"
+  },
+  "baseline": {
+    "surfaces": 26,
+    "etats": 7,
+    "violations_occ": 422,
+    "violations_regles": 20,
+    "public": {
+      "violations_occ": 37,
+      "violations_regles": 7,
+      "pages": 4
+    },
+    "auth": {
+      "violations_occ": 385,
+      "violations_regles": 19,
+      "pages": 15,
+      "etats": 7
+    },
+    "errors": 0,
+    "incomplets": 109,
+    "note": "baseline = image vanilla cw56-app:f4bc89957b5e (écart image/SHA nul, checkout @SHA compilé dans l'image)",
+    "detail": {
+      "button-name": 126,
+      "color-contrast": 70,
+      "role-img-alt": 39,
+      "svg-img-alt": 28,
+      "html-has-lang": 25,
+      "meta-viewport": 25,
+      "image-alt": 21,
+      "listitem": 17,
+      "region": 16,
+      "list": 15,
+      "landmark-unique": 7,
+      "page-has-heading-one": 6,
+      "landmark-main-is-top-level": 6,
+      "landmark-no-duplicate-main": 6,
+      "tabindex": 4,
+      "heading-order": 4,
+      "landmark-one-main": 3,
+      "link-name": 2,
+      "select-name": 1,
+      "scrollable-region-focusable": 1
+    }
+  },
+  "final": {
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "errors": 0,
+    "incomplets": 75,
+    "public": {
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "errors": 0,
+      "incomplets": 0
+    },
+    "auth": {
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "errors": 0,
+      "incomplets": 75
+    },
+    "image": "cw56-app:patched (checkout @SHA + patch.diff — 10 commits c56, 3209 lignes de diff)",
+    "scenarios": "26/26 audités (4 publics + 15 auth + 7 états), 0 sauté"
+  },
+  "verify": {
+    "patched": "31/31 assertions OK (0 FAIL, 1 N-A)",
+    "sabotage": "5 FAIL nommés attendus (layout vueapp.html.erb reverti : login lang + viewport user-scalable=0, widget lang/main/h1 liés au token regénéré par instance)",
+    "vanilla": "21 FAIL / 31 attendus (lang, viewport, h1, button-name, role-img, list, contrast, conv buttons/lists, ninja-keys, 404, selects settings)"
+  },
+  "eval_final": "16/16 contrôles OK (0 FAIL, 1 N-A : skip-link absent du produit)",
+  "probes": "75 sondés (reports final) — 57 OK / 0 NON-CONFORME / 18 N-A ; 96 sondés (reports wave9) — 78 OK / 0 NC / 18 N-A. Deux vrais problèmes trouvés par les sondes et corrigés : aria-controls=account-options pendant (switcher désactivé single-account → attrs gatés sur showAccountSwitcher) ; badge tab bg-n-blue-3+text-n-blue-11 4.4:1 → text-n-blue-12 11.5:1",
+  "install_build": "clone propre @f4bc899 + git apply --check patch.diff (10 commits, 0 rejet) + docker build verbatim + db:prepare (volume vierge) + seed rejoué :9760 → rescan 0 viol/0 err/75 inc — IDENTIQUES au final (installbuild-public 4/4 0v/0e, installbuild-auth 22/22 0v/0e/75inc)",
+  "evidence": {
+    "reports": "reports/baseline-{public,auth}, reports/final-{public,auth}, reports/installbuild-{public,auth}",
+    "patch": "patch.diff (+ patch.diff.sha256)",
+    "logs": "install-build.log",
+    "manifest": "manifest.json (auditCommands verbatim)",
+    "seed": "tools/seed.rb + tools/seed-info.json (ids relus, source unique)"
+  }
+}

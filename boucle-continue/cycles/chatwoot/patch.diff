@@ -1,0 +1,3209 @@
+diff --git a/app/javascript/dashboard/assets/scss/_next-colors.scss b/app/javascript/dashboard/assets/scss/_next-colors.scss
+index 4a67e51..2723b26 100644
+--- a/app/javascript/dashboard/assets/scss/_next-colors.scss
++++ b/app/javascript/dashboard/assets/scss/_next-colors.scss
+@@ -11,8 +11,8 @@
+     --slate-6: 217 217 224;
+     --slate-7: 205 206 214;
+     --slate-8: 185 187 198;
+-    --slate-9: 139 141 152;
+-    --slate-10: 128 131 141;
++    --slate-9: 95 99 112; /* C56 a11y : >=4.5:1 sur surfaces claires */
++    --slate-10: 85 89 101; /* C56 a11y : >=4.5:1 sur surfaces claires */
+     --slate-11: 96 100 108;
+     --slate-12: 28 32 36;
+ 
+@@ -78,7 +78,7 @@
+     --teal-8: 83 185 171;
+     --teal-9: 18 165 148;
+     --teal-10: 13 155 138;
+-    --teal-11: 0 133 115;
++    --teal-11: 0 112 95; /* C56 a11y */
+     --teal-12: 13 61 56;
+ 
+     --gray-1: 252 252 252;
+diff --git a/app/javascript/dashboard/components-next/Campaigns/CampaignAnalyticsLayout.vue b/app/javascript/dashboard/components-next/Campaigns/CampaignAnalyticsLayout.vue
+index 2b0986f..c938fd1 100644
+--- a/app/javascript/dashboard/components-next/Campaigns/CampaignAnalyticsLayout.vue
++++ b/app/javascript/dashboard/components-next/Campaigns/CampaignAnalyticsLayout.vue
+@@ -23,10 +23,10 @@ const emit = defineEmits(['breadcrumbClick']);
+         </div>
+       </div>
+     </header>
+-    <main class="flex-1 px-6 overflow-y-auto">
++    <div class="flex-1 px-6 overflow-y-auto">
+       <div class="w-full max-w-5xl mx-auto py-4">
+         <slot />
+       </div>
+-    </main>
++    </div>
+   </section>
+ </template>
+diff --git a/app/javascript/dashboard/components-next/Campaigns/CampaignLayout.vue b/app/javascript/dashboard/components-next/Campaigns/CampaignLayout.vue
+index eef2612..47be305 100644
+--- a/app/javascript/dashboard/components-next/Campaigns/CampaignLayout.vue
++++ b/app/javascript/dashboard/components-next/Campaigns/CampaignLayout.vue
+@@ -48,10 +48,10 @@ const handleButtonClick = () => {
+         </div>
+       </div>
+     </header>
+-    <main class="flex-1 px-6 overflow-y-auto">
++    <div class="flex-1 px-6 overflow-y-auto">
+       <div class="w-full max-w-5xl mx-auto py-4">
+         <slot name="default" />
+       </div>
+-    </main>
++    </div>
+   </section>
+ </template>
+diff --git a/app/javascript/dashboard/components-next/Companies/CompaniesListLayout.vue b/app/javascript/dashboard/components-next/Companies/CompaniesListLayout.vue
+index e5ce3f2..6f8189c 100644
+--- a/app/javascript/dashboard/components-next/Companies/CompaniesListLayout.vue
++++ b/app/javascript/dashboard/components-next/Companies/CompaniesListLayout.vue
+@@ -38,11 +38,11 @@ const updateCurrentPage = page => {
+         @update:sort="emit('update:sort', $event)"
+         @create="emit('create')"
+       />
+-      <main class="flex-1 px-6 overflow-y-auto">
++      <div class="flex-1 px-6 overflow-y-auto">
+         <div class="w-full mx-auto max-w-5xl py-4">
+           <slot name="default" />
+         </div>
+-      </main>
++      </div>
+       <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0">
+         <PaginationFooter
+           current-page-info="COMPANIES_LAYOUT.PAGINATION_FOOTER.SHOWING"
+diff --git a/app/javascript/dashboard/components-next/Companies/CompanyDetail/CompanyEditPanel.vue b/app/javascript/dashboard/components-next/Companies/CompanyDetail/CompanyEditPanel.vue
+index d43be7b..7c441a6 100644
+--- a/app/javascript/dashboard/components-next/Companies/CompanyDetail/CompanyEditPanel.vue
++++ b/app/javascript/dashboard/components-next/Companies/CompanyDetail/CompanyEditPanel.vue
+@@ -194,9 +194,9 @@ defineExpose({ open });
+       </section>
+ 
+       <section class="flex flex-col gap-4">
+-        <h4 class="mb-0 text-heading-2 text-n-slate-12">
++        <h2 class="mb-0 text-heading-2 text-n-slate-12">
+           {{ t('COMPANIES.DETAIL.EDIT.DETAILS') }}
+-        </h4>
++        </h2>
+         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+           <Input
+             v-model="form.industry"
+@@ -230,9 +230,9 @@ defineExpose({ open });
+       </section>
+ 
+       <section class="flex flex-col gap-4">
+-        <h4 class="mb-0 text-heading-2 text-n-slate-12">
++        <h2 class="mb-0 text-heading-2 text-n-slate-12">
+           {{ t('COMPANIES.DETAIL.EDIT.SOCIAL.TITLE') }}
+-        </h4>
++        </h2>
+         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+           <SocialProfileInput
+             v-for="network in SOCIAL_NETWORKS"
+@@ -247,9 +247,9 @@ defineExpose({ open });
+       </section>
+ 
+       <section class="flex flex-col gap-4">
+-        <h4 class="mb-0 text-heading-2 text-n-slate-12">
++        <h2 class="mb-0 text-heading-2 text-n-slate-12">
+           {{ t('COMPANIES.DETAIL.ATTRIBUTES.TITLE') }}
+-        </h4>
++        </h2>
+         <CompanyCustomAttributes :company="company" />
+       </section>
+     </div>
+diff --git a/app/javascript/dashboard/components-next/Contacts/ContactsDetailsLayout.vue b/app/javascript/dashboard/components-next/Contacts/ContactsDetailsLayout.vue
+index 44fafb6..6405bcf 100644
+--- a/app/javascript/dashboard/components-next/Contacts/ContactsDetailsLayout.vue
++++ b/app/javascript/dashboard/components-next/Contacts/ContactsDetailsLayout.vue
+@@ -118,11 +118,11 @@ const closeMobileSidebar = () => {
+           </div>
+         </div>
+       </header>
+-      <main class="flex-1 px-6 overflow-y-auto 3xl:px-px">
++      <div class="flex-1 px-6 overflow-y-auto 3xl:px-px">
+         <div class="w-full py-4 mx-auto max-w-[40.625rem]">
+           <slot name="default" />
+         </div>
+-      </main>
++      </div>
+     </div>
+ 
+     <!-- Desktop sidebar -->
+diff --git a/app/javascript/dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue b/app/javascript/dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue
+index 62bbd84..8abbcbf 100644
+--- a/app/javascript/dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue
++++ b/app/javascript/dashboard/components-next/Contacts/ContactsHeader/ContactHeader.vue
+@@ -36,9 +36,9 @@ const emit = defineEmits([
+     <div
+       class="flex items-start sm:items-center justify-between w-full py-6 gap-2 mx-auto max-w-5xl"
+     >
+-      <span class="text-xl font-medium truncate text-n-slate-12">
++      <h1 class="text-xl font-medium truncate text-n-slate-12">
+         {{ headerTitle }}
+-      </span>
++      </h1>
+       <div class="flex items-center flex-col sm:flex-row flex-shrink-0 gap-4">
+         <div v-if="showSearch" class="flex items-center gap-2 w-full">
+           <Input
+@@ -64,6 +64,7 @@ const emit = defineEmits([
+             <div v-if="!isLabelView && !isActiveView" class="relative">
+               <Button
+                 id="toggleContactsFilterButton"
++                :aria-label="isSegmentsView ? $t('CONTACTS_LAYOUT.HEADER.ACTIONS.EDIT_FILTER') : $t('CONTACTS_LAYOUT.HEADER.ACTIONS.FILTERS_LABEL')"
+                 :icon="
+                   isSegmentsView ? 'i-lucide-pen-line' : 'i-lucide-list-filter'
+                 "
+diff --git a/app/javascript/dashboard/components-next/Contacts/ContactsListLayout.vue b/app/javascript/dashboard/components-next/Contacts/ContactsListLayout.vue
+index 7f7b839..b5b0694 100644
+--- a/app/javascript/dashboard/components-next/Contacts/ContactsListLayout.vue
++++ b/app/javascript/dashboard/components-next/Contacts/ContactsListLayout.vue
+@@ -98,7 +98,7 @@ const showPagination = computed(() => {
+         @apply-filter="emit('applyFilter', $event)"
+         @clear-filters="emit('clearFilters')"
+       />
+-      <main class="flex-1 overflow-y-auto px-6">
++      <div class="flex-1 overflow-y-auto px-6">
+         <div class="w-full mx-auto max-w-5xl">
+           <ContactsActiveFiltersPreview
+             v-if="showActiveFiltersPreview"
+@@ -114,7 +114,7 @@ const showPagination = computed(() => {
+             @load-more="emit('loadMore')"
+           />
+         </div>
+-      </main>
++      </div>
+       <footer v-if="showPagination" class="sticky bottom-0 z-0">
+         <PaginationFooter
+           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
+diff --git a/app/javascript/dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue b/app/javascript/dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue
+index 1d019ff..b0b614a 100644
+--- a/app/javascript/dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue
++++ b/app/javascript/dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue
+@@ -105,9 +105,9 @@ const onMergeContacts = async () => {
+ <template>
+   <div class="flex flex-col gap-8 px-6">
+     <div class="flex flex-col gap-2">
+-      <h4 class="text-base text-n-slate-12">
++      <h2 class="text-base text-n-slate-12">
+         {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.TITLE') }}
+-      </h4>
++      </h2>
+       <p class="text-sm text-n-slate-11">
+         {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.DESCRIPTION') }}
+       </p>
+diff --git a/app/javascript/dashboard/components-next/Contacts/Pages/ContactDetails.vue b/app/javascript/dashboard/components-next/Contacts/Pages/ContactDetails.vue
+index b573b2b..f98eabb 100644
+--- a/app/javascript/dashboard/components-next/Contacts/Pages/ContactDetails.vue
++++ b/app/javascript/dashboard/components-next/Contacts/Pages/ContactDetails.vue
+@@ -142,9 +142,9 @@ const handleAvatarDelete = async () => {
+         @delete="handleAvatarDelete"
+       />
+       <div class="flex flex-col gap-1">
+-        <h3 class="text-base font-medium text-n-slate-12">
++        <h1 class="text-base font-medium text-n-slate-12">
+           {{ selectedContact?.name }}
+-        </h3>
++        </h1>
+         <div class="flex flex-col gap-1.5">
+           <span
+             v-if="selectedContact?.identifier"
+@@ -206,9 +206,9 @@ const handleAvatarDelete = async () => {
+         class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
+       >
+         <div class="flex flex-col gap-2">
+-          <h6 class="text-base font-medium text-n-slate-12">
++          <h2 class="text-base font-medium text-n-slate-12">
+             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
+-          </h6>
++          </h2>
+           <span class="text-sm text-n-slate-11">
+             {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
+           </span>
+diff --git a/app/javascript/dashboard/components-next/HelpCenter/HelpCenterLayout.vue b/app/javascript/dashboard/components-next/HelpCenter/HelpCenterLayout.vue
+index d5b2bf5..19b7250 100644
+--- a/app/javascript/dashboard/components-next/HelpCenter/HelpCenterLayout.vue
++++ b/app/javascript/dashboard/components-next/HelpCenter/HelpCenterLayout.vue
+@@ -111,11 +111,11 @@ const togglePortalSwitcher = () => {
+         <slot name="header-actions" />
+       </div>
+     </header>
+-    <main class="flex-1 px-6 overflow-y-auto">
++    <div class="flex-1 px-6 overflow-y-auto">
+       <div class="w-full max-w-5xl mx-auto py-3">
+         <slot name="content" />
+       </div>
+-    </main>
++    </div>
+     <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
+       <PaginationFooter
+         :current-page="currentPage"
+diff --git a/app/javascript/dashboard/components-next/avatar/Avatar.vue b/app/javascript/dashboard/components-next/avatar/Avatar.vue
+index 8d47649..b4585f8 100644
+--- a/app/javascript/dashboard/components-next/avatar/Avatar.vue
++++ b/app/javascript/dashboard/components-next/avatar/Avatar.vue
+@@ -65,10 +65,10 @@ const AVATAR_COLORS = {
+     ['#1D2E62', '#9EB1FF'],
+   ],
+   light: [
+-    ['#FBDCEF', '#C2298A'],
++    ['#FBDCEF', '#B1227F'],
+     ['#FFE0BB', '#99543A'],
+     ['#E8E8E8', '#60646C'],
+-    ['#CCF3EA', '#008573'],
++    ['#CCF3EA', '#00705F'],
+     ['#EBEBFE', '#4747C2'],
+     ['#E1E9FF', '#3A5BC7'],
+   ],
+@@ -229,6 +229,7 @@ watch(
+     <!-- Avatar Container -->
+     <span
+       role="img"
++      :aria-label="name || t('THUMBNAIL.AUTHOR.NOT_AVAILABLE')"
+       class="relative inline-flex items-center justify-center object-cover overflow-hidden font-medium outline outline-1 -outline-offset-1 outline-[rgb(0_0_0_/_0.03)] dark:outline-[rgb(255_255_255_/_0.04)]"
+       :class="[
+         borderRadiusClass,
+diff --git a/app/javascript/dashboard/components-next/button/Button.vue b/app/javascript/dashboard/components-next/button/Button.vue
+index fa81253..11ddf9e 100644
+--- a/app/javascript/dashboard/components-next/button/Button.vue
++++ b/app/javascript/dashboard/components-next/button/Button.vue
+@@ -207,6 +207,19 @@ const variantClasses = computed(() => {
+ });
+ 
+ const isIconOnly = computed(() => !props.label && !slots.default);
++
++// C56 a11y : un bouton icône-seul doit avoir un nom accessible. On dérive
++// le libellé du nom d'icône (i-lucide-chevron-down → "chevron down")
++// uniquement quand l'appelant n'a fourni ni texte ni aria-label.
++const iconAccessibleName = computed(() => {
++  if (!isIconOnly.value) return undefined;
++  const iconName = typeof props.icon === 'string' ? props.icon : '';
++  const cleaned = iconName
++    .replace(/^i-[a-z]+-/, '')
++    .replace(/-/g, ' ')
++    .trim();
++  return cleaned || 'button';
++});
+ const isLink = computed(() => computedVariant.value === 'link');
+ 
+ const buttonClasses = computed(() => {
+@@ -239,6 +252,7 @@ const animationClasses = computed(() => {
+ <template>
+   <button
+     v-bind="filteredAttrs"
++    :aria-label="filteredAttrs['aria-label'] || iconAccessibleName || undefined"
+     :class="{
+       [STYLE_CONFIG.base]: true,
+       [isLink ? linkButtonClasses : buttonClasses]: true,
+diff --git a/app/javascript/dashboard/components-next/captain/PageLayout.vue b/app/javascript/dashboard/components-next/captain/PageLayout.vue
+index 7cd7e99..2da9d75 100644
+--- a/app/javascript/dashboard/components-next/captain/PageLayout.vue
++++ b/app/javascript/dashboard/components-next/captain/PageLayout.vue
+@@ -210,7 +210,7 @@ const handleCreateAssistant = () => {
+         <slot name="subHeader" />
+       </div>
+     </header>
+-    <main class="flex-1 px-6 overflow-y-auto">
++    <div class="flex-1 px-6 overflow-y-auto">
+       <div class="w-full h-full py-4 mx-auto" :class="containerClass">
+         <slot v-if="!showPaywall" name="controls" />
+         <div
+@@ -228,7 +228,7 @@ const handleCreateAssistant = () => {
+         <slot v-else name="body" />
+         <slot />
+       </div>
+-    </main>
++    </div>
+     <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
+       <PaginationFooter
+         :current-page="currentPage"
+diff --git a/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownContainer.vue b/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownContainer.vue
+index a0f6b26..7a738ef 100644
+--- a/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownContainer.vue
++++ b/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownContainer.vue
+@@ -1,5 +1,5 @@
+ <script setup>
+-import { ref } from 'vue';
++import { ref, watch, onBeforeUnmount } from 'vue';
+ import { useToggle } from '@vueuse/core';
+ import { vOnClickOutside } from '@vueuse/components';
+ import DropdownFloating from './DropdownFloating.vue';
+@@ -22,6 +22,23 @@ const closeMenu = () => {
+   }
+ };
+ 
++// Escape dismisses the menu even when focus sits in the teleported body,
++// and returns focus to the trigger (APG menu pattern).
++const onEscape = event => {
++  if (event.key === 'Escape') {
++    event.stopPropagation();
++    closeMenu();
++    getTrigger()?.focus?.();
++  }
++};
++
++watch(isOpen, open => {
++  if (open) document.addEventListener('keydown', onEscape, true);
++  else document.removeEventListener('keydown', onEscape, true);
++});
++
++onBeforeUnmount(() => document.removeEventListener('keydown', onEscape, true));
++
+ // A teleported menu sits outside the container, so clicks inside it read as clicks outside.
+ const clickOutsideHandler = [closeMenu, { ignore: ['[data-dropdown-menu]'] }];
+ 
+diff --git a/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSection.vue b/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSection.vue
+index 5fc63b8..7a7459f 100644
+--- a/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSection.vue
++++ b/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSection.vue
+@@ -12,7 +12,7 @@ defineProps({
+ </script>
+ 
+ <template>
+-  <div class="-mx-2 n-dropdown-section">
++  <li class="-mx-2 n-dropdown-section">
+     <div
+       v-if="title"
+       class="px-4 mb-3 mt-1 leading-4 font-medium tracking-[0.2px] text-n-slate-10 text-xs"
+@@ -25,5 +25,5 @@ defineProps({
+     >
+       <slot />
+     </ul>
+-  </div>
++  </li>
+ </template>
+diff --git a/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSeparator.vue b/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSeparator.vue
+index 373aa44..9a17670 100644
+--- a/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSeparator.vue
++++ b/app/javascript/dashboard/components-next/dropdown-menu/base/DropdownSeparator.vue
+@@ -1,3 +1,3 @@
+ <template>
+-  <div class="h-0 border-b border-n-strong -mx-2" />
++  <li class="h-0 border-b border-n-strong -mx-2" />
+ </template>
+diff --git a/app/javascript/dashboard/components-next/icon/Logo.vue b/app/javascript/dashboard/components-next/icon/Logo.vue
+index 6dd0bbd..7224900 100644
+--- a/app/javascript/dashboard/components-next/icon/Logo.vue
++++ b/app/javascript/dashboard/components-next/icon/Logo.vue
+@@ -11,6 +11,7 @@ const globalConfig = useMapGetter('globalConfig/get');
+     v-if="globalConfig.logoThumbnail"
+     v-bind="attrs"
+     :src="globalConfig.logoThumbnail"
++    :alt="globalConfig.installationName || ''"
+   />
+   <svg
+     v-else
+diff --git a/app/javascript/dashboard/components-next/message/Message.vue b/app/javascript/dashboard/components-next/message/Message.vue
+index 3cff0d4..dbe0ed1 100644
+--- a/app/javascript/dashboard/components-next/message/Message.vue
++++ b/app/javascript/dashboard/components-next/message/Message.vue
+@@ -564,7 +564,7 @@ provideMessageContext({
+ 
+ <!-- eslint-disable-next-line vue/no-root-v-if -->
+ <template>
+-  <div
++  <li
+     v-if="shouldRenderMessage"
+     :id="`message${props.id}`"
+     class="flex w-full mb-2 message-bubble-container"
+@@ -646,7 +646,7 @@ provideMessageContext({
+         @close="showForwardEmail = false"
+       />
+     </div>
+-  </div>
++  </li>
+ </template>
+ 
+ <style lang="scss">
+diff --git a/app/javascript/dashboard/components-next/phonenumberinput/PhoneNumberInput.vue b/app/javascript/dashboard/components-next/phonenumberinput/PhoneNumberInput.vue
+index 9d0b704..23adc0a 100644
+--- a/app/javascript/dashboard/components-next/phonenumberinput/PhoneNumberInput.vue
++++ b/app/javascript/dashboard/components-next/phonenumberinput/PhoneNumberInput.vue
+@@ -186,6 +186,7 @@ watch(
+               trailing-icon
+               :disabled="disabled"
+               type="button"
++              :aria-label="$t('PHONE_INPUT.SELECT_COUNTRY')"
+               class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
+               @click="toggleCountryDropdown"
+             >
+diff --git a/app/javascript/dashboard/components-next/select/Select.vue b/app/javascript/dashboard/components-next/select/Select.vue
+index c4721cb..a46a8e9 100644
+--- a/app/javascript/dashboard/components-next/select/Select.vue
++++ b/app/javascript/dashboard/components-next/select/Select.vue
+@@ -50,7 +50,7 @@ const modelValue = defineModel({
+     <select
+       v-model="modelValue"
+       :disabled="disabled"
+-      :aria-label="ariaLabel || undefined"
++      :aria-label="ariaLabel || placeholder || undefined"
+       class="appearance-none bg-none rounded-lg border-0 outline-1 outline -outline-offset-1 transition-all duration-200 bg-n-surface-1 !mb-0 py-2 px-3 pr-10 text-sm"
+       :class="{
+         'outline-n-weak hover:outline-n-slate-6 focus:outline-n-blue-9':
+diff --git a/app/javascript/dashboard/components-next/sidebar/Sidebar.vue b/app/javascript/dashboard/components-next/sidebar/Sidebar.vue
+index def75b2..e36195b 100644
+--- a/app/javascript/dashboard/components-next/sidebar/Sidebar.vue
++++ b/app/javascript/dashboard/components-next/sidebar/Sidebar.vue
+@@ -1066,6 +1066,7 @@ const menuItems = computed(() => {
+       </div>
+     </section>
+     <nav
++      :aria-label="$t('SIDEBAR.NAVIGATION')"
+       class="grid overflow-y-scroll flex-grow gap-2 pb-5 no-scrollbar min-w-0"
+       :class="isEffectivelyCollapsed ? 'px-1' : 'px-2'"
+     >
+diff --git a/app/javascript/dashboard/components-next/sidebar/SidebarAccountSwitcher.vue b/app/javascript/dashboard/components-next/sidebar/SidebarAccountSwitcher.vue
+index 605d3be..712eb80 100644
+--- a/app/javascript/dashboard/components-next/sidebar/SidebarAccountSwitcher.vue
++++ b/app/javascript/dashboard/components-next/sidebar/SidebarAccountSwitcher.vue
+@@ -68,8 +68,8 @@ const emitNewAccount = () => {
+         v-else
+         id="sidebar-account-switcher"
+         :data-account-id="accountId"
+-        aria-haspopup="listbox"
+-        aria-controls="account-options"
++        :aria-haspopup="showAccountSwitcher ? 'listbox' : undefined"
++        :aria-controls="showAccountSwitcher ? 'account-options' : undefined"
+         class="flex items-center gap-2 justify-between w-full rounded-lg px-2"
+         :class="[
+           isOpen && 'bg-n-alpha-1',
+@@ -95,6 +95,7 @@ const emitNewAccount = () => {
+     </template>
+     <DropdownBody
+       v-if="showAccountSwitcher || isCollapsed"
++      id="account-options"
+       class="min-w-80 z-50"
+     >
+       <DropdownSection :title="t('SIDEBAR_ITEMS.SWITCH_ACCOUNT')">
+diff --git a/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenu.vue b/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenu.vue
+index 3f76b3a..7579906 100644
+--- a/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenu.vue
++++ b/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenu.vue
+@@ -13,7 +13,6 @@ import {
+   DropdownSeparator,
+   DropdownItem,
+ } from 'next/dropdown-menu/base';
+-import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
+ 
+ defineProps({
+   isCollapsed: { type: Boolean, default: false },
+@@ -31,6 +30,9 @@ const currentUser = useMapGetter('getCurrentUser');
+ const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+ const accountId = useMapGetter('getCurrentAccountId');
+ const globalConfig = useMapGetter('globalConfig/get');
++const isACustomBrandedInstance = useMapGetter(
++  'globalConfig/isACustomBrandedInstance'
++);
+ const isFeatureEnabledonAccount = useMapGetter(
+   'accounts/isFeatureEnabledonAccount'
+ );
+@@ -164,11 +166,10 @@ const allowedMenuItems = computed(() => {
+       <SidebarProfileMenuStatus />
+       <DropdownSeparator />
+       <template v-for="item in allowedMenuItems" :key="item.label">
+-        <CustomBrandPolicyWrapper
+-          :show-on-custom-branded-instance="item.showOnCustomBrandedInstance"
+-        >
+-          <DropdownItem v-if="item.show" v-bind="item" />
+-        </CustomBrandPolicyWrapper>
++        <DropdownItem
++          v-if="item.show && (item.showOnCustomBrandedInstance || !isACustomBrandedInstance)"
++          v-bind="item"
++        />
+       </template>
+     </DropdownBody>
+   </DropdownContainer>
+diff --git a/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenuStatus.vue b/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenuStatus.vue
+index a1eb1b8..a6e7d4d 100644
+--- a/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenuStatus.vue
++++ b/app/javascript/dashboard/components-next/sidebar/SidebarProfileMenuStatus.vue
+@@ -76,8 +76,7 @@ function changeAvailabilityStatus(availability) {
+ </script>
+ 
+ <template>
+-  <DropdownSection class="[&>ul]:overflow-visible">
+-    <div class="grid gap-0">
++  <DropdownSection class="[&>ul]:overflow-visible [&>ul]:gap-0">
+       <DropdownItem preserve-open class="gap-1">
+         <div class="flex-grow flex items-center gap-1 min-w-0">
+           {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
+@@ -125,6 +124,5 @@ function changeAvailabilityStatus(availability) {
+         </div>
+         <ToggleSwitch v-model="autoOfflineToggle" />
+       </DropdownItem>
+-    </div>
+   </DropdownSection>
+ </template>
+diff --git a/app/javascript/dashboard/components-next/sidebar/SidebarSubGroup.vue b/app/javascript/dashboard/components-next/sidebar/SidebarSubGroup.vue
+index 82005b4..fa54358 100644
+--- a/app/javascript/dashboard/components-next/sidebar/SidebarSubGroup.vue
++++ b/app/javascript/dashboard/components-next/sidebar/SidebarSubGroup.vue
+@@ -149,34 +149,37 @@ watch([hasActiveChild, storageKey], expandSubGroupOnActiveChild, {
+           showTreeLine && !endTreeLine && CHILDREN_TRUNK,
+         ]"
+       >
+-        <div
+-          ref="scrollableContainer"
+-          class="min-w-0"
+-          :class="{
+-            'max-h-60 overflow-y-scroll no-scrollbar': isScrollable,
+-          }"
+-        >
+-          <SidebarGroupLeaf
+-            v-for="child in children"
+-            v-show="shouldShowItem(child)"
+-            v-bind="child"
+-            :key="child.name"
+-            :active="activeChild?.name === child.name"
+-            :hide-tree-line="hideLeafTreeLine"
+-            thin-tree-line
+-          />
+-        </div>
+-        <div
+-          v-if="isScrollable && isExpanded"
+-          v-show="!scrollEnd"
+-          class="absolute bg-gradient-to-t from-n-background w-full h-12 to-transparent -bottom-1 pointer-events-none flex items-end justify-end px-2 animate-fade-in-up"
+-        >
+-          <Icon
+-            icon="i-woot-chevrons-down"
+-            class="w-4 h-6 text-n-slate-9 opacity-50 group-hover:opacity-100"
+-          />
+-        </div>
++        <li class="min-w-0">
++          <ul
++            ref="scrollableContainer"
++            class="m-0 list-none min-w-0"
++            :class="{
++              'max-h-60 overflow-y-scroll no-scrollbar': isScrollable,
++            }"
++          >
++            <SidebarGroupLeaf
++              v-for="child in children"
++              v-show="shouldShowItem(child)"
++              v-bind="child"
++              :key="child.name"
++              :active="activeChild?.name === child.name"
++              :hide-tree-line="hideLeafTreeLine"
++              thin-tree-line
++            />
++          </ul>
++        </li>
+       </ul>
++      <div
++        v-if="isScrollable && isExpanded"
++        v-show="!scrollEnd"
++        aria-hidden="true"
++        class="absolute bg-gradient-to-t from-n-background w-full h-12 to-transparent -bottom-1 pointer-events-none flex items-end justify-end px-2 animate-fade-in-up"
++      >
++        <Icon
++          icon="i-woot-chevrons-down"
++          class="w-4 h-6 text-n-slate-9 opacity-50 group-hover:opacity-100"
++        />
++      </div>
+     </template>
+   </li>
+ </template>
+diff --git a/app/javascript/dashboard/components/auth/MfaVerification.vue b/app/javascript/dashboard/components/auth/MfaVerification.vue
+index 67d37be..655ce88 100644
+--- a/app/javascript/dashboard/components/auth/MfaVerification.vue
++++ b/app/javascript/dashboard/components/auth/MfaVerification.vue
+@@ -257,7 +257,7 @@ const handleTryAnotherMethod = () => {
+             name="backup_code"
+             type="text"
+             data-testid="backup_code_input"
+-            :tabindex="1"
++            tabindex="0"
+             required
+             :label="$t('MFA_VERIFICATION.ENTER_BACKUP_CODE')"
+             :placeholder="
+@@ -295,7 +295,7 @@ const handleTryAnotherMethod = () => {
+           type="submit"
+           data-testid="submit_button"
+           class="w-full"
+-          :tabindex="2"
++          tabindex="0"
+           :label="$t('MFA_VERIFICATION.VERIFY_BUTTON')"
+           :disabled="!canSubmit || isVerifying"
+           :is-loading="isVerifying"
+@@ -309,7 +309,7 @@ const handleTryAnotherMethod = () => {
+             link
+             type="button"
+             class="w-full hover:!no-underline"
+-            :tabindex="2"
++            tabindex="0"
+             :label="$t('MFA_VERIFICATION.TRY_ANOTHER_METHOD')"
+             @click="handleTryAnotherMethod"
+           />
+@@ -319,7 +319,7 @@ const handleTryAnotherMethod = () => {
+             link
+             type="button"
+             class="w-full hover:!no-underline"
+-            :tabindex="3"
++            tabindex="0"
+             :label="$t('MFA_VERIFICATION.CANCEL_LOGIN')"
+             @click="() => emit('cancel')"
+           />
+@@ -337,7 +337,7 @@ const handleTryAnotherMethod = () => {
+         link
+         type="button"
+         class="w-full hover:!no-underline"
+-        :tabindex="4"
++        tabindex="0"
+         :label="$t('MFA_VERIFICATION.LEARN_MORE')"
+         @click="helpModalRef?.open()"
+       />
+diff --git a/app/javascript/dashboard/components/table/Pagination.vue b/app/javascript/dashboard/components/table/Pagination.vue
+index cea8e0e..e958868 100644
+--- a/app/javascript/dashboard/components/table/Pagination.vue
++++ b/app/javascript/dashboard/components/table/Pagination.vue
+@@ -1,5 +1,5 @@
+ <script setup>
+-import { computed, onMounted } from 'vue';
++import { computed, onMounted, useId } from 'vue';
+ import { useI18n } from 'vue-i18n';
+ 
+ import Button from 'dashboard/components-next/button/Button.vue';
+@@ -22,6 +22,7 @@ const props = defineProps({
+ 
+ const emit = defineEmits(['pageSizeChange']);
+ const { t } = useI18n();
++const uid = useId();
+ 
+ const pageSizeOptions = [
+   {
+@@ -120,7 +121,10 @@ onMounted(() => {
+           class="[&>button]:text-n-slate-11 [&>button]:hover:text-n-slate-12 [&>button]:h-6"
+           :options="pageSizeOptions"
+         />
+-        <nav class="isolate inline-flex items-center gap-1.5">
++        <nav
++          :aria-label="`${$t('PAGINATION.NAVIGATION')} ${uid}`"
++          class="isolate inline-flex items-center gap-1.5"
++        >
+           <Button
+             icon="i-lucide-chevrons-left"
+             ghost
+diff --git a/app/javascript/dashboard/components/ui/Tabs/TabsItem.vue b/app/javascript/dashboard/components/ui/Tabs/TabsItem.vue
+index 098a6ef..d20426b 100644
+--- a/app/javascript/dashboard/components/ui/Tabs/TabsItem.vue
++++ b/app/javascript/dashboard/components/ui/Tabs/TabsItem.vue
+@@ -62,7 +62,7 @@ const onTabClick = event => {
+         class="rounded-full h-5 flex items-center justify-center text-xs font-medium my-0 ltr:ml-1 rtl:mr-1 px-1.5 py-0 min-w-[20px]"
+         :class="[
+           active
+-            ? 'bg-n-blue-3 text-n-blue-11'
++            ? 'bg-n-blue-3 text-n-blue-12'
+             : 'bg-n-alpha-1 text-n-slate-10',
+         ]"
+       >
+diff --git a/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue b/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
+index 16d5411..6fde676 100644
+--- a/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
++++ b/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
+@@ -280,6 +280,9 @@ export default {
+         sm
+         @click="toggleEmojiPicker"
+       />
++      <label :for="'conversationAttachment'" class="sr-only">
++        {{ $t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON') }}
++      </label>
+       <FileUpload
+         v-if="showAttachButton"
+         ref="uploadRef"
+@@ -296,14 +299,14 @@ export default {
+         }"
+         @input-file="onFileUpload"
+       >
+-        <NextButton
+-          v-if="showAttachButton"
+-          v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
+-          icon="i-ph-paperclip"
+-          slate
+-          faded
+-          sm
+-        />
++        <!-- C56 a11y : décoratif — le déclencheur interactif est le span
++             FileUpload lui-même (évite button>role=button imbriqué) -->
++        <span
++          aria-hidden="true"
++          class="inline-flex items-center justify-center rounded-md p-1.5 text-n-slate-11 hover:bg-n-alpha-2"
++        >
++          <span class="i-ph-paperclip size-4" />
++        </span>
+       </FileUpload>
+       <NextButton
+         v-if="showAudioRecorderButton"
+@@ -414,5 +417,9 @@ export default {
+   &:hover button {
+     @apply enabled:bg-n-slate-9/20;
+   }
++
++  &:focus-within > span {
++    @apply ring-2 ring-n-brand;
++  }
+ }
+ </style>
+diff --git a/app/javascript/dashboard/components/widgets/conversation/components/GalleryView.vue b/app/javascript/dashboard/components/widgets/conversation/components/GalleryView.vue
+index 1598753..6780f1c 100644
+--- a/app/javascript/dashboard/components/widgets/conversation/components/GalleryView.vue
++++ b/app/javascript/dashboard/components/widgets/conversation/components/GalleryView.vue
+@@ -261,7 +261,7 @@ onMounted(() => {
+           </div>
+         </header>
+ 
+-        <main class="flex items-stretch flex-1 h-full overflow-hidden">
++        <div class="flex items-stretch flex-1 h-full overflow-hidden">
+           <div class="flex items-center justify-center w-16 shrink-0">
+             <NextButton
+               v-if="hasMoreThanOneAttachment"
+@@ -347,7 +347,7 @@ onMounted(() => {
+               "
+             />
+           </div>
+-        </main>
++        </div>
+ 
+         <footer
+           class="z-10 flex items-center justify-center h-12 border-t border-n-weak"
+diff --git a/app/javascript/dashboard/helper/commandbar/icons.js b/app/javascript/dashboard/helper/commandbar/icons.js
+index f17d9bc..a3b11d5 100644
+--- a/app/javascript/dashboard/helper/commandbar/icons.js
++++ b/app/javascript/dashboard/helper/commandbar/icons.js
+@@ -1,17 +1,17 @@
+-export const ICON_ADD_LABEL = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 2A2.25 2.25 0 0 1 22 4.25v5.462a3.25 3.25 0 0 1-.952 2.298l-8.5 8.503a3.255 3.255 0 0 1-4.597.001L3.489 16.06a3.25 3.25 0 0 1-.003-4.596l8.5-8.51A3.25 3.25 0 0 1 14.284 2h5.465Zm0 1.5h-5.465c-.465 0-.91.185-1.239.513l-8.512 8.523a1.75 1.75 0 0 0 .015 2.462l4.461 4.454a1.755 1.755 0 0 0 2.477 0l8.5-8.503a1.75 1.75 0 0 0 .513-1.237V4.25a.75.75 0 0 0-.75-.75ZM17 5.502a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" fill="currentColor"/></svg>`;
+-export const ICON_ASSIGN_AGENT = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm-5.478 2a6.474 6.474 0 0 0-.708 1.5h-7.06a.75.75 0 0 0-.75.75v.907c0 .656.286 1.279.783 1.706C5.545 19.945 7.44 20.501 10 20.501c.599 0 1.162-.03 1.688-.091.25.5.563.964.93 1.38-.803.141-1.676.21-2.618.21-2.89 0-5.128-.656-6.691-2a3.75 3.75 0 0 1-1.305-2.843v-.907A2.25 2.25 0 0 1 4.254 14h7.768Zm4.697.588-.069.058-2.515 2.517-.041.05-.035.058-.032.078-.012.043-.01.086.003.088.019.085.032.078.025.042.05.066 2.516 2.516a.5.5 0 0 0 .765-.638l-.058-.069L15.711 18h4.79a.5.5 0 0 0 .491-.41L21 17.5a.5.5 0 0 0-.41-.492L20.5 17h-4.789l1.646-1.647a.5.5 0 0 0 .058-.637l-.058-.07a.5.5 0 0 0-.638-.058ZM10 2.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="currentColor"/></svg>`;
+-export const ICON_MUTE_CONVERSATION = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.92 3.316c.806-.717 2.08-.145 2.08.934v15.496c0 1.078-1.274 1.65-2.08.934l-4.492-3.994a.75.75 0 0 0-.498-.19H4.25A2.25 2.25 0 0 1 2 14.247V9.75a2.25 2.25 0 0 1 2.25-2.25h3.68a.75.75 0 0 0 .498-.19l4.491-3.993Zm.58 1.49L9.425 8.43A2.25 2.25 0 0 1 7.93 9H4.25a.75.75 0 0 0-.75.75v4.497c0 .415.336.75.75.75h3.68a2.25 2.25 0 0 1 1.495.57l4.075 3.623V4.807ZM16.22 9.22a.75.75 0 0 1 1.06 0L19 10.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L20.06 12l1.72 1.72a.75.75 0 1 1-1.06 1.06L19 13.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L17.94 12l-1.72-1.72a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>`;
+-export const ICON_UNMUTE_CONVERSATION = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4.25c0-1.079-1.274-1.65-2.08-.934L8.427 7.309a.75.75 0 0 1-.498.19H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V4.25ZM9.425 8.43 13.5 4.807v14.382l-4.075-3.624a2.25 2.25 0 0 0-1.495-.569H4.25a.75.75 0 0 1-.75-.75V9.75a.75.75 0 0 1 .75-.75h3.68a2.25 2.25 0 0 0 1.495-.569ZM18.992 5.897a.75.75 0 0 1 1.049.157A9.959 9.959 0 0 1 22 12a9.96 9.96 0 0 1-1.96 5.946.75.75 0 0 1-1.205-.892A8.459 8.459 0 0 0 20.5 12a8.459 8.459 0 0 0-1.665-5.054.75.75 0 0 1 .157-1.049Z" fill="#212121"/><path d="M17.143 8.37a.75.75 0 0 1 1.017.302c.536.99.84 2.125.84 3.328a6.973 6.973 0 0 1-.84 3.328.75.75 0 0 1-1.32-.714c.42-.777.66-1.666.66-2.614s-.24-1.837-.66-2.614a.75.75 0 0 1 .303-1.017Z" fill="currentColor"/></svg>`;
+-export const ICON_REMOVE_LABEL = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 2A2.25 2.25 0 0 1 22 4.25v5.462a3.25 3.25 0 0 1-.952 2.298l-.026.026a6.473 6.473 0 0 0-1.43-.692l.395-.395a1.75 1.75 0 0 0 .513-1.237V4.25a.75.75 0 0 0-.75-.75h-5.466c-.464 0-.91.185-1.238.513l-8.512 8.523a1.75 1.75 0 0 0 .015 2.462l4.461 4.454a1.755 1.755 0 0 0 2.33.13c.165.487.386.947.654 1.374a3.256 3.256 0 0 1-4.043-.442L3.489 16.06a3.25 3.25 0 0 1-.004-4.596l8.5-8.51a3.25 3.25 0 0 1 2.3-.953h5.465ZM17 5.502a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM17.5 23a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Zm-2.354-7.854a.5.5 0 0 1 .708 0l1.646 1.647 1.646-1.647a.5.5 0 0 1 .708.708L18.207 17.5l1.647 1.646a.5.5 0 0 1-.708.708L17.5 18.207l-1.646 1.647a.5.5 0 0 1-.708-.708l1.647-1.646-1.647-1.646a.5.5 0 0 1 0-.708Z" fill="currentColor"/></svg>`;
+-export const ICON_REOPEN_CONVERSATION = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.25 2a.75.75 0 0 0-.743.648l-.007.102v5.69l-4.574-4.56a6.41 6.41 0 0 0-8.878-.179l-.186.18a6.41 6.41 0 0 0 0 9.063l8.845 8.84a.75.75 0 0 0 1.06-1.062l-8.845-8.838a4.91 4.91 0 0 1 6.766-7.112l.178.17L17.438 9.5H11.75a.75.75 0 0 0-.743.648L11 10.25c0 .38.282.694.648.743l.102.007h7.5a.75.75 0 0 0 .743-.648L20 10.25v-7.5a.75.75 0 0 0-.75-.75Z" fill="currentColor"/></svg>`;
+-export const ICON_RESOLVE_CONVERSATION = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm-1.25 9.94 4.47-4.47a.75.75 0 0 1 1.133.976l-.073.084-5 5a.75.75 0 0 1-.976.073l-.084-.073-2.5-2.5a.75.75 0 0 1 .976-1.133l.084.073 1.97 1.97 4.47-4.47-4.47 4.47Z" fill="currentColor"/></svg>`;
+-export const ICON_SEND_TRANSCRIPT = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.5a.75.75 0 0 1 .743.648l.007.102v5a4.75 4.75 0 0 1-4.533 4.745L15.75 22h-7.5c-.98 0-1.813-.626-2.122-1.5h9.622l.184-.005a3.25 3.25 0 0 0 3.06-3.06L19 17.25v-5a.75.75 0 0 1 .75-.75Zm-2.5-2a.75.75 0 0 1 .743.648l.007.102v7a2.25 2.25 0 0 1-2.096 2.245l-.154.005h-10a2.25 2.25 0 0 1-2.245-2.096L3.5 17.25v-7a.75.75 0 0 1 1.493-.102L5 10.25v7c0 .38.282.694.648.743L5.75 18h10a.75.75 0 0 0 .743-.648l.007-.102v-7a.75.75 0 0 1 .75-.75ZM6.218 6.216l3.998-3.996a.75.75 0 0 1 .976-.073l.084.072 4.004 3.997a.75.75 0 0 1-.976 1.134l-.084-.073-2.72-2.714v9.692a.75.75 0 0 1-.648.743l-.102.007a.75.75 0 0 1-.743-.648L10 14.255V4.556L7.279 7.277a.75.75 0 0 1-.977.072l-.084-.072a.75.75 0 0 1-.072-.977l.072-.084 3.998-3.996-3.998 3.996Z" fill="currentColor"/></svg>`;
+-export const ICON_SNOOZE_CONVERSATION = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12S6.477 2 12 2Zm0 1.667c-4.595 0-8.333 3.738-8.333 8.333c0 4.595 3.738 8.333 8.333 8.333c4.595 0 8.333-3.738 8.333-8.333c0-4.595-3.738-8.333-8.333-8.333ZM11.25 6a.75.75 0 0 1 .743.648L12 6.75V12h3.25a.75.75 0 0 1 .102 1.493l-.102.007h-4a.75.75 0 0 1-.743-.648l-.007-.102v-6a.75.75 0 0 1 .75-.75Z" fill="currentColor"/></svg>`;
+-export const ICON_SNOOZE_UNTIL_NEXT_WEEK = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 7a.75.75 0 0 0-.75.75v4c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 0-.75-.75h-8.5Zm.75 4V8.5h7V11h-7Z" fill="currentColor"/><path d="M17.75 21A3.25 3.25 0 0 0 21 17.75V6.25A3.25 3.25 0 0 0 17.75 3H6.25A3.25 3.25 0 0 0 3 6.25v11.5A3.25 3.25 0 0 0 6.25 21h11.5ZM19.5 6.25v11.5a1.75 1.75 0 0 1-1.75 1.75H6.25a1.75 1.75 0 0 1-1.75-1.75V6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75Z" fill="currentColor"/></svg>`;
+-export const ICON_SNOOZE_UNTIL_TOMORRROW = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 8.744C7.847 8.362 8.415 8 9.25 8c1.152 0 1.894.792 2.155 1.661.253.847.1 1.895-.62 2.618a8.092 8.092 0 0 1-.793.67l-.04.031c-.28.216-.53.412-.75.63-.255.256-.464.535-.585.89h2.133a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75c0-1.247.524-2.083 1.144-2.701.296-.296.618-.545.89-.756l.003-.002c.286-.221.508-.393.685-.57.272-.274.367-.725.246-1.13-.115-.381-.37-.591-.718-.591-.353 0-.535.137-.64.253a.843.843 0 0 0-.148.229v.003a.75.75 0 0 1-1.428-.462l.035-.096a2.343 2.343 0 0 1 .43-.683ZM13.25 8a.75.75 0 0 1 .75.75v2.75h1.5V8.75a.75.75 0 0 1 1.5 0v6.47a.75.75 0 0 1-1.5 0V13h-2.25a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 1 .75-.75Z" fill="currentColor"/><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10ZM3.5 12a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-17 0Z" fill="currentColor"/></svg>`;
+-export const ICON_ASSIGN_TEAM = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2-.09.007a.5.5 0 0 0-.402.402L17 14.5V17L14.498 17l-.09.008a.5.5 0 0 0-.402.402l-.008.09.008.09a.5.5 0 0 0 .402.402l.09.008H17v2.503l.008.09a.5.5 0 0 0 .402.402l.09.008.09-.008a.5.5 0 0 0 .402-.402l.008-.09V18l2.504.001.09-.008a.5.5 0 0 0 .402-.402l.008-.09-.008-.09a.5.5 0 0 0-.403-.402l-.09-.008H18v-2.5l-.008-.09a.5.5 0 0 0-.402-.403L17.5 14Zm-3.246-4c.835 0 1.563.454 1.951 1.13a6.44 6.44 0 0 0-1.518.509.736.736 0 0 0-.433-.139H9.752a.75.75 0 0 0-.75.75v4.249c0 1.41.974 2.594 2.286 2.915a6.42 6.42 0 0 0 .735 1.587l-.02-.001a4.501 4.501 0 0 1-4.501-4.501V12.25A2.25 2.25 0 0 1 9.752 10h4.502Zm-6.848 0a3.243 3.243 0 0 0-.817 1.5H4.25a.75.75 0 0 0-.75.75v2.749a2.501 2.501 0 0 0 3.082 2.433c.085.504.24.985.453 1.432A4.001 4.001 0 0 1 2 14.999V12.25a2.25 2.25 0 0 1 2.096-2.245L4.25 10h3.156Zm12.344 0A2.25 2.25 0 0 1 22 12.25v.56A6.478 6.478 0 0 0 17.5 11l-.245.005A3.21 3.21 0 0 0 16.6 10h3.15ZM18.5 4a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM12 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM5.5 4a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm13 1.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-6.5-1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-6.5 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" fill="currentColor"/></svg>`;
+-export const ICON_ASSIGN_PRIORITY = `<svg role="img" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><path fill="currentColor" d="M9.562 3.262a.5.5 0 0 1 .879 0l6.5 12a.5.5 0 0 1-.44.739H3.5a.5.5 0 0 1-.44-.739l6.503-12Zm1.758-.477c-.567-1.047-2.07-1.047-2.638 0L2.18 14.786a1.5 1.5 0 0 0 1.32 2.215h13.002a1.5 1.5 0 0 0 1.319-2.215l-6.5-12ZM10.5 7.5a.5.5 0 1 0-1 0v4a.5.5 0 0 0 1 0v-4Zm.25 6.25a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0Z"/></svg>`;
+-export const ICON_PRIORITY_URGENT = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++export const ICON_ADD_LABEL = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 2A2.25 2.25 0 0 1 22 4.25v5.462a3.25 3.25 0 0 1-.952 2.298l-8.5 8.503a3.255 3.255 0 0 1-4.597.001L3.489 16.06a3.25 3.25 0 0 1-.003-4.596l8.5-8.51A3.25 3.25 0 0 1 14.284 2h5.465Zm0 1.5h-5.465c-.465 0-.91.185-1.239.513l-8.512 8.523a1.75 1.75 0 0 0 .015 2.462l4.461 4.454a1.755 1.755 0 0 0 2.477 0l8.5-8.503a1.75 1.75 0 0 0 .513-1.237V4.25a.75.75 0 0 0-.75-.75ZM17 5.502a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" fill="currentColor"/></svg>`;
++export const ICON_ASSIGN_AGENT = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm-5.478 2a6.474 6.474 0 0 0-.708 1.5h-7.06a.75.75 0 0 0-.75.75v.907c0 .656.286 1.279.783 1.706C5.545 19.945 7.44 20.501 10 20.501c.599 0 1.162-.03 1.688-.091.25.5.563.964.93 1.38-.803.141-1.676.21-2.618.21-2.89 0-5.128-.656-6.691-2a3.75 3.75 0 0 1-1.305-2.843v-.907A2.25 2.25 0 0 1 4.254 14h7.768Zm4.697.588-.069.058-2.515 2.517-.041.05-.035.058-.032.078-.012.043-.01.086.003.088.019.085.032.078.025.042.05.066 2.516 2.516a.5.5 0 0 0 .765-.638l-.058-.069L15.711 18h4.79a.5.5 0 0 0 .491-.41L21 17.5a.5.5 0 0 0-.41-.492L20.5 17h-4.789l1.646-1.647a.5.5 0 0 0 .058-.637l-.058-.07a.5.5 0 0 0-.638-.058ZM10 2.004a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 1.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7Z" fill="currentColor"/></svg>`;
++export const ICON_MUTE_CONVERSATION = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.92 3.316c.806-.717 2.08-.145 2.08.934v15.496c0 1.078-1.274 1.65-2.08.934l-4.492-3.994a.75.75 0 0 0-.498-.19H4.25A2.25 2.25 0 0 1 2 14.247V9.75a2.25 2.25 0 0 1 2.25-2.25h3.68a.75.75 0 0 0 .498-.19l4.491-3.993Zm.58 1.49L9.425 8.43A2.25 2.25 0 0 1 7.93 9H4.25a.75.75 0 0 0-.75.75v4.497c0 .415.336.75.75.75h3.68a2.25 2.25 0 0 1 1.495.57l4.075 3.623V4.807ZM16.22 9.22a.75.75 0 0 1 1.06 0L19 10.94l1.72-1.72a.75.75 0 1 1 1.06 1.06L20.06 12l1.72 1.72a.75.75 0 1 1-1.06 1.06L19 13.06l-1.72 1.72a.75.75 0 1 1-1.06-1.06L17.94 12l-1.72-1.72a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>`;
++export const ICON_UNMUTE_CONVERSATION = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15 4.25c0-1.079-1.274-1.65-2.08-.934L8.427 7.309a.75.75 0 0 1-.498.19H4.25A2.25 2.25 0 0 0 2 9.749v4.497a2.25 2.25 0 0 0 2.25 2.25h3.68a.75.75 0 0 1 .498.19l4.491 3.994c.806.716 2.081.144 2.081-.934V4.25ZM9.425 8.43 13.5 4.807v14.382l-4.075-3.624a2.25 2.25 0 0 0-1.495-.569H4.25a.75.75 0 0 1-.75-.75V9.75a.75.75 0 0 1 .75-.75h3.68a2.25 2.25 0 0 0 1.495-.569ZM18.992 5.897a.75.75 0 0 1 1.049.157A9.959 9.959 0 0 1 22 12a9.96 9.96 0 0 1-1.96 5.946.75.75 0 0 1-1.205-.892A8.459 8.459 0 0 0 20.5 12a8.459 8.459 0 0 0-1.665-5.054.75.75 0 0 1 .157-1.049Z" fill="#212121"/><path d="M17.143 8.37a.75.75 0 0 1 1.017.302c.536.99.84 2.125.84 3.328a6.973 6.973 0 0 1-.84 3.328.75.75 0 0 1-1.32-.714c.42-.777.66-1.666.66-2.614s-.24-1.837-.66-2.614a.75.75 0 0 1 .303-1.017Z" fill="currentColor"/></svg>`;
++export const ICON_REMOVE_LABEL = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 2A2.25 2.25 0 0 1 22 4.25v5.462a3.25 3.25 0 0 1-.952 2.298l-.026.026a6.473 6.473 0 0 0-1.43-.692l.395-.395a1.75 1.75 0 0 0 .513-1.237V4.25a.75.75 0 0 0-.75-.75h-5.466c-.464 0-.91.185-1.238.513l-8.512 8.523a1.75 1.75 0 0 0 .015 2.462l4.461 4.454a1.755 1.755 0 0 0 2.33.13c.165.487.386.947.654 1.374a3.256 3.256 0 0 1-4.043-.442L3.489 16.06a3.25 3.25 0 0 1-.004-4.596l8.5-8.51a3.25 3.25 0 0 1 2.3-.953h5.465ZM17 5.502a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM17.5 23a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Zm-2.354-7.854a.5.5 0 0 1 .708 0l1.646 1.647 1.646-1.647a.5.5 0 0 1 .708.708L18.207 17.5l1.647 1.646a.5.5 0 0 1-.708.708L17.5 18.207l-1.646 1.647a.5.5 0 0 1-.708-.708l1.647-1.646-1.647-1.646a.5.5 0 0 1 0-.708Z" fill="currentColor"/></svg>`;
++export const ICON_REOPEN_CONVERSATION = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.25 2a.75.75 0 0 0-.743.648l-.007.102v5.69l-4.574-4.56a6.41 6.41 0 0 0-8.878-.179l-.186.18a6.41 6.41 0 0 0 0 9.063l8.845 8.84a.75.75 0 0 0 1.06-1.062l-8.845-8.838a4.91 4.91 0 0 1 6.766-7.112l.178.17L17.438 9.5H11.75a.75.75 0 0 0-.743.648L11 10.25c0 .38.282.694.648.743l.102.007h7.5a.75.75 0 0 0 .743-.648L20 10.25v-7.5a.75.75 0 0 0-.75-.75Z" fill="currentColor"/></svg>`;
++export const ICON_RESOLVE_CONVERSATION = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2Zm0 1.5a8.5 8.5 0 1 0 0 17 8.5 8.5 0 0 0 0-17Zm-1.25 9.94 4.47-4.47a.75.75 0 0 1 1.133.976l-.073.084-5 5a.75.75 0 0 1-.976.073l-.084-.073-2.5-2.5a.75.75 0 0 1 .976-1.133l.084.073 1.97 1.97 4.47-4.47-4.47 4.47Z" fill="currentColor"/></svg>`;
++export const ICON_SEND_TRANSCRIPT = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.75 11.5a.75.75 0 0 1 .743.648l.007.102v5a4.75 4.75 0 0 1-4.533 4.745L15.75 22h-7.5c-.98 0-1.813-.626-2.122-1.5h9.622l.184-.005a3.25 3.25 0 0 0 3.06-3.06L19 17.25v-5a.75.75 0 0 1 .75-.75Zm-2.5-2a.75.75 0 0 1 .743.648l.007.102v7a2.25 2.25 0 0 1-2.096 2.245l-.154.005h-10a2.25 2.25 0 0 1-2.245-2.096L3.5 17.25v-7a.75.75 0 0 1 1.493-.102L5 10.25v7c0 .38.282.694.648.743L5.75 18h10a.75.75 0 0 0 .743-.648l.007-.102v-7a.75.75 0 0 1 .75-.75ZM6.218 6.216l3.998-3.996a.75.75 0 0 1 .976-.073l.084.072 4.004 3.997a.75.75 0 0 1-.976 1.134l-.084-.073-2.72-2.714v9.692a.75.75 0 0 1-.648.743l-.102.007a.75.75 0 0 1-.743-.648L10 14.255V4.556L7.279 7.277a.75.75 0 0 1-.977.072l-.084-.072a.75.75 0 0 1-.072-.977l.072-.084 3.998-3.996-3.998 3.996Z" fill="currentColor"/></svg>`;
++export const ICON_SNOOZE_CONVERSATION = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.478 10 10s-4.477 10-10 10S2 17.522 2 12S6.477 2 12 2Zm0 1.667c-4.595 0-8.333 3.738-8.333 8.333c0 4.595 3.738 8.333 8.333 8.333c4.595 0 8.333-3.738 8.333-8.333c0-4.595-3.738-8.333-8.333-8.333ZM11.25 6a.75.75 0 0 1 .743.648L12 6.75V12h3.25a.75.75 0 0 1 .102 1.493l-.102.007h-4a.75.75 0 0 1-.743-.648l-.007-.102v-6a.75.75 0 0 1 .75-.75Z" fill="currentColor"/></svg>`;
++export const ICON_SNOOZE_UNTIL_NEXT_WEEK = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.75 7a.75.75 0 0 0-.75.75v4c0 .414.336.75.75.75h8.5a.75.75 0 0 0 .75-.75v-4a.75.75 0 0 0-.75-.75h-8.5Zm.75 4V8.5h7V11h-7Z" fill="currentColor"/><path d="M17.75 21A3.25 3.25 0 0 0 21 17.75V6.25A3.25 3.25 0 0 0 17.75 3H6.25A3.25 3.25 0 0 0 3 6.25v11.5A3.25 3.25 0 0 0 6.25 21h11.5ZM19.5 6.25v11.5a1.75 1.75 0 0 1-1.75 1.75H6.25a1.75 1.75 0 0 1-1.75-1.75V6.25c0-.966.784-1.75 1.75-1.75h11.5c.966 0 1.75.784 1.75 1.75Z" fill="currentColor"/></svg>`;
++export const ICON_SNOOZE_UNTIL_TOMORRROW = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 8.744C7.847 8.362 8.415 8 9.25 8c1.152 0 1.894.792 2.155 1.661.253.847.1 1.895-.62 2.618a8.092 8.092 0 0 1-.793.67l-.04.031c-.28.216-.53.412-.75.63-.255.256-.464.535-.585.89h2.133a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1-.75-.75c0-1.247.524-2.083 1.144-2.701.296-.296.618-.545.89-.756l.003-.002c.286-.221.508-.393.685-.57.272-.274.367-.725.246-1.13-.115-.381-.37-.591-.718-.591-.353 0-.535.137-.64.253a.843.843 0 0 0-.148.229v.003a.75.75 0 0 1-1.428-.462l.035-.096a2.343 2.343 0 0 1 .43-.683ZM13.25 8a.75.75 0 0 1 .75.75v2.75h1.5V8.75a.75.75 0 0 1 1.5 0v6.47a.75.75 0 0 1-1.5 0V13h-2.25a.75.75 0 0 1-.75-.75v-3.5a.75.75 0 0 1 .75-.75Z" fill="currentColor"/><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12s4.477 10 10 10 10-4.477 10-10ZM3.5 12a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-17 0Z" fill="currentColor"/></svg>`;
++export const ICON_ASSIGN_TEAM = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.5 12a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11Zm0 2-.09.007a.5.5 0 0 0-.402.402L17 14.5V17L14.498 17l-.09.008a.5.5 0 0 0-.402.402l-.008.09.008.09a.5.5 0 0 0 .402.402l.09.008H17v2.503l.008.09a.5.5 0 0 0 .402.402l.09.008.09-.008a.5.5 0 0 0 .402-.402l.008-.09V18l2.504.001.09-.008a.5.5 0 0 0 .402-.402l.008-.09-.008-.09a.5.5 0 0 0-.403-.402l-.09-.008H18v-2.5l-.008-.09a.5.5 0 0 0-.402-.403L17.5 14Zm-3.246-4c.835 0 1.563.454 1.951 1.13a6.44 6.44 0 0 0-1.518.509.736.736 0 0 0-.433-.139H9.752a.75.75 0 0 0-.75.75v4.249c0 1.41.974 2.594 2.286 2.915a6.42 6.42 0 0 0 .735 1.587l-.02-.001a4.501 4.501 0 0 1-4.501-4.501V12.25A2.25 2.25 0 0 1 9.752 10h4.502Zm-6.848 0a3.243 3.243 0 0 0-.817 1.5H4.25a.75.75 0 0 0-.75.75v2.749a2.501 2.501 0 0 0 3.082 2.433c.085.504.24.985.453 1.432A4.001 4.001 0 0 1 2 14.999V12.25a2.25 2.25 0 0 1 2.096-2.245L4.25 10h3.156Zm12.344 0A2.25 2.25 0 0 1 22 12.25v.56A6.478 6.478 0 0 0 17.5 11l-.245.005A3.21 3.21 0 0 0 16.6 10h3.15ZM18.5 4a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM12 3a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM5.5 4a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Zm13 1.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-6.5-1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm-6.5 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z" fill="currentColor"/></svg>`;
++export const ICON_ASSIGN_PRIORITY = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20"><path fill="currentColor" d="M9.562 3.262a.5.5 0 0 1 .879 0l6.5 12a.5.5 0 0 1-.44.739H3.5a.5.5 0 0 1-.44-.739l6.503-12Zm1.758-.477c-.567-1.047-2.07-1.047-2.638 0L2.18 14.786a1.5 1.5 0 0 0 1.32 2.215h13.002a1.5 1.5 0 0 0 1.319-2.215l-6.5-12ZM10.5 7.5a.5.5 0 1 0-1 0v4a.5.5 0 0 0 1 0v-4Zm.25 6.25a.75.75 0 1 1-1.5 0a.75.75 0 0 1 1.5 0Z"/></svg>`;
++export const ICON_PRIORITY_URGENT = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="24" height="24" fill="#FFEBEE"/>
+ <path d="M8 8.5C8 7.94772 8.44772 7.5 9 7.5C9.55228 7.5 10 7.94772 10 8.5V13C10 13.5523 9.55228 14 9 14C8.44772 14 8 13.5523 8 13V8.5Z" fill="#FF382D"/>
+ <path d="M8 15.5C8 14.9477 8.44772 14.5 9 14.5C9.55228 14.5 10 14.9477 10 15.5C10 16.0523 9.55228 16.5 9 16.5C8.44772 16.5 8 16.0523 8 15.5Z" fill="#FF382D"/>
+@@ -21,88 +21,88 @@ export const ICON_PRIORITY_URGENT = `<svg role="img" class="ninja-icon ninja-ico
+ <path d="M14 15.5C14 14.9477 14.4477 14.5 15 14.5C15.5523 14.5 16 14.9477 16 15.5C16 16.0523 15.5523 16.5 15 16.5C14.4477 16.5 14 16.0523 14 15.5Z" fill="#FF382D"/>
+ </svg>
+ `;
+-export const ICON_PRIORITY_HIGH = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++export const ICON_PRIORITY_HIGH = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="24" height="24" fill="#F1F5F8"/>
+ <path d="M9.7642 8L9.62358 14.1619H8.25142L8.11506 8H9.7642ZM8.9375 16.821C8.67898 16.821 8.45739 16.7301 8.27273 16.5483C8.09091 16.3665 8 16.1449 8 15.8835C8 15.6278 8.09091 15.4091 8.27273 15.2273C8.45739 15.0455 8.67898 14.9545 8.9375 14.9545C9.19034 14.9545 9.40909 15.0455 9.59375 15.2273C9.78125 15.4091 9.875 15.6278 9.875 15.8835C9.875 16.0568 9.83097 16.2145 9.7429 16.3565C9.65767 16.4986 9.54403 16.6122 9.40199 16.6974C9.26278 16.7798 9.10795 16.821 8.9375 16.821Z" fill="#446888"/>
+ <path d="M13.1073 8L12.9667 14.1619H11.5945L11.4582 8H13.1073ZM12.2806 16.821C12.0221 16.821 11.8005 16.7301 11.6159 16.5483C11.434 16.3665 11.3431 16.1449 11.3431 15.8835C11.3431 15.6278 11.434 15.4091 11.6159 15.2273C11.8005 15.0455 12.0221 14.9545 12.2806 14.9545C12.5335 14.9545 12.7522 15.0455 12.9369 15.2273C13.1244 15.4091 13.2181 15.6278 13.2181 15.8835C13.2181 16.0568 13.1741 16.2145 13.086 16.3565C13.0008 16.4986 12.8872 16.6122 12.7451 16.6974C12.6059 16.7798 12.4511 16.821 12.2806 16.821Z" fill="#446888"/>
+ <path d="M16.4505 8L16.3098 14.1619H14.9377L14.8013 8H16.4505ZM15.6237 16.821C15.3652 16.821 15.1436 16.7301 14.959 16.5483C14.7772 16.3665 14.6862 16.1449 14.6862 15.8835C14.6862 15.6278 14.7772 15.4091 14.959 15.2273C15.1436 15.0455 15.3652 14.9545 15.6237 14.9545C15.8766 14.9545 16.0953 15.0455 16.28 15.2273C16.4675 15.4091 16.5612 15.6278 16.5612 15.8835C16.5612 16.0568 16.5172 16.2145 16.4291 16.3565C16.3439 16.4986 16.2303 16.6122 16.0882 16.6974C15.949 16.7798 15.7942 16.821 15.6237 16.821Z" fill="#446888"/>
+ </svg>`;
+ 
+-export const ICON_PRIORITY_MEDIUM = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++export const ICON_PRIORITY_MEDIUM = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="24" height="24" fill="#F1F5F8"/>
+ <path d="M10.7642 8L10.6236 14.1619H9.25142L9.11506 8H10.7642ZM9.9375 16.821C9.67898 16.821 9.45739 16.7301 9.27273 16.5483C9.09091 16.3665 9 16.1449 9 15.8835C9 15.6278 9.09091 15.4091 9.27273 15.2273C9.45739 15.0455 9.67898 14.9545 9.9375 14.9545C10.1903 14.9545 10.4091 15.0455 10.5938 15.2273C10.7812 15.4091 10.875 15.6278 10.875 15.8835C10.875 16.0568 10.831 16.2145 10.7429 16.3565C10.6577 16.4986 10.544 16.6122 10.402 16.6974C10.2628 16.7798 10.108 16.821 9.9375 16.821Z" fill="#446888"/>
+ <path d="M14.1073 8L13.9667 14.1619H12.5945L12.4582 8H14.1073ZM13.2806 16.821C13.0221 16.821 12.8005 16.7301 12.6159 16.5483C12.434 16.3665 12.3431 16.1449 12.3431 15.8835C12.3431 15.6278 12.434 15.4091 12.6159 15.2273C12.8005 15.0455 13.0221 14.9545 13.2806 14.9545C13.5335 14.9545 13.7522 15.0455 13.9369 15.2273C14.1244 15.4091 14.2181 15.6278 14.2181 15.8835C14.2181 16.0568 14.1741 16.2145 14.086 16.3565C14.0008 16.4986 13.8872 16.6122 13.7451 16.6974C13.6059 16.7798 13.4511 16.821 13.2806 16.821Z" fill="#446888"/>
+ </svg>`;
+ 
+-export const ICON_PRIORITY_LOW = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++export const ICON_PRIORITY_LOW = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="24" height="24" fill="#F1F5F8"/>
+ <path d="M12.7642 8L12.6236 14.1619H11.2514L11.1151 8H12.7642ZM11.9375 16.821C11.679 16.821 11.4574 16.7301 11.2727 16.5483C11.0909 16.3665 11 16.1449 11 15.8835C11 15.6278 11.0909 15.4091 11.2727 15.2273C11.4574 15.0455 11.679 14.9545 11.9375 14.9545C12.1903 14.9545 12.4091 15.0455 12.5938 15.2273C12.7812 15.4091 12.875 15.6278 12.875 15.8835C12.875 16.0568 12.831 16.2145 12.7429 16.3565C12.6577 16.4986 12.544 16.6122 12.402 16.6974C12.2628 16.7798 12.108 16.821 11.9375 16.821Z" fill="#446888"/>
+ </svg>`;
+ 
+-export const ICON_PRIORITY_NONE = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
++export const ICON_PRIORITY_NONE = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <rect width="24" height="24" fill="#F1F5F8"/>
+ <path d="M13.5686 8L11.1579 16.9562H10L12.4107 8H13.5686Z" fill="#446888"/>
+ </svg>`;
+ 
+-export const ICON_AI_ASSIST = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m13.314 7.565l-.136.126l-10.48 10.488a2.27 2.27 0 0 0 3.211 3.208L16.388 10.9a2.251 2.251 0 0 0-.001-3.182l-.157-.146a2.25 2.25 0 0 0-2.916-.007Zm-.848 2.961l1.088 1.088l-8.706 8.713a.77.77 0 1 1-1.089-1.088l8.707-8.713Zm4.386 4.48L16.75 15a.75.75 0 0 0-.743.648L16 15.75v.75h-.75a.75.75 0 0 0-.743.648l-.007.102c0 .38.282.694.648.743l.102.007H16v.75c0 .38.282.694.648.743l.102.007a.75.75 0 0 0 .743-.648l.007-.102V18h.75a.75.75 0 0 0 .743-.648L19 17.25a.75.75 0 0 0-.648-.743l-.102-.007h-.75v-.75a.75.75 0 0 0-.648-.743L16.75 15l.102.007Zm-1.553-6.254l.027.027a.751.751 0 0 1 0 1.061l-.711.713l-1.089-1.089l.73-.73a.75.75 0 0 1 1.043.018ZM6.852 5.007L6.75 5a.75.75 0 0 0-.743.648L6 5.75v.75h-.75a.75.75 0 0 0-.743.648L4.5 7.25c0 .38.282.693.648.743L5.25 8H6v.75c0 .38.282.693.648.743l.102.007a.75.75 0 0 0 .743-.648L7.5 8.75V8h.75a.75.75 0 0 0 .743-.648L9 7.25a.75.75 0 0 0-.648-.743L8.25 6.5H7.5v-.75a.75.75 0 0 0-.648-.743L6.75 5l.102.007Zm12-2L18.75 3a.75.75 0 0 0-.743.648L18 3.75v.75h-.75a.75.75 0 0 0-.743.648l-.007.102c0 .38.282.693.648.743L17.25 6H18v.75c0 .38.282.693.648.743l.102.007a.75.75 0 0 0 .743-.648l.007-.102V6h.75a.75.75 0 0 0 .743-.648L21 5.25a.75.75 0 0 0-.648-.743L20.25 4.5h-.75v-.75a.75.75 0 0 0-.648-.743L18.75 3l.102.007Z" fill="currentColor"/></svg>`;
+-export const ICON_AI_SUMMARY = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H18a2.5 2.5 0 0 1 2.5 2.5v14.25a.75.75 0 0 1-.75.75H5.5a1 1 0 0 0 1 1h13.25a.75.75 0 0 1 0 1.5H6.5A2.5 2.5 0 0 1 4 19.5v-15ZM5.5 18H19V4.5a1 1 0 0 0-1-1H6.5a1 1 0 0 0-1 1V18Z" fill="currentColor"/></svg>`;
+-export const ICON_AI_SPELLING = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="currentColor"/></svg>`;
++export const ICON_AI_ASSIST = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m13.314 7.565l-.136.126l-10.48 10.488a2.27 2.27 0 0 0 3.211 3.208L16.388 10.9a2.251 2.251 0 0 0-.001-3.182l-.157-.146a2.25 2.25 0 0 0-2.916-.007Zm-.848 2.961l1.088 1.088l-8.706 8.713a.77.77 0 1 1-1.089-1.088l8.707-8.713Zm4.386 4.48L16.75 15a.75.75 0 0 0-.743.648L16 15.75v.75h-.75a.75.75 0 0 0-.743.648l-.007.102c0 .38.282.694.648.743l.102.007H16v.75c0 .38.282.694.648.743l.102.007a.75.75 0 0 0 .743-.648l.007-.102V18h.75a.75.75 0 0 0 .743-.648L19 17.25a.75.75 0 0 0-.648-.743l-.102-.007h-.75v-.75a.75.75 0 0 0-.648-.743L16.75 15l.102.007Zm-1.553-6.254l.027.027a.751.751 0 0 1 0 1.061l-.711.713l-1.089-1.089l.73-.73a.75.75 0 0 1 1.043.018ZM6.852 5.007L6.75 5a.75.75 0 0 0-.743.648L6 5.75v.75h-.75a.75.75 0 0 0-.743.648L4.5 7.25c0 .38.282.693.648.743L5.25 8H6v.75c0 .38.282.693.648.743l.102.007a.75.75 0 0 0 .743-.648L7.5 8.75V8h.75a.75.75 0 0 0 .743-.648L9 7.25a.75.75 0 0 0-.648-.743L8.25 6.5H7.5v-.75a.75.75 0 0 0-.648-.743L6.75 5l.102.007Zm12-2L18.75 3a.75.75 0 0 0-.743.648L18 3.75v.75h-.75a.75.75 0 0 0-.743.648l-.007.102c0 .38.282.693.648.743L17.25 6H18v.75c0 .38.282.693.648.743l.102.007a.75.75 0 0 0 .743-.648l.007-.102V6h.75a.75.75 0 0 0 .743-.648L21 5.25a.75.75 0 0 0-.648-.743L20.25 4.5h-.75v-.75a.75.75 0 0 0-.648-.743L18.75 3l.102.007Z" fill="currentColor"/></svg>`;
++export const ICON_AI_SUMMARY = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H18a2.5 2.5 0 0 1 2.5 2.5v14.25a.75.75 0 0 1-.75.75H5.5a1 1 0 0 0 1 1h13.25a.75.75 0 0 1 0 1.5H6.5A2.5 2.5 0 0 1 4 19.5v-15ZM5.5 18H19V4.5a1 1 0 0 0-1-1H6.5a1 1 0 0 0-1 1V18Z" fill="currentColor"/></svg>`;
++export const ICON_AI_SPELLING = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M4.53 12.97a.75.75 0 0 0-1.06 1.06l4.5 4.5a.75.75 0 0 0 1.06 0l11-11a.75.75 0 0 0-1.06-1.06L8.5 16.94l-3.97-3.97Z" fill="currentColor"/></svg>`;
+ 
+-export const ICON_AI_EXPAND = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 19.5h14.5a.75.75 0 0 0 .102-1.493L21.25 18H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm0-15h14.5a.75.75 0 0 0 .102-1.493L21.25 3H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm7 3.5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5ZM13 13.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75Zm-2-2.25a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm-4-2a.5.5 0 0 0-1 0V11H4.5a.5.5 0 0 0 0 1H6v1.5a.5.5 0 0 0 1 0V12h1.5a.5.5 0 0 0 0-1H7V9.5Z" fill="currentColor"/></svg>`;
+-export const ICON_AI_SHORTEN = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 4.5h14.5a.75.75 0 0 0 .102-1.493L21.25 3H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm0 15h14.5a.75.75 0 0 0 .102-1.493L21.25 18H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm7-11.5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5ZM13 13.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75Zm-2-2.25a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm-2 0a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h4a.5.5 0 0 0 .5-.5Z" fill="currentColor"/></svg>`;
+-export const ICON_AI_GRAMMAR = `<svg role="img" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17h7.522l-2 2H3a1 1 0 0 1-.117-1.993L3 17Zm0-2h7.848a1.75 1.75 0 0 1-.775-2H3l-.117.007A1 1 0 0 0 3 15Zm0-8h18l.117-.007A1 1 0 0 0 21 5H3l-.117.007A1 1 0 0 0 3 7Zm9.72 9.216a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l4.5-4.5ZM3 9h10a1 1 0 0 1 .117 1.993L13 11H3a1 1 0 0 1-.117-1.993L3 9Zm13.5-1a.75.75 0 0 1 .744.658l.14 1.13a3.25 3.25 0 0 0 2.828 2.829l1.13.139a.75.75 0 0 1 0 1.488l-1.13.14a3.25 3.25 0 0 0-2.829 2.828l-.139 1.13a.75.75 0 0 1-1.488 0l-.14-1.13a3.25 3.25 0 0 0-2.828-2.829l-1.13-.139a.75.75 0 0 1 0-1.488l1.13-.14a3.25 3.25 0 0 0 2.829-2.828l.139-1.13A.75.75 0 0 1 16.5 8Z" fill="currentColor"/></svg>`;
++export const ICON_AI_EXPAND = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 19.5h14.5a.75.75 0 0 0 .102-1.493L21.25 18H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm0-15h14.5a.75.75 0 0 0 .102-1.493L21.25 3H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm7 3.5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5ZM13 13.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75Zm-2-2.25a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm-4-2a.5.5 0 0 0-1 0V11H4.5a.5.5 0 0 0 0 1H6v1.5a.5.5 0 0 0 1 0V12h1.5a.5.5 0 0 0 0-1H7V9.5Z" fill="currentColor"/></svg>`;
++export const ICON_AI_SHORTEN = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6.75 4.5h14.5a.75.75 0 0 0 .102-1.493L21.25 3H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm0 15h14.5a.75.75 0 0 0 .102-1.493L21.25 18H6.75a.75.75 0 0 0-.102 1.493l.102.007Zm7-11.5a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5ZM13 13.75a.75.75 0 0 1 .75-.75h7.5a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1-.75-.75Zm-2-2.25a4.5 4.5 0 1 1-9 0a4.5 4.5 0 0 1 9 0Zm-2 0a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0 0 1h4a.5.5 0 0 0 .5-.5Z" fill="currentColor"/></svg>`;
++export const ICON_AI_GRAMMAR = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" width="18" height="18" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 17h7.522l-2 2H3a1 1 0 0 1-.117-1.993L3 17Zm0-2h7.848a1.75 1.75 0 0 1-.775-2H3l-.117.007A1 1 0 0 0 3 15Zm0-8h18l.117-.007A1 1 0 0 0 21 5H3l-.117.007A1 1 0 0 0 3 7Zm9.72 9.216a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 1 1-1.06-1.06l4.5-4.5ZM3 9h10a1 1 0 0 1 .117 1.993L13 11H3a1 1 0 0 1-.117-1.993L3 9Zm13.5-1a.75.75 0 0 1 .744.658l.14 1.13a3.25 3.25 0 0 0 2.828 2.829l1.13.139a.75.75 0 0 1 0 1.488l-1.13.14a3.25 3.25 0 0 0-2.829 2.828l-.139 1.13a.75.75 0 0 1-1.488 0l-.14-1.13a3.25 3.25 0 0 0-2.828-2.829l-1.13-.139a.75.75 0 0 1 0-1.488l1.13-.14a3.25 3.25 0 0 0 2.829-2.828l.139-1.13A.75.75 0 0 1 16.5 8Z" fill="currentColor"/></svg>`;
+ 
+-export const ICON_APPEARANCE = `<svg role="img" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18"viewBox="0 0 24 24"><path fill="currentColor" d="M3.839 5.858c2.94-3.916 9.03-5.055 13.364-2.36c4.28 2.66 5.854 7.777 4.1 12.577c-1.655 4.533-6.016 6.328-9.159 4.048c-1.177-.854-1.634-1.925-1.854-3.664l-.106-.987l-.045-.398c-.123-.934-.311-1.352-.705-1.572c-.535-.298-.892-.305-1.595-.033l-.351.146l-.179.078c-1.014.44-1.688.595-2.541.416l-.2-.047l-.164-.047c-2.789-.864-3.202-4.647-.565-8.157Zm.984 6.716l.123.037l.134.03c.439.087.814.015 1.437-.242l.602-.257c1.202-.493 1.985-.54 3.046.05c.917.512 1.275 1.298 1.457 2.66l.053.459l.055.532l.047.422c.172 1.361.485 2.09 1.248 2.644c2.275 1.65 5.534.309 6.87-3.349c1.516-4.152.174-8.514-3.484-10.789c-3.675-2.284-8.899-1.306-11.373 1.987c-2.075 2.763-1.82 5.28-.215 5.816Zm11.225-1.994a1.25 1.25 0 1 1 2.414-.647a1.25 1.25 0 0 1-2.414.647Zm.494 3.488a1.25 1.25 0 1 1 2.415-.647a1.25 1.25 0 0 1-2.415.647ZM14.07 7.577a1.25 1.25 0 1 1 2.415-.647a1.25 1.25 0 0 1-2.415.647Zm-.028 8.998a1.25 1.25 0 1 1 2.414-.647a1.25 1.25 0 0 1-2.414.647Zm-3.497-9.97a1.25 1.25 0 1 1 2.415-.646a1.25 1.25 0 0 1-2.415.646Z"/></svg>`;
+-export const ICON_LIGHT_MODE = `<svg role="img" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 2Zm5 10a5 5 0 1 1-10 0a5 5 0 0 1 10 0Zm4.25.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM12 19a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 19Zm-7.75-6.25a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5Zm-.03-8.53a.75.75 0 0 1 1.06 0l1.5 1.5a.75.75 0 0 1-1.06 1.06l-1.5-1.5a.75.75 0 0 1 0-1.06Zm1.06 15.56a.75.75 0 1 1-1.06-1.06l1.5-1.5a.75.75 0 1 1 1.06 1.06l-1.5 1.5Zm14.5-15.56a.75.75 0 0 0-1.06 0l-1.5 1.5a.75.75 0 0 0 1.06 1.06l1.5-1.5a.75.75 0 0 0 0-1.06Zm-1.06 15.56a.75.75 0 1 0 1.06-1.06l-1.5-1.5a.75.75 0 1 0-1.06 1.06l1.5 1.5Z"/></svg>`;
+-export const ICON_DARK_MODE = `<svg role="img" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M20.026 17.001c-2.762 4.784-8.879 6.423-13.663 3.661A9.965 9.965 0 0 1 3.13 17.68a.75.75 0 0 1 .365-1.132c3.767-1.348 5.785-2.91 6.956-5.146c1.232-2.353 1.551-4.93.689-8.463a.75.75 0 0 1 .769-.927a9.961 9.961 0 0 1 4.457 1.327c4.784 2.762 6.423 8.879 3.66 13.662Zm-8.248-4.903c-1.25 2.389-3.31 4.1-6.817 5.499a8.49 8.49 0 0 0 2.152 1.766a8.502 8.502 0 0 0 8.502-14.725a8.484 8.484 0 0 0-2.792-1.015c.647 3.384.23 6.043-1.045 8.475Z"/></svg>`;
+-export const ICON_SYSTEM_MODE = `<svg role="img" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M4.25 3A2.25 2.25 0 0 0 2 5.25v10.5A2.25 2.25 0 0 0 4.25 18H9.5v1.25c0 .69-.56 1.25-1.25 1.25h-.5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-.5c-.69 0-1.25-.56-1.25-1.25V18h5.25A2.25 2.25 0 0 0 22 15.75V5.25A2.25 2.25 0 0 0 19.75 3H4.25ZM13 18v1.25c0 .45.108.875.3 1.25h-2.6c.192-.375.3-.8.3-1.25V18h2ZM3.5 5.25a.75.75 0 0 1 .75-.75h15.5a.75.75 0 0 1 .75.75V13h-17V5.25Zm0 9.25h17v1.25a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75V14.5Z"/></svg>`;
++export const ICON_APPEARANCE = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18"viewBox="0 0 24 24"><path fill="currentColor" d="M3.839 5.858c2.94-3.916 9.03-5.055 13.364-2.36c4.28 2.66 5.854 7.777 4.1 12.577c-1.655 4.533-6.016 6.328-9.159 4.048c-1.177-.854-1.634-1.925-1.854-3.664l-.106-.987l-.045-.398c-.123-.934-.311-1.352-.705-1.572c-.535-.298-.892-.305-1.595-.033l-.351.146l-.179.078c-1.014.44-1.688.595-2.541.416l-.2-.047l-.164-.047c-2.789-.864-3.202-4.647-.565-8.157Zm.984 6.716l.123.037l.134.03c.439.087.814.015 1.437-.242l.602-.257c1.202-.493 1.985-.54 3.046.05c.917.512 1.275 1.298 1.457 2.66l.053.459l.055.532l.047.422c.172 1.361.485 2.09 1.248 2.644c2.275 1.65 5.534.309 6.87-3.349c1.516-4.152.174-8.514-3.484-10.789c-3.675-2.284-8.899-1.306-11.373 1.987c-2.075 2.763-1.82 5.28-.215 5.816Zm11.225-1.994a1.25 1.25 0 1 1 2.414-.647a1.25 1.25 0 0 1-2.414.647Zm.494 3.488a1.25 1.25 0 1 1 2.415-.647a1.25 1.25 0 0 1-2.415.647ZM14.07 7.577a1.25 1.25 0 1 1 2.415-.647a1.25 1.25 0 0 1-2.415.647Zm-.028 8.998a1.25 1.25 0 1 1 2.414-.647a1.25 1.25 0 0 1-2.414.647Zm-3.497-9.97a1.25 1.25 0 1 1 2.415-.646a1.25 1.25 0 0 1-2.415.646Z"/></svg>`;
++export const ICON_LIGHT_MODE = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 2Zm5 10a5 5 0 1 1-10 0a5 5 0 0 1 10 0Zm4.25.75a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5ZM12 19a.75.75 0 0 1 .75.75v1.5a.75.75 0 0 1-1.5 0v-1.5A.75.75 0 0 1 12 19Zm-7.75-6.25a.75.75 0 0 0 0-1.5h-1.5a.75.75 0 0 0 0 1.5h1.5Zm-.03-8.53a.75.75 0 0 1 1.06 0l1.5 1.5a.75.75 0 0 1-1.06 1.06l-1.5-1.5a.75.75 0 0 1 0-1.06Zm1.06 15.56a.75.75 0 1 1-1.06-1.06l1.5-1.5a.75.75 0 1 1 1.06 1.06l-1.5 1.5Zm14.5-15.56a.75.75 0 0 0-1.06 0l-1.5 1.5a.75.75 0 0 0 1.06 1.06l1.5-1.5a.75.75 0 0 0 0-1.06Zm-1.06 15.56a.75.75 0 1 0 1.06-1.06l-1.5-1.5a.75.75 0 1 0-1.06 1.06l1.5 1.5Z"/></svg>`;
++export const ICON_DARK_MODE = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M20.026 17.001c-2.762 4.784-8.879 6.423-13.663 3.661A9.965 9.965 0 0 1 3.13 17.68a.75.75 0 0 1 .365-1.132c3.767-1.348 5.785-2.91 6.956-5.146c1.232-2.353 1.551-4.93.689-8.463a.75.75 0 0 1 .769-.927a9.961 9.961 0 0 1 4.457 1.327c4.784 2.762 6.423 8.879 3.66 13.662Zm-8.248-4.903c-1.25 2.389-3.31 4.1-6.817 5.499a8.49 8.49 0 0 0 2.152 1.766a8.502 8.502 0 0 0 8.502-14.725a8.484 8.484 0 0 0-2.792-1.015c.647 3.384.23 6.043-1.045 8.475Z"/></svg>`;
++export const ICON_SYSTEM_MODE = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M4.25 3A2.25 2.25 0 0 0 2 5.25v10.5A2.25 2.25 0 0 0 4.25 18H9.5v1.25c0 .69-.56 1.25-1.25 1.25h-.5a.75.75 0 0 0 0 1.5h8.5a.75.75 0 0 0 0-1.5h-.5c-.69 0-1.25-.56-1.25-1.25V18h5.25A2.25 2.25 0 0 0 22 15.75V5.25A2.25 2.25 0 0 0 19.75 3H4.25ZM13 18v1.25c0 .45.108.875.3 1.25h-2.6c.192-.375.3-.8.3-1.25V18h2ZM3.5 5.25a.75.75 0 0 1 .75-.75h15.5a.75.75 0 0 1 .75.75V13h-17V5.25Zm0 9.25h17v1.25a.75.75 0 0 1-.75.75H4.25a.75.75 0 0 1-.75-.75V14.5Z"/></svg>`;
+ 
+-export const ICON_SNOOZE_NOTIFICATION = `<svg role="img" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3.5c-3.104 0-6 2.432-6 6.25v4.153L4.682 17h14.67l-1.354-3.093V11.75a.75.75 0 0 1 1.5 0v1.843l1.381 3.156a1.25 1.25 0 0 1-1.145 1.751H15a3.002 3.002 0 0 1-6.003 0H4.305a1.25 1.25 0 0 1-1.15-1.739l1.344-3.164V9.75C4.5 5.068 8.103 2 12 2c.86 0 1.705.15 2.5.432a.75.75 0 0 1-.502 1.413A5.964 5.964 0 0 0 12 3.5ZM12 20c.828 0 1.5-.671 1.501-1.5h-3.003c0 .829.673 1.5 1.502 1.5Zm3.25-13h-2.5l-.101.007A.75.75 0 0 0 12.75 8.5h1.043l-1.653 2.314l-.055.09A.75.75 0 0 0 12.75 12h2.5l.102-.007a.75.75 0 0 0-.102-1.493h-1.042l1.653-2.314l.055-.09A.75.75 0 0 0 15.25 7Zm6-5h-3.5l-.101.007A.75.75 0 0 0 17.75 3.5h2.134l-2.766 4.347l-.05.09A.75.75 0 0 0 17.75 9h3.5l.102-.007A.75.75 0 0 0 21.25 7.5h-2.133l2.766-4.347l.05-.09A.75.75 0 0 0 21.25 2Z"/></svg>`;
++export const ICON_SNOOZE_NOTIFICATION = `<svg aria-hidden="true" class="ninja-icon ninja-icon--fluent" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3.5c-3.104 0-6 2.432-6 6.25v4.153L4.682 17h14.67l-1.354-3.093V11.75a.75.75 0 0 1 1.5 0v1.843l1.381 3.156a1.25 1.25 0 0 1-1.145 1.751H15a3.002 3.002 0 0 1-6.003 0H4.305a1.25 1.25 0 0 1-1.15-1.739l1.344-3.164V9.75C4.5 5.068 8.103 2 12 2c.86 0 1.705.15 2.5.432a.75.75 0 0 1-.502 1.413A5.964 5.964 0 0 0 12 3.5ZM12 20c.828 0 1.5-.671 1.501-1.5h-3.003c0 .829.673 1.5 1.502 1.5Zm3.25-13h-2.5l-.101.007A.75.75 0 0 0 12.75 8.5h1.043l-1.653 2.314l-.055.09A.75.75 0 0 0 12.75 12h2.5l.102-.007a.75.75 0 0 0-.102-1.493h-1.042l1.653-2.314l.055-.09A.75.75 0 0 0 15.25 7Zm6-5h-3.5l-.101.007A.75.75 0 0 0 17.75 3.5h2.134l-2.766 4.347l-.05.09A.75.75 0 0 0 17.75 9h3.5l.102-.007A.75.75 0 0 0 21.25 7.5h-2.133l2.766-4.347l.05-.09A.75.75 0 0 0 21.25 2Z"/></svg>`;
+ 
+-export const ICON_INBOX = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11"/></g></svg>`;
++export const ICON_INBOX = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11"/></g></svg>`;
+ 
+-export const ICON_MESSAGE_CIRCLE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092a10 10 0 1 0-4.777-4.719"/></svg>`;
++export const ICON_MESSAGE_CIRCLE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092a10 10 0 1 0-4.777-4.719"/></svg>`;
+ 
+-export const ICON_CONTACT = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 2v2M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M8 2v2"/><circle cx="12" cy="11" r="3"/><rect width="18" height="18" x="3" y="4" rx="2"/></g></svg>`;
++export const ICON_CONTACT = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 2v2M7 22v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2M8 2v2"/><circle cx="12" cy="11" r="3"/><rect width="18" height="18" x="3" y="4" rx="2"/></g></svg>`;
+ 
+-export const ICON_BOT = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2m16 0h2m-7-1v2m-6-2v2"/></g></svg>`;
++export const ICON_BOT = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2m16 0h2m-7-1v2m-6-2v2"/></g></svg>`;
+ 
+-export const ICON_PHONE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233a14 14 0 0 0 6.392 6.384"/></svg>`;
++export const ICON_PHONE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233a14 14 0 0 0 6.392 6.384"/></svg>`;
+ 
+-export const ICON_MEGAPHONE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2a2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14M8 6v8"/></g></svg>`;
++export const ICON_MEGAPHONE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/><path d="M6 14a12 12 0 0 0 2.4 7.2a2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14M8 6v8"/></g></svg>`;
+ 
+-export const ICON_LIBRARY = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="8" height="18" x="3" y="3" rx="1"/><path d="M7 3v18m13.4-2.1c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z"/></g></svg>`;
++export const ICON_LIBRARY = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="8" height="18" x="3" y="3" rx="1"/><path d="M7 3v18m13.4-2.1c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z"/></g></svg>`;
+ 
+-export const ICON_CHART = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16c.5-2 1.5-7 4-7c2 0 2 3 4 3c2.5 0 4.5-5 5-7"/></g></svg>`;
++export const ICON_CHART = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M7 16c.5-2 1.5-7 4-7c2 0 2 3 4 3c2.5 0 4.5-5 5-7"/></g></svg>`;
+ 
+-export const ICON_SQUARE_USER = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></g></svg>`;
++export const ICON_SQUARE_USER = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-2a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2"/></g></svg>`;
+ 
+-export const ICON_USERS = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></g></svg>`;
++export const ICON_USERS = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></g></svg>`;
+ 
+-export const ICON_TAGS = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1zM2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193"/><circle cx="10.5" cy="6.5" r=".5" fill="currentColor"/></g></svg>`;
++export const ICON_TAGS = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M13.172 2a2 2 0 0 1 1.414.586l6.71 6.71a2.4 2.4 0 0 1 0 3.408l-4.592 4.592a2.4 2.4 0 0 1-3.408 0l-6.71-6.71A2 2 0 0 1 6 9.172V3a1 1 0 0 1 1-1zM2 7v6.172a2 2 0 0 0 .586 1.414l6.71 6.71a2.4 2.4 0 0 0 3.191.193"/><circle cx="10.5" cy="6.5" r=".5" fill="currentColor"/></g></svg>`;
+ 
+-export const ICON_CODE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 18l6-6l-6-6M8 6l-6 6l6 6"/></svg>`;
++export const ICON_CODE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m16 18l6-6l-6-6M8 6l-6 6l6 6"/></svg>`;
+ 
+-export const ICON_REPEAT = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m17 2l4 4l-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4l4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></g></svg>`;
++export const ICON_REPEAT = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="m17 2l4 4l-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4l4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></g></svg>`;
+ 
+-export const ICON_TOY_BRICK = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="12" x="3" y="8" rx="1"/><path d="M10 8V5c0-.6-.4-1-1-1H6a1 1 0 0 0-1 1v3m14 0V5c0-.6-.4-1-1-1h-3a1 1 0 0 0-1 1v3"/></g></svg>`;
++export const ICON_TOY_BRICK = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="12" x="3" y="8" rx="1"/><path d="M10 8V5c0-.6-.4-1-1-1H6a1 1 0 0 0-1 1v3m14 0V5c0-.6-.4-1-1-1h-3a1 1 0 0 0-1 1v3"/></g></svg>`;
+ 
+-export const ICON_MESSAGE_QUOTE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14 14a2 2 0 0 0 2-2V8h-2"/><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M8 14a2 2 0 0 0 2-2V8H8"/></g></svg>`;
++export const ICON_MESSAGE_QUOTE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14 14a2 2 0 0 0 2-2V8h-2"/><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"/><path d="M8 14a2 2 0 0 0 2-2V8H8"/></g></svg>`;
+ 
+-export const ICON_BLOCKS = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2"/><rect width="8" height="8" x="14" y="2" rx="1"/></g></svg>`;
++export const ICON_BLOCKS = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2"/><rect width="8" height="8" x="14" y="2" rx="1"/></g></svg>`;
+ 
+-export const ICON_BRIEFCASE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></g></svg>`;
++export const ICON_BRIEFCASE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></g></svg>`;
+ 
+-export const ICON_CLOCK_ALERT = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 6v6l4 2m4-2v5m0 4h.01"/><path d="M21.25 8.2A10 10 0 1 0 16 21.16"/></g></svg>`;
++export const ICON_CLOCK_ALERT = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 6v6l4 2m4-2v5m0 4h.01"/><path d="M21.25 8.2A10 10 0 1 0 16 21.16"/></g></svg>`;
+ 
+-export const ICON_CREDIT_CARD = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></g></svg>`;
++export const ICON_CREDIT_CARD = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></g></svg>`;
+ 
+-export const ICON_USER_PEN = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11.5 15H7a4 4 0 0 0-4 4v2m18.378-4.374a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></g></svg>`;
++export const ICON_USER_PEN = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11.5 15H7a4 4 0 0 0-4 4v2m18.378-4.374a1 1 0 0 0-3.004-3.004l-4.01 4.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z"/><circle cx="10" cy="7" r="4"/></g></svg>`;
+ 
+-export const ICON_SMILE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2s4-2 4-2M9 9h.01M15 9h.01"/></g></svg>`;
++export const ICON_SMILE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2s4-2 4-2M9 9h.01M15 9h.01"/></g></svg>`;
+ 
+-export const ICON_BELL = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>`;
++export const ICON_BELL = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.268 21a2 2 0 0 0 3.464 0m-10.47-5.674A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>`;
+ 
+-export const ICON_LAYOUT_TEMPLATE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></g></svg>`;
++export const ICON_LAYOUT_TEMPLATE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><rect width="18" height="7" x="3" y="3" rx="1"/><rect width="9" height="7" x="3" y="14" rx="1"/><rect width="5" height="7" x="16" y="14" rx="1"/></g></svg>`;
+ 
+-export const ICON_DATABASE = `<svg role="img" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></g></svg>`;
++export const ICON_DATABASE = `<svg aria-hidden="true" class="ninja-icon" width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></g></svg>`;
+diff --git a/app/javascript/dashboard/i18n/locale/en/components.json b/app/javascript/dashboard/i18n/locale/en/components.json
+index 98b38a9..01de07a 100644
+--- a/app/javascript/dashboard/i18n/locale/en/components.json
++++ b/app/javascript/dashboard/i18n/locale/en/components.json
+@@ -24,7 +24,8 @@
+   "PHONE_INPUT": {
+     "SEARCH_PLACEHOLDER": "Search country",
+     "ERROR": "Phone number should be empty or in E.164 format",
+-    "DIAL_CODE_ERROR": "Please select a dial code from the list"
++    "DIAL_CODE_ERROR": "Please select a dial code from the list",
++    "SELECT_COUNTRY": "Select country"
+   },
+   "THUMBNAIL": {
+     "AUTHOR": {
+@@ -88,5 +89,8 @@
+     "UPLOAD_ERROR": "Only MP4 files can be uploaded",
+     "ADD": "Embed",
+     "CANCEL": "Cancel"
++  },
++  "PAGINATION": {
++    "NAVIGATION": "Pagination"
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/app/javascript/dashboard/i18n/locale/en/contact.json b/app/javascript/dashboard/i18n/locale/en/contact.json
+index 2b6dbc2..a5f8fcd 100644
+--- a/app/javascript/dashboard/i18n/locale/en/contact.json
++++ b/app/javascript/dashboard/i18n/locale/en/contact.json
+@@ -1,677 +1,677 @@
+ {
+-  "CONTACT_PANEL": {
+-    "NOT_AVAILABLE": "Not Available",
+-    "EMAIL_ADDRESS": "Email Address",
+-    "PHONE_NUMBER": "Phone number",
+-    "WHATSAPP_USERNAME": "WhatsApp username",
+-    "IDENTIFIER": "Identifier",
+-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+-    "COMPANY": "Company",
+-    "LOCATION": "Location",
+-    "BROWSER_LANGUAGE": "Browser Language",
+-    "CONVERSATION_TITLE": "Conversation Details",
+-    "VIEW_PROFILE": "View Profile",
+-    "BROWSER": "Browser",
+-    "OS": "Operating System",
+-    "INITIATED_FROM": "Initiated from",
+-    "INITIATED_AT": "Initiated at",
+-    "IP_ADDRESS": "IP Address",
+-    "CREATED_AT_LABEL": "Created",
+-    "NEW_MESSAGE": "New message",
+-    "CALL": "Call",
+-    "CALL_INITIATED": "Calling the contact…",
+-    "CALL_FAILED": "Unable to start the call. Please try again.",
+-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+-    "CLICK_TO_EDIT": "Click to edit",
+-    "VOICE_INBOX_PICKER": {
+-      "TITLE": "Choose a voice inbox"
+-    },
+-    "CONVERSATIONS": {
+-      "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
+-      "TITLE": "Previous Conversations",
+-      "VIEW_ALL": "View all conversations"
+-    },
+-    "LABELS": {
+-      "CONTACT": {
+-        "TITLE": "Contact Labels",
+-        "ERROR": "Couldn't update labels"
+-      },
+-      "CONVERSATION": {
+-        "TITLE": "Conversation Labels",
+-        "ADD_BUTTON": "Add Labels"
+-      },
+-      "LABEL_SELECT": {
+-        "TITLE": "Add Labels",
+-        "PLACEHOLDER": "Search labels",
+-        "NO_RESULT": "No labels found",
+-        "CREATE_LABEL": "Create new label"
+-      }
+-    },
+-    "MERGE_CONTACT": "Merge contact",
+-    "CONTACT_ACTIONS": "Contact actions",
+-    "MUTE_CONTACT": "Block Contact",
+-    "UNMUTE_CONTACT": "Unblock Contact",
+-    "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
+-    "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
+-    "SEND_TRANSCRIPT": "Send Transcript",
+-    "EDIT_LABEL": "Edit",
+-    "SIDEBAR_SECTIONS": {
+-      "CUSTOM_ATTRIBUTES": "Custom Attributes",
+-      "CONTACT_LABELS": "Contact Labels",
+-      "PREVIOUS_CONVERSATIONS": "Previous Conversations",
+-      "NO_RECORDS_FOUND": "No attributes found"
+-    }
+-  },
+-  "EDIT_CONTACT": {
+-    "BUTTON_LABEL": "Edit Contact",
+-    "TITLE": "Edit contact",
+-    "DESC": "Edit contact details"
+-  },
+-  "DELETE_CONTACT": {
+-    "BUTTON_LABEL": "Delete Contact",
+-    "TITLE": "Delete contact",
+-    "DESC": "Delete contact details",
+-    "CONFIRM": {
+-      "TITLE": "Confirm Deletion",
+-      "MESSAGE": "Are you sure to delete ",
+-      "YES": "Yes, Delete",
+-      "NO": "No, Keep"
+-    },
+-    "API": {
+-      "SUCCESS_MESSAGE": "Contact deleted successfully",
+-      "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+-    }
+-  },
+-  "CONTACT_FORM": {
+-    "FORM": {
+-      "SUBMIT": "Submit",
+-      "CANCEL": "Cancel",
+-      "AVATAR": {
+-        "LABEL": "Contact Avatar"
+-      },
+-      "NAME": {
+-        "PLACEHOLDER": "Enter the full name of the contact",
+-        "LABEL": "Full Name"
+-      },
+-      "BIO": {
+-        "PLACEHOLDER": "Enter the bio of the contact",
+-        "LABEL": "Bio"
+-      },
+-      "EMAIL_ADDRESS": {
+-        "PLACEHOLDER": "Enter the email address of the contact",
+-        "LABEL": "Email Address",
+-        "DUPLICATE": "This email address is in use for another contact.",
+-        "ERROR": "Please enter a valid email address."
+-      },
+-      "PHONE_NUMBER": {
+-        "PLACEHOLDER": "Enter the phone number of the contact",
+-        "LABEL": "Phone Number",
+-        "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
+-        "ERROR": "Phone number should be either empty or of E.164 format",
+-        "DIAL_CODE_ERROR": "Please select a dial code from the list",
+-        "DUPLICATE": "This phone number is in use for another contact."
+-      },
+-      "LOCATION": {
+-        "PLACEHOLDER": "Enter the location of the contact",
+-        "LABEL": "Location"
+-      },
+-      "COMPANY_NAME": {
+-        "PLACEHOLDER": "Enter the company name",
+-        "LABEL": "Company Name"
+-      },
+-      "COUNTRY": {
+-        "PLACEHOLDER": "Enter the country name",
+-        "LABEL": "Country Name",
+-        "SELECT_PLACEHOLDER": "Select",
+-        "REMOVE": "Remove",
+-        "SELECT_COUNTRY": "Select Country"
+-      },
+-      "CITY": {
+-        "PLACEHOLDER": "Enter the city name",
+-        "LABEL": "City Name"
+-      },
+-      "SOCIAL_PROFILES": {
+-        "FACEBOOK": {
+-          "PLACEHOLDER": "Enter the Facebook username",
+-          "LABEL": "Facebook"
++    "CONTACT_PANEL": {
++        "NOT_AVAILABLE": "Not Available",
++        "EMAIL_ADDRESS": "Email Address",
++        "PHONE_NUMBER": "Phone number",
++        "WHATSAPP_USERNAME": "WhatsApp username",
++        "IDENTIFIER": "Identifier",
++        "COPY_SUCCESSFUL": "Copied to clipboard successfully",
++        "COMPANY": "Company",
++        "LOCATION": "Location",
++        "BROWSER_LANGUAGE": "Browser Language",
++        "CONVERSATION_TITLE": "Conversation Details",
++        "VIEW_PROFILE": "View Profile",
++        "BROWSER": "Browser",
++        "OS": "Operating System",
++        "INITIATED_FROM": "Initiated from",
++        "INITIATED_AT": "Initiated at",
++        "IP_ADDRESS": "IP Address",
++        "CREATED_AT_LABEL": "Created",
++        "NEW_MESSAGE": "New message",
++        "CALL": "Call",
++        "CALL_INITIATED": "Calling the contact…",
++        "CALL_FAILED": "Unable to start the call. Please try again.",
++        "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
++        "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
++        "CLICK_TO_EDIT": "Click to edit",
++        "VOICE_INBOX_PICKER": {
++            "TITLE": "Choose a voice inbox"
+         },
+-        "TWITTER": {
+-          "PLACEHOLDER": "Enter the Twitter username",
+-          "LABEL": "Twitter"
++        "CONVERSATIONS": {
++            "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
++            "TITLE": "Previous Conversations",
++            "VIEW_ALL": "View all conversations"
+         },
+-        "LINKEDIN": {
+-          "PLACEHOLDER": "Enter the LinkedIn username",
+-          "LABEL": "LinkedIn"
++        "LABELS": {
++            "CONTACT": {
++                "TITLE": "Contact Labels",
++                "ERROR": "Couldn't update labels"
++            },
++            "CONVERSATION": {
++                "TITLE": "Conversation Labels",
++                "ADD_BUTTON": "Add Labels"
++            },
++            "LABEL_SELECT": {
++                "TITLE": "Add Labels",
++                "PLACEHOLDER": "Search labels",
++                "NO_RESULT": "No labels found",
++                "CREATE_LABEL": "Create new label"
++            }
+         },
+-        "GITHUB": {
+-          "PLACEHOLDER": "Enter the Github username",
+-          "LABEL": "Github"
++        "MERGE_CONTACT": "Merge contact",
++        "CONTACT_ACTIONS": "Contact actions",
++        "MUTE_CONTACT": "Block Contact",
++        "UNMUTE_CONTACT": "Unblock Contact",
++        "MUTED_SUCCESS": "This contact is blocked successfully. You will not be notified of any future conversations.",
++        "UNMUTED_SUCCESS": "This contact is unblocked successfully.",
++        "SEND_TRANSCRIPT": "Send Transcript",
++        "EDIT_LABEL": "Edit",
++        "SIDEBAR_SECTIONS": {
++            "CUSTOM_ATTRIBUTES": "Custom Attributes",
++            "CONTACT_LABELS": "Contact Labels",
++            "PREVIOUS_CONVERSATIONS": "Previous Conversations",
++            "NO_RECORDS_FOUND": "No attributes found"
+         }
+-      }
+-    },
+-    "DELETE_AVATAR": {
+-      "API": {
+-        "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
+-        "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
+-      }
+-    },
+-    "SUCCESS_MESSAGE": "Contact saved successfully",
+-    "ERROR_MESSAGE": "There was an error, please try again"
+-  },
+-  "NEW_CONVERSATION": {
+-    "BUTTON_LABEL": "Start conversation",
+-    "TITLE": "New conversation",
+-    "DESC": "Start a new conversation by sending a new message.",
+-    "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
+-    "FORM": {
+-      "TO": {
+-        "LABEL": "To"
+-      },
+-      "INBOX": {
+-        "LABEL": "Via Inbox",
+-        "PLACEHOLDER": "Choose source inbox",
+-        "ERROR": "Select an inbox"
+-      },
+-      "SUBJECT": {
+-        "LABEL": "Subject",
+-        "PLACEHOLDER": "Subject",
+-        "ERROR": "Subject can't be empty"
+-      },
+-      "MESSAGE": {
+-        "LABEL": "Message",
+-        "PLACEHOLDER": "Write your message here",
+-        "ERROR": "Message can't be empty"
+-      },
+-      "ATTACHMENTS": {
+-        "SELECT": "Choose files",
+-        "HELP_TEXT": "Drag and drop files here or choose files to attach"
+-      },
+-      "SUBMIT": "Send message",
+-      "CANCEL": "Cancel",
+-      "SUCCESS_MESSAGE": "Message sent!",
+-      "GO_TO_CONVERSATION": "View",
+-      "ERROR_MESSAGE": "Couldn't send! try again"
+-    }
+-  },
+-  "CONTACTS_PAGE": {
+-    "LIST": {
+-      "TABLE_HEADER": {
+-        "SOCIAL_PROFILES": "Social Profiles"
+-      }
+-    }
+-  },
+-  "CUSTOM_ATTRIBUTES": {
+-    "BUTTON": "Add custom attribute",
+-    "COPY_SUCCESSFUL": "Copied to clipboard successfully",
+-    "SHOW_MORE": "Show all attributes",
+-    "SHOW_LESS": "Show less attributes",
+-    "ACTIONS": {
+-      "COPY": "Copy attribute",
+-      "DELETE": "Delete attribute",
+-      "EDIT": "Edit attribute"
+     },
+-    "ADD": {
+-      "TITLE": "Create custom attribute",
+-      "DESC": "Add custom information to this contact."
++    "EDIT_CONTACT": {
++        "BUTTON_LABEL": "Edit Contact",
++        "TITLE": "Edit contact",
++        "DESC": "Edit contact details"
+     },
+-    "FORM": {
+-      "CREATE": "Add attribute",
+-      "CANCEL": "Cancel",
+-      "NAME": {
+-        "LABEL": "Custom attribute name",
+-        "PLACEHOLDER": "Eg: shopify id",
+-        "ERROR": "Invalid custom attribute name"
+-      },
+-      "VALUE": {
+-        "LABEL": "Attribute value",
+-        "PLACEHOLDER": "Eg: 11901 "
+-      },
+-      "ADD": {
+-        "TITLE": "Create new attribute ",
+-        "SUCCESS": "Attribute added successfully",
+-        "ERROR": "Unable to add attribute. Please try again later"
+-      },
+-      "UPDATE": {
+-        "SUCCESS": "Attribute updated successfully",
+-        "ERROR": "Unable to update attribute. Please try again later"
+-      },
+-      "DELETE": {
+-        "SUCCESS": "Attribute deleted successfully",
+-        "ERROR": "Unable to delete attribute. Please try again later"
+-      },
+-      "ATTRIBUTE_SELECT": {
+-        "TITLE": "Add attributes",
+-        "PLACEHOLDER": "Search attributes",
+-        "NO_RESULT": "No attributes found"
+-      },
+-      "ATTRIBUTE_TYPE": {
+-        "LIST": {
+-          "PLACEHOLDER": "Select value",
+-          "SEARCH_INPUT_PLACEHOLDER": "Search value",
+-          "NO_RESULT": "No result found"
++    "DELETE_CONTACT": {
++        "BUTTON_LABEL": "Delete Contact",
++        "TITLE": "Delete contact",
++        "DESC": "Delete contact details",
++        "CONFIRM": {
++            "TITLE": "Confirm Deletion",
++            "MESSAGE": "Are you sure to delete ",
++            "YES": "Yes, Delete",
++            "NO": "No, Keep"
++        },
++        "API": {
++            "SUCCESS_MESSAGE": "Contact deleted successfully",
++            "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+         }
+-      }
+-    },
+-    "VALIDATIONS": {
+-      "REQUIRED": "Valid value is required",
+-      "INVALID_URL": "Invalid URL",
+-      "INVALID_INPUT": "Invalid Input"
+-    }
+-  },
+-  "MERGE_CONTACTS": {
+-    "TITLE": "Merge contacts",
+-    "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’s attributes will take precedence.",
+-    "PRIMARY": {
+-      "TITLE": "Primary contact",
+-      "HELP_LABEL": "To be deleted"
+     },
+-    "PARENT": {
+-      "TITLE": "Contact to merge",
+-      "PLACEHOLDER": "Search for a contact",
+-      "HELP_LABEL": "To be kept"
++    "CONTACT_FORM": {
++        "FORM": {
++            "SUBMIT": "Submit",
++            "CANCEL": "Cancel",
++            "AVATAR": {
++                "LABEL": "Contact Avatar"
++            },
++            "NAME": {
++                "PLACEHOLDER": "Enter the full name of the contact",
++                "LABEL": "Full Name"
++            },
++            "BIO": {
++                "PLACEHOLDER": "Enter the bio of the contact",
++                "LABEL": "Bio"
++            },
++            "EMAIL_ADDRESS": {
++                "PLACEHOLDER": "Enter the email address of the contact",
++                "LABEL": "Email Address",
++                "DUPLICATE": "This email address is in use for another contact.",
++                "ERROR": "Please enter a valid email address."
++            },
++            "PHONE_NUMBER": {
++                "PLACEHOLDER": "Enter the phone number of the contact",
++                "LABEL": "Phone Number",
++                "HELP": "Phone number should be of E.164 format eg: +1415555555 [+][country code][area code][local phone number]. You can select the dial code from the dropdown.",
++                "ERROR": "Phone number should be either empty or of E.164 format",
++                "DIAL_CODE_ERROR": "Please select a dial code from the list",
++                "DUPLICATE": "This phone number is in use for another contact."
++            },
++            "LOCATION": {
++                "PLACEHOLDER": "Enter the location of the contact",
++                "LABEL": "Location"
++            },
++            "COMPANY_NAME": {
++                "PLACEHOLDER": "Enter the company name",
++                "LABEL": "Company Name"
++            },
++            "COUNTRY": {
++                "PLACEHOLDER": "Enter the country name",
++                "LABEL": "Country Name",
++                "SELECT_PLACEHOLDER": "Select",
++                "REMOVE": "Remove",
++                "SELECT_COUNTRY": "Select Country"
++            },
++            "CITY": {
++                "PLACEHOLDER": "Enter the city name",
++                "LABEL": "City Name"
++            },
++            "SOCIAL_PROFILES": {
++                "FACEBOOK": {
++                    "PLACEHOLDER": "Enter the Facebook username",
++                    "LABEL": "Facebook"
++                },
++                "TWITTER": {
++                    "PLACEHOLDER": "Enter the Twitter username",
++                    "LABEL": "Twitter"
++                },
++                "LINKEDIN": {
++                    "PLACEHOLDER": "Enter the LinkedIn username",
++                    "LABEL": "LinkedIn"
++                },
++                "GITHUB": {
++                    "PLACEHOLDER": "Enter the Github username",
++                    "LABEL": "Github"
++                }
++            }
++        },
++        "DELETE_AVATAR": {
++            "API": {
++                "SUCCESS_MESSAGE": "Contact avatar deleted successfully",
++                "ERROR_MESSAGE": "Could not delete the contact avatar. Please try again later."
++            }
++        },
++        "SUCCESS_MESSAGE": "Contact saved successfully",
++        "ERROR_MESSAGE": "There was an error, please try again"
+     },
+-    "SUMMARY": {
+-      "TITLE": "Summary",
+-      "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
+-      "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
++    "NEW_CONVERSATION": {
++        "BUTTON_LABEL": "Start conversation",
++        "TITLE": "New conversation",
++        "DESC": "Start a new conversation by sending a new message.",
++        "NO_INBOX": "Couldn't find an inbox to initiate a new conversation with this contact.",
++        "FORM": {
++            "TO": {
++                "LABEL": "To"
++            },
++            "INBOX": {
++                "LABEL": "Via Inbox",
++                "PLACEHOLDER": "Choose source inbox",
++                "ERROR": "Select an inbox"
++            },
++            "SUBJECT": {
++                "LABEL": "Subject",
++                "PLACEHOLDER": "Subject",
++                "ERROR": "Subject can't be empty"
++            },
++            "MESSAGE": {
++                "LABEL": "Message",
++                "PLACEHOLDER": "Write your message here",
++                "ERROR": "Message can't be empty"
++            },
++            "ATTACHMENTS": {
++                "SELECT": "Choose files",
++                "HELP_TEXT": "Drag and drop files here or choose files to attach"
++            },
++            "SUBMIT": "Send message",
++            "CANCEL": "Cancel",
++            "SUCCESS_MESSAGE": "Message sent!",
++            "GO_TO_CONVERSATION": "View",
++            "ERROR_MESSAGE": "Couldn't send! try again"
++        }
+     },
+-    "SEARCH": {
+-      "ERROR_MESSAGE": "Something went wrong. Please try again later."
++    "CONTACTS_PAGE": {
++        "LIST": {
++            "TABLE_HEADER": {
++                "SOCIAL_PROFILES": "Social Profiles"
++            }
++        }
+     },
+-    "FORM": {
+-      "SUBMIT": " Merge contacts",
+-      "CANCEL": "Cancel",
+-      "CHILD_CONTACT": {
+-        "ERROR": "Select a child contact to merge"
+-      },
+-      "SUCCESS_MESSAGE": "Contact merged successfully",
+-      "ERROR_MESSAGE": "Could not merge contacts, try again!"
++    "CUSTOM_ATTRIBUTES": {
++        "BUTTON": "Add custom attribute",
++        "COPY_SUCCESSFUL": "Copied to clipboard successfully",
++        "SHOW_MORE": "Show all attributes",
++        "SHOW_LESS": "Show less attributes",
++        "ACTIONS": {
++            "COPY": "Copy attribute",
++            "DELETE": "Delete attribute",
++            "EDIT": "Edit attribute"
++        },
++        "ADD": {
++            "TITLE": "Create custom attribute",
++            "DESC": "Add custom information to this contact."
++        },
++        "FORM": {
++            "CREATE": "Add attribute",
++            "CANCEL": "Cancel",
++            "NAME": {
++                "LABEL": "Custom attribute name",
++                "PLACEHOLDER": "Eg: shopify id",
++                "ERROR": "Invalid custom attribute name"
++            },
++            "VALUE": {
++                "LABEL": "Attribute value",
++                "PLACEHOLDER": "Eg: 11901 "
++            },
++            "ADD": {
++                "TITLE": "Create new attribute ",
++                "SUCCESS": "Attribute added successfully",
++                "ERROR": "Unable to add attribute. Please try again later"
++            },
++            "UPDATE": {
++                "SUCCESS": "Attribute updated successfully",
++                "ERROR": "Unable to update attribute. Please try again later"
++            },
++            "DELETE": {
++                "SUCCESS": "Attribute deleted successfully",
++                "ERROR": "Unable to delete attribute. Please try again later"
++            },
++            "ATTRIBUTE_SELECT": {
++                "TITLE": "Add attributes",
++                "PLACEHOLDER": "Search attributes",
++                "NO_RESULT": "No attributes found"
++            },
++            "ATTRIBUTE_TYPE": {
++                "LIST": {
++                    "PLACEHOLDER": "Select value",
++                    "SEARCH_INPUT_PLACEHOLDER": "Search value",
++                    "NO_RESULT": "No result found"
++                }
++            }
++        },
++        "VALIDATIONS": {
++            "REQUIRED": "Valid value is required",
++            "INVALID_URL": "Invalid URL",
++            "INVALID_INPUT": "Invalid Input"
++        }
+     },
+-    "DROPDOWN_ITEM": {
+-      "ID": "(ID: {identifier})"
+-    }
+-  },
+-
+-  "CONTACTS_LAYOUT": {
+-    "HEADER": {
+-      "TITLE": "Contacts",
+-      "SEARCH_TITLE": "Search contacts",
+-      "ACTIVE_TITLE": "Active contacts",
+-      "SEARCH_PLACEHOLDER": "Search...",
+-      "MESSAGE_BUTTON": "Message",
+-      "SEND_MESSAGE": "Send message",
+-      "BLOCK_CONTACT": "Block contact",
+-      "UNBLOCK_CONTACT": "Unblock contact",
+-      "BREADCRUMB": {
+-        "CONTACTS": "Contacts"
+-      },
+-      "ACTIONS": {
+-        "CONTACT_CREATION": {
+-          "ADD_CONTACT": "Add contact",
+-          "EXPORT_CONTACT": "Export contacts",
+-          "IMPORT_CONTACT": "Import contacts",
+-          "SAVE_CONTACT": "Save contact",
+-          "EMAIL_ADDRESS_DUPLICATE": "This email address is in use for another contact.",
+-          "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
+-          "SUCCESS_MESSAGE": "Contact saved successfully",
+-          "ERROR_MESSAGE": "Unable to save contact. Please try again later."
++    "MERGE_CONTACTS": {
++        "TITLE": "Merge contacts",
++        "DESCRIPTION": "Merge contacts to combine two profiles into one, including all attributes and conversations. In case of conflict, the Primary contact’s attributes will take precedence.",
++        "PRIMARY": {
++            "TITLE": "Primary contact",
++            "HELP_LABEL": "To be deleted"
+         },
+-        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+-        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+-        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+-        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
+-        "IMPORT_CONTACT": {
+-          "TITLE": "Import contacts",
+-          "DESCRIPTION": "Import contacts through a CSV file.",
+-          "DOWNLOAD_LABEL": "Download a sample csv.",
+-          "LABEL": "CSV File:",
+-          "CHOOSE_FILE": "Choose file",
+-          "CHANGE": "Change",
+-          "CANCEL": "Cancel",
+-          "IMPORT": "Import",
+-          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
+-          "ERROR_MESSAGE": "There was an error, please try again"
++        "PARENT": {
++            "TITLE": "Contact to merge",
++            "PLACEHOLDER": "Search for a contact",
++            "HELP_LABEL": "To be kept"
+         },
+-        "EXPORT_CONTACT": {
+-          "TITLE": "Export contacts",
+-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
+-          "CONFIRM": "Export",
+-          "SUCCESS_MESSAGE": "Export is in progress. You will be notified on email when the export file is ready to download.",
+-          "ERROR_MESSAGE": "There was an error, please try again"
++        "SUMMARY": {
++            "TITLE": "Summary",
++            "DELETE_WARNING": "Contact of <strong>{primaryContactName}</strong> will be deleted.",
++            "ATTRIBUTE_WARNING": "Contact details of <strong>{primaryContactName}</strong> will be copied to <strong>{parentContactName}</strong>."
+         },
+-        "SORT_BY": {
+-          "LABEL": "Sort by",
+-          "OPTIONS": {
++        "SEARCH": {
++            "ERROR_MESSAGE": "Something went wrong. Please try again later."
++        },
++        "FORM": {
++            "SUBMIT": " Merge contacts",
++            "CANCEL": "Cancel",
++            "CHILD_CONTACT": {
++                "ERROR": "Select a child contact to merge"
++            },
++            "SUCCESS_MESSAGE": "Contact merged successfully",
++            "ERROR_MESSAGE": "Could not merge contacts, try again!"
++        },
++        "DROPDOWN_ITEM": {
++            "ID": "(ID: {identifier})"
++        }
++    },
++    "CONTACTS_LAYOUT": {
++        "HEADER": {
++            "TITLE": "Contacts",
++            "SEARCH_TITLE": "Search contacts",
++            "ACTIVE_TITLE": "Active contacts",
++            "SEARCH_PLACEHOLDER": "Search...",
++            "MESSAGE_BUTTON": "Message",
++            "SEND_MESSAGE": "Send message",
++            "BLOCK_CONTACT": "Block contact",
++            "UNBLOCK_CONTACT": "Unblock contact",
++            "BREADCRUMB": {
++                "CONTACTS": "Contacts"
++            },
++            "ACTIONS": {
++                "CONTACT_CREATION": {
++                    "ADD_CONTACT": "Add contact",
++                    "EXPORT_CONTACT": "Export contacts",
++                    "IMPORT_CONTACT": "Import contacts",
++                    "SAVE_CONTACT": "Save contact",
++                    "EMAIL_ADDRESS_DUPLICATE": "This email address is in use for another contact.",
++                    "PHONE_NUMBER_DUPLICATE": "This phone number is in use for another contact.",
++                    "SUCCESS_MESSAGE": "Contact saved successfully",
++                    "ERROR_MESSAGE": "Unable to save contact. Please try again later."
++                },
++                "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
++                "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
++                "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
++                "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
++                "IMPORT_CONTACT": {
++                    "TITLE": "Import contacts",
++                    "DESCRIPTION": "Import contacts through a CSV file.",
++                    "DOWNLOAD_LABEL": "Download a sample csv.",
++                    "LABEL": "CSV File:",
++                    "CHOOSE_FILE": "Choose file",
++                    "CHANGE": "Change",
++                    "CANCEL": "Cancel",
++                    "IMPORT": "Import",
++                    "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
++                    "ERROR_MESSAGE": "There was an error, please try again"
++                },
++                "EXPORT_CONTACT": {
++                    "TITLE": "Export contacts",
++                    "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
++                    "CONFIRM": "Export",
++                    "SUCCESS_MESSAGE": "Export is in progress. You will be notified on email when the export file is ready to download.",
++                    "ERROR_MESSAGE": "There was an error, please try again"
++                },
++                "SORT_BY": {
++                    "LABEL": "Sort by",
++                    "OPTIONS": {
++                        "NAME": "Name",
++                        "EMAIL": "Email",
++                        "PHONE_NUMBER": "Phone number",
++                        "COMPANY": "Company",
++                        "COUNTRY": "Country",
++                        "CITY": "City",
++                        "LAST_ACTIVITY": "Last activity",
++                        "CREATED_AT": "Created at"
++                    }
++                },
++                "ORDER": {
++                    "LABEL": "Ordering",
++                    "OPTIONS": {
++                        "ASCENDING": "Ascending",
++                        "DESCENDING": "Descending"
++                    }
++                },
++                "FILTERS": {
++                    "CREATE_SEGMENT": {
++                        "TITLE": "Do you want to save this filter?",
++                        "CONFIRM": "Save filter",
++                        "LABEL": "Name",
++                        "PLACEHOLDER": "Enter the name of the filter",
++                        "ERROR": "Enter a valid name",
++                        "SUCCESS_MESSAGE": "Filter saved successfully",
++                        "ERROR_MESSAGE": "Unable to save filter. Please try again later."
++                    },
++                    "DELETE_SEGMENT": {
++                        "TITLE": "Confirm Deletion",
++                        "DESCRIPTION": "Are you sure you want to delete this filter?",
++                        "CONFIRM": "Yes, Delete",
++                        "CANCEL": "No, Cancel",
++                        "SUCCESS_MESSAGE": "Filter deleted successfully",
++                        "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
++                    }
++                },
++                "EDIT_FILTER": "Edit filter",
++                "FILTERS_LABEL": "Filters"
++            }
++        },
++        "PAGINATION_FOOTER": {
++            "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
++        },
++        "FILTER": {
+             "NAME": "Name",
+             "EMAIL": "Email",
+             "PHONE_NUMBER": "Phone number",
+-            "COMPANY": "Company",
++            "IDENTIFIER": "Identifier",
+             "COUNTRY": "Country",
+             "CITY": "City",
++            "COMPANY": "Company",
++            "CREATED_AT": "Created at",
+             "LAST_ACTIVITY": "Last activity",
+-            "CREATED_AT": "Created at"
+-          }
++            "REFERER_LINK": "Referer link",
++            "BLOCKED": "Blocked",
++            "BLOCKED_TRUE": "True",
++            "BLOCKED_FALSE": "False",
++            "BUTTONS": {
++                "CLEAR_FILTERS": "Clear filters",
++                "UPDATE_SEGMENT": "Update segment",
++                "APPLY_FILTERS": "Apply filters",
++                "ADD_FILTER": "Add filter"
++            },
++            "TITLE": "Filter contacts",
++            "EDIT_SEGMENT": "Edit segment",
++            "SEGMENT": {
++                "LABEL": "Segment name",
++                "INPUT_PLACEHOLDER": "Enter the name of the segment"
++            },
++            "ACTIVE_FILTERS": {
++                "MORE_FILTERS": "+ {count} more filters",
++                "CLEAR_FILTERS": "Clear filters"
++            }
+         },
+-        "ORDER": {
+-          "LABEL": "Ordering",
+-          "OPTIONS": {
+-            "ASCENDING": "Ascending",
+-            "DESCENDING": "Descending"
+-          }
++        "CARD": {
++            "OF": "of",
++            "VIEW_DETAILS": "View details",
++            "EDIT_DETAILS_FORM": {
++                "TITLE": "Edit contact details",
++                "FORM": {
++                    "FIRST_NAME": {
++                        "PLACEHOLDER": "Enter the first name"
++                    },
++                    "LAST_NAME": {
++                        "PLACEHOLDER": "Enter the last name"
++                    },
++                    "EMAIL_ADDRESS": {
++                        "PLACEHOLDER": "Enter the email address",
++                        "DUPLICATE": "This email address is in use for another contact."
++                    },
++                    "PHONE_NUMBER": {
++                        "PLACEHOLDER": "Enter the phone number",
++                        "DUPLICATE": "This phone number is in use for another contact."
++                    },
++                    "CITY": {
++                        "PLACEHOLDER": "Enter the city name"
++                    },
++                    "COUNTRY": {
++                        "PLACEHOLDER": "Select country"
++                    },
++                    "BIO": {
++                        "PLACEHOLDER": "Enter the bio"
++                    },
++                    "COMPANY_NAME": {
++                        "PLACEHOLDER": "Enter the company name"
++                    }
++                },
++                "UPDATE_BUTTON": "Update contact",
++                "SUCCESS_MESSAGE": "Contact updated successfully",
++                "ERROR_MESSAGE": "Unable to update contact. Please try again later."
++            },
++            "SOCIAL_MEDIA": {
++                "TITLE": "Edit social links",
++                "FORM": {
++                    "FACEBOOK": {
++                        "PLACEHOLDER": "Add Facebook"
++                    },
++                    "GITHUB": {
++                        "PLACEHOLDER": "Add Github"
++                    },
++                    "INSTAGRAM": {
++                        "PLACEHOLDER": "Add Instagram"
++                    },
++                    "WHATSAPP": {
++                        "PLACEHOLDER": "Add WhatsApp"
++                    },
++                    "TELEGRAM": {
++                        "PLACEHOLDER": "Add Telegram"
++                    },
++                    "TIKTOK": {
++                        "PLACEHOLDER": "Add TikTok"
++                    },
++                    "LINKEDIN": {
++                        "PLACEHOLDER": "Add LinkedIn"
++                    },
++                    "TWITTER": {
++                        "PLACEHOLDER": "Add Twitter"
++                    }
++                }
++            },
++            "DELETE_CONTACT": {
++                "MESSAGE": "This action is permanent and irreversible.",
++                "BUTTON": "Delete now"
++            }
+         },
+-        "FILTERS": {
+-          "CREATE_SEGMENT": {
+-            "TITLE": "Do you want to save this filter?",
+-            "CONFIRM": "Save filter",
+-            "LABEL": "Name",
+-            "PLACEHOLDER": "Enter the name of the filter",
+-            "ERROR": "Enter a valid name",
+-            "SUCCESS_MESSAGE": "Filter saved successfully",
+-            "ERROR_MESSAGE": "Unable to save filter. Please try again later."
+-          },
+-          "DELETE_SEGMENT": {
+-            "TITLE": "Confirm Deletion",
+-            "DESCRIPTION": "Are you sure you want to delete this filter?",
+-            "CONFIRM": "Yes, Delete",
+-            "CANCEL": "No, Cancel",
+-            "SUCCESS_MESSAGE": "Filter deleted successfully",
+-            "ERROR_MESSAGE": "Unable to delete filter. Please try again later."
+-          }
+-        }
+-      }
+-    },
+-    "PAGINATION_FOOTER": {
+-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
+-    },
+-    "FILTER": {
+-      "NAME": "Name",
+-      "EMAIL": "Email",
+-      "PHONE_NUMBER": "Phone number",
+-      "IDENTIFIER": "Identifier",
+-      "COUNTRY": "Country",
+-      "CITY": "City",
+-      "COMPANY": "Company",
+-      "CREATED_AT": "Created at",
+-      "LAST_ACTIVITY": "Last activity",
+-      "REFERER_LINK": "Referer link",
+-      "BLOCKED": "Blocked",
+-      "BLOCKED_TRUE": "True",
+-      "BLOCKED_FALSE": "False",
+-      "BUTTONS": {
+-        "CLEAR_FILTERS": "Clear filters",
+-        "UPDATE_SEGMENT": "Update segment",
+-        "APPLY_FILTERS": "Apply filters",
+-        "ADD_FILTER": "Add filter"
+-      },
+-      "TITLE": "Filter contacts",
+-      "EDIT_SEGMENT": "Edit segment",
+-      "SEGMENT": {
+-        "LABEL": "Segment name",
+-        "INPUT_PLACEHOLDER": "Enter the name of the segment"
+-      },
+-      "ACTIVE_FILTERS": {
+-        "MORE_FILTERS": "+ {count} more filters",
+-        "CLEAR_FILTERS": "Clear filters"
+-      }
+-    },
+-    "CARD": {
+-      "OF": "of",
+-      "VIEW_DETAILS": "View details",
+-      "EDIT_DETAILS_FORM": {
+-        "TITLE": "Edit contact details",
+-        "FORM": {
+-          "FIRST_NAME": {
+-            "PLACEHOLDER": "Enter the first name"
+-          },
+-          "LAST_NAME": {
+-            "PLACEHOLDER": "Enter the last name"
+-          },
+-          "EMAIL_ADDRESS": {
+-            "PLACEHOLDER": "Enter the email address",
+-            "DUPLICATE": "This email address is in use for another contact."
+-          },
+-          "PHONE_NUMBER": {
+-            "PLACEHOLDER": "Enter the phone number",
+-            "DUPLICATE": "This phone number is in use for another contact."
+-          },
+-          "CITY": {
+-            "PLACEHOLDER": "Enter the city name"
+-          },
+-          "COUNTRY": {
+-            "PLACEHOLDER": "Select country"
+-          },
+-          "BIO": {
+-            "PLACEHOLDER": "Enter the bio"
+-          },
+-          "COMPANY_NAME": {
+-            "PLACEHOLDER": "Enter the company name"
+-          }
++        "DETAILS": {
++            "CREATED_AT": "Created {date}",
++            "LAST_ACTIVITY": "Last active {date}",
++            "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
++            "DELETE_CONTACT": "Delete contact",
++            "DELETE_DIALOG": {
++                "TITLE": "Confirm Deletion",
++                "DESCRIPTION": "Are you sure you want to delete this contact?",
++                "CONFIRM": "Yes, Delete",
++                "API": {
++                    "SUCCESS_MESSAGE": "Contact deleted successfully",
++                    "ERROR_MESSAGE": "Could not delete contact. Please try again later."
++                }
++            },
++            "AVATAR": {
++                "UPLOAD": {
++                    "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
++                    "SUCCESS_MESSAGE": "Avatar uploaded successfully"
++                },
++                "DELETE": {
++                    "SUCCESS_MESSAGE": "Avatar deleted successfully",
++                    "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
++                }
++            }
+         },
+-        "UPDATE_BUTTON": "Update contact",
+-        "SUCCESS_MESSAGE": "Contact updated successfully",
+-        "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+-      },
+-      "SOCIAL_MEDIA": {
+-        "TITLE": "Edit social links",
+-        "FORM": {
+-          "FACEBOOK": {
+-            "PLACEHOLDER": "Add Facebook"
+-          },
+-          "GITHUB": {
+-            "PLACEHOLDER": "Add Github"
+-          },
+-          "INSTAGRAM": {
+-            "PLACEHOLDER": "Add Instagram"
+-          },
+-          "WHATSAPP": {
+-            "PLACEHOLDER": "Add WhatsApp"
+-          },
+-          "TELEGRAM": {
+-            "PLACEHOLDER": "Add Telegram"
+-          },
+-          "TIKTOK": {
+-            "PLACEHOLDER": "Add TikTok"
+-          },
+-          "LINKEDIN": {
+-            "PLACEHOLDER": "Add LinkedIn"
+-          },
+-          "TWITTER": {
+-            "PLACEHOLDER": "Add Twitter"
+-          }
+-        }
+-      },
+-      "DELETE_CONTACT": {
+-        "MESSAGE": "This action is permanent and irreversible.",
+-        "BUTTON": "Delete now"
+-      }
+-    },
+-    "DETAILS": {
+-      "CREATED_AT": "Created {date}",
+-      "LAST_ACTIVITY": "Last active {date}",
+-      "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
+-      "DELETE_CONTACT": "Delete contact",
+-      "DELETE_DIALOG": {
+-        "TITLE": "Confirm Deletion",
+-        "DESCRIPTION": "Are you sure you want to delete this contact?",
+-        "CONFIRM": "Yes, Delete",
+-        "API": {
+-          "SUCCESS_MESSAGE": "Contact deleted successfully",
+-          "ERROR_MESSAGE": "Could not delete contact. Please try again later."
+-        }
+-      },
+-      "AVATAR": {
+-        "UPLOAD": {
+-          "ERROR_MESSAGE": "Could not upload avatar. Please try again later.",
+-          "SUCCESS_MESSAGE": "Avatar uploaded successfully"
++        "SIDEBAR": {
++            "TABS": {
++                "ATTRIBUTES": "Attributes",
++                "HISTORY": "History",
++                "NOTES": "Notes",
++                "MEDIA": "Media",
++                "MERGE": "Merge"
++            },
++            "HISTORY": {
++                "EMPTY_STATE": "There are no previous conversations associated to this contact"
++            },
++            "ATTRIBUTES": {
++                "SEARCH_PLACEHOLDER": "Search for attributes",
++                "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
++                "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
++                "YES": "Yes",
++                "NO": "No",
++                "TRIGGER": {
++                    "SELECT": "Select value",
++                    "INPUT": "Enter value"
++                },
++                "VALIDATIONS": {
++                    "INVALID_NUMBER": "Invalid number",
++                    "REQUIRED": "Valid value is required",
++                    "INVALID_INPUT": "Invalid input",
++                    "INVALID_URL": "Invalid URL",
++                    "INVALID_DATE": "Invalid date"
++                },
++                "NO_ATTRIBUTES": "No attributes found",
++                "API": {
++                    "SUCCESS_MESSAGE": "Attribute updated successfully",
++                    "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
++                    "UPDATE_ERROR": "Unable to update attribute. Please try again later",
++                    "DELETE_ERROR": "Unable to delete attribute. Please try again later"
++                }
++            },
++            "MERGE": {
++                "TITLE": "Merge contact",
++                "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
++                "PRIMARY": "Primary contact",
++                "PRIMARY_HELP_LABEL": "To be saved",
++                "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
++                "PARENT": "To be merged",
++                "PARENT_HELP_LABEL": "To be deleted",
++                "EMPTY_STATE": "No contacts found",
++                "PLACEHOLDER": "Search for primary contact",
++                "SEARCH_PLACEHOLDER": "Search for a contact",
++                "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
++                "SUCCESS_MESSAGE": "Contact merged successfully",
++                "ERROR_MESSAGE": "Could not merge contacts, try again!",
++                "IS_SEARCHING": "Searching...",
++                "BUTTONS": {
++                    "CANCEL": "Cancel",
++                    "CONFIRM": "Merge contact"
++                }
++            },
++            "NOTES": {
++                "PLACEHOLDER": "Add a note",
++                "WROTE": "wrote",
++                "YOU": "You",
++                "SAVE": "Save note",
++                "ADD_NOTE": "Add contact note",
++                "EXPAND": "Expand",
++                "COLLAPSE": "Collapse",
++                "NO_NOTES": "No notes, you can add notes from the contact details page.",
++                "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
++                "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
++            }
+         },
+-        "DELETE": {
+-          "SUCCESS_MESSAGE": "Avatar deleted successfully",
+-          "ERROR_MESSAGE": "Could not delete avatar. Please try again later."
++        "EMPTY_STATE": {
++            "TITLE": "No contacts found in this account",
++            "SUBTITLE": "Start adding new contacts by clicking on the button below",
++            "BUTTON_LABEL": "Add contact",
++            "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
++            "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
++            "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
++        },
++        "LOAD_MORE": "Load more"
++    },
++    "CONTACTS_BULK_ACTIONS": {
++        "ASSIGN_LABELS": "Assign Labels",
++        "REMOVE_LABELS": "Remove Labels",
++        "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
++        "ASSIGN_LABELS_FAILED": "Failed to assign labels",
++        "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
++        "REMOVE_LABELS_FAILED": "Failed to remove labels",
++        "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
++        "NO_LABELS_FOUND": "No labels available yet.",
++        "SELECTED_COUNT": "{count} selected",
++        "CLEAR_SELECTION": "Clear selection",
++        "SELECT_ALL": "Select all ({count})",
++        "DELETE_CONTACTS": "Delete",
++        "DELETE_SUCCESS": "Contacts deleted successfully.",
++        "DELETE_FAILED": "Failed to delete contacts.",
++        "DELETE_DIALOG": {
++            "TITLE": "Delete selected contacts",
++            "SINGULAR_TITLE": "Delete selected contact",
++            "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
++            "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
++            "CONFIRM_MULTIPLE": "Delete contacts",
++            "CONFIRM_SINGLE": "Delete contact"
+         }
+-      }
+     },
+-    "SIDEBAR": {
+-      "TABS": {
+-        "ATTRIBUTES": "Attributes",
+-        "HISTORY": "History",
+-        "NOTES": "Notes",
+-        "MEDIA": "Media",
+-        "MERGE": "Merge"
+-      },
+-      "HISTORY": {
+-        "EMPTY_STATE": "There are no previous conversations associated to this contact"
+-      },
+-      "ATTRIBUTES": {
+-        "SEARCH_PLACEHOLDER": "Search for attributes",
+-        "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
+-        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+-        "YES": "Yes",
+-        "NO": "No",
+-        "TRIGGER": {
+-          "SELECT": "Select value",
+-          "INPUT": "Enter value"
++    "COMPOSE_NEW_CONVERSATION": {
++        "CONTACT_SEARCH": {
++            "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+         },
+-        "VALIDATIONS": {
+-          "INVALID_NUMBER": "Invalid number",
+-          "REQUIRED": "Valid value is required",
+-          "INVALID_INPUT": "Invalid input",
+-          "INVALID_URL": "Invalid URL",
+-          "INVALID_DATE": "Invalid date"
++        "CONTACT_CREATE": {
++            "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+         },
+-        "NO_ATTRIBUTES": "No attributes found",
+-        "API": {
+-          "SUCCESS_MESSAGE": "Attribute updated successfully",
+-          "DELETE_SUCCESS_MESSAGE": "Attribute deleted successfully",
+-          "UPDATE_ERROR": "Unable to update attribute. Please try again later",
+-          "DELETE_ERROR": "Unable to delete attribute. Please try again later"
+-        }
+-      },
+-      "MERGE": {
+-        "TITLE": "Merge contact",
+-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+-        "PRIMARY": "Primary contact",
+-        "PRIMARY_HELP_LABEL": "To be saved",
+-        "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
+-        "PARENT": "To be merged",
+-        "PARENT_HELP_LABEL": "To be deleted",
+-        "EMPTY_STATE": "No contacts found",
+-        "PLACEHOLDER": "Search for primary contact",
+-        "SEARCH_PLACEHOLDER": "Search for a contact",
+-        "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
+-        "SUCCESS_MESSAGE": "Contact merged successfully",
+-        "ERROR_MESSAGE": "Could not merge contacts, try again!",
+-        "IS_SEARCHING": "Searching...",
+-        "BUTTONS": {
+-          "CANCEL": "Cancel",
+-          "CONFIRM": "Merge contact"
+-        }
+-      },
+-      "NOTES": {
+-        "PLACEHOLDER": "Add a note",
+-        "WROTE": "wrote",
+-        "YOU": "You",
+-        "SAVE": "Save note",
+-        "ADD_NOTE": "Add contact note",
+-        "EXPAND": "Expand",
+-        "COLLAPSE": "Collapse",
+-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
+-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+-      }
+-    },
+-    "EMPTY_STATE": {
+-      "TITLE": "No contacts found in this account",
+-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+-      "BUTTON_LABEL": "Add contact",
+-      "SEARCH_EMPTY_STATE_TITLE": "No contacts matches your search 🔍",
+-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+-      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+-    },
+-    "LOAD_MORE": "Load more"
+-  },
+-  "CONTACTS_BULK_ACTIONS": {
+-    "ASSIGN_LABELS": "Assign Labels",
+-    "REMOVE_LABELS": "Remove Labels",
+-    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
+-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+-    "REMOVE_LABELS_FAILED": "Failed to remove labels",
+-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+-    "NO_LABELS_FOUND": "No labels available yet.",
+-    "SELECTED_COUNT": "{count} selected",
+-    "CLEAR_SELECTION": "Clear selection",
+-    "SELECT_ALL": "Select all ({count})",
+-    "DELETE_CONTACTS": "Delete",
+-    "DELETE_SUCCESS": "Contacts deleted successfully.",
+-    "DELETE_FAILED": "Failed to delete contacts.",
+-    "DELETE_DIALOG": {
+-      "TITLE": "Delete selected contacts",
+-      "SINGULAR_TITLE": "Delete selected contact",
+-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+-      "CONFIRM_MULTIPLE": "Delete contacts",
+-      "CONFIRM_SINGLE": "Delete contact"
+-    }
+-  },
+-
+-  "COMPOSE_NEW_CONVERSATION": {
+-    "CONTACT_SEARCH": {
+-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+-    },
+-    "CONTACT_CREATE": {
+-      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+-    },
+-    "FORM": {
+-      "GO_TO_CONVERSATION": "View",
+-      "SUCCESS_MESSAGE": "The message was sent successfully!",
+-      "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
+-      "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
+-      "CONTACT_SELECTOR": {
+-        "LABEL": "To:",
+-        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
+-        "CONTACT_CREATING": "Creating contact..."
+-      },
+-      "INBOX_SELECTOR": {
+-        "LABEL": "Via:",
+-        "BUTTON": "Show inboxes"
+-      },
+-      "EMAIL_OPTIONS": {
+-        "SUBJECT_LABEL": "Subject :",
+-        "SUBJECT_PLACEHOLDER": "Enter your email subject here",
+-        "CC_LABEL": "Cc:",
+-        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+-        "BCC_LABEL": "Bcc:",
+-        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
+-        "BCC_BUTTON": "Bcc"
+-      },
+-      "MESSAGE_EDITOR": {
+-        "PLACEHOLDER": "Write your message here..."
+-      },
+-      "WHATSAPP_OPTIONS": {
+-        "LABEL": "Select template",
+-        "SEARCH_PLACEHOLDER": "Search templates",
+-        "EMPTY_STATE": "No templates found",
+-        "TEMPLATE_PARSER": {
+-          "TEMPLATE_NAME": "WhatsApp template: {templateName}",
+-          "VARIABLES": "Variables",
+-          "BACK": "Go back",
+-          "SEND_MESSAGE": "Send message"
+-        }
+-      },
+-      "TWILIO_OPTIONS": {
+-        "LABEL": "Select template",
+-        "SEARCH_PLACEHOLDER": "Search templates",
+-        "EMPTY_STATE": "No templates found",
+-        "TEMPLATE_PARSER": {
+-          "BACK": "Go back",
+-          "SEND_MESSAGE": "Send message"
++        "FORM": {
++            "GO_TO_CONVERSATION": "View",
++            "SUCCESS_MESSAGE": "The message was sent successfully!",
++            "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
++            "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
++            "CONTACT_SELECTOR": {
++                "LABEL": "To:",
++                "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
++                "CONTACT_CREATING": "Creating contact..."
++            },
++            "INBOX_SELECTOR": {
++                "LABEL": "Via:",
++                "BUTTON": "Show inboxes"
++            },
++            "EMAIL_OPTIONS": {
++                "SUBJECT_LABEL": "Subject :",
++                "SUBJECT_PLACEHOLDER": "Enter your email subject here",
++                "CC_LABEL": "Cc:",
++                "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
++                "BCC_LABEL": "Bcc:",
++                "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
++                "BCC_BUTTON": "Bcc"
++            },
++            "MESSAGE_EDITOR": {
++                "PLACEHOLDER": "Write your message here..."
++            },
++            "WHATSAPP_OPTIONS": {
++                "LABEL": "Select template",
++                "SEARCH_PLACEHOLDER": "Search templates",
++                "EMPTY_STATE": "No templates found",
++                "TEMPLATE_PARSER": {
++                    "TEMPLATE_NAME": "WhatsApp template: {templateName}",
++                    "VARIABLES": "Variables",
++                    "BACK": "Go back",
++                    "SEND_MESSAGE": "Send message"
++                }
++            },
++            "TWILIO_OPTIONS": {
++                "LABEL": "Select template",
++                "SEARCH_PLACEHOLDER": "Search templates",
++                "EMPTY_STATE": "No templates found",
++                "TEMPLATE_PARSER": {
++                    "BACK": "Go back",
++                    "SEND_MESSAGE": "Send message"
++                }
++            },
++            "ACTION_BUTTONS": {
++                "DISCARD": "Discard",
++                "SEND": "Send ({keyCode})"
++            }
+         }
+-      },
+-      "ACTION_BUTTONS": {
+-        "DISCARD": "Discard",
+-        "SEND": "Send ({keyCode})"
+-      }
+     }
+-  }
+-}
++}
+\ No newline at end of file
+diff --git a/app/javascript/dashboard/i18n/locale/en/settings.json b/app/javascript/dashboard/i18n/locale/en/settings.json
+index 3c7401d..ef904a4 100644
+--- a/app/javascript/dashboard/i18n/locale/en/settings.json
++++ b/app/javascript/dashboard/i18n/locale/en/settings.json
+@@ -106,7 +106,9 @@
+         "CONFIRM_RESET": "Are you sure?",
+         "CONFIRM_HINT": "Click again to confirm",
+         "RESET_SUCCESS": "Access token regenerated successfully",
+-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
++        "RESET_ERROR": "Unable to regenerate access token. Please try again",
++        "SHOW": "Show access token",
++        "HIDE": "Hide access token"
+       },
+       "AUDIO_NOTIFICATIONS_SECTION": {
+         "TITLE": "Audio Alerts",
+@@ -419,7 +421,8 @@
+     "DOCS": "Read docs",
+     "SECURITY": "Security",
+     "CAPTAIN_AI": "Captain",
+-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
++    "CONVERSATION_WORKFLOW": "Conversation Workflow",
++    "NAVIGATION": "Primary navigation"
+   },
+   "DATA_IMPORTS": {
+     "HEADER": "Data",
+@@ -1118,4 +1121,4 @@
+       "CANCEL_BUTTON_LABEL": "Cancel"
+     }
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/app/javascript/dashboard/routes/dashboard/calls/pages/CallsIndex.vue b/app/javascript/dashboard/routes/dashboard/calls/pages/CallsIndex.vue
+index f7b4993..1676b54 100644
+--- a/app/javascript/dashboard/routes/dashboard/calls/pages/CallsIndex.vue
++++ b/app/javascript/dashboard/routes/dashboard/calls/pages/CallsIndex.vue
+@@ -146,7 +146,7 @@ onMounted(async () => {
+         :show-assignee="isAdmin"
+       />
+     </header>
+-    <main class="flex-1 px-6 overflow-y-auto">
++    <div class="flex-1 px-6 overflow-y-auto">
+       <div class="w-full">
+         <div v-if="isFetching" class="flex items-center justify-center py-16">
+           <Spinner :size="24" />
+@@ -163,7 +163,7 @@ onMounted(async () => {
+           <CallListItem v-for="call in calls" :key="call.id" :call="call" />
+         </template>
+       </div>
+-    </main>
++    </div>
+     <footer v-if="calls.length" class="sticky bottom-0 shrink-0">
+       <PaginationFooter
+         :current-page="currentPage"
+diff --git a/app/javascript/dashboard/routes/dashboard/commands/commandbar.vue b/app/javascript/dashboard/routes/dashboard/commands/commandbar.vue
+index b6a2ae7..a16b1f4 100644
+--- a/app/javascript/dashboard/routes/dashboard/commands/commandbar.vue
++++ b/app/javascript/dashboard/routes/dashboard/commands/commandbar.vue
+@@ -175,6 +175,23 @@ const patchNinjaKeysOpenClose = el => {
+     const [options = {}] = args;
+     currentCommandRoot.value = options.parent || null;
+     dynamicSnoozeActions.value = [];
++    // C56 a11y : la liste scrollable de résultats doit être focusable
++    // (WCAG 2.1.1 — un contenu scrollable clavier-inaccessible autrement)
++    requestAnimationFrame(() => {
++      const actionsList = el.shadowRoot?.querySelector('.actions-list');
++      if (actionsList && !actionsList.hasAttribute('tabindex')) {
++        actionsList.setAttribute('tabindex', '0');
++      }
++      // C56 a11y : contrastes du shadow DOM ninja-keys (< 4.5:1)
++      if (el.shadowRoot && !el.shadowRoot.getElementById('cw-a11y-contrast')) {
++        const style = document.createElement('style');
++        style.id = 'cw-a11y-contrast';
++        style.textContent =
++          '.group-header { color: #585c6a !important; }' +
++          '.ninja-examplekey { color: #555b65 !important; }';
++        el.shadowRoot.appendChild(style);
++      }
++    });
+     return originalOpen(...args);
+   };
+ 
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/SettingsLayout.vue b/app/javascript/dashboard/routes/dashboard/settings/SettingsLayout.vue
+index b70accc..ab06717 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/SettingsLayout.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/SettingsLayout.vue
+@@ -23,7 +23,7 @@ defineProps({
+   <div class="flex flex-col w-full h-full gap-4 font-inter">
+     <slot name="header" />
+     <!-- Added to render any templates that should be rendered before body -->
+-    <main>
++    <div>
+       <slot name="preBody" />
+       <slot v-if="isLoading" name="loading">
+         <woot-loading-state :message="loadingMessage" />
+@@ -37,6 +37,6 @@ defineProps({
+       <slot v-else name="body" />
+       <!-- Do not delete the slot below. It is required to render anything that is not defined in the above slots. -->
+       <slot />
+-    </main>
++    </div>
+   </div>
+ </template>
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/account/Index.vue b/app/javascript/dashboard/routes/dashboard/settings/account/Index.vue
+index 55c1e7f..65b28e5 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/account/Index.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/account/Index.vue
+@@ -190,7 +190,7 @@ export default {
+             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
+             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
+           >
+-            <select v-model="locale" class="!mb-0 text-sm">
++            <select v-model="locale" :aria-label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')" class="!mb-0 text-sm">
+               <option
+                 v-for="lang in languagesSortedByCode"
+                 :key="lang.iso_639_1_code"
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/account/components/SectionLayout.vue b/app/javascript/dashboard/routes/dashboard/settings/account/components/SectionLayout.vue
+index a547599..7220638 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/account/components/SectionLayout.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/account/components/SectionLayout.vue
+@@ -26,7 +26,7 @@ const { t } = useI18n();
+         "
+         class="col-span-3"
+       >
+-        <h4
++        <h2
+           v-if="title || beta || $slots.title"
+           class="text-heading-2 text-n-slate-12 flex items-center gap-2"
+         >
+@@ -38,7 +38,7 @@ const { t } = useI18n();
+           >
+             {{ t('GENERAL.BETA') }}
+           </div>
+-        </h4>
++        </h2>
+         <p
+           v-if="description || $slots.description"
+           class="text-n-slate-11 text-body-main mt-2"
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/AccessToken.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/AccessToken.vue
+index 7bf7d93..b31129a 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/AccessToken.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/AccessToken.vue
+@@ -1,8 +1,11 @@
+ <script setup>
+ import { ref, computed } from 'vue';
++import { useI18n } from 'vue-i18n';
+ import NextButton from 'dashboard/components-next/button/Button.vue';
+ import ConfirmButton from 'dashboard/components-next/button/ConfirmButton.vue';
+ 
++const { t } = useI18n();
++
+ const props = defineProps({
+   value: { type: String, default: '' },
+   showResetButton: { type: Boolean, default: true },
+@@ -21,6 +24,12 @@ const maskIcon = computed(() => {
+   return inputType.value === 'password' ? 'eye-hide' : 'eye-show';
+ });
+ 
++const maskLabel = computed(() =>
++  inputType.value === 'password'
++    ? t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.SHOW')
++    : t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.HIDE')
++);
++
+ const onClick = () => {
+   emit('onCopy', props.value);
+ };
+@@ -49,6 +58,7 @@ const onReset = () => {
+         <button
+           class="absolute top-0 bottom-0 ltr:right-0.5 rtl:left-0.5"
+           type="button"
++          :aria-label="maskLabel"
+           :disabled="disabled"
+           @click="toggleMasked"
+         >
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/FontSize.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/FontSize.vue
+index 2dc0e89..5f3ec16 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/FontSize.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/FontSize.vue
+@@ -33,7 +33,7 @@ const selectedValue = computed({
+ <template>
+   <div class="flex gap-2 justify-between w-full items-start">
+     <div>
+-      <label class="text-n-gray-12 font-medium leading-6 text-sm">
++      <label for="fontSize" class="text-n-gray-12 font-medium leading-6 text-sm">
+         {{ label }}
+       </label>
+       <p class="text-n-gray-11">
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/MfaManagementActions.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/MfaManagementActions.vue
+index 089a88f..e5255e3 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/MfaManagementActions.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/MfaManagementActions.vue
+@@ -114,9 +114,9 @@ defineExpose({
+               icon="i-lucide-key"
+               class="size-4 flex-shrink-0 text-n-slate-11"
+             />
+-            <h4 class="font-medium text-n-slate-12">
++            <h2 class="font-medium text-n-slate-12">
+               {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES') }}
+-            </h4>
++            </h2>
+           </div>
+           <p class="text-sm text-n-slate-11">
+             {{ $t('MFA_SETTINGS.MANAGEMENT.BACKUP_CODES_DESC') }}
+@@ -141,9 +141,9 @@ defineExpose({
+               icon="i-lucide-lock-keyhole-open"
+               class="size-4 flex-shrink-0 text-n-slate-11"
+             />
+-            <h4 class="font-medium text-n-slate-12">
++            <h2 class="font-medium text-n-slate-12">
+               {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA') }}
+-            </h4>
++            </h2>
+           </div>
+           <p class="text-sm text-n-slate-11">
+             {{ $t('MFA_SETTINGS.MANAGEMENT.DISABLE_MFA_DESC') }}
+@@ -166,9 +166,9 @@ defineExpose({
+               icon="i-lucide-lock-keyhole"
+               class="size-4 flex-shrink-0 text-n-slate-11"
+             />
+-            <h4 class="font-medium text-n-slate-12">
++            <h2 class="font-medium text-n-slate-12">
+               {{ $t('MFA_SETTINGS.MANAGEMENT.ENFORCED_TITLE') }}
+-            </h4>
++            </h2>
+           </div>
+           <p class="text-sm text-n-slate-11">
+             {{ $t('MFA_SETTINGS.MANAGEMENT.ENFORCED_NOTE') }}
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/MfaSettingsCard.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/MfaSettingsCard.vue
+index 042253b..5b97b0d 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/MfaSettingsCard.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/MfaSettingsCard.vue
+@@ -26,9 +26,9 @@ const navigateToMfa = () => {
+             icon="i-lucide-lock-keyhole"
+             class="size-4 text-n-slate-10 flex-shrink-0"
+           />
+-          <h5 class="text-heading-3 text-n-slate-12">
++          <h2 class="text-heading-3 text-n-slate-12">
+             {{ $t('MFA_SETTINGS.TITLE') }}
+-          </h5>
++          </h2>
+         </div>
+         <p class="text-body-para text-n-slate-11">
+           {{ $t('MFA_SETTINGS.DESCRIPTION') }}
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/MfaStatusCard.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/MfaStatusCard.vue
+index 3dc22eb..c258857 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/MfaStatusCard.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/MfaStatusCard.vue
+@@ -51,9 +51,9 @@ const startSetup = () => {
+           icon="i-lucide-lock-keyhole"
+           class="size-4 flex-shrink-0 text-n-slate-11"
+         />
+-        <h4 class="text-sm font-medium text-n-slate-12">
++        <h2 class="text-sm font-medium text-n-slate-12">
+           {{ $t('MFA_SETTINGS.STATUS_ENABLED') }}
+-        </h4>
++        </h2>
+       </div>
+       <p class="text-sm text-n-slate-11">
+         {{ $t('MFA_SETTINGS.STATUS_ENABLED_DESC') }}
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/NotificationPreferences.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/NotificationPreferences.vue
+index ea9cf34..b1b28b2 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/NotificationPreferences.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/NotificationPreferences.vue
+@@ -202,7 +202,10 @@ export default {
+           <div
+             class="flex flex-row items-start gap-2 col-span-7 px-0 py-2 text-sm tracking-[0.5] rtl:text-right"
+           >
+-            <span class="text-body-main text-n-slate-12">
++            <span
++              :id="`notif-lbl-${notification.value}`"
++              class="text-body-main text-n-slate-12"
++            >
+               {{ $t(notification.label) }}
+             </span>
+           </div>
+@@ -214,6 +217,7 @@ export default {
+           >
+             <CheckBox
+               :value="`${type}_${notification.value}`"
++              :aria-labelledby="`notif-lbl-${notification.value}`"
+               :is-checked="
+                 checkFlagStatus(type, notification.value, selectedPushFlags)
+               "
+@@ -240,9 +244,11 @@ export default {
+             :is-checked="checkFlagStatus('email', notification.value)"
+             @update="handleEmailInput"
+           />
+-          <span class="text-body-main text-n-slate-12">{{
+-            $t(notification.label)
+-          }}</span>
++          <label
++            :for="`email_${notification.value}`"
++            class="text-body-main text-n-slate-12"
++            >{{ $t(notification.label) }}</label
++          >
+         </div>
+       </div>
+ 
+@@ -264,9 +270,11 @@ export default {
+             :is-checked="checkFlagStatus('push', notification.value)"
+             @update="handlePushInput"
+           />
+-          <span class="text-body-main text-n-slate-12">{{
+-            $t(notification.label)
+-          }}</span>
++          <label
++            :for="`push_${notification.value}`"
++            class="text-body-main text-n-slate-12"
++            >{{ $t(notification.label) }}</label
++          >
+         </div>
+       </div>
+     </div>
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/UserLanguageSelect.vue b/app/javascript/dashboard/routes/dashboard/settings/profile/UserLanguageSelect.vue
+index e9e72b5..e90af01 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/UserLanguageSelect.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/UserLanguageSelect.vue
+@@ -75,7 +75,7 @@ const selectedValue = computed({
+ <template>
+   <div class="flex gap-2 justify-between w-full items-start">
+     <div>
+-      <label class="text-n-gray-12 font-medium leading-6 text-sm">
++      <label for="language" class="text-n-gray-12 font-medium leading-6 text-sm">
+         {{ label }}
+       </label>
+       <p class="text-n-gray-11">
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/profile/profile.routes.js b/app/javascript/dashboard/routes/dashboard/settings/profile/profile.routes.js
+index 587a142..7ed238b 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/profile/profile.routes.js
++++ b/app/javascript/dashboard/routes/dashboard/settings/profile/profile.routes.js
+@@ -15,6 +15,11 @@ export default {
+       },
+       component: SettingsWrapper,
+       children: [
++        {
++          path: '',
++          name: 'profile_settings_root',
++          redirect: { name: 'profile_settings_index' },
++        },
+         {
+           path: 'settings',
+           name: 'profile_settings_index',
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportHeader.vue b/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportHeader.vue
+index bc35ee9..a0bdefb 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportHeader.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportHeader.vue
+@@ -25,12 +25,12 @@ defineProps({
+     <div class="flex justify-between w-full gap-5">
+       <div class="flex flex-col gap-2">
+         <div class="flex flex-col gap-3 items-start">
+-          <span
++          <h1
+             class="text-heading-1 text-n-slate-12 min-h-10 flex items-center gap-2"
+           >
+             <slot name="icon" />
+             {{ headerTitle }}
+-          </span>
++          </h1>
+           <p
+             v-if="headerDescription"
+             class="text-n-slate-11 mb-0 line-clamp-5 sm:line-clamp-none text-body-main"
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportMetricCard.vue b/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportMetricCard.vue
+index 4c6aff9..d50023c 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportMetricCard.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/reports/components/ReportMetricCard.vue
+@@ -36,11 +36,11 @@ defineProps({
+         class="text-n-slate-11 my-0 mx-1 mt-0.5"
+       />
+     </h3>
+-    <h4
++    <h2
+       data-test-id="reportMetricValue"
+       class="mt-1 mb-0 text-2xl text-n-slate-12"
+     >
+       {{ value }}
+-    </h4>
++    </h2>
+   </div>
+ </template>
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/AgentCell.vue b/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/AgentCell.vue
+index 3f10419..dd2386e 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/AgentCell.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/AgentCell.vue
+@@ -28,11 +28,11 @@ const isRTL = useMapGetter('accounts/isRTL');
+         rounded-full
+       />
+       <div class="items-start flex flex-col min-w-0 my-0 mx-2">
+-        <h6
+-          class="overflow-hidden text-sm m-0 leading-[1.2] text-n-slate-12 whitespace-nowrap text-ellipsis"
++        <span
++          class="overflow-hidden text-sm m-0 leading-[1.2] text-n-slate-12 whitespace-nowrap text-ellipsis block"
+         >
+           {{ row.original.agent }}
+-        </h6>
++        </span>
+         <span class="text-xs text-n-slate-11">
+           {{ row.original.email }}
+         </span>
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/MetricCard.vue b/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/MetricCard.vue
+index 02ada6c..8bb1695 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/MetricCard.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/reports/components/overview/MetricCard.vue
+@@ -26,9 +26,9 @@ defineProps({
+     >
+       <slot name="header">
+         <div class="flex items-center gap-2 flex-row">
+-          <h5 class="mb-0 text-n-slate-12 font-medium text-lg">
++          <h2 class="mb-0 text-n-slate-12 font-medium text-lg">
+             {{ header }}
+-          </h5>
++          </h2>
+           <span
+             class="flex flex-row items-center py-0.5 px-2 rounded bg-n-teal-3 text-xs"
+           >
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/reports/monitors/MonitorsIndex.vue b/app/javascript/dashboard/routes/dashboard/settings/reports/monitors/MonitorsIndex.vue
+index ba023ad..04f734b 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/reports/monitors/MonitorsIndex.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/reports/monitors/MonitorsIndex.vue
+@@ -161,7 +161,7 @@ watch(
+ 
+ <template>
+   <section class="flex h-full w-full flex-col overflow-hidden bg-n-surface-1">
+-    <main class="flex-1 overflow-y-auto px-6">
++    <div class="flex-1 overflow-y-auto px-6">
+       <div class="mx-auto w-full max-w-5xl pb-6">
+         <ReportHeader
+           :header-title="t('MONITORS.TITLE')"
+@@ -239,7 +239,7 @@ watch(
+           />
+         </div>
+       </div>
+-    </main>
++    </div>
+     <footer
+       v-if="
+         activeSection === 'monitors' &&
+diff --git a/app/javascript/entrypoints/dashboard.js b/app/javascript/entrypoints/dashboard.js
+index be2ec02..7b478ac 100644
+--- a/app/javascript/entrypoints/dashboard.js
++++ b/app/javascript/entrypoints/dashboard.js
+@@ -7,7 +7,7 @@ import hljsVuePlugin from '@highlightjs/vue-plugin';
+ 
+ import { plugin, defaultConfig } from '@formkit/vue';
+ import WootWizard from 'components/ui/Wizard.vue';
+-import FloatingVue from 'floating-vue';
++import FloatingVue, { VTooltip } from 'floating-vue';
+ import WootUiKit from 'dashboard/components';
+ import App from 'dashboard/App.vue';
+ import i18nMessages from 'dashboard/i18n';
+@@ -109,6 +109,42 @@ app.use(hljsVuePlugin);
+ app.component('woot-wizard', WootWizard);
+ app.component('fluent-icon', FluentIcon);
+ 
++// C56 a11y : un tooltip sur un déclencheur sans texte visible (bouton icône)
++// devient aussi son nom accessible — le texte du tooltip EST le label voulu.
++// WCAG 2.5.3 : on ne pose pas aria-label si l'élément a déjà un texte visible
++// (risque de mismatch nom/contenu) ou un nom accessible existant.
++const cwTooltipA11y = (el, binding) => {
++  try {
++    const v = binding?.value;
++    const tip = typeof v === 'string' ? v : v?.content;
++    if (!tip || typeof tip !== 'string') return;
++    if ((el.innerText || '').trim()) return;
++    if (el.getAttribute('aria-label') || el.getAttribute('aria-labelledby')) return;
++    // Conteneur de contrôle natif (ex. FileUpload > input[type=file]) : le
++    // nom va sur le contrôle (label), pas sur le wrapper non interactif.
++    if (el.querySelector('input, select, textarea, button, a')) return;
++    const tag = el.tagName;
++    const nameable = /^(BUTTON|A|INPUT|SELECT|TEXTAREA|METER|PROGRESS|OUTPUT|IFRAME|AREA|IMG|SVG)$/.test(tag) || el.hasAttribute('role');
++    if (!nameable) el.setAttribute('role', 'img');
++    el.setAttribute('aria-label', tip);
++  } catch (e) { /* no-op */ }
++};
++const tooltipDelegate = typeof VTooltip === 'object' ? VTooltip : { mounted: VTooltip, updated: VTooltip };
++app.directive('tooltip', {
++  ...tooltipDelegate,
++  mounted(el, binding, vnode, prevVnode) {
++    tooltipDelegate.mounted?.(el, binding, vnode, prevVnode);
++    cwTooltipA11y(el, binding);
++  },
++  updated(el, binding, vnode, prevVnode) {
++    tooltipDelegate.updated?.(el, binding, vnode, prevVnode);
++    cwTooltipA11y(el, binding);
++  },
++  unmounted(el, binding, vnode, prevVnode) {
++    tooltipDelegate.unmounted?.(el, binding, vnode, prevVnode);
++  },
++});
++
+ app.directive('resize', vResizeObserver);
+ app.directive('on-clickaway', onClickaway);
+ 
+diff --git a/app/javascript/v3/App.vue b/app/javascript/v3/App.vue
+index c3f9b17..c161123 100644
+--- a/app/javascript/v3/App.vue
++++ b/app/javascript/v3/App.vue
+@@ -44,10 +44,10 @@ export default {
+ </script>
+ 
+ <template>
+-  <div class="h-full min-h-screen w-full antialiased" :class="theme">
++  <main class="h-full min-h-screen w-full antialiased" :class="theme">
+     <router-view />
+     <SnackbarContainer />
+-  </div>
++  </main>
+ </template>
+ 
+ <style lang="scss">
+diff --git a/app/javascript/v3/components/Form/Select.vue b/app/javascript/v3/components/Form/Select.vue
+index f91c1eb..5808a85 100644
+--- a/app/javascript/v3/components/Form/Select.vue
++++ b/app/javascript/v3/components/Form/Select.vue
+@@ -60,7 +60,7 @@ export default {
+     :error-message="errorMessage"
+   >
+     <select
+-      :id="id"
++      :id="id || name"
+       :selected="modelValue"
+       :name="name"
+       :class="{
+diff --git a/app/javascript/v3/views/auth/verify-email/Index.vue b/app/javascript/v3/views/auth/verify-email/Index.vue
+index 094cf83..6a7d502 100644
+--- a/app/javascript/v3/views/auth/verify-email/Index.vue
++++ b/app/javascript/v3/views/auth/verify-email/Index.vue
+@@ -74,7 +74,7 @@ const onCaptchaError = () => {
+ </script>
+ 
+ <template>
+-  <main
++  <div
+     class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+   >
+     <section
+@@ -111,5 +111,5 @@ const onCaptchaError = () => {
+         />
+       </div>
+     </section>
+-  </main>
++  </div>
+ </template>
+diff --git a/app/javascript/v3/views/login/Index.vue b/app/javascript/v3/views/login/Index.vue
+index 181574b..64a9341 100644
+--- a/app/javascript/v3/views/login/Index.vue
++++ b/app/javascript/v3/views/login/Index.vue
+@@ -397,7 +397,7 @@ export default {
+ </script>
+ 
+ <template>
+-  <main
++  <div
+     class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+   >
+     <section class="max-w-5xl mx-auto">
+@@ -412,9 +412,9 @@ export default {
+         :alt="globalConfig.installationName"
+         class="hidden w-auto h-8 mx-auto dark:block"
+       />
+-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
++      <h1 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
+         {{ replaceInstallationName($t('LOGIN.TITLE')) }}
+-      </h2>
++      </h1>
+       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
+         {{ $t('COMMON.OR') }}
+         <router-link :to="signupRoute" class="lowercase text-link text-n-brand">
+@@ -497,7 +497,7 @@ export default {
+             name="email_address"
+             type="text"
+             data-testid="email_input"
+-            :tabindex="1"
++            tabindex="0"
+             required
+             :label="$t('LOGIN.EMAIL.LABEL')"
+             :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
+@@ -510,7 +510,7 @@ export default {
+             name="password"
+             data-testid="password_input"
+             required
+-            :tabindex="2"
++            tabindex="0"
+             :label="$t('LOGIN.PASSWORD.LABEL')"
+             :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
+             :has-error="v$.credentials.password.$error"
+@@ -520,7 +520,7 @@ export default {
+               <router-link
+                 :to="resetPasswordRoute"
+                 class="text-sm text-link"
+-                tabindex="4"
++                tabindex="0"
+               >
+                 {{ $t('LOGIN.FORGOT_PASSWORD') }}
+               </router-link>
+@@ -531,7 +531,7 @@ export default {
+             type="submit"
+             data-testid="submit_button"
+             class="w-full"
+-            :tabindex="3"
++            tabindex="0"
+             :label="$t('LOGIN.SUBMIT')"
+             :disabled="loginApi.showLoading"
+             :is-loading="loginApi.showLoading"
+@@ -542,5 +542,5 @@ export default {
+         <Spinner color-scheme="primary" size="" />
+       </div>
+     </section>
+-  </main>
++  </div>
+ </template>
+diff --git a/app/javascript/v3/views/login/Saml.vue b/app/javascript/v3/views/login/Saml.vue
+index 9fa7c84..2882f8b 100644
+--- a/app/javascript/v3/views/login/Saml.vue
++++ b/app/javascript/v3/views/login/Saml.vue
+@@ -85,7 +85,7 @@ onMounted(async () => {
+ </script>
+ 
+ <template>
+-  <main
++  <div
+     class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
+   >
+     <section class="max-w-5xl mx-auto">
+@@ -115,7 +115,7 @@ onMounted(async () => {
+           v-model="credentials.email"
+           name="email"
+           type="text"
+-          :tabindex="1"
++          tabindex="0"
+           required
+           :label="t('LOGIN.SAML.WORK_EMAIL.LABEL')"
+           :placeholder="t('LOGIN.SAML.WORK_EMAIL.PLACEHOLDER')"
+@@ -146,7 +146,7 @@ onMounted(async () => {
+           lg
+           type="submit"
+           class="w-full"
+-          :tabindex="2"
++          tabindex="0"
+           :label="t('LOGIN.SAML.SUBMIT')"
+           :disabled="loginApi.showLoading"
+           :is-loading="loginApi.showLoading"
+@@ -158,5 +158,5 @@ onMounted(async () => {
+         {{ t('LOGIN.SAML.BACK_TO_LOGIN') }}
+       </router-link>
+     </p>
+-  </main>
++  </div>
+ </template>
+diff --git a/app/javascript/widget/App.vue b/app/javascript/widget/App.vue
+index 1ac36df..ebda7da 100755
+--- a/app/javascript/widget/App.vue
++++ b/app/javascript/widget/App.vue
+@@ -378,7 +378,7 @@ export default {
+   >
+     <Spinner size="" />
+   </div>
+-  <div
++  <main
+     v-else
+     class="flex flex-col justify-end h-full"
+     :class="{
+@@ -391,7 +391,7 @@ export default {
+     }"
+   >
+     <router-view />
+-  </div>
++  </main>
+ </template>
+ 
+ <style lang="scss">
+diff --git a/app/javascript/widget/components/ChatHeader.vue b/app/javascript/widget/components/ChatHeader.vue
+index 00b8bf9..f5dec7f 100644
+--- a/app/javascript/widget/components/ChatHeader.vue
++++ b/app/javascript/widget/components/ChatHeader.vue
+@@ -45,7 +45,7 @@ const onBackButtonClick = () => {
+         alt="avatar"
+       />
+       <div class="flex flex-col gap-1">
+-        <div
++        <h1
+           class="flex items-center text-base font-medium leading-4 text-n-slate-12"
+         >
+           <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
+@@ -53,7 +53,7 @@ const onBackButtonClick = () => {
+             :class="`h-2 w-2 rounded-full
+               ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"
+           />
+-        </div>
++        </h1>
+         <AvailabilityContainer
+           :agents="availableAgents"
+           :show-header="false"
+diff --git a/app/javascript/widget/components/ChatHeaderExpanded.vue b/app/javascript/widget/components/ChatHeaderExpanded.vue
+index e89b1ae..c0c1f21 100755
+--- a/app/javascript/widget/components/ChatHeaderExpanded.vue
++++ b/app/javascript/widget/components/ChatHeaderExpanded.vue
+@@ -45,7 +45,7 @@ const containerClasses = computed(() => [
+         :show-end-conversation-button="false"
+       />
+     </div>
+-    <h2
++    <h1
+       v-dompurify-html="introHeading"
+       class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12 line-clamp-4"
+     />
+diff --git a/app/views/layouts/vueapp.html.erb b/app/views/layouts/vueapp.html.erb
+index 00dea82..1b97aed 100644
+--- a/app/views/layouts/vueapp.html.erb
++++ b/app/views/layouts/vueapp.html.erb
+@@ -1,10 +1,10 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= I18n.locale %>">
+   <head>
+     <title>
+       <%= @global_config['INSTALLATION_NAME'] %>
+     </title>
+-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
++    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+     <% unless ChatwootApp.chatwoot_cloud? %>
+       <meta name="robots" content="noindex">
+     <% end %>
+diff --git a/app/views/widgets/show.html.erb b/app/views/widgets/show.html.erb
+index 4e03fb4..54b0796 100644
+--- a/app/views/widgets/show.html.erb
++++ b/app/views/widgets/show.html.erb
+@@ -1,9 +1,9 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @web_widget.account.locale %>">
+   <head>
+     <title><%= @global_config['INSTALLATION_NAME'] %></title>
+     <%= csrf_meta_tags %>
+-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
++    <meta name="viewport" content="width=device-width, initial-scale=1" />
+     <meta name="robots" content="noindex">
+     <script>
+       window.chatwootWebChannel = {
+diff --git a/public/404.html b/public/404.html
+index d485790..3111138 100644
+--- a/public/404.html
++++ b/public/404.html
+@@ -55,7 +55,7 @@
+       align-items: center;
+       justify-content: center;
+       gap: 0.5rem;
+-      background: rgb(39, 129, 246);
++      background: rgb(30, 109, 224);
+       color: #fff;
+       font-size: 0.9375rem;
+       font-weight: 500;
+@@ -64,7 +64,7 @@
+       text-decoration: none;
+       transition: background 0.15s ease;
+     }
+-    .btn:hover { background: rgb(16, 115, 233); }
++    .btn:hover { background: rgb(24, 92, 190); }
+     .btn svg { width: 1.125rem; height: 1.125rem; }
+     .divider {
+       width: 3rem;
+@@ -75,7 +75,7 @@
+     }
+     .help {
+       font-size: 0.8125rem;
+-      color: rgb(139, 141, 152);
++      color: rgb(90, 94, 106);
+       text-align: center;
+       line-height: 1.5;
+     }
+@@ -84,7 +84,7 @@
+       .error-number { background: linear-gradient(180deg, rgb(126, 182, 255) 0%, rgb(40, 89, 156) 100%); -webkit-background-clip: text; background-clip: text; }
+       .description { color: rgb(176, 180, 186); }
+       .divider { background: rgb(46, 49, 53); }
+-      .help { color: rgb(105, 110, 119); }
++      .help { color: rgb(158, 163, 172); }
+     }
+     @media (max-width: 480px) {
+       .error-number { font-size: 5rem; }
+@@ -93,7 +93,7 @@
+   </style>
+ </head>
+ <body>
+-  <div class="page">
++  <main class="page">
+     <div class="error-number">404</div>
+     <h1>Page not found</h1>
+     <p class="description">The page you're looking for doesn't exist or has been moved.</p>
+@@ -103,6 +103,6 @@
+     </a>
+     <div class="divider"></div>
+     <p class="help">If you think this is a mistake, please reach out to support.</p>
+-  </div>
++  </main>
+ </body>
+ </html>
+diff --git a/public/422.html b/public/422.html
+index 2d7ed0b..33b54b8 100644
+--- a/public/422.html
++++ b/public/422.html
+@@ -55,7 +55,7 @@
+       align-items: center;
+       justify-content: center;
+       gap: 0.5rem;
+-      background: rgb(39, 129, 246);
++      background: rgb(30, 109, 224);
+       color: #fff;
+       font-size: 0.9375rem;
+       font-weight: 500;
+@@ -64,7 +64,7 @@
+       text-decoration: none;
+       transition: background 0.15s ease;
+     }
+-    .btn:hover { background: rgb(16, 115, 233); }
++    .btn:hover { background: rgb(24, 92, 190); }
+     .btn svg { width: 1.125rem; height: 1.125rem; }
+     .divider {
+       width: 3rem;
+@@ -75,7 +75,7 @@
+     }
+     .help {
+       font-size: 0.8125rem;
+-      color: rgb(139, 141, 152);
++      color: rgb(90, 94, 106);
+       text-align: center;
+       line-height: 1.5;
+     }
+@@ -89,7 +89,7 @@
+       .error-number { background: linear-gradient(180deg, rgb(255, 148, 157) 0%, rgb(136, 52, 71) 100%); -webkit-background-clip: text; background-clip: text; }
+       .description { color: rgb(176, 180, 186); }
+       .divider { background: rgb(46, 49, 53); }
+-      .help { color: rgb(105, 110, 119); }
++      .help { color: rgb(158, 163, 172); }
+     }
+     @media (max-width: 480px) {
+       .error-number { font-size: 5rem; }
+@@ -98,7 +98,7 @@
+   </style>
+ </head>
+ <body>
+-  <div class="page">
++  <main class="page">
+     <div class="error-number">422</div>
+     <h1>Request rejected</h1>
+     <p class="description">Your request couldn't be processed due to a security verification failure or invalid data.</p>
+@@ -108,6 +108,6 @@
+     </a>
+     <div class="divider"></div>
+     <p class="help">If this keeps happening, try clearing your cookies and refreshing.</p>
+-  </div>
++  </main>
+ </body>
+ </html>
+diff --git a/public/500.html b/public/500.html
+index 1339c16..0c8f070 100644
+--- a/public/500.html
++++ b/public/500.html
+@@ -55,7 +55,7 @@
+       align-items: center;
+       justify-content: center;
+       gap: 0.5rem;
+-      background: rgb(39, 129, 246);
++      background: rgb(30, 109, 224);
+       color: #fff;
+       font-size: 0.9375rem;
+       font-weight: 500;
+@@ -64,7 +64,7 @@
+       text-decoration: none;
+       transition: background 0.15s ease;
+     }
+-    .btn:hover { background: rgb(16, 115, 233); }
++    .btn:hover { background: rgb(24, 92, 190); }
+     .btn svg { width: 1.125rem; height: 1.125rem; }
+     .divider {
+       width: 3rem;
+@@ -75,7 +75,7 @@
+     }
+     .help {
+       font-size: 0.8125rem;
+-      color: rgb(139, 141, 152);
++      color: rgb(90, 94, 106);
+       text-align: center;
+       line-height: 1.5;
+     }
+@@ -84,7 +84,7 @@
+       .error-number { background: linear-gradient(180deg, rgb(255, 148, 114) 0%, rgb(148, 52, 27) 100%); -webkit-background-clip: text; background-clip: text; }
+       .description { color: rgb(176, 180, 186); }
+       .divider { background: rgb(46, 49, 53); }
+-      .help { color: rgb(105, 110, 119); }
++      .help { color: rgb(158, 163, 172); }
+     }
+     @media (max-width: 480px) {
+       .error-number { font-size: 5rem; }
+@@ -93,7 +93,7 @@
+   </style>
+ </head>
+ <body>
+-  <div class="page">
++  <main class="page">
+     <div class="error-number">500</div>
+     <h1>Something went wrong</h1>
+     <p class="description">An unexpected error occurred. Please refresh the page or try again shortly.</p>
+@@ -103,6 +103,6 @@
+     </a>
+     <div class="divider"></div>
+     <p class="help">If the problem persists, please try again in a few minutes.</p>
+-  </div>
++  </main>
+ </body>
+ </html>
+diff --git a/theme/colors.js b/theme/colors.js
+index 9dcfbeb..6ed73ab 100644
+--- a/theme/colors.js
++++ b/theme/colors.js
+@@ -226,7 +226,7 @@ export const colors = {
+     },
+ 
+     black: '#000000',
+-    brand: '#2781F6',
++    brand: '#1E6DE0', // C56 a11y : contraste 4.5:1 avec texte blanc
+     portal: 'var(--dynamic-portal-color)',
+     'portal-soft': 'var(--dynamic-portal-color-soft)',
+     'portal-faint': 'var(--dynamic-portal-color-faint)',
