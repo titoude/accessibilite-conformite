@@ -1,5 +1,5 @@
 diff --git a/htdocs/admin/company.php b/htdocs/admin/company.php
-index 2ffcf6a1763..c1a8fc8c5cb 100644
+index 2ffcf6a..c1a8fc8 100644
 --- a/htdocs/admin/company.php
 +++ b/htdocs/admin/company.php
 @@ -616,7 +616,7 @@ print '<tr class="liste_titre"><td class="wordbreak" colspan="2">'.$langs->trans
@@ -12,7 +12,7 @@ index 2ffcf6a1763..c1a8fc8c5cb 100644
  
  // GDPR contact
 diff --git a/htdocs/core/boxes/modules_boxes.php b/htdocs/core/boxes/modules_boxes.php
-index 3c6abf5c8c0..994f147d2fe 100644
+index 3c6abf5..994f147 100644
 --- a/htdocs/core/boxes/modules_boxes.php
 +++ b/htdocs/core/boxes/modules_boxes.php
 @@ -288,7 +288,7 @@ class ModeleBoxes // Can't be abstract as it is instantiated to build "empty" bo
@@ -25,7 +25,7 @@ index 3c6abf5c8c0..994f147d2fe 100644
  				$out .= '<table summary="boxtable'.$this->box_id.'" class="noborder boxtable centpercent">'."\n";
  			}
 diff --git a/htdocs/core/class/commonorder.class.php b/htdocs/core/class/commonorder.class.php
-index cf8a77a6aee..1849bfed5ee 100644
+index cf8a77a..1849bfe 100644
 --- a/htdocs/core/class/commonorder.class.php
 +++ b/htdocs/core/class/commonorder.class.php
 @@ -56,7 +56,7 @@ abstract class CommonOrder extends CommonObject
@@ -38,7 +38,7 @@ index cf8a77a6aee..1849bfed5ee 100644
  		if (property_exists($this, 'thirdparty') && is_object($this->thirdparty)) {
  			$return .= '<br><div class="info-box-ref tdoverflowmax150">'.$this->thirdparty->getNomUrl(1).'</div>';
 diff --git a/htdocs/core/class/html.form.class.php b/htdocs/core/class/html.form.class.php
-index 50f58a41d41..ec9d4b42885 100644
+index 50f58a4..ec9d4b4 100644
 --- a/htdocs/core/class/html.form.class.php
 +++ b/htdocs/core/class/html.form.class.php
 @@ -1683,7 +1683,7 @@ class Form
@@ -116,7 +116,7 @@ index 50f58a41d41..ec9d4b42885 100644
  		$out .= '<script nonce="' . getNonce() . '">
              $(document).ready(function() {
 diff --git a/htdocs/core/class/timespent.class.php b/htdocs/core/class/timespent.class.php
-index 0709c296533..478c7d9dbbf 100644
+index 0709c29..478c7d9 100644
 --- a/htdocs/core/class/timespent.class.php
 +++ b/htdocs/core/class/timespent.class.php
 @@ -854,7 +854,7 @@ class TimeSpent extends CommonObject
@@ -129,10 +129,10 @@ index 0709c296533..478c7d9dbbf 100644
  		if (property_exists($this, 'label')) {
  			$return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->label.'</div>';
 diff --git a/htdocs/core/js/lib_head.js.php b/htdocs/core/js/lib_head.js.php
-index 1a0c8a2ebfd..05bc975ef3f 100644
+index 1a0c8a2..503d61d 100644
 --- a/htdocs/core/js/lib_head.js.php
 +++ b/htdocs/core/js/lib_head.js.php
-@@ -1907,4 +1907,166 @@ $(function() {
+@@ -1907,4 +1907,169 @@ $(function() {
  
  }
  
@@ -287,7 +287,10 @@ index 1a0c8a2ebfd..05bc975ef3f 100644
 +		});
 +		if (!window.__a11yObs && document.body) {
 +			window.__a11yObs = true;
-+			new MutationObserver(function () { fixSearchInputs(); fixSelect2(); }).observe(document.body, {
++			new MutationObserver(function () {
++				clearTimeout(window.__a11yObsT);
++				window.__a11yObsT = setTimeout(function () { fixSearchInputs(); fixSelect2(); }, 50);
++			}).observe(document.body, {
 +				childList: true, subtree: true, attributes: true,
 +				attributeFilter: ['aria-controls', 'aria-owns', 'aria-expanded', 'aria-labelledby', 'role', 'class', 'title']
 +			});
@@ -300,7 +303,7 @@ index 1a0c8a2ebfd..05bc975ef3f 100644
 +
  // End of lib_head.js.php
 diff --git a/htdocs/core/lib/functions.lib.php b/htdocs/core/lib/functions.lib.php
-index c6a077bb102..9d19e1f145d 100644
+index c6a077b..9d19e1f 100644
 --- a/htdocs/core/lib/functions.lib.php
 +++ b/htdocs/core/lib/functions.lib.php
 @@ -7244,6 +7244,15 @@ function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin
@@ -355,7 +358,7 @@ index c6a077bb102..9d19e1f145d 100644
  		$attr['title'] = ($attr['title'] ? $attr['title'] . (empty($userRight) ? '<br>' : '') : '');
  		$attr['title'] .= ((empty($userRight) && empty($label)) ? $langs->trans('NotEnoughPermissions') : '');
 diff --git a/htdocs/core/menus/standard/auguria.lib.php b/htdocs/core/menus/standard/auguria.lib.php
-index 75aec03ab68..cfd675b197d 100644
+index 75aec03..cfd675b 100644
 --- a/htdocs/core/menus/standard/auguria.lib.php
 +++ b/htdocs/core/menus/standard/auguria.lib.php
 @@ -215,7 +215,7 @@ function print_auguria_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout
@@ -368,7 +371,7 @@ index 75aec03ab68..cfd675b197d 100644
  
  /**
 diff --git a/htdocs/core/menus/standard/eldy.lib.php b/htdocs/core/menus/standard/eldy.lib.php
-index 7bb6b8fd30b..fb3a6fd77e9 100644
+index 7bb6b8f..4b65b2c 100644
 --- a/htdocs/core/menus/standard/eldy.lib.php
 +++ b/htdocs/core/menus/standard/eldy.lib.php
 @@ -68,7 +68,7 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout =
@@ -415,8 +418,17 @@ index 7bb6b8fd30b..fb3a6fd77e9 100644
  			print '</span>';
  			print '</a>';
  		}
+@@ -761,7 +764,7 @@ function print_end_menu_entry($showmode)
+ function print_end_menu_array()
+ {
+ 	print '</ul>';
+-	print '</div>';
++	print '</nav>';
+ 	print "\n";
+ }
+ 
 diff --git a/htdocs/core/tpl/login.tpl.php b/htdocs/core/tpl/login.tpl.php
-index 114ca9b572f..7c079b28b88 100644
+index 114ca9b..7c079b2 100644
 --- a/htdocs/core/tpl/login.tpl.php
 +++ b/htdocs/core/tpl/login.tpl.php
 @@ -234,7 +234,7 @@ $(document).ready(function () {
@@ -474,7 +486,7 @@ index 114ca9b572f..7c079b28b88 100644
  <?php } ?>
  
 diff --git a/htdocs/core/tpl/objectline_create.tpl.php b/htdocs/core/tpl/objectline_create.tpl.php
-index 3e016e1ee6a..66b90555210 100644
+index 3e016e1..66b9055 100644
 --- a/htdocs/core/tpl/objectline_create.tpl.php
 +++ b/htdocs/core/tpl/objectline_create.tpl.php
 @@ -281,7 +281,7 @@ if ($nolinesbefore) {
@@ -532,7 +544,7 @@ index 3e016e1ee6a..66b90555210 100644
  	if (isset($this->situation_cycle_ref) && $this->situation_cycle_ref) {
  		$coldisplay++;
 diff --git a/htdocs/core/tpl/objectline_title.tpl.php b/htdocs/core/tpl/objectline_title.tpl.php
-index 702cd6dc47e..902abffca9d 100644
+index 702cd6d..902abff 100644
 --- a/htdocs/core/tpl/objectline_title.tpl.php
 +++ b/htdocs/core/tpl/objectline_title.tpl.php
 @@ -242,11 +242,11 @@ if (isModEnabled('asset') && $object->element == 'invoice_supplier') {
@@ -551,7 +563,7 @@ index 702cd6dc47e..902abffca9d 100644
  if ($action == 'selectlines') {
  	print '<th class="linecolcheckall center">';
 diff --git a/htdocs/core/tpl/passwordforgotten.tpl.php b/htdocs/core/tpl/passwordforgotten.tpl.php
-index 2ef0ea382d6..0d496381a49 100644
+index 2ef0ea3..0d49638 100644
 --- a/htdocs/core/tpl/passwordforgotten.tpl.php
 +++ b/htdocs/core/tpl/passwordforgotten.tpl.php
 @@ -189,7 +189,7 @@ if (!empty($disablenofollow)) {
@@ -573,7 +585,7 @@ index 2ef0ea382d6..0d496381a49 100644
  <br>
  <div class="center" style="margin-top: 15px;">
 diff --git a/htdocs/index.php b/htdocs/index.php
-index 4d3793d0f51..cb5ec4897d8 100644
+index 4d3793d..cb5ec48 100644
 --- a/htdocs/index.php
 +++ b/htdocs/index.php
 @@ -633,7 +633,7 @@ if (!getDolGlobalString('MAIN_DISABLE_GLOBAL_WORKBOARD') && getDolGlobalInt('MAI
@@ -586,7 +598,7 @@ index 4d3793d0f51..cb5ec4897d8 100644
  
  				$openedDashBoard .= '</span>'."\n";
 diff --git a/htdocs/main.inc.php b/htdocs/main.inc.php
-index d462486f358..4d9f90f97e8 100644
+index d462486..4d9f90f 100644
 --- a/htdocs/main.inc.php
 +++ b/htdocs/main.inc.php
 @@ -2372,7 +2372,7 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
@@ -644,20 +656,38 @@ index d462486f358..4d9f90f97e8 100644
  
  		if (empty($conf->dol_hide_leftmenu) && empty($conf->dol_use_jmobile)) {
 diff --git a/htdocs/theme/eldy/badges.inc.php b/htdocs/theme/eldy/badges.inc.php
-index 66d570875b8..2c52bceaca2 100644
+index 66d5708..68fcfa4 100644
 --- a/htdocs/theme/eldy/badges.inc.php
 +++ b/htdocs/theme/eldy/badges.inc.php
-@@ -304,7 +304,7 @@ function _createStatusBadgeCss($statusName, $statusVarNamePrefix = '', $commentL
- 			$thisBadgeTextColor = '#25a580';
+@@ -296,18 +296,21 @@ function _createStatusBadgeCss($statusName, $statusVarNamePrefix = '', $commentL
  		}
- 		if (in_array((string) $statusName, array('0', '5', '9', '10'))) {
+ 
+ 		if (in_array((string) $statusName, $TBadgeBorderOnly)) {
+-			$thisBadgeTextColor = '#9c850b';
++			$thisBadgeTextColor = '#6e5a08'; // a11y: 6.7:1 on light bg (was #9c850b = 3.6:1)
+ 			$thisBadgeBackgroundColor = "hsl(0, 0%, 0%, 0)";
+ 		}
+ 
+ 		if (in_array((string) $statusName, array('4b', '7'))) {
+-			$thisBadgeTextColor = '#25a580';
++			$thisBadgeTextColor = '#0f7a55'; // a11y: 5.3:1 (was #25a580 = 2.9:1)
+ 		}
+-		if (in_array((string) $statusName, array('0', '5', '9', '10'))) {
 -			$thisBadgeTextColor = '#999999';
-+			$thisBadgeTextColor = '#6e6e6e'; // a11y: 5.1:1 (etait #999 = 2.8:1)
++		if (in_array((string) $statusName, array('0', '5', '10'))) {
++			$thisBadgeTextColor = '#6e6e6e'; // a11y: 5.1:1 (was #999 = 2.8:1)
++		}
++		if (in_array((string) $statusName, array('9'))) {
++			$thisBadgeTextColor = '#5f5f5f'; // a11y: 5.4:1 on #e7f0f0 (was #999 = 3.2:1)
  		}
  		if (in_array((string) $statusName, array('6'))) {
- 			$thisBadgeTextColor = '#777777';
+-			$thisBadgeTextColor = '#777777';
++			$thisBadgeTextColor = '#212529'; // a11y: 11.2:1 on #cad2d2 (was #777 = 2.9:1)
+ 		}
+ 
+ 		// badge-statusX
 diff --git a/htdocs/theme/eldy/btn.inc.php b/htdocs/theme/eldy/btn.inc.php
-index b5a32e09aa7..d2d84585aa0 100644
+index b5a32e0..d2d8458 100644
 --- a/htdocs/theme/eldy/btn.inc.php
 +++ b/htdocs/theme/eldy/btn.inc.php
 @@ -250,7 +250,7 @@ span.butActionNewRefused>span.fa, span.butActionNewRefused>span.fa:hover
@@ -670,7 +700,7 @@ index b5a32e09aa7..d2d84585aa0 100644
  	border: 1px solid #ccc;
  }
 diff --git a/htdocs/theme/eldy/global.inc.php b/htdocs/theme/eldy/global.inc.php
-index ccbd00e81c4..513ca7d0a37 100644
+index ccbd00e..513ca7d 100644
 --- a/htdocs/theme/eldy/global.inc.php
 +++ b/htdocs/theme/eldy/global.inc.php
 @@ -194,7 +194,7 @@ $borderradius = getDolGlobalString('THEME_ELDY_USEBORDERONTABLE') ? getDolGlobal
@@ -851,7 +881,7 @@ index ccbd00e81c4..513ca7d0a37 100644
 +	display: inline-flex; align-items: center; justify-content: center;
 +}
 diff --git a/htdocs/theme/eldy/info-box.inc.php b/htdocs/theme/eldy/info-box.inc.php
-index 288b16475a1..9fa547a17d3 100644
+index 288b164..9fa547a 100644
 --- a/htdocs/theme/eldy/info-box.inc.php
 +++ b/htdocs/theme/eldy/info-box.inc.php
 @@ -306,7 +306,7 @@ a.info-box-text-a i.fa.fa-exclamation-triangle, span.badge i.fa.fa-exclamation-t
@@ -864,7 +894,7 @@ index 288b16475a1..9fa547a17d3 100644
  }
  .info-box-text {
 diff --git a/htdocs/theme/eldy/theme_vars.inc.php b/htdocs/theme/eldy/theme_vars.inc.php
-index 47126b01c2c..c874ddcc1f1 100644
+index 47126b0..7229cda 100644
 --- a/htdocs/theme/eldy/theme_vars.inc.php
 +++ b/htdocs/theme/eldy/theme_vars.inc.php
 @@ -64,7 +64,7 @@ $colorbacklinepair2 = '255,255,255'; // line pair
@@ -887,18 +917,100 @@ index 47126b01c2c..c874ddcc1f1 100644
  $badgeSuccess   = '#55a580';
  $badgeWarning   = '#bc9526'; // See $textWarning bc9526
  $badgeDanger    = '#994013'; // See $textDanger
-@@ -111,11 +111,11 @@ $badgeStatus1 = '#bc9526'; // validated
+@@ -108,18 +108,21 @@ $colorblind_deuteranopes_badgeDanger    = $badgeDanger; // currently not tested
+ */
+ $badgeStatus0 = '#cbd3d3'; // draft
+ $badgeStatus1 = '#bc9526'; // validated
++$badgeStatus_textColor1 = '#212529'; // a11y: 6.1:1 on #bc9526 (white text was 2.8:1)
  $badgeStatus1b = '#bc9526'; // validated
  $badgeStatus2 = '#9c9c26'; // approved
++$badgeStatus_textColor2 = '#212529'; // a11y: 5.9:1 on #9c9c26 (white text was 3.2:1)
  $badgeStatus3 = '#bca52b';
 -$badgeStatus4 = '#25a580'; // Color ok
 -$badgeStatus4b = '#25a580'; // Color ok
-+$badgeStatus4 = '#0f7a55'; // a11y: texte blanc 5.3:1 (etait ~2.9:1) // Color ok
-+$badgeStatus4b = '#0f7a55'; // a11y: texte blanc 5.3:1 // Color ok
++$badgeStatus4 = '#0f7a55'; // a11y: white text 5.3:1 (was ~2.9:1) // Color ok
++$badgeStatus4b = '#0f7a55'; // a11y: white text 5.3:1 // Color ok
  $badgeStatus5 = '#cad2d2';
  $badgeStatus6 = '#cad2d2';
 -$badgeStatus7 = '#25a580';
-+$badgeStatus7 = '#0f7a55'; // a11y: texte blanc 5.3:1
++$badgeStatus7 = '#0f7a55'; // a11y: white text 5.3:1
  $badgeStatus8 = '#994013';
  $badgeStatus9 = '#e7f0f0';
  $badgeStatus10 = '#993013';
+ $badgeStatus11 = '#15a540';
++$badgeStatus_textColor11 = '#212529'; // a11y: 5.3:1 on #15a540 (white text was 3.2:1)
+ 
+ // status color adjustment for color blind
+ $colorblind_deuteranopes_badgeStatus4 = $colorblind_deuteranopes_badgeStatus7 = $colorblind_deuteranopes_badgeSuccess; //! text color black
+diff --git a/htdocs/theme/md/badges.inc.php b/htdocs/theme/md/badges.inc.php
+index e9c22c2..06a2a6d 100644
+--- a/htdocs/theme/md/badges.inc.php
++++ b/htdocs/theme/md/badges.inc.php
+@@ -291,21 +291,24 @@ function _createStatusBadgeCss($statusName, $statusVarNamePrefix = '', $commentL
+ 		}
+ 
+ 		if (in_array((string) $statusName, $TBadgeBorderOnly)) {
+-			$thisBadgeTextColor = '#9c850b';
++			$thisBadgeTextColor = '#6e5a08'; // a11y: 6.7:1 on light bg (was #9c850b = 3.6:1)
+ 			$thisBadgeBackgroundColor = "#fff";
+ 		}
+ 
+ 		if (in_array((string) $statusName, array('4b'))) {
+-			$thisBadgeTextColor = '#25a580';
++			$thisBadgeTextColor = '#0f7a55'; // a11y: 5.3:1 (was #25a580 = 2.9:1)
+ 		}
+ 		if (in_array((string) $statusName, array('7'))) {
+ 			$thisBadgeTextColor = '#277d1e';
+ 		}
+-		if (in_array((string) $statusName, array('0', '5', '9', '10'))) {
+-			$thisBadgeTextColor = '#999999';
++		if (in_array((string) $statusName, array('0', '5', '10'))) {
++			$thisBadgeTextColor = '#6e6e6e'; // a11y: 5.1:1 (was #999 = 2.8:1)
++		}
++		if (in_array((string) $statusName, array('9'))) {
++			$thisBadgeTextColor = '#5f5f5f'; // a11y: 5.4:1 on #e7f0f0 (was #999 = 3.2:1)
+ 		}
+ 		if (in_array((string) $statusName, array('6'))) {
+-			$thisBadgeTextColor = '#777777';
++			$thisBadgeTextColor = '#212529'; // a11y: 11.2:1 on #cad2d2 (was #777 = 2.9:1)
+ 		}
+ 
+ 		// badge-statusX
+diff --git a/htdocs/theme/md/theme_vars.inc.php b/htdocs/theme/md/theme_vars.inc.php
+index 5e73986..5448741 100644
+--- a/htdocs/theme/md/theme_vars.inc.php
++++ b/htdocs/theme/md/theme_vars.inc.php
+@@ -82,8 +82,8 @@ $colorblind_deuteranopes_textWarning = $textWarning; // currently not tested wit
+ 
+ // Badges colors
+ $badgePrimary   = '#007bff';
+-$badgeSecondary = '#999999';
+-$badgeInfo      = '#17a2b8';
++$badgeSecondary = '#6a6a85'; // a11y: white text 5.2:1 (was ~2.8:1)
++$badgeInfo      = '#6a6a85'; // a11y: white text 5.2:1 (was ~2.5:1)
+ $badgeSuccess   = '#28a745';
+ $badgeWarning   = '#a37c0d'; // See $textWarning
+ $badgeDanger    = '#993013'; // See $textDanger
+@@ -102,11 +102,12 @@ $colorblind_deuteranopes_badgeDanger    = $badgeDanger; // currently not tested
+ */
+ $badgeStatus0 = '#cbd3d3'; // draft
+ $badgeStatus1 = '#bc9526'; // validated
++$badgeStatus_textColor1 = '#212529'; // a11y: 6.1:1 on #bc9526 (white text was 2.8:1)
+ $badgeStatus1b = '#bc9526'; // validated
+ $badgeStatus2 = '#e6f0f0'; // approved
+ $badgeStatus3 = '#bca52b';
+-$badgeStatus4 = '#25a580'; // Color ok
+-$badgeStatus4b = '#25a580'; // Color ok
++$badgeStatus4 = '#0f7a55'; // a11y: white text 5.3:1 (was ~2.9:1) // Color ok
++$badgeStatus4b = '#0f7a55'; // a11y: white text 5.3:1 // Color ok
+ $badgeStatus5 = '#cad2d2';
+ $badgeStatus6 = '#cad2d2';
+ $badgeStatus7 = '#277d1e';
+@@ -114,6 +115,7 @@ $badgeStatus8 = '#993013';
+ $badgeStatus9 = '#e7f0f0';
+ $badgeStatus10 = '#993013';
+ $badgeStatus11 = '#15a540';
++$badgeStatus_textColor11 = '#212529'; // a11y: 5.3:1 on #15a540 (white text was 3.2:1)
+ 
+ // status color adjustment for color blind
+ $colorblind_deuteranopes_badgeStatus4 = $colorblind_deuteranopes_badgeStatus7 = $colorblind_deuteranopes_badgeSuccess; //! text color black

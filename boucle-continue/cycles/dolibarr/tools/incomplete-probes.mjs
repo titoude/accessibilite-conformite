@@ -57,7 +57,11 @@ for (const dir of reports) {
     for (const inc of page.incomplete || []) {
       for (const node of inc.nodes || []) {
         const msgs = [...(node.any || []), ...(node.all || []), ...(node.none || [])].map(c => `${c.id || ''}:${c.message || ''}`).join(' | ');
-        jobs.push({ url: page.requestedUrl || page.url, rule: inc.id, target: (node.target || []).join(','), html: (node.html || '').slice(0, 120), msgs, authed, state: page.state });
+        // v2 : audit.mjs écrit désormais entry.state ; repli = le suffixe
+        // « [state:nom] » du label pour les anciens rapports (page.state
+        // n'existait pas — la sonde rejouait alors l'état à l'aveugle).
+        const stateName = page.state || ((page.url || '').match(/\[state:([^\]]+)\]/) || [])[1] || null;
+        jobs.push({ url: page.requestedUrl || page.url, rule: inc.id, target: (node.target || []).join(','), html: (node.html || '').slice(0, 120), msgs, authed, state: stateName });
       }
     }
   }

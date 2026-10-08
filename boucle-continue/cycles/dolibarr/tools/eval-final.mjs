@@ -4,9 +4,9 @@
 import { createRequire } from 'node:module';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const require = createRequire(resolve(process.cwd(), 'package.json'));
-const { chromium } = require('playwright');
 const HERE = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(resolve(HERE, 'package.json'));
+const { chromium } = require('playwright');
 
 const base = process.argv[2]?.replace(/\/$/, '') || 'http://localhost:9800';
 const auth = process.argv[3] || resolve(HERE, 'auth.json');

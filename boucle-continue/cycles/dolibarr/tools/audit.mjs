@@ -37,10 +37,12 @@
 import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
-import { resolve } from 'node:path';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
-const require = createRequire(resolve(process.cwd(), 'package.json'));
+// Résolution des deps depuis ce script (tools/), indépendant du CWD appelant.
+const HERE = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(resolve(HERE, 'package.json'));
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);
@@ -131,7 +133,11 @@ try { SEED = JSON.parse(readFileSync(new URL('./seed-info.json', import.meta.url
  *   },
  */
 const S1 = () => (SEED.societe_ids || [])[0];
-const F_DRAFT = () => (SEED.facture_ids || []).find(id => id !== SEED.facture_validee_id);
+// v2 : ids explicites du seed (facture_draft_id/facture_payee_id) — le repli
+// « premier id ≠ validée » désignait une facture PAYÉE quand le seed en crée une.
+const F_VALID = () => SEED.facture_validee_id;
+const F_DRAFT = () => SEED.facture_draft_id
+  || (SEED.facture_ids || []).find(id => id !== SEED.facture_validee_id && id !== SEED.facture_payee_id);
 
 export const STATES = {
   // dolibarr 24.0.2 @7e92776 — PHP SSR + jQuery + Bootstrap, thème eldy.
@@ -166,10 +172,25 @@ export const STATES = {
       }, { timeout: 10000 });
     },
   },
+  // Fiche facture VALIDÉE (fixer cycle 57) : surface jamais exercée en v1
+  // (le seed laissait la facture en brouillon — « Permission denied »).
+  // Preuve : le badge .badge-status1 « Not paid » (DOM vanilla aussi — sélecteur
+  // d'état, pas marqueur de patch). Le badge-paid de la facture payée est
+  // exercé par la page liste (urls-auth).
+  'facture-validee': {
+    url: b => `${b}/compta/facture/card.php?facid=${F_VALID() || '1'}`,
+    setup: async page => {
+      await page.waitForSelector('.badge-status', { state: 'visible', timeout: 15000 });
+      await page.waitForFunction(() => {
+        const b = document.querySelector('.badge-status1');
+        return b && /not paid|unpaid|impay|valid/i.test((b.innerText || '') + ' ' + (b.getAttribute('aria-label') || ''));
+      }, { timeout: 10000 });
+    },
+  },
   // Modale ajax jQuery UI « Validate » sur facture brouillon :
   // bouton .butAction Validate → .ui-dialog + #dialog-confirm visible.
   'modal-validate-facture': {
-    url: b => `${b}/compta/facture/card.php?facid=${F_DRAFT() || '2'}`,
+    url: b => `${b}/compta/facture/card.php?facid=${F_DRAFT() || '2'}`, 
     setup: async page => {
       const t = page.locator('.butAction').filter({ hasText: /valid/i }).first();
       await t.waitFor({ state: 'visible', timeout: 30000 });
@@ -495,8 +516,9 @@ async function run() {
     if (waitMs) await page.waitForTimeout(waitMs);
   };
 
-  const auditLocation = async (label, gotoUrl, extraSetup, expectHttp) => {
+  const auditLocation = async (label, gotoUrl, extraSetup, expectHttp, stateName) => {
     const entry = { url: label, requestedUrl: gotoUrl, violations: [], incomplete: [] };
+    if (stateName) entry.state = stateName; // v2 : les sondes lisaient page.state inexistant
     lastNavResponse = null;
     try {
       const resp = await page.goto(gotoUrl, { waitUntil: 'load', timeout: 30000 });
@@ -637,7 +659,7 @@ async function run() {
         await st.setup(p);
         const nav3 = check(null, st.url(origin));
         return nav3.error ? nav3 : nav2;
-      }, st.expectHttp);
+      }, st.expectHttp, name);
     }
   }
 

@@ -9,9 +9,9 @@ import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const require = createRequire(resolve(process.cwd(), 'package.json'));
-const { chromium } = require('playwright');
 const HERE = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(resolve(HERE, 'package.json'));
+const { chromium } = require('playwright');
 
 const base = process.argv[2]?.replace(/\/$/, '');
 const authPath = process.argv[3] || resolve(HERE, 'auth.json');
@@ -21,7 +21,12 @@ if (!base) { console.error('usage: node verify.mjs <baseUrl> [auth.json]'); proc
 let SEED = {};
 try { SEED = JSON.parse(readFileSync(new URL('./seed-info.json', import.meta.url), 'utf8')); } catch { /* non résolu */ }
 const SOC1 = SEED.societe_ids?.[0] || 1;
-const FAC1 = SEED.facture_validee_id || SEED.facture_ids?.[0] || 1;
+// v2 : le seed garantit 1 validée + 1 payée + 1 brouillon — les sondes
+// pointent la BONNE surface (le formulaire d'ajout de ligne n'existe que
+// sur un brouillon ; la carte validée porte le badge .badge-status1).
+const FACV = SEED.facture_validee_id || 0;
+const FACD = SEED.facture_draft_id
+  || (SEED.facture_ids || []).find(id => id !== SEED.facture_validee_id && id !== SEED.facture_payee_id) || 0;
 
 const results = [];
 const ok = (name, cond, extra = '') => { results.push({ name, pass: !!cond }); if (!cond) console.error(`  FAIL ${name} ${extra}`); return cond; };
@@ -128,29 +133,53 @@ ok('fiche: h1 non vide', F.h1.length >= 1, JSON.stringify(F.h1.slice(0, 2)));
 ok('fiche: onglets rendus (tab active)', F.tabs);
 ok('fiche: lien aide icone nommé', F.helpLink !== 'ABSENT' && F.helpLink !== null, F.helpLink);
 
-// ================= Fiche facture : badges statut =================
-await page.goto(`${base}/compta/facture/card.php?facid=${FAC1}`, { waitUntil: 'domcontentloaded' });
+// ================= Fiche facture VALIDÉE : badges statut =================
+// v2 : surface exercée sur la facture réellement validée (seed v2) —
+// .badge-status1 « Not paid » doit être présent ET lisible (le résidu
+// audité : #fff/#bc9526 = 2.81:1, axe le signale en color-contrast).
+await page.goto(`${base}/compta/facture/card.php?facid=${FACV}`, { waitUntil: 'domcontentloaded' });
 await page.waitForSelector('#id-right', { timeout: 25000 });
 await page.waitForTimeout(1200);
 const V = await page.evaluate(() => ({
-  badges: [...document.querySelectorAll('.badge-status')].map(b => ({ al: b.getAttribute('aria-label'), role: b.getAttribute('role'), txt: (b.innerText || '').trim().slice(0, 20), cr: __c57.cr(b) })),
+  badges: [...document.querySelectorAll('.badge-status')].map(b => ({ cls: [...b.classList].find(c => /^badge-status/.test(c)) || '', al: b.getAttribute('aria-label'), role: b.getAttribute('role'), txt: (b.innerText || '').trim().slice(0, 24), cr: __c57.cr(b) })),
+  s1: (() => { const b = document.querySelector('.badge-status1'); return b ? { txt: (b.innerText || '').trim().slice(0, 30), fg: getComputedStyle(b).color, bg: getComputedStyle(b).backgroundColor, cr: __c57.cr(b) } : null; })(),
   refused: [...document.querySelectorAll('.butActionRefused')].map(b => __c57.cr(b)),
+}));
+ok('facture validée: .badge-status1 présent (état DB réel)', !!V.s1, `seed facture_validee_id=${FACV}`);
+const badBadges = V.badges.filter(b => b.al && !b.role); // aria-label sans role = interdit
+ok('facture validée: badges avec aria-label ont un role autorisé', badBadges.length === 0, JSON.stringify(badBadges.slice(0, 2)));
+const lowContrast = V.badges.filter(b => b.cr !== null && b.cr < 4.5);
+ok('facture validée: badges statut >= 4.5:1', V.badges.length > 0 && lowContrast.length === 0, `${V.badges.length} badge(s) — ` + JSON.stringify(lowContrast));
+// sonde contraste dédiée sur .badge-status1 — mesure computed directe,
+// indépendante d'axe (axe le signale en violation color-contrast dès que la
+// surface est scannée ; cette sonde documente la valeur post-patch).
+ok('facture validée: sonde .badge-status1 contraste >= 4.5:1', !!V.s1 && (V.s1.cr || 0) >= 4.5, V.s1 ? `mesuré ${V.s1.cr}:1 fg=${V.s1.fg} bg=${V.s1.bg}` : 'badge absent');
+if (!V.refused.length) na('facture validée: boutons refusés', 'aucun .butActionRefused'); else { const bad = V.refused.filter(r => r !== null && r < 4.5); ok('facture validée: butActionRefused composite >= 4.5:1', bad.length === 0, JSON.stringify(V.refused)); }
+
+// ================= Liste factures : famille .badge-statusN (draft/validée/payée) =================
+await page.goto(`${base}/compta/facture/list.php`, { waitUntil: 'domcontentloaded' });
+await page.waitForSelector('#id-right', { timeout: 25000 });
+await page.waitForTimeout(1200);
+const BL = await page.evaluate(() => [...document.querySelectorAll('.badge-status')].map(b => ({ cls: [...b.classList].find(c => /^badge-status\d/.test(c)) || '?', txt: (b.innerText || '').trim().slice(0, 24), cr: __c57.cr(b) })));
+const lowList = BL.filter(b => b.cr !== null && b.cr < 4.5);
+ok('liste factures: badges statusN >= 4.5:1 (3 statuts seedés)', BL.length >= 3 && lowList.length === 0, `${BL.length} badge(s) ${BL.map(b => b.cls + ':' + b.cr).join(' ')} — bas: ${JSON.stringify(lowList)}`);
+
+// ================= Fiche facture BROUILLON : formulaire d'ajout de ligne =================
+await page.goto(`${base}/compta/facture/card.php?facid=${FACD}`, { waitUntil: 'domcontentloaded' });
+await page.waitForSelector('#id-right', { timeout: 25000 });
+await page.waitForTimeout(1200);
+const D = await page.evaluate(() => ({
   addLine: document.querySelector('#price_ht')?.getAttribute('aria-label') || null,
   qty: document.querySelector('#qty')?.getAttribute('aria-label') || null,
   tva: document.querySelector('#tva_tx')?.getAttribute('aria-label') || null,
   typeLine: document.querySelector('#select_type')?.getAttribute('aria-label') || null,
   dropdownAdd: document.querySelector('#dropdownAddProductAndServiceLink') ? __c57.accName(document.querySelector('#dropdownAddProductAndServiceLink')) : 'ABSENT',
 }));
-const badBadges = V.badges.filter(b => b.al && !b.role); // aria-label sans role = interdit
-ok('facture: badges avec aria-label ont un role autorisé', badBadges.length === 0, JSON.stringify(badBadges.slice(0, 2)));
-const lowContrast = V.badges.filter(b => b.cr !== null && b.cr < 4.5);
-ok('facture: badges statut >= 4.5:1', lowContrast.length === 0, JSON.stringify(lowContrast));
-if (!V.refused.length) na('facture: boutons refusés', 'aucun .butActionRefused'); else { const bad = V.refused.filter(r => r !== null && r < 4.5); ok('facture: butActionRefused composite >= 4.5:1', bad.length === 0, JSON.stringify(V.refused)); }
-ok('facture: champ price_ht étiqueté', !!V.addLine, V.addLine);
-ok('facture: champ qty étiqueté', !!V.qty, V.qty);
-ok('facture: select tva_tx étiqueté', !!V.tva, V.tva);
-ok('facture: select type de ligne étiqueté', !!V.typeLine, V.typeLine);
-ok('facture: dropdown ajout produit/service nommé', V.dropdownAdd !== 'ABSENT' && V.dropdownAdd !== null, V.dropdownAdd);
+ok('facture brouillon: champ price_ht étiqueté', !!D.addLine, D.addLine);
+ok('facture brouillon: champ qty étiqueté', !!D.qty, D.qty);
+ok('facture brouillon: select tva_tx étiqueté', !!D.tva, D.tva);
+ok('facture brouillon: select type de ligne étiqueté', !!D.typeLine, D.typeLine);
+ok('facture brouillon: dropdown ajout produit/service nommé', D.dropdownAdd !== 'ABSENT' && D.dropdownAdd !== null, D.dropdownAdd);
 
 // ================= i18n : les libellés injectés ne sont pas des clés brutes =================
 const i18n = await page.evaluate(() => {

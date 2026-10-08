@@ -5,6 +5,14 @@
  *   docker exec -w /var/www/html/htdocs doli57-web php /tools/seed.php
  * Sortie : JSON seed-info sur stdout (capturé -> tools/seed-info.json côté host).
  * Idempotent-défensif : refuse de tourner si des entités seed existent déjà.
+ *
+ * v2 (fixer cycle 57) :
+ *  - getRights() APRES l'activation des modules + setValues() : sinon user 1
+ *    n'a pas facture->creer et validate() échoue « Permission denied ».
+ *  - Les statuts critiques sont RE-LUS en base (fk_statut), pas crus sur le
+ *    code retour — un échec de validate/setPaid = erreur + exit != 0.
+ *  - Ids émis explicitement : facture_validee_id / facture_payee_id /
+ *    facture_draft_ids — fini la déduction « celui qui n'est pas validé ».
  */
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_NOTICE);
 define('NOCSRFCHECK', 1);
@@ -26,9 +34,9 @@ require_once DOL_DOCUMENT_ROOT.'/projet/class/task.class.php';
 $out = ['ok' => true, 'errors' => []];
 $admin = new User($db);
 if ($admin->fetch(1) <= 0) { $out['errors'][] = 'admin fetch KO'; emit($out); }
-$admin->getRights();
 
-// ---------- activation des modules (idempotent : skip si MAIN_MODULE_* déjà on) ----------
+// ---------- activation des modules AVANT getRights (leçon cycle 57 : les
+// droits dépendent des modules actifs — getRights trop tôt = validate KO) ----------
 $mods = ['Societe','User','Product','Service','Propale','Commande','Facture','Projet',
          'Agenda','Banque','Expedition','Export','Import','Fournisseur','Stock','Ticket','Fckeditor'];
 foreach ($mods as $m) {
@@ -44,9 +52,10 @@ foreach ($mods as $m) {
   if ($r <= 0) { $out['errors'][] = "module $m init KO ($r)"; }
 }
 $conf->setValues($db); // recharge les confs/modules activés
+$admin->getRights(); // APRÈS activation — sinon validate facture : « Permission denied »
 
 // garde anti-double-seed
-$chk = $db->query("SELECT rowid FROM llx_societe WHERE nom LIKE 'A11Y %' LIMIT 1");
+$chk = $db->query("SELECT rowid FROM ".$db->prefix()."societe WHERE nom LIKE 'A11Y %' LIMIT 1");
 if ($chk && $db->num_rows($chk) > 0) { $out['errors'][] = 'seed déjà appliqué (llx_societe A11Y % présent)'; emit($out); }
 
 // ---------- utilisateur non-admin ----------
@@ -134,8 +143,8 @@ foreach ([$socIds[0] ?? 0, $socIds[1] ?? 0] as $i => $sid) {
 }
 $out['commande_ids'] = $cmdIds;
 
-// ---------- factures : 1 brouillon par tiers + 1 validée sur le 1er ----------
-$factIds = []; $factureValidee = 0;
+// ---------- factures : 1 par tiers — #1 VALIDÉE, #2 VALIDÉE+PAYÉE, #3 brouillon ----------
+$factIds = []; $factureValidee = 0; $facturePayee = 0;
 foreach ($socIds as $i => $sid) {
   $f = new Facture($db);
   $f->socid = $sid; $f->ref_client = 'FA-CLI-'.($i+1);
@@ -147,18 +156,51 @@ foreach ($socIds as $i => $sid) {
   $f->addline('Prestation '.($i+1).' — consulting', 500.0 + $i * 100, 1, 20, 0, 0, $prodIds[3] ?? 0);
   $f->addline('Produit '.($i+1), $prods[$i % count($prods)][3], 2, 20, 0, 0, $prodIds[$i % count($prodIds)] ?? 0);
 }
-// valider la 1re facture (PROV -> ref réelle via le module de numérotation)
+// vérification DURE du statut en base — le code retour seul ne suffit pas
+$fkStatut = function ($facid) use ($db) {
+  $q = $db->query("SELECT fk_statut, ref, paye FROM ".$db->prefix()."facture WHERE rowid=".(int) $facid);
+  $row = $q ? $db->fetch_object($q) : null;
+  return $row ? ['statut' => (int) $row->fk_statut, 'ref' => $row->ref, 'paye' => (int) $row->paye] : null;
+};
+// #1 : validée (PROV -> ref réelle via le module de numérotation)
 if (!empty($factIds[0])) {
   $fv = new Facture($db);
   if ($fv->fetch($factIds[0]) > 0) {
-    $fv->force_number = 'FA2410-0001';
     $rv = $fv->validate($admin);
-    if ($rv > 0) { $factureValidee = $factIds[0]; $out['facture_validated_ref'] = $fv->ref; }
-    else { $out['errors'][] = 'validate facture: '.$fv->error; }
-  }
+    $st = $fkStatut($factIds[0]);
+    if ($rv <= 0 || !$st || $st['statut'] !== 1) {
+      $out['errors'][] = 'validate facture '.$factIds[0].' KO: ret='.$rv.' err='.($fv->error ?: '-').' fk_statut='.($st ? $st['statut'] : 'NULL');
+    } else {
+      $factureValidee = $factIds[0];
+      $out['facture_validated_ref'] = $st['ref'];
+    }
+  } else { $out['errors'][] = 'fetch facture '.$factIds[0].' KO'; }
 }
+// #2 : validée + payée (exerce le badge « Paid » en liste)
+if (!empty($factIds[1])) {
+  $fp = new Facture($db);
+  if ($fp->fetch($factIds[1]) > 0) {
+    $rv = $fp->validate($admin);
+    if ($rv <= 0) {
+      $out['errors'][] = 'validate facture '.$factIds[1].' KO: ret='.$rv.' err='.($fp->error ?: '-');
+    } else {
+      $rp = $fp->setPaid($admin);
+      $st = $fkStatut($factIds[1]);
+      if ($rp <= 0 || !$st || $st['statut'] !== 2 || $st['paye'] !== 1) {
+        $out['errors'][] = 'setPaid facture '.$factIds[1].' KO: ret='.$rp.' err='.($fp->error ?: '-').' fk_statut='.($st ? $st['statut'] : 'NULL').' paye='.($st ? $st['paye'] : 'NULL');
+      } else {
+        $facturePayee = $factIds[1];
+        $out['facture_paid_ref'] = $st['ref'];
+      }
+    }
+  } else { $out['errors'][] = 'fetch facture '.$factIds[1].' KO'; }
+}
+$factureDrafts = array_values(array_diff($factIds, [$factureValidee, $facturePayee]));
 $out['facture_ids'] = $factIds;
 $out['facture_validee_id'] = $factureValidee;
+$out['facture_payee_id'] = $facturePayee;
+$out['facture_draft_ids'] = $factureDrafts;
+$out['facture_draft_id'] = $factureDrafts[0] ?? 0;
 
 // ---------- projet + tâche ----------
 $pj = new Project($db);
@@ -185,9 +227,9 @@ $sets = [
   'MAIN_THEME' => 'eldy',
 ];
 foreach ($sets as $k => $v) {
-  $db->query("DELETE FROM llx_const WHERE name='".$db->escape($k)."' AND entity=1");
-  $db->query("INSERT INTO llx_const (name,value,type,visible,entity) VALUES ('".$db->escape($k)."','".$db->escape($v)."','chaine',0,1)");
+  $db->query("DELETE FROM ".$db->prefix()."const WHERE name='".$db->escape($k)."' AND entity=1");
+  $db->query("INSERT INTO ".$db->prefix()."const (name,value,type,visible,entity) VALUES ('".$db->escape($k)."','".$db->escape($v)."','chaine',0,1)");
 }
 
-function emit($o) { echo json_encode($o, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES), "\n"; exit(empty($o['errors']) ? 0 : 1); }
+function emit($o) { $o['ok'] = empty($o['errors']); echo json_encode($o, JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES), "\n"; exit(empty($o['errors']) ? 0 : 1); }
 emit($out);

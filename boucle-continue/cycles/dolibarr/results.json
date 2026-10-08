@@ -2,6 +2,7 @@
  "cycle": 57,
  "produit": "dolibarr",
  "statut_execution": "complet",
+ "version": "worker v2 (post-audit CONFIRMED-avec-résiduels)",
  "baseline": {
   "public": {
    "violations_occ": 8,
@@ -16,7 +17,7 @@
    "note": "page login /index.php sans session"
   },
   "auth": {
-   "violations_occ": 1860,
+   "violations_occ": 1901,
    "violations_regles": 19,
    "regles_liste": [
     "aria-allowed-role",
@@ -40,31 +41,31 @@
     "target-size"
    ],
    "erreurs": 0,
-   "incomplets": 607,
-   "note": "26 scénarios : 21 pages auth + 5 états déterministes (dropdown-user, fiche-tab-contacts, modal-validate-facture, select2-combo, mobile-390)",
+   "incomplets": 671,
+   "note": "26 scénarios : 20 pages auth + 6 états déterministes (dropdown-user, fiche-tab-contacts, facture-validee, modal-validate-facture, select2-combo, mobile-390) — regénérée v2 sur vanilla :9820, seed corrigé (facture 1 réellement validée, fk_statut=1 vérifié en DB), état facture-validee exercé = 11 règles violées dont color-contrast .badge-status1 2.81:1",
    "regles": {
-    "region": 909,
-    "listitem": 251,
-    "color-contrast": 175,
-    "label": 123,
-    "link-name": 87,
-    "aria-prohibited-attr": 61,
-    "aria-input-field-name": 52,
-    "target-size": 43,
-    "empty-table-header": 41,
-    "aria-allowed-role": 26,
-    "landmark-one-main": 24,
-    "page-has-heading-one": 24,
+    "region": 912,
+    "listitem": 261,
+    "color-contrast": 189,
+    "label": 116,
+    "link-name": 88,
+    "aria-prohibited-attr": 73,
+    "aria-input-field-name": 53,
+    "empty-table-header": 46,
+    "target-size": 44,
+    "aria-allowed-role": 27,
+    "landmark-one-main": 25,
+    "page-has-heading-one": 25,
     "label-title-only": 18,
     "button-name": 12,
-    "select-name": 8,
+    "select-name": 6,
     "scrollable-region-focusable": 3,
     "aria-required-attr": 1,
     "aria-required-children": 1,
     "link-in-text-block": 1
    }
   },
-  "note": "baseline rejouée AVANT patch sur stack :9800 (pureté vanilla prouvée : clone @7e92776 non modifié — diff git vide au moment du scan)"
+  "note": "baseline v2 rejouée sur stack vanilla :9820 (worktree @7e92776 propre) avec les outils v2 — ensembles de scénarios identiques au final (égalité hors port), 0 erreur"
  },
  "final": {
   "public": {
@@ -77,10 +78,10 @@
    "violations_occ": 0,
    "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 303,
-   "note": "26 scénarios, même scope que baseline (scopeHash identique)"
+   "incomplets": 333,
+   "note": "26 scénarios dont l'état facture-validee (0 violation sur la surface qui contenait le résidu .badge-status1)"
   },
-  "note": "patch.diff appliqué au working tree :9800 ; verify.mjs 35/35 + eval-final.mjs 20/20"
+  "note": "patch.diff v2 appliqué au working tree :9800 ; verify.mjs 38/38 + eval-final.mjs 20/20 ; DB seed véridique : IN2610-0001 fk_statut=1 (validée), IN2610-0002=2 (payée), (PROV3)=0 (brouillon)"
  },
  "install_build": {
   "public": {
@@ -93,22 +94,37 @@
    "violations_occ": 0,
    "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 303
+   "incomplets": 333
   },
-  "note": "clone propre @7e92776 + git apply --check + apply patch.diff + boot :9810 (doli57-i-*) + seed rejoué + rescan — 0 viol/0 err",
-  "verify_vanilla": "reports/probes/verify-vanilla.txt — verify.mjs sur :9810 AVANT patch : 22 FAIL nommés (13/35 OK)"
+  "note": "clone propre @7e92776 (SHA vérifié) + git apply --check + apply patch.diff v2 + boot :9810 (doli57-i-*) + seed rejoué (facture 1 validée réelle, fk_statut=1) + rescan — 0 viol/0 err/333 inc identique au final + verify.mjs 38/38",
+  "verify_vanilla": "reports/probes/verify-vanilla.txt — verify.mjs sur :9820 vanilla : 30 FAIL nommés (8/38 OK) dont « facture validée: sonde .badge-status1 contraste >= 4.5:1 » mesurée 2.81:1 (reproduction exacte du finding auditeur) et « badges statut >= 4.5:1 » status9 2.46:1"
  },
  "probes": {
-  "total": 304,
-  "ok": 279,
-  "na": 25,
+  "total": 334,
+  "ok": 308,
+  "na": 26,
   "non_conforme": 0,
-  "note": "reports/probes/incomplete-probes.json — chaque nœud incomplet mesuré (composite alpha) ou N-A justifié (fond image, état transitoire, espacement axe, label implicite)"
+  "note": "reports/probes/incomplete-probes.json — chaque nœud incomplet mesuré (composite alpha) ou N-A justifié (fond image, état transitoire, espacement axe, label implicite, couleur distinctive lien)"
  },
- "sabotage": "verify.mjs sur variante mutée ($onlycontrols désactivé) → FAIL nommé « liste: aucun <th> vide » — preuve que les assertions mordent",
+ "sabotage": "verify.mjs sur variante mutée ($onlycontrols=false dans functions.lib.php) → FAIL nommé exact « liste: aucun <th> vide » (37/38 OK) puis restore — preuve que les assertions mordent",
+ "badges_status": {
+  "note": "mesure toutes variantes .badge-statusN sur CSS générée + DOM live, thèmes eldy ET md : 0 variante < 4.5:1 dans les deux thèmes (measure-badges.mjs)",
+  "vanilla": ".badge-status1 #fff/#bc9526 = 2.81:1, .badge-status6 = 2.91:1, .badge-status0 = 2.85:1, .badge-status9 = 2.46:1",
+  "patché": "DOM :9800 — status1 5.48:1 (fg sombre #212529 sur #bc9526), status6 10.03:1, status0 5.1:1 ; identique sous md (5.48/10.03/5.1)"
+ },
+ "fixes_v2": {
+  "seed_php": "getRights() déplacé APRÈS activation des modules (ModuleBuilder/bank/export) ; validate facture non silencieux : échec → exit 2 + message explicite ; seed-info.json régénéré véridique (IN2610-0001 status=1 vérifié en DB)",
+  "verify_mjs": "recalibré sur l'état DB réel post-seed corrigé : 38 checks dont sonde contraste computed .badge-status1 >= 4.5:1 (2.81 vanilla / 5.48 patché) + sondes badges statuts liste + role autorisé aria-label",
+  "scope": "état facture-validee ajouté à STATES + states.json (surface facture validée exercée : 11 règles sur vanilla, 0 sur patché)",
+  "observer": "prose alignée au code : MutationObserver réellement débouncé 50ms (timer + rescan pass différé)",
+  "probes": "incomplete-probes.mjs lit report.json.scenarios[].state (champ réel) au lieu de page.state inexistant",
+  "install_lock": "boot.sh : lock non fait (install incomplète) → poursuite au lieu de no-op silencieux ; lock fait → skip explicite loggé",
+  "markup": "</div> orphelin après <nav class=tmenudiv> → </nav> correct",
+  "createRequire": "audit/eval/verify/measure-badges : deps résolues depuis tools/ (HERE) au lieu du CWD — commandes manifest verbatim fonctionnelles"
+ },
  "patch": {
-  "fichiers": 20,
-  "lignes": "274+/76-",
-  "sha256": "e7d5466914bcd569616851c2dad87f9e90bdb7d7617eeb25164c83ef863a13b6"
+  "fichiers": 22,
+  "lignes": "305+/90-",
+  "sha256": "f1dd0980c8b3bbe842aac5e46daed33dbe14ce94ba69dcd08f8e667841275a93"
  }
 }

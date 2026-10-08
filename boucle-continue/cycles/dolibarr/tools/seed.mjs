@@ -6,7 +6,7 @@
  * Idempotent-défensif : refuse si le seed est déjà présent (garde dans seed.php).
  */
 import { execFileSync } from 'node:child_process';
-import { writeFileSync, mkdirSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, unlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -17,13 +17,28 @@ const CONTAINER = argContainer || process.env.DOLI_CONTAINER || 'doli57-web';
 
 console.log(`[seed] container=${CONTAINER}`);
 execFileSync('docker', ['cp', join(HERE, 'seed.php'), `${CONTAINER}:/tmp/seed.php`], { stdio: 'inherit' });
-const raw = execFileSync('docker', ['exec', '-w', '/var/www/html/htdocs', CONTAINER, 'php', '/tmp/seed.php'], { encoding: 'utf8' });
+// seed.php sort != 0 en cas d'erreur — on récupère quand même son JSON pour diagnostic
+let raw;
+try { raw = execFileSync('docker', ['exec', '-w', '/var/www/html/htdocs', CONTAINER, 'php', '/tmp/seed.php'], { encoding: 'utf8' }); }
+catch (e) { raw = (e.stdout || '').toString(); if (!raw.trim()) throw e; }
 let info;
 try { info = JSON.parse(raw); }
 catch (e) { console.error(raw); throw new Error('seed.php n\'a pas rendu du JSON'); }
-if (!info.ok) { console.error(JSON.stringify(info, null, 2)); process.exit(1); }
+const infoPath = join(HERE, 'seed-info.json');
+if (!info.ok || (info.errors || []).length) {
+  const errs = info.errors || [];
+  // Garde anti-double-seed seule : la base est DÉJÀ seedée — le seed-info
+  // existant décrit sans doute cette base, on le conserve. Toute autre
+  // erreur = seed-info potentiellement mensonger → suppression bruyante.
+  const guardOnly = errs.length === 1 && /déjà appliqué/.test(errs[0]);
+  if (!guardOnly && existsSync(infoPath)) {
+    unlinkSync(infoPath);
+    console.error('[seed] seed-info.json OBSOLÈTE supprimé (seed KO — ids non fiables)');
+  }
+  console.error(JSON.stringify(info, null, 2));
+  process.exit(1);
+}
 info.seeded_at = new Date().toISOString();
 mkdirSync(HERE, { recursive: true });
-writeFileSync(join(HERE, 'seed-info.json'), JSON.stringify(info, null, 2) + '\n');
-console.log(`[seed] OK -> tools/seed-info.json  societes=${(info.societe_ids || []).length} produits=${(info.product_ids || []).length} factures=${(info.facture_ids || []).length}`);
-if (info.errors?.length) { console.error('[seed] erreurs partielles:', info.errors); process.exit(1); }
+writeFileSync(infoPath, JSON.stringify(info, null, 2) + '\n');
+console.log(`[seed] OK -> tools/seed-info.json  societes=${(info.societe_ids || []).length} produits=${(info.product_ids || []).length} factures=${(info.facture_ids || []).length} validée=${info.facture_validee_id} payée=${info.facture_payee_id} brouillon=${info.facture_draft_id}`);

@@ -61,28 +61,50 @@ TABLES=$(docker exec "$DB" mariadb -udoli -p"$DB_PASS" dolibarr -N -e \
 # volume nommé : docker le crée en root:root — www-data doit pouvoir y écrire
 docker exec -u root "$WEB" bash -c 'mkdir -p /var/www/documents && chown www-data:www-data /var/www/documents'
 
+# v2 : un install.lock résiduel d'un documents/ réutilisé bloque les step*.php
+# (inc.php exit après « YouTryInstallDisabledByFileLock », code 0) → re-boot
+# no-op SILENCIEUX. On le neutralise dès qu'une étape va être rejouée, et on
+# le recrée à la fin dans tous les cas (l'app doit rester verrouillée).
+NEED_STEPS=0
+[ ! -f "$CHECKOUT/htdocs/conf/conf.php" ] && NEED_STEPS=1
+[ "${TABLES:-0}" = "0" ] && NEED_STEPS=1
+if [ "$NEED_STEPS" = 1 ]; then
+  docker exec -u root "$WEB" rm -f /var/www/documents/install.lock
+fi
+
+# Étape d'install avec canary : « DisabledByFileLock » dans la sortie = échec.
+run_step() {
+  local out
+  if ! out=$(docker exec -u www-data -w /var/www/html/htdocs/install "$WEB" php "$@" 2>&1); then
+    echo "[boot] ERREUR étape $* : $out" >&2; exit 1
+  fi
+  if grep -qi 'DisabledByFileLock\|install\.lock' <<<"$out"; then
+    echo "[boot] ERREUR : install.lock bloque l'étape $*" >&2; exit 1
+  fi
+}
+
 if [ ! -f "$CHECKOUT/htdocs/conf/conf.php" ]; then
   echo "[boot] install : conf/conf.php + wizard CLI…"
   # un clone propre a conf/ en 755 ubuntu — www-data (33) ne peut pas y ecrire
   chmod 777 "$CHECKOUT/htdocs/conf"
   docker exec -u www-data "$WEB" bash -c 'touch /var/www/html/htdocs/conf/conf.php && chmod 666 /var/www/html/htdocs/conf/conf.php'
-  docker exec -u www-data -w /var/www/html/htdocs/install "$WEB" php step1.php set en_US \
+  run_step step1.php set en_US \
     /var/www/html/htdocs /var/www/documents "http://localhost:${UI_PORT}" \
-    root rootpass mysqli "$DB" dolibarr doli "$DB_PASS" 3306 llx_ 0 0 > /dev/null \
-    || { echo "[boot] ERREUR step1 — relancer à la main pour voir le détail" >&2; exit 1; }
+    root rootpass mysqli "$DB" dolibarr doli "$DB_PASS" 3306 llx_ 0 0
   [ -s "$CHECKOUT/htdocs/conf/conf.php" ] || { echo "[boot] ERREUR : conf.php vide après step1" >&2; exit 1; }
 fi
 
 if [ "${TABLES:-0}" = "0" ]; then
   echo "[boot] base vide : step2 (tables) + step4 + step5 (admin)…"
-  docker exec -u www-data -w /var/www/html/htdocs/install "$WEB" php step2.php set en_US > /dev/null
-  docker exec -u www-data -w /var/www/html/htdocs/install "$WEB" php step4.php en_US > /dev/null
-  docker exec -u www-data -w /var/www/html/htdocs/install "$WEB" php step5.php \
-    '24.0.0' '24.0.2' en_US set admin "$ADMIN_PASS" "$ADMIN_PASS" 1 > /dev/null
-  docker exec -u www-data "$WEB" bash -c 'mkdir -p /var/www/documents && touch /var/www/documents/install.lock'
+  run_step step2.php set en_US
+  run_step step4.php en_US
+  run_step step5.php '24.0.0' '24.0.2' en_US set admin "$ADMIN_PASS" "$ADMIN_PASS" 1
   echo "[boot] install OK (admin/${ADMIN_PASS})"
 else
   echo "[boot] conf + tables présentes — install sautée"
 fi
+
+# l'app doit toujours finir verrouillée (installeur web inaccessible)
+docker exec -u www-data "$WEB" bash -c 'mkdir -p /var/www/documents && touch /var/www/documents/install.lock'
 
 echo "[boot] OK : http://localhost:${UI_PORT}/index.php (admin/${ADMIN_PASS})"

@@ -10,7 +10,10 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 const DIR = dirname(fileURLToPath(import.meta.url));
 const info = JSON.parse(readFileSync(join(DIR, 'seed-info.json'), 'utf8'));
-const draftFacture = (info.facture_ids || []).find(id => id !== info.facture_validee_id);
+// v2 : facture_draft_id émis explicitement par le seed (repli : 1re facture
+// ni validée ni payée — couvre un seed-info v1 sans le champ nouveau).
+const draftFacture = info.facture_draft_id
+  || (info.facture_ids || []).find(id => id !== info.facture_validee_id && id !== info.facture_payee_id);
 const MAP = {
   S1: String(info.societe_ids?.[0]),
   S2: String(info.societe_ids?.[1]),

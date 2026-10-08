@@ -2,6 +2,7 @@
  "states": {
   "dropdown-user": "clic a.login-dropdown-a → #topmenu-login-dropdown .dropdown-menu visible + texte /logout|profil|profile/i",
   "fiche-tab-contacts": "sur /societe/card.php?socid=<seed> → .tabs .tabsElemActive visible + libellé /contact|address|adresses/i",
+  "facture-validee": "sur /compta/facture/card.php?facid=<validée seed=1> → .badge-status visible + .badge-status1 dont texte|aria-label =~ /not paid|unpaid|impay|valid/i (surface badges statuts réels)",
   "modal-validate-facture": "sur /compta/facture/card.php?facid=<brouillon seed> : clic .butAction /valid/i → .ui-dialog visible + #dialog-confirm /are you sure/i",
   "select2-combo": "sur /societe/card.php?action=create : clic premier .select2-container → .select2-container--open ou .select2-dropdown visible",
   "mobile-390": "viewport 390x844 + documentElement.clientWidth==390 + #id-container présent + .tmenu non vide"
