@@ -288,6 +288,67 @@ ok('daily-summary: semaine en h2', ds.h2week);
 if (ds.activeRatio === null) na('daily-summary: contraste onglet actif', 'label introuvable');
 else ok('daily-summary: contraste onglet actif >= 4.5', ds.activeRatio >= 4.5, `ratio ${ds.activeRatio}`);
 
+// ---------- i18n : les aria-labels introduits par le patch RÉSOLVENT ----------
+// Leçon 43 : la valeur rendue de chaque attribut introduit doit égaler le
+// texte réel de en.json — jamais le slug `X.Y.Z` (instant() non chargé ou
+// clé absente rendent la clé brute, invisible pour axe ET pour length>0).
+const enJson = await page.evaluate(async () => {
+    try {
+        const r = await fetch('assets/i18n/en.json');
+        return r.ok ? await r.json() : null;
+    } catch { return null; }
+});
+ok('i18n: en.json servi par l\u2019instance', !!enJson, 'fetch assets/i18n/en.json');
+if (enJson) {
+    const i18nLabels = await page.evaluate(() => ({
+        overlay: document.querySelector('.cdk-overlay-container')?.getAttribute('aria-label') ?? null,
+        handle: document.querySelector('.resize-handle')?.getAttribute('aria-label') ?? null,
+        // aucun aria-label de la page ne doit ressembler à une clé brute
+        slugs: [...document.querySelectorAll('[aria-label]')]
+            .map(e => e.getAttribute('aria-label'))
+            .filter(v => /^[A-Z][A-Z0-9_]*(\.[A-Z0-9_]+)+$/.test(v)),
+    }));
+    ok('i18n: overlay aria-label = G.OVERLAYS résolu', i18nLabels.overlay === enJson.G.OVERLAYS, `rendu=${JSON.stringify(i18nLabels.overlay)} attendu=${JSON.stringify(enJson.G.OVERLAYS)}`);
+    ok('i18n: resize-handle aria-label = MH.RESIZE_SIDENAV résolu', i18nLabels.handle === enJson.MH.RESIZE_SIDENAV, `rendu=${JSON.stringify(i18nLabels.handle)} attendu=${JSON.stringify(enJson.MH.RESIZE_SIDENAV)}`);
+    ok('i18n: aucun aria-label en clé brute sur la page', i18nLabels.slugs.length === 0, JSON.stringify(i18nLabels.slugs.slice(0, 5)));
+
+    // daily-summary : bascule réelle pour exercer les DEUX branches du @if
+    // (add-custom-text-block ⇄ remove-note) — chaque libellé doit résoudre
+    // sa clé, dans quelque état initial que ce soit, et on restaure à la fin.
+    const dsLabel = async () => page.evaluate(() => {
+        const btns = [...document.querySelectorAll('.day-end-note button')];
+        const pick = (icon) => btns.find(b => (b.querySelector('mat-icon')?.textContent || '').trim() === icon)?.getAttribute('aria-label') ?? null;
+        return { add: pick('note_alt'), rm: pick('visibility_off') };
+    });
+    const clickIcon = async (icon) => {
+        const b = page.locator(`.day-end-note button:has-text("${icon}")`).first();
+        await b.click();
+        await page.waitForTimeout(800);
+    };
+    const expAdd = enJson.PDS.ADD_CUSTOM_TEXT_BLOCK;
+    const expRm = enJson.PDS.REMOVE_DAILY_SUMMARY_NOTE;
+    const st0 = await dsLabel();
+    if (st0.add !== null && st0.rm !== null) {
+        ok('i18n: daily-summary labels résolus (2 branches)', st0.add === expAdd && st0.rm === expRm, JSON.stringify(st0));
+    } else if (st0.add !== null) {
+        ok('i18n: daily-summary add = PDS.ADD_CUSTOM_TEXT_BLOCK résolu', st0.add === expAdd, `rendu=${JSON.stringify(st0.add)}`);
+        await clickIcon('note_alt'); // crée la note → remove apparaît
+        const st1 = await dsLabel();
+        ok('i18n: daily-summary remove = PDS.REMOVE_DAILY_SUMMARY_NOTE résolu', st1.rm === expRm, `rendu=${JSON.stringify(st1.rm)} après bascule`);
+        await clickIcon('visibility_off'); // restaure : retire la note vide
+        await page.waitForTimeout(500);
+    } else if (st0.rm !== null) {
+        ok('i18n: daily-summary remove = PDS.REMOVE_DAILY_SUMMARY_NOTE résolu', st0.rm === expRm, `rendu=${JSON.stringify(st0.rm)}`);
+        await clickIcon('visibility_off'); // retire la note → add apparaît
+        const st1 = await dsLabel();
+        ok('i18n: daily-summary add = PDS.ADD_CUSTOM_TEXT_BLOCK résolu', st1.add === expAdd, `rendu=${JSON.stringify(st1.add)} après bascule`);
+        await clickIcon('note_alt'); // restaure la note vide initiale
+        await page.waitForTimeout(500);
+    } else {
+        ok('i18n: daily-summary labels résolus', false, 'ni add ni remove rendu dans .day-end-note');
+    }
+}
+
 // ---------- history : th vides remplis (cdk-visually-hidden) ----------
 await goto(`${base}#/tag/TODAY/history`);
 const hist = await page.evaluate(`${BROWSER_HELPERS}

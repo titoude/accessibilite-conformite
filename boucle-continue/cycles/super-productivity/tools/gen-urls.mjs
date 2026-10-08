@@ -13,7 +13,9 @@ const P = seed.projects, T = seed.tags;
 
 const routes = [
   '#/tag/TODAY/tasks', '#/tag/TODAY/metrics', '#/tag/TODAY/daily-summary', '#/tag/TODAY/history',
-  '#/tag/INBOX/tasks',
+  // Inbox est un PROJET (id INBOX_PROJECT), pas un tag — `#/tag/INBOX/tasks` est
+  // rejetée par ValidTagIdGuard (couverture doublée, wart W4 de l'audit v1).
+  '#/project/INBOX_PROJECT/tasks',
   `#/tag/${T['audit-urgent']}/tasks`, `#/tag/${T['audit-dom']}/tasks`,
   `#/project/${P['audit-alpha']}/tasks`, `#/project/${P['audit-alpha']}/metrics`, `#/project/${P['audit-alpha']}/daily-summary`,
   `#/project/${P['audit-beta']}/tasks`, `#/project/${P['audit-beta']}/history`,

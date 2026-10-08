@@ -11,7 +11,7 @@ index 1bdc86966..b335d7942 100644
      (done)="layoutService.hideAddTaskBar()"
      (afterTaskAdd)="onTaskAdded($event)"
 diff --git a/src/app/app.component.ts b/src/app/app.component.ts
-index 27a754778..95e3b39fb 100644
+index 27a754778..fa186315d 100644
 --- a/src/app/app.component.ts
 +++ b/src/app/app.component.ts
 @@ -46,6 +46,7 @@ import {
@@ -22,7 +22,7 @@ index 27a754778..95e3b39fb 100644
  import { MagicSideNavComponent } from './core-ui/magic-side-nav/magic-side-nav.component';
  import { MainHeaderComponent } from './core-ui/main-header/main-header.component';
  import { BannerComponent } from './core/banner/banner/banner.component';
-@@ -230,6 +231,13 @@ export class AppComponent implements OnDestroy, AfterViewInit {
+@@ -230,6 +231,19 @@ export class AppComponent implements OnDestroy, AfterViewInit {
    private _subs: Subscription = new Subscription();
  
    constructor() {
@@ -31,13 +31,19 @@ index 27a754778..95e3b39fb 100644
 +    // flags every open menu/dialog as content outside landmarks.
 +    const overlayEl = inject(OverlayContainer).getContainerElement();
 +    overlayEl.setAttribute('role', 'region');
-+    overlayEl.setAttribute('aria-label', 'Overlays');
++    // stream() resolves once translations are loaded and re-resolves on every
++    // locale switch — instant() this early could return the raw key slug.
++    this._subs.add(
++      this._translateService
++        .stream(T.G.OVERLAYS)
++        .subscribe((label) => overlayEl.setAttribute('aria-label', label)),
++    );
 +
      this._startupService.init();
      this._iosShareService.start();
      void this._materialIconsLoaderService.ensureFontReady();
 diff --git a/src/app/core-ui/magic-side-nav/magic-side-nav.component.html b/src/app/core-ui/magic-side-nav/magic-side-nav.component.html
-index 919488aa1..7a223164d 100644
+index 919488aa1..831d45f13 100644
 --- a/src/app/core-ui/magic-side-nav/magic-side-nav.component.html
 +++ b/src/app/core-ui/magic-side-nav/magic-side-nav.component.html
 @@ -106,6 +106,7 @@
@@ -58,7 +64,7 @@ index 919488aa1..7a223164d 100644
 +        class="resize-handle position-left"
 +        [class.compactMode-handle]="!isFullMode()"
 +        (mousedown)="onResizeStart($event)"
-+        [attr.aria-label]="'Resize sidenav'"
++        [attr.aria-label]="T.MH.RESIZE_SIDENAV | translate"
 +        role="separator"
 +        aria-orientation="vertical"
 +      ></div>
@@ -375,34 +381,6 @@ index 844373a3c..a9a383b68 100644
          >
            @if (isSharing()) {
              <mat-icon>hourglass_empty</mat-icon>
-diff --git a/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html b/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html
-index 4749a7348..c7ca7d919 100644
---- a/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html
-+++ b/src/app/features/metric/evaluation-sheet/evaluation-sheet.component.html
-@@ -35,6 +35,7 @@
-       <div
-         class="daily-state-label"
-         [matTooltip]="T.F.METRIC.EVAL_FORM.DAILY_STATE_TOOLTIP | translate"
-+                  [attr.aria-label]="T.F.METRIC.EVAL_FORM.DAILY_STATE_TOOLTIP | translate"
-         matTooltipPosition="above"
-       >
-         {{ T.F.METRIC.EVAL_FORM.DAILY_STATE | translate }}
-@@ -57,6 +58,7 @@
-           <div
-             class="label"
-             [matTooltip]="T.F.METRIC.EVAL_FORM.PRODUCTIVITY_SCORE_TOOLTIP | translate"
-+                  [attr.aria-label]="T.F.METRIC.EVAL_FORM.PRODUCTIVITY_SCORE_TOOLTIP | translate"
-             matTooltipPosition="above"
-           >
-             {{ T.F.METRIC.EVAL_FORM.PRODUCTIVITY_SCORE | translate }}
-@@ -91,6 +93,7 @@
-           <div
-             class="label"
-             [matTooltip]="T.F.METRIC.EVAL_FORM.SUSTAINABILITY_SCORE_TOOLTIP | translate"
-+                  [attr.aria-label]="T.F.METRIC.EVAL_FORM.SUSTAINABILITY_SCORE_TOOLTIP | translate"
-             matTooltipPosition="above"
-           >
-             {{ T.F.METRIC.EVAL_FORM.SUSTAINABILITY_SCORE | translate }}
 diff --git a/src/app/features/metric/lazy-chart/lazy-chart.component.html b/src/app/features/metric/lazy-chart/lazy-chart.component.html
 index 1f87af218..20800451e 100644
 --- a/src/app/features/metric/lazy-chart/lazy-chart.component.html
@@ -1053,7 +1031,7 @@ index ec6d0e826..eee062548 100644
              <ng-container
                *ngTemplateOutlet="
 diff --git a/src/app/pages/daily-summary/daily-summary.component.html b/src/app/pages/daily-summary/daily-summary.component.html
-index d752d438a..6192ef586 100644
+index d752d438a..cb48b5a96 100644
 --- a/src/app/pages/daily-summary/daily-summary.component.html
 +++ b/src/app/pages/daily-summary/daily-summary.component.html
 @@ -20,6 +20,7 @@
@@ -1092,7 +1070,7 @@ index d752d438a..6192ef586 100644
        >
          <button
            [matTooltip]="'Remove daily summary note'"
-+          [attr.aria-label]="'Remove daily summary note'"
++          [attr.aria-label]="T.PDS.REMOVE_DAILY_SUMMARY_NOTE | translate"
            (click)="updateDailySummaryTxt(undefined)"
            mat-icon-button
          >
@@ -1100,7 +1078,7 @@ index d752d438a..6192ef586 100644
          style="opacity: 0.4"
          (click)="updateDailySummaryTxt('', true)"
          matTooltip="Click to add a custom text block to describe your day end routine."
-+        aria-label="Add a custom text block to describe your day end routine"
++        [attr.aria-label]="T.PDS.ADD_CUSTOM_TEXT_BLOCK | translate"
        >
          <mat-icon>note_alt</mat-icon>
        </button>
@@ -1142,7 +1120,7 @@ index 38eb2600e..402afbac2 100644
        mat-icon {
          font-size: 3rem;
 diff --git a/src/app/t.const.ts b/src/app/t.const.ts
-index fbfd28381..49cb76bde 100644
+index fbfd28381..d94489222 100644
 --- a/src/app/t.const.ts
 +++ b/src/app/t.const.ts
 @@ -2423,6 +2423,8 @@ const T = {
@@ -1162,15 +1140,42 @@ index fbfd28381..49cb76bde 100644
      DELETE: 'G.DELETE',
      DISCARD: 'G.DISCARD',
      DISMISS: 'G.DISMISS',
-@@ -3083,6 +3086,7 @@ const T = {
+@@ -2548,6 +2551,7 @@ const T = {
+     OK: 'G.OK',
+     OPEN_IN_BROWSER: 'G.OPEN_IN_BROWSER',
+     OVERDUE: 'G.OVERDUE',
++    OVERLAYS: 'G.OVERLAYS',
+     PASSWORD_STRENGTH_FAIR: 'G.PASSWORD_STRENGTH_FAIR',
+     PASSWORD_STRENGTH_STRONG: 'G.PASSWORD_STRENGTH_STRONG',
+     PASSWORD_STRENGTH_WEAK: 'G.PASSWORD_STRENGTH_WEAK',
+@@ -3083,8 +3087,10 @@ const T = {
      PLANNER: 'MH.PLANNER',
      PROCRASTINATE: 'MH.PROCRASTINATE',
      PROJECT_MENU: 'MH.PROJECT_MENU',
 +    QUICK_ACTIONS: 'MH.QUICK_ACTIONS',
      PROJECT_SETTINGS: 'MH.PROJECT_SETTINGS',
      PROJECTS: 'MH.PROJECTS',
++    RESIZE_SIDENAV: 'MH.RESIZE_SIDENAV',
      SCHEDULE: 'MH.SCHEDULE',
-@@ -3176,6 +3180,8 @@ const T = {
+     SEARCH: 'MH.SEARCH',
+     SETTINGS: 'MH.SETTINGS',
+@@ -3143,6 +3149,7 @@ const T = {
+     },
+   },
+   PDS: {
++    ADD_CUSTOM_TEXT_BLOCK: 'PDS.ADD_CUSTOM_TEXT_BLOCK',
+     ADD_TASKS_FROM_TODAY: 'PDS.ADD_TASKS_FROM_TODAY',
+     ARCHIVED_TASKS: {
+       ONE: 'PDS.ARCHIVED_TASKS.ONE',
+@@ -3163,6 +3170,7 @@ const T = {
+     FOCUS_SUMMARY: 'PDS.FOCUS_SUMMARY',
+     NO_TASKS: 'PDS.NO_TASKS',
+     PLAN_TOMORROW: 'PDS.PLAN_TOMORROW',
++    REMOVE_DAILY_SUMMARY_NOTE: 'PDS.REMOVE_DAILY_SUMMARY_NOTE',
+     REVIEW_TASKS: 'PDS.REVIEW_TASKS',
+     ROUND_5M: 'PDS.ROUND_5M',
+     ROUND_15M: 'PDS.ROUND_15M',
+@@ -3176,6 +3184,8 @@ const T = {
      SAVE_AND_GO_HOME: 'PDS.SAVE_AND_GO_HOME',
      SAVE_AND_GO_HOME_TOOLTIP: 'PDS.SAVE_AND_GO_HOME_TOOLTIP',
      START_END: 'PDS.START_END',
@@ -1364,7 +1369,7 @@ index 4c0f4a877..07db2a7fa 100644
    readonly label = input<string>('');
    readonly valueChange = output<string>();
 diff --git a/src/assets/i18n/en.json b/src/assets/i18n/en.json
-index 0cd8a477f..67373a1e9 100644
+index 0cd8a477f..1d87f21a7 100644
 --- a/src/assets/i18n/en.json
 +++ b/src/assets/i18n/en.json
 @@ -1319,7 +1319,7 @@
@@ -1410,7 +1415,15 @@ index 0cd8a477f..67373a1e9 100644
        },
        "D_CONFIRM_RESTORE": "Are you sure you want to move the task <strong>\"{{title}}\"</strong> into your Today task list?",
        "D_EXPORT_TITLE": "Worklog Export {{start}}–{{end}}",
-@@ -2499,7 +2501,8 @@
+@@ -2483,6 +2485,7 @@
+     "OK": "Ok",
+     "OPEN_IN_BROWSER": "Open in browser",
+     "OVERDUE": "From previous days",
++    "OVERLAYS": "Overlays",
+     "PASSWORD_STRENGTH_FAIR": "Fair",
+     "PASSWORD_STRENGTH_STRONG": "Strong",
+     "PASSWORD_STRENGTH_WEAK": "Weak",
+@@ -2499,7 +2502,8 @@
      "TOMORROW": "Tomorrow",
      "UNDO": "Undo",
      "WITHOUT_PROJECT": "Without Project",
@@ -1420,7 +1433,15 @@ index 0cd8a477f..67373a1e9 100644
    },
    "GCF": {
      "APP_FEATURES": {
-@@ -3034,7 +3037,8 @@
+@@ -3013,6 +3017,7 @@
+     "PROJECT_MENU": "Project Menu",
+     "PROJECT_SETTINGS": "Project Settings",
+     "PROJECTS": "Projects",
++    "RESIZE_SIDENAV": "Resize sidenav",
+     "SCHEDULE": "Schedule",
+     "SEARCH": "Search",
+     "SETTINGS": "Settings",
+@@ -3034,7 +3039,8 @@
      "TOGGLE_TRACK_TIME": "Start/stop tracking time",
      "TRIGGER_SYNC": "Sync!",
      "UNPLAN_ALL_TASKS": "Unplan all tasks",
@@ -1430,7 +1451,23 @@ index 0cd8a477f..67373a1e9 100644
    },
    "MIGRATE": {
      "C_DOWNLOAD_BACKUP": "Do you want to download a backup of your legacy data (can be used with older versions of Super Productivity)?",
-@@ -3109,7 +3113,9 @@
+@@ -3071,6 +3077,7 @@
+     }
+   },
+   "PDS": {
++    "ADD_CUSTOM_TEXT_BLOCK": "Add a custom text block to describe your day end routine",
+     "ADD_TASKS_FROM_TODAY": "Add tasks from today",
+     "ARCHIVED_TASKS": {
+       "ONE": "{{count}} completed parent task has been archived",
+@@ -3091,6 +3098,7 @@
+     "FOCUS_SUMMARY": "Focus Sessions",
+     "NO_TASKS": "There are no tasks for this day",
+     "PLAN_TOMORROW": "Plan",
++    "REMOVE_DAILY_SUMMARY_NOTE": "Remove daily summary note",
+     "REVIEW_TASKS": "Review",
+     "ROUND_5M": "Round all tasks to 5 minutes",
+     "ROUND_15M": "Round all tasks to 15 minutes",
+@@ -3109,7 +3117,9 @@
      "TIME_SPENT_AND_ESTIMATE_LABEL": "Time Spent / Estimated",
      "TIME_SPENT_ESTIMATE_TITLE": "Time Spent: Total time spent today. Archived tasks not included. – Time Estimated: Time estimated for tasks worked on today minus the time already spent on them on other days.",
      "TIME_SPENT_TODAY_BY_TAG": "Time Spent today by Tag",
@@ -1441,13 +1478,27 @@ index 0cd8a477f..67373a1e9 100644
    },
    "PLAINSPACE": {
      "CLAIM": "Claim",
-@@ -3367,4 +3373,4 @@
+@@ -3367,4 +3377,4 @@
      "WORKING_TODAY": "Working today:",
      "WORKING_TODAY_ARCHIVED": "Time worked today on archived tasks"
    }
 -}
 +}
 \ No newline at end of file
+diff --git a/src/environments/versions.ts b/src/environments/versions.ts
+index 450ca0361..890c8a240 100644
+--- a/src/environments/versions.ts
++++ b/src/environments/versions.ts
+@@ -1,6 +1,6 @@
+ // this file is automatically generated by git.version.ts script
+ export const versions = {
+-  version: '19.1.0',
+-  revision: 'NO_REV',
+-  branch: 'NO_BRANCH',
++  version: 'NO_VER',
++  revision: '71eb7780bcf5d6b1dfdcd39a8a8265547d040760',
++  branch: '71eb7780bcf5d6b1dfdcd39a8a8265547d040760',
+ };
 diff --git a/src/styles/_css-variables.scss b/src/styles/_css-variables.scss
 index 5a27c7277..f4638c3aa 100644
 --- a/src/styles/_css-variables.scss

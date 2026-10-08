@@ -57,7 +57,7 @@ const ready = async () => {
   await page.waitForTimeout(1800);
 };
 
-await page.goto(`${base}/#/tag/INBOX/tasks`, { waitUntil: 'load' });
+await page.goto(`${base}/#/project/INBOX_PROJECT/tasks`, { waitUntil: 'load' });
 await ready();
 
 // -- projets + tags via dialogs side-nav (hover → additional-btn) --
@@ -117,7 +117,7 @@ if (Object.values(seed.projects).some((v) => !v) || Object.values(seed.tags).som
 }
 
 // -- tâches via add-task-bar.global depuis la vue Inbox --
-await page.goto(`${base}/#/tag/INBOX/tasks`, { waitUntil: 'load' });
+await page.goto(`${base}/#/project/INBOX_PROJECT/tasks`, { waitUntil: 'load' });
 await ready();
 const addTask = async (text) => {
   const input = page.locator('add-task-bar.global .main-input').first();
