@@ -171,7 +171,9 @@ export const STATES = {
       await page.locator('[data-testid="song-item"] button[title="More actions"]:visible').first().click();
     },
     stateProof: async page => {
-      await page.waitForSelector('.menu.context-menu ul[role="menu"]', { state: 'visible', timeout: 8000 });
+      // sélecteurs existant AUSSI en vanilla (leçon 47 : le stateProof prouve
+      // que l'état s'ouvre — il doit donc passer AVANT patch)
+      await page.waitForSelector('.menu.context-menu ul', { state: 'visible', timeout: 8000 });
       await page.waitForSelector('.menu.context-menu li, .menu.context-menu [role="menuitem"]', { state: 'visible', timeout: 8000 });
     },
   },

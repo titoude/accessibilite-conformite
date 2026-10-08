@@ -387,3 +387,7 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 ### Leçons — cycle 47 espocrm v2 (CONFIRMED + artefacts commités incohérents)
 
 46. **Les artefacts commités doivent être cohérents entre eux — urls dérivées du seed doivent matcher le seed-info commité, pas un seed plus vieux.** EspoCRM commitait `urls-auth.txt` généré depuis un seed-info antérieur : ids `6ac72d*` vs `6ac74f*` commités → rejeu verbatim = coquilles 404. Et `verify.mjs` mourait en TimeoutError anonyme quand seed-info ≠ DB. Règle : avant le commit final, régénérer les artefacts dérivés (gen-urls depuis le seed-info commité) ET tout waitForSelector dépendant du seed émet un FAIL nommé (try/catch → `ok(..., false, 'seed-info ≠ DB ?')`), jamais un crash nu. Les comptes cités dans les verdicts se relisent après chaque régénération (claim « 71 occ » vs 102 mesuré).
+
+### Leçons — cycle 49 koel (CONFIRMED + dérive stateProof)
+
+47. **Un stateProof doit passer sur VANILLA aussi — cibler du markup introduit par le patch rend la baseline non rejouable.** Koel commitait `stateProof` `ul[role="menu"]` (ajouté par le patch) : le run vanilla timeoutait sur le context-menu → 1 règle et ~250 occ de la baseline-states inaccessibles à l'auditeur. Règle : chaque sélecteur stateProof/setup doit exister dans le DOM vanilla (`.menu.context-menu ul`, pas `ul[role=menu]`) — le stateProof prouve que le widget S'OUVRE, pas qu'il est déjà conforme ; l'axe-scan capture le défaut. Corollaire : rejouer le scénario vanilla AVANT de figer la baseline.
