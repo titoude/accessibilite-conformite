@@ -228,6 +228,18 @@ index 98a719cf..42714386 100644
          data-testid="browse-metrics-header"
        >
          <Flex maw="64rem" mx="auto" w="100%">
+diff --git a/frontend/src/metabase/browse/metrics/MetricsTable.tsx b/frontend/src/metabase/browse/metrics/MetricsTable.tsx
+index df112a63..38c8a236 100644
+--- a/frontend/src/metabase/browse/metrics/MetricsTable.tsx
++++ b/frontend/src/metabase/browse/metrics/MetricsTable.tsx
+@@ -146,6 +146,7 @@ export function MetricsTable({
+             style={{
+               paddingInline: ".5rem",
+             }}
++            aria-hidden="true"
+           />
+           <Columns.RightEdge.Header />
+         </tr>
 diff --git a/frontend/src/metabase/browse/models/BrowseModels.tsx b/frontend/src/metabase/browse/models/BrowseModels.tsx
 index 51197b49..b9fbca71 100644
 --- a/frontend/src/metabase/browse/models/BrowseModels.tsx
@@ -583,10 +595,21 @@ index bc88c26b..1f8a78c0 100644
    flex-shrink: 0;
  `;
 diff --git a/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css b/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css
-index 5178661f..96cd7bef 100644
+index 5178661f..788c8fba 100644
 --- a/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css
 +++ b/frontend/src/metabase/common/components/ViewButton/ViewButton.module.css
-@@ -39,14 +39,20 @@
+@@ -12,7 +12,9 @@
+     var(--view-button-color) 20%,
+     transparent
+   );
+-  color: var(--view-button-color);
++  /* WCAG: --view-button-color (core-brand #509ee2) on the 20% tint
++     background fails 4.5:1 — darken the label. */
++  color: color-mix(in srgb, var(--view-button-color), black 40%);
+   transition:
+     background 300ms linear,
+     border 300ms linear;
+@@ -39,14 +41,20 @@
    }
  
    &.active {
@@ -1083,6 +1106,132 @@ index 0db9b70f..bcbf59a3 100644
        onMouseDown={disableImageDragging}
        {...props}
      >
+diff --git a/frontend/src/metabase/palette/components/HydratedKBarSearch.tsx b/frontend/src/metabase/palette/components/HydratedKBarSearch.tsx
+index 42456990..bbb448d9 100644
+--- a/frontend/src/metabase/palette/components/HydratedKBarSearch.tsx
++++ b/frontend/src/metabase/palette/components/HydratedKBarSearch.tsx
+@@ -1,5 +1,6 @@
+-import { KBarSearch, useKBar } from "kbar";
++import { KBAR_LISTBOX, VisualState, getListboxItemId, useKBar } from "kbar";
+ import { useEffect, useState } from "react";
++import type { ChangeEventHandler, KeyboardEventHandler } from "react";
+ import { t } from "ttag";
+ 
+ import S from "./HydratedKBarSearch.module.css";
+@@ -43,9 +44,112 @@ export const HydratedKBarSearch = ({ searchText }: { searchText: string }) => {
+   }
+ 
+   return (
+-    <KBarSearch
++    <PaletteSearchInput
+       className={S.input}
+       defaultPlaceholder={t`Search for anything…`}
+     />
+   );
+ };
++
++interface PaletteSearchInputProps {
++  className?: string;
++  defaultPlaceholder?: string;
++  onChange?: ChangeEventHandler<HTMLInputElement>;
++  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
++}
++
++/**
++ * Local fork of kbar's `KBarSearch` input (same role as the
++ * `PaletteResultsList` fork of `KBarResults`). Upstream renders
++ * `role="combobox"`, `aria-controls` and `aria-activedescendant`
++ * unconditionally — while the palette is in a skeleton/empty state or
++ * mid-transition, `#kbar-listbox` and the referenced item are absent from
++ * the document and the ids dangle (`aria-valid-attr-value`). A combobox
++ * also requires `aria-controls` to resolve. This fork keeps the combobox
++ * semantics in sync with the targets that actually exist: without a
++ * rendered listbox the element is a plain search input; the
++ * `aria-activedescendant` ref is only emitted while the referenced item is
++ * in the document.
++ */
++function PaletteSearchInput(props: PaletteSearchInputProps) {
++  const {
++    query,
++    search,
++    actions,
++    currentRootActionId,
++    activeIndex,
++    showing,
++    options,
++  } = useKBar((state) => ({
++    search: state.searchQuery,
++    currentRootActionId: state.currentRootActionId,
++    actions: state.actions,
++    activeIndex: state.activeIndex,
++    showing: state.visualState === VisualState.showing,
++  }));
++
++  const [inputValue, setInputValue] = useState(search);
++  useEffect(() => {
++    query.setSearch(inputValue);
++  }, [inputValue, query]);
++
++  useEffect(() => {
++    query.setSearch("");
++    query.getInput().focus();
++    return () => query.setSearch("");
++  }, [currentRootActionId, query]);
++
++  const { defaultPlaceholder, ...rest } = props;
++
++  const placeholder = currentRootActionId
++    ? actions[currentRootActionId]?.name
++    : (defaultPlaceholder ?? "Type a command or search…");
++
++  const activeItemId =
++    activeIndex >= 0 ? getListboxItemId(activeIndex) : undefined;
++  const [idrefs, setIdrefs] = useState({ listbox: false, item: false });
++
++  useEffect(() => {
++    const update = () =>
++      setIdrefs({
++        listbox: !!document.getElementById(KBAR_LISTBOX),
++        item:
++          activeItemId !== undefined &&
++          !!document.getElementById(activeItemId),
++      });
++    update();
++    const observer = new MutationObserver(update);
++    observer.observe(document.body, { childList: true, subtree: true });
++    return () => observer.disconnect();
++  }, [activeItemId]);
++
++  const isCombobox = idrefs.listbox;
++
++  return (
++    <input
++      {...rest}
++      ref={query.inputRefSetter}
++      autoFocus
++      autoComplete="off"
++      role={isCombobox ? "combobox" : undefined}
++      spellCheck="false"
++      aria-expanded={isCombobox ? showing : undefined}
++      aria-controls={isCombobox ? KBAR_LISTBOX : undefined}
++      aria-activedescendant={idrefs.item ? activeItemId : undefined}
++      value={inputValue}
++      placeholder={placeholder}
++      onChange={(event) => {
++        props.onChange?.(event);
++        setInputValue(event.target.value);
++        options?.callbacks?.onQueryChange?.(event.target.value);
++      }}
++      onKeyDown={(event) => {
++        props.onKeyDown?.(event);
++        if (currentRootActionId && !search && event.key === "Backspace") {
++          const parent = actions[currentRootActionId].parent;
++          query.setCurrentRootAction(parent);
++        }
++      }}
++    />
++  );
++}
 diff --git a/frontend/src/metabase/palette/components/PaletteResultItem.tsx b/frontend/src/metabase/palette/components/PaletteResultItem.tsx
 index f7243436..1c598bc8 100644
 --- a/frontend/src/metabase/palette/components/PaletteResultItem.tsx
@@ -1142,6 +1291,27 @@ index f7243436..1c598bc8 100644
            {content}
          </Box>
        );
+diff --git a/frontend/src/metabase/palette/components/PaletteResultsList.tsx b/frontend/src/metabase/palette/components/PaletteResultsList.tsx
+index 89a28851..73c28551 100644
+--- a/frontend/src/metabase/palette/components/PaletteResultsList.tsx
++++ b/frontend/src/metabase/palette/components/PaletteResultsList.tsx
+@@ -7,6 +7,8 @@
+  * Original can be found at https://github.com/timc1/kbar/blob/846b2c1a89f6cbff1ce947b82d04cb96a5066fbb/src/KBarResults.tsx
+  */
+ 
++import { t } from "ttag";
++
+ import { KBAR_LISTBOX, getListboxItemId, useKBar } from "kbar";
+ import {
+   type MouseEvent,
+@@ -167,6 +169,7 @@ export const PaletteResultList = (props: PaletteResultListProps) => {
+       <div
+         role="listbox"
+         id={KBAR_LISTBOX}
++        aria-label={t`Search results`}
+         style={{
+           position: "relative",
+           width: "100%",
 diff --git a/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx b/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx
 index d0e94091..deee649e 100644
 --- a/frontend/src/metabase/query_builder/components/QuestionDownloadPopover/QuestionDownloadPopover.tsx
@@ -1830,7 +2000,7 @@ index f950c6e6..ec67ab0e 100644
      ...DEFAULT_METABASE_COMPONENT_THEME,
 diff --git a/frontend/src/metabase/ui/utils/markMantineFocusSentinels.ts b/frontend/src/metabase/ui/utils/markMantineFocusSentinels.ts
 new file mode 100644
-index 00000000..d3c5d72a
+index 00000000..362587e2
 --- /dev/null
 +++ b/frontend/src/metabase/ui/utils/markMantineFocusSentinels.ts
 @@ -0,0 +1,126 @@
@@ -1958,5 +2128,5 @@ index 00000000..d3c5d72a
 +    cleanRadiogroupLabels(document.body);
 +    cleanTabControls(document.body);
 +    cleanTargetAria(document.body);
-+  }).observe(document.body, { childList: true, subtree: true });
++    }).observe(document.body, { childList: true, subtree: true });
 +}

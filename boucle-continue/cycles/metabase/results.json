@@ -5,71 +5,121 @@
  "axe_version": "4.14.0",
  "baseline": {
   "admin": {
-   "rules": 104,
-   "occurrences": 296,
-   "errors": 0
+   "rules": 23,
+   "occurrences": 381,
+   "scenarios": 17,
+   "audited": 17,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 33
   },
   "public": {
-   "rules": 4,
+   "rules": 3,
    "occurrences": 4,
-   "errors": 0
+   "scenarios": 2,
+   "audited": 2,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 1
   },
   "states": {
-   "rules": 39,
-   "occurrences": 100,
-   "errors": 0
+   "rules": 17,
+   "occurrences": 167,
+   "scenarios": 9,
+   "audited": 9,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 17
   },
   "total": {
-   "rules": 147,
-   "occurrences": 400,
-   "errors": 0
+   "rules": 23,
+   "occurrences": 552,
+   "scenarios": 28,
+   "audited": 28,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 51
   }
  },
  "final": {
   "admin": {
    "rules": 0,
    "occurrences": 0,
+   "scenarios": 17,
+   "audited": 17,
    "errors": 0,
-   "incomplete": 105
+   "skipped": [],
+   "incomplete": 30
   },
   "public": {
    "rules": 0,
    "occurrences": 0,
+   "scenarios": 2,
+   "audited": 2,
    "errors": 0,
+   "skipped": [],
    "incomplete": 1
   },
   "states": {
    "rules": 0,
    "occurrences": 0,
+   "scenarios": 9,
+   "audited": 9,
    "errors": 0,
-   "incomplete": 109
+   "skipped": [],
+   "incomplete": 14
   },
   "total": {
    "rules": 0,
    "occurrences": 0,
-   "errors": 0
+   "scenarios": 28,
+   "audited": 28,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 45
   }
  },
  "install_build": {
   "admin": {
    "rules": 0,
    "occurrences": 0,
-   "errors": 0
+   "scenarios": 17,
+   "audited": 17,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 30
   },
   "public": {
    "rules": 0,
    "occurrences": 0,
-   "errors": 0
+   "scenarios": 2,
+   "audited": 2,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 1
   },
   "states": {
    "rules": 0,
    "occurrences": 0,
-   "errors": 0
+   "scenarios": 9,
+   "audited": 9,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 14
+  },
+  "total": {
+   "rules": 0,
+   "occurrences": 0,
+   "scenarios": 28,
+   "audited": 28,
+   "errors": 0,
+   "skipped": [],
+   "incomplete": 45
   }
  },
  "gates": {
-  "verify": "16/16 OK",
-  "eval_final": "8/8 OK",
+  "verify": "16/16 OK (fixer-v2, :8800)",
+  "eval_final": "8/8 OK (fixer-v2, :8800)",
   "incomplete_probes": "0 non conformes",
   "type_check_pure": "0 erreur dans les fichiers \u00e9dit\u00e9s (41 erreurs cljs/* pr\u00e9-existantes au SHA, sans rapport)",
   "patch_apply_check": "git apply --check OK (1 warning trailing whitespace ligne 227)"
@@ -77,6 +127,8 @@
  "rules_fixed": [
   "aria-allowed-attr",
   "aria-allowed-role",
+  "aria-dialog-name",
+  "aria-input-field-name",
   "aria-required-attr",
   "aria-required-children",
   "aria-required-parent",
@@ -88,7 +140,9 @@
   "image-alt",
   "label",
   "label-content-name-mismatch",
+  "landmark-main-is-top-level",
   "landmark-no-duplicate-banner",
+  "landmark-no-duplicate-main",
   "landmark-unique",
   "link-name",
   "listitem",
@@ -98,10 +152,11 @@
  ],
  "patch": {
   "file": "patch.diff",
-  "files_changed": 72,
-  "additions": 612,
-  "deletions": 211,
-  "sha256": "0477fcb570815991497e5bb96e01db7fa45cd7e39ef519f5f4c7ccb4b3cf6d9c"
+  "files_changed": 75,
+  "additions": 725,
+  "deletions": 214,
+  "sha256": "76ffdb6b28edf88084cc4377e0d87e8834a6263df0ac683f3f506273c9692995"
  },
- "probes_file": "reports/incomplete-probes-2026-10-08T06-54-08-204Z.json"
+ "probes_file": "reports/incomplete-probes-2026-10-08T06-54-08-204Z.json",
+ "notes_fixer_v2": "Baseline rejou\u00e9e compl\u00e8te (le\u00e7on 45) : 28/28 sc\u00e9narios audit\u00e9s, 0 skip silencieux \u2014 552 occ/23 r\u00e8gles \u00e0 scope \u00e9tendu (auditeur: ~502 \u00e0 scope d'origine; +46 occ r\u00e9siduelles /browse/metrics + /question/42 ajout\u00e9s au p\u00e9rim\u00e8tre). Le claim \u00ab 400 \u00bb corrig\u00e9 : les 3 urls + 4 \u00e9tats + /setup pr\u00e9c\u00e9demment saut\u00e9s figurent d\u00e9sormais dans les rapports (0 erreur au rejeu \u2014 urls slugg\u00e9es corrig\u00e9es dans tools/). Outillage : tools/aggregate-results.mjs \u00e9crit la liste nominative des sc\u00e9narios saut\u00e9s (skipped[]) dans results.json. Ports fixer-v2 : :8800 patch\u00e9, :8801 vanilla, :8802 install-build."
 }

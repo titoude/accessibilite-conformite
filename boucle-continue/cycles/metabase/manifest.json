@@ -39,27 +39,46 @@
       {
         "name": "public",
         "storage_state": null,
-        "urls": ["/auth/login", "/auth/forgot_password"],
+        "urls": [
+          "/auth/login",
+          "/auth/forgot_password"
+        ],
         "states": []
       },
       {
         "name": "admin",
         "storage_state": "tools/state-admin.json (make-state.mjs : formulaire login admin)",
         "urls": [
-          "/", "/browse/models", "/browse/databases",
-          "/collection/root/our-analytics", "/collection/6-boucle-46-audit",
-          "/dashboard/2", "/question/40-b46-products-par-categorie", "/question",
-          "/search?q=orders", "/trash",
-          "/admin/settings/general", "/admin/people", "/admin/databases",
-          "/account/profile", "/nosuchpage-46"
+          "/",
+          "/browse/models",
+          "/browse/databases",
+          "/collection/root/our-analytics",
+          "/collection/6-boucle-46-audit",
+          "/dashboard/2",
+          "/question/40-b46-products-par-categorie",
+          "/question",
+          "/search?q=orders",
+          "/trash",
+          "/admin/settings/general",
+          "/admin/people",
+          "/admin/databases",
+          "/account/profile",
+          "/nosuchpage-46",
+          "/browse/metrics",
+          "/question/42-b46-commandes-par-mois-sql"
         ],
         "states": "all"
       }
     ],
     "states_carte": [
-      "nav-new-menu", "nav-search-palette (Control+k)", "nav-mobile-sidebar-390",
-      "dashboard-actions-menu", "dashboard-info-sidebar",
-      "question-notebook-editor", "question-viz-settings", "admin-settings-nav"
+      "nav-new-menu",
+      "nav-search-palette (Control+k)",
+      "nav-mobile-sidebar-390",
+      "dashboard-actions-menu",
+      "dashboard-info-sidebar",
+      "question-notebook-editor",
+      "question-viz-settings",
+      "admin-settings-nav"
     ],
     "hors_scope": [
       "Setup wizard /setup (usage unique, page dédiée — vérifiée manuellement)",
@@ -102,5 +121,6 @@
     "metabase_image": "metabase/metabase:v0.64.1.x",
     "runner": "audit.mjs (copie kit boucle-continue, axe 4.14.0, locale en-US)"
   },
-  "frozen_at": "2026-10-08T07:00:00Z"
+  "frozen_at": "2026-10-08T07:00:00Z",
+  "scope_fixer_v2": "Périmètre étendu par fixer-v2 : +/browse/metrics (résiduel empty-table-header, corrigé dans MetricsTable.tsx) + /question/42-b46-commandes-par-mois-sql (résiduel color-contrast « Explore results », corrigé dans ViewButton.module.css). Baseline complète rejouée sur vanilla :8801 (28/28, 552 occ/23 règles, 0 skip)."
 }
