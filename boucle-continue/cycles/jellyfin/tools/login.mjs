@@ -14,7 +14,7 @@ const pass = process.argv[5] || "devin-a11y-41";
 if (!base) { console.error("usage: node login.mjs <baseUrl> [out] [user] [pass]"); process.exit(2); }
 
 const browser = await chromium.launch();
-const page = await browser.newPage();
+const page = await (await browser.newContext({ locale: 'en-US' })).newPage();
 try {
   const resp = await page.goto(base + "/web/index.html#/login", { waitUntil: "domcontentloaded", timeout: 45000 });
   if (!resp || resp.status() >= 400) throw new Error("login page HTTP " + (resp && resp.status()));

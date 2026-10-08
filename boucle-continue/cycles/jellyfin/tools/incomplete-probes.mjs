@@ -25,7 +25,7 @@ const lum = rgb => 0.2126 * srgb(rgb[0]) + 0.7152 * srgb(rgb[1]) + 0.0722 * srgb
 const ratio = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 
 const browser = await chromium.launch();
-const ctx = await browser.newContext({ storageState: statePath });
+const ctx = await browser.newContext({ storageState: statePath, locale: 'en-US' });
 const page = await ctx.newPage();
 await page.addInitScript(() => {
   window.__probe = {

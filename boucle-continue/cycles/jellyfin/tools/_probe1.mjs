@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 const b = 'http://localhost:5961';
 const browser = await chromium.launch();
-const page = await browser.newPage();
+const page = await (await browser.newContext({ locale: 'en-US' })).newPage();
 await page.goto(b + '/web/index.html', { waitUntil: 'domcontentloaded', timeout: 45000 });
 await page.waitForTimeout(8000);
 console.log('URL:', page.url());

@@ -5,9 +5,9 @@
   "commit": "1e507c588f353482a00333f84e36ddb7c8fc8221",
   "pinned": "1e507c588f353482a00333f84e36ddb7c8fc8221 (HEAD amont vérifié via `git ls-remote https://github.com/jellyfin/jellyfin-web HEAD` le 2026-10-07)",
   "baseUrl": "http://localhost:5961",
-  "stack": "Client web React 18 + MUI 5/6 + webpack (typescript/babel, sass, legacy viewManager en parallèle) servi par le backend Jellyfin .NET 12.2.0 — image docker officielle `jellyfin/jellyfin:latest`, webroot conteneur `/jellyfin/jellyfin-web` (structure dist identique, 2292 fichiers vérifiés)",
+  "stack": "Client web React 18 + MUI 5/6 + webpack (typescript/babel, sass, legacy viewManager en parallèle) servi par le backend Jellyfin .NET 12.2.0 — image docker officielle `jellyfin/jellyfin:latest`, webroot conteneur `/jellyfin/jellyfin-web` (structure dist identique, 2348 fichiers vérifiés)",
   "boot": {
-    "mecanisme": "On NE rebuild PAS l'image : le webroot du conteneur `/jellyfin/jellyfin-web` est remplacé par bind-mount de la dist compilée en local (docker run -v <dist>:/jellyfin/jellyfin-web:ro). La structure de `dist/` après `npm run build:production` est identique au webroot embarqué (diff -r : 2292 fichiers, 0 diff). Rejouable : remonter une dist patchée suffit pour tester le code source modifié.",
+    "mecanisme": "On NE rebuild PAS l'image : le webroot du conteneur `/jellyfin/jellyfin-web` est remplacé par bind-mount de la dist compilée en local (docker run -v <dist>:/jellyfin/jellyfin-web:ro). La structure de `dist/` après `npm run build:production` est identique au webroot embarqué (diff -r : 2348 fichiers, 0 diff). Rejouable : remonter une dist patchée suffit pour tester le code source modifié.",
     "clone": "git clone https://github.com/jellyfin/jellyfin-web jellyfin-web && cd jellyfin-web && git checkout 1e507c588f353482a00333f84e36ddb7c8fc8221",
     "patch": "git apply cycles/jellyfin/patch.diff — rejoué sur clone vierge en install-build (voir install-build.log)",
     "deps": "node>=24 + npm>=11 requis par engines — sur la box : `npm i -g npm@11` (npm 10 trop vieux). Puis `npm ci` + `npm run build:production` → dist/",

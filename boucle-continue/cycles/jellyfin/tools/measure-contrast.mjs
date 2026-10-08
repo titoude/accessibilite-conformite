@@ -8,7 +8,7 @@ const { chromium } = require('playwright');
 
 const [base, stateFile, urlPath, sels] = process.argv.slice(2);
 const browser = await chromium.launch();
-const ctx = await browser.newContext({ storageState: stateFile });
+const ctx = await browser.newContext({ storageState: stateFile, locale: 'en-US' });
 const page = await ctx.newPage();
 await page.goto(base + urlPath, { waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);

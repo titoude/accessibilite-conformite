@@ -14,7 +14,7 @@ const urls = [
   '#/metadata?id=4df79bd2d5bbae21080a0524a2702d5a', '#/queue'
 ];
 const browser = await chromium.launch();
-const ctx = await browser.newContext({ storageState: 'auth.json' });
+const ctx = await browser.newContext({ storageState: 'auth.json', locale: 'en-US' });
 const page = await ctx.newPage();
 for (const u of urls) {
   try {
