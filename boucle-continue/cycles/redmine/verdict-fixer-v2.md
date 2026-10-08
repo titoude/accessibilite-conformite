@@ -46,7 +46,7 @@ Corrections sources :
 | install-replay public (:6202) | 18 | **0** | 0 | 0 | 16 | 0 |
 
 - verify.mjs : **44 sondes, 0 FAIL** (37 héritées durcies + 7 section 12 menu contextuel).
-- incomplete-probes : **141 nœuds — 115 PASS / 26 N-A / 0 FAIL**.
+- incomplete-probes : **142 nœuds — 115 PASS / 27 N-A / 0 FAIL**.
 - eval-final : **24 sondes, 0 FAIL** (pages hors périmètre, dup-ids, mobile 390).
 - Sondes live dédiées F-v2-1/F-v2-2 : **11/11 PASS**.
 - patch.diff : **102 fichiers, +795/−572**, sha256 `9308a98d…c83` — `git apply --check` OK sur clone vierge @10d61f8 ; install-replay (apply→build→seed→rescan) 0 viol/0 err.
@@ -54,7 +54,7 @@ Corrections sources :
 
 ## Limites honnêtes
 
-- 26 N-A probes : duplicatas de contraste (même cause gray/blue déjà prouvée) + th-has-data-cells + bypass — inchangés, structurels axe.
+- 27 N-A probes : duplicatas de contraste (même cause gray/blue déjà prouvée) + th-has-data-cells + bypass — inchangés, structurels axe.
 - Le right-click sur une zone SOUS le menu ouvert retombe sur le menu (non inert) → `closest(.hascontextmenu)` échoue → return natif sans preventDefault : parité amont (le menu natif s'ouvrirait aussi). Comportement documenté, pas masqué.
 - `lang` des templates help reflète la locale du FICHIER servi (fallback en) — pas la langue UI : honnête vis-à-vis du contenu réellement rendu.
 - Les 4 fichiers `wiki_syntax` common_mark hors-scope locales (de/ja/ta-in quick-ref + detailed) reçoivent les mêmes transformations mécaniques — seules les pages en (langue seed) sont mesurées ; les autres sont auditées par symétrie de gabarit, pas rejouées par axe (navigateur en `en`).
