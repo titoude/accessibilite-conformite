@@ -133,6 +133,10 @@ m = await page.evaluate(() => {
 check('avatar role=img aria-label', !!m?.al, JSON.stringify(m));
 
 // ---------- 6. Sidebar : targets >=24px, h2, liens soulignés ----------
+// query_id=8 = requête sauvegardée appliquée : l'icône « réinitialiser la
+// requête » (.icon-clear-query) n'existe que dans ce contexte — la mesure
+// est exigée, son absence est un échec, pas un non-lieu.
+await page.goto(`${BASE}/projects/office-website/issues?query_id=8`, { waitUntil: 'load' });
 m = await page.evaluate(`(() => {
   const q = document.querySelector('#sidebar ul.queries li a');
   const clear = document.querySelector('#sidebar a.icon-clear-query');
@@ -142,24 +146,33 @@ m = await page.evaluate(`(() => {
     qH: q?.getBoundingClientRect().height, clearH: clear?.getBoundingClientRect().height, h3, h2,
   };})()`);
 check('lien query sidebar >=24px', m.qH >= 24, `h=${m.qH?.toFixed(1)}`);
-check('icon-clear-query >=24px', m.clearH === undefined || m.clearH >= 24, `h=${m.clearH?.toFixed(1)}`);
+check('icon-clear-query présente', m.clearH !== undefined, 'absente');
+check('icon-clear-query >=24px', m.clearH !== undefined && m.clearH >= 24, `h=${m.clearH?.toFixed(1)}`);
 check('sidebar h2 (pas h3)', m.h3 === 0 && m.h2 > 0, `h2=${m.h2} h3=${m.h3}`);
 
-// ---------- 7. Issue #6 : a.issue souligné + formulaire édit ----------
-await page.goto(`${BASE}/issues/6`, { waitUntil: 'load' });
+// ---------- 7. a.issue soulignés (relations de l'issue 9 : élément réel) +
+// issue #6 : formulaire édit + vraie modale jQuery UI (watchers) ----------
+await page.goto(`${BASE}/issues/9`, { waitUntil: 'load' });
 m = await page.evaluate(() => {
-  const a = document.querySelector('a.issue');
+  const a = document.querySelector('#relations a.issue, a.issue');
   return a ? getComputedStyle(a).textDecorationLine : 'absent';
 });
-check('liens a.issue soulignés', m.includes('underline') || m === 'absent', m);
-// modale = role=dialog ajouté par jQuery UI (exempt de region) — ouvrir l'édition
+check('lien a.issue présent (relations)', m !== 'absent', m);
+check('liens a.issue soulignés', m !== 'absent' && m.includes('underline'), m);
+
+await page.goto(`${BASE}/issues/6`, { waitUntil: 'load' });
+// l'icône « Edit » déplie le formulaire inline (pas de modale)
 await page.locator('#content .icon-edit[href*="edit"], a.icon-edit').first().click().catch(() => {});
 await page.waitForTimeout(1200);
-m = await page.evaluate(() => ({
-  notes: document.querySelector('#issue_notes')?.getAttribute('aria-label'),
-  dlg: document.querySelector('#ajax-modal')?.closest('[role="dialog"], .ui-dialog')?.getAttribute('role'),
-}));
-check('textarea notes nommée', !!m.notes, m.notes);
+m = await page.evaluate(() => document.querySelector('#issue_notes')?.getAttribute('aria-label'));
+check('textarea notes nommée', !!m, m);
+await page.keyboard.press('Escape');
+// la modale réelle s'ouvre via Watchers — role=dialog exigible (jQuery UI)
+await page.locator('#watchers a[href*="/watchers/new"]').first().click();
+await page.waitForSelector('#ajax-modal #new-watcher-form', { timeout: 10000 });
+m = await page.evaluate(() =>
+  document.querySelector('#ajax-modal')?.closest('[role="dialog"], .ui-dialog')?.getAttribute('role'));
+check('modale jQuery UI role=dialog', m === 'dialog', m);
 await page.keyboard.press('Escape');
 
 // ---------- 8. Nouvelle demande : input fichier nommé ----------
@@ -200,6 +213,52 @@ m = await page.evaluate(() => {
 });
 check('h1 présent à 390px (visually-hidden)', m.disp !== 'none' && m.vis === 'visible', JSON.stringify(m));
 check('bouton menu mobile nommé', !!m.btnLabel, m.btnLabel);
+
+// ---------- 12. Menu contextuel : reciblage sous inert + Escape ----------
+// F-v2-1 : clic-droit sur une ligne différente pendant que le menu est ouvert
+// doit fermer+rouvrir sur la nouvelle cible (parité contextmenu natif) — la
+// cible réelle est retrouvée sous le #wrapper inert via elementFromPoint.
+await page.setViewportSize({ width: 1280, height: 720 });
+await page.goto(`${BASE}/projects/office-website/issues?set_filter=1`, { waitUntil: 'load' });
+await page.waitForSelector('tr.hascontextmenu a.js-contextmenu');
+await page.locator('tr.hascontextmenu').nth(0).locator('a.js-contextmenu').click();
+await page.waitForSelector('#context-menu:visible', { timeout: 8000 });
+await page.waitForSelector('#context-menu li a', { timeout: 8000 });
+const posA = await page.locator('#context-menu').boundingBox();
+let clickB = null;
+for (let i = 1; i < 12 && !clickB; i++) {
+  for (const c of await page.locator('tr.hascontextmenu').nth(i).locator('td:visible').all()) {
+    const b = await c.boundingBox();
+    if (!b) continue;
+    const px = b.x + b.width / 2, py = b.y + b.height / 2;
+    if (!(px >= posA.x - 4 && px <= posA.x + posA.width + 4 &&
+          py >= posA.y - 4 && py <= posA.y + posA.height + 4)) { clickB = { px, py, row: i }; break; }
+  }
+}
+check('cible reciblage hors menu trouvée', !!clickB, JSON.stringify(clickB));
+if (clickB) {
+  await page.mouse.click(clickB.px, clickB.py, { button: 'right' });
+  await page.waitForTimeout(700);
+  const posB = await page.locator('#context-menu').boundingBox();
+  const selB = await page.evaluate(r =>
+    document.querySelectorAll('tr.hascontextmenu')[r]?.classList.contains('context-menu-selection'), clickB.row);
+  check('F-v2-1 menu reciblée sur B', (await page.locator('#context-menu').isVisible()) &&
+    posB && (Math.abs(posB.x - posA.x) > 5 || Math.abs(posB.y - posA.y) > 5) && selB,
+    `posB=(${posB?.x | 0},${posB?.y | 0}) vs A=(${posA?.x | 0},${posA?.y | 0}) sel=${selB}`);
+}
+// F-v2-2 : Escape ferme, inert levé, focus restauré sur le déclencheur
+await page.keyboard.press('Escape');
+await page.waitForTimeout(300);
+m = await page.evaluate(() => ({
+  open: document.querySelector('#context-menu')?.offsetParent !== null &&
+        !!document.querySelector('#context-menu') && document.querySelector('#context-menu').style.display !== 'none' &&
+        document.querySelector('#context-menu').getBoundingClientRect().width > 0,
+  inert: document.getElementById('wrapper').inert,
+  ae: document.activeElement?.className || '',
+}));
+check('F-v2-2 Escape ferme le menu', !m.open, `open=${m.open}`);
+check('F-v2-2 inert levé après Escape', m.inert === false, `inert=${m.inert}`);
+check('F-v2-2 focus restauré sur déclencheur', m.ae.includes('js-contextmenu'), m.ae);
 
 await browser.close();
 console.log(failures === 0 ? 'VERIFY: 0 FAIL' : `VERIFY: ${failures} FAIL`);

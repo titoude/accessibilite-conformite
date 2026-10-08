@@ -1,5 +1,5 @@
 diff --git a/app/assets/javascripts/application-legacy.js b/app/assets/javascripts/application-legacy.js
-index 6249f0a..ca0a190 100644
+index 6249f0adf..ca0a1902c 100644
 --- a/app/assets/javascripts/application-legacy.js
 +++ b/app/assets/javascripts/application-legacy.js
 @@ -208,7 +208,7 @@ function buildFilterRow(field, operator, values) {
@@ -31,20 +31,105 @@ index 6249f0a..ca0a190 100644
      $('#values_'+fieldId).val(values[0]);
      select = tr.find('.values select');
 diff --git a/app/assets/javascripts/context_menu.js b/app/assets/javascripts/context_menu.js
-index 7feb603..73a26e9 100644
+index 7feb6038a..6c415c7f4 100644
 --- a/app/assets/javascripts/context_menu.js
 +++ b/app/assets/javascripts/context_menu.js
-@@ -92,6 +92,8 @@ function contextMenuCreate() {
+@@ -5,31 +5,58 @@
+  */
+ 
+ var contextMenuObserving;
++/* Element that invoked the open context menu — Escape restores focus to it. */
++var contextMenuTrigger;
+ 
+-function contextMenuRightClick(event) {
+-  var target = $(event.target);
++/* While the context menu is open, #wrapper is inert: hit-testing skips the
++   real element under the pointer and event.target resolves to a non-inert
++   ancestor (body/html). Lift inert, re-hit-test the pointer coordinates,
++   restore inert — this is what the browser would have returned natively. */
++function contextMenuRealTarget(event) {
++  var wrapper = $('#wrapper');
++  if (!wrapper.prop('inert')) { return event.target; }
++  wrapper.prop('inert', false);
++  var el = document.elementFromPoint(event.clientX, event.clientY);
++  wrapper.prop('inert', true);
++  return el || event.target;
++}
++
++function contextMenuRightClick(event, resolvedTarget) {
++  var target = $(resolvedTarget || contextMenuRealTarget(event));
+   if (target.is('a:not(.js-contextmenu)')) {return;}
+   var tr = target.closest('.hascontextmenu').first();
+   if (tr.length < 1) {return;}
+   event.preventDefault();
++  contextMenuTrigger = target.is('.js-contextmenu') ? target.get(0)
++    : (tr.find('.js-contextmenu').get(0) || tr.find('input[name="ids[]"], td a').get(0) || tr.get(0));
+   if (!contextMenuIsSelected(tr)) {
+     contextMenuUnselectAll();
+     contextMenuAddSelection(tr);
+     contextMenuSetLastSelected(tr);
+   }
+-  contextMenuShow(event);
++  contextMenuShow(event, target.get(0));
+ }
+ 
+ function contextMenuClick(event) {
+-  var target = $(event.target);
++  var resolved = contextMenuRealTarget(event);
++  var target = $(resolved);
+   var lastSelected;
+ 
+   if (target.is('a') && target.hasClass('submenu')) {
+     event.preventDefault();
+     return;
+   }
++  var menuWasOpen = $('#context-menu').is(':visible');
+   contextMenuHide();
+-  if (target.is('a') || target.is('img')) { return; }
++  if (target.is('a') || target.is('img')) {
++    /* The delegated '.js-contextmenu' click cannot fire while its element is
++       inert — recover the retargeting left-click on the actions trigger here
++       (same code path as the right-click handler). */
++    if (menuWasOpen && target.is('a.js-contextmenu')) {
++      contextMenuRightClick(event, resolved);
++    }
++    return;
++  }
+   if (event.which == 1 || (navigator.appVersion.match(/\bMSIE\b/))) {
+     var tr = target.closest('.hascontextmenu').first();
+     if (tr.length > 0) {
+@@ -92,11 +119,16 @@ function contextMenuCreate() {
      menu.setAttribute("id", "context-menu");
      menu.setAttribute("class", "dropdown-content");
      menu.setAttribute("style", "display:none;");
 +    menu.setAttribute("role", "dialog");
 +    menu.setAttribute("aria-modal", "true");
++    /* tabindex=-1 lets the dialog take focus on open (APG) without entering
++       the tab order. */
++    menu.setAttribute("tabindex", "-1");
      document.getElementsByTagName("body")[0].appendChild(menu);
    }
  }
-@@ -123,6 +125,9 @@ function contextMenuShow(event) {
-     data: $(event.target).parents('form').first().serialize(),
+ 
+-function contextMenuShow(event) {
++function contextMenuShow(event, targetEl) {
+   var mouse_x = event.pageX;
+   var mouse_y = event.pageY;
+   var mouse_y_c = event.clientY;
+@@ -115,14 +147,19 @@ function contextMenuShow(event) {
+   $('#context-menu').css('top', (render_y + 'px'));
+   $('#context-menu').html('');
+ 
+-  url = $(event.target).parents('form').first().data('cm-url');
++  /* targetEl = the element actually hit by the pointer (differs from
++     event.target when the real target sat under the inert #wrapper). */
++  url = $(targetEl || event.target).parents('form').first().data('cm-url');
+   if (url == null) {alert('no url'); return;}
+ 
+   $.ajax({
+     url: url,
+-    data: $(event.target).parents('form').first().serialize(),
++    data: $(targetEl || event.target).parents('form').first().serialize(),
      success: function(data, textStatus, jqXHR) {
        $('#context-menu').html(data);
 +      /* The injected nav landmark carries the localized label: reuse it as
@@ -53,17 +138,20 @@ index 7feb603..73a26e9 100644
        menu_width = $('#context-menu').width();
        menu_height = $('#context-menu').height();
        max_width = mouse_x + 2*menu_width;
-@@ -160,6 +165,9 @@ function contextMenuShow(event) {
+@@ -160,6 +197,12 @@ function contextMenuShow(event) {
        $('#context-menu').css('left', (render_x + 'px'));
        $('#context-menu').css('top', (render_y + 'px'));
        $('#context-menu').show();
 +      /* The open context menu behaves like a modal: make the page behind it
 +         inert so pointer targets and the a11y tree exclude covered content. */
 +      $('#wrapper').prop('inert', true);
++      /* APG: focus lands inside the dialog when it opens; Escape (registered
++         in contextMenuInit) closes it and restores contextMenuTrigger. */
++      document.getElementById('context-menu').focus({preventScroll: true});
  
        //if (window.parseStylesheets) { window.parseStylesheets(); } // IE
      }
-@@ -185,6 +193,7 @@ function contextMenuUnselectAll() {
+@@ -185,6 +228,7 @@ function contextMenuUnselectAll() {
  
  function contextMenuHide() {
    $('#context-menu').hide();
@@ -71,8 +159,26 @@ index 7feb603..73a26e9 100644
  }
  
  function contextMenuToggleSelection(tr) {
+@@ -230,6 +274,17 @@ function contextMenuInit() {
+     $(document).click(contextMenuClick);
+     $(document).contextmenu(contextMenuRightClick);
+     $(document).on('click', '.js-contextmenu', contextMenuRightClick);
++    /* The menu declares role=dialog + aria-modal: Escape must dismiss it
++       (APG) and focus returns to the element that invoked it. */
++    $(document).on('keydown', function(event) {
++      if ((event.key === 'Escape' || event.which === 27) && $('#context-menu').is(':visible')) {
++        contextMenuHide();
++        if (contextMenuTrigger && contextMenuTrigger.isConnected) {
++          contextMenuTrigger.focus();
++        }
++        contextMenuTrigger = null;
++      }
++    });
+     contextMenuObserving = true;
+   }
+ }
 diff --git a/app/assets/javascripts/jstoolbar/jstoolbar.js b/app/assets/javascripts/jstoolbar/jstoolbar.js
-index bae625c..9d22cee 100644
+index bae625c3b..9d22cee54 100644
 --- a/app/assets/javascripts/jstoolbar/jstoolbar.js
 +++ b/app/assets/javascripts/jstoolbar/jstoolbar.js
 @@ -122,7 +122,6 @@ jsButton.prototype.draw = function() {
@@ -84,7 +190,7 @@ index bae625c..9d22cee 100644
    button.title = this.title;
    var span = document.createElement('span');
 diff --git a/app/assets/stylesheets/application.css b/app/assets/stylesheets/application.css
-index 9c37bcf..10f5b32 100644
+index 9c37bcf38..da1f8895c 100644
 --- a/app/assets/stylesheets/application.css
 +++ b/app/assets/stylesheets/application.css
 @@ -48,6 +48,21 @@
@@ -313,7 +419,20 @@ index 9c37bcf..10f5b32 100644
    text-decoration:none;
  }
  
-@@ -2436,12 +2457,12 @@ span[role="img"].avatar.s50  {
+@@ -2181,8 +2202,10 @@ div.wiki .task-list input.task-list-item-checkbox {
+   border: 1px solid var(--oc-gray-7);
+ }
+ .badge-status-closed {
+-  color: var(--oc-green-9);
+-  border: 1px solid var(--oc-green-9);
++  /* oc-green-9 (#2b8a3e) mesure 4,36:1 sur blanc — sous le seuil 4,5.
++     Teinte assombrie dans la même famille. */
++  color: #237434;
++  border: 1px solid #237434;
+ }
+ .badge-issues-count {
+   background: var(--oc-gray-2);
+@@ -2436,12 +2459,12 @@ span[role="img"].avatar.s50  {
  }
  
  .avatar-color-0 {
@@ -328,7 +447,7 @@ index 9c37bcf..10f5b32 100644
  }
  .avatar-color-2 {
    background-color: var(--oc-yellow-4);
-@@ -2449,14 +2470,14 @@ span[role="img"].avatar.s50  {
+@@ -2449,14 +2472,14 @@ span[role="img"].avatar.s50  {
  }
  .avatar-color-3 {
    background-color: var(--oc-green-7);
@@ -346,7 +465,7 @@ index 9c37bcf..10f5b32 100644
    color: var(--oc-white);
  }
  .avatar-color-6 {
-@@ -2464,7 +2485,7 @@ span[role="img"].avatar.s50  {
+@@ -2464,7 +2487,7 @@ span[role="img"].avatar.s50  {
    color: var(--oc-white);
  }
  .avatar-color-7 {
@@ -355,7 +474,7 @@ index 9c37bcf..10f5b32 100644
    color: var(--oc-white);
  }
  
-@@ -2519,7 +2540,7 @@ div.news .reaction {
+@@ -2519,7 +2542,7 @@ div.news .reaction {
  #news-list article.news-article header p.author {
    margin-block-start: 2px;
    margin-block-end: 2px;
@@ -365,7 +484,7 @@ index 9c37bcf..10f5b32 100644
  #news-list article.news-article .wiki > p:first-child {
    margin-block-start: 2px;
 diff --git a/app/assets/stylesheets/context_menu.css b/app/assets/stylesheets/context_menu.css
-index b802ad8..ad8be61 100644
+index b802ad8ad..ad8be6174 100644
 --- a/app/assets/stylesheets/context_menu.css
 +++ b/app/assets/stylesheets/context_menu.css
 @@ -42,10 +42,10 @@
@@ -384,7 +503,7 @@ index b802ad8..ad8be61 100644
  .gantt-timeline .context-menu-selection:hover { background-color: rgba(var(--oc-blue-7-rgb), 0.4) !important; }
  .gantt-timeline .context-menu-selection a { color: var(--oc-blue-9) !important; }
 diff --git a/app/assets/stylesheets/gantt.css b/app/assets/stylesheets/gantt.css
-index 345be73..8ea868d 100644
+index 345be731b..8ea868d42 100644
 --- a/app/assets/stylesheets/gantt.css
 +++ b/app/assets/stylesheets/gantt.css
 @@ -100,7 +100,7 @@
@@ -433,7 +552,7 @@ index 345be73..8ea868d 100644
  
  .version-overdue a,
 diff --git a/app/assets/stylesheets/responsive.css b/app/assets/stylesheets/responsive.css
-index baa3854..64c211e 100644
+index baa3854e3..64c211ef9 100644
 --- a/app/assets/stylesheets/responsive.css
 +++ b/app/assets/stylesheets/responsive.css
 @@ -101,9 +101,19 @@
@@ -458,8 +577,109 @@ index baa3854..64c211e 100644
    }
  
    /* reset #header a color for mobile toggle button */
+diff --git a/app/assets/stylesheets/wiki_syntax.css b/app/assets/stylesheets/wiki_syntax.css
+index 1cad8ff6e..14d29719b 100644
+--- a/app/assets/stylesheets/wiki_syntax.css
++++ b/app/assets/stylesheets/wiki_syntax.css
+@@ -44,13 +44,15 @@ table th img {
+   border: 1px solid var(--oc-gray-5);
+   opacity: 0.7;
+ }
+-table th .syntax-pre {
++table th .syntax-pre,
++table td .syntax-pre {
+   display: inline-block;
+   border: 1px solid var(--oc-gray-5);
+   inline-size: 18px;
+   block-size: 18px;
+ }
+-table th .syntax-pre:before {
++table th .syntax-pre:before,
++table td .syntax-pre:before {
+   content: "pre";
+   font-size: 0.625rem;
+   color: var(--oc-gray-7);
+@@ -64,13 +66,13 @@ table td h3 { font-size: 1.2em; text-align: start; }
+ table.sample { border-collapse: collapse; border-spacing: 0; margin: 4px; }
+ table.sample th, table.sample td { border: solid 1px var(--oc-gray-5); padding: 4px; block-size: 1em; }
+ 
+-a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
++a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: underline; }
+ a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
+ 
+ .syntaxhl .mi { color: var(--oc-violet-9); font-weight: bold }
+ .syntaxhl .nf { color: var(--oc-blue-9); font-weight: bold }
+-.syntaxhl .k { color: var(--oc-green-9); font-weight: bold }
+-.syntaxhl .nb { color: var(--oc-green-9) }
++.syntaxhl .k { color: #237434; font-weight: bold }
++.syntaxhl .nb { color: #237434 }
+ .syntaxhl .s1 { background-color: var(--oc-red-0) }
+ 
+ span.more_info { font-weight: normal; }
+diff --git a/app/assets/stylesheets/wiki_syntax_detailed.css b/app/assets/stylesheets/wiki_syntax_detailed.css
+index fdecdb5d3..ce1717b0e 100644
+--- a/app/assets/stylesheets/wiki_syntax_detailed.css
++++ b/app/assets/stylesheets/wiki_syntax_detailed.css
+@@ -50,7 +50,7 @@ pre {
+     overflow-y: hidden;
+     line-height: normal;
+ }
+-a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: none; }
++a, a:link, a:visited{ color: var(--oc-blue-9); text-decoration: underline; }
+ a:hover, a:active{ color: var(--oc-red-9); text-decoration: underline;}
+ a.new { color: var(--oc-red-9); }
+ 
+@@ -60,11 +60,11 @@ table.list td { background-color: var(--oc-gray-0); vertical-align: middle; padd
+ 
+ blockquote { font-style: italic; border-inline-start: 3px solid var(--oc-gray-3); padding-inline-start: 0.6em; margin-inline-start: 0;}
+ 
+-.syntaxhl .c1 { color: var(--oc-gray-6) }
+-.syntaxhl .k { color: var(--oc-green-9); font-weight: bold }
++.syntaxhl .c1 { color: var(--oc-gray-7) }
++.syntaxhl .k { color: #237434; font-weight: bold }
+ .syntaxhl .nc { color: var(--oc-pink-9); font-weight: bold }
+ .syntaxhl .nf { color: var(--oc-blue-9); font-weight: bold }
+-.syntaxhl .nb { color: var(--oc-green-9) }
++.syntaxhl .nb { color: #237434 }
+ .syntaxhl .vi { color: var(--oc-indigo-9) }
+ .syntaxhl .o { color: var(--oc-gray-8) }
+ .syntaxhl .s2 { background-color: var(--oc-red-0) }
+@@ -80,12 +80,16 @@ blockquote { font-style: italic; border-inline-start: 3px solid var(--oc-gray-3)
+   font-weight: bold;
+ }
+ .markdown-alert-tip { border-color: var(--oc-green-7); }
+-.markdown-alert-tip .markdown-alert-title { color: var(--oc-green-9); }
++.markdown-alert-tip .markdown-alert-title { color: #237434; }
+ .markdown-alert-important { border-color: var(--oc-grape-7); }
+ .markdown-alert-important .markdown-alert-title { color: var(--oc-grape-9); }
+ .markdown-alert-caution { border-color: var(--oc-yellow-7); }
+-.markdown-alert-caution .markdown-alert-title { color: var(--oc-yellow-9); }
++.markdown-alert-caution .markdown-alert-title { color: #9c6500; }
+ .markdown-alert-warning { border-color: var(--oc-orange-7); }
+-.markdown-alert-warning .markdown-alert-title { color: var(--oc-orange-9); }
++.markdown-alert-warning .markdown-alert-title { color: #c1410e; }
+ .markdown-alert-note { border-color: var(--oc-indigo-7); }
+ .markdown-alert-note .markdown-alert-title { color: var(--oc-indigo-9); }
++
++/* Cibles >=24px (WCAG 2.5.8) : les ancres inline du sommaire font ~22px de
++   haut — inline-block + padding les porte au-dessus du seuil. */
++ul.toc li a { display: inline-block; padding-block: 3px; }
+diff --git a/app/controllers/help_controller.rb b/app/controllers/help_controller.rb
+index 49a5be8d7..1c9811de4 100644
+--- a/app/controllers/help_controller.rb
++++ b/app/controllers/help_controller.rb
+@@ -26,6 +26,9 @@ class HelpController < ApplicationController
+     unless lookup_context.exists?(template)
+       lang = "en"
+     end
++    # The rendered language is the template's, not necessarily the UI's:
++    # expose it so the layout-less document can declare <html lang> honestly.
++    @help_lang = lang
+     render template: "help/wiki_syntax/#{Setting.text_formatting}/#{lang}/wiki_syntax_#{type}#{Setting.text_formatting}", layout: nil
+   end
+ 
 diff --git a/app/helpers/application_helper.rb b/app/helpers/application_helper.rb
-index ea533c7..ac5a805 100644
+index ea533c776..ac5a805fd 100644
 --- a/app/helpers/application_helper.rb
 +++ b/app/helpers/application_helper.rb
 @@ -629,7 +629,8 @@ module ApplicationHelper
@@ -473,7 +693,7 @@ index ea533c7..ac5a805 100644
                    :class => (@project.nil? && controller.class.main_menu ? 'selected' : nil))
      content =
 diff --git a/app/helpers/avatars_helper.rb b/app/helpers/avatars_helper.rb
-index e5875e9..02ada29 100644
+index e5875e9ba..02ada2995 100644
 --- a/app/helpers/avatars_helper.rb
 +++ b/app/helpers/avatars_helper.rb
 @@ -96,7 +96,7 @@ module AvatarsHelper
@@ -486,7 +706,7 @@ index e5875e9..02ada29 100644
  
    def extract_email_from_user(user)
 diff --git a/app/helpers/queries_helper.rb b/app/helpers/queries_helper.rb
-index 5b86413..5c28a48 100644
+index 5b86413b4..5c28a4853 100644
 --- a/app/helpers/queries_helper.rb
 +++ b/app/helpers/queries_helper.rb
 @@ -485,7 +485,7 @@ module QueriesHelper
@@ -499,7 +719,7 @@ index 5b86413..5c28a48 100644
          'ul',
          queries.collect do |query|
 diff --git a/app/helpers/reactions_helper.rb b/app/helpers/reactions_helper.rb
-index 48e65f5..9ebc0d0 100644
+index 48e65f52e..9ebc0d06b 100644
 --- a/app/helpers/reactions_helper.rb
 +++ b/app/helpers/reactions_helper.rb
 @@ -68,7 +68,8 @@ module ReactionsHelper
@@ -523,7 +743,7 @@ index 48e65f5..9ebc0d0 100644
      end
    end
 diff --git a/app/views/account/login.html.erb b/app/views/account/login.html.erb
-index fb8085d..a0c079d 100644
+index fb8085d71..a0c079dc7 100644
 --- a/app/views/account/login.html.erb
 +++ b/app/views/account/login.html.erb
 @@ -5,19 +5,19 @@
@@ -551,7 +771,7 @@ index fb8085d..a0c079d 100644
  </div>
  
 diff --git a/app/views/activities/index.html.erb b/app/views/activities/index.html.erb
-index e5176d8..2893954 100644
+index e5176d859..289395485 100644
 --- a/app/views/activities/index.html.erb
 +++ b/app/views/activities/index.html.erb
 @@ -30,13 +30,14 @@
@@ -572,7 +792,7 @@ index e5176d8..2893954 100644
  </p>
  <ul>
 diff --git a/app/views/admin/info.html.erb b/app/views/admin/info.html.erb
-index 5e87af7..3e4d7b5 100644
+index 5e87af7d8..3e4d7b528 100644
 --- a/app/views/admin/info.html.erb
 +++ b/app/views/admin/info.html.erb
 @@ -16,7 +16,7 @@
@@ -585,7 +805,7 @@ index 5e87af7..3e4d7b5 100644
  </div>
  
 diff --git a/app/views/attachments/_form.html.erb b/app/views/attachments/_form.html.erb
-index d0e1b3b..c525b8f 100644
+index d0e1b3b85..c525b8f91 100644
 --- a/app/views/attachments/_form.html.erb
 +++ b/app/views/attachments/_form.html.erb
 @@ -37,6 +37,7 @@
@@ -597,7 +817,7 @@ index d0e1b3b..c525b8f 100644
          :multiple => multiple,
          :onchange => 'addInputFiles(this);',
 diff --git a/app/views/common/_tabs.html.erb b/app/views/common/_tabs.html.erb
-index 3f3dd27..2758aab 100644
+index 3f3dd278e..2758aab59 100644
 --- a/app/views/common/_tabs.html.erb
 +++ b/app/views/common/_tabs.html.erb
 @@ -12,10 +12,10 @@
@@ -614,7 +834,7 @@ index 3f3dd27..2758aab 100644
      </button>
    </div>
 diff --git a/app/views/context_menus/issues.html.erb b/app/views/context_menus/issues.html.erb
-index 20f72fa..9aa01be 100644
+index 20f72fa8e..9aa01be85 100644
 --- a/app/views/context_menus/issues.html.erb
 +++ b/app/views/context_menus/issues.html.erb
 @@ -1,4 +1,4 @@
@@ -630,7 +850,7 @@ index 20f72fa..9aa01be 100644
 -</ul>
 +</ul></nav>
 diff --git a/app/views/context_menus/projects.html.erb b/app/views/context_menus/projects.html.erb
-index ea395f7..efe5a69 100644
+index ea395f75e..efe5a690f 100644
 --- a/app/views/context_menus/projects.html.erb
 +++ b/app/views/context_menus/projects.html.erb
 @@ -1,4 +1,4 @@
@@ -646,7 +866,7 @@ index ea395f7..efe5a69 100644
 -</ul>
 +</ul></nav>
 diff --git a/app/views/context_menus/time_entries.html.erb b/app/views/context_menus/time_entries.html.erb
-index d43021f..33e4af5 100644
+index d43021f59..33e4af505 100644
 --- a/app/views/context_menus/time_entries.html.erb
 +++ b/app/views/context_menus/time_entries.html.erb
 @@ -1,4 +1,4 @@
@@ -662,7 +882,7 @@ index d43021f..33e4af5 100644
 -</ul>
 +</ul></nav>
 diff --git a/app/views/context_menus/users.html.erb b/app/views/context_menus/users.html.erb
-index 4fc67a0..70dbe5e 100644
+index 4fc67a081..70dbe5e0d 100644
 --- a/app/views/context_menus/users.html.erb
 +++ b/app/views/context_menus/users.html.erb
 @@ -1,4 +1,4 @@
@@ -678,7 +898,7 @@ index 4fc67a0..70dbe5e 100644
 -</ul>
 +</ul></nav>
 diff --git a/app/views/documents/index.html.erb b/app/views/documents/index.html.erb
-index 2fba22f..e451a6a 100644
+index 2fba22f22..e451a6a61 100644
 --- a/app/views/documents/index.html.erb
 +++ b/app/views/documents/index.html.erb
 @@ -28,7 +28,7 @@
@@ -691,7 +911,7 @@ index 2fba22f..e451a6a 100644
      <li><%= link_to(l(:field_category), {:sort_by => 'category'},
                      :class => (@sort_by == 'category' ? 'selected' :nil)) %></li>
 diff --git a/app/views/enumerations/index.html.erb b/app/views/enumerations/index.html.erb
-index fa47ba8..319aae2 100644
+index fa47ba8b6..319aae20c 100644
 --- a/app/views/enumerations/index.html.erb
 +++ b/app/views/enumerations/index.html.erb
 @@ -13,7 +13,7 @@
@@ -704,7 +924,7 @@ index fa47ba8..319aae2 100644
  <% enumerations.each do |enumeration| %>
  <tr>
 diff --git a/app/views/files/index.html.erb b/app/views/files/index.html.erb
-index e6f65a0..2233eec 100644
+index e6f65a0da..2233eec8a 100644
 --- a/app/views/files/index.html.erb
 +++ b/app/views/files/index.html.erb
 @@ -14,7 +14,7 @@
@@ -717,7 +937,7 @@ index e6f65a0..2233eec 100644
      <tbody>
    <% @containers.each do |container| %>
 diff --git a/app/views/gantts/_chart.html.erb b/app/views/gantts/_chart.html.erb
-index 3677cd6..0d74b60 100644
+index 3677cd6a0..0d74b600f 100644
 --- a/app/views/gantts/_chart.html.erb
 +++ b/app/views/gantts/_chart.html.erb
 @@ -44,7 +44,7 @@
@@ -739,7 +959,7 @@ index 3677cd6..0d74b60 100644
        <div class="gantt-timeline-body">
          <%= form_tag({}, data: {cm_url: issues_context_menu_path}) do %>
 diff --git a/app/views/gantts/_query_form.html.erb b/app/views/gantts/_query_form.html.erb
-index 31b2eef..aefd6a4 100644
+index 31b2eefaf..aefd6a489 100644
 --- a/app/views/gantts/_query_form.html.erb
 +++ b/app/views/gantts/_query_form.html.erb
 @@ -101,9 +101,9 @@
@@ -755,8 +975,2906 @@ index 31b2eef..aefd6a4 100644
        <%= hidden_field_tag 'zoom', gantt.zoom %>
  
        <%= link_to_function sprite_icon('checked', l(:button_apply)), '$("#query_form").submit()',
+diff --git a/app/views/groups/index.html.erb b/app/views/groups/index.html.erb
+index 88c6d9daa..5ba7e2456 100644
+--- a/app/views/groups/index.html.erb
++++ b/app/views/groups/index.html.erb
+@@ -20,7 +20,7 @@
+   <thead><tr>
+   <th><%=l(:label_group)%></th>
+   <th><%=l(:label_user_plural)%></th>
+-  <th></th>
++  <th><span class="visually-hidden"><%= l(:label_actions_column) %></span></th>
+   </tr></thead>
+   <tbody>
+ <% @groups.each do |group| %>
+diff --git a/app/views/help/wiki_syntax/code_highlighting_languages.html.erb b/app/views/help/wiki_syntax/code_highlighting_languages.html.erb
+index befa388a4..079a91ca2 100644
+--- a/app/views/help/wiki_syntax/code_highlighting_languages.html.erb
++++ b/app/views/help/wiki_syntax/code_highlighting_languages.html.erb
+@@ -7,6 +7,7 @@
+ </head>
+ 
+ <body>
++  <main>
+   <h1>List of languages supported by Redmine code highlighter</h1>
+ 
+   <table class="list">
+@@ -24,5 +25,6 @@
+       </tr>
+     <% end %>
+   </table>
++  </main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_common_mark.html.erb
+index 407c8b41e..e7d7f7511 100644
+--- a/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_common_mark.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+ <meta charset="UTF-8">
+ <title>Wikiformatierung</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Schnellreferenz (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+@@ -15,7 +16,7 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>*Kursiv*</td><td><em>Kursiv</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>~~Durchgestrichen~~</td><td><del>Durchgestrichen</del></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>`Inline Code`</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>```<br />&nbsp;vorformatierte<br />&nbsp;Textzeilen<br />```</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>```<br />&nbsp;vorformatierte<br />&nbsp;Textzeilen<br />```</td><td>
+ <pre>
+  vorformatierte
+  Textzeilen
+@@ -31,13 +32,13 @@
+ </td></tr>
+ 
+ <tr><th colspan="3">Zeilenumbrüche und Absätze</th></tr>
+-<tr><th></th><td>Eine leere Zeile<br><br>erstellt<br>einen neuen Absatz.</td><td><p>Eine leere Zeile</p><p>erstellt einen neuen Absatz.</p></td></tr>
+-<tr><th></th><td>Beenden Sie eine Zeile mit einem Backslash\<br>oder zwei Leerzeichen, um einen manuellen Zeilenumbruch einzufügen.</td><td><p>	Beenden Sie eine Zeile mit einem Backslash<br>oder zwei Leerzeichen, um einen manuellen Zeilenumbruch einzufügen.</p></td></tr>
++<tr><td></td><td>Eine leere Zeile<br><br>erstellt<br>einen neuen Absatz.</td><td><p>Eine leere Zeile</p><p>erstellt einen neuen Absatz.</p></td></tr>
++<tr><td></td><td>Beenden Sie eine Zeile mit einem Backslash\<br>oder zwei Leerzeichen, um einen manuellen Zeilenumbruch einzufügen.</td><td><p>	Beenden Sie eine Zeile mit einem Backslash<br>oder zwei Leerzeichen, um einen manuellen Zeilenumbruch einzufügen.</p></td></tr>
+ 
+ <tr><th colspan="3">Listen</th></tr>
+ <tr><th><%= image_tag("jstoolbar/list.svg", { alt:"Ungeordnete Liste" }) %></th><td>* Element 1<br />&nbsp;&nbsp;* Sub<br />* Element 2</td><td><ul><li>Element 1<ul><li>Sub</li></ul></li><li>Element 2</li></ul></td></tr>
+ <tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt:"Geordnete Liste" }) %></th><td>1. Element 1<br />&nbsp;&nbsp;&nbsp;1. Sub<br />2. Element 2</td><td><ol><li>Element 1<ol><li>Sub</li></ol></li><li>Element 2</li></ol></td></tr>
+-<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt:"Ausgabenliste" }) %></th><td>* [ ] Element 1<br />* [x] Element 2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><input type="checkbox" disabled>Element 1</li><li><input type="checkbox" disabled checked>Element 2</li></ul></td></tr>
++<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt:"Ausgabenliste" }) %></th><td>* [ ] Element 1<br />* [x] Element 2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><label><input type="checkbox" disabled>Element 1</label></li><li><label><input type="checkbox" disabled checked>Element 2</label></li></ul></td></tr>
+ 
+ <tr><th colspan="3">Überschriften <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">mehr</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/h1.svg", { alt:"Heading 1" }) %></th><td># Titel 1</td><td><h1>Titel 1</h1></td></tr>
+@@ -45,25 +46,25 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt:"Heading 3" }) %></th><td>### Titel 3</td><td><h3>Titel 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">mehr</a>)</span></th></tr>
+-<tr><th></th><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine interne Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">mehr</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt:"Link zu einer Wiki-Seite" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki-Seite</a></td></tr>
+-<tr><th></th><td>Ticket #12</td><td>Ticket <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Fehler #12</a>: Titel des Tickets</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Ticket #12</td><td>Ticket <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Fehler #12</a>: Titel des Tickets</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Eingebettete Bilder <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">mehr</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt:"Image" }) %></th><td>![](<em>Bild_url</em>)</td><td></td></tr>
+-<tr><th></th><td>![](<em>Angehängtes_Bild</em>)</td><td></td></tr>
++<tr><td></td><td>![](<em>Angehängtes_Bild</em>)</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tabellen</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>| A | B | C |<br />|---|---|---|<br />| A | B | C |<br />| D | E | F |</td>
+   <td>
+     <table class="sample">
+@@ -78,11 +79,12 @@
+ 
+ <tr><th colspan="3">Roh HTML <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "15") %>" target="_blank">mehr</a>)</span></th></tr>
+ <tr>
+-  <th></th><td>HTML ist &lt;del&gt;nicht&lt;/del&gt; &lt;u&gt;erlaubt&lt;/u&gt;.</td><td>HTML ist <del>nicht</del> <u>erlaubt</u>.</td>
++  <td></td><td>HTML ist &lt;del&gt;nicht&lt;/del&gt; &lt;u&gt;erlaubt&lt;/u&gt;.</td><td>HTML ist <del>nicht</del> <u>erlaubt</u>.</td>
+ </tr>
+ 
+ </table>
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Weitere Informationen</a></p>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_detailed_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_detailed_common_mark.html.erb
+index b9e7a7e24..38b7b7323 100644
+--- a/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_detailed_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/de/wiki_syntax_detailed_common_mark.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+ <title>Redmine Wiki-Formatierung (CommonMark Markdown (GitHub Flavored))detailliert</title>
+ <meta charset="UTF-8">
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Redmine Wiki-Formatierung (CommonMark Markdown (GitHub Flavored))detailliert</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine interne Links</a></li>
+             <li><a href='#4'>Externe Links</a></li>
+-        </ul>
+-        <li><a href='#5'>Textformatierung</a></li>
++        </ul></li>
++        <li><a href='#5'>Textformatierung</a>
+         <ul>
+             <li><a href='#6'>Schriftstile</a></li>
+             <li><a href='#7'>Eingebettete Bilder</a></li>
+@@ -23,7 +24,7 @@
+             <li><a href='#10'>Blockzitate</a></li>
+             <li><a href='#11'>Inhaltsverzeichnis</a></li>
+             <li><a href='#14'>Horizontale Linie</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Makros</a></li>
+         <li><a href='#13'>Hervorgehobener Programmcode</a></li>
+         <li><a href='#15'>Roh HTML</a></li>
+@@ -416,5 +417,6 @@ Es kann durch Klicken auf einen Link erweitert werden.
+ </dl>
+ </p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_common_mark.html.erb
+index a0e7f005d..e2cd9d4a3 100644
+--- a/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_common_mark.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+ <meta charset="UTF-8">
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+@@ -15,7 +16,7 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>*Italic*</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>~~Deleted~~</td><td><del>Deleted</del></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>`Inline Code`</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>```<br />&nbsp;lines<br />&nbsp;of code<br />```</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>```<br />&nbsp;lines<br />&nbsp;of code<br />```</td><td>
+ <pre>
+  lines
+  of code
+@@ -31,13 +32,13 @@
+ </td></tr>
+ 
+ <tr><th colspan="3">Line breaks and Paragraphs</th></tr>
+-<tr><th></th><td>An empty line<br><br>creates<br>a new paragraph.</td><td><p>An empty line</p><p>creates a new paragraph.</p></td></tr>
+-<tr><th></th><td>End a line with a backslash\<br> or two spaces to insert a manual line break.</td><td><p>End a line with a backslash<br>or two spaces to insert a manual line break.</p></td></tr>
++<tr><td></td><td>An empty line<br><br>creates<br>a new paragraph.</td><td><p>An empty line</p><p>creates a new paragraph.</p></td></tr>
++<tr><td></td><td>End a line with a backslash\<br> or two spaces to insert a manual line break.</td><td><p>End a line with a backslash<br>or two spaces to insert a manual line break.</p></td></tr>
+ 
+ <tr><th colspan="3">Lists</th></tr>
+ <tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Unordered list" }) %></th><td>* Item 1<br />&nbsp;&nbsp;* Sub<br />* Item 2</td><td><ul><li>Item 1<ul><li>Sub</li></ul></li><li>Item 2</li></ul></td></tr>
+ <tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Ordered list" }) %></th><td>1. Item 1<br />&nbsp;&nbsp;&nbsp;1. Sub<br />2. Item 2</td><td><ol><li>Item 1<ol><li>Sub</li></ol></li><li>Item 2</li></ol></td></tr>
+-<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "Task list" }) %></th><td>* [ ] Item 1<br />* [x] Item 2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><input type="checkbox" disabled>Item 1</li><li><input type="checkbox" disabled checked>Item 2</li></ul></td></tr>
++<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "Task list" }) %></th><td>* [ ] Item 1<br />* [x] Item 2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><label><input type="checkbox" disabled>Item 1</label></li><li><label><input type="checkbox" disabled checked>Item 2</label></li></ul></td></tr>
+ 
+ <tr><th colspan="3">Headings <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "Heading 1" }) %></th><td># Title 1</td><td><h1>Title 1</h1></td></tr>
+@@ -45,25 +46,25 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>### Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>![](<em>image_url</em>)</td><td></td></tr>
+-<tr><th></th><td>![](<em>attached_image</em>)</td><td></td></tr>
++<tr><td></td><td>![](<em>attached_image</em>)</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>| A | B | C |<br />|---|---|---|<br />| A | B | C |<br />| D | E | F |</td>
+   <td>
+     <table class="sample">
+@@ -78,11 +79,11 @@
+ 
+ <tr><th colspan="3">Raw HTML <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "15") %>" target="_blank">more</a>)</span></th></tr>
+ <tr>
+-  <th></th><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;allowed&lt;/u&gt;.</td><td>HTML is <del>not</del> <u>allowed</u>.</td>
++  <td></td><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;allowed&lt;/u&gt;.</td><td>HTML is <del>not</del> <u>allowed</u>.</td>
+ </tr>
+ 
+ <tr><th colspan="3">Alerts <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "16") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>> [!NOTE]<br>> You can use alerts like [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], and [!CAUTION].</td><td>
++<tr><td></td><td>> [!NOTE]<br>> You can use alerts like [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], and [!CAUTION].</td><td>
+ <div class="markdown-alert markdown-alert-note">
+ <p class="markdown-alert-title">Note</p>
+ <p>You can use alerts like [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], and [!CAUTION].</p>
+@@ -92,5 +93,6 @@
+ </table>
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_detailed_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_detailed_common_mark.html.erb
+index 3f9793eba..5cd094266 100644
+--- a/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_detailed_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/en/wiki_syntax_detailed_common_mark.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting (CommonMark Markdown (GitHub Flavored))</title>
+ <meta charset="UTF-8">
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -23,7 +24,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+         <li><a href='#15'>Raw HTML</a></li>
+@@ -426,5 +427,6 @@ It can be expanded by clicking a link.
+     </dl>
+     </p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_common_mark.html.erb
+index 2e6c1314e..b18ab1241 100644
+--- a/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_common_mark.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+ <meta charset="UTF-8">
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki記法 クイックリファレンス (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+@@ -15,7 +16,7 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "斜体" }) %></th><td>*斜体*</td><td><em>斜体</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "取り消し線" }) %></th><td>~~取り消し線~~</td><td><del>取り消し線</del></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "整形済みテキスト" }) %></th><td>`コード`</td><td><code>コード</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>```<br>&nbsp;複数行の<br>&nbsp;コード<br>```</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>```<br>&nbsp;複数行の<br>&nbsp;コード<br>```</td><td>
+ <pre>
+  複数行の
+  コード
+@@ -31,13 +32,13 @@
+ </td></tr>
+ 
+ <tr><th colspan="3">改行と段落</th></tr>
+-<tr><th></th><td>空行は<br><br>新しい段落を<br>作ります</td><td><p>空行は</p><p>新しい段落を作ります</p></td></tr>
+-<tr><th></th><td>バックスラッシュで終わる行\<br>または半角スペース2個で改行を挿入します</td><td><p>バックスラッシュで終わる行<br>または空白2個で改行を挿入します</p></td></tr>
++<tr><td></td><td>空行は<br><br>新しい段落を<br>作ります</td><td><p>空行は</p><p>新しい段落を作ります</p></td></tr>
++<tr><td></td><td>バックスラッシュで終わる行\<br>または半角スペース2個で改行を挿入します</td><td><p>バックスラッシュで終わる行<br>または空白2個で改行を挿入します</p></td></tr>
+ 
+ <tr><th colspan="3">リスト</th></tr>
+ <tr><th><%= image_tag("jstoolbar/list.svg", { alt: "順不同リスト" }) %></th><td>* 項目1<br>&nbsp;&nbsp;* 下位階層の項目<br>* 項目2</td><td><ul><li>項目1<ul><li>下位階層の項目</li></ul></li><li>項目2</li></ul></td></tr>
+ <tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "番号付きリスト" }) %></th><td>1. 項目1<br>&nbsp;&nbsp;&nbsp;1. 下位階層の項目<br>2. 項目2</td><td><ol><li>項目1<ol><li>下位階層の項目</li></ol></li><li>項目2</li></ol></td></tr>
+-<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "タスクリスト" }) %></th><td>* [ ] 項目1<br>* [x] 項目2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><input type="checkbox" disabled>項目1</li><li><input type="checkbox" disabled checked>項目2</li></ul></td></tr>
++<tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "タスクリスト" }) %></th><td>* [ ] 項目1<br>* [x] 項目2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><label><input type="checkbox" disabled>項目1</label></li><li><label><input type="checkbox" disabled checked>項目2</label></li></ul></td></tr>
+ 
+ <tr><th colspan="3">見出し <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "8") %>" target="_blank">詳細</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "見出し1" }) %></th><td># タイトル1</td><td><h1>タイトル1</h1></td></tr>
+@@ -45,25 +46,25 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "見出し3" }) %></th><td>### タイトル3</td><td><h3>タイトル3</h3></td></tr>
+ 
+ <tr><th colspan="3">リンク <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">詳細</a>)</span></th></tr>
+-<tr><th></th><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine内のリンク <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">詳細</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Wikiページへのリンク" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>チケット #12</td><td>チケット <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>リビジョン r43</td><td>リビジョン <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>チケット #12</td><td>チケット <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>リビジョン r43</td><td>リビジョン <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">画像 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">詳細</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "画像" }) %></th><td>![](<em>画像URL</em>)</td><td></td></tr>
+-<tr><th></th><td>![](<em>添付ファイル名</em>)</td><td></td></tr>
++<tr><td></td><td>![](<em>添付ファイル名</em>)</td><td></td></tr>
+ 
+ <tr><th colspan="3">表</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>| A | B | C |<br>|---|---|---|<br>| A | B | C |<br>| D | E | F |</td>
+   <td>
+     <table class="sample">
+@@ -78,11 +79,11 @@
+ 
+ <tr><th colspan="3">HTMLを直接使用する<span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "15") %>" target="_blank">詳細</a>)</span></th></tr>
+ <tr>
+-  <th></th><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;allowed&lt;/u&gt;.</td><td>HTML is <del>not</del> <u>allowed</u>.</td>
++  <td></td><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;allowed&lt;/u&gt;.</td><td>HTML is <del>not</del> <u>allowed</u>.</td>
+ </tr>
+ 
+ <tr><th colspan="3">アラートボックス <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "16") %>" target="_blank">詳細</a>)</span></th></tr>
+-<tr><th></th><td>&gt; [!NOTE]<br>&gt; 次のようなアラートボックスが使えます [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION].</td><td>
++<tr><td></td><td>&gt; [!NOTE]<br>&gt; 次のようなアラートボックスが使えます [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION].</td><td>
+ <div class="markdown-alert markdown-alert-note">
+ <p class="markdown-alert-title">Note</p>
+ <p>次のようなアラートボックスが使えます [!NOTE], [!TIP], [!IMPORTANT], [!WARNING], [!CAUTION].</p>
+@@ -92,5 +93,6 @@
+ </table>
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">より詳細なリファレンス</a></p>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_detailed_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_detailed_common_mark.html.erb
+index 83ce78646..a5a69c648 100644
+--- a/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_detailed_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/ja/wiki_syntax_detailed_common_mark.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting (CommonMark Markdown (GitHub Flavored))</title>
+ <meta charset="UTF-8">
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki記法 (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine内のリンク</a></li>
+             <li><a href='#4'>外部リンク</a></li>
+-        </ul>
+-        <li><a href='#5'>テキストの書式</a></li>
++        </ul></li>
++        <li><a href='#5'>テキストの書式</a>
+         <ul>
+             <li><a href='#6'>文字の書式</a></li>
+             <li><a href='#7'>画像</a></li>
+@@ -23,7 +24,7 @@
+             <li><a href='#10'>引用</a></li>
+             <li><a href='#11'>目次</a></li>
+             <li><a href='#14'>区切り線</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>マクロ</a></li>
+         <li><a href='#13'>コードハイライト</a></li>
+         <li><a href='#15'>HTMLを直接使用する</a></li>
+@@ -426,5 +427,6 @@ To go live, all you need to add is a database and a web server.
+     </dl>
+     </p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_common_mark.html.erb
+index 165251faa..77d13d709 100644
+--- a/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_common_mark.html.erb
+@@ -1,10 +1,11 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+   <meta charset="UTF-8">
+   <title>விக்கி வடிவமைப்பு</title>
+   <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>விக்கி தொடரியல் விரைவு குறிப்பு (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+@@ -14,7 +15,7 @@
+   <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>*சாய்வு*</td><td><em>சாய்வு</em></td></tr>
+   <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>~~நீக்கப்பட்டது~~</td><td><del>நீக்கப்பட்டது</del></td></tr>
+   <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>`இன்லைன் குறியீடு`</td><td><code>இன்லைன் குறியீட</code></td></tr>
+-  <tr><th><span class="syntax-pre"/></th><td>```<br />&nbsp;lines<br />&nbsp;of code<br />```</td><td>
++  <tr><td><span class="syntax-pre"></span></td><td>```<br />&nbsp;lines<br />&nbsp;of code<br />```</td><td>
+ <pre>
+  கோடுகள்
+  குறியீடு
+@@ -30,13 +31,13 @@
+   </td></tr>
+ 
+   <tr><th colspan="3">வரி முறிவுகள் மற்றும் பத்திகள்</th></tr>
+-  <tr><th></th><td>ஒரு வெற்று வரி<br><br>உருவாக்குகிறது<br>ஒரு புதிய பத்தி.</td><td><p>ஒரு வெற்று வரி</p><p>ஒரு புதிய பத்தியை உருவாக்குகிறது.</p></td></tr>
+-  <tr><th></th><td>backslash மூலம் ஒரு வரியை முடிக்கவும்\<br> அல்லது கையேடு வரி முறிவைச் செருக இரண்டு இடைவெளிகள்.</td><td><p>backslash மூலம் ஒரு வரியை முடிக்கவும்<br>அல்லது கையேடு வரி முறிவைச் செருக இரண்டு இடைவெளிகள்.</p></td></tr>
++  <tr><td></td><td>ஒரு வெற்று வரி<br><br>உருவாக்குகிறது<br>ஒரு புதிய பத்தி.</td><td><p>ஒரு வெற்று வரி</p><p>ஒரு புதிய பத்தியை உருவாக்குகிறது.</p></td></tr>
++  <tr><td></td><td>backslash மூலம் ஒரு வரியை முடிக்கவும்\<br> அல்லது கையேடு வரி முறிவைச் செருக இரண்டு இடைவெளிகள்.</td><td><p>backslash மூலம் ஒரு வரியை முடிக்கவும்<br>அல்லது கையேடு வரி முறிவைச் செருக இரண்டு இடைவெளிகள்.</p></td></tr>
+ 
+   <tr><th colspan="3">பட்டியல்கள்</th></tr>
+   <tr><th><%= image_tag("jstoolbar/list.svg", { alt: "Unordered list" }) %></th><td>* பொருள் 1<br />&nbsp;&nbsp;* துணை<br />* பொருள் 2</td><td><ul><li>பொருள் 1<ul><li>துணை</li></ul></li><li>பொருள் 2</li></ul></td></tr>
+   <tr><th><%= image_tag("jstoolbar/list-numbers.svg", { alt: "Ordered list" }) %></th><td>1. பொருள் 1<br />&nbsp;&nbsp;&nbsp;1. துணை<br />2. பொருள் 2</td><td><ol><li>பொருள் 1<ol><li>துணை</li></ol></li><li>பொருள் 2</li></ol></td></tr>
+-  <tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "Task list" }) %></th><td>* [ ] பொருள் 1<br />* [x] பொருள் 2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><input type="checkbox" disabled>பொருள் 1</li><li><input type="checkbox" disabled checked>பொருள் 2</li></ul></td></tr>
++  <tr><th><%= image_tag("jstoolbar/list-check.svg", { alt: "Task list" }) %></th><td>* [ ] பொருள் 1<br />* [x] பொருள் 2</td><td><ul style="list-style-type: none; padding-inline-start: 12px;"><li><label><input type="checkbox" disabled>பொருள் 1</label></li><li><label><input type="checkbox" disabled checked>பொருள் 2</label></li></ul></td></tr>
+ 
+   <tr><th colspan="3">தலைப்புகள் <span class="more_info">(<a href="wiki_syntax_detailed_common_mark.html#8" target="_blank">மேலும்</a>)</span></th></tr>
+   <tr><th><%= image_tag("jstoolbar/h1.svg", { alt: "Heading 1" }) %></th><td># தலைப்பு 1</td><td><h1>தலைப்பு 1</h1></td></tr>
+@@ -44,25 +45,25 @@
+   <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>### தலைப்பு 3</td><td><h3>தலைப்பு 3</h3></td></tr>
+ 
+   <tr><th colspan="3">இணைப்புகள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">மேலும்</a>)</span></th></tr>
+-  <tr><th></th><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
+-  <tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-  <tr><th></th><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
++  <tr><td></td><td>www.example.com</td><td><a href="#">www.example.com</a></td></tr>
++  <tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++  <tr><td></td><td>[Foo](http://example.com)</td><td><a href="#">Foo</a></td></tr>
+ 
+   <tr><th colspan="3">Redmine இணைப்புகள்<span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">மேலும்</a>)</span></th></tr>
+   <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[விக்கி பக்கம்]]</td><td><a href="#">விக்கி பக்கம்</a></td></tr>
+-  <tr><th></th><td>பிரச்சினை #12</td><td>பிரச்சினை <a href="#">#12</a></td></tr>
+-  <tr><th></th><td>##12</td><td><a href="#">பிழை #12</a>: பிரச்சினை பொருள்</td></tr>
+-  <tr><th></th><td>திருத்தம் r43</td><td>திருத்தம் <a href="#">r43</a></td></tr>
+-  <tr><th></th><td>உறுதி:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-  <tr><th></th><td>ஆதாரம்:some/file</td><td><a href="#">ஆதாரம்:some/file</a></td></tr>
++  <tr><td></td><td>பிரச்சினை #12</td><td>பிரச்சினை <a href="#">#12</a></td></tr>
++  <tr><td></td><td>##12</td><td><a href="#">பிழை #12</a>: பிரச்சினை பொருள்</td></tr>
++  <tr><td></td><td>திருத்தம் r43</td><td>திருத்தம் <a href="#">r43</a></td></tr>
++  <tr><td></td><td>உறுதி:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++  <tr><td></td><td>ஆதாரம்:some/file</td><td><a href="#">ஆதாரம்:some/file</a></td></tr>
+ 
+   <tr><th colspan="3">இன்லைன் படங்கள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">மேலும்</a>)</span></th></tr>
+   <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>![](<em>image_url</em>)</td><td></td></tr>
+-  <tr><th></th><td>![](<em>attached_image</em>)</td><td></td></tr>
++  <tr><td></td><td>![](<em>attached_image</em>)</td><td></td></tr>
+ 
+   <tr><th colspan="3">அட்டவணைகள்</th></tr>
+   <tr>
+-    <th></th>
++    <td></td>
+     <td>| A | B | C |<br />|---|---|---|<br />| A | B | C |<br />| D | E | F |</td>
+     <td>
+       <table class="sample">
+@@ -77,11 +78,12 @@
+ 
+   <tr><th colspan="3">மூல HTML <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "15") %>" target="_blank">மேலும்</a>)</span></th></tr>
+   <tr>
+-    <th></th><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;அனுமதிக்கப்பட்டது&lt;/u&gt;.</td><td>HTML is <del>இல்லை</del> <u>அனுமதிக்கப்பட்டது</u>.</td>
++    <td></td><td>HTML is &lt;del&gt;not&lt;/del&gt; &lt;u&gt;அனுமதிக்கப்பட்டது&lt;/u&gt;.</td><td>HTML is <del>இல்லை</del> <u>அனுமதிக்கப்பட்டது</u>.</td>
+   </tr>
+ 
+ </table>
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">மேலும் தகவல</a></p>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_detailed_common_mark.html.erb b/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_detailed_common_mark.html.erb
+index 14b90d610..6f952df55 100644
+--- a/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_detailed_common_mark.html.erb
++++ b/app/views/help/wiki_syntax/common_mark/ta-in/wiki_syntax_detailed_common_mark.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html>
+-<html>
++<html lang="<%= @help_lang %>">
+ <head>
+   <title>RedmineWikiFormatting (CommonMark Markdown (GitHub Flavored))</title>
+   <meta charset="UTF-8">
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>விக்கி வடிவமைப்பு (CommonMark Markdown (GitHub Flavored))</h1>
+ 
+ <ul class='toc'>
+-  <li><a href='#2'>இணைப்புகள்</a></li>
++  <li><a href='#2'>இணைப்புகள்</a>
+   <ul>
+     <li><a href='#3'>ரெட்மைன் இணைப்புகளை</a></li>
+     <li><a href='#4'>வெளி இணைப்புகள்</a></li>
+-  </ul>
+-  <li><a href='#5'>உரை வடிவமைத்தல்</a></li>
++  </ul></li>
++  <li><a href='#5'>உரை வடிவமைத்தல்</a>
+   <ul>
+     <li><a href='#6'>எழுத்துரு வகை</a></li>
+     <li><a href='#7'>இன்லைன் படங்கள்</a></li>
+@@ -23,7 +24,7 @@
+     <li><a href='#10'>தடைகள்</a></li>
+     <li><a href='#11'>உள்ளடக்க அட்டவணை</a></li>
+     <li><a href='#14'>கிடைமட்ட விதி</a></li>
+-  </ul>
++  </ul></li>
+   <li><a href='#12'>குறுநிரல்கள்</a></li>
+   <li><a href='#13'>சிறப்பம்ச குறியீடு</a></li>
+   <li><a href='#15'>Raw HTML</a></li>
+@@ -425,5 +426,6 @@ https://www.redmine.org, someone@example.com
+     </dl>
+     </p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/bg/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/bg/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/bg/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/bg/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/bg/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/bg/wiki_syntax_textile.html.erb
+index 1a4d9fa54..50f9c0a83 100644
+--- a/app/views/help/wiki_syntax/textile/bg/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/bg/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italic_</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Underline+</td><td><ins>Underline</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Deleted-</td><td><del>Deleted</del></td></tr>
+-<tr><th></th><td>??Quote??</td><td><cite>Quote</cite></td></tr>
++<tr><td></td><td>??Quote??</td><td><cite>Quote</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Inline Code@</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lines
+  of code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ca/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/ca/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/ca/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ca/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ca/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/ca/wiki_syntax_textile.html.erb
+index 1f6959add..f41f770ff 100644
+--- a/app/views/help/wiki_syntax/textile/ca/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ca/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Format de la Wiki</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Guia rapida de la Sintaxis de la Wiki</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Cursiva" }) %></th><td>_Cursiva_</td><td><em>Cursiva</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Subratllat" }) %></th><td>+Subratllat+</td><td><ins>Subratllat</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Eliminat" }) %></th><td>-Eliminat-</td><td><del>Eliminat</del></td></tr>
+-<tr><th></th><td>??Cita??</td><td><cite>Cita</cite></td></tr>
++<tr><td></td><td>??Cita??</td><td><cite>Cita</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Codi en línia" }) %></th><td>@Codi en línia@</td><td><code>Codi en línia</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;linies<br />&nbsp;de codi<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;linies<br />&nbsp;de codi<br />&lt;/pre&gt;</td><td>
+ <pre>
+  linies
+  de codi
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Encapçament 3" }) %></th><td>h3. Títol 3</td><td><h3>Títol 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Links del Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link a la pagina Wiki" }) %></th><td>[[Pagina Wiki]]</td><td><a href="#">Pagina Wiki</a></td></tr>
+-<tr><th></th><td>Assumpte #12</td><td>Assumpte <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revisió r43</td><td>Revisió <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Assumpte #12</td><td>Assumpte <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revisió r43</td><td>Revisió <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Imatges <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Imatge" }) %></th><td>!<em>imatge_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>imatge_adjunta</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>imatge_adjunta</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Taules</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Més informació</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/cs/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/cs/wiki_syntax_detailed_textile.html.erb
+index 80e92fb5a..1302544b8 100644
+--- a/app/views/help/wiki_syntax/textile/cs/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/cs/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>Formátování Wiki v Redminu</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Syntaxe Wiki</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Odkazy</a></li>
++        <li><a href='#2'>Odkazy</a>
+         <ul>
+             <li><a href='#3'>Odkazy Redmine</a></li>
+             <li><a href='#4'>Externí odkazy</a></li>
+-        </ul>
+-        <li><a href='#5'>Formátování textu</a></li>
++        </ul></li>
++        <li><a href='#5'>Formátování textu</a>
+         <ul>
+             <li><a href='#6'>Styly písma</a></li>
+             <li><a href='#7'>Vložené obrázky</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Citace</a></li>
+             <li><a href='#11'>Obsah</a></li>
+             <li><a href='#14'>Vodorovná čára</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Makra</a></li>
+         <li><a href='#13'>Zvýrazňování kódu</a></li>
+     </ul>
+@@ -359,5 +360,6 @@ Pro rozbalení klikněte na odkaz.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/cs/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/cs/wiki_syntax_textile.html.erb
+index 9d724c45d..e6b8ecafc 100644
+--- a/app/views/help/wiki_syntax/textile/cs/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/cs/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formátování</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Syntaxe Wiki - rychlý náhled</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "kurzíva" }) %></th><td>_kurzíva_</td><td><em>kurzíva</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "podtržený" }) %></th><td>+podtržený+</td><td><ins>podtržený</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "přeškrtnutý" }) %></th><td>-přeškrtnutý-</td><td><del>přeškrtnutý</del></td></tr>
+-<tr><th></th><td>??Citace??</td><td><cite>Citace</cite></td></tr>
++<tr><td></td><td>??Citace??</td><td><cite>Citace</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "vnořený kód" }) %></th><td>@vnořený kód@</td><td><code>vnořený kód</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;řádky<br />&nbsp;kódu<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;řádky<br />&nbsp;kódu<br />&lt;/pre&gt;</td><td>
+ <pre>
+  řádky
+  kódu
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Nadpis 3" }) %></th><td>h3. Nadpis 3</td><td><h3>Nadpis 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Odkazy <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">více</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Odkaz":http://example.com</td><td><a href="#">Odkaz</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Odkaz":http://example.com</td><td><a href="#">Odkaz</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine odkazy <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">více</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Odkaz na Wiki stránku" }) %></th><td>[[Wiki stránka]]</td><td><a href="#">Wiki stránka</a></td></tr>
+-<tr><th></th><td>Úkol #12</td><td>Úkol <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Úkol #12</a>: Předmět úkolu</td></tr>
+-<tr><th></th><td>Revize r43</td><td>Revize <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Úkol #12</td><td>Úkol <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Úkol #12</a>: Předmět úkolu</td></tr>
++<tr><td></td><td>Revize r43</td><td>Revize <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Vnořené obrázky <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">více</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Obrázek" }) %></th><td>!<em>url_obrázku</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>vnořený_obrázek</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>vnořený_obrázek</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tabulky</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Více informací</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/de/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/de/wiki_syntax_detailed_textile.html.erb
+index c060bb4ce..f35c11c4d 100644
+--- a/app/views/help/wiki_syntax/textile/de/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/de/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>Redmine Wiki-Formatierung (Textile) detailliert</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Redmine Wiki-Formatierung (Textile) detailliert</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine interne Links</a></li>
+             <li><a href='#4'>Externe Links</a></li>
+-        </ul>
+-        <li><a href='#5'>Textformatierung</a></li>
++        </ul></li>
++        <li><a href='#5'>Textformatierung</a>
+         <ul>
+             <li><a href='#6'>Schriftstile</a></li>
+             <li><a href='#7'>Eingebettete Bilder</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockzitate</a></li>
+             <li><a href='#11'>Inhaltsverzeichnis</a></li>
+             <li><a href='#14'>Horizontale Linie</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Makros</a></li>
+         <li><a href='#13'>Hervorgehobener Programmcode</a></li>
+     </ul>
+@@ -352,5 +353,6 @@ Es kann durch Klicken auf einen Link erweitert werden.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/de/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/de/wiki_syntax_textile.html.erb
+index 989810c22..8c5e578ec 100644
+--- a/app/views/help/wiki_syntax/textile/de/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/de/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wikiformatierung</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Schnellreferenz (Textile)</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Kursiv" }) %></th><td>_Kursiv_</td><td><em>Kursiv</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Unterstrichen" }) %></th><td>+Unterstrichen+</td><td><ins>Unterstrichen</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Durchgestrichen" }) %></th><td>-Durchgestrichen-</td><td><del>Durchgestrichen</del></td></tr>
+-<tr><th></th><td>??Zitat??</td><td><cite>Zitat</cite></td></tr>
++<tr><td></td><td>??Zitat??</td><td><cite>Zitat</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline-Code" }) %></th><td>@Inline-Code@</td><td><code>Inline-Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;vorformatierte<br />&nbsp;Codezeilen<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;vorformatierte<br />&nbsp;Codezeilen<br />&lt;/pre&gt;</td><td>
+ <pre>
+  vorformartierte
+  Codezeilen
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "&Uuml;berschrift 3" }) %></th><td>h3. &Uuml;berschrift 3</td><td><h3>&Uuml;berschrift 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">mehr</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">mehr</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link zu einer Wiki Seite" }) %></th><td>[[Wiki Seite]]</td><td><a href="#">Wiki Seite</a></td></tr>
+-<tr><th></th><td>Ticket #12</td><td>Ticket <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: Titel der Aufgabe</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Ticket #12</td><td>Ticket <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: Titel der Aufgabe</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">eingebettete Bilder <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">mehr</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Bild" }) %></th><td>!<em>URL_zu_dem_Bild</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>angeh&auml;ngtes_Bild</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>angeh&auml;ngtes_Bild</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tabellen</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. 2 Zeilen | B | C |<br />|\2. 2 Spalten |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">weitere Informationen</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/en/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/en/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/en/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/en/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/en/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/en/wiki_syntax_textile.html.erb
+index f02d5ac45..3862db8c4 100644
+--- a/app/views/help/wiki_syntax/textile/en/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/en/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italic_</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Underline+</td><td><ins>Underline</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Deleted-</td><td><del>Deleted</del></td></tr>
+-<tr><th></th><td>??Quote??</td><td><cite>Quote</cite></td></tr>
++<tr><td></td><td>??Quote??</td><td><cite>Quote</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Inline Code@</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lines
+  of code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_textile.html.erb
+index 82f636b1a..2603950df 100644
+--- a/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/es-pa/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Formato de la Wiki</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Guia R&aacute;pida de Sintaxis de la Wiki</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Cursiva" }) %></th><td>_Cursiva_</td><td><em>Cursiva</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Subrayado" }) %></th><td>+Subrayado+</td><td><ins>Subrayado</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Tachado" }) %></th><td>-Tachado-</td><td><del>Tachado</del></td></tr>
+-<tr><th></th><td>??Cita??</td><td><cite>Cita</cite></td></tr>
++<tr><td></td><td>??Cita??</td><td><cite>Cita</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "C&oacute;digo en linea" }) %></th><td>@C&oacute;digo en linea@</td><td><code>C&oacute;digo en linea</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;L&iacute;neas<br />&nbsp;de c&oacute;<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;L&iacute;neas<br />&nbsp;de c&oacute;<br />&lt;/pre&gt;</td><td>
+ <pre>
+  l&iacute;neas
+  de c&oacute;digo
+@@ -42,25 +43,25 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Cabecera 3" }) %></th><td>h3. T&iacute;tulo 3</td><td><h3>T&iacute;tulo 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Enlaces <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Enlaces de Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Enlace a una p&aacute;gina de la Wiki" }) %></th><td>[[pagina Wiki]]</td><td><a href="#">Pagina Wiki</a></td></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Enlace a una p&aacute;gina de la Wiki con nombre descripciptivo" }) %></th><td>[[pagina Wiki|Nombre descriptivo]]</td><td><a href="#">Nombre descriptivo</a></td></tr>
+-<tr><th></th><td>Petici&oacute;n  #12</td><td>Petici&oacute;n <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revisi&oacute;n r43</td><td>Revisi&oacute;n <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Petici&oacute;n  #12</td><td>Petici&oacute;n <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revisi&oacute;n r43</td><td>Revisi&oacute;n <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Im&aacute;genes en l&iacute;nea <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Imagen" }) %></th><td>!<em>imagen_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>imagen_adjunta</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>imagen_adjunta</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -78,5 +79,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">M&aacute;s informaci&oacute;n</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/es/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/es/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/es/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/es/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/es/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/es/wiki_syntax_textile.html.erb
+index 82f636b1a..2603950df 100644
+--- a/app/views/help/wiki_syntax/textile/es/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/es/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Formato de la Wiki</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Guia R&aacute;pida de Sintaxis de la Wiki</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Cursiva" }) %></th><td>_Cursiva_</td><td><em>Cursiva</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Subrayado" }) %></th><td>+Subrayado+</td><td><ins>Subrayado</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Tachado" }) %></th><td>-Tachado-</td><td><del>Tachado</del></td></tr>
+-<tr><th></th><td>??Cita??</td><td><cite>Cita</cite></td></tr>
++<tr><td></td><td>??Cita??</td><td><cite>Cita</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "C&oacute;digo en linea" }) %></th><td>@C&oacute;digo en linea@</td><td><code>C&oacute;digo en linea</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;L&iacute;neas<br />&nbsp;de c&oacute;<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;L&iacute;neas<br />&nbsp;de c&oacute;<br />&lt;/pre&gt;</td><td>
+ <pre>
+  l&iacute;neas
+  de c&oacute;digo
+@@ -42,25 +43,25 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Cabecera 3" }) %></th><td>h3. T&iacute;tulo 3</td><td><h3>T&iacute;tulo 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Enlaces <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Enlaces de Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Enlace a una p&aacute;gina de la Wiki" }) %></th><td>[[pagina Wiki]]</td><td><a href="#">Pagina Wiki</a></td></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Enlace a una p&aacute;gina de la Wiki con nombre descripciptivo" }) %></th><td>[[pagina Wiki|Nombre descriptivo]]</td><td><a href="#">Nombre descriptivo</a></td></tr>
+-<tr><th></th><td>Petici&oacute;n  #12</td><td>Petici&oacute;n <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revisi&oacute;n r43</td><td>Revisi&oacute;n <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Petici&oacute;n  #12</td><td>Petici&oacute;n <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revisi&oacute;n r43</td><td>Revisi&oacute;n <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Im&aacute;genes en l&iacute;nea <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Imagen" }) %></th><td>!<em>imagen_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>imagen_adjunta</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>imagen_adjunta</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -78,5 +79,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">M&aacute;s informaci&oacute;n</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/fr/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/fr/wiki_syntax_detailed_textile.html.erb
+index b4d75a0bb..baa61c7e2 100644
+--- a/app/views/help/wiki_syntax/textile/fr/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/fr/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Mise en page Wiki</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Liens</a></li>
++        <li><a href='#2'>Liens</a>
+         <ul>
+             <li><a href='#3'>Liens Redmine</a></li>
+             <li><a href='#4'>Liens externes</a></li>
+-        </ul>
+-        <li><a href='#5'>Formatage du texte</a></li>
++        </ul></li>
++        <li><a href='#5'>Formatage du texte</a>
+         <ul>
+             <li><a href='#6'>Police d'écriture</a></li>
+             <li><a href='#7'>Afficher une image</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table des matières</a></li>
+             <li><a href='#14'>Règle horizontale</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Coloration syntaxique</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ Il peut être déroulé en cliquant sur le lien.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/fr/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/fr/wiki_syntax_textile.html.erb
+index ffab9638b..3d005a42b 100644
+--- a/app/views/help/wiki_syntax/textile/fr/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/fr/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Syntaxe rapide des Wikis</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italique_</td><td><em>Italique</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Sous-ligné+</td><td><ins>Sous-ligné</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Barré-</td><td><del>Barré</del></td></tr>
+-<tr><th></th><td>??Citation??</td><td><cite>Citation</cite></td></tr>
++<tr><td></td><td>??Citation??</td><td><cite>Citation</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Code en ligne@</td><td><code>Code en ligne</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lignes<br />&nbsp;de code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lignes<br />&nbsp;de code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lignes
+  de code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Titre 3</td><td><h3>Titre 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Liens <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Liens Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Demande #12</td><td>Demande <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Demande #12</td><td>Demande <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Images en ligne <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>url_de_l_image</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>image_en_pièce_jointe</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>image_en_pièce_jointe</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Plus d'informations</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/gl/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/gl/wiki_syntax_detailed_textile.html.erb
+index 5c1555102..3f1cbb12a 100644
+--- a/app/views/help/wiki_syntax/textile/gl/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/gl/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -352,5 +353,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/gl/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/gl/wiki_syntax_textile.html.erb
+index ae96e151e..bf9960f99 100644
+--- a/app/views/help/wiki_syntax/textile/gl/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/gl/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italic_</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Underline+</td><td><ins>Underline</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Deleted-</td><td><del>Deleted</del></td></tr>
+-<tr><th></th><td>??Quote??</td><td><cite>Quote</cite></td></tr>
++<tr><td></td><td>??Quote??</td><td><cite>Quote</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Inline Code@</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lines
+  of code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ja/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/ja/wiki_syntax_detailed_textile.html.erb
+index 5a6008c89..014f689be 100644
+--- a/app/views/help/wiki_syntax/textile/ja/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ja/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki記法</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>リンク</a></li>
++        <li><a href='#2'>リンク</a>
+         <ul>
+             <li><a href='#3'>Redmine内のリンク</a></li>
+             <li><a href='#4'>外部リンク</a></li>
+-        </ul>
+-        <li><a href='#5'>テキストの書式</a></li>
++        </ul></li>
++        <li><a href='#5'>テキストの書式</a>
+         <ul>
+             <li><a href='#6'>文字の書式</a></li>
+             <li><a href='#7'>画像</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>引用</a></li>
+             <li><a href='#11'>目次</a></li>
+             <li><a href='#14'>区切り線</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>マクロ</a></li>
+         <li><a href='#13'>コードハイライト</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ To go live, all you need to add is a database and a web server.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ja/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/ja/wiki_syntax_textile.html.erb
+index 35cbaf948..4f2d3cd2b 100644
+--- a/app/views/help/wiki_syntax/textile/ja/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ja/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki記法 クイックリファレンス</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "斜体" }) %></th><td>_斜体_</td><td><em>斜体</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "下線" }) %></th><td>+下線+</td><td><ins>下線</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "取り消し線" }) %></th><td>-取り消し線-</td><td><del>取り消し線</del></td></tr>
+-<tr><th></th><td>??引用??</td><td><cite>引用</cite></td></tr>
++<tr><td></td><td>??引用??</td><td><cite>引用</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "コード" }) %></th><td>@コード@</td><td><code>コード</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;複数行の<br />&nbsp;コード<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;複数行の<br />&nbsp;コード<br />&lt;/pre&gt;</td><td>
+ <pre>
+ 複数行の
+ コード
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "見出し3" }) %></th><td>h3. タイトル3</td><td><h3>タイトル3</h3></td></tr>
+ 
+ <tr><th colspan="3">リンク <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">詳細</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine内のリンク <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">詳細</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Wikiページへのリンク" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>チケット #12</td><td>チケット <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>リビジョン r43</td><td>リビジョン <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>チケット #12</td><td>チケット <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>リビジョン r43</td><td>リビジョン <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">画像 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">詳細</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>画像URL</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>添付ファイル名</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>添付ファイル名</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">より詳細なリファレンス</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ko/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/ko/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/ko/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ko/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ko/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/ko/wiki_syntax_textile.html.erb
+index 56c6e727c..cd7270954 100644
+--- a/app/views/help/wiki_syntax/textile/ko/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ko/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italic_</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Underline+</td><td><ins>Underline</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Deleted-</td><td><del>Deleted</del></td></tr>
+-<tr><th></th><td>??Quote??</td><td><cite>Quote</cite></td></tr>
++<tr><td></td><td>??Quote??</td><td><cite>Quote</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Inline Code@</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lines
+  of code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/lt/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/lt/wiki_syntax_detailed_textile.html.erb
+index 06ca1d4ce..a44c4675a 100644
+--- a/app/views/help/wiki_syntax/textile/lt/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/lt/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -352,5 +353,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/lt/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/lt/wiki_syntax_textile.html.erb
+index f02d5ac45..3862db8c4 100644
+--- a/app/views/help/wiki_syntax/textile/lt/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/lt/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italic_</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Underline+</td><td><ins>Underline</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Deleted-</td><td><del>Deleted</del></td></tr>
+-<tr><th></th><td>??Quote??</td><td><cite>Quote</cite></td></tr>
++<tr><td></td><td>??Quote??</td><td><cite>Quote</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Inline Code@</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lines
+  of code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/nl/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/nl/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/nl/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/nl/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/nl/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/nl/wiki_syntax_textile.html.erb
+index 176a14d2a..32459b4bc 100644
+--- a/app/views/help/wiki_syntax/textile/nl/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/nl/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki Syntax Quick Reference</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_Italic_</td><td><em>Italic</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Underline+</td><td><ins>Underline</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Deleted-</td><td><del>Deleted</del></td></tr>
+-<tr><th></th><td>??Quote??</td><td><cite>Quote</cite></td></tr>
++<tr><td></td><td>??Quote??</td><td><cite>Quote</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@Inline Code@</td><td><code>Inline Code</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;lines<br />&nbsp;of code<br />&lt;/pre&gt;</td><td>
+ <pre>
+  lines
+  of code
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. Title 3</td><td><h3>Title 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Issue #12</td><td>Issue <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Inline images <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">More Information</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_detailed_textile.html.erb
+index ff262a401..41ce7e360 100644
+--- a/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki formatting</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Links</a></li>
++        <li><a href='#2'>Links</a>
+         <ul>
+             <li><a href='#3'>Redmine links</a></li>
+             <li><a href='#4'>External links</a></li>
+-        </ul>
+-        <li><a href='#5'>Text formatting</a></li>
++        </ul></li>
++        <li><a href='#5'>Text formatting</a>
+         <ul>
+             <li><a href='#6'>Font style</a></li>
+             <li><a href='#7'>Inline images</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Blockquotes</a></li>
+             <li><a href='#11'>Table of content</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Macros</a></li>
+         <li><a href='#13'>Code highlighting</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_textile.html.erb
+index 437fc0ec5..ae49b4ab4 100644
+--- a/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/pt-br/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Formata&ccedil;&atilde;o Wiki</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Sintaxe Wiki - Refer&ecirc;ncia R&aacute;pida</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_It&aacute;lico_</td><td><em>It&aacute;lico</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+Sublinhado+</td><td><ins>Sublinhado</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-Tachado-</td><td><del>Tachado</del></td></tr>
+-<tr><th></th><td>??Cita&ccedil;&atilde;o??</td><td><cite>Cita&ccedil;&atilde;o</cite></td></tr>
++<tr><td></td><td>??Cita&ccedil;&atilde;o??</td><td><cite>Cita&ccedil;&atilde;o</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@C&oacute;digo Inline@</td><td><code>C&oacute;digo Inline</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;linhas<br />&nbsp;de c&oacute;digo<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;linhas<br />&nbsp;de c&oacute;digo<br />&lt;/pre&gt;</td><td>
+ <pre>
+  linhas
+  de c&oacute;digo
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. T&iacute;tulo 3</td><td><h3>T&iacute;tulo 3</h3></td></tr>
+ 
+ <tr><th colspan="3">Links <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Links do Redmine <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[P&aacute;gina Wiki]]</td><td><a href="#">P&aacute;gina Wiki</a></td></tr>
+-<tr><th></th><td>Tarefa #12</td><td>Tarefa <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: T&iacute;tulo da tarefa</td></tr>
+-<tr><th></th><td>Revis&atilde;o r43</td><td>Revis&atilde;o <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:algum/arquivo</td><td><a href="#">source:algum/arquivo</a></td></tr>
++<tr><td></td><td>Tarefa #12</td><td>Tarefa <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: T&iacute;tulo da tarefa</td></tr>
++<tr><td></td><td>Revis&atilde;o r43</td><td>Revis&atilde;o <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:algum/arquivo</td><td><a href="#">source:algum/arquivo</a></td></tr>
+ 
+ <tr><th colspan="3">Imagens inline <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>url_da_imagem</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>imagem_anexada</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>imagem_anexada</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Tabelas</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Mais Informa&ccedil;&otilde;es</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ru/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/ru/wiki_syntax_detailed_textile.html.erb
+index 2baf32b79..d1283f839 100644
+--- a/app/views/help/wiki_syntax/textile/ru/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ru/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>Форматирование Wiki Redmine</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Форматирование Wiki</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Ссылки</a></li>
++        <li><a href='#2'>Ссылки</a>
+         <ul>
+             <li><a href='#3'>Ссылки Redmine</a></li>
+             <li><a href='#4'>Внешние ссылки</a></li>
+-        </ul>
+-        <li><a href='#5'>Форматирование текста</a></li>
++        </ul></li>
++        <li><a href='#5'>Форматирование текста</a>
+         <ul>
+             <li><a href='#6'>Стиль шрифта</a></li>
+             <li><a href='#7'>Вставка изображений</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Цитаты</a></li>
+             <li><a href='#11'>Содержание</a></li>
+             <li><a href='#14'>Horizontal Rule</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Макросы</a></li>
+         <li><a href='#13'>Подсветка кода</a></li>
+     </ul>
+@@ -383,5 +384,6 @@ bq. Rails - это полноценный, многоуровневый фрей
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ru/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/ru/wiki_syntax_textile.html.erb
+index b06d5abe9..fdf5c6288 100644
+--- a/app/views/help/wiki_syntax/textile/ru/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ru/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Форматирование Wiki</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Синтаксис Wiki Краткая Справка</h1>
+ 
+@@ -38,7 +39,7 @@
+         </td>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>??Цитата??</td>
+         <td><cite>Цитата</cite></td>
+     </tr>
+@@ -48,7 +49,7 @@
+         <td><code>Вставка Кода</code></td>
+     </tr>
+     <tr>
+-        <th><span class="syntax-pre"/></th>
++        <td><span class="syntax-pre"></span></td>
+         <td>&lt;pre&gt;<br/>&nbsp;строки<br/>&nbsp;кода<br/>&lt;/pre&gt;</td>
+         <td>
+             <pre>
+@@ -91,12 +92,12 @@
+         <th colspan="3">Ссылки <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>http://example.com</td>
+         <td><a href="#">http://example.com</a></td>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>"Foo":http://example.com</td>
+         <td><a href="#">Foo</a></td>
+     </tr>
+@@ -109,23 +110,23 @@
+         <td><a href="#">Wiki страница</a></td>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>Задача #12</td>
+         <td>Задача <a href="#">#12</a></td>
+     </tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>Фиксация r43</td>
+         <td>Фиксация <a href="#">r43</a></td>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>commit:f30e13e43</td>
+         <td><a href="#">f30e13e4</a></td>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>source:some/file</td>
+         <td><a href="#">source:some/file</a></td>
+     </tr>
+@@ -138,14 +139,14 @@
+         <td></td>
+     </tr>
+     <tr>
+-        <th></th>
++        <td></td>
+         <td>!<em>вложенный_файл</em>!</td>
+         <td></td>
+     </tr>
+ 
+ <tr><th colspan="3">Tables</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -163,5 +164,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Больше информации</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_detailed_textile.html.erb
+index da1f15b8d..fc3017d77 100644
+--- a/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiவடிவமைத்தல்</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>விக்கி வடிவமைத்தல்</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>இணைப்புகள்</a></li>
++        <li><a href='#2'>இணைப்புகள்</a>
+         <ul>
+             <li><a href='#3'>ரெட்மைன் இணைப்புகளை</a></li>
+             <li><a href='#4'>வெளி இணைப்புகள்</a></li>
+-        </ul>
+-        <li><a href='#5'>உரை வடிவமைத்தல்</a></li>
++        </ul></li>
++        <li><a href='#5'>உரை வடிவமைத்தல்</a>
+         <ul>
+             <li><a href='#6'>எழுத்துரு வகை</a></li>
+             <li><a href='#7'>இன்லைன் படங்கள்</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>தொகுதிகள்</a></li>
+             <li><a href='#11'>உள்ளடக்க அட்டவணை</a></li>
+             <li><a href='#14'>கிடைமட்ட விதி</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>குறுநிரல்கள்</a></li>
+         <li><a href='#13'>சிறப்பம்ச குறியீடு</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ bq. ரெயில்ஸ் என்பது மாடல்-வியூ-க
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_textile.html.erb
+index 3e7cae40b..89a97839f 100644
+--- a/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/ta-in/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>விக்கி தொடரியல் விரைவு குறிப்பு</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Italic" }) %></th><td>_சாய்வு_</td><td><em>சாய்வு</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Underline" }) %></th><td>+அடிக்கோடிட்டு+</td><td><ins>அடிக்கோடிட்டு</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Deleted" }) %></th><td>-நீக்கப்பட்டது-</td><td><del>நீக்கப்பட்டது</del></td></tr>
+-<tr><th></th><td>??மேற்கோள்??</td><td><cite>மேற்கோள்</cite></td></tr>
++<tr><td></td><td>??மேற்கோள்??</td><td><cite>மேற்கோள்</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Inline code" }) %></th><td>@இன்லைன் குறியீடு@</td><td><code>இன்லைன் குறியீடு</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;கோடுகள்<br />&nbsp;குறியீடு<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;கோடுகள்<br />&nbsp;குறியீடு<br />&lt;/pre&gt;</td><td>
+ <pre>
+  கோடுகள்
+  குறியீடு
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Heading 3" }) %></th><td>h3. தலைப்பு 3</td><td><h3>தலைப்பு 3</h3></td></tr>
+ 
+ <tr><th colspan="3">இணைப்புகள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">மேலும்</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine இணைப்புகள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">மேலும்</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Link to a Wiki page" }) %></th><td>[[Wiki page]]</td><td><a href="#">Wiki page</a></td></tr>
+-<tr><th></th><td>சிக்கல்கள் #12</td><td>சிக்கல்கள் <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>திருத்தம் r43</td><td>திருத்தம் <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>சிக்கல்கள் #12</td><td>சிக்கல்கள் <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>திருத்தம் r43</td><td>திருத்தம் <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">இன்லைன் படங்கள் <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">மேலும்</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>படம்_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>இணைக்கப்பட்ட_படம்</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>இணைக்கப்பட்ட_படம்</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">அட்டவணை</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">மேலும் தகவல்</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/uk/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/uk/wiki_syntax_detailed_textile.html.erb
+index 07bf6eda5..3a9bc4525 100644
+--- a/app/views/help/wiki_syntax/textile/uk/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/uk/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>Redmine - форматування вікі сторінок</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Форматування вікі сторінок</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>Лінки(посилання)</a></li>
++        <li><a href='#2'>Лінки(посилання)</a>
+         <ul>
+             <li><a href='#3'>Redmine лінки(посилання)</a></li>
+             <li><a href='#4'>Зовнішні посилання</a></li>
+-        </ul>
+-        <li><a href='#5'>Форматування тексту</a></li>
++        </ul></li>
++        <li><a href='#5'>Форматування тексту</a>
+         <ul>
+             <li><a href='#6'>Стиль шрифту</a></li>
+             <li><a href='#7'>Вбудовані(inline) зображення</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>Цитати</a></li>
+             <li><a href='#11'>Таблиці змісту сторінки</a></li>
+             <li><a href='#14'>Горизонтальна лінія</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>Макроси</a></li>
+         <li><a href='#13'>Підсвітка синтаксису коду</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ bq. Redmine — серверний веб-додаток з відкритим 
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/uk/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/uk/wiki_syntax_textile.html.erb
+index 2c791496a..36bf25878 100644
+--- a/app/views/help/wiki_syntax/textile/uk/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/uk/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Вікі синтаксис</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Вікі синтаксис швидка підказка</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "Курсив" }) %></th><td>_Курсив_</td><td><em>Курсив</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "Підкреслений" }) %></th><td>+Підкреслений+</td><td><ins>Підкреслений</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "Закреслений" }) %></th><td>-Закреслений-</td><td><del>Закреслений</del></td></tr>
+-<tr><th></th><td>??Цитування??</td><td><cite>Цитування</cite></td></tr>
++<tr><td></td><td>??Цитування??</td><td><cite>Цитування</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "Інлайн код" }) %></th><td>@Інлайн код@</td><td><code>Інлайн код</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;Попередньо<br />&nbsp;відформатований<br />&nbsp;текст<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;Попередньо<br />&nbsp;відформатований<br />&nbsp;текст<br />&lt;/pre&gt;</td><td>
+ <pre>
+  Попередньо
+  відформатований
+@@ -43,24 +44,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "Заголовок 3" }) %></th><td>h3. Заголовок 3</td><td><h3>Заголовок&nbsp;3</h3></td></tr>
+ 
+ <tr><th colspan="3">Лінки(посилання) <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine посилання <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "Посилання на вікі сторінку" }) %></th><td>[[Вікі сторінка]]</td><td><a href="#">Вікі сторінка</a></td></tr>
+-<tr><th></th><td>Завдання #12</td><td>Завдання <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>Завдання #12</td><td>Завдання <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>Revision r43</td><td>Revision <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">Вбудоване(inline) зображення <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Зображення" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">Таблиці</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. об. рядки | B | C |<br />|\2. об. колонки |</td>
+   <td>
+     <table class="sample">
+@@ -78,5 +79,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">Детальніша інформація</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_detailed_textile.html.erb
+index e0c58b501..54e8447a7 100644
+--- a/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki 格式設定</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>連結</a></li>
++        <li><a href='#2'>連結</a>
+         <ul>
+             <li><a href='#3'>Redmine 連結</a></li>
+             <li><a href='#4'>外部連結</a></li>
+-        </ul>
+-        <li><a href='#5'>文字格式設定</a></li>
++        </ul></li>
++        <li><a href='#5'>文字格式設定</a>
+         <ul>
+             <li><a href='#6'>字型樣式</a></li>
+             <li><a href='#7'>內嵌圖像</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>區塊引述</a></li>
+             <li><a href='#11'>目錄</a></li>
+             <li><a href='#14'>水平線</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>巨集</a></li>
+         <li><a href='#13'>程式碼醒目提示</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ It can be expanded by clicking a link.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_textile.html.erb
+index 1f5be349f..96b1e62eb 100644
+--- a/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/zh-tw/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki 格式設定</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki 語法快速對照表</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "斜體" }) %></th><td>_斜體_</td><td><em>斜體</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "底線" }) %></th><td>+底線+</td><td><ins>底線</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "刪除線" }) %></th><td>-刪除線-</td><td><del>刪除線</del></td></tr>
+-<tr><th></th><td>??引文??</td><td><cite>引文</cite></td></tr>
++<tr><td></td><td>??引文??</td><td><cite>引文</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "內嵌程式碼" }) %></th><td>@內嵌程式碼@</td><td><code>內嵌程式碼 (inline code)</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;格式化<br />&nbsp;的段落文字<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;格式化<br />&nbsp;的段落文字<br />&lt;/pre&gt;</td><td>
+ <pre>
+  格式化
+  的段落文字
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "標題 3" }) %></th><td>h3. 標題 3</td><td><h3>標題 3</h3></td></tr>
+ 
+ <tr><th colspan="3">連結 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine 連結 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "連結至一個 Wiki 頁面" }) %></th><td>[[Wiki 頁面]]</td><td><a href="#">Wiki 頁面</a></td></tr>
+-<tr><th></th><td>議題 #12</td><td>議題 <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>版次 r43</td><td>版次 <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>議題 #12</td><td>議題 <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>版次 r43</td><td>版次 <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td><a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td><a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">內嵌圖像 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "圖像" }) %></th><td>!<em>圖像_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>附加_圖像</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>附加_圖像</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">表格</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. 資料列範圍 | B | C |<br />|\2. 資料行範圍 |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">更多資訊</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/zh/wiki_syntax_detailed_textile.html.erb b/app/views/help/wiki_syntax/textile/zh/wiki_syntax_detailed_textile.html.erb
+index e3291340f..f7b689cce 100644
+--- a/app/views/help/wiki_syntax/textile/zh/wiki_syntax_detailed_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/zh/wiki_syntax_detailed_textile.html.erb
+@@ -1,5 +1,5 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <title>RedmineWikiFormatting</title>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+@@ -7,15 +7,16 @@
+ </head>
+ 
+ <body>
++<main>
+ <h1><a name="1" class="wiki-page"></a>Wiki 文本格式</h1>
+ 
+     <ul class='toc'>
+-        <li><a href='#2'>链接</a></li>
++        <li><a href='#2'>链接</a>
+         <ul>
+             <li><a href='#3'>Redmine 链接</a></li>
+             <li><a href='#4'>外部链接</a></li>
+-        </ul>
+-        <li><a href='#5'>字体格式</a></li>
++        </ul></li>
++        <li><a href='#5'>字体格式</a>
+         <ul>
+             <li><a href='#6'>字体风格</a></li>
+             <li><a href='#7'>内嵌图片</a></li>
+@@ -24,7 +25,7 @@
+             <li><a href='#10'>引用文字</a></li>
+             <li><a href='#11'>目录</a></li>
+             <li><a href='#14'>水平线</a></li>
+-        </ul>
++        </ul></li>
+         <li><a href='#12'>宏</a></li>
+         <li><a href='#13'>代码高亮</a></li>
+     </ul>
+@@ -351,5 +352,6 @@ To go live, all you need to add is a database and a web server.
+   <span class="k">end</span>
+ <span class="k">end</span>
+ </code></pre>
++</main>
+ </body>
+ </html>
+diff --git a/app/views/help/wiki_syntax/textile/zh/wiki_syntax_textile.html.erb b/app/views/help/wiki_syntax/textile/zh/wiki_syntax_textile.html.erb
+index a1cde351f..12d9f2c58 100644
+--- a/app/views/help/wiki_syntax/textile/zh/wiki_syntax_textile.html.erb
++++ b/app/views/help/wiki_syntax/textile/zh/wiki_syntax_textile.html.erb
+@@ -1,11 +1,12 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+-<html xmlns="http://www.w3.org/1999/xhtml">
++<html xmlns="http://www.w3.org/1999/xhtml" lang="<%= @help_lang %>" xml:lang="<%= @help_lang %>">
+ <head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+ <title>Wiki formatting</title>
+ <%= stylesheet_link_tag "wiki_syntax.css" %>
+ </head>
+ <body>
++<main>
+ 
+ <h1>Wiki 语法快速参考</h1>
+ 
+@@ -15,9 +16,9 @@
+ <tr><th><%= image_tag("jstoolbar/italic.svg", { alt: "斜体" }) %></th><td>_Italic_</td><td><em>斜体</em></td></tr>
+ <tr><th><%= image_tag("jstoolbar/underline.svg", { alt: "下划线" }) %></th><td>+下划线+</td><td><ins>下划线</ins></td></tr>
+ <tr><th><%= image_tag("jstoolbar/strikethrough.svg", { alt: "删除线" }) %></th><td>-删除线-</td><td><del>删除线</del></td></tr>
+-<tr><th></th><td>??引用??</td><td><cite>引用</cite></td></tr>
++<tr><td></td><td>??引用??</td><td><cite>引用</cite></td></tr>
+ <tr><th><%= image_tag("jstoolbar/letter-c.svg", { alt: "内嵌程序代码" }) %></th><td>@内嵌程序代码@</td><td><code>内嵌程序代码</code></td></tr>
+-<tr><th><span class="syntax-pre"/></th><td>&lt;pre&gt;<br />&nbsp;格式化<br />&nbsp;的段落<br />&lt;/pre&gt;</td><td>
++<tr><td><span class="syntax-pre"></span></td><td>&lt;pre&gt;<br />&nbsp;格式化<br />&nbsp;的段落<br />&lt;/pre&gt;</td><td>
+ <pre>
+  格式化
+  的段落
+@@ -42,24 +43,24 @@
+ <tr><th><%= image_tag("jstoolbar/h3.svg", { alt: "标题 3" }) %></th><td>h3. 标题 3</td><td><h3>标题 3</h3></td></tr>
+ 
+ <tr><th colspan="3">链接 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "4") %>" target="_blank">more</a>)</span></th></tr>
+-<tr><th></th><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
+-<tr><th></th><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
++<tr><td></td><td>http://example.com</td><td><a href="#">http://example.com</a></td></tr>
++<tr><td></td><td>"Foo":http://example.com</td><td><a href="#">Foo</a></td></tr>
+ 
+ <tr><th colspan="3">Redmine 链接 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "3") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/wiki_link.svg", { alt: "链接到一个Wiki 页面" }) %></th><td>[[Wiki 页面]]</td><td><a href="#">Wiki 页面</a></td></tr>
+-<tr><th></th><td>问题 #12</td><td>问题 <a href="#">#12</a></td></tr>
+-<tr><th></th><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
+-<tr><th></th><td>修订 r43</td><td>修订 <a href="#">r43</a></td></tr>
+-<tr><th></th><td>commit:f30e13e43</td><td>提交: <a href="#">f30e13e4</a></td></tr>
+-<tr><th></th><td>source:some/file</td><td>代码：<a href="#">source:some/file</a></td></tr>
++<tr><td></td><td>问题 #12</td><td>问题 <a href="#">#12</a></td></tr>
++<tr><td></td><td>##12</td><td><a href="#">Bug #12</a>: The issue subject</td></tr>
++<tr><td></td><td>修订 r43</td><td>修订 <a href="#">r43</a></td></tr>
++<tr><td></td><td>commit:f30e13e43</td><td>提交: <a href="#">f30e13e4</a></td></tr>
++<tr><td></td><td>source:some/file</td><td>代码：<a href="#">source:some/file</a></td></tr>
+ 
+ <tr><th colspan="3">内嵌图片 <span class="more_info">(<a href="<%= help_wiki_syntax_path(:detailed, anchor: "7") %>" target="_blank">more</a>)</span></th></tr>
+ <tr><th><%= image_tag("jstoolbar/image.svg", { alt: "Image" }) %></th><td>!<em>image_url</em>!</td><td></td></tr>
+-<tr><th></th><td>!<em>attached_image</em>!</td><td></td></tr>
++<tr><td></td><td>!<em>attached_image</em>!</td><td></td></tr>
+ 
+ <tr><th colspan="3">表格</th></tr>
+ <tr>
+-  <th></th>
++  <td></td>
+   <td>|_. A |_. B |_. C |<br />| A | B | C |<br />|/2. row span | B | C |<br />|\2. col span |</td>
+   <td>
+     <table class="sample">
+@@ -77,5 +78,6 @@
+ 
+ <p><a href="<%= help_wiki_syntax_path(:detailed) %>" onclick="window.open('<%= help_wiki_syntax_path(:detailed) %>', '', ''); return false;">更多帮助信息</a></p>
+ 
++</main>
+ </body>
+ </html>
+diff --git a/app/views/imports/new.html.erb b/app/views/imports/new.html.erb
+index cfb4a58f7..29096dcdf 100644
+--- a/app/views/imports/new.html.erb
++++ b/app/views/imports/new.html.erb
+@@ -6,6 +6,7 @@
+   <fieldset class="box">
+     <legend><%= l(:label_select_file_to_import) %> (CSV)</legend>
+     <p>
++      <%= label_tag 'file', l(:label_attachment), :class => 'visually-hidden' %>
+       <%= file_field_tag 'file' %>
+     </p>
+   </fieldset>
 diff --git a/app/views/issue_statuses/index.html.erb b/app/views/issue_statuses/index.html.erb
-index c38e3b8..9036f0d 100644
+index c38e3b88b..9036f0d70 100644
 --- a/app/views/issue_statuses/index.html.erb
 +++ b/app/views/issue_statuses/index.html.erb
 @@ -13,8 +13,8 @@
@@ -771,7 +3889,7 @@ index c38e3b8..9036f0d 100644
    <tbody>
  <% for status in @issue_statuses %>
 diff --git a/app/views/issues/_attributes.html.erb b/app/views/issues/_attributes.html.erb
-index 9707674..c305f2b 100644
+index 970767460..c305f2bd4 100644
 --- a/app/views/issues/_attributes.html.erb
 +++ b/app/views/issues/_attributes.html.erb
 @@ -41,7 +41,6 @@
@@ -791,7 +3909,7 @@ index 9707674..c305f2b 100644
             ) if User.current.allowed_to?(:manage_versions, @issue.project) %>
  </p>
 diff --git a/app/views/issues/_edit.html.erb b/app/views/issues/_edit.html.erb
-index f86fb07..b67e92b 100644
+index f86fb07eb..b67e92bd3 100644
 --- a/app/views/issues/_edit.html.erb
 +++ b/app/views/issues/_edit.html.erb
 @@ -31,6 +31,7 @@
@@ -803,7 +3921,7 @@ index f86fb07..b67e92b 100644
                :auto_complete => true
              }.merge(wiki_textarea_stimulus_attributes),
 diff --git a/app/views/issues/_list.html.erb b/app/views/issues/_list.html.erb
-index b181195..ff8a8e4 100644
+index b181195d1..ff8a8e4da 100644
 --- a/app/views/issues/_list.html.erb
 +++ b/app/views/issues/_list.html.erb
 @@ -10,12 +10,13 @@
@@ -832,7 +3950,7 @@ index b181195..ff8a8e4 100644
      <%= content_tag('td', column_content(column, issue), :class => column.css_classes) %>
      <% end %>
 diff --git a/app/views/layouts/admin.html.erb b/app/views/layouts/admin.html.erb
-index 07f1943..cd730de 100644
+index 07f194300..cd730de9d 100644
 --- a/app/views/layouts/admin.html.erb
 +++ b/app/views/layouts/admin.html.erb
 @@ -1,6 +1,6 @@
@@ -844,7 +3962,7 @@ index 07f1943..cd730de 100644
    <% end %>
  <% end %>
 diff --git a/app/views/layouts/base.html.erb b/app/views/layouts/base.html.erb
-index e4ffb42..4ba4d9d 100644
+index e4ffb42ec..4ba4d9da9 100644
 --- a/app/views/layouts/base.html.erb
 +++ b/app/views/layouts/base.html.erb
 @@ -22,7 +22,7 @@
@@ -938,7 +4056,7 @@ index e4ffb42..4ba4d9d 100644
      <%= sprite_icon 'loader', l(:label_loading), css_class: 'svg-loader' %>
    </span>
 diff --git a/app/views/my/_sidebar.html.erb b/app/views/my/_sidebar.html.erb
-index cee23c5..b1fea7b 100644
+index cee23c5fb..b1fea7ba9 100644
 --- a/app/views/my/_sidebar.html.erb
 +++ b/app/views/my/_sidebar.html.erb
 @@ -1,4 +1,4 @@
@@ -966,7 +4084,7 @@ index cee23c5..b1fea7b 100644
    <div class="api-key-actions">
      <%= link_to l(:button_show), my_api_key_path, :remote => true %>
 diff --git a/app/views/projects/_list.html.erb b/app/views/projects/_list.html.erb
-index 2f5c83f..63a7ce9 100644
+index 2f5c83f6a..63a7ce9ed 100644
 --- a/app/views/projects/_list.html.erb
 +++ b/app/views/projects/_list.html.erb
 @@ -9,14 +9,15 @@
@@ -997,7 +4115,7 @@ index 2f5c83f..63a7ce9 100644
          <td class="checkbox hide-when-print"></td>
        <% end %>
 diff --git a/app/views/projects/show.html.erb b/app/views/projects/show.html.erb
-index ffbfcce..31a82d3 100644
+index ffbfcce29..31a82d38a 100644
 --- a/app/views/projects/show.html.erb
 +++ b/app/views/projects/show.html.erb
 @@ -54,7 +54,7 @@
@@ -1010,7 +4128,7 @@ index ffbfcce..31a82d3 100644
            <th><%=l(:label_closed_issues_plural)%></th>
            <th><%=l(:label_total)%></th>
 diff --git a/app/views/queries/_columns.html.erb b/app/views/queries/_columns.html.erb
-index 15e0b98..8151f10 100644
+index 15e0b987f..8151f1020 100644
 --- a/app/views/queries/_columns.html.erb
 +++ b/app/views/queries/_columns.html.erb
 @@ -11,8 +11,8 @@
@@ -1040,7 +4158,7 @@ index 15e0b98..8151f10 100644
  
  <%= javascript_tag do %>
 diff --git a/app/views/queries/_filters.html.erb b/app/views/queries/_filters.html.erb
-index 4275677..282f492 100644
+index 42756775a..282f49271 100644
 --- a/app/views/queries/_filters.html.erb
 +++ b/app/views/queries/_filters.html.erb
 @@ -3,6 +3,8 @@ var operatorLabels = <%= raw_json Query.operators_labels %>;
@@ -1053,7 +4171,7 @@ index 4275677..282f492 100644
  var filtersUrl = <%= raw_json queries_filter_path(:project_id => @query.project.try(:id), :type => @query.type) %>;
  
 diff --git a/app/views/reports/_details.html.erb b/app/views/reports/_details.html.erb
-index 566177a..b3d79a5 100644
+index 566177a05..b3d79a53c 100644
 --- a/app/views/reports/_details.html.erb
 +++ b/app/views/reports/_details.html.erb
 @@ -3,7 +3,7 @@
@@ -1066,7 +4184,7 @@ index 566177a..b3d79a5 100644
  <th><%= status.name %></th>
  <% end %>
 diff --git a/app/views/reports/_simple.html.erb b/app/views/reports/_simple.html.erb
-index 2237728..b1a5425 100644
+index 2237728b2..b1a542542 100644
 --- a/app/views/reports/_simple.html.erb
 +++ b/app/views/reports/_simple.html.erb
 @@ -3,7 +3,7 @@
@@ -1079,7 +4197,7 @@ index 2237728..b1a5425 100644
  <th><%=l(:label_closed_issues_plural)%></th>
  <th><%=l(:label_total)%></th>
 diff --git a/app/views/roles/index.html.erb b/app/views/roles/index.html.erb
-index 9705fdd..274b32e 100644
+index 9705fdd6e..274b32e27 100644
 --- a/app/views/roles/index.html.erb
 +++ b/app/views/roles/index.html.erb
 @@ -8,8 +8,8 @@
@@ -1094,7 +4212,7 @@ index 9705fdd..274b32e 100644
    <tbody>
  <% for role in @roles %>
 diff --git a/app/views/timelog/_list.html.erb b/app/views/timelog/_list.html.erb
-index aa1c1c2..53315c1 100644
+index aa1c1c293..53315c181 100644
 --- a/app/views/timelog/_list.html.erb
 +++ b/app/views/timelog/_list.html.erb
 @@ -6,12 +6,13 @@
@@ -1123,7 +4241,7 @@ index aa1c1c2..53315c1 100644
      <%= content_tag('td', column_content(column, entry), :class => column.css_classes) %>
      <% end %>
 diff --git a/app/views/trackers/index.html.erb b/app/views/trackers/index.html.erb
-index 12dc0aa..3ed568a 100644
+index 12dc0aa4c..3ed568a83 100644
 --- a/app/views/trackers/index.html.erb
 +++ b/app/views/trackers/index.html.erb
 @@ -10,8 +10,8 @@
@@ -1138,7 +4256,7 @@ index 12dc0aa..3ed568a 100644
    <tbody>
  <% for tracker in @trackers %>
 diff --git a/app/views/users/_list.html.erb b/app/views/users/_list.html.erb
-index b5d85c6..457f1a5 100644
+index b5d85c6d5..457f1a5b2 100644
 --- a/app/views/users/_list.html.erb
 +++ b/app/views/users/_list.html.erb
 @@ -6,12 +6,13 @@
@@ -1166,8 +4284,21 @@ index b5d85c6..457f1a5 100644
      <% @query.inline_columns.each do |column| %>
        <% if column.name == :login %>
          <%= content_tag('td', link_to(user.login, edit_user_path(user)), class: column.css_classes) %>
+diff --git a/app/views/users/show.html.erb b/app/views/users/show.html.erb
+index 784c49139..23768f87a 100644
+--- a/app/views/users/show.html.erb
++++ b/app/views/users/show.html.erb
+@@ -27,7 +27,7 @@
+ <table class="list issue-report">
+ <thead>
+   <tr>
+-    <th></th>
++    <th><span class="visually-hidden"><%= l(:label_issue_plural) %></span></th>
+     <th><%=l(:label_open_issues_plural)%></th>
+     <th><%=l(:label_closed_issues_plural)%></th>
+     <th><%=l(:label_total)%></th>
 diff --git a/app/views/versions/_sidebar.html.erb b/app/views/versions/_sidebar.html.erb
-index 4b535f7..60ed9cc 100644
+index 4b535f752..60ed9cc85 100644
 --- a/app/views/versions/_sidebar.html.erb
 +++ b/app/views/versions/_sidebar.html.erb
 @@ -1,6 +1,6 @@
@@ -1188,7 +4319,7 @@ index 4b535f7..60ed9cc 100644
  <% @versions.each do |version| %>
    <li>
 diff --git a/app/views/versions/index.html.erb b/app/views/versions/index.html.erb
-index 79339e7..92cc0e6 100644
+index 79339e7de..92cc0e6f1 100644
 --- a/app/views/versions/index.html.erb
 +++ b/app/views/versions/index.html.erb
 @@ -37,7 +37,7 @@
@@ -1201,7 +4332,7 @@ index 79339e7..92cc0e6 100644
              <td class="subject"><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
              <td class="buttons hide-when-print"><%= link_to_context_menu %></td>
 diff --git a/app/views/versions/show.html.erb b/app/views/versions/show.html.erb
-index cdd2b30..c21877f 100644
+index cdd2b3029..c21877fe4 100644
 --- a/app/views/versions/show.html.erb
 +++ b/app/views/versions/show.html.erb
 @@ -51,7 +51,7 @@
@@ -1214,7 +4345,7 @@ index cdd2b30..c21877f 100644
        <td class="subject"><%= link_to_issue(issue, :project => (@project != issue.project)) %></td>
        <td class="buttons hide-when-print"><%= link_to_context_menu %></td>
 diff --git a/app/views/wiki/_sidebar.html.erb b/app/views/wiki/_sidebar.html.erb
-index cb987bb..97f7502 100644
+index cb987bbb0..97f750205 100644
 --- a/app/views/wiki/_sidebar.html.erb
 +++ b/app/views/wiki/_sidebar.html.erb
 @@ -12,7 +12,7 @@
@@ -1227,7 +4358,7 @@ index cb987bb..97f7502 100644
    <li><%= link_to(l(:field_start_page), {:action => 'show', :id => nil}) %></li>
    <li><%= link_to(l(:label_index_by_title), {:action => 'index'}) %></li>
 diff --git a/app/views/workflows/index.html.erb b/app/views/workflows/index.html.erb
-index 8060560..48c604e 100644
+index 806056050..48c604e1b 100644
 --- a/app/views/workflows/index.html.erb
 +++ b/app/views/workflows/index.html.erb
 @@ -7,7 +7,7 @@
@@ -1240,7 +4371,7 @@ index 8060560..48c604e 100644
      <th>
          <%= content_tag(role.builtin? ? 'em' : 'span', role.name) %>
 diff --git a/config/locales/en.yml b/config/locales/en.yml
-index 41ba864..d8478f5 100644
+index 41ba8645e..d8478f51c 100644
 --- a/config/locales/en.yml
 +++ b/config/locales/en.yml
 @@ -1037,6 +1037,27 @@ en:
@@ -1272,7 +4403,7 @@ index 41ba864..d8478f5 100644
    label_subtask_plural: Subtasks
    label_project_copy_notifications: Send email notifications during the project copy
 diff --git a/lib/redmine/helpers/gantt.rb b/lib/redmine/helpers/gantt.rb
-index 46a2cc2..5956980 100644
+index 46a2cc289..5956980b7 100644
 --- a/lib/redmine/helpers/gantt.rb
 +++ b/lib/redmine/helpers/gantt.rb
 @@ -219,7 +219,7 @@ module Redmine

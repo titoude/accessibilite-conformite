@@ -53,7 +53,8 @@
     "label-title-only": 2,
     "page-has-heading-one": 1
    }
-  }
+  },
+  "note": "régénérée proprement par fixer-v2 sur vanilla :6203 (étendue) — voir fixer_v2.baseline"
  },
  "final": {
   "auth": {
@@ -69,7 +70,8 @@
    "occurrences": 0,
    "incomplete": 56,
    "errors": 0
-  }
+  },
+  "note": "régénérée sur patché :6201 périmètre étendu — voir fixer_v2.final"
  },
  "install_build": {
   "auth": {
@@ -116,5 +118,123 @@
   "views_erb": "context_menus ×4 (<ul> rôle navigation → <nav aria-label> wrapper) ; activities (h3→h2 sidebar, label date+user) ; reports _simple/_details + enumerations + issue_statuses + trackers + workflows (th vides → span visually-hidden l()) ; admin/info autoscroll tabindex=0 ; common/_tabs + base (boutons tab-scroll aria-label prev/next) ; issues/_list, _edit (labels/boutons) ; account/login ; gantts _chart/_query_form ; attachments/_form ; helpers : jump-box input aria-label l(:label_jump_to_a_project), avatars role-img-alt",
   "js": "context_menu.js : menu role=dialog aria-modal=true, aria-label depuis nav injecté, #wrapper inert pendant ouverture, restauration à la fermeture ; application-legacy.js : fix dup-ids libellés"
  },
- "axe_414_semantics": "rôle dialog + aria-modal exempte les règles page (landmark-one-main, page-has-heading-one, region) en contexte modale ; role=navigation interdit sur <ul> (aria-allowed-role) → wrapper <nav> ; inert retire du scan géométrique axe — vérifié empiriquement, cf. install-build/notes"
+ "axe_414_semantics": "rôle dialog + aria-modal exempte les règles page (landmark-one-main, page-has-heading-one, region) en contexte modale ; role=navigation interdit sur <ul> (aria-allowed-role) → wrapper <nav> ; inert retire du scan géométrique axe — vérifié empiriquement, cf. install-build/notes",
+ "fixer_v2": {
+  "baseline": {
+   "auth": {
+    "scenarios": 37,
+    "violations": 308,
+    "occurrences": 3067,
+    "rules": 15,
+    "incomplete": 39,
+    "errors": 0,
+    "rules_detail": {
+     "region": 2310,
+     "color-contrast": 180,
+     "target-size": 124,
+     "label": 108,
+     "link-in-text-block": 96,
+     "role-img-alt": 67,
+     "tabindex": 42,
+     "landmark-one-main": 36,
+     "link-name": 31,
+     "heading-order": 22,
+     "empty-table-header": 19,
+     "select-name": 18,
+     "label-title-only": 11,
+     "button-name": 2,
+     "page-has-heading-one": 1
+    }
+   },
+   "public": {
+    "scenarios": 18,
+    "violations": 115,
+    "occurrences": 889,
+    "rules": 16,
+    "incomplete": 17,
+    "errors": 0,
+    "rules_detail": {
+     "region": 625,
+     "color-contrast": 68,
+     "link-in-text-block": 54,
+     "target-size": 38,
+     "label": 29,
+     "landmark-one-main": 18,
+     "empty-table-header": 18,
+     "link-name": 8,
+     "select-name": 8,
+     "heading-order": 7,
+     "tabindex": 6,
+     "role-img-alt": 4,
+     "label-title-only": 2,
+     "html-has-lang": 2,
+     "list": 1,
+     "page-has-heading-one": 1
+    }
+   },
+   "note": "rebaseline honnête périmètre ÉTENDU (+/groups, /users/1, /versions/1, /issues/imports/new ; +/help/wiki_syntax, /help/wiki_syntax/detailed, /help/code_highlighting) sur vanilla :6203"
+  },
+  "final": {
+   "auth": {
+    "scenarios": 37,
+    "violations": 0,
+    "occurrences": 0,
+    "incomplete": 39,
+    "errors": 0
+   },
+   "public": {
+    "scenarios": 18,
+    "violations": 0,
+    "occurrences": 0,
+    "incomplete": 16,
+    "errors": 0
+   }
+  },
+  "install_replay": {
+   "auth": {
+    "scenarios": 37,
+    "violations": 0,
+    "occurrences": 0,
+    "incomplete": 39,
+    "errors": 0
+   },
+   "public": {
+    "scenarios": 18,
+    "violations": 0,
+    "occurrences": 0,
+    "incomplete": 16,
+    "errors": 0
+   },
+   "note": "clone vierge @10d61f8 + git apply patch.diff régénéré (0 rejet, 102 fichiers) + build + seed :6202 → rescan 0v/0e périmètre étendu"
+  },
+  "verify": "0 FAIL (44 sondes : 3 branches durcies — clear-query exigée h=28px sur query_id=8, a.issue exigé sur /issues/9, modale jQuery UI role=dialog assertée — + section 12 menu contextuel F-v2-1/2)",
+  "probes": {
+   "auth": {
+    "file": "reports/probes-auth.json",
+    "distribution": {
+     "color-contrast|PASS": 115,
+     "color-contrast|N-A": 21,
+     "th-has-data-cells|N-A": 1,
+     "label-content-name-mismatch|N-A": 4,
+     "bypass|N-A": 1
+    },
+    "fail": 0,
+    "n": 141
+   }
+  },
+  "eval_final": "0 FAIL (24 sondes)",
+  "patch": {
+   "file": "patch.diff",
+   "sha256": "9308a98d44696b2622c89be2baa518597ca17b6cdbb1db692eb301d154399c83",
+   "files": 102,
+   "insertions": 795,
+   "deletions": 572
+  },
+  "fixes_v2": {
+   "F-v2-1": "reciblage sous inert : contextMenuRealTarget() lève inert + elementFromPoint + re-inert ; right-click ET clic-gauche .js-contextmenu reroutés (le click documentaire absorbe le delegated) — preuve live menu A→B déplacé + ligne B sélectionnée",
+   "F-v2-2": "Escape ferme le dialog + restore focus contextMenuTrigger (.js-contextmenu de la ligne) ; focus entre dans le dialog à l'ouverture (tabindex=-1) — preuve live 11/11 sondes",
+   "F-v2-3": "périmètre étendu : /groups + /users/1 th vide → span visually-hidden ; /versions/1 badge-status-closed oc-green-9 4.36→#237434 5.80 ; /issues/imports/new label visuel-hidden l(:label_attachment) ; /help/wiki_syntax +detailed +code_highlighting : <html lang=<%= @help_lang %>> (fallback langue template), <main>, <th></th>→<td>, checkbox task-list → <label>, liens soulignés, syntaxhl green-9→#237434 + gray-6→gray-7, alert-titles sombres, toc <ul> nichées dans <li> + cibles 28px",
+   "warts": "day-value claim 6.09→7.35:1 mesuré pixel-vrai (gray-8 sur gray-1 post-patch — encore PASS) ; scopeHash : ensembles de scénarios normalisés (chemin+requête+état) identiques baseline↔final auth+public — drift URL éliminé, hash brut port-dépendant documenté ; verify.mjs 3 branches durcies"
+  }
+ }
 }
