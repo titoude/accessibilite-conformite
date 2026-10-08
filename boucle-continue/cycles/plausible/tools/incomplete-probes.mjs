@@ -39,7 +39,7 @@ import { createRequire } from 'node:module';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const require = createRequire(resolve(process.cwd(), 'package.json'));
+const require = createRequire(new URL('./package.json', import.meta.url));
 const { chromium } = require('playwright');
 const HERE = dirname(fileURLToPath(import.meta.url));
 const { STATES } = await import('./audit.mjs');

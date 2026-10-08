@@ -2,12 +2,14 @@
 // eval-final.mjs (plausible edition) — contrôles transverses finaux hors axe.
 // Usage: node eval-final.mjs <baseUrl> <auth.json>
 import { createRequire } from 'node:module';
-import { resolve } from 'node:path';
-const require = createRequire(resolve(process.cwd(), 'package.json'));
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const require = createRequire(new URL('./package.json', import.meta.url));
 const { chromium } = require('playwright');
+const HERE = dirname(fileURLToPath(import.meta.url));
 
 const base = process.argv[2]?.replace(/\/$/, '') || 'http://localhost:8950';
-const auth = process.argv[3] || 'auth.json';
+const auth = process.argv[3] || resolve(HERE, 'auth.json');
 const results = [];
 const ok = (name, pass, detail = '') => { results.push([pass ? 'OK  ' : 'FAIL', name, detail]); return pass; };
 const na = (name, why) => results.push(['N-A ', name, why]);

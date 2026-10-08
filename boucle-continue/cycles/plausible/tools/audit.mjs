@@ -39,8 +39,9 @@ import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 
-// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
-const require = createRequire(resolve(process.cwd(), 'package.json'));
+// Résolution des deps ancrée sur ce dossier (tools/package.json committé),
+// jamais sur le CWD — rejouable depuis n'importe quel répertoire.
+const require = createRequire(new URL('./package.json', import.meta.url));
 const { chromium } = require('playwright');
 
 const args = process.argv.slice(2);

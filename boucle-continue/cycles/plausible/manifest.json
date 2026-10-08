@@ -6,8 +6,26 @@
   "branchBase": "master",
   "stack": "Elixir/Phoenix LiveView + React (esbuild) + Tailwind CSS + PostgreSQL + ClickHouse — premier Elixir de la boucle",
   "bootPath": "mix/phx local (pas docker compose officiel) — requis pour patcher assets/ React + templates HEEx depuis le SHA source",
-  "ports": {"app": 8950, "postgres": 8952, "clickhouse": 8953, "installBuild": {"app": 8960, "postgres": 8962, "clickhouse": 8963}},
-  "credentials": {"email": "user@plausible.test", "password": "plausible", "name": "Jane Smith", "sites": ["dummy.site", "another.site"], "sharedLink": "/share/dummy.site?auth=audit-c48-shared"},
+  "ports": {
+    "app": 8950,
+    "postgres": 8952,
+    "clickhouse": 8953,
+    "installBuild": {
+      "app": 8960,
+      "postgres": 8962,
+      "clickhouse": 8963
+    }
+  },
+  "credentials": {
+    "email": "user@plausible.test",
+    "password": "plausible",
+    "name": "Jane Smith",
+    "sites": [
+      "dummy.site",
+      "another.site"
+    ],
+    "sharedLink": "/share/dummy.site?auth=audit-c48-shared"
+  },
   "bootSteps": "tools/boot.sh — BOOT_ROOT/REPO/APP_PORT/PG_PORT/CH_PORT/PG_NAME/CH_NAME paramétrables ; containers PG+CH (CLICKHOUSE_SKIP_USER_SETUP=1 + CLICKHOUSE_DB obligatoires sinon auth requise), CONFIG_DIR secrets overrides, mix deps.get + ecto.create + ecto.migrate, npm ci assets+tracker, mix assets.build, npm run deploy --prefix tracker, mix download_country_database, tools/seed.sh, nohup mix phx.server",
   "seedSteps": "tools/seed.sh — mix run priv/repo/seeds.exs (NON idempotent : ne pas relancer sans reset DB) + INSERT shared_links SQL",
   "auditCommands": {
@@ -20,9 +38,21 @@
     "installPublic": "node tools/audit.mjs http://localhost:8960 --urls $(paste -sd, tools/urls-public.txt) --states none --out reports/install-public",
     "verify": "node tools/verify.mjs http://localhost:8950",
     "evalFinal": "node tools/eval-final.mjs http://localhost:8950",
-    "incompleteProbes": "node tools/incomplete-probes.mjs reports/final-auth reports/final-public"
+    "incompleteProbes": "node tools/incomplete-probes.mjs http://localhost:8950 --storage-state tools/auth.json --reports reports/final-auth reports/final-public --out reports/incomplete-probes.json"
   },
-  "states": ["site-switcher-menu", "user-menu", "filter-menu", "period-menu", "options-menu", "breakdown-menu", "funnel-menu", "realtime-view", "goal-report", "mobile-dash-390", "dark-dashboard"],
+  "states": [
+    "site-switcher-menu",
+    "user-menu",
+    "filter-menu",
+    "period-menu",
+    "options-menu",
+    "breakdown-menu",
+    "funnel-menu",
+    "realtime-view",
+    "goal-report",
+    "mobile-dash-390",
+    "dark-dashboard"
+  ],
   "scopeDeltas": "voir scope-compare.json — /settings (redirect prefs), /settings/team/general (redirect users), /not-a-real-page-xyz (404)",
   "gotchas": [
     "React root dashboard = #stats-react-container (PAS #app)",
@@ -33,7 +63,8 @@
     "image CH mirror.gcr.io : CLICKHOUSE_SKIP_USER_SETUP=1 + CLICKHOUSE_DB obligatoires (sinon auth par défaut)",
     "seeds.exs non idempotent — reset DB avant rejeu",
     "mix run seeds.exs démarre l'Endpoint : conflit si phx.server tourne déjà (lancer seed avant serveur)",
-    "npm run deploy n'existe pas à la racine — mix assets.build ; tracker: npm run deploy --prefix tracker"
+    "npm run deploy n'existe pas à la racine — mix assets.build ; tracker: npm run deploy --prefix tracker",
+    "sessions DB-backed : un auth.json PAR instance (login.mjs rejoué sur chaque boot, y compris install-build :8960) — tools/auth.json n'est valable que pour l'instance où login a été exécuté"
   ],
   "vanillaPurity": "marqueur patch absent du build vanilla avant baseline (lesson 40)",
   "filesChanged": 35,
