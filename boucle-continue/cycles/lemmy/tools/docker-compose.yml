@@ -1,0 +1,107 @@
+# docker-compose.yml — cycle 55 lemmy. Topologie officielle LemmyNet/lemmy
+# docker/docker-compose.yml adaptée : lemmy-ui servi depuis le CHECKOUT @SHA
+# (pnpm install + pnpm build:prod → dist/ + node_modules sur l'hôte, bind-mount)
+# au lieu de l'image dessalines/lemmy-ui ; backend = image officielle au tag.
+#
+# Ports du cycle (96xx) injectés par boot.sh : UI_PORT, API_PORT, PG_PORT,
+# PICTRS_PORT. Suffixe d'instance : SUFFIX ("" dev, "-v" vanilla, "-i" install).
+
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "50m"
+    max-file: "4"
+
+services:
+  proxy:
+    image: nginx:1-alpine
+    container_name: lm55-proxy${SUFFIX}
+    ports:
+      - "${UI_PORT}:1236"
+    volumes:
+      - ${TOOLS_DIR}/nginx.conf:/etc/nginx/nginx.conf:ro,Z
+    restart: unless-stopped
+    depends_on:
+      - pictrs
+      - lemmy-ui
+    logging: *default-logging
+
+  lemmy:
+    image: dessalines/lemmy:0.19.20
+    container_name: lm55-lemmy${SUFFIX}
+    hostname: lemmy
+    restart: unless-stopped
+    environment:
+      - RUST_LOG=warn,lemmy_server=debug,lemmy_api=debug
+    ports:
+      - "${API_PORT}:8536"
+    volumes:
+      - ${TOOLS_DIR}/generated/lemmy${SUFFIX}.hjson:/config/config.hjson:Z
+    depends_on:
+      - postgres
+      - pictrs
+    logging: *default-logging
+
+  lemmy-ui:
+    image: node:20-slim
+    container_name: lm55-ui${SUFFIX}
+    # Checkout lemmy-ui @SHA bind-monté : dist/ + node_modules produits par
+    # pnpm install && pnpm build:prod sur l'hôte (node 20 slim = même libc).
+    command: ["node", "dist/js/server.js"]
+    working_dir: /usr/src/app
+    volumes:
+      - ${CHECKOUT}:/usr/src/app:Z
+    environment:
+      - LEMMY_UI_LEMMY_INTERNAL_HOST=lemmy:8536
+      - LEMMY_UI_LEMMY_EXTERNAL_HOST=localhost:${UI_PORT}
+      - LEMMY_UI_HTTPS=false
+      - NODE_ENV=production
+    depends_on:
+      - lemmy
+    restart: unless-stopped
+    logging: *default-logging
+    init: true
+
+  pictrs:
+    image: asonix/pictrs:0.5.16
+    container_name: lm55-pictrs${SUFFIX}
+    hostname: pictrs
+    environment:
+      - PICTRS__API_KEY=lemmy55pictrs
+      - RUST_LOG=debug
+      - RUST_BACKTRACE=full
+      - PICTRS__MEDIA__VIDEO_CODEC=vp9
+      - PICTRS__MEDIA__GIF__MAX_WIDTH=256
+      - PICTRS__MEDIA__GIF__MAX_HEIGHT=256
+      - PICTRS__MEDIA__GIF__MAX_AREA=65536
+      - PICTRS__MEDIA__GIF__MAX_FRAME_COUNT=400
+    user: 991:991
+    ports:
+      - "${PICTRS_PORT}:8080"
+    volumes:
+      - pictrs-data:/mnt:Z
+    restart: unless-stopped
+    logging: *default-logging
+
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:16-alpine
+    container_name: lm55-postgres${SUFFIX}
+    hostname: postgres
+    command: postgres -c config_file=/etc/postgresql.conf
+    ports:
+      - "${PG_PORT}:5432"
+    environment:
+      - POSTGRES_USER=lemmy
+      - POSTGRES_PASSWORD=lemmy55dbpass
+      - POSTGRES_DB=lemmy
+    volumes:
+      - postgres-data:/var/lib/postgresql/data:Z
+      - ${TOOLS_DIR}/customPostgresql.conf:/etc/postgresql.conf:Z
+    restart: unless-stopped
+    logging: *default-logging
+
+volumes:
+  postgres-data:
+    name: lm55-postgres${SUFFIX}-data
+  pictrs-data:
+    name: lm55-pictrs${SUFFIX}-data

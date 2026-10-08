@@ -1,0 +1,1483 @@
+diff --git a/src/assets/css/code-themes/atom-one-light.css b/src/assets/css/code-themes/atom-one-light.css
+index df0268a..2e84844 100644
+--- a/src/assets/css/code-themes/atom-one-light.css
++++ b/src/assets/css/code-themes/atom-one-light.css
+@@ -1 +1 @@
+-pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#a0a1a7;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e45649}.hljs-literal{color:#0184bb}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#50a14f}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#4078f2}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#c18401}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}
+\ No newline at end of file
++pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#a0a1a7;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#a93428}.hljs-literal{color:#0184bb}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#50a14f}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#4078f2}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#c18401}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}
+\ No newline at end of file
+diff --git a/src/assets/css/main.css b/src/assets/css/main.css
+index 870f689..d037417 100644
+--- a/src/assets/css/main.css
++++ b/src/assets/css/main.css
+@@ -485,3 +485,54 @@ br.big {
+ .totp-link {
+   width: fit-content;
+ }
++
++/* a11y fixes (WCAG 2.2 AA): contrast, target size, non-color link cues */
++
++/* 1.4.3: faint secondary text & icon labels -> AA gray */
++.fst-italic,
++.sort-select-icon {
++  color: #495057 !important;
++}
++
++/* 2.5.8: small standalone controls get a 24px hit area */
++.sort-select-icon,
++a[title="RSS"] {
++  min-width: 24px !important;
++  min-height: 24px !important;
++  display: inline-flex !important;
++  align-items: center !important;
++  justify-content: center !important;
++}
++
++.person-listing,
++.community-link,
++.fst-italic {
++  display: inline-block !important;
++  padding-top: 5px !important;
++  padding-bottom: 5px !important;
++}
++
++/* 1.4.1: links inside running text get a non-color cue */
++.md-div a,
++.card-text a,
++.person-listing,
++.community-link,
++.overflow-wrap-anywhere,
++.fst-italic {
++  text-decoration: underline !important;
++}
++
++/* 2.5.8: compact action & markdown toolbar buttons -> 24px */
++.btn-animate,
++button.btn-link[data-tippy-content],
++a[title="formatting help"],
++.rounded.bg-light.border > .d-flex.border-bottom .btn {
++  min-width: 24px !important;
++  min-height: 24px !important;
++}
++
++/* 2.5.8: action dropdowns flow inline instead of covering nearby targets */
++ul.dropdown-menu[id^="post-actions-dropdown"],
++ul.dropdown-menu[id^="comment-actions-dropdown"] {
++  position: static !important;
++}
+diff --git a/src/assets/css/themes/_variables.litely.scss b/src/assets/css/themes/_variables.litely.scss
+index 393f6cb..a3a5719 100644
+--- a/src/assets/css/themes/_variables.litely.scss
++++ b/src/assets/css/themes/_variables.litely.scss
+@@ -8,11 +8,12 @@ $gray-800: #343a40;
+ $gray-900: #212529;
+ $black: #222;
+ 
+-$blue: #007bff;
++$blue: #0056b3;
++$pink: #a61e4d;
+ $indigo: #6610f2;
+ $red: #d8486a;
+-$orange: #f1641e;
+-$green: #00a846;
++$orange: #a83d0e;
++$green: #007332;
+ $cyan: #02bdc2;
+ 
+ $primary: $orange;
+diff --git a/src/assets/css/themes/litely.css b/src/assets/css/themes/litely.css
+index 3f5dcfc..d6797cb 100644
+--- a/src/assets/css/themes/litely.css
++++ b/src/assets/css/themes/litely.css
+@@ -6,14 +6,14 @@
+  */
+ :root,
+ [data-bs-theme=light] {
+-  --bs-blue: #007bff;
++  --bs-blue: #0056b3;
+   --bs-indigo: #6610f2;
+   --bs-purple: #6f42c1;
+-  --bs-pink: #d63384;
++  --bs-pink: #a61e4d;
+   --bs-red: #d8486a;
+-  --bs-orange: #f1641e;
++  --bs-orange: #a83d0e;
+   --bs-yellow: #ffc107;
+-  --bs-green: #00a846;
++  --bs-green: #007332;
+   --bs-teal: #20c997;
+   --bs-cyan: #02bdc2;
+   --bs-black: #222;
+@@ -29,18 +29,18 @@
+   --bs-gray-700: #495057;
+   --bs-gray-800: #343a40;
+   --bs-gray-900: #212529;
+-  --bs-primary: #f1641e;
+-  --bs-secondary: #00a846;
++  --bs-primary: #a83d0e;
++  --bs-secondary: #007332;
+   --bs-success: #6610f2;
+-  --bs-info: #007bff;
++  --bs-info: #0056b3;
+   --bs-warning: #ffc107;
+   --bs-danger: #873208;
+   --bs-light: #f8f9fa;
+   --bs-dark: #212529;
+-  --bs-primary-rgb: 241, 100, 30;
+-  --bs-secondary-rgb: 0, 168, 70;
++  --bs-primary-rgb: 168, 61, 14;
++  --bs-secondary-rgb: 0, 115, 50;
+   --bs-success-rgb: 102, 16, 242;
+-  --bs-info-rgb: 0, 123, 255;
++  --bs-info-rgb: 0, 86, 179;
+   --bs-warning-rgb: 255, 193, 7;
+   --bs-danger-rgb: 135, 50, 8;
+   --bs-light-rgb: 248, 249, 250;
+@@ -85,7 +85,7 @@
+   --bs-body-bg-rgb: 255, 255, 255;
+   --bs-emphasis-color: #222;
+   --bs-emphasis-color-rgb: 34, 34, 34;
+-  --bs-secondary-color: rgba(73, 80, 87, 0.75);
++  --bs-secondary-color: #495057;
+   --bs-secondary-color-rgb: 73, 80, 87;
+   --bs-secondary-bg: #e9ecef;
+   --bs-secondary-bg-rgb: 233, 236, 239;
+@@ -94,12 +94,12 @@
+   --bs-tertiary-bg: #f8f9fa;
+   --bs-tertiary-bg-rgb: 248, 249, 250;
+   --bs-heading-color: #495057;
+-  --bs-link-color: #f1641e;
+-  --bs-link-color-rgb: 241, 100, 30;
++  --bs-link-color: #a83d0e;
++  --bs-link-color-rgb: 168, 61, 14;
+   --bs-link-decoration: none;
+-  --bs-link-hover-color: #c15018;
+-  --bs-link-hover-color-rgb: 193, 80, 24;
+-  --bs-code-color: #d63384;
++  --bs-link-hover-color: #7f2e0a;
++  --bs-link-hover-color-rgb: 127, 46, 10;
++  --bs-code-color: #a61e4d;
+   --bs-highlight-color: #495057;
+   --bs-highlight-bg: rgb(255, 252, 239);
+   --bs-border-width: 1px;
+@@ -119,9 +119,9 @@
+   --bs-box-shadow-inset: inset 0 1px 2px rgba(34, 34, 34, 0.075);
+   --bs-focus-ring-width: 0.25rem;
+   --bs-focus-ring-opacity: 0.25;
+-  --bs-focus-ring-color: rgba(241, 100, 30, 0.25);
+-  --bs-form-valid-color: #007bff;
+-  --bs-form-valid-border-color: #007bff;
++  --bs-focus-ring-color: rgba(168, 61, 14, 0.25);
++  --bs-form-valid-color: #0056b3;
++  --bs-form-valid-border-color: #0056b3;
+   --bs-form-invalid-color: #873208;
+   --bs-form-invalid-border-color: #873208;
+ }
+@@ -2140,7 +2140,7 @@ progress {
+   background-color: var(--bs-body-bg);
+   border-color: #f8b28f;
+   outline: 0;
+-  box-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  box-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+ }
+ .form-control::-webkit-date-and-time-value {
+   min-width: 85px;
+@@ -2285,7 +2285,7 @@ textarea.form-control-lg {
+ .form-select:focus {
+   border-color: #f8b28f;
+   outline: 0;
+-  box-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.75);
++  box-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.75);
+ }
+ .form-select[multiple], .form-select[size]:not([size="1"]) {
+   padding-right: 0.75rem;
+@@ -2369,11 +2369,11 @@ textarea.form-control-lg {
+ .form-check-input:focus {
+   border-color: #f8b28f;
+   outline: 0;
+-  box-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  box-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+ }
+ .form-check-input:checked {
+-  background-color: #f1641e;
+-  border-color: #f1641e;
++  background-color: #a83d0e;
++  border-color: #a83d0e;
+ }
+ .form-check-input:checked[type=checkbox] {
+   --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+@@ -2382,8 +2382,8 @@ textarea.form-control-lg {
+   --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+ }
+ .form-check-input[type=checkbox]:indeterminate {
+-  background-color: #f1641e;
+-  border-color: #f1641e;
++  background-color: #a83d0e;
++  border-color: #a83d0e;
+   --bs-form-check-bg-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+ }
+ .form-check-input:disabled {
+@@ -2460,10 +2460,10 @@ textarea.form-control-lg {
+   outline: 0;
+ }
+ .form-range:focus::-webkit-slider-thumb {
+-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+ }
+ .form-range:focus::-moz-range-thumb {
+-  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  box-shadow: 0 0 0 1px #fff, 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+ }
+ .form-range::-moz-focus-outer {
+   border: 0;
+@@ -2473,7 +2473,7 @@ textarea.form-control-lg {
+   height: 1rem;
+   margin-top: -0.25rem;
+   appearance: none;
+-  background-color: #f1641e;
++  background-color: #a83d0e;
+   border: 0;
+   border-radius: 1rem;
+   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+@@ -2499,7 +2499,7 @@ textarea.form-control-lg {
+   width: 1rem;
+   height: 1rem;
+   appearance: none;
+-  background-color: #f1641e;
++  background-color: #a83d0e;
+   border: 0;
+   border-radius: 1rem;
+   transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+@@ -2971,8 +2971,8 @@ textarea.form-control-lg {
+ 
+ .btn-primary {
+   --bs-btn-color: #fff;
+-  --bs-btn-bg: #f1641e;
+-  --bs-btn-border-color: #f1641e;
++  --bs-btn-bg: #a83d0e;
++  --bs-btn-border-color: #a83d0e;
+   --bs-btn-hover-color: #fff;
+   --bs-btn-hover-bg: #cd551a;
+   --bs-btn-hover-border-color: #c15018;
+@@ -2982,14 +2982,14 @@ textarea.form-control-lg {
+   --bs-btn-active-border-color: #b54b17;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(34, 34, 34, 0.125);
+   --bs-btn-disabled-color: #fff;
+-  --bs-btn-disabled-bg: #f1641e;
+-  --bs-btn-disabled-border-color: #f1641e;
++  --bs-btn-disabled-bg: #a83d0e;
++  --bs-btn-disabled-border-color: #a83d0e;
+ }
+ 
+ .btn-secondary {
+   --bs-btn-color: #fff;
+-  --bs-btn-bg: #00a846;
+-  --bs-btn-border-color: #00a846;
++  --bs-btn-bg: #007332;
++  --bs-btn-border-color: #007332;
+   --bs-btn-hover-color: #fff;
+   --bs-btn-hover-bg: #008f3c;
+   --bs-btn-hover-border-color: #008638;
+@@ -2999,8 +2999,8 @@ textarea.form-control-lg {
+   --bs-btn-active-border-color: #007e35;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(34, 34, 34, 0.125);
+   --bs-btn-disabled-color: #fff;
+-  --bs-btn-disabled-bg: #00a846;
+-  --bs-btn-disabled-border-color: #00a846;
++  --bs-btn-disabled-bg: #007332;
++  --bs-btn-disabled-border-color: #007332;
+ }
+ 
+ .btn-success {
+@@ -3022,8 +3022,8 @@ textarea.form-control-lg {
+ 
+ .btn-info {
+   --bs-btn-color: #fff;
+-  --bs-btn-bg: #007bff;
+-  --bs-btn-border-color: #007bff;
++  --bs-btn-bg: #0056b3;
++  --bs-btn-border-color: #0056b3;
+   --bs-btn-hover-color: #fff;
+   --bs-btn-hover-bg: #0069d9;
+   --bs-btn-hover-border-color: #0062cc;
+@@ -3033,8 +3033,8 @@ textarea.form-control-lg {
+   --bs-btn-active-border-color: #005cbf;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(34, 34, 34, 0.125);
+   --bs-btn-disabled-color: #fff;
+-  --bs-btn-disabled-bg: #007bff;
+-  --bs-btn-disabled-border-color: #007bff;
++  --bs-btn-disabled-bg: #0056b3;
++  --bs-btn-disabled-border-color: #0056b3;
+ }
+ 
+ .btn-warning {
+@@ -3106,36 +3106,36 @@ textarea.form-control-lg {
+ }
+ 
+ .btn-outline-primary {
+-  --bs-btn-color: #f1641e;
+-  --bs-btn-border-color: #f1641e;
++  --bs-btn-color: #a83d0e;
++  --bs-btn-border-color: #a83d0e;
+   --bs-btn-hover-color: #fff;
+-  --bs-btn-hover-bg: #f1641e;
+-  --bs-btn-hover-border-color: #f1641e;
+-  --bs-btn-focus-shadow-rgb: 241, 100, 30;
++  --bs-btn-hover-bg: #a83d0e;
++  --bs-btn-hover-border-color: #a83d0e;
++  --bs-btn-focus-shadow-rgb: 168, 61, 14;
+   --bs-btn-active-color: #fff;
+-  --bs-btn-active-bg: #f1641e;
+-  --bs-btn-active-border-color: #f1641e;
++  --bs-btn-active-bg: #a83d0e;
++  --bs-btn-active-border-color: #a83d0e;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(34, 34, 34, 0.125);
+-  --bs-btn-disabled-color: #f1641e;
++  --bs-btn-disabled-color: #a83d0e;
+   --bs-btn-disabled-bg: transparent;
+-  --bs-btn-disabled-border-color: #f1641e;
++  --bs-btn-disabled-border-color: #a83d0e;
+   --bs-gradient: none;
+ }
+ 
+ .btn-outline-secondary {
+-  --bs-btn-color: #00a846;
+-  --bs-btn-border-color: #00a846;
++  --bs-btn-color: #007332;
++  --bs-btn-border-color: #007332;
+   --bs-btn-hover-color: #fff;
+-  --bs-btn-hover-bg: #00a846;
+-  --bs-btn-hover-border-color: #00a846;
+-  --bs-btn-focus-shadow-rgb: 0, 168, 70;
++  --bs-btn-hover-bg: #007332;
++  --bs-btn-hover-border-color: #007332;
++  --bs-btn-focus-shadow-rgb: 0, 115, 50;
+   --bs-btn-active-color: #fff;
+-  --bs-btn-active-bg: #00a846;
+-  --bs-btn-active-border-color: #00a846;
++  --bs-btn-active-bg: #007332;
++  --bs-btn-active-border-color: #007332;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(34, 34, 34, 0.125);
+-  --bs-btn-disabled-color: #00a846;
++  --bs-btn-disabled-color: #007332;
+   --bs-btn-disabled-bg: transparent;
+-  --bs-btn-disabled-border-color: #00a846;
++  --bs-btn-disabled-border-color: #007332;
+   --bs-gradient: none;
+ }
+ 
+@@ -3157,19 +3157,19 @@ textarea.form-control-lg {
+ }
+ 
+ .btn-outline-info {
+-  --bs-btn-color: #007bff;
+-  --bs-btn-border-color: #007bff;
++  --bs-btn-color: #0056b3;
++  --bs-btn-border-color: #0056b3;
+   --bs-btn-hover-color: #fff;
+-  --bs-btn-hover-bg: #007bff;
+-  --bs-btn-hover-border-color: #007bff;
+-  --bs-btn-focus-shadow-rgb: 0, 123, 255;
++  --bs-btn-hover-bg: #0056b3;
++  --bs-btn-hover-border-color: #0056b3;
++  --bs-btn-focus-shadow-rgb: 0, 86, 179;
+   --bs-btn-active-color: #fff;
+-  --bs-btn-active-bg: #007bff;
+-  --bs-btn-active-border-color: #007bff;
++  --bs-btn-active-bg: #0056b3;
++  --bs-btn-active-border-color: #0056b3;
+   --bs-btn-active-shadow: inset 0 3px 5px rgba(34, 34, 34, 0.125);
+-  --bs-btn-disabled-color: #007bff;
++  --bs-btn-disabled-color: #0056b3;
+   --bs-btn-disabled-bg: transparent;
+-  --bs-btn-disabled-border-color: #007bff;
++  --bs-btn-disabled-border-color: #0056b3;
+   --bs-gradient: none;
+ }
+ 
+@@ -3360,7 +3360,7 @@ textarea.form-control-lg {
+   --bs-dropdown-link-hover-color: var(--bs-body-color);
+   --bs-dropdown-link-hover-bg: var(--bs-tertiary-bg);
+   --bs-dropdown-link-active-color: #fff;
+-  --bs-dropdown-link-active-bg: #f1641e;
++  --bs-dropdown-link-active-bg: #a83d0e;
+   --bs-dropdown-link-disabled-color: var(--bs-tertiary-color);
+   --bs-dropdown-item-padding-x: 1rem;
+   --bs-dropdown-item-padding-y: 0.25rem;
+@@ -3625,7 +3625,7 @@ textarea.form-control-lg {
+   --bs-dropdown-divider-bg: var(--bs-border-color-translucent);
+   --bs-dropdown-link-hover-bg: rgba(255, 255, 255, 0.15);
+   --bs-dropdown-link-active-color: #fff;
+-  --bs-dropdown-link-active-bg: #f1641e;
++  --bs-dropdown-link-active-bg: #a83d0e;
+   --bs-dropdown-link-disabled-color: #adb5bd;
+   --bs-dropdown-header-color: #adb5bd;
+ }
+@@ -3764,7 +3764,7 @@ textarea.form-control-lg {
+ }
+ .nav-link:focus-visible {
+   outline: 0;
+-  box-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  box-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+ }
+ .nav-link.disabled, .nav-link:disabled {
+   color: var(--bs-nav-link-disabled-color);
+@@ -3807,7 +3807,7 @@ textarea.form-control-lg {
+ .nav-pills {
+   --bs-nav-pills-border-radius: var(--bs-border-radius);
+   --bs-nav-pills-link-active-color: #fff;
+-  --bs-nav-pills-link-active-bg: #f1641e;
++  --bs-nav-pills-link-active-bg: #a83d0e;
+ }
+ .nav-pills .nav-link {
+   border-radius: var(--bs-nav-pills-border-radius);
+@@ -4494,7 +4494,7 @@ textarea.form-control-lg {
+   --bs-accordion-btn-icon-transform: rotate(-180deg);
+   --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
+   --bs-accordion-btn-active-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2360280c' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e");
+-  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  --bs-accordion-btn-focus-box-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+   --bs-accordion-body-padding-x: 1.25rem;
+   --bs-accordion-body-padding-y: 1rem;
+   --bs-accordion-active-color: var(--bs-primary-text-emphasis);
+@@ -4661,10 +4661,10 @@ textarea.form-control-lg {
+   --bs-pagination-hover-border-color: var(--bs-border-color);
+   --bs-pagination-focus-color: var(--bs-link-hover-color);
+   --bs-pagination-focus-bg: var(--bs-secondary-bg);
+-  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+   --bs-pagination-active-color: #fff;
+-  --bs-pagination-active-bg: #f1641e;
+-  --bs-pagination-active-border-color: #f1641e;
++  --bs-pagination-active-bg: #a83d0e;
++  --bs-pagination-active-border-color: #a83d0e;
+   --bs-pagination-disabled-color: var(--bs-secondary-color);
+   --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+   --bs-pagination-disabled-border-color: var(--bs-border-color);
+@@ -4875,7 +4875,7 @@ textarea.form-control-lg {
+   --bs-progress-border-radius: var(--bs-border-radius);
+   --bs-progress-box-shadow: var(--bs-box-shadow-inset);
+   --bs-progress-bar-color: #fff;
+-  --bs-progress-bar-bg: #f1641e;
++  --bs-progress-bar-bg: #a83d0e;
+   --bs-progress-bar-transition: width 0.6s ease;
+   display: flex;
+   height: var(--bs-progress-height);
+@@ -4940,8 +4940,8 @@ textarea.form-control-lg {
+   --bs-list-group-disabled-color: var(--bs-secondary-color);
+   --bs-list-group-disabled-bg: var(--bs-body-bg);
+   --bs-list-group-active-color: #fff;
+-  --bs-list-group-active-bg: #f1641e;
+-  --bs-list-group-active-border-color: #f1641e;
++  --bs-list-group-active-bg: #a83d0e;
++  --bs-list-group-active-border-color: #a83d0e;
+   display: flex;
+   flex-direction: column;
+   padding-left: 0;
+@@ -5271,7 +5271,7 @@ textarea.form-control-lg {
+   --bs-btn-close-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23222'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e");
+   --bs-btn-close-opacity: 0.5;
+   --bs-btn-close-hover-opacity: 0.75;
+-  --bs-btn-close-focus-shadow: 0 0 0 0.25rem rgba(241, 100, 30, 0.25);
++  --bs-btn-close-focus-shadow: 0 0 0 0.25rem rgba(168, 61, 14, 0.25);
+   --bs-btn-close-focus-opacity: 1;
+   --bs-btn-close-disabled-opacity: 0.25;
+   --bs-btn-close-white-filter: invert(1) grayscale(100%) brightness(200%);
+diff --git a/src/shared/components/app/error-page.tsx b/src/shared/components/app/error-page.tsx
+index dd72efb..ea5a09b 100644
+--- a/src/shared/components/app/error-page.tsx
++++ b/src/shared/components/app/error-page.tsx
+@@ -4,6 +4,7 @@ import { T } from "inferno-i18next-dess";
+ import { Link } from "inferno-router";
+ import { IsoDataOptionalSite } from "../../interfaces";
+ import { I18NextService } from "../../services";
++import { HtmlTags } from "../common/html-tags";
+ 
+ export class ErrorPage extends Component<any, any> {
+   private isoData: IsoDataOptionalSite = setIsoData(this.context);
+@@ -15,8 +16,13 @@ export class ErrorPage extends Component<any, any> {
+   render() {
+     const { errorPageData } = this.isoData;
+ 
++    const title = errorPageData
++      ? I18NextService.i18n.t("error_page_title")
++      : I18NextService.i18n.t("not_found_page_title");
++
+     return (
+       <div className="error-page container-lg text-center">
++        <HtmlTags title={title} path={this.isoData.path} />
+         <h1>
+           {errorPageData
+             ? I18NextService.i18n.t("error_page_title")
+diff --git a/src/shared/components/common/content-actions/content-action-dropdown.tsx b/src/shared/components/common/content-actions/content-action-dropdown.tsx
+index 4cb4c6c..77bf711 100644
+--- a/src/shared/components/common/content-actions/content-action-dropdown.tsx
++++ b/src/shared/components/common/content-actions/content-action-dropdown.tsx
+@@ -90,11 +90,14 @@ type ContentActionDropdownState = ActionTypeState &
+   RenderState &
+   DropdownState;
+ 
++let contentActionDropdownCounter = 0;
++
+ @tippyMixin
+ export default class ContentActionDropdown extends Component<
+   ContentActionDropdownProps,
+   ContentActionDropdownState
+ > {
++  private instanceNo = ++contentActionDropdownCounter;
+   state: ContentActionDropdownState = {
+     showAppointAdminDialog: false,
+     showAppointModDialog: false,
+@@ -153,8 +156,8 @@ export default class ContentActionDropdown extends Component<
+     } = this.contentInfo;
+     const dropdownId =
+       type === "post"
+-        ? `post-actions-dropdown-${id}`
+-        : `comment-actions-dropdown-${id}`;
++        ? `post-actions-dropdown-${id}-${this.instanceNo}`
++        : `comment-actions-dropdown-${id}-${this.instanceNo}`;
+     const creatorBannedFromLocal = creator.banned;
+     const showToggleAdmin = !creatorBannedFromLocal && creator.local;
+     const canAppointCommunityMod =
+@@ -208,6 +211,7 @@ export default class ContentActionDropdown extends Component<
+             className="btn btn-sm btn-link btn-animate text-muted py-0 dropdown-toggle"
+             data-tippy-content={I18NextService.i18n.t("more")}
+             data-bs-toggle="dropdown"
++            data-bs-display="static"
+             aria-expanded="false"
+             aria-controls={dropdownId}
+             aria-label={I18NextService.i18n.t("more")}
+diff --git a/src/shared/components/common/image-upload-form.tsx b/src/shared/components/common/image-upload-form.tsx
+index 00b8039..7b64628 100644
+--- a/src/shared/components/common/image-upload-form.tsx
++++ b/src/shared/components/common/image-upload-form.tsx
+@@ -63,6 +63,7 @@ export class ImageUploadForm extends Component<
+           accept="image/*,video/*"
+           className="small form-control"
+           name={this.id}
++          aria-label={this.props.uploadTitle}
+           disabled={!UserService.Instance.myUserInfo}
+           onChange={linkEvent(this, this.handleImageUpload)}
+         />
+diff --git a/src/shared/components/common/markdown-textarea.tsx b/src/shared/components/common/markdown-textarea.tsx
+index f22f6aa..cc9cf07 100644
+--- a/src/shared/components/common/markdown-textarea.tsx
++++ b/src/shared/components/common/markdown-textarea.tsx
+@@ -54,6 +54,11 @@ interface MarkdownTextAreaProps {
+   allLanguages: Language[]; // TODO should probably be nullable
+   siteLanguages: number[]; // TODO same
+   renderAsDiv?: boolean;
++  /**
++   * Optional fixed id for the textarea element. Lets an external
++   * <label htmlFor> (e.g. a form row label) point at it.
++   */
++  id?: string;
+ }
+ 
+ interface ImageUploadStatus {
+@@ -88,6 +93,9 @@ export class MarkdownTextArea extends Component<
+ 
+   constructor(props: any, context: any) {
+     super(props, context);
++    if (props?.id) {
++      this.id = props.id;
++    }
+ 
+     this.handleLanguageChange = this.handleLanguageChange.bind(this);
+     this.handleEmoji = this.handleEmoji.bind(this);
+@@ -255,9 +263,11 @@ export class MarkdownTextArea extends Component<
+                     />
+                   )}
+               </div>
+-              <label className="visually-hidden" htmlFor={this.id}>
+-                {I18NextService.i18n.t("body")}
+-              </label>
++              {!this.props.id && (
++                <label className="visually-hidden" htmlFor={this.id}>
++                  {I18NextService.i18n.t("body")}
++                </label>
++              )}
+             </div>
+           </div>
+ 
+diff --git a/src/shared/components/common/modal/confirmation-modal.tsx b/src/shared/components/common/modal/confirmation-modal.tsx
+index 4de0881..ab71703 100644
+--- a/src/shared/components/common/modal/confirmation-modal.tsx
++++ b/src/shared/components/common/modal/confirmation-modal.tsx
+@@ -52,7 +52,7 @@ export default class ConfirmationModal extends Component<
+         id="confirmModal"
+         tabIndex={-1}
+         aria-hidden
+-        aria-labelledby="#confirmationModalTitle"
++        aria-labelledby="confirmationModalTitle"
+         data-bs-backdrop="static"
+         ref={this.modalDivRef}
+       >
+diff --git a/src/shared/components/common/modal/display-modal.tsx b/src/shared/components/common/modal/display-modal.tsx
+index e23efa2..4b3c9ba 100644
+--- a/src/shared/components/common/modal/display-modal.tsx
++++ b/src/shared/components/common/modal/display-modal.tsx
+@@ -33,7 +33,7 @@ export default class DisplayModal extends Component<DisplayModalProps, any> {
+         id="display-modal"
+         tabIndex={-1}
+         aria-hidden
+-        aria-labelledby="#displayModalTitle"
++        aria-labelledby="displayModalTitle"
+         data-bs-backdrop="static"
+         ref={this.modalDivRef}
+       >
+diff --git a/src/shared/components/common/modal/mod-action-form-modal.tsx b/src/shared/components/common/modal/mod-action-form-modal.tsx
+index fea9405..68b437f 100644
+--- a/src/shared/components/common/modal/mod-action-form-modal.tsx
++++ b/src/shared/components/common/modal/mod-action-form-modal.tsx
+@@ -168,7 +168,7 @@ export default class ModActionFormModal extends Component<
+         id="moderationModal"
+         tabIndex={-1}
+         aria-hidden
+-        aria-labelledby="#moderationModalTitle"
++        aria-labelledby="moderationModalTitle"
+         ref={this.modalDivRef}
+       >
+         <div className="modal-dialog modal-dialog-centered">
+diff --git a/src/shared/components/common/modal/totp-modal.tsx b/src/shared/components/common/modal/totp-modal.tsx
+index 220db5b..2b1de2c 100644
+--- a/src/shared/components/common/modal/totp-modal.tsx
++++ b/src/shared/components/common/modal/totp-modal.tsx
+@@ -101,7 +101,7 @@ export default class TotpModal extends Component<
+         id="totpModal"
+         tabIndex={-1}
+         aria-hidden
+-        aria-labelledby="#totpModalTitle"
++        aria-labelledby="totpModalTitle"
+         data-bs-backdrop="static"
+         ref={this.modalDivRef}
+       >
+diff --git a/src/shared/components/common/modal/view-votes-modal.tsx b/src/shared/components/common/modal/view-votes-modal.tsx
+index 7daae30..d12d83c 100644
+--- a/src/shared/components/common/modal/view-votes-modal.tsx
++++ b/src/shared/components/common/modal/view-votes-modal.tsx
+@@ -119,7 +119,7 @@ export default class ViewVotesModal extends Component<
+         id="viewVotesModal"
+         tabIndex={-1}
+         aria-hidden
+-        aria-labelledby="#viewVotesModalTitle"
++        aria-labelledby="viewVotesModalTitle"
+         data-bs-backdrop="static"
+         ref={this.modalDivRef}
+       >
+diff --git a/src/shared/components/common/password-input.tsx b/src/shared/components/common/password-input.tsx
+index 460fca0..adc9f2b 100644
+--- a/src/shared/components/common/password-input.tsx
++++ b/src/shared/components/common/password-input.tsx
+@@ -92,9 +92,9 @@ class PasswordInput extends Component<PasswordInputProps, PasswordInputState> {
+           <div className={`col-sm-${label ? 10 : 12}`}>
+             <div className="input-group">
+               <input
++                id={id}
+                 type={show ? "text" : "password"}
+                 className="form-control"
+-                aria-describedby={id}
+                 autoComplete={isNew ? "new-password" : "current-password"}
+                 onInput={onInput}
+                 value={value}
+@@ -107,7 +107,6 @@ class PasswordInput extends Component<PasswordInputProps, PasswordInputState> {
+               <button
+                 className="btn btn-outline-dark"
+                 type="button"
+-                id={id}
+                 onClick={linkEvent(this, handleToggleShow)}
+                 aria-label={I18NextService.i18n.t(
+                   `${show ? "show" : "hide"}_password`,
+diff --git a/src/shared/components/common/searchable-select.tsx b/src/shared/components/common/searchable-select.tsx
+index 7e935e8..a4b455a 100644
+--- a/src/shared/components/common/searchable-select.tsx
++++ b/src/shared/components/common/searchable-select.tsx
+@@ -107,8 +107,10 @@ export class SearchableSelect extends Component<
+           role="combobox"
+           className="form-select d-inline-block text-start"
+           aria-haspopup="listbox"
+-          aria-controls="searchable-select-input"
+-          aria-activedescendant={options[selectedIndex].label}
++          aria-controls={`${id}-listbox`}
++          aria-activedescendant={
++            options[selectedIndex] ? `${id}-option-${selectedIndex}` : undefined
++          }
+           aria-expanded={false}
+           data-bs-toggle="dropdown"
+           onClick={linkEvent(this, focusSearch)}
+@@ -130,24 +132,27 @@ export class SearchableSelect extends Component<
+             </span>
+             <input
+               type="text"
+-              id="searchable-select-input"
++              id={`${id}-search-input`}
+               className="form-control"
+               ref={this.searchInputRef}
+               onInput={linkEvent(this, handleSearch)}
+               value={searchText}
+               placeholder={`${I18NextService.i18n.t("search")}...`}
++              aria-label={I18NextService.i18n.t("search")}
+             />
+           </div>
+-          {!loading &&
++          {!loading && (
+             // If onSearch is provided, it is assumed that the parent component is doing it's own sorting logic.
+-            (onSearch || searchText.length === 0
+-              ? options
+-              : options.filter(({ label }) =>
+-                  label.toLowerCase().includes(searchText.toLowerCase()),
+-                )
+-            ).map((option, index) => (
++            <div id={`${id}-listbox`} role="listbox" aria-labelledby={id}>
++              {(onSearch || searchText.length === 0
++                ? options
++                : options.filter(({ label }) =>
++                    label.toLowerCase().includes(searchText.toLowerCase()),
++                  )
++              ).map((option, index) => (
+               <button
+                 key={option.value}
++                id={`${id}-option-${index}`}
+                 className={classNames("dropdown-item", {
+                   active: selectedIndex === index,
+                 })}
+@@ -160,7 +165,9 @@ export class SearchableSelect extends Component<
+               >
+                 {option.label}
+               </button>
+-            ))}
++              ))}
++            </div>
++          )}
+         </div>
+       </div>
+     );
+diff --git a/src/shared/components/common/subscribe-button.tsx b/src/shared/components/common/subscribe-button.tsx
+index 0ba7fda..3bacfb6 100644
+--- a/src/shared/components/common/subscribe-button.tsx
++++ b/src/shared/components/common/subscribe-button.tsx
+@@ -164,7 +164,7 @@ class RemoteFetchModal extends Component<
+         id="remoteFetchModal"
+         tabIndex={-1}
+         aria-hidden
+-        aria-labelledby="#remoteFetchModalTitle"
++        aria-labelledby="remoteFetchModalTitle"
+         ref={this.modalDivRef}
+       >
+         <div className="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+diff --git a/src/shared/components/common/tabs.tsx b/src/shared/components/common/tabs.tsx
+index 7ceffa8..a8eee51 100644
+--- a/src/shared/components/common/tabs.tsx
++++ b/src/shared/components/common/tabs.tsx
+@@ -31,28 +31,30 @@ export default class Tabs extends Component<TabsProps, TabsState> {
+   render() {
+     return (
+       <div>
+-        <ul className="nav nav-tabs mb-2" role="tablist">
++        {this.props.tabs.length > 0 && (
++          <ul className="nav nav-tabs mb-2" role="tablist">
+           {this.props.tabs.map(({ key, label }) => (
+-            <li key={key} className="nav-item">
++            <li key={key} className="nav-item" role="presentation">
+               <button
+                 type="button"
++                role="tab"
++                id={`${key}-tab`}
+                 className={classNames("nav-link", {
+                   active: this.state?.currentTab === key,
+                 })}
+                 onClick={linkEvent({ ctx: this, tab: key }, handleSwitchTab)}
+                 aria-controls={`${key}-tab-pane`}
++                aria-selected={this.state?.currentTab === key}
+                 {...(this.state?.currentTab === key && {
+-                  ...{
+-                    "aria-current": "page",
+-                    "aria-selected": "true",
+-                  },
++                  ...{ "aria-current": "page" },
+                 })}
+               >
+                 {label}
+               </button>
+             </li>
+           ))}
+-        </ul>
++          </ul>
++        )}
+         <div className="tab-content">
+           {this.props.tabs.map(({ key, getNode }) => {
+             return getNode(this.state?.currentTab === key);
+diff --git a/src/shared/components/common/user-badges.tsx b/src/shared/components/common/user-badges.tsx
+index bff56d1..abb5b76 100644
+--- a/src/shared/components/common/user-badges.tsx
++++ b/src/shared/components/common/user-badges.tsx
+@@ -25,13 +25,18 @@ function getRoleLabelPill({
+   classes?: string;
+   shrink?: boolean;
+ }) {
++  const visible = shrink ? label[0].toUpperCase() : label;
++  const accessible = tooltip.toLowerCase().includes(visible.toLowerCase())
++    ? tooltip
++    : `${visible} — ${tooltip}`;
+   return (
+     <span
+       className={`badge ${classes ?? "text-bg-light"}`}
+-      aria-label={tooltip}
++      role="img"
++      aria-label={accessible}
+       data-tippy-content={tooltip}
+     >
+-      {shrink ? label[0].toUpperCase() : label}
++      {visible}
+     </span>
+   );
+ }
+diff --git a/src/shared/components/common/vote-buttons.tsx b/src/shared/components/common/vote-buttons.tsx
+index 4c00131..f639a95 100644
+--- a/src/shared/components/common/vote-buttons.tsx
++++ b/src/shared/components/common/vote-buttons.tsx
+@@ -144,7 +144,10 @@ export class VoteButtonsCompact extends Component<
+           )}
+           disabled={!UserService.Instance.myUserInfo}
+           onClick={linkEvent(this, handleUpvote)}
+-          aria-label={I18NextService.i18n.t("upvote")}
++          aria-label={
++            tippy(this.props.voteDisplayMode, this.props.counts) ||
++            I18NextService.i18n.t("upvote")
++          }
+           aria-pressed={this.props.myVote === 1}
+         >
+           {this.state.upvoteLoading ? (
+@@ -173,7 +176,10 @@ export class VoteButtonsCompact extends Component<
+               this.props.voteDisplayMode,
+               this.props.counts,
+             )}
+-            aria-label={I18NextService.i18n.t("downvote")}
++            aria-label={
++              tippy(this.props.voteDisplayMode, this.props.counts) ||
++              I18NextService.i18n.t("downvote")
++            }
+             aria-pressed={this.props.myVote === -1}
+           >
+             {this.state.downvoteLoading ? (
+@@ -236,7 +242,10 @@ export class VoteButtons extends Component<VoteButtonsProps, VoteButtonsState> {
+             this.props.voteDisplayMode,
+             this.props.counts,
+           )}
+-          aria-label={I18NextService.i18n.t("upvote")}
++          aria-label={
++            tippy(this.props.voteDisplayMode, this.props.counts) ||
++            I18NextService.i18n.t("upvote")
++          }
+           aria-pressed={this.props.myVote === 1}
+         >
+           {this.state.upvoteLoading ? (
+@@ -270,7 +279,10 @@ export class VoteButtons extends Component<VoteButtonsProps, VoteButtonsState> {
+               this.props.voteDisplayMode,
+               this.props.counts,
+             )}
+-            aria-label={I18NextService.i18n.t("downvote")}
++            aria-label={
++              tippy(this.props.voteDisplayMode, this.props.counts) ||
++              I18NextService.i18n.t("downvote")
++            }
+             aria-pressed={this.props.myVote === -1}
+           >
+             {this.state.downvoteLoading ? (
+diff --git a/src/shared/components/common/vote-display.tsx b/src/shared/components/common/vote-display.tsx
+index 6a46fc9..880e76c 100644
+--- a/src/shared/components/common/vote-display.tsx
++++ b/src/shared/components/common/vote-display.tsx
+@@ -62,6 +62,7 @@ export class VoteDisplay extends Component<Props, any> {
+     return (
+       <span
+         className={`${BADGE_CLASSES} ${scoreColor(myVote)}`}
++        role="img"
+         aria-label={scoreTippy}
+         data-tippy-content={scoreTippy}
+       >
+@@ -88,6 +89,7 @@ export class VoteDisplay extends Component<Props, any> {
+       thresholdCheck && (
+         <span
+           className={BADGE_CLASSES}
++          role="img"
+           aria-label={upvotesPctTippy}
+           data-tippy-content={upvotesPctTippy}
+         >
+@@ -137,6 +139,7 @@ export class VoteDisplay extends Component<Props, any> {
+         className={classNames({
+           "text-info": myVote === 1,
+         })}
++        role="img"
+         aria-label={upvotesTippy}
+         data-tippy-content={upvotesTippy}
+       >
+@@ -163,6 +166,7 @@ export class VoteDisplay extends Component<Props, any> {
+         className={classNames({
+           "text-danger": myVote === -1,
+         })}
++        role="img"
+         aria-label={downvotesTippy}
+         data-tippy-content={downvotesTippy}
+       >
+diff --git a/src/shared/components/community/communities.tsx b/src/shared/components/community/communities.tsx
+index d91f796..afa3555 100644
+--- a/src/shared/components/community/communities.tsx
++++ b/src/shared/components/community/communities.tsx
+@@ -142,9 +142,9 @@ export class Communities extends Component<
+     switch (this.state.listCommunitiesResponse.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         return (
+@@ -165,7 +165,11 @@ export class Communities extends Component<
+                 <th className="text-right d-none d-lg-table-cell">
+                   {I18NextService.i18n.t("comments")}
+                 </th>
+-                <th></th>
++                <th>
++                  <span className="visually-hidden">
++                    {I18NextService.i18n.t("subscribed")}
++                  </span>
++                </th>
+               </tr>
+             </thead>
+             <tbody>
+diff --git a/src/shared/components/community/community-form.tsx b/src/shared/components/community/community-form.tsx
+index d00a51a..7ef998c 100644
+--- a/src/shared/components/community/community-form.tsx
++++ b/src/shared/components/community/community-form.tsx
+@@ -207,9 +207,9 @@ export class CommunityForm extends Component<
+ 
+         {this.props.enableNsfw && (
+           <div className="mb-3 row">
+-            <legend className="col-form-label col-sm-2 pt-0">
++            <label className="col-form-label col-sm-2 pt-0" htmlFor="community-nsfw">
+               {I18NextService.i18n.t("nsfw")}
+-            </legend>
++            </label>
+             <div className="col-10">
+               <div className="form-check">
+                 <input
+@@ -224,9 +224,9 @@ export class CommunityForm extends Component<
+           </div>
+         )}
+         <div className="mb-3 row">
+-          <legend className="col-form-label col-6 pt-0">
++          <label className="col-form-label col-6 pt-0" htmlFor="community-visibility">
+             {I18NextService.i18n.t("community_visibility")}
+-          </legend>
++          </label>
+           <div className="col-6">
+             <select
+               className="form-select position-static"
+diff --git a/src/shared/components/home/admin-settings.tsx b/src/shared/components/home/admin-settings.tsx
+index f33b094..ce45a22 100644
+--- a/src/shared/components/home/admin-settings.tsx
++++ b/src/shared/components/home/admin-settings.tsx
+@@ -180,6 +180,7 @@ export class AdminSettings extends Component<
+                   })}
+                   role="tabpanel"
+                   id="site-tab-pane"
++        aria-labelledby="site-tab"
+                 >
+                   <h1 className="h4 mb-4">
+                     {I18NextService.i18n.t("site_config")}
+@@ -211,6 +212,7 @@ export class AdminSettings extends Component<
+                   })}
+                   role="tabpanel"
+                   id="banned_users-tab-pane"
++        aria-labelledby="banned_users-tab"
+                 >
+                   {this.bannedUsers()}
+                 </div>
+@@ -226,6 +228,7 @@ export class AdminSettings extends Component<
+                   })}
+                   role="tabpanel"
+                   id="rate_limiting-tab-pane"
++        aria-labelledby="rate_limiting-tab"
+                 >
+                   <RateLimitForm
+                     rateLimits={
+@@ -247,6 +250,7 @@ export class AdminSettings extends Component<
+                   })}
+                   role="tabpanel"
+                   id="taglines-tab-pane"
++        aria-labelledby="taglines-tab"
+                 >
+                   <div className="row">
+                     <TaglineForm
+@@ -268,6 +272,7 @@ export class AdminSettings extends Component<
+                   })}
+                   role="tabpanel"
+                   id="emojis-tab-pane"
++        aria-labelledby="emojis-tab"
+                 >
+                   <div className="row">
+                     <EmojiForm
+@@ -289,6 +294,7 @@ export class AdminSettings extends Component<
+                   })}
+                   role="tabpanel"
+                   id="uploads-tab-pane"
++        aria-labelledby="uploads-tab"
+                 >
+                   {this.uploads()}
+                 </div>
+@@ -376,9 +382,9 @@ export class AdminSettings extends Component<
+     switch (this.state.bannedRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const bans = this.state.bannedRes.data.banned;
+@@ -402,9 +408,9 @@ export class AdminSettings extends Component<
+     switch (this.state.uploadsRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const uploadsRes = this.state.uploadsRes.data;
+diff --git a/src/shared/components/home/home.tsx b/src/shared/components/home/home.tsx
+index c247075..c0fee0a 100644
+--- a/src/shared/components/home/home.tsx
++++ b/src/shared/components/home/home.tsx
+@@ -515,14 +515,14 @@ export class Home extends Component<HomeRouteProps, HomeState> {
+           className="card-header d-flex align-items-center"
+           id="sidebarSubscribedHeader"
+         >
+-          <h5 className="mb-0 d-inline">
++          <h2 className="h5 mb-0 d-inline">
+             <T class="d-inline" i18nKey="subscribed_to_communities">
+               #
+               <Link className="text-body" to="/communities">
+                 #
+               </Link>
+             </T>
+-          </h5>
++          </h2>
+           {!isMobile && (
+             <button
+               type="button"
+@@ -552,6 +552,7 @@ export class Home extends Component<HomeRouteProps, HomeState> {
+           <div
+             id="sidebarSubscribedBody"
+             aria-labelledby="sidebarSubscribedHeader"
++            role="region"
+           >
+             <div className="card-body">
+               <ul className="list-inline mb-0">
+diff --git a/src/shared/components/home/instances.tsx b/src/shared/components/home/instances.tsx
+index 315504a..82aed60 100644
+--- a/src/shared/components/home/instances.tsx
++++ b/src/shared/components/home/instances.tsx
+@@ -109,9 +109,9 @@ export class Instances extends Component<InstancesRouteProps, InstancesState> {
+     switch (this.state.instancesRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const instances = this.state.instancesRes.data.federated_instances;
+@@ -141,7 +141,7 @@ export class Instances extends Component<InstancesRouteProps, InstancesState> {
+             </div>
+           </div>
+         ) : (
+-          <h5>No linked instance</h5>
++          <div className="h5">No linked instance</div>
+         );
+       }
+     }
+@@ -154,6 +154,7 @@ export class Instances extends Component<InstancesRouteProps, InstancesState> {
+           title={this.documentTitle}
+           path={this.context.router.route.match.url}
+         />
++        <h1 className="h4 mb-4">{this.documentTitle}</h1>
+         {this.renderInstances()}
+       </div>
+     );
+diff --git a/src/shared/components/home/legal.tsx b/src/shared/components/home/legal.tsx
+index 51786cb..1b31ed3 100644
+--- a/src/shared/components/home/legal.tsx
++++ b/src/shared/components/home/legal.tsx
+@@ -31,6 +31,7 @@ export class Legal extends Component<any, LegalState> {
+           title={this.documentTitle}
+           path={this.context.router.route.match.url}
+         />
++        <h1 className="h4 mb-4">{this.documentTitle}</h1>
+         {legal && (
+           <div
+             className="md-div"
+diff --git a/src/shared/components/home/rate-limit-form.tsx b/src/shared/components/home/rate-limit-form.tsx
+index bef1440..7408baa 100644
+--- a/src/shared/components/home/rate-limit-form.tsx
++++ b/src/shared/components/home/rate-limit-form.tsx
+@@ -16,6 +16,8 @@ const rateLimitTypes = [
+ ] as const;
+ 
+ interface RateLimitsProps {
++  id?: string;
++  ariaLabelledby?: string;
+   handleRateLimit: FormEventHandler<HTMLInputElement>;
+   handleRateLimitPerSecond: FormEventHandler<HTMLInputElement>;
+   rateLimitValue?: number;
+@@ -52,16 +54,23 @@ function RateLimits({
+   rateLimitPerSecondValue,
+   rateLimitValue,
+   className,
++  id,
++  ariaLabelledby,
+ }: RateLimitsProps) {
+   return (
+-    <div role="tabpanel" className={classNames("mb-3 row", className)}>
++    <div
++      role="tabpanel"
++      className={classNames("mb-3 row", className)}
++      id={id}
++      aria-labelledby={ariaLabelledby}
++    >
+       <div className="col-md-6">
+-        <label htmlFor="rate-limit">
++        <label htmlFor={`rate-limit-${id}`}>
+           {I18NextService.i18n.t("rate_limit")}
+         </label>
+         <input
+           type="number"
+-          id="rate-limit"
++          id={`rate-limit-${id}`}
+           className="form-control"
+           min={0}
+           value={rateLimitValue}
+@@ -69,12 +78,12 @@ function RateLimits({
+         />
+       </div>
+       <div className="col-md-6">
+-        <label htmlFor="rate-limit-per-second">
++        <label htmlFor={`rate-limit-per-second-${id}`}>
+           {I18NextService.i18n.t("per_second")}
+         </label>
+         <input
+           type="number"
+-          id="rate-limit-per-second"
++          id={`rate-limit-per-second-${id}`}
+           className="form-control"
+           min={0}
+           value={rateLimitPerSecondValue}
+@@ -157,6 +166,8 @@ export default class RateLimitsForm extends Component<
+                 className={classNames("tab-pane show", {
+                   active: isSelected,
+                 })}
++                id={`${rateLimitType}-tab-pane`}
++                ariaLabelledby={`${rateLimitType}-tab`}
+                 handleRateLimit={linkEvent(
+                   { rateLimitType, ctx: this },
+                   handleRateLimitChange,
+diff --git a/src/shared/components/home/site-form.tsx b/src/shared/components/home/site-form.tsx
+index ee26c91..ceb9f44 100644
+--- a/src/shared/components/home/site-form.tsx
++++ b/src/shared/components/home/site-form.tsx
+@@ -393,7 +393,7 @@ export class SiteForm extends Component<SiteFormProps, SiteFormState> {
+               />
+               <label
+                 className="form-check-label"
+-                htmlFor="create-site-email-admins"
++                htmlFor="create-site-application-email-admins"
+               >
+                 {I18NextService.i18n.t("application_email_admins")}
+               </label>
+diff --git a/src/shared/components/home/site-sidebar.tsx b/src/shared/components/home/site-sidebar.tsx
+index 3ae43d0..91bfee5 100644
+--- a/src/shared/components/home/site-sidebar.tsx
++++ b/src/shared/components/home/site-sidebar.tsx
+@@ -43,7 +43,7 @@ export class SiteSidebar extends Component<SiteSidebarProps, SiteSidebarState> {
+           </header>
+ 
+           {!this.state.collapsed && (
+-            <div id="sidebarInfoBody" aria-labelledby="sidebarInfoHeader">
++            <div id="sidebarInfoBody" aria-labelledby="sidebarInfoHeader" role="region">
+               <div className="card-body">{this.siteInfo()}</div>
+             </div>
+           )}
+@@ -55,7 +55,7 @@ export class SiteSidebar extends Component<SiteSidebarProps, SiteSidebarState> {
+   siteName() {
+     return (
+       <div className={classNames({ "mb-2": !this.state.collapsed })}>
+-        <h5 className="mb-0 d-inline">{this.props.site.name}</h5>
++        <h2 className="h5 mb-0 d-inline">{this.props.site.name}</h2>
+         {!this.props.isMobile && (
+           <button
+             type="button"
+@@ -91,7 +91,7 @@ export class SiteSidebar extends Component<SiteSidebarProps, SiteSidebarState> {
+     const site = this.props.site;
+     return (
+       <div>
+-        {site.description && <h6>{site.description}</h6>}
++        {site.description && <h3 className="h6">{site.description}</h3>}
+         {site.sidebar && this.siteSidebar(site.sidebar)}
+         {this.props.counts && <Badges counts={this.props.counts} />}
+         {this.props.admins && this.admins(this.props.admins)}
+diff --git a/src/shared/components/modlog.tsx b/src/shared/components/modlog.tsx
+index 1afa53b..7e65878 100644
+--- a/src/shared/components/modlog.tsx
++++ b/src/shared/components/modlog.tsx
+@@ -848,7 +848,7 @@ export class Modlog extends Component<ModlogRouteProps, ModlogState> {
+           </T>
+         </div>
+         {communityId && (
+-          <h5>
++          <h2 className="h5">
+             {communityResp ? (
+               <>
+                 <Link
+@@ -867,7 +867,7 @@ export class Modlog extends Component<ModlogRouteProps, ModlogState> {
+                 </>
+               )
+             )}
+-          </h5>
++          </h2>
+         )}
+         <div className="row mb-2">
+           <div className="col-sm-6">
+@@ -929,9 +929,9 @@ export class Modlog extends Component<ModlogRouteProps, ModlogState> {
+     switch (this.state.res.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const page = this.props.page;
+diff --git a/src/shared/components/person/profile.tsx b/src/shared/components/person/profile.tsx
+index f015b53..c2ee278 100644
+--- a/src/shared/components/person/profile.tsx
++++ b/src/shared/components/person/profile.tsx
+@@ -435,9 +435,9 @@ export class Profile extends Component<ProfileRouteProps, ProfileState> {
+     switch (this.state.uploadsRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const uploadsRes = this.state.uploadsRes.data;
+@@ -454,9 +454,9 @@ export class Profile extends Component<ProfileRouteProps, ProfileState> {
+     switch (this.state.personRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const siteRes = this.state.siteRes;
+@@ -488,9 +488,9 @@ export class Profile extends Component<ProfileRouteProps, ProfileState> {
+ 
+               {personDetailsState === "loading" &&
+               this.props.view !== PersonDetailsView.Uploads ? (
+-                <h5>
++                <div>
+                   <Spinner large />
+-                </h5>
++                </div>
+               ) : (
+                 personDetailsRes && (
+                   <PersonDetails
+diff --git a/src/shared/components/person/reports.tsx b/src/shared/components/person/reports.tsx
+index 6215051..f1063a5 100644
+--- a/src/shared/components/person/reports.tsx
++++ b/src/shared/components/person/reports.tsx
+@@ -461,9 +461,9 @@ export class Reports extends Component<ReportsRouteProps, ReportsState> {
+         this.state.messageReportsRes.state === "loading")
+     ) {
+       return (
+-        <h5>
++        <div>
+           <Spinner large />
+-        </h5>
++        </div>
+       );
+     }
+     return (
+@@ -484,9 +484,9 @@ export class Reports extends Component<ReportsRouteProps, ReportsState> {
+     switch (res.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const reports = res.data.comment_reports;
+@@ -516,9 +516,9 @@ export class Reports extends Component<ReportsRouteProps, ReportsState> {
+     switch (res.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const reports = res.data.post_reports;
+@@ -548,9 +548,9 @@ export class Reports extends Component<ReportsRouteProps, ReportsState> {
+     switch (res.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const reports = res.data.private_message_reports;
+diff --git a/src/shared/components/person/settings.tsx b/src/shared/components/person/settings.tsx
+index 3692f68..8eb86b1 100644
+--- a/src/shared/components/person/settings.tsx
++++ b/src/shared/components/person/settings.tsx
+@@ -435,6 +435,7 @@ export class Settings extends Component<SettingsRouteProps, SettingsState> {
+         })}
+         role="tabpanel"
+         id="settings-tab-pane"
++        aria-labelledby="settings-tab"
+       >
+         <div className="row">
+           <div className="col-12 col-md-6">
+@@ -469,6 +470,7 @@ export class Settings extends Component<SettingsRouteProps, SettingsState> {
+         })}
+         role="tabpanel"
+         id="blocks-tab-pane"
++        aria-labelledby="blocks-tab"
+       >
+         <div className="row">
+           <div className="col-12 col-md-6">
+@@ -728,7 +730,7 @@ export class Settings extends Component<SettingsRouteProps, SettingsState> {
+ 
+     return (
+       <>
+-        <h2 className="h5">{I18NextService.i18n.t("settings")}</h2>
++        <h1 className="h4 mb-4">{I18NextService.i18n.t("settings")}</h1>
+         <form onSubmit={linkEvent(this, this.handleSaveSettingsSubmit)}>
+           <div className="mb-3 row">
+             <label className="col-sm-3 col-form-label" htmlFor="display-name">
+@@ -753,6 +755,7 @@ export class Settings extends Component<SettingsRouteProps, SettingsState> {
+             </label>
+             <div className="col-sm-9">
+               <MarkdownTextArea
++                id="user-bio"
+                 initialContent={this.state.saveUserSettingsForm.bio}
+                 onContentChange={this.handleBioChange}
+                 maxLength={1000}
+diff --git a/src/shared/components/person/verify-email.tsx b/src/shared/components/person/verify-email.tsx
+index 5ec238c..44e7099 100644
+--- a/src/shared/components/person/verify-email.tsx
++++ b/src/shared/components/person/verify-email.tsx
+@@ -76,9 +76,9 @@ export class VerifyEmail extends Component<
+           <div className="col-12 col-lg-6 offset-lg-3 mb-4">
+             <h1 className="h4 mb-4">{I18NextService.i18n.t("verify_email")}</h1>
+             {this.state.verifyRes.state === "loading" && (
+-              <h5>
++              <div>
+                 <Spinner large />
+-              </h5>
++              </div>
+             )}
+           </div>
+         </div>
+diff --git a/src/shared/components/post/metadata-card.tsx b/src/shared/components/post/metadata-card.tsx
+index 1269c0b..3e2e784 100644
+--- a/src/shared/components/post/metadata-card.tsx
++++ b/src/shared/components/post/metadata-card.tsx
+@@ -24,11 +24,11 @@ export class MetadataCard extends Component<MetadataCardProps> {
+               <div className="card-body">
+                 {post.name !== post.embed_title && (
+                   <>
+-                    <h5 className="card-title d-inline">
++                    <h2 className="h5 card-title d-inline">
+                       <a className="text-body" href={post.url} rel={relTags}>
+                         {post.embed_title}
+                       </a>
+-                    </h5>
++                    </h2>
+                     <span className="d-inline-block ms-2 mb-2 small text-muted">
+                       <a
+                         className="text-muted fst-italic"
+diff --git a/src/shared/components/post/post.tsx b/src/shared/components/post/post.tsx
+index fb3b59b..f433b61 100644
+--- a/src/shared/components/post/post.tsx
++++ b/src/shared/components/post/post.tsx
+@@ -528,9 +528,9 @@ export class Post extends Component<PostRouteProps, PostState> {
+     switch (this.state.postRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const res = this.state.postRes.data;
+diff --git a/src/shared/components/private_message/create-private-message.tsx b/src/shared/components/private_message/create-private-message.tsx
+index 9a9c40f..0e9dfea 100644
+--- a/src/shared/components/private_message/create-private-message.tsx
++++ b/src/shared/components/private_message/create-private-message.tsx
+@@ -133,9 +133,9 @@ export class CreatePrivateMessage extends Component<
+     switch (this.state.recipientRes.state) {
+       case "loading":
+         return (
+-          <h5>
++          <div>
+             <Spinner large />
+-          </h5>
++          </div>
+         );
+       case "success": {
+         const res = this.state.recipientRes.data;
+diff --git a/src/shared/components/remote-fetch.tsx b/src/shared/components/remote-fetch.tsx
+index 6393f6e..6190b10 100644
+--- a/src/shared/components/remote-fetch.tsx
++++ b/src/shared/components/remote-fetch.tsx
+@@ -206,9 +206,9 @@ export class RemoteFetch extends Component<
+               })}
+               <LoadingEllipses />
+             </h1>
+-            <h5>
++            <div>
+               <Spinner large />
+-            </h5>
++            </div>
+           </>
+         );
+       }

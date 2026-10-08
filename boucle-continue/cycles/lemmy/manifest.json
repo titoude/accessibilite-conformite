@@ -1,0 +1,50 @@
+{
+ "cycle": 55,
+ "produit": "lemmy-ui",
+ "repo": "https://github.com/LemmyNet/lemmy-ui",
+ "commit": "18ec4ba2d1e2b1515f47eb7a63a8d7975a48ec59",
+ "tag": "0.19.20",
+ "backend": {
+  "repo": "https://github.com/LemmyNet/lemmy",
+  "commit": "e9d49b7b49f4751b924263fdebfc1af2a387eda9",
+  "tag": "0.19.20",
+  "image": "dessalines/lemmy:0.19.20"
+ },
+ "submodule_translations": "lemmy-translations @ 64fe2ac541eddbaa9f6f8a8d7ee100c8def33bf4",
+ "stack": "Inferno.js 8 + SSR Express (dist/js/server.js) + Bootstrap 5.3.3 (litely.css) + webpack + pnpm 10.11.0 — servi par LemmyNet/lemmy (Rust/Actix + Postgres 16) via nginx — première stack Inferno/SSR de la boucle",
+ "boot": {
+  "clone": "git clone lemmy-ui + checkout SHA pinné 18ec4ba2 + submodule translations ; lemmy (backend) = image officielle dessalines/lemmy:0.19.20 non patchée (tag compatible du manifest)",
+  "install": "pnpm install --frozen-lockfile && pnpm run build:prod DANS le clone @SHA (dist/js/{server,client}.js buildés, node:20-slim même glibc)",
+  "run": "bash tools/boot.sh <checkout-lemmy-ui> [9655 9656 9657 9659 \"\"] — postgres:16-alpine + pictrs 0.5.16 + lemmy 0.19.20 + lemmy-ui node:20-slim (bind-mount checkout, node dist/js/server.js) + nginx proxy :9655",
+  "notes": [
+   "Écart image/SHA : lemmy-ui SERVI DEPUIS LE CLONE @SHA buildé localement — PAS d'image dessalines/lemmy-ui (elle figerait le SHA ; le bind-mount dist/ garantit que le code audité = sources du clone). Écart justifié : le backend lemmy utilise l'image officielle au tag compatible (backend non patché, hors scope patch).",
+   "Parité vanilla : worktree git @18ec4ba2 buildé à l'identique, stack -v :9675-9679, DB fraîche seedée par le même tools/seed.mjs (ids identiques — seed-info.json regénéré : mêmes post_ids/comment_ids, user id diffère d'1 car ordre d'enregistrement Lemmy)",
+   "docker restart lm55-ui requis après chaque rebuild : dist/ bind-monté, le serveur Express cache les bundles",
+   "lemmy.hjson par instance généré depuis lemmy.hjson.tpl ({{UI_PORT}}) — rate_limit relevé dans tools/ pour le seed"
+  ]
+ },
+ "tools": {
+  "runner": "tools/audit.mjs (runner v12-c50 ; STATES : comment-sort, post-form-open, create-post-community-open, markdown-preview, inbox-all-filter, mobile-390, route-404 ; sélecteurs vanilla-safe + stateProof leçon 32+47)",
+  "login": "tools/login.mjs <baseUrl> [user pass] (formulaire réel /login → storageState auth.json)",
+  "verify": "tools/verify.mjs <baseUrl> [auth.json] (32 assertions DURES — helpers __c55 contraste/luminance/heading-order/liaisons, ids lus de seed-info.json)",
+  "eval": "tools/eval-final.mjs <baseUrl> [auth.json] (17 contrôles transverses — viewport zoom, lang, clavier, Escape, mobile 390, h1, labels, titles, preview markdown)",
+  "probes": "tools/incomplete-probes.mjs <baseUrl> [auth.json] [--reports dirs] (51/51 : contrastes bgImage mesurés, aria-controls matérialisés à l'ouverture, ids aléatoires re-sondés par préfixe)",
+  "seed": "tools/seed.mjs <baseUrl> — 100% API Lemmy v3 (register→approve, community, posts, commentaires imbriqués, votes, private_message, remove-test) → seed-info.json + urls-*.resolved.txt via tools/gen-urls.mjs",
+  "boot": "tools/boot.sh + tools/docker-compose.yml + tools/nginx.conf + tools/lemmy.hjson.tpl + tools/customPostgresql.conf"
+ },
+ "auditCommands": [
+  "bash tools/boot.sh ~/work/lemmy-ui 9655 9656 9657 9659",
+  "node tools/seed.mjs http://localhost:9655",
+  "node tools/gen-urls.mjs http://localhost:9655",
+  "node tools/login.mjs http://localhost:9655 lemmy 'Lemmy55-Admin-Pass!'   # régénère tools/auth.json",
+  "node tools/audit.mjs http://localhost:9655 --urls $(paste -sd, tools/urls-public.resolved.txt) --states mobile-390,route-404 --wait-for '#app' --out reports/final-public",
+  "node tools/audit.mjs http://localhost:9655 --urls $(paste -sd, tools/urls-auth.resolved.txt) --states all --wait-for '#app' --storage-state tools/auth.json --out reports/final-auth",
+  "node tools/verify.mjs http://localhost:9655 tools/auth.json",
+  "node tools/eval-final.mjs http://localhost:9655 tools/auth.json",
+  "node tools/incomplete-probes.mjs http://localhost:9655 tools/auth.json",
+  "# vanilla : bash tools/boot.sh ~/work/lemmy-ui-vanilla 9675 9676 9677 9679 -v + seed.mjs/login.mjs :9675 + verify.mjs :9675 → FAIL attendus",
+  "# install-build : git clone + checkout 18ec4ba2d1e2b1515f47eb7a63a8d7975a48ec59 + submodule + git apply --check patch.diff + git apply patch.diff + pnpm install + build:prod + boot :9665-9669 -i + seed/login :9665 + mêmes rescans :9665"
+ ],
+ "patch": "patch.diff (38 fichiers, +305/−176 — corrections dans les vraies sources lemmy-ui src/ + assets/css ; sha256: f6ba82faf66d320ad54a166bd0905a95dca836dba063ff5f2a71de11d423ac76)",
+ "environnement": "node v24.19.0, pnpm 10.11.0, docker compose v2, postgres:16-alpine, pictrs:0.5.16, dessalines/lemmy:0.19.20, node:20-slim (lemmy-ui), nginx:alpine, axe-core 4.14.0 + playwright 1.63.0, chromium headless"
+}

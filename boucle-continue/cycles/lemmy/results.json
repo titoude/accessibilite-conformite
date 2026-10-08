@@ -1,0 +1,137 @@
+{
+  "cycle": 55,
+  "produit": "lemmy-ui",
+  "repo": "https://github.com/LemmyNet/lemmy-ui",
+  "backend": "https://github.com/LemmyNet/lemmy",
+  "statut_execution": "complet",
+  "baseline": {
+    "public": {
+      "scenarios": 17,
+      "audited": 17,
+      "violations_occ": 257,
+      "violations_regles": 11,
+      "erreurs": 0,
+      "erreurs_liste": [],
+      "incomplets": 120,
+      "detail": {
+        "color-contrast": 214,
+        "link-in-text-block": 11,
+        "target-size": 15,
+        "label-content-name-mismatch": 4,
+        "aria-valid-attr-value": 3,
+        "label-title-only": 3,
+        "heading-order": 2,
+        "page-has-heading-one": 2,
+        "document-title": 1,
+        "empty-table-header": 1,
+        "html-has-lang": 1
+      }
+    },
+    "auth": {
+      "scenarios": 22,
+      "audited": 22,
+      "violations_occ": 453,
+      "violations_regles": 16,
+      "erreurs": 0,
+      "erreurs_liste": [],
+      "incomplets": 227,
+      "detail": {
+        "color-contrast": 343,
+        "target-size": 51,
+        "link-in-text-block": 19,
+        "label": 8,
+        "listitem": 8,
+        "aria-valid-attr-value": 5,
+        "label-content-name-mismatch": 4,
+        "label-title-only": 3,
+        "aria-allowed-attr": 2,
+        "aria-required-children": 2,
+        "aria-required-parent": 2,
+        "heading-order": 2,
+        "document-title": 1,
+        "html-has-lang": 1,
+        "page-has-heading-one": 1,
+        "select-name": 1
+      }
+    },
+    "total_occ": 710,
+    "total_regles": 17,
+    "note": "Vanilla vérifiée AVANT baseline (leçon 40) : worktree @18ec4ba2 buildé et audité séparément — aucun marqueur du patch sur l'instance vanilla. 39 scénarios (17 publics + 22 auth incluant états : combobox ouverte, modale reply, preview markdown, inbox filtrée, mobile-390, route-404) — 0 scénario sauté, erreurs_liste vide. Union réelle 17 règles."
+  },
+  "final": {
+    "public": {
+      "scenarios": 17,
+      "audited": 17,
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "erreurs": 0,
+      "erreurs_liste": [],
+      "incomplets": 20
+    },
+    "auth": {
+      "scenarios": 22,
+      "audited": 22,
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "erreurs": 0,
+      "erreurs_liste": [],
+      "incomplets": 31
+    },
+    "total_occ": 0,
+    "total_regles": 0,
+    "note": "Mêmes 39 scénarios rejoués sur l'instance patchée — 0 violation, 0 erreur. Incomplets résiduels = color-contrast 'background image' (chevron SVG .form-select décoratif, mesuré 8.18:1 au-delà de AA) + aria-valid-attr-value 'controlsWithinPopup' (listbox matérialisée à l'ouverture, vérifiée)."
+  },
+  "verification": {
+    "verify_mjs": {
+      "patched": "32/32 assertions OK (1 N-A honnête : selector `code` absent de la home)",
+      "vanilla": "21 FAIL nommés attendus (404 lang/title, labels login/password, th vide /communities, aria-labelledby '#…' invalide, contrastes 3.1–4.0:1, cibles <24px, SearchableSelect ids/options, h1 settings, panes admin/rate-limit, nsfw/visibility+uploads, menu More position:absolute, ids dropdown dupliqués, toolbar <24px, badges sans rôle, vote-display sans rôle)",
+      "sabotage": "revert vote-display.tsx → FAIL nommé 'vote-display: spans statistiques avec role' (31/32) ; restore → 32/32"
+    },
+    "eval_final_mjs": {
+      "patched": "17/17 contrôles OK (1 N-A : aucune région aria-live/status dans le produit)",
+      "vanilla": "4 FAIL nommés (h1 legal/instances, labels auth, viewport/lang selon page)"
+    },
+    "incomplete_probes": {
+      "total": 51,
+      "ok": 51,
+      "na": 0,
+      "nonConforme": 0,
+      "detail": "51/51 : color-contrast bgImage mesurés 8.18:1 vs blanc (chevron SVG décoratif) ; aria-controls combobox résolus à l'ouverture (role=listbox)"
+    },
+    "install_build": {
+      "statut": "EN COURS — clone vierge @18ec4ba2 + git apply --check 0 rejet + build + boot :966x -i + seed + rescan",
+      "ports": "9665 ui / 9666 api / 9667 pictrs / 9669 pg"
+    }
+  },
+  "portee": {
+    "scenarios_publics": 17,
+    "scenarios_auth": 22,
+    "etats_deterministes": [
+      "comment-sort",
+      "post-form-open",
+      "create-post-community-open",
+      "markdown-preview",
+      "inbox-all-filter",
+      "mobile-390",
+      "route-404"
+    ],
+    "skip_link": "présent (produit) ; burger/toggler mobile présent ; titles parlants via HtmlTags",
+    "donnees": "seed.mjs via API Lemmy v3 : admin lemmy, users bench_user1/bench_user2, community a11ybench (id=2), posts 1-3, commentaires 1-5 (fil imbriqué), private_message 1 — ids lus de seed-info.json (leçons 44/46)"
+  },
+  "corrections": {
+    "fichiers": 38,
+    "domains": [
+      "Contrastes palette litely (tokens Bootstrap compilés + _variables.litely.scss) : orange #f1641e→#a83d0e, vert #00a846→#007332, bleu #007bff→#0056b3, rose #d63384→#a61e4d, secondary/link-hover assombris ; atom-one-light #e45649→#a93428 ; icônes/muted → #495057",
+      "link-in-text-block : underline sur liens inline .md-div/.card-text/person-listing/community-link/overflow-wrap-anywhere/fst-italic",
+      "target-size ≥24px : .btn-animate, toolbar markdown, sort-select-icon, RSS, tri, boutons lien liste",
+      "Hiérarchie de titres : h1 réel par page (legal/instances/settings/error), sections h2.h5/h3.h6, titres Spinner déplacés hors <h5>",
+      "Étiquetage : password-input id sur <input>, community-form legend→label, site-form htmlFor, image-upload aria-label, settings textarea user-bio reliée au label visible (MarkdownTextArea prop id)",
+      "ARIA : role=img sur spans vote-display/badges, role=region sur accordéons labelés, aria-labelledby '#x'→'x' (6 modales), Tabs supprime la tablist vide, SearchableSelect listbox/inputs nommés, ids dropdown uniques par instance (mobile+desktop), menus More position statique",
+      "Tables : <th> vide /communities → span .visually-hidden 'subscribed'",
+      "Document : HtmlTags sur ErrorPage (html[lang] + title 404)"
+    ],
+    "interdits": "aucun aria-label factice sans visible (2.5.3 mesuré), aucun sélecteur patch-only dans scope/states (leçon 47), aucune i18n key inventée — labels via i18n.t() existantes ou classes sr-only de Bootstrap"
+  },
+  "harnais": "audit.mjs v12-c50, axe-core 4.14.0, playwright 1.63.0, chromium headless, locale en-US",
+  "horodatage": "2026-10-08"
+}
