@@ -1,0 +1,35 @@
+{
+ "cycle": 47,
+ "product": {
+  "repo": "https://github.com/espocrm/espocrm",
+  "sha": "6c369056e81038fdcbb6512d5d5df11db4ed6e03",
+  "versionPinned": "espocrm 10.0.9 (tag)",
+  "servingImage": "espocrm/espocrm:latest (ESPOCRM_VERSION=10.0.9 — identique au SHA)",
+  "imageVsSha": "écart NUL : l'image officielle est le tag 10.0.9 = commit pinné ; patch appliqué aux sources client//frontend//html/ + 1 PHP (ClientManager) montées"
+ },
+ "axeVersion": "4.14.0",
+ "runnerVersion": "audit.mjs v10-espo",
+ "playwright": "1.63.0",
+ "baseline": {
+  "public": {"rules": {"color-contrast": 2, "html-has-lang": 2, "image-alt": 2, "landmark-one-main": 2, "meta-viewport": 2, "page-has-heading-one": 2, "region": 8, "tabindex": 6}, "ruleCount": 8, "occurrences": 26, "incomplete": 2, "errors": 0, "scenarios": 2},
+  "auth": {"rules": {"region": 1062, "link-name": 494, "color-contrast": 420, "button-name": 273, "aria-command-name": 184, "label": 149, "autocomplete-valid": 103, "html-has-lang": 44, "meta-viewport": 44, "landmark-one-main": 43, "page-has-heading-one": 42, "empty-table-header": 39, "listitem": 17, "landmark-unique": 2, "aria-required-children": 2, "target-size": 2, "tabindex": 0, "aria-dialog-name": 1, "frame-title": 1, "landmark-no-duplicate-banner": 1, "landmark-no-duplicate-contentinfo": 1, "link-in-text-block": 1}, "ruleCount": 21, "occurrences": 2925, "incomplete": 250, "errors": 0, "scenarios": 44}
+ },
+ "final": {
+  "public": {"ruleCount": 0, "occurrences": 0, "incomplete": 0, "errors": 0, "scenarios": 2},
+  "auth": {"ruleCount": 0, "occurrences": 0, "incomplete": 244, "errors": 0, "scenarios": 44, "incompleteNote": "contrastes non tranchables par axe (composites alpha/gradients) — incomplets = non-violations, pas des échecs"}
+ },
+ "installBuild": {
+  "auth": {"ruleCount": 0, "occurrences": 0, "incomplete": 244, "errors": 0},
+  "public": {"ruleCount": 0, "occurrences": 0, "incomplete": 0, "errors": 0}
+ },
+ "verification": {
+  "verify_mjs": "0 échec (règles cibles : lang, main unique, headings, names, labels, menus roles)",
+  "eval_final_mjs": "6/6 OK (2 N-A)",
+  "incomplete_probes": "181 conformes / 0 NON-CONFORME / 61 non retrouvées (nœuds transitoires)",
+  "git_apply_check": "OK sur clone vierge @6c36905",
+  "patch_files": 103,
+  "patch_diffstat": "103 fichiers, +339 / -180 (comptés depuis le diff final — leçon 39)",
+  "patch_sha256": "6ff39237ae07173506e7f14a8b7cff14ac1358c01ea4027658282fe52070d944"
+ },
+ "scopeHashBaseline": "8d7a5a7b77b3"
+}

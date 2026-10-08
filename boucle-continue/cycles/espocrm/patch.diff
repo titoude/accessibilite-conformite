@@ -1,0 +1,2114 @@
+diff --git a/application/Espo/Core/Utils/ClientManager.php b/application/Espo/Core/Utils/ClientManager.php
+index b0c34c100a..9583c2257f 100644
+--- a/application/Espo/Core/Utils/ClientManager.php
++++ b/application/Espo/Core/Utils/ClientManager.php
+@@ -250,6 +250,7 @@ class ClientManager
+ 
+         $data = [
+             'applicationId' => $this->applicationId,
++            'language' => str_replace('_', '-', $this->config->get('language') ?? 'en_US'),
+             'apiUrl' => $this->apiUrl,
+             'applicationName' => $this->escapeValue($pageTitle ?? $this->config->get('applicationName', 'EspoCRM')),
+             'cacheTimestamp' => $cacheTimestamp,
+diff --git a/client/res/layout-types/record.tpl b/client/res/layout-types/record.tpl
+index 0c8b081412..1e228c4a5d 100644
+--- a/client/res/layout-types/record.tpl
++++ b/client/res/layout-types/record.tpl
+@@ -9,7 +9,7 @@
+         data-tab="<%= panel.tabNumber %>"
+     >
+         <% if (panel.label) { %>
+-        <div class="panel-heading"><h4 class="panel-title"><%= panel.label %></h4></div>
++        <div class="panel-heading"><h2 class="panel-title"><%= panel.label %></h2></div>
+         <% } %>
+         <div class="panel-body panel-body-form">
+ 
+diff --git a/client/res/templates/about.tpl b/client/res/templates/about.tpl
+index cfe25f581e..397ca936de 100644
+--- a/client/res/templates/about.tpl
++++ b/client/res/templates/about.tpl
+@@ -1,5 +1,5 @@
+ <div class="page-header">
+-    <h3>{{translate 'About'}}</h3>
++    <h1>{{translate 'About'}}</h1>
+ </div>
+ 
+ <div class="row">
+diff --git a/client/res/templates/admin/entity-manager/edit.tpl b/client/res/templates/admin/entity-manager/edit.tpl
+index 9ba1199a4e..1f2181a269 100644
+--- a/client/res/templates/admin/entity-manager/edit.tpl
++++ b/client/res/templates/admin/entity-manager/edit.tpl
+@@ -1,5 +1,5 @@
+ <div class="page-header">
+-    <h3><a href="#Admin">{{translate 'Administration'}}</a>
++    <h1><a href="#Admin">{{translate 'Administration'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         <a href="#Admin/entityManager">{{translate 'Entity Manager' scope='Admin'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+@@ -10,7 +10,7 @@
+         {{else}}
+         {{translate 'Create Entity' scope='Admin'}}
+         {{/unless}}
+-    </h3>
++    </h1>
+ </div>
+ 
+ <div class="record">{{{record}}}</div>
+diff --git a/client/res/templates/admin/entity-manager/formula.tpl b/client/res/templates/admin/entity-manager/formula.tpl
+index c92b76e472..b474c25da9 100644
+--- a/client/res/templates/admin/entity-manager/formula.tpl
++++ b/client/res/templates/admin/entity-manager/formula.tpl
+@@ -1,5 +1,5 @@
+ <div class="page-header">
+-    <h3>
++    <h1>
+         <a href="#Admin">{{translate 'Administration'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         <a href="#Admin/entityManager">{{translate 'Entity Manager' scope='Admin'}}</a>
+@@ -7,7 +7,7 @@
+         <a href="#Admin/entityManager/scope={{scope}}">{{translate scope category='scopeNames'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         {{translate 'Formula' scope='EntityManager'}}
+-    </h3>
++    </h1>
+ </div>
+ 
+ <div class="button-container">
+diff --git a/client/res/templates/admin/entity-manager/index.tpl b/client/res/templates/admin/entity-manager/index.tpl
+index 3b99121a2c..45204fa669 100644
+--- a/client/res/templates/admin/entity-manager/index.tpl
++++ b/client/res/templates/admin/entity-manager/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'Entity Manager' scope='Admin'}}</h3></div>
++{{translate 'Entity Manager' scope='Admin'}}</h1></div>
+ 
+ <div class="button-container">
+     <div class="btn-group">
+@@ -10,6 +10,7 @@
+         <button
+             class="btn btn-default dropdown-toggle"
+             data-toggle="dropdown"
++            title="{{translate 'Actions'}}"
+         ><span class="fas fa-ellipsis-h"></span></button>
+         <ul class="dropdown-menu pull-right">
+             <li>
+diff --git a/client/res/templates/admin/entity-manager/scope.tpl b/client/res/templates/admin/entity-manager/scope.tpl
+index 71b91d7cd7..76b265c42c 100644
+--- a/client/res/templates/admin/entity-manager/scope.tpl
++++ b/client/res/templates/admin/entity-manager/scope.tpl
+@@ -1,10 +1,10 @@
+ <div class="page-header">
+-    <h3><a href="#Admin">{{translate 'Administration'}}</a>
++    <h1><a href="#Admin">{{translate 'Administration'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         <a href="#Admin/entityManager">{{translate 'Entity Manager' scope='Admin'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         {{translate scope category='scopeNames'}}
+-    </h3>
++    </h1>
+ </div>
+ 
+ <div class="button-container">
+diff --git a/client/res/templates/admin/extensions/index.tpl b/client/res/templates/admin/extensions/index.tpl
+index 533b879b71..e4cc02f3eb 100644
+--- a/client/res/templates/admin/extensions/index.tpl
++++ b/client/res/templates/admin/extensions/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'Extensions' scope='Admin'}}</h3></div>
++{{translate 'Extensions' scope='Admin'}}</h1></div>
+ 
+ <div class="panel panel-default upload">
+     <div class="panel-heading">
+diff --git a/client/res/templates/admin/field-manager/header.tpl b/client/res/templates/admin/field-manager/header.tpl
+index 3d3f145112..fd75c466e1 100644
+--- a/client/res/templates/admin/field-manager/header.tpl
++++ b/client/res/templates/admin/field-manager/header.tpl
+@@ -1,4 +1,4 @@
+-<h3>
++<h1>
+     <a href="#Admin">{{translate 'Administration'}}</a>
+     <span class="breadcrumb-separator"><span></span></span>
+     <a href="#Admin/entityManager">{{translate 'Entity Manager' scope='Admin'}}</a>
+@@ -14,4 +14,4 @@
+     <span class="breadcrumb-separator"><span></span></span>
+     {{translate field category='fields' scope=scope}}
+     {{/if}}
+-</h3>
++</h1>
+diff --git a/client/res/templates/admin/formula-sandbox/index.tpl b/client/res/templates/admin/formula-sandbox/index.tpl
+index 12d915adc1..1230bd825d 100644
+--- a/client/res/templates/admin/formula-sandbox/index.tpl
++++ b/client/res/templates/admin/formula-sandbox/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'Formula Sandbox' scope='Admin'}}</h3></div>
++{{translate 'Formula Sandbox' scope='Admin'}}</h1></div>
+ 
+ 
+ <div class="record">{{{record}}}</div>
+diff --git a/client/res/templates/admin/index.tpl b/client/res/templates/admin/index.tpl
+index 5dc7ae9784..d1420b48b8 100644
+--- a/client/res/templates/admin/index.tpl
++++ b/client/res/templates/admin/index.tpl
+@@ -1,4 +1,4 @@
+-<div class="page-header"><h3>{{translate 'Administration' scope='Admin'}}</h3></div>
++<div class="page-header"><h1>{{translate 'Administration' scope='Admin'}}</h1></div>
+ 
+ <div class="admin-content">
+     <div class="row">
+@@ -16,7 +16,7 @@
+             <div class="admin-tables-container">
+                 {{#each panelDataList}}
+                 <div class="admin-content-section" data-index="{{@index}}">
+-                    <h4>{{label}}</h4>
++                    <h2>{{label}}</h2>
+                     <table class="table table-admin-panel" data-name="{{name}}">
+                         {{#each itemList}}
+                         <tr class="admin-content-row" data-index="{{@index}}">
+@@ -46,6 +46,7 @@
+ 
+             {{#unless iframeDisabled}}
+             <iframe
++                title="EspoCRM"
+                 src="{{iframeUrl}}"
+                 style="width: 100%; height: {{iframeHeight}}px"
+                 frameborder="0"
+diff --git a/client/res/templates/admin/integrations/index.tpl b/client/res/templates/admin/integrations/index.tpl
+index b3a9e0c805..ceff71ccd5 100644
+--- a/client/res/templates/admin/integrations/index.tpl
++++ b/client/res/templates/admin/integrations/index.tpl
+@@ -1,9 +1,9 @@
+ <div class="page-header">
+-    <h3>
++    <h1>
+     <a href="#Admin">{{translate 'Administration'}}</a>
+     <span class="breadcrumb-separator"><span></span></span>
+     {{translate 'Integrations' scope='Admin'}}
+-    </h3>
++    </h1>
+ </div>
+ 
+ <div class="row">
+diff --git a/client/res/templates/admin/label-manager/index.tpl b/client/res/templates/admin/label-manager/index.tpl
+index f00bfcd89f..9e8ce46a95 100644
+--- a/client/res/templates/admin/label-manager/index.tpl
++++ b/client/res/templates/admin/label-manager/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'Label Manager' scope='Admin'}}</h3></div>
++{{translate 'Label Manager' scope='Admin'}}</h1></div>
+ 
+ <div class="row">
+     <div class="col-sm-3">
+diff --git a/client/res/templates/admin/layouts/index.tpl b/client/res/templates/admin/layouts/index.tpl
+index c6dd472f00..0cab391559 100644
+--- a/client/res/templates/admin/layouts/index.tpl
++++ b/client/res/templates/admin/layouts/index.tpl
+@@ -1,4 +1,4 @@
+-<div class="page-header"><h3>{{{headerHtml}}}</h3></div>
++<div class="page-header"><h1>{{{headerHtml}}}</h1></div>
+ 
+ <div class="row">
+     <div id="layouts-menu" class="col-sm-3">
+diff --git a/client/res/templates/admin/link-manager/index.tpl b/client/res/templates/admin/link-manager/index.tpl
+index 25df21d52f..96b303fe86 100644
+--- a/client/res/templates/admin/link-manager/index.tpl
++++ b/client/res/templates/admin/link-manager/index.tpl
+@@ -1,5 +1,5 @@
+ <div class="page-header">
+-    <h3>
++    <h1>
+         <a href="#Admin">{{translate 'Administration'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         <a href="#Admin/entityManager">{{translate 'Entity Manager' scope='Admin'}}</a>
+@@ -7,7 +7,7 @@
+         <a href="#Admin/entityManager/scope={{scope}}">{{translate scope category='scopeNames'}}</a>
+         <span class="breadcrumb-separator"><span></span></span>
+         {{translate 'Relationships' scope='EntityManager'}}
+-    </h3>
++    </h1>
+ </div>
+ 
+ <div class="button-container">
+diff --git a/client/res/templates/admin/settings/headers/page.tpl b/client/res/templates/admin/settings/headers/page.tpl
+index 5ffa137044..3179221d4e 100644
+--- a/client/res/templates/admin/settings/headers/page.tpl
++++ b/client/res/templates/admin/settings/headers/page.tpl
+@@ -1,3 +1,3 @@
+-<h3><a href="#Admin">{{translate 'Administration'}}</a>
++<h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate viewObject.options.label category='labels' scope='Admin'}}</h3>
++{{translate viewObject.options.label category='labels' scope='Admin'}}</h1>
+diff --git a/client/res/templates/admin/system-requirements/index.tpl b/client/res/templates/admin/system-requirements/index.tpl
+index 073cd85c60..951195a4b4 100644
+--- a/client/res/templates/admin/system-requirements/index.tpl
++++ b/client/res/templates/admin/system-requirements/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'System Requirements' scope='Admin'}}</h3></div>
++{{translate 'System Requirements' scope='Admin'}}</h1></div>
+ 
+ {{#if noAccess}}
+     <div class="panel panel-default">
+diff --git a/client/res/templates/admin/template-manager/index.tpl b/client/res/templates/admin/template-manager/index.tpl
+index 939634b24e..8139edb41a 100644
+--- a/client/res/templates/admin/template-manager/index.tpl
++++ b/client/res/templates/admin/template-manager/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'Template Manager' scope='Admin'}}</h3></div>
++{{translate 'Template Manager' scope='Admin'}}</h1></div>
+ 
+ <div class="row">
+     <div class="col-sm-3">
+diff --git a/client/res/templates/admin/upgrade/index.tpl b/client/res/templates/admin/upgrade/index.tpl
+index a4a1a793d8..3e7ea0cc6f 100644
+--- a/client/res/templates/admin/upgrade/index.tpl
++++ b/client/res/templates/admin/upgrade/index.tpl
+@@ -1,6 +1,6 @@
+-<div class="page-header"><h3><a href="#Admin">{{translate 'Administration'}}</a>
++<div class="page-header"><h1><a href="#Admin">{{translate 'Administration'}}</a>
+ <span class="breadcrumb-separator"><span></span></span>
+-{{translate 'Upgrade' scope='Admin'}}</h3></div>
++{{translate 'Upgrade' scope='Admin'}}</h1></div>
+ 
+ <div class="row">
+ <div class="col-md-8">
+diff --git a/client/res/templates/dashboard.tpl b/client/res/templates/dashboard.tpl
+index 3b9a5ed65a..bf1c306599 100644
+--- a/client/res/templates/dashboard.tpl
++++ b/client/res/templates/dashboard.tpl
+@@ -2,7 +2,7 @@
+     <div class="row">
+         <div class="col-sm-4">
+             {{#if displayTitle}}
+-            <h3>{{translate 'Dashboard' category='scopeNames'}}</h3>
++            <h1>{{translate 'Dashboard' category='scopeNames'}}</h1>
+             {{/if}}
+         </div>
+         <div class="col-sm-8 clearfix">
+@@ -11,6 +11,7 @@
+                 <button
+                     class="btn btn-text btn-icon dropdown-toggle"
+                     data-toggle="dropdown"
++                    title="{{translate 'Actions'}}"
+                 ><span class="fas fa-ellipsis-h"></span></button>
+                 <ul class="dropdown-menu pull-right">
+                     <li>
+diff --git a/client/res/templates/dashlet.tpl b/client/res/templates/dashlet.tpl
+index a2694bd9a1..d556b1c439 100644
+--- a/client/res/templates/dashlet.tpl
++++ b/client/res/templates/dashlet.tpl
+@@ -17,17 +17,18 @@
+             {{/each}}
+             <button
+               class="dropdown-toggle btn btn-{{#if ../style}}{{../style}}{{else}}default{{/if}} btn-sm menu-button"
++              aria-label="{{translate 'Menu'}}"
+               data-toggle="dropdown"
+             ><span class="fas fa-ellipsis-h"></span></button>
+             <ul class="dropdown-menu dropdown-menu-with-icons" role="menu">
+             {{#each actionList}}
+                 {{#if this}}
+-                    <li>
++                    <li role="none">
+                         <a
+                           data-action="{{name}}"
+                           data-name="{{name}}"
+                           class="action dashlet-action"
+-                          {{#if url}}href="{{url}}"{{else}}role="button"{{/if}}
++                          {{#if url}}href="{{url}}"{{else}}role="menuitem"{{/if}}
+                           tabindex="0"
+                           {{#each data}} data-{{hyphen @key}}="{{./this}}"{{/each}}
+                         >
+@@ -41,12 +42,12 @@
+                         </a>
+                     </li>
+                 {{else}}
+-                    <li class="divider"></li>
++                    <li class="divider" role="separator"></li>
+                 {{/if}}
+             {{/each}}
+             </ul>
+         </div>
+-        <h4 class="panel-title">
++        <h2 class="panel-title">
+             <span
+                 data-action="refresh"
+                 class="action"
+@@ -55,7 +56,7 @@
+                 {{~#if color}}<span class="color-icon fas fa-square" style="color: {{color}}"></span><span>&nbsp;</span>{{/if~}}
+                 {{~#if title}}{{title}}{{else}}&nbsp;{{/if~}}
+             </span>
+-        </h4>
++        </h2>
+     </div>
+     <div class="dashlet-body panel-body{{#if noPadding}} no-padding{{/if}}">{{{body}}}</div>
+ </div>
+diff --git a/client/res/templates/email-account/fields/folder/edit.tpl b/client/res/templates/email-account/fields/folder/edit.tpl
+index ed26133d3e..125d73ee39 100644
+--- a/client/res/templates/email-account/fields/folder/edit.tpl
++++ b/client/res/templates/email-account/fields/folder/edit.tpl
+@@ -1,5 +1,5 @@
+ <div class="input-group">
+-    <input class="main-element form-control" type="text" data-name="{{name}}" value="{{value}}" autocomplete="espo-{{name}}">
++    <input class="main-element form-control" type="text" data-name="{{name}}" value="{{value}}" autocomplete="off">
+     <span class="input-group-btn">
+         <button data-action="selectFolder" class="btn btn-default" type="button" tabindex="-1"><i class="fas fa-angle-up"></i></button>
+     </span>
+diff --git a/client/res/templates/email/fields/email-address-varchar/edit.tpl b/client/res/templates/email/fields/email-address-varchar/edit.tpl
+index 4038682602..613d0e6e48 100644
+--- a/client/res/templates/email/fields/email-address-varchar/edit.tpl
++++ b/client/res/templates/email/fields/email-address-varchar/edit.tpl
+@@ -4,7 +4,7 @@
+         <input
+             class="form-control"
+             type="email"
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             spellcheck="false"
+             maxlength="{{maxLength}}"
+         >
+@@ -22,7 +22,7 @@
+     <input
+         class="form-control"
+         type="email"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         spellcheck="false"
+         maxlength="{{maxLength}}"
+         title="{{translate 'Select'}}"
+diff --git a/client/res/templates/email/fields/select-template/edit.tpl b/client/res/templates/email/fields/select-template/edit.tpl
+index b186cd2535..e303b89d28 100644
+--- a/client/res/templates/email/fields/select-template/edit.tpl
++++ b/client/res/templates/email/fields/select-template/edit.tpl
+@@ -4,7 +4,7 @@
+         type="text"
+         data-name="{{nameName}}"
+         value="{{nameValue}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         spellcheck="false"
+     >
+     <span class="input-group-btn">
+diff --git a/client/res/templates/errors/404.tpl b/client/res/templates/errors/404.tpl
+index 872d08eb3b..9dae2ca53b 100644
+--- a/client/res/templates/errors/404.tpl
++++ b/client/res/templates/errors/404.tpl
+@@ -1,8 +1,8 @@
+-<div class="container">
++<main class="container" data-a11y-c47-notfound>
+     <div class="panel panel-default block-center-md margin-top-2x">
+         <div class="panel-body">
+             <h1 class="text-5em text-soft margin-bottom-4x">404</h1>
+             <p class="text-large">{{translate 'error404' category='messages'}}</p>
+-        </div>
++        </main>
+     </div>
+ </div>
+diff --git a/client/res/templates/external-account/index.tpl b/client/res/templates/external-account/index.tpl
+index 8f37241b5c..fd15c75f4e 100644
+--- a/client/res/templates/external-account/index.tpl
++++ b/client/res/templates/external-account/index.tpl
+@@ -1,4 +1,4 @@
+-<div class="page-header"><h3>{{translate 'ExternalAccount' category='scopeNamesPlural'}}</h3></div>
++<div class="page-header"><h1>{{translate 'ExternalAccount' category='scopeNamesPlural'}}</h1></div>
+ 
+ <div class="row">
+     <div id="external-account-menu" class="col-sm-3">
+diff --git a/client/res/templates/fields/address/edit-1.tpl b/client/res/templates/fields/address/edit-1.tpl
+index 3c14e8f457..4d448b2b17 100644
+--- a/client/res/templates/fields/address/edit-1.tpl
++++ b/client/res/templates/fields/address/edit-1.tpl
+@@ -2,19 +2,19 @@
+     class="form-control auto-height"
+     data-name="{{name}}Street"
+     rows="1" placeholder="{{translate 'Street'}}"
+-    autocomplete="espo-street"
++    autocomplete="off"
+     maxlength="{{streetMaxLength}}"
+     style="resize: none;"
+ >{{streetValue}}</textarea>
+ <div class="row">
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="espo-city" maxlength="{{cityMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="off" maxlength="{{cityMaxLength}}">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="espo-state" maxlength="{{stateMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="off" maxlength="{{stateMaxLength}}">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="espo-postalCode" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
++        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="off" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
+     </div>
+ </div>
+-<input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="espo-country" maxlength="{{countryMaxLength}}">
++<input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="off" maxlength="{{countryMaxLength}}">
+diff --git a/client/res/templates/fields/address/edit-2.tpl b/client/res/templates/fields/address/edit-2.tpl
+index 9a0d8d2105..bdf5685f5b 100644
+--- a/client/res/templates/fields/address/edit-2.tpl
++++ b/client/res/templates/fields/address/edit-2.tpl
+@@ -2,23 +2,23 @@
+     class="form-control auto-height"
+     data-name="{{name}}Street"
+     rows="1" placeholder="{{translate 'Street'}}"
+-    autocomplete="espo-street"
++    autocomplete="off"
+     maxlength="{{streetMaxLength}}"
+     style="resize: none;"
+ >{{streetValue}}</textarea>
+ <div class="row">
+     <div class="col-sm-6 col-xs-6">
+-        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="espo-postalCode" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
++        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="off" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
+     </div>
+     <div class="col-sm-6 col-xs-6">
+-        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="espo-city" maxlength="{{cityMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="off" maxlength="{{cityMaxLength}}">
+     </div>
+ </div>
+ <div class="row">
+     <div class="col-sm-6 col-xs-6">
+-        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="espo-state" maxlength="{{stateMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="off" maxlength="{{stateMaxLength}}">
+     </div>
+     <div class="col-sm-6 col-xs-6">
+-        <input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="espo-country" maxlength="{{countryMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="off" maxlength="{{countryMaxLength}}">
+     </div>
+ </div>
+diff --git a/client/res/templates/fields/address/edit-3.tpl b/client/res/templates/fields/address/edit-3.tpl
+index cdb51801cb..6a4ee525a6 100644
+--- a/client/res/templates/fields/address/edit-3.tpl
++++ b/client/res/templates/fields/address/edit-3.tpl
+@@ -1,20 +1,20 @@
+-<input type="text" class="form-control auto-height" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="espo-country" maxlength="{{countryMaxLength}}">
++<input type="text" class="form-control auto-height" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="off" maxlength="{{countryMaxLength}}">
+ <div class="row">
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="espo-postalCode" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
++        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="off" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="espo-state" maxlength="{{stateMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="off" maxlength="{{stateMaxLength}}">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="espo-city" maxlength="{{cityMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="off" maxlength="{{cityMaxLength}}">
+     </div>
+ </div>
+ <textarea
+     class="form-control auto-height"
+     data-name="{{name}}Street"
+     rows="1" placeholder="{{translate 'Street'}}"
+-    autocomplete="espo-street"
++    autocomplete="off"
+     maxlength="{{streetMaxLength}}"
+     style="resize: none;"
+ >{{streetValue}}</textarea>
+diff --git a/client/res/templates/fields/address/edit-4.tpl b/client/res/templates/fields/address/edit-4.tpl
+index 4b6a520cd9..98f6ee6240 100644
+--- a/client/res/templates/fields/address/edit-4.tpl
++++ b/client/res/templates/fields/address/edit-4.tpl
+@@ -2,19 +2,19 @@
+     class="form-control auto-height"
+     data-name="{{name}}Street"
+     rows="1" placeholder="{{translate 'Street'}}"
+-    autocomplete="espo-street"
++    autocomplete="off"
+     maxlength="{{streetMaxLength}}"
+     style="resize: none;"
+ >{{streetValue}}</textarea>
+-<input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="espo-city" maxlength="{{cityMaxLength}}">
++<input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="off" maxlength="{{cityMaxLength}}">
+ <div class="row">
+     <div class="col-sm-5 col-xs-5">
+-        <input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="espo-country" maxlength="{{countryMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="off" maxlength="{{countryMaxLength}}">
+     </div>
+     <div class="col-sm-3 col-xs-3">
+-        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="espo-state" maxlength="{{stateMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="off" maxlength="{{stateMaxLength}}">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="espo-postalCode" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
++        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="off" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
+     </div>
+ </div>
+diff --git a/client/res/templates/fields/address/edit.tpl b/client/res/templates/fields/address/edit.tpl
+index 3c14e8f457..4d448b2b17 100644
+--- a/client/res/templates/fields/address/edit.tpl
++++ b/client/res/templates/fields/address/edit.tpl
+@@ -2,19 +2,19 @@
+     class="form-control auto-height"
+     data-name="{{name}}Street"
+     rows="1" placeholder="{{translate 'Street'}}"
+-    autocomplete="espo-street"
++    autocomplete="off"
+     maxlength="{{streetMaxLength}}"
+     style="resize: none;"
+ >{{streetValue}}</textarea>
+ <div class="row">
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="espo-city" maxlength="{{cityMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}City" value="{{cityValue}}" placeholder="{{translate 'City'}}" autocomplete="off" maxlength="{{cityMaxLength}}">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="espo-state" maxlength="{{stateMaxLength}}">
++        <input type="text" class="form-control" data-name="{{name}}State" value="{{stateValue}}" placeholder="{{translate 'State'}}" autocomplete="off" maxlength="{{stateMaxLength}}">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="espo-postalCode" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
++        <input type="text" class="form-control" data-name="{{name}}PostalCode" value="{{postalCodeValue}}" placeholder="{{translate 'PostalCode'}}" autocomplete="off" maxlength="{{postalCodeMaxLength}}" spellcheck="false">
+     </div>
+ </div>
+-<input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="espo-country" maxlength="{{countryMaxLength}}">
++<input type="text" class="form-control" data-name="{{name}}Country" value="{{countryValue}}" placeholder="{{translate 'Country'}}" autocomplete="off" maxlength="{{countryMaxLength}}">
+diff --git a/client/res/templates/fields/address/search.tpl b/client/res/templates/fields/address/search.tpl
+index 4b77849014..55fbd007f7 100644
+--- a/client/res/templates/fields/address/search.tpl
++++ b/client/res/templates/fields/address/search.tpl
+@@ -1,2 +1,2 @@
+ 
+-<input type="text" class="main-element form-control input-sm" data-name="{{name}}" value="{{searchData.value}}" {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}{{#if params.size}} size="{{params.size}}"{{/if}} autocomplete="espo-{{name}}">
++<input type="text" class="main-element form-control input-sm" data-name="{{name}}" value="{{searchData.value}}" {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}{{#if params.size}} size="{{params.size}}"{{/if}} autocomplete="off">
+diff --git a/client/res/templates/fields/array/edit.tpl b/client/res/templates/fields/array/edit.tpl
+index 78296ed25e..d20cbebb21 100644
+--- a/client/res/templates/fields/array/edit.tpl
++++ b/client/res/templates/fields/array/edit.tpl
+@@ -14,7 +14,7 @@
+     <input
+         class="main-element form-control select"
+         type="text"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         placeholder="{{#if this.options}}{{translate 'Select'}}{{else}}{{translate 'typeAndPressEnter' category='messages'}}{{/if}}"
+         {{#if maxItemLength}} maxlength="{{maxItemLength}}"{{/if}}
+     >
+diff --git a/client/res/templates/fields/array/search.tpl b/client/res/templates/fields/array/search.tpl
+index f2703d29f5..b746f20de7 100644
+--- a/client/res/templates/fields/array/search.tpl
++++ b/client/res/templates/fields/array/search.tpl
+@@ -3,5 +3,5 @@
+     {{options searchTypeList searchType field='searchRanges'}}
+ </select>
+ <div class="input-container">
+-    <input class="main-element" type="text" autocomplete="espo-off">
++    <input class="main-element" type="text" autocomplete="off">
+ </div>
+diff --git a/client/res/templates/fields/attachments-multiple/edit.tpl b/client/res/templates/fields/attachments-multiple/edit.tpl
+index d20578500d..fd80d5a140 100644
+--- a/client/res/templates/fields/attachments-multiple/edit.tpl
++++ b/client/res/templates/fields/attachments-multiple/edit.tpl
+@@ -6,6 +6,7 @@
+                 <span class="btn btn-default btn-icon"><span class="fas fa-paperclip"></span></span>
+                 <input
+                     type="file"
++                    aria-label="{{translate 'Attach File'}}"
+                     class="file pull-right"
+                     multiple
+                     {{#if acceptAttribute}}accept="{{acceptAttribute}}"{{/if}}
+@@ -22,8 +23,8 @@
+             </button>
+             <ul class="dropdown-menu" role="menu">
+             {{#each sourceList}}
+-                <li><a
+-                        role="button"
++                <li role="none"><a
++                        role="menuitem"
+                         tabindex="0"
+                         class="action"
+                         data-action="insertFromSource"
+diff --git a/client/res/templates/fields/base/edit.tpl b/client/res/templates/fields/base/edit.tpl
+index fa9d9a4a12..8d2d3436f4 100644
+--- a/client/res/templates/fields/base/edit.tpl
++++ b/client/res/templates/fields/base/edit.tpl
+@@ -4,7 +4,7 @@
+ 	data-name="{{name}}"
+ 	value="{{value}}"
+ 	{{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}
+-	autocomplete="espo-{{name}}"
++	autocomplete="off"
+     {{#if noSpellCheck}}
+     spellcheck="false"
+     {{/if}}
+diff --git a/client/res/templates/fields/base/search.tpl b/client/res/templates/fields/base/search.tpl
+index adbaaa0394..28a987d2df 100644
+--- a/client/res/templates/fields/base/search.tpl
++++ b/client/res/templates/fields/base/search.tpl
+@@ -5,7 +5,7 @@
+     value="{{searchParams.value}}" {{#if params.maxLength}}
+     maxlength="{{params.maxLength}}"{{/if}}{{#if params.size}}
+     size="{{params.size}}"{{/if}}
+-    autocomplete="espo-{{name}}"
++    autocomplete="off"
+     {{#if noSpellCheck}}
+     spellcheck="false"
+     {{/if}}
+diff --git a/client/res/templates/fields/bool/list.tpl b/client/res/templates/fields/bool/list.tpl
+index 1f40f52ab3..5e578925f0 100644
+--- a/client/res/templates/fields/bool/list.tpl
++++ b/client/res/templates/fields/bool/list.tpl
+@@ -1 +1 @@
+-<input type="checkbox" class="form-checkbox form-checkbox-simple"{{#if value}} checked{{/if}} disabled>
++<input type="checkbox" class="form-checkbox form-checkbox-simple" aria-label="{{name}}"{{#if value}} checked{{/if}} disabled>
+diff --git a/client/res/templates/fields/colorpicker/edit.tpl b/client/res/templates/fields/colorpicker/edit.tpl
+index 63c503591c..0a857adcb7 100644
+--- a/client/res/templates/fields/colorpicker/edit.tpl
++++ b/client/res/templates/fields/colorpicker/edit.tpl
+@@ -5,7 +5,7 @@
+         data-name="{{name}}"
+         value="{{value}}"
+         {{#if params.maxLength}}maxlength="{{params.maxLength}}"{{/if}}
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         spellcheck="false"
+     >
+     <span class="btn btn-default input-group-addon"><i></i></span>
+diff --git a/client/res/templates/fields/currency/edit.tpl b/client/res/templates/fields/currency/edit.tpl
+index 6bbf7e637a..393d1e263c 100644
+--- a/client/res/templates/fields/currency/edit.tpl
++++ b/client/res/templates/fields/currency/edit.tpl
+@@ -5,7 +5,7 @@
+             class="main-element form-control radius-left numeric-text"
+             data-name="{{name}}"
+             value="{{value}}"
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             pattern="[\-]?[0-9,.]*"
+             {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}
+         >
+diff --git a/client/res/templates/fields/date/edit.tpl b/client/res/templates/fields/date/edit.tpl
+index cdbab5fc55..3ac6c17363 100644
+--- a/client/res/templates/fields/date/edit.tpl
++++ b/client/res/templates/fields/date/edit.tpl
+@@ -1,5 +1,5 @@
+ <div class="input-group">
+-    <input class="main-element form-control numeric-text" type="text" data-name="{{name}}" value="{{dateValue}}" autocomplete="espo-{{name}}">
++    <input class="main-element form-control numeric-text" type="text" data-name="{{name}}" value="{{dateValue}}" autocomplete="off">
+     <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-icon date-picker-btn" tabindex="-1"><i class="far fa-calendar"></i></button>
+     </span>
+diff --git a/client/res/templates/fields/date/search.tpl b/client/res/templates/fields/date/search.tpl
+index 32abb3e448..965ad7cad6 100644
+--- a/client/res/templates/fields/date/search.tpl
++++ b/client/res/templates/fields/date/search.tpl
+@@ -7,7 +7,7 @@
+         type="text"
+         data-name="{{name}}"
+         value="{{dateValue}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+     >
+     <span class="input-group-btn">
+         <button
+@@ -22,14 +22,14 @@
+         class="main-element form-control input-sm filter-from numeric-text"
+         type="text"
+         value="{{dateValue}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+     >
+     <div class="input-group-addon input-sm"> – </div>
+     <input
+         class="main-element form-control input-sm filter-to numeric-text"
+         type="text"
+         value="{{dateValueTo}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+     >
+ </div>
+ <div class="hidden additional-number">
+@@ -38,6 +38,6 @@
+         type="number"
+         value="{{number}}"
+         placeholder ="{{translate 'Number'}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+     >
+ </div>
+diff --git a/client/res/templates/fields/datetime/edit.tpl b/client/res/templates/fields/datetime/edit.tpl
+index 7c7932237c..855ab222eb 100644
+--- a/client/res/templates/fields/datetime/edit.tpl
++++ b/client/res/templates/fields/datetime/edit.tpl
+@@ -1,7 +1,7 @@
+ 
+ <div class="input-group-container-2">
+ <div class="input-group">
+-    <input class="main-element form-control numeric-text" type="text" data-name="{{name}}" value="{{date}}" autocomplete="espo-{{name}}">
++    <input class="main-element form-control numeric-text" type="text" data-name="{{name}}" value="{{date}}" autocomplete="off">
+     <span class="input-group-btn">
+         <button type="button" class="btn btn-default btn-icon date-picker-btn" tabindex="-1"><i class="far fa-calendar"></i></button>
+     </span>
+@@ -12,7 +12,7 @@
+         type="text"
+         data-name="{{name}}-time"
+         value="{{time}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         spellcheck="false"
+     >
+     <span class="input-group-btn time-part-btn">
+diff --git a/client/res/templates/fields/email-address/edit.tpl b/client/res/templates/fields/email-address/edit.tpl
+index dd267731c4..05d96f4d00 100644
+--- a/client/res/templates/fields/email-address/edit.tpl
++++ b/client/res/templates/fields/email-address/edit.tpl
+@@ -4,5 +4,5 @@
+ 	data-name="{{name}}"
+ 	value="{{value}}"
+ 	{{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}
+-	autocomplete="espo-{{name}}"
++	autocomplete="off"
+ >
+diff --git a/client/res/templates/fields/email/detail.tpl b/client/res/templates/fields/email/detail.tpl
+index b78a094d24..60cacdd7fc 100644
+--- a/client/res/templates/fields/email/detail.tpl
++++ b/client/res/templates/fields/email/detail.tpl
+@@ -3,19 +3,24 @@
+         <div>
+             {{#unless invalid}}
+             {{#unless erased}}
++            {{#if emailAddress}}
+             <a
+                 role="button"
+                 tabindex="0"
+                 data-email-address="{{emailAddress}}"
++                title="{{emailAddress}}"
+                 data-action="mailTo"
+                 class="selectable"
+             >
++            {{/if}}
+             {{/unless}}
+             {{/unless}}
+             <span {{#if lineThrough}}style="text-decoration: line-through"{{/if}}>{{emailAddress}}</span>
+             {{#unless invalid}}
+             {{#unless erased}}
++            {{#if emailAddress}}
+             </a>
++            {{/if}}
+             {{/unless}}
+             {{/unless}}
+         </div>
+@@ -27,6 +32,7 @@
+         tabindex="0"
+         data-email-address="{{value}}"
+         data-action="mailTo"
++        title="{{value}}"
+         class="selectable"
+     >{{value}}</a>
+     {{else}}
+diff --git a/client/res/templates/fields/email/edit.tpl b/client/res/templates/fields/email/edit.tpl
+index 873b312cc1..76f6856484 100644
+--- a/client/res/templates/fields/email/edit.tpl
++++ b/client/res/templates/fields/email/edit.tpl
+@@ -4,7 +4,7 @@
+         <input
+             type="email"
+             class="form-control email-address{{#if optOut}} text-strikethrough{{/if}}{{#if invalid}} text-danger{{/if}}"
+-            value="{{emailAddress}}" autocomplete="espo-{{../name}}"
++            value="{{emailAddress}}" autocomplete="off"
+             maxlength={{../itemMaxLength}}
+         >
+         {{#unless ../onlyPrimary}}
+@@ -64,5 +64,6 @@
+         class="btn btn-default btn-icon"
+         type="button"
+         data-action="addEmailAddress"
++        title="{{translate 'Add Email Address' scope='Contact'}}"
+     ><span class="fas fa-plus"></span></button>
+ {{/unless}}
+diff --git a/client/res/templates/fields/email/list.tpl b/client/res/templates/fields/email/list.tpl
+index 8325471ec4..f907097ccd 100644
+--- a/client/res/templates/fields/email/list.tpl
++++ b/client/res/templates/fields/email/list.tpl
+@@ -1,6 +1,7 @@
+ {{#if isErased}}
+     {{value}}
+ {{else}}
++{{#if value}}
+ {{#unless isInvalid}}
+     <a
+         role="button"
+@@ -15,3 +16,4 @@
+     <span title="{{value}}" style="text-decoration: line-through;">{{value}}</span>
+ {{/unless}}
+ {{/if}}
++{{/if}}
+diff --git a/client/res/templates/fields/file/edit.tpl b/client/res/templates/fields/file/edit.tpl
+index 272254689e..752273ba64 100644
+--- a/client/res/templates/fields/file/edit.tpl
++++ b/client/res/templates/fields/file/edit.tpl
+@@ -5,6 +5,7 @@
+             <span class="btn btn-default btn-icon"><span class="fas fa-paperclip"></span></span>
+             <input
+                 type="file"
++                aria-label="{{translate 'Attach File'}}"
+                 class="file pull-right"
+                 {{#if acceptAttribute}}accept="{{acceptAttribute}}"{{/if}}
+                 {{#if capture}} capture="{{capture}}" {{/if}}
+@@ -20,8 +21,8 @@
+             </button>
+             <ul class="dropdown-menu" role="menu">
+             {{#each sourceList}}
+-                <li><a
+-                        role="button"
++                <li role="none"><a
++                        role="menuitem"
+                         tabindex="0"
+                         class="action"
+                         data-action="insertFromSource"
+diff --git a/client/res/templates/fields/float/edit.tpl b/client/res/templates/fields/float/edit.tpl
+index 6e8302e88a..9e27991814 100644
+--- a/client/res/templates/fields/float/edit.tpl
++++ b/client/res/templates/fields/float/edit.tpl
+@@ -1,2 +1,2 @@
+ 
+-<input type="text" class="main-element form-control numeric-text" data-name="{{name}}" value="{{value}}" autocomplete="espo-{{name}}" pattern="[\-]?[0-9,.]*" {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}>
++<input type="text" class="main-element form-control numeric-text" data-name="{{name}}" value="{{value}}" autocomplete="off" pattern="[\-]?[0-9,.]*" {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}>
+diff --git a/client/res/templates/fields/formula/edit.tpl b/client/res/templates/fields/formula/edit.tpl
+index dca17ceb20..b0c104460a 100644
+--- a/client/res/templates/fields/formula/edit.tpl
++++ b/client/res/templates/fields/formula/edit.tpl
+@@ -19,6 +19,7 @@
+                     type="button"
+                     class="btn btn-text btn-sm dropdown-toggle btn-icon"
+                     data-toggle="dropdown"
++                    title="{{translate 'Insert' scope='Admin'}}"
+                 ><span class="fas fa-plus"></span></button>
+                 <ul class="dropdown-menu pull-right">
+                     {{#if targetEntityType}}
+diff --git a/client/res/templates/fields/int/edit.tpl b/client/res/templates/fields/int/edit.tpl
+index ac580a5a60..659d2e63b4 100644
+--- a/client/res/templates/fields/int/edit.tpl
++++ b/client/res/templates/fields/int/edit.tpl
+@@ -1,2 +1,2 @@
+ 
+-<input type="text" class="main-element form-control numeric-text" data-name="{{name}}" value="{{value}}" autocomplete="espo-{{name}}" pattern="[\-]?[0-9]*" {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}>
++<input type="text" class="main-element form-control numeric-text" data-name="{{name}}" value="{{value}}" autocomplete="off" pattern="[\-]?[0-9]*" {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}>
+diff --git a/client/res/templates/fields/int/search.tpl b/client/res/templates/fields/int/search.tpl
+index 7488facd80..db90f4d1a4 100644
+--- a/client/res/templates/fields/int/search.tpl
++++ b/client/res/templates/fields/int/search.tpl
+@@ -9,7 +9,7 @@
+     pattern="[\-]?[0-9]*"
+     {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}
+     placeholder="{{translate 'Value'}}"
+-    autocomplete="espo-{{name}}"
++    autocomplete="off"
+     spellcheck="false"
+ >
+ <input
+@@ -20,6 +20,6 @@
+     pattern="[\-]?[0-9]*"
+     {{#if params.maxLength}} maxlength="{{params.maxLength}}"{{/if}}
+     placeholder="{{translate 'Value'}}"
+-    autocomplete="espo-{{name}}-additional"
++    autocomplete="off"
+     spellcheck="false"
+ >
+diff --git a/client/res/templates/fields/link-multiple/edit.tpl b/client/res/templates/fields/link-multiple/edit.tpl
+index 1ab9aad853..1b2a3de4f0 100644
+--- a/client/res/templates/fields/link-multiple/edit.tpl
++++ b/client/res/templates/fields/link-multiple/edit.tpl
+@@ -5,7 +5,7 @@
+         class="main-element form-control"
+         type="text"
+         value=""
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         placeholder="{{translate 'Select'}}"
+         spellcheck="false"
+     >
+diff --git a/client/res/templates/fields/link-multiple/search.tpl b/client/res/templates/fields/link-multiple/search.tpl
+index 0d351b20ce..24a2f3ebcc 100644
+--- a/client/res/templates/fields/link-multiple/search.tpl
++++ b/client/res/templates/fields/link-multiple/search.tpl
+@@ -11,7 +11,7 @@
+             class="main-element form-control input-sm"
+             type="text"
+             value=""
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+diff --git a/client/res/templates/fields/link-parent/edit.tpl b/client/res/templates/fields/link-parent/edit.tpl
+index e1010975e8..f275237f15 100644
+--- a/client/res/templates/fields/link-parent/edit.tpl
++++ b/client/res/templates/fields/link-parent/edit.tpl
+@@ -11,7 +11,7 @@
+             type="text"
+             data-name="{{nameName}}"
+             value="{{nameValue}}"
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+@@ -25,6 +25,7 @@
+         ><i class="fas fa-angle-up"></i></button>
+         <button
+             data-action="clearLink"
++            title="{{translate 'Clear'}}"
+             class="btn btn-default btn-icon"
+             type="button"
+         ><i class="fas fa-times"></i></button>
+diff --git a/client/res/templates/fields/link-parent/search.tpl b/client/res/templates/fields/link-parent/search.tpl
+index ef6f664880..753c514390 100644
+--- a/client/res/templates/fields/link-parent/search.tpl
++++ b/client/res/templates/fields/link-parent/search.tpl
+@@ -11,7 +11,7 @@
+             type="text"
+             data-name="{{nameName}}"
+             value="{{searchData.nameValue}}"
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+@@ -25,6 +25,7 @@
+                 type="button"
+                 class="btn btn-sm btn-default btn-icon"
+                 data-action="clearLink"
++            title="{{translate 'Clear'}}"
+             ><i class="fas fa-times"></i></button>
+         </span>
+     </div>
+diff --git a/client/res/templates/fields/link/edit.tpl b/client/res/templates/fields/link/edit.tpl
+index 05e923639f..7c0e6afc1d 100644
+--- a/client/res/templates/fields/link/edit.tpl
++++ b/client/res/templates/fields/link/edit.tpl
+@@ -4,7 +4,7 @@
+         type="text"
+         data-name="{{nameName}}"
+         value="{{nameValue}}"
+-        autocomplete="espo-{{name}}"
++        autocomplete="off"
+         placeholder="{{translate 'Select'}}"
+         spellcheck="false"
+     >
+@@ -25,6 +25,7 @@
+         ><i class="fas fa-angle-up"></i></button>
+         <button
+             data-action="clearLink"
++            title="{{translate 'Clear'}}"
+             class="btn btn-default btn-icon"
+             type="button"
+         ><i class="fas fa-times"></i></button>
+diff --git a/client/res/templates/fields/link/search.tpl b/client/res/templates/fields/link/search.tpl
+index 83d54cb049..91224f8a4c 100644
+--- a/client/res/templates/fields/link/search.tpl
++++ b/client/res/templates/fields/link/search.tpl
+@@ -8,7 +8,7 @@
+             type="text"
+             data-name="{{nameName}}"
+             value="{{searchData.nameValue}}"
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+@@ -23,6 +23,7 @@
+                 type="button"
+                 class="btn btn-sm btn-default btn-icon"
+                 data-action="clearLink"
++            title="{{translate 'Clear'}}"
+             ><i class="fas fa-times"></i></button>
+ 	    </span>
+ 	</div>
+@@ -38,7 +39,7 @@
+             class="form-control input-sm element-one-of"
+             type="text"
+             value=""
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+diff --git a/client/res/templates/fields/person-name/edit-first-middle-last.tpl b/client/res/templates/fields/person-name/edit-first-middle-last.tpl
+index ce0e6d121f..5637c0261f 100644
+--- a/client/res/templates/fields/person-name/edit-first-middle-last.tpl
++++ b/client/res/templates/fields/person-name/edit-first-middle-last.tpl
+@@ -5,12 +5,12 @@
+         </select>
+     </div>
+     <div class="col-sm-5 col-xs-5">
+-        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="espo-first{{ucName}}">
++        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="middle{{ucName}}" value="{{middleValue}}" placeholder="{{translate 'Middle Name'}}"{{#if middleMaxLength}} maxlength="{{middleMaxLength}}"{{/if}} autocomplete="espo-middle{{ucName}}">
++        <input type="text" class="form-control" data-name="middle{{ucName}}" value="{{middleValue}}" placeholder="{{translate 'Middle Name'}}"{{#if middleMaxLength}} maxlength="{{middleMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+     <div class="col-sm-12 col-xs-12">
+-        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="espo-last{{ucName}}">
++        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+ </div>
+diff --git a/client/res/templates/fields/person-name/edit-last-first-middle.tpl b/client/res/templates/fields/person-name/edit-last-first-middle.tpl
+index db8e0e49d0..0b8090c074 100644
+--- a/client/res/templates/fields/person-name/edit-last-first-middle.tpl
++++ b/client/res/templates/fields/person-name/edit-last-first-middle.tpl
+@@ -5,12 +5,12 @@
+         </select>
+     </div>
+     <div class="col-sm-9 col-xs-9">
+-        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="espo-last{{ucName}}">
++        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+     <div class="col-sm-6 col-xs-6">
+-        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="espo-first{{ucName}}">
++        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+     <div class="col-sm-6 col-xs-6">
+-        <input type="text" class="form-control" data-name="middle{{ucName}}" value="{{middleValue}}" placeholder="{{translate 'Middle Name'}}"{{#if middleMaxLength}} maxlength="{{middleMaxLength}}"{{/if}} autocomplete="espo-middle{{ucName}}">
++        <input type="text" class="form-control" data-name="middle{{ucName}}" value="{{middleValue}}" placeholder="{{translate 'Middle Name'}}"{{#if middleMaxLength}} maxlength="{{middleMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+ </div>
+diff --git a/client/res/templates/fields/person-name/edit-last-first.tpl b/client/res/templates/fields/person-name/edit-last-first.tpl
+index 29d7d041ce..65ab804463 100644
+--- a/client/res/templates/fields/person-name/edit-last-first.tpl
++++ b/client/res/templates/fields/person-name/edit-last-first.tpl
+@@ -5,9 +5,9 @@
+         </select>
+     </div>
+     <div class="col-sm-5 col-xs-5">
+-        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="espo-last{{ucName}}">
++        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="espo-first{{ucName}}">
++        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+ </div>
+diff --git a/client/res/templates/fields/person-name/edit.tpl b/client/res/templates/fields/person-name/edit.tpl
+index 56cab3caf2..c21fa247fc 100644
+--- a/client/res/templates/fields/person-name/edit.tpl
++++ b/client/res/templates/fields/person-name/edit.tpl
+@@ -5,9 +5,9 @@
+         </select>
+     </div>
+     <div class="col-sm-4 col-xs-4">
+-        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="espo-first{{ucName}}">
++        <input type="text" class="form-control" data-name="first{{ucName}}" value="{{firstValue}}" placeholder="{{translate 'First Name'}}"{{#if firstMaxLength}} maxlength="{{firstMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+     <div class="col-sm-5 col-xs-5">
+-        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="espo-last{{ucName}}">
++        <input type="text" class="form-control" data-name="last{{ucName}}" value="{{lastValue}}" placeholder="{{translate 'Last Name'}}"{{#if lastMaxLength}} maxlength="{{lastMaxLength}}"{{/if}} autocomplete="off">
+     </div>
+ </div>
+diff --git a/client/res/templates/fields/phone/edit.tpl b/client/res/templates/fields/phone/edit.tpl
+index 022c010e9c..f5f3bb49ed 100644
+--- a/client/res/templates/fields/phone/edit.tpl
++++ b/client/res/templates/fields/phone/edit.tpl
+@@ -14,7 +14,7 @@
+                 type="text"
+                 class="form-control phone-number numeric-text no-margin-shifting {{#if optOut}} text-strikethrough {{/if}} {{#if invalid}} text-danger {{/if}}"
+                 value="{{phoneNumber}}"
+-                autocomplete="espo-{{../name}}"
++                autocomplete="off"
+                 maxlength={{../itemMaxLength}}
+             >
+         </span>
+@@ -75,5 +75,6 @@
+         class="btn btn-default btn-icon"
+         type="button"
+         data-action="addPhoneNumber"
++        title="{{translate 'Add Phone Number' scope='Contact'}}"
+     ><span class="fas fa-plus"></span></button>
+ {{/unless}}
+diff --git a/client/res/templates/fields/phone/list.tpl b/client/res/templates/fields/phone/list.tpl
+index fd2cb086ba..4ab2a08dea 100644
+--- a/client/res/templates/fields/phone/list.tpl
++++ b/client/res/templates/fields/phone/list.tpl
+@@ -1,6 +1,7 @@
+ {{#if isErased}}
+     {{value}}
+ {{else}}
++{{#if value}}
+ {{#unless isInvalid}}
+     <a
+         href="tel:{{valueForLink}}"
+@@ -14,3 +15,4 @@
+     <span title="{{value}}" style="text-decoration: line-through;">{{value}}</span>
+ {{/unless}}
+ {{/if}}
++{{/if}}
+diff --git a/client/res/templates/fields/text/edit.tpl b/client/res/templates/fields/text/edit.tpl
+index 87ba96d2ce..3c6e7397f4 100644
+--- a/client/res/templates/fields/text/edit.tpl
++++ b/client/res/templates/fields/text/edit.tpl
+@@ -3,7 +3,7 @@
+ 	data-name="{{name}}"
+ 	{{#if params.maxLength}}maxlength="{{params.maxLength}}"{{/if}}
+ 	rows="{{rows}}"
+-	autocomplete="espo-{{name}}"
++	autocomplete="off"
+ 	style="resize: {{#unless noResize}} vertical{{else}}none{{/unless}};"
+ >{{value}}</textarea>
+ {{#if preview}}
+diff --git a/client/res/templates/fields/text/search.tpl b/client/res/templates/fields/text/search.tpl
+index c01dff00ba..a063c0e991 100644
+--- a/client/res/templates/fields/text/search.tpl
++++ b/client/res/templates/fields/text/search.tpl
+@@ -8,6 +8,6 @@
+     value="{{searchData.value}}"
+     {{#if params.maxLength}}maxlength="{{params.maxLength}}"{{/if}}
+     {{#if params.size}} size="{{params.size}}"{{/if}}
+-    autocomplete="espo-{{name}}"
++    autocomplete="off"
+     placeholder="{{translate 'Value'}}"
+ >
+diff --git a/client/res/templates/fields/user/search.tpl b/client/res/templates/fields/user/search.tpl
+index 9dccf8fac0..5826d08e71 100644
+--- a/client/res/templates/fields/user/search.tpl
++++ b/client/res/templates/fields/user/search.tpl
+@@ -8,7 +8,7 @@
+             type="text"
+             data-name="{{nameName}}"
+             value="{{searchData.nameValue}}"
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+@@ -24,6 +24,7 @@
+                 type="button"
+                 class="btn btn-sm btn-default btn-icon"
+                 data-action="clearLink"
++            title="{{translate 'Clear'}}"
+                 tabindex="-1"
+             ><i class="fas fa-times"></i></button>
+ 	    </span>
+@@ -39,7 +40,7 @@
+             class="form-control input-sm element-one-of"
+             type="text"
+             value=""
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+@@ -62,7 +63,7 @@
+             class="form-control input-sm element-teams"
+             type="text"
+             value=""
+-            autocomplete="espo-{{name}}"
++            autocomplete="off"
+             placeholder="{{translate 'Select'}}"
+             spellcheck="false"
+         >
+diff --git a/client/res/templates/fields/varchar/search.tpl b/client/res/templates/fields/varchar/search.tpl
+index 3d953e6454..6407214543 100644
+--- a/client/res/templates/fields/varchar/search.tpl
++++ b/client/res/templates/fields/varchar/search.tpl
+@@ -8,7 +8,7 @@
+     value="{{searchData.value}}" {{#if params.maxLength}}
+     maxlength="{{params.maxLength}}"{{/if}}{{#if params.size}}
+     size="{{params.size}}"{{/if}}
+-    autocomplete="espo-{{name}}"
++    autocomplete="off"
+     placeholder="{{translate 'Value'}}"
+     {{#if noSpellCheck}}
+     spellcheck="false"
+diff --git a/client/res/templates/global-search/global-search.tpl b/client/res/templates/global-search/global-search.tpl
+index d0a8a55147..90916977c3 100644
+--- a/client/res/templates/global-search/global-search.tpl
++++ b/client/res/templates/global-search/global-search.tpl
+@@ -2,8 +2,9 @@
+     <input
+         type="search"
+         class="form-control global-search-input"
++        aria-label="{{translate 'Search'}}"
+         placeholder="{{translate 'Search'}}"
+-        autocomplete="espo-global-search"
++        autocomplete="off"
+         spellcheck="false"
+     >
+     {{#if hasSearchButton}}
+diff --git a/client/res/templates/header.tpl b/client/res/templates/header.tpl
+index 244f75b5f9..e16ccb2883 100644
+--- a/client/res/templates/header.tpl
++++ b/client/res/templates/header.tpl
+@@ -1,6 +1,6 @@
+ <div class="page-header-row">
+     <div class="{{#if noBreakWords}} no-break-words{{/if}} page-header-column-1">
+-        <h3 class="header-title">{{{header}}}</h3>
++        <h1 class="header-title">{{{header}}}</h1>
+     </div>
+     <div class="page-header-column-2">{{{buttons}}}</div>
+ </div>
+diff --git a/client/res/templates/home.tpl b/client/res/templates/home.tpl
+index 3ee5fff041..599e99070e 100644
+--- a/client/res/templates/home.tpl
++++ b/client/res/templates/home.tpl
+@@ -1 +1,2 @@
++<h1 class="sr-only">{{translate 'Home' scope='Global' category='labels'}}</h1>
+ <div class="home-content">{{{content}}}</div>
+diff --git a/client/res/templates/import/index.tpl b/client/res/templates/import/index.tpl
+index 8d7248e4ff..fa775c5d95 100644
+--- a/client/res/templates/import/index.tpl
++++ b/client/res/templates/import/index.tpl
+@@ -1,13 +1,13 @@
+ <div class="page-header">
+ 	<div class="row">
+ 	    <div class="col-lg-7 col-sm-7">
+-	    	<h3>
++	    	<h1>
+ 	    	{{#if fromAdmin}}
+     		<a href="#Admin">{{translate 'Administration' scope='Admin'}}</a>
+     		<span class="breadcrumb-separator"><span></span></span>
+ 		   	{{/if}}
+ 		   	{{translate 'Import' category='scopeNames'}}
+-	   		</h3>
++	   		</h1>
+ 	    </div>
+ 	    <div class="col-lg-5 col-sm-5">
+ 	        <div class="header-buttons btn-group pull-right">
+diff --git a/client/res/templates/login.tpl b/client/res/templates/login.tpl
+index 13dc12a06b..6fa8d323ee 100644
+--- a/client/res/templates/login.tpl
++++ b/client/res/templates/login.tpl
+@@ -1,9 +1,10 @@
+-<div class="container content">
++<main class="container content" data-a11y-c47-login>
+     <div class="container-centering">
+     <div id="login" class="panel panel-default block-center-sm">
+         <div class="panel-heading">
+             <div class="logo-container">
+-                <img src="{{logoSrc}}" class="logo">
++                <h1 class="sr-only">{{translate 'EspoCRM' scope='Global' category='labels'}}</h1>
++                <img src="{{logoSrc}}" class="logo" alt="EspoCRM">
+             </div>
+         </div>
+         <div class="panel-body{{#if anotherUser}} another-user{{/if}}">
+@@ -37,7 +38,7 @@
+                             class="form-control"
+                             autocapitalize="off"
+                             spellcheck="false"
+-                            tabindex="1"
++                            
+                             autocomplete="username"
+                             maxlength="255"
+                         >
+@@ -50,7 +51,7 @@
+                                 name="password"
+                                 id="field-password"
+                                 class="form-control"
+-                                tabindex="2"
++                                
+                                 autocomplete="current-password"
+                                 maxlength="255"
+                             >
+@@ -80,7 +81,7 @@
+                             type="submit"
+                             class="btn btn-primary btn-s-wide"
+                             id="btn-login"
+-                            tabindex="3"
++                            
+                         >{{logInText}}</button>
+                     </div>
+                 </form>
+@@ -88,5 +89,5 @@
+         </div>
+     </div>
+     </div>
+-</div>
++</main>
+ <footer>{{{footer}}}</footer>
+diff --git a/client/res/templates/modals/password-change-request.tpl b/client/res/templates/modals/password-change-request.tpl
+index 30d1db470b..cfab719674 100644
+--- a/client/res/templates/modals/password-change-request.tpl
++++ b/client/res/templates/modals/password-change-request.tpl
+@@ -22,7 +22,7 @@
+             type="text"
+             name="emailAddress"
+             class="form-control"
+-            autocomplete="espo-change-password-emailAddress"
++            autocomplete="off"
+             autocapitalize="off"
+             spellcheck="false"
+             maxlength="255"
+diff --git a/client/res/templates/notification/list.tpl b/client/res/templates/notification/list.tpl
+index 2d12b59f80..be212816f4 100644
+--- a/client/res/templates/notification/list.tpl
++++ b/client/res/templates/notification/list.tpl
+@@ -1,7 +1,7 @@
+ <div class="page-header">
+     <div class="row">
+         <div class="col-sm-7">
+-            <h3>{{translate 'Notifications'}}</h3>
++            <h1>{{translate 'Notifications'}}</h1>
+         </div>
+         <div class="col-sm-5">
+             <div class="pull-right btn-group">
+diff --git a/client/res/templates/record/bottom.tpl b/client/res/templates/record/bottom.tpl
+index 1df3b95091..38d677ee24 100644
+--- a/client/res/templates/record/bottom.tpl
++++ b/client/res/templates/record/bottom.tpl
+@@ -25,7 +25,7 @@
+         <div class="panel-heading">
+             <div class="pull-right btn-group panel-actions-container">{{{var actionsViewKey ../this}}}</div>
+ 
+-            <h4 class="panel-title">
++            <h2 class="panel-title">
+             {{#unless notRefreshable}}
+             <span
+                 style="cursor: pointer; user-select: none;"
+@@ -43,7 +43,7 @@
+             {{#unless notRefreshable}}
+             </span>
+             {{/unless}}
+-            </h4>
++            </h2>
+         </div>
+ 
+         <div class="panel-body{{#if isForm}} panel-body-form{{/if}}" data-name="{{name}}">
+diff --git a/client/res/templates/record/list-checkbox.tpl b/client/res/templates/record/list-checkbox.tpl
+index 0198f2dc02..f27b63fd61 100644
+--- a/client/res/templates/record/list-checkbox.tpl
++++ b/client/res/templates/record/list-checkbox.tpl
+@@ -1,5 +1,5 @@
+ <span class="record-checkbox-container"><input
+     type="checkbox"
+-    class="record-checkbox form-checkbox form-checkbox-small"
++    class="record-checkbox form-checkbox form-checkbox-small" aria-label="{{translate 'Select'}}"
+     data-id="{{model.id}}"
+ ></span>
+diff --git a/client/res/templates/record/list-nested-categories.tpl b/client/res/templates/record/list-nested-categories.tpl
+index 4365c9e52e..2aa66ce20b 100644
+--- a/client/res/templates/record/list-nested-categories.tpl
++++ b/client/res/templates/record/list-nested-categories.tpl
+@@ -2,7 +2,7 @@
+ <div class="list-nested-categories">
+     <div class="clearfix">
+         <div class="btn-group pull-right">
+-            <a role="button" tabindex="0" class="dropdown-toggle btn btn-text" data-toggle="dropdown">
++            <a role="button" tabindex="0" class="dropdown-toggle btn btn-text" data-toggle="dropdown" title="{{translate 'Actions'}}">
+                 <span class="fas fa-ellipsis-h"></span>
+             </a>
+ 
+diff --git a/client/res/templates/record/list-pagination.tpl b/client/res/templates/record/list-pagination.tpl
+index f9b21e8dbb..06f3741d68 100644
+--- a/client/res/templates/record/list-pagination.tpl
++++ b/client/res/templates/record/list-pagination.tpl
+@@ -2,6 +2,7 @@
+     <div class="btn-group">
+         <a
+             class="pagination-btn-middle btn btn-text dropdown-toggle"
++            title="{{translate 'Rows per page' scope='Global' category='labels'}}"
+             role="button"
+             tabindex="0"
+             data-toggle="dropdown"
+diff --git a/client/res/templates/record/list.tpl b/client/res/templates/record/list.tpl
+index 130c89ddfa..ece701f840 100644
+--- a/client/res/templates/record/list.tpl
++++ b/client/res/templates/record/list.tpl
+@@ -74,6 +74,7 @@
+                         <button
+                             type="button"
+                             class="btn btn-text dropdown-toggle dropdown-item-list-button"
++                            aria-label="{{translate 'Actions'}}"
+                             data-toggle="dropdown"
+                         ><span class="fas fa-ellipsis-h"></span></button>
+                         <ul class="dropdown-menu pull-left">
+@@ -181,15 +182,17 @@
+                         style="width: {{checkboxColumnWidth}}"
+                         data-name="r-checkbox"
+                         class="checkbox-cell"
++                        aria-label="{{translate 'Select All Results'}}"
+                     >
+                         <span
+                             class="select-all-container"
+-                        ><input type="checkbox" class="select-all form-checkbox form-checkbox-small"></span>
++                        ><input type="checkbox" class="select-all form-checkbox form-checkbox-small" aria-label="{{translate 'Select All Results'}}"></span>
+                         {{#unless checkAllResultDisabled}}
+                         <div class="btn-group checkbox-dropdown">
+                             <a
+                                 class="btn btn-link btn-sm dropdown-toggle"
+                                 data-toggle="dropdown"
++                                title="{{translate 'Select'}}"
+                                 tabindex="0"
+                                 role="button"
+                             >
+diff --git a/client/res/templates/record/panel-actions.tpl b/client/res/templates/record/panel-actions.tpl
+index 3856279384..6b640f80fe 100644
+--- a/client/res/templates/record/panel-actions.tpl
++++ b/client/res/templates/record/panel-actions.tpl
+@@ -14,6 +14,7 @@
+         type="button"
+         class="btn btn-{{#if defs.style}}{{defs.style}}{{else}}default{{/if}} btn-sm dropdown-toggle"
+         data-toggle="dropdown"
++        title="{{translate 'Actions'}}"
+     ><span class="fas fa-ellipsis-h"></span></button>
+     <ul class="dropdown-menu">
+         {{#each actionList}}
+diff --git a/client/res/templates/record/row-actions/default.tpl b/client/res/templates/record/row-actions/default.tpl
+index 4c6fb5e45a..b71891e544 100644
+--- a/client/res/templates/record/row-actions/default.tpl
++++ b/client/res/templates/record/row-actions/default.tpl
+@@ -4,6 +4,7 @@
+         type="button"
+         class="btn btn-link btn-sm dropdown-toggle"
+         data-toggle="dropdown"
++        title="{{translate 'Actions'}}"
+     ><span class="caret"></span></button>
+     <ul class="dropdown-menu pull-right list-row-dropdown-menu" data-id="{{model.id}}">
+     {{#each actionList}}
+diff --git a/client/res/templates/record/search.tpl b/client/res/templates/record/search.tpl
+index e76c50d4f8..7a3fdc2546 100644
+--- a/client/res/templates/record/search.tpl
++++ b/client/res/templates/record/search.tpl
+@@ -85,9 +85,10 @@
+                 type="search"
+                 class="form-control text-filter"
+                 data-name="textFilter"
++                aria-label="{{translate 'Search'}}"
+                 value="{{textFilter}}"
+                 tabindex="0"
+-                autocomplete="espo-text-search"
++                autocomplete="off"
+                 spellcheck="false"
+                 {{#if textFilterDisabled}}disabled="disabled"{{/if}}
+             >
+@@ -106,6 +107,7 @@
+                 <button
+                     type="button"
+                     class="btn btn-text btn-icon btn-icon-wide dropdown-toggle add-filter-button"
++                    title="{{translate 'Add Filter'}}"
+                     data-toggle="dropdown"
+                     tabindex="0"
+                 >
+@@ -125,7 +127,7 @@
+                     <li class="dropdown-header">{{translate 'Add Field'}}</li>
+                     {{#if hasFieldQuickSearch}}
+                     <li class="quick-search-list-item">
+-                        <input class="form-control field-filter-quick-search-input">
++                        <input class="form-control field-filter-quick-search-input" aria-label="{{translate 'Search'}}">
+                     </li>
+                     {{/if}}
+                     {{#each filterFieldDataList}}
+diff --git a/client/res/templates/record/side.tpl b/client/res/templates/record/side.tpl
+index 8bed9099e2..45c1984df5 100644
+--- a/client/res/templates/record/side.tpl
++++ b/client/res/templates/record/side.tpl
+@@ -21,7 +21,7 @@
+         <div class="panel-heading">
+             <div class="pull-right btn-group panel-actions-container">{{{var actionsViewKey ../this}}}</div>
+ 
+-            <h4 class="panel-title">
++            <h2 class="panel-title">
+                 {{#unless notRefreshable}}
+                 <span
+                     style="cursor: pointer; user-select: none;"
+@@ -38,7 +38,7 @@
+                 {{#unless notRefreshable}}
+                 </span>
+                 {{/unless}}
+-            </h4>
++            </h2>
+         </div>
+         {{/if}}
+ 
+diff --git a/client/res/templates/role/table-edit.tpl b/client/res/templates/role/table-edit.tpl
+index 59fda7336c..ca97aad8c8 100644
+--- a/client/res/templates/role/table-edit.tpl
++++ b/client/res/templates/role/table-edit.tpl
+@@ -12,7 +12,7 @@
+ 
+ <div class="panel panel-default">
+     <div class="panel-heading">
+-        <h4 class="panel-title">{{translate 'Scope Level' scope='Role'}}</h4>
++        <h2 class="panel-title">{{translate 'Scope Level' scope='Role'}}</h2>
+     </div>
+     <div class="panel-body">
+         <div class="no-margin">
+@@ -71,7 +71,7 @@
+ {{#if fieldTableDataList.length}}
+ <div class="panel panel-default">
+     <div class="panel-heading">
+-        <h4 class="panel-title">{{translate 'Field Level' scope='Role'}}</h4>
++        <h2 class="panel-title">{{translate 'Field Level' scope='Role'}}</h2>
+     </div>
+     <div class="panel-body">
+         <div class="no-margin" style="margin-bottom: 0;">
+diff --git a/client/res/templates/role/table.tpl b/client/res/templates/role/table.tpl
+index 0baeff29ee..aae178e10d 100644
+--- a/client/res/templates/role/table.tpl
++++ b/client/res/templates/role/table.tpl
+@@ -12,7 +12,7 @@
+ 
+ <div class="panel panel-default">
+     <div class="panel-heading">
+-        <h4 class="panel-title">{{translate 'Scope Level' scope='Role'}}</h4>
++        <h2 class="panel-title">{{translate 'Scope Level' scope='Role'}}</h2>
+     </div>
+     <div class="panel-body">
+         <div class="no-margin">
+@@ -73,7 +73,7 @@
+ {{#if hasFieldLevelData}}
+ <div class="panel panel-default">
+     <div class="panel-heading">
+-        <h4 class="panel-title">{{translate 'Field Level' scope='Role'}}</h4>
++        <h2 class="panel-title">{{translate 'Field Level' scope='Role'}}</h2>
+     </div>
+     <div class="panel-body">
+         <div class="no-margin">
+diff --git a/client/res/templates/site/master.tpl b/client/res/templates/site/master.tpl
+index 25d2c8d854..2b986504c0 100644
+--- a/client/res/templates/site/master.tpl
++++ b/client/res/templates/site/master.tpl
+@@ -1,6 +1,6 @@
+ <header id="header">{{{header}}}</header>
+-<div id="content" class="container content">
++<main id="content" class="container content">
+     <div id="main" tabindex="-1">{{{main}}}</div>
+-</div>
++</main>
+ <footer id="footer">{{{footer}}}</footer>
+ <div class="collapsed-modal-bar"></div>
+diff --git a/client/res/templates/site/navbar.tpl b/client/res/templates/site/navbar.tpl
+index b078fe9ca0..20c495a055 100644
+--- a/client/res/templates/site/navbar.tpl
++++ b/client/res/templates/site/navbar.tpl
+@@ -1,6 +1,6 @@
+ <div class="navbar navbar-inverse" role="navigation">
+     <div class="navbar-header">
+-        <button type="button" class="navbar-toggle" data-action="toggleCollapsable">
++        <button type="button" class="navbar-toggle" data-action="toggleCollapsable" aria-label="{{translate 'Menu'}}">
+             <span class="fas fa-bars"></span>
+         </button>
+         <div class="navbar-logo-container"
+@@ -8,7 +8,7 @@
+                 class="navbar-brand nav-link"
+                 href="#"
+             ><img src="{{logoSrc}}" class="logo" alt="logo"></a></div>
+-        <a role="button" class="side-menu-button"><span class="fas fa-bars"></span></a>
++        <a role="button" class="side-menu-button" aria-label="{{translate 'Menu'}}"><span class="fas fa-bars"></span></a>
+     </div>
+ 
+     <div class="navbar-collapse navbar-body">
+@@ -25,7 +25,7 @@
+                         {{#unless isDivider}}
+                             <a
+                                     {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
+-                                    class="{{aClassName}}"
++                                    class="{{aClassName}}" {{#if label}}aria-label="{{label}}"{{else}}aria-label="{{name}}"{{/if}}
+                                     {{#if color}}style="border-color: {{color}}"{{/if}}
+                                     {{#if openInNewTab}} target="_blank" {{/if}}
+                                 {{#if isGroup}}
+@@ -57,12 +57,12 @@
+                             <ul class="dropdown-menu" role="menu" aria-labelledby="nav-tab-group-{{name}}">
+                                 {{#each itemList}}
+                                     {{#if isDivider}}
+-                                        <li class="divider"></li>
++                                        <li class="divider" role="separator"></li>
+                                     {{else}}
+-                                        <li data-name="{{name}}" class="in-group tab">
++                                        <li role="none" data-name="{{name}}" class="in-group tab">
+                                             <a
+-                                                    {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
+-                                                    class="{{aClassName}}"
++                                                    {{#if link}}href="{{link}}"{{else}}role="menuitem"{{/if}}
++                                                    class="{{aClassName}}" {{#if label}}aria-label="{{label}}"{{else}}aria-label="{{name}}"{{/if}}
+                                                 {{#if color}}
+                                                     style="border-color: {{color}}"
+                                                 {{/if}}
+@@ -95,13 +95,14 @@
+                     <a
+                         id="nav-more-tabs-dropdown"
+                         class="dropdown-toggle"
++                        aria-label="{{translate 'More'}}"
+                         data-toggle="dropdown"
+                         role="button"
+                         tabindex="0"
+                     ><span class="fas fa-ellipsis-h more-icon"></span></a>
+                     <ul class="dropdown-menu more-dropdown-menu" role="menu" aria-labelledby="nav-more-tabs-dropdown">
+                         {{#each tabDefsList2}}
+-                            <li
++                            <li role="none"
+                                 data-name="{{name}}"
+                                 class="in-more tab{{#if className}} {{className}}{{/if}}{{#if isGroup}} dropdown tab-group{{/if}}{{#if isDivider}} tab-divider{{/if}}"
+                             >
+@@ -110,9 +111,9 @@
+                                 {{/if}}
+                                 {{#unless isDivider}}
+                                     <a
+-                                            {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
++                                            {{#if link}}href="{{link}}"{{else}}role="menuitem"{{/if}}
+                                             tabindex="0"
+-                                            class="{{aClassName}}"
++                                            class="{{aClassName}}" {{#if label}}aria-label="{{label}}"{{else}}aria-label="{{name}}"{{/if}}
+                                         {{#if color}} style="border-color: {{color}}"{{/if}}
+                                         {{#if isGroup}}
+                                             id="nav-tab-group-{{name}}"
+@@ -144,13 +145,13 @@
+                                     <ul class="dropdown-menu" role="menu" aria-labelledby="nav-tab-group-{{name}}">
+                                         {{#each itemList}}
+                                             {{#if isDivider}}
+-                                                <li class="divider"></li>
++                                                <li class="divider" role="separator"></li>
+                                             {{else}}
+-                                                <li data-name="{{name}}" class="in-group tab">
++                                                <li role="none" data-name="{{name}}" class="in-group tab">
+                                                     <a
+-                                                            {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
++                                                            {{#if link}}href="{{link}}"{{else}}role="menuitem"{{/if}}
+                                                             tabindex="0"
+-                                                            class="{{aClassName}}"
++                                                            class="{{aClassName}}" {{#if label}}aria-label="{{label}}"{{else}}aria-label="{{name}}"{{/if}}
+                                                         {{#if color}}
+                                                             style="border-color: {{color}}"
+                                                         {{/if}}
+@@ -182,7 +183,7 @@
+                     </ul>
+                 </li>
+             </ul>
+-            <a class="minimizer hidden" role="button" tabindex="0">
++            <a class="minimizer hidden" role="button" tabindex="0" aria-label="{{translate 'Minimize'}}">
+                 <span class="fas fa-chevron-right right"></span>
+                 <span class="fas fa-chevron-left left"></span>
+             </a>
+@@ -204,9 +205,9 @@
+                     <ul class="dropdown-menu" role="menu" aria-labelledby="nav-menu-dropdown">
+                         {{#each menuDataList}}
+                             {{#unless divider}}
+-                                <li><a
++                                <li role="none"><a
+                                     {{#if name}}data-name="{{name}}"{{/if}}
+-                                    {{#if link}}href="{{link}}"{{else}}role="button"{{/if}}
++                                    {{#if link}}href="{{link}}"{{/if}} role="menuitem"
+                                     tabindex="0"
+                                     class="nav-link{{#if handler}} action{{/if}}"
+                                 >
+@@ -221,7 +222,7 @@
+                                     </a>
+                                 </li>
+                             {{else}}
+-                                <li class="divider"></li>
++                                <li class="divider" role="separator"></li>
+                             {{/unless}}
+                         {{/each}}
+                     </ul>
+diff --git a/client/res/templates/stream.tpl b/client/res/templates/stream.tpl
+index 9261df1512..b185b6788e 100644
+--- a/client/res/templates/stream.tpl
++++ b/client/res/templates/stream.tpl
+@@ -2,10 +2,10 @@
+     <div class="row">
+         <div class="col-sm-7 col-xs-5">
+             {{#if displayTitle}}
+-            <h3><span
++            <h1><span
+                 data-action="fullRefresh"
+                 style="user-select: none; cursor: pointer"
+-            >{{translate 'Stream'}}</span></h3>
++            >{{translate 'Stream'}}</span></h1>
+             {{/if}}
+         </div>
+         <div class="col-sm-5 col-xs-7">
+@@ -18,10 +18,11 @@
+                     <button
+                         class="btn btn-default dropdown-toggle"
+                         data-toggle="dropdown"
++                        aria-label="{{translate 'Menu'}}"
+                     ><span class="fas fa-ellipsis-h"></span></button>
+-                    <ul class="dropdown-menu pull-right">
++                    <ul class="dropdown-menu pull-right" role="menu">
+                         {{#if hasGlobalStreamAccess}}
+-                        <li>
++                        <li role="none">
+                             <a
+                                 role="button"
+                                 tabindex="0"
+diff --git a/client/res/templates/stream/panel.tpl b/client/res/templates/stream/panel.tpl
+index c31d01a13b..c8f2235083 100644
+--- a/client/res/templates/stream/panel.tpl
++++ b/client/res/templates/stream/panel.tpl
+@@ -17,7 +17,7 @@
+         <div class="attachments-container">
+             {{{attachments}}}
+         </div>
+-        <a role="button" tabindex="-1" class="text-muted pull-right stream-post-info">
++        <a role="button" tabindex="-1" class="text-muted pull-right stream-post-info" aria-label="{{translate 'Info' scope='Global' category='labels'}}">
+             <span class="fas fa-info-circle"></span>
+         </a>
+         <a
+diff --git a/client/res/templates/stream/row-actions/default.tpl b/client/res/templates/stream/row-actions/default.tpl
+index 1481b702ff..98c65f6918 100644
+--- a/client/res/templates/stream/row-actions/default.tpl
++++ b/client/res/templates/stream/row-actions/default.tpl
+@@ -6,6 +6,7 @@
+             type="button"
+             class="btn btn-link btn-sm dropdown-toggle"
+             data-toggle="dropdown"
++            title="{{translate 'Actions'}}"
+         >
+             <span class="caret"></span>
+         </button>
+diff --git a/client/src/ui/autocomplete.js b/client/src/ui/autocomplete.js
+index 7cb1cce5a6..d583390c82 100644
+--- a/client/src/ui/autocomplete.js
++++ b/client/src/ui/autocomplete.js
+@@ -192,7 +192,7 @@ class Autocomplete {
+             triggerSelectOnValidInput: options.triggerSelectOnValidInput || false,
+         });
+ 
+-        this.$element.attr('autocomplete', 'espo-' + (options.name || 'dummy'));
++        this.$element.attr('autocomplete', 'off');
+ 
+         if (options.handleFocusMode) {
+             this.initHandleFocus(options);
+diff --git a/client/src/ui/dialog.ts b/client/src/ui/dialog.ts
+index 794341414d..52d60eb22d 100644
+--- a/client/src/ui/dialog.ts
++++ b/client/src/ui/dialog.ts
+@@ -91,6 +91,7 @@ export interface DialogButton {
+  * @since 10.0.0
+  */
+ class Dialog {
++    static _a11yTitleSeq = 0;
+ 
+     private fitHeight: boolean
+     private onRemove: () => void
+@@ -204,11 +205,12 @@ class Dialog {
+         }, this);
+ 
+         if (hasFooter) {
+-            this.footerElement = document.createElement('footer');
++            this.footerElement = document.createElement('div');
+ 
+             this.footerVNode = patch(this.footerElement, this.footerComponent.node());
+         }
+ 
++        this._a11yTitleSeq = ++Dialog._a11yTitleSeq;
+         const $header = this.getHeader();
+ 
+         const $body = $('<div>')
+@@ -241,6 +243,7 @@ class Dialog {
+             .attr('id', this.id)
+             .attr('class', this.className + ' modal')
+             .attr('role', 'dialog')
++            .attr('aria-labelledby', 'a11y-c47-dialog-title-' + this._a11yTitleSeq)
+             .attr('tabindex', '-1')
+             .append($dialog)
+             .appendTo($container);
+@@ -406,12 +409,13 @@ class Dialog {
+             return null;
+         }
+ 
+-        const $header = $('<header />')
++        const $header = $('<div />')
+             .addClass('modal-header')
+             .addClass(this.options.fixedHeaderHeight ? 'fixed-height' : '')
+             .append(
+-                $('<h4 />')
++                $('<h2 />')
+                     .addClass('modal-title')
++                    .attr('id', 'a11y-c47-dialog-title-' + this._a11yTitleSeq)
+                     .append(
+                         $('<span />')
+                             .addClass('modal-title-text')
+@@ -424,6 +428,7 @@ class Dialog {
+             $header.prepend(
+                 $('<a>')
+                     .addClass('collapse-button')
++                    .attr('aria-label', 'Collapse')
+                     .attr('role', 'button')
+                     .attr('tabindex', '-1')
+                     .attr('data-action', 'collapseModal')
+@@ -438,6 +443,7 @@ class Dialog {
+             {
+                 const a = document.createElement('a');
+                 a.classList.add('maximize-button');
++                a.setAttribute('aria-label', 'Maximize');
+                 a.role = 'button';
+                 a.tabIndex = -1;
+                 a.setAttribute('data-action', 'maximizeModal');
+@@ -498,6 +504,7 @@ class Dialog {
+             $header.prepend(
+                 $('<a>')
+                     .addClass('close')
++                    .attr('aria-label', 'Close')
+                     .attr('data-dismiss', 'modal')
+                     .attr('role', 'button')
+                     .attr('tabindex', '-1')
+diff --git a/client/src/views/dashlets/fields/records/expanded-layout.js b/client/src/views/dashlets/fields/records/expanded-layout.js
+index efa04889ae..bf845b6a35 100644
+--- a/client/src/views/dashlets/fields/records/expanded-layout.js
++++ b/client/src/views/dashlets/fields/records/expanded-layout.js
+@@ -51,6 +51,7 @@ class ExpandedLayoutDashletFieldView extends BaseFieldView {
+                             <button
+                                 class="btn btn-text dropdown-toggle"
+                                 data-toggle="dropdown"
++                                title="{{translate 'Edit'}}"
+                             ><span class="caret"></span></button>
+                             <ul class="dropdown-menu pull-right">
+                                 <li class="dropdown-header">{{translate 'Edit'}}</li>
+diff --git a/client/src/views/fields/base.ts b/client/src/views/fields/base.ts
+index 08474be3b2..34d10faa0c 100644
+--- a/client/src/views/fields/base.ts
++++ b/client/src/views/fields/base.ts
+@@ -984,6 +984,27 @@ export default class BaseFieldView<
+     /**
+      * @internal
+      */
++    private a11yFormPass() {
++        const labelText = this.options.labelText ||
++            this.translate(this.name, 'fields', this.entityType ?? undefined) ||
++            this.name;
++        setTimeout(() => {
++            this.$el.find('input, select, textarea').each((_, el) => {
++                const $el = $(el);
++                if (!el.getAttribute('aria-label') && !el.getAttribute('aria-labelledby') &&
++                        !el.getAttribute('title') && !$el.attr('placeholder')) {
++                    el.setAttribute('aria-label', labelText);
++                }
++                const ac = el.getAttribute('autocomplete');
++                if (ac && !/^(off|on|name|username|current-password|new-password|email|tel|url|street-address|country|postal-code|organization|honorific-|given-|family-|additional-|address-)/.test(ac)) {
++                    el.setAttribute('autocomplete', 'off');
++                } else if (ac === 'new-password' && el.getAttribute('type') !== 'password') {
++                    el.setAttribute('autocomplete', 'off');
++                }
++            });
++        }, 0);
++    }
++
+     private initTooltip() {
+         let $a : JQuery;
+ 
+@@ -991,6 +1012,7 @@ export default class BaseFieldView<
+             $a = $('<a>')
+                 .attr('role', 'button')
+                 .attr('tabindex', '-1')
++                .attr('aria-label', this.translate('Info', 'labels'))
+                 .addClass('text-muted field-info')
+                 .append(
+                     $('<span>').addClass('fas fa-info-circle')
+@@ -1157,6 +1179,8 @@ export default class BaseFieldView<
+     }
+ 
+     protected afterRender() {
++        this.a11yFormPass();
++
+         if (this.isEditMode() || this.isSearchMode()) {
+             this.initElement();
+         }
+diff --git a/client/src/views/main/header-buttons.ts b/client/src/views/main/header-buttons.ts
+index 59a358bdb1..6b64e94a01 100644
+--- a/client/src/views/main/header-buttons.ts
++++ b/client/src/views/main/header-buttons.ts
+@@ -111,6 +111,7 @@ export default class HeaderButtonsView extends View<{
+                     attrs: {type: 'button'},
+                     props: {
+                         className: 'btn btn-default dropdown-toggle',
++                        title: this.language.translate('Actions'),
+                     },
+                     dataset: {toggle: 'dropdown'},
+                 },
+@@ -159,6 +160,7 @@ export default class HeaderButtonsView extends View<{
+                     props: {
+                         className: 'btn btn-default dropdown-toggle' +
+                             (lastButtonIsText ? ' radius-left' : ''),
++                        title: this.language.translate('Menu'),
+                     },
+                     dataset: {toggle: 'dropdown'},
+                 },
+diff --git a/client/src/views/record/detail/buttons.ts b/client/src/views/record/detail/buttons.ts
+index 04c7de8ef1..19b220fb22 100644
+--- a/client/src/views/record/detail/buttons.ts
++++ b/client/src/views/record/detail/buttons.ts
+@@ -87,7 +87,7 @@ export default class DetailRecordButtonsView extends View<{
+             elements.push(
+                 h('button', {
+                     key: '_dropdown-button',
+-                    attrs: {type: 'button'},
++                    attrs: {type: 'button', 'aria-label': 'Actions'},
+                     class: {
+                         'btn': true,
+                         'btn-default': true,
+diff --git a/client/src/views/record/list-base.ts b/client/src/views/record/list-base.ts
+index 757fe08c6b..5247778d2a 100644
+--- a/client/src/views/record/list-base.ts
++++ b/client/src/views/record/list-base.ts
+@@ -2814,6 +2814,7 @@ abstract class ListBaseRecordView<
+                 width: width,
+                 html: html,
+                 className: 'action-cell',
++                label: 'Actions',
+             });
+         }
+ 
+diff --git a/client/src/views/record/list/settings.js b/client/src/views/record/list/settings.js
+index 7c26bf7b1c..378a4a2d62 100644
+--- a/client/src/views/record/list/settings.js
++++ b/client/src/views/record/list/settings.js
+@@ -44,6 +44,7 @@ class RecordListSettingsView extends View {
+                 role="button"
+                 class="btn btn-text dropdown-toggle"
+                 data-toggle="dropdown"
++                title="{{translate 'Options' scope='Admin'}}"
+                 tabindex="0"
+             ><span class="caret"></span></a>
+             <ul class="dropdown-menu pull-right">
+diff --git a/client/src/views/site/navbar/quick-create.js b/client/src/views/site/navbar/quick-create.js
+index 4e4984318b..3dc5873d0a 100644
+--- a/client/src/views/site/navbar/quick-create.js
++++ b/client/src/views/site/navbar/quick-create.js
+@@ -42,9 +42,9 @@ class QuickCreateNavbarView extends View {
+             title="{{translate 'Create'}}"
+         ><i class="fas fa-plus icon"></i></a>
+         <ul class="dropdown-menu" role="menu" aria-labelledby="nav-quick-create-dropdown">
+-            <li class="dropdown-header">{{translate 'Create'}}</li>
++            <li role="none" class="dropdown-header">{{translate 'Create'}}</li>
+             {{#each list}}
+-                <li><a
++                <li role="none"><a role="menuitem"
+                     href="#{{name}}/create"
+                     data-name="{{name}}"
+                     data-action="quickCreate"
+diff --git a/frontend/less/espo/a11y-c47.less b/frontend/less/espo/a11y-c47.less
+new file mode 100644
+index 0000000000..14be8477f0
+--- /dev/null
++++ b/frontend/less/espo/a11y-c47.less
+@@ -0,0 +1,83 @@
++// a11y-c47: accessibility contrast & sizing overrides (cycle 47 patch).
++:root {
++    --gray-soft: #6a6a6a;
++    --text-muted-color: #6e6e6e;
++    --btn-primary-bg: #3f6da2;
++    --btn-primary-border: #3f6da2;
++    --btn-primary-hover-bg: #36608f;
++    --btn-primary-active-bg: #315683;
++    --btn-primary-hover-border: #36608f;
++    --btn-primary-active-border: #2e527c;
++    --state-primary-text: #22689a;
++    --state-info-text: #6b5c8a;
++    --state-default-text: #4d4d4d;
++}
++
++// Muted stream timestamps / secondary text on light panels.
++.text-soft {
++    color: var(--gray-soft);
++}
++
++// Sortable column headers inherit the muted link color; force solid text.
++th .sort,
++.field-header-cell .sort {
++    color: var(--text-color);
++}
++
++// Small field links (website, url) need a >=24px hit area.
++.field .link-container a,
++.field a.selectable {
++    padding-top: var(--4px);
++    padding-bottom: var(--4px);
++    display: inline-block;
++}
++
++// Status labels (bootstrap .label-*): white text needs darker backgrounds.
++.label-warning { background-color: #8a5c07; }
++.label-success { background-color: #237a42; }
++.label-default { background-color: #6f6f6f; }
++.label-danger  { background-color: #a2354f; }
++.label-primary { background-color: #3f6da2; }
++.label-info    { background-color: #4a7d9e; }
++
++// Warning/info texts on light backgrounds.
++.text-warning { color: #8a621c; }
++a.text-warning { color: #8a621c; }
++
++// Dropdown section headers + side-menu divider labels.
++.dropdown-header { color: #6e6e6e; }
++li.tab-divider .nav-divider-text > .label-text,
++li.tab-divider > div > .label-text { color: #c9c9c9; }
++
++// Links inside headings must be distinguishable without color.
++.page-header h1 a, .admin-content h1 a, h1 > a[href] { text-decoration: underline; }
++
++
++// label-state (liste statuts entités) : fond foncé + texte blanc >= 4.5.
++.label.label-state.label-success { color: #fff; background-color: #237a42; }
++.label.label-state.label-warning { color: #fff; background-color: #8a5c07; }
++.label.label-state.label-danger  { color: #fff; background-color: #a23450; }
++.label.label-state.label-primary { color: #fff; background-color: #3f6da2; }
++.label.label-state.label-info    { color: #fff; background-color: #4a7d9e; }
++.label.label-state.label-default { color: #fff; background-color: #6f6f6f; }
++
++// target-size : liens de cellules tableau (champs url/email/téléphone)
++.list-container table td > a[href] { padding-top: 4px; padding-bottom: 4px; }
++
++
++// text-success/warning/... (boutons suivre/unfollow, statuts)
++.text-success { color: #237a42 !important; }
++.text-warning { color: #8a5c07 !important; }
++.text-danger  { color: #a23450 !important; }
++.text-info    { color: #4a7d9e !important; }
++
++// labels de séparateurs du menu latéral (fond sombre)
++.nav-divider-text .label-text { color: #5a5a5a !important; }
++
++// target-size : liens dans cellules de liste (quel que soit l'état/menu ouvert)
++table td > a[href].text-default,
++.list-container td a[href],
++table.list td a[href] { padding: 6px 0 !important; display: inline-block !important; }
++
++// target-size : liens de champs en vue détail (website, email, téléphone)
++.detail .field a[href] { padding: 6px 0 !important; display: inline-block !important; }
+diff --git a/frontend/less/espo/main.less b/frontend/less/espo/main.less
+index 1e9bd73cfc..94db1f9e50 100644
+--- a/frontend/less/espo/main.less
++++ b/frontend/less/espo/main.less
+@@ -8,6 +8,7 @@
+ @import "layout-side.less";
+ @import "custom.less";
+ @import "utilities.less";
++@import "a11y-c47.less";
+ 
+ body {
+     --theme-name: Espo;
+diff --git a/html/main.html b/html/main.html
+index 4ddcd63a65..e8744e5112 100644
+--- a/html/main.html
++++ b/html/main.html
+@@ -1,12 +1,12 @@
+ <!doctype html>
+-<html>
++<html lang="{{language}}">
+     <head>
+         <title>{{applicationName}}</title>
+         <script type="application/json" data-name="loader-params">{{loaderParams}}</script>{{scriptsHtml}}
+         <link rel="stylesheet" href="{{basePath}}{{stylesheet}}?r={{cacheTimestamp}}" id='main-stylesheet'>{{additionalStyleSheetsHtml}}{{linksHtml}}
+         <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+         <meta content="utf-8" http-equiv="encoding">
+-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
++        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <meta name="description" content="{{applicationDescription}}">
+         <meta name="mobile-web-app-capable" content="yes">
+         <meta name="apple-mobile-web-app-capable" content="yes">
+@@ -52,7 +52,7 @@
+         </script>
+     </head>
+     <body data-id="{{applicationId}}">
+-        <div class="container content"></div>
++        <main id="main" class="container content" data-a11y-c47></main>
+         <footer>
+             <p class="credit small">&copy; 2026
+             <a href="https://www.espocrm.com" title="Powered by EspoCRM" rel="noopener" target="_blank">EspoCRM, Inc.</a></p>

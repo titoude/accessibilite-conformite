@@ -1,0 +1,234 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 44/44 scénario(s) audité(s), 0 erreur(s), 244 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `035f23168efd`
+
+## Résultats incomplets à revoir (244)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:7747/
+  - `input`
+- http://localhost:7747/#Account
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account/view/6ac72dd944ed39af9
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view308"] > span`
+  - `.control-label[data-name="website"] > .label-text`
+  - `div[data-view-cid="view310"] > a[href$="acme.example.com"]`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `a[data-email-address="contact@acme.example.com"] > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `a[href="tel:+33140000000"] > span`
+  - … +15 autres
+- http://localhost:7747/#Contact
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Contact/view/6ac72ddb138747ade
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `div[data-view-cid="view709"] > .no-data`
+  - `div[data-view-cid="view711"] > .no-data`
+  - `div[data-view-cid="view717"] > .no-data`
+  - `div[data-view-cid="view720"] > .no-data`
+  - `div[data-view-cid="view706"] > .no-data`
+- http://localhost:7747/#Lead
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Lead/view/6ac72ddd0c32bf84c
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view908"]`
+  - `.control-label[data-name="accountName"] > .label-text`
+  - `div[data-view-cid="view910"] > .none-value`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `.selectable > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `div[data-view-cid="view914"] > .none-value`
+  - … +22 autres
+- http://localhost:7747/#Opportunity
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Opportunity/view/6ac72ddec7064ed4c
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `div[data-view-cid="view1141"] > .no-data`
+  - `div[data-view-cid="view1145"] > .no-data`
+  - `div[data-view-cid="view1148"] > .no-data`
+- http://localhost:7747/#Meeting
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Call
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Task
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Campaign
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#TargetList
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Document
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#CSiteAudit
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#CSiteAudit/view/6ac72de929aef75cf
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view1540"] > span`
+- http://localhost:7747/#Stream
+  - `input`
+  - `button[data-name="posts"]`
+  - `button[data-name="updates"]`
+- http://localhost:7747/#Preferences
+  - `.global-search-input`
+  - `button[data-name="save"]`
+  - `button[data-name="cancel"]`
+  - `.btn-text.btn-wide[data-tab="1"]`
+  - `.btn-text.btn-wide[data-tab="2"]`
+  - `.btn-text.btn-wide[data-tab="3"]`
+  - `.credit`
+  - `a[href$="www.espocrm.com"]`
+- http://localhost:7747/#User/list
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Team
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin
+  - `.global-search-input`
+- http://localhost:7747/#Admin/settings
+  - `.global-search-input`
+  - `.btn-primary`
+  - `button[data-name="cancel"]`
+  - `.btn-text.btn-wide[data-tab="1"]`
+  - `.btn-text.btn-wide[data-tab="2"]`
+  - `.btn-text.btn-wide[data-tab="3"]`
+- http://localhost:7747/#Admin/users
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/userInterface
+  - `.global-search-input`
+  - `.btn-primary`
+  - `button[data-name="cancel"]`
+  - `.btn-text.btn-wide[data-tab="1"]`
+  - `.btn-text.btn-wide[data-tab="2"]`
+- http://localhost:7747/#Admin/entityManager
+  - `.global-search-input`
+  - `button[data-action="createEntity"] > span:nth-child(2)`
+- http://localhost:7747/#Admin/layouts
+  - `input`
+- http://localhost:7747/#Admin/authLog
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/jobs
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/templateManager
+  - `input`
+- http://localhost:7747/#Account/create
+  - `.global-search-input`
+  - `.btn-primary`
+  - `button[data-name="cancel"]`
+  - `label[data-name="name"] > .label-text`
+  - `label[data-name="website"] > .label-text`
+  - `label[data-name="emailAddress"] > .label-text`
+  - `.email-address`
+  - `label[data-name="phoneNumber"] > .label-text`
+  - `.phone-number`
+  - `label[data-name="billingAddress"] > .label-text`
+  - … +6 autres
+- http://localhost:7747/# [state:nav-user-menu]
+  - `input`
+- http://localhost:7747/# [state:nav-notifications]
+  - `input`
+  - `#dashlet-default-activities > .panel-heading > h2 > .action[title="Refresh"][data-action="refresh"]`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `input`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.global-search-input`
+  - `.text-filter`
+  - `.sort[title="Sort"][data-name="name"]`
+  - `a[title="Borealis Labs"]`
+  - `a[title="Nordvik Shipping"]`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.global-search-input`
+  - `.text-filter`
+  - `a[href$="borealis.example.io"]`
+  - `a[href$="nordvik.example.no"]`
+  - `a[href$="lenoir.example.fr"]`
+  - `a[href$="acme.example.com"]`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.global-search-input`
+  - `label[data-name="name"] > .label-text`
+  - `input[maxlength="249"]`
+  - `label[data-name="website"] > .label-text`
+  - `input[aria-label="Website"]`
+  - `label[data-name="emailAddress"] > .label-text`
+  - `.email-address`
+  - `label[data-name="phoneNumber"] > .label-text`
+  - `.phone-number`
+  - `label[data-name="billingAddressCity"] > .label-text`
+  - … +11 autres
+- http://localhost:7747/#Account/view/6ac72dd944ed39af9 [state:stream-composer]
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view37"] > span`
+  - `.control-label[data-name="website"] > .label-text`
+  - `div[data-view-cid="view39"] > a[href$="acme.example.com"]`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `a[data-email-address="contact@acme.example.com"] > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `a[href="tel:+33140000000"] > span`
+  - … +15 autres
+- http://localhost:7747/#Account/view/6ac72dd944ed39af9 [state:stream-panel-menu]
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view37"] > span`
+  - `.control-label[data-name="website"] > .label-text`
+  - `div[data-view-cid="view39"] > a[href$="acme.example.com"]`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `a[data-email-address="contact@acme.example.com"] > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `a[href="tel:+33140000000"] > span`
+  - … +15 autres
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `input`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://localhost:7747/#Admin
+  - `iframe`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:7747/#Account/create
+  - `.iti__selected-flag`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.iti__selected-flag`
+
+### label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.close`
+

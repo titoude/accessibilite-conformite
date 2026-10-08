@@ -1,0 +1,38 @@
+{
+ "cycle": 47,
+ "project": "espocrm/espocrm",
+ "commit": "6c369056e81038fdcbb6512d5d5df11db4ed6e03",
+ "commit_date": "10.0.9 (tag stable au pin via `git ls-remote https://github.com/espocrm/espocrm refs/tags/10.0.9` — ESPOCRM_VERSION=10.0.9 dans l'image)",
+ "branch_upstream": "tag 10.0.9 @6c36905",
+ "framework": "PHP 8 + Backbone.js (templates Handlebars/Espo maison, LESS→CSS via grunt) + MariaDB. Première stack PHP/Backbone de la boucle.",
+ "served_source": "Image docker espocrm/espocrm:latest (10.0.9 = SHA pinné exact) sert Apache+PHP ; seuls les livrables patchés sont montés : client/ → /usr/src/espocrm/client (l'entrypoint resynchronise vers /var/www/html/client dans le volume espo47-client-served à chaque boot), html/main.html et application/.../ClientManager.php en file-mount RO sur leurs chemins servis. Écart image/SHA : NUL (image = tag exact). ATTENTION : mounts de dossiers entiers html//application/ cassent le boot (@@version non substitué) — file-mounts obligatoires.",
+ "base_url": "http://localhost:7747",
+ "ports": {"app": 7747, "db": "interne (réseau docker espo47)"},
+ "boot": {
+  "deps": "docker + node v24 (nvm : export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh)",
+  "images": "docker pull espocrm/espocrm:latest ; docker pull mariadb:11.4",
+  "build": "cd <checkout espocrm @6c36905> ; npm install (pas npm ci — lockfile décalé) ; git checkout package-lock.json ; npx grunt internal",
+  "run": "bash tools/boot.sh [<checkout>]  # réseau espo47 + espo47-db mariadb + espo47 :7747 avec mounts patchés + volumes espo47-{db-data,client-served,client-custom,custom} ; réutilisé tel quel pour l'install-build avec CHECKOUT=/home/ubuntu/work/espo47-install",
+  "seed": "node tools/seed.mjs  # API v1 admin ; écrit tools/seed-info.json (ids records + entité custom CSiteAudit)",
+  "login": "node tools/login.mjs  # écrit tools/auth.json (storageState Playwright, gitignored)"
+ },
+ "credentials_bench": {"admin": "admin / AuditC47-Espo-Pass!", "user": "claire.martin / AuditC47-Claire-Pass!"},
+ "auditCommands": {
+  "baseline-public": "node tools/audit.mjs --urls $(tr '\\n' ',' < tools/urls-public.txt | sed 's/,$//') --states none --out reports/baseline-public",
+  "baseline-auth": "node tools/login.mjs && node tools/audit.mjs --urls $(tr '\\n' ',' < tools/urls-auth.txt | sed 's/,$//') --storage-state tools/auth.json --states all --out reports/baseline-auth",
+  "final-auth": "identique --out reports/final-auth (post-patch)",
+  "final-public": "identique baseline-public --out reports/final-public",
+  "install-build": "git clone local @6c36905 + git apply patch.diff + npm install + npx grunt internal + boot.sh /chemin/install + rescan verbatim --out reports/install-build (+ install-public)",
+  "verify": "node tools/verify.mjs http://localhost:7747 tools/auth.json",
+  "eval": "node tools/eval-final.mjs http://localhost:7747 tools/auth.json",
+  "probes": "node tools/incomplete-probes.mjs http://localhost:7747 tools/auth.json"
+ },
+ "states": ["nav-user-menu","nav-notifications","nav-quick-create","nav-side-menu","list-row-menu","list-filters-menu","list-add-filter-menu","quick-create-modal","stream-composer","stream-panel-menu","mobile-nav-390","route-404"],
+ "gotchas": [
+  "API : ?where=<json> ignoré → where[i][type|attribute|value] ; entité custom via EntityManager/action/createEntity (fichiers dans /var/www/html/custom → volume espo47-custom persistant sinon 404)",
+  "panels bas (stream) lazy-rendered → scrollIntoViewIfNeeded avant attente ; .panel-stream = panel-{{name}} généré",
+  "menu add-filter recouvre les liens de cellules → état audité à viewport 1600",
+  "title= bootstrap devient data-original-title → pour accName utiliser aria-label",
+  "sélecteur de vues = '#main' (squelette) : main.html doit garder id=main ; login/404 rendent leur propre <main>"
+ ]
+}

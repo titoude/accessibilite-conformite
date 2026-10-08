@@ -1,0 +1,2893 @@
+# Audit accessibilité — 2026-10-08
+
+**21 règle(s) violée(s), 2925 occurrence(s), 44/44 scénario(s) audité(s), 0 erreur(s), 250 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `8d7a5a7b77b3`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:7747/
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-default.btn-sm`
+  - `div[data-view-cid="view55"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view89"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view102"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view115"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view130"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view145"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view158"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - … +4 autres
+- http://localhost:7747/#Account
+  - `.add-filter-button`
+  - `td[data-view-cid="view242"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view255"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view268"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view281"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `div[data-view-cid="view292"] > .dropdown-item-list-button.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view326"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - `div[data-view-cid="view430"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view445"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view456"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view471"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view484"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view372"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - `div[data-view-cid="view410"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view378"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - … +2 autres
+- http://localhost:7747/#Contact
+  - `.add-filter-button`
+  - `td[data-view-cid="view565"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view578"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view591"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view604"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `div[data-view-cid="view615"] > .dropdown-item-list-button.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view695"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+  - `.right-container > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view683"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+  - `div[data-view-cid="view687"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+  - `div[data-view-cid="view691"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+  - `td[data-name="buttons"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view663"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+  - `div[data-view-cid="view669"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+  - `div[data-view-cid="view672"] > .dropdown-toggle.btn-sm[data-toggle="dropdown"]`
+- http://localhost:7747/#Lead
+  - `.add-filter-button`
+  - `td[data-view-cid="view773"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view788"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view803"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view818"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `div[data-view-cid="view829"] > .dropdown-item-list-button.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view851"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `.btn-link.btn-sm.dropdown-toggle`
+  - `div[data-view-cid="view847"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view885"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view891"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view894"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+- http://localhost:7747/#Opportunity
+  - `.add-filter-button`
+  - `td[data-view-cid="view989"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1006"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1023"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1040"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `div[data-view-cid="view1051"] > .dropdown-item-list-button.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view1092"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view1145"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm.dropdown-toggle`
+  - `div[data-view-cid="view1158"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm.dropdown-toggle`
+  - `div[data-view-cid="view1088"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view1117"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view1123"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view1126"] > .btn-sm.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-name="buttons"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Meeting
+  - `.add-filter-button`
+  - `.list-row-buttons > .btn-link.btn-sm`
+- http://localhost:7747/#Call
+  - `.add-filter-button`
+  - `.list-row-buttons > .btn-link.btn-sm`
+- http://localhost:7747/#Task
+  - `.add-filter-button`
+  - `td[data-view-cid="view1287"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1302"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Campaign
+  - `div[role="group"] > button`
+  - `.add-filter-button`
+  - `.list-row-buttons > .btn-link.btn-sm`
+- http://localhost:7747/#TargetList
+  - `.add-filter-button`
+  - `.list-row-buttons > .btn-link.btn-sm`
+- http://localhost:7747/#Document
+  - `.add-filter-button`
+  - `.list-row-buttons > .btn-link.btn-sm`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.add-filter-button`
+  - `.list-row-buttons > .btn-link.btn-sm`
+- http://localhost:7747/#CSiteAudit
+  - `.add-filter-button`
+  - `td[data-view-cid="view1464"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1471"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1478"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `div[data-view-cid="view1489"] > .dropdown-item-list-button.btn-default.dropdown-toggle`
+  - `.btn-sm.btn-default.dropdown-toggle`
+  - `.btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Stream
+  - `.btn-default.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view1576"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1595"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1610"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1623"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1636"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1651"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1666"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1679"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - `div[data-view-cid="view1692"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link[type="button"]`
+  - … +5 autres
+- http://localhost:7747/#Preferences
+  - `.dropdown-item-list-button`
+- http://localhost:7747/#User/list
+  - `.add-filter-button`
+  - `td[data-view-cid="view1896"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view1911"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Team
+  - `.add-filter-button`
+  - `.btn-link.btn-sm`
+- http://localhost:7747/#Admin/users
+  - `.add-filter-button`
+  - `td[data-view-cid="view2074"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2089"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Admin/entityManager
+  - `.btn-default:nth-child(2)`
+- http://localhost:7747/#Admin/authLog
+  - `.add-filter-button`
+  - `td[data-view-cid="view2192"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2207"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2222"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2237"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2252"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2267"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2282"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2297"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view2312"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - … +11 autres
+- http://localhost:7747/#Admin/jobs
+  - `.add-filter-button`
+- http://localhost:7747/#Account/create
+  - `.dropdown-item-list-button`
+  - `button[data-action="addEmailAddress"]`
+  - `button[data-action="addPhoneNumber"]`
+  - `button[data-action="clearLink"]`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-default.btn-sm`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view93"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view108"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view121"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view134"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view149"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view164"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view177"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - … +4 autres
+- http://localhost:7747/# [state:nav-notifications]
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-default.btn-sm`
+  - `div[data-view-cid="view55"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view89"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view102"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view115"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view130"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view145"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view158"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - … +4 autres
+- http://localhost:7747/# [state:nav-quick-create]
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-default.btn-sm`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view93"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view108"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view121"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view134"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view149"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view164"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view177"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - … +4 autres
+- http://localhost:7747/# [state:nav-side-menu]
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-default.btn-sm`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view93"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view108"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view121"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view134"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view149"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view164"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view177"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - … +4 autres
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.add-filter-button`
+  - `.open > .btn-link.btn-sm`
+  - `td[data-view-cid="view65"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view78"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view91"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.add-filter-button`
+  - `td[data-view-cid="view52"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view65"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view78"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view91"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.add-filter-button`
+  - `td[data-view-cid="view52"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view65"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view78"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+  - `td[data-view-cid="view91"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-sm.btn-default`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view93"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view108"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view121"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view134"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view149"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view164"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - `div[data-view-cid="view177"] > .list-row-buttons.btn-group.pull-right > .btn-sm.btn-link.dropdown-toggle`
+  - … +7 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `div[data-view-cid="view29"] > .dropdown-item-list-button.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view119"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - `div[data-view-cid="view183"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view198"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view209"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view224"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view237"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view83"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - `div[data-view-cid="view147"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view89"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - … +2 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `div[data-view-cid="view29"] > .dropdown-item-list-button.dropdown-toggle[data-toggle="dropdown"]`
+  - `.dropup > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - `div[data-view-cid="view167"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view182"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view193"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view208"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view221"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view83"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - `div[data-view-cid="view147"] > .list-row-buttons.btn-group.pull-right > .btn-link.dropdown-toggle[data-toggle="dropdown"]`
+  - `div[data-view-cid="view89"] > .dropdown-toggle.btn-default[data-toggle="dropdown"]`
+  - … +2 autres
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `.navbar-toggle`
+  - `.btn-text`
+  - `#dashlet-default-stream > .panel-heading > .btn-group.pull-right > .menu-button.btn-default.btn-sm`
+  - `div[data-view-cid="view74"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view93"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view108"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view121"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view134"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view149"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - `div[data-view-cid="view164"] > .list-row-buttons.btn-group.pull-right > .btn-link.btn-sm[type="button"]`
+  - … +5 autres
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:7747/#Account
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view232"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view245"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view258"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view271"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Contact
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view555"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view568"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view581"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view594"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Lead
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view761"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view776"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view791"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view806"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Opportunity
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view975"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view992"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view1009"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view1026"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Meeting
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#Call
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#Task
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view1275"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view1290"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Campaign
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#TargetList
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#Document
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#CSiteAudit
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view1460"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view1467"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view1474"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Preferences
+  - `div[data-view-cid="view1785"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view1787"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view1789"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view1791"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view1793"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view1795"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `input[autocomplete="espo-thousandSeparator"]`
+  - `input[value="."]`
+- http://localhost:7747/#User/list
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view1884"] > .record-checkbox-container > .record-checkbox.form-checkbox-small.form-checkbox`
+  - `td[data-view-cid="view1894"] > .form-checkbox-simple.form-checkbox[type="checkbox"]`
+  - `td[data-view-cid="view1899"] > .record-checkbox-container > .record-checkbox.form-checkbox-small.form-checkbox`
+  - `td[data-view-cid="view1909"] > .form-checkbox-simple.form-checkbox[type="checkbox"]`
+- http://localhost:7747/#Team
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox`
+- http://localhost:7747/#Admin/settings
+  - `input[value="http://localhost:7747"]`
+  - `.form-checkbox[data-name="useCache"][type="checkbox"]`
+  - `.form-checkbox[data-name="useWebSocket"][type="checkbox"]`
+  - `.form-checkbox[data-name="maintenanceMode"][type="checkbox"]`
+  - `.form-checkbox[data-name="cronDisabled"][type="checkbox"]`
+- http://localhost:7747/#Admin/users
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view2062"] > .record-checkbox-container > .record-checkbox.form-checkbox-small.form-checkbox`
+  - `td[data-view-cid="view2072"] > .form-checkbox-simple.form-checkbox[type="checkbox"]`
+  - `td[data-view-cid="view2077"] > .record-checkbox-container > .record-checkbox.form-checkbox-small.form-checkbox`
+  - `td[data-view-cid="view2087"] > .form-checkbox-simple.form-checkbox[type="checkbox"]`
+- http://localhost:7747/#Admin/userInterface
+  - `.file`
+  - `input[value="EspoCRM"]`
+  - `div:nth-child(1) > .selectize-control.single.plugin-espo_select > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div:nth-child(2) > .selectize-control.single.plugin-espo_select > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `.form-checkbox[data-name="userThemesDisabled"][type="checkbox"]`
+  - `.form-checkbox[data-name="avatarsDisabled"][type="checkbox"]`
+  - `input[value="20"]`
+  - `input[value="10"]`
+  - `input[autocomplete="espo-recordsPerPageSmall"]`
+  - `input[autocomplete="espo-recordsPerPageKanban"]`
+  - … +1 autres
+- http://localhost:7747/#Admin/authLog
+  - `.text-filter`
+  - `.select-all`
+  - `.record-checkbox.form-checkbox[data-id="6ac71e8c61edfe377"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71d99b1eedb9b6"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71d3a9a67cd4e1"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71d1da44267897"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71cd778e767e59"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71ccd58da6f53c"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71cac95279a4d4"]`
+  - `.record-checkbox.form-checkbox[data-id="6ac71c73e077a10d5"]`
+  - … +12 autres
+- http://localhost:7747/#Admin/jobs
+  - `.text-filter`
+- http://localhost:7747/#Account/create
+  - `input[maxlength="249"]`
+  - `input[autocomplete="espo-website"]`
+  - `.email-address`
+  - `.radius-left.selectize-control.single > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view2523"] > .selectize-control.single.plugin-espo_select > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view2525"] > .selectize-control.single.plugin-espo_select > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `textarea[rows="2"]`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view42"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view55"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view68"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view81"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.text-filter`
+  - `.select-all`
+  - `td[data-view-cid="view42"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view55"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view68"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view81"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.text-filter`
+  - `.field-filter-quick-search-input`
+  - `.select-all`
+  - `td[data-view-cid="view42"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view55"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view68"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+  - `td[data-view-cid="view81"] > .record-checkbox-container > .record-checkbox.form-checkbox.form-checkbox-small`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `input[maxlength="249"]`
+  - `input[autocomplete="espo-website"]`
+  - `.email-address`
+  - `.radius-left.selectize-control.single > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `input[autocomplete="espo-billingAddressCity"]`
+  - `input[autocomplete="espo-billingAddressCountry"]`
+  - `div[data-view-cid="view235"] > .selectize-control.single.plugin-espo_select > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `div[data-view-cid="view237"] > .selectize-control.single.plugin-espo_select > .selectize-input.items.full > input[autocomplete="new-password"][autofill="no"][type="text"]`
+  - `textarea`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `.file`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI
+
+- http://localhost:7747/# [state:nav-user-menu]
+  - `ul[aria-labelledby="nav-menu-dropdown"]`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `ul[aria-labelledby="nav-quick-create-dropdown"]`
+
+## [SERIOUS] html-has-lang — <html> element must have a lang attribute
+
+Ensure every HTML document has a lang attribute
+Référence : https://dequeuniversity.com/rules/axe/4.14/html-has-lang?application=axeAPI
+
+- http://localhost:7747/
+  - `html`
+- http://localhost:7747/#Account
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `html`
+- http://localhost:7747/#Contact
+  - `html`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `html`
+- http://localhost:7747/#Lead
+  - `html`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `html`
+- http://localhost:7747/#Opportunity
+  - `html`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `html`
+- http://localhost:7747/#Meeting
+  - `html`
+- http://localhost:7747/#Call
+  - `html`
+- http://localhost:7747/#Task
+  - `html`
+- http://localhost:7747/#Campaign
+  - `html`
+- http://localhost:7747/#TargetList
+  - `html`
+- http://localhost:7747/#Document
+  - `html`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `html`
+- http://localhost:7747/#CSiteAudit
+  - `html`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `html`
+- http://localhost:7747/#Stream
+  - `html`
+- http://localhost:7747/#Preferences
+  - `html`
+- http://localhost:7747/#User/list
+  - `html`
+- http://localhost:7747/#Team
+  - `html`
+- http://localhost:7747/#Admin
+  - `html`
+- http://localhost:7747/#Admin/settings
+  - `html`
+- http://localhost:7747/#Admin/users
+  - `html`
+- http://localhost:7747/#Admin/userInterface
+  - `html`
+- http://localhost:7747/#Admin/entityManager
+  - `html`
+- http://localhost:7747/#Admin/layouts
+  - `html`
+- http://localhost:7747/#Admin/authLog
+  - `html`
+- http://localhost:7747/#Admin/jobs
+  - `html`
+- http://localhost:7747/#Admin/templateManager
+  - `html`
+- http://localhost:7747/#Account/create
+  - `html`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `html`
+- http://localhost:7747/# [state:nav-notifications]
+  - `html`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `html`
+- http://localhost:7747/# [state:nav-side-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `html`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `html`
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `html`
+- http://localhost:7747/#Bogus/route [state:route-404]
+  - `html`
+
+## [SERIOUS] aria-command-name — ARIA commands must have an accessible name
+
+Ensure every ARIA button, link and menuitem has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-command-name?application=axeAPI
+
+- http://localhost:7747/
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Account
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Contact
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Lead
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+  - `td[data-view-cid="view767"] > .selectable[data-email-address=""][title=""]`
+  - `td[data-view-cid="view797"] > .selectable[data-email-address=""][title=""]`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Opportunity
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Meeting
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Call
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Task
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Campaign
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#TargetList
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.btn-group.pull-right > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Document
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.btn-group.pull-right > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.btn-group.pull-right > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#CSiteAudit
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Stream
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Preferences
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#User/list
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+  - `a[data-email-address=""]`
+- http://localhost:7747/#Team
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Admin
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Admin/settings
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `label[data-name="siteUrl"] > .text-muted.field-info[data-original-title=""]`
+  - `label[data-name="useCache"] > .text-muted.field-info[data-original-title=""]`
+  - `label[data-name="useWebSocket"] > .text-muted.field-info[data-original-title=""]`
+  - `label[data-name="maintenanceMode"] > .text-muted.field-info[data-original-title=""]`
+  - `label[data-name="cronDisabled"] > .text-muted.field-info[data-original-title=""]`
+- http://localhost:7747/#Admin/users
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+  - `a[data-email-address=""]`
+- http://localhost:7747/#Admin/userInterface
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.control-label[data-name="userThemesDisabled"] > .text-muted.field-info[data-original-title=""]`
+  - `.control-label[data-name="recordsPerPage"] > .text-muted.field-info[data-original-title=""]`
+  - `.control-label[data-name="recordsPerPageSelect"] > .text-muted.field-info[data-original-title=""]`
+  - `.control-label[data-name="recordsPerPageSmall"] > .text-muted.field-info[data-original-title=""]`
+  - `.control-label[data-name="recordsPerPageKanban"] > .text-muted.field-info[data-original-title=""]`
+  - `.control-label[data-name="displayListViewRecordCount"] > .text-muted.field-info[data-original-title=""]`
+- http://localhost:7747/#Admin/entityManager
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Admin/layouts
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Admin/authLog
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Admin/jobs
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+- http://localhost:7747/#Admin/templateManager
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Account/create
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/# [state:nav-notifications]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/# [state:nav-side-menu]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.settings-container > .btn-group > .btn-text.dropdown-toggle[data-toggle="dropdown"]`
+  - `.checkbox-dropdown > .btn-link.btn-sm.dropdown-toggle`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.close`
+  - `.collapse-button`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+  - `.stream-post-info`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `.side-menu-button`
+  - `#nav-more-tabs-dropdown`
+  - `.minimizer`
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `#nav-more-tabs-dropdown`
+
+## [SERIOUS] autocomplete-valid — autocomplete attribute must be used correctly
+
+Ensure the autocomplete attribute is correct and suitable for the form field
+Référence : https://dequeuniversity.com/rules/axe/4.14/autocomplete-valid?application=axeAPI
+
+- http://localhost:7747/
+  - `input`
+- http://localhost:7747/#Account
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/#Contact
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/#Lead
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/#Opportunity
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/#Meeting
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Call
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Task
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Campaign
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#TargetList
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Document
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#CSiteAudit
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/#Stream
+  - `input`
+- http://localhost:7747/#Preferences
+  - `.global-search-input`
+  - `input[autocomplete="espo-thousandSeparator"]`
+  - `input[value="."]`
+- http://localhost:7747/#User/list
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Team
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin
+  - `.global-search-input`
+- http://localhost:7747/#Admin/settings
+  - `.global-search-input`
+  - `input[value="http://localhost:7747"]`
+- http://localhost:7747/#Admin/users
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/userInterface
+  - `.global-search-input`
+  - `input[value="EspoCRM"]`
+  - `input[value="20"]`
+  - `input[value="10"]`
+  - `input[autocomplete="espo-recordsPerPageSmall"]`
+  - `input[autocomplete="espo-recordsPerPageKanban"]`
+- http://localhost:7747/#Admin/entityManager
+  - `.global-search-input`
+- http://localhost:7747/#Admin/layouts
+  - `input`
+- http://localhost:7747/#Admin/authLog
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/jobs
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/templateManager
+  - `input`
+- http://localhost:7747/#Account/create
+  - `.global-search-input`
+  - `input[maxlength="249"]`
+  - `input[autocomplete="espo-website"]`
+  - `.email-address`
+  - `.phone-number`
+  - `textarea[data-name="billingAddressStreet"]`
+  - `input[data-name="billingAddressCity"]`
+  - `input[data-name="billingAddressState"]`
+  - `input[data-name="billingAddressPostalCode"]`
+  - `input[data-name="billingAddressCountry"]`
+  - … +8 autres
+- http://localhost:7747/# [state:nav-user-menu]
+  - `input`
+- http://localhost:7747/# [state:nav-notifications]
+  - `input`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `input`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.global-search-input`
+  - `input[maxlength="249"]`
+  - `input[autocomplete="espo-website"]`
+  - `.email-address`
+  - `.phone-number`
+  - `input[autocomplete="espo-billingAddressCity"]`
+  - `input[autocomplete="espo-billingAddressCountry"]`
+  - `textarea`
+  - `input[data-name="assignedUserName"]`
+  - `input[autocomplete="espo-dummy"][placeholder="Select"][spellcheck="false"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `.global-search-input`
+  - `textarea`
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `input`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:7747/
+  - `.active > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `.nav-link[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Contact
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +4 autres
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `.nav-link[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Lead
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `.nav-link[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Opportunity
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `.nav-link[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Meeting
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Call
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Task
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Campaign
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#TargetList
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Document
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#CSiteAudit
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Stream
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Preferences
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#User/list
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Team
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/settings
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/users
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/userInterface
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/entityManager
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/layouts
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/authLog
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/jobs
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/templateManager
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account/create
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `.nav-link[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/# [state:nav-user-menu]
+  - `.active > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/# [state:nav-notifications]
+  - `.active > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/# [state:nav-quick-create]
+  - `.active > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/# [state:quick-create-modal]
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `a[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `.nav-link[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `li[data-name="Home"] > .nav-link[href="#"]`
+  - `.nav-link[href$="#Account"]`
+  - `a[href$="#Contact"]`
+  - `a[href$="#Lead"]`
+  - `a[href$="#Opportunity"]`
+  - `a[href$="#Email"]`
+  - `a[href$="#Meeting"]`
+  - `a[href$="#Call"]`
+  - `a[href$="#Task"]`
+  - `a[href$="#Calendar"]`
+  - … +2 autres
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:7747/
+  - `span[data-view-cid="view63"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view76"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view91"]`
+  - `li[data-view-cid="view83"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view104"]`
+  - `li[data-view-cid="view96"] > .stream-post-container > .label-default.label.label-state`
+  - `a[href="#Note/view/6ac71b771101b23e8"] > span[title="Today 04:26"]`
+  - … +10 autres
+- http://localhost:7747/#Account
+  - `.sort[title="Sort"][data-name="name"]`
+  - `.field-header-cell:nth-child(3)`
+  - `.sort[title="Sort"][data-name="type"]`
+  - `.sort[title="Sort"][data-name="billingAddressCountry"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `button[data-name="unfollow"] > span:nth-child(2)`
+  - `span[data-view-cid="view432"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view447"]`
+  - `.stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view458"]`
+  - `a[href="#Note/view/6ac71b6ec7492cb0a"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view473"]`
+  - `.label-default`
+  - … +11 autres
+- http://localhost:7747/#Contact
+  - `.sort[title="Sort"][data-name="name"]`
+  - `.sort[title="Sort"][data-name="account"]`
+  - `.field-header-cell:nth-child(4)`
+  - `.field-header-cell:nth-child(5)`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `.control-label[data-name="name"] > .label-text`
+  - `.control-label[data-name="accounts"] > .label-text`
+  - `.link-multiple-item > .small.text-muted`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `div[data-view-cid="view631"] > div > .small.text-muted`
+  - `.control-label[data-name="address"] > .label-text`
+  - `.control-label[data-name="description"] > .label-text`
+  - `.message`
+  - `span[title="Today 04:25"]`
+  - … +5 autres
+- http://localhost:7747/#Lead
+  - `.sort[title="Sort"][data-name="name"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.field-header-cell:nth-child(4)`
+  - `.sort[title="Sort"][data-name="assignedUser"]`
+  - `.sort[title="Sort"][data-name="createdAt"]`
+  - `.label-success`
+  - `.label-default`
+  - `.label-warning`
+  - `.label-primary`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `.label-md`
+  - `.message`
+  - `.stream-post-container > .label.label-state.label-primary`
+  - `span[title="Today 04:25"]`
+  - `.control-label[data-name="assignedUser"] > .label-text`
+  - `.control-label[data-name="teams"] > .label-text`
+  - `.control-label[data-name="complexCreated"] > .label-text`
+- http://localhost:7747/#Opportunity
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="account"]`
+  - `.sort[title="Sort"][data-name="stage"]`
+  - `.sort[title="Sort"][data-name="assignedUser"]`
+  - `.sort[title="Sort"][data-name="createdAt"]`
+  - `.sort[title="Sort"][data-name="amount"]`
+  - `.label-success`
+  - `.label-default`
+  - `.label-primary`
+  - `.label-warning`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `.control-label[data-name="name"] > .label-text`
+  - `.control-label[data-name="account"] > .label-text`
+  - `.control-label[data-name="stage"] > .label-text`
+  - `.label-md.label-warning.label`
+  - `.control-label[data-name="amount"] > .label-text`
+  - `.control-label[data-name="probability"] > .label-text`
+  - `.control-label[data-name="closeDate"] > .label-text`
+  - `.control-label[data-name="contacts"] > .label-text`
+  - `.control-label[data-name="leadSource"] > .label-text`
+  - `.control-label[data-name="description"] > .label-text`
+  - … +10 autres
+- http://localhost:7747/#Meeting
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="parent"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.sort[title="Sort"][data-name="dateStart"]`
+  - `.sort[title="Sort"][data-name="assignedUser"]`
+  - `.label`
+- http://localhost:7747/#Call
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="parent"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.sort[title="Sort"][data-name="dateStart"]`
+  - `.sort[title="Sort"][data-name="assignedUser"]`
+  - `.label`
+- http://localhost:7747/#Task
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.sort[title="Sort"][data-name="priority"]`
+  - `.sort[title="Sort"][data-name="dateEnd"]`
+  - `.sort[title="Sort"][data-name="assignedUser"]`
+  - `.label-primary`
+  - `.label-default`
+  - `.label-warning`
+- http://localhost:7747/#Campaign
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="type"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.sort[data-name="startDate"][title="Sort"]`
+  - `.label`
+- http://localhost:7747/#TargetList
+  - `.sort[title="Sort"][data-name="name"]`
+  - `.field-header-cell[data-name="entryCount"]`
+  - `.sort[title="Sort"][data-name="createdAt"]`
+- http://localhost:7747/#Document
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.field-header-cell[data-name="file"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.sort[title="Sort"][data-name="createdAt"]`
+  - `.label`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="status"]`
+  - `.sort[title="Sort"][data-name="createdAt"]`
+  - `.label`
+- http://localhost:7747/#CSiteAudit
+  - `.sort`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `.message`
+  - `span[title="Today 04:17"]`
+  - `.control-label[data-name="assignedUser"] > .label-text`
+  - `.control-label[data-name="teams"] > .label-text`
+  - `.control-label[data-name="complexCreated"] > .label-text`
+- http://localhost:7747/#Stream
+  - `span[data-view-cid="view1584"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view1597"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view1612"]`
+  - `li[data-view-cid="view1604"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view1625"]`
+  - `li[data-view-cid="view1617"] > .stream-post-container > .label-default.label.label-state`
+  - `a[href="#Note/view/6ac71b771101b23e8"] > span[title="Today 04:26"]`
+  - … +23 autres
+- http://localhost:7747/#Preferences
+  - `.control-label[data-name="language"] > .label-text`
+  - `.control-label[data-name="timeZone"] > .label-text`
+  - `.control-label[data-name="weekStart"] > .label-text`
+  - `.control-label[data-name="dateFormat"] > .label-text`
+  - `.control-label[data-name="timeFormat"] > .label-text`
+  - `.control-label[data-name="defaultCurrency"] > .label-text`
+  - `.control-label[data-name="thousandSeparator"] > .label-text`
+  - `.control-label[data-name="decimalMark"] > .label-text`
+- http://localhost:7747/#User/list
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[data-name="userName"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="title"]`
+  - `.sort[title="Sort"][data-name="emailAddress"]`
+  - `.sort[title="Sort"][data-name="isActive"]`
+  - `.text-warning`
+- http://localhost:7747/#Team
+  - `.sort`
+- http://localhost:7747/#Admin/settings
+  - `label[data-name="siteUrl"] > .label-text`
+  - `label[data-name="useCache"] > .label-text`
+  - `label[data-name="useWebSocket"] > .label-text`
+  - `label[data-name="maintenanceMode"] > .label-text`
+  - `label[data-name="cronDisabled"] > .label-text`
+- http://localhost:7747/#Admin/users
+  - `.sort[data-name="name"][title="Sort"]`
+  - `.sort[data-name="userName"][title="Sort"]`
+  - `.sort[title="Sort"][data-name="title"]`
+  - `.sort[title="Sort"][data-name="emailAddress"]`
+  - `.sort[title="Sort"][data-name="isActive"]`
+  - `.text-warning`
+- http://localhost:7747/#Admin/userInterface
+  - `.control-label[data-name="companyLogo"] > .label-text`
+  - `.control-label[data-name="applicationName"] > .label-text`
+  - `.control-label[data-name="theme"] > .label-text`
+  - `.control-label[data-name="userThemesDisabled"] > .label-text`
+  - `.control-label[data-name="avatarsDisabled"] > .label-text`
+  - `.control-label[data-name="recordsPerPage"] > .label-text`
+  - `.control-label[data-name="recordsPerPageSelect"] > .label-text`
+  - `.control-label[data-name="recordsPerPageSmall"] > .label-text`
+  - `.control-label[data-name="recordsPerPageKanban"] > .label-text`
+  - `.control-label[data-name="displayListViewRecordCount"] > .label-text`
+- http://localhost:7747/#Admin/entityManager
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+- http://localhost:7747/#Admin/authLog
+  - `.sort[title="Sort"][data-name="username"]`
+  - `.sort[title="Sort"][data-name="ipAddress"]`
+  - `.sort[title="Sort"][data-name="denialReason"]`
+  - `.sort[title="Sort"][data-name="user"]`
+  - `.sort[title="Sort"][data-name="createdAt"]`
+  - `.text-muted`
+- http://localhost:7747/#Account/create
+  - `.iti__selected-dial-code`
+  - `label[data-name="assignedUser"] > .label-text`
+  - `label[data-name="teams"] > .label-text`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `span[data-view-cid="view82"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view95"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view110"]`
+  - `li[data-view-cid="view102"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view123"]`
+  - `li[data-view-cid="view115"] > .stream-post-container > .label-default.label.label-state`
+  - `a[href="#Note/view/6ac71b771101b23e8"] > span[title="Today 04:26"]`
+  - … +10 autres
+- http://localhost:7747/# [state:nav-notifications]
+  - `span[data-view-cid="view63"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view76"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view91"]`
+  - `li[data-view-cid="view83"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view104"]`
+  - `li[data-view-cid="view96"] > .stream-post-container > .label-default.label.label-state`
+  - `a[href="#Note/view/6ac71b771101b23e8"] > span[title="Today 04:26"]`
+  - … +10 autres
+- http://localhost:7747/# [state:nav-quick-create]
+  - `.dropdown-header`
+  - `span[data-view-cid="view82"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view95"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view110"]`
+  - `li[data-view-cid="view102"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view123"]`
+  - `li[data-view-cid="view115"] > .stream-post-container > .label-default.label.label-state`
+  - … +11 autres
+- http://localhost:7747/# [state:nav-side-menu]
+  - `li[data-name="divider-1"] > .nav-divider-text > .label-text`
+  - `li[data-name="divider-6"] > .nav-divider-text > .label-text`
+  - `li[data-name="divider-12"] > .nav-divider-text > .label-text`
+  - `span[data-view-cid="view82"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view95"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view110"]`
+  - `li[data-view-cid="view102"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - … +13 autres
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.sort[title="Sort"][data-name="name"]`
+  - `.field-header-cell:nth-child(3)`
+  - `.sort[title="Sort"][data-name="type"]`
+  - `.sort[title="Sort"][data-name="billingAddressCountry"]`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.field-header-cell:nth-child(3)`
+  - `.sort[title="Sort"][data-name="type"]`
+  - `.sort[title="Sort"][data-name="billingAddressCountry"]`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.filter-list > .dropdown-header`
+  - `.sort[title="Sort"][data-name="name"]`
+  - `.sort[title="Sort"][data-name="type"]`
+  - `.sort[title="Sort"][data-name="billingAddressCountry"]`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `span[data-view-cid="view82"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view95"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view110"]`
+  - `li[data-view-cid="view102"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view123"]`
+  - `li[data-view-cid="view115"] > .stream-post-container > .label-default.label.label-state`
+  - `a[href="#Note/view/6ac71b771101b23e8"] > span[title="Today 04:26"]`
+  - … +11 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `button[data-name="unfollow"] > span:nth-child(2)`
+  - `span[data-view-cid="view185"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view200"]`
+  - `.stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view211"]`
+  - `a[href="#Note/view/6ac71b6ec7492cb0a"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view226"]`
+  - `.label-default`
+  - … +11 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `button[data-name="unfollow"] > span:nth-child(2)`
+  - `span[data-view-cid="view169"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view184"]`
+  - `.stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view195"]`
+  - `a[href="#Note/view/6ac71b6ec7492cb0a"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view210"]`
+  - `.label-default`
+  - … +11 autres
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `span[data-view-cid="view82"]`
+  - `a[href="#Note/view/6ac71b782fd1b4c22"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view95"]`
+  - `a[href="#Note/view/6ac71b7785b593bf4"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view110"]`
+  - `li[data-view-cid="view102"] > .stream-post-container > .label-primary.label.label-state`
+  - `a[href="#Note/view/6ac71b7782885fd89"] > span[title="Today 04:26"]`
+  - `span[data-view-cid="view123"]`
+  - `li[data-view-cid="view115"] > .stream-post-container > .label-default.label.label-state`
+  - `a[href="#Note/view/6ac71b771101b23e8"] > span[title="Today 04:26"]`
+  - … +17 autres
+
+## [SERIOUS] listitem — <li> elements must be contained in a <ul> or <ol>
+
+Ensure <li> elements are used semantically
+Référence : https://dequeuniversity.com/rules/axe/4.14/listitem?application=axeAPI
+
+- http://localhost:7747/# [state:nav-user-menu]
+  - `ul[aria-labelledby="nav-menu-dropdown"] > li:nth-child(1)`
+  - `.divider:nth-child(2)`
+  - `ul[aria-labelledby="nav-menu-dropdown"] > li:nth-child(4)`
+  - `ul[aria-labelledby="nav-menu-dropdown"] > li:nth-child(5)`
+  - `.divider:nth-child(6)`
+  - `ul[aria-labelledby="nav-menu-dropdown"] > li:nth-child(7)`
+  - `ul[aria-labelledby="nav-menu-dropdown"] > li:nth-child(8)`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `.dropdown-header`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(2)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(3)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(4)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(5)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(6)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(7)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(8)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(9)`
+  - `ul[aria-labelledby="nav-quick-create-dropdown"] > li:nth-child(10)`
+
+## [SERIOUS] frame-title — Frames must have an accessible name
+
+Ensure <iframe> and <frame> elements have an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/frame-title?application=axeAPI
+
+- http://localhost:7747/#Admin
+  - `iframe`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI
+
+- http://localhost:7747/#Admin/templateManager
+  - `h3 > a[href$="#Admin"]`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `a[href$="lenoir.example.fr"]`
+  - `a[href$="acme.example.com"]`
+
+## [SERIOUS] aria-dialog-name — ARIA dialog and alertdialog nodes should have an accessible name
+
+Ensure every ARIA dialog and alertdialog node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-dialog-name?application=axeAPI
+
+- http://localhost:7747/# [state:quick-create-modal]
+  - `#dialog-41571`
+
+## [MODERATE] meta-viewport — Zooming and scaling must not be disabled
+
+Ensure <meta name="viewport"> does not disable text scaling and zooming
+Référence : https://dequeuniversity.com/rules/axe/4.14/meta-viewport?application=axeAPI
+
+- http://localhost:7747/
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Contact
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Lead
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Opportunity
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Meeting
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Call
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Task
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Campaign
+  - `meta[name="viewport"]`
+- http://localhost:7747/#TargetList
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Document
+  - `meta[name="viewport"]`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `meta[name="viewport"]`
+- http://localhost:7747/#CSiteAudit
+  - `meta[name="viewport"]`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Stream
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Preferences
+  - `meta[name="viewport"]`
+- http://localhost:7747/#User/list
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Team
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/settings
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/users
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/userInterface
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/entityManager
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/layouts
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/authLog
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/jobs
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Admin/templateManager
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account/create
+  - `meta[name="viewport"]`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `meta[name="viewport"]`
+- http://localhost:7747/# [state:nav-notifications]
+  - `meta[name="viewport"]`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `meta[name="viewport"]`
+- http://localhost:7747/# [state:nav-side-menu]
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `meta[name="viewport"]`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `meta[name="viewport"]`
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `meta[name="viewport"]`
+- http://localhost:7747/#Bogus/route [state:route-404]
+  - `meta[name="viewport"]`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:7747/
+  - `#dashlet-default-stream > .panel-heading > h4`
+  - `li[data-view-cid="view49"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view49"] > .stream-date-container`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view83"] > .stream-head-container`
+  - `li[data-view-cid="view83"] > .stream-post-container`
+  - `li[data-view-cid="view83"] > .stream-date-container`
+  - `li[data-view-cid="view96"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/#Account
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell:nth-child(3)`
+  - `td[data-view-cid="view232"]`
+  - `td[data-view-cid="view233"]`
+  - `td[data-view-cid="view236"]`
+  - `td[data-view-cid="view238"]`
+  - `td[data-view-cid="view240"]`
+  - `td[data-view-cid="view245"]`
+  - … +14 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `.no-break-words`
+  - `.first > .panel-heading`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view328"]`
+  - `.control-label[data-name="website"]`
+  - `div[data-view-cid="view330"]`
+  - `.control-label[data-name="emailAddress"]`
+  - `.control-label[data-name="phoneNumber"]`
+  - `div[data-view-cid="view334"]`
+  - `.control-label[data-name="billingAddress"]`
+  - … +44 autres
+- http://localhost:7747/#Contact
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell:nth-child(4)`
+  - `.field-header-cell:nth-child(5)`
+  - `td[data-view-cid="view555"]`
+  - `td[data-view-cid="view556"]`
+  - `td[data-view-cid="view559"]`
+  - `td[data-view-cid="view568"]`
+  - `td[data-view-cid="view569"]`
+  - … +9 autres
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `.no-break-words`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view625"]`
+  - `.control-label[data-name="accounts"]`
+  - `div[data-view-cid="view627"]`
+  - `.control-label[data-name="emailAddress"]`
+  - `.control-label[data-name="phoneNumber"]`
+  - `div[data-view-cid="view631"]`
+  - `.control-label[data-name="address"]`
+  - `div[data-view-cid="view633"]`
+  - … +27 autres
+- http://localhost:7747/#Lead
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell:nth-child(4)`
+  - `td[data-view-cid="view761"]`
+  - `td[data-view-cid="view762"]`
+  - `td[data-view-cid="view765"]`
+  - `td[data-view-cid="view771"]`
+  - `td[data-view-cid="view776"]`
+  - `td[data-view-cid="view777"]`
+  - … +10 autres
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `.no-break-words`
+  - `.first > .panel-heading`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view898"]`
+  - `.control-label[data-name="accountName"]`
+  - `div[data-view-cid="view900"]`
+  - `.control-label[data-name="emailAddress"]`
+  - `.control-label[data-name="phoneNumber"]`
+  - `div[data-view-cid="view904"]`
+  - `.control-label[data-name="title"]`
+  - … +38 autres
+- http://localhost:7747/#Opportunity
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view975"]`
+  - `td[data-view-cid="view976"]`
+  - `td[data-view-cid="view979"]`
+  - `td[data-view-cid="view981"]`
+  - `td[data-view-cid="view985"]`
+  - `td[data-view-cid="view987"]`
+  - `td[data-view-cid="view992"]`
+  - … +17 autres
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `.no-break-words`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view1061"]`
+  - `.control-label[data-name="account"]`
+  - `div[data-view-cid="view1063"]`
+  - `.control-label[data-name="stage"]`
+  - `div[data-view-cid="view1065"]`
+  - `.control-label[data-name="amount"]`
+  - `div[data-view-cid="view1067"]`
+  - `.control-label[data-name="probability"]`
+  - … +34 autres
+- http://localhost:7747/#Meeting
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1206"]`
+  - `td[data-view-cid="view1207"]`
+  - `td[data-view-cid="view1210"]`
+  - `td[data-view-cid="view1212"]`
+  - `td[data-view-cid="view1214"]`
+  - `td[data-view-cid="view1216"]`
+- http://localhost:7747/#Call
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1240"]`
+  - `td[data-view-cid="view1241"]`
+  - `td[data-view-cid="view1244"]`
+  - `td[data-view-cid="view1246"]`
+  - `td[data-view-cid="view1248"]`
+  - `td[data-view-cid="view1250"]`
+- http://localhost:7747/#Task
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1275"]`
+  - `td[data-view-cid="view1276"]`
+  - `td[data-view-cid="view1279"]`
+  - `td[data-view-cid="view1281"]`
+  - `td[data-view-cid="view1283"]`
+  - `td[data-view-cid="view1285"]`
+  - `td[data-view-cid="view1290"]`
+  - … +5 autres
+- http://localhost:7747/#Campaign
+  - `.page-header-column-1`
+  - `a[data-name="create"]`
+  - `.btn-xs-wide.main-header-manu-action[href$="#TargetList"]`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1324"]`
+  - `td[data-view-cid="view1325"]`
+  - `td[data-view-cid="view1328"]`
+  - `td[data-view-cid="view1330"]`
+  - `td[data-view-cid="view1332"]`
+- http://localhost:7747/#TargetList
+  - `.page-header-column-1`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell[data-name="entryCount"]`
+  - `td[data-view-cid="view1359"]`
+  - `td[data-view-cid="view1360"]`
+  - `td[data-view-cid="view1363"]`
+  - `td[data-view-cid="view1365"]`
+- http://localhost:7747/#Document
+  - `.page-header-column-1`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell[data-name="file"]`
+  - `td[data-view-cid="view1393"]`
+  - `td[data-view-cid="view1394"]`
+  - `td[data-view-cid="view1399"]`
+  - `td[data-view-cid="view1401"]`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.page-header-column-1`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1428"]`
+  - `td[data-view-cid="view1429"]`
+  - `td[data-view-cid="view1432"]`
+  - `td[data-view-cid="view1434"]`
+- http://localhost:7747/#CSiteAudit
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1460"]`
+  - `td[data-view-cid="view1461"]`
+  - `td[data-view-cid="view1467"]`
+  - `td[data-view-cid="view1468"]`
+  - `td[data-view-cid="view1474"]`
+  - `td[data-view-cid="view1475"]`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `.no-break-words`
+  - `div[data-name="panel-0"] > .panel-heading`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view1499"]`
+  - `.panel-stream > .panel-heading > h4`
+  - `.textarea-container`
+  - `.stream-head-container`
+  - `.stream-date-container`
+  - `.control-label[data-name="assignedUser"]`
+  - `div[data-view-cid="view1503"]`
+  - … +5 autres
+- http://localhost:7747/#Stream
+  - `.col-sm-7`
+  - `li[data-view-cid="view1570"] > .stream-head-container`
+  - `span[data-view-cid="view1578"] > .complex-text-container`
+  - `li[data-view-cid="view1570"] > .stream-date-container`
+  - `li[data-view-cid="view1589"] > .stream-head-container`
+  - `li[data-view-cid="view1589"] > .stream-date-container`
+  - `li[data-view-cid="view1604"] > .stream-head-container`
+  - `li[data-view-cid="view1604"] > .stream-post-container`
+  - `li[data-view-cid="view1604"] > .stream-date-container`
+  - `li[data-view-cid="view1617"] > .stream-head-container`
+  - … +26 autres
+- http://localhost:7747/#Preferences
+  - `.header`
+  - `.control-label[data-name="language"]`
+  - `div[data-view-cid="view1785"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input`
+  - `.control-label[data-name="timeZone"]`
+  - `div[data-view-cid="view1787"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input`
+  - `.control-label[data-name="weekStart"]`
+  - `div[data-view-cid="view1789"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input`
+  - `.control-label[data-name="dateFormat"]`
+  - `div[data-view-cid="view1791"] > .selectize-control.single.plugin-espo_select > .full.has-items.selectize-input`
+  - `.control-label[data-name="timeFormat"]`
+  - … +4 autres
+- http://localhost:7747/#User/list
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view1884"]`
+  - `td[data-view-cid="view1885"]`
+  - `td[data-view-cid="view1888"]`
+  - `td[data-view-cid="view1894"]`
+  - `td[data-view-cid="view1899"]`
+  - `td[data-view-cid="view1900"]`
+  - `td[data-view-cid="view1903"]`
+  - … +2 autres
+- http://localhost:7747/#Team
+  - `.page-header`
+  - `.text-filter`
+  - `.checkbox-cell`
+  - `td[data-view-cid="view1932"]`
+  - `td[data-view-cid="view1933"]`
+- http://localhost:7747/#Admin
+  - `.page-header`
+  - `.admin-search-container`
+  - `.admin-content-section[data-index="0"] > h4`
+  - `table[data-name="system"] > tbody > tr[data-index="0"]`
+  - `table[data-name="system"] > tbody > tr[data-index="1"]`
+  - `table[data-name="system"] > tbody > tr[data-index="2"]`
+  - `table[data-name="system"] > tbody > tr[data-index="3"]`
+  - `table[data-name="system"] > tbody > tr[data-index="4"]`
+  - `table[data-name="system"] > tbody > tr[data-index="5"]`
+  - `table[data-name="system"] > tbody > tr[data-index="6"]`
+  - … +14 autres
+- http://localhost:7747/#Admin/settings
+  - `.header`
+  - `label[data-name="siteUrl"] > .label-text`
+  - `div[data-view-cid="view1957"]`
+  - `label[data-name="useCache"] > .label-text`
+  - `div[data-view-cid="view1959"]`
+  - `label[data-name="useWebSocket"] > .label-text`
+  - `div[data-view-cid="view1961"]`
+  - `label[data-name="maintenanceMode"] > .label-text`
+  - `div[data-view-cid="view1963"]`
+  - `label[data-name="cronDisabled"] > .label-text`
+  - … +1 autres
+- http://localhost:7747/#Admin/users
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view2062"]`
+  - `td[data-view-cid="view2063"]`
+  - `td[data-view-cid="view2066"]`
+  - `td[data-view-cid="view2072"]`
+  - `td[data-view-cid="view2077"]`
+  - `td[data-view-cid="view2078"]`
+  - `td[data-view-cid="view2081"]`
+  - … +2 autres
+- http://localhost:7747/#Admin/userInterface
+  - `.header`
+  - `.first`
+  - `.control-label[data-name="theme"]`
+  - `div:nth-child(1) > .selectize-control.single.plugin-espo_select > .selectize-input.items.full`
+  - `div:nth-child(2) > .selectize-control.single.plugin-espo_select > .selectize-input.items.full`
+  - `.control-label[data-name="userThemesDisabled"] > .label-text`
+  - `div[data-view-cid="view2112"]`
+  - `.in-middle > .panel-body.panel-body-form > .row:nth-child(2)`
+  - `.control-label[data-name="recordsPerPage"] > .label-text`
+  - `.control-label[data-name="recordsPerPage"] > .required-sign`
+  - … +12 autres
+- http://localhost:7747/#Admin/entityManager
+  - `.page-header`
+  - `.margin-bottom-2x`
+  - `table`
+- http://localhost:7747/#Admin/layouts
+  - `.page-header`
+  - `.panel.panel-default:nth-child(1) > .panel-heading`
+  - `.panel.panel-default:nth-child(2) > .panel-heading`
+  - `.panel.panel-default:nth-child(3) > .panel-heading`
+  - `.panel.panel-default:nth-child(4) > .panel-heading`
+  - `.panel.panel-default:nth-child(5) > .panel-heading`
+  - `.panel.panel-default:nth-child(6) > .panel-heading`
+  - `.panel.panel-default:nth-child(7) > .panel-heading`
+  - `.panel.panel-default:nth-child(8) > .panel-heading`
+  - `.panel.panel-default:nth-child(9) > .panel-heading`
+  - … +7 autres
+- http://localhost:7747/#Admin/authLog
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `td[data-view-cid="view2180"]`
+  - `td[data-view-cid="view2181"]`
+  - `td[data-view-cid="view2184"]`
+  - `td[data-view-cid="view2188"]`
+  - `td[data-view-cid="view2190"]`
+  - `td[data-view-cid="view2195"]`
+  - `td[data-view-cid="view2196"]`
+  - … +93 autres
+- http://localhost:7747/#Admin/jobs
+  - `.page-header`
+  - `.text-filter`
+  - `.no-data`
+- http://localhost:7747/#Admin/templateManager
+  - `.page-header`
+- http://localhost:7747/#Account/create
+  - `.header`
+  - `.first > .panel-heading`
+  - `.first > .panel-body.panel-body-form > .row:nth-child(1)`
+  - `label[data-name="emailAddress"]`
+  - `.email-address`
+  - `label[data-name="phoneNumber"]`
+  - `.radius-left.selectize-control.single > .selectize-input.items.full`
+  - `.iti__selected-flag`
+  - `.phone-number`
+  - `.col-sm-6.cell[data-name="billingAddress"]`
+  - … +14 autres
+- http://localhost:7747/# [state:nav-user-menu]
+  - `#dashlet-default-stream > .panel-heading > h4`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view87"] > .stream-head-container`
+  - `li[data-view-cid="view87"] > .stream-date-container`
+  - `li[data-view-cid="view102"] > .stream-head-container`
+  - `li[data-view-cid="view102"] > .stream-post-container`
+  - `li[data-view-cid="view102"] > .stream-date-container`
+  - `li[data-view-cid="view115"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/# [state:nav-notifications]
+  - `#dashlet-default-stream > .panel-heading > h4`
+  - `li[data-view-cid="view49"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view49"] > .stream-date-container`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view83"] > .stream-head-container`
+  - `li[data-view-cid="view83"] > .stream-post-container`
+  - `li[data-view-cid="view83"] > .stream-date-container`
+  - `li[data-view-cid="view96"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/# [state:nav-quick-create]
+  - `#dashlet-default-stream > .panel-heading > h4`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view87"] > .stream-head-container`
+  - `li[data-view-cid="view87"] > .stream-date-container`
+  - `li[data-view-cid="view102"] > .stream-head-container`
+  - `li[data-view-cid="view102"] > .stream-post-container`
+  - `li[data-view-cid="view102"] > .stream-date-container`
+  - `li[data-view-cid="view115"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/# [state:nav-side-menu]
+  - `#dashlet-default-stream > .panel-heading > h4`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view87"] > .stream-head-container`
+  - `li[data-view-cid="view87"] > .stream-date-container`
+  - `li[data-view-cid="view102"] > .stream-head-container`
+  - `li[data-view-cid="view102"] > .stream-post-container`
+  - `li[data-view-cid="view102"] > .stream-date-container`
+  - `li[data-view-cid="view115"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.page-header`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell:nth-child(3)`
+  - `td[data-view-cid="view42"]`
+  - `td[data-view-cid="view43"]`
+  - `td[data-view-cid="view46"]`
+  - `td[data-view-cid="view48"]`
+  - `td[data-view-cid="view50"]`
+  - `.list-row-dropdown-menu.dropdown-menu[data-id="6ac71b42ab7698a43"] > li:nth-child(1)`
+  - … +16 autres
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.page-header`
+  - `.checkbox:nth-child(8)`
+  - `.checkbox:nth-child(9)`
+  - `.text-filter`
+  - `.select-all-container`
+  - `.field-header-cell:nth-child(3)`
+  - `td[data-view-cid="view42"]`
+  - `td[data-view-cid="view43"]`
+  - `td[data-view-cid="view46"]`
+  - `td[data-view-cid="view48"]`
+  - … +16 autres
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.page-header`
+  - `.text-filter`
+  - `.filter-list > .dropdown-header`
+  - `.quick-search-list-item`
+  - `.select-all-container`
+  - `.field-header-cell:nth-child(3)`
+  - `td[data-view-cid="view42"]`
+  - `td[data-view-cid="view43"]`
+  - `td[data-view-cid="view46"]`
+  - `td[data-view-cid="view48"]`
+  - … +16 autres
+- http://localhost:7747/# [state:quick-create-modal]
+  - `#dashlet-default-stream > .panel-heading > .panel-title`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view87"] > .stream-head-container`
+  - `li[data-view-cid="view87"] > .stream-date-container`
+  - `li[data-view-cid="view102"] > .stream-head-container`
+  - `li[data-view-cid="view102"] > .stream-post-container`
+  - `li[data-view-cid="view102"] > .stream-date-container`
+  - `li[data-view-cid="view115"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `.no-break-words`
+  - `.first > .panel-heading`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view37"]`
+  - `.control-label[data-name="website"]`
+  - `div[data-view-cid="view39"]`
+  - `.control-label[data-name="emailAddress"]`
+  - `.control-label[data-name="phoneNumber"]`
+  - `div[data-view-cid="view43"]`
+  - `.control-label[data-name="billingAddress"]`
+  - … +45 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `.no-break-words`
+  - `.first > .panel-heading`
+  - `.control-label[data-name="name"]`
+  - `div[data-view-cid="view37"]`
+  - `.control-label[data-name="website"]`
+  - `div[data-view-cid="view39"]`
+  - `.control-label[data-name="emailAddress"]`
+  - `.control-label[data-name="phoneNumber"]`
+  - `div[data-view-cid="view43"]`
+  - `.control-label[data-name="billingAddress"]`
+  - … +44 autres
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `#dashlet-default-stream > .panel-heading > h4`
+  - `li[data-view-cid="view68"] > .stream-head-container`
+  - `.complex-text-container`
+  - `li[data-view-cid="view68"] > .stream-date-container`
+  - `li[data-view-cid="view87"] > .stream-head-container`
+  - `li[data-view-cid="view87"] > .stream-date-container`
+  - `li[data-view-cid="view102"] > .stream-head-container`
+  - `li[data-view-cid="view102"] > .stream-post-container`
+  - `li[data-view-cid="view102"] > .stream-date-container`
+  - `li[data-view-cid="view115"] > .stream-head-container`
+  - … +22 autres
+- http://localhost:7747/#Bogus/route [state:route-404]
+  - `.container`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://localhost:7747/
+  - `html`
+- http://localhost:7747/#Account
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `html`
+- http://localhost:7747/#Contact
+  - `html`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `html`
+- http://localhost:7747/#Lead
+  - `html`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `html`
+- http://localhost:7747/#Opportunity
+  - `html`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `html`
+- http://localhost:7747/#Meeting
+  - `html`
+- http://localhost:7747/#Call
+  - `html`
+- http://localhost:7747/#Task
+  - `html`
+- http://localhost:7747/#Campaign
+  - `html`
+- http://localhost:7747/#TargetList
+  - `html`
+- http://localhost:7747/#Document
+  - `html`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `html`
+- http://localhost:7747/#CSiteAudit
+  - `html`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `html`
+- http://localhost:7747/#Stream
+  - `html`
+- http://localhost:7747/#Preferences
+  - `html`
+- http://localhost:7747/#User/list
+  - `html`
+- http://localhost:7747/#Team
+  - `html`
+- http://localhost:7747/#Admin
+  - `html`
+- http://localhost:7747/#Admin/settings
+  - `html`
+- http://localhost:7747/#Admin/users
+  - `html`
+- http://localhost:7747/#Admin/userInterface
+  - `html`
+- http://localhost:7747/#Admin/entityManager
+  - `html`
+- http://localhost:7747/#Admin/layouts
+  - `html`
+- http://localhost:7747/#Admin/authLog
+  - `html`
+- http://localhost:7747/#Admin/jobs
+  - `html`
+- http://localhost:7747/#Admin/templateManager
+  - `html`
+- http://localhost:7747/#Account/create
+  - `html`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `html`
+- http://localhost:7747/# [state:nav-notifications]
+  - `html`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `html`
+- http://localhost:7747/# [state:nav-side-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `html`
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `html`
+- http://localhost:7747/#Bogus/route [state:route-404]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:7747/
+  - `html`
+- http://localhost:7747/#Account
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `html`
+- http://localhost:7747/#Contact
+  - `html`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `html`
+- http://localhost:7747/#Lead
+  - `html`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `html`
+- http://localhost:7747/#Opportunity
+  - `html`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `html`
+- http://localhost:7747/#Meeting
+  - `html`
+- http://localhost:7747/#Call
+  - `html`
+- http://localhost:7747/#Task
+  - `html`
+- http://localhost:7747/#Campaign
+  - `html`
+- http://localhost:7747/#TargetList
+  - `html`
+- http://localhost:7747/#Document
+  - `html`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `html`
+- http://localhost:7747/#CSiteAudit
+  - `html`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `html`
+- http://localhost:7747/#Stream
+  - `html`
+- http://localhost:7747/#Preferences
+  - `html`
+- http://localhost:7747/#User/list
+  - `html`
+- http://localhost:7747/#Team
+  - `html`
+- http://localhost:7747/#Admin
+  - `html`
+- http://localhost:7747/#Admin/settings
+  - `html`
+- http://localhost:7747/#Admin/users
+  - `html`
+- http://localhost:7747/#Admin/userInterface
+  - `html`
+- http://localhost:7747/#Admin/entityManager
+  - `html`
+- http://localhost:7747/#Admin/layouts
+  - `html`
+- http://localhost:7747/#Admin/authLog
+  - `html`
+- http://localhost:7747/#Admin/jobs
+  - `html`
+- http://localhost:7747/#Admin/templateManager
+  - `html`
+- http://localhost:7747/#Account/create
+  - `html`
+- http://localhost:7747/# [state:nav-user-menu]
+  - `html`
+- http://localhost:7747/# [state:nav-notifications]
+  - `html`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `html`
+- http://localhost:7747/# [state:nav-side-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `html`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `html`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `html`
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `html`
+
+## [MODERATE] landmark-no-duplicate-banner — Document should not have more than one banner landmark
+
+Ensure the document has at most one banner landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-banner?application=axeAPI
+
+- http://localhost:7747/# [state:quick-create-modal]
+  - `#header`
+
+## [MODERATE] landmark-no-duplicate-contentinfo — Document should not have more than one contentinfo landmark
+
+Ensure the document has at most one contentinfo landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-contentinfo?application=axeAPI
+
+- http://localhost:7747/# [state:quick-create-modal]
+  - `#footer`
+
+## [MODERATE] landmark-unique — Landmarks should have a unique role or role/label/title (i.e. accessible name) combination
+
+Ensure landmarks are unique
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-unique?application=axeAPI
+
+- http://localhost:7747/# [state:quick-create-modal]
+  - `#header`
+  - `#footer`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:7747/#Account
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Contact
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `.action-cell`
+- http://localhost:7747/#Lead
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Opportunity
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Meeting
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Call
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Task
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Campaign
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#TargetList
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Document
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#CSiteAudit
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#User/list
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Team
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Admin/users
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Admin/authLog
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.checkbox-cell`
+  - `.action-cell`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.checkbox-cell`
+  - `.action-cell`
+
+## Résultats incomplets à revoir (250)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:7747/
+  - `input`
+- http://localhost:7747/#Account
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view328"] > span`
+  - `.control-label[data-name="website"] > .label-text`
+  - `a[href$="acme.example.com"]`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `a[data-email-address="contact@acme.example.com"] > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `a[href="tel:+33140000000"] > span`
+  - … +15 autres
+- http://localhost:7747/#Contact
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `div[data-view-cid="view699"] > .no-data`
+  - `div[data-view-cid="view701"] > .no-data`
+  - `div[data-view-cid="view707"] > .no-data`
+  - `div[data-view-cid="view710"] > .no-data`
+  - `div[data-view-cid="view696"] > .no-data`
+- http://localhost:7747/#Lead
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view898"]`
+  - `.control-label[data-name="accountName"] > .label-text`
+  - `div[data-view-cid="view900"] > .none-value`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `.selectable > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `div[data-view-cid="view904"] > .none-value`
+  - … +22 autres
+- http://localhost:7747/#Opportunity
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `div[data-view-cid="view1128"] > .no-data`
+  - `div[data-view-cid="view1165"] > .no-data`
+  - `div[data-view-cid="view1168"] > .no-data`
+- http://localhost:7747/#Meeting
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Call
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Task
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Campaign
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#TargetList
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Document
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#KnowledgeBaseArticle
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#CSiteAudit
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view1499"] > span`
+- http://localhost:7747/#Stream
+  - `input`
+  - `button[data-name="posts"]`
+  - `button[data-name="updates"]`
+- http://localhost:7747/#Preferences
+  - `.global-search-input`
+  - `button[data-name="save"]`
+  - `button[data-name="cancel"]`
+  - `.btn-text.btn-wide[data-tab="1"]`
+  - `.btn-text.btn-wide[data-tab="2"]`
+  - `.btn-text.btn-wide[data-tab="3"]`
+- http://localhost:7747/#User/list
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Team
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin
+  - `.global-search-input`
+- http://localhost:7747/#Admin/settings
+  - `.global-search-input`
+  - `.btn-primary`
+  - `button[data-name="cancel"]`
+  - `.btn-text.btn-wide[data-tab="1"]`
+  - `.btn-text.btn-wide[data-tab="2"]`
+  - `.btn-text.btn-wide[data-tab="3"]`
+- http://localhost:7747/#Admin/users
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/userInterface
+  - `.global-search-input`
+  - `.btn-primary`
+  - `button[data-name="cancel"]`
+  - `.btn-text.btn-wide[data-tab="1"]`
+  - `.btn-text.btn-wide[data-tab="2"]`
+- http://localhost:7747/#Admin/entityManager
+  - `.global-search-input`
+  - `button[data-action="createEntity"] > span:nth-child(2)`
+- http://localhost:7747/#Admin/layouts
+  - `input`
+- http://localhost:7747/#Admin/authLog
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/jobs
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Admin/templateManager
+  - `input`
+- http://localhost:7747/#Account/create
+  - `.global-search-input`
+  - `.btn-primary`
+  - `button[data-name="cancel"]`
+  - `label[data-name="name"] > .label-text`
+  - `label[data-name="website"] > .label-text`
+  - `label[data-name="emailAddress"] > .label-text`
+  - `.email-address`
+  - `label[data-name="phoneNumber"] > .label-text`
+  - `.phone-number`
+  - `label[data-name="billingAddress"] > .label-text`
+  - … +6 autres
+- http://localhost:7747/# [state:nav-user-menu]
+  - `input`
+- http://localhost:7747/# [state:nav-notifications]
+  - `input`
+  - `#dashlet-default-activities > .panel-heading > h4 > .action[title="Refresh"][data-action="refresh"]`
+- http://localhost:7747/# [state:nav-quick-create]
+  - `input`
+- http://localhost:7747/#Account [state:list-row-menu]
+  - `.global-search-input`
+  - `.text-filter`
+- http://localhost:7747/#Account [state:list-filters-menu]
+  - `.global-search-input`
+  - `.text-filter`
+  - `.sort[title="Sort"][data-name="name"]`
+  - `a[title="Borealis Labs"]`
+  - `a[title="Nordvik Shipping"]`
+- http://localhost:7747/#Account [state:list-add-filter-menu]
+  - `.global-search-input`
+  - `.text-filter`
+  - `.field-header-cell:nth-child(3)`
+  - `a[href$="borealis.example.io"]`
+  - `a[href$="nordvik.example.no"]`
+  - `a[href$="lenoir.example.fr"]`
+  - `a[href$="acme.example.com"]`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.global-search-input`
+  - `span[aria-hidden="true"]`
+  - `label[data-name="name"] > .label-text`
+  - `input[maxlength="249"]`
+  - `label[data-name="website"] > .label-text`
+  - `input[autocomplete="espo-website"]`
+  - `label[data-name="emailAddress"] > .label-text`
+  - `.email-address`
+  - `label[data-name="phoneNumber"] > .label-text`
+  - `.phone-number`
+  - … +12 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view37"] > span`
+  - `.control-label[data-name="website"] > .label-text`
+  - `a[href$="acme.example.com"]`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `a[data-email-address="contact@acme.example.com"] > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `a[href="tel:+33140000000"] > span`
+  - … +15 autres
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `.global-search-input`
+  - `button[data-name="edit"]`
+  - `.control-label[data-name="name"] > .label-text`
+  - `div[data-view-cid="view37"] > span`
+  - `.control-label[data-name="website"] > .label-text`
+  - `a[href$="acme.example.com"]`
+  - `.control-label[data-name="emailAddress"] > .label-text`
+  - `a[data-email-address="contact@acme.example.com"] > span`
+  - `.control-label[data-name="phoneNumber"] > .label-text`
+  - `a[href="tel:+33140000000"] > span`
+  - … +15 autres
+- http://localhost:7747/# [state:mobile-nav-390]
+  - `input`
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://localhost:7747/#Account/view/6ac719384bdd17381
+  - `a[data-action="navigateToRoot"]`
+- http://localhost:7747/#Contact/view/6ac71b4322305bf07
+  - `a[data-action="navigateToRoot"]`
+- http://localhost:7747/#Lead/view/6ac71b44d892d9ed1
+  - `a[data-action="navigateToRoot"]`
+- http://localhost:7747/#Opportunity/view/6ac71b4698bd34b5f
+  - `a[data-action="navigateToRoot"]`
+- http://localhost:7747/#CSiteAudit/view/6ac719655ea448cca
+  - `a[data-action="navigateToRoot"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-composer]
+  - `a[data-action="navigateToRoot"]`
+- http://localhost:7747/#Account/view/6ac719384bdd17381 [state:stream-panel-menu]
+  - `a[data-action="navigateToRoot"]`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://localhost:7747/#Admin
+  - `iframe`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:7747/#Account/create
+  - `.iti__selected-flag`
+- http://localhost:7747/# [state:quick-create-modal]
+  - `.iti__selected-flag`
+

@@ -1,0 +1,19 @@
+{
+ "baselineAxes": "axe-core 4.14.0 (mêmes règles, même runner audit.mjs v10-espo pour baseline/final/install-build)",
+ "coverage": {
+  "public": ["login /", "404 #Bogus/route"],
+  "auth": ["home #", "listes : Account, Contact, Lead, Opportunity, Meeting, Call, Task, Campaign, TargetList, Document, KnowledgeBaseArticle, CSiteAudit (custom)", "détails : Account/Contact/Lead/Opportunity/CSiteAudit view", "stream #Stream", "Preferences", "User/list, Team", "Admin + settings/users/userInterface/entityManager/layouts/authLog/jobs/templateManager", "Account/create", "states: nav-user-menu, nav-notifications, nav-quick-create, nav-side-menu, list-row-menu, list-filters-menu, list-add-filter-menu (viewport 1600), quick-create-modal, stream-composer, stream-panel-menu, mobile-nav-390, route-404"]
+ },
+ "omissions": [
+  "emails/bounces : UI mail non peuplée (pas de SMTP)",
+  "portal public externe : non configuré (feature opt-in)",
+  "wizard d'installation one-shot : hors produit",
+  "rapports/charts avancés : grid report basique couvert via Admin ; canvas echarts non axe-couverts"
+ ],
+ "harnessNotes": [
+  "conteneur espocrm/espocrm:latest = tag 10.0.9 pinné (écart NUL) ; sources patchées montées en file/volume mounts — entrypoint recopie client/ vers espo47-client-served",
+  "npm ci impossible (lockfile) → npm install + git checkout package-lock.json ; build = npx grunt internal (templates.tpl + css espo + transpile js)",
+  "install-build rejoué depuis clone vierge : apply + build + boot.sh <clone> + rescan verbatim = 0 viol/0 err",
+  "après changement de livrable servi : re-boot via boot.sh (leçon 41 — volumes servi/source)"
+ ]
+}
