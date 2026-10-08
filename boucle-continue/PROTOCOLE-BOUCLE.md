@@ -391,3 +391,7 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 ### Leçons — cycle 49 koel (CONFIRMED + dérive stateProof)
 
 47. **Un stateProof doit passer sur VANILLA aussi — cibler du markup introduit par le patch rend la baseline non rejouable.** Koel commitait `stateProof` `ul[role="menu"]` (ajouté par le patch) : le run vanilla timeoutait sur le context-menu → 1 règle et ~250 occ de la baseline-states inaccessibles à l'auditeur. Règle : chaque sélecteur stateProof/setup doit exister dans le DOM vanilla (`.menu.context-menu ul`, pas `ul[role=menu]`) — le stateProof prouve que le widget S'OUVRE, pas qu'il est déjà conforme ; l'axe-scan capture le défaut. Corollaire : rejouer le scénario vanilla AVANT de figer la baseline.
+
+### Leçons — cycle 52 netbox (CONFIRMED bit-identique + hashes inter-instances)
+
+48. **Les hashes de scope/states doivent être normalisés sur le chemin — jamais l'origine complète.** scopeHash/statesHash incluaient le baseUrl entier → le même scope sur :9340 vs :9360 produisait des hashes incomparables entre instances (worker vs auditeur vs install-build). Runner corrigé : `stripOrigin(u)` → pathname+search+hash avant hachage. Corollaire portabilité : quand Docker Hub rate-limit (429), basculer les bases sur mirror.gcr.io et retaguer local plutôt que bloquer le rejeu.

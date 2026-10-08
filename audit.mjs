@@ -448,12 +448,15 @@ async function run() {
   // de comparer l'ensemble EXACT des scénarios entre baseline et final — une
   // somme égale de pages ne prouve pas l'identité des ensembles.
   const scenarioId = (e) => e.url;
+  // hashes normalisés sur le CHEMIN (pas l'origine) — deux instances du même
+  // produit sur des ports différents doivent produire le même hash (leçon 48).
+  const stripOrigin = u => { try { const x = new URL(u); return x.pathname + x.search + x.hash; } catch { return u; } };
   const scopeEntries = results.map(e => ({
     id: scenarioId(e), status: e.error ? 'error' : 'audited',
     httpStatus: e.httpStatus ?? null, finalUrl: e.finalUrl ?? null,
   }));
   const scopeHash = createHash('sha256')
-    .update(JSON.stringify(scopeEntries.map(e => e.id).sort()))
+    .update(JSON.stringify(scopeEntries.map(e => stripOrigin(e.id)).sort()))
     .digest('hex');
   // statesHash couvre l'URL ET le code de setup de chaque état exécuté —
   // le scopeHash seul ne prouve que l'identité des labels, pas celle des
@@ -463,7 +466,7 @@ async function run() {
     const stOrigin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
     const statesDigest = {};
     for (const name of wanted) {
-      statesDigest[name] = { url: STATES[name].url(stOrigin), setup: STATES[name].setup.toString() };
+      statesDigest[name] = { url: stripOrigin(STATES[name].url(stOrigin)), setup: STATES[name].setup.toString() };
     }
     statesHash = createHash('sha256').update(JSON.stringify(statesDigest)).digest('hex');
   }
