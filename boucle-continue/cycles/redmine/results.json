@@ -58,20 +58,20 @@
  },
  "final": {
   "auth": {
-   "scenarios": 33,
+   "scenarios": 37,
    "violations": 0,
    "occurrences": 0,
-   "incomplete": 138,
+   "incomplete": 142,
    "errors": 0
   },
   "public": {
-   "scenarios": 15,
+   "scenarios": 18,
    "violations": 0,
    "occurrences": 0,
-   "incomplete": 56,
+   "incomplete": 58,
    "errors": 0
   },
-  "note": "régénérée sur patché :6201 périmètre étendu — voir fixer_v2.final"
+  "note": "v3 :6801 périmètre étendu — patch e134664e"
  },
  "install_build": {
   "auth": {
@@ -90,28 +90,28 @@
   },
   "note": "clone vierge @10d61f8 + git apply (0 rejet, 49 fichiers) + docker build -f tools/Dockerfile (config/database.yml généré par RUN, gitignored amont) + run :5802 + load_default_data + seed.rb + rescan axe 4.14 — détail install-build.log"
  },
- "verify": "0 FAIL (37 sondes PASS)",
- "eval_final": "0 FAIL (24 sondes : pages hors périmètre axe — roadmap, activity, admin tables, settings tabs, watchers autocomplete — + dup-ids + mobile 390)",
+ "verify": "0 FAIL (52 sondes : +§13 R3 fuite inert, R1 clic svg, R2 down-close-up-leave, W-v2-4 lost_password>=24px, W-v2-5 th scope) ; install :6802 idem 52P/0F",
+ "eval_final": "0 FAIL (25 sondes : +A2 gate sudo #sudo-form lost_password conditionnel, +D pin déterministe /login h=24)",
  "probes": {
   "auth": {
-   "file": "reports/final/auth/incomplete-verdicts.json",
+   "file": "reports/probes-auth.json",
    "distribution": {
-    "color-contrast|PASS": 112,
+    "color-contrast|PASS": 115,
     "color-contrast|N-A": 21,
     "th-has-data-cells|N-A": 1,
     "label-content-name-mismatch|N-A": 4,
     "bypass|N-A": 1
    },
    "fail": 0,
-   "n": 139
+   "n": 142
   }
  },
  "patch": {
   "file": "patch.diff",
-  "sha256": "a744c344de73680b4b456406308f1b4feb206a01b83d626db4b13004512eb652",
-  "files": 49,
-  "insertions": 210,
-  "deletions": 139
+  "sha256": "e134664e17e32a951305c9380bd6d96ce65455defb65fadf255869fa21934a12",
+  "files": 102,
+  "insertions": 1360,
+  "deletions": 1088
  },
  "fixes": {
   "css": "application.css : liens soulignés dans le texte (footer, wiki, autres formats, auteurs, sidebar p, h2, form), targets ≥24px (sidebar liens, .icon-only, sous-projets, calendrier, boards, messages, icon-projects, gantt), tabs gray-6→gray-7 + hover, descriptions activity/search gray-7, .day-value today fond réel blue-8 (6.09) au lieu du ::before ; gantt.css : rows 24px, task/non-working gray-7 ; responsive.css : nav toggle nommé + h1 mobile",
@@ -236,5 +236,30 @@
    "F-v2-3": "périmètre étendu : /groups + /users/1 th vide → span visually-hidden ; /versions/1 badge-status-closed oc-green-9 4.36→#237434 5.80 ; /issues/imports/new label visuel-hidden l(:label_attachment) ; /help/wiki_syntax +detailed +code_highlighting : <html lang=<%= @help_lang %>> (fallback langue template), <main>, <th></th>→<td>, checkbox task-list → <label>, liens soulignés, syntaxhl green-9→#237434 + gray-6→gray-7, alert-titles sombres, toc <ul> nichées dans <li> + cibles 28px",
    "warts": "day-value claim 6.09→7.35:1 mesuré pixel-vrai (gray-8 sur gray-1 post-patch — encore PASS) ; scopeHash : ensembles de scénarios normalisés (chemin+requête+état) identiques baseline↔final auth+public — drift URL éliminé, hash brut port-dépendant documenté ; verify.mjs 3 branches durcies"
   }
+ },
+ "install_replay": {
+  "auth": {
+   "scenarios": 37,
+   "violations": 0,
+   "occurrences": 0,
+   "incomplete": 142,
+   "errors": 0
+  },
+  "public": {
+   "scenarios": 18,
+   "violations": 0,
+   "occurrences": 0,
+   "incomplete": 58,
+   "errors": 0
+  },
+  "note": "clone vierge @10d61f8 + git apply patch.diff v3 (0 rejet, 102 fichiers) + build + seed :6802 → rescan 0v/0e + verify 52P/0F + eval 0F"
+ },
+ "fixes_v3": {
+  "R3": "contextMenuRealTarget : garde coords (isFinite clientX/Y) + try/finally autour lift→elementFromPoint→re-inert — jQuery.trigger('contextmenu') sans coords ne lève plus jamais inert (verify §13 : threw=null inert=true open=true)",
+  "R1": "contextMenuClick : resolved.closest('a.js-contextmenu') sur la cible réelle (svg/use/path ~44% de la surface) → reciblage ancre (menu reciblé sur ligne non couverte, sel correct)",
+  "R2": "down-close-up-leave : pointerover hors menu lève inert (menu ouvert, cible down fixée au hit-test du pointerdown par Chrome — mousedown trop tard) + pointerdown/mousedown hors menu → contextMenuHide ; clic lien navigue (amont parity : probe 6803 vanilla=nav, 6804 v2=absorbé, 6801 v3=nav)",
+  "W-v2-4": "a.lost_password {min-height:24px;line-height:24px} hors #login-form → couvre #sudo-form modal+page (eval A2 conditionnel + D pin /login h=24 déterministe, fin de la flakiness fenêtre sudo)",
+  "W-v2-5": "scope sur tous les th des vues help/wiki_syntax : 71 col + 194 colgroup (séparateurs colspan) + 301 row — 0 non scopé",
+  "sabotage": "verify §13 sur arbre v2 :6804 → 5 FAIL mordants (R3 TypeError elementFromPoint non-finite + inert=false fuit, R1 open:false sel:3, W-v2-4 h=19, W-v2-5 missing=27) ; sonde R2 dédiée v2 navigated:false vs vanilla/v3 true ; vanilla verify crash §structures v1 (mordant)"
  }
 }

@@ -2,7 +2,7 @@
 
 **0 règle(s) violée(s), 0 occurrence(s), 18/18 scénario(s) audité(s), 0 erreur(s), 58 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `a488e0063df3`
+Périmètre : scope.json — hash `325cb7b60d12`
 
 ## Résultats incomplets à revoir (58)
 
@@ -10,45 +10,45 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
-- http://localhost:6202/
+- http://localhost:6802/
   - `.drdn-trigger`
   - `.external`
-- http://localhost:6202/login
+- http://localhost:6802/login
   - `.drdn-trigger`
-- http://localhost:6202/account/register
+- http://localhost:6802/account/register
   - `.drdn-trigger`
   - `#user_language`
-- http://localhost:6202/projects
+- http://localhost:6802/projects
   - `.drdn-trigger`
   - `#operators_status`
   - `#values_status_1`
   - `#add_filter_select`
   - `.external`
-- http://localhost:6202/projects/office-website
+- http://localhost:6802/projects/office-website
   - `.drdn-trigger`
   - `.external`
-- http://localhost:6202/projects/office-website/issues
+- http://localhost:6802/projects/office-website/issues
   - `.drdn-trigger`
   - `#operators_status_id`
   - `#add_filter_select`
   - `.subject > a[href$="issues/4"]`
-- http://localhost:6202/issues/1
+- http://localhost:6802/issues/1
   - `.drdn-trigger`
   - `.external`
-- http://localhost:6202/issues/6
+- http://localhost:6802/issues/6
   - `.drdn-trigger`
   - `#tab-history`
   - `#tab-notes`
   - `#tab-time_entries`
   - `.external`
-- http://localhost:6202/projects/office-website/wiki
+- http://localhost:6802/projects/office-website/wiki
   - `.drdn-trigger`
   - `.external[href$="guide"]`
   - `li:nth-child(2) > .external`
-- http://localhost:6202/projects/office-website/news
+- http://localhost:6802/projects/office-website/news
   - `.drdn-trigger`
   - `.external`
-- http://localhost:6202/projects/office-website/issues/gantt
+- http://localhost:6802/projects/office-website/issues/gantt
   - `.drdn-trigger`
   - `#operators_status_id`
   - `#add_filter_select`
@@ -60,19 +60,19 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `div[data-gantt-row-key="version-2-project-1"][data-gantt-row-type="version"][data-gantt-parent-row-key="project-1"] > .gantt-task-label.gantt-task`
   - `div[data-gantt-row-key="issue-1"][data-gantt-parent-row-key="version-2-project-1"][data-gantt-row-type="issue"] > .gantt-task-label.gantt-task`
   - … +10 autres
-- http://localhost:6202/projects/office-website/issues/calendar
+- http://localhost:6802/projects/office-website/issues/calendar
   - `.drdn-trigger`
   - `#operators_status_id`
   - `#add_filter_select`
   - `#month`
   - `#year`
-- http://localhost:6202/search
+- http://localhost:6802/search
   - `.drdn-trigger`
-- http://localhost:6202/help/wiki_syntax/detailed
+- http://localhost:6802/help/wiki_syntax/detailed
   - `td[rowspan="2"]`
   - `pre:nth-child(69) > code`
-- http://localhost:6202/login [state:login-failed]
+- http://localhost:6802/login [state:login-failed]
   - `.drdn-trigger`
-- http://localhost:6202/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
+- http://localhost:6802/projects/office-website/issues?set_filter=1 [state:mobile-nav-390]
   - `a[title="Sort by \"Priority\""]`
 

@@ -51,6 +51,23 @@ for (const path of EXTRA) {
   ok(`axe 0 violation ${path}`, res.violations.length === 0, titles.slice(0, 160));
 }
 
+// A2. Gate sudo-mode : /settings (et toute action admin protégée) rend
+// form#sudo-form à la place de la page quand la session sudo amont a expiré
+// (Redmine::Configuration['sudo_mode_timeout'], ~15 min). La page servie
+// dépend donc de l'heure du login, PAS du patch — c'était la source du
+// target-size flaky sur a.lost_password (W-v2-4). Le lien est désormais
+// >=24px dans les DEUX rendus : on le mesure ici quand le gate s'affiche,
+// et de façon déterministe sur /login en section D.
+await page.goto(BASE + '/settings', { waitUntil: 'load' });
+await page.waitForTimeout(800);
+const sudo = await page.evaluate(() => {
+  const a = document.querySelector('#sudo-form a.lost_password');
+  return a ? { gate: true, h: Math.round(a.getBoundingClientRect().height * 10) / 10 }
+           : { gate: false };
+});
+if (sudo.gate) ok('sudo-gate : a.lost_password >=24px', sudo.h >= 24, `h=${sudo.h}`);
+else console.log('N-A  sudo-gate absent (session sudo valide) — /settings réel servi');
+
 // B. Ids dupliqués interactifs sur pages hors périmètre
 for (const path of ['/projects/office-website/activity', '/workflows', '/projects/office-website/roadmap']) {
   await page.goto(BASE + path, { waitUntil: 'load' }); await page.waitForTimeout(800);
@@ -94,6 +111,14 @@ const reg = await ppage.evaluate(() => {
 });
 ok('register : champs labellés', reg.unlabeled.length === 0, JSON.stringify(reg.unlabeled));
 ok('register : pas de tabindex', reg.tabs.length === 0, JSON.stringify(reg.tabs));
+// pin déterministe W-v2-4 : a.lost_password est TOUJOURS rendu sur /login
+// (Setting.lost_password=1) — indépendant de la fenêtre sudo.
+await ppage.goto(BASE + '/login', { waitUntil: 'load' });
+const lph = await ppage.evaluate(() => {
+  const a = document.querySelector('a.lost_password');
+  return a ? Math.round(a.getBoundingClientRect().height * 10) / 10 : null;
+});
+ok('a.lost_password >=24px (/login)', lph !== null && lph >= 24, `h=${lph}`);
 await pub.close();
 
 // E. Rejoue : autocomplete watchers — le champ est injecté par le lien

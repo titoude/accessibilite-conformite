@@ -43,11 +43,11 @@ PASS F-v2-1 menu reciblée sur B — posB=(35,1) vs A=(916,1) sel=true
 PASS F-v2-2 Escape ferme le menu — open=false
 PASS F-v2-2 inert levé après Escape — inert=false
 PASS F-v2-2 focus restauré sur déclencheur — icon-only icon-actions js-contextmenu 
-PASS R3 contextmenu synthétique : pas d'exception
-PASS R3 inert jamais fuit sous menu modal — inert=true open=true
-PASS R1 clic glyphe svg (autre ligne) : menu reciblé — pick=3 {"open":true,"sel":3,"inert":true}
-PASS R2 clic lien : navigation réelle — http://localhost:6801/issues/11?tab=time_entries
+FAIL R3 contextmenu synthétique : pas d'exception — TypeError: Failed to execute 'elementFromPoint' on 'Document': The provided double value is non-finite.
+FAIL R3 inert jamais fuit sous menu modal — inert=false open=true
+FAIL R1 clic glyphe svg (autre ligne) : menu reciblé — pick=3 {"open":false,"sel":3,"inert":false}
+PASS R2 clic lien : navigation réelle — http://localhost:6804/issues/11?tab=time_entries
 PASS R2 inert levé après navigation — {"inert":false,"menuOpen":false}
-PASS W-v2-5 tous les th scopés sur /help/wiki_syntax — {"total":27,"missing":0,"row":13,"col":3,"colgroup":11}
-PASS W-v2-4 a.lost_password >=24px (/login) — {"h":24,"w":96}
-VERIFY: 0 FAIL
+FAIL W-v2-5 tous les th scopés sur /help/wiki_syntax — {"total":27,"missing":27,"row":0,"col":0,"colgroup":0}
+FAIL W-v2-4 a.lost_password >=24px (/login) — {"h":19,"w":96}
+VERIFY: 5 FAIL

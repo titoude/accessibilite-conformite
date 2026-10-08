@@ -260,6 +260,111 @@ check('F-v2-2 Escape ferme le menu', !m.open, `open=${m.open}`);
 check('F-v2-2 inert levé après Escape', m.inert === false, `inert=${m.inert}`);
 check('F-v2-2 focus restauré sur déclencheur', m.ae.includes('js-contextmenu'), m.ae);
 
+// ---------- 13. Résidus v2 (R3/R1/R2) + warts W-v2-4/W-v2-5 ----------
+// R3 — jQuery.trigger('contextmenu') SANS coordonnées (clientX/Y undefined) ne
+// doit jamais laisser inert levé pendant que le menu aria-modal reste visible.
+// Garde coords + try/finally dans contextMenuRealTarget.
+await page.goto(`${BASE}/projects/office-website/issues?set_filter=1`, { waitUntil: 'load' });
+await page.waitForSelector('tr.hascontextmenu a.js-contextmenu');
+await page.locator('tr.hascontextmenu').nth(0).locator('a.js-contextmenu').click();
+await page.waitForSelector('#context-menu:visible', { timeout: 8000 });
+const r3 = await page.evaluate(() => {
+  let threw = null;
+  try { jQuery('tr.hascontextmenu').eq(1).trigger('contextmenu'); } catch (e) { threw = String(e); }
+  return { threw,
+           inertAfter: document.getElementById('wrapper').inert,
+           openAfter: document.querySelector('#context-menu').offsetParent !== null };
+});
+check('R3 contextmenu synthétique : pas d\'exception', r3.threw === null, r3.threw || '');
+check('R3 inert jamais fuit sous menu modal', r3.inertAfter === true, `inert=${r3.inertAfter} open=${r3.openAfter}`);
+// reset déterministe : recharge la page — menu fermé, inert levé (l'état
+// modal laissé par le trigger synthétique n'est pas fiable à réutiliser).
+await page.goto(`${BASE}/projects/office-website/issues?set_filter=1`, { waitUntil: 'load' });
+await page.waitForSelector('tr.hascontextmenu a.js-contextmenu');
+
+// R1 — clic-gauche sur l'enfant <svg> de l'icône .js-contextmenu pendant que
+// le menu est ouvert : la garde doit résoudre l'ancre (closest) → comportement
+// d'ancre (le menu reste ouvert / se recible, au lieu de fermer).
+// Géométrie : menu ouvert sur la ligne 0 — il s'ouvre VERS LE BAS et ne
+// recouvre jamais son propre déclencheur → le clic glyphe est déterministe.
+const menuState = () => page.evaluate(() => {
+  const menu = document.querySelector('#context-menu');
+  const rect = menu ? menu.getBoundingClientRect() : { width: 0 };
+  const rows = [...document.querySelectorAll('tr.hascontextmenu')];
+  const sel = rows.findIndex(tr => tr.classList.contains('context-menu-selection'));
+  return { open: !!menu && menu.offsetParent !== null && rect.width > 0, sel,
+           inert: document.getElementById('wrapper').inert };
+});
+const rows = page.locator('tr.hascontextmenu');
+const nRows = await rows.count();
+await rows.nth(0).locator('a.js-contextmenu').click();
+await page.waitForSelector('#context-menu:visible', { timeout: 8000 });
+// Le menu est positionné AU point de clic (top-left = coords du déclencheur)
+// → il recouvre toujours son propre déclencheur : impossible de re-cliquer le
+// même glyphe. On recible sur la première ligne dont le glyphe n'est pas
+// recouvert par le menu ouvert (le menu ~300px n'en couvre que quelques-unes).
+const mrect = await page.locator('#context-menu').boundingBox();
+let pick = -1, pickBox = null;
+for (let i = 1; i < nRows; i++) {
+  const g = rows.nth(i).locator('a.js-contextmenu svg, a.js-contextmenu use, a.js-contextmenu path').first();
+  const bb = await g.boundingBox().catch(() => null);
+  if (!bb) { continue; }
+  const covered = bb.x < mrect.x + mrect.width && bb.x + bb.width > mrect.x &&
+                  bb.y < mrect.y + mrect.height && bb.y + bb.height > mrect.y;
+  if (!covered) { pick = i; pickBox = bb; break; }
+}
+if (pick > 0) {
+  await page.mouse.click(pickBox.x + pickBox.width / 2, pickBox.y + pickBox.height / 2);
+  await page.waitForTimeout(900);
+  const r1b = await menuState();
+  check('R1 clic glyphe svg (autre ligne) : menu reciblé', r1b.open && r1b.sel === pick, `pick=${pick} ` + JSON.stringify(r1b));
+} else {
+  check('R1 clic glyphe svg (autre ligne) : menu reciblé', false, 'aucune ligne non recouverte trouvée');
+}
+
+// R2 — clic normal sur un lien pendant que le menu est ouvert : down-close-up-
+// leave — inert levé en capture-phase → le lien navigue (parité amont).
+// Le menu reste ouvert depuis R1 ; on clique le lien subject d'une ligne —
+// colonne de gauche, jamais recouverte par le menu (colonne actions à droite).
+const sb = await rows.nth(2).locator('td.subject a').boundingBox();
+await page.mouse.click(sb.x + sb.width / 2, sb.y + sb.height / 2);
+await page.waitForTimeout(1500);
+const r2url = page.url();
+const r2 = await page.evaluate(() => ({
+  inert: document.getElementById('wrapper')?.inert,
+  menuOpen: !!document.querySelector('#context-menu')?.offsetParent,
+}));
+check('R2 clic lien : navigation réelle', /\/issues\/\d+/.test(r2url), r2url);
+check('R2 inert levé après navigation', r2.inert === false && !r2.menuOpen, JSON.stringify(r2));
+
+// W-v2-5 — les th de /help/wiki_syntax portent scope (WCAG 1.3.1, axe muet).
+await page.goto(`${BASE}/help/wiki_syntax`, { waitUntil: 'load' });
+const ths = await page.evaluate(() => {
+  const all = [...document.querySelectorAll('th')];
+  const sc = s => all.filter(t => t.getAttribute('scope') === s).length;
+  return { total: all.length, missing: all.filter(t => !t.getAttribute('scope')).length,
+           row: sc('row'), col: sc('col'), colgroup: sc('colgroup') };
+});
+check('W-v2-5 tous les th scopés sur /help/wiki_syntax',
+  ths.total > 0 && ths.missing === 0 && ths.row > 0 && ths.col > 0 && ths.colgroup > 0,
+  JSON.stringify(ths));
+
+// W-v2-4 — a.lost_password (gate sudo #sudo-form + page /login) : cible >=24px
+// en tout contexte. /login est le pin déterministe (Setting.lost_password=1)
+// — le gate sudo dépend du délai amont, pas du patch.
+{
+  const pub = await browser.newContext();
+  const pp = await pub.newPage();
+  await pp.goto(`${BASE}/login`, { waitUntil: 'load' });
+  const lp = await pp.evaluate(() => {
+    const a = document.querySelector('a.lost_password');
+    const r = a && a.getBoundingClientRect();
+    return r ? { h: Math.round(r.height * 10) / 10, w: Math.round(r.width) } : null;
+  });
+  check('W-v2-4 a.lost_password >=24px (/login)', lp !== null && lp.h >= 24, JSON.stringify(lp));
+  await pub.close();
+}
+
 await browser.close();
 console.log(failures === 0 ? 'VERIFY: 0 FAIL' : `VERIFY: ${failures} FAIL`);
 process.exit(failures ? 1 : 0);
