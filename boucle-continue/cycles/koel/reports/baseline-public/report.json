@@ -1,0 +1,1440 @@
+{
+  "runId": "e34edee0-333a-412f-bd19-b2dccbbf205b",
+  "runnerVersion": "audit.mjs v8-kavita",
+  "axeVersion": "4.14.0",
+  "generatedAt": "2026-10-08T08:59:25.355Z",
+  "baseUrl": "http://localhost:9049",
+  "pages": [
+    {
+      "url": "http://localhost:9049/#/home",
+      "requestedUrl": "http://localhost:9049/#/home",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#0191f7",
+                    "contrastRatio": 3.28,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+                      "target": [
+                        "button[type=\"submit\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+              "target": [
+                "button[type=\"submit\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-83a5d93e=\"\" class=\"text-center mb-8 -mt-44\"><img data-v-83a5d93e=\"\" alt=\"Logo\" class=\"inline-block\" src=\"/build/assets/logo-DALkdNKy.svg\" width=\"156\"></div>",
+              "target": [
+                ".text-center"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col gap-2\">",
+              "target": [
+                ".flex-col.gap-2.flex:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+                      "target": [
+                        "input[type=\"email\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+              "target": [
+                "input[type=\"email\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+                      "target": [
+                        "input[type=\"password\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.3pt (12.35px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"text-right text-[.95rem] text-k-fg-70\" role=\"button\"> Forgot password? </a>",
+              "target": [
+                "a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9049/#/home",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9049/#/404",
+      "requestedUrl": "http://localhost:9049/#/404",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#0191f7",
+                    "contrastRatio": 3.28,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+                      "target": [
+                        "button[type=\"submit\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+              "target": [
+                "button[type=\"submit\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-83a5d93e=\"\" class=\"text-center mb-8 -mt-44\"><img data-v-83a5d93e=\"\" alt=\"Logo\" class=\"inline-block\" src=\"/build/assets/logo-DALkdNKy.svg\" width=\"156\"></div>",
+              "target": [
+                ".text-center"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col gap-2\">",
+              "target": [
+                ".flex-col.gap-2.flex:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+                      "target": [
+                        "input[type=\"email\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+              "target": [
+                "input[type=\"email\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+                      "target": [
+                        "input[type=\"password\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.3pt (12.35px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"text-right text-[.95rem] text-k-fg-70\" role=\"button\"> Forgot password? </a>",
+              "target": [
+                "a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9049/#/404",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9049/#/reset-password/invalid-payload-seed49",
+      "requestedUrl": "http://localhost:9049/#/reset-password/invalid-payload-seed49",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#0191f7",
+                    "contrastRatio": 3.28,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+                      "target": [
+                        "button[type=\"submit\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+              "target": [
+                "button[type=\"submit\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-83a5d93e=\"\" class=\"text-center mb-8 -mt-44\"><img data-v-83a5d93e=\"\" alt=\"Logo\" class=\"inline-block\" src=\"/build/assets/logo-DALkdNKy.svg\" width=\"156\"></div>",
+              "target": [
+                ".text-center"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col gap-2\">",
+              "target": [
+                ".flex-col.gap-2.flex:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+                      "target": [
+                        "input[type=\"email\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+              "target": [
+                "input[type=\"email\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+                      "target": [
+                        "input[type=\"password\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.3pt (12.35px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"text-right text-[.95rem] text-k-fg-70\" role=\"button\"> Forgot password? </a>",
+              "target": [
+                "a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9049/#/reset-password/invalid-payload-seed49",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9049/#/invitation/accept/00000000-0000-4000-8000-000000000000",
+      "requestedUrl": "http://localhost:9049/#/invitation/accept/00000000-0000-4000-8000-000000000000",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#0191f7",
+                    "contrastRatio": 3.28,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-v-b2a18266=\"\" data-v-15c3ee43=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer\" type=\"button\" name=\"ok\">OK</button>",
+                      "target": [
+                        "button"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-b2a18266=\"\" data-v-15c3ee43=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer\" type=\"button\" name=\"ok\">OK</button>",
+              "target": [
+                "button"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        }
+      ],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9049/#/invitation/accept/00000000-0000-4000-8000-000000000000",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9049/#/embed/01a11ab2-bb30-7022-8556-502104daceee",
+      "requestedUrl": "http://localhost:9049/#/embed/01a11ab2-bb30-7022-8556-502104daceee",
+      "violations": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#0191f7",
+                    "contrastRatio": 3.28,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+                      "target": [
+                        "button[type=\"submit\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-v-b2a18266=\"\" class=\"text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer w-full\" type=\"submit\" data-testid=\"submit\">Log In</button>",
+              "target": [
+                "button[type=\"submit\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 3.28 (foreground color: #ffffff, background color: #0191f7, font size: 9.8pt (13px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "landmark-one-main",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the document has a main landmark",
+          "help": "Document should have one main landmark",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-main",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Document does not have a main landmark"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Document does not have a main landmark"
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" class=\"non-mac\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        },
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div data-v-83a5d93e=\"\" class=\"text-center mb-8 -mt-44\"><img data-v-83a5d93e=\"\" alt=\"Logo\" class=\"inline-block\" src=\"/build/assets/logo-DALkdNKy.svg\" width=\"156\"></div>",
+              "target": [
+                ".text-center"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"flex flex-col gap-2\">",
+              "target": [
+                ".flex-col.gap-2.flex:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            },
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+                      "target": [
+                        "input[type=\"email\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"email\" autofocus=\"\" placeholder=\"Your email address\" required=\"\">",
+              "target": [
+                "input[type=\"email\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.8pt (13px)",
+                    "fontWeight": "normal",
+                    "messageKey": "emptyValue",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+                      "target": [
+                        "input[type=\"password\"]"
+                      ]
+                    },
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has no value; test color contrast with a value entered"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<input aria-label=\"undefined\" class=\"block text-base w-fu...\" type=\"password\" data-testid=\"input\" placeholder=\"Your password\" required=\"\">",
+              "target": [
+                "input[type=\"password\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has no value; test color contrast with a value entered"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.3pt (12.35px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgGradient",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<form data-v-83a5d93e=\"\" class=\"w-[288px] sm:border duration-500 p-7 rounded-xl border border-k-fg-3 bg-linear-to-b from-k-fg-3 to-k-fg-5 space-y-3\" data-testid=\"login-form\">",
+                      "target": [
+                        "form"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a background gradient"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a class=\"text-right text-[.95rem] text-k-fg-70\" role=\"button\"> Forgot password? </a>",
+              "target": [
+                "a"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a background gradient"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9049/#/embed/01a11ab2-bb30-7022-8556-502104daceee",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "81f24e13a5c7742b60e855e9bbc6ff50ff128f7df12de64189712d842d334a15"
+}

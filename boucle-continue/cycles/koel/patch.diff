@@ -1,0 +1,1732 @@
+diff --git a/resources/assets/css/partials/shared.pcss b/resources/assets/css/partials/shared.pcss
+index 04c64660..5eb104cd 100644
+--- a/resources/assets/css/partials/shared.pcss
++++ b/resources/assets/css/partials/shared.pcss
+@@ -45,6 +45,13 @@ html {
+   @apply h-screen text-k-fg font-light leading-6 overflow-hidden;
+ }
+ 
++/* The page background color lives on body itself (not only on the ::before
++   image layer): tools and assistive tech reading background colors on
++   ancestors see a real value instead of a pseudo-element's. */
++body {
++  background-color: var(--color-bg);
++}
++
+ body::before {
+   content: '';
+   position: fixed;
+@@ -54,7 +61,6 @@ body::before {
+   height: 100vh;
+   z-index: -1;
+   pointer-events: none;
+-  background-color: var(--color-bg);
+   background-image: var(--bg-image);
+   background-size: var(--bg-size);
+   background-position: var(--bg-position);
+diff --git a/resources/assets/css/partials/vars.pcss b/resources/assets/css/partials/vars.pcss
+index 1d62b6f0..a73134b4 100644
+--- a/resources/assets/css/partials/vars.pcss
++++ b/resources/assets/css/partials/vars.pcss
+@@ -2,8 +2,8 @@
+   --color-fg: #ffffff; /* full format to conform with input[type=color] requirements */
+   --color-bg: #111111;
+ 
+-  --color-highlight: #f1661b;
+-  --color-highlight-fg: #ffffff;
++  --color-highlight: #f57329;
++  --color-highlight-fg: #111111;
+ 
+   --bg-image: none;
+   --bg-position: center;
+@@ -26,6 +26,12 @@
+   --color-danger: #c34848;
+   --color-warning: #c77700;
+ 
++  /* Button backgrounds under white text need >= 4.5:1 (WCAG AA). The accent
++     colors above stay available for text/icon use on the dark background. */
++  --color-primary-btn: #0174cc;
++  --color-success-btn: #3f7a3b;
++  --color-highlight-btn: #f1661b;
++
+   --k-fg-3: color-mix(in srgb, var(--color-fg), transparent 97%);
+   --k-fg-5: color-mix(in srgb, var(--color-fg), transparent 95%);
+   --k-fg-10: color-mix(in srgb, var(--color-fg), transparent 90%);
+diff --git a/resources/assets/js/App.vue b/resources/assets/js/App.vue
+index ac0a40af..3bb3eee4 100644
+--- a/resources/assets/js/App.vue
++++ b/resources/assets/js/App.vue
+@@ -6,7 +6,7 @@
+   <OfflineNotification v-if="!online" />
+   <UpdateNotification />
+ 
+-  <main
++  <div
+     v-if="layout === 'default' && initialized"
+     class="absolute md:relative top-0 h-full md:h-screen pt-k-header-height md:pt-0 w-full md:w-auto flex flex-col justify-end"
+     @dragend="onDragEnd"
+@@ -20,7 +20,7 @@
+     <SupportKoel />
+     <AiAssistantScreen v-if="commonStore.state.uses_ai" v-show="isCurrentScreen('AI')" />
+     <DropZone v-show="showDropZone" @close="showDropZone = false" />
+-  </main>
++  </div>
+ 
+   <Auth v-if="layout === 'auth'" @logged-in="triggerAppInitialization" />
+   <Embed v-if="layout === 'embed'" />
+diff --git a/resources/assets/js/components/album/AlbumContextMenu.vue b/resources/assets/js/components/album/AlbumContextMenu.vue
+index 7a67be0c..7794d362 100644
+--- a/resources/assets/js/components/album/AlbumContextMenu.vue
++++ b/resources/assets/js/components/album/AlbumContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="play">Play All</MenuItem>
+     <MenuItem @click="shuffle">Shuffle All</MenuItem>
+     <Separator />
+diff --git a/resources/assets/js/components/album/EditAlbumForm.vue b/resources/assets/js/components/album/EditAlbumForm.vue
+index 115dcd72..c2cbb602 100644
+--- a/resources/assets/js/components/album/EditAlbumForm.vue
++++ b/resources/assets/js/components/album/EditAlbumForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit Album</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <FormRow>
+         <template #label>Name</template>
+         <TextInput v-model="data.name" v-koel-focus name="name" placeholder="Album name" required title="Album name" />
+@@ -20,7 +20,7 @@
+         </FormRow>
+       </div>
+       <ArtworkField v-model="data.cover">Pick or paste a cover (optional)</ArtworkField>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/artist/ArtistContextMenu.vue b/resources/assets/js/components/artist/ArtistContextMenu.vue
+index 35ad9b48..40e9a3be 100644
+--- a/resources/assets/js/components/artist/ArtistContextMenu.vue
++++ b/resources/assets/js/components/artist/ArtistContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="play">Play All</MenuItem>
+     <MenuItem @click="shuffle">Shuffle All</MenuItem>
+     <Separator />
+diff --git a/resources/assets/js/components/artist/EditArtistForm.vue b/resources/assets/js/components/artist/EditArtistForm.vue
+index 454d814c..d5f84cc0 100644
+--- a/resources/assets/js/components/artist/EditArtistForm.vue
++++ b/resources/assets/js/components/artist/EditArtistForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit Artist</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <FormRow>
+         <template #label>Name</template>
+         <TextInput
+@@ -17,7 +17,7 @@
+         />
+       </FormRow>
+       <ArtworkField v-model="data.image">Pick or paste an image (optional)</ArtworkField>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/auth/Auth.vue b/resources/assets/js/components/auth/Auth.vue
+index bb5936dd..d63dd3b4 100644
+--- a/resources/assets/js/components/auth/Auth.vue
++++ b/resources/assets/js/components/auth/Auth.vue
+@@ -1,5 +1,6 @@
+ <template>
+-  <div class="flex items-center justify-center min-h-screen my-0 mx-auto flex-col gap-5">
++  <main class="flex items-center justify-center min-h-screen my-0 mx-auto flex-col gap-5">
++    <h1 class="sr-only">Koel</h1>
+     <TwoFactorChallengeForm
+       v-if="twoFactorLoginToken"
+       :login-token="twoFactorLoginToken"
+@@ -17,7 +18,7 @@
+       />
+       <SsoLoginOptions @logged-in="$emit('loggedIn')" @two-factor-required="twoFactorLoginToken = $event" />
+     </template>
+-  </div>
++  </main>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/auth/ResetPasswordForm.vue b/resources/assets/js/components/auth/ResetPasswordForm.vue
+index 53787d8a..5a4a2118 100644
+--- a/resources/assets/js/components/auth/ResetPasswordForm.vue
++++ b/resources/assets/js/components/auth/ResetPasswordForm.vue
+@@ -1,5 +1,6 @@
+ <template>
+-  <div class="flex items-center justify-center min-h-screen">
++  <main class="flex items-center justify-center min-h-screen">
++    <h1 class="sr-only">Reset password</h1>
+     <AuthFormCard v-if="validPayload" @submit="handleSubmit">
+       <p class="text-[.95rem] text-k-fg-70 mb-4">Choose a new password for your account.</p>
+ 
+@@ -10,7 +11,7 @@
+ 
+       <Btn class="w-full" :disabled="loading" type="submit">Save</Btn>
+     </AuthFormCard>
+-  </div>
++  </main>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/email-change/ConfirmEmailChange.vue b/resources/assets/js/components/email-change/ConfirmEmailChange.vue
+index 9d717654..f6de91f9 100644
+--- a/resources/assets/js/components/email-change/ConfirmEmailChange.vue
++++ b/resources/assets/js/components/email-change/ConfirmEmailChange.vue
+@@ -1,5 +1,6 @@
+ <template>
+-  <div class="flex items-center justify-center h-screen flex-col">
++  <main class="flex items-center justify-center h-screen flex-col">
++    <h1 class="sr-only">Confirm email change</h1>
+     <div v-if="newEmail" class="w-full sm:w-[320px] p-7 sm:bg-k-fg-10 rounded-lg flex flex-col space-y-5">
+       <template v-if="changed">
+         <p data-testid="changed">Your email address is now {{ newEmail }}.</p>
+@@ -11,7 +12,7 @@
+         <Btn :disabled="loading" type="submit">Confirm</Btn>
+       </form>
+     </div>
+-  </div>
++  </main>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/embed/CreateEmbedForm.vue b/resources/assets/js/components/embed/CreateEmbedForm.vue
+index 6d3e37c6..6ed7f194 100644
+--- a/resources/assets/js/components/embed/CreateEmbedForm.vue
++++ b/resources/assets/js/components/embed/CreateEmbedForm.vue
+@@ -3,7 +3,7 @@
+     <header>
+       <h1>Embed {{ typeLabel }}</h1>
+     </header>
+-    <main>
++    <div>
+       <EmbedOptionsPanel v-model="options" class="mb-5" />
+ 
+       <iframe
+@@ -25,7 +25,7 @@
+       >
+         {{ code }}
+       </div>
+-    </main>
++    </div>
+     <footer class="flex items-center">
+       <div class="flex-1">
+         <Btn type="submit" @click.prevent="copyCode">Copy Code</Btn>
+diff --git a/resources/assets/js/components/embed/widget/EmbedWidget.vue b/resources/assets/js/components/embed/widget/EmbedWidget.vue
+index c84d7ba5..5abc616f 100644
+--- a/resources/assets/js/components/embed/widget/EmbedWidget.vue
++++ b/resources/assets/js/components/embed/widget/EmbedWidget.vue
+@@ -1,12 +1,12 @@
+ <template>
+-  <section v-if="embed && !error" class="max-h-screen flex flex-col overflow-hidden">
++  <main v-if="embed && !error" class="max-h-screen flex flex-col overflow-hidden">
+     <Banner :embed :options>
+       <template #audio-player>
+         <AudioPlayer ref="player" :playables="embed.playables" :preview="options.preview" />
+       </template>
+     </Banner>
+     <TrackList v-if="showTrackList" :playables="embed.playables" @play="onItemPlayRequested" />
+-  </section>
++  </main>
+ 
+   <ErrorMessage v-else-if="error" />
+ </template>
+diff --git a/resources/assets/js/components/embed/widget/EmbedWidgetBanner.vue b/resources/assets/js/components/embed/widget/EmbedWidgetBanner.vue
+index 326b36e0..d18c5c28 100644
+--- a/resources/assets/js/components/embed/widget/EmbedWidgetBanner.vue
++++ b/resources/assets/js/components/embed/widget/EmbedWidgetBanner.vue
+@@ -5,13 +5,13 @@
+     </aside>
+ 
+     <div class="flex-1 flex flex-col justify-end gap-3">
+-      <h3
++      <h1
+         :title="heading"
+         class="text-3xl text-k-fg flex items-center gap-2 font-medium sm:text-4xl sm:font-bold line-clamp-1"
+       >
+         <PreviewBadge v-if="options.preview" />
+         <span>{{ heading }}</span>
+-      </h3>
++      </h1>
+ 
+       <p :title="subheading" class="line-clamp-1">{{ subheading }}</p>
+ 
+diff --git a/resources/assets/js/components/embed/widget/EmbedWidgetTrackList.vue b/resources/assets/js/components/embed/widget/EmbedWidgetTrackList.vue
+index 49ff3e64..1090cd17 100644
+--- a/resources/assets/js/components/embed/widget/EmbedWidgetTrackList.vue
++++ b/resources/assets/js/components/embed/widget/EmbedWidgetTrackList.vue
+@@ -1,11 +1,11 @@
+ <template>
+-  <main class="relative flex flex-col overflow-scroll flex-1">
++  <div class="relative flex flex-col overflow-scroll flex-1">
+     <div class="track-list-wrap relative flex flex-col flex-1 overflow-auto p-2">
+       <VirtualScroller v-slot="{ item }: { item: PlayableRow }" :item-height="64" :items="rows">
+         <TrackItem :key="item.playable.id" :item @play="emit('play', item.playable)" />
+       </VirtualScroller>
+     </div>
+-  </main>
++  </div>
+ </template>
+ 
+ <script setup lang="ts">
+diff --git a/resources/assets/js/components/genre/GenreContextMenu.vue b/resources/assets/js/components/genre/GenreContextMenu.vue
+index e92b27d4..ab49edd1 100644
+--- a/resources/assets/js/components/genre/GenreContextMenu.vue
++++ b/resources/assets/js/components/genre/GenreContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="play">Play</MenuItem>
+     <MenuItem @click="shuffle">Shuffle</MenuItem>
+     <MenuItem @click="queue">Add to Queue</MenuItem>
+diff --git a/resources/assets/js/components/invitation/AcceptInvitation.vue b/resources/assets/js/components/invitation/AcceptInvitation.vue
+index e1be0233..7518a4b1 100644
+--- a/resources/assets/js/components/invitation/AcceptInvitation.vue
++++ b/resources/assets/js/components/invitation/AcceptInvitation.vue
+@@ -1,5 +1,6 @@
+ <template>
+-  <div class="flex items-center justify-center h-screen flex-col">
++  <main class="flex items-center justify-center h-screen flex-col">
++    <h1 class="sr-only">Accept invitation</h1>
+     <form
+       v-if="userProspect"
+       autocomplete="off"
+@@ -32,7 +33,7 @@
+ 
+       <HookSlot :context="{ email: userProspect.email }" name="accept-invitation-form.footer" />
+     </form>
+-  </div>
++  </main>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/koel-plus/KoelPlusModal.vue b/resources/assets/js/components/koel-plus/KoelPlusModal.vue
+index 41c94ad9..83576593 100644
+--- a/resources/assets/js/components/koel-plus/KoelPlusModal.vue
++++ b/resources/assets/js/components/koel-plus/KoelPlusModal.vue
+@@ -7,7 +7,7 @@
+       width="96"
+     />
+ 
+-    <main class="px-8! py-5! text-center flex flex-col gap-5">
++    <div class="px-8! py-5! text-center flex flex-col gap-5">
+       <div>
+         Koel Plus adds premium features on top of the default installation.<br />
+         Pay <em>once</em> and enjoy all additional features forever — including those to be built into the app in the
+@@ -27,7 +27,7 @@
+       <div class="text-[0.9rem] text-k-fg-70">
+         Visit <a href="https://koel.dev#plus" target="_blank">koel.dev</a> for more information.
+       </div>
+-    </main>
++    </div>
+ 
+     <footer class="w-full text-center bg-black/20">
+       <Btn variant="destructive" data-testid="close-modal-btn" rounded @click.prevent="close">Close</Btn>
+diff --git a/resources/assets/js/components/layout/app-footer/FooterPlayableInfo.vue b/resources/assets/js/components/layout/app-footer/FooterPlayableInfo.vue
+index 0e99b309..791d2df1 100644
+--- a/resources/assets/js/components/layout/app-footer/FooterPlayableInfo.vue
++++ b/resources/assets/js/components/layout/app-footer/FooterPlayableInfo.vue
+@@ -7,15 +7,20 @@
+   >
+     <span
+       v-koel-tooltip
++      :aria-label="playable ? 'Scroll to currently playing' : undefined"
+       :class="playable && 'cursor-pointer'"
++      :role="playable ? 'button' : undefined"
++      :tabindex="playable ? 0 : undefined"
+       :title="playable ? 'Scroll to currently playing' : undefined"
+       class="album-thumb block h-[55%] md:h-3/4 aspect-square rounded-full bg-cover"
+       @click="scrollToCurrentInQueue"
++      @keydown.enter.prevent="scrollToCurrentInQueue"
++      @keydown.space.prevent="scrollToCurrentInQueue"
+     />
+     <div v-if="playable" class="meta overflow-hidden hidden md:block">
+-      <h3 class="title overflow-hidden whitespace-nowrap">
++      <p class="title overflow-hidden whitespace-nowrap">
+         <MarqueeText :text="playable.title" />
+-      </h3>
++      </p>
+       <a :href="artistOrPodcastUri" class="artist overflow-hidden whitespace-nowrap block text-[0.9rem]">
+         <MarqueeText :text="artistOrPodcastName" />
+       </a>
+diff --git a/resources/assets/js/components/layout/app-footer/FooterPlaybackControls.vue b/resources/assets/js/components/layout/app-footer/FooterPlaybackControls.vue
+index c381752b..2f807c93 100644
+--- a/resources/assets/js/components/layout/app-footer/FooterPlaybackControls.vue
++++ b/resources/assets/js/components/layout/app-footer/FooterPlaybackControls.vue
+@@ -8,7 +8,7 @@
+         @toggle="toggleFavorite"
+       />
+ 
+-      <button v-else type="button" />
++      <button v-else aria-hidden="true" disabled tabindex="-1" type="button" />
+       <!-- a placeholder to maintain the asymmetric layout -->
+ 
+       <FooterBtn
+diff --git a/resources/assets/js/components/layout/app-footer/UpNext.vue b/resources/assets/js/components/layout/app-footer/UpNext.vue
+index dedb7b55..1394d918 100644
+--- a/resources/assets/js/components/layout/app-footer/UpNext.vue
++++ b/resources/assets/js/components/layout/app-footer/UpNext.vue
+@@ -3,13 +3,13 @@
+     <span :style="{ backgroundImage: `url(${defaultCover})` }">
+       <img :src alt="Cover image" class="w-[96px] aspect-square object-cover" loading="lazy" />
+     </span>
+-    <main class="px-5 py-4 min-w-80 max-w-96 flex flex-col justify-between overflow-hidden">
++    <div class="px-5 py-4 min-w-80 max-w-96 flex flex-col justify-between overflow-hidden">
+       <h4 class="uppercase">Up Next</h4>
+       <p class="text-k-fg text-xl overflow-hidden whitespace-nowrap text-ellipsis">
+         {{ playable.title }}
+       </p>
+       <p class="overflow-hidden whitespace-nowrap text-ellipsis">{{ author }}</p>
+-    </main>
++    </div>
+   </article>
+ </template>
+ 
+diff --git a/resources/assets/js/components/layout/main-wrapper/MainContent.vue b/resources/assets/js/components/layout/main-wrapper/MainContent.vue
+index 2458532e..fd2fb0d4 100644
+--- a/resources/assets/js/components/layout/main-wrapper/MainContent.vue
++++ b/resources/assets/js/components/layout/main-wrapper/MainContent.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <section id="mainContent" class="flex-1 relative overflow-hidden">
++  <div id="mainContent" class="flex-1 relative overflow-hidden">
+     <!--
+       Most of the views are render-expensive and have their own UI states (viewport/scroll position), e.g. the playable
+       lists), so we use v-show.
+@@ -40,7 +40,7 @@
+     <template v-for="(component, name) in addedScreens" :key="name">
+       <component :is="component" v-if="screen === name" />
+     </template>
+-  </section>
++  </div>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/layout/main-wrapper/side-sheet/ProfileDropdown.vue b/resources/assets/js/components/layout/main-wrapper/side-sheet/ProfileDropdown.vue
+index 9061d372..7b0effdb 100644
+--- a/resources/assets/js/components/layout/main-wrapper/side-sheet/ProfileDropdown.vue
++++ b/resources/assets/js/components/layout/main-wrapper/side-sheet/ProfileDropdown.vue
+@@ -13,9 +13,9 @@
+       />
+     </button>
+ 
+-    <ul v-if="open" v-koel-focus class="context-menu" tabindex="0" @keydown.esc="open = false">
++    <ul v-if="open" v-koel-focus class="context-menu" role="menu" tabindex="0" @keydown.esc="open = false">
+       <template v-for="(item, index) in items" :key="item.id">
+-        <li v-if="index" class="separator" />
++        <li v-if="index" class="separator" role="separator" />
+         <ContextMenuItem :data-testid="`profile-menu-${item.id}`" @click="choose(item)">{{
+           item.label()
+         }}</ContextMenuItem>
+diff --git a/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheet.vue b/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheet.vue
+index 74819d86..46e82417 100644
+--- a/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheet.vue
++++ b/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheet.vue
+@@ -7,7 +7,7 @@
+       class="controls flex md:flex-col justify-between items-center md:w-[64px] md:py-6 tw:px-0 bg-black/5 md:border-l border-solid md:border-l-k-fg-5 md:border-b-0 md:shadow-none z-2 w-screen flex-row border-b border-b-k-fg-5 border-l-0 shadow-xl py-0 px-6 h-k-header-height"
+     >
+       <div class="btn-group">
+-        <SideSheetButton class="md:hidden" @click.prevent="expandSidebar">
++        <SideSheetButton v-koel-tooltip class="md:hidden" title="Open menu" @click.prevent="expandSidebar">
+           <Icon :icon="faBars" fixed-width />
+         </SideSheetButton>
+         <SideSheetTabHeader v-if="songPlaying" v-model="activeTab" />
+@@ -20,7 +20,7 @@
+       </div>
+     </header>
+ 
+-    <main v-if="songPlaying" v-show="activeTab" class="scroll-mask-y panes relative overflow-auto wrap-anywhere">
++    <div v-if="songPlaying" v-show="activeTab" class="scroll-mask-y panes relative overflow-auto wrap-anywhere">
+       <SideSheetPanelLazyWrapper
+         id="extraPanelLyrics"
+         :active="activeTab === 'Lyrics'"
+@@ -74,7 +74,7 @@
+       >
+         <YouTubeVideoList v-if="shouldShowYouTubeTab && streamable" :song="streamable" class="px-6 py-8" />
+       </SideSheetPanelLazyWrapper>
+-    </main>
++    </div>
+   </aside>
+ </template>
+ 
+diff --git a/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetPanelLazyWrapper.vue b/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetPanelLazyWrapper.vue
+index 0d3ea8ef..db005449 100644
+--- a/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetPanelLazyWrapper.vue
++++ b/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetPanelLazyWrapper.vue
+@@ -1,6 +1,6 @@
+ <template>
+-  <div v-if="shouldMount" v-show="active" class="h-full" role="tabpanel">
+-    <slot />
++  <div v-show="active" class="h-full" role="tabpanel">
++    <slot v-if="shouldMount" />
+   </div>
+ </template>
+ 
+diff --git a/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetTabHeader.vue b/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetTabHeader.vue
+index de18c007..9309cd4a 100644
+--- a/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetTabHeader.vue
++++ b/resources/assets/js/components/layout/main-wrapper/side-sheet/SideSheetTabHeader.vue
+@@ -1,10 +1,13 @@
+ <template>
++  <div role="tablist" class="contents">
+   <SideSheetButton
+     id="extraTabLyrics"
+     v-koel-tooltip.left
+     :class="{ active: value === 'Lyrics' }"
+     data-testid="side-sheet-lyrics-tab-header"
+     role="tab"
++    :aria-selected="value === 'Lyrics'"
++    aria-controls="extraPanelLyrics"
+     title="Lyrics"
+     @click.prevent="toggleTab('Lyrics')"
+   >
+@@ -16,6 +19,8 @@
+     :class="{ active: value === 'Artist' }"
+     data-testid="side-sheet-artist-tab-header"
+     role="tab"
++    :aria-selected="value === 'Artist'"
++    aria-controls="extraPanelArtist"
+     title="Artist information"
+     @click.prevent="toggleTab('Artist')"
+   >
+@@ -27,6 +32,8 @@
+     :class="{ active: value === 'Album' }"
+     data-testid="side-sheet-album-tab-header"
+     role="tab"
++    :aria-selected="value === 'Album'"
++    aria-controls="extraPanelAlbum"
+     title="Album information"
+     @click.prevent="toggleTab('Album')"
+   >
+@@ -39,11 +46,14 @@
+     :class="{ active: value === 'YouTube' }"
+     data-testid="side-sheet-youtube-tab-header"
+     role="tab"
++    :aria-selected="value === 'YouTube'"
++    aria-controls="extraPanelYouTube"
+     title="Related YouTube videos"
+     @click.prevent="toggleTab('YouTube')"
+   >
+     <Icon :icon="faYoutube" fixed-width />
+   </SideSheetButton>
++  </div>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/layout/main-wrapper/sidebar/HomeButton.vue b/resources/assets/js/components/layout/main-wrapper/sidebar/HomeButton.vue
+index cae88d39..1a3d4e0c 100644
+--- a/resources/assets/js/components/layout/main-wrapper/sidebar/HomeButton.vue
++++ b/resources/assets/js/components/layout/main-wrapper/sidebar/HomeButton.vue
+@@ -1,5 +1,6 @@
+ <template>
+   <a
++    aria-label="Home"
+     class="bg-k-bg-50 active:scale-90 border border-k-fg-10 flex items-center px-3.5 rounded-md text-k-fg-70 hover:text-k-fg"
+     :href="url('home')"
+     @click="onClick"
+diff --git a/resources/assets/js/components/layout/main-wrapper/sidebar/Sidebar.vue b/resources/assets/js/components/layout/main-wrapper/sidebar/Sidebar.vue
+index c8056d88..9dfa002a 100644
+--- a/resources/assets/js/components/layout/main-wrapper/sidebar/Sidebar.vue
++++ b/resources/assets/js/components/layout/main-wrapper/sidebar/Sidebar.vue
+@@ -1,5 +1,6 @@
+ <template>
+   <nav
++    aria-label="Library navigation"
+     :class="{ collapsed: !expanded, 'tmp-showing': tmpShowing, showing: mobileShowing }"
+     class="group left-0 top-0 flex flex-col fixed h-full w-full md:relative md:w-k-sidebar-width z-999 md:z-10"
+     @mouseenter="onMouseEnter"
+@@ -7,7 +8,7 @@
+   >
+     <section class="btn-collapse-block flex md:hidden items-center border-b border-b-k-fg-5 h-k-header-height px-6">
+       <div class="bg-k-fg-5 rounded-full">
+-        <SideSheetButton @click.prevent="collapseSidebar">
++        <SideSheetButton v-koel-tooltip title="Close menu" @click.prevent="collapseSidebar">
+           <Icon :icon="faTimes" fixed-width />
+         </SideSheetButton>
+       </div>
+diff --git a/resources/assets/js/components/media-browser/MediaBrowserContextMenu.vue b/resources/assets/js/components/media-browser/MediaBrowserContextMenu.vue
+index efde3d00..ad59512f 100644
+--- a/resources/assets/js/components/media-browser/MediaBrowserContextMenu.vue
++++ b/resources/assets/js/components/media-browser/MediaBrowserContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem v-if="isForSingleFolder" @click="openFolder">Open</MenuItem>
+     <MenuItem @click="play">Play</MenuItem>
+     <MenuItem @click="shuffle">Shuffle</MenuItem>
+diff --git a/resources/assets/js/components/meta/AboutKoelModal.vue b/resources/assets/js/components/meta/AboutKoelModal.vue
+index ab76946d..10504d79 100644
+--- a/resources/assets/js/components/meta/AboutKoelModal.vue
++++ b/resources/assets/js/components/meta/AboutKoelModal.vue
+@@ -6,7 +6,7 @@
+     tabindex="0"
+     @keydown.esc="close"
+   >
+-    <main class="p-6">
++    <div class="p-6">
+       <div class="mb-4">
+         <img alt="Logo" class="inline-block" :src="logo" width="128" />
+       </div>
+@@ -51,7 +51,7 @@
+         and/or
+         <a href="https://opencollective.com/koel" rel="noopener" target="_blank">OpenCollective</a>.
+       </p>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn variant="destructive" data-testid="close-modal-btn" rounded @click.prevent="close">Close</Btn>
+diff --git a/resources/assets/js/components/playable/PlayableContextMenu.vue b/resources/assets/js/components/playable/PlayableContextMenu.vue
+index 50a94981..b1667bd6 100644
+--- a/resources/assets/js/components/playable/PlayableContextMenu.vue
++++ b/resources/assets/js/components/playable/PlayableContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <template v-if="onlyOneSelected">
+       <MenuItem @click="doPlayback">{{ firstSongPlaying ? 'Pause' : 'Play' }}</MenuItem>
+       <Separator />
+@@ -72,18 +72,6 @@
+       </template>
+     </MenuItem>
+ 
+-    <template v-if="onlyOneSelected && isSong(playables[0])">
+-      <Separator />
+-      <li
+-        tabindex="-1"
+-        class="px-4 py-2 focus:outline-hidden"
+-        @mouseover="($event.currentTarget as HTMLLIElement).focus()"
+-      >
+-        <StarRating :rateable="playables[0] as Song" @rate="closeContextMenu" />
+-      </li>
+-      <Separator />
+-    </template>
+-
+     <template v-if="isQueueScreen">
+       <Separator />
+       <MenuItem @click="removeFromQueue">Remove from Queue</MenuItem>
+@@ -141,6 +129,10 @@
+       <MenuItem @click="viewOnMusicBrainz">View on MusicBrainz</MenuItem>
+     </template>
+   </ul>
++
++  <div v-if="onlyOneSelected && isSong(playables[0])" aria-label="Rate this song" class="px-4 py-2" role="group">
++    <StarRating :rateable="playables[0] as Song" @rate="closeContextMenu" />
++  </div>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/playlist/CreatePlaylistContextMenu.vue b/resources/assets/js/components/playlist/CreatePlaylistContextMenu.vue
+index 9057325c..cb8d5b3f 100644
+--- a/resources/assets/js/components/playlist/CreatePlaylistContextMenu.vue
++++ b/resources/assets/js/components/playlist/CreatePlaylistContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="onItemClicked('new-playlist')">New Playlist…</MenuItem>
+     <MenuItem @click="onItemClicked('new-smart-playlist')">New Smart Playlist…</MenuItem>
+     <MenuItem @click="onItemClicked('new-folder')">New Folder…</MenuItem>
+diff --git a/resources/assets/js/components/playlist/CreatePlaylistFolderForm.vue b/resources/assets/js/components/playlist/CreatePlaylistFolderForm.vue
+index 4700fc76..f3405d60 100644
+--- a/resources/assets/js/components/playlist/CreatePlaylistFolderForm.vue
++++ b/resources/assets/js/components/playlist/CreatePlaylistFolderForm.vue
+@@ -4,11 +4,11 @@
+       <h1>New Playlist Folder</h1>
+     </header>
+ 
+-    <main>
++    <div>
+       <FormRow>
+         <TextInput v-model="data.name" v-koel-focus name="name" placeholder="Folder name" required />
+       </FormRow>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/playlist/CreatePlaylistForm.vue b/resources/assets/js/components/playlist/CreatePlaylistForm.vue
+index 23b95382..641e8281 100644
+--- a/resources/assets/js/components/playlist/CreatePlaylistForm.vue
++++ b/resources/assets/js/components/playlist/CreatePlaylistForm.vue
+@@ -7,7 +7,7 @@
+       </h1>
+     </header>
+ 
+-    <main>
++    <div>
+       <div class="grid grid-cols-2 gap-4">
+         <FormRow>
+           <template #label>Name *</template>
+@@ -28,7 +28,7 @@
+         </FormRow>
+         <ArtworkField v-model="data.cover">Pick or paste a cover (optional)</ArtworkField>
+       </div>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/playlist/EditPlaylistFolderForm.vue b/resources/assets/js/components/playlist/EditPlaylistFolderForm.vue
+index f6f65a9c..9f1a2d9a 100644
+--- a/resources/assets/js/components/playlist/EditPlaylistFolderForm.vue
++++ b/resources/assets/js/components/playlist/EditPlaylistFolderForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit Playlist Folder</h1>
+     </header>
+ 
+-    <main class="flex flex-col gap-4">
++    <div class="flex flex-col gap-4">
+       <FormRow>
+         <TextInput
+           v-model="data.name"
+@@ -24,7 +24,7 @@
+           </option>
+         </SelectBox>
+       </FormRow>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/playlist/EditPlaylistForm.vue b/resources/assets/js/components/playlist/EditPlaylistForm.vue
+index febfc3e2..0e69e056 100644
+--- a/resources/assets/js/components/playlist/EditPlaylistForm.vue
++++ b/resources/assets/js/components/playlist/EditPlaylistForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit Playlist</h1>
+     </header>
+ 
+-    <main>
++    <div>
+       <div class="grid grid-cols-2 gap-4">
+         <FormRow>
+           <template #label>Name *</template>
+@@ -20,7 +20,7 @@
+         </FormRow>
+         <ArtworkField v-model="data.cover">Pick or paste a cover (optional)</ArtworkField>
+       </div>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/playlist/PlaylistCollaborationModal.vue b/resources/assets/js/components/playlist/PlaylistCollaborationModal.vue
+index 64feb4f3..bf31e109 100644
+--- a/resources/assets/js/components/playlist/PlaylistCollaborationModal.vue
++++ b/resources/assets/js/components/playlist/PlaylistCollaborationModal.vue
+@@ -4,7 +4,7 @@
+       <h1>Playlist Collaboration</h1>
+     </header>
+ 
+-    <main>
++    <div>
+       <p>
+         Collaborative playlists allow multiple users to contribute. <br />
+         Note: Songs added to a collaborative playlist are made accessible to all users, and you cannot mark a song as
+@@ -20,7 +20,7 @@
+           <CollaboratorList :playlist />
+         </div>
+       </section>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn @click.prevent="close">Close</Btn>
+diff --git a/resources/assets/js/components/playlist/PlaylistContextMenu.vue b/resources/assets/js/components/playlist/PlaylistContextMenu.vue
+index c0dfe34e..77a7affa 100644
+--- a/resources/assets/js/components/playlist/PlaylistContextMenu.vue
++++ b/resources/assets/js/components/playlist/PlaylistContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="play">Play</MenuItem>
+     <MenuItem @click="shuffle">Shuffle</MenuItem>
+     <MenuItem @click="addToQueue">Add to Queue</MenuItem>
+diff --git a/resources/assets/js/components/playlist/PlaylistFolderContextMenu.vue b/resources/assets/js/components/playlist/PlaylistFolderContextMenu.vue
+index 60c2ad1e..62519f56 100644
+--- a/resources/assets/js/components/playlist/PlaylistFolderContextMenu.vue
++++ b/resources/assets/js/components/playlist/PlaylistFolderContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <template v-if="playable">
+       <MenuItem @click="play">Play All</MenuItem>
+       <MenuItem @click="shuffle">Shuffle All</MenuItem>
+diff --git a/resources/assets/js/components/playlist/smart-playlist/CreateSmartPlaylistForm.vue b/resources/assets/js/components/playlist/smart-playlist/CreateSmartPlaylistForm.vue
+index 0ed48227..30dba25d 100644
+--- a/resources/assets/js/components/playlist/smart-playlist/CreateSmartPlaylistForm.vue
++++ b/resources/assets/js/components/playlist/smart-playlist/CreateSmartPlaylistForm.vue
+@@ -4,7 +4,7 @@
+       <h1>New Smart Playlist</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <Tabs class="mt-1 -m-6">
+         <TabList>
+           <TabButton
+@@ -77,7 +77,7 @@
+           </TabPanel>
+         </TabPanelContainer>
+       </Tabs>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/playlist/smart-playlist/EditSmartPlaylistForm.vue b/resources/assets/js/components/playlist/smart-playlist/EditSmartPlaylistForm.vue
+index 38e372ed..318fad51 100644
+--- a/resources/assets/js/components/playlist/smart-playlist/EditSmartPlaylistForm.vue
++++ b/resources/assets/js/components/playlist/smart-playlist/EditSmartPlaylistForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit Smart Playlist</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <Tabs class="mt-1 -m-6">
+         <TabList>
+           <TabButton
+@@ -78,7 +78,7 @@
+           </TabPanel>
+         </TabPanelContainer>
+       </Tabs>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/podcast/AddPodcastForm.vue b/resources/assets/js/components/podcast/AddPodcastForm.vue
+index f0bd180e..95aef738 100644
+--- a/resources/assets/js/components/podcast/AddPodcastForm.vue
++++ b/resources/assets/js/components/podcast/AddPodcastForm.vue
+@@ -4,7 +4,7 @@
+       <h1>New Podcast</h1>
+     </header>
+ 
+-    <main>
++    <div>
+       <FormRow>
+         <template #label>Podcast feed URL</template>
+         <TextInput
+@@ -17,7 +17,7 @@
+           type="url"
+         />
+       </FormRow>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/podcast/EpisodeItemSkeleton.vue b/resources/assets/js/components/podcast/EpisodeItemSkeleton.vue
+index fdb78cc7..75cf0667 100644
+--- a/resources/assets/js/components/podcast/EpisodeItemSkeleton.vue
++++ b/resources/assets/js/components/podcast/EpisodeItemSkeleton.vue
+@@ -3,14 +3,14 @@
+     <aside class="flex-[0_0_128px]">
+       <div class="pulse rounded-lg aspect-square" />
+     </aside>
+-    <main class="flex-1 pt-3">
++    <div class="flex-1 pt-3">
+       <h3 class="pulse w-2/3 h-8" />
+       <div class="mt-4">
+         <div class="pulse w-full h-5 mb-2" />
+         <div class="pulse w-2/3 h-5" />
+         <div class="pulse w-1/3 h-5 mt-4" />
+       </div>
+-    </main>
++    </div>
+   </article>
+ </template>
+ 
+diff --git a/resources/assets/js/components/podcast/PodcastContextMenu.vue b/resources/assets/js/components/podcast/PodcastContextMenu.vue
+index 62953cbb..2385042c 100644
+--- a/resources/assets/js/components/podcast/PodcastContextMenu.vue
++++ b/resources/assets/js/components/podcast/PodcastContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="play">Play All</MenuItem>
+     <MenuItem @click="shuffle">Shuffle All</MenuItem>
+     <Separator />
+diff --git a/resources/assets/js/components/podcast/PodcastItem.vue b/resources/assets/js/components/podcast/PodcastItem.vue
+index af6994e6..e4cda440 100644
+--- a/resources/assets/js/components/podcast/PodcastItem.vue
++++ b/resources/assets/js/components/podcast/PodcastItem.vue
+@@ -14,7 +14,7 @@
+       <aside class="hidden md:block md:flex-[0_0_128px]">
+         <img :src="podcast.image" alt="Podcast image" class="w-[128px] aspect-square object-cover rounded-lg" />
+       </aside>
+-      <main class="flex-1">
++      <div class="flex-1">
+         <header>
+           <h3 class="text-3xl font-bold">
+             {{ podcast.title }}
+@@ -35,7 +35,7 @@
+           </p>
+         </header>
+         <div v-koel-new-tab class="description mt-3 line-clamp-3 text-k-fg-70" v-html="description" />
+-      </main>
++      </div>
+     </a>
+   </WithGradientBorder>
+ </template>
+diff --git a/resources/assets/js/components/podcast/PodcastItemSkeleton.vue b/resources/assets/js/components/podcast/PodcastItemSkeleton.vue
+index 5b828ecc..8dec9290 100644
+--- a/resources/assets/js/components/podcast/PodcastItemSkeleton.vue
++++ b/resources/assets/js/components/podcast/PodcastItemSkeleton.vue
+@@ -5,7 +5,7 @@
+     <aside class="flex-[0_0_128px]">
+       <div class="pulse aspect-square rounded-lg" />
+     </aside>
+-    <main class="flex-1">
++    <div class="flex-1">
+       <header>
+         <h3 class="pulse w-2/3 mt-4 h-8" />
+         <p class="mt-2 pulse w-1/4 h-6" />
+@@ -14,7 +14,7 @@
+         <p class="pulse w-full h-4" />
+         <p class="pulse w-1/5 h-4" />
+       </div>
+-    </main>
++    </div>
+   </article>
+ </template>
+ 
+diff --git a/resources/assets/js/components/profile-preferences/theme/CreateThemeForm.vue b/resources/assets/js/components/profile-preferences/theme/CreateThemeForm.vue
+index 6b28c4af..524f6aa8 100644
+--- a/resources/assets/js/components/profile-preferences/theme/CreateThemeForm.vue
++++ b/resources/assets/js/components/profile-preferences/theme/CreateThemeForm.vue
+@@ -10,7 +10,7 @@
+       <h1>New Theme</h1>
+     </header>
+ 
+-    <main>
++    <div>
+       <div class="grid grid-cols-[max-content_1fr] gap-x-5 gap-y-5">
+         <label for="themeName">Name</label>
+         <TextInput id="themeName" v-model="data.name" v-koel-focus placeholder="My Fancy Theme" required title="Name" />
+@@ -67,7 +67,7 @@
+           />
+         </div>
+       </div>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/profile-preferences/theme/ThemeContextMenu.vue b/resources/assets/js/components/profile-preferences/theme/ThemeContextMenu.vue
+index 8459e0e3..7700118d 100644
+--- a/resources/assets/js/components/profile-preferences/theme/ThemeContextMenu.vue
++++ b/resources/assets/js/components/profile-preferences/theme/ThemeContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="applyTheme">Apply Theme</MenuItem>
+ 
+     <template v-if="theme.is_custom">
+diff --git a/resources/assets/js/components/radio/AddRadioStationForm.vue b/resources/assets/js/components/radio/AddRadioStationForm.vue
+index 1063615f..2e93dd75 100644
+--- a/resources/assets/js/components/radio/AddRadioStationForm.vue
++++ b/resources/assets/js/components/radio/AddRadioStationForm.vue
+@@ -4,7 +4,7 @@
+       <h1>New Radio Station</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <FormRow>
+         <template #label>Name</template>
+         <TextInput v-model="data.name" v-koel-focus name="name" placeholder="My Favorite Radio Station" required />
+@@ -33,7 +33,7 @@
+           <span class="ml-2">Accessible to all users</span>
+         </label>
+       </FormRow>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/radio/EditRadioStationForm.vue b/resources/assets/js/components/radio/EditRadioStationForm.vue
+index 3f30e1c1..3cb8d5b6 100644
+--- a/resources/assets/js/components/radio/EditRadioStationForm.vue
++++ b/resources/assets/js/components/radio/EditRadioStationForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit Radio Station</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <FormRow>
+         <template #label>Name</template>
+         <TextInput v-model="data.name" v-koel-focus name="name" placeholder="My Favorite Radio Station" required />
+@@ -33,7 +33,7 @@
+           <span class="ml-2">Accessible to all users</span>
+         </label>
+       </FormRow>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/radio/RadioStationContextMenu.vue b/resources/assets/js/components/radio/RadioStationContextMenu.vue
+index e8630d82..09ca4af6 100644
+--- a/resources/assets/js/components/radio/RadioStationContextMenu.vue
++++ b/resources/assets/js/components/radio/RadioStationContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <MenuItem @click="togglePlayback">
+       {{ station.playback_state === 'Playing' ? 'Stop' : 'Play' }}
+     </MenuItem>
+diff --git a/resources/assets/js/components/screens/AlbumScreen.vue b/resources/assets/js/components/screens/AlbumScreen.vue
+index 55575b1b..903f9781 100644
+--- a/resources/assets/js/components/screens/AlbumScreen.vue
++++ b/resources/assets/js/components/screens/AlbumScreen.vue
+@@ -48,7 +48,7 @@
+ 
+     <ScreenTabs v-if="album" class="-m-6" :class="loading && 'pointer-events-none'">
+       <template #header>
+-        <nav>
++        <nav aria-label="Album sections">
+           <ul>
+             <li :class="activeTab === 'songs' && 'active'">
+               <a :href="url('albums.show', { id: album.id, tab: 'songs' })">Songs</a>
+@@ -234,4 +234,8 @@ eventBus.on('SONGS_UPDATED', result => {
+ .screen-header :deep(.play-icon) {
+   @apply scale-[2];
+ }
++
++a.artist {
++  @apply underline underline-offset-2;
++}
+ </style>
+diff --git a/resources/assets/js/components/screens/ArtistScreen.vue b/resources/assets/js/components/screens/ArtistScreen.vue
+index 1fbb837a..6696cd42 100644
+--- a/resources/assets/js/components/screens/ArtistScreen.vue
++++ b/resources/assets/js/components/screens/ArtistScreen.vue
+@@ -42,7 +42,7 @@
+ 
+     <ScreenTabs v-if="artist" class="-m-6" :class="loading && 'pointer-events-none'">
+       <template #header>
+-        <nav>
++        <nav aria-label="Artist sections">
+           <ul>
+             <li :class="activeTab === 'songs' && 'active'">
+               <a :href="url('artists.show', { id: artist.id, tab: 'songs' })">Songs</a>
+diff --git a/resources/assets/js/components/screens/PodcastListScreen.vue b/resources/assets/js/components/screens/PodcastListScreen.vue
+index d58b7d93..5eba1d1e 100644
+--- a/resources/assets/js/components/screens/PodcastListScreen.vue
++++ b/resources/assets/js/components/screens/PodcastListScreen.vue
+@@ -28,7 +28,7 @@
+ 
+             <ListFilter />
+             <BtnGroup uppercase>
+-              <Btn variant="highlight" @click.prevent="requestAddPodcastForm">
++              <Btn v-koel-tooltip variant="highlight" title="Add podcast" @click.prevent="requestAddPodcastForm">
+                 <Icon :icon="faAdd" fixed-width />
+               </Btn>
+             </BtnGroup>
+diff --git a/resources/assets/js/components/screens/ProfileScreen.vue b/resources/assets/js/components/screens/ProfileScreen.vue
+index 96db3fe4..2ddbf151 100644
+--- a/resources/assets/js/components/screens/ProfileScreen.vue
++++ b/resources/assets/js/components/screens/ProfileScreen.vue
+@@ -62,7 +62,7 @@
+         >
+           {{ tab.label }}
+         </TabButton>
+-        <TabButton :selected="currentTab === 'qr'" aria-controls="profilePaneQr" @click="currentTab = 'qr'">
++        <TabButton :selected="currentTab === 'qr'" aria-controls="profilePaneQr" aria-label="Show QR code" @click="currentTab = 'qr'">
+           <QrCodeIcon :size="16" />
+         </TabButton>
+       </TabList>
+@@ -102,10 +102,10 @@
+         </TabPanel>
+ 
+         <TabPanel v-if="currentTab === 'security'" id="profilePaneSecurity" aria-labelledby="profilePaneSecurity">
+-          <main class="space-y-6">
++          <div class="space-y-6">
+             <ChangePasswordForm />
+             <TwoFactorAuthSettings />
+-          </main>
++          </div>
+         </TabPanel>
+ 
+         <template v-for="tab in addedTabs" :key="tab.id">
+diff --git a/resources/assets/js/components/screens/ScreenBase.vue b/resources/assets/js/components/screens/ScreenBase.vue
+index 7e4fbfe4..30b8f09a 100644
+--- a/resources/assets/js/components/screens/ScreenBase.vue
++++ b/resources/assets/js/components/screens/ScreenBase.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <section class="max-h-full min-h-full w-full flex flex-col transform-gpu overflow-hidden">
++  <div class="max-h-full min-h-full w-full flex flex-col transform-gpu overflow-hidden">
+     <div
+       v-if="backgroundImage"
+       class="cover-bg"
+@@ -12,7 +12,7 @@
+       <HookSlot :context="{ screen: getCurrentScreen() }" name="screen.header" />
+       <slot />
+     </main>
+-  </section>
++  </div>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/screens/UploadScreen.vue b/resources/assets/js/components/screens/UploadScreen.vue
+index 9b82e6b8..1827cd32 100644
+--- a/resources/assets/js/components/screens/UploadScreen.vue
++++ b/resources/assets/js/components/screens/UploadScreen.vue
+@@ -68,7 +68,7 @@
+         {{ canDropFolders ? 'Drop files or folders to upload' : 'Drop files to upload' }}
+ 
+         <span class="secondary block">
+-          <a class="block relative text-k-fg-70! hover:text-k-fg!" role="button">
++          <label class="block relative text-k-fg-70! hover:text-k-fg! cursor-pointer">
+             or click here to select songs
+             <input
+               :accept="acceptAttribute"
+@@ -78,7 +78,7 @@
+               type="file"
+               @change="onFileInputChange"
+             />
+-          </a>
++          </label>
+         </span>
+       </ScreenEmptyState>
+     </div>
+diff --git a/resources/assets/js/components/screens/VisualizerScreen.vue b/resources/assets/js/components/screens/VisualizerScreen.vue
+index c9307f47..9944c2b4 100644
+--- a/resources/assets/js/components/screens/VisualizerScreen.vue
++++ b/resources/assets/js/components/screens/VisualizerScreen.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <section
++  <main
+     id="vizContainer"
+     ref="container"
+     :class="{ fullscreen: isFullscreen, 'cursor-none': isFullscreen && controlsHidden }"
+@@ -11,17 +11,22 @@
+       :class="{ 'hover:opacity-100': !isFullscreen, 'show-controls': !controlsHidden && isFullscreen }"
+     >
+       <div v-if="selectedVisualizer" class="absolute bottom-8 left-8 px-6 py-4 bg-black/30 rounded-md">
+-        <h3 class="text-lg mb-2">{{ selectedVisualizer.name }}</h3>
++        <h1 class="text-lg mb-2">{{ selectedVisualizer.name }}</h1>
+         <p v-if="selectedVisualizer.credits">
+           by {{ selectedVisualizer.credits.author }}
+-          <a :href="selectedVisualizer.credits.url" class="ml-2" target="_blank">
++          <a
++            :href="selectedVisualizer.credits.url"
++            :aria-label="`Visit ${selectedVisualizer.credits.author}'s site`"
++            class="ml-2"
++            target="_blank"
++          >
+             <Icon :icon="faUpRightFromSquare" />
+           </a>
+         </p>
+       </div>
+ 
+       <div class="absolute bottom-8 right-8 border border-white/30 rounded-md">
+-        <SelectBox v-model="selectedId" class="bg-black/20! text-white! block">
++        <SelectBox v-model="selectedId" label="Visualizer" class="bg-black/20! text-white! block">
+           <option disabled value="-1">Pick a visualizer</option>
+           <option v-for="v in visualizers" :key="v.id" :value="v.id">{{ v.name }}</option>
+         </SelectBox>
+@@ -29,7 +34,7 @@
+     </div>
+ 
+     <div ref="el" class="viz h-full w-full absolute z-0" />
+-  </section>
++  </main>
+ </template>
+ 
+ <script lang="ts" setup>
+diff --git a/resources/assets/js/components/screens/home/HomeScreenBlock.vue b/resources/assets/js/components/screens/home/HomeScreenBlock.vue
+index dc114b99..91f685e3 100644
+--- a/resources/assets/js/components/screens/home/HomeScreenBlock.vue
++++ b/resources/assets/js/components/screens/home/HomeScreenBlock.vue
+@@ -1,9 +1,9 @@
+ <template>
+   <div class="pt-6">
+     <header class="flex items-center justify-between gap-3 mb-8">
+-      <h3 class="text-2xl font-thin text-k-fg min-w-0">
++      <h2 class="text-2xl font-thin text-k-fg min-w-0">
+         <slot name="header" />
+-      </h3>
++      </h2>
+       <div ref="actionsEl" class="flex items-center gap-2 shrink-0">
+         <slot name="actions" />
+       </div>
+diff --git a/resources/assets/js/components/screens/home/ReorderBlocksModal.vue b/resources/assets/js/components/screens/home/ReorderBlocksModal.vue
+index 8655c79d..23e58735 100644
+--- a/resources/assets/js/components/screens/home/ReorderBlocksModal.vue
++++ b/resources/assets/js/components/screens/home/ReorderBlocksModal.vue
+@@ -10,7 +10,7 @@
+       <h1>Reorder Home Blocks</h1>
+     </header>
+ 
+-    <main class="space-y-1">
++    <div class="space-y-1">
+       <div
+         v-for="block in orderedBlocks"
+         :key="block.id"
+@@ -25,7 +25,7 @@
+         <GripVerticalIcon class="w-4 h-4 text-k-fg-50" />
+         {{ block.label }}
+       </div>
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn @click.prevent="close">Close</Btn>
+diff --git a/resources/assets/js/components/ui/ArtistAlbumScreenTabs.vue b/resources/assets/js/components/ui/ArtistAlbumScreenTabs.vue
+index d9217bc0..8c0a8a81 100644
+--- a/resources/assets/js/components/ui/ArtistAlbumScreenTabs.vue
++++ b/resources/assets/js/components/ui/ArtistAlbumScreenTabs.vue
+@@ -3,9 +3,9 @@
+     <header>
+       <slot name="header" />
+     </header>
+-    <main>
++    <div>
+       <slot />
+-    </main>
++    </div>
+   </div>
+ </template>
+ 
+diff --git a/resources/assets/js/components/ui/Carousel.vue b/resources/assets/js/components/ui/Carousel.vue
+index a45b5fe9..518cab5b 100644
+--- a/resources/assets/js/components/ui/Carousel.vue
++++ b/resources/assets/js/components/ui/Carousel.vue
+@@ -14,7 +14,7 @@
+       </button>
+     </Teleport>
+ 
+-    <nav v-else-if="hasOverflow" class="flex justify-end gap-2 mb-2">
++    <div v-else-if="hasOverflow" class="flex justify-end gap-2 mb-2">
+       <button
+         v-for="ctrl in controls"
+         :key="ctrl.title"
+@@ -26,7 +26,7 @@
+         <Icon :icon="ctrl.icon" />
+         <span class="sr-only">{{ ctrl.title }}</span>
+       </button>
+-    </nav>
++    </div>
+ 
+     <div
+       ref="scroller"
+diff --git a/resources/assets/js/components/ui/DialogBox.vue b/resources/assets/js/components/ui/DialogBox.vue
+index da751a21..a1cb82d8 100644
+--- a/resources/assets/js/components/ui/DialogBox.vue
++++ b/resources/assets/js/components/ui/DialogBox.vue
+@@ -15,10 +15,10 @@
+         </i>
+       </aside>
+ 
+-      <main>
++      <div>
+         <h3 v-if="title" class="text-2xl mb-4">{{ title }}</h3>
+         <div class="mt-2">{{ message }}</div>
+-      </main>
++      </div>
+     </div>
+ 
+     <footer class="flex justify-end gap-2 px-6 py-4 bg-k-fg-3">
+diff --git a/resources/assets/js/components/ui/ScreenHeader.vue b/resources/assets/js/components/ui/ScreenHeader.vue
+index 38988531..a5456f3d 100644
+--- a/resources/assets/js/components/ui/ScreenHeader.vue
++++ b/resources/assets/js/components/ui/ScreenHeader.vue
+@@ -3,11 +3,11 @@
+     :class="[layout, disabled ? 'disabled' : '']"
+     class="screen-header gap-4 min-h-0 md:min-h-full flex items-end shrink-0 relative content-stretch leading-normal p-6 border-b border-b-k-fg-5"
+   >
+-    <aside v-if="$slots.thumbnail" class="thumbnail-wrapper hidden md:flex items-end overflow-hidden rounded-md">
++    <div v-if="$slots.thumbnail" class="thumbnail-wrapper hidden md:flex items-end overflow-hidden rounded-md">
+       <slot name="thumbnail" />
+-    </aside>
++    </div>
+ 
+-    <main class="flex flex-1 gap-5 items-center overflow-hidden">
++    <div class="flex flex-1 gap-5 items-center overflow-hidden">
+       <div class="w-full flex-1 overflow-hidden">
+         <h1 class="name text-k-fg mr-4 font-thin md:font-bold my-0 leading-tight overflow-hidden">
+           <MarqueeText hover-only :speed="70">
+@@ -20,7 +20,7 @@
+       </div>
+ 
+       <slot name="controls" />
+-    </main>
++    </div>
+   </header>
+ </template>
+ 
+diff --git a/resources/assets/js/components/ui/ScreenHeaderSkeleton.vue b/resources/assets/js/components/ui/ScreenHeaderSkeleton.vue
+index 4bb2f969..d7e3579b 100644
+--- a/resources/assets/js/components/ui/ScreenHeaderSkeleton.vue
++++ b/resources/assets/js/components/ui/ScreenHeaderSkeleton.vue
+@@ -4,10 +4,10 @@
+   >
+     <aside class="hidden md:block w-[192px] aspect-square rounded-lg pulse" />
+ 
+-    <main class="flex flex-col items-start flex-1 gap-3 md:gap-5">
++    <div class="flex flex-col items-start flex-1 gap-3 md:gap-5">
+       <h1 class="h-[clamp(1.8rem,3vw,4rem)] w-4/5 pulse" />
+       <p class="meta h-[1.2rem] w-2/5 pulse" />
+       <p class="controls h-8 md:h-10 rounded-sm w-1/3 md:w-1/4 pulse" />
+-    </main>
++    </div>
+   </header>
+ </template>
+diff --git a/resources/assets/js/components/ui/VolumeSlider.vue b/resources/assets/js/components/ui/VolumeSlider.vue
+index bd2a108c..f7d9161b 100644
+--- a/resources/assets/js/components/ui/VolumeSlider.vue
++++ b/resources/assets/js/components/ui/VolumeSlider.vue
+@@ -14,6 +14,7 @@
+       max="10"
+       role="slider"
+       step="0.1"
++      v-koel-tooltip
+       title="Volume"
+       type="range"
+       @input="setVolume"
+diff --git a/resources/assets/js/components/ui/album-artist/AlbumOrArtistInfo.vue b/resources/assets/js/components/ui/album-artist/AlbumOrArtistInfo.vue
+index c6d88be0..24528572 100644
+--- a/resources/assets/js/components/ui/album-artist/AlbumOrArtistInfo.vue
++++ b/resources/assets/js/components/ui/album-artist/AlbumOrArtistInfo.vue
+@@ -8,9 +8,9 @@
+         <slot name="art" />
+       </article>
+ 
+-      <main>
++      <div>
+         <slot />
+-      </main>
++      </div>
+ 
+       <footer v-if="$slots.footer" class="mt-6 text-right text-[0.95rem]">
+         <slot name="footer" />
+diff --git a/resources/assets/js/components/ui/context-menu/ContextMenu.vue b/resources/assets/js/components/ui/context-menu/ContextMenu.vue
+index 61b80a75..597078cb 100644
+--- a/resources/assets/js/components/ui/context-menu/ContextMenu.vue
++++ b/resources/assets/js/components/ui/context-menu/ContextMenu.vue
+@@ -4,8 +4,9 @@
+     v-koel-focus
+     :class="extraClass"
+     class="menu context-menu select-none shadow-sm overflow-visible fixed inset-auto m-0"
++    aria-label="Context menu"
+     popover="manual"
+-    role="menu"
++    role="dialog"
+     tabindex="0"
+     style="left: -9999px; top: -9999px"
+     @contextmenu.prevent
+diff --git a/resources/assets/js/components/ui/context-menu/ContextMenuItem.vue b/resources/assets/js/components/ui/context-menu/ContextMenuItem.vue
+index dcf41a37..1656278b 100644
+--- a/resources/assets/js/components/ui/context-menu/ContextMenuItem.vue
++++ b/resources/assets/js/components/ui/context-menu/ContextMenuItem.vue
+@@ -1,6 +1,8 @@
+ <template>
+   <li
+     ref="el"
++    role="menuitem"
++    :aria-haspopup="hasSubMenuItems ? 'menu' : undefined"
+     :class="cssClasses"
+     class="focus:outline-hidden focus:bg-k-highlight focus:text-k-highlight-fg hover:bg-k-highlight hover:text-k-highlight-fg"
+     tabindex="-1"
+@@ -15,7 +17,7 @@
+       <slot />
+     </span>
+ 
+-    <ul v-if="hasSubMenuItems" class="context-menu submenu" tabindex="-1">
++    <ul v-if="hasSubMenuItems" class="context-menu submenu" role="menu" tabindex="-1">
+       <slot name="subMenuItems" />
+     </ul>
+ 
+diff --git a/resources/assets/js/components/ui/context-menu/ContextMenuSeparator.vue b/resources/assets/js/components/ui/context-menu/ContextMenuSeparator.vue
+index c80a88b1..4f054a3f 100644
+--- a/resources/assets/js/components/ui/context-menu/ContextMenuSeparator.vue
++++ b/resources/assets/js/components/ui/context-menu/ContextMenuSeparator.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <li class="separator" />
++  <li class="separator" role="separator" />
+ </template>
+ 
+ <style scoped>
+diff --git a/resources/assets/js/components/ui/equalizer/Equalizer.vue b/resources/assets/js/components/ui/equalizer/Equalizer.vue
+index b7063bc3..f31af8c2 100644
+--- a/resources/assets/js/components/ui/equalizer/Equalizer.vue
++++ b/resources/assets/js/components/ui/equalizer/Equalizer.vue
+@@ -9,9 +9,9 @@
+       @delete="confirmDelete"
+     />
+ 
+-    <main>
++    <div>
+       <EqualizerBands ref="bandsRef" :bands="bands" @user-change="onUserChange" @commit="save" />
+-    </main>
++    </div>
+ 
+     <footer class="border-t-k-fg-5">
+       <Btn @click.prevent="close">Close</Btn>
+diff --git a/resources/assets/js/components/ui/equalizer/EqualizerBand.vue b/resources/assets/js/components/ui/equalizer/EqualizerBand.vue
+index ac2a4235..32b297d7 100644
+--- a/resources/assets/js/components/ui/equalizer/EqualizerBand.vue
++++ b/resources/assets/js/components/ui/equalizer/EqualizerBand.vue
+@@ -1,14 +1,14 @@
+ <template>
+   <article class="flex flex-col items-center min-w-[24px]">
+     <span ref="sliderEl" class="slider h-[100px]" />
+-    <label class="mt-2 mb-0 text-left text-sm text-k-fg">
++    <label :id="labelId" class="mt-2 mb-0 text-left text-sm text-k-fg">
+       <slot />
+     </label>
+   </article>
+ </template>
+ 
+ <script lang="ts" setup>
+-import { computed, onMounted, ref } from 'vue'
++import { computed, onMounted, ref, useId } from 'vue'
+ import noUiSlider from 'nouislider'
+ 
+ const props = withDefaults(
+@@ -28,6 +28,7 @@ const emit = defineEmits<{
+ }>()
+ 
+ const sliderEl = ref<EqualizerBandElement>()
++const labelId = `eq-band-${useId()}`
+ 
+ const value = computed({
+   get: () => props.modelValue,
+@@ -52,8 +53,11 @@ onMounted(() => {
+     range: { min: -20, max: 20 },
+     orientation: 'vertical',
+     direction: 'rtl',
++
+   })
+ 
++  sliderEl.value!.querySelector('.noUi-handle')?.setAttribute('aria-labelledby', labelId)
++
+   sliderEl.value!.noUiSlider.on('slide', (values, handle) => {
+     emit('update:modelValue', Number.parseFloat(values[handle]))
+   })
+diff --git a/resources/assets/js/components/ui/equalizer/EqualizerHeader.vue b/resources/assets/js/components/ui/equalizer/EqualizerHeader.vue
+index 4873503b..8761d25f 100644
+--- a/resources/assets/js/components/ui/equalizer/EqualizerHeader.vue
++++ b/resources/assets/js/components/ui/equalizer/EqualizerHeader.vue
+@@ -2,6 +2,7 @@
+   <header class="flex gap-2 items-center">
+     <template v-if="!saveDialogOpen">
+       <SelectBox
++        label="Equalizer preset"
+         :model-value="selectedId"
+         class="bg-black/30! text-white!"
+         title="Select equalizer"
+diff --git a/resources/assets/js/components/ui/form/Btn.vue b/resources/assets/js/components/ui/form/Btn.vue
+index 134eed99..dd7e7d89 100644
+--- a/resources/assets/js/components/ui/form/Btn.vue
++++ b/resources/assets/js/components/ui/form/Btn.vue
+@@ -4,7 +4,7 @@
+     ref="button"
+     :data-variant="variant"
+     :data-size="size"
+-    class="text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer"
++    class="text-base text-white border border-transparent px-3.5 py-2 rounded-sm cursor-pointer"
+     type="button"
+   >
+     <slot>Click me</slot>
+@@ -14,7 +14,7 @@
+     ref="button"
+     :data-variant="variant"
+     :data-size="size"
+-    class="text-base text-white border border-transparent bg-k-primary px-3.5 py-2 rounded-sm cursor-pointer"
++    class="text-base text-white border border-transparent px-3.5 py-2 rounded-sm cursor-pointer"
+   >
+     <slot>Click me</slot>
+   </a>
+@@ -45,6 +45,8 @@ defineExpose({
+  */
+ button,
+ a {
++  background-color: var(--color-primary-btn);
++
+   &:not([disabled]):hover {
+     box-shadow: inset 0 0 0 10rem rgba(0, 0, 0, 0.1);
+   }
+@@ -62,7 +64,8 @@ a {
+   }
+ 
+   &[data-variant='success'] {
+-    @apply bg-k-success text-white;
++    @apply text-white;
++    background-color: var(--color-success-btn);
+   }
+ 
+   &[data-variant='ghost'] {
+@@ -74,7 +77,8 @@ a {
+   }
+ 
+   &[data-variant='highlight'] {
+-    @apply bg-k-highlight text-k-highlight-fg;
++    @apply text-k-highlight-fg;
++    background-color: var(--color-highlight-btn);
+   }
+ 
+   &[rounded] {
+diff --git a/resources/assets/js/components/ui/form/SelectBox.vue b/resources/assets/js/components/ui/form/SelectBox.vue
+index c37d85a3..3ad3a16d 100644
+--- a/resources/assets/js/components/ui/form/SelectBox.vue
++++ b/resources/assets/js/components/ui/form/SelectBox.vue
+@@ -1,6 +1,6 @@
+ <template>
+   <div class="relative bg-k-bg-input text-k-fg-input rounded-sm border border-k-fg-10">
+-    <select ref="el" v-model="value" class="appearance-none w-full pl-3.5 pr-8 py-2 text-base text-current">
++    <select ref="el" v-model="value" :aria-label="label" class="appearance-none w-full pl-3.5 pr-8 py-2 text-base text-current">
+       <slot />
+     </select>
+     <Icon :icon="faCaretDown" class="text-k-highlight pointer-events-none absolute top-1/3 right-[8px]" size="sm" />
+@@ -11,6 +11,8 @@
+ import { ref } from 'vue'
+ import { faCaretDown } from '@fortawesome/free-solid-svg-icons'
+ 
++withDefaults(defineProps<{ label?: string }>(), { label: undefined })
++
+ const value = defineModel<any>()
+ 
+ const el = ref<HTMLInputElement>()
+diff --git a/resources/assets/js/components/ui/message-toaster/MessageToast.vue b/resources/assets/js/components/ui/message-toaster/MessageToast.vue
+index 68ecfd43..e9e5b3f9 100644
+--- a/resources/assets/js/components/ui/message-toaster/MessageToast.vue
++++ b/resources/assets/js/components/ui/message-toaster/MessageToast.vue
+@@ -10,7 +10,7 @@
+     <aside class="flex items-center px-3 py-0 bg-black/10">
+       <Icon :icon="hovering ? faTimesCircle : typeIcon" />
+     </aside>
+-    <main class="flex-1 py-2 pl-3 pr-4">{{ message.content }}</main>
++    <div class="flex-1 py-2 pl-3 pr-4">{{ message.content }}</div>
+   </article>
+ </template>
+ 
+diff --git a/resources/assets/js/components/user/AddUserForm.vue b/resources/assets/js/components/user/AddUserForm.vue
+index 3902ee45..f28f5b56 100644
+--- a/resources/assets/js/components/user/AddUserForm.vue
++++ b/resources/assets/js/components/user/AddUserForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Add New User</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <FormRow>
+         <template #label>Name</template>
+         <TextInput v-model="data.name" v-koel-focus name="name" required />
+@@ -19,7 +19,7 @@
+         <template #help>Min. 10 characters. Should be a mix of characters, numbers, and symbols.</template>
+       </FormRow>
+       <RolePicker v-model="data.role" />
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn :disabled="loading" class="btn-add" type="submit">Save</Btn>
+diff --git a/resources/assets/js/components/user/EditUserForm.vue b/resources/assets/js/components/user/EditUserForm.vue
+index 347e1d86..b8227721 100644
+--- a/resources/assets/js/components/user/EditUserForm.vue
++++ b/resources/assets/js/components/user/EditUserForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Edit User</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <AlertBox v-if="user.sso_provider" type="info">
+         This user logs in via SSO by {{ user.sso_provider }}.<br />
+       </AlertBox>
+@@ -35,7 +35,7 @@
+         <template #help>Min. 10 characters. Should be a mix of characters, numbers, and symbols.</template>
+       </FormRow>
+       <RolePicker v-model="data.role" />
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn class="btn-update" type="submit">Update</Btn>
+diff --git a/resources/assets/js/components/user/InviteUserForm.vue b/resources/assets/js/components/user/InviteUserForm.vue
+index b185254d..8363a7e9 100644
+--- a/resources/assets/js/components/user/InviteUserForm.vue
++++ b/resources/assets/js/components/user/InviteUserForm.vue
+@@ -4,7 +4,7 @@
+       <h1>Invite Users</h1>
+     </header>
+ 
+-    <main class="space-y-5">
++    <div class="space-y-5">
+       <FormRow>
+         <template #label>Emails</template>
+         <TextArea
+@@ -19,7 +19,7 @@
+         <template #help>To invite multiple users, input one email per line.</template>
+       </FormRow>
+       <RolePicker v-model="data.role" />
+-    </main>
++    </div>
+ 
+     <footer>
+       <Btn class="btn-add" type="submit">Invite</Btn>
+diff --git a/resources/assets/js/components/user/UserCard.vue b/resources/assets/js/components/user/UserCard.vue
+index 0ac0575b..de503de1 100644
+--- a/resources/assets/js/components/user/UserCard.vue
++++ b/resources/assets/js/components/user/UserCard.vue
+@@ -13,8 +13,8 @@
+     >
+       <UserAvatar :user width="48" />
+ 
+-      <main class="flex flex-col justify-between relative flex-1 gap-1">
+-        <h3 class="font-medium flex gap-2 items-center text-k-fg">
++      <div class="flex flex-col justify-between relative flex-1 gap-1">
++        <h2 class="font-medium flex gap-2 items-center text-k-fg">
+           <span v-if="user.name" class="name">{{ user.name }}</span>
+           <span v-else class="name font-light">Anonymous</span>
+           <Icon v-if="isCurrentUser" :icon="faCircleCheck" class="you text-k-highlight" title="This is you!" />
+@@ -32,10 +32,10 @@
+             title="Google SSO"
+             width="14"
+           />
+-        </h3>
++        </h2>
+ 
+         <p>{{ user.email }}</p>
+-      </main>
++      </div>
+ 
+       <Btn size="small" variant="highlight" v-if="isCurrentUser" :href="url('profile')" tag="a">Your Profile</Btn>
+ 
+diff --git a/resources/assets/js/components/user/UserContextMenu.vue b/resources/assets/js/components/user/UserContextMenu.vue
+index da99a78a..2adc3b70 100644
+--- a/resources/assets/js/components/user/UserContextMenu.vue
++++ b/resources/assets/js/components/user/UserContextMenu.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <ul>
++  <ul role="menu">
+     <template v-if="allowEdit">
+       <MenuItem @click="edit">Edit…</MenuItem>
+     </template>
+diff --git a/resources/assets/js/config/routes.ts b/resources/assets/js/config/routes.ts
+index 73738539..1fbc1e62 100644
+--- a/resources/assets/js/config/routes.ts
++++ b/resources/assets/js/config/routes.ts
+@@ -2,6 +2,7 @@ import type { Route } from '@/router'
+ import { cache } from '@/services/cache'
+ import { canUploadFromThisDevice } from '@/utils/uploadAccess'
+ import { usePolicies } from '@/composables/usePolicies'
++import { commonStore } from '@/stores/commonStore'
+ 
+ const UUID_REGEX = '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'
+ const ULID_REGEX = '[0-9A-Za-z]{26}'
+@@ -93,6 +94,9 @@ export const routes = [
+     name: 'youtube',
+     path: '/youtube',
+     screen: 'YouTube',
++    meta: {
++      guard: () => commonStore.state.uses_you_tube,
++    },
+   },
+   {
+     name: 'profile',
+@@ -236,6 +240,9 @@ export const routes = [
+     constraints: {
+       folder: UUID_REGEX,
+     },
++    meta: {
++      guard: () => commonStore.state.uses_media_browser,
++    },
+   },
+   {
+     name: 'embed',
+diff --git a/resources/assets/js/directives/tooltip.ts b/resources/assets/js/directives/tooltip.ts
+index ce1067e8..00ed675e 100644
+--- a/resources/assets/js/directives/tooltip.ts
++++ b/resources/assets/js/directives/tooltip.ts
+@@ -16,6 +16,10 @@ const getOrCreateTooltip = (el: ElementWithTooltip): HTMLElement => {
+ 
+   el.$tooltip = document.createElement('div')
+   el.$tooltip.classList.add('tooltip')
++  // Purely presentational duplicate of the trigger's accessible name/description
++  // (kept in aria-* — see init()). Excluding it from the a11y tree also keeps
++  // these body-level elements from violating landmark containment rules.
++  el.$tooltip.setAttribute('aria-hidden', 'true')
+ 
+   const arrow = document.createElement('div')
+   arrow.classList.add('tooltip-arrow')
+@@ -41,6 +45,19 @@ const init = (el: ElementWithTooltip, binding: DirectiveBinding) => {
+   if (el.title) {
+     el.setAttribute('data-title', el.title)
+     el.removeAttribute('title')
++
++    // Moving `title` to `data-title` (for the styled tooltip) must not strip
++    // the element's accessible name. Icon-only triggers get aria-label;
++    // elements with visible text keep their text as the name and the title
++    // becomes aria-description (label-in-name compliant).
++    if (!el.hasAttribute('aria-label')) {
++      const visibleText = (el.textContent || '').trim()
++      if (visibleText) {
++        el.setAttribute('aria-description', el.getAttribute('data-title')!)
++      } else {
++        el.setAttribute('aria-label', el.getAttribute('data-title')!)
++      }
++    }
+   }
+ 
+   const $arrow = $tooltip.querySelector<HTMLDivElement>('.tooltip-arrow')!
+diff --git a/resources/assets/js/router.ts b/resources/assets/js/router.ts
+index 8346cbff..5887d36c 100644
+--- a/resources/assets/js/router.ts
++++ b/resources/assets/js/router.ts
+@@ -6,6 +6,7 @@ import { Filter } from '@/config/hooks'
+ import { applyFilters } from '@/hooks'
+ import { forceReloadWindow } from '@/utils/helpers'
+ import { basePath, toClientPath, usesCleanUrls } from '@/utils/clientUrl'
++import { userStore } from '@/stores/userStore'
+ 
+ type RouteParams = Record<string, string>
+ type ResolvedHook = (params: RouteParams) => Promise<boolean | void> | boolean | void
+@@ -204,6 +205,14 @@ export default class Router {
+ 
+     route.meta?.onResolve?.(params)
+ 
++    // Guards are only reliable after initialization: policies and feature
++    // flags (uses_media_browser…) are not loaded yet on a cold resolve —
++    // App.vue rechecks the guard in onInitSuccess for that first activation.
++    if (route.meta?.guard && userStore.state.current?.id && route.meta.guard() === false) {
++      this.triggerNotFound()
++      return route
++    }
++
+     if (route.meta?.redirect) {
+       const to = route.meta.redirect(params)
+       typeof to === 'string' ? Router.go(to) : this.activateRoute(to, params)

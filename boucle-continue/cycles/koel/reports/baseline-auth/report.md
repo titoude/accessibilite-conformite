@@ -1,0 +1,1142 @@
+# Audit accessibilité — 2026-10-08
+
+**13 règle(s) violée(s), 924 occurrence(s), 23/23 scénario(s) audité(s), 0 erreur(s), 622 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `505f80723dfa`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/queue
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/songs
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/albums
+  - `button[data-variant="ghost"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/artists
+  - `button[data-variant="ghost"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/genres
+  - `button[data-title="Filter"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `button[data-title="Filter"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `button[data-title="Filter"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `button[data-variant="success"]`
+  - `button[data-title="Filter"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - … +2 autres
+- http://localhost:9049/#/favorites
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/recently-played
+  - `button[data-title="Filter"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/search
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/settings
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/users
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/profile
+  - `button[aria-controls="profilePaneQr"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - … +1 autres
+- http://localhost:9049/#/upload
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/youtube
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/radio/stations
+  - `button[data-variant="ghost"]`
+  - `button[data-title="Filter"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.equalizer`
+  - … +2 autres
+- http://localhost:9049/#/podcasts
+  - `button[data-variant="ghost"]`
+  - `button[data-title="Filter"]`
+  - `button[data-variant="highlight"]`
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - … +3 autres
+- http://localhost:9049/#/browse
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/offline-songs
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+- http://localhost:9049/#/visualizer
+  - `button[data-v-b95c4cfb=""][type="button"]:nth-child(1)`
+  - `button[data-title="Play previous in queue"]`
+  - `.w-12\!`
+  - `button[data-title="Play next in queue"]`
+  - `button[data-testid="repeat-mode-switch"]`
+  - `.queue-btn`
+  - `.visualizer-btn`
+  - `.active`
+  - `button[data-title="Mute"]`
+  - `button[data-title="Enter fullscreen mode"]`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:9049/#/upload
+  - `input[multiple=""]`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://localhost:9049/#/visualizer
+  - `select`
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-title-only?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `.volume-slider`
+- http://localhost:9049/#/queue
+  - `.volume-slider`
+- http://localhost:9049/#/songs
+  - `.volume-slider`
+- http://localhost:9049/#/albums
+  - `.volume-slider`
+- http://localhost:9049/#/artists
+  - `.volume-slider`
+- http://localhost:9049/#/genres
+  - `.volume-slider`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.volume-slider`
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.volume-slider`
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.volume-slider`
+- http://localhost:9049/#/favorites
+  - `.volume-slider`
+- http://localhost:9049/#/recently-played
+  - `.volume-slider`
+- http://localhost:9049/#/search
+  - `.volume-slider`
+- http://localhost:9049/#/settings
+  - `.volume-slider`
+- http://localhost:9049/#/users
+  - `.volume-slider`
+- http://localhost:9049/#/profile
+  - `.volume-slider`
+- http://localhost:9049/#/upload
+  - `.volume-slider`
+- http://localhost:9049/#/youtube
+  - `.volume-slider`
+- http://localhost:9049/#/radio/stations
+  - `.volume-slider`
+- http://localhost:9049/#/podcasts
+  - `.volume-slider`
+- http://localhost:9049/#/browse
+  - `.volume-slider`
+- http://localhost:9049/#/offline-songs
+  - `.volume-slider`
+- http://localhost:9049/#/visualizer
+  - `.volume-slider`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/queue
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/songs
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/albums
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/artists
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/genres
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/favorites
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/recently-played
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/search
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/settings
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/users
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/profile
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/upload
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/youtube
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/radio/stations
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/podcasts
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/browse
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/offline-songs
+  - `a[href$="/#/home"]`
+- http://localhost:9049/#/visualizer
+  - `a[href$="/#/home"]`
+  - `.ml-2`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:9049/#/queue
+  - `.start`
+- http://localhost:9049/#/settings
+  - `button[data-testid="submit"]`
+- http://localhost:9049/#/users
+  - `button[data-variant="success"]`
+- http://localhost:9049/#/profile
+  - `.btn-submit`
+
+## [SERIOUS] nested-interactive — Interactive controls must not be nested
+
+Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
+Référence : https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI
+
+- http://localhost:9049/#/upload
+  - `.text-k-fg-70\!`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +196 autres
+- http://localhost:9049/#/queue
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/songs
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +17 autres
+- http://localhost:9049/#/albums
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +39 autres
+- http://localhost:9049/#/artists
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +21 autres
+- http://localhost:9049/#/genres
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +1 autres
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +12 autres
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +17 autres
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +15 autres
+- http://localhost:9049/#/favorites
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/recently-played
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +7 autres
+- http://localhost:9049/#/search
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/settings
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/users
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/profile
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/upload
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/youtube
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/radio/stations
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +5 autres
+- http://localhost:9049/#/podcasts
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+  - … +2 autres
+- http://localhost:9049/#/browse
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/offline-songs
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+- http://localhost:9049/#/visualizer
+  - `.tooltip:nth-child(26)`
+  - `.tooltip:nth-child(27)`
+  - `.tooltip:nth-child(28)`
+  - `.tooltip:nth-child(29)`
+  - `.tooltip:nth-child(30)`
+  - `.tooltip:nth-child(31)`
+  - `.tooltip:nth-child(32)`
+  - `.tooltip:nth-child(33)`
+  - `.tooltip:nth-child(34)`
+  - `.tooltip:nth-child(35)`
+
+## [MODERATE] landmark-main-is-top-level — Main landmark should not be contained in another landmark
+
+Ensure the main landmark is at top level
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-main-is-top-level?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/queue
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/songs
+  - `.expanded > main`
+  - `.b-16`
+- http://localhost:9049/#/albums
+  - `.collapsed > main`
+  - `.b-16`
+- http://localhost:9049/#/artists
+  - `.collapsed > main`
+  - `.b-16`
+- http://localhost:9049/#/genres
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.expanded > .gap-5`
+  - `.b-16`
+  - `main[data-v-365f2bec=""]`
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.expanded > .gap-5`
+  - `.b-16`
+  - `main[data-v-365f2bec=""]`
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.expanded > main`
+  - `.b-16`
+- http://localhost:9049/#/favorites
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/recently-played
+  - `.expanded > main`
+  - `.b-16`
+- http://localhost:9049/#/search
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/settings
+  - `.expanded > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/users
+  - `.collapsed > .gap-5`
+  - `.overflow-scroll`
+  - `.gap-1.justify-between`
+- http://localhost:9049/#/profile
+  - `.expanded > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/upload
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/radio/stations
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/podcasts
+  - `.collapsed > main`
+  - `.overflow-scroll`
+- http://localhost:9049/#/offline-songs
+  - `.collapsed > main`
+  - `.overflow-scroll`
+
+## [MODERATE] landmark-no-duplicate-main — Document should not have more than one main landmark
+
+Ensure the document has at most one main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-main?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `.md\:h-screen`
+- http://localhost:9049/#/queue
+  - `.md\:h-screen`
+- http://localhost:9049/#/songs
+  - `.md\:h-screen`
+- http://localhost:9049/#/albums
+  - `.md\:h-screen`
+- http://localhost:9049/#/artists
+  - `.md\:h-screen`
+- http://localhost:9049/#/genres
+  - `.md\:h-screen`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.md\:h-screen`
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.md\:h-screen`
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.md\:h-screen`
+- http://localhost:9049/#/favorites
+  - `.md\:h-screen`
+- http://localhost:9049/#/recently-played
+  - `.md\:h-screen`
+- http://localhost:9049/#/search
+  - `.md\:h-screen`
+- http://localhost:9049/#/settings
+  - `.md\:h-screen`
+- http://localhost:9049/#/users
+  - `.md\:h-screen`
+- http://localhost:9049/#/profile
+  - `.md\:h-screen`
+- http://localhost:9049/#/upload
+  - `.md\:h-screen`
+- http://localhost:9049/#/radio/stations
+  - `.md\:h-screen`
+- http://localhost:9049/#/podcasts
+  - `.md\:h-screen`
+- http://localhost:9049/#/offline-songs
+  - `.md\:h-screen`
+
+## [MODERATE] landmark-unique — Landmarks should have a unique role or role/label/title (i.e. accessible name) combination
+
+Ensure landmarks are unique
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-unique?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `.md\:h-screen`
+- http://localhost:9049/#/queue
+  - `.md\:h-screen`
+- http://localhost:9049/#/songs
+  - `.md\:h-screen`
+- http://localhost:9049/#/albums
+  - `.md\:h-screen`
+- http://localhost:9049/#/artists
+  - `.md\:h-screen`
+- http://localhost:9049/#/genres
+  - `.md\:h-screen`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.md\:h-screen`
+  - `.md\:w-k-sidebar-width`
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.md\:h-screen`
+  - `.md\:w-k-sidebar-width`
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.md\:h-screen`
+- http://localhost:9049/#/favorites
+  - `.md\:h-screen`
+- http://localhost:9049/#/recently-played
+  - `.md\:h-screen`
+- http://localhost:9049/#/search
+  - `.md\:h-screen`
+- http://localhost:9049/#/settings
+  - `.md\:h-screen`
+- http://localhost:9049/#/users
+  - `.md\:h-screen`
+- http://localhost:9049/#/profile
+  - `.md\:h-screen`
+- http://localhost:9049/#/upload
+  - `.md\:h-screen`
+- http://localhost:9049/#/radio/stations
+  - `.md\:h-screen`
+- http://localhost:9049/#/podcasts
+  - `.md\:h-screen`
+- http://localhost:9049/#/offline-songs
+  - `.md\:h-screen`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:9049/#/youtube
+  - `html`
+- http://localhost:9049/#/browse
+  - `html`
+- http://localhost:9049/#/visualizer
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI
+
+- http://localhost:9049/#/home
+  - `div[data-testid="recently-played-songs"] > .mb-8 > .font-thin.text-2xl`
+- http://localhost:9049/#/users
+  - `.font-medium`
+
+## Résultats incomplets à revoir (622)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9049/#/home
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full[data-v-dde0e37b=""] > .inline-block.align-bottom.whitespace-nowrap`
+  - … +24 autres
+- http://localhost:9049/#/queue
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +9 autres
+- http://localhost:9049/#/songs
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +38 autres
+- http://localhost:9049/#/albums
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - … +20 autres
+- http://localhost:9049/#/artists
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - … +17 autres
+- http://localhost:9049/#/genres
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.align-bottom`
+  - … +10 autres
+- http://localhost:9049/#/genres/Ambient
+  - `.mt-2`
+  - `button[name="ok"]`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +41 autres
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +40 autres
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +39 autres
+- http://localhost:9049/#/favorites
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +9 autres
+- http://localhost:9049/#/recently-played
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +37 autres
+- http://localhost:9049/#/search
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +9 autres
+- http://localhost:9049/#/settings
+  - `.focus-visible\:outline-hidden`
+  - `.space-y-4:nth-child(1) > .tracking-widest.uppercase.text-k-fg`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - … +12 autres
+- http://localhost:9049/#/users
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +10 autres
+- http://localhost:9049/#/profile
+  - `.focus-visible\:outline-hidden`
+  - `.space-y-4:nth-child(1) > .tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.truncate.align-bottom`
+  - … +18 autres
+- http://localhost:9049/#/upload
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +9 autres
+- http://localhost:9049/#/youtube
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +6 autres
+- http://localhost:9049/#/radio/stations
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +10 autres
+- http://localhost:9049/#/podcasts
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +10 autres
+- http://localhost:9049/#/browse
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +6 autres
+- http://localhost:9049/#/offline-songs
+  - `.bg-k-bg-input`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden[data-v-dde0e37b=""] > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +9 autres
+- http://localhost:9049/#/visualizer
+  - `.read-only\:bg-gray-400`
+  - `.space-y-4:nth-child(1) > .uppercase.tracking-widest.mb-3`
+  - `a[href$="/#/songs"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/albums"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/artists"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/genres"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/podcasts"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `a[href$="/#/radio/stations"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - `.flex-1[data-v-0975177a=""]`
+  - `a[href$="/#/favorites"] > .flex-1.overflow-hidden > .block.max-w-full.overflow-hidden > .inline-block.whitespace-nowrap.truncate`
+  - … +6 autres
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:9049/#/songs
+  - `.focus\:text-k-highlight`
+- http://localhost:9049/#/albums
+  - `.focus\:text-k-fg`
+- http://localhost:9049/#/artists
+  - `.focus\:text-k-fg`
+- http://localhost:9049/#/genres
+  - `.focus\:text-k-fg`
+- http://localhost:9049/#/albums/01m4db5ex9dphwzek04j5z49r3
+  - `.focus\:text-k-highlight`
+- http://localhost:9049/#/artists/01m4db5ersmhdr87tf7g2mf34v
+  - `.focus\:text-k-highlight`
+- http://localhost:9049/#/playlists/01a11ab3-63eb-714e-8e60-27328c33148e
+  - `.focus\:text-k-highlight`
+- http://localhost:9049/#/recently-played
+  - `.focus\:text-k-highlight`
+- http://localhost:9049/#/radio/stations
+  - `.focus\:text-k-fg`
+- http://localhost:9049/#/podcasts
+  - `.focus\:text-k-fg`
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:9049/#/genres/Ambient
+  - `.skeleton`
+

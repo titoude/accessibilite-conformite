@@ -1,0 +1,37 @@
+{
+  "cycle": 49,
+  "project": "koel/koel",
+  "commit": "72ab1e8d9bc4b744b2043a5259e1a06d733a9a29",
+  "commit_date": "2026-10 (HEAD master pinné via git ls-remote https://github.com/koel/koel HEAD — git describe latest-56-g72ab1e8d)",
+  "branch_upstream": "master @72ab1e8d",
+  "framework": "Laravel 12/13 (PHP 8.3-cli) + Vue 3.5 + Tailwind 4 + vite-plus/rolldown -> public/build + SQLite (sqlite-persistent) — première stack Laravel/Vue de la boucle ; SPA hash-router /#/…",
+  "served_source": "Clone @SHA + build vite local obligatoire : les images koel officielles servent un bundle pré-construit impossible à patcher — écart image/SHA documenté. Runtime = Dockerfile maison koel49-runtime (php:8.3-cli + extensions) montant le clone bind /koel + /media ; `php artisan serve :8000` -> hôte :9049.",
+  "base_url": "http://localhost:9049",
+  "ports": {
+    "app": 9049,
+    "install_build": 9048
+  },
+  "boot": {
+    "deps": "docker image koel49-php (~/work/koel49-runtime/Dockerfile : php:8.3-cli + gd/exif/fileinfo/pdo_sqlite/mbstring/zip/curl/bcmath/intl/xsl/sockets/pcntl + composer:2) + node via nvm (outillage audit + pnpm build)",
+    "clone": "git clone https://github.com/koel/koel ~/work/koel49 && git -C ~/work/koel49 checkout 72ab1e8d9bc4b744b2043a5259e1a06d733a9a29",
+    "build_frontend": "cd ~/work/koel49 && export NVM_DIR=$HOME/.nvm && . $NVM_DIR/nvm.sh && pnpm install --frozen-lockfile && pnpm build # -> public/build",
+    "env": "cp .env.example .env + APP_URL=http://localhost:9049, DB_CONNECTION=sqlite-persistent, DB_DATABASE=/koel/database/koel.sqlite, MEDIA_PATH=/media, YOUTUBE_API_KEY=koel49-dummy-audit-key (ouvre la route youtube ; l'écran reste feature-gated)",
+    "run": "docker run -d --name koel49 -p 9049:8000 -v ~/work/koel49:/koel -v ~/work/koel49-media:/media koel49-php php artisan serve --host=0.0.0.0 --port=8000 && docker run --rm -v ~/work/koel49:/koel koel49-php composer install --no-dev && docker exec koel49 php artisan key:generate --force && docker exec koel49 php artisan koel:init -n --no-assets --no-scheduler && docker exec koel49 php artisan config:cache",
+    "admin_seed": "python3 tools/seed.py http://localhost:9049 ~/work/koel49-media # rejouable : 30 mp3 ffmpeg sine+ID3 (seed-media.sh), koel:scan, 3 playlists (standard x2 + smart Ambient), playlist-folder, favoris, plays, rating album — admin créé par koel:init (User::FIRST_ADMIN_EMAIL)",
+    "creds": "admin@koel.dev / KoelIsCool (défauts koel:init) — login.mjs récupère le jeton API -> auth.json (localStorage api-token/audio-token JSON-encodés)"
+  },
+  "audit": {
+    "axe": "4.14.0 (npm axe-core@4.14.0 dans tools/)",
+    "baseline": "node audit.mjs --urls \"$(paste -sd, urls-public.txt)\" --out ../reports/baseline-public --states none --wait-for '#app' --wait 2500 http://localhost:9049 && node audit.mjs --urls \"$(paste -sd, urls-auth.txt)\" --out ../reports/baseline-auth --states none --storage-state auth.json --wait-for '#app nav' --wait 2500 http://localhost:9049 && node audit.mjs --urls \"/#/songs\" --out ../reports/baseline-states --states all --storage-state auth.json --wait-for '#app nav' --wait 2500 http://localhost:9049",
+    "final": "mêmes commandes avec --out ../reports/final-{public,auth,states} — exécutées après dernier pnpm build",
+    "install_build": "tools/install-build.sh : clone vierge ~/work/koel49-install @SHA + git apply --check patch.diff (0 rejet, 83 fichiers) + pnpm install --frozen-lockfile + pnpm build + composer install (conteneur jetable) + koel:init -n --no-assets --no-scheduler + seed rejoué :9048 (KOEL_CONTAINER=koel49-install) + rescan reports/installbuild-{public,auth,states,guarded} : 0 viol/0 err",
+    "verify": "node verify.mjs http://localhost:9049 auth.json -> 37/37 PASS ; node eval-final.mjs http://localhost:9049 auth.json -> 24/24 PASS ; incomplete-probes sur final-{public,auth,states} -> 0 FAIL (102 N-A + 6 PASS dont link-in-text-block corrigé) ; vanilla -> 16 FAIL nommés (verify-vanilla.txt) + states 12 règles/591 occ/1 err ; sabotage aria-label dialog retiré -> FAIL nommé 'context-menu: dialog nommé'"
+  },
+  "patch": {
+    "files": 83,
+    "insertions": 234,
+    "deletions": 152,
+    "sha256": "bb305a05360971be46d7782227530483dff688cbca1dd9e869d4f7b77a3ba93d",
+    "domaines": "region 1271 (tooltips portail aria-hidden, sections->div, body bg réel), button-name ~291 (aria-label via directive tooltip, placeholder boutons, tabs QR/podcast, SelectBox label prop), landmark-* 96 (main unique dans ScreenBase, <main> shell->div, nav aria-labels uniques, aside->div), label-title-only 26 (title->aria-label/aria-description selon contenu), link-name 28, aria-required-* 25 (ul[role=menu]>li[menuitem|separator], radiogroup rating déplacé hors menu dans dialog, tabpanel shells montés), aria-input-field-name 11 (equalizer sliders aria-labelledby résolu), color-contrast 17 (--color-highlight #f1661b->#f57329 4.7:1, --color-*-btn, body bg réel), heading-order 9, label/select-name/nested-interactive/aria-prohibited-attr (album-thumb role=button conditionnel, upload <a role=button>->label), router.ts guard post-init (feature-gated screens -> 404 au lieu de main vide), AlbumScreen a.artist underline (link-in-text-block)"
+  }
+}

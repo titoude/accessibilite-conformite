@@ -1,0 +1,131 @@
+{
+  "cycle": 49,
+  "produit": "koel",
+  "statut_execution": "complet",
+  "target": {
+    "repo": "https://github.com/koel/koel",
+    "sha": "72ab1e8d9bc4b744b2043a5259e1a06d733a9a29",
+    "stack": "Laravel 12/13 + Vue 3.5 + Tailwind 4 + vite-plus/rolldown + SQLite — première stack Laravel/Vue de la boucle"
+  },
+  "baseline": {
+    "surfaces": 36,
+    "etats": 8,
+    "violations_occ": 1781,
+    "violations_regles": 17,
+    "public": {
+      "violations_occ": 25,
+      "violations_regles": 4,
+      "detail": {
+        "region": 12,
+        "color-contrast": 5,
+        "landmark-one-main": 4,
+        "page-has-heading-one": 4
+      },
+      "pages": 5
+    },
+    "auth": {
+      "violations_occ": 924,
+      "violations_regles": 13,
+      "detail": {
+        "region": 552,
+        "button-name": 234,
+        "landmark-main-is-top-level": 41,
+        "link-name": 23,
+        "label-title-only": 22,
+        "landmark-unique": 21,
+        "landmark-no-duplicate-main": 19,
+        "color-contrast": 4,
+        "page-has-heading-one": 3,
+        "heading-order": 2,
+        "label": 1,
+        "nested-interactive": 1,
+        "select-name": 1
+      },
+      "pages": 23
+    },
+    "states": {
+      "violations_occ": 832,
+      "violations_regles": 13,
+      "detail": {
+        "region": 707,
+        "button-name": 57,
+        "aria-required-parent": 12,
+        "landmark-main-is-top-level": 12,
+        "aria-input-field-name": 11,
+        "color-contrast": 8,
+        "landmark-no-duplicate-main": 5,
+        "landmark-unique": 5,
+        "link-name": 5,
+        "heading-order": 4,
+        "label-title-only": 4,
+        "aria-required-children": 1,
+        "select-name": 1
+      },
+      "pages": 8
+    },
+    "erreurs": 0,
+    "incomplets": 831,
+    "note": "36 scénarios, 0 skip silencieux (leçon 45). Pureté vanilla prouvée AVANT baseline (leçon 40) : build vite vanilla, patch jamais appliqué."
+  },
+  "final": {
+    "surfaces": 36,
+    "scans": 36,
+    "etats": 8,
+    "violations_occ": 0,
+    "violations_regles": 0,
+    "erreurs": 0,
+    "incomplets": 102,
+    "public": {
+      "pages": 5,
+      "violations_occ": 0,
+      "incomplets": 12
+    },
+    "auth": {
+      "pages": 23,
+      "violations_occ": 0,
+      "incomplets": 68
+    },
+    "states": {
+      "pages": 8,
+      "violations_occ": 0,
+      "incomplets": 22
+    },
+    "install_build": {
+      "public": {
+        "pages": 5,
+        "violations_occ": 0,
+        "erreurs": 0
+      },
+      "auth": {
+        "pages": 20,
+        "violations_occ": 0,
+        "erreurs": 3
+      },
+      "guarded": {
+        "pages": 5,
+        "violations_occ": 0,
+        "erreurs": 0
+      },
+      "states": {
+        "pages": 8,
+        "violations_occ": 0,
+        "erreurs": 0
+      },
+      "note": "installbuild-auth : 3 erreurs initiales sur routes à guard policies (users/settings/upload) — le guard resolve() s'évaluait avant le chargement utilisateur (TypeError abilities sur null). Fix : guard réservé au post-init (userStore.state.current?.id) -> installbuild-guarded 0v/0e, régression-check :9049 0v/0e."
+    },
+    "note": "final : 36/36 scans 0 viol/0 err. verify 37/37, eval-final 24/24, sondes 0 FAIL. vanilla -> 16 FAIL nommés + states 12r/591occ/1err ; sabotage -> 1 FAIL nommé. install-build clone vierge rejoué verbatim : 0 viol/0 err."
+  },
+  "verify": {
+    "live": "37/37 PASS",
+    "eval_final": "24/24 PASS",
+    "sabotage": "1 FAIL nommé (context-menu: dialog nommé)",
+    "vanilla": "16 FAIL nommés + stateProof song-context-menu timeout (ul[role=menu] absent vanilla)"
+  },
+  "probes": {
+    "public": "12 N-A",
+    "auth": "51 N-A + 4 PASS + 11+1 N-A + 1 link-in-text-block PASS",
+    "states": "5+16 N-A + 1 PASS",
+    "fail": 0
+  },
+  "evidence": "reports/{baseline,final,installbuild,regression-check,final-states-vanilla}-*, reports/probes/, verify-vanilla.txt, verify-sabotage.txt, install-build.log"
+}
