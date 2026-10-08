@@ -1,0 +1,220 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 19/19 scénario(s) audité(s), 0 erreur(s), 321 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `e1924a084e73`
+
+## Résultats incomplets à revoir (321)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8201/home
+  - `.active.side-nav-item[href$="home"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - … +10 autres
+- http://localhost:8201/library/1
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +5 autres
+- http://localhost:8201/library/2
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +4 autres
+- http://localhost:8201/library/3
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +4 autres
+- http://localhost:8201/library/1/series/1
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +14 autres
+- http://localhost:8201/library/2/series/4
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +13 autres
+- http://localhost:8201/library/3/series/7
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +14 autres
+- http://localhost:8201/library/1/series/1/manga/2
+  - `.toast-message`
+- http://localhost:8201/library/3/series/7/book/11
+  - `div > h1`
+- http://localhost:8201/lists
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+  - … +4 autres
+- http://localhost:8201/lists/1
+  - `.side-nav-item[href$="home"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - … +17 autres
+- http://localhost:8201/collections
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+  - … +4 autres
+- http://localhost:8201/bookmarks
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+  - … +4 autres
+- http://localhost:8201/want-to-read
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+  - … +3 autres
+- http://localhost:8201/all-series
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/1"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/2"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/3"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +17 autres
+- http://localhost:8201/browse
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+- http://localhost:8201/announcements
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+  - … +2 autres
+- http://localhost:8201/settings
+  - `h5:nth-child(1)`
+  - `#nav-item-account > .side-nav-text > div`
+  - `#nav-item-preferences > .side-nav-text > div`
+  - `#nav-item-custom-key-binds > .side-nav-text > div`
+  - `#nav-item-reading-profiles > .side-nav-text > div`
+  - `#nav-item-customize > .side-nav-text > div`
+  - `#nav-item-clients > .side-nav-text > div`
+  - `#nav-item-theme > .side-nav-text > div`
+  - `#nav-item-font > .side-nav-text > div`
+  - `#nav-item-devices > .side-nav-text > div`
+  - … +20 autres
+- http://localhost:8201/profile/1
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/1"] > .side-nav-text > div`
+  - `a[href$="library/2"] > .side-nav-text > div`
+  - `a[href$="library/3"] > .side-nav-text > div`
+  - … +14 autres
+

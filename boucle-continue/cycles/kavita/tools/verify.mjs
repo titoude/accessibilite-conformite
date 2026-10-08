@@ -11,12 +11,18 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
-const { STATES } = await import('./audit.mjs');
+const { STATES, setIds } = await import('./audit.mjs');
+const { resolveIds } = await import('./resolve-ids.mjs');
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 const [base, authPath = 'auth.json'] = process.argv.slice(2);
 if (!base) { console.error('usage: node verify.mjs <baseUrl> [auth.json]'); process.exit(2); }
 const B = base.replace(/\/$/, '');
+
+// Leçon 44 : ids d'instance résolus via l'API, injectés dans STATES —
+// aucun library/series id en dur n'est toléré dans ce fichier.
+const IDS = await resolveIds(B, authPath);
+setIds(IDS);
 
 const results = [];
 const ok = (name, cond, extra = '') => {
@@ -41,7 +47,7 @@ const goto = async (path) => {
 };
 
 // ── A. Landmarks + h1 sur pages du scope ───────────────────────────────────
-for (const path of ['/login', '/home', '/library/4', '/library/4/series/6', '/settings']) {
+for (const path of ['/login', '/home', IDS.libPath(0), IDS.seriesDetail, '/settings']) {
     await goto(path);
     const lm = await page.evaluate(() => {
         const mains = [...document.querySelectorAll('main, [role="main"]')]
@@ -84,8 +90,29 @@ await goto('/home');
     ok('side-nav: lien externe donate nommé', nav.donate && nav.donate.length > 0, String(nav.donate));
 }
 
+// ── B2. Anti-slug (K1c) : les labels des landmarks sont du TEXTE RÉSOLU —
+// jamais la clé i18n brute (« side-nav.side-nav-alt » rendrait un slug).
+// Motif slug : token pointé de segments alphanumériques (déf. leçon 43).
+{
+    const SLUG = /[a-z0-9]+(\.[a-z0-9-]+){1,}/;
+    const navs = await page.evaluate(() =>
+        [...document.querySelectorAll('[role="navigation"][aria-label]')]
+            .filter(n => n.getClientRects().length > 0)
+            .map(n => n.getAttribute('aria-label').trim()));
+    ok('nav labels: aucun slug i18n brut', navs.length > 0 && navs.every(l => !SLUG.test(l)), JSON.stringify(navs));
+    ok('nav labels: « Side navigation » résolu', navs.includes('Side navigation'), JSON.stringify(navs));
+    // /settings porte le 3e landmark (settings.side-nav-alt)
+    await goto('/settings');
+    const snavs = await page.evaluate(() =>
+        [...document.querySelectorAll('[role="navigation"][aria-label]')]
+            .filter(n => n.getClientRects().length > 0)
+            .map(n => n.getAttribute('aria-label').trim()));
+    ok('/settings nav: « Settings navigation » résolu (pas de slug)',
+        snavs.includes('Settings navigation') && snavs.every(l => !SLUG.test(l)), JSON.stringify(snavs));
+}
+
 // ── C. Boutons iconiques nommés ────────────────────────────────────────────
-await goto('/library/4/series/6');
+await goto(IDS.seriesDetail);
 {
     const btns = await page.evaluate(() => {
         const named = el => ((el.getAttribute('aria-label') || el.getAttribute('aria-labelledby') || el.innerText || '').trim().length > 0);
@@ -101,6 +128,23 @@ await goto('/library/4/series/6');
     ok('series-detail: dropdown-split nommé', btns.split.length > 0, btns.split);
     ok('series-detail: bouton edit nommé', btns.edit.length > 0, btns.edit);
     ok('card-actionables: aria-label ⊇ texte visible', btns.cardAct.length > 0 && btns.cardAct.every(c => c.contains), JSON.stringify(btns.cardAct));
+}
+
+// ── C2. Anti-slug card-actionables (K1c) : accName = « Actions for … » —
+// le fallback labelBy() passe aussi (« Actions for card »), le slug brut
+// « actionable.actions-for » (ou tout token pointé) est interdit.
+for (const path of [IDS.libPath(0), IDS.seriesDetail]) {
+    await goto(path);
+    const probe = await page.evaluate(() => {
+        const SLUG = /[a-z0-9]+(\.[a-z0-9-]+){1,}/;
+        const labels = [...document.querySelectorAll('app-card-actionables button[aria-label]')]
+            .map(b => b.getAttribute('aria-label').trim())
+            .filter(v => v.length > 0);
+        return { labels: labels.slice(0, 12), total: labels.length, slugs: labels.filter(v => SLUG.test(v)) };
+    });
+    ok(`${path}: card-actionables présents (${probe.total})`, probe.total > 0, `${probe.total}`);
+    ok(`${path}: aucun aria-label slug`, probe.slugs.length === 0, probe.slugs.join('|'));
+    ok(`${path}: aria-label « Actions for … »`, probe.labels.every(v => /^Actions for\b/i.test(v)), JSON.stringify(probe.labels));
 }
 
 // ── D. Nav tabs : li role=presentation ─────────────────────────────────────
@@ -174,7 +218,7 @@ if (STATES['search-typeahead']) {
 }
 
 // ── G. Headings : aucun saut de niveau ─────────────────────────────────────
-for (const path of ['/home', '/library/4', '/settings', '/collections']) {
+for (const path of ['/home', IDS.libPath(0), '/settings', '/collections']) {
     await goto(path);
     const hs = await page.evaluate(() => {
         const heads = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')].filter(h => h.getClientRects().length > 0);

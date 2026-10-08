@@ -6,7 +6,7 @@
 - port : 7500 · admin kv45admin / Kv45-Admin!Pass
 
 ## Chiffres
-- baseline : **361 occurrences / 10 règles** sur 31 surfaces (2 public + 19 auth + 10 états) — button-name 216, list 24, page-has-heading-one 23, aria-allowed-role 28, link-name 23, aria-required-parent 16, listitem 16, aria-required-children 6, color-contrast 7, heading-order 2 — 0 erreur, 30 incomplets
+- baseline : **361 occurrences / 10 règles** sur 31 surfaces (2 public + 19 auth + 10 états) — button-name 216, list 24, page-has-heading-one 24, aria-allowed-role 28, link-name 23, aria-required-parent 16, listitem 16, aria-required-children 6, color-contrast 7, heading-order 1 — 0 erreur, 30 incomplets *(fixer-v2 : prose corrigée sur recompte des report.json committés — page-has-heading-one 24 pas 23, heading-order 1 pas 2 ; total 361 occurrences inchangé)*
 - final : **0 violation / 0 erreur** sur 28 scans (2 public + 19 auth + 7 états) — 166 incomplets honnêtes
 - verify.mjs 34/34 PASS · eval-final.mjs 35/35 PASS · incomplete-probes 250 PASS / 0 FAIL (après correction probe-level : badge, toast, soulignement liens)
 - install-build clone vierge @SHA + git apply (44f, --check OK) + npm install + npm run prod + dotnet build -c Release + boot run dir + seed rejoué (7 series) → **rescan 0 viol** (2 public + 10 auth)

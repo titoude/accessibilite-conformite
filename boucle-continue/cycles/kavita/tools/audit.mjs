@@ -46,6 +46,15 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const require = createRequire(resolve(dirname(fileURLToPath(import.meta.url)), 'package.json'));
 const { chromium } = require('playwright');
+const { resolveIds, expandTokens } = await import('./resolve-ids.mjs');
+
+// IDS : ids de l'instance résolus dynamiquement via l'API (leçon 44) —
+// rempli dans run() avant le scan, ou par verify.mjs/eval-final.mjs via
+// setIds() quand ils réutilisent STATES. Les url(b) des STATES le lisent
+// au moment de l'appel (fonction, pas valeur — leçon cycle 45 worker).
+export let IDS = null;
+export function setIds(ids) { IDS = ids; }
+function needIds() { return IDS == null ? (() => { throw new Error('IDS non résolus — resolveIds() doit être appelé avant les états/urls à tokens'); })() : IDS; }
 
 const args = process.argv.slice(2);
 const VALUE_OPTIONS = new Set(['out', 'max', 'wait', 'wait-for', 'urls', 'depth', 'states', 'storage-state']);
@@ -75,13 +84,10 @@ if (positional.length > 1) configErrors.push('une seule URL de base est permise'
 
 const baseUrl = positional[0];
 const urlsOpt = opt('urls', null);
-// Les chemins relatifs (--urls /a,/b) sont résolus contre l'URL de base ;
-// sans base résolvable c'est une erreur de config, pas un skip silencieux.
-const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean).map(u => {
-  if (/^https?:\/\//i.test(u)) return u;
-  if (baseUrl) { try { return new URL(u, baseUrl).href; } catch { return u; } }
-  return u;
-});
+// Les urls restent BRUTES jusqu'au run : un token {LIB0} doit être expansé
+// AVANT new URL() — sinon il est encodé en %7B…%7D et l'expansion rate.
+// Les chemins relatifs sont résolus contre l'URL de base au moment du run.
+const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean);
 const outDir = resolve(opt('out', './a11y-audit'));
 const maxPages = Number(opt('max', '50'));
 const waitMs = Number(opt('wait', '0'));
@@ -103,8 +109,15 @@ if (!statesArg.length) configErrors.push('déclarer les états : --states all|no
 if (explicitUrls !== null && explicitUrls.length === 0) {
   configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
 }
-if (explicitUrls && explicitUrls.some(u => !/^https?:\/\//.test(u))) {
-  configErrors.push('--urls contient des chemins relatifs sans URL de base résolvable');
+if (explicitUrls) {
+  for (const u of explicitUrls) {
+    if (!/^https?:\/\//i.test(u) && !u.startsWith('/')) {
+      configErrors.push(`--urls : chemin non résolvable '${u}' (absolu http(s) ou relatif / attendu)`);
+    }
+  }
+  if (!baseUrl && explicitUrls.some(u => !/^https?:\/\//i.test(u))) {
+    configErrors.push('--urls contient des chemins relatifs sans URL de base résolvable');
+  }
 }
 if (statesArg.includes('none') && statesArg.length > 1) {
   configErrors.push("--states none ne se combine pas avec d'autres états");
@@ -113,7 +126,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v7-jellyfin';
+const RUNNER_VERSION = 'audit.mjs v8-kavita';
 
 // axe-core réellement injecté — épinglé dans tools/package.json, lu depuis
 // node_modules : une dérive de version entre baseline et final invaliderait
@@ -173,9 +186,27 @@ export const STATES = {
       await page.waitForSelector('.popover, .search-config-popover', { state: 'visible', timeout: 8000 });
     },
   },
+  // ---- Library : menu d'actions d'une carte (cible K1 : aria-label) ----
+  // Viewport 1280 = Tablet chez Kavita (Breakpoint.Tablet=1280) → le menu
+  // s'ouvre en NgbModal ; en Desktop (>1280) en ngbDropdown body-container.
+  // La preuve accepte les deux rendus réels — le DOM mesuré reste exclusif.
+  'card-actions': {
+    url: b => `${b}${needIds().libPath(0)}`,
+    setup: async page => {
+      // la page bibliothèque rend des cartes avec menu d'actions
+      await page.waitForSelector('app-card-actionables button', { state: 'visible', timeout: 20000 });
+      await page.locator('app-card-actionables button').first().click();
+    },
+    stateProof: async page => {
+      await page.waitForSelector('ngb-modal-window, .dropdown-menu.show', { state: 'visible', timeout: 8000 });
+      // contenu exclusif au menu d'actions : au moins un item cliquable
+      await page.waitForSelector('ngb-modal-window button, ngb-modal-window a, .dropdown-menu.show button, .dropdown-menu.show a',
+        { state: 'visible', timeout: 5000 });
+    },
+  },
   // ---- Series : dropdown d'options de lecture ----
   'series-read-options': {
-    url: b => `${b}/library/4/series/6`,
+    url: b => `${b}${needIds().seriesDetail}`,
     setup: async page => {
       await page.waitForSelector('button.dropdown-toggle-split', { state: 'visible', timeout: 20000 });
       await page.locator('button.dropdown-toggle-split').first().click();
@@ -186,7 +217,7 @@ export const STATES = {
   },
   // ---- Series : modale d'édition (admin) ----
   'series-edit-modal': {
-    url: b => `${b}/library/4/series/6`,
+    url: b => `${b}${needIds().seriesDetail}`,
     setup: async page => {
       await page.waitForSelector('#edit-btn--komf', { state: 'visible', timeout: 20000 });
       await page.locator('#edit-btn--komf').first().click();
@@ -195,6 +226,49 @@ export const STATES = {
       // modale ng-bootstrap ouverte : formulaire édition exclusif
       await page.waitForSelector('.modal.show, ngb-modal-window', { state: 'visible', timeout: 8000 });
       await page.waitForSelector('.modal input', { state: 'visible', timeout: 5000 });
+    },
+  },
+  // ---- Onglets ngbNav non actifs (K6 : seul l'onglet actif était scanné) ----
+  // Kavita rend le nav en ul[ngbnav] avec .active sur le a[ngbnavlink] (pas
+  // le li) — sélecteurs issus du DOM réel, pas du modèle abstrait.
+  'series-tab-chapters': {
+    url: b => `${b}${needIds().seriesDetail}`,
+    setup: async page => {
+      await page.waitForSelector('ul[ngbnav] a[ngbnavlink]', { state: 'visible', timeout: 20000 });
+      // onglet contenu (Chapters/Volumes/Books selon la donnée) sinon 1er non actif
+      const link = page.locator('ul[ngbnav] a[ngbnavlink]', { hasText: /chapters|volumes|books/i }).first();
+      const fallback = page.locator('ul[ngbnav] a[ngbnavlink]:not(.active)').first();
+      if (await link.count()) await link.click(); else await fallback.click();
+    },
+    stateProof: async page => {
+      // onglet cliqué actif + pane déployée — exclusif à une bascule réussie
+      await page.waitForSelector('ul[ngbnav] a[ngbnavlink].active', { state: 'visible', timeout: 8000 });
+      await page.waitForSelector('.tab-pane.active', { state: 'visible', timeout: 8000 });
+    },
+  },
+  // ---- Reading list : onglet Details (non actif par défaut) ----
+  'rl-tab-details': {
+    url: b => `${b}${needIds().rlPath || '/lists'}`,
+    setup: async page => {
+      await page.waitForSelector('ul[ngbnav] a[ngbnavlink]', { state: 'visible', timeout: 20000 });
+      await page.locator('ul[ngbnav] a[ngbnavlink]', { hasText: /details/i }).first().click();
+    },
+    stateProof: async page => {
+      await page.waitForSelector('ul[ngbnav] a[ngbnavlink].active', { state: 'visible', timeout: 8000 });
+      await page.waitForSelector('.tab-pane.active', { state: 'visible', timeout: 8000 });
+    },
+  },
+  // ---- Profile : onglet Stats (destroyOnHide=true — hors DOM avant activation) ----
+  // La route réelle est /profile/:userId — id résolu dynamiquement.
+  'profile-tab-stats': {
+    url: b => `${b}${needIds().profilePath || '/profile'}`,
+    setup: async page => {
+      await page.waitForSelector('ul[ngbnav] a[ngbnavlink]', { state: 'visible', timeout: 20000 });
+      await page.locator('ul[ngbnav] a[ngbnavlink]', { hasText: /stats/i }).first().click();
+    },
+    stateProof: async page => {
+      await page.waitForSelector('ul[ngbnav] a[ngbnavlink].active', { state: 'visible', timeout: 8000 });
+      await page.waitForSelector('.tab-pane.active', { state: 'visible', timeout: 8000 });
     },
   },
   // ---- Mobile : sidenav à 390px — TOUJOURS dernier (mutant viewport) ----
@@ -319,6 +393,24 @@ async function run() {
   const results = [];
   const crawlErrors = [];
 
+  // Leçon 44 : ids d'instance résolus dynamiquement via l'API — nécessaire
+  // dès qu'une url porte un token {…} ou qu'un état demandé lit IDS.
+  // Échec => erreur de configuration (exit 2), jamais de repli silencieux.
+  const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
+  const needsIds = wanted.length > 0
+    || (explicitUrls !== null && explicitUrls.some(u => u.includes('{')));
+  if (needsIds) {
+    const originForIds = baseUrl ? new URL(baseUrl).origin : new URL(explicitUrls[0].replace(/\{[^}]*\}/g, 'x')).origin;
+    try {
+      setIds(await resolveIds(originForIds, storageState || 'auth.json'));
+    } catch (e) {
+      configErrors.push(`résolution des ids via l'API : ${e.message}`);
+      writeErrorReports(configErrors, []);
+      console.error(`[config] ${e.message}`);
+      process.exit(2);
+    }
+  }
+
   const browser = await chromium.launch();
   // locale 'en-US' : navigator.language hérite 'en-US@posix' de l'env de cette
   // VM (artefact) — jellyfin-web globalize l'utilise et toLocaleString() lève
@@ -342,7 +434,10 @@ async function run() {
 
   let urls;
   if (explicitUrls !== null) {
-    urls = explicitUrls;
+    urls = explicitUrls.map(u => {
+      const expanded = u.includes('{') ? expandTokens(u, IDS) : u;
+      return /^https?:\/\//i.test(expanded) ? expanded : new URL(expanded, baseUrl).href;
+    });
   } else {
     const origin = new URL(baseUrl).origin;
     console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
@@ -508,7 +603,6 @@ async function run() {
   // États dynamiques : chaque état repart d'un document neuf — en navigation
   // par hash (SPA), un goto sur le même document ne recharge pas et l'état
   // précédent (drawer ouvert…) persisterait.
-  const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
   if (wanted.length) {
     const origin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
     for (const name of wanted) {

@@ -11,12 +11,17 @@ import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
-const { STATES } = await import('./audit.mjs');
+const { STATES, setIds } = await import('./audit.mjs');
+const { resolveIds } = await import('./resolve-ids.mjs');
 const HERE = dirname(fileURLToPath(import.meta.url));
 
 const [base, authPath = 'auth.json'] = process.argv.slice(2);
 if (!base) { console.error('usage: node eval-final.mjs <baseUrl> [auth.json]'); process.exit(2); }
 const B = base.replace(/\/$/, '');
+
+// Leçon 44 : ids d'instance résolus via l'API — rejouable sur tout seed.
+const IDS = await resolveIds(B, authPath);
+setIds(IDS);
 
 const results = [];
 const ok = (name, cond, extra = '') => {
@@ -41,7 +46,7 @@ const goto = async (path) => {
 };
 
 // ── A. <html lang> + <title> + viewport sur pages du scope ─────────────────
-for (const path of ['/login', '/registration', '/home', '/library/4/series/6']) {
+for (const path of ['/login', '/registration', '/home', IDS.seriesDetail]) {
     await goto(path);
     const meta = await page.evaluate(() => ({
         lang: document.documentElement.getAttribute('lang'),
@@ -57,7 +62,7 @@ for (const path of ['/login', '/registration', '/home', '/library/4/series/6']) 
 }
 
 // ── B. Hiérarchie de titres : pas de saut de niveau visible ────────────────
-for (const path of ['/home', '/library/4', '/library/4/series/6', '/lists/1']) {
+for (const path of ['/home', IDS.libPath(0), IDS.seriesDetail, ...(IDS.rlPath ? [IDS.rlPath] : [])]) {
     await goto(path);
     const hs = await page.evaluate(() => {
         const heads = [...document.querySelectorAll('h1,h2,h3,h4,h5,h6')]
@@ -124,7 +129,7 @@ if (STATES['series-edit-modal']) {
 } else na('modal edit-series', 'state absent');
 
 // ── F. Images : alt présent (décoratif="" accepté) ─────────────────────────
-for (const path of ['/home', '/library/4', '/collections']) {
+for (const path of ['/home', IDS.libPath(0), '/collections']) {
     await goto(path);
     const imgs = await page.evaluate(() => {
         const all = [...document.querySelectorAll('img')].filter(i => i.getClientRects().length > 0 && getComputedStyle(i).visibility !== 'hidden');
@@ -149,7 +154,7 @@ for (const path of ['/login', '/home']) {
 }
 
 // ── H. Aucun aria-hidden contenant du focusable (pages au repos) ───────────
-for (const path of ['/home', '/library/4', '/settings']) {
+for (const path of ['/home', IDS.libPath(0), '/settings']) {
     await goto(path);
     const bad = await page.evaluate(() => {
         const isFocusable = e => e.matches('a[href], button, input:not([type=hidden]), select, textarea, [tabindex]:not([tabindex="-1"])') && e.getClientRects().length > 0 && getComputedStyle(e).visibility !== 'hidden';
@@ -187,7 +192,7 @@ for (const path of ['/login', '/registration', '/settings']) {
 }
 
 // ── J. IDs dupliqués (indépendant de axe) ──────────────────────────────────
-for (const path of ['/home', '/library/4', '/lists']) {
+for (const path of ['/home', IDS.libPath(0), '/lists']) {
     await goto(path);
     const dup = await page.evaluate(() => {
         const ids = [...document.querySelectorAll('[id]')].map(e => e.id).filter(Boolean);

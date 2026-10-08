@@ -1,12 +1,24 @@
+diff --git a/UI/Web/src/app/_single-module/card-actionables/_modals/actionable-modal/actionable-modal.component.html b/UI/Web/src/app/_single-module/card-actionables/_modals/actionable-modal/actionable-modal.component.html
+index 1d2b7f1f..ebed609d 100644
+--- a/UI/Web/src/app/_single-module/card-actionables/_modals/actionable-modal/actionable-modal.component.html
++++ b/UI/Web/src/app/_single-module/card-actionables/_modals/actionable-modal/actionable-modal.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix: 'actionable'">
+   <div class="modal-header">
+-    <h4 class="modal-title">
++    <h4 class="modal-title" id="modal-basic-title">
+       {{t('title')}}
+     </h4>
+     <button type="button" class="btn-close" aria-label="close" (click)="modal.close()"></button>
 diff --git a/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html b/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html
-index 3a74349..1e03333 100644
+index 3a743491..bd2e8dfc 100644
 --- a/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html
 +++ b/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html
 @@ -3,6 +3,7 @@
      @if (filteredActions().length > 0) {
        @if (breakpointService.isTabletOrBelow()) {
          <button [disabled]="disabled()" class="btn {{btnClass()}}" id="{{labelId}}"
-+                [attr.aria-label]="t('actions-for', {name: label()})"
++                [attr.aria-label]="t('actions-for', {name: label() || labelBy()})"
                  (click)="openMobileActionableMenu($event)">
            <span [ngClass]="{'phone-hidden': hideLabelOnMobile()}">{{label()}}</span>
            <i class="fa {{iconClass()}}" aria-hidden="true"></i>
@@ -14,12 +26,38 @@ index 3a74349..1e03333 100644
        } @else {
          <div ngbDropdown container="body" class="d-inline-block">
            <button [disabled]="disabled()" class="btn {{btnClass()}}" id="{{labelId}}" ngbDropdownToggle
-+                  [attr.aria-label]="t('actions-for', {name: label()})"
++                  [attr.aria-label]="t('actions-for', {name: label() || labelBy()})"
                    (click)="preventEvent($event)">
              <span [ngClass]="{'phone-hidden': hideLabelOnMobile()}">{{label()}}</span>
              <i class="fa {{iconClass()}}" aria-hidden="true"></i>
+diff --git a/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.ts b/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.ts
+index 8a47dc47..53be6c6d 100644
+--- a/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.ts
++++ b/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.ts
+@@ -142,7 +142,7 @@ export class CardActionablesComponent implements OnDestroy {
+     this.preventEvent(event);
+ 
+     // TODO: See if we can use a drawer instead
+-    const ref = this.modalService.open(ActionableModalComponent);
++    const ref = this.modalService.open(ActionableModalComponent, {ariaLabelledBy: 'modal-basic-title'});
+     ref.setInput('entity', this.entity());
+     ref.setInput('filteredActions', this.filteredActions());
+ 
+diff --git a/UI/Web/src/app/admin/kavita-plus/expired-license-api-stats/expired-license-api-stats.component.html b/UI/Web/src/app/admin/kavita-plus/expired-license-api-stats/expired-license-api-stats.component.html
+index e14c0533..ce679527 100644
+--- a/UI/Web/src/app/admin/kavita-plus/expired-license-api-stats/expired-license-api-stats.component.html
++++ b/UI/Web/src/app/admin/kavita-plus/expired-license-api-stats/expired-license-api-stats.component.html
+@@ -7,7 +7,7 @@
+         <div class="card stats-card col-auto">
+ 
+           <div class="card-body">
+-            <h4 class="stats-title">{{apiRenderData.title}}</h4>
++            <p class="stats-title">{{apiRenderData.title}}</p>
+             <p class="card-text">
+               {{api.lifetimeCount | compactNumber}}
+             </p>
 diff --git a/UI/Web/src/app/all-series/_components/all-series/all-series.component.html b/UI/Web/src/app/all-series/_components/all-series/all-series.component.html
-index 23cd2eb..d76c001 100644
+index 23cd2eb7..d76c001b 100644
 --- a/UI/Web/src/app/all-series/_components/all-series/all-series.component.html
 +++ b/UI/Web/src/app/all-series/_components/all-series/all-series.component.html
 @@ -1,11 +1,11 @@
@@ -38,7 +76,7 @@ index 23cd2eb..d76c001 100644
      </app-side-nav-companion-bar>
      @if (filter) {
 diff --git a/UI/Web/src/app/announcements/_components/announcements/announcements.component.html b/UI/Web/src/app/announcements/_components/announcements/announcements.component.html
-index db953b4..2319902 100644
+index db953b4d..2319902c 100644
 --- a/UI/Web/src/app/announcements/_components/announcements/announcements.component.html
 +++ b/UI/Web/src/app/announcements/_components/announcements/announcements.component.html
 @@ -1,9 +1,9 @@
@@ -54,7 +92,7 @@ index db953b4..2319902 100644
  
      <app-changelog />
 diff --git a/UI/Web/src/app/app.component.html b/UI/Web/src/app/app.component.html
-index 63fd641..7a9af46 100644
+index 63fd6416..7a9af46c 100644
 --- a/UI/Web/src/app/app.component.html
 +++ b/UI/Web/src/app/app.component.html
 @@ -1,7 +1,7 @@
@@ -87,7 +125,7 @@ index 63fd641..7a9af46 100644
  
  </div>
 diff --git a/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html b/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html
-index efa6c3f..3249ed1 100644
+index efa6c3f5..3249ed16 100644
 --- a/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html
 +++ b/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html
 @@ -11,13 +11,13 @@
@@ -107,7 +145,7 @@ index efa6c3f..3249ed1 100644
          <ng-template ngbNavContent>
            @let items = bookmarks();
 diff --git a/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html b/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html
-index 3a858f8..2ada8c9 100644
+index 3a858f85..2ada8c90 100644
 --- a/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html
 +++ b/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html
 @@ -57,7 +57,7 @@
@@ -161,7 +199,7 @@ index 3a858f8..2ada8c9 100644
                </button>
              </div>
 diff --git a/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html b/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html
-index 3ce61f0..3137ed0 100644
+index 3ce61f0f..3137ed00 100644
 --- a/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html
 +++ b/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html
 @@ -1,10 +1,10 @@
@@ -188,7 +226,7 @@ index 3ce61f0..3137ed0 100644
        </app-card-detail-layout>
      }
 diff --git a/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html b/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html
-index d9f9342..e4596ca 100644
+index d9f93428..e4596ca0 100644
 --- a/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html
 +++ b/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html
 @@ -4,7 +4,7 @@
@@ -210,7 +248,7 @@ index d9f9342..e4596ca 100644
      </div>
    }
 diff --git a/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html b/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html
-index 51959a8..ce93a31 100644
+index 51959a8d..ce93a318 100644
 --- a/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html
 +++ b/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html
 @@ -24,7 +24,7 @@
@@ -268,7 +306,7 @@ index 51959a8..ce93a31 100644
            <ng-template ngbNavContent>
              <ng-container *ngTemplateOutlet="imageChooserTab; context: { images: kavitaplusImages(), tabId: Tabs.KavitaPlus, loading: !kavitaplusImagesLoaded() }" />
 diff --git a/UI/Web/src/app/cards/entity-card/entity-card.component.html b/UI/Web/src/app/cards/entity-card/entity-card.component.html
-index 13054b2..e6b44a3 100644
+index 13054b26..e6b44a37 100644
 --- a/UI/Web/src/app/cards/entity-card/entity-card.component.html
 +++ b/UI/Web/src/app/cards/entity-card/entity-card.component.html
 @@ -127,8 +127,7 @@
@@ -282,7 +320,7 @@ index 13054b2..e6b44a3 100644
            @if (hasTitleTemplate()) {
              <ng-container *ngTemplateOutlet="titleTemplate()!; context: { $implicit: entity() }" />
 diff --git a/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html b/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html
-index 08d91d5..c2bbd80 100644
+index 08d91d52..c2bbd801 100644
 --- a/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html
 +++ b/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html
 @@ -6,7 +6,7 @@
@@ -304,7 +342,7 @@ index 08d91d5..c2bbd80 100644
            <div class="float-end">
              <button class="btn btn-icon carousel-btn" [disabled]="isBeginning()" (click)="prevPage()">
 diff --git a/UI/Web/src/app/chapter-detail/chapter-detail.component.html b/UI/Web/src/app/chapter-detail/chapter-detail.component.html
-index dffc654..98189df 100644
+index dffc6545..98189df8 100644
 --- a/UI/Web/src/app/chapter-detail/chapter-detail.component.html
 +++ b/UI/Web/src/app/chapter-detail/chapter-detail.component.html
 @@ -172,7 +172,7 @@
@@ -344,7 +382,7 @@ index dffc654..98189df 100644
              <ng-template ngbNavContent>
                @defer (when activeTabId === Tabs.Related; prefetch on idle) {
 diff --git a/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html b/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html
-index 0a39b7f..e1f947f 100644
+index 0a39b7fb..e1f947f1 100644
 --- a/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html
 +++ b/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html
 @@ -1,8 +1,8 @@
@@ -359,7 +397,7 @@ index 0a39b7f..e1f947f 100644
  
      <app-card-detail-layout
 diff --git a/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html b/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html
-index eb88a4e..ba1bb9a 100644
+index eb88a4eb..ba1bb9a8 100644
 --- a/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html
 +++ b/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html
 @@ -5,14 +5,14 @@
@@ -381,7 +419,7 @@ index eb88a4e..ba1bb9a 100644
          </app-side-nav-companion-bar>
        }
 diff --git a/UI/Web/src/app/library-detail/library-detail.component.html b/UI/Web/src/app/library-detail/library-detail.component.html
-index 71e1873..3788881 100644
+index 71e1873d..3788881c 100644
 --- a/UI/Web/src/app/library-detail/library-detail.component.html
 +++ b/UI/Web/src/app/library-detail/library-detail.component.html
 @@ -1,12 +1,12 @@
@@ -401,7 +439,7 @@ index 71e1873..3788881 100644
  
      </app-side-nav-companion-bar>
 diff --git a/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html b/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html
-index bc0dc4c..a1b067a 100644
+index bc0dc4c0..a1b067a4 100644
 --- a/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html
 +++ b/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html
 @@ -19,7 +19,7 @@
@@ -423,7 +461,7 @@ index bc0dc4c..a1b067a 100644
          <ng-template ngbNavContent>
            <div class="tab-body mt-3">
 diff --git a/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html b/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html
-index 0f25d9f..523d759 100644
+index 0f25d9ff..523d7596 100644
 --- a/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html
 +++ b/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html
 @@ -10,7 +10,7 @@
@@ -468,7 +506,7 @@ index 0f25d9f..523d759 100644
                    <app-profile-icon [userId]="user.id" [size]="20" />
                  </span>
 diff --git a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html
-index eaf4ced..7c4b89f 100644
+index eaf4ced4..7c4b89f0 100644
 --- a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html
 +++ b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html
 @@ -54,7 +54,7 @@
@@ -650,7 +688,7 @@ index eaf4ced..7c4b89f 100644
              </ul>
  
 diff --git a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss
-index 7411c81..f7a003d 100644
+index 7411c81e..f7a003dc 100644
 --- a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss
 +++ b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss
 @@ -239,12 +239,12 @@ ul ul {
@@ -669,7 +707,7 @@ index 7411c81..f7a003d 100644
    }
  }
 diff --git a/UI/Web/src/app/profile/_components/profile/profile.component.html b/UI/Web/src/app/profile/_components/profile/profile.component.html
-index 5a8dc79..3c2381d 100644
+index 5a8dc79e..3c2381de 100644
 --- a/UI/Web/src/app/profile/_components/profile/profile.component.html
 +++ b/UI/Web/src/app/profile/_components/profile/profile.component.html
 @@ -56,7 +56,7 @@
@@ -709,7 +747,7 @@ index 5a8dc79..3c2381d 100644
              <ng-template ngbNavContent>
                @defer (when activeTabId === Tabs.Activity; prefetch on idle) {
 diff --git a/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html b/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html
-index 8014c44..f390128 100644
+index 8014c44d..f3901287 100644
 --- a/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html
 +++ b/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html
 @@ -9,7 +9,7 @@
@@ -776,7 +814,7 @@ index 8014c44..f390128 100644
                  <ng-template ngbNavContent>
                    @defer (when activeTabId === Tabs.Details; prefetch on idle) {
 diff --git a/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html b/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html
-index 6f27c68..ae30c0f 100644
+index 6f27c68c..ae30c0f2 100644
 --- a/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html
 +++ b/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html
 @@ -1,12 +1,12 @@
@@ -796,7 +834,7 @@ index 6f27c68..ae30c0f 100644
  
      </app-side-nav-companion-bar>
 diff --git a/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html b/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html
-index dcd13fd..f016913 100644
+index dcd13fd9..f0169133 100644
 --- a/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html
 +++ b/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html
 @@ -7,7 +7,7 @@
@@ -827,7 +865,7 @@ index dcd13fd..f016913 100644
          <ng-template ngbNavContent>
            <app-cover-image-chooser [config]="chooserConfig()" (coverChanged)="handleCoverChanged($event)" (resetClicked)="handleReset()" />
 diff --git a/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html b/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html
-index 3b25be4..091bd10 100644
+index 3b25be4f..091bd10d 100644
 --- a/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html
 +++ b/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html
 @@ -1,6 +1,6 @@
@@ -839,7 +877,7 @@ index 3b25be4..091bd10 100644
          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
          <span class="visually-hidden">{{t('downloading-status')}}</span>
 diff --git a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html
-index 0a3b80a..2bee365 100644
+index 0a3b80a4..2bee3654 100644
 --- a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html
 +++ b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html
 @@ -24,7 +24,7 @@
@@ -996,7 +1034,7 @@ index 0a3b80a..2bee365 100644
                <ng-template ngbNavContent>
                  @defer (when activeTabId == Tabs.Activity; prefetch on idle) {
 diff --git a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts
-index 6ec7ae0..6a830e9 100644
+index 6ec7ae05..6a830e94 100644
 --- a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts
 +++ b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts
 @@ -901,7 +901,7 @@ class SeriesDetailComponent implements OnInit, AfterViewInit {
@@ -1009,7 +1047,7 @@ index 6ec7ae0..6a830e9 100644
      modalRef.closed.subscribe((closeResult: ModalResult<Series>) => {
        if (closeResult.success) {
 diff --git a/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html b/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html
-index ac5c693..e31fe8e 100644
+index ac5c6937..e31fe8e0 100644
 --- a/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html
 +++ b/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html
 @@ -5,7 +5,7 @@
@@ -1031,7 +1069,7 @@ index ac5c693..e31fe8e 100644
        <div class="col-auto text-end align-self-end justify-content-end">
          @if (showEdit()) {
 diff --git a/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html b/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html
-index 9eddfa4..17a32a9 100644
+index 9eddfa44..17a32a9e 100644
 --- a/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html
 +++ b/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html
 @@ -2,7 +2,7 @@
@@ -1053,7 +1091,7 @@ index 9eddfa4..17a32a9 100644
                <ng-template ngbNavContent>
                  <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
 diff --git a/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html b/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html
-index 2c128ad..ff187b2 100644
+index 2c128ada..ff187b20 100644
 --- a/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html
 +++ b/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html
 @@ -1,26 +1,26 @@
@@ -1088,7 +1126,7 @@ index 2c128ad..ff187b2 100644
        <ng-template ngbNavContent>
          <app-manage-external-sources />
 diff --git a/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html b/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html
-index 012cd2f..c6e4a40 100644
+index 012cd2ff..c6e4a400 100644
 --- a/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html
 +++ b/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html
 @@ -7,20 +7,20 @@
@@ -1117,7 +1155,7 @@ index 012cd2f..c6e4a40 100644
        </a>
      }
 diff --git a/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html b/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html
-index c8705bf..eec625a 100644
+index c8705bf7..eec625a0 100644
 --- a/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html
 +++ b/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html
 @@ -4,7 +4,7 @@
@@ -1139,7 +1177,7 @@ index c8705bf..eec625a 100644
        <app-side-nav-item class="donate" icon="fa-heart"
                          [ngbTooltip]="t('donate-tooltip')"
 diff --git a/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html b/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html
-index 923833b..0afd513 100644
+index 923833b1..0afd5133 100644
 --- a/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html
 +++ b/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html
 @@ -14,7 +14,7 @@
@@ -1188,7 +1226,7 @@ index 923833b..0afd513 100644
            <ng-template ngbNavContent>
              @for(task of tasks; track task.action) {
 diff --git a/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html b/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html
-index 947e68a..286bddb 100644
+index 947e68a0..286bddb4 100644
 --- a/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html
 +++ b/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html
 @@ -2,7 +2,7 @@
@@ -1200,8 +1238,280 @@ index 947e68a..286bddb 100644
        'closed' : navService.sideNavCollapsedSignal(),
        'hidden': !navService.sideNavVisibilitySignal(),
        'no-donate': licenseService.hasActiveLicense()
+diff --git a/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.html b/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.html
+index 6543f813..363e64e7 100644
+--- a/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.html
++++ b/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.html
+@@ -1,23 +1,23 @@
+ <ng-container *transloco="let t; prefix: 'activity-graph'">
+ 
+   <div class="activity-graph-container stats-card">
+-    <h4 class="graph-title d-flex">
++    <div class="graph-title d-flex">
+       <span class="stats-title me-2">{{ t('title') }} {{ timeFrameLabel() }}</span>
+-    </h4>
++    </div>
+ 
+     <app-loading [loading]="readingActivityResource.isLoading()" />
+ 
+     @if (readingActivityResource.hasValue()) {
+       @let aggregatedCountValue = aggregatedCount();
+       @if (aggregatedCountValue.totalPages > 0 || aggregatedCountValue.totalWords > 0) {
+-        <h6 class="stats-subtitle">{{ t('aggregated-count', {
++        <p class="stats-subtitle">{{ t('aggregated-count', {
+           year: year(),
+           totalPages: aggregatedCountValue.totalPages | compactNumber,
+           totalWords: aggregatedCountValue.totalWords | compactNumber
+-        }) }}</h6>
++        }) }}</p>
+       }
+ 
+-      <div class="graph-wrapper" role="region">
++      <div class="graph-wrapper" role="region" tabindex="0" [attr.aria-label]="t('title') + ' ' + timeFrameLabel()">
+         <table class="activity-graph-table" role="grid" aria-readonly="true">
+           <thead>
+           <tr>
+@@ -83,6 +83,7 @@
+           <div class="legend-cells">
+             @for (level of [0, 1, 2, 3, 4]; track level) {
+               <div class="legend-cell"
++                   role="img"
+                    [class]="getLevelClass(level)"
+                    [id]="'activity-level-' + level"
+                    [attr.aria-label]="getLevelDescription(level)">
+diff --git a/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.scss b/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.scss
+index a00bd7c4..cccfc308 100644
+--- a/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.scss
++++ b/UI/Web/src/app/statistics/_components/activity-graph/activity-graph.component.scss
+@@ -19,7 +19,7 @@
+ 
+   --activity-graph-cell-today-outline-color: #c7c7c7;
+ 
+-  --activity-graph-text-color: var(--bs-secondary);
++  --activity-graph-text-color: var(--body-text-color);
+   --activity-graph-font-size: 0.75rem;
+ }
+ 
+diff --git a/UI/Web/src/app/statistics/_components/avg-time-spend-reading-by-hour/avg-time-spend-reading-by-hour.component.html b/UI/Web/src/app/statistics/_components/avg-time-spend-reading-by-hour/avg-time-spend-reading-by-hour.component.html
+index 7ca282a8..613c8572 100644
+--- a/UI/Web/src/app/statistics/_components/avg-time-spend-reading-by-hour/avg-time-spend-reading-by-hour.component.html
++++ b/UI/Web/src/app/statistics/_components/avg-time-spend-reading-by-hour/avg-time-spend-reading-by-hour.component.html
+@@ -2,16 +2,16 @@
+ 
+   <div class="card stats-card p-4">
+ 
+-    <h4 class="stats-title">{{t('title')}}</h4>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @let mostTimeSpendReadingValue = mostTimeSpentReading();
+     @if (mostTimeSpendReadingValue !== null) {
+-      <h6 class="stats-subtitle">{{t('most-time-spend-reading', {
++      <p class="stats-subtitle">{{t('most-time-spend-reading', {
+         name: userName(),
+         startHour: startHourLocalized(),
+         endHour: endHourLocalized(),
+         amount: mostTimeSpendReadingValue.count
+-      })}}</h6>
++      })}}</p>
+     } @else if (!timeByHourResource().isLoading())  {
+       <app-stats-no-data [message]="t('no-data')" />
+     }
+diff --git a/UI/Web/src/app/statistics/_components/bucket-spread-chart/bucket-spread-chart.component.html b/UI/Web/src/app/statistics/_components/bucket-spread-chart/bucket-spread-chart.component.html
+index 2c36418d..468d5d22 100644
+--- a/UI/Web/src/app/statistics/_components/bucket-spread-chart/bucket-spread-chart.component.html
++++ b/UI/Web/src/app/statistics/_components/bucket-spread-chart/bucket-spread-chart.component.html
+@@ -1,12 +1,12 @@
+ <ng-container *transloco="let t; prefix: translationKey()">
+   <div class="card stats-card p-4">
+-    <h4 class="stats-title">{{t('title')}}</h4>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @let highestBucketValue = highestBucket();
+     @let spreadStatsValue = spreadStats();
+ 
+     @if (highestBucketValue) {
+-      <h6 class="stats-subtitle">{{t('sub-title', {username: userName(), highestBucket: highestBucket()})}}</h6>
++      <p class="stats-subtitle">{{t('sub-title', {username: userName(), highestBucket: highestBucket()})}}</p>
+     } @else if (!bucketSpreadResource().isLoading())  {
+       <app-stats-no-data [message]="t('no-data')" />
+     }
+diff --git a/UI/Web/src/app/statistics/_components/day-breakdown/day-breakdown.component.html b/UI/Web/src/app/statistics/_components/day-breakdown/day-breakdown.component.html
+index d4c8237c..bd017ccd 100644
+--- a/UI/Web/src/app/statistics/_components/day-breakdown/day-breakdown.component.html
++++ b/UI/Web/src/app/statistics/_components/day-breakdown/day-breakdown.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix: 'day-breakdown'">
+   <div class="card stats-card p-4">
+-    <h3 class="stats-title">{{t('title')}}</h3>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @if (hasData()) {
+       <app-bar-chart
+diff --git a/UI/Web/src/app/statistics/_components/favorite-authors/favorite-authors.component.html b/UI/Web/src/app/statistics/_components/favorite-authors/favorite-authors.component.html
+index 7c758e3a..4486e1b6 100644
+--- a/UI/Web/src/app/statistics/_components/favorite-authors/favorite-authors.component.html
++++ b/UI/Web/src/app/statistics/_components/favorite-authors/favorite-authors.component.html
+@@ -3,14 +3,14 @@
+   <app-loading [loading]="favoriteAuthors.isLoading()" />
+ 
+   @if (favoriteAuthors.hasValue()) {
+-    <h4 class="stats-title">{{t('title')}}</h4>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @let favAuthors = favoriteAuthors.value();
+     @let mostReadAuthorValue = mostReadAuthor();
+     @if (mostReadAuthorValue) {
+-      <h6 class="stats-subtitle">{{t('sub-title', {name: userName(), author: mostReadAuthor()?.authorName, count: mostReadCount()})}}</h6>
++      <p class="stats-subtitle">{{t('sub-title', {name: userName(), author: mostReadAuthor()?.authorName, count: mostReadCount()})}}</p>
+     } @else if (!favoriteAuthors.isLoading())  {
+-      <h6 class="stats-subtitle">{{t('no-data')}}</h6>
++      <p class="stats-subtitle">{{t('no-data')}}</p>
+     }
+ 
+ 
+diff --git a/UI/Web/src/app/statistics/_components/file-breakdown-stats/file-breakdown-stats.component.html b/UI/Web/src/app/statistics/_components/file-breakdown-stats/file-breakdown-stats.component.html
+index 0ef12054..564449f0 100644
+--- a/UI/Web/src/app/statistics/_components/file-breakdown-stats/file-breakdown-stats.component.html
++++ b/UI/Web/src/app/statistics/_components/file-breakdown-stats/file-breakdown-stats.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix: 'file-breakdown-stats'">
+   <div class="card stats-card p-4">
+-    <h3 class="stats-title">{{t('format-title')}} <i class="fa fa-info-circle ms-1" aria-hidden="true" placement="right" [ngbTooltip]="tooltip" role="button" tabindex="0"></i></h3>
++    <p class="stats-title">{{t('format-title')}} <i class="fa fa-info-circle ms-1" aria-hidden="true" placement="right" [ngbTooltip]="tooltip" role="button" tabindex="0"></i></p>
+ 
+     <ng-template #tooltip>{{t('format-tooltip')}}</ng-template>
+ 
+diff --git a/UI/Web/src/app/statistics/_components/files-over-time/files-over-time.component.html b/UI/Web/src/app/statistics/_components/files-over-time/files-over-time.component.html
+index 1cb436db..2fa9f5e4 100644
+--- a/UI/Web/src/app/statistics/_components/files-over-time/files-over-time.component.html
++++ b/UI/Web/src/app/statistics/_components/files-over-time/files-over-time.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix: 'files-over-time'">
+   <div class="card stats-card p-4">
+-    <h3 class="stats-title mb-2">{{t('title')}}</h3>
++    <p class="stats-title mb-2">{{t('title')}}</p>
+ 
+     <div class="row g-0">
+       @if (isLoading()) {
+diff --git a/UI/Web/src/app/statistics/_components/library-and-time-selector/library-and-time-selector.component.html b/UI/Web/src/app/statistics/_components/library-and-time-selector/library-and-time-selector.component.html
+index c43e26b0..f496d4c8 100644
+--- a/UI/Web/src/app/statistics/_components/library-and-time-selector/library-and-time-selector.component.html
++++ b/UI/Web/src/app/statistics/_components/library-and-time-selector/library-and-time-selector.component.html
+@@ -1,11 +1,11 @@
+ <ng-container *transloco="let t; prefix:'profile'">
+   <div class="d-flex flex-wrap gap-2 align-items-center justify-content-center justify-content-md-start">
+-    <h4 class="mb-0">{{label()}}</h4>
++    <h2 class="mb-0">{{label()}}</h2>
+ 
+     @let selectedLibraries = filter().libraries;
+ 
+     @if (!showLibraryTypeahead()) {
+-      <h4 class="mb-0 lib-selector" (click)="showLibraryTypeahead.set(true)">
++      <h2 class="mb-0 lib-selector" (click)="showLibraryTypeahead.set(true)">
+         @if (allLibraries().length === selectedLibraries.length) {
+           Kavita
+         } @else {
+@@ -14,7 +14,7 @@
+             @if (!$last) {,}
+           }
+         }
+-      </h4>
++      </h2>
+     } @else if (libraryTypeaheadSettings(); as typeaheadSettings) {
+       <app-typeahead
+         [config]="typeaheadSettings"
+diff --git a/UI/Web/src/app/statistics/_components/most-active-users/most-active-users.component.html b/UI/Web/src/app/statistics/_components/most-active-users/most-active-users.component.html
+index e3a632fd..cc6450f0 100644
+--- a/UI/Web/src/app/statistics/_components/most-active-users/most-active-users.component.html
++++ b/UI/Web/src/app/statistics/_components/most-active-users/most-active-users.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix:'most-active-users'">
+   <div class="card stats-card p-4">
+-    <h3 class="stats-title">{{t('title')}}</h3>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     <div class="row g-2">
+       @if (usersResource.isLoading()) {
+diff --git a/UI/Web/src/app/statistics/_components/preferred-format/preferred-format.component.html b/UI/Web/src/app/statistics/_components/preferred-format/preferred-format.component.html
+index 8ceb520d..1908e98f 100644
+--- a/UI/Web/src/app/statistics/_components/preferred-format/preferred-format.component.html
++++ b/UI/Web/src/app/statistics/_components/preferred-format/preferred-format.component.html
+@@ -2,11 +2,11 @@
+ 
+   <div class="stats-card card p-4">
+ 
+-    <h4 class="stats-title">{{t('title')}}</h4>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @let mostReadFormatValue = mostReadFormat();
+     @if (mostReadFormatValue) {
+-      <h6 class="stats-subtitle">{{t('sub-title', {name: userName(), format: mostReadFormat()})}}</h6>
++      <p class="stats-subtitle">{{t('sub-title', {name: userName(), format: mostReadFormat()})}}</p>
+ 
+       <app-pie-chart [data]="data()" [valueTransformer]="valueTransformer.bind(this)" />
+     }  @else if (!formatsResource.isLoading())  {
+diff --git a/UI/Web/src/app/statistics/_components/publication-status-stats/publication-status-stats.component.html b/UI/Web/src/app/statistics/_components/publication-status-stats/publication-status-stats.component.html
+index e62da962..05d62ba5 100644
+--- a/UI/Web/src/app/statistics/_components/publication-status-stats/publication-status-stats.component.html
++++ b/UI/Web/src/app/statistics/_components/publication-status-stats/publication-status-stats.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix: 'publication-status-stats'">
+   <div class="card stats-card p-4">
+-    <h6 class="stats-title">{{t('title')}}</h6>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @let statuses = publicationStatues();
+     @if (statuses.length > 0) {
+diff --git a/UI/Web/src/app/statistics/_components/reading-activity/reading-activity.component.html b/UI/Web/src/app/statistics/_components/reading-activity/reading-activity.component.html
+index 8a5afef7..6c933914 100644
+--- a/UI/Web/src/app/statistics/_components/reading-activity/reading-activity.component.html
++++ b/UI/Web/src/app/statistics/_components/reading-activity/reading-activity.component.html
+@@ -2,7 +2,7 @@
+   <div class="card stats-card p-4">
+     <div class="row g-0 mb-2 align-items-center">
+       <div class="col-4">
+-        <h3 class="stats-title">{{t('title')}}</h3>
++        <p class="stats-title">{{t('title')}}</p>
+       </div>
+       <div class="col-8">
+         <form class="d-inline-flex float-end">
+diff --git a/UI/Web/src/app/statistics/_components/reading-pace/reading-pace.component.html b/UI/Web/src/app/statistics/_components/reading-pace/reading-pace.component.html
+index 8cfdd4f1..e946c037 100644
+--- a/UI/Web/src/app/statistics/_components/reading-pace/reading-pace.component.html
++++ b/UI/Web/src/app/statistics/_components/reading-pace/reading-pace.component.html
+@@ -3,10 +3,10 @@
+   @let formatType = type();
+ 
+   <div class="stats-card card p-4">
+-    <h4 class="stats-title">{{t('title-' + localePrefix())}}</h4>
++    <p class="stats-title">{{t('title-' + localePrefix())}}</p>
+ 
+     @if (paceStats) {
+-      <h6 class="stats-subtitle">{{t('sub-title-' + localePrefix(), {username: userName(), count: paceInDays()})}}</h6>
++      <p class="stats-subtitle">{{t('sub-title-' + localePrefix(), {username: userName(), count: paceInDays()})}}</p>
+     } @else if (!readingPace.isLoading()) {
+       <app-stats-no-data [message]="t('no-data')" />
+     }
+diff --git a/UI/Web/src/app/statistics/_components/reads-by-month/reads-by-month.component.html b/UI/Web/src/app/statistics/_components/reads-by-month/reads-by-month.component.html
+index a90f8a00..66cf4a65 100644
+--- a/UI/Web/src/app/statistics/_components/reads-by-month/reads-by-month.component.html
++++ b/UI/Web/src/app/statistics/_components/reads-by-month/reads-by-month.component.html
+@@ -2,11 +2,11 @@
+ 
+   <div class="card stats-card p-4">
+ 
+-    <h4 class="stats-title">{{t('title')}}</h4>
++    <p class="stats-title">{{t('title')}}</p>
+ 
+     @let mostReadValue = highestRead();
+     @if (mostReadValue) {
+-      <h6 class="stats-subtitle">{{t('sub-title', {username: userName(), year: mostReadValue.year, month: mostReadValue.month, reads: mostReadValue.count | number})}}</h6>
++      <p class="stats-subtitle">{{t('sub-title', {username: userName(), year: mostReadValue.year, month: mostReadValue.month, reads: mostReadValue.count | number})}}</p>
+ 
+       <app-line-chart
+         [axisLabels]="axisLabels()"
 diff --git a/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html b/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html
-index d31d144..41bf898 100644
+index d31d144c..41bf8986 100644
 --- a/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html
 +++ b/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html
 @@ -3,14 +3,14 @@
@@ -1221,8 +1531,31 @@ index d31d144..41bf898 100644
          <a ngbNavLink>{{Tabs.Management | tabTitle}}</a>
          <ng-template ngbNavContent>
            <app-server-stats-mgmt-tab />
+diff --git a/UI/Web/src/app/statistics/_components/string-breakdown/string-breakdown.component.html b/UI/Web/src/app/statistics/_components/string-breakdown/string-breakdown.component.html
+index a4b30627..0797baf2 100644
+--- a/UI/Web/src/app/statistics/_components/string-breakdown/string-breakdown.component.html
++++ b/UI/Web/src/app/statistics/_components/string-breakdown/string-breakdown.component.html
+@@ -2,15 +2,15 @@
+ 
+ <div class="card stats-card p-4" *transloco="let t; prefix: translationKey()">
+ 
+-  <h4 class="stats-title">{{t('title')}}</h4>
++  <p class="stats-title">{{t('title')}}</p>
+ 
+   @let mostUsedValue = mostUsed();
+   @let breakDownValue = breakDown().value();
+ 
+   @if (mostUsedValue) {
+-    <h6 class="stats-subtitle">{{t('sub-title', {name: userName(), mostUsed: mostUsedValue.value})}}</h6>
++    <p class="stats-subtitle">{{t('sub-title', {name: userName(), mostUsed: mostUsedValue.value})}}</p>
+   } @else if (!breakDown().isLoading())  {
+-    <h6 class="stats-subtitle">{{t('no-data')}}</h6>
++    <p class="stats-subtitle">{{t('no-data')}}</p>
+   }
+ 
+   <app-loading [loading]="breakDown().isLoading()" />
 diff --git a/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html b/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html
-index 65e9fd3..6743514 100644
+index 65e9fd35..67435142 100644
 --- a/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html
 +++ b/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html
 @@ -48,20 +48,20 @@
@@ -1252,7 +1585,7 @@ index 65e9fd3..6743514 100644
          </li>
        </ul>
 diff --git a/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html b/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html
-index ca453e5..1b3f22b 100644
+index ca453e51..1b3f22ba 100644
 --- a/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html
 +++ b/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html
 @@ -71,7 +71,7 @@
@@ -1283,7 +1616,7 @@ index ca453e5..1b3f22b 100644
                    <ng-template ngbNavContent>
                      @defer (when activeTabId === Tabs.PdfReader; prefetch on idle) {
 diff --git a/UI/Web/src/app/volume-detail/volume-detail.component.html b/UI/Web/src/app/volume-detail/volume-detail.component.html
-index 2f63c77..d287d78 100644
+index 2f63c770..d287d78a 100644
 --- a/UI/Web/src/app/volume-detail/volume-detail.component.html
 +++ b/UI/Web/src/app/volume-detail/volume-detail.component.html
 @@ -163,7 +163,7 @@
@@ -1332,7 +1665,7 @@ index 2f63c77..d287d78 100644
            <ng-template ngbNavContent>
              @defer (when activeTabId === Tabs.Details; prefetch on idle) {
 diff --git a/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html b/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html
-index facbfac..34eb488 100644
+index facbfacc..34eb4885 100644
 --- a/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html
 +++ b/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html
 @@ -3,11 +3,11 @@
@@ -1350,8 +1683,39 @@ index facbfac..34eb488 100644
          </app-side-nav-companion-bar>
      </div>
  
+diff --git a/UI/Web/src/assets/langs/en.json b/UI/Web/src/assets/langs/en.json
+index 4ef8212e..0c3d9530 100644
+--- a/UI/Web/src/assets/langs/en.json
++++ b/UI/Web/src/assets/langs/en.json
+@@ -1940,7 +1940,9 @@
+         "cancel-edit": "Close Reorder",
+         "more": "More",
+         "customize": "{{settings.customize}}",
+-        "edit": "{{common.edit}}"
++        "edit": "{{common.edit}}",
++        "side-nav-alt": "Side navigation",
++        "sidenav-bottom-alt": "Support links"
+     },
+ 
+     "browse-people": {
+@@ -2624,6 +2626,7 @@
+ 
+ 
+     "settings": {
++        "side-nav-alt": "Settings navigation",
+         "account-section-title": "Account",
+         "server-section-title": "Server",
+         "insights-section-title": "Insights",
+@@ -4586,6 +4589,7 @@
+ 
+ 
+     "actionable": {
++        "actions-for": "Actions for {{name}}",
+         "scan-library": "Scan Library",
+         "scan-library-tooltip": "Scan library for changes. Use force scan to force checking every folder",
+         "refresh-covers": "Refresh Covers",
 diff --git a/UI/Web/src/index.html b/UI/Web/src/index.html
-index cff4f11..6831e3e 100644
+index cff4f111..6831e3e0 100644
 --- a/UI/Web/src/index.html
 +++ b/UI/Web/src/index.html
 @@ -1,5 +1,5 @@
@@ -1371,7 +1735,7 @@ index cff4f11..6831e3e 100644
  </body>
  </html>
 diff --git a/UI/Web/src/styles.scss b/UI/Web/src/styles.scss
-index fc81d18..ee7ad23 100644
+index fc81d189..ee7ad230 100644
 --- a/UI/Web/src/styles.scss
 +++ b/UI/Web/src/styles.scss
 @@ -161,3 +161,16 @@ body {
@@ -1392,7 +1756,7 @@ index fc81d18..ee7ad23 100644
 +  --bs-nav-pills-link-active-color: #000;
 +}
 diff --git a/UI/Web/src/theme/_toastr.scss b/UI/Web/src/theme/_toastr.scss
-index 382d9d0..551b019 100644
+index 382d9d05..551b019d 100644
 --- a/UI/Web/src/theme/_toastr.scss
 +++ b/UI/Web/src/theme/_toastr.scss
 @@ -112,6 +112,9 @@
@@ -1406,7 +1770,7 @@ index 382d9d0..551b019 100644
      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cpath fill='rgb(255,255,255)' d='M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z'/%3E%3C/svg%3E");
      background-color: var(--toast-info-bg-color);
 diff --git a/UI/Web/src/theme/components/_badge.scss b/UI/Web/src/theme/components/_badge.scss
-index cbb377e..d4e5504 100644
+index cbb377e9..d4e5504b 100644
 --- a/UI/Web/src/theme/components/_badge.scss
 +++ b/UI/Web/src/theme/components/_badge.scss
 @@ -2,6 +2,10 @@
@@ -1421,7 +1785,7 @@ index cbb377e..d4e5504 100644
    color: var(--body-text-color) !important;
  }
 diff --git a/UI/Web/src/theme/components/_headers.scss b/UI/Web/src/theme/components/_headers.scss
-index 3206046..8cbc3b1 100644
+index 3206046e..8cbc3b13 100644
 --- a/UI/Web/src/theme/components/_headers.scss
 +++ b/UI/Web/src/theme/components/_headers.scss
 @@ -3,7 +3,7 @@
@@ -1433,8 +1797,21 @@ index 3206046..8cbc3b1 100644
    margin-bottom: 0.625rem;
    margin-top: 0.625rem;
  }
+diff --git a/UI/Web/src/theme/components/_stat-card.scss b/UI/Web/src/theme/components/_stat-card.scss
+index 0060f36c..fcee6711 100644
+--- a/UI/Web/src/theme/components/_stat-card.scss
++++ b/UI/Web/src/theme/components/_stat-card.scss
+@@ -5,7 +5,7 @@
+ 
+   .stats-title {
+     font-size: 0.875rem;
+-    color: var(--text-muted-color);
++    color: var(--body-text-color);
+     text-transform: uppercase;
+     letter-spacing: 0.0312rem;
+   }
 diff --git a/UI/Web/src/theme/themes/dark.scss b/UI/Web/src/theme/themes/dark.scss
-index 65b936e..88c7f92 100644
+index 65b936ec..88c7f92a 100644
 --- a/UI/Web/src/theme/themes/dark.scss
 +++ b/UI/Web/src/theme/themes/dark.scss
 @@ -150,10 +150,10 @@

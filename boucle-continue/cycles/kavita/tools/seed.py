@@ -135,26 +135,98 @@ for name, ltype, folder, fgroups, mprovider in LIBS:
     if st not in (200, 201) or not isinstance(res, dict): die(f'Library/create {name} -> {st} {res}')
     lib_ids[name] = res['id']; print(f'[seed] lib created {name} id={res["id"]}')
 
-# 2c. scan PAR bibliotheque (scan-all est racé : il peut passer avant la
-# creation des libs suivantes — le parametre est "force", pas forceUpdate)
-# scan-all unique : les scans par-bibliotheque sont dedupliques par le
-# scheduler Hangfire de Kavita (POST /api/Library/scan?libraryId=2,3 peut etre
-# avale silencieusement quand un scan tourne) -> scan-all force est fiable.
-call('POST', '/api/Library/scan-all?force=true', token=token)
-print('[seed] scan-all posted, polling series...')
-series = []
-deadline = time.time() + 180
-while time.time() < deadline:
+# 2c. scan — K2 : scan-all?force=true est DEDUPLIQUE par Hangfire quand un
+# scan est deja en vol (celui que Library/create declenche). Le post tombe
+# alors en silence (ou est replanifie +3h dans `scheduled`) et la serie cible
+# n'arrive jamais -> la boucle morte « 3/7 series after scan timeout ».
+# Fix : attendre la QUESCENCE via /api/Server/activity (running + scheduled)
+# AVANT de poster, puis re-poster force=true si le post a ete avale (aucune
+# activite de scan ET series < attendu). Repli : scan par bibliotheque
+# sequentiel, toujours poste sur quiescence.
+SCAN_EVENTS = {'FileScanProgress', 'ScanProgress', 'ScanSeries'}
+
+def scan_activity():
+    st, act = call('GET', '/api/Server/activity', token=token)
+    if st != 200 or not isinstance(act, dict):
+        return 0, 0  # endpoint indisponible -> on considere idle
+    running = [e for e in (act.get('running') or [])
+               if (e.get('name') or '') in SCAN_EVENTS and e.get('eventType') != 'ended']
+    scheduled = act.get('scheduledTotal') or len(act.get('scheduled') or [])
+    return len(running), scheduled
+
+def series_count():
     st, res = call('POST', '/api/Series/all-v2',
                    {'statements': [], 'combination': 1, 'sortOptions': None,
                     'limitTo': 0, 'applyAgeRating': False}, token)
-    if st == 200 and isinstance(res, list):
-        series = res
-        if len(series) >= EXPECTED_SERIES: break
+    return res if st == 200 and isinstance(res, list) else []
+
+def wait_scan_idle(timeout):
+    # `scheduled` seul ne bloque pas : un post avale est replanifie +3h et
+    # resterait visible indefiniment — seul `running` prouve un scan actif.
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        running, scheduled = scan_activity()
+        if running == 0:
+            return True
+        time.sleep(2)
+    return False
+
+# Phase A : purge des scans auto (cree par Library/create) — jusqu'a 240s.
+if not wait_scan_idle(240):
+    print('[seed] WARN: un scan reste en vol apres 240s, on force quand meme')
+
+series = []
+DEADLINE = time.time() + 360
+posted = 0
+idle_streak = 0
+while time.time() < DEADLINE:
+    running, scheduled = scan_activity()
+    if running == 0:
+        idle_streak += 1
+        # Poste/reposte scan-all uniquement sur quiescence (un post pendant
+        # un scan est deduplique/avale — c'est le bug d'origine).
+        if posted == 0 or (idle_streak >= 2 and posted < 4):
+            st, res = call('POST', '/api/Library/scan-all?force=true', token=token)
+            posted += 1
+            idle_streak = 0
+            print(f'[seed] scan-all posted (#{posted}) -> {st}')
+            time.sleep(2)
+            continue
+    else:
+        idle_streak = 0
+    series = series_count()
+    if len(series) >= EXPECTED_SERIES and running == 0:
+        break
     time.sleep(3)
+
+# Repli : scan-all n'a pas suffi -> scan sequentiel par bibliotheque,
+# chaque post sur quiescence verifiee.
+if len(series) < EXPECTED_SERIES:
+    print(f'[seed] scan-all insuffisant ({len(series)}/{EXPECTED_SERIES}), fallback scan par bibliotheque')
+    st, cur = call('GET', '/api/Library/libraries', token=token)
+    for lib in (cur or []):
+        if time.time() > DEADLINE: break
+        wait_scan_idle(120)
+        st, res = call('POST', f'/api/Library/scan?libraryId={lib["id"]}&force=false', token=token)
+        print(f'[seed] scan lib {lib["id"]} -> {st}')
+        # attendre que CE scan finisse avant le suivant
+        deadline_lib = time.time() + 120
+        while time.time() < deadline_lib:
+            running, scheduled = scan_activity()
+            if running == 0: break
+            time.sleep(2)
+        series = series_count()
+        if len(series) >= EXPECTED_SERIES: break
+
+# Attente finale du vidage des scans residuels + serie complete.
+deadline = time.time() + 120
+while len(series) < EXPECTED_SERIES and time.time() < deadline:
+    time.sleep(3)
+    series = series_count()
 if len(series) < EXPECTED_SERIES:
     die(f'only {len(series)}/{EXPECTED_SERIES} series after scan timeout')
-print(f'[seed] {len(series)} series scanned')
+wait_scan_idle(60)  # laisser les covers/metadata se finir avant la suite
+print(f'[seed] {len(series)} series scanned (posts scan-all={posted})')
 sid = {s['name']: s['id'] for s in series}
 sid.update({s.get('originalName'): s['id'] for s in series if s.get('originalName')})
 print('[seed] series ids:', sid)
