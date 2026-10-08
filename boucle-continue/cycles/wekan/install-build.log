@@ -1,0 +1,30 @@
+# Install-build replay — cycle 39 (wekan @6c95ad716d5c0c390741a98900b06a5798d5992d)
+
+# 1. Clone vierge (local clone of the SHA-pinned checkout == virgin tree at same SHA)
+git clone ~/work/wekan ~/work/wekan-ib
+cd ~/work/wekan-ib && git checkout 6c95ad716d5c0c390741a98900b06a5798d5992d
+# -> "HEAD is now at 6c95ad716d Correct Walloon text in Waray board controls"
+git status --porcelain | wc -l   # -> 0
+
+# 2. Application du patch
+git apply ~/work/c39/patch.diff
+git status --porcelain | wc -l   # -> 61  (61 fichiers, 0 rejet)
+
+# 3. Install
+export PATH=$HOME/.meteor:$PATH
+meteor npm install               # -> 640M node_modules, exit 0
+
+# 4. Boot replay :5581 (même conteneur mongo wekan39-db, même db 'wekan' seedée — ids littéraux identiques)
+MONGO_URL='mongodb://localhost:27017/wekan?replicaSet=rs0' \
+MONGO_OPLOG_URL='mongodb://localhost:27017/local?replicaSet=rs0' \
+ROOT_URL='http://localhost:5581' WRITABLE_PATH=$HOME/work/wekan-data-ib \
+WITH_API=true PORT=5581 meteor run --port 5581 > /tmp/wekan-ib.log 2>&1 &
+# -> "=> App running at http://localhost:5581"
+
+# 5. Rescan
+node audit.mjs http://localhost:5581 --urls "$(paste -sd, urls-public.txt)" --states none --out ../reports/install-public
+# -> 5 scans : 0 règle(s), 0 occurrence(s), 0 erreur(s), 0 incomplet(s)
+node audit.mjs http://localhost:5581 --urls "$(paste -sd, urls-auth.txt)" --storage-state ../auth.json --states all --out ../reports/install-auth
+# -> 100 scans : 0 règle(s), 0 occurrence(s), 0 erreur(s), 848 incomplet(s)  (identique au dev :5580)
+node verify.mjs http://localhost:5581 ../auth.json
+# -> 61 assertions — 61 PASS, 0 N-A, 0 FAIL

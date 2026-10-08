@@ -1,0 +1,1340 @@
+# Audit accessibilité — 2026-10-07
+
+**15 règle(s) violée(s), 932 occurrence(s), 46/46 scénario(s) audité(s), 0 erreur(s), 386 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `528730424fdf`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.js-pomodoro-work-minutes`
+  - `textarea`
+- http://localhost:5580/admin/settings/visibility
+  - `#custom-help-link-url`
+  - `#legalNoticevalue`
+  - `#automatic-linked-url-schemes`
+  - `#product-name`
+  - `#custom-login-logo-image-url`
+  - `#custom-login-logo-link-url`
+  - `#text-below-custom-login-logo`
+  - `#custom-top-left-corner-logo-image-url`
+  - `#custom-top-left-corner-logo-link-url`
+  - `#custom-top-left-corner-logo-height`
+- http://localhost:5580/admin/people/people
+  - `#\39 hYiBHkWZp5YXo9Rx`
+  - `#f4kccKCr44YomRSwA`
+- http://localhost:5580/admin/attachments/backup
+  - `input`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.js-list-filter > input[type="text"]`
+  - `.js-column-age-days`
+  - `.js-field-advanced-filter`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.js-pomodoro-work-minutes`
+  - `textarea`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.js-pomodoro-work-minutes`
+  - `textarea`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.js-pomodoro-work-minutes`
+  - `textarea`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://localhost:5580/admin/settings/visibility
+  - `#spinnerName`
+- http://localhost:5580/admin/attachments/backup
+  - `.js-backup-storage`
+  - `.js-backup-frequency`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.js-column-age-list`
+
+## [CRITICAL] aria-required-parent — Certain ARIA roles must be contained by particular parents
+
+Ensure elements with an ARIA role that require parent roles are contained by them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-parent?application=axeAPI
+
+- http://localhost:5580/allboards [state:header-member-menu]
+  - `.js-toggle-my-dependencies`
+  - `.js-toggle-board-dependencies`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:5580/
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="remaining"] > .menu-label`
+  - `.label`
+  - `.c39wknBoard0000002 > .board-list-item > .js-open-board[draggable="false"] > .details > .board-list-item-name > .viewer[dir="auto"] > p`
+  - … +1 autres
+- http://localhost:5580/allboards
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="starred"] > .menu-label`
+  - `.board-list-item`
+- http://localhost:5580/allboards/starred
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="starred"] > .menu-label`
+  - `.board-list-item`
+- http://localhost:5580/allboards/templates
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="templates"] > .menu-label`
+  - `.board-list-item`
+- http://localhost:5580/allboards/remaining
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="remaining"] > .menu-label`
+  - `.label`
+  - `.c39wknBoard0000002 > .board-list-item > .js-open-board[draggable="false"] > .details > .board-list-item-name > .viewer[dir="auto"] > p`
+  - … +1 autres
+- http://localhost:5580/archive
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+  - `li`
+- http://localhost:5580/public
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/accessibility
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/support
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/shortcuts
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/my-cards
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/due-cards
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/my-attachments
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/starred-items
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/global-search
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+  - `.js-board-title.list-title.card-label:nth-child(1)`
+  - `.js-board-title.list-title.card-label:nth-child(2)`
+  - `.js-board-title.list-title.card-label:nth-child(3)`
+  - `.js-list-title.list-title.card-label:nth-child(1)`
+  - `.js-list-title.list-title.card-label:nth-child(2)`
+  - `.js-list-title.list-title.card-label:nth-child(3)`
+  - `.js-list-title.list-title.card-label:nth-child(4)`
+  - … +11 autres
+- http://localhost:5580/bookmarks
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="remaining"] > .menu-label`
+  - `.label`
+- http://localhost:5580/broken-cards
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/import
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+- http://localhost:5580/import/trello
+  - `.header-page-title`
+  - `.board-header-btn-label`
+  - `.header-user-bar-name`
+  - `.import-file-row:nth-child(3) > .import-file-hint.quiet`
+  - `.import-file-row:nth-child(4) > .import-file-hint.quiet`
+  - `.negate`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +7 autres
+- http://localhost:5580/b/c39wknBoard0000002/backlog-produit
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +1 autres
+- http://localhost:5580/b/c39wknBoard0000003/feuille-de-route-publique
+  - `.open-minicard-composer`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +12 autres
+- http://localhost:5580/admin/settings/version
+  - `.header-page-title`
+  - `.people > .board-header-btn-label`
+  - `.informations > .board-header-btn-label`
+  - `.problems > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="version-setting"]`
+  - `a[data-id="tableVisibilityMode-setting"]`
+  - `a[data-id="announcement-setting"]`
+  - `a[data-id="accessibility-setting"]`
+  - … +3 autres
+- http://localhost:5580/admin/settings/visibility
+  - `.header-page-title`
+  - `.people > .board-header-btn-label`
+  - `.informations > .board-header-btn-label`
+  - `.problems > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="version-setting"]`
+  - `a[data-id="tableVisibilityMode-setting"]`
+  - `a[data-id="announcement-setting"]`
+  - `a[data-id="accessibility-setting"]`
+  - … +22 autres
+- http://localhost:5580/admin/settings/accessibility
+  - `.header-page-title`
+  - `.people > .board-header-btn-label`
+  - `.informations > .board-header-btn-label`
+  - `.problems > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="version-setting"]`
+  - `a[data-id="tableVisibilityMode-setting"]`
+  - `a[data-id="announcement-setting"]`
+  - `a[data-id="accessibility-setting"]`
+  - … +4 autres
+- http://localhost:5580/admin/people/people
+  - `.header-page-title`
+  - `.settings > .board-header-btn-label`
+  - `.informations > .board-header-btn-label`
+  - `.problems > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="email-setting"]`
+  - `a[data-id="notify-setting"]`
+  - `a[data-id="domains-setting"]`
+  - `a[data-id="org-setting"]`
+  - … +15 autres
+- http://localhost:5580/admin/people/roles
+  - `.header-page-title`
+  - `.settings > .board-header-btn-label`
+  - `.informations > .board-header-btn-label`
+  - `.problems > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="email-setting"]`
+  - `a[data-id="notify-setting"]`
+  - `a[data-id="domains-setting"]`
+  - `a[data-id="org-setting"]`
+  - … +27 autres
+- http://localhost:5580/admin/problems/summary
+  - `.header-page-title`
+  - `.settings > .board-header-btn-label`
+  - `.people > .board-header-btn-label`
+  - `.informations > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="report-summary"]`
+  - `.left-menu-heading:nth-child(3)`
+  - `a[data-id="features-security"]`
+  - `a[data-id="features-delete"]`
+  - … +24 autres
+- http://localhost:5580/admin/attachments/backup
+  - `.header-page-title`
+  - `.settings > .board-header-btn-label`
+  - `.people > .board-header-btn-label`
+  - `.problems > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-id="backup"]`
+  - `a[data-id="continuous-backup"]`
+  - `a[data-id="move"]`
+  - `a[data-id="default-save-storage"]`
+  - … +19 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/rules
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +1 autres
+- http://localhost:5580/b/templates
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `h1`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +13 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `.js-inlined-form-wrapper[data-position="bottom"]:nth-child(5) > .open-minicard-composer.js-card-composer[title="Add Card to Bottom of List"]`
+  - … +13 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `.js-inlined-form-wrapper[data-position="bottom"]:nth-child(5) > .open-minicard-composer.js-card-composer[title="Add Card to Bottom of List"]`
+  - … +6 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +14 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +12 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +12 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +8 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `.header-page-title`
+  - `.js-change-visibility > .board-header-btn-label`
+  - `.js-watch-board > .board-header-btn-label`
+  - `.js-sort-cards > .board-header-btn-label`
+  - `.js-open-filter-view > .board-header-btn-label`
+  - `.js-open-search-view > .board-header-btn-label`
+  - `.js-multiselection-activate > .board-header-btn-label`
+  - `.js-toggle-board-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - … +8 autres
+- http://localhost:5580/allboards [state:header-member-menu]
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="starred"] > .menu-label`
+  - `.board-list-item`
+- http://localhost:5580/allboards [state:header-starred-boards]
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="starred"] > .menu-label`
+- http://localhost:5580/allboards [state:new-board-popup]
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-search > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="starred"] > .menu-label`
+  - `.board-list-item`
+  - `form > p`
+  - … +5 autres
+- http://localhost:5580/allboards [state:allboards-sidebar]
+  - `.header-page-title`
+  - `.js-open-boards-sort > .board-header-btn-label`
+  - `.js-all-boards-sidebar-multiselection > .board-header-btn-label`
+  - `.js-open-all-boards-view > .board-header-btn-label`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.header-user-bar-name`
+  - `a[data-type="starred"] > .menu-label`
+  - `.board-list-item`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:mobile-board-390]
+  - `.header-page-title`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.header-page-title`
+  - `.notifications-drawer-toggle > .board-header-btn-label`
+  - `.card-label-red > .viewer[dir="auto"] > p`
+  - `time[datetime="2026-10-04T20:51:22.695Z"]`
+  - `time[datetime="2026-10-04T20:51:22.695Z"] > b`
+  - `.js-start-flow`
+  - `.js-start-pomodoro`
+
+## [SERIOUS] label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+Ensure that elements labelled through their content must have their visible text as part of their accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI
+
+- http://localhost:5580/
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards/starred
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards/templates
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards/remaining
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/archive
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/public
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/accessibility
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/support
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/shortcuts
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/my-cards
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/due-cards
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.js-edit-date`
+- http://localhost:5580/my-attachments
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/starred-items
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/global-search
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/bookmarks
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/broken-cards
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/import
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/import/trello
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/b/c39wknBoard0000002/backlog-produit
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000003/feuille-de-route-publique
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `a[title="{{_ 'card-start'}} week 40"]`
+  - `a[title="{{_ 'card-due'}} week 42"]`
+  - `.js-add-labels[href="#"]:nth-child(2)`
+  - `.card-details-item-start > .start-date.current.js-edit-date`
+  - `.card-details-item-due > .due-date.not-due.js-edit-date`
+- http://localhost:5580/admin/settings/version
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/admin/settings/visibility
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/admin/settings/accessibility
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/admin/people/people
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/admin/people/roles
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/admin/problems/summary
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/admin/attachments/backup
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/rules
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/templates
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `a[title="{{_ 'card-start'}} week 40"]`
+  - `a[title="{{_ 'card-due'}} week 42"]`
+  - `.js-add-labels[href="#"]:nth-child(2)`
+  - `.card-details-item-start > .start-date.current.js-edit-date`
+  - `.card-details-item-due > .due-date.not-due.js-edit-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `a[title="{{_ 'card-start'}} week 40"]`
+  - `a[title="{{_ 'card-due'}} week 42"]`
+  - `.js-add-labels[href="#"]:nth-child(2)`
+  - `.card-details-item-start > .start-date.current.js-edit-date`
+  - `.card-details-item-due > .due-date.not-due.js-edit-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+  - `.start-date`
+  - `.due-date`
+- http://localhost:5580/allboards [state:header-member-menu]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards [state:header-starred-boards]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards [state:new-board-popup]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/allboards [state:allboards-sidebar]
+  - `.js-open-starred-boards`
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.js-add-labels[href="#"]:nth-child(2)`
+  - `.start-date`
+  - `.due-date`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:5580/due-cards
+  - `.minicard-details-menu-with-handle`
+  - `.minicard-collapse`
+  - `.js-edit-date`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000002/backlog-produit
+  - `.minicard-details-menu-with-handle`
+  - `.minicard-collapse`
+- http://localhost:5580/b/c39wknBoard0000003/feuille-de-route-publique
+  - `.minicard-details-menu-with-handle`
+  - `.minicard-collapse`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `.is-selected > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `.is-selected > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `.js-shortcuts`
+  - `.js-open-board-menu`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `.js-shortcuts`
+  - `.js-open-board-menu`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `.is-selected > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `.is-selected > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `.is-selected > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `.is-selected > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `.is-active`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="K9XDvsrzwFW95xPfZ"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="ko86fYqDAH6f3hgfm"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="c39wknCard000000001"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-details-menu-with-handle.js-open-minicard-details-menu[title="Card Actions"]`
+  - `a[data-card-id="tWgYD2XfqCRoSEpis"] > .minicard.nodragscroll > .minicard-collapse.js-collapse-minicard[title="Collapse"]`
+- http://localhost:5580/allboards [state:new-board-popup]
+  - `input[value="one"]`
+  - `input[value="separate"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:mobile-board-390]
+  - `.header-user-bar-name`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.js-open-custom-fields-settings`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:5580/due-cards
+  - `.minicard-members > .member.js-member[href="#"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.js-received-date`
+  - `.js-end-date`
+  - `.attachment-item`
+- http://localhost:5580/admin/people/people
+  - `.js-edit-people-avatar[data-user-id="9hYiBHkWZp5YXo9Rx"][href="#"]`
+  - `.js-edit-people-avatar[data-user-id="f4kccKCr44YomRSwA"][href="#"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.js-received-date`
+  - `.js-end-date`
+  - `.attachment-item`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.js-received-date`
+  - `.js-end-date`
+  - `.attachment-item`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:mobile-board-390]
+  - `#js-list-i7eFmWNWd8QEPui24 > .list-header.js-list-header.nodragscroll > .js-inlined-form-wrapper > .list-header-menu-icon.js-select-list[href="#"]`
+  - `#js-list-pDNggNqT4tGtDXTZz > .list-header.js-list-header.nodragscroll > .js-inlined-form-wrapper > .list-header-menu-icon.js-select-list[href="#"]`
+  - `#js-list-w6JrWTuvC3B2KAXsG > .list-header.js-list-header.nodragscroll > .js-inlined-form-wrapper > .list-header-menu-icon.js-select-list[href="#"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.js-received-date`
+  - `.js-end-date`
+  - `.attachment-item`
+
+## [SERIOUS] nested-interactive — Interactive controls must not be nested
+
+Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
+Référence : https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI
+
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="subtasks"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="subtasks"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="subtasks"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="subtasks"]`
+
+## [SERIOUS] list — <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+
+Ensure that lists are structured correctly
+Référence : https://dequeuniversity.com/rules/axe/4.14/list?application=axeAPI
+
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `#cards`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `ul:nth-child(10)`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `#cards`
+- http://localhost:5580/allboards [state:header-member-menu]
+  - `.pop-over-list:nth-child(1)`
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-title-only?application=axeAPI
+
+- http://localhost:5580/admin/settings/visibility
+  - `.js-theme-wheel`
+- http://localhost:5580/admin/people/people
+  - `select[data-filter="user"]`
+  - `select[data-filter="team"]`
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI
+
+- http://localhost:5580/shortcuts
+  - `#content`
+
+## [SERIOUS] aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+Ensure ARIA attributes are not prohibited for an element's role
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI
+
+- http://localhost:5580/admin/settings/visibility
+  - `.spinner-preview`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:5580/archive
+  - `html`
+- http://localhost:5580/public
+  - `html`
+- http://localhost:5580/accessibility
+  - `html`
+- http://localhost:5580/support
+  - `html`
+- http://localhost:5580/shortcuts
+  - `html`
+- http://localhost:5580/my-cards
+  - `html`
+- http://localhost:5580/my-attachments
+  - `html`
+- http://localhost:5580/starred-items
+  - `html`
+- http://localhost:5580/broken-cards
+  - `html`
+- http://localhost:5580/import
+  - `html`
+- http://localhost:5580/import/trello
+  - `html`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/rules
+  - `html`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI
+
+- http://localhost:5580/admin/people/roles
+  - `h4`
+- http://localhost:5580/admin/attachments/backup
+  - `h4:nth-child(5)`
+
+## [MINOR] aria-allowed-role — ARIA role should be appropriate for the element
+
+Ensure role attribute has an appropriate value for the element
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-allowed-role?application=axeAPI
+
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `h3[data-section="labels"]`
+  - `h3[data-section="date-format"]`
+  - `h3[data-section="members"]`
+  - `h3[data-section="dependencies"]`
+  - `h3[data-section="sort"]`
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="description"]`
+  - `h3[data-section="checklists"]`
+  - `h3[data-section="subtasks"]`
+  - `h3[data-section="attachments"]`
+  - … +3 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `h3[data-fold="members"]`
+  - `h3[data-fold="labels"]`
+  - `.activity-title`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `h3[data-fold="members"]`
+  - `h3[data-fold="labels"]`
+  - `.activity-title`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `h3[data-section="labels"]`
+  - `h3[data-section="date-format"]`
+  - `h3[data-section="members"]`
+  - `h3[data-section="dependencies"]`
+  - `h3[data-section="sort"]`
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="description"]`
+  - `h3[data-section="checklists"]`
+  - `h3[data-section="subtasks"]`
+  - `h3[data-section="attachments"]`
+  - … +3 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `h3[data-section="labels"]`
+  - `h3[data-section="date-format"]`
+  - `h3[data-section="members"]`
+  - `h3[data-section="dependencies"]`
+  - `h3[data-section="sort"]`
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="description"]`
+  - `h3[data-section="checklists"]`
+  - `h3[data-section="subtasks"]`
+  - `h3[data-section="attachments"]`
+  - … +3 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `h3[data-section="labels"]`
+  - `h3[data-section="date-format"]`
+  - `h3[data-section="members"]`
+  - `h3[data-section="dependencies"]`
+  - `h3[data-section="sort"]`
+  - `h3[data-section="custom-fields"]`
+  - `h3[data-section="description"]`
+  - `h3[data-section="checklists"]`
+  - `h3[data-section="subtasks"]`
+  - `h3[data-section="attachments"]`
+  - … +3 autres
+
+## Résultats incomplets à revoir (386)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:5580/
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="remaining"] > .menu-count`
+- http://localhost:5580/allboards
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="starred"] > .menu-count`
+- http://localhost:5580/allboards/starred
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="starred"] > .menu-count`
+- http://localhost:5580/allboards/templates
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="templates"] > .menu-count`
+- http://localhost:5580/allboards/remaining
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="remaining"] > .menu-count`
+- http://localhost:5580/archive
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/public
+  - `.board-star-counter`
+  - `text`
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+- http://localhost:5580/accessibility
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/support
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/shortcuts
+  - `.board-star-counter`
+  - `text`
+  - `.shortcuts-list-item:nth-child(14) > .shortcuts-list-item-action`
+  - `.shortcuts-list-item:nth-child(15) > .shortcuts-list-item-action`
+  - `.shortcuts-list-item:nth-child(16) > .shortcuts-list-item-action`
+- http://localhost:5580/my-cards
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/due-cards
+  - `.board-star-counter`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+- http://localhost:5580/my-attachments
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/starred-items
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/global-search
+  - `.board-star-counter`
+  - `text`
+  - `.viewer > p:nth-child(2)`
+  - `p:nth-child(2) > em`
+  - `p:nth-child(3)`
+  - `ul:nth-child(4) > li:nth-child(1)`
+  - `ul:nth-child(4) > li:nth-child(2)`
+  - `ul:nth-child(4) > li:nth-child(3)`
+  - `ul:nth-child(4) > li:nth-child(4)`
+  - `ul:nth-child(4) > li:nth-child(5)`
+  - … +38 autres
+- http://localhost:5580/bookmarks
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="remaining"] > .menu-count`
+- http://localhost:5580/broken-cards
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/import
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/import/trello
+  - `.board-star-counter`
+  - `text`
+  - `.import-sources > h2`
+  - `a[data-source="wekan"] > span`
+  - `a[data-source="trello"] > span`
+  - `a[data-source="csv"] > span`
+  - `a[data-source="excel"] > span`
+  - `a[data-source="jira"] > span`
+  - `a[data-source="kanboard"] > span`
+  - `a[data-source="deck"] > span`
+  - … +19 autres
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web
+  - `.board-star-counter`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+  - `a[title=" (audit.c39.member) Normal"] > svg > text`
+- http://localhost:5580/b/c39wknBoard0000002/backlog-produit
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/b/c39wknBoard0000003/feuille-de-route-publique
+  - `text`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.board-star-counter`
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+- http://localhost:5580/admin/settings/version
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/admin/settings/visibility
+  - `.board-star-counter`
+  - `text`
+  - `li:nth-child(12) > h2`
+  - `.tableVisibilityMode-form:nth-child(13) > .title`
+  - `li[data-feature="views-table"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-table"] > .feature-desc`
+  - `li[data-feature="views-calendar"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-calendar"] > .feature-desc`
+  - `li[data-feature="views-time"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-time"] > .feature-desc`
+  - … +51 autres
+- http://localhost:5580/admin/settings/accessibility
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/admin/people/people
+  - `.board-star-counter`
+  - `.member > svg > text`
+  - `.new-user`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - … +6 autres
+- http://localhost:5580/admin/people/roles
+  - `.board-star-counter`
+  - `text`
+  - `.table-page-total`
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+- http://localhost:5580/admin/problems/summary
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/admin/attachments/backup
+  - `.board-star-counter`
+  - `text`
+  - `a[data-day="1"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/rules
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/b/templates
+  - `.board-star-counter`
+  - `text`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `.board-star-counter`
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+  - `.board-widget-content > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.board-star-counter`
+  - `.header-user-bar-avatar > .member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.minicard-members > .member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `.board-star-counter`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+  - `a[title=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `.board-star-counter`
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+  - `.board-widget-content > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.board-star-counter`
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.board-star-counter`
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.js-set-card-recurrence-interval`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `.board-star-counter`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+  - `a[title=" (audit.c39.member) Normal"] > svg > text`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `.board-star-counter`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+  - `a[title=" (audit.c39.member) Normal"] > svg > text`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/allboards [state:header-member-menu]
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="starred"] > .menu-count`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/allboards [state:header-starred-boards]
+  - `text`
+  - `a[data-type="starred"] > .menu-count`
+  - `.board-list-item`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/allboards [state:new-board-popup]
+  - `.board-star-counter`
+  - `text`
+  - `a[data-type="starred"] > .menu-count`
+  - `span[aria-hidden="true"]`
+- http://localhost:5580/allboards [state:allboards-sidebar]
+  - `.board-star-counter`
+  - `text`
+  - `.sidebar-xmark`
+  - `a[data-type="starred"] > .menu-count`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:mobile-board-390]
+  - `text`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `h2 > .viewer[dir="auto"] > p`
+  - `a[title=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+
+### label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+- http://localhost:5580/
+  - `.member`
+  - `.js-add-workspace`
+- http://localhost:5580/allboards
+  - `.member`
+  - `.js-add-workspace`
+- http://localhost:5580/allboards/starred
+  - `.member`
+  - `.js-add-workspace`
+- http://localhost:5580/allboards/templates
+  - `.member`
+  - `.js-add-workspace`
+- http://localhost:5580/allboards/remaining
+  - `.member`
+  - `.js-add-workspace`
+- http://localhost:5580/archive
+  - `.member`
+- http://localhost:5580/public
+  - `.member`
+- http://localhost:5580/accessibility
+  - `.member`
+- http://localhost:5580/support
+  - `.member`
+- http://localhost:5580/shortcuts
+  - `.member`
+- http://localhost:5580/my-cards
+  - `.member`
+- http://localhost:5580/due-cards
+  - `a[title=" (audit.c39) Admin"]`
+- http://localhost:5580/my-attachments
+  - `.member`
+- http://localhost:5580/starred-items
+  - `.member`
+- http://localhost:5580/global-search
+  - `.member`
+- http://localhost:5580/bookmarks
+  - `.member`
+  - `.js-add-workspace`
+- http://localhost:5580/broken-cards
+  - `.member`
+- http://localhost:5580/import
+  - `.member`
+- http://localhost:5580/import/trello
+  - `.member`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web
+  - `a[title=" (audit.c39) Admin"]`
+  - `a[title=" (audit.c39.member) Normal"]`
+- http://localhost:5580/b/c39wknBoard0000002/backlog-produit
+  - `.member`
+- http://localhost:5580/b/c39wknBoard0000003/feuille-de-route-publique
+  - `.member`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+- http://localhost:5580/admin/settings/version
+  - `.member`
+- http://localhost:5580/admin/settings/visibility
+  - `.member`
+- http://localhost:5580/admin/settings/accessibility
+  - `.member`
+- http://localhost:5580/admin/people/people
+  - `.member`
+- http://localhost:5580/admin/people/roles
+  - `.member`
+- http://localhost:5580/admin/problems/summary
+  - `.member`
+- http://localhost:5580/admin/attachments/backup
+  - `.member`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/rules
+  - `.member`
+- http://localhost:5580/b/templates
+  - `.member`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+  - `.board-widget-content > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.header-user-bar-avatar > .member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.minicard-members > .member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `a[title=" (audit.c39) Admin"]`
+  - `a[title=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+  - `.board-widget-content > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.js-date-popup-resize`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.js-date-popup-resize`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `a[title=" (audit.c39) Admin"]`
+  - `a[title=" (audit.c39.member) Normal"]`
+  - `.js-date-popup-resize`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `a[title=" (audit.c39) Admin"]`
+  - `a[title=" (audit.c39.member) Normal"]`
+  - `.js-date-popup-resize`
+- http://localhost:5580/allboards [state:header-member-menu]
+  - `.member`
+  - `.js-add-workspace`
+  - `.js-date-popup-resize`
+- http://localhost:5580/allboards [state:header-starred-boards]
+  - `.member`
+  - `.js-add-workspace`
+  - `.js-date-popup-resize`
+- http://localhost:5580/allboards [state:new-board-popup]
+  - `.member`
+  - `.js-add-workspace`
+  - `.js-date-popup-resize`
+- http://localhost:5580/allboards [state:allboards-sidebar]
+  - `.member`
+  - `.sidebar-xmark`
+  - `.js-add-workspace`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web [state:mobile-board-390]
+  - `.header-user-bar-name`
+  - `.member`
+- http://localhost:5580/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `.header-user-bar-name`
+  - `.header-user-bar-avatar > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `a[title=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+

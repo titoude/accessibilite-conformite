@@ -1,0 +1,101 @@
+{
+  "cycle": 39,
+  "project": "wekan/wekan",
+  "commit": "6c95ad716d5c0c390741a98900b06a5798d5992d",
+  "commit_date": "2026-10-07 (v12.21.0, HEAD main au moment du pin via `git ls-remote https://github.com/wekan/wekan HEAD`)",
+  "branch_upstream": "main @6c95ad71",
+  "framework": "Meteor 3.6-beta.3 + Blaze (templates .jade via meteor-jade-loader) + MongoDB 6 (replica set rs0) — bundler @meteorjs/rspack en mode dev — première stack Meteor/Blaze de la boucle",
+  "served_source": "Clone dev servi par `meteor run` : le pipeline Meteor recompile les .jade/.css/.js à chaud (« Client modified -- refreshing » dans le log). Aucun build explicite à relancer après un patch — le bundle dev le prend au prochain chargement de page. Fichiers runtime (avatars, pièces jointes) sous WRITABLE_PATH=~/work/wekan-data.",
+  "base_url": "http://localhost:5580",
+  "boot": {
+    "deps": "meteor 3.6-beta.3 (via ~/.meteor, installer officiel `curl https://install.meteor.com/?release=3.6-beta.3 | sh` — la 3.6-beta est exigée par .meteor/release du repo) + docker (mongo:6) + node v24 via nvm (outillage audit uniquement — l'app tourne sous le node du dev_bundle meteor)",
+    "mongo": "docker run -d --name wekan39-db -p 27017:27017 mongo:6 sh -c 'mongod --replSet rs0 --bind_ip_all --quiet & until mongosh --host 127.0.0.1 --quiet --eval \"try { const s=rs.status(); quit(s.ok===1?0:1) } catch(e) { rs.initiate({_id:\\\"rs0\\\",members:[{_id:0,host:\\\"localhost:27017\\\"}]}); quit(1) }\" >/dev/null 2>&1; do sleep 2; done; wait' — replica set obligatoire : wekan s'abonne à l'oplog (MONGO_OPLOG_URL) pour le temps réel DDP",
+    "clone": "git clone https://github.com/wekan/wekan ~/work/wekan && git -C ~/work/wekan checkout 6c95ad716d5c0c390741a98900b06a5798d5992d",
+    "install": "cd ~/work/wekan && PATH=$HOME/.meteor:$PATH meteor npm install (dépendances npm du repo ; le premier `meteor run` télécharge le toolchain 3.6-beta.3 dans ~/.meteor, ~1-2 GB)",
+    "run": "cd ~/work/wekan && PATH=$HOME/.meteor:$PATH MONGO_URL='mongodb://localhost:27017/wekan?replicaSet=rs0' MONGO_OPLOG_URL='mongodb://localhost:27017/local?replicaSet=rs0' ROOT_URL='http://localhost:5580' WRITABLE_PATH=$HOME/work/wekan-data WITH_API=true PORT=5580 meteor run --port 5580 > /tmp/wekan-dev.log 2>&1 & — prêt quand le log affiche '=> App running at: http://localhost:5580' (premier démarrage ~2-4 min)",
+    "note": "L'image docker amont wekanteam/wekan est une PRODUCTION bundle qui ne peut pas servir les sources patchées — l'audit tourne sur le dev bundle meteor où `git apply patch.diff` est immédiatement reflété. L'image amont reste mentionnée comme alternative pour un rejeu visuel seulement."
+  },
+  "seed": {
+    "script": "tools/seed.mjs — idempotent : (1) POST /users/register audit.c39/Audit-Se3d-C39-WeKan! si absent + promotion isAdmin + member audit.c39.member ; (2) recrée les 3 boards via REST API WITH_API + RENUMÉROTE les _id en littéraux fixes via mongosh dans le conteneur (deleteOne+insertOne + updateMany des références boardId) — boards c39wknBoard0000001 'Projet Refonte Web' (private, 3 listes À faire/En cours/Terminé, 2 swimlanes, 6 labels, 5 cartes dont c39wknCard000000001 'Refonte de la page tarifs' avec checklist 'Audit + correctifs' 4 items, sous-tâches, commentaires, dates), c39wknBoard0000002 'Backlog Produit' (private), c39wknBoard0000003 'Feuille de route publique' (public → page /public et board anonyme) ; (3) announcement admin 'Maintenance dimanche' ; (4) écrit creds.json (base/userId/memberId/username/email/password/boards).",
+    "rationale": "Seed littéral via la vraie API REST + renumérotation _id mongo pour rendre les URLs d'audit stables (card/board routes contiennent les _id). Pas de lorem : titres réels en français."
+  },
+  "auth": "Meteor stocke la session en localStorage (Meteor.loginToken) — tools/login.mjs remplit le vrai formulaire /sign-in (#at-field-username_and_email/#at-field-password) puis sauvegarde le storageState dans auth.json (éphémère, exclu de provenance). Le token survit aux redémarrages dev tant que mongo garde le compte.",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls_file": "tools/urls-public.txt",
+      "urls": [
+        "/sign-in",
+        "/sign-up",
+        "/forgot-password",
+        "/b/c39wknBoard0000003/feuille-de-route-publique",
+        "/b/c39wknBoard0000001/projet-refonte-web"
+      ],
+      "states": []
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json (regénéré)",
+      "urls_file": "tools/urls-auth.txt",
+      "urls": [
+        "/",
+        "/allboards + /allboards/{starred,templates,remaining}",
+        "/archive /public /accessibility /support /shortcuts",
+        "/my-cards /due-cards /my-attachments /starred-items /global-search /bookmarks /broken-cards",
+        "/import + /import/{trello,wekan,jira,kanboard,csv}",
+        "/b/c39wknBoard0000001/projet-refonte-web + /b/c39wknBoard0000002/backlog-produit + /b/c39wknBoard0000003/feuille-de-route-publique + carte /b/.../c39wknCard000000001 + /b/.../rules + /b/templates",
+        "/admin/settings/{version,visibility,announcement,accessibility,translation,pwa,global-webhooks}",
+        "/admin/people/{login,saml,ldap,oidc,cas,header-login,oauth,passwordless,email,notifications,domains,organizations,teams,people,locked-users,roles,shared-templates}",
+        "/admin/problems/{summary,security,delete,notifications,security-report,impersonation,performance,speed,tests,cpu,instrumentation,broken-cards,files,rules,boards,cards,recovery,office,api,database,integrity}",
+        "/admin/attachments/{backup,continuous-backup,move,default-save-storage,limits,gridfs,filesystem,s3,azure,gcs,database-migration}",
+        "/nonexistent-c39-xyz (route * → page 404)"
+      ],
+      "states_file": "tools/audit.mjs STATES (export const) — board-sidebar, board-filter-sidebar, board-search-sidebar, board-menu-popup, card-details, card-details-menu, minicard-menu, list-menu-popup, header-member-menu, header-starred-boards, new-board-popup, allboards-sidebar, mobile-board-390, mobile-card-390",
+      "states": ["all"]
+    }
+  ],
+  "excluded": [
+    "/import/{asana,deck,excel,focalboard,forgejo,gitea,github,gitlab,leo,markdown,openproject,taskwarrior,todotxt,zenkit} — 15 variantes du MÊME template `import` (client/components/import/import.jade, un seul rendu piloté par Session 'importSource') ; trello/wekan/jira/kanboard/csv couvrent les 4 membres-mappers dédiés + le chemin générique fichier",
+    "routes legacy /setting /information /translation /remaining /templates — FlowRouter legacyBase: ce sont des redirections 301 vers les adresses /admin/* modernes, pas des pages distinctes",
+    "/logout et actions destructives confirmées (delete board/card/user) — jamais de submit destructif ; les modales PRÉ-confirmation sont couvertes via states (board-menu-popup, card-details-menu, minicard-menu, list-menu-popup)",
+    "OAuth réels (/oauth, /saml, cas connecteurs) — configuration externe absente, les PANES de réglages correspondants sont audités (admin/people/{saml,ldap,oidc,cas,oauth,...})",
+    "API REST /api/* — non-HTML",
+    "éditeur de règles Blockly (/b/*/rules — page auditée ; le canvas Blockly lui-même est un éditeur visuel svg spécialisé hors axe, surface documentée)"
+  ],
+  "auditCommands": [
+    "docker run -d --name wekan39-db -p 27017:27017 mongo:6 <replicaSet rs0 + rs.initiate local>   # voir boot.mongo",
+    "git clone https://github.com/wekan/wekan ~/work/wekan && git -C ~/work/wekan checkout 6c95ad716d5c0c390741a98900b06a5798d5992d",
+    "cd ~/work/wekan && PATH=$HOME/.meteor:$PATH meteor npm install",
+    "cd ~/work/wekan && PATH=$HOME/.meteor:$PATH MONGO_URL='mongodb://localhost:27017/wekan?replicaSet=rs0' MONGO_OPLOG_URL='mongodb://localhost:27017/local?replicaSet=rs0' ROOT_URL='http://localhost:5580' WRITABLE_PATH=$HOME/work/wekan-data WITH_API=true PORT=5580 meteor run --port 5580 > /tmp/wekan-dev.log 2>&1 &",
+    "cd boucle-continue/cycles/wekan/tools && npm install && npx playwright install chromium",
+    "node seed.mjs   # WEKAN_BASE=http://localhost:5580 RUN_DIR=<rundir> — idempotent",
+    "node login.mjs http://localhost:5580 ../auth.json   # régénère le storageState (cred de creds.json)",
+    "node audit.mjs http://localhost:5580 --urls \"$(paste -sd, urls-public.txt)\" --states none --out ../reports/baseline-public",
+    "node audit.mjs http://localhost:5580 --urls \"$(paste -sd, urls-auth.txt)\" --storage-state ../auth.json --states all --out ../reports/baseline-auth",
+    "git -C ~/work/wekan apply patch.diff   # ou patch appliqué pendant le dev — voir install-build",
+    "node audit.mjs http://localhost:5580 --urls \"$(paste -sd, urls-public.txt)\" --states none --out ../reports/final-public",
+    "node audit.mjs http://localhost:5580 --urls \"$(paste -sd, urls-auth.txt)\" --storage-state ../auth.json --states all --out ../reports/final-auth",
+    "node verify.mjs http://localhost:5580 ../auth.json   # 61 assertions pointées sur les corrections",
+    "node incomplete-probes.mjs http://localhost:5580 ../auth.json ../reports/final-auth ../reports/final-public   # mesure pixel-vraie des 'incomplete'",
+    "node eval-final.mjs http://localhost:5580 ../auth.json   # 45 contrôles structurels hors-axe"
+  ],
+  "wait_rationale": "waitUntil:'domcontentloaded' partout — 'networkidle' TIMEOUT sur Wekan : la socket DDP Meteor reste ouverte. Garde hydratation (leçon 34) : chaque état attend son propre stateProof (sélecteur déterministe) avant injectAxe ; les scans de route attendent '#content, .at-form, #header' rendu.",
+  "toolVersions": {
+    "node": "v24.19.0 (nvm)",
+    "playwright": "1.63.0",
+    "axe-core": "4.14.0",
+    "meteor": "3.6-beta.3 (dev_bundle node interne)",
+    "mongodb": "6.0.28 (mongo:6, replicaSet rs0)",
+    "runner": "audit.mjs v8-wekan"
+  },
+  "notes": [
+    "Leçon 32 appliquée : les 14 états dynamiques s'ouvrent par sélecteur déterministe (title/aria-label/texte visible) + stateProof — jamais .first()/.nth() aveugle.",
+    "Wart mesure trouvée et corrigée dans incomplete-probes.mjs (pas le produit) : paintStackBelow omettait le fond de l'élément lui-même (idx+1) → faux 1.34 sur tuile 'Add Board' ; les overlays au-dessus (pop-ups ouverts, dragscroll transparent) faussaient les layers → partition descendants/covering + critère 'peint réellement' (bg a>0.02 ou bg-image) ; élément hors viewport : les ancêtres DOM s'ajoutent APRÈS el, jamais en scrim au-dessus.",
+    "Rule custom label-content-name-mismatch implémentée dans la sonde : accName (aria-label/labelledby/title/alt/placeholder/value) vs texte visible réduit — les 56 pass:null restants sont des cas non mesurables documentés (initiales aria-hidden, glyphes +/◢/✕, texte entièrement aria-hidden).",
+    "Meteor + jade-loader : pas de littéral <tag> dans un commentaire //- (parse error) ; le loader css rejette les commentaires // — utiliser /* */ ; Blaze {{bool}} rend vide sur false → aria-expanded nécessite {{#if x}}true{{else}}false{{/if}}.",
+    "wekan AGENTS.md/CLAUDE.md : un assistant ne pousse JAMAIS rien sur un remote depuis ce repo — livrable = patch.diff ; seul titoude/accessibilite-conformite reçoit le push.",
+    "copyTitleInAriaLabel (client/lib/accessibility.js) copie title→aria-label au rendu Blaze — leçon 29 vérifiée : les aria-label injectés contiennent le texte visible/title.",
+    "Élargissement de périmètre après premier final : les 58 panes admin (4 pages × panes paramétriques) étaient initialement sous-échantillonnés → urls-auth.txt porté à 86 routes (+51 panes, +4 sources d'import, +1 404) ; 5 règles/113 occ nouvelles trouvées dans les panes non scannées (select-name, label, heading-order, target-size, color-contrast .ldap-source-badge/.cloud-input-*) → corrigées dans les sources."
+  ]
+}

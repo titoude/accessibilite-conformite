@@ -1,0 +1,584 @@
+# Audit accessibilité — 2026-10-07
+
+**0 règle(s) violée(s), 0 occurrence(s), 100/100 scénario(s) audité(s), 0 erreur(s), 848 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `31ae6a9bb4ab`
+
+## Résultats incomplets à revoir (848)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### label-content-name-mismatch — Elements must have their visible text as part of their accessible name
+
+- http://localhost:5581/
+  - `.js-add-workspace`
+- http://localhost:5581/allboards
+  - `.js-add-workspace`
+- http://localhost:5581/allboards/starred
+  - `.js-add-workspace`
+- http://localhost:5581/allboards/templates
+  - `.js-add-workspace`
+- http://localhost:5581/allboards/remaining
+  - `.js-add-workspace`
+- http://localhost:5581/bookmarks
+  - `.js-add-workspace`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web
+  - `.member`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+- http://localhost:5581/admin/people/people
+  - `a[aria-label="Change Avatar audit.c39.member"]`
+  - `a[aria-label="Change Avatar audit.c39"]`
+- http://localhost:5581/admin/problems/office
+  - `.member`
+- http://localhost:5581/admin/problems/api
+  - `tr:nth-child(1) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(2) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(3) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(4) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(5) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(6) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(7) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(8) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+  - `tr:nth-child(10) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"]`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+  - `a[title=" (audit.c39) Admin"]`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.minicard-members > .member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `.member`
+  - `.sidebar-xmark`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.sidebar-xmark`
+  - `a[title=" (audit.c39) Admin"]`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.js-date-popup-resize`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+  - `.js-date-popup-resize`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `.member`
+  - `.js-date-popup-resize`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `.member`
+  - `.js-date-popup-resize`
+- http://localhost:5581/allboards [state:header-member-menu]
+  - `.js-add-workspace`
+  - `.js-date-popup-resize`
+- http://localhost:5581/allboards [state:header-starred-boards]
+  - `.js-add-workspace`
+  - `.js-date-popup-resize`
+- http://localhost:5581/allboards [state:new-board-popup]
+  - `.js-add-workspace`
+  - `.js-date-popup-resize`
+- http://localhost:5581/allboards [state:allboards-sidebar]
+  - `.sidebar-xmark`
+  - `.js-add-workspace`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `a[title=" (audit.c39.member) Normal"]`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"]`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:5581/public
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+- http://localhost:5581/shortcuts
+  - `.shortcuts-list-item:nth-child(14) > .shortcuts-list-item-action`
+  - `.shortcuts-list-item:nth-child(15) > .shortcuts-list-item-action`
+  - `.shortcuts-list-item:nth-child(16) > .shortcuts-list-item-action`
+- http://localhost:5581/global-search
+  - `.viewer > p:nth-child(2)`
+  - `p:nth-child(2) > em`
+  - `p:nth-child(3)`
+  - `ul:nth-child(4) > li:nth-child(1)`
+  - `ul:nth-child(4) > li:nth-child(2)`
+  - `ul:nth-child(4) > li:nth-child(3)`
+  - `ul:nth-child(4) > li:nth-child(4)`
+  - `ul:nth-child(4) > li:nth-child(5)`
+  - `ul:nth-child(4) > li:nth-child(6)`
+  - `li:nth-child(7)`
+  - … +36 autres
+- http://localhost:5581/import/trello
+  - `.import-sources > h2`
+  - `a[data-source="wekan"] > span`
+  - `a[data-source="trello"] > span`
+  - `a[data-source="csv"] > span`
+  - `a[data-source="excel"] > span`
+  - `a[data-source="jira"] > span`
+  - `a[data-source="kanboard"] > span`
+  - `a[data-source="deck"] > span`
+  - `a[data-source="openproject"] > span`
+  - `a[data-source="github"] > span`
+  - … +17 autres
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web
+  - `.member > svg > text`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.card-details-show-lists > .card-details-item-title`
+  - `.card-details-item-flow > .card-details-item-title`
+- http://localhost:5581/admin/settings/visibility
+  - `li:nth-child(12) > h2`
+  - `.tableVisibilityMode-form:nth-child(13) > .title`
+  - `li[data-feature="views-table"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-table"] > .feature-desc`
+  - `li[data-feature="views-calendar"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-calendar"] > .feature-desc`
+  - `li[data-feature="views-time"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-time"] > .feature-desc`
+  - `li[data-feature="views-overview"] > .js-toggle-feature.flex[href="#"] > span`
+  - `li[data-feature="views-overview"] > .feature-desc`
+  - … +49 autres
+- http://localhost:5581/admin/people/people
+  - `.new-user`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `.select-all-user > span`
+  - … +4 autres
+- http://localhost:5581/admin/people/roles
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+- http://localhost:5581/import/wekan
+  - `.import-sources > h2`
+  - `a[data-source="wekan"] > span`
+  - `a[data-source="trello"] > span`
+  - `a[data-source="csv"] > span`
+  - `a[data-source="excel"] > span`
+  - `a[data-source="jira"] > span`
+  - `a[data-source="kanboard"] > span`
+  - `a[data-source="deck"] > span`
+  - `a[data-source="openproject"] > span`
+  - `a[data-source="github"] > span`
+  - … +9 autres
+- http://localhost:5581/import/jira
+  - `.import-sources > h2`
+  - `a[data-source="wekan"] > span`
+  - `a[data-source="trello"] > span`
+  - `a[data-source="csv"] > span`
+  - `a[data-source="excel"] > span`
+  - `a[data-source="jira"] > span`
+  - `a[data-source="kanboard"] > span`
+  - `a[data-source="deck"] > span`
+  - `a[data-source="openproject"] > span`
+  - `a[data-source="github"] > span`
+  - … +12 autres
+- http://localhost:5581/import/kanboard
+  - `.import-sources > h2`
+  - `a[data-source="wekan"] > span`
+  - `a[data-source="trello"] > span`
+  - `a[data-source="csv"] > span`
+  - `a[data-source="excel"] > span`
+  - `a[data-source="jira"] > span`
+  - `a[data-source="kanboard"] > span`
+  - `a[data-source="deck"] > span`
+  - `.import-parts > h2`
+  - `.quiet`
+  - … +5 autres
+- http://localhost:5581/import/csv
+  - `.import-sources > h2`
+  - `a[data-source="wekan"] > span`
+  - `a[data-source="trello"] > span`
+  - `a[data-source="csv"] > span`
+  - `a[data-source="excel"] > span`
+  - `a[data-source="jira"] > span`
+  - `a[data-source="kanboard"] > span`
+  - `.import-parts > h2`
+  - `.quiet`
+  - `a[data-field="board-header"] > span`
+  - … +4 autres
+- http://localhost:5581/admin/settings/translation
+  - `.new-translation`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+- http://localhost:5581/admin/people/login
+  - `label[for="auth-loginExpirationInDays"]`
+  - `.accounts-form:nth-child(3) > .form-group > .ldap-source-badge`
+  - `.description`
+- http://localhost:5581/admin/people/saml
+  - `label[for="auth-idpSLORedirectURL"]`
+  - `.accounts-form:nth-child(6) > .form-group > .ldap-source-badge`
+  - `label[for="auth-privateKeyFile"]`
+  - `.accounts-form:nth-child(7) > .form-group > .ldap-source-badge`
+  - `label[for="auth-publicCertFile"]`
+  - `.accounts-form:nth-child(8) > .form-group > .ldap-source-badge`
+  - `label[for="auth-identifierFormat"]`
+  - `.accounts-form:nth-child(9) > .form-group > .ldap-source-badge`
+  - `.accounts-form:nth-child(10) > label`
+  - `.accounts-form:nth-child(10) > .form-group > .ldap-source-badge`
+  - … +15 autres
+- http://localhost:5581/admin/people/ldap
+  - `label[for="auth-rejectUnauthorized"]`
+  - `.accounts-form:nth-child(6) > .form-group > .ldap-source-badge`
+  - `label[for="auth-baseDN"]`
+  - `.accounts-form:nth-child(7) > .form-group > .ldap-source-badge`
+  - `label[for="auth-authentication"]`
+  - `.accounts-form:nth-child(8) > .form-group > .ldap-source-badge`
+  - `label[for="auth-authentificationUserDN"]`
+  - `.accounts-form:nth-child(9) > .form-group > .ldap-source-badge`
+  - `label[for="auth-bindPassword"]`
+  - `.description`
+  - … +96 autres
+- http://localhost:5581/admin/people/oidc
+  - `label[for="auth-serverUrl"]`
+  - `.accounts-form:nth-child(7) > .form-group > .ldap-source-badge`
+  - `label[for="auth-authEndpoint"]`
+  - `.accounts-form:nth-child(8) > .form-group > .ldap-source-badge`
+  - `label[for="auth-userinfoEndpoint"]`
+  - `.accounts-form:nth-child(9) > .form-group > .ldap-source-badge`
+  - `label[for="auth-tokenEndpoint"]`
+  - `.accounts-form:nth-child(10) > .form-group > .ldap-source-badge`
+  - `label[for="auth-logoutEndpoint"]`
+  - `.accounts-form:nth-child(11) > .form-group > .ldap-source-badge`
+  - … +42 autres
+- http://localhost:5581/admin/people/header-login
+  - `.accounts-form:nth-child(6) > .form-group > .ldap-source-badge`
+- http://localhost:5581/admin/people/oauth
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .title`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="facebook"] > span:nth-child(2)`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="facebook"] > .ldap-source-badge`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(3) > label`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(3) > .ldap-source-badge`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(4) > label`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(4) > .description`
+  - `.js-oauth-provider.accounts-form[data-provider="twitter"] > .title`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="twitter"] > span:nth-child(2)`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="twitter"] > .ldap-source-badge`
+  - … +29 autres
+- http://localhost:5581/admin/people/email
+  - `label[for="email-template-activity-body"]`
+  - `.smtp-form:nth-child(8) > .description`
+  - `label[for="mailDomainNamevalue"]`
+  - `.js-toggle-allow-email-change > span`
+- http://localhost:5581/admin/people/domains
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+- http://localhost:5581/admin/people/organizations
+  - `.new-org`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+- http://localhost:5581/admin/people/teams
+  - `.new-team`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+- http://localhost:5581/admin/problems/security
+  - `li:nth-child(8) > .description`
+- http://localhost:5581/admin/problems/security-report
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+  - … +3 autres
+- http://localhost:5581/admin/problems/impersonation
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+- http://localhost:5581/admin/problems/speed
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+  - … +3 autres
+- http://localhost:5581/admin/problems/tests
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+  - … +3 autres
+- http://localhost:5581/admin/problems/cpu
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+  - … +3 autres
+- http://localhost:5581/admin/problems/instrumentation
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+- http://localhost:5581/admin/problems/broken-cards
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+- http://localhost:5581/admin/problems/files
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `.table-page-end`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+- http://localhost:5581/admin/problems/rules
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+- http://localhost:5581/admin/problems/boards
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+- http://localhost:5581/admin/problems/cards
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+- http://localhost:5581/admin/problems/recovery
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(1)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(2)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(3)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(4)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(5)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(1)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(2)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(3)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(4)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(5)`
+  - … +35 autres
+- http://localhost:5581/admin/problems/office
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `thead > tr > .table-page-end`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `.member > svg > text`
+- http://localhost:5581/admin/problems/api
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `tr:nth-child(1) > td:nth-child(1) > .table-page-single-person > a[data-user-id="f4kccKCr44YomRSwA"][title="audit.c39"][aria-label="audit.c39"] > svg > text`
+  - … +8 autres
+- http://localhost:5581/admin/problems/database
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+  - … +3 autres
+- http://localhost:5581/admin/problems/integrity
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+  - … +3 autres
+- http://localhost:5581/admin/attachments/continuous-backup
+  - `.form-group:nth-child(12) > label`
+  - `.form-group:nth-child(13) > label`
+  - `h2:nth-child(15)`
+  - `.js-cb-state`
+  - `p:nth-child(17)`
+  - `h2:nth-child(18)`
+- http://localhost:5581/admin/attachments/s3
+  - `.form-group:nth-child(7) > .cloud-input-example`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(8)`
+  - `label[for="s3-access-key"]`
+  - `.form-group:nth-child(8) > .cloud-input-label-tr`
+  - `.form-group:nth-child(8) > .cloud-input-example`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(6)`
+  - … +11 autres
+- http://localhost:5581/admin/attachments/azure
+  - `.form-group:nth-child(6) > .cloud-input-example`
+  - `.form-group:nth-child(6) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(6) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(6) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(6) > .cloud-input-path:nth-child(8)`
+  - `label[for="azure-bucket"]`
+  - `.form-group:nth-child(7) > .cloud-input-label-tr`
+  - `.form-group:nth-child(7) > .cloud-input-example`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(6)`
+  - … +2 autres
+- http://localhost:5581/admin/attachments/gcs
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(8)`
+  - `label[for="gcs-key-filename"]`
+  - `.form-group:nth-child(8) > .cloud-input-label-tr`
+  - `.form-group:nth-child(8) > .cloud-input-example`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(8) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(8) > .cloud-input-path:nth-child(8)`
+  - … +8 autres
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-sidebar]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-filter-sidebar]
+  - `.minicard-members > .member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-search-sidebar]
+  - `.member > svg > text`
+  - `.sidebar-xmark`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:board-menu-popup]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.sidebar-xmark`
+  - `a[title=" (audit.c39) Admin"] > svg > text`
+  - `.board-widget-content > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.card-details-show-lists > .card-details-item-title`
+  - `.card-details-item-flow > .card-details-item-title`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:card-details-menu]
+  - `.minicard-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-members > .js-member[title=" (audit.c39.member) Normal"][aria-label=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+  - `.card-details-show-lists > .card-details-item-title`
+  - `.card-details-item-flow > .card-details-item-title`
+  - `.js-set-card-recurrence-interval`
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:minicard-menu]
+  - `.member > svg > text`
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web [state:list-menu-popup]
+  - `.member > svg > text`
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/allboards [state:header-member-menu]
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/allboards [state:header-starred-boards]
+  - `.board-list-item`
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/allboards [state:new-board-popup]
+  - `span[aria-hidden="true"]`
+- http://localhost:5581/allboards [state:allboards-sidebar]
+  - `.sidebar-xmark`
+- http://localhost:5581/b/c39wknBoard0000001/projet-refonte-web/c39wknCard000000001 [state:mobile-card-390]
+  - `h2 > .viewer[dir="auto"] > p`
+  - `a[title=" (audit.c39.member) Normal"] > svg > text`
+  - `.card-details-item-creator > .js-member[title=" (audit.c39) Admin"][aria-label=" (audit.c39) Admin"] > svg > text`
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:5581/admin/settings/translation
+  - `table`
+- http://localhost:5581/admin/people/organizations
+  - `table`
+- http://localhost:5581/admin/people/teams
+  - `table`
+- http://localhost:5581/admin/problems/impersonation
+  - `table`
+- http://localhost:5581/admin/problems/speed
+  - `table`
+- http://localhost:5581/admin/problems/tests
+  - `table`
+- http://localhost:5581/admin/problems/cpu
+  - `table`
+- http://localhost:5581/admin/problems/broken-cards
+  - `table`
+- http://localhost:5581/admin/problems/files
+  - `table`
+- http://localhost:5581/admin/problems/rules
+  - `table`
+- http://localhost:5581/admin/problems/recovery
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table`
+  - `.sync-rule-email-recovery-reports > .table-page > .table-page-table-wrap > table`
+  - `.sync-recovery-reports > .table-page > .table-page-table-wrap > table`
+  - `.main-body > .table-page > .table-page-table-wrap > table`
+- http://localhost:5581/admin/problems/integrity
+  - `table`
+

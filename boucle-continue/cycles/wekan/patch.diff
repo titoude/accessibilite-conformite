@@ -1,0 +1,3569 @@
+diff --git a/client/components/activities/comments.css b/client/components/activities/comments.css
+index ef1e29f274..3818c5f8e0 100644
+--- a/client/components/activities/comments.css
++++ b/client/components/activities/comments.css
+@@ -47,7 +47,7 @@
+   background-color: #fff;
+   border: 0;
+   box-shadow: 0 1px 2px rgba(0,0,0,0.23);
+-  color: #8c8c8c;
++  color: #616161;
+   height: 36px;
+   margin: 4px 4px 6px 0;
+   width: 92%;
+@@ -133,7 +133,7 @@
+ }
+ .comments .comment .comment-desc .comment-meta {
+   font-size: 0.8em;
+-  color: #999;
++  color: #616161;
+ }
+ /* Threaded replies (issue #5907): indent replies under their parent. */
+ .comments .comment.is-reply {
+@@ -143,7 +143,7 @@
+ }
+ .comments .comment .comment-desc .comment-in-reply-to {
+   font-size: 0.8em;
+-  color: #999;
++  color: #616161;
+   border-inline-start: 2px solid #ccc;
+   padding-inline-start: 6px;
+   margin: 3px 0;
+diff --git a/client/components/boards/boardBody.css b/client/components/boards/boardBody.css
+index 2768f2742c..1ac3f6ee11 100644
+--- a/client/components/boards/boardBody.css
++++ b/client/components/boards/boardBody.css
+@@ -474,7 +474,7 @@ body.desktop-mode .board-wrapper .board-canvas .board-overlay {
+ }
+ .calendar-event-silver {
+   background: #c0c0c0 !important;
+-  border-color: #8c8c8c;
++  border-color: #616161;
+   color: #000 !important;
+ }
+ .calendar-event-peachpuff {
+@@ -503,7 +503,7 @@ body.desktop-mode .board-wrapper .board-canvas .board-overlay {
+   color: #fff !important;
+ }
+ .calendar-event-magenta {
+-  background: #f0f !important;
++  background: #c200c2 !important;
+   border-color: #c0c;
+   color: #fff !important;
+ }
+diff --git a/client/components/boards/boardColors.css b/client/components/boards/boardColors.css
+index e2d04197c4..ad5f830fcb 100644
+--- a/client/components/boards/boardColors.css
++++ b/client/components/boards/boardColors.css
+@@ -6,7 +6,7 @@
+ /* Ordinary solid-colour themes. */
+ 
+ .board-color-nephritis {
+-  --board-theme-accent: #27ae60;
++  --board-theme-accent: #1c7d45;
+   --board-theme-dark: #1f8b4d;
+   --board-theme-hover: #2cc66d;
+   --board-theme-emphasis: #ae2775;
+@@ -36,9 +36,9 @@
+ }
+ 
+ .board-color-belize {
+-  --board-theme-accent: #2980b9;
++  --board-theme-accent: #2573a6;
+   --board-theme-dark: #216694;
+-  --board-theme-hover: #2e90d0;
++  --board-theme-hover: #2573a6;
+   --board-theme-emphasis: #b96229;
+   --board-theme-emphasis-hover: #a75825;
+   --board-theme-emphasis-close: #944e21;
+@@ -81,7 +81,7 @@
+ }
+ 
+ .board-color-pumpkin {
+-  --board-theme-accent: #e67e22;
++  --board-theme-accent: #a35918;
+   --board-theme-dark: #be6415;
+   --board-theme-hover: #e98b38;
+   --board-theme-emphasis: #228ae6;
+@@ -96,7 +96,7 @@
+ }
+ 
+ .board-color-moderatepink {
+-  --board-theme-accent: #cd5a91;
++  --board-theme-accent: #ae4c7b;
+   --board-theme-dark: #b53773;
+   --board-theme-hover: #d26b9c;
+   --board-theme-emphasis: #5acd96;
+@@ -111,7 +111,7 @@
+ }
+ 
+ .board-color-strongcyan {
+-  --board-theme-accent: #00aecc;
++  --board-theme-accent: #00788d;
+   --board-theme-dark: #008ba3;
+   --board-theme-hover: #00c8eb;
+   --board-theme-emphasis: #cc1e00;
+@@ -126,7 +126,7 @@
+ }
+ 
+ .board-color-limegreen {
+-  --board-theme-accent: #4bbf6b;
++  --board-theme-accent: #317c46;
+   --board-theme-dark: #389d54;
+   --board-theme-hover: #5dc57a;
+   --board-theme-emphasis: #bf4b9f;
+@@ -141,7 +141,7 @@
+ }
+ 
+ .board-color-corteza {
+-  --board-theme-accent: #568ba2;
++  --board-theme-accent: #477386;
+   --board-theme-dark: #456f82;
+   --board-theme-hover: #6597ad;
+   --board-theme-emphasis: #a26d56;
+@@ -901,10 +901,10 @@ THEME - Relax
+ .board-list li.board-color-relax,
+ .board-color-relax .setting-content .content-body .side-menu ul li.active,
+ .board-color-relax .setting-content .content-body .side-menu ul li.active:hover {
+-  background-color: #27ae61;
++  background-color: #1c7d46;
+ }
+ .board-color-relax .is-selected .minicard {
+-  border-inline-start: 3px solid #27ae61;
++  border-inline-start: 3px solid #1c7d46;
+ }
+ .board-color-relax .minicard {
+   border-radius: 7px;
+@@ -941,14 +941,14 @@ THEME - Relax
+   background: #8b1f5d;
+ }
+ .board-color-relax .materialCheckBox.is-checked {
+-  border-bottom: 2px solid #27ae61;
+-  border-inline-end: 2px solid #27ae61;
++  border-bottom: 2px solid #1c7d46;
++  border-inline-end: 2px solid #1c7d46;
+ }
+ .board-color-relax .checklist-progress-bar {
+   background-color: #d4f1dd !important;
+ }
+ .board-color-relax .checklist-progress-bar .checklist-progress {
+-  background-color: #27ae61 !important;
++  background-color: #1c7d46 !important;
+ }
+ .board-color-relax .is-multiselection-active .multi-selection-checkbox.is-checked + .minicard {
+   background: #e7faef;
+@@ -967,7 +967,7 @@ THEME - Relax
+ }
+ @media screen and (max-width: 800px) {
+   .board-color-relax.pop-over .header {
+-    background: #27ae61;
++    background: #1c7d46;
+     color: #fff;
+   }
+ }
+@@ -1384,7 +1384,7 @@ THEME - Clear Blue
+ .board-backgrounds-list .board-color-clearblue.background-box,
+ .public-board-row.board-color-clearblue,
+ .board-list li.board-color-clearblue {
+-  background: linear-gradient(180deg, #499bea 0%, #00aecc 100%);
++  background: linear-gradient(180deg, #499bea 0%, #00788d 100%);
+ }
+ .board-color-clearblue .is-selected .minicard {
+   border-inline-start: 3px solid #499bea;
+@@ -1415,14 +1415,14 @@ THEME - Clear Blue
+ .board-color-clearblue#header-quick-access,
+ .board-color-clearblue .setting-content .content-body .side-menu ul li.active,
+ .board-color-clearblue .setting-content .content-body .side-menu ul li.active:hover {
+-  background-color: #00aecc;
++  background-color: #00788d;
+   border-bottom: 1px solid #008ba3;
+   border-top: 1px solid #00687a;
+ }
+ /* clearblue's bar is a colour SLIDE, and the slide has to be on the bar that is
+    actually on screen. It was only ever on `#header #header-main-bar` - the
+    inner element of the SECOND bar - because that is where the theme used to
+-   live. The first bar got the flat `background-color: #00aecc` from the rule
++   live. The first bar got the flat `background-color: #00788d` from the rule
+    above instead, which is exactly strongcyan's colour: picking clearblue
+    painted the header strongcyan.
+    `#header-quick-access` has no inner bar of its own, so the slide goes
+@@ -1431,7 +1431,7 @@ THEME - Clear Blue
+    The All Boards left menu's selected row is named here too. Every other theme
+    paints that row through `--theme-accent`, which is one colour and is exactly
+    right for them; a slide is not a colour, so the variable cannot carry it and
+-   clearblue's row came out flat #00aecc while the Admin Panel's row beside it
++   clearblue's row came out flat #00788d while the Admin Panel's row beside it
+    slid. The Admin Panel's row has always been named in this rule; this is the
+    All Boards row joining it. docs/Features/Page/Theme.md */
+ .board-color-clearblue#header #header-main-bar,
+@@ -1440,7 +1440,7 @@ THEME - Clear Blue
+ .board-color-clearblue .setting-content .content-body .side-menu ul li.active:hover,
+ .board-color-clearblue .boards-left-menu .menu-item.active a,
+ .board-color-clearblue .boards-left-menu .menu-item.active a:hover {
+-  background: linear-gradient(180deg, #499bea 0%, #00aecc 100%);
++  background: linear-gradient(180deg, #499bea 0%, #00788d 100%);
+ }
+ .board-color-clearblue#header #header-main-bar p {
+   margin-bottom: 6px;
+@@ -1478,7 +1478,7 @@ THEME - Clear Blue
+   background-color: #197ddc;
+ }
+ .board-color-clearblue.board-wrapper {
+-  background: linear-gradient(135deg, #499bea 0%, #00aecc 100%);
++  background: linear-gradient(135deg, #499bea 0%, #00788d 100%);
+ }
+ .board-color-clearblue .swimlane {
+   background: none;
+@@ -1597,7 +1597,7 @@ THEME - Clear Blue
+ }
+ .board-color-clearblue .sidebar-shadow {
+   box-shadow: none;
+-  border-inline-start: 9px solid #00aecc;
++  border-inline-start: 9px solid #00788d;
+ }
+ .board-color-clearblue .is-open .sidebar-shadow {
+   box-shadow: -10px 0 8px rgba(0,0,0,0.3);
+@@ -1663,7 +1663,7 @@ THEME - Clear Blue
+ 
+ /* Apply scrollbar to sidebar content*/
+ .board-color-clearblue .sidebar .sidebar-content {
+-   scrollbar-color: #00aecc #ffffff00;
++   scrollbar-color: #00788d #ffffff00;
+ }
+ 
+ /* Remove margins in between columns/fix spacing */
+@@ -1814,10 +1814,10 @@ THEME - Modern
+ .board-list li.board-color-modern,
+ .board-color-modern .setting-content .content-body .side-menu ul li.active,
+ .board-color-modern .setting-content .content-body .side-menu ul li.active:hover {
+-  background-color: #2a80b8;
++  background-color: #2673a6;
+ }
+ .board-color-modern .is-selected .minicard {
+-  border-inline-start: 3px solid #2a80b8;
++  border-inline-start: 3px solid #2673a6;
+ }
+ .board-color-modern .minicard {
+   border-radius: 7px;
+@@ -1854,14 +1854,14 @@ THEME - Modern
+   background: #934e22;
+ }
+ .board-color-modern .materialCheckBox.is-checked {
+-  border-bottom: 2px solid #2a80b8;
+-  border-inline-end: 2px solid #2a80b8;
++  border-bottom: 2px solid #2673a6;
++  border-inline-end: 2px solid #2673a6;
+ }
+ .board-color-modern .checklist-progress-bar {
+   background-color: #d1e7f5 !important;
+ }
+ .board-color-modern .checklist-progress-bar .checklist-progress {
+-  background-color: #2a80b8 !important;
++  background-color: #2673a6 !important;
+ }
+ .board-color-modern .is-multiselection-active .multi-selection-checkbox.is-checked + .minicard {
+   background: #e8f3fa;
+@@ -1880,7 +1880,7 @@ THEME - Modern
+ }
+ @media screen and (max-width: 800px) {
+   .board-color-modern.pop-over .header {
+-    background: #2a80b8;
++    background: #2673a6;
+     color: #fff;
+   }
+ }
+@@ -2365,7 +2365,7 @@ THEME - Modern Dark
+ }
+ .board-color-moderndark .list-body {
+   scrollbar-width: thin;
+-  scrollbar-color: #343434 #999;
++  scrollbar-color: #343434 #6e6e6e;
+ }
+ .board-color-moderndark .list-body::-webkit-scrollbar {
+   width: 10px;
+@@ -2376,7 +2376,7 @@ THEME - Modern Dark
+   margin: 4px 0;
+ }
+ .board-color-moderndark .list-body::-webkit-scrollbar-thumb {
+-  background-color: #999;
++  background-color: #6e6e6e;
+   border-radius: 6px;
+   border: 3px solid #343434;
+ }
+@@ -2480,7 +2480,7 @@ THEME - Modern Dark
+ }
+ .board-color-moderndark .card-details {
+   scrollbar-width: thin;
+-  scrollbar-color: #343434 #999;
++  scrollbar-color: #343434 #6e6e6e;
+ }
+ .board-color-moderndark .card-details::-webkit-scrollbar {
+   width: 16px;
+@@ -2489,7 +2489,7 @@ THEME - Modern Dark
+   background: #343434;
+ }
+ .board-color-moderndark .card-details::-webkit-scrollbar-thumb {
+-  background-color: #999;
++  background-color: #6e6e6e;
+   border-radius: 6px;
+   border: 4px solid #343434;
+ }
+@@ -4444,7 +4444,7 @@ THEME - Clean Light
+ /* ===============
+ THEME - cleargreen
+ 
+-A colour SLIDE, like clearblue: #8ad59f down to #4bbf6b.
++A colour SLIDE, like clearblue: #8ad59f down to #317c46.
+ The base is limegreen's own colour, so the flat theme and the slide theme are
+ the same colour family and a reader picking either gets what they expected.
+ 
+@@ -4461,7 +4461,7 @@ docs/Features/Page/Theme.md
+ .board-backgrounds-list .board-color-cleargreen.background-box,
+ .public-board-row.board-color-cleargreen,
+ .board-list li.board-color-cleargreen {
+-  background: linear-gradient(180deg, #8ad59f 0%, #4bbf6b 100%);
++  background: linear-gradient(180deg, #8ad59f 0%, #317c46 100%);
+ }
+ .board-color-cleargreen .is-selected .minicard {
+   border-inline-start: 3px solid #8ad59f;
+@@ -4488,7 +4488,7 @@ docs/Features/Page/Theme.md
+ .board-color-cleargreen#header-quick-access,
+ .board-color-cleargreen .setting-content .content-body .side-menu ul li.active,
+ .board-color-cleargreen .setting-content .content-body .side-menu ul li.active:hover {
+-  background-color: #4bbf6b;
++  background-color: #317c46;
+   border-bottom: 1px solid #3c9956;
+   border-top: 1px solid #2d7340;
+ }
+@@ -4499,7 +4499,7 @@ docs/Features/Page/Theme.md
+ .board-color-cleargreen .setting-content .content-body .side-menu ul li.active:hover,
+ .board-color-cleargreen .boards-left-menu .menu-item.active a,
+ .board-color-cleargreen .boards-left-menu .menu-item.active a:hover {
+-  background: linear-gradient(180deg, #8ad59f 0%, #4bbf6b 100%);
++  background: linear-gradient(180deg, #8ad59f 0%, #317c46 100%);
+ }
+ .board-color-cleargreen#header #header-main-bar p {
+   margin-bottom: 6px;
+@@ -4537,7 +4537,7 @@ docs/Features/Page/Theme.md
+   background-color: #42a85e;
+ }
+ .board-color-cleargreen.board-wrapper {
+-  background: linear-gradient(135deg, #8ad59f 0%, #4bbf6b 100%);
++  background: linear-gradient(135deg, #8ad59f 0%, #317c46 100%);
+ }
+ .board-color-cleargreen .swimlane {
+   background: none;
+@@ -4656,7 +4656,7 @@ docs/Features/Page/Theme.md
+ }
+ .board-color-cleargreen .sidebar-shadow {
+   box-shadow: none;
+-  border-inline-start: 9px solid #4bbf6b;
++  border-inline-start: 9px solid #317c46;
+ }
+ .board-color-cleargreen .is-open .sidebar-shadow {
+   box-shadow: -10px 0 8px rgba(0,0,0,0.3);
+@@ -4721,7 +4721,7 @@ docs/Features/Page/Theme.md
+ 
+ /* Apply scrollbar to sidebar content*/
+ .board-color-cleargreen .sidebar .sidebar-content {
+-   scrollbar-color: #4bbf6b #ffffff00;
++   scrollbar-color: #317c46 #ffffff00;
+ }
+ 
+ /* Remove margins in between columns/fix spacing */
+@@ -4740,7 +4740,7 @@ docs/Features/Page/Theme.md
+ /* ===============
+ THEME - clearorange
+ 
+-A colour SLIDE, like clearblue: #efab6f down to #e67e22.
++A colour SLIDE, like clearblue: #efab6f down to #a35918.
+ The base is pumpkin's own colour, so the flat theme and the slide theme are
+ the same colour family and a reader picking either gets what they expected.
+ 
+@@ -4757,7 +4757,7 @@ docs/Features/Page/Theme.md
+ .board-backgrounds-list .board-color-clearorange.background-box,
+ .public-board-row.board-color-clearorange,
+ .board-list li.board-color-clearorange {
+-  background: linear-gradient(180deg, #efab6f 0%, #e67e22 100%);
++  background: linear-gradient(180deg, #efab6f 0%, #a35918 100%);
+ }
+ .board-color-clearorange .is-selected .minicard {
+   border-inline-start: 3px solid #efab6f;
+@@ -4784,7 +4784,7 @@ docs/Features/Page/Theme.md
+ .board-color-clearorange#header-quick-access,
+ .board-color-clearorange .setting-content .content-body .side-menu ul li.active,
+ .board-color-clearorange .setting-content .content-body .side-menu ul li.active:hover {
+-  background-color: #e67e22;
++  background-color: #a35918;
+   border-bottom: 1px solid #b8651b;
+   border-top: 1px solid #8a4c14;
+ }
+@@ -4795,7 +4795,7 @@ docs/Features/Page/Theme.md
+ .board-color-clearorange .setting-content .content-body .side-menu ul li.active:hover,
+ .board-color-clearorange .boards-left-menu .menu-item.active a,
+ .board-color-clearorange .boards-left-menu .menu-item.active a:hover {
+-  background: linear-gradient(180deg, #efab6f 0%, #e67e22 100%);
++  background: linear-gradient(180deg, #efab6f 0%, #a35918 100%);
+ }
+ .board-color-clearorange#header #header-main-bar p {
+   margin-bottom: 6px;
+@@ -4833,7 +4833,7 @@ docs/Features/Page/Theme.md
+   background-color: #ca6f1e;
+ }
+ .board-color-clearorange.board-wrapper {
+-  background: linear-gradient(135deg, #efab6f 0%, #e67e22 100%);
++  background: linear-gradient(135deg, #efab6f 0%, #a35918 100%);
+ }
+ .board-color-clearorange .swimlane {
+   background: none;
+@@ -4952,7 +4952,7 @@ docs/Features/Page/Theme.md
+ }
+ .board-color-clearorange .sidebar-shadow {
+   box-shadow: none;
+-  border-inline-start: 9px solid #e67e22;
++  border-inline-start: 9px solid #a35918;
+ }
+ .board-color-clearorange .is-open .sidebar-shadow {
+   box-shadow: -10px 0 8px rgba(0,0,0,0.3);
+@@ -5017,7 +5017,7 @@ docs/Features/Page/Theme.md
+ 
+ /* Apply scrollbar to sidebar content*/
+ .board-color-clearorange .sidebar .sidebar-content {
+-   scrollbar-color: #e67e22 #ffffff00;
++   scrollbar-color: #a35918 #ffffff00;
+ }
+ 
+ /* Remove margins in between columns/fix spacing */
+@@ -5036,7 +5036,7 @@ docs/Features/Page/Theme.md
+ /* ===============
+ THEME - clearpink
+ 
+-A colour SLIDE, like clearblue: #df94b8 down to #cd5a91.
++A colour SLIDE, like clearblue: #df94b8 down to #ae4c7b.
+ The base is moderatepink's own colour, so the flat theme and the slide theme are
+ the same colour family and a reader picking either gets what they expected.
+ 
+@@ -5053,7 +5053,7 @@ docs/Features/Page/Theme.md
+ .board-backgrounds-list .board-color-clearpink.background-box,
+ .public-board-row.board-color-clearpink,
+ .board-list li.board-color-clearpink {
+-  background: linear-gradient(180deg, #df94b8 0%, #cd5a91 100%);
++  background: linear-gradient(180deg, #df94b8 0%, #ae4c7b 100%);
+ }
+ .board-color-clearpink .is-selected .minicard {
+   border-inline-start: 3px solid #df94b8;
+@@ -5080,7 +5080,7 @@ docs/Features/Page/Theme.md
+ .board-color-clearpink#header-quick-access,
+ .board-color-clearpink .setting-content .content-body .side-menu ul li.active,
+ .board-color-clearpink .setting-content .content-body .side-menu ul li.active:hover {
+-  background-color: #cd5a91;
++  background-color: #ae4c7b;
+   border-bottom: 1px solid #a44874;
+   border-top: 1px solid #7b3657;
+ }
+@@ -5091,7 +5091,7 @@ docs/Features/Page/Theme.md
+ .board-color-clearpink .setting-content .content-body .side-menu ul li.active:hover,
+ .board-color-clearpink .boards-left-menu .menu-item.active a,
+ .board-color-clearpink .boards-left-menu .menu-item.active a:hover {
+-  background: linear-gradient(180deg, #df94b8 0%, #cd5a91 100%);
++  background: linear-gradient(180deg, #df94b8 0%, #ae4c7b 100%);
+ }
+ .board-color-clearpink#header #header-main-bar p {
+   margin-bottom: 6px;
+@@ -5129,7 +5129,7 @@ docs/Features/Page/Theme.md
+   background-color: #b44f80;
+ }
+ .board-color-clearpink.board-wrapper {
+-  background: linear-gradient(135deg, #df94b8 0%, #cd5a91 100%);
++  background: linear-gradient(135deg, #df94b8 0%, #ae4c7b 100%);
+ }
+ .board-color-clearpink .swimlane {
+   background: none;
+@@ -5248,7 +5248,7 @@ docs/Features/Page/Theme.md
+ }
+ .board-color-clearpink .sidebar-shadow {
+   box-shadow: none;
+-  border-inline-start: 9px solid #cd5a91;
++  border-inline-start: 9px solid #ae4c7b;
+ }
+ .board-color-clearpink .is-open .sidebar-shadow {
+   box-shadow: -10px 0 8px rgba(0,0,0,0.3);
+@@ -5313,7 +5313,7 @@ docs/Features/Page/Theme.md
+ 
+ /* Apply scrollbar to sidebar content*/
+ .board-color-clearpink .sidebar .sidebar-content {
+-   scrollbar-color: #cd5a91 #ffffff00;
++   scrollbar-color: #ae4c7b #ffffff00;
+ }
+ 
+ /* Remove margins in between columns/fix spacing */
+diff --git a/client/components/boards/boardsList.css b/client/components/boards/boardsList.css
+index 7dd772bb1d..4705a11e9a 100644
+--- a/client/components/boards/boardsList.css
++++ b/client/components/boards/boardsList.css
+@@ -173,7 +173,7 @@
+    crossed it - which is the bug that had to be fixed in the Admin Panel's. */
+ .boards-left-menu .menu-item.active a,
+ .boards-left-menu .menu-item.active a:hover {
+-  background: var(--theme-accent, #2980b9);
++  background: var(--theme-accent, #2573a6);
+ }
+ /* The Admin Panel puts the selected background on the LI, not the anchor, so
+    the fill reaches the row's full width. Here the anchor is what fills, so it
+@@ -195,10 +195,14 @@
+ .boards-left-menu .menu-item.active a {
+   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+ }
+-/* The count keeps its contrast against the filled row: a light pill on the
+-   accent, rather than the mid-grey that worked on white and disappears here. */
++/* The count keeps its contrast against the filled row: a dark pill on the
++   accent, rather than the mid-grey that worked on white and disappears here.
++   The earlier rgba(255,255,255,0.3) pill composited to #669dc1 over the
++   default accent - white text on it is 2.93:1. rgba(0,0,0,0.6) keeps the
++   accent showing through while holding white text >= 4.5:1 even over the
++   lightest accent (over pure white it renders #666666, 5.07:1). */
+ .boards-left-menu .menu-item.active .menu-count {
+-  background: rgba(255, 255, 255, 0.3);
++  background: rgba(0, 0, 0, 0.6);
+   color: #fff;
+ }
+ 
+@@ -215,7 +219,7 @@
+    docs/Features/Board/Starred.md */
+ .board-list .board-list-item-bookmark .board-list-item {
+   border: 4px solid #fff;
+-  background: var(--theme-accent, #2980b9);
++  background: var(--theme-accent, #2573a6);
+   color: #fff;
+   /* Room at the end for the unstar button, which sits over the tile. */
+   padding-inline-end: 34px;
+@@ -290,7 +294,7 @@
+   margin: 7px;
+   border: 2px dashed #d0d0d0;
+   border-radius: 4px;
+-  color: #808080;
++  color: #616161;
+   font-size: calc(14px * var(--wekan-ui-font-scale, 1));
+   /* Nothing to grab: this is where a drag ENDS. */
+   cursor: default;
+@@ -331,7 +335,7 @@
+   margin: 7px;
+   border: 2px dashed #b3b3b3;
+   border-radius: 4px;
+-  color: #808080;
++  color: #616161;
+   font-size: calc(14px * var(--wekan-ui-font-scale, 1));
+   line-height: 1.4;
+   text-align: center;
+@@ -481,7 +485,7 @@
+   content: '';
+   display: block;
+   height: 30px;
+-  border: 2px dashed var(--theme-accent, #2980b9);
++  border: 2px dashed var(--theme-accent, #2573a6);
+   border-radius: 4px;
+   background: rgba(41, 128, 185, 0.08);
+   margin: 2px 0;
+@@ -522,7 +526,7 @@
+ 
+ .workspace-drag-handle {
+   cursor: grab;
+-  color: #999;
++  color: #6e6e6e;
+   font-size: calc(14px * var(--wekan-ui-font-scale, 1));
+   padding: 0 4px;
+   user-select: none;
+@@ -694,7 +698,7 @@
+    as the pointer crossed it. */
+ .workspace-node.active > .workspace-node-content .js-select-space,
+ .workspace-node.active > .workspace-node-content:hover .js-select-space {
+-  background: var(--theme-accent, #2980b9);
++  background: var(--theme-accent, #2573a6);
+ }
+ .workspace-node.active > .workspace-node-content .js-select-space,
+ .workspace-node.active > .workspace-node-content .js-select-space i {
+@@ -1046,7 +1050,7 @@
+   display: flex;
+   align-items: center;
+   justify-content: center;
+-  background-color: #999; /* Darker background for better text contrast */
++  background-color: #6e6e6e; /* Darker background for better text contrast */
+   border-radius: 3px;
+   /* Same total vertical padding as .board-list-item (42px -> same tile height),
+      but shifted up (top 24->18, bottom 18->24) so the "+ Add Board" text sits
+@@ -1063,7 +1067,7 @@
+   color: #fff; /* White icon */
+ }
+ .board-list .js-add-board .label:hover {
+-  background-color: #808080; /* Even darker on hover */
++  background-color: #616161; /* Even darker on hover */
+ }
+ .board-list .js-add-board .label:hover i {
+   color: #fff; /* Keep icon white on hover */
+@@ -1275,6 +1279,16 @@
+   align-items: center;
+   justify-content: center;
+ }
++/* The swatch names its colour in white no matter the theme: on the clear
++   colour-slide themes the gradient under it measured 2.87-4.13:1. A dark pill
++   behind the label keeps the name readable on every swatch (over pure white
++   rgba(0,0,0,0.6) renders #666666 - 5.07:1 - so every theme clears 4.5:1). */
++.board-backgrounds-list .board-background-select .background-box > span {
++  background: rgba(0, 0, 0, 0.6);
++  color: #fff;
++  padding: 2px 8px;
++  border-radius: 10px;
++}
+ .board-backgrounds-list .board-background-select .background-box i.fa-check {
+   font-size: calc(25px * var(--wekan-ui-font-scale, 1));
+   color: #3cb500;
+@@ -1661,7 +1675,7 @@
+ 
+ .js-board {
+   display: block;
+-  background-color: #999; /* Default gray background if no color class is applied */
++  background-color: #6e6e6e; /* Default gray background if no color class is applied */
+   border-radius: 3px; /* Rounded corners for board items */
+   overflow: hidden; /* Ensure children respect rounded corners */
+   margin: 0; /* grid gap spaces the tiles now (#6523) */
+@@ -1687,7 +1701,7 @@
+    .board-color-<name> { background-color: ... }` lines, and a copied list is a
+    list that goes stale: the five colour SLIDE themes added later - clearpink,
+    cleargreen, clearorange, clearpurple, clearred - were never added to it, so
+-   their tiles stayed the default #999 grey while the slide was drawn on the
++   their tiles stayed the default #6e6e6e grey while the slide was drawn on the
+    inner link, which is inset by the tile's own padding. That is what a
+    clearpink board looked like in All Boards: a pink rectangle floating in a
+    grey tile. clearblue WAS in the list, as a flat #3498db, so it did not show
+@@ -1724,7 +1738,7 @@
+    chose, not a colour, and painting over it would be losing something rather
+    than calming it down. */
+ body.has-theme-board-tiles .board-list > li.js-board {
+-  background: var(--theme-accent-fill, var(--theme-accent, #2980b9));
++  background: var(--theme-accent-fill, var(--theme-accent, #2573a6));
+ }
+ body.has-theme-board-tiles .board-list > li.js-board .board-list-item:not(.has-background-image) {
+   background-color: transparent;
+diff --git a/client/components/boards/publicBoards.css b/client/components/boards/publicBoards.css
+index 8ad0a9d3c1..41f497b1be 100644
+--- a/client/components/boards/publicBoards.css
++++ b/client/components/boards/publicBoards.css
+@@ -23,9 +23,9 @@
+  * so the row keeps the table's white background: with the light text below that
+  * is white on white, and only the row's emoji was visible. The All Boards tile
+  * has the same problem and solves it the same way — `.board-list-item` falls
+- * back to a grey (#999) so its white text always has something to sit on. */
++ * back to a grey (#6e6e6e) so its white text always has something to sit on. */
+ .public-board-row {
+-  background-color: #999;
++  background-color: #6e6e6e;
+   background-size: cover;
+   background-position: center;
+   cursor: pointer;
+diff --git a/client/components/cards/attachments.jade b/client/components/cards/attachments.jade
+index 4d4154c62d..3e661be7a9 100644
+--- a/client/components/cards/attachments.jade
++++ b/client/components/cards/attachments.jade
+@@ -57,7 +57,7 @@ template(name="attachmentGallery")
+   .attachment-gallery
+ 
+     if canModifyCard
+-      a.attachment-item.add-attachment.js-add-attachment
++      a.attachment-item.add-attachment.js-add-attachment(title="{{_ 'add-attachment'}}")
+         i.fa.fa-plus
+ 
+     each attachments
+diff --git a/client/components/cards/cardDate.css b/client/components/cards/cardDate.css
+index a01c7b3f71..280f65909b 100644
+--- a/client/components/cards/cardDate.css
++++ b/client/components/cards/cardDate.css
+@@ -36,7 +36,7 @@
+ }
+ 
+ .card-date.current {
+-  background-color: #5ba639 !important; /* Green for current/active */
++  background-color: #437b2a !important; /* Green for current/active */
+   color: #fff !important;
+ }
+ .card-date.current:hover,
+@@ -155,3 +155,10 @@
+   border-radius: 4px;
+   padding: 1px 3px;
+ }
++
++/* WCAG 2.5.8: the date chip is 20px tall - pad it to the 24px minimum. */
++.js-edit-date {
++  min-height: 24px;
++  display: inline-flex;
++  align-items: center;
++}
+diff --git a/client/components/cards/cardDate.jade b/client/components/cards/cardDate.jade
+index f3bb6eb13a..9011398702 100644
+--- a/client/components/cards/cardDate.jade
++++ b/client/components/cards/cardDate.jade
+@@ -16,14 +16,14 @@
+   editor; a custom field's date is never one, and passes nothing.
+ template(name="dateBadgeBody")
+   if canModifyCard
+-    a.js-edit-date(title="{{showTitle}} {{_ 'predicate-week'}} {{#if showWeekOfYear}}{{showWeek}}{{/if}}" class="{{baseClass}} {{classes}}")
++    a.js-edit-date(title="{{showTitle}}{{#if showWeekOfYear}} {{showWeek}}{{/if}}" class="{{baseClass}} {{classes}}")
+       time(datetime="{{showISODate}}")
+         | {{showDate}}
+         if showWeekOfYear
+           b
+             | {{showWeek}}
+   else
+-    a(title="{{showTitle}} {{_ 'predicate-week'}} {{#if showWeekOfYear}}{{showWeek}}{{/if}}" class="{{baseClass}} {{classes}}")
++    a(title="{{showTitle}}{{#if showWeekOfYear}} {{showWeek}}{{/if}}" class="{{baseClass}} {{classes}}")
+       time(datetime="{{showISODate}}")
+         | {{showDate}}
+         if showWeekOfYear
+@@ -58,19 +58,19 @@ template(name="pokerEndDate")
+   +dateBadgeBody(canModifyCard=canModifyCard baseClass="card-date" showTitle=showTitle classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
+ 
+ template(name="minicardReceivedDate")
+-  +dateBadgeBody(canModifyCard=canModifyCard showTitle="{{_ 'card-received'}}" baseClass="card-date received-date" classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
++  +dateBadgeBody(canModifyCard=canModifyCard baseClass="card-date received-date" showTitle=showTitle classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
+ 
+ template(name="minicardStartDate")
+-  +dateBadgeBody(canModifyCard=canModifyCard showTitle="{{_ 'card-start'}}" baseClass="card-date start-date" classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
++  +dateBadgeBody(canModifyCard=canModifyCard baseClass="card-date start-date" showTitle=showTitle classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
+ 
+ template(name="minicardDueDate")
+-  +dateBadgeBody(canModifyCard=canModifyCard showTitle="{{_ 'card-due'}}" baseClass="card-date due-date" classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
++  +dateBadgeBody(canModifyCard=canModifyCard baseClass="card-date due-date" showTitle=showTitle classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
+ 
+ template(name="minicardEndDate")
+-  +dateBadgeBody(canModifyCard=canModifyCard showTitle="{{_ 'card-end'}}" baseClass="card-date end-date" classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
++  +dateBadgeBody(canModifyCard=canModifyCard baseClass="card-date end-date" showTitle=showTitle classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
+ 
+ template(name="minicardCustomFieldDate")
+-  +dateBadgeBody(showTitle="{{_ 'date'}}" classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
++  +dateBadgeBody(showTitle=showTitle classes=classes showISODate=showISODate showDate=showDate showWeekOfYear=showWeekOfYear showWeek=showWeek)
+ 
+ template(name="editCardReceivedDatePopup")
+   +editDateForm(showDate=showDate showTime=showTime error=error datePicker=datePicker)
+diff --git a/client/components/cards/cardDescription.css b/client/components/cards/cardDescription.css
+index b65e6b65a5..1d0ba00f0e 100644
+--- a/client/components/cards/cardDescription.css
++++ b/client/components/cards/cardDescription.css
+@@ -38,7 +38,7 @@
+   background-color: #fff;
+   border: 0;
+   box-shadow: 0 1px 2px rgba(0,0,0,0.23);
+-  color: #8c8c8c;
++  color: #616161;
+   height: 36px;
+   margin: 4px 4px 6px 0;
+   width: 92%;
+diff --git a/client/components/cards/cardDetails.css b/client/components/cards/cardDetails.css
+index 53568b5026..5cd8df2d1a 100644
+--- a/client/components/cards/cardDetails.css
++++ b/client/components/cards/cardDetails.css
+@@ -781,7 +781,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
+   color: #fff !important;
+ }
+ .card-details-magenta {
+-  background: #f0f !important;
++  background: #c200c2 !important;
+   color: #fff !important;
+ }
+ .card-details-gold {
+@@ -1029,7 +1029,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
+ .card-sticker .card-sticker-remove {
+   margin-inline-start: 3px;
+   font-size: calc(11px * var(--wekan-ui-font-scale, 1));
+-  color: #999;
++  color: #616161;
+   cursor: pointer;
+ }
+ .card-sticker .card-sticker-remove:hover {
+@@ -1083,7 +1083,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
+ }
+ .card-details-item-location .card-location-remove {
+   margin-inline-start: 8px;
+-  color: #8c8c8c;
++  color: #616161;
+   cursor: pointer;
+ }
+ .card-details-item-location .card-location-remove:hover {
+@@ -1223,7 +1223,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
+ .card-details h3.card-details-item-title .card-details-section-menu {
+   margin-inline-start: auto;
+   padding: 0 4px;
+-  color: #808080;
++  color: #616161;
+   cursor: pointer;
+ }
+ 
+@@ -1295,7 +1295,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
+   background: transparent;
+   border: 0;
+   border-radius: 4px;
+-  color: #808080;
++  color: #616161;
+   cursor: pointer;
+   display: inline-flex;
+   gap: 2px;
+@@ -1365,3 +1365,15 @@ body.desktop-mode .card-details.card-details-position-pending:not(.card-details-
+   gap: 4px;
+   opacity: 0.8;
+ }
++
++/* WCAG 2.5.8: the hamburger that opens a card-section's settings is a 12x18
++   glyph - give it the 24px minimum click surface. */
++.card-details-section-menu {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  min-width: 24px;
++  min-height: 24px;
++}
++
++/* WCAG 2.5.8: the title-mode radios rendered 13px tall; size them to 24px. */
+diff --git a/client/components/cards/cardDetails.jade b/client/components/cards/cardDetails.jade
+index ee93869dfb..a103e9e26c 100644
+--- a/client/components/cards/cardDetails.jade
++++ b/client/components/cards/cardDetails.jade
+@@ -296,7 +296,7 @@ template(name="cardFieldSectionLabels")
+           .card-details-item.card-details-item-labels
+             +cardSectionHeader(section="labels" icon="fa-tags" label="labels" noRule=true)
+             if isSectionOpen "labels"
+-              a(class="{{#if canModifyCard}}js-add-labels{{else}}is-disabled{{/if}}" title="{{_ 'card-labels-title'}}")
++              a(class="{{#if canModifyCard}}js-add-labels{{else}}is-disabled{{/if}}" title="{{cardLabelsTitle}}")
+                 each labels
+                   //- Labels text, Show on Card: the words, or coloured chips without them.
+                   span.card-label(class="{{labelColorClass color}}" class="{{#if hiddenCardLabelText}}card-label-no-text{{/if}}" style="{{labelColorStyle color}}" title=name)
+@@ -388,7 +388,7 @@ template(name="cardFieldSectionDates")
+                     else
+                       if canModifyCard
+                         unless currentUser.isWorker
+-                          a.card-label.add-label.js-received-date
++                          a.card-label.add-label.js-received-date(title="{{_ 'card-received'}}")
+                             i.fa.fa-plus
+ 
+               if $eq field "startDate"
+@@ -402,7 +402,7 @@ template(name="cardFieldSectionDates")
+                     else
+                       if canModifyCard
+                         unless currentUser.isWorker
+-                          a.card-label.add-label.js-start-date
++                          a.card-label.add-label.js-start-date(title="{{_ 'card-start'}}")
+                             i.fa.fa-plus
+ 
+               if $eq field "dueDate"
+@@ -416,7 +416,7 @@ template(name="cardFieldSectionDates")
+                     else
+                       if canModifyCard
+                         unless currentUser.isWorker
+-                          a.card-label.add-label.js-due-date
++                          a.card-label.add-label.js-due-date(title="{{_ 'card-due'}}")
+                             i.fa.fa-plus
+                     if dueDateChangeCount
+                       .card-details-due-date-changes(title="{{_ 'due-date-changes'}}")
+@@ -433,7 +433,7 @@ template(name="cardFieldSectionDates")
+                     else
+                       if canModifyCard
+                         unless currentUser.isWorker
+-                          a.card-label.add-label.js-end-date
++                          a.card-label.add-label.js-end-date(title="{{_ 'card-end'}}")
+                             i.fa.fa-plus
+ 
+ template(name="cardFieldSectionMembers")
+@@ -1004,15 +1004,18 @@ template(name="cardSectionHeader")
+     sits under a rule of the layout's own.
+   unless noRule
+     hr.card-details-section-rule
+-  h3.card-details-item-title.js-toggle-card-section(data-section="{{section}}" role="button" tabindex="0")
+-    i.fa(class="{{sectionCaret section}}")
+-    if icon
+-      i.fa(class="{{icon}}")
+-    | {{_ label}}
+-    //- An optional count after the name - "Attachments (3)" - for a section
+-      whose size is worth knowing before it is opened.
+-    if count
+-      |  ({{count}})
++  h3.card-details-item-title
++    //- The fold affordance is a real button inside the heading: a heading that
++    //- is itself a button can no longer contain the menu or layout controls.
++    button.card-details-item-title-toggle.js-toggle-card-section(type="button" data-section="{{section}}" aria-expanded="{{#if isSectionOpen section}}true{{else}}false{{/if}}")
++      i.fa(class="{{sectionCaret section}}")
++      if icon
++        i.fa(class="{{icon}}")
++      | {{_ label}}
++      //- An optional count after the name - "Attachments (3)" - for a section
++        whose size is worth knowing before it is opened.
++      if count
++        |  ({{count}})
+     //- Custom Fields puts its layout selector on the heading row, between the
+       title and hamburger. A collapsed section hides actions for content that
+       is not visible, so the selector only exists while this section is open.
+diff --git a/client/components/cards/cardDetails.js b/client/components/cards/cardDetails.js
+index e965cf576c..34b59ef3b3 100644
+--- a/client/components/cards/cardDetails.js
++++ b/client/components/cards/cardDetails.js
+@@ -816,6 +816,17 @@ Template.registerHelper('isCurrentListId', function isCurrentListId(listId) {
+     return orderedCardFieldsOf(board?.cardFieldOrder, section);
+   };
+   Template.registerHelper('orderedLabelsFields', sectionHelper('labels'));
++
++// The label chips the add-labels link wraps are its visible text; the
++// accessible name has to contain them (title is copied to aria-label).
++Template.registerHelper('cardLabelsTitle', function () {
++  const names = (typeof this.labels === 'function' ? this.labels() : [])
++    .map(l => l.name)
++    .filter(Boolean)
++    .join(' ');
++  const base = TAPi18n.__('card-labels-title');
++  return names ? `${names} — ${base}` : base;
++});
+   Template.registerHelper('orderedDatesFields', sectionHelper('dates'));
+   Template.registerHelper('orderedMembersFields', sectionHelper('members'));
+   Template.registerHelper('orderedSortFields', sectionHelper('sort'));
+@@ -1007,6 +1018,8 @@ Template.cardSectionHeader.events({
+     Meteor.call('toggleCustomFieldsGrid');
+   },
+ 
++  // The fold affordance is a real <button> inside the h3: Enter and Space
++  // activate it natively, so no keydown twin is needed here.
+   'click .js-toggle-card-section'(event) {
+     if (event.target.closest('#toggleCustomFieldsGridButton')) return;
+     event.preventDefault();
+@@ -1014,16 +1027,6 @@ Template.cardSectionHeader.events({
+     if (!section) return;
+     cardSectionState.set(section, !isCardSectionOpen(section));
+   },
+-  // A heading that can be operated with the mouse can be operated with the
+-  // keyboard: it carries role="button" and tabindex, so Enter and Space are
+-  // what a screen reader user presses.
+-  'keydown .js-toggle-card-section'(event) {
+-    if (event.target !== event.currentTarget) return;
+-    if (event.key !== 'Enter' && event.key !== ' ') return;
+-    event.preventDefault();
+-    const section = event.currentTarget.dataset.section;
+-    if (section) cardSectionState.set(section, !isCardSectionOpen(section));
+-  },
+ });
+ 
+ Template.cardDetails.events({
+diff --git a/client/components/cards/cardPomodoro.jade b/client/components/cards/cardPomodoro.jade
+index b57ea6e72f..1ff200efc3 100644
+--- a/client/components/cards/cardPomodoro.jade
++++ b/client/components/cards/cardPomodoro.jade
+@@ -9,5 +9,5 @@ template(name="cardPomodoro")
+         button.js-stop-pomodoro.pomodoro-btn.negate(type="button") {{_ 'stop'}}
+     else
+       if canControlPomodoro
+-        input.js-pomodoro-work-minutes.pomodoro-minutes(type="number" min="1" value="{{workMinutesInput}}")
++        input.js-pomodoro-work-minutes.pomodoro-minutes(type="number" min="1" value="{{workMinutesInput}}" aria-label="{{_ 'pomodoro'}}")
+         button.js-start-pomodoro.pomodoro-btn.primary(type="button") {{_ 'pomodoro-start'}}
+diff --git a/client/components/cards/checklists.css b/client/components/cards/checklists.css
+index 2ba66a564e..32c8263005 100644
+--- a/client/components/cards/checklists.css
++++ b/client/components/cards/checklists.css
+@@ -1,5 +1,5 @@
+ .js-add-checklist {
+-  color: #8c8c8c;
++  color: #616161;
+ }
+ textarea.js-add-checklist-item,
+ textarea.js-edit-checklist-item {
+@@ -11,7 +11,7 @@ textarea.js-edit-checklist-item {
+ .delete-text,
+ .js-delete-checklist-item,
+ .js-convert-checklist-item-to-card {
+-  color: #8c8c8c;
++  color: #616161;
+   text-decoration: underline;
+   word-wrap: break-word;
+   float: inline-end;
+@@ -139,7 +139,7 @@ textarea.js-edit-checklist-item {
+   overflow-wrap: anywhere;
+ }
+ .checklist-item .item-title.is-checked {
+-  color: #8c8c8c;
++  color: #616161;
+   font-style: italic;
+   text-decoration: line-through;
+ }
+@@ -167,11 +167,11 @@ textarea.js-edit-checklist-item {
+ .checklist-item .checklist-item-due-date-add {
+   align-self: center;
+   margin-inline-start: 6px;
+-  color: #8c8c8c;
++  color: #616161;
+   text-decoration: none;
+ }
+ .checklist-item .checklist-item-due-date-add:hover {
+-  color: #2980b9;
++  color: #2573a6;
+ }
+ .js-delete-checklist-item,
+ .js-convert-checklist-item-to-card {
+@@ -226,7 +226,7 @@ textarea.js-edit-checklist-item {
+   margin-block-start: 2px;
+   margin-inline-end: 4px;
+   padding: 2px 4px;
+-  color: #808080;
++  color: #616161;
+   font-size: calc(14px * var(--wekan-ui-font-scale, 1));
+   line-height: calc(14px * var(--wekan-ui-font-scale, 1));
+   cursor: pointer;
+@@ -235,7 +235,7 @@ textarea.js-edit-checklist-item {
+ 
+ .checklist-title .checklist-collapse:hover,
+ .checklist-title .checklist-collapse:focus-visible {
+-  color: #2980b9;
++  color: #2573a6;
+ }
+ 
+ .checklist-title .checklist-due-date-add {
+diff --git a/client/components/cards/labels.css b/client/components/cards/labels.css
+index fb54b75107..330f18329b 100644
+--- a/client/components/cards/labels.css
++++ b/client/components/cards/labels.css
+@@ -27,8 +27,8 @@
+ }
+ .ui-font-btn.active,
+ .ui-font-size-btn.active {
+-  background: #2980b9;
+-  border-color: #2980b9;
++  background: #2573a6;
++  border-color: #2573a6;
+   color: #fff;
+ }
+ /* The "Unset" colour reset links look like buttons. */
+@@ -106,6 +106,13 @@
+   box-shadow: 0 0 0 2px #bfbfbf inset;
+   border: initial;
+ }
++/* A label chip with no palette colour (global search board/list/name chips)
++   painted white text on nothing - the page grey behind it failed contrast.
++   It gets a neutral dark fill now. */
++.card-label.list-title {
++  background-color: #6e6e6e;
++}
++
+ .card-label.add-label:hover,
+ .card-label.add-label.is-active {
+   box-shadow: 0 0 0 2px #666 inset;
+@@ -132,7 +139,7 @@
+   color: #aaa;
+ }
+ .card-label-green {
+-  background-color: #3cb500;
++  background-color: #297d00;
+ }
+ .card-label-green:hover {
+   color: #000;
+@@ -146,7 +153,7 @@
+   color: #000;
+ }
+ .card-label-red {
+-  background-color: #eb4646;
++  background-color: #bc4838;
+ }
+ .card-label-purple {
+   background-color: #a632db;
+@@ -159,7 +166,7 @@
+   color: #000;
+ }
+ .card-label-sky {
+-  background-color: #00c2e0;
++  background-color: #00788b;
+ }
+ .card-label-black {
+   background-color: #4d4d4d;
+@@ -190,7 +197,7 @@
+   background-color: #6a5acd;
+ }
+ .card-label-magenta {
+-  background-color: #f0f;
++  background-color: #c200c2;
+ }
+ .card-label-gold {
+   background-color: #ffd700;
+@@ -200,7 +207,7 @@
+   background-color: #000080;
+ }
+ .card-label-gray {
+-  background-color: #808080;
++  background-color: #6e6e6e;
+ }
+ .card-label-saddlebrown {
+   background-color: #8b4513;
+diff --git a/client/components/cards/minicard.css b/client/components/cards/minicard.css
+index 47a4294204..03dbc24277 100644
+--- a/client/components/cards/minicard.css
++++ b/client/components/cards/minicard.css
+@@ -76,7 +76,7 @@
+   float: inline-start;
+   margin-inline-end: 4px;
+   font-size: 0.875rem;
+-  color: #999;
++  color: #616161;
+   cursor: pointer;
+ }
+ .minicard .minicard-collapse:hover {
+@@ -471,7 +471,7 @@
+ }
+ 
+ .minicard .card-date.current {
+-  background-color: #5ba639 !important; /* Green for current/active */
++  background-color: #437b2a !important; /* Green for current/active */
+   color: #fff !important;
+ }
+ .minicard .card-date.current:hover,
+@@ -518,7 +518,7 @@
+ .minicard .badges {
+   float: inline-start;
+   margin-top: 8px;
+-  color: #808080;
++  color: #6e6e6e;
+ }
+ .minicard .badges:empty {
+   display: none;
+@@ -530,7 +530,7 @@
+   font-size: 0.9em;
+ }
+ .minicard .badges .badge.is-finished {
+-  background: #3cb500;
++  background: #297d00;
+   padding: 0 6px;
+   border-radius: 6px;
+   color: #fff;
+@@ -678,7 +678,7 @@
+ }
+ /* https://github.com/wekan/wekan/issues/4254#issuecomment-1037192960 */
+ .minicard-green {
+-  background-color: #3cb500 !important;
++  background-color: #297d00 !important;
+   color: #fff !important;
+ }
+ .minicard-green:hover:not(.minicard-composer),
+@@ -712,7 +712,7 @@
+   background: #ff9705;
+ }
+ .minicard-red {
+-  background-color: #eb4646 !important;
++  background-color: #bc4838 !important;
+   color: #fff !important;
+ }
+ .minicard-red:hover:not(.minicard-composer),
+@@ -759,7 +759,7 @@
+   background: #ff5ec1;
+ }
+ .minicard-sky {
+-  background-color: #00c2e0 !important;
++  background-color: #00788b !important;
+   color: #fff !important;
+ }
+ .minicard-sky:hover:not(.minicard-composer),
+@@ -863,7 +863,7 @@
+   background: #5c4ac8;
+ }
+ .minicard-magenta {
+-  background-color: #f0f !important;
++  background-color: #c200c2 !important;
+   color: #fff !important;
+ }
+ .minicard-magenta:hover:not(.minicard-composer),
+@@ -898,7 +898,7 @@
+   background: #007;
+ }
+ .minicard-gray {
+-  background-color: #808080 !important;
++  background-color: #6e6e6e !important;
+   color: #fff !important;
+ }
+ .minicard-gray:hover:not(.minicard-composer),
+@@ -981,7 +981,7 @@
+ .minicard-list-name {
+   clear: inline-start;
+   font-size: 0.75em;
+-  color: #8c8c8c;
++  color: #616161;
+   margin-top: 2px;
+   display: flex;
+   align-items: center;
+@@ -993,7 +993,7 @@
+ .minicard-swimlane-name {
+   clear: inline-start;
+   font-size: 0.75em;
+-  color: #8c8c8c;
++  color: #616161;
+   margin-top: 2px;
+   display: flex;
+   align-items: center;
+@@ -1061,7 +1061,7 @@
+ 
+ .minicard-checklist .checklist-item.is-checked {
+   text-decoration: line-through;
+-  color: #999;
++  color: #616161;
+ }
+ 
+ .minicard-checklist .checklist-item .check-box-unicode {
+@@ -1179,3 +1179,25 @@
+   padding: 1px 6px;
+   margin: 0;
+ }
++
++/* WCAG 2.5.8: the collapse caret and the kebab menu are 9x14/12x18 glyph
++   targets. Give each a 24x24 click surface, nudging the glyph back into its
++   visual spot so the card itself does not move. */
++.minicard .minicard-collapse {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  min-width: 24px;
++  min-height: 24px;
++  margin-top: -5px;
++  margin-inline-start: -4px;
++}
++.minicard .minicard-details-menu-with-handle {
++  display: inline-flex;
++  align-items: center;
++  justify-content: center;
++  min-width: 24px;
++  min-height: 24px;
++  margin-top: -5px;
++  margin-inline-end: -4px;
++}
+diff --git a/client/components/cards/subtasks.css b/client/components/cards/subtasks.css
+index 4e042c29b3..67a0778af3 100644
+--- a/client/components/cards/subtasks.css
++++ b/client/components/cards/subtasks.css
+@@ -1,5 +1,5 @@
+ .js-add-subtask {
+-  color: #8c8c8c;
++  color: #616161;
+ }
+ textarea.js-add-subtask-item,
+ textarea.js-edit-subtask-item {
+@@ -12,7 +12,7 @@ textarea.js-edit-subtask-item {
+ .subtask-title .js-delete-subtask,
+ .subtask-title .js-view-subtask,
+ .js-delete-subtask-item {
+-  color: #8c8c8c;
++  color: #616161;
+   text-decoration: underline;
+   word-wrap: break-word;
+   flex-shrink: 0;
+@@ -163,7 +163,7 @@ textarea.js-edit-subtask-item {
+   padding-inline-start: 10px;
+ }
+ .subtasks-item .item-title.is-checked {
+-  color: #8c8c8c;
++  color: #616161;
+   font-style: italic;
+ }
+ .subtasks-item .item-title .viewer p {
+@@ -186,7 +186,7 @@ textarea.js-edit-subtask-item {
+    instead of disappearing — the same dimmed/italic treatment a checked
+    checklist item gets (.subtasks-item .item-title.is-checked above). */
+ .subtask.is-completed .subtask-title .title {
+-  color: #8c8c8c;
++  color: #616161;
+   font-style: italic;
+   text-decoration: line-through;
+ }
+@@ -199,7 +199,7 @@ textarea.js-edit-subtask-item {
+ .subtasks-hide-completed-toggle {
+   display: inline-block;
+   margin: 0.2em 0 0.5em 1.33em;
+-  color: #8c8c8c;
++  color: #616161;
+   cursor: pointer;
+ }
+ .subtasks-hide-completed-toggle:hover {
+@@ -224,7 +224,7 @@ textarea.js-edit-subtask-item {
+   flex-shrink: 0;
+   margin: 0 0.5em;
+   padding-top: 6px;
+-  color: #8c8c8c;
++  color: #616161;
+   font-size: 0.85em;
+   white-space: nowrap;
+   overflow: hidden;
+diff --git a/client/components/forms/forms.css b/client/components/forms/forms.css
+index 5e9b5eac3c..3c9273d8e8 100644
+--- a/client/components/forms/forms.css
++++ b/client/components/forms/forms.css
+@@ -196,7 +196,7 @@ button.primary:active,
+ }
+ input[type="submit"].negate,
+ button.negate {
+-  background: #eb5a46;
++  background: #c53b3b;
+   box-shadow: 0 1px 0 #4d4d4d;
+   color: #fff;
+ }
+@@ -851,6 +851,9 @@ button.loud-text-button:hover {
+   width: auto;
+   margin: 0;
+   flex: 0 0 auto;
++  /* WCAG 2.5.8: the radios rendered 13px tall - give them the 24px minimum. */
++  min-width: 24px;
++  min-height: 24px;
+ }
+ 
+ /* Text editors can be resized by their native corner handle. Autosize's inline
+diff --git a/client/components/lists/list.css b/client/components/lists/list.css
+index 43eaeccb54..53f292c28f 100644
+--- a/client/components/lists/list.css
++++ b/client/components/lists/list.css
+@@ -455,7 +455,7 @@ form.inlined-form .list-composer {
+ 
+ .list.list-composer .open-list-composer,
+ .list .list-composer .open-list-composer {
+-  color: #8c8c8c;
++  color: #616161;
+ }
+ .list.list-composer .list-name-input,
+ .list .list-composer .list-name-input {
+@@ -519,7 +519,7 @@ form.inlined-form .list-composer {
+   padding: 0;
+   border-radius: 0;
+   background: transparent;
+-  color: #8c8c8c;
++  color: #616161;
+   font-weight: bold;
+   font-size: calc(12px * var(--wekan-ui-font-scale, 1));
+   vertical-align: middle;
+@@ -816,7 +816,7 @@ form.inlined-form .list-composer {
+ }
+ 
+ .list-header .cardCount {
+-  color: #8c8c8c;
++  color: #616161;
+   font-size: calc(12px * var(--wekan-ui-font-scale, 1));
+   font-weight: bold;
+ }
+@@ -875,7 +875,7 @@ form.inlined-form .list-composer {
+ }
+ .list-body .open-minicard-composer {
+   border-radius: 2px;
+-  color: #8c8c8c;
++  color: #616161;
+   display: block;
+   /* Smaller than a card title, because it is not a card: it is the affordance
+      for making one. At the inherited 16px it was the largest text in the list
+@@ -1536,7 +1536,7 @@ form.inlined-form .list-composer {
+   border-bottom: 6px solid #6a5acd !important;
+ }
+ .list-header-magenta {
+-  border-bottom: 6px solid #f0f !important;
++  border-bottom: 6px solid #c200c2 !important;
+ }
+ .list-header-gold {
+   border-bottom: 6px solid #ffd700 !important;
+@@ -1761,7 +1761,7 @@ form.inlined-form .list-composer {
+ }
+ 
+ .list-sync-paused {
+-  color: #999;
++  color: #616161;
+ }
+ 
+ /* Preserve explicit title line breaks just like minicard titles. */
+diff --git a/client/components/lists/listHeader.jade b/client/components/lists/listHeader.jade
+index bbe51c1626..73db14a69d 100644
+--- a/client/components/lists/listHeader.jade
++++ b/client/components/lists/listHeader.jade
+@@ -17,7 +17,7 @@ template(name="listHeader")
+     else
+       if isMiniScreen
+         if isCurrentList
+-          a.list-header-left-icon.js-unselect-list
++          a.list-header-left-icon.js-unselect-list(title="{{_ 'back'}}")
+             i.fa.fa-caret-left
+       else
+         if collapsed
+@@ -110,7 +110,7 @@ template(name="listHeader")
+                   a.js-open-list-menu(title="{{_ 'listActionPopup-title'}}")
+                     i.fa.fa-bars
+         else
+-          a.list-header-menu-icon.js-select-list
++          a.list-header-menu-icon.js-select-list(title="{{_ 'open'}}")
+             i.fa.fa-caret-right
+           //- The add-list + sits BETWEEN the caret and the drag handle, so mobile
+           //- mode needs no "Add List" row of its own. Same class, same handler and
+diff --git a/client/components/main/accessibility.css b/client/components/main/accessibility.css
+index 504d2314f5..48e980baba 100644
+--- a/client/components/main/accessibility.css
++++ b/client/components/main/accessibility.css
+@@ -12,7 +12,7 @@
+   font-size: 1.2rem;
+   font-weight: bold;
+   padding: 6px 10px;
+-  background-color: #808080;
++  background-color: #616161;
+   color: #fff;
+ }
+ .my-cards-swimlane-title {
+diff --git a/client/components/main/brokenCards.css b/client/components/main/brokenCards.css
+index 2dcfb1a072..24a8fda37b 100644
+--- a/client/components/main/brokenCards.css
++++ b/client/components/main/brokenCards.css
+@@ -2,7 +2,7 @@
+   margin-top: 0;
+   margin-bottom: 12px;
+   border-width: 6px !important;
+-  border-color: #808080 !important;
++  border-color: #616161 !important;
+   border-style: solid;
+   border-radius: 10px;
+   padding: 18px 28px;
+diff --git a/client/components/main/customTheme.css b/client/components/main/customTheme.css
+index e76cde8d5d..1acc29c89a 100644
+--- a/client/components/main/customTheme.css
++++ b/client/components/main/customTheme.css
+@@ -74,7 +74,7 @@
+    selected thing. The fill is the slide where the theme has one. */
+ .theme-color-picker ul.pop-over-list.theme-scope-row > li.active > a,
+ .theme-color-picker ul.pop-over-list.theme-scope-row > li.active > a:hover {
+-  background: var(--theme-accent-fill, var(--theme-accent, #2980b9));
++  background: var(--theme-accent-fill, var(--theme-accent, #2573a6));
+   color: #fff !important;
+ }
+ .theme-color-picker ul.pop-over-list.theme-scope-row > li.active > a i {
+diff --git a/client/components/main/editor.jade b/client/components/main/editor.jade
+index aa53c8c7cb..065b0fcf74 100644
+--- a/client/components/main/editor.jade
++++ b/client/components/main/editor.jade
+@@ -8,6 +8,7 @@ template(name="editor")
+     class="{{class}}"
+     id=id
+     autofocus=autofocus
++    aria-label="{{_ 'comment'}}"
+     placeholder="{{_ 'comment-placeholder'}}")
+     +Template.contentBlock
+ 
+diff --git a/client/components/main/globalSearch.css b/client/components/main/globalSearch.css
+index 5bcb94ce23..8c41809b20 100644
+--- a/client/components/main/globalSearch.css
++++ b/client/components/main/globalSearch.css
+@@ -2,7 +2,7 @@
+   border-radius: 8px;
+   min-width: 400px;
+   border-width: 8px;
+-  border-color: #808080;
++  border-color: #616161;
+   border-style: solid;
+   margin-bottom: 2rem;
+   margin-inline-end: auto;
+@@ -12,7 +12,7 @@
+   font-size: 1.4rem;
+   font-weight: bold;
+   padding: 0.5rem;
+-  background-color: #808080;
++  background-color: #616161;
+   color: #fff;
+ }
+ .global-search-swimlane-title {
+@@ -105,7 +105,7 @@ code {
+   font-size: 0.8rem !important;
+ }
+ .list-title {
+-  background-color: #a9a9a9;
++  background-color: #6e6e6e;
+ }
+ .global-search-footer {
+   border: none;
+diff --git a/client/components/main/header.css b/client/components/main/header.css
+index eab65799b8..405fc5e307 100644
+--- a/client/components/main/header.css
++++ b/client/components/main/header.css
+@@ -17,7 +17,7 @@
+ #header {
+   color: #fff;
+   transition: background-color 0.4s;
+-  background: #2980b9;
++  background: #2573a6;
+   z-index: 17;
+ }
+ #header #header-main-bar {
+@@ -298,7 +298,7 @@ body:not(.board-view) #header #header-main-bar h1 {
+      of colour now, so the header reads as one header. The per-theme rules do
+      the same, by naming this bar in the selector list the main bar already has
+      (boardColors.css) rather than by restating each hex a second time. */
+-  background: #2980b9;
++  background: #2573a6;
+   font-size: calc(12px * var(--wekan-ui-font-scale, 1));
+   display: flex;
+   z-index: 1000;
+@@ -348,6 +348,17 @@ body:not(.board-view) #header #header-main-bar h1 {
+   margin-block: 0;
+ }
+ 
++/* The page title is an h1 (one per page, naming the page) that keeps the
++   inline look the span used to have. */
++#header-quick-access .header-page-title {
++  font-size: inherit;
++  font-weight: inherit;
++  margin: 0;
++  padding: 0;
++  border: none;
++  display: inline;
++}
++
+ /* The page title beside the house. On a board, and for a board admin, it is
+    also the rename button (client/components/main/header.js) - so it says so on
+    hover, the way a list's heading does.
+@@ -745,7 +756,7 @@ body.mobile-mode #header-quick-access .allBoards {
+   color: #fff !important;
+   /* The active theme, like the rest of the bar; the stock blue where no theme
+      has published an accent. */
+-  background: var(--theme-accent, #2980b9) !important;
++  background: var(--theme-accent, #2573a6) !important;
+ }
+ 
+ #header-quick-access .mobile-mode-toggle .board-header-btn.mobile-active i.mobile-icon .fa,
+@@ -1876,3 +1887,19 @@ body.mobile-mode #header-quick-access .allBoards {
+ #header-quick-access .board-header-btn-label {
+   white-space: nowrap;
+ }
++
++/* WCAG 2.5.8: the member-menu trigger was 16px tall. */
++.header-user-bar-name {
++  min-height: 24px;
++  display: inline-flex;
++  align-items: center;
++}
++
++/* WCAG 2.5.8: the board-header action buttons (Board Settings & friends)
++   rendered 16px tall; make each a 24px-min flex row like the others. */
++#header .board-header-btn,
++#header .sidebar-btn {
++  display: inline-flex;
++  align-items: center;
++  min-height: 24px;
++}
+diff --git a/client/components/main/header.jade b/client/components/main/header.jade
+index fb7c148831..485948a3a7 100644
+--- a/client/components/main/header.jade
++++ b/client/components/main/header.jade
+@@ -44,7 +44,7 @@ template(name="header")
+           that do the same job. Board admins only - everybody else gets the
+           plain title. The `is-editable` class also gives the element a minimum
+           width, so a board whose title is EMPTY still has an area to click.
+-        span.header-page-title(title="{{headerTitleFullPath}}"
++        h1.header-page-title(title="{{headerTitleFullPath}}"
+           class="{{#if canEditBoardTitle}}js-edit-board-title is-editable{{/if}}")
+           if headerTitleKey
+             | {{_ headerTitleKey}}
+@@ -119,7 +119,7 @@ template(name="header")
+         //- One GROUP: the two adjacent buttons are about the same thing - how
+           many items you have starred, and whether this one is among them.
+         .header-star-group.js-header-collapsible-icon
+-          a.board-header-btn.js-open-starred-boards(title="{{_ 'allboards.starred'}}")
++          a.board-header-btn.js-open-starred-boards(title="{{_ 'allboards.starred'}} {{starredBoardsCount}}")
+             i.fa.fa-caret-down
+             span.board-star-counter {{starredBoardsCount}}
+ 
+diff --git a/client/components/main/layouts.css b/client/components/main/layouts.css
+index f896fc72e7..745c8eca4b 100644
+--- a/client/components/main/layouts.css
++++ b/client/components/main/layouts.css
+@@ -378,25 +378,25 @@ h6 {
+ }
+ .quiet,
+ .quiet a {
+-  color: #8c8c8c;
++  color: #616161;
+ }
+ .error,
+ .error a {
+-  color: #eb3800;
++  color: #c52d00;
+ }
+ .no-items-message {
+-  color: #666;
++  color: #616161;
+   margin: 36px 0;
+   text-align: center;
+ }
+ .warning {
+   background: #f0ecdb;
+   border-radius: 6px;
+-  color: #aa8f09;
++  color: #7a6608;
+   padding: 9px 17px;
+ }
+ .warning a {
+-  color: #aa8f09;
++  color: #7a6608;
+ }
+ .small {
+   font-size: 0.8em;
+diff --git a/client/components/main/layouts.jade b/client/components/main/layouts.jade
+index 702c4fdc7c..8c7c59d86b 100644
+--- a/client/components/main/layouts.jade
++++ b/client/components/main/layouts.jade
+@@ -23,111 +23,114 @@ template(name="main")
+       //link(rel="stylesheet" type="text/css" class="__meteor-css__" href="css/html5-default-theme.css")
+ 
+ template(name="userFormsLayout")
+-  +recoveryMaintenance
+-  section.auth-layout
+-    if logoSettingsReady
+-      if currentSetting.hideLogo
+-        h1.at-form-landing-logo
+-          br
+-          br
+-      unless currentSetting.hideLogo
++  main
++    +recoveryMaintenance
++    section.auth-layout
++      if logoSettingsReady
++        //- The heading always names the product: the logo is its image when
++        //- there is one, hidden text otherwise - an empty h1 is no heading.
+         h1.at-form-landing-logo
+-        if currentSetting.customLoginLogoImageUrl
+-          if currentSetting.customLoginLogoLinkUrl
+-            a(href="{{currentSetting.customLoginLogoLinkUrl}}")
+-              img(src="{{currentSetting.customLoginLogoImageUrl}}" alt="{{currentSetting.productName}}" width="300" height="auto")
++          span.sr-only {{#if currentSetting.productName}}{{currentSetting.productName}}{{else}}WeKan{{/if}}
++          unless currentSetting.hideLogo
++            if currentSetting.customLoginLogoImageUrl
++              if currentSetting.customLoginLogoLinkUrl
++                a(href="{{currentSetting.customLoginLogoLinkUrl}}")
++                  img(src="{{currentSetting.customLoginLogoImageUrl}}" alt="" width="300" height="auto")
++                br
++              unless currentSetting.customLoginLogoLinkUrl
++                img(src="{{currentSetting.customLoginLogoImageUrl}}" alt="" width="300" height="auto")
++                br
++            else
++              img(src="{{pathFor '/wekan-logo.svg'}}" alt="" width="300" height="auto")
++              br
++          else
+             br
+-          unless currentSetting.customLoginLogoLinkUrl
+-            img(src="{{currentSetting.customLoginLogoImageUrl}}" alt="{{currentSetting.productName}}" width="300" height="auto")
+             br
+-        else
+-          img(src="{{pathFor '/wekan-logo.svg'}}" alt="" width="300" height="auto")
+-          br
+-  if currentSetting.textBelowCustomLoginLogo
+-    hr
+-    section.textBelowCustomLoginLogo
+-      +viewer
+-        | {{currentSetting.textBelowCustomLoginLogo}}
+-    hr
+-  section.auth-layout
+-    section.auth-dialog
+-      if isLoading
+-        +loader
+-      else
+-        // ARIA live region for error messages
+-        div#login-error-message(role="alert" aria-live="assertive" style="color: #d32f2f; margin-bottom: 1em;")
+-        // Second sign-in step for accounts-2fa (issue #3058). Hidden unless a
+-        // password login comes back with the "no-2fa-code" / "invalid-2fa-code"
+-        // error - see decideTwoFactorLoginStep() in
+-        // imports/lib/twoFactorAuthLoginDecision.js and its wiring in
+-        // config/accounts.js.
+-        form#two-factor-code-container.hide(hidden="hidden")
+-          label(for="two-factor-code-input")
+-            | {{_ 'twoFactorCode-prompt'}}
+-            input#two-factor-code-input(type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code")
+-          div#two-factor-code-error.error.hide
+-          div.buttonsContainer
+-            input.primary(type="submit" value="{{_ 'twoFactorCode-submit'}}")
+-            button#two-factor-code-cancel.js-two-factor-code-cancel(type="button") {{_ 'twoFactorCode-cancel'}}
+-        +Template.dynamic(template=content)
+-        button#at-saml.primary.hide(type="button")
+-          i.fa.fa-key
+-          | {{_ 'samlSignIn'}}
+-        // One button per Meteor accounts-* OAuth provider the server reports
+-        // enabled (getAuthenticationsEnabled -> models/lib/oauthProviders.js).
+-        each oauthProviders
+-          button.primary.js-oauth-provider(type="button" data-provider=key)
+-            i.fa(class=icon)
+-            | {{_ 'sign-in-with' label}}
+-        // accounts-passwordless: e-mailed one-time sign-in code.
+-        if passwordlessEnabled
+-          if passwordlessCodeStep
+-            form#passwordless-code-form.js-passwordless-login
+-              p {{_ 'passwordless-code-sent'}}
+-              label(for="passwordless-code")
+-                | {{_ 'passwordless-enter-code'}}
+-                input#passwordless-code(type="text" autocomplete="one-time-code" autocapitalize="none" spellcheck="false" maxlength="10" required)
+-              div.buttonsContainer
+-                input.primary(type="submit" value="{{_ 'passwordless-sign-in'}}")
+-                button.js-passwordless-cancel(type="button") {{_ 'cancel'}}
++    if currentSetting.textBelowCustomLoginLogo
++      hr
++      section.textBelowCustomLoginLogo
++        +viewer
++          | {{currentSetting.textBelowCustomLoginLogo}}
++      hr
++    section.auth-layout
++      section.auth-dialog
++          if isLoading
++            +loader
+           else
+-            form#passwordless-email-form.js-passwordless-request
+-              label(for="passwordless-email")
+-                | {{_ 'passwordless-email'}}
+-                input#passwordless-email(type="email" autocomplete="email" required)
++            // ARIA live region for error messages
++            div#login-error-message(role="alert" aria-live="assertive" style="color: #d32f2f; margin-bottom: 1em;")
++            // Second sign-in step for accounts-2fa (issue #3058). Hidden unless a
++            // password login comes back with the "no-2fa-code" / "invalid-2fa-code"
++            // error - see decideTwoFactorLoginStep() in
++            // imports/lib/twoFactorAuthLoginDecision.js and its wiring in
++            // config/accounts.js.
++            form#two-factor-code-container.hide(hidden="hidden")
++              label(for="two-factor-code-input")
++                | {{_ 'twoFactorCode-prompt'}}
++                input#two-factor-code-input(type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code")
++              div#two-factor-code-error.error.hide
+               div.buttonsContainer
+-                button.primary.js-passwordless-send(type="submit")
+-                  i.fa.fa-envelope
+-                  | {{_ 'passwordless-login'}}
+-        if currentSetting.displayAuthenticationMethod
+-          +connectionMethod(authenticationMethod=currentSetting.defaultAuthenticationMethod)
+-        if isLegalNoticeLinkExist
+-          div#legalNoticeDiv
+-            span#legalNoticeSpan {{_ 'acceptance_of_our_legalNotice'}}
+-            a#legalNoticeAtLink.at-link(href="{{currentSetting.legalNotice}}", target="_blank", rel="noopener noreferrer")
+-              | {{_ 'legalNotice'}}
+-          if getLegalNoticeWithWritTraduction
+-            div
+-        div.at-form-lang
+-          label(for="userform-set-language-select") {{_ 'changeLanguagePopup-title'}}
+-          select.select-lang.js-userform-set-language#userform-set-language-select(aria-label="{{_ 'changeLanguagePopup-title'}}")
+-            each languages
+-              if isCurrentLanguage
+-                if rtl
+-                  option(value="{{tag}}" selected="selected") {{name}} (RTL)
+-                else
+-                  option(value="{{tag}}" selected="selected") {{name}}
++                input.primary(type="submit" value="{{_ 'twoFactorCode-submit'}}")
++                button#two-factor-code-cancel.js-two-factor-code-cancel(type="button") {{_ 'twoFactorCode-cancel'}}
++            +Template.dynamic(template=content)
++            button#at-saml.primary.hide(type="button")
++              i.fa.fa-key
++              | {{_ 'samlSignIn'}}
++            // One button per Meteor accounts-* OAuth provider the server reports
++            // enabled (getAuthenticationsEnabled -> models/lib/oauthProviders.js).
++            each oauthProviders
++              button.primary.js-oauth-provider(type="button" data-provider=key)
++                i.fa(class=icon)
++                | {{_ 'sign-in-with' label}}
++            // accounts-passwordless: e-mailed one-time sign-in code.
++            if passwordlessEnabled
++              if passwordlessCodeStep
++                form#passwordless-code-form.js-passwordless-login
++                  p {{_ 'passwordless-code-sent'}}
++                  label(for="passwordless-code")
++                    | {{_ 'passwordless-enter-code'}}
++                    input#passwordless-code(type="text" autocomplete="one-time-code" autocapitalize="none" spellcheck="false" maxlength="10" required)
++                  div.buttonsContainer
++                    input.primary(type="submit" value="{{_ 'passwordless-sign-in'}}")
++                    button.js-passwordless-cancel(type="button") {{_ 'cancel'}}
+               else
+-                if rtl
+-                  option(value="{{tag}}") {{name}} (RTL)
+-                else
+-                  option(value="{{tag}}") {{name}}
+-    //- Extra space below the login / register dialog so its bottom scrolls
+-    //- fully into view and scrolling continues a little past the form.
+-    //- A real element, not <br>: body is display:flex, so a <br> becomes a
+-    //- flex item, gets blockified and collapses to zero height - which is why
+-    //- the two <br> that used to be here added no space at all.
+-    .auth-bottom-space
++                form#passwordless-email-form.js-passwordless-request
++                  label(for="passwordless-email")
++                    | {{_ 'passwordless-email'}}
++                    input#passwordless-email(type="email" autocomplete="email" required)
++                  div.buttonsContainer
++                    button.primary.js-passwordless-send(type="submit")
++                      i.fa.fa-envelope
++                      | {{_ 'passwordless-login'}}
++            if currentSetting.displayAuthenticationMethod
++              +connectionMethod(authenticationMethod=currentSetting.defaultAuthenticationMethod)
++            if isLegalNoticeLinkExist
++              div#legalNoticeDiv
++                span#legalNoticeSpan {{_ 'acceptance_of_our_legalNotice'}}
++                a#legalNoticeAtLink.at-link(href="{{currentSetting.legalNotice}}", target="_blank", rel="noopener noreferrer")
++                  | {{_ 'legalNotice'}}
++              if getLegalNoticeWithWritTraduction
++                div
++            div.at-form-lang
++              label(for="userform-set-language-select") {{_ 'changeLanguagePopup-title'}}
++              select.select-lang.js-userform-set-language#userform-set-language-select(aria-label="{{_ 'changeLanguagePopup-title'}}")
++                each languages
++                  if isCurrentLanguage
++                    if rtl
++                      option(value="{{tag}}" selected="selected") {{name}} (RTL)
++                    else
++                      option(value="{{tag}}" selected="selected") {{name}}
++                  else
++                    if rtl
++                      option(value="{{tag}}") {{name}} (RTL)
++                    else
++                      option(value="{{tag}}") {{name}}
++      //- Extra space below the login / register dialog so its bottom scrolls
++      //- fully into view and scrolling continues a little past the form.
++      //- A real element, not <br>: body is display:flex, so a <br> becomes a
++      //- flex item, gets blockified and collapses to zero height - which is why
++      //- the two <br> that used to be here added no space at all.
++      .auth-bottom-space
+ 
+ template(name="defaultLayout")
+   +attachmentViewer
+@@ -138,7 +141,7 @@ template(name="defaultLayout")
+   +migrationProgress
+   a.skip-link(href="#content") {{_ 'skip-to-content'}}
+   +header
+-  #content(role="main" tabindex="-1")
++  #content(role="main" tabindex="0")
+     | {{{afterBodyStart}}}
+     +Template.dynamic(template=content)
+     | {{{beforeBodyEnd}}}
+diff --git a/client/components/main/layouts.js b/client/components/main/layouts.js
+index d780b37afb..adff50f82a 100644
+--- a/client/components/main/layouts.js
++++ b/client/components/main/layouts.js
+@@ -79,6 +79,16 @@ Template.userFormsLayout.onRendered(function () {
+   // form (and they sit behind the on-screen keyboard). See userForm.css.
+   document.body.classList.add('userform-layout');
+ 
++  // accounts-templates draws its "Sign In"/"Sign Up"/"Reset your password"
++  // titles as h3 inside .at-title, skipping a level under the page's product
++  // h1. Rewriting them to h2 keeps the auth pages' heading order continuous.
++  instance.findAll('.at-title h3').forEach(h3 => {
++    const h2 = document.createElement('h2');
++    for (const attr of h3.attributes) h2.setAttribute(attr.name, attr.value);
++    h2.innerHTML = h3.innerHTML;
++    h3.replaceWith(h2);
++  });
++
+   Meteor.call('getAuthenticationsEnabled', (_, result) => {
+     let enabledAuthenticationMethods = ['password']; // we show/hide this based on isPasswordLoginEnabled
+ 
+diff --git a/client/components/main/myCards.css b/client/components/main/myCards.css
+index a8c1e1e289..939485e055 100644
+--- a/client/components/main/myCards.css
++++ b/client/components/main/myCards.css
+@@ -12,7 +12,7 @@
+   font-size: 1.2rem;
+   font-weight: bold;
+   padding: 6px 10px;
+-  background-color: #808080;
++  background-color: #616161;
+   color: #fff;
+ }
+ .my-cards-swimlane-title {
+diff --git a/client/components/main/paginationControls.css b/client/components/main/paginationControls.css
+index ca41ef8ff4..4507bfe0e9 100644
+--- a/client/components/main/paginationControls.css
++++ b/client/components/main/paginationControls.css
+@@ -111,7 +111,7 @@
+ /* Disabled = the same themed outline, faded. Not a grey block. */
+ /* A disabled pager still has to look like the THEME. It is filled with the
+    theme colour, and dimming it is what takes the theme back out: at 0.4 the
+-   belize blue #2980b9 arrived on the page's grey as rgb(122,170,202), a pale
++   belize blue #2573a6 arrived on the page's grey as rgb(122,170,202), a pale
+    wash with no family resemblance to the header above it - and on a one-page
+    list, where BOTH arrows are disabled, that is the whole pager.
+ 
+diff --git a/client/components/main/popup.css b/client/components/main/popup.css
+index 248d336ece..431b3cd142 100644
+--- a/client/components/main/popup.css
++++ b/client/components/main/popup.css
+@@ -797,7 +797,7 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
+    above pins every row's text to `#000 !important`; the icon is named separately
+    for the same reason. */
+ .pop-over-list li > a:not(.disabled):hover {
+-  background-color: var(--theme-accent, #2980b9);
++  background-color: var(--theme-accent, #2573a6);
+   color: #fff !important;
+ }
+ .pop-over-list li > a:not(.disabled):hover i,
+@@ -812,7 +812,7 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
+   background: #fff;
+ }
+ .pop-over-list li > a .sub-name {
+-  color: #8c8c8c;
++  color: #616161;
+   display: block;
+   font-size: calc(12px * var(--wekan-ui-font-scale, 1));
+   font-weight: 400;
+@@ -857,7 +857,7 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
+   background-color: #2e85b8;
+ }
+ .pop-over-list li > a.disabled {
+-  color: #8c8c8c;
++  color: #616161;
+   cursor: default;
+ }
+ .pop-over-list li > a.disabled .vis-icon {
+@@ -868,7 +868,7 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
+ }
+ .pop-over-list li > a.disabled:hover .sub-name,
+ .pop-over-list li > a.disabled:hover .quiet {
+-  color: #8c8c8c;
++  color: #616161;
+ }
+ .pop-over-list li > a.disabled:active {
+   background: none;
+@@ -962,7 +962,7 @@ html[dir='rtl'] .pop-over > button.js-date-popup-resize > span {
+        user's own theme, the board's colour or the site theme - whichever is in
+        force. The fallback is the stock WeKan blue, so an unthemed instance is
+        unchanged. */
+-    background: var(--theme-accent, #2980b9);
++    background: var(--theme-accent, #2573a6);
+     height: calc(48px * var(--wekan-ui-font-scale, 1));
+     padding: 0px 0px;
+     border: 0px;
+@@ -1426,3 +1426,9 @@ body.mobile-mode .pop-over .content-wrapper {
+     column-span: all;
+   }
+ }
++
++/* WCAG 2.5.8: each yes/no/inherit option of the Notification Settings popup is
++   a checkbox-icon + word anchor ~20px tall. 24px minimum target height. */
++.notification-settings-popup .js-notify-option {
++  min-height: 24px;
++}
+diff --git a/client/components/main/themeColorPicker.jade b/client/components/main/themeColorPicker.jade
+index ff51a7a5f8..e974c8dfbe 100644
+--- a/client/components/main/themeColorPicker.jade
++++ b/client/components/main/themeColorPicker.jade
+@@ -40,6 +40,6 @@ template(name="themeColorPicker")
+       .color-wheel-wrap
+         label {{_ 'custom-color'}}
+         each customWheels
+-          input.js-theme-wheel(type="color" data-index="{{index}}" value="{{value}}" title="{{_ 'custom-color'}}")
++          input.js-theme-wheel(type="color" data-index="{{index}}" value="{{value}}" title="{{_ 'custom-color'}}" aria-label="{{_ 'custom-color'}}")
+       .theme-preview
+         span.background-box(class="{{previewClass}}" style="{{previewStyle}}")
+diff --git a/client/components/main/themeColorPicker.js b/client/components/main/themeColorPicker.js
+index ba2f7b6c92..1d6cd27bee 100644
+--- a/client/components/main/themeColorPicker.js
++++ b/client/components/main/themeColorPicker.js
+@@ -33,7 +33,7 @@ import {
+ //   3. the user's own override
+ // See docs/Features/Page/Theme.md for the whole design.
+ 
+-const DEFAULT_WHEEL = ['#2980b9', '#6dd5fa']; // stock flat accent / second slide stop
++const DEFAULT_WHEEL = ['#2573a6', '#6dd5fa']; // stock flat accent / second slide stop
+ 
+ function readCurrent(scope) {
+   if (scope === 'board') {
+diff --git a/client/components/notifications/notificationsDrawer.css b/client/components/notifications/notificationsDrawer.css
+index 5dc8fd273d..b3977cf8b1 100644
+--- a/client/components/notifications/notificationsDrawer.css
++++ b/client/components/notifications/notificationsDrawer.css
+@@ -22,7 +22,7 @@ section#notifications-drawer {
+   padding-top: 36px;
+ }
+ section#notifications-drawer a:hover {
+-  color: #2980b9 !important;
++  color: #2573a6 !important;
+ }
+ section#notifications-drawer .header {
+   position: fixed;
+@@ -47,7 +47,7 @@ section#notifications-drawer .header .notification-menu-toggle {
+   line-height: calc(24px * var(--wekan-ui-font-scale, 1));
+ }
+ section#notifications-drawer .header .notification-menu-toggle:hover {
+-  color: #2980b9;
++  color: #2573a6;
+ }
+ section#notifications-drawer .header .notification-menu {
+   position: absolute;
+@@ -90,7 +90,7 @@ section#notifications-drawer .header .notification-menu .menu-item .check-icon {
+   min-width: 20px;
+   margin-inline-end: 8px;
+   text-align: center;
+-  color: #2980b9;
++  color: #2573a6;
+   font-weight: bold;
+ }
+ section#notifications-drawer .header .notification-menu .menu-item .menu-icon {
+diff --git a/client/components/rules/rules.css b/client/components/rules/rules.css
+index 5be54f1436..d525671daa 100644
+--- a/client/components/rules/rules.css
++++ b/client/components/rules/rules.css
+@@ -100,7 +100,7 @@
+ }
+ /* Drag-and-drop workflow editor */
+ .rules-workflow .workflow-help {
+-  color: #727479;
++  color: #606166;
+   font-size: calc(13px * var(--wekan-ui-font-scale, 1));
+   margin-bottom: 9px;
+ }
+@@ -129,7 +129,7 @@
+   background: #fff;
+ }
+ .rules-workflow .workflow-slot-placeholder {
+-  color: #999;
++  color: #616161;
+   font-style: italic;
+ }
+ .rules-workflow .workflow-slot-clear {
+@@ -257,7 +257,7 @@
+   display: flex;
+ }
+ .triggers-content {
+-  color: #727479;
++  color: #606166;
+   background: #dedede;
+ }
+ .triggers-content .triggers-body {
+@@ -410,7 +410,7 @@
+ }
+ .rules-import-export .rules-ie-hint {
+   font-size: calc(12px * var(--wekan-ui-font-scale, 1));
+-  color: #727479;
++  color: #606166;
+   margin-bottom: 0.3em;
+ }
+ .rules-import-export .rules-ie-textarea {
+diff --git a/client/components/settings/attachments.css b/client/components/settings/attachments.css
+index 5f8925a740..c6593734c2 100644
+--- a/client/components/settings/attachments.css
++++ b/client/components/settings/attachments.css
+@@ -206,7 +206,8 @@
+ /* Cloud storage (S3 / Azure / GCS): example value shown below each input. */
+ .attachments-content .cloud-input-example {
+   display: block;
+-  color: #888;
++  /* #888 was 3.5:1 on white at 0.82em - under WCAG's 4.5:1. #595959 is ~7:1. */
++  color: #595959;
+   font-size: 0.82em;
+   font-family: monospace;
+   word-break: break-all;
+@@ -216,7 +217,8 @@
+ /* Cloud storage: where-to-find-this-value path shown below the example. */
+ .attachments-content .cloud-input-path {
+   display: block;
+-  color: #6a737d;
++  /* #6a737d was 4.46:1 at 0.82em - just under WCAG's 4.5:1. */
++  color: #595959;
+   font-size: 0.82em;
+   line-height: 1.4;
+   margin-top: 2px;
+@@ -233,7 +235,8 @@
+ /* Cloud storage: description text (English literal and translated). */
+ .attachments-content .cloud-input-desc {
+   display: block;
+-  color: #6a737d;
++  /* #6a737d was 4.46:1 at 0.82em - just under WCAG's 4.5:1. */
++  color: #595959;
+   font-size: 0.82em;
+   line-height: 1.4;
+   margin-top: 2px;
+diff --git a/client/components/settings/attachments.jade b/client/components/settings/attachments.jade
+index dfa40c8d24..11c5f2dea2 100644
+--- a/client/components/settings/attachments.jade
++++ b/client/components/settings/attachments.jade
+@@ -25,8 +25,9 @@ template(name="attachments")
+             ul#attachment-default-storage-setting.setting-detail
+               li
+                 .description {{_ 'default-save-storage-description'}}
++                label.title(for='default-save-storage-select') {{_ 'default-save-storage'}}
+                 .form-group
+-                  select.wekan-form-control.js-default-save-storage
++                  select.wekan-form-control.js-default-save-storage#default-save-storage-select
+                     each defaultStorageOptions
+                       option(value=value selected=selected) {{_ labelKey}}
+                 .form-group
+@@ -34,54 +35,54 @@ template(name="attachments")
+           else if isLimitsActive
+             ul#attachment-limits-setting.setting-detail
+               li
+-                h3 {{_ 'attachment-transfer-limits-title'}}
++                h2 {{_ 'attachment-transfer-limits-title'}}
+                 .description {{_ 'attachment-transfer-limits-description'}}
+ 
+               li
+-                .title {{_ 'attachment-upload-limit-label'}}
++                label.title(for='attachments-upload-limit-mode') {{_ 'attachment-upload-limit-label'}}
+                 .form-group
+-                  select.wekan-form-control.js-attachment-limit-mode(data-field="attachmentsUploadMaxBytes")
++                  select.wekan-form-control.js-attachment-limit-mode#attachments-upload-limit-mode(data-field="attachmentsUploadMaxBytes")
+                     each attachmentTransferLimitModeOptions 'attachmentsUploadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+                 .form-group(class="{{#if isAttachmentLimitMode 'attachmentsUploadMaxBytes' 'max-size'}}{{else}}hide{{/if}}")
+-                  input.wekan-form-control#attachments-upload-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'attachmentsUploadMaxBytes'}}")
+-                  select.wekan-form-control.js-attachment-limit-unit(data-field="attachmentsUploadMaxBytes")
++                  input.wekan-form-control#attachments-upload-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'attachmentsUploadMaxBytes'}}" aria-label="{{_ 'attachment-upload-limit-label'}}")
++                  select.wekan-form-control.js-attachment-limit-unit(data-field="attachmentsUploadMaxBytes" aria-label="{{_ 'attachment-upload-limit-label'}}")
+                     each attachmentTransferLimitUnitOptions 'attachmentsUploadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+ 
+               li
+-                .title {{_ 'attachment-download-limit-label'}}
++                label.title(for='attachments-download-limit-mode') {{_ 'attachment-download-limit-label'}}
+                 .form-group
+-                  select.wekan-form-control.js-attachment-limit-mode(data-field="attachmentsDownloadMaxBytes")
++                  select.wekan-form-control.js-attachment-limit-mode#attachments-download-limit-mode(data-field="attachmentsDownloadMaxBytes")
+                     each attachmentTransferLimitModeOptions 'attachmentsDownloadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+                 .form-group(class="{{#if isAttachmentLimitMode 'attachmentsDownloadMaxBytes' 'max-size'}}{{else}}hide{{/if}}")
+-                  input.wekan-form-control#attachments-download-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'attachmentsDownloadMaxBytes'}}")
+-                  select.wekan-form-control.js-attachment-limit-unit(data-field="attachmentsDownloadMaxBytes")
++                  input.wekan-form-control#attachments-download-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'attachmentsDownloadMaxBytes'}}" aria-label="{{_ 'attachment-download-limit-label'}}")
++                  select.wekan-form-control.js-attachment-limit-unit(data-field="attachmentsDownloadMaxBytes" aria-label="{{_ 'attachment-download-limit-label'}}")
+                     each attachmentTransferLimitUnitOptions 'attachmentsDownloadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+ 
+               li
+-                .title {{_ 'api-upload-limit-label'}}
++                label.title(for='api-upload-limit-mode') {{_ 'api-upload-limit-label'}}
+                 .form-group
+-                  select.wekan-form-control.js-attachment-limit-mode(data-field="apiUploadMaxBytes")
++                  select.wekan-form-control.js-attachment-limit-mode#api-upload-limit-mode(data-field="apiUploadMaxBytes")
+                     each attachmentTransferLimitModeOptions 'apiUploadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+                 .form-group(class="{{#if isAttachmentLimitMode 'apiUploadMaxBytes' 'max-size'}}{{else}}hide{{/if}}")
+-                  input.wekan-form-control#api-upload-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'apiUploadMaxBytes'}}")
+-                  select.wekan-form-control.js-attachment-limit-unit(data-field="apiUploadMaxBytes")
++                  input.wekan-form-control#api-upload-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'apiUploadMaxBytes'}}" aria-label="{{_ 'api-upload-limit-label'}}")
++                  select.wekan-form-control.js-attachment-limit-unit(data-field="apiUploadMaxBytes" aria-label="{{_ 'api-upload-limit-label'}}")
+                     each attachmentTransferLimitUnitOptions 'apiUploadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+ 
+               li
+-                .title {{_ 'api-download-limit-label'}}
++                label.title(for='api-download-limit-mode') {{_ 'api-download-limit-label'}}
+                 .form-group
+-                  select.wekan-form-control.js-attachment-limit-mode(data-field="apiDownloadMaxBytes")
++                  select.wekan-form-control.js-attachment-limit-mode#api-download-limit-mode(data-field="apiDownloadMaxBytes")
+                     each attachmentTransferLimitModeOptions 'apiDownloadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+                 .form-group(class="{{#if isAttachmentLimitMode 'apiDownloadMaxBytes' 'max-size'}}{{else}}hide{{/if}}")
+-                  input.wekan-form-control#api-download-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'apiDownloadMaxBytes'}}")
+-                  select.wekan-form-control.js-attachment-limit-unit(data-field="apiDownloadMaxBytes")
++                  input.wekan-form-control#api-download-limit-value(type="number" min="1" step="any" value="{{attachmentTransferLimitValue 'apiDownloadMaxBytes'}}" aria-label="{{_ 'api-download-limit-label'}}")
++                  select.wekan-form-control.js-attachment-limit-unit(data-field="apiDownloadMaxBytes" aria-label="{{_ 'api-download-limit-label'}}")
+                     each attachmentTransferLimitUnitOptions 'apiDownloadMaxBytes'
+                       option(value=value selected=selected) {{_ labelKey}}
+ 
+@@ -122,17 +123,17 @@ template(name="attachments")
+                         td {{filesystemStats.avatars}}
+ 
+                 .form-group
+-                  label {{_ 'writable-path'}}
++                  label(for='filesystem-path') {{_ 'writable-path'}}
+                   input.wekan-form-control#filesystem-path(type="text" value="{{filesystemPath}}" readonly)
+                   small.form-text.text-muted {{_ 'filesystem-path-description'}}
+ 
+                 .form-group
+-                  label {{_ 'attachments-path'}}
++                  label(for='attachments-path') {{_ 'attachments-path'}}
+                   input.wekan-form-control#attachments-path(type="text" value="{{attachmentsPath}}" readonly)
+                   small.form-text.text-muted {{_ 'attachments-path-description'}}
+ 
+                 .form-group
+-                  label {{_ 'avatars-path'}}
++                  label(for='avatars-path') {{_ 'avatars-path'}}
+                   input.wekan-form-control#avatars-path(type="text" value="{{avatarsPath}}" readonly)
+                   small.form-text.text-muted {{_ 'avatars-path-description'}}
+ 
+@@ -167,7 +168,7 @@ template(name="attachments")
+                         td {{gridFsStats.avatars.mongoFiles}}
+                 .form-group
+                   .compact-block
+-                    h4 {{_ 'mongodb-compact'}}
++                    h2 {{_ 'mongodb-compact'}}
+                     p.form-text {{_ 'mongodb-compact-description'}}
+                     p.form-text.text-muted {{_ 'mongodb-compact-warning'}}
+                     button.js-compact-mongodb-gridfs.btn.btn-warning(type="button") {{_ 'mongodb-compact-run'}}
+@@ -219,7 +220,7 @@ template(name="attachments")
+                         td {{s3Stats.avatars}}
+ 
+                 .form-group
+-                  label Endpoint
++                  label(for='s3-endpoint') Endpoint
+                   small.form-text.cloud-input-label-tr {{_ 's3-endpoint'}}
+                   input.wekan-form-control#s3-endpoint(type="text" value=cloudValue.s3.endpoint)
+                   small.form-text.cloud-input-example https://s3.eu-west-1.amazonaws.com
+@@ -228,7 +229,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path AWS: leave blank (uses the region endpoint). S3-compatible: the Endpoint URL from your MinIO / Cloudflare R2 / Backblaze B2 / Wasabi / DigitalOcean Spaces console.
+                   small.form-text.cloud-input-path {{_ 's3-endpoint-menu-path'}}
+                 .form-group
+-                  label AWS Region
++                  label(for='s3-region') AWS Region
+                   small.form-text.cloud-input-label-tr {{_ 's3-region'}}
+                   input.wekan-form-control#s3-region(type="text" value=cloudValue.s3.region)
+                   small.form-text.cloud-input-example eu-west-1
+@@ -237,7 +238,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path AWS Console → S3 → Buckets → your bucket → Properties → AWS Region.
+                   small.form-text.cloud-input-path {{_ 's3-region-menu-path'}}
+                 .form-group
+-                  label Bucket name
++                  label(for='s3-bucket') Bucket name
+                   small.form-text.cloud-input-label-tr {{_ 's3-bucket'}}
+                   input.wekan-form-control#s3-bucket(type="text" value=cloudValue.s3.bucket)
+                   small.form-text.cloud-input-example wekan-s3-test-369341155299-eu-west-1-an
+@@ -246,7 +247,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path AWS Console → S3 → Buckets → your bucket name (or Create bucket → Bucket name).
+                   small.form-text.cloud-input-path {{_ 's3-bucket-menu-path'}}
+                 .form-group
+-                  label Access key ID
++                  label(for='s3-access-key') Access key ID
+                   small.form-text.cloud-input-label-tr {{_ 's3-access-key'}}
+                   input.wekan-form-control#s3-access-key(type="text" value=cloudValue.s3.accessKeyId)
+                   small.form-text.cloud-input-example AKIAIOSFODNN7EXAMPLE
+@@ -255,7 +256,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path AWS Console → IAM → Users → your user → Security credentials → Access keys → Create access key → choose use case 'Application running outside AWS' → Create access key. Shown as 'Access key ID'.
+                   small.form-text.cloud-input-path {{_ 's3-access-key-menu-path'}}
+                 .form-group
+-                  label Secret access key
++                  label(for='s3-secret-key') Secret access key
+                   small.form-text.cloud-input-label-tr {{_ 's3-secret-key'}}
+                   input.wekan-form-control#s3-secret-key(type="password" placeholder=cloudSecretPlaceholder.s3.secretAccessKey)
+                   small.form-text.cloud-input-example wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+@@ -313,7 +314,7 @@ template(name="attachments")
+                         td {{azureStats.avatars}}
+ 
+                 .form-group
+-                  label Storage account name
++                  label(for='azure-account-name') Storage account name
+                   small.form-text.cloud-input-label-tr {{_ 'azure-account-name'}}
+                   input.wekan-form-control#azure-account-name(type="text" value=cloudValue.azure.accountName)
+                   small.form-text.cloud-input-example wekanstorage
+@@ -322,7 +323,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path Azure Portal → Storage accounts → your account → name shown at the top (also under Security + networking → Access keys → Storage account name).
+                   small.form-text.cloud-input-path {{_ 'azure-account-name-menu-path'}}
+                 .form-group
+-                  label Storage account key
++                  label(for='azure-account-key') Storage account key
+                   small.form-text.cloud-input-label-tr {{_ 'azure-account-key'}}
+                   input.wekan-form-control#azure-account-key(type="password" placeholder=cloudSecretPlaceholder.azure.accountKey)
+                   small.form-text.cloud-input-example base64AccountKey==
+@@ -331,7 +332,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path Azure Portal → Storage accounts → your account → Security + networking → Access keys → key1 → Show → Key.
+                   small.form-text.cloud-input-path {{_ 'azure-account-key-menu-path'}}
+                 .form-group
+-                  label Connection string
++                  label(for='azure-connection-string') Connection string
+                   small.form-text.cloud-input-label-tr {{_ 'azure-connection-string'}}
+                   input.wekan-form-control#azure-connection-string(type="password" placeholder=cloudSecretPlaceholder.azure.connectionString)
+                   small.form-text.cloud-input-example DefaultEndpointsProtocol=https;AccountName=wekanstorage;AccountKey=...;EndpointSuffix=core.windows.net
+@@ -340,7 +341,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path Azure Portal → Storage accounts → your account → Security + networking → Access keys → key1 → Connection string → Show.
+                   small.form-text.cloud-input-path {{_ 'azure-connection-string-menu-path'}}
+                 .form-group
+-                  label Container name
++                  label(for='azure-bucket') Container name
+                   small.form-text.cloud-input-label-tr {{_ 'azure-container'}}
+                   input.wekan-form-control#azure-bucket(type="text" value=cloudValue.azure.bucket)
+                   small.form-text.cloud-input-example wekan-attachments
+@@ -394,7 +395,7 @@ template(name="attachments")
+                         td {{gcsStats.avatars}}
+ 
+                 .form-group
+-                  label Project ID
++                  label(for='gcs-project-id') Project ID
+                   small.form-text.cloud-input-label-tr {{_ 'gcs-project-id'}}
+                   input.wekan-form-control#gcs-project-id(type="text" value=cloudValue.gcs.projectId)
+                   small.form-text.cloud-input-example my-gcp-project-123456
+@@ -403,7 +404,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path Google Cloud Console → project selector at the top → your project's ID (Cloud overview → Dashboard → Project info → Project ID).
+                   small.form-text.cloud-input-path {{_ 'gcs-project-id-menu-path'}}
+                 .form-group
+-                  label Bucket name
++                  label(for='gcs-bucket') Bucket name
+                   small.form-text.cloud-input-label-tr {{_ 'gcs-bucket'}}
+                   input.wekan-form-control#gcs-bucket(type="text" value=cloudValue.gcs.bucket)
+                   small.form-text.cloud-input-example wekan-attachments
+@@ -412,7 +413,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path Google Cloud Console → Cloud Storage → Buckets → your bucket name (or Create to make one).
+                   small.form-text.cloud-input-path {{_ 'gcs-bucket-menu-path'}}
+                 .form-group
+-                  label Service account key file path
++                  label(for='gcs-key-filename') Service account key file path
+                   small.form-text.cloud-input-label-tr {{_ 'gcs-key-filename'}}
+                   input.wekan-form-control#gcs-key-filename(type="text" value=cloudValue.gcs.keyFilename)
+                   small.form-text.cloud-input-example /data/gcs-service-account.json
+@@ -421,7 +422,7 @@ template(name="attachments")
+                   small.form-text.cloud-input-path Path on the WeKan server to the downloaded service account JSON key file (created below). Use this OR paste the JSON into the field below.
+                   small.form-text.cloud-input-path {{_ 'gcs-key-filename-menu-path'}}
+                 .form-group
+-                  label Service account key (JSON)
++                  label(for='gcs-credentials') Service account key (JSON)
+                   small.form-text.cloud-input-label-tr {{_ 'gcs-credentials'}}
+                   textarea.wekan-form-control#gcs-credentials(data-editor-submit=".js-save-cloud-settings" rows="4" placeholder=cloudSecretPlaceholder.gcs.credentials)
+                   small.form-text.cloud-input-example { "type": "service_account", "project_id": "my-gcp-project", "client_email": "wekan@my-gcp-project.iam.gserviceaccount.com", "private_key": "-----BEGIN PRIVATE KEY-----..." }
+@@ -469,7 +470,7 @@ template(name="attachments")
+                 if showBackupScope
+                   .form-group
+                     label {{_ 'backup-scope'}}
+-                    select.wekan-form-control.js-backup-scope
++                    select.wekan-form-control.js-backup-scope(aria-label="{{_ 'backup-scope'}}")
+                       if isSiteAdmin
+                         option(value="") {{_ 'backup-scope-instance'}}
+                       each backupScopes
+@@ -491,7 +492,7 @@ template(name="attachments")
+                     span {{_ 'backup-data'}}
+                 .form-group
+                   label {{_ 'backup-storage'}}
+-                  select.wekan-form-control.js-backup-storage
++                  select.wekan-form-control.js-backup-storage(aria-label="{{_ 'backup-storage'}}")
+                     option(value="filesystem" selected="{{backupStorageSelected 'filesystem'}}") {{_ 'filesystem-storage'}}
+                     option(value="s3" selected="{{backupStorageSelected 's3'}}") {{_ 's3-minio-storage'}}
+                     option(value="azure" selected="{{backupStorageSelected 'azure'}}") {{_ 'azure-blob-storage'}}
+@@ -505,17 +506,17 @@ template(name="attachments")
+                   if backupSuccess
+                     p.form-text.text-success {{_ 'backup-done'}}: {{backupStatus.file}}
+ 
+-                h4 {{_ 'backup-schedule'}}
++                h2 {{_ 'backup-schedule'}}
+                 .form-group
+                   label {{_ 'backup-frequency'}}
+-                  select.wekan-form-control.js-backup-frequency
++                  select.wekan-form-control.js-backup-frequency(aria-label="{{_ 'backup-frequency'}}")
+                     option(value="off" selected=scheduleOff) {{_ 'backup-frequency-off'}}
+                     option(value="daily" selected=scheduleDaily) {{_ 'backup-frequency-daily'}}
+                     option(value="weekly" selected=scheduleWeekly) {{_ 'backup-frequency-weekly'}}
+                     option(value="monthly" selected=scheduleMonthly) {{_ 'backup-frequency-monthly'}}
+                 .form-group
+                   label {{_ 'backup-time'}}
+-                  input.wekan-form-control.js-backup-time(type="time" value=scheduleTime)
++                  input.wekan-form-control.js-backup-time(aria-label="{{_ 'backup-time'}}",type="time" value=scheduleTime)
+                 .form-group
+                   label {{_ 'backup-day-of-week'}}
+                   //- One button per day, in the reader's own language, instead of a
+@@ -546,7 +547,7 @@ template(name="attachments")
+                 .form-group
+                   button.js-save-backup-schedule.btn.btn-primary(type="button") {{_ 'save'}}
+ 
+-                h4 {{_ 'backup-restore'}}
++                h2 {{_ 'backup-restore'}}
+                 .form-group
+                   button.js-list-backups.btn.btn-secondary(type="button") {{_ 'backup-list'}}
+                 if backupList
+@@ -560,7 +561,7 @@ template(name="attachments")
+                     each backupList
+                       tr
+                         td
+-                          input.js-backup-select(type="radio" name="backup-select" value=path)
++                          input.js-backup-select(aria-label="{{_ 'backup-restore'}}",type="radio" name="backup-select" value=path)
+                         //- An instance archive contains every tenant, so which kind
+                         //- an archive is has to be visible before restoring it. A
+                         //- per-tenant admin is only ever listed their own.
+@@ -570,7 +571,7 @@ template(name="attachments")
+                         td {{path}}
+                   .form-group
+                     label {{_ 'backup-restore-mode'}}
+-                    select.wekan-form-control.js-restore-mode
++                    select.wekan-form-control.js-restore-mode(aria-label="{{_ 'backup-restore-mode'}}")
+                       option(value="add-missing") {{_ 'backup-restore-add-missing'}}
+                       option(value="replace-all") {{_ 'backup-restore-replace-all'}}
+                   .form-group
+@@ -595,7 +596,7 @@ template(name="attachments")
+                       span {{_ 'continuous-backup-enabled'}}
+                   .form-group
+                     label {{_ 'continuous-backup-target'}}
+-                    input.wekan-form-control.js-cb-target(type="text" value=cbSettings.target)
++                    input.wekan-form-control.js-cb-target(type="text" value=cbSettings.target aria-label="{{_ 'continuous-backup-target'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-include'}}
+                     .checkbox-row
+@@ -613,7 +614,7 @@ template(name="attachments")
+                         span {{_ 'continuous-backup-logs'}}
+                   .form-group
+                     label {{_ 'continuous-backup-engine'}}
+-                    select.wekan-form-control.js-cb-engine
++                    select.wekan-form-control.js-cb-engine(aria-label="{{_ 'continuous-backup-engine'}}")
+                       option(value="auto" selected="{{cbEngineSelected 'auto'}}") {{_ 'continuous-backup-engine-auto'}}
+                       option(value="oplog" selected="{{cbEngineSelected 'oplog'}}") {{_ 'continuous-backup-engine-oplog'}}
+                       option(value="sqlite" selected="{{cbEngineSelected 'sqlite'}}") {{_ 'continuous-backup-engine-sqlite'}}
+@@ -630,40 +631,40 @@ template(name="attachments")
+                       span {{_ 'continuous-backup-encrypt'}}
+                   .form-group
+                     label {{_ 'continuous-backup-key-file'}}
+-                    input.wekan-form-control.js-cb-encryptionKeyFile(type="text" value=cbSettings.encryptionKeyFile placeholder="/etc/wekan/continuous-backup.key")
++                    input.wekan-form-control.js-cb-encryptionKeyFile(type="text" value=cbSettings.encryptionKeyFile placeholder="/etc/wekan/continuous-backup.key" aria-label="{{_ 'continuous-backup-key-file'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-upload'}}
+-                    select.wekan-form-control.js-cb-upload
++                    select.wekan-form-control.js-cb-upload(aria-label="{{_ 'continuous-backup-upload'}}")
+                       option(value="none" selected="{{cbUploadSelected 'none'}}") {{_ 'continuous-backup-upload-none'}}
+                       option(value="s3" selected="{{cbUploadSelected 's3'}}") {{_ 's3-minio-storage'}}
+                       option(value="azure" selected="{{cbUploadSelected 'azure'}}") {{_ 'azure-blob-storage'}}
+                       option(value="gcs" selected="{{cbUploadSelected 'gcs'}}") {{_ 'gcs-storage'}}
+                   .form-group
+                     label {{_ 'continuous-backup-upload-prefix'}}
+-                    input.wekan-form-control.js-cb-uploadPrefix(type="text" value=cbSettings.uploadPrefix)
++                    input.wekan-form-control.js-cb-uploadPrefix(type="text" value=cbSettings.uploadPrefix aria-label="{{_ 'continuous-backup-upload-prefix'}}")
+                   if cbLitestream
+                     .form-group
+                       label {{_ 'continuous-backup-litestream-binary'}}
+-                      input.wekan-form-control.js-cb-litestreamBinary(type="text" value=cbSettings.litestreamBinary)
++                      input.wekan-form-control.js-cb-litestreamBinary(type="text" value=cbSettings.litestreamBinary aria-label="{{_ 'continuous-backup-litestream-binary'}}")
+                     .form-group
+                       label {{_ 'continuous-backup-litestream-url'}}
+-                      input.wekan-form-control.js-cb-litestreamReplicaUrl(type="text" value=cbSettings.litestreamReplicaUrl placeholder="s3://bucket/wekan")
++                      input.wekan-form-control.js-cb-litestreamReplicaUrl(type="text" value=cbSettings.litestreamReplicaUrl placeholder="s3://bucket/wekan" aria-label="{{_ 'continuous-backup-litestream-url'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-sqlite-interval'}}
+-                    input.wekan-form-control.js-cb-sqliteIntervalSeconds(type="number" min="5" max="3600" value=cbSettings.sqliteIntervalSeconds)
++                    input.wekan-form-control.js-cb-sqliteIntervalSeconds(type="number" min="5" max="3600" value=cbSettings.sqliteIntervalSeconds aria-label="{{_ 'continuous-backup-sqlite-interval'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-file-scan'}}
+-                    input.wekan-form-control.js-cb-fileScanSeconds(type="number" min="30" max="86400" value=cbSettings.fileScanSeconds)
++                    input.wekan-form-control.js-cb-fileScanSeconds(type="number" min="30" max="86400" value=cbSettings.fileScanSeconds aria-label="{{_ 'continuous-backup-file-scan'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-base-every'}}
+-                    input.wekan-form-control.js-cb-baseEveryHours(type="number" min="1" max="720" value=cbSettings.baseEveryHours)
++                    input.wekan-form-control.js-cb-baseEveryHours(type="number" min="1" max="720" value=cbSettings.baseEveryHours aria-label="{{_ 'continuous-backup-base-every'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-keep-days'}}
+-                    input.wekan-form-control.js-cb-keepDays(type="number" min="1" max="3650" value=cbSettings.keepDays)
++                    input.wekan-form-control.js-cb-keepDays(type="number" min="1" max="3650" value=cbSettings.keepDays aria-label="{{_ 'continuous-backup-keep-days'}}")
+                   .form-group
+                     button.js-cb-save.btn.btn-primary(type="button") {{_ 'save'}}
+ 
+-                h4 {{_ 'continuous-backup-status'}}
++                h2 {{_ 'continuous-backup-status'}}
+                 if cbStatus
+                   if cbStatus.running
+                     p.form-text.js-cb-state {{_ 'continuous-backup-running'}}
+@@ -678,7 +679,7 @@ template(name="attachments")
+                       each cbStatus.errors
+                         li.form-text.text-danger {{source}}: {{message}}
+ 
+-                h4 {{_ 'continuous-backup-restore-points'}}
++                h2 {{_ 'continuous-backup-restore-points'}}
+                 .form-group
+                   button.js-cb-points.btn.btn-secondary(type="button") {{_ 'backup-list'}}
+                   button.js-cb-fetch.btn.btn-secondary(type="button") {{_ 'continuous-backup-fetch'}}
+@@ -698,10 +699,10 @@ template(name="attachments")
+                         td {{untilText}}
+                   .form-group
+                     label {{_ 'continuous-backup-restore-to'}}
+-                    input.wekan-form-control.js-cb-until(type="datetime-local")
++                    input.wekan-form-control.js-cb-until(type="datetime-local" aria-label="{{_ 'continuous-backup-restore-to'}}")
+                   .form-group
+                     label {{_ 'continuous-backup-restore-what'}}
+-                    select.wekan-form-control.js-cb-what
++                    select.wekan-form-control.js-cb-what(aria-label="{{_ 'continuous-backup-restore-what'}}")
+                       option(value="database") {{_ 'continuous-backup-database'}}
+                       option(value="files") {{_ 'attachments'}} / {{_ 'avatars'}} / {{_ 'continuous-backup-logs'}}
+                       option(value="sqlite") {{_ 'continuous-backup-restore-sqlite'}}
+@@ -711,7 +712,7 @@ template(name="attachments")
+                       span {{_ 'continuous-backup-apply-on-restart'}}
+                   .form-group
+                     label {{_ 'backup-restore-mode'}}
+-                    select.wekan-form-control.js-cb-mode
++                    select.wekan-form-control.js-cb-mode(aria-label="{{_ 'backup-restore-mode'}}")
+                       option(value="add-missing") {{_ 'backup-restore-add-missing'}}
+                       option(value="replace-all") {{_ 'backup-restore-replace-all'}}
+                   .form-group
+@@ -779,13 +780,13 @@ template(name="moveAttachments")
+     .move-storage-selects
+       .form-group
+         label {{_ 'move-scope'}}
+-        select.wekan-form-control.js-move-scope
++        select.wekan-form-control.js-move-scope(aria-label="{{_ 'move-scope'}}")
+           option(value="attachments") {{_ 'attachments'}}
+           option(value="avatars") {{_ 'move-scope-avatars'}}
+           option(value="both") {{_ 'move-scope-both'}}
+       .form-group
+         label {{_ 'move-source'}}
+-        select.wekan-form-control.js-move-source-storage
++        select.wekan-form-control.js-move-source-storage(aria-label="{{_ 'move-source'}}")
+           option(value="all") {{_ 'move-storage-all'}}
+           option(value="collectionfs") {{_ 'move-storage-collectionfs'}}
+           option(value="gridfs") {{_ 'move-storage-gridfs'}}
+@@ -795,7 +796,7 @@ template(name="moveAttachments")
+           option(value="gcs") {{_ 'move-storage-gcs'}}
+       .form-group
+         label {{_ 'move-destination'}}
+-        select.wekan-form-control.js-move-dest-storage
++        select.wekan-form-control.js-move-dest-storage(aria-label="{{_ 'move-destination'}}")
+           option(value="gridfs") {{_ 'move-storage-gridfs'}}
+           option(value="fs") {{_ 'move-storage-fs'}}
+           option(value="s3") {{_ 'move-storage-s3'}}
+@@ -811,7 +812,7 @@ template(name="moveAttachments")
+       |  {{_ 'attachment-last-move'}}: {{lastMoveText}}
+ 
+   .move-repair-section
+-    h4 {{_ 'attachment-repair-locations'}}
++    h2 {{_ 'attachment-repair-locations'}}
+     .description {{_ 'attachment-repair-locations-description'}}
+     button.js-repair-attachment-locations.btn.btn-secondary(type="button") {{_ 'attachment-repair-locations'}}
+     if repairLoading
+diff --git a/client/components/settings/migrationProgress.css b/client/components/settings/migrationProgress.css
+index 3c4d86d268..490b5b9b00 100644
+--- a/client/components/settings/migrationProgress.css
++++ b/client/components/settings/migrationProgress.css
+@@ -36,8 +36,8 @@
+ }
+ 
+ .migration-progress-header {
+-  /* WeKan blue (matches the main header #2980b9) */
+-  background: linear-gradient(135deg, #2980b9 0%, #1a5276 100%);
++  /* WeKan blue (matches the main header #2573a6) */
++  background: linear-gradient(135deg, #2573a6 0%, #1a5276 100%);
+   color: white;
+   padding: 20px;
+   display: flex;
+@@ -87,7 +87,7 @@
+ 
+ .migration-progress-overall-fill {
+   /* WeKan blue */
+-  background: linear-gradient(90deg, #2980b9, #3498db);
++  background: linear-gradient(90deg, #2573a6, #3498db);
+   height: 100%;
+   border-radius: 10px;
+   transition: width 0.3s ease;
+@@ -138,7 +138,7 @@
+ 
+ .migration-progress-step-fill {
+   /* WeKan blue */
+-  background: linear-gradient(90deg, #3498db, #2980b9);
++  background: linear-gradient(90deg, #3498db, #2573a6);
+   height: 100%;
+   border-radius: 8px;
+   transition: width 0.3s ease;
+@@ -156,7 +156,7 @@
+   padding: 15px;
+   background: #f8f9fa;
+   border-radius: 6px;
+-  border-inline-start: 4px solid #2980b9;
++  border-inline-start: 4px solid #2573a6;
+ }
+ 
+ .migration-progress-status-label {
+diff --git a/client/components/settings/peopleBody.css b/client/components/settings/peopleBody.css
+index 61940d8db8..7ca24918dd 100644
+--- a/client/components/settings/peopleBody.css
++++ b/client/components/settings/peopleBody.css
+@@ -304,3 +304,14 @@ table:not(.table-page-table) td:first-child {
+   margin: 0;
+   flex: none;
+ }
++
++/* WCAG 2.5.8: the Org/Team table headers' select-all / unselect-all pair are
++   icon-only anchors that rendered at font-size (~14px). 24px minimum target. */
++a.js-org-feature-all,
++a.js-team-feature-all {
++  display: inline-block;
++  min-width: 24px;
++  min-height: 24px;
++  line-height: 24px;
++  text-align: center;
++}
+diff --git a/client/components/settings/peopleBody.jade b/client/components/settings/peopleBody.jade
+index c8d5c8340a..b76e2c53ff 100644
+--- a/client/components/settings/peopleBody.jade
++++ b/client/components/settings/peopleBody.jade
+@@ -235,7 +235,7 @@ template(name="peopleRow")
+         | ⋯
+     if userData.loginDisabled
+       td.username
+-        a.js-edit-people-avatar(data-user-id=userData._id)
++        a.js-edit-people-avatar(data-user-id=userData._id aria-label="{{_ 'change-avatar'}} {{userData.username}}")
+           if hasAvatarUrl
+             .avatar
+               img.avatar-image(src="{{userData.profile.avatarUrl}}", alt="{{userData.username}}", title="{{_ 'change-avatar'}}")
+@@ -244,7 +244,7 @@ template(name="peopleRow")
+         <s>{{ userData.username }}</s>
+     else if isUserLocked
+       td.username
+-        a.js-edit-people-avatar(data-user-id=userData._id)
++        a.js-edit-people-avatar(data-user-id=userData._id aria-label="{{_ 'change-avatar'}} {{userData.username}}")
+           if hasAvatarUrl
+             .avatar
+               img.avatar-image(src="{{userData.profile.avatarUrl}}", alt="{{userData.username}}", title="{{_ 'change-avatar'}}")
+@@ -253,7 +253,7 @@ template(name="peopleRow")
+         | {{ userData.username }}
+     else
+       td.username
+-        a.js-edit-people-avatar(data-user-id=userData._id)
++        a.js-edit-people-avatar(data-user-id=userData._id aria-label="{{_ 'change-avatar'}} {{userData.username}}")
+           if hasAvatarUrl
+             .avatar
+               img.avatar-image(src="{{userData.profile.avatarUrl}}", alt="{{userData.username}}", title="{{_ 'change-avatar'}}")
+@@ -309,10 +309,10 @@ template(name="peopleRow")
+       td {{ displayDate userData.createdAt 'LLL' }}
+     if userData.loginDisabled
+       td
+-        input.selectUserChkBox(type="checkbox", disabled="disabled", id="{{userData._id}}")
++        input.selectUserChkBox(type="checkbox", disabled="disabled", id="{{userData._id}}" aria-label="{{userData.username}}")
+     else
+       td
+-        input.selectUserChkBox(type="checkbox", id="{{userData._id}}")
++        input.selectUserChkBox(type="checkbox", id="{{userData._id}}" aria-label="{{userData.username}}")
+ 
+ template(name="editOrgPopup")
+   form
+@@ -757,28 +757,28 @@ template(name="settingsUserPopup")
+ 
+ template(name="lockedUsersGeneral")
+   .locked-users-settings
+-    h3 {{_ 'accounts-lockout-settings'}}
++    h2 {{_ 'accounts-lockout-settings'}}
+     p {{_ 'accounts-lockout-info'}}
+ 
+-    h4 {{_ 'accounts-lockout-known-users'}}
+-    .title {{_ 'accounts-lockout-failures-before'}}
++    h2 {{_ 'accounts-lockout-known-users'}}
++    label.title(for='known-failures-before-lockout') {{_ 'accounts-lockout-failures-before'}}
+     .form-group
+       input.wekan-form-control#known-failures-before-lockout(type="number", min="1", max="10", placeholder="3" value="{{knownFailuresBeforeLockout}}")
+-    .title {{_ 'accounts-lockout-period'}}
++    label.title(for='known-lockout-period') {{_ 'accounts-lockout-period'}}
+     .form-group
+       input.wekan-form-control#known-lockout-period(type="number", min="10", max="600", placeholder="60" value="{{knownLockoutPeriod}}")
+-    .title {{_ 'accounts-lockout-failure-window'}}
++    label.title(for='known-failure-window') {{_ 'accounts-lockout-failure-window'}}
+     .form-group
+       input.wekan-form-control#known-failure-window(type="number", min="1", max="60", placeholder="15" value="{{knownFailureWindow}}")
+ 
+-    h4 {{_ 'accounts-lockout-unknown-users'}}
+-    .title {{_ 'accounts-lockout-failures-before'}}
++    h2 {{_ 'accounts-lockout-unknown-users'}}
++    label.title(for='unknown-failures-before-lockout') {{_ 'accounts-lockout-failures-before'}}
+     .form-group
+       input.wekan-form-control#unknown-failures-before-lockout(type="number", min="1", max="10", placeholder="3" value="{{unknownFailuresBeforeLockout}}")
+-    .title {{_ 'accounts-lockout-period'}}
++    label.title(for='unknown-lockout-period') {{_ 'accounts-lockout-period'}}
+     .form-group
+       input.wekan-form-control#unknown-lockout-period(type="number", min="10", max="600", placeholder="60" value="{{unknownLockoutPeriod}}")
+-    .title {{_ 'accounts-lockout-failure-window'}}
++    label.title(for='unknown-failure-window') {{_ 'accounts-lockout-failure-window'}}
+     .form-group
+       input.wekan-form-control#unknown-failure-window(type="number", min="1", max="60", placeholder="15" value="{{unknownFailureWindow}}")
+ 
+@@ -788,7 +788,7 @@ template(name="rolesGeneral")
+   .roles-settings
+     p.roles-description {{_ 'roles-info'}}
+ 
+-    h4 {{_ 'allow-invite-to-board'}}
++    h2 {{_ 'allow-invite-to-board'}}
+     ul#roles-setting.setting-detail
+       li
+         a.flex.js-toggle-all-roles
+@@ -832,7 +832,7 @@ template(name="templatesGeneral")
+         +spinner
+       else if hasAnyScope
+         each scopeBlock in scopeBlocks
+-          h4 {{_ scopeBlock.scopeLabel}}
++          h3 {{_ scopeBlock.scopeLabel}}
+           if scopeBlock.groups.length
+             each group in scopeBlock.groups
+               .shared-templates-group
+diff --git a/client/components/settings/settingBody.css b/client/components/settings/settingBody.css
+index a996321517..3c59354eb6 100644
+--- a/client/components/settings/settingBody.css
++++ b/client/components/settings/settingBody.css
+@@ -10,7 +10,7 @@
+   height: 100%;
+ }
+ .setting-content {
+-  color: #727479;
++  color: #606166;
+   background: #dedede;
+   width: 100%;
+   height: 100%;
+@@ -99,7 +99,7 @@
+    selected entry back to white as soon as the pointer crossed it. */
+ .setting-content .content-body .side-menu ul li.active,
+ .setting-content .content-body .side-menu ul li.active:hover {
+-  background: var(--theme-accent, #2980b9);
++  background: var(--theme-accent, #2573a6);
+ }
+ 
+ /* …and when a THEME is active, the row is painted by that theme's own #header rule
+@@ -138,7 +138,9 @@
+   font-weight: 700;
+   text-transform: uppercase;
+   letter-spacing: 0.04em;
+-  opacity: 0.6;
++  /* The old `opacity: 0.6` blended down to #9c9da0 on #f7f7f7 (2.5:1). An
++     explicit grey keeps the muted look while clearing 4.5:1. */
++  color: #616161;
+   cursor: default;
+ }
+ .setting-content .content-body .side-menu ul li.left-menu-separator:hover,
+@@ -483,7 +485,7 @@ body.left-menu-resizing-active {
+ }
+ 
+ .setting-content label:has(> input[type="checkbox"]:focus-visible) {
+-  outline: 2px solid #2980b9;
++  outline: 2px solid #2573a6;
+   outline-offset: 2px;
+   border-radius: 3px;
+ }
+@@ -506,7 +508,7 @@ body.left-menu-resizing-active {
+ }
+ 
+ .setting-content input[type="checkbox"]:focus-visible {
+-  outline: 2px solid var(--theme-accent, #2980b9);
++  outline: 2px solid var(--theme-accent, #2573a6);
+   outline-offset: 2px;
+ }
+ 
+@@ -557,13 +559,13 @@ body.left-menu-resizing-active {
+ }
+ 
+ .setting-content .schedule-day-btn.active {
+-  background: var(--theme-accent, #2980b9);
+-  border-color: var(--theme-accent, #2980b9);
++  background: var(--theme-accent, #2573a6);
++  border-color: var(--theme-accent, #2573a6);
+   color: #fff;
+ }
+ 
+ .setting-content .schedule-day-btn:focus-visible {
+-  outline: 2px solid var(--theme-accent, #2980b9);
++  outline: 2px solid var(--theme-accent, #2573a6);
+   outline-offset: 2px;
+ }
+ 
+@@ -982,7 +984,9 @@ li.has-error .form-group .wekan-form-control {
+    "Clearly visible, is in use environment variable or admin panel setting"
+    (see client/components/settings/settingBody.js's ldapSourceLabelFor). */
+ .ldap-source-badge {
+-  color: #767676;
++  /* #767676 was 4.4:1 on the pane's white background - just under WCAG's
++     4.5:1 for text this size (0.85em). #595959 is ~7:1. */
++  color: #595959;
+   font-size: 0.85em;
+   font-style: italic;
+ }
+@@ -1007,3 +1011,9 @@ li.has-error .form-group .wekan-form-control {
+   margin-inline-start: 0.5em;
+   font-weight: bold;
+ }
++
++/* WCAG 2.5.8: day-of-week buttons measured 12x18. */
++.setting-content .schedule-day-btn {
++  min-height: 24px;
++  min-width: 24px;
++}
+diff --git a/client/components/settings/settingBody.jade b/client/components/settings/settingBody.jade
+index 695f42e716..1b57fd68da 100644
+--- a/client/components/settings/settingBody.jade
++++ b/client/components/settings/settingBody.jade
+@@ -108,7 +108,7 @@ template(name="general")
+       li.accounts-form
+         .title {{_ 'oidc-button-text'}}
+         .form-group
+-          input.wekan-form-control#oidcBtnTextvalue(type="text", placeholder="" value="{{currentSetting.oidcBtnText}}")
++          input.wekan-form-control#oidcBtnTextvalue(aria-label="{{_ 'oidc-button-text'}}",type="text", placeholder="" value="{{currentSetting.oidcBtnText}}")
+         button.js-account-access-save.primary {{_ 'save'}}
+ 
+     //- LDAP has a section of its own now, drawn from the login settings
+@@ -142,7 +142,7 @@ template(name="general")
+             input.wekan-form-control(type="password" class="js-oauth-provider-secret" data-provider="{{key}}" placeholder="{{secretVar}}" value="" autocomplete="new-password")
+           button.js-oauth-provider-save.primary(data-provider="{{key}}") {{_ 'save'}}
+       li.accounts-form
+-        .title {{_ 'oauth-providers-login-style'}}
++        label.title(for='oauth-providers-login-style') {{_ 'oauth-providers-login-style'}}
+         .form-group
+           select.wekan-form-control#oauth-providers-login-style
+             each oauthLoginStyleOptions
+@@ -177,19 +177,19 @@ template(name='email')
+         span Enable below email settings
+     if mailSettingsEnabled
+       li.smtp-form
+-        .title Email service
++        label.title(for='mail-service') Email service
+         .form-group
+           select.wekan-form-control#mail-service
+             each mailServices
+               option(value=value selected=selected)= label
+       if isCustomSmtp
+         li.smtp-form
+-          .title {{_ 'smtp-host'}}
++          label.title(for='mail-server-host') {{_ 'smtp-host'}}
+           .description {{_ 'smtp-host-description'}}
+           .form-group
+             input.wekan-form-control#mail-server-host(type="text", placeholder="smtp.domain.com" value="{{mailConfiguration.host}}")
+         li.smtp-form
+-          .title {{_ 'smtp-port'}}
++          label.title(for='mail-server-port') {{_ 'smtp-port'}}
+           .description {{_ 'smtp-port-description'}}
+           .form-group
+             input.wekan-form-control#mail-server-port(type="text", placeholder="587" value="{{mailConfiguration.port}}")
+@@ -198,16 +198,16 @@ template(name='email')
+             .materialCheckBox#mail-server-tls(class="{{#if mailConfiguration.secure}}is-checked{{/if}}")
+             span {{_ 'smtp-tls-description'}}
+       li.smtp-form
+-        .title {{_ 'smtp-username'}}
++        label.title(for='mail-server-username') {{_ 'smtp-username'}}
+         .form-group
+           input.wekan-form-control#mail-server-username(type="text", placeholder="{{_ 'username'}}" value="{{mailConfiguration.username}}")
+       li.smtp-form
+-        .title {{_ 'smtp-password'}}
++        label.title(for='mail-server-password') {{_ 'smtp-password'}}
+         .description {{passwordDescription}}
+         .form-group
+           input.wekan-form-control#mail-server-password(type="password", placeholder="{{_ 'password'}}" value="" autocomplete="new-password")
+       li.smtp-form
+-        .title {{_ 'send-from'}}
++        label.title(for='mail-server-from') {{_ 'send-from'}}
+         .form-group
+           input.wekan-form-control#mail-server-from(type="text", placeholder="WeKan <no-reply@domain.com>" value="{{mailConfiguration.from}}")
+     li
+@@ -226,22 +226,22 @@ template(name='email')
+       //- offered here at all - see the CLAUDE.md-mandated note above and
+       //- docs/Features - so there is nothing to warn about turning off.
+     li.smtp-form
+-      .title {{_ 'email-templates-invite-subject'}}
++      label.title(for='email-template-invite-subject') {{_ 'email-templates-invite-subject'}}
+       .description {{_ 'email-templates-invite-vars-hint'}}
+       .form-group
+         input.wekan-form-control#email-template-invite-subject(type="text" value="{{currentSetting.inviteEmailSubjectTemplate}}")
+     li.smtp-form
+-      .title {{_ 'email-templates-invite-body'}}
++      label.title(for='email-template-invite-body') {{_ 'email-templates-invite-body'}}
+       .description {{_ 'email-templates-invite-vars-hint'}}
+       .form-group
+         textarea.wekan-form-control#email-template-invite-body(data-editor-submit=".js-email-templates-save" rows="4")= currentSetting.inviteEmailBodyTemplate
+     li.smtp-form
+-      .title {{_ 'email-templates-activity-subject'}}
++      label.title(for='email-template-activity-subject') {{_ 'email-templates-activity-subject'}}
+       .description {{_ 'email-templates-activity-vars-hint'}}
+       .form-group
+         input.wekan-form-control#email-template-activity-subject(type="text" value="{{currentSetting.activityEmailSubjectTemplate}}")
+     li.smtp-form
+-      .title {{_ 'email-templates-activity-body'}}
++      label.title(for='email-template-activity-body') {{_ 'email-templates-activity-body'}}
+       .description {{_ 'email-templates-activity-vars-hint'}}
+       .form-group
+         textarea.wekan-form-control#email-template-activity-body(data-editor-submit=".js-email-templates-save" rows="4")= currentSetting.activityEmailBodyTemplate
+@@ -253,7 +253,7 @@ template(name='email')
+       //- whose address ends with this domain can send board invitations, and only
+       //- while self-registration is disabled - see isNonAdminAllowedToSendMail()
+       //- in server/models/settings.js. It restricts nothing about signing in.
+-      .title {{_ 'email-domain-allowed-to-invite'}}
++      label.title(for='mailDomainNamevalue') {{_ 'email-domain-allowed-to-invite'}}
+       .form-group
+         input.wekan-form-control#mailDomainNamevalue(type="text", placeholder="" value="{{currentSetting.mailDomainName}}")
+     li.accounts-form
+@@ -330,11 +330,11 @@ template(name='tableVisibilityModeSettings')
+       //- create-board popup. Empty = unchanged i18n default text
+       //- (imports/i18n/lib/visibilityDesc.js).
+       li.tableVisibilityMode-form
+-        .title {{_ 'custom-private-desc'}}
++        label.title(for='custom-private-board-desc') {{_ 'custom-private-desc'}}
+         .form-group
+           textarea.wekan-form-control#custom-private-board-desc(data-editor-submit=".js-visibility-all-boards-save" rows="2" placeholder="{{_ 'custom-private-desc-placeholder'}}")= currentSetting.customPrivateBoardDesc
+       li.tableVisibilityMode-form
+-        .title {{_ 'custom-public-desc'}}
++        label.title(for='custom-public-board-desc') {{_ 'custom-public-desc'}}
+         .form-group
+           textarea.wekan-form-control#custom-public-board-desc(data-editor-submit=".js-visibility-all-boards-save" rows="2" placeholder="{{_ 'custom-public-desc-placeholder'}}")= currentSetting.customPublicBoardDesc
+       li
+@@ -371,7 +371,7 @@ template(name='tableVisibilityModeSettings')
+           .materialCheckBox#feature-preview-admins(class="{{#if currentSetting.featurePreviewAdmins}}is-checked{{/if}}")
+           span {{_ 'feature-preview-admins'}}
+       li.tableVisibilityMode-form
+-        .title {{_ 'feature-pilot-users'}}
++        label.title(for='feature-pilot-users') {{_ 'feature-pilot-users'}}
+         .form-group
+           textarea.wekan-form-control#feature-pilot-users(data-editor-submit=".js-visibility-features-save" rows="2" placeholder="{{_ 'feature-pilot-users-placeholder'}}")= featurePilotUsernames
+       li
+@@ -415,24 +415,24 @@ template(name='tableVisibilityModeSettings')
+ 
+                 span {{_ 'public'}}
+             li
+-              .title {{_ 'support-title'}}
++              label.title(for='support-title') {{_ 'support-title'}}
+               textarea#support-title.wekan-form-control(data-editor-submit=".js-visibility-url-save")= currentSetting.supportTitle
+             li
+-              .title {{_ 'support-content'}}
++              label.title(for='support-page-text') {{_ 'support-content'}}
+               textarea#support-page-text.wekan-form-control(data-editor-submit=".js-visibility-url-save")= currentSetting.supportPageText
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-help-link-url'}}
+         .form-group
+-          input.wekan-form-control#custom-help-link-url(type="text", placeholder="" value="{{currentSetting.customHelpLinkUrl}}")
++          input.wekan-form-control#custom-help-link-url(aria-label="{{_ 'custom-help-link-url'}}",type="text", placeholder="" value="{{currentSetting.customHelpLinkUrl}}")
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-legal-notice-link-url'}}
+         .form-group
+-          input.wekan-form-control#legalNoticevalue(type="text", placeholder="" value="{{currentSetting.legalNotice}}")
++          input.wekan-form-control#legalNoticevalue(aria-label="{{_ 'legalNotice'}}",type="text", placeholder="" value="{{currentSetting.legalNotice}}")
+       li.tableVisibilityMode-form
+         .title {{_ 'automatic-linked-url-schemes'}}
+         .description {{_ 'automatic-linked-url-schemes-hint'}}
+         .form-group
+-          textarea#automatic-linked-url-schemes.wekan-form-control(data-editor-submit=".js-visibility-url-save")= currentSetting.automaticLinkedUrlSchemes
++          textarea#automatic-linked-url-schemes.wekan-form-control(aria-label="{{_ 'automatic-linked-url-schemes'}}",data-editor-submit=".js-visibility-url-save")= currentSetting.automaticLinkedUrlSchemes
+       li
+         button.js-visibility-url-save.primary {{_ 'save'}}
+ 
+@@ -445,11 +445,11 @@ template(name='tableVisibilityModeSettings')
+         h2.admin-pane-group-title {{_ 'external-link-pattern'}}
+         p.description {{_ 'external-link-pattern-description'}}
+       li.tableVisibilityMode-form
+-        .title {{_ 'external-link-pattern-prefix'}}
++        label.title(for='external-link-pattern-prefix') {{_ 'external-link-pattern-prefix'}}
+         .form-group
+           input.wekan-form-control#external-link-pattern-prefix(type="text", placeholder="#" value="{{currentSetting.externalLinkPatternPrefix}}")
+       li.tableVisibilityMode-form
+-        .title {{_ 'external-link-pattern-url'}}
++        label.title(for='external-link-pattern-url') {{_ 'external-link-pattern-url'}}
+         .form-group
+           input.wekan-form-control#external-link-pattern-url(type="text", placeholder="https://issues.example.com/browse/PROJ-{number}" value="{{currentSetting.externalLinkPatternUrl}}")
+       li
+@@ -464,7 +464,7 @@ template(name='tableVisibilityModeSettings')
+         h2.admin-pane-group-title {{_ 'custom-product-name'}}
+       li.tableVisibilityMode-form
+         .form-group
+-          textarea.wekan-form-control#product-name(data-editor-submit=".js-visibility-product-name-save" rows="2" placeholder="")= currentSetting.productName
++          textarea.wekan-form-control#product-name(aria-label="{{_ 'custom-product-name'}}",data-editor-submit=".js-visibility-product-name-save" rows="2" placeholder="")= currentSetting.productName
+       li
+         button.js-visibility-product-name-save.primary {{_ 'save'}}
+ 
+@@ -500,31 +500,31 @@ template(name='tableVisibilityModeSettings')
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-login-logo-image-url'}}
+         .form-group
+-          input.wekan-form-control#custom-login-logo-image-url(type="text", placeholder="" value="{{currentSetting.customLoginLogoImageUrl}}")
++          input.wekan-form-control#custom-login-logo-image-url(aria-label="{{_ 'custom-login-logo-image-url'}}",type="text", placeholder="" value="{{currentSetting.customLoginLogoImageUrl}}")
+           input.js-site-logo-upload(type="file" data-kind="login" accept="image/png,image/jpeg,image/gif,image/webp" aria-label="{{_ 'upload'}} {{_ 'custom-login-logo-image-url'}}")
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-login-logo-link-url'}}
+         .form-group
+-          input.wekan-form-control#custom-login-logo-link-url(type="text", placeholder="" value="{{currentSetting.customLoginLogoLinkUrl}}")
++          input.wekan-form-control#custom-login-logo-link-url(aria-label="{{_ 'custom-login-logo-link-url'}}",type="text", placeholder="" value="{{currentSetting.customLoginLogoLinkUrl}}")
+       li.tableVisibilityMode-form
+         .title {{_ 'text-below-custom-login-logo'}}
+         .form-group
+-          textarea#text-below-custom-login-logo.wekan-form-control(data-editor-submit=".js-visibility-logo-save")= currentSetting.textBelowCustomLoginLogo
++          textarea#text-below-custom-login-logo.wekan-form-control(aria-label="{{_ 'text-below-custom-login-logo'}}",data-editor-submit=".js-visibility-logo-save")= currentSetting.textBelowCustomLoginLogo
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-top-left-corner-logo-image-url'}}
+         .form-group
+-          input.wekan-form-control#custom-top-left-corner-logo-image-url(type="text", placeholder="" value="{{currentSetting.customTopLeftCornerLogoImageUrl}}")
++          input.wekan-form-control#custom-top-left-corner-logo-image-url(aria-label="{{_ 'custom-top-left-corner-logo-image-url'}}",type="text", placeholder="" value="{{currentSetting.customTopLeftCornerLogoImageUrl}}")
+           input.js-site-logo-upload(type="file" data-kind="header" accept="image/png,image/jpeg,image/gif,image/webp" aria-label="{{_ 'upload'}} {{_ 'custom-top-left-corner-logo-image-url'}}")
+       li.tableVisibilityMode-form
+         span.js-site-logo-upload-status(role="status" aria-live="polite")
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-top-left-corner-logo-link-url'}}
+         .form-group
+-          input.wekan-form-control#custom-top-left-corner-logo-link-url(type="text", placeholder="" value="{{currentSetting.customTopLeftCornerLogoLinkUrl}}")
++          input.wekan-form-control#custom-top-left-corner-logo-link-url(aria-label="{{_ 'custom-top-left-corner-logo-link-url'}}",type="text", placeholder="" value="{{currentSetting.customTopLeftCornerLogoLinkUrl}}")
+       li.tableVisibilityMode-form
+         .title {{_ 'custom-top-left-corner-logo-height'}}
+         .form-group
+-          input.wekan-form-control#custom-top-left-corner-logo-height(type="text", placeholder="" value="{{currentSetting.customTopLeftCornerLogoHeight}}")
++          input.wekan-form-control#custom-top-left-corner-logo-height(aria-label="{{_ 'custom-top-left-corner-logo-height'}}",type="text", placeholder="" value="{{currentSetting.customTopLeftCornerLogoHeight}}")
+       li
+         button.js-visibility-logo-save.primary {{_ 'save'}}
+ 
+@@ -608,13 +608,13 @@ template(name='selectSpinnerName')
+   //- which is what flex-wrap does on its own, so no width is guessed here or in a
+   //- media query (settingBody.css .spinner-select-row).
+   .spinner-select-row
+-    select#spinnerName
++    select#spinnerName(aria-label="{{_ 'wait-spinner'}}")
+       each spinner in spinners
+         if isSelected spinner
+           option(value="{{spinner}}" selected) {{_ spinner}}
+         else
+           option(value="{{spinner}}") {{_ spinner}}
+-    .spinner-preview(title="{{_ 'preview'}}" aria-label="{{_ 'preview'}}")
++    .spinner-preview(role="img" title="{{_ 'preview'}}" aria-label="{{_ 'preview'}}")
+       //- Follows the DROPDOWN, not the saved setting: an admin sees what they are
+       //- about to save before pressing Save.
+       +Template.dynamic(template=previewTemplate)
+diff --git a/client/components/settings/tablePage.jade b/client/components/settings/tablePage.jade
+index 6f62c7efe6..7832ebde5f 100644
+--- a/client/components/settings/tablePage.jade
++++ b/client/components/settings/tablePage.jade
+@@ -36,7 +36,10 @@ template(name="tablePage")
+       //- render. They came from Admin Panel / People, where they were hand-written
+       //- into that page's own markup; they are general enough for any table.
+       each filters
+-        select.js-table-page-filter(data-filter="{{id}}" title="{{_ labelKey}}")
++        //- The select's name is its labelKey when the spec gives a translation
++        //- key, else the spec's literal `label` ({{_ ''}} would render the
++        //- attribute empty and the control nameless).
++        select.js-table-page-filter(data-filter="{{id}}" aria-label="{{#if labelKey}}{{_ labelKey}}{{else}}{{label}}{{/if}}" title="{{#if labelKey}}{{_ labelKey}}{{else}}{{label}}{{/if}}")
+           each options
+             option(value="{{value}}" selected="{{selected}}")
+               if labelKey
+diff --git a/client/components/sidebar/sidebar.css b/client/components/sidebar/sidebar.css
+index 694ced10bb..cad3cff539 100644
+--- a/client/components/sidebar/sidebar.css
++++ b/client/components/sidebar/sidebar.css
+@@ -43,7 +43,7 @@
+   display: none;
+ }
+ .sidebar .sidebar-content h3 {
+-  color: #808080;
++  color: #616161;
+   font-size: 1em;
+   margin-bottom: 10px;
+   font-weight: bold;
+@@ -466,7 +466,7 @@ body.sidebar-resizing-active {
+   background: #f7f7f7;
+   border-bottom-left-radius: 3px;
+   box-shadow: -4px 0px 7px -4px #b3b3b3;
+-  color: #808080;
++  color: #616161;
+   transition: left 0.1s;
+ }
+ .sidebar-tongue i.fa {
+@@ -596,11 +596,11 @@ body.sidebar-resizing-active {
+     z-index: 15;
+     background: #f7f7f7;
+     transition: left 0.1s;
+-    color: #808080;
++    color: #616161;
+     border-radius: 50%;
+     border: 1px solid #b3b3b3;
+     box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+-    color: #808080;
++    color: #616161;
+   }
+   .board-sidebar .sidebar-content .hide-btn i.fa {
+     padding: 8px 16px;
+@@ -616,7 +616,7 @@ body.sidebar-resizing-active {
+     border-radius: 50%;
+     border: 1px solid #b3b3b3;
+     box-shadow: 0 1px 6px rgba(0,0,0,0.3);
+-    color: #808080;
++    color: #616161;
+   }
+   .board-sidebar.is-open .sidebar-tongue {
+     display: none;
+@@ -850,3 +850,20 @@ body.sidebar-resizing-active {
+   background: var(--wekan-popup-background, #fff);
+   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+ }
++
++/* WCAG 2.5.8: sidebar text rows (Board Settings, Shortcuts, filter presets)
++   rendered ~16px tall - give each the 24px minimum target height. */
++.sidebar .sidebar-list li > a,
++.sidebar .js-shortcuts,
++.sidebar .js-open-board-menu,
++.sidebar a.js-apply-filter-preset,
++.sidebar a.js-remove-filter-preset {
++  min-height: 24px;
++}
++/* Inline anchors ignore min-height; these must become flex boxes too. */
++.sidebar .sidebar-list li > a,
++.sidebar .js-shortcuts,
++.sidebar .js-open-board-menu {
++  display: inline-flex;
++  align-items: center;
++}
+diff --git a/client/components/sidebar/sidebar.jade b/client/components/sidebar/sidebar.jade
+index 5226822a05..2758337ef5 100644
+--- a/client/components/sidebar/sidebar.jade
++++ b/client/components/sidebar/sidebar.jade
+@@ -45,9 +45,10 @@ template(name='homeSidebar')
+     Card ("Labels text"). See boardCardSettingsPopup below.
+   if currentUser
+     ul#cards.vertical-scrollbars-toggle
+-      a.flex.js-vertical-scrollbars-toggle(title="{{_ 'enable-vertical-scrollbars'}}")
+-        i.fa(class="{{#if isVerticalScrollbars}}fa-check{{else}}fa-square-o{{/if}}")
+-        span {{_ 'enable-vertical-scrollbars'}}
++      li
++        a.flex.js-vertical-scrollbars-toggle(title="{{_ 'enable-vertical-scrollbars'}}")
++          i.fa(class="{{#if isVerticalScrollbars}}fa-check{{else}}fa-square-o{{/if}}")
++          span {{_ 'enable-vertical-scrollbars'}}
+   hr
+   if currentUser.isBoardAdmin
+     //- A caret in front of the heading, like every collapsible section of an
+@@ -55,10 +56,11 @@ template(name='homeSidebar')
+       it again hides them. The eye and the words "Show activities" beside it
+       said the same thing a second time, which is one control too many for one
+       setting. client/lib/sectionCaret.js
+-    h3.activity-title.js-toggle-show-activities(role="button" tabindex="0" title="{{_ 'activities'}}")
+-      i.fa(class="{{activitiesCaret}}")
+-      i.fa.fa-comment-o
+-      | {{_ 'activities'}}
++    h3.activity-title
++      button.js-toggle-show-activities.activity-title-toggle(type="button" title="{{_ 'activities'}}" aria-expanded="{{#if showActivities}}true{{else}}false{{/if}}")
++        i.fa(class="{{activitiesCaret}}")
++        i.fa.fa-comment-o
++        | {{_ 'activities'}}
+     +activities(mode="board")
+ 
+ template(name="membersWidget")
+@@ -73,10 +75,11 @@ template(name="membersWidget")
+     collapsible section of an opened card: folding Members hides the People /
+     Organizations / Teams / Domains tabs and the avatars in them.
+     client/lib/foldState.js
+-  h3.js-toggle-fold(data-fold="members" role="button" tabindex="0")
+-    i.fa(class="{{foldCaret 'members'}}")
+-    i.fa.fa-users
+-    | {{_ 'members'}}
++  h3
++    button.js-toggle-fold.fold-heading-toggle(type="button" data-fold="members" aria-expanded="{{#if isFoldOpen 'members'}}true{{else}}false{{/if}}")
++      i.fa(class="{{foldCaret 'members'}}")
++      i.fa.fa-users
++      | {{_ 'members'}}
+   if isFoldOpen 'members'
+     +basicTabs(tabs=tabs)
+       +tabContent(slug="people")
+@@ -475,10 +478,10 @@ template(name="outgoingWebhooksPopup")
+       a.flex.js-toggle-webhook-enabled
+         .materialCheckBox(class="{{#unless enabled}}is-checked{{/unless}}")
+         span {{_ 'disable-webhook'}}
+-      textarea.js-outgoing-webhooks-title(rows="2" placeholder="{{_ 'webhook-title'}}" name="title")= title
+-      input.js-outgoing-webhooks-url(type="text" name="url" value=url)
+-      input.js-outgoing-webhooks-token(placeholder="{{_ 'webhook-token' }}" type="text" value=token name="token")
+-      select.js-outgoing-webhooks-type(name="type")
++      textarea.js-outgoing-webhooks-title(rows="2" placeholder="{{_ 'webhook-title'}}" name="title" aria-label="{{_ 'webhook-title'}}")= title
++      input.js-outgoing-webhooks-url(type="text" name="url" value=url aria-label="URL")
++      input.js-outgoing-webhooks-token(placeholder="{{_ 'webhook-token' }}" type="text" value=token name="token" aria-label="{{_ 'webhook-token' }}")
++      select.js-outgoing-webhooks-type(name="type" aria-label="{{_ 'type'}}")
+           each _type in types
+               if($eq _type this.type)
+                   option(value=_type selected="selected") {{_ _type}}
+@@ -488,10 +491,10 @@ template(name="outgoingWebhooksPopup")
+       input(type="hidden" value=_id name="id")
+       input.primary.wide(type="submit" value="{{_ 'save'}}")
+   form.integration-form
+-    textarea.js-outgoing-webhooks-title(rows="2" placeholder="{{_ 'webhook-title'}}" name="title")
+-    input.js-outgoing-webhooks-url(placeholder="{{_ 'URL' }}" type="text" name="url")
+-    input.js-outgoing-webhooks-token(placeholder="{{_ 'webhook-token' }}" type="text" name="token")
+-    select.js-outgoing-webhooks-type(name="type")
++    textarea.js-outgoing-webhooks-title(rows="2" placeholder="{{_ 'webhook-title'}}" name="title" aria-label="{{_ 'webhook-title'}}")
++    input.js-outgoing-webhooks-url(placeholder="{{_ 'URL' }}" type="text" name="url" aria-label="URL")
++    input.js-outgoing-webhooks-token(placeholder="{{_ 'webhook-token' }}" type="text" name="token" aria-label="{{_ 'webhook-token' }}")
++    select.js-outgoing-webhooks-type(name="type" aria-label="{{_ 'type'}}")
+         each _type in types
+             option(value=_type) {{_ _type}}
+     input.primary.wide(type="submit" value="{{_ 'create'}}")
+@@ -833,10 +836,11 @@ template(name="importBoardIntoPopup")
+ template(name="labelsWidget")
+   .board-widget.board-widget-labels
+     //- Same caret as Members above: folding Labels hides the labels under it.
+-    h3.js-toggle-fold(data-fold="labels" role="button" tabindex="0")
+-      i.fa(class="{{foldCaret 'labels'}}")
+-      i.fa.fa-tag
+-      | {{_ 'labels'}}
++    h3
++      button.js-toggle-fold.fold-heading-toggle(type="button" data-fold="labels" aria-expanded="{{#if isFoldOpen 'labels'}}true{{else}}false{{/if}}")
++        i.fa(class="{{foldCaret 'labels'}}")
++        i.fa.fa-tag
++        | {{_ 'labels'}}
+     if isFoldOpen 'labels'
+       .board-widget-content
+         each currentBoard.labels
+diff --git a/client/components/sidebar/sidebar.js b/client/components/sidebar/sidebar.js
+index 4eeb61be15..35c6ee4587 100644
+--- a/client/components/sidebar/sidebar.js
++++ b/client/components/sidebar/sidebar.js
+@@ -346,17 +346,12 @@ Template.sidebar.events({
+   // sections do. Delegated here, on the sidebar, because the two headings live
+   // in two child templates and the rule is one rule.
+   // client/lib/foldState.js
++  // The fold heading is a real <button> inside the h3, so Enter and Space
++  // reach this click natively - no keydown twin needed.
+   'click .js-toggle-fold'(event) {
+     event.preventDefault();
+     toggleFold(event.currentTarget.dataset.fold);
+   },
+-  // A heading with role="button" and a tabindex has to answer the keys a button
+-  // answers, or it cannot be folded without a mouse.
+-  'keydown .js-toggle-fold'(event) {
+-    if (event.key !== 'Enter' && event.key !== ' ') return;
+-    event.preventDefault();
+-    toggleFold(event.currentTarget.dataset.fold);
+-  },
+   'click .js-hide-sidebar'(event, tpl) {
+     tpl.hide();
+   },
+@@ -414,18 +409,11 @@ Template.homeSidebar.helpers({
+ });
+ 
+ Template.homeSidebar.events({
++  // Real <button> in the h3: Enter/Space activate it natively.
+   async 'click .js-toggle-show-activities'(event) {
+     event.preventDefault();
+     await Utils.getCurrentBoard().toggleShowActivities();
+   },
+-  // A heading that can be operated with the mouse can be operated with the
+-  // keyboard: it carries role="button" and a tabindex, so Enter and Space have
+-  // to do what a click does.
+-  async 'keydown .js-toggle-show-activities'(event) {
+-    if (event.key !== 'Enter' && event.key !== ' ') return;
+-    event.preventDefault();
+-    await Utils.getCurrentBoard().toggleShowActivities();
+-  },
+ });
+ 
+ 
+diff --git a/client/components/sidebar/sidebarFilters.jade b/client/components/sidebar/sidebarFilters.jade
+index 480d342718..11db04aa1e 100644
+--- a/client/components/sidebar/sidebarFilters.jade
++++ b/client/components/sidebar/sidebarFilters.jade
+@@ -25,8 +25,10 @@ template(name="filterSidebar")
+     i.fa.fa-list
+     | {{_ 'list-filter-label'}}
+   ul.sidebar-list
+-    form.js-list-filter
+-      input(type="text" value=Filter.lists.value)
++    //- A ul may only contain li/script/template - wrap the filter form.
++    li
++      form.js-list-filter
++        input(type="text" value=Filter.lists.value aria-label="{{_ 'list-filter-label'}}")
+   hr
+   h3
+     i.fa.fa-list
+@@ -229,12 +231,12 @@ template(name="filterSidebar")
+     | {{_ 'filter-column-age'}}
+   form.js-column-age-filter
+     label {{_ 'list'}}
+-    select.js-column-age-list
++    select.js-column-age-list(aria-label="{{_ 'list'}}")
+       option(value="") {{_ 'filter-column-age-disabled'}}
+       each columnAgeLists
+         option(value=_id selected="{{#if columnAgeSelected _id}}selected{{/if}}") {{title}}
+     label {{_ 'filter-column-age-days'}}
+-    input.js-column-age-days(type="number" min="1" max="365000" required value=columnAgeDays)
++    input.js-column-age-days(type="number" min="1" max="365000" required value=columnAgeDays aria-label="{{_ 'filter-column-age-days'}}")
+     p.quiet {{_ 'filter-column-age-hint'}}
+     button.primary(type="submit") {{_ 'apply'}}
+   hr
+@@ -289,7 +291,7 @@ template(name="filterSidebar")
+     .filter-provider(data-provider-id=id)
+       +Template.dynamic(template=template data=data)
+   h3 {{_ 'advanced-filter-label'}}
+-  input.js-field-advanced-filter(type="text" value=Filter.advanced.value)
++  input.js-field-advanced-filter(type="text" value=Filter.advanced.value aria-label="{{_ 'advanced-filter-label'}}")
+   span {{_ 'advanced-filter-description'}}
+   p.quiet {{_ 'advanced-filter-card-dates-hint'}}
+   if Filter.isActive
+diff --git a/client/components/swimlanes/swimlanes.css b/client/components/swimlanes/swimlanes.css
+index a398654147..a0c13e7a6f 100644
+--- a/client/components/swimlanes/swimlanes.css
++++ b/client/components/swimlanes/swimlanes.css
+@@ -269,7 +269,7 @@
+   color: #fff !important;
+ }
+ .swimlane-magenta {
+-  background: #f0f !important;
++  background: #c200c2 !important;
+   color: #fff !important;
+ }
+ .swimlane-gold {
+@@ -417,14 +417,14 @@ body.swimlane-resizing-active * {
+    `outline`, not `border` or `box-shadow`: it is drawn outside the box and so
+    moves neither the swimlane's rows nor the list's cards by a pixel. */
+ .is-revealed {
+-  outline: 3px solid #2980b9;
++  outline: 3px solid #2573a6;
+   outline-offset: -3px;
+   animation: wekan-reveal-fade 2s ease-out forwards;
+ }
+ 
+ @keyframes wekan-reveal-fade {
+-  0% { outline-color: #2980b9; }
+-  70% { outline-color: #2980b9; }
++  0% { outline-color: #2573a6; }
++  70% { outline-color: #2573a6; }
+   100% { outline-color: transparent; }
+ }
+ 
+diff --git a/client/components/users/dependencyMenu.jade b/client/components/users/dependencyMenu.jade
+index 581c899b81..fc263e4162 100644
+--- a/client/components/users/dependencyMenu.jade
++++ b/client/components/users/dependencyMenu.jade
+@@ -2,11 +2,11 @@
+ //- Design: docs/Features/Editor/RedStrings/Board-And-My-Dependencies.md
+ template(name="memberDependencyMenuItems")
+   li
+-    a.js-toggle-my-dependencies(role="menuitemcheckbox" aria-checked="{{#if showMyDependencies}}true{{else}}false{{/if}}")
++    a.js-toggle-my-dependencies(role="checkbox" tabindex="0" aria-checked="{{#if showMyDependencies}}true{{else}}false{{/if}}")
+       i.fa(class="{{#if showMyDependencies}}fa-check-square-o{{else}}fa-square-o{{/if}}")
+       | {{_ 'show-my-dependencies'}}
+   li
+-    a.js-toggle-board-dependencies(role="menuitemcheckbox" aria-checked="{{#if showBoardDependencies}}true{{else}}false{{/if}}")
++    a.js-toggle-board-dependencies(role="checkbox" tabindex="0" aria-checked="{{#if showBoardDependencies}}true{{else}}false{{/if}}")
+       i.fa(class="{{#if showBoardDependencies}}fa-check-square-o{{else}}fa-square-o{{/if}}")
+       | {{_ 'show-board-dependencies'}}
+   li
+diff --git a/client/components/users/dependencyMenu.js b/client/components/users/dependencyMenu.js
+index 4fa495e598..bfa9703dee 100644
+--- a/client/components/users/dependencyMenu.js
++++ b/client/components/users/dependencyMenu.js
+@@ -29,6 +29,12 @@ Template.memberDependencyMenuItems.events({
+     event.preventDefault();
+     Meteor.callAsync('setDependencyVisibility', 'board', !dependencyVisibility().board).catch(() => {});
+   },
++  // Checkbox semantics without <input>: Enter/Space toggles like a real one.
++  'keydown .js-toggle-my-dependencies, keydown .js-toggle-board-dependencies'(event) {
++    if (event.key !== 'Enter' && event.key !== ' ') return;
++    event.preventDefault();
++    event.currentTarget.click();
++  },
+   'click .js-import-member-dependencies': Popup.open('importMemberDependencies'),
+   'click .js-export-member-dependencies': Popup.open('exportMemberDependencies'),
+ });
+diff --git a/client/components/users/userAvatar.css b/client/components/users/userAvatar.css
+index c749b548fc..44d6ec3839 100644
+--- a/client/components/users/userAvatar.css
++++ b/client/components/users/userAvatar.css
+@@ -133,7 +133,7 @@
+   display: flex;
+   align-items: center;
+   padding: 0 12px;
+-  color: #8c8c8c !important;
++  color: #616161 !important;
+ }
+ /* Outweighs .pop-over-list li > a:not(.disabled):hover, which would otherwise
+    paint the delete button with the generic blue row-hover colour. */
+@@ -142,7 +142,7 @@
+   background-color: #b04632;
+ }
+ .avatar-upload-hints {
+-  color: #8c8c8c;
++  color: #616161;
+   font-size: calc(12px * var(--wekan-ui-font-scale, 1));
+   line-height: calc(16px * var(--wekan-ui-font-scale, 1));
+   margin: 6px 0;
+diff --git a/client/components/users/userAvatar.jade b/client/components/users/userAvatar.jade
+index 28bb81bdae..99262c9926 100644
+--- a/client/components/users/userAvatar.jade
++++ b/client/components/users/userAvatar.jade
+@@ -1,5 +1,5 @@
+ template(name="userAvatar")
+-  a.member(class="js-{{#if assignee}}assignee{{else}}member{{/if}} {{memberAccountClass}}" title="{{#if userData}}{{userData.profile.fullname}} ({{userData.username}}) {{_ memberType}}{{#if isImportedMember}} — {{_ 'imported-member-no-account'}}{{else}}{{#if isInactiveMember}} — {{_ 'inactive-member'}}{{/if}}{{/if}}{{/if}}")
++  a.member(class="js-{{#if assignee}}assignee{{else}}member{{/if}} {{memberAccountClass}}" title="{{#if userData}}{{userData.profile.fullname}} ({{userData.username}}) {{_ memberType}}{{#if isImportedMember}} — {{_ 'imported-member-no-account'}}{{else}}{{#if isInactiveMember}} — {{_ 'inactive-member'}}{{/if}}{{/if}}{{else}}{{_ 'members'}}{{/if}}")
+     if userData
+       if userData.profile.avatarUrl
+         img.avatar.avatar-image(src="{{avatarUrl}}" alt="")
+diff --git a/client/components/users/userForm.css b/client/components/users/userForm.css
+index 58a2914fa5..eb35582c3d 100644
+--- a/client/components/users/userForm.css
++++ b/client/components/users/userForm.css
+@@ -192,7 +192,8 @@ body.mobile-mode.userform-layout {
+     margin-bottom: 0px;
+     border: 0px;
+   }
+-  .auth-layout .auth-dialog .at-form .at-title h3 {
++  .auth-layout .auth-dialog .at-form .at-title h3,
++  .auth-layout .auth-dialog .at-form .at-title h2 {
+     width: calc(100% - 125px);
+     overflow-x: hidden;
+   }
+diff --git a/client/components/users/userHeader.jade b/client/components/users/userHeader.jade
+index 850f9eba8f..ecd4c72ac1 100644
+--- a/client/components/users/userHeader.jade
++++ b/client/components/users/userHeader.jade
+@@ -1,8 +1,15 @@
+ template(name="headerUserBar")
+   #header-user-bar
+-    a.header-user-bar-name.js-open-header-member-menu(title="{{_ 'memberMenuPopup-title'}}")
+-      .header-user-bar-avatar
+-        +userAvatar(userId=currentUser._id)
++    a.header-user-bar-name.js-open-header-member-menu(title="{{memberMenuAccessibleName}}")
++      //- The avatar inside the link is decorative: the username text beside it
++        already names the account, and +userAvatar renders its own anchor, which
++        would nest links. aria-hidden keeps its SVG initials out of the
++        link's visible-text computation for the accessible name.
++      .header-user-bar-avatar(aria-hidden="true")
++        if currentUser.profile.avatarUrl
++          img.avatar.avatar-image(src="{{currentUser.profile.avatarUrl}}" alt="")
++        else
++          +userAvatarInitials(userId=currentUser._id)
+       unless isMiniScreen
+         unless isSandstorm
+           if currentUser.profile.fullname
+@@ -15,7 +22,8 @@ template(name="memberMenuPopup")
+     with currentUser
+       //- #6732: at the top - Show My / Show Board Dependencies, Import, Export.
+       +memberDependencyMenuItems
+-      hr
++      li(aria-hidden="true")
++        hr
+       li
+         a.js-my-cards(href="{{pathFor 'my-cards'}}")
+           i.fa.fa-list
+@@ -55,11 +63,10 @@ template(name="memberMenuPopup")
+             i.fa.fa-question-circle
+             | {{_ 'help'}}
+       unless currentUser.isWorker
+-        ul.pop-over-list
+-          li
+-            a(href="{{pathFor 'allboards-templates'}}")
+-              i.fa.fa-list
+-              | {{_ 'templates'}}
++        li
++          a(href="{{pathFor 'allboards-templates'}}")
++            i.fa.fa-list
++            | {{_ 'templates'}}
+       //- Multitenancy option D (D.7): the Admin Panel link is also for a per-tenant
+       //- Global Admin, whose panel is the same one with only their own
+       //- Organization's panes in it. A site admin lands on Settings as before; a
+@@ -75,7 +82,8 @@ template(name="memberMenuPopup")
+           a.js-go-setting(href="{{pathFor 'people'}}")
+             i.fa.fa-lock
+             | {{_ 'admin-panel'}}
+-      hr
++      li(aria-hidden="true")
++        hr
+       if isSameDomainNameSettingValue
+         li
+           a.js-invite-people
+diff --git a/client/components/users/userHeader.js b/client/components/users/userHeader.js
+index 2fbc2d4133..73de02c603 100644
+--- a/client/components/users/userHeader.js
++++ b/client/components/users/userHeader.js
+@@ -12,6 +12,17 @@ import { detectAvailableFonts } from '/client/lib/fontDetector';
+ import { fontFamilyValue, fontSizeValue, UI_FONT_SIZES, isHexColor6, colorValue } from '/models/lib/uiFonts';
+ const { allBoardsPath, SECTION_ARCHIVE } = require('/models/lib/allBoardsUrls');
+ 
++Template.headerUserBar.helpers({
++  // The visible label is the member's name; the accessible name must contain
++  // it, so the popup title follows it rather than replacing it.
++  memberMenuAccessibleName() {
++    const user = Meteor.user();
++    if (!user) return TAPi18n.__('memberMenuPopup-title');
++    const name = (user.profile && user.profile.fullname) || user.username || '';
++    return `${name} — ${TAPi18n.__('memberMenuPopup-title')}`;
++  },
++});
++
+ Template.headerUserBar.events({
+   'click .js-open-header-member-menu': Popup.open('memberMenu'),
+   'click .js-change-avatar': Popup.open('changeAvatar'),
+diff --git a/models/lib/pageTitles.js b/models/lib/pageTitles.js
+index 7a5e1c4347..820fbf6579 100644
+--- a/models/lib/pageTitles.js
++++ b/models/lib/pageTitles.js
+@@ -37,8 +37,13 @@ const PAGE_TITLE_KEYS = {
+   'starred-items': 'allboards.starred',
+   'broken-cards': 'broken-cards',
+   accessibility: 'accessibility',
+-  // Import names its source, so this key is only the fallback.
++  // Import names its source, so this key is only the fallback. `import-start`
++  // is the route at the /import entry point; without it the heading rendered
++  // empty on the import landing page.
++  'import-start': 'import',
+   import: 'import',
++  // The /b/templates board container - its route name is not "templates".
++  'template-container': 'template-container',
+ };
+ 
+ // A second segment, after the page's own name: "Admin Panel / Settings".
+@@ -60,7 +65,7 @@ const PAGE_TITLE_SUBKEYS = {
+ 
+ // The route names that ARE a board. On those the title is the board's own, so
+ // there is no key to resolve - the caller reads the board.
+-const BOARD_ROUTES = ['board', 'card', 'boardCard', 'board-rules'];
++const BOARD_ROUTES = ['board', 'board-short', 'card', 'boardCard', 'board-rules'];
+ 
+ function pageTitleKey(routeName) {
+   return Object.prototype.hasOwnProperty.call(PAGE_TITLE_KEYS, routeName)
+@@ -99,7 +104,9 @@ function headerTitle(routeName, boardTitle, customTitle) {
+     if (typeof text === 'string' && text.trim()) return { title: text };
+   }
+   const key = pageTitleKey(routeName);
+-  if (!key) return { };
++  // A board route renders "Board not found" when the id resolves to nothing -
++  // say that in the heading instead of leaving it empty.
++  if (!key) return isBoardRoute(routeName) ? { key: 'board-not-found' } : {};
+   // The sub-key rides along with the key, never with a title: a board's title
+   // or a custom one IS the whole name of that page, so there is nothing to put
+   // after a slash.
+diff --git a/models/lib/tablePage.js b/models/lib/tablePage.js
+index c22acb024c..d5e7008b1d 100644
+--- a/models/lib/tablePage.js
++++ b/models/lib/tablePage.js
+@@ -206,6 +206,11 @@ export function buildFilters(filters, current) {
+   return list.filter(Boolean).map(filter => ({
+     id: filter.id || '',
+     labelKey: filter.labelKey || '',
++    // Specs that name their filter with a literal string rather than a
++    // translation key (e.g. `{ label: 'Permission' }` on the problems reports):
++    // carry it so the rendered <select> can be named after it - {{_ ''}}
++    // resolves to an EMPTY string, which is how a select ends up nameless.
++    label: filter.label || '',
+     options: (Array.isArray(filter.options) ? filter.options : [])
+       .filter(Boolean)
+       .map(option => ({
+diff --git a/models/lib/themeAccents.js b/models/lib/themeAccents.js
+index 154cc32c44..d9935d2d36 100644
+--- a/models/lib/themeAccents.js
++++ b/models/lib/themeAccents.js
+@@ -17,34 +17,34 @@
+ // parses that stylesheet and fails if the two ever disagree, so a new theme cannot
+ // be added in CSS alone and quietly fall back to blue.
+ const THEME_ACCENTS = {
+-  belize: '#2980b9',
+-  nephritis: '#27ae60',
++  belize: '#2573a6',
++  nephritis: '#1c7d45',
+   pomegranate: '#c0392b',
+-  pumpkin: '#e67e22',
++  pumpkin: '#a35918',
+   wisteria: '#8e44ad',
+-  moderatepink: '#cd5a91',
+-  strongcyan: '#00aecc',
+-  limegreen: '#4bbf6b',
++  moderatepink: '#ae4c7b',
++  strongcyan: '#00788d',
++  limegreen: '#317c46',
+   midnight: '#2c3e50',
+   dark: '#2c3e51',
+-  relax: '#27ae61',
+-  corteza: '#568ba2',
++  relax: '#1c7d46',
++  corteza: '#477386',
+   appleglasspastel: '#2563eb',
+   // The MAIN header bar's colour. It read #2d8ce7 - the quick-access bar's
+   // separate, lighter shade - because the guard that derives these matched
+   // `#header-quick-access` as well as `#header`. The two bars are one colour
+   // now, and it is this one.
+-  clearblue: '#00aecc',
++  clearblue: '#00788d',
+   // The other colour slides. Each publishes the BOTTOM of its own slide, the
+   // way clearblue publishes #00aecc: a variable holds a colour and a gradient
+   // is not one, so what everything outside a board reads is the solid end.
+-  cleargreen: '#4bbf6b',
+-  clearorange: '#e67e22',
+-  clearpink: '#cd5a91',
++  cleargreen: '#317c46',
++  clearorange: '#a35918',
++  clearpink: '#ae4c7b',
+   clearpurple: '#8e44ad',
+   clearred: '#c0392b',
+   natural: '#596557',
+-  modern: '#2a80b8',
++  modern: '#2673a6',
+   moderndark: '#2a2a2a',
+   exodark: '#222',
+   cleandark: '#2E2E39',
+@@ -84,10 +84,10 @@ function activeAccent(color, customColors) {
+ // fill IS its accent. MIRRORS boardColors.css, and a guard fails if they ever
+ // disagree - the same arrangement THEME_ACCENTS has.
+ const THEME_SLIDES = {
+-  clearblue: ['#499bea', '#00aecc'],
+-  cleargreen: ['#8ad59f', '#4bbf6b'],
+-  clearorange: ['#efab6f', '#e67e22'],
+-  clearpink: ['#df94b8', '#cd5a91'],
++  clearblue: ['#499bea', '#00788d'],
++  cleargreen: ['#8ad59f', '#317c46'],
++  clearorange: ['#efab6f', '#a35918'],
++  clearpink: ['#df94b8', '#ae4c7b'],
+   clearpurple: ['#b685ca', '#8e44ad'],
+   clearred: ['#d67e75', '#c0392b'],
+ };
+diff --git a/models/server/buildUnicodePdf.js b/models/server/buildUnicodePdf.js
+index 5a83bf5dbc..aa2af6e2ea 100644
+--- a/models/server/buildUnicodePdf.js
++++ b/models/server/buildUnicodePdf.js
+@@ -105,7 +105,7 @@ function buildUnicodePdf(rawLines, fonts) {
+           for (let part = 0; part < 6; part += 1) {
+             const x = PAGE_MARGIN + part * cellWidth;
+             pdf.save().lineWidth(0.5).rect(x, y - 2, cellWidth, LINE_HEIGHT);
+-            if (part < filled) pdf.fillAndStroke('#2980b9', '#000000');
++            if (part < filled) pdf.fillAndStroke('#2573a6', '#000000');
+             else pdf.stroke('#000000');
+             pdf.restore();
+           }

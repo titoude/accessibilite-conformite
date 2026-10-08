@@ -1,0 +1,195 @@
+{
+ "cycle": 39,
+ "produit": "wekan",
+ "statut_execution": "complet",
+ "target": {
+  "repo": "https://github.com/wekan/wekan",
+  "sha": "6c95ad716d5c0c390741a98900b06a5798d5992d",
+  "stack": "Meteor 3.6-beta.3 + Blaze (.jade) + MongoDB 6 replicaSet — bundler rspack dev ; servi par `meteor run` (recompilation à chaud) — première stack Meteor/Blaze de la boucle"
+ },
+ "baseline": {
+  "surfaces": 51,
+  "etats": 14,
+  "violations_occ": 955,
+  "violations_regles": 17,
+  "detail": {
+   "color-contrast": 579,
+   "label-content-name-mismatch": 121,
+   "page-has-heading-one": 12,
+   "scrollable-region-focusable": 1,
+   "link-name": 18,
+   "target-size": 95,
+   "aria-allowed-role": 58,
+   "label": 24,
+   "nested-interactive": 8,
+   "aria-prohibited-attr": 1,
+   "label-title-only": 3,
+   "select-name": 4,
+   "heading-order": 3,
+   "list": 4,
+   "aria-required-parent": 2,
+   "empty-heading": 3,
+   "landmark-one-main": 3,
+   "region": 9
+  },
+  "public": {
+   "violations_occ": 23,
+   "violations_regles": 6,
+   "detail": {
+    "empty-heading": 3,
+    "heading-order": 3,
+    "landmark-one-main": 3,
+    "region": 9,
+    "color-contrast": 4,
+    "target-size": 1
+   }
+  },
+  "auth": {
+   "violations_occ": 932,
+   "violations_regles": 15,
+   "detail": {
+    "color-contrast": 579,
+    "label-content-name-mismatch": 121,
+    "page-has-heading-one": 12,
+    "scrollable-region-focusable": 1,
+    "link-name": 18,
+    "target-size": 95,
+    "aria-allowed-role": 58,
+    "label": 24,
+    "nested-interactive": 8,
+    "aria-prohibited-attr": 1,
+    "label-title-only": 3,
+    "select-name": 4,
+    "heading-order": 2,
+    "list": 4,
+    "aria-required-parent": 2
+   },
+   "pages": 46
+  },
+  "erreurs": 0,
+  "incomplets": 386,
+  "note": "baseline-auth = 46 scans (30 urls + 16 états→voir audit.mjs v8-wekan : 14 STATES sur urls boards/allboards + 2 scans de ces urls propres). Périmètre élargi APRES premier final : les 51 panes admin/url complémentaires jamais scannés ont révélé une 2e vague (5 règles / 113 occ) — corrigée, incluse dans final (100 scans)."
+ },
+ "final": {
+  "surfaces": 91,
+  "scans": 105,
+  "etats": 14,
+  "violations_occ": 0,
+  "violations_regles": 0,
+  "erreurs": 0,
+  "incomplets": 848,
+  "public": {
+   "pages": 5,
+   "violations_occ": 0,
+   "incomplets": 0
+  },
+  "auth": {
+   "pages": 100,
+   "violations_occ": 0,
+   "incomplets": 848
+  },
+  "note": "final-public : 5 scans 0/0/0/0 ; final-auth : 100 scans (86 urls + 14 states) 0/0/0/848 — le périmètre auth passe de 46 à 100 scénarios après l'inventaire complet des panes admin"
+ },
+ "incomplete_probes": {
+  "sondes": 848,
+  "conformes": 792,
+  "non_conformes": 0,
+  "non_retrouvees": 0,
+  "n_a_honnetes": 56,
+  "detail": "848 sondes mesurées pixel-vrai : 792 conformes, 56 pass:null justifiés (glyphes/initiales entièrement aria-hidden — accName seul, non mesurables vs texte visible). 0 non-conforme : label-content-name-mismatch mesuré par sonde custom (accName vs texte visible réduit)."
+ },
+ "final_clean_clone": {
+  "violations_occ": 0,
+  "note": "clone vierge ~/work/wekan-ib @6c95ad71 + git apply patch.diff (61 fichiers, 0 rejet) + meteor npm install + meteor run :5581 (même db mongo seedée) — rescan : public 5/0/0/0, auth 100 scans 0/0/0/848 (identique au dev), verify.mjs rejoué sur :5581 = 61/61."
+ },
+ "verify_mjs": "61 assertions : 61 PASS / 0 N-A / 0 FAIL (dev :5580 et clone ib :5581)",
+ "eval_final_mjs": "45/45 contrôles indépendants (4 N-A honnêtes : boutons natifs 0/0 — UI pilotée par ancres ; hérités d'idiomes wekan)",
+ "install_build": "OK — clone vierge + patch + meteor npm install + boot :5581 + rescan 0 viol 105 scans + verify 61/61",
+ "causes_racines": [
+  {
+   "famille": "contraste (color-contrast 579 occ auth + 4 public)",
+   "files": [
+    "client/components/main/header.css",
+    "client/components/boards/boardsList.css",
+    "client/components/sidebar/sidebar.css",
+    "client/components/cards/cardDate.css",
+    "client/components/settings/settingBody.css",
+    "client/components/settings/attachments.css",
+    "boardColors.css",
+    "userForm.css"
+   ],
+   "fix": "tokens/hex sous 4.5:1 remontés (ex .ldap-source-badge #767676→#595959 ~7:1, .cloud-input-* #888/#6a737d→#595959) ; fonds translucides mesurés pixel-vrai (leçon 31)"
+  },
+  {
+   "famille": "label-content-name-mismatch (121 occ) — leçon 29",
+   "files": [
+    "client/components/main/header.jade",
+    "client/components/cards/cardDetails.jade",
+    "client/components/sidebar/sidebar.jade + sidebarFilters.jade",
+    "client/components/users/userHeader.jade",
+    "dependencyMenu.jade"
+   ],
+   "fix": "aria-label/title contiennent le texte visible (`${visible} — ${detail}`) ; copyTitleInAriaLabel upstream propagé partout où le title existait sans aria-label"
+  },
+  {
+   "famille": "cibles < 24×24 px (target-size 95 occ + 1 public)",
+   "files": [
+    "client/components/cards/minicard + cardDetails.css/js",
+    "client/components/sidebar/sidebar.css",
+    "client/components/main/popup.css",
+    "peopleBody.css"
+   ],
+   "fix": "min-width/min-height 24px + line-height/inline-block sur ancres-icônes (.js-org-feature-all, .js-team-feature-all, .js-notify-option, poignées, menus liste) — WCAG 2.5.8"
+  },
+  {
+   "famille": "champs sans nom (label 24, select-name 4+étendu, label-title-only 3)",
+   "files": [
+    "client/components/settings/settingBody.jade",
+    "client/components/settings/attachments.jade",
+    "client/components/settings/peopleBody.jade",
+    "client/components/settings/tablePage.jade + models/lib/tablePage.js",
+    "sidebar.jade outgoingWebhooksPopup"
+   ],
+   "fix": "idiome amont : label.title(for=id) pour les lignes stylées .title ; aria-label `{{_ cle-i18n}}` pour les contrôles sans id ; buildFilters transporte label littéral + `{{#if labelKey}}{{_ labelKey}}{{else}}{{label}}{{/if}}`"
+  },
+  {
+   "famille": "structure/landmarks (region 9 public, landmark-one-main, empty-heading, page-has-heading-one 12, heading-order, list 4)",
+   "files": [
+    "client/components/main/layouts.jade/.css/.js",
+    "header.jade",
+    "boardsList.css/jade",
+    "settings/*.jade h3→h2",
+    "models/lib/pageTitles.js"
+   ],
+   "fix": "main unique + regions nommées ; h1 réel par page (admin pane h1.admin-pane-title → contenus en h2) ; ul/li restaurés"
+  },
+  {
+   "famille": "rôles/attributs aria (aria-allowed-role 58, nested-interactive 8, aria-required-parent 2, aria-prohibited-attr 1, aria-valid-attr-value)",
+   "files": [
+    "client/components/sidebar/sidebar.js/jade",
+    "cardDetails.js",
+    "dependencyMenu.js",
+    "userHeader.js",
+    "themeAccents.js",
+    "models/lib/tablePage.js"
+   ],
+   "fix": "rôles retirés des ancres interactives natives, parent/children rétablis, aria-expanded via {{#if}}true{{else}}false{{/if}} (Blaze rend vide sur false)"
+  },
+  {
+   "famille": "scrollable-region-focusable (1) + link-name (18)",
+   "files": [
+    "client/components/main/layouts.css",
+    "header.jade",
+    "boardsList.jade"
+   ],
+   "fix": "tabindex=0 sur régions scrollables ; aria-labels sur ancres icon-only"
+  }
+ ],
+ "patch": {
+  "fichiers": 61,
+  "lignes": 3569,
+  "sha256": "cf. patch.diff.sha256"
+ },
+ "verdict": null,
+ "note_verdict": "PAS d'auto-verdict (protocole) — l'auditeur indépendant rejoue tout."
+}

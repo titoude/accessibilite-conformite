@@ -1,0 +1,172 @@
+# Audit accessibilité — 2026-10-07
+
+**0 règle(s) violée(s), 0 occurrence(s), 27/27 scénario(s) audité(s), 0 erreur(s), 367 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `a7ae8dd078ee`
+
+## Résultats incomplets à revoir (367)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:5580/admin/people/login
+  - `label[for="auth-loginExpirationInDays"]`
+  - `.accounts-form:nth-child(3) > .form-group > .ldap-source-badge`
+  - `.description`
+- http://localhost:5580/admin/people/saml
+  - `label[for="auth-idpSLORedirectURL"]`
+  - `.accounts-form:nth-child(6) > .form-group > .ldap-source-badge`
+  - `label[for="auth-privateKeyFile"]`
+  - `.accounts-form:nth-child(7) > .form-group > .ldap-source-badge`
+  - `label[for="auth-publicCertFile"]`
+  - `.accounts-form:nth-child(8) > .form-group > .ldap-source-badge`
+  - `label[for="auth-identifierFormat"]`
+  - `.accounts-form:nth-child(9) > .form-group > .ldap-source-badge`
+  - `.accounts-form:nth-child(10) > label`
+  - `.accounts-form:nth-child(10) > .form-group > .ldap-source-badge`
+  - … +15 autres
+- http://localhost:5580/admin/people/ldap
+  - `label[for="auth-rejectUnauthorized"]`
+  - `.accounts-form:nth-child(6) > .form-group > .ldap-source-badge`
+  - `label[for="auth-baseDN"]`
+  - `.accounts-form:nth-child(7) > .form-group > .ldap-source-badge`
+  - `label[for="auth-authentication"]`
+  - `.accounts-form:nth-child(8) > .form-group > .ldap-source-badge`
+  - `label[for="auth-authentificationUserDN"]`
+  - `.accounts-form:nth-child(9) > .form-group > .ldap-source-badge`
+  - `label[for="auth-bindPassword"]`
+  - `.description`
+  - … +96 autres
+- http://localhost:5580/admin/people/oidc
+  - `label[for="auth-serverUrl"]`
+  - `.accounts-form:nth-child(7) > .form-group > .ldap-source-badge`
+  - `label[for="auth-authEndpoint"]`
+  - `.accounts-form:nth-child(8) > .form-group > .ldap-source-badge`
+  - `label[for="auth-userinfoEndpoint"]`
+  - `.accounts-form:nth-child(9) > .form-group > .ldap-source-badge`
+  - `label[for="auth-tokenEndpoint"]`
+  - `.accounts-form:nth-child(10) > .form-group > .ldap-source-badge`
+  - `label[for="auth-logoutEndpoint"]`
+  - `.accounts-form:nth-child(11) > .form-group > .ldap-source-badge`
+  - … +42 autres
+- http://localhost:5580/admin/people/header-login
+  - `.accounts-form:nth-child(6) > .form-group > .ldap-source-badge`
+- http://localhost:5580/admin/people/oauth
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .title`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="facebook"] > span:nth-child(2)`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="facebook"] > .ldap-source-badge`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(3) > label`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(3) > .ldap-source-badge`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(4) > label`
+  - `.js-oauth-provider.accounts-form[data-provider="facebook"] > .form-group:nth-child(4) > .description`
+  - `.js-oauth-provider.accounts-form[data-provider="twitter"] > .title`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="twitter"] > span:nth-child(2)`
+  - `.js-toggle-oauth-provider-enabled.flex[data-provider="twitter"] > .ldap-source-badge`
+  - … +29 autres
+- http://localhost:5580/admin/people/email
+  - `label[for="email-template-activity-body"]`
+  - `.smtp-form:nth-child(8) > .description`
+  - `label[for="mailDomainNamevalue"]`
+  - `.js-toggle-allow-email-change > span`
+- http://localhost:5580/admin/people/domains
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+- http://localhost:5580/admin/people/organizations
+  - `.new-org`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+- http://localhost:5580/admin/people/teams
+  - `.new-team`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+  - `th:nth-child(8)`
+  - `th:nth-child(9)`
+  - `th:nth-child(10)`
+- http://localhost:5580/admin/problems/boards
+  - `th:nth-child(1)`
+  - `th:nth-child(2)`
+  - `th:nth-child(3)`
+  - `th:nth-child(4)`
+  - `th:nth-child(5)`
+  - `th:nth-child(6)`
+  - `th:nth-child(7)`
+- http://localhost:5580/admin/problems/recovery
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(1)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(2)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(3)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(4)`
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(5)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(1)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(2)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(3)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(4)`
+  - `.activity-notification-recovery-reports > .table-page > .table-page-table-wrap > table > thead > tr > th:nth-child(5)`
+  - … +35 autres
+- http://localhost:5580/admin/attachments/continuous-backup
+  - `.form-group:nth-child(12) > label`
+  - `.form-group:nth-child(13) > label`
+  - `h2:nth-child(15)`
+  - `.js-cb-state`
+  - `p:nth-child(17)`
+  - `h2:nth-child(18)`
+- http://localhost:5580/admin/attachments/s3
+  - `.form-group:nth-child(7) > .cloud-input-example`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(8)`
+  - `label[for="s3-access-key"]`
+  - `.form-group:nth-child(8) > .cloud-input-label-tr`
+  - `.form-group:nth-child(8) > .cloud-input-example`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(6)`
+  - … +11 autres
+- http://localhost:5580/admin/attachments/azure
+  - `.form-group:nth-child(6) > .cloud-input-example`
+  - `.form-group:nth-child(6) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(6) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(6) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(6) > .cloud-input-path:nth-child(8)`
+  - `label[for="azure-bucket"]`
+  - `.form-group:nth-child(7) > .cloud-input-label-tr`
+  - `.form-group:nth-child(7) > .cloud-input-example`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(6)`
+  - … +2 autres
+- http://localhost:5580/admin/attachments/gcs
+  - `.form-group:nth-child(7) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(7) > .cloud-input-path:nth-child(8)`
+  - `label[for="gcs-key-filename"]`
+  - `.form-group:nth-child(8) > .cloud-input-label-tr`
+  - `.form-group:nth-child(8) > .cloud-input-example`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(5)`
+  - `.form-group:nth-child(8) > .cloud-input-desc:nth-child(6)`
+  - `.form-group:nth-child(8) > .cloud-input-path:nth-child(7)`
+  - `.form-group:nth-child(8) > .cloud-input-path:nth-child(8)`
+  - … +8 autres
+
+### th-has-data-cells — Table headers in a data table must refer to data cells
+
+- http://localhost:5580/admin/people/organizations
+  - `table`
+- http://localhost:5580/admin/people/teams
+  - `table`
+- http://localhost:5580/admin/problems/recovery
+  - `.email-recovery-reports > .table-page > .table-page-table-wrap > table`
+  - `.sync-rule-email-recovery-reports > .table-page > .table-page-table-wrap > table`
+  - `.sync-recovery-reports > .table-page > .table-page-table-wrap > table`
+  - `.main-body > .table-page > .table-page-table-wrap > table`
+
