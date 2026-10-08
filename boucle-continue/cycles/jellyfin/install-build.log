@@ -1,0 +1,31 @@
+# install-build — cycle 41 jellyfin-web @1e507c58
+
+## Étapes rejouées
+1. `git clone https://github.com/jellyfin/jellyfin-web ~/work/jf41-ib`
+2. `git checkout 1e507c588f353482a00333f84e36ddb7c8fc8221`
+3. `git apply cycles/jellyfin/patch.diff` → 59 fichiers modifiés, **0 rejet**
+4. `npm ci` (node 24.19.0, npm 11.21.0 — engines exige npm>=11) → EXIT=0
+5. `npm run build:production` → webpack 5.109.0 compiled, dist/ émise (aucune retouche du build amont)
+6. `bash tools/seed.sh 5962 ~/work/jf41-ib/dist` → purge volumes + `docker run -d --name jf41-5962 -p 5962:8096 -v <config>:/config -v <cache>:/cache -v tools/seed-media:/media:ro -v ~/work/jf41-ib/dist:/jellyfin/jellyfin-web:ro jellyfin/jellyfin:latest` + wizard API + 2 bibliothèques + env.sh → seed OK
+7. `node tools/login.mjs http://localhost:5962 auth-5962.json` → storageState OK
+8. `node tools/reset-theme.mjs http://localhost:5962 tools/auth-5962.json dark` → theme=dark relu serveur
+9. `node tools/audit.mjs http://localhost:5962/web/index.html --urls <urls-auth.txt> --states <15 états> --storage-state tools/auth-5962.json --wait-for '.page:not(.hide)' --wait 1200 --keep-hash --out reports/install-auth`
+   → **0 règle violée, 0 occurrence, 0 erreur, 322 incomplets** (76 scénarios)
+10. `node tools/audit.mjs http://localhost:5962/web/index.html --urls <urls-public-server.txt> --states forgot-password-form --storage-state tools/public.json --wait-for '.page:not(.hide) input' --wait 1500 --keep-hash --out reports/install-public`
+    → **0 violation, 0 erreur, 0 incomplet** (2 scénarios)
+11. `node tools/verify.mjs http://localhost:5962 auth-5962.json` (depuis tools/) → **19/19 PASS**
+
+## Conclusion
+Le patch s'applique sur un clone vierge @SHA (0 rejet), le build production
+amont (npm ci + webpack) produit une dist montée telle quelle dans le conteneur
+officiel, le seed rejoue à l'identique (ids d'items déterministes), et le
+rescan complet confirme 0 violation axe — reproductible.
+
+## Divergence corrigée en cours de route
+Le premier rescan install-build a révélé une violation réelle ABSENTE du périmètre
+de dev : `color-contrast` blanc 2.86 sur `.defaultCardBackground3 #00a4db` — la
+carte « Active Sessions » n'apparaît qu'avec une session live (l'audit lui-même
+compte comme session → déterministe en install-build, pas en dev où la session
+seed avait expiré). Correction dans les vraies sources : `dark/theme.scss`
+(dcb2 #44bae1→#1a7898, dcb3 #00a4db→#0076a0) et `light/theme.scss` (dcb4
+#388e3c→#43a047 pour le texte sombre). Rescan → 0 violation.

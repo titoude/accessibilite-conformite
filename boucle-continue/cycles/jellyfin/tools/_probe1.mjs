@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const b = 'http://localhost:5961';
+const browser = await chromium.launch();
+const page = await browser.newPage();
+await page.goto(b + '/web/index.html', { waitUntil: 'domcontentloaded', timeout: 45000 });
+await page.waitForTimeout(8000);
+console.log('URL:', page.url());
+console.log('TITLE:', await page.title());
+const html = await page.evaluate(() => document.body.innerHTML.slice(0, 3000));
+console.log('BODY:', html.replace(/\s+/g,' ').slice(0,2500));
+await browser.close();

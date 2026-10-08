@@ -1,0 +1,1503 @@
+# Audit accessibilité — 2026-10-07
+
+**16 règle(s) violée(s), 763 occurrence(s), 76/76 scénario(s) audité(s), 0 erreur(s), 343 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `3ff5f469c724`
+
+## [CRITICAL] image-alt — Images must have alternative text
+
+Ensure <img> elements have alternative text or a role of none or presentation
+Référence : https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard
+  - `.css-1j3tjfb`
+- http://localhost:5961/web/index.html#/dashboard/settings
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/libraries/display
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/libraries/metadata
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/libraries/nfo
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.css-1j3tjfb`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/livetv
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/logs
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/networking
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/playback/resume
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/playback/streaming
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/playback/trickplay
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/plugins
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/tasks
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/users/add
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/profile
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/access
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/parentalcontrol
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/password
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/backups
+  - `img`
+- http://localhost:5961/web/index.html#/dashboard/branding
+  - `img`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `img`
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `img`
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `img`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard
+  - `.MuiIconButton-sizeMedium`
+- http://localhost:5961/web/index.html#/dashboard/settings
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(5) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(6) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardActionArea-root.css-fh2ueb[type="button"]`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-0.MuiBox-root > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardActionArea-root.css-fh2ueb[type="button"]`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-0.MuiBox-root > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.MuiIconButton-colorError.css-1kpyjhz.Mui-disabled`
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(3) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(4) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(5) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(10) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+- http://localhost:5961/web/index.html#/dashboard/networking
+  - `.MuiIconButton-edgeEnd`
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(11) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+  - `.MuiTextField-root.css-1pv2xcc.MuiFormControl-root:nth-child(12) > .MuiFilledInput-adornedEnd.MuiInputBase-adornedEnd.css-g193a2 > .MuiInputAdornment-root.MuiInputAdornment-positionEnd.MuiInputAdornment-filled > .MuiIconButton-edgeEnd.MuiIconButton-sizeMedium.css-uppqk1`
+- http://localhost:5961/web/index.html#/dashboard/tasks
+  - `.css-cdamzk.MuiStack-root:nth-child(1) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(1) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(2) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(3) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(4) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(5) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(6) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-cdamzk.MuiStack-root:nth-child(2) > .css-1m91j26.MuiList-padding > .css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(7) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(8) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.css-hpkoxu.MuiListItem-root.MuiListItem-gutters:nth-child(9) > .MuiListItemSecondaryAction-root.css-19bscgc > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - … +8 autres
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `.btnUserMenu`
+- http://localhost:5961/web/#/movies?tab=0 [state:view-settings-popover]
+  - `.css-1g4njem`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardActionArea-root.css-fh2ueb[type="button"]`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-0.MuiBox-root > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardActionArea-root.css-fh2ueb[type="button"]`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-0.MuiBox-root > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardActionArea-root.css-fh2ueb[type="button"]`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-0.MuiBox-root > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardActionArea-root.css-fh2ueb[type="button"]`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-0.MuiBox-root > .MuiIconButton-sizeMedium.css-mk0p0t.MuiIconButton-root`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:5961/web/index.html#/queue
+  - `.nowPlayingPositionSlider`
+  - `.nowPlayingVolumeSlider`
+- http://localhost:5961/web/index.html#/userprofile
+  - `#uploadImage`
+
+## [CRITICAL] aria-allowed-attr — Elements must only use supported ARIA attributes
+
+Ensure an element's role supports its ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-allowed-attr?application=axeAPI
+
+- http://localhost:5961/web/index.html#/metadata?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `#MediaFolders > .jstree-ocl`
+  - `#f137a2dd21bbc1b99aa5c0f6bf02a805 > .jstree-ocl`
+
+## [SERIOUS] list — <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+
+Ensure that lists are structured correctly
+Référence : https://dequeuniversity.com/rules/axe/4.14/list?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/settings
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries/display
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries/metadata
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries/nfo
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/livetv
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/logs
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/networking
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/resume
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/streaming
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/trickplay
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/plugins
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/tasks
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/users/add
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/profile
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/access
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/parentalcontrol
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/password
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/backups
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/index.html#/dashboard/branding
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `ul[aria-labelledby="advanced-subheader"]`
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `.css-q9gyaw`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:5961/web/index.html#/movies?tab=0
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/movies?tab=2
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/movies?tab=3
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/movies?tab=5
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/tv?tab=0
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/playlists
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/boxsets
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/homevideos
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/mixed
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/books
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/music
+  - `button[value="A"]`
+  - `button[value="B"]`
+- http://localhost:5961/web/index.html#/musicvideos
+  - `button[value="A"]`
+  - `button[value="B"]`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:5961/web/index.html#/metadata?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `#\34 df79bd2d5bbae21080a0524a2702d5a_anchor > .editorNode`
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `.MuiButton-outlined`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `.MuiTypography-inherit`
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `.cardContent`
+
+## [SERIOUS] aria-progressbar-name — ARIA progressbar nodes must have an accessible name
+
+Ensure every ARIA progressbar node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-progressbar-name?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(1) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(2) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(3) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(4) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(5) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(6) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+  - `.MuiListItem-padding.css-146xefr.MuiListItem-root:nth-child(7) > .MuiListItemText-multiline.css-9ac84v.MuiListItemText-root > .MuiListItemText-secondary[variant="body2"][color="textSecondary"] > .MuiLinearProgress-root.MuiLinearProgress-colorSuccess.MuiLinearProgress-determinate`
+
+## [SERIOUS] nested-interactive — Interactive controls must not be nested
+
+Ensure interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
+Référence : https://dequeuniversity.com/rules/axe/4.14/nested-interactive?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `.css-hpkoxu > .MuiListItemButton-root.MuiListItemButton-gutters[role="button"]`
+
+## [MODERATE] meta-viewport — Zooming and scaling must not be disabled
+
+Ensure <meta name="viewport"> does not disable text scaling and zooming
+Référence : https://dequeuniversity.com/rules/axe/4.14/meta-viewport?application=axeAPI
+
+- http://localhost:5961/web/index.html#/home
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/home?tab=1
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=0
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=1
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=2
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=3
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=4
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=5
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/movies?tab=6
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/tv?tab=0
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/tv?tab=1
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/livetv
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/playlists
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/boxsets
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/homevideos
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/mixed
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/books
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/music
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/musicvideos
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/search
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/quickconnect
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/queue
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/list?parentId=f137a2dd21bbc1b99aa5c0f6bf02a805&type=movies
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/details?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/details?id=a7cc2a4fb6f159ad3b5acbf3d0a690df
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/details?id=552f02dbdb46b79d1dc5a32f1d3ab1c0
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/metadata?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/userprofile
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/mypreferencesmenu
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/mypreferenceshome
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/mypreferencesplayback
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/mypreferencescontrols
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/mypreferencessubtitles
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/settings
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries/display
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries/metadata
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/libraries/nfo
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/livetv
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/logs
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/networking
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/resume
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/streaming
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/playback/trickplay
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/plugins
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/tasks
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/users/add
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/profile
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/access
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/parentalcontrol
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/password
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/backups
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/index.html#/dashboard/branding
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/home [state:nav-user-menu]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/movies?tab=0 [state:filter-popover]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/movies?tab=0 [state:sort-popover]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/movies?tab=0 [state:view-settings-popover]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/movies?tab=0 [state:card-context-menu]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/home [state:syncplay-menu]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/home [state:cast-menu]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-library-menu]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-rename-dialog]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-confirm-remove]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/home [state:theme-light]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/movies?tab=0 [state:theme-light-dialog]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `meta[name="viewport"]`
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `meta[name="viewport"]`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/settings
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/libraries/display
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/libraries/metadata
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/libraries/nfo
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/livetv
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/logs
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/networking
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/playback/resume
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/playback/streaming
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/playback/trickplay
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/index.html#/dashboard/plugins
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/tasks
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/users/add
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/profile
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/access
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/parentalcontrol
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/password
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/backups
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/index.html#/dashboard/branding
+  - `.css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `ul[aria-labelledby="livetv-subheader"]`
+  - `ul[aria-labelledby="plugins-subheader"]`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/keys"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/backups"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/dashboard/logs"] > .css-t3p1a1.MuiListItemText-root`
+  - … +1 autres
+- http://localhost:5961/web/#/home [state:nav-user-menu]
+  - `#app-user-menu > .MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper > .css-ubifyk > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(1) > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/mypreferencesmenu"] > .css-t3p1a1.MuiListItemText-root`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters[href$="#/dashboard"] > .css-t3p1a1.MuiListItemText-root`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters[href$="#/metadata"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href$="#/quickconnect"] > .css-t3p1a1.MuiListItemText-root`
+  - `#app-user-menu > .MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper > .css-ubifyk > li > .css-t3p1a1.MuiListItemText-root`
+- http://localhost:5961/web/#/movies?tab=0 [state:sort-popover]
+  - `.css-1wduhak > li:nth-child(1) > .css-t3p1a1.MuiListItemText-root`
+  - `.css-1wduhak > li:nth-child(2)`
+  - `.css-1wduhak > li:nth-child(3)`
+  - `.css-1wduhak > li:nth-child(4)`
+  - `.css-1wduhak > li:nth-child(5)`
+  - `.css-1wduhak > li:nth-child(6)`
+  - `.css-1wduhak > li:nth-child(7)`
+  - `.css-1wduhak > li:nth-child(8)`
+  - `li:nth-child(9)`
+  - `li:nth-child(10)`
+- http://localhost:5961/web/#/movies?tab=0 [state:view-settings-popover]
+  - `.css-1wduhak > li:nth-child(1) > .css-t3p1a1.MuiListItemText-root`
+  - `.css-1wduhak > li:nth-child(2)`
+- http://localhost:5961/web/#/home [state:syncplay-menu]
+  - `#app-sync-play-menu > .MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper > .css-ubifyk > li > .css-t3p1a1.MuiListItemText-root`
+- http://localhost:5961/web/#/home [state:cast-menu]
+  - `.MuiListItemText-multiline`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-library-menu]
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(1) > .css-t3p1a1.MuiListItemText-root`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(2) > .css-t3p1a1.MuiListItemText-root`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(3) > .css-t3p1a1.MuiListItemText-root`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(4) > .css-t3p1a1.MuiListItemText-root`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(5) > .css-t3p1a1.MuiListItemText-root`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +9 autres
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `.MuiDrawer-paper > .css-11fhglq`
+  - `ul[aria-labelledby="server-subheader"]`
+  - `ul[aria-labelledby="devices-subheader"]`
+  - `#livetv-subheader`
+  - `a[href$="#/dashboard/livetv"] > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/dashboard/livetv/recordings"] > .css-t3p1a1.MuiListItemText-root`
+  - `#plugins-subheader`
+  - `a[href$="#/dashboard/plugins"] > .css-t3p1a1.MuiListItemText-root`
+  - `#advanced-subheader`
+  - `a[href$="#/dashboard/networking"] > .css-t3p1a1.MuiListItemText-root`
+  - … +4 autres
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `.MuiListItem-root.MuiListItem-gutters.css-1ohqk82:nth-child(1)`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root`
+  - `a[href="#/home?tab=1"] > .css-t3p1a1.MuiListItemText-root`
+  - `.css-q9gyaw`
+
+## [MODERATE] heading-order — Heading levels should only increase by one
+
+Ensure the order of headings is semantically correct
+Référence : https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI
+
+- http://localhost:5961/web/index.html#/details?id=552f02dbdb46b79d1dc5a32f1d3ab1c0
+  - `.itemName`
+- http://localhost:5961/web/index.html#/dashboard/logs
+  - `.MuiTypography-h3`
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `.MuiTypography-h3`
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `.MuiTypography-h3`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/parentalcontrol
+  - `.checkboxListLabel`
+
+## [MINOR] aria-allowed-role — ARIA role should be appropriate for the element
+
+Ensure role attribute has an appropriate value for the element
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-allowed-role?application=axeAPI
+
+- http://localhost:5961/web/index.html#/home
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+  - `a[aria-label="Alpha Squadron"]`
+  - `.defaultCardBackground3`
+  - `a[aria-label="Sample Series"]`
+- http://localhost:5961/web/index.html#/details?id=a7cc2a4fb6f159ad3b5acbf3d0a690df
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+- http://localhost:5961/web/index.html#/details?id=552f02dbdb46b79d1dc5a32f1d3ab1c0
+  - `a[aria-label="Sample Series S01E01"]`
+  - `a[aria-label="Sample Series S01E02"]`
+- http://localhost:5961/web/index.html#/dashboard/branding
+  - `.MuiButton-outlinedPrimary`
+- http://localhost:5961/web/#/home [state:theme-light]
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+  - `a[aria-label="Alpha Squadron"]`
+  - `.defaultCardBackground3`
+  - `a[aria-label="Sample Series"]`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `.css-18qs3ds`
+  - `.css-18ds54y`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.css-psqblp`
+  - `.css-18ds54y`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `.css-19j8jwx`
+  - `.css-xbkwgc`
+
+## [MINOR] empty-heading — Headings should not be empty
+
+Ensure headings have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-heading?application=axeAPI
+
+- http://localhost:5961/web/index.html#/queue
+  - `h2`
+
+## Résultats incomplets à revoir (343)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:5961/web/index.html#/home
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/home?tab=1
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/movies?tab=0
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/movies?tab=1
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/movies?tab=2
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/movies?tab=3
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/movies?tab=4
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/movies?tab=5
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/movies?tab=6
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/tv?tab=0
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/tv?tab=1
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/livetv
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/playlists
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/boxsets
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/homevideos
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/mixed
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/books
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/music
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/musicvideos
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/index.html#/search
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/quickconnect
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/queue
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/list?parentId=f137a2dd21bbc1b99aa5c0f6bf02a805&type=movies
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/details?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/details?id=a7cc2a4fb6f159ad3b5acbf3d0a690df
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/details?id=552f02dbdb46b79d1dc5a32f1d3ab1c0
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/metadata?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/userprofile
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/mypreferencesmenu
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/mypreferenceshome
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/mypreferencesplayback
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/mypreferencescontrols
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/mypreferencessubtitles
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/settings
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/libraries/display
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/libraries/metadata
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/libraries/nfo
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `button[aria-label="User Menu"]`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/livetv
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/logs
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/networking
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/playback/resume
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/playback/streaming
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/playback/transcoding
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/playback/trickplay
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/plugins
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/plugins/repositories
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/tasks
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/users
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/users/add
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/profile
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/access
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/parentalcontrol
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/users/37d8d76fa3134aa69910c4d7c2df6caa/password
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/backups
+  - `.css-g99rn3`
+- http://localhost:5961/web/index.html#/dashboard/branding
+  - `.css-g99rn3`
+- http://localhost:5961/web/#/movies?tab=0 [state:card-context-menu]
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `.css-g99rn3`
+- http://localhost:5961/web/#/home [state:theme-light]
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5961/web/#/movies?tab=0 [state:theme-light-dialog]
+  - `button[aria-label="SyncPlay"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5961/web/#/dashboard/libraries [state:theme-light-dash]
+  - `.css-g99rn3`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:5961/web/index.html#/mypreferencessubtitles
+  - `.subtitleappearance-preview-text`
+  - `.sliderContainer-settings > .fieldDescription`
+- http://localhost:5961/web/index.html#/dashboard
+  - `.css-10o1m3t:nth-child(1)`
+  - `.css-10o1m3t:nth-child(2)`
+  - `.css-10o1m3t:nth-child(3)`
+  - `.css-10o1m3t:nth-child(4)`
+  - `.css-fu98qv > .css-pl8nxc:nth-child(1)`
+  - `.css-fu98qv > .css-pl8nxc:nth-child(2)`
+  - `.css-pl8nxc:nth-child(3)`
+  - `.css-pl8nxc:nth-child(4)`
+  - `.MuiGrid-grid-sm-6.MuiGrid-grid-lg-4.css-pjvi1b:nth-child(1) > .css-lh4h8w.MuiCard-root.MuiPaper-elevation1 > .css-ng392j.MuiStack-root > .css-0.MuiBox-root > .css-51zmit.MuiTypography-body2`
+  - `.MuiGrid-grid-sm-6.MuiGrid-grid-lg-4.css-pjvi1b:nth-child(1) > .css-lh4h8w.MuiCard-root.MuiPaper-elevation1 > .css-ng392j.MuiStack-root > .css-0.MuiBox-root > .MuiTypography-h5.css-iei4f.MuiTypography-root`
+  - … +5 autres
+- http://localhost:5961/web/index.html#/dashboard/libraries
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sorted by Time descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Level ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Name ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Overview ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Type ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Last active descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Device ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App name ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by API Key descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Date Issued descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+- http://localhost:5961/web/index.html#/dashboard/livetv/recordings
+  - `h2:nth-child(9)`
+- http://localhost:5961/web/index.html#/dashboard/plugins
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(3) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(3) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(4) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(4) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(5) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(5) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - … +2 autres
+- http://localhost:5961/web/#/home [state:nav-user-menu]
+  - `#app-user-menu > .MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper > .css-ubifyk > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `a[href$="#/mypreferencesmenu"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters[href$="#/dashboard"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters[href$="#/metadata"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `a[href$="#/quickconnect"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `#app-user-menu > .MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper > .css-ubifyk > li > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+- http://localhost:5961/web/#/movies?tab=0 [state:sort-popover]
+  - `.css-1wduhak > li:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(2) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(3) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(4) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(5) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `.css-1wduhak > li:nth-child(6) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(7) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `.css-1wduhak > li:nth-child(8) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(9) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(10) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+- http://localhost:5961/web/#/movies?tab=0 [state:view-settings-popover]
+  - `.css-1wduhak > li:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(2) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+- http://localhost:5961/web/#/home [state:syncplay-menu]
+  - `#app-sync-play-menu > .MuiPaper-rounded.MuiPaper-elevation8.MuiPopover-paper > .css-ubifyk > li > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+- http://localhost:5961/web/#/home [state:cast-menu]
+  - `.MuiListItemText-multiline > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `p`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-library-menu]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(2) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(3) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(4) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `.css-9udxt > .MuiPaper-elevation8.MuiPopover-paper.MuiMenu-paper > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(5) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-rename-dialog]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `#\:r9\:`
+  - `#\:rf\:-label`
+  - `#\:rf\:`
+  - `#\:rf\:-helper-text`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-confirm-remove]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `#\:ra\:`
+  - `.MuiDialogContentText-root`
+  - `.MuiButton-text`
+- http://localhost:5961/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `.MuiButton-contained`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+- http://localhost:5961/web/#/movies?tab=0 [state:theme-light-dialog]
+  - `button[value="A"]`
+  - `button[value="B"]`
+  - `button[value="C"]`
+  - `button[value="D"]`
+  - `button[value="E"]`
+  - `button[value="F"]`
+  - `button[value="G"]`
+  - `button[value="H"]`
+  - `button[value="I"]`
+  - `button[value="J"]`
+  - … +15 autres
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `h6`
+  - `p`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+  - `a[href="#/home?tab=1"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+  - `#libraries-subheader`
+  - `.css-q9gyaw > .MuiListItem-root.MuiListItem-gutters.css-1ohqk82:nth-child(2) > .MuiListItemButton-root.MuiListItemButton-gutters.css-yknuxp > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+  - `.css-q9gyaw > .MuiListItem-root.MuiListItem-gutters.css-1ohqk82:nth-child(3) > .MuiListItemButton-root.MuiListItemButton-gutters.css-yknuxp > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sorted by Time descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Level ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Name ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Overview ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Type ascending"]`
+  - `span[aria-label="Go to first page"]`
+  - `span[aria-label="Go to previous page"]`
+  - `span[aria-label="Go to next page"]`
+  - `span[aria-label="Go to last page"]`
+- http://localhost:5961/web/index.html#/dashboard/devices
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Last active descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Device ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App name ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"]`
+  - `span[aria-label="Go to previous page"]`
+  - `span[aria-label="Go to next page"]`
+- http://localhost:5961/web/index.html#/dashboard/keys
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by API Key descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Date Issued descending"]`
+  - `span[aria-label="Go to previous page"]`
+  - `span[aria-label="Go to next page"]`
+
+### target-size — All touch targets must be 24px large, or leave sufficient space
+
+- http://localhost:5961/web/index.html#/dashboard/activity
+  - `.MuiTableSortLabel-directionAsc.css-1c9ob14[aria-label="Sort by Level ascending"]`
+  - `.MuiTableSortLabel-directionAsc.css-1c9ob14[aria-label="Sort by User ascending"]`
+
+### aria-allowed-role — ARIA role should be appropriate for the element
+
+- http://localhost:5961/web/#/home [state:nav-user-menu]
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+  - `a[aria-label="Alpha Squadron"]`
+  - `.defaultCardBackground3`
+  - `a[aria-label="Sample Series"]`
+- http://localhost:5961/web/#/home [state:syncplay-menu]
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+  - `a[aria-label="Alpha Squadron"]`
+  - `.defaultCardBackground3`
+  - `a[aria-label="Sample Series"]`
+- http://localhost:5961/web/#/home [state:cast-menu]
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+  - `a[aria-label="Alpha Squadron"]`
+  - `.defaultCardBackground3`
+  - `a[aria-label="Sample Series"]`
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `.defaultCardBackground2`
+  - `.defaultCardBackground4`
+  - `a[aria-label="Alpha Squadron"]`
+  - `.defaultCardBackground3`
+  - `a[aria-label="Sample Series"]`
+
+### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
+
+- http://localhost:5961/web/#/home [state:nav-user-menu]
+  - `#reactRoot`
+- http://localhost:5961/web/#/movies?tab=0 [state:filter-popover]
+  - `#reactRoot`
+- http://localhost:5961/web/#/movies?tab=0 [state:sort-popover]
+  - `#reactRoot`
+- http://localhost:5961/web/#/movies?tab=0 [state:view-settings-popover]
+  - `#reactRoot`
+- http://localhost:5961/web/#/home [state:syncplay-menu]
+  - `#reactRoot`
+- http://localhost:5961/web/#/home [state:cast-menu]
+  - `#reactRoot`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-library-menu]
+  - `#reactRoot`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-rename-dialog]
+  - `#reactRoot`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-confirm-remove]
+  - `#reactRoot`
+- http://localhost:5961/web/#/home [state:mobile-nav-390]
+  - `#reactRoot`
+
+### bypass — Page must have means to bypass repeated blocks
+
+- http://localhost:5961/web/#/home [state:nav-user-menu]
+  - `html`
+- http://localhost:5961/web/#/movies?tab=0 [state:sort-popover]
+  - `html`
+- http://localhost:5961/web/#/movies?tab=0 [state:view-settings-popover]
+  - `html`
+- http://localhost:5961/web/#/home [state:syncplay-menu]
+  - `html`
+- http://localhost:5961/web/#/home [state:cast-menu]
+  - `html`
+- http://localhost:5961/web/#/dashboard/libraries [state:dash-library-menu]
+  - `html`
+

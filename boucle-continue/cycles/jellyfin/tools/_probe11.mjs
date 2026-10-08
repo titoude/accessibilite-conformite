@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const b = 'http://localhost:5961';
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ storageState: 'public.json', locale: 'en-US' });
+const page = await ctx.newPage();
+page.on('console', m => { if (m.type()==='error'||m.type()==='warning') console.log('[con]', m.type(), m.text().slice(0,140)); });
+page.on('pageerror', e => console.log('[pageerror]', e.message.slice(0,200)));
+await page.goto(b + '/web/index.html#/login', { waitUntil: 'domcontentloaded' });
+await page.waitForTimeout(9000);
+console.log('URL', page.url());
+console.log('BODY', (await page.evaluate(()=>document.body.textContent||'')).replace(/\s+/g,' ').trim().slice(0,200));
+console.log('HTML', (await page.evaluate(()=>document.querySelector('main, .mainAnimatedPage, #reactRoot, body')?.innerHTML||'')).slice(0,200));
+await browser.close();

@@ -1,0 +1,1635 @@
+diff --git a/src/apps/dashboard/components/BaseCard.tsx b/src/apps/dashboard/components/BaseCard.tsx
+index 325ecc9..ae21503 100644
+--- a/src/apps/dashboard/components/BaseCard.tsx
++++ b/src/apps/dashboard/components/BaseCard.tsx
+@@ -11,6 +11,8 @@ import CardActionArea from '@mui/material/CardActionArea';
+ import Stack from '@mui/material/Stack';
+ import { Link, To } from 'react-router-dom';
+ 
++import globalize from 'lib/globalize';
++
+ interface BaseCardProps {
+     title?: string;
+     text?: string;
+@@ -53,6 +55,7 @@ const BaseCard = ({
+                     to: to
+                 })}
+                 onClick={onClick}
++                aria-label={title}
+                 sx={{
+                     display: 'flex',
+                     flexGrow: 1,
+@@ -107,7 +110,11 @@ const BaseCard = ({
+                     </Stack>
+                     <Box>
+                         {action ? (
+-                            <IconButton ref={actionRef} onClick={onActionClick}>
++                            <IconButton
++                                ref={actionRef}
++                                onClick={onActionClick}
++                                aria-label={title ? `${globalize.translate('ButtonMore')} ${title}` : globalize.translate('ButtonMore')}
++                            >
+                                 <MoreVertIcon />
+                             </IconButton>
+                         ) : null}
+diff --git a/src/apps/dashboard/components/Toast.tsx b/src/apps/dashboard/components/Toast.tsx
+index 373ba41..06f6a45 100644
+--- a/src/apps/dashboard/components/Toast.tsx
++++ b/src/apps/dashboard/components/Toast.tsx
+@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
+ import Snackbar, { SnackbarProps } from '@mui/material/Snackbar';
+ import IconButton from '@mui/material/IconButton';
+ import CloseIcon from '@mui/icons-material/Close';
++import globalize from 'lib/globalize';
+ 
+ const Toast = (props: SnackbarProps) => {
+     const onCloseClick = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+@@ -13,6 +14,7 @@ const Toast = (props: SnackbarProps) => {
+             size='small'
+             color='inherit'
+             onClick={onCloseClick}
++            aria-label={globalize.translate('ButtonClose')}
+         >
+             <CloseIcon fontSize='small' />
+         </IconButton>
+diff --git a/src/apps/dashboard/components/drawer/sections/AdvancedDrawerSection.tsx b/src/apps/dashboard/components/drawer/sections/AdvancedDrawerSection.tsx
+index 9405205..7c1ba98 100644
+--- a/src/apps/dashboard/components/drawer/sections/AdvancedDrawerSection.tsx
++++ b/src/apps/dashboard/components/drawer/sections/AdvancedDrawerSection.tsx
+@@ -18,7 +18,7 @@ const AdvancedDrawerSection = () => {
+         <List
+             aria-labelledby='advanced-subheader'
+             subheader={
+-                <ListSubheader component='div' id='advanced-subheader'>
++                <ListSubheader component='li' id='advanced-subheader'>
+                     {globalize.translate('TabAdvanced')}
+                 </ListSubheader>
+             }
+diff --git a/src/apps/dashboard/components/drawer/sections/DevicesDrawerSection.tsx b/src/apps/dashboard/components/drawer/sections/DevicesDrawerSection.tsx
+index 7d462a1..c2cdb5c 100644
+--- a/src/apps/dashboard/components/drawer/sections/DevicesDrawerSection.tsx
++++ b/src/apps/dashboard/components/drawer/sections/DevicesDrawerSection.tsx
+@@ -15,7 +15,7 @@ const DevicesDrawerSection = () => {
+         <List
+             aria-labelledby='devices-subheader'
+             subheader={
+-                <ListSubheader component='div' id='devices-subheader'>
++                <ListSubheader component='li' id='devices-subheader'>
+                     {globalize.translate('HeaderDevices')}
+                 </ListSubheader>
+             }
+diff --git a/src/apps/dashboard/components/drawer/sections/LiveTvDrawerSection.tsx b/src/apps/dashboard/components/drawer/sections/LiveTvDrawerSection.tsx
+index bde1c91..76bda4b 100644
+--- a/src/apps/dashboard/components/drawer/sections/LiveTvDrawerSection.tsx
++++ b/src/apps/dashboard/components/drawer/sections/LiveTvDrawerSection.tsx
+@@ -15,7 +15,7 @@ const LiveTvDrawerSection = () => {
+         <List
+             aria-labelledby='livetv-subheader'
+             subheader={
+-                <ListSubheader component='div' id='livetv-subheader'>
++                <ListSubheader component='li' id='livetv-subheader'>
+                     {globalize.translate('LiveTV')}
+                 </ListSubheader>
+             }
+diff --git a/src/apps/dashboard/components/drawer/sections/PluginDrawerSection.tsx b/src/apps/dashboard/components/drawer/sections/PluginDrawerSection.tsx
+index 5145d6e..6aca886 100644
+--- a/src/apps/dashboard/components/drawer/sections/PluginDrawerSection.tsx
++++ b/src/apps/dashboard/components/drawer/sections/PluginDrawerSection.tsx
+@@ -1,6 +1,7 @@
+ import Extension from '@mui/icons-material/Extension';
+ import Icon from '@mui/material/Icon';
+ import List from '@mui/material/List';
++import ListItem from '@mui/material/ListItem';
+ import ListItemIcon from '@mui/material/ListItemIcon';
+ import ListItemText from '@mui/material/ListItemText';
+ import ListSubheader from '@mui/material/ListSubheader';
+@@ -25,35 +26,38 @@ const PluginDrawerSection = () => {
+         <List
+             aria-labelledby='plugins-subheader'
+             subheader={
+-                <ListSubheader component='div' id='plugins-subheader'>
++                <ListSubheader component='li' id='plugins-subheader'>
+                     {globalize.translate('TabPlugins')}
+                 </ListSubheader>
+             }
+         >
+-            <ListItemLink
+-                to='/dashboard/plugins'
+-                includePaths={[
+-                    '/configurationpage',
+-                    '/dashboard/plugins/repositories'
+-                ]}
+-                excludePaths={pagesInfo?.map(p => `/${Dashboard.getPluginUrl(p.Name)}`)}
+-            >
+-                <ListItemIcon>
+-                    <Extension />
+-                </ListItemIcon>
+-                <ListItemText primary={globalize.translate('TabPlugins')} />
+-            </ListItemLink>
+-
+-            {pagesInfo?.map(pageInfo => (
++            <ListItem disablePadding>
+                 <ListItemLink
+-                    key={pageInfo.PluginId}
+-                    to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}
++                    to='/dashboard/plugins'
++                    includePaths={[
++                        '/configurationpage',
++                        '/dashboard/plugins/repositories'
++                    ]}
++                    excludePaths={pagesInfo?.map(p => `/${Dashboard.getPluginUrl(p.Name)}`)}
+                 >
+                     <ListItemIcon>
+-                        <Icon>{pageInfo.MenuIcon ?? 'folder'}</Icon>
++                        <Extension />
+                     </ListItemIcon>
+-                    <ListItemText primary={pageInfo.DisplayName} />
++                    <ListItemText primary={globalize.translate('TabPlugins')} />
+                 </ListItemLink>
++            </ListItem>
++
++            {pagesInfo?.map(pageInfo => (
++                <ListItem disablePadding key={pageInfo.PluginId}>
++                    <ListItemLink
++                        to={`/${Dashboard.getPluginUrl(pageInfo.Name)}`}
++                    >
++                        <ListItemIcon>
++                            <Icon>{pageInfo.MenuIcon ?? 'folder'}</Icon>
++                        </ListItemIcon>
++                        <ListItemText primary={pageInfo.DisplayName} />
++                    </ListItemLink>
++                </ListItem>
+             ))}
+         </List>
+     );
+diff --git a/src/apps/dashboard/components/drawer/sections/ServerDrawerSection.tsx b/src/apps/dashboard/components/drawer/sections/ServerDrawerSection.tsx
+index bdd24c7..550da84 100644
+--- a/src/apps/dashboard/components/drawer/sections/ServerDrawerSection.tsx
++++ b/src/apps/dashboard/components/drawer/sections/ServerDrawerSection.tsx
+@@ -55,7 +55,7 @@ const ServerDrawerSection = () => {
+         <List
+             aria-labelledby='server-subheader'
+             subheader={
+-                <ListSubheader component='div' id='server-subheader'>
++                <ListSubheader component='li' id='server-subheader'>
+                     {globalize.translate('TabServer')}
+                 </ListSubheader>
+             }
+@@ -76,12 +76,14 @@ const ServerDrawerSection = () => {
+                     <ListItemText primary={globalize.translate('General')} />
+                 </ListItemLink>
+             </ListItem>
+-            <ListItemLink to='/dashboard/branding'>
+-                <ListItemIcon>
+-                    <Palette />
+-                </ListItemIcon>
+-                <ListItemText primary={globalize.translate('HeaderBranding')} />
+-            </ListItemLink>
++            <ListItem disablePadding>
++                <ListItemLink to='/dashboard/branding'>
++                    <ListItemIcon>
++                        <Palette />
++                    </ListItemIcon>
++                    <ListItemText primary={globalize.translate('HeaderBranding')} />
++                </ListItemLink>
++            </ListItem>
+             <ListItem disablePadding>
+                 <ListItemLink to='/dashboard/users'>
+                     <ListItemIcon>
+@@ -99,22 +101,32 @@ const ServerDrawerSection = () => {
+                     {isLibrarySectionOpen ? <ExpandLess /> : <ExpandMore />}
+                 </ListItemButton>
+             </ListItem>
+-            <Collapse in={isLibrarySectionOpen} timeout='auto' unmountOnExit>
+-                <List component='div' disablePadding>
+-                    <ListItemLink to='/dashboard/libraries' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('HeaderLibraries')} />
+-                    </ListItemLink>
+-                    <ListItemLink to='/dashboard/libraries/display' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('Display')} />
+-                    </ListItemLink>
+-                    <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('LabelMetadata')} />
+-                    </ListItemLink>
+-                    <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('TabNfoSettings')} />
+-                    </ListItemLink>
+-                </List>
+-            </Collapse>
++            <ListItem disablePadding>
++                <Collapse in={isLibrarySectionOpen} timeout='auto' unmountOnExit>
++                    <List disablePadding>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/libraries' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('HeaderLibraries')} />
++                            </ListItemLink>
++                        </ListItem>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/libraries/display' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('Display')} />
++                            </ListItemLink>
++                        </ListItem>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/libraries/metadata' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('LabelMetadata')} />
++                            </ListItemLink>
++                        </ListItem>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/libraries/nfo' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('TabNfoSettings')} />
++                            </ListItemLink>
++                        </ListItem>
++                    </List>
++                </Collapse>
++            </ListItem>
+             <ListItem disablePadding>
+                 <ListItemButton onClick={onPlaybackSectionClick}>
+                     <ListItemIcon>
+@@ -124,22 +136,32 @@ const ServerDrawerSection = () => {
+                     {isPlaybackSectionOpen ? <ExpandLess /> : <ExpandMore />}
+                 </ListItemButton>
+             </ListItem>
+-            <Collapse in={isPlaybackSectionOpen} timeout='auto' unmountOnExit>
+-                <List component='div' disablePadding>
+-                    <ListItemLink to='/dashboard/playback/transcoding' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('Transcoding')} />
+-                    </ListItemLink>
+-                    <ListItemLink to='/dashboard/playback/resume' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('ButtonResume')} />
+-                    </ListItemLink>
+-                    <ListItemLink to='/dashboard/playback/streaming' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('TabStreaming')} />
+-                    </ListItemLink>
+-                    <ListItemLink to='/dashboard/playback/trickplay' sx={{ pl: 4 }}>
+-                        <ListItemText inset primary={globalize.translate('Trickplay')} />
+-                    </ListItemLink>
+-                </List>
+-            </Collapse>
++            <ListItem disablePadding>
++                <Collapse in={isPlaybackSectionOpen} timeout='auto' unmountOnExit>
++                    <List disablePadding>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/playback/transcoding' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('Transcoding')} />
++                            </ListItemLink>
++                        </ListItem>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/playback/resume' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('ButtonResume')} />
++                            </ListItemLink>
++                        </ListItem>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/playback/streaming' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('TabStreaming')} />
++                            </ListItemLink>
++                        </ListItem>
++                        <ListItem disablePadding>
++                            <ListItemLink to='/dashboard/playback/trickplay' sx={{ pl: 4 }}>
++                                <ListItemText inset primary={globalize.translate('Trickplay')} />
++                            </ListItemLink>
++                        </ListItem>
++                    </List>
++                </Collapse>
++            </ListItem>
+         </List>
+     );
+ };
+diff --git a/src/apps/dashboard/components/table/TablePage.tsx b/src/apps/dashboard/components/table/TablePage.tsx
+index 800b758..d3ee82a 100644
+--- a/src/apps/dashboard/components/table/TablePage.tsx
++++ b/src/apps/dashboard/components/table/TablePage.tsx
+@@ -21,6 +21,19 @@ export const DEFAULT_TABLE_OPTIONS: Partial<MRT_TableOptions<MRT_RowData>> = {
+     enableColumnPinning: true,
+     enableColumnResizing: true,
+ 
++    // The trailing mrt-row-spacer column (grid-no-grow layout) is purely
++    // visual padding; hide its empty cells from assistive technology. Its
++    // column def ignores displayColumnDefOptions for cell props, so target
++    // it from the table-level props instead.
++    muiTableHeadCellProps: ({ column }) =>
++        column.id === 'mrt-row-spacer' ?
++            { 'aria-hidden': true, tabIndex: -1 } :
++            {},
++    muiTableBodyCellProps: ({ cell }) =>
++        cell.column.id === 'mrt-row-spacer' ?
++            { 'aria-hidden': true, tabIndex: -1 } :
++            {},
++
+     // Sticky header/footer
+     enableStickyFooter: true,
+     enableStickyHeader: true,
+@@ -28,6 +41,28 @@ export const DEFAULT_TABLE_OPTIONS: Partial<MRT_TableOptions<MRT_RowData>> = {
+         sx: {
+             maxHeight: 'calc(100% - 7rem)' // 2 x 3.5rem for header and footer
+         }
++    },
++
++    // Column sort buttons below the 24px WCAG 2.5.8 minimum target size
++    // get padded up to it, and the per-column actions menu no longer
++    // overlaps them: it stays hidden until the header cell is hovered or
++    // contains focus (still keyboard-reachable via :focus-within).
++    muiTableProps: {
++        sx: {
++            '& .MuiTableSortLabel-root': {
++                minWidth: '24px',
++                minHeight: '24px'
++            },
++            '& .Mui-TableHeadCell-Content-Actions': {
++                opacity: 0,
++                pointerEvents: 'none',
++                transition: 'opacity 150ms'
++            },
++            '& .MuiTableCell-head:hover .Mui-TableHeadCell-Content-Actions, & .MuiTableCell-head:focus-within .Mui-TableHeadCell-Content-Actions': {
++                opacity: 1,
++                pointerEvents: 'auto'
++            }
++        }
+     }
+ };
+ 
+diff --git a/src/apps/dashboard/components/toolbar/HelpButton.tsx b/src/apps/dashboard/components/toolbar/HelpButton.tsx
+index 7b9bfb3..da72917 100644
+--- a/src/apps/dashboard/components/toolbar/HelpButton.tsx
++++ b/src/apps/dashboard/components/toolbar/HelpButton.tsx
+@@ -22,6 +22,7 @@ const HelpButton = () => (
+                                 target='_blank'
+                                 size='large'
+                                 color='inherit'
++                                aria-label={globalize.translate('Help')}
+                             >
+                                 <HelpOutline />
+                             </IconButton>
+diff --git a/src/apps/dashboard/features/activity/components/OverviewCell.tsx b/src/apps/dashboard/features/activity/components/OverviewCell.tsx
+index a0c453b..09dbe19 100644
+--- a/src/apps/dashboard/features/activity/components/OverviewCell.tsx
++++ b/src/apps/dashboard/features/activity/components/OverviewCell.tsx
+@@ -6,6 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
+ import React, { type FC, useCallback, useState } from 'react';
+ 
+ import type { ActivityLogEntryCell } from '../types/ActivityLogEntryCell';
++import globalize from 'lib/globalize';
+ 
+ const OverviewCell: FC<ActivityLogEntryCell> = ({ row }) => {
+     const { ShortOverview, Overview } = row.original;
+@@ -53,7 +54,10 @@ const OverviewCell: FC<ActivityLogEntryCell> = ({ row }) => {
+                         disableHoverListener
+                         disableTouchListener
+                     >
+-                        <IconButton onClick={onTooltipOpen}>
++                        <IconButton
++                            onClick={onTooltipOpen}
++                            aria-label={globalize.translate('ButtonInfo')}
++                        >
+                             <Info />
+                         </IconButton>
+                     </Tooltip>
+diff --git a/src/apps/dashboard/features/backups/components/Backup.tsx b/src/apps/dashboard/features/backups/components/Backup.tsx
+index e7c622d..8f052c2 100644
+--- a/src/apps/dashboard/features/backups/components/Backup.tsx
++++ b/src/apps/dashboard/features/backups/components/Backup.tsx
+@@ -40,7 +40,10 @@ const Backup: FunctionComponent<BackupProps> = ({ backup, onRestore }) => {
+                 disablePadding
+                 secondaryAction={
+                     <Tooltip disableInteractive title={globalize.translate('LabelRestore')}>
+-                        <IconButton onClick={restore}>
++                        <IconButton
++                            onClick={restore}
++                            aria-label={globalize.translate('LabelRestore')}
++                        >
+                             <Restore />
+                         </IconButton>
+                     </Tooltip>
+diff --git a/src/apps/dashboard/features/backups/components/BackupInfoDialog.tsx b/src/apps/dashboard/features/backups/components/BackupInfoDialog.tsx
+index 35eb8f6..799200f 100644
+--- a/src/apps/dashboard/features/backups/components/BackupInfoDialog.tsx
++++ b/src/apps/dashboard/features/backups/components/BackupInfoDialog.tsx
+@@ -64,7 +64,7 @@ const BackupInfoDialog: FunctionComponent<IProps> = ({ backup, open, onClose }:
+                             <Typography fontWeight='bold'>{globalize.translate('LabelPath')}</Typography>
+                             <Stack direction='row'>
+                                 <Typography color='text.secondary'>{backup.Path}</Typography>
+-                                <IconButton size='small' onClick={copyPath}>
++                                <IconButton size='small' onClick={copyPath} aria-label={globalize.translate('Copy')}>
+                                     <ContentCopy fontSize='small' />
+                                 </IconButton>
+                             </Stack>
+diff --git a/src/apps/dashboard/features/devices/components/DeviceCard.tsx b/src/apps/dashboard/features/devices/components/DeviceCard.tsx
+index 72a2504..69b7354 100644
+--- a/src/apps/dashboard/features/devices/components/DeviceCard.tsx
++++ b/src/apps/dashboard/features/devices/components/DeviceCard.tsx
+@@ -222,21 +222,33 @@ const DeviceCard = ({ device }: DeviceCardProps) => {
+                 <Stack direction='row' flexGrow={1} justifyContent='center'>
+                     {canControl && isPlayingMedia && (
+                         <>
+-                            <IconButton onClick={onPlayPauseSession}>
++                            <IconButton
++                                onClick={onPlayPauseSession}
++                                aria-label={device.PlayState?.IsPaused ? globalize.translate('Play') : globalize.translate('ButtonPause')}
++                            >
+                                 {device.PlayState?.IsPaused ? <PlayArrow /> : <Pause />}
+                             </IconButton>
+-                            <IconButton onClick={onStopSession}>
++                            <IconButton
++                                onClick={onStopSession}
++                                aria-label={globalize.translate('ButtonStop')}
++                            >
+                                 <Stop />
+                             </IconButton>
+                         </>
+                     )}
+                     {isPlayingMedia && (
+-                        <IconButton onClick={showPlaybackInfo}>
++                        <IconButton
++                            onClick={showPlaybackInfo}
++                            aria-label={globalize.translate('ViewPlaybackInfo')}
++                        >
+                             <Info />
+                         </IconButton>
+                     )}
+                     {canControl && (
+-                        <IconButton onClick={showMessageDialog}>
++                        <IconButton
++                            onClick={showMessageDialog}
++                            aria-label={globalize.translate('HeaderSendMessage')}
++                        >
+                             <Comment />
+                         </IconButton>
+                     )}
+diff --git a/src/apps/dashboard/features/libraries/components/LibraryCard.tsx b/src/apps/dashboard/features/libraries/components/LibraryCard.tsx
+index f1e4722..e0e81f7 100644
+--- a/src/apps/dashboard/features/libraries/components/LibraryCard.tsx
++++ b/src/apps/dashboard/features/libraries/components/LibraryCard.tsx
+@@ -194,6 +194,12 @@ const LibraryCard = ({ virtualFolder }: LibraryCardProps) => {
+                 anchorEl={anchorEl}
+                 open={isMenuOpen}
+                 onClose={onMenuClose}
++                slotProps={{
++                    paper: {
++                        role: 'region',
++                        'aria-label': globalize.translate('Actions')
++                    }
++                }}
+             >
+                 <MenuItem onClick={showImageEditor}>
+                     <ListItemIcon>
+diff --git a/src/apps/dashboard/features/livetv/components/Provider.tsx b/src/apps/dashboard/features/livetv/components/Provider.tsx
+index 7159347..d406646 100644
+--- a/src/apps/dashboard/features/livetv/components/Provider.tsx
++++ b/src/apps/dashboard/features/livetv/components/Provider.tsx
+@@ -87,7 +87,11 @@ const Provider = ({ provider }: ProviderProps) => {
+             <ListItem
+                 disablePadding key={provider.Id}
+                 secondaryAction={
+-                    <IconButton ref={actionsRef} onClick={showContextMenu}>
++                    <IconButton
++                        ref={actionsRef}
++                        onClick={showContextMenu}
++                        aria-label={provider.Type ? `${globalize.translate('ButtonMore')} ${getProviderName(provider.Type)}` : globalize.translate('ButtonMore')}
++                    >
+                         <MoreVertIcon />
+                     </IconButton>
+                 }
+diff --git a/src/apps/dashboard/features/logs/components/LogItemList.tsx b/src/apps/dashboard/features/logs/components/LogItemList.tsx
+index da14b37..ee74814 100644
+--- a/src/apps/dashboard/features/logs/components/LogItemList.tsx
++++ b/src/apps/dashboard/features/logs/components/LogItemList.tsx
+@@ -27,7 +27,7 @@ const LogItemList: FunctionComponent<LogItemProps> = ({ logs }: LogItemProps) =>
+                                 secondary={getDate(log)}
+                                 slotProps={{
+                                     primary: {
+-                                        variant: 'h3',
++                                        variant: 'h2',
+                                         sx: {
+                                             whiteSpace: 'normal',
+                                             overflowWrap: 'anywhere',
+diff --git a/src/apps/dashboard/features/plugins/components/RepositoryListItem.tsx b/src/apps/dashboard/features/plugins/components/RepositoryListItem.tsx
+index c6d59f6..a254273 100644
+--- a/src/apps/dashboard/features/plugins/components/RepositoryListItem.tsx
++++ b/src/apps/dashboard/features/plugins/components/RepositoryListItem.tsx
+@@ -9,7 +9,6 @@ import ListItemText from '@mui/material/ListItemText';
+ import ListItemAvatar from '@mui/material/ListItemAvatar';
+ import OpenInNew from '@mui/icons-material/OpenInNew';
+ import Avatar from '@mui/material/Avatar';
+-import ListItemButton from '@mui/material/ListItemButton';
+ import Link from '@mui/material/Link';
+ import ConfirmDialog from 'components/ConfirmDialog';
+ 
+@@ -46,36 +45,41 @@ const RepositoryListItem = ({ repository, onDelete }: IProps) => {
+                 confirmButtonText={globalize.translate('Delete')}
+             />
+             <ListItem
+-                disablePadding
+                 secondaryAction={
+                     <Tooltip disableInteractive title={globalize.translate('ButtonRemove')}>
+-                        <IconButton onClick={confirmDeletePrompt}>
++                        <IconButton
++                            onClick={confirmDeletePrompt}
++                            aria-label={globalize.translate('ButtonRemove')}
++                        >
+                             <Delete />
+                         </IconButton>
+                     </Tooltip>
+                 }
+             >
+-                <ListItemButton>
+-                    <Link href={repository.Url || '#'} target='_blank' rel='noopener noreferrer'>
+-                        <ListItemAvatar>
+-                            <Avatar sx={{ bgcolor: 'primary.main' }}>
+-                                <OpenInNew sx={{ color: '#fff' }} />
+-                            </Avatar>
+-                        </ListItemAvatar>
+-                    </Link>
+-                    <ListItemText
+-                        primary={repository.Name}
+-                        secondary={repository.Url}
+-                        slotProps={{
+-                            primary: {
+-                                variant: 'h3'
+-                            },
+-                            secondary: {
+-                                variant: 'body1'
+-                            }
+-                        }}
+-                    />
+-                </ListItemButton>
++                <Link
++                    href={repository.Url || '#'}
++                    target='_blank'
++                    rel='noopener noreferrer'
++                    aria-label={repository.Name || repository.Url || undefined}
++                >
++                    <ListItemAvatar>
++                        <Avatar sx={{ bgcolor: 'primary.main' }}>
++                            <OpenInNew sx={{ color: '#fff' }} />
++                        </Avatar>
++                    </ListItemAvatar>
++                </Link>
++                <ListItemText
++                    primary={repository.Name}
++                    secondary={repository.Url}
++                    slotProps={{
++                        primary: {
++                            variant: 'h2'
++                        },
++                        secondary: {
++                            variant: 'body1'
++                        }
++                    }}
++                />
+             </ListItem>
+         </>
+     );
+diff --git a/src/apps/dashboard/features/storage/components/StorageListItem.tsx b/src/apps/dashboard/features/storage/components/StorageListItem.tsx
+index 68265cb..8adb0d4 100644
+--- a/src/apps/dashboard/features/storage/components/StorageListItem.tsx
++++ b/src/apps/dashboard/features/storage/components/StorageListItem.tsx
+@@ -79,6 +79,7 @@ const StorageListItem: FC<StorageListItemProps> = ({
+                             variant={folder ? 'determinate' : 'indeterminate'}
+                             color={statusColor}
+                             value={usedPercentage}
++                            aria-label={label}
+                         />
+                         <Box
+                             sx={{
+diff --git a/src/apps/dashboard/features/tasks/components/Task.tsx b/src/apps/dashboard/features/tasks/components/Task.tsx
+index 83b685c..05ad2a5 100644
+--- a/src/apps/dashboard/features/tasks/components/Task.tsx
++++ b/src/apps/dashboard/features/tasks/components/Task.tsx
+@@ -14,6 +14,7 @@ import Stop from '@mui/icons-material/Stop';
+ import { useStartTask } from '../api/useStartTask';
+ import { useStopTask } from '../api/useStopTask';
+ import ListItemLink from 'components/ListItemLink';
++import globalize from 'lib/globalize';
+ 
+ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
+     const startTask = useStartTask();
+@@ -35,7 +36,10 @@ const Task: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
+         <ListItem
+             disablePadding
+             secondaryAction={
+-                <IconButton onClick={task.State == 'Running' ? handleStopTask : handleStartTask}>
++                <IconButton
++                    onClick={task.State == 'Running' ? handleStopTask : handleStartTask}
++                    aria-label={task.State == 'Running' ? globalize.translate('ButtonStop') : globalize.translate('ButtonStart')}
++                >
+                     {task.State == 'Running' ? <Stop /> : <PlayArrow />}
+                 </IconButton>
+             }
+diff --git a/src/apps/dashboard/features/tasks/components/TaskProgress.tsx b/src/apps/dashboard/features/tasks/components/TaskProgress.tsx
+index 695af84..8e3b8c6 100644
+--- a/src/apps/dashboard/features/tasks/components/TaskProgress.tsx
++++ b/src/apps/dashboard/features/tasks/components/TaskProgress.tsx
+@@ -3,6 +3,7 @@ import { TaskProps } from '../types/taskProps';
+ import Box from '@mui/material/Box';
+ import LinearProgress from '@mui/material/LinearProgress';
+ import Typography from '@mui/material/Typography';
++import globalize from 'lib/globalize';
+ 
+ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
+     const progress = task.CurrentProgressPercentage;
+@@ -20,7 +21,7 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
+             {progress != null ? (
+                 <>
+                     <Box sx={{ width: '100%', mr: 1 }}>
+-                        <LinearProgress variant='determinate' value={progress} />
++                        <LinearProgress variant='determinate' value={progress} aria-label={task.Name || globalize.translate('HeaderRunningTasks')} />
+                     </Box>
+                     <Box>
+                         <Typography
+@@ -30,7 +31,7 @@ const TaskProgress: FunctionComponent<TaskProps> = ({ task }: TaskProps) => {
+                 </>
+             ) : (
+                 <Box sx={{ width: '100%' }}>
+-                    <LinearProgress />
++                    <LinearProgress aria-label={task.Name || globalize.translate('HeaderRunningTasks')} />
+                 </Box>
+             )}
+         </Box>
+diff --git a/src/apps/dashboard/features/users/components/ParentalControl.tsx b/src/apps/dashboard/features/users/components/ParentalControl.tsx
+index 9fe721d..3db89c6 100644
+--- a/src/apps/dashboard/features/users/components/ParentalControl.tsx
++++ b/src/apps/dashboard/features/users/components/ParentalControl.tsx
+@@ -405,9 +405,9 @@ const ParentalControl = ({ userId }: ParentalControlProps) => {
+                 </div>
+                 <div>
+                     <div className='blockUnratedItems'>
+-                        <h3 className='checkboxListLabel'>
++                        <h2 className='checkboxListLabel'>
+                             {globalize.translate('HeaderBlockItemsWithNoRating')}
+-                        </h3>
++                        </h2>
+                         <div className='checkboxList paperList' style={{ padding: '.5em 1em' }}>
+                             {unratedItems.map(Item => {
+                                 return <CheckBoxElement
+diff --git a/src/apps/dashboard/routes/activity/index.tsx b/src/apps/dashboard/routes/activity/index.tsx
+index d99759b..10254f9 100644
+--- a/src/apps/dashboard/routes/activity/index.tsx
++++ b/src/apps/dashboard/routes/activity/index.tsx
+@@ -192,7 +192,7 @@ export const Component = () => {
+         {
+             id: 'Actions',
+             accessorFn: row => row.ItemId,
+-            header: '',
++            header: globalize.translate('Actions'),
+             size: 60,
+             Cell: ActionsCell,
+             enableColumnActions: false,
+diff --git a/src/apps/dashboard/routes/branding/index.tsx b/src/apps/dashboard/routes/branding/index.tsx
+index 6918ef0..30792c2 100644
+--- a/src/apps/dashboard/routes/branding/index.tsx
++++ b/src/apps/dashboard/routes/branding/index.tsx
+@@ -247,20 +247,25 @@ export const Component = () => {
+                                         {globalize.translate('CustomSplashScreenSize')}
+                                     </Typography>
+ 
+-                                    <Button
+-                                        component='label'
+-                                        variant='outlined'
+-                                        startIcon={<Upload />}
+-                                        disabled={!isSplashscreenEnabled}
+-                                    >
++                                    <label>
+                                         <input
+                                             type='file'
+                                             accept='image/*'
+                                             hidden
++                                            disabled={!isSplashscreenEnabled}
+                                             onChange={onSplashscreenUpload}
+                                         />
+-                                        {globalize.translate('UploadCustomImage')}
+-                                    </Button>
++                                        <Button
++                                            component='span'
++                                            variant='outlined'
++                                            startIcon={<Upload />}
++                                            disabled={!isSplashscreenEnabled}
++                                            role={undefined}
++                                            tabIndex={-1}
++                                        >
++                                            {globalize.translate('UploadCustomImage')}
++                                        </Button>
++                                    </label>
+ 
+                                     <Button
+                                         variant='outlined'
+diff --git a/src/apps/dashboard/routes/devices/index.tsx b/src/apps/dashboard/routes/devices/index.tsx
+index f1d857e..79a1ca1 100644
+--- a/src/apps/dashboard/routes/devices/index.tsx
++++ b/src/apps/dashboard/routes/devices/index.tsx
+@@ -203,7 +203,7 @@ export const Component = () => {
+         positionActionsColumn: 'last',
+         displayColumnDefOptions: {
+             'mrt-row-actions': {
+-                header: '',
++                header: globalize.translate('Actions'),
+                 size: 100
+             }
+         },
+@@ -222,6 +222,7 @@ export const Component = () => {
+                     <Tooltip title={globalize.translate('Edit')}>
+                         <IconButton
+                             onClick={() => table.setEditingRow(row)}
++                            aria-label={globalize.translate('Edit')}
+                         >
+                             <Edit />
+                         </IconButton>
+@@ -231,6 +232,7 @@ export const Component = () => {
+                         <IconButton
+                             color='error'
+                             disabled
++                            aria-label={globalize.translate('Delete')}
+                         >
+                             <Delete />
+                         </IconButton>
+@@ -239,6 +241,7 @@ export const Component = () => {
+                             <IconButton
+                                 color='error'
+                                 onClick={onDeleteDevice(row.original.Id)}
++                                aria-label={globalize.translate('Delete')}
+                             >
+                                 <Delete />
+                             </IconButton>
+diff --git a/src/apps/dashboard/routes/keys/index.tsx b/src/apps/dashboard/routes/keys/index.tsx
+index fba5c44..76310a3 100644
+--- a/src/apps/dashboard/routes/keys/index.tsx
++++ b/src/apps/dashboard/routes/keys/index.tsx
+@@ -74,7 +74,7 @@ export const Component = () => {
+         positionActionsColumn: 'last',
+         displayColumnDefOptions: {
+             'mrt-row-actions': {
+-                header: '',
++                header: globalize.translate('Actions'),
+                 size: 25
+             }
+         },
+@@ -95,6 +95,7 @@ export const Component = () => {
+                         <IconButton
+                             color='error'
+                             onClick={() => row.original?.AccessToken && onRevokeKey(row.original.AccessToken)}
++                            aria-label={globalize.translate('ButtonRevoke')}
+                         >
+                             <DeleteIcon />
+                         </IconButton>
+diff --git a/src/apps/dashboard/routes/livetv/recordings.tsx b/src/apps/dashboard/routes/livetv/recordings.tsx
+index 7e2c6b2..fa65bdc 100644
+--- a/src/apps/dashboard/routes/livetv/recordings.tsx
++++ b/src/apps/dashboard/routes/livetv/recordings.tsx
+@@ -247,7 +247,10 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showRecordingPathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                    onClick={showRecordingPathPicker}>
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+@@ -269,7 +272,10 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showMovieRecordingPathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                    onClick={showMovieRecordingPathPicker}>
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+@@ -291,7 +297,10 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showSeriesRecordingPathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                    onClick={showSeriesRecordingPathPicker}>
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+@@ -349,7 +358,10 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showPostProcessorPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                    onClick={showPostProcessorPicker}>
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+diff --git a/src/apps/dashboard/routes/networking/index.tsx b/src/apps/dashboard/routes/networking/index.tsx
+index 93efcee..43fa4e6 100644
+--- a/src/apps/dashboard/routes/networking/index.tsx
++++ b/src/apps/dashboard/routes/networking/index.tsx
+@@ -236,7 +236,10 @@ export const Component = () => {
+                                         input: {
+                                             endAdornment: (
+                                                 <InputAdornment position='end'>
+-                                                    <IconButton edge='end' onClick={showCertificatePathPicker}>
++                                                    <IconButton
++                                                        edge='end'
++                                                        aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                        onClick={showCertificatePathPicker}>
+                                                         <SearchIcon />
+                                                     </IconButton>
+                                                 </InputAdornment>
+diff --git a/src/apps/dashboard/routes/playback/transcoding.tsx b/src/apps/dashboard/routes/playback/transcoding.tsx
+index 7d03eea..0971e8f 100644
+--- a/src/apps/dashboard/routes/playback/transcoding.tsx
++++ b/src/apps/dashboard/routes/playback/transcoding.tsx
+@@ -227,7 +227,7 @@ export const Component = () => {
+ 
+                             {hardwareAccelType !== 'none' && (
+                                 <>
+-                                    <Typography variant='h3'>{globalize.translate('LabelEnableHardwareDecodingFor')}</Typography>
++                                    <Typography variant='h2'>{globalize.translate('LabelEnableHardwareDecodingFor')}</Typography>
+                                     <FormGroup>
+                                         {availableCodecs.map(codec => (
+                                             <FormControlLabel
+@@ -331,7 +331,7 @@ export const Component = () => {
+ 
+                             {hardwareAccelType !== 'none' && (
+                                 <FormControl variant='standard'>
+-                                    <Typography variant='h3'>{globalize.translate('LabelHardwareEncodingOptions')}</Typography>
++                                    <Typography variant='h2'>{globalize.translate('LabelHardwareEncodingOptions')}</Typography>
+                                     <FormGroup>
+                                         <FormControlLabel
+                                             label={globalize.translate('EnableHardwareEncoding')}
+@@ -377,7 +377,7 @@ export const Component = () => {
+                             )}
+ 
+                             <FormControl variant='standard'>
+-                                <Typography variant='h3'>{globalize.translate('LabelEncodingFormatOptions')}</Typography>
++                                <Typography variant='h2'>{globalize.translate('LabelEncodingFormatOptions')}</Typography>
+                                 <FormHelperText>{globalize.translate('EncodingFormatHelp')}</FormHelperText>
+                                 <FormGroup>
+                                     <FormControlLabel
+@@ -633,7 +633,10 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showTranscodingPathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                    onClick={showTranscodingPathPicker}>
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+@@ -656,7 +659,10 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showFallbackFontPathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                    onClick={showFallbackFontPathPicker}>
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+diff --git a/src/apps/dashboard/routes/settings/index.tsx b/src/apps/dashboard/routes/settings/index.tsx
+index 3a3a141..fb1c2bb 100644
+--- a/src/apps/dashboard/routes/settings/index.tsx
++++ b/src/apps/dashboard/routes/settings/index.tsx
+@@ -189,7 +189,11 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showCachePathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    onClick={showCachePathPicker}
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                >
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+@@ -208,7 +212,11 @@ export const Component = () => {
+                                     input: {
+                                         endAdornment: (
+                                             <InputAdornment position='end'>
+-                                                <IconButton edge='end' onClick={showMetadataPathPicker}>
++                                                <IconButton
++                                                    edge='end'
++                                                    onClick={showMetadataPathPicker}
++                                                    aria-label={globalize.translate('ButtonSelectDirectory')}
++                                                >
+                                                     <SearchIcon />
+                                                 </IconButton>
+                                             </InputAdornment>
+diff --git a/src/apps/dashboard/routes/tasks/task.tsx b/src/apps/dashboard/routes/tasks/task.tsx
+index ffa6dea..7645494 100644
+--- a/src/apps/dashboard/routes/tasks/task.tsx
++++ b/src/apps/dashboard/routes/tasks/task.tsx
+@@ -114,7 +114,7 @@ export const Component = () => {
+         positionActionsColumn: 'last',
+         displayColumnDefOptions: {
+             'mrt-row-actions': {
+-                header: ''
++                header: globalize.translate('Actions')
+             }
+         },
+         renderRowActions: ({ row }) => {
+@@ -127,6 +127,7 @@ export const Component = () => {
+                         <IconButton
+                             color='error'
+                             onClick={() => onDeleteTrigger(row.original)}
++                            aria-label={globalize.translate('ButtonRemove')}
+                         >
+                             <RemoveCircleIcon />
+                         </IconButton>
+diff --git a/src/apps/legacy/controllers/itemDetails/index.html b/src/apps/legacy/controllers/itemDetails/index.html
+index 36da067..669f535 100644
+--- a/src/apps/legacy/controllers/itemDetails/index.html
++++ b/src/apps/legacy/controllers/itemDetails/index.html
+@@ -111,7 +111,7 @@
+ 
+                     <div class="detailSectionContent">
+                         <p class="itemGenres"></p>
+-                        <h3 class="tagline"></h3>
++                        <h2 class="tagline"></h2>
+                         <p class="overview"></p>
+                         <div class="overview-controls">
+                             <a class="overview-expand hide" is="emby-linkbutton" href="#">${ShowMore}</a>
+diff --git a/src/apps/legacy/controllers/itemDetails/index.js b/src/apps/legacy/controllers/itemDetails/index.js
+index 89ca5d7..fc5d5e7 100755
+--- a/src/apps/legacy/controllers/itemDetails/index.js
++++ b/src/apps/legacy/controllers/itemDetails/index.js
+@@ -482,9 +482,9 @@ function renderName(item, container, context) {
+ 
+     if (html && !parentNameLast) {
+         if (tvSeasonHtml) {
+-            html += '<h3 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h3>';
++            html += '<h2 class="itemName infoText subtitle focuscontainer-x"><bdi>' + tvSeasonHtml + ' - ' + name + '</bdi></h2>';
+         } else {
+-            html += '<h3 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h3>';
++            html += '<h2 class="itemName infoText subtitle"><bdi>' + name + '</bdi></h2>';
+         }
+     } else if (item.OriginalTitle && item.OriginalTitle != item.Name) {
+         html = '<h1 class="itemName infoText parentNameLast withOriginalTitle"><bdi>' + name + '</bdi></h1>' + html;
+@@ -493,7 +493,7 @@ function renderName(item, container, context) {
+     }
+ 
+     if (item.OriginalTitle && item.OriginalTitle != item.Name) {
+-        html += '<h4 class="itemName infoText originalTitle">' + escapeHtml(item.OriginalTitle) + '</h4>';
++        html += '<h2 class="itemName infoText originalTitle">' + escapeHtml(item.OriginalTitle) + '</h2>';
+     }
+ 
+     container.innerHTML = html;
+diff --git a/src/apps/legacy/controllers/playback/queue/index.html b/src/apps/legacy/controllers/playback/queue/index.html
+index bb3a85c..9794ffa 100644
+--- a/src/apps/legacy/controllers/playback/queue/index.html
++++ b/src/apps/legacy/controllers/playback/queue/index.html
+@@ -9,7 +9,7 @@
+                 <div class="infoContainer flex">
+ 
+                     <div class="nowPlayingInfoContainerMedia">
+-                        <h2 class="nowPlayingPageTitle"></h2>
++                        <h2 class="nowPlayingPageTitle hide"></h2>
+                         <div style="font-weight: bold;" class="nowPlayingSongName nowPlayingEpisode"></div>
+                         <div class="nowPlayingAlbum nowPlayingSeason"></div>
+                         <div class="nowPlayingArtist nowPlayingSerie"></div>
+@@ -21,7 +21,7 @@ <h2 class="nowPlayingPageTitle"></h2>
+                 <div class="sliderContainer flex" dir="ltr">
+                     <div class="positionTime"></div>
+                         <div class="nowPlayingPositionSliderContainer">
+-                            <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" />
++                            <input type="range" is="emby-slider" pin step="1" min="0" max="100" value="0" class="nowPlayingPositionSlider" data-slider-keep-progress="true" aria-label="${TrackPosition}" />
+                         </div>
+                     <div class="runtime"></div>
+                 </div>
+diff --git a/src/apps/legacy/controllers/playback/video/index.html b/src/apps/legacy/controllers/playback/video/index.html
+index 57b1109..78ee8d6 100644
+--- a/src/apps/legacy/controllers/playback/video/index.html
++++ b/src/apps/legacy/controllers/playback/video/index.html
+@@ -81,7 +81,7 @@ <h3 class="osdTitle"></h3>
+                         <span class="xlargePaperIconButton material-icons volume_up" aria-hidden="true"></span>
+                     </button>
+                     <div class="sliderContainer osdVolumeSliderContainer">
+-                        <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="osdVolumeSlider" />
++                        <input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="osdVolumeSlider" aria-label="${OptionVolume}" />
+                     </div>
+                 </div>
+                 <button is="paper-icon-button-light" class="btnVideoOsdSettings autoSize" title="${Settings}">
+diff --git a/src/apps/legacy/routes/user/userprofile.tsx b/src/apps/legacy/routes/user/userprofile.tsx
+index 00bb18e..5963406 100644
+--- a/src/apps/legacy/routes/user/userprofile.tsx
++++ b/src/apps/legacy/routes/user/userprofile.tsx
+@@ -194,6 +194,7 @@ const UserProfile: FunctionComponent = () => {
+                             id='uploadImage'
+                             type='file'
+                             accept='image/*'
++                            aria-label={globalize.translate('UploadCustomImage')}
+                             style={{ position: 'absolute', right: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
+                         />
+                         <div
+diff --git a/src/apps/modern/components/AppToolbar/menus/RemotePlayActiveMenu.tsx b/src/apps/modern/components/AppToolbar/menus/RemotePlayActiveMenu.tsx
+index b8e5abf..a42fec9 100644
+--- a/src/apps/modern/components/AppToolbar/menus/RemotePlayActiveMenu.tsx
++++ b/src/apps/modern/components/AppToolbar/menus/RemotePlayActiveMenu.tsx
+@@ -102,6 +102,10 @@ const RemotePlayActiveMenu: FC<RemotePlayActiveMenuProps> = ({
+                             {remotePlayerName}
+                         </ListSubheader>
+                     )
++                },
++                paper: {
++                    role: 'region',
++                    'aria-label': globalize.translate('HeaderRemoteControl')
+                 }
+             }}
+         >
+diff --git a/src/apps/modern/components/AppToolbar/menus/RemotePlayMenu.tsx b/src/apps/modern/components/AppToolbar/menus/RemotePlayMenu.tsx
+index 4d87206..adcbe69 100644
+--- a/src/apps/modern/components/AppToolbar/menus/RemotePlayMenu.tsx
++++ b/src/apps/modern/components/AppToolbar/menus/RemotePlayMenu.tsx
+@@ -64,6 +64,12 @@ const RemotePlayMenu: FC<RemotePlayMenuProps> = ({
+             keepMounted
+             open={open}
+             onClose={onMenuClose}
++            slotProps={{
++                paper: {
++                    role: 'region',
++                    'aria-label': globalize.translate('HeaderPlayOn')
++                }
++            }}
+         >
+             {!isChromecastPluginLoaded && (
+                 <MenuItem disabled>
+diff --git a/src/apps/modern/components/AppToolbar/menus/SyncPlayMenu.tsx b/src/apps/modern/components/AppToolbar/menus/SyncPlayMenu.tsx
+index 7d0c821..82ba09b 100644
+--- a/src/apps/modern/components/AppToolbar/menus/SyncPlayMenu.tsx
++++ b/src/apps/modern/components/AppToolbar/menus/SyncPlayMenu.tsx
+@@ -234,7 +234,11 @@ const SyncPlayMenu: FC<SyncPlayMenuProps> = ({
+             open={open}
+             onClose={onMenuClose}
+             slotProps={{
+-                list: MenuListProps
++                list: MenuListProps,
++                paper: {
++                    role: 'region',
++                    'aria-label': globalize.translate('ButtonSyncPlay')
++                }
+             }}
+         >
+             {menuItems}
+diff --git a/src/apps/modern/components/drawers/DrawerHeaderLink.tsx b/src/apps/modern/components/drawers/DrawerHeaderLink.tsx
+index 155f7e2..3840cbc 100644
+--- a/src/apps/modern/components/drawers/DrawerHeaderLink.tsx
++++ b/src/apps/modern/components/drawers/DrawerHeaderLink.tsx
+@@ -18,6 +18,8 @@ const DrawerHeaderLink = () => {
+                 <Box
+                     component='img'
+                     src={appIcon}
++                    alt=''
++                    aria-hidden
+                     sx={{ height: '2.5rem' }}
+                 />
+             </ListItemIcon>
+diff --git a/src/apps/modern/components/drawers/MainDrawerContent.tsx b/src/apps/modern/components/drawers/MainDrawerContent.tsx
+index 3c4f1a0..beca8f7 100644
+--- a/src/apps/modern/components/drawers/MainDrawerContent.tsx
++++ b/src/apps/modern/components/drawers/MainDrawerContent.tsx
+@@ -89,7 +89,7 @@ const MainDrawerContent = () => {
+                     <List
+                         aria-labelledby='libraries-subheader'
+                         subheader={
+-                            <ListSubheader component='div' id='libraries-subheader'>
++                            <ListSubheader component='li' id='libraries-subheader'>
+                                 {globalize.translate('HeaderLibraries')}
+                             </ListSubheader>
+                         }
+diff --git a/src/apps/modern/features/libraries/components/AlphabetPicker.tsx b/src/apps/modern/features/libraries/components/AlphabetPicker.tsx
+index 80721aa..41e897c 100644
+--- a/src/apps/modern/features/libraries/components/AlphabetPicker.tsx
++++ b/src/apps/modern/features/libraries/components/AlphabetPicker.tsx
+@@ -69,6 +69,8 @@ const AlphabetPicker: React.FC<AlphabetPickerProps> = ({
+                             value={l}
+                             sx={{
+                                 borderWidth: 0,
++                                minWidth: '24px',
++                                minHeight: '24px',
+                                 paddingTop: {
+                                     xs: 0,
+                                     md: 0.25
+diff --git a/src/apps/modern/features/libraries/components/LibraryViewMenu.tsx b/src/apps/modern/features/libraries/components/LibraryViewMenu.tsx
+index e7bf4b9..255816b 100644
+--- a/src/apps/modern/features/libraries/components/LibraryViewMenu.tsx
++++ b/src/apps/modern/features/libraries/components/LibraryViewMenu.tsx
+@@ -56,6 +56,12 @@ const LibraryViewMenu: FC = () => {
+                 keepMounted
+                 open={isMenuOpen}
+                 onClose={onMenuClose}
++                slotProps={{
++                    paper: {
++                        role: 'region',
++                        'aria-label': globalize.translate('ButtonSelectView')
++                    }
++                }}
+             >
+                 {currentRoute?.views.map(tab => (
+                     <MenuItem
+diff --git a/src/apps/modern/features/libraries/components/SortButton.tsx b/src/apps/modern/features/libraries/components/SortButton.tsx
+index 77c1698..a2f75fb 100644
+--- a/src/apps/modern/features/libraries/components/SortButton.tsx
++++ b/src/apps/modern/features/libraries/components/SortButton.tsx
+@@ -228,6 +228,12 @@ const SortButton: FC<SortButtonProps> = ({
+                     vertical: 'top',
+                     horizontal: 'center'
+                 }}
++                slotProps={{
++                    paper: {
++                        role: 'region',
++                        'aria-label': globalize.translate('HeaderSortBy')
++                    }
++                }}
+                 sx={{
+                     '& .MuiFormControl-root': { m: 1, width: 200 }
+                 }}
+diff --git a/src/apps/modern/features/libraries/components/ViewSettingsButton.tsx b/src/apps/modern/features/libraries/components/ViewSettingsButton.tsx
+index 021ee03..aa32b4b 100644
+--- a/src/apps/modern/features/libraries/components/ViewSettingsButton.tsx
++++ b/src/apps/modern/features/libraries/components/ViewSettingsButton.tsx
+@@ -130,6 +130,12 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
+                     vertical: 'top',
+                     horizontal: 'center'
+                 }}
++                slotProps={{
++                    paper: {
++                        role: 'region',
++                        'aria-label': globalize.translate('CardSettings')
++                    }
++                }}
+                 sx={{
+                     '& .MuiFormControl-root': { m: 1, width: 220 }
+                 }}
+@@ -147,6 +153,7 @@ const ViewSettingsButton: FC<ViewSettingsButtonProps> = ({
+                         <IconButton
+                             onClick={onSettingsClick}
+                             size='small'
++                            aria-label={globalize.translate('CardSettings')}
+                             sx={{
+                                 ml: 2
+                             }}
+diff --git a/src/components/InputDialog.tsx b/src/components/InputDialog.tsx
+index dffbda1..2292296 100644
+--- a/src/components/InputDialog.tsx
++++ b/src/components/InputDialog.tsx
+@@ -59,6 +59,8 @@ const InputDialog = ({
+                         helperText={helperText}
+                         onChange={onTextChange}
+                         variant='standard'
++                        // eslint-disable-next-line jsx-a11y/no-autofocus
++                        autoFocus
+                     />
+                 </Stack>
+             </DialogContent>
+diff --git a/src/components/ResponsiveDrawer.tsx b/src/components/ResponsiveDrawer.tsx
+index b3fd054..470c468 100644
+--- a/src/components/ResponsiveDrawer.tsx
++++ b/src/components/ResponsiveDrawer.tsx
+@@ -35,6 +35,11 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
+                     boxSizing: 'border-box'
+                 }
+             }}
++            slotProps={{
++                paper: {
++                    component: 'nav'
++                }
++            }}
+             variant='permanent'
+             anchor='left'
+         >
+@@ -45,6 +50,11 @@ const ResponsiveDrawer: FC<PropsWithChildren<ResponsiveDrawerProps>> = ({
+         <SwipeableDrawer
+             anchor='left'
+             open={open}
++            slotProps={{
++                paper: {
++                    component: 'nav'
++                }
++            }}
+             sx={{
+                 '& .MuiDrawer-paper': {
+                     paddingBottom: '4.2rem', // Padding for now playing bar
+diff --git a/src/components/cardbuilder/card.scss b/src/components/cardbuilder/card.scss
+index 90a8604..7be5358 100644
+--- a/src/components/cardbuilder/card.scss
++++ b/src/components/cardbuilder/card.scss
+@@ -455,6 +455,13 @@ button::-moz-focus-inner {
+     }
+ }
+ 
++.cardOverlayButton:focus-visible {
++    // emby-button.scss supprime outline globalement (!important) —
++    // rétablir un indicateur clavier sur le bouton overlay uniquement.
++    outline: 2px solid #fff !important;
++    outline-offset: -2px;
++}
++
+ .cardOverlayButton-br {
+     position: absolute;
+     bottom: 0;
+diff --git a/src/components/cardbuilder/cardBuilder.js b/src/components/cardbuilder/cardBuilder.js
+index 6055974..bf044d2 100644
+--- a/src/components/cardbuilder/cardBuilder.js
++++ b/src/components/cardbuilder/cardBuilder.js
+@@ -847,6 +847,24 @@ function buildCard(index, item, apiClient, options) {
+         }
+     }
+ 
++    // Mirrors the visible .countIndicator badge (see getPlayedIndicatorHtml /
++    // getChildCountIndicatorHtml) so the accessible name contains the text
++    // rendered inside the link.
++    const getCountIndicatorText = (cardItem, cardOptions) => {
++        const userData = cardItem.UserData || {};
++        let count;
++        if (cardOptions.showGroupCount) {
++            count = cardItem.ChildCount && cardItem.ChildCount > 1 ? cardItem.ChildCount : undefined;
++        } else if (itemHelper.canMarkPlayed(cardItem) && userData.UnplayedItemCount) {
++            count = userData.UnplayedItemCount;
++        }
++        if (!count) {
++            return '';
++        }
++        const formatted = count >= 100 ? '99+' : count;
++        return escapeHtml(` ${formatted}`);
++    };
++
+     // cardBox can be it's own separate element if an outer footer is ever needed
+     let cardImageContainerOpen;
+     let cardImageContainerClose = '';
+@@ -866,7 +884,8 @@ function buildCard(index, item, apiClient, options) {
+ 
+         cardImageContainerClose = '</div>';
+     } else {
+-        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}" role="img"`;
++        const countIndicatorText = getCountIndicatorText(item, options);
++        const cardImageContainerAriaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}${countIndicatorText}"`;
+ 
+         const url = appRouter.getRouteUrl(item);
+         // Don't use the IMG tag with safari because it puts a white border around it
+@@ -892,9 +911,9 @@ function buildCard(index, item, apiClient, options) {
+     cardBoxClose = '</div>';
+     cardScalableClose = '</div>';
+ 
+-    if (options.disableIndicators !== true) {
+-        let indicatorsHtml = '';
++    let indicatorsHtml = '';
+ 
++    if (options.disableIndicators !== true) {
+         if (options.missingIndicator !== false) {
+             indicatorsHtml += indicators.getMissingIndicator(item);
+         }
+@@ -919,7 +938,7 @@ function buildCard(index, item, apiClient, options) {
+         }
+ 
+         if (indicatorsHtml) {
+-            cardImageContainerOpen += '<div class="cardIndicators">' + indicatorsHtml + '</div>';
++            indicatorsHtml = '<div class="cardIndicators" aria-hidden="true">' + indicatorsHtml + '</div>';
+         }
+     }
+ 
+@@ -927,6 +946,13 @@ function buildCard(index, item, apiClient, options) {
+         cardImageContainerOpen += getDefaultText(item, options);
+     }
+ 
++    // Append indicators after any visible card text so the accessible name
++    // contains the visible text in DOM order ("Name count"). A whitespace
++    // text node keeps the two strings from merging into a single token.
++    if (indicatorsHtml) {
++        cardImageContainerOpen += ' ' + indicatorsHtml;
++    }
++
+     const tagName = layoutManager.tv && !overlayButtons ? 'button' : 'div';
+ 
+     const nameWithPrefix = (item.SortName || item.Name || '');
+@@ -949,7 +975,7 @@ function buildCard(index, item, apiClient, options) {
+ 
+     if (tagName === 'button') {
+         actionAttribute = ' data-action="' + action + '"';
+-        ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}"`;
++        ariaLabelAttribute = ` aria-label="${escapeHtml(item.Name)}${getCountIndicatorText(item, options)}"`;
+     } else {
+         actionAttribute = '';
+     }
+@@ -1109,6 +1135,7 @@ function ensureIndicators(card, indicatorsElem) {
+         const cardImageContainer = card.querySelector('.cardImageContainer');
+         indicatorsElem = document.createElement('div');
+         indicatorsElem.classList.add('cardIndicators');
++        indicatorsElem.setAttribute('aria-hidden', 'true');
+         cardImageContainer.appendChild(indicatorsElem);
+     }
+ 
+diff --git a/src/components/dashboard/users/UserCardBox.tsx b/src/components/dashboard/users/UserCardBox.tsx
+index af61978..4286632 100644
+--- a/src/components/dashboard/users/UserCardBox.tsx
++++ b/src/components/dashboard/users/UserCardBox.tsx
+@@ -57,7 +57,8 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
+                     <div className='cardPadder cardPadder-square'></div>
+                     <LinkButton
+                         className='cardContent'
+-                        href={`#/dashboard/users/${user.Id}/profile`}>
++                        href={`#/dashboard/users/${user.Id}/profile`}
++                        aria-label={user.Name ?? undefined}>
+                         {renderImgUrl}
+                     </LinkButton>
+                 </div>
+@@ -69,6 +70,7 @@ const UserCardBox: FunctionComponent<IProps> = ({ user = {} }: IProps) => {
+                             is='paper-icon-button-light'
+                             className='btnUserMenu flex-shrink-zero'
+                             icon='more_vert'
++                            title='ButtonMore'
+                         />
+                     </div>
+                     <div className='cardText'>
+diff --git a/src/components/dialogHelper/dialogHelper.js b/src/components/dialogHelper/dialogHelper.js
+index 6af9680..dd86095 100644
+--- a/src/components/dialogHelper/dialogHelper.js
++++ b/src/components/dialogHelper/dialogHelper.js
+@@ -1,4 +1,5 @@
+ import focusManager from '../focusManager';
++import globalize from '../../lib/globalize';
+ import browser from '../../scripts/browser';
+ import layoutManager from '../layoutManager';
+ import inputManager from '../../scripts/inputManager';
+@@ -241,6 +242,18 @@ export function open(dlg) {
+         globalOnOpenCallback(dlg);
+     }
+ 
++    // Give the dialog an accessible name from its visible title so the
++    // role="dialog" landmark is labelled.
++    if (!dlg.hasAttribute('aria-labelledby') && !dlg.hasAttribute('aria-label')) {
++        const title = dlg.querySelector('.formDialogHeaderTitle, .actionSheetTitle, .dialogHeaderTitle, h1, h2, h3');
++        if (title) {
++            title.id = title.id || `dlg-title-${dlg.id || Math.random().toString(36).slice(2)}`;
++            dlg.setAttribute('aria-labelledby', title.id);
++        } else {
++            dlg.setAttribute('aria-label', globalize.translate('Menu'));
++        }
++    }
++
+     const parent = dlg.parentNode;
+     if (parent) {
+         parent.removeChild(dlg);
+@@ -413,6 +426,8 @@ export function createDialog(options = {}) {
+ 
+     dlg.classList.add('focuscontainer');
+     dlg.classList.add('hide');
++    dlg.setAttribute('role', 'dialog');
++    dlg.setAttribute('aria-modal', 'true');
+ 
+     if (shouldLockDocumentScroll(options)) {
+         dlg.setAttribute('data-lockscroll', 'true');
+diff --git a/src/components/remotecontrol/remotecontrol.js b/src/components/remotecontrol/remotecontrol.js
+index c09ee01..e3df293 100644
+--- a/src/components/remotecontrol/remotecontrol.js
++++ b/src/components/remotecontrol/remotecontrol.js
+@@ -874,7 +874,7 @@ export default function () {
+     function init(ownerView, context) {
+         let volumecontrolHtml = '<div class="volumecontrol flex align-items-center flex-wrap-wrap justify-content-center">';
+         volumecontrolHtml += `<button is="paper-icon-button-light" class="buttonMute autoSize" title=${globalize.translate('Mute')}><span class="xlargePaperIconButton material-icons volume_up" aria-hidden="true"></span></button>`;
+-        volumecontrolHtml += '<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider"/></div>';
++        volumecontrolHtml += `<div class="sliderContainer nowPlayingVolumeSliderContainer"><input is="emby-slider" type="range" step="1" min="0" max="100" value="0" class="nowPlayingVolumeSlider" aria-label="${globalize.translate('OptionVolume')}"/></div>`;
+         volumecontrolHtml += '</div>';
+         const optionsSection = context.querySelector('.playlistSectionButton');
+         if (!layoutManager.mobile) {
+diff --git a/src/components/toolbar/AppUserMenu.tsx b/src/components/toolbar/AppUserMenu.tsx
+index 58b9d4d..facb5be 100644
+--- a/src/components/toolbar/AppUserMenu.tsx
++++ b/src/components/toolbar/AppUserMenu.tsx
+@@ -78,6 +78,12 @@ const AppUserMenu: FC<AppUserMenuProps> = ({
+             keepMounted
+             open={open}
+             onClose={onMenuClose}
++            slotProps={{
++                paper: {
++                    role: 'region',
++                    'aria-label': globalize.translate('UserMenu')
++                }
++            }}
+         >
+             <MenuItem
+                 component={Link}
+diff --git a/src/components/toolbar/ServerButton.tsx b/src/components/toolbar/ServerButton.tsx
+index 84c3e7f..59efea5 100644
+--- a/src/components/toolbar/ServerButton.tsx
++++ b/src/components/toolbar/ServerButton.tsx
+@@ -11,11 +11,14 @@ const ServerButton: FC = () => {
+         isPending
+     } = useSystemInfo();
+ 
++    const serverName = isPending ? 'Jellyfin' : (systemInfo?.ServerName || 'Jellyfin');
++
+     return (
+         <Button
+             variant='text'
+             size='large'
+             color='inherit'
++            aria-label={serverName}
+             startIcon={
+                 <img
+                     src={icon}
+@@ -30,7 +33,7 @@ const ServerButton: FC = () => {
+             component={Link}
+             to='/'
+         >
+-            {isPending ? '' : (systemInfo?.ServerName || 'Jellyfin')}
++            {isPending ? '' : serverName}
+         </Button>
+     );
+ };
+diff --git a/src/index.html b/src/index.html
+index cf9c21c..b2dbbb8 100644
+--- a/src/index.html
++++ b/src/index.html
+@@ -2,7 +2,7 @@
+ <html dir="ltr">
+ <head>
+     <meta charset="utf-8">
+-    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
++    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+     <link rel="manifest" href="manifest.json">
+     <meta name="format-detection" content="telephone=no">
+     <meta name="msapplication-tap-highlight" content="no">
+diff --git a/src/scripts/editorsidebar.js b/src/scripts/editorsidebar.js
+index 0074d34..b183e45 100644
+--- a/src/scripts/editorsidebar.js
++++ b/src/scripts/editorsidebar.js
+@@ -190,6 +190,41 @@ function initializeTree(page, currentUser, openItems, selectedId) {
+         import('jstree'),
+         import('jstree/dist/themes/default/style.css')
+     ]).then(() => {
++        // The wholerow plugin inserts its row div as childNodes[0] of each LI,
++        // which makes jstree core write aria-* state attributes to the
++        // .jstree-ocl icon (role="presentation") instead of the anchor.
++        // Moving the strip breaks the visual layout (it is absolutely
++        // positioned relative to the UL), so instead mirror the misplaced
++        // attributes back onto the anchor after each render/open.
++        const moveOclAttrs = (li) => {
++            const ocl = li.childNodes[1];
++            if (!ocl || !ocl.classList || !ocl.classList.contains('jstree-ocl')) {
++                return;
++            }
++            const anchor = li.querySelector(':scope > .jstree-anchor');
++            if (!anchor) {
++                return;
++            }
++            if (ocl.hasAttribute('aria-expanded')) {
++                anchor.setAttribute('aria-expanded', ocl.getAttribute('aria-expanded'));
++                ocl.removeAttribute('aria-expanded');
++            }
++        };
++        const baseWholerow = $.jstree.plugins.wholerow;
++        if (!baseWholerow.__a11yPatched) {
++            $.jstree.plugins.wholerow = function (options, parent) {
++                baseWholerow.call(this, options, parent);
++                const baseRedrawNode = this.redraw_node;
++                this.redraw_node = function () {
++                    const obj = baseRedrawNode.apply(this, arguments);
++                    if (obj) {
++                        moveOclAttrs(obj);
++                    }
++                    return obj;
++                };
++            };
++            $.jstree.plugins.wholerow.__a11yPatched = true;
++        }
+         initializeTreeInternal(page, currentUser, openItems, selectedId);
+     });
+ }
+@@ -249,7 +284,20 @@ function initializeTreeInternal(page, currentUser, openItems, selectedId) {
+         .off('open_node.jstree', onNodeOpen)
+         .on('open_node.jstree', onNodeOpen)
+         .off('load_node.jstree', onNodeOpen)
+-        .on('load_node.jstree', onNodeOpen);
++        .on('load_node.jstree', onNodeOpen)
++        // The wholerow plugin shifts each LI's childNodes so jstree core can
++        // write aria-expanded to the .jstree-ocl icon (role="presentation").
++        // Mirror it back onto the anchor and remove it from the icon.
++        .off('open_node.jstree.a11y close_node.jstree.a11y redraw.jstree.a11y')
++        .on('open_node.jstree.a11y close_node.jstree.a11y redraw.jstree.a11y', function () {
++            $(this).find('.jstree-ocl[aria-expanded]').each(function () {
++                const anchor = this.parentNode.querySelector(':scope > .jstree-anchor');
++                if (anchor) {
++                    anchor.setAttribute('aria-expanded', this.getAttribute('aria-expanded'));
++                }
++                this.removeAttribute('aria-expanded');
++            });
++        });
+ }
+ 
+ function loadNodesToLoad(page, node) {
+diff --git a/src/strings/en-us.json b/src/strings/en-us.json
+index 596b96f..b1c983a 100755
+--- a/src/strings/en-us.json
++++ b/src/strings/en-us.json
+@@ -1,6 +1,7 @@
+ {
+     "Absolute": "Absolute",
+     "AccessRestrictedTryAgainLater": "Access is currently restricted. Please try again later.",
++    "Actions": "Actions",
+     "Actor": "Actor",
+     "ActivitiesLoadError": "Failed to load activities",
+     "Add": "Add",
+@@ -1381,6 +1382,7 @@
+     "OptionSaveMetadataAsHiddenHelp": "Changing this will apply to new metadata saved going forward. Existing metadata files will be updated the next time they are saved by the server.",
+     "OptionSpecialEpisode": "Specials",
+     "OptionTrackName": "Track Name",
++    "OptionVolume": "Volume",
+     "OptionTvdbRating": "TheTVDB Rating",
+     "OptionUnairedEpisode": "Unaired Episodes",
+     "OptionWakeFromSleep": "Wake from sleep",
+@@ -1693,6 +1695,7 @@
+     "TonemappingRangeHelp": "Select the output color range. Auto is the same as the input range.",
+     "Track": "Track",
+     "TrackCount": "{0} tracks",
++    "TrackPosition": "Track position",
+     "Trailers": "Trailers",
+     "Transcoding": "Transcoding",
+     "TranscodingLoadError": "Failed to load transcoding settings",
+diff --git a/src/styles/metadataeditor.scss b/src/styles/metadataeditor.scss
+index 51dfc84..3e5edc7 100644
+--- a/src/styles/metadataeditor.scss
++++ b/src/styles/metadataeditor.scss
+@@ -49,6 +49,11 @@
+     background: #00a4dc !important;
+ }
+ 
++.jstree-default .jstree-node:has(> .jstree-wholerow-clicked) > .jstree-anchor,
++.jstree-default .jstree-node:has(> .jstree-wholerow-clicked) > .jstree-anchor .metadataSidebarIcon {
++    color: #000 !important;
++}
++
+ .metadataSidebarIcon {
+     margin-right: 0.4em;
+ }
+diff --git a/src/themes/dark/theme.scss b/src/themes/dark/theme.scss
+index 26c19ff..c39dfb7 100644
+--- a/src/themes/dark/theme.scss
++++ b/src/themes/dark/theme.scss
+@@ -7,11 +7,12 @@
+ }
+ 
+ .defaultCardBackground2 {
+-    background-color: #44bae1;
++    // assombri : le texte de carte blanc exige ≥4.5:1 (WCAG 1.4.3)
++    background-color: #1a7898;
+ }
+ 
+ .defaultCardBackground3 {
+-    background-color: #00a4db;
++    background-color: #0076a0;
+ }
+ 
+ .defaultCardBackground4 {
+diff --git a/src/themes/light/index.ts b/src/themes/light/index.ts
+index 4670cf1..dd67c2b 100644
+--- a/src/themes/light/index.ts
++++ b/src/themes/light/index.ts
+@@ -10,6 +10,16 @@ const theme = merge<ColorSystemOptions, ColorSystemOptions, ColorSystemOptions>(
+     {
+         palette: {
+             mode: 'light',
++            // #00a4dc only reaches ~3.4:1 on light surfaces; use a darker
++            // brand variant so text/icons in primary color reach 4.5:1.
++            primary: {
++                main: '#005a78',
++                contrastText: '#fff'
++            },
++            secondary: {
++                main: '#005a78',
++                contrastText: '#fff'
++            },
+             background: {
+                 default: '#f2f2f2',
+                 paper: '#e8e8e8'
+diff --git a/src/themes/light/theme.scss b/src/themes/light/theme.scss
+index 47a98b1..022d469 100644
+--- a/src/themes/light/theme.scss
++++ b/src/themes/light/theme.scss
+@@ -6,6 +6,10 @@
+     $dark: false,
+ 
+     // Color palette
++    // NOTE: #00a4dc only reaches ~3.4:1 on light surfaces; a darker brand
++    // variant is required for 4.5:1 text-on-background contrast.
++    $primary-main: #005a78,
++    $primary-contrastText: #fff,
+     $background-default: #f2f2f2,
+     $background-paper: #e8e8e8,
+     $text-primary: #000,
+@@ -43,7 +47,8 @@
+ }
+ 
+ .defaultCardBackground4 {
+-    background-color: #388e3c;
++    // éclairci : le texte de carte sombre exige ≥4.5:1 (WCAG 1.4.3)
++    background-color: #43a047;
+ }
+ 
+ .defaultCardBackground5 {

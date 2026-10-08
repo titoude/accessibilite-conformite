@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const b = 'http://localhost:5961';
+const browser = await chromium.launch();
+const ctx = await browser.newContext({ storageState: 'auth.json', locale: 'en-US' });
+const page = await ctx.newPage();
+await page.goto(b + '/web/index.html#/movies', { waitUntil: 'domcontentloaded', timeout: 30000 });
+await page.waitForTimeout(5000);
+console.log('URL:', page.url());
+const t = await page.evaluate(() => document.body.textContent.replace(/\s+/g,' ').slice(0,400));
+console.log('TEXT:', t);
+const btnTexts = await page.evaluate(() => [...document.querySelectorAll('button')].map(e => (e.textContent||'').trim()).filter(Boolean).slice(0,40));
+console.log('BTNS:', JSON.stringify(btnTexts));
+await browser.close();

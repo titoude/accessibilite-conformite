@@ -1,0 +1,431 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 76/76 scénario(s) audité(s), 0 erreur(s), 322 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `6d4a4efce574`
+
+## Résultats incomplets à revoir (322)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:5962/web/index.html#/home
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/home?tab=1
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/movies?tab=0
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/movies?tab=1
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/movies?tab=2
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/movies?tab=3
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/movies?tab=4
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/movies?tab=5
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/movies?tab=6
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/tv?tab=0
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/tv?tab=1
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/livetv
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/playlists
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/boxsets
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/homevideos
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/mixed
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/books
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/music
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/musicvideos
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/index.html#/search
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/quickconnect
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/queue
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/list?parentId=f137a2dd21bbc1b99aa5c0f6bf02a805&type=movies
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/details?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/details?id=a7cc2a4fb6f159ad3b5acbf3d0a690df
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/details?id=552f02dbdb46b79d1dc5a32f1d3ab1c0
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/metadata?id=4df79bd2d5bbae21080a0524a2702d5a
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/userprofile
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/mypreferencesmenu
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/mypreferenceshome
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/mypreferencesplayback
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/mypreferencescontrols
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/mypreferencessubtitles
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/settings
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/libraries
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/libraries/display
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/libraries/metadata
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/libraries/nfo
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/activity
+  - `button[aria-controls="app-user-menu"]`
+- http://localhost:5962/web/index.html#/dashboard/devices
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/keys
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/livetv
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/livetv/recordings
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/logs
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/networking
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/playback/resume
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/playback/streaming
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/playback/transcoding
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/playback/trickplay
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/plugins
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/plugins/repositories
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/tasks
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/users
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/users/add
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/users/edcff0c0f03348d29e5bc6ae28576d7b/profile
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/users/edcff0c0f03348d29e5bc6ae28576d7b/access
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/users/edcff0c0f03348d29e5bc6ae28576d7b/parentalcontrol
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/users/edcff0c0f03348d29e5bc6ae28576d7b/password
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/backups
+  - `.css-g99rn3`
+- http://localhost:5962/web/index.html#/dashboard/branding
+  - `.css-g99rn3`
+- http://localhost:5962/web/#/movies?tab=0 [state:card-context-menu]
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `.css-g99rn3`
+- http://localhost:5962/web/#/home [state:theme-light]
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+- http://localhost:5962/web/#/movies?tab=0 [state:theme-light-dialog]
+  - `button[aria-controls="app-sync-play-menu"]`
+  - `button[aria-label="Cast to Device"]`
+  - `.css-g99rn3`
+  - `button[aria-controls="library-view-menu"]`
+- http://localhost:5962/web/#/dashboard/libraries [state:theme-light-dash]
+  - `.css-g99rn3`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:5962/web/index.html#/mypreferencessubtitles
+  - `.subtitleappearance-preview-text`
+  - `.sliderContainer-settings > .fieldDescription`
+- http://localhost:5962/web/index.html#/dashboard
+  - `.css-10o1m3t:nth-child(1)`
+  - `.css-10o1m3t:nth-child(2)`
+  - `.css-10o1m3t:nth-child(3)`
+  - `.css-10o1m3t:nth-child(4)`
+  - `.css-fu98qv > .css-pl8nxc:nth-child(1)`
+  - `.css-fu98qv > .css-pl8nxc:nth-child(2)`
+  - `.css-pl8nxc:nth-child(3)`
+  - `.css-pl8nxc:nth-child(4)`
+  - `.MuiGrid-grid-sm-6.MuiGrid-grid-lg-4.css-pjvi1b:nth-child(1) > .css-lh4h8w.MuiCard-root.MuiPaper-elevation1 > .css-ng392j.MuiStack-root > .css-0.MuiBox-root > .css-51zmit.MuiTypography-body2`
+  - `.MuiGrid-grid-sm-6.MuiGrid-grid-lg-4.css-pjvi1b:nth-child(1) > .css-lh4h8w.MuiCard-root.MuiPaper-elevation1 > .css-ng392j.MuiStack-root > .css-0.MuiBox-root > .MuiTypography-h5.css-iei4f.MuiTypography-root`
+  - … +6 autres
+- http://localhost:5962/web/index.html#/dashboard/libraries
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+- http://localhost:5962/web/index.html#/dashboard/activity
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sorted by Time descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Level ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Name ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Overview ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Type ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+- http://localhost:5962/web/index.html#/dashboard/devices
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Last active descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Device ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App name ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+- http://localhost:5962/web/index.html#/dashboard/keys
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by API Key descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Date Issued descending"] > .MuiBadge-badge.MuiBadge-standard.MuiBadge-invisible`
+- http://localhost:5962/web/index.html#/dashboard/livetv/recordings
+  - `h2:nth-child(9)`
+- http://localhost:5962/web/index.html#/dashboard/plugins
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(3) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(3) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(4) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(4) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(5) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(5) > .MuiPaper-elevation1.MuiCard-root.css-nqwc7a > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - … +2 autres
+- http://localhost:5962/web/#/home [state:nav-user-menu]
+  - `.MuiPaper-rounded.MuiPaper-elevation8[aria-label="User Menu"] > .css-ubifyk > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `a[href$="#/mypreferencesmenu"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters[href$="#/dashboard"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters[href$="#/metadata"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `a[href$="#/quickconnect"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+  - `.MuiPaper-rounded.MuiPaper-elevation8[aria-label="User Menu"] > .css-ubifyk > li > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+- http://localhost:5962/web/#/movies?tab=0 [state:sort-popover]
+  - `.css-1wduhak > li:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(2) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(3) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(4) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(5) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `.css-1wduhak > li:nth-child(6) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(7) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `.css-1wduhak > li:nth-child(8) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(9) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(10) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+- http://localhost:5962/web/#/movies?tab=0 [state:view-settings-popover]
+  - `.css-1wduhak > li:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `li:nth-child(2) > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+- http://localhost:5962/web/#/home [state:syncplay-menu]
+  - `.MuiPaper-rounded.MuiPaper-elevation8[aria-label="SyncPlay"] > .css-ubifyk > li > .css-t3p1a1.MuiListItemText-root > .MuiTypography-root.MuiTypography-body1.MuiListItemText-primary`
+- http://localhost:5962/web/#/home [state:cast-menu]
+  - `.MuiListItemText-multiline > .MuiTypography-body1.MuiListItemText-primary.css-pl8nxc`
+  - `p`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-library-menu]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `div[aria-label="Actions"] > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(1) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `div[aria-label="Actions"] > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(2) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `.MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(3) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `div[aria-label="Actions"] > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(4) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+  - `div[aria-label="Actions"] > .MuiMenu-list.css-ubifyk[role="menu"] > .MuiMenuItem-root.MuiMenuItem-gutters.css-mbeig7:nth-child(5) > .css-t3p1a1.MuiListItemText-root > .css-pl8nxc.MuiListItemText-primary.MuiTypography-body1`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-rename-dialog]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `#\:r9\:`
+  - `#\:rf\:-label`
+  - `#\:rf\:`
+  - `#\:rf\:-helper-text`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-confirm-remove]
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `#\:ra\:`
+  - `.MuiDialogContentText-root`
+  - `.MuiButton-text`
+- http://localhost:5962/web/#/dashboard/libraries [state:add-media-library-dialog]
+  - `.MuiButton-contained`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(1) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .MuiTypography-gutterBottom.css-bp7cpj`
+  - `.MuiGrid-item.MuiGrid-grid-xs-12.MuiGrid-grid-sm-6:nth-child(2) > .MuiPaper-elevation1.MuiCard-root.css-1amat89 > .MuiCardContent-root.css-1brmtja > .css-1rnkjon.MuiStack-root > .css-8qy8gq.MuiStack-root > .css-117uyjo.MuiTypography-body2`
+- http://localhost:5962/web/#/movies?tab=0 [state:theme-light-dialog]
+  - `button[value="A"]`
+  - `button[value="B"]`
+  - `button[value="C"]`
+  - `button[value="D"]`
+  - `button[value="E"]`
+  - `button[value="F"]`
+  - `button[value="G"]`
+  - `button[value="H"]`
+  - `button[value="I"]`
+  - `button[value="J"]`
+  - … +15 autres
+- http://localhost:5962/web/#/home [state:mobile-nav-390]
+  - `h6`
+  - `p`
+  - `.Mui-selected > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+  - `a[href="#/home?tab=1"] > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+  - `#libraries-subheader`
+  - `.css-q9gyaw > .MuiListItem-root.MuiListItem-gutters.css-1ohqk82:nth-child(2) > .MuiListItemButton-root.MuiListItemButton-gutters.css-yknuxp > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+  - `.css-q9gyaw > .MuiListItem-root.MuiListItem-gutters.css-1ohqk82:nth-child(3) > .MuiListItemButton-root.MuiListItemButton-gutters.css-yknuxp > .css-t3p1a1.MuiListItemText-root > .MuiTypography-body1.css-pl8nxc.MuiListItemText-primary`
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:5962/web/index.html#/dashboard/activity
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sorted by Time descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Level ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Name ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Overview ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Type ascending"]`
+  - `span[aria-label="Go to first page"]`
+  - `span[aria-label="Go to previous page"]`
+  - `span[aria-label="Go to next page"]`
+  - `span[aria-label="Go to last page"]`
+- http://localhost:5962/web/index.html#/dashboard/devices
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Last active descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Device ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App name ascending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by User ascending"]`
+  - `span[aria-label="Go to previous page"]`
+  - `span[aria-label="Go to next page"]`
+- http://localhost:5962/web/index.html#/dashboard/keys
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by API Key descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by App descending"]`
+  - `.MuiBadge-root.css-chz7cr[aria-label="Sort by Date Issued descending"]`
+  - `span[aria-label="Go to previous page"]`
+  - `span[aria-label="Go to next page"]`
+
+### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
+
+- http://localhost:5962/web/#/home [state:nav-user-menu]
+  - `#reactRoot`
+- http://localhost:5962/web/#/movies?tab=0 [state:filter-popover]
+  - `#reactRoot`
+- http://localhost:5962/web/#/movies?tab=0 [state:sort-popover]
+  - `#reactRoot`
+- http://localhost:5962/web/#/movies?tab=0 [state:view-settings-popover]
+  - `#reactRoot`
+- http://localhost:5962/web/#/home [state:syncplay-menu]
+  - `#reactRoot`
+- http://localhost:5962/web/#/home [state:cast-menu]
+  - `#reactRoot`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-library-menu]
+  - `#reactRoot`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-rename-dialog]
+  - `#reactRoot`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-confirm-remove]
+  - `#reactRoot`
+- http://localhost:5962/web/#/home [state:mobile-nav-390]
+  - `#reactRoot`
+
+### bypass — Page must have means to bypass repeated blocks
+
+- http://localhost:5962/web/#/home [state:nav-user-menu]
+  - `html`
+- http://localhost:5962/web/#/movies?tab=0 [state:sort-popover]
+  - `html`
+- http://localhost:5962/web/#/movies?tab=0 [state:view-settings-popover]
+  - `html`
+- http://localhost:5962/web/#/home [state:syncplay-menu]
+  - `html`
+- http://localhost:5962/web/#/home [state:cast-menu]
+  - `html`
+- http://localhost:5962/web/#/dashboard/libraries [state:dash-library-menu]
+  - `html`
+
