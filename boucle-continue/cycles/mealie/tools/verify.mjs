@@ -1,10 +1,14 @@
 /**
- * verify.mjs — assertions DURES sur les corrections mealie (cycle 44, fixer v2).
+ * verify.mjs — assertions DURES sur les corrections mealie (cycle 44, fixer v3).
  * Chaque check a un ID STABLE + une DESCRIPTION : un FAIL dit QUOI a cassé.
  * Effets mesurés dans le DOM rendu, jamais `if(el) ok()` ni `|| true`.
  * Un élément requis absent = FAIL ou N-A explicite.
  * Pas de session auth → S0 FAIL + sections authentifiées N-A (jamais anonyme silencieux).
  * Pas de self-verdict axe ici.
+ * fixer v3 : sonde anti-slug (leçon 43) — toute valeur d'attribut de nom
+ * (aria-label, :label→.v-label, title, placeholder, alt, messages) qui
+ * ressemble à une clé i18n `^[a-z][a-z0-9-]*(\.[a-z0-9-]+)+$` = FAIL nommé,
+ * + G2 prouve le label du language-dialog résolu en texte réel.
  *
  * Usage: node verify.mjs <baseUrl> [auth.json]
  */
@@ -107,6 +111,37 @@ const probeInit = () => {
 };
 await page.addInitScript(probeInit);
 
+// ── Sonde anti-slug (leçon 43, exécutable) ────────────────────────────────
+// Pour CHAQUE attribut de nom rendu (aria-label, title, placeholder, alt,
+// label) et texte d'étiquette (label, .v-label, .v-messages, legend), la
+// valeur ne doit pas ressembler à une clé i18n non résolue. Un slug brut
+// (ex. `language-dialog.select-language`) passe axe ET `length>0` — seule
+// cette sonde le voit. Exclusions : noms de fichiers, domaines, versions.
+const SLUG_RE = /^[a-z][a-z0-9-]*(\.[a-z0-9-]+)+$/;
+const slugOffenders = [];
+const sweepSlugs = async (where) => {
+    const found = await page.evaluate((re) => {
+        const slugRe = new RegExp(re);
+        const skip = v =>
+            /\.(png|jpe?g|gif|svg|webp|ico|css|m?js|ts|json|pdf|txt|md|html?|xml|csv|zip|tgz?|woff2?|map)$/i.test(v) ||
+            /\.(com|org|net|io|dev|app|ai|fr|de|co|uk|me|info|gov|edu|xyz|be|ca|nl|es|it)$/i.test(v) ||
+            /^v?\d/.test(v);
+        const out = [];
+        const push = (el, attr, raw) => {
+            const v = (raw || '').trim();
+            if (!v || !slugRe.test(v) || skip(v)) return;
+            const cls = typeof el.className === 'string' && el.className ? '.' + el.className.split(/\s+/)[0] : '';
+            out.push(`${el.tagName.toLowerCase()}${el.id ? '#' + el.id : ''}${cls}[${attr}]="${v}"`);
+        };
+        for (const el of document.querySelectorAll('[aria-label],[title],[placeholder],[alt],[label]'))
+            for (const a of ['aria-label', 'title', 'placeholder', 'alt', 'label']) push(el, a, el.getAttribute(a));
+        for (const el of document.querySelectorAll('label,.v-label,.v-messages,legend'))
+            push(el, 'text', el.textContent);
+        return out;
+    }, SLUG_RE.source);
+    for (const f of found) slugOffenders.push(`${where} ${f}`);
+};
+
 // ── A. html lang + titre sur public & auth ────────────────────────────────
 await page.goto(`${B}/login/`, { waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);
@@ -117,6 +152,7 @@ await page.waitForTimeout(1200);
     }));
     ok('A1-lang', 'page publique /login : html[lang] renseigné', !!meta.lang, String(meta.lang));
     ok('A1-title', 'page publique /login : <title> non vide', meta.title.length > 0, `"${meta.title.slice(0, 60)}"`);
+    await sweepSlugs('A-login');
 }
 if (await gotoAuth(`${B}/g/home`, 'A2-nav', 'navigation authentifiée /g/home')) {
     const meta = await page.evaluate(() => ({
@@ -154,6 +190,7 @@ if (await gotoAuth(`${B}/g/home`, 'B-nav', 'navigation authentifiée /g/home (he
     ok('B2', 'header : bouton burger a un aria-label', head.burgerLabel.length > 0, head.burgerLabel);
     ok('B3', 'header : h1 "Mealie" présent', head.h1Text === 'Mealie', head.h1Text);
     ok('B4', 'header : champ recherche nommé (label/aria-label)', head.searchNamed);
+    await sweepSlugs('B-home');
 }
 
 // ── C. Contraste mesuré : titre toolbar (composite alpha) ────────────────
@@ -212,6 +249,7 @@ if (!sessionDead) {
             (o.role === 'region' && o.label.length > 0) || o.inLandmark || o.role === 'dialog' || o.role === 'menu',
             JSON.stringify(o));
     }
+    await sweepSlugs('F-create-menu');
     await settle();
 } else {
     na('F0', 'create-menu : overlays dans landmark', 'session absente');
@@ -233,6 +271,22 @@ if (!sessionDead) {
         };
     });
     ok('G1', 'language-dialog : toolbar tag=div, 0 header interne, dialog nommé', d.open && d.tbTag === 'div' && d.headers === 0 && d.dlgLabel, JSON.stringify(d));
+    // W5 (fixer v3) : le label de l'autocomplete DOIT rendre le texte résolu
+    // « Select Language » (clé data-pages.select-language), jamais un slug.
+    const g2 = await page.evaluate(() => {
+        const dlg = [...document.querySelectorAll('[role="dialog"], .v-overlay__content')].find(o => o.getClientRects().length > 0 && o.querySelector('.v-autocomplete'));
+        if (!dlg) return { open: false };
+        const ac = dlg.querySelector('.v-autocomplete');
+        return {
+            open: true,
+            labelText: (ac.querySelector('.v-label, label')?.textContent || '').trim(),
+            inputAria: (ac.querySelector('input')?.getAttribute('aria-label') || '').trim(),
+        };
+    });
+    ok('G2', 'W5 : language-dialog — label autocomplete rendu = "Select Language" (texte réel, pas un slug i18n)',
+        g2.open && g2.labelText === 'Select Language' && !SLUG_RE.test(g2.labelText) && !SLUG_RE.test(g2.inputAria),
+        JSON.stringify(g2));
+    await sweepSlugs('G-language-dialog');
     await settle();
 } else {
     na('G1', 'language-dialog : toolbar div + nommé', 'session absente');
@@ -250,6 +304,7 @@ if (await gotoAuth(`${B}/g/home/r/golden-lentil-soup`, 'H-nav', 'navigation auth
     });
     ok('H1', 'recipe : bouton context-menu a un aria-label', r.ctxLabel.length > 0, r.ctxLabel);
     ok('H2', 'recipe : plus de v-card--link[aria-haspopup]', r.badCards === 0, `restants=${r.badCards}`);
+    await sweepSlugs('H-recipe');
 }
 
 // ── M1/M2. W1 : section titres recette — h3 non vides, ingrédients rendus ──
@@ -310,6 +365,7 @@ if (seedEnv?.shoppingListId && !sessionDead) {
             return { total: boxes.length, named };
         });
         ok('I1', `shopping : ${c.total} checkbox, toutes nommées`, c.total > 0 && c.named === c.total, JSON.stringify(c));
+        await sweepSlugs('I-shopping');
     }
 } else if (seedEnv && !seedEnv.shoppingListId) {
     na('I1', 'shopping : checkboxes nommées', 'seed-env.json sans shoppingListId');
@@ -325,6 +381,7 @@ if (await gotoAuth(`${B}/group/data/foods/`, 'J-nav', 'navigation authentifiée 
         return { total: ths.length, empty: empty.length };
     });
     ok('J1', `data/foods : ${t.total} th, aucun vide`, t.empty === 0, `empty=${t.empty}`);
+    await sweepSlugs('J-foods');
 }
 
 // ── K. Page d'erreur : v-main présent ─────────────────────────────────────
@@ -334,6 +391,7 @@ if (await gotoAuth(`${B}/group/data/pages/`, 'K-nav', 'navigation authentifiée 
         bodyChildrenInLandmark: [...document.querySelectorAll('#__nuxt > *')].length,
     }));
     ok('K1', '404/erreur : un landmark main existe', m.mains > 0, JSON.stringify(m));
+    await sweepSlugs('K-404');
 }
 
 // ── M5. W3 : members.vue — 4 checkboxes permissions, labels homogènes ──────
@@ -347,6 +405,7 @@ if (await gotoAuth(`${B}/household/members`, 'M5-nav', 'navigation authentifiée
     });
     ok('M5', `W3 : ${mm.total} checkboxes membres nommées, pattern homogène "Nom — permission"`,
         mm.allNamed && mm.samePattern, JSON.stringify(mm.labels));
+    await sweepSlugs('M5-members');
 }
 
 // ── L. Thème dark : boutons header contrastés aussi ───────────────────────
@@ -369,9 +428,15 @@ if (!sessionDead) {
     ok('L1', 'dark : élément texte app-bar contraste ≥ 4.5:1', !c.missing && c.ratio >= 4.5,
         `ratio=${c.ratio?.toFixed(2)} missing=${!!c.missing}`);
     await STATES['theme-dark'].cleanup?.(page).catch(() => {});
+    await sweepSlugs('L-dark');
 } else {
     na('L1', 'dark : contraste app-bar', 'session absente');
 }
+
+// ── N. Anti-slug (leçon 43) : aucune valeur de nom rendue ne ressemble à une ─
+// clé i18n — cumul des balayages A/B/F/G/H/I/J/K/M5/L ───────────────────────
+ok('N1', 'anti-slug : aucun attribut/texte de nom ne ressemble à une clé i18n (leçon 43)',
+    slugOffenders.length === 0, slugOffenders.slice(0, 12).join(' | '));
 
 // ── Résumé ────────────────────────────────────────────────────────────────
 const fails = results.filter(r => !r.pass).length;

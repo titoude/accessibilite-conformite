@@ -743,14 +743,14 @@ index 188d81e9e..07cf391f1 100644
  
  const transientChecked = ref<Record<string, boolean>>({});
 diff --git a/frontend/app/components/Domain/Recipe/RecipeLastMade.vue b/frontend/app/components/Domain/Recipe/RecipeLastMade.vue
-index b9c8e5394..12536dae9 100644
+index b9c8e5394..408ff131f 100644
 --- a/frontend/app/components/Domain/Recipe/RecipeLastMade.vue
 +++ b/frontend/app/components/Domain/Recipe/RecipeLastMade.vue
 @@ -37,6 +37,7 @@
                    <v-checkbox
                      hide-details
                      density="compact"
-+                    :aria-label="childRecipe.name || $t('recipe.recipe')"
++                    :aria-label="childRecipe.name || $t('general.recipe')"
                      :input-value="childRecipe.checked"
                      :label="childRecipe.name"
                      class="my-0 py-0"
@@ -1830,14 +1830,14 @@ index 2e5c42535..9d23a7032 100644
          />
        </div>
 diff --git a/frontend/app/components/global/LanguageDialog.vue b/frontend/app/components/global/LanguageDialog.vue
-index e8aadae43..3be32dd67 100644
+index e8aadae43..a36417195 100644
 --- a/frontend/app/components/global/LanguageDialog.vue
 +++ b/frontend/app/components/global/LanguageDialog.vue
 @@ -9,6 +9,7 @@
        {{ $t("language-dialog.select-description") }}
        <v-autocomplete
          v-model="selectedLocale"
-+        :label="$t('language-dialog.select-language')"
++        :label="$t('data-pages.select-language')"
          :items="locales"
          :custom-filter="normalizeFilter"
          item-title="name"
