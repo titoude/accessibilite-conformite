@@ -1,0 +1,40 @@
+# Compose cycle 58 — SuiteCRM-Core. Les ports sont paramétrés (SC_*_PORT) :
+# la même stack sert l'instance patchée, vanilla et install-build.
+# Checkout @SHA bind-monté sur /var/www/html (code audité = sources du clone).
+services:
+  db:
+    image: mirror.gcr.io/library/mariadb:11.4
+    environment:
+      MARIADB_ROOT_PASSWORD: ${SC_DB_ROOT_PASS:-sc-root-pass}
+      MARIADB_DATABASE: suitecrm
+      MARIADB_USER: suitecrm
+      MARIADB_PASSWORD: ${SC_DB_PASS:-sc-app-pass}
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci --skip-log-bin
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 3s
+      timeout: 5s
+      retries: 40
+
+  web:
+    image: sc58-web:8.9.3
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SC_DB_HOST: db
+      SC_DB_NAME: suitecrm
+      SC_DB_USER: suitecrm
+      SC_DB_PASS: ${SC_DB_PASS:-sc-app-pass}
+    volumes:
+      - ${SC_CHECKOUT}:/var/www/html
+    ports:
+      - "${SC_WEB_PORT:-9950}:80"
+
+volumes:
+  db-data:

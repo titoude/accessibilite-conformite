@@ -1,0 +1,1171 @@
+diff --git a/core/app/core/src/lib/components/bulk-action-menu/bulk-action-menu.component.html b/core/app/core/src/lib/components/bulk-action-menu/bulk-action-menu.component.html
+index 7c43828..96ee75d 100644
+--- a/core/app/core/src/lib/components/bulk-action-menu/bulk-action-menu.component.html
++++ b/core/app/core/src/lib/components/bulk-action-menu/bulk-action-menu.component.html
+@@ -27,28 +27,26 @@
+ -->
+ <div class="bulk-action d-flex">
+     <div ngbDropdown class="dropdown select-action-group">
++        <label class="checkbox-container bulk-select-all">
++            <input type="checkbox"
++                   [checked]="status === 'ALL'"
++                   [indeterminate]="status === 'SOME' || status === 'PAGE'"
++                   (change)="toggleSelection(status)"
++                   aria-label="Select all records">
++            <span class="checkmark"></span>
++        </label>
++        <span class="bulk-action-selected-number">
++            <ng-container *ngIf="count() > 0"> <scrm-label class="d-none d-sm-inline" labelKey="LBL_LISTVIEW_SELECTED_OBJECTS"></scrm-label></ng-container> {{count() > 0 ? count() : ''}}
++        </span>
+         <button class="bulk-action-button dropdown-toggle btn btn-sm"
+                 type="button"
+                 ngbDropdownToggle
+                 aria-haspopup="true"
+                 aria-expanded="false"
+-                aria-hidden="true"
+                 aria-label="Select Action Menu">
+-            <label class="checkbox-container">
+-                <input type="checkbox"
+-                       [checked]="status === 'ALL'"
+-                       [indeterminate]="status === 'SOME' || status === 'PAGE'"
+-                       (change)="toggleSelection(status)"
+-                       aria-hidden="true">
+-                <span class="checkmark"></span>
+-            </label>
+-            <span class="bulk-action-selected-number">
+-                <ng-container *ngIf="count() > 0"> <scrm-label class="d-none d-sm-inline" labelKey="LBL_LISTVIEW_SELECTED_OBJECTS"></scrm-label></ng-container> {{count() > 0 ? count() : ''}}
+-            </span>
+         </button>
+         <div class="dropdown-menu"
+-             ngbDropdownMenu
+-             aria-hidden="true">
++             ngbDropdownMenu>
+             <a class="dropdown-item select-all" (click)="selectAll()">
+                 <scrm-label labelKey="LBL_LISTVIEW_OPTION_ENTIRE"></scrm-label>
+             </a>
+diff --git a/core/app/core/src/lib/components/button/button.component.html b/core/app/core/src/lib/components/button/button.component.html
+index 089f91e..0d157a5 100644
+--- a/core/app/core/src/lib/components/button/button.component.html
++++ b/core/app/core/src/lib/components/button/button.component.html
+@@ -32,7 +32,8 @@
+         [disabled]="disabled() || isRunning()"
+         [style]="config?.style || ''"
+         [style.max-width]="config?.maxWidth ? config?.maxWidth + 'px': null"
+-        [title]="(language.getFieldLabel(config.titleKey) || config?.title) || ''">
++        [title]="(language.getFieldLabel(config.titleKey) || config?.title) || ''"
++        [attr.aria-label]="(language.getFieldLabel(config.titleKey) || config?.title || config?.label || null)">
+     <ng-container *ngIf="!isRunning()">
+     <scrm-image *ngIf="config.icon"
+                 [image]="config.icon"
+diff --git a/core/app/core/src/lib/components/close-button/close-button.component.ts b/core/app/core/src/lib/components/close-button/close-button.component.ts
+index 686b97d..240ff4c 100644
+--- a/core/app/core/src/lib/components/close-button/close-button.component.ts
++++ b/core/app/core/src/lib/components/close-button/close-button.component.ts
+@@ -44,6 +44,10 @@ export class CloseButtonComponent {
+         const btn = Button.fromButton(this.config);
+         btn.addClasses(this.buttonClasses);
+ 
++        if (!btn.titleKey && !btn.label && !btn.labelKey) {
++            btn.titleKey = 'LBL_CLOSE_BUTTON_TITLE';
++        }
++
+         return btn;
+     }
+ }
+diff --git a/core/app/core/src/lib/components/field-layout/field-layout.component.html b/core/app/core/src/lib/components/field-layout/field-layout.component.html
+index b5d749b..4b2b050 100644
+--- a/core/app/core/src/lib/components/field-layout/field-layout.component.html
++++ b/core/app/core/src/lib/components/field-layout/field-layout.component.html
+@@ -70,6 +70,7 @@
+ 
+                         <div>
+                             <button type="button" class="record-action-button"
++                                    [attr.aria-label]="col.field.label"
+                                     (click)="this.dataSource.getEditAction()"
+                                     *ngIf="col.field.definition.inline_edit !== false && !col.field.readonly && !col.field.definition.readonly && this.dataSource.inlineEdit && config.mode === 'detail'">
+                                 <scrm-image class="sicon" image="pencil"></scrm-image>
+diff --git a/core/app/core/src/lib/components/footer/footer.component.html b/core/app/core/src/lib/components/footer/footer.component.html
+index 6b505c5..15aadd7 100644
+--- a/core/app/core/src/lib/components/footer/footer.component.html
++++ b/core/app/core/src/lib/components/footer/footer.component.html
+@@ -26,7 +26,7 @@
+ */
+ -->
+ <!-- Start of footer section -->
+-<div class="footer">
++<footer class="footer" role="contentinfo">
+   <div class="copyright-links">
+     <a (click)="openSuiteCopyright(suitecopyright)" class="footer-link" data-toggle="modal"
+        data-target=".copyright-suitecrm">
+@@ -47,7 +47,7 @@
+       </a>
+     </div>
+   </ng-container>
+-</div>
++</footer>
+ <!-- End of footer section -->
+ 
+ <!-- Start of copyright modal section -->
+diff --git a/core/app/core/src/lib/components/message/message.component.html b/core/app/core/src/lib/components/message/message.component.html
+index 13c4f4f..9f978f6 100644
+--- a/core/app/core/src/lib/components/message/message.component.html
++++ b/core/app/core/src/lib/components/message/message.component.html
+@@ -35,7 +35,7 @@
+              role="alert">
+             <ng-container *ngIf="message.labelKey">{{appStrings[message?.labelKey] || message?.defaultText || message?.labelKey || ''}}</ng-container>
+             <ng-container *ngIf="message.text && !message.labelKey">{{message.text}}</ng-container>
+-            <a (click)="close(message)" type="button" class="close" data-dismiss="alert" aria-label="Close">
++            <a (click)="close(message)" role="button" class="close" data-dismiss="alert" aria-label="Close">
+                 <span aria-hidden="true">&times;</span>
+             </a>
+         </div>
+diff --git a/core/app/core/src/lib/components/modal/components/modal/modal.component.html b/core/app/core/src/lib/components/modal/components/modal/modal.component.html
+index 976e184..cef9b1b 100644
+--- a/core/app/core/src/lib/components/modal/components/modal/modal.component.html
++++ b/core/app/core/src/lib/components/modal/components/modal/modal.component.html
+@@ -28,6 +28,7 @@
+ <div [class]="klass" [class.minimizable]="minimizable" [ngClass]="{'minimized': isMinimized()}">
+     <div class="modal-header pt-0 pb-0 {{headerKlass}} d-flex align-items-center">
+         <div class="modal-title"
++             id="modal-basic-title"
+              (click)="minimizable ? toggleMinimize() : null">
+             <scrm-label class="mt-1" *ngIf="titleKey && !dynamicTitleKey" [labelKey]="titleKey"></scrm-label>
+             <scrm-dynamic-label *ngIf="dynamicTitleKey"
+diff --git a/core/app/core/src/lib/components/navbar/base-navbar/base-navbar.component.html b/core/app/core/src/lib/components/navbar/base-navbar/base-navbar.component.html
+index 19b0464..ee24f2e 100644
+--- a/core/app/core/src/lib/components/navbar/base-navbar/base-navbar.component.html
++++ b/core/app/core/src/lib/components/navbar/base-navbar/base-navbar.component.html
+@@ -64,12 +64,12 @@
+         <!-- Start of mobile navigation section -->
+ 
+         <ng-container *ngIf="this.isUserLoggedIn && mobileNavbar">
+-            <ul class="navbar mobile-nav-block mobilenavbar">
++            <nav class="navbar mobile-nav-block mobilenavbar">
+                 <div class="d-flex">
+-                    <button (click)="toggleSidebar()" class="navbar-toggler" type="button">
++                    <button (click)="toggleSidebar()" class="navbar-toggler" type="button" aria-label="Toggle navigation">
+                         <scrm-image class="responsive-menu-toggler" image="hamburger"></scrm-image>
+                     </button>
+-                    <nav class="navbar-expand" [ngClass]="(isSmallScreen() && isSearchBoxVisible()) ? 'd-none' : 'd-block'">
++                    <div class="navbar-expand" [ngClass]="(isSmallScreen() && isSearchBoxVisible()) ? 'd-none' : 'd-block'">
+                         <ul class="navbar-nav h-100">
+                             <li *ngIf="navbar.current && !navbar.current.isGroupedMenu" class="top-nav nav-item dropdown mobile-navbar-active-module h-100 non-grouped">
+                                 <scrm-menu-item [item]="navbar.current"></scrm-menu-item>
+@@ -81,19 +81,20 @@
+                                 </scrm-grouped-menu-item>
+                             </li>
+                         </ul>
+-                    </nav>
++                    </div>
+                 </div>
+ 
+                 <div class="d-flex align-items-center">
+                     <ng-container *ngTemplateOutlet="actionIcons"></ng-container>
+                     <div class="global-links action-dropdown" ngbDropdown>
+-                        <li class="global-link-item">
++                        <div class="global-link-item">
+                             <a #mobileGlobalLinkTitle class="nav-link primary-global-link dropdown-toggle"
++                               role="button" aria-label="User menu" id="navbar-user-menu-toggle-mobile"
+                                ngbDropdownToggle>
+                                 <scrm-image class="global-action-icon sicon-2x" image="user"></scrm-image>
+                             </a>
+                             <div [style.min-width.px]="mobileGlobalLinkTitle.offsetWidth"
+-                                 aria-labelledby="navbarDropdownMenuLink"
++                                 aria-labelledby="navbar-user-menu-toggle-mobile"
+                                  class="dropdown-menu global-links-dropdown border shadow-sm-2" ngbDropdownMenu>
+                                 <span
+                                     class="global-user-name">{{ navbar.currentUser.firstName }} {{ navbar.currentUser.lastName }}</span>
+@@ -110,11 +111,11 @@
+                                 </ng-template>
+                                 <scrm-logout-ui></scrm-logout-ui>
+                             </div>
+-                        </li>
++                        </div>
+                     </div>
+                 </div>
+ 
+-            </ul>
++            </nav>
+ 
+         </ng-container>
+ 
+@@ -215,10 +216,10 @@
+                 <div class="global-links action-dropdown" ngbDropdown>
+                     <ul class="navbar-nav">
+                         <li class="global-link-item">
+-                            <a class="nav-link primary-global-link" ngbDropdownToggle>
++                            <a class="nav-link primary-global-link" role="button" aria-label="User menu" id="navbar-user-menu-toggle" ngbDropdownToggle>
+                                 <scrm-image class="global-action-icon sicon-2x" image="user"></scrm-image>
+                             </a>
+-                            <div aria-labelledby="navbarDropdownMenuLink"
++                            <div aria-labelledby="navbar-user-menu-toggle"
+                                  class="dropdown-menu global-links-dropdown border shadow-sm-2 dropdown-menu-right" ngbDropdownMenu>
+                                 <span
+                                     class="global-user-name">{{ navbar.currentUser.firstName }} {{ navbar.currentUser.lastName }}</span>
+@@ -255,7 +256,7 @@
+             <div class="action-new action-dropdown" ngbDropdown>
+                 <ul class="navbar-nav border-0">
+                     <li class="global-link-item">
+-                        <a class="action-link primary-global-link" type="button" aria-label="Quick Create" ngbDropdownToggle>
++                        <a class="action-link primary-global-link" role="button" aria-label="Quick Create" ngbDropdownToggle>
+                             <scrm-image class="action-btn-icon" image="plus"></scrm-image>
+                         </a>
+                         <ul [class.dropdown-menu-right]="!mobileNavbar"
+@@ -306,7 +307,7 @@
+             <div class="action-history action-dropdown" ngbDropdown>
+                 <ul class="navbar-nav border-0">
+                     <li class="global-link-item">
+-                        <a class="action-link primary-global-link" type="button" aria-label="Recently Viewed" ngbDropdownToggle>
++                        <a class="action-link primary-global-link" role="button" aria-label="Recently Viewed" ngbDropdownToggle>
+                             <scrm-image class="action-btn-icon" image="recently_viewed"></scrm-image>
+                         </a>
+                         <div class="dropdown-menu border shadow-sm-2 dropdown-menu-right scrollbar-thick recently-viewed-nav-header"
+@@ -321,7 +322,7 @@
+             <!--Searchbar-->
+             <div class="d-flex align-items-center px-1 action-search">
+                 <a class="search-mobile-view action-link primary-global-link" [ngClass]="isSearchBoxVisible() ? 'd-none' : 'd-block'"
+-                   type="button" (click)="openSearchBox()" aria-label="Search">
++                   role="button" (click)="openSearchBox()" aria-label="Search">
+                     <scrm-image class="action-btn-icon" image="search"></scrm-image>
+                 </a>
+ 
+@@ -341,7 +342,8 @@
+                  class="action-alert action-dropdown" ngbDropdown #alertDropdown="ngbDropdown">
+                 <ul class="navbar-nav border-0">
+                     <li class="global-link-item">
+-                        <a class="action-link primary-global-link" type="button"
++                        <a class="action-link primary-global-link" role="button"
++                           aria-label="Notifications" id="navbar-notifications-toggle"
+                            (mouseenter)="markAsRead()" ngbDropdownToggle>
+                             <scrm-image class="action-btn-icon" image="alert"></scrm-image>
+                         </a>
+@@ -351,7 +353,7 @@
+                                         <ng-container *ngIf="notificationCount > 0">{{notificationCount }}</ng-container>
+                                     </span>
+                         </ng-container>
+-                        <div class="dropdown-menu border shadow-sm-2 dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink"
++                        <div class="dropdown-menu border shadow-sm-2 dropdown-menu-right" aria-labelledby="navbar-notifications-toggle"
+                              (click)="closeNotificationMenu()" ngbDropdownMenu>
+                             <scrm-notifications></scrm-notifications>
+                         </div>
+diff --git a/core/app/core/src/lib/components/navbar/grouped-menu-item/base-grouped-menu-item.component.html b/core/app/core/src/lib/components/navbar/grouped-menu-item/base-grouped-menu-item.component.html
+index c6d493f..2223c3f 100644
+--- a/core/app/core/src/lib/components/navbar/grouped-menu-item/base-grouped-menu-item.component.html
++++ b/core/app/core/src/lib/components/navbar/grouped-menu-item/base-grouped-menu-item.component.html
+@@ -45,7 +45,7 @@
+ 
+         <span data-target=".navbar-collapse" data-toggle="collapse" *ngIf="item.isGroupedMenu"
+               (click)="toggleDropdown()">
+-            <li class="nav-item active">
++            <div class="nav-item active">
+                 <scrm-menu-item-link [class]="{
+                                             'top-nav-link': true,
+                                             'nav-link-grouped': true,
+@@ -55,9 +55,9 @@
+                                         }"
+                                      [link]="item.link">
+                 </scrm-menu-item-link>
+-            </li>
++            </div>
+         </span>
+-        <ul aria-labelledby="navbarDropdownMenuLink"
++        <ul
+             class="dropdown-menu main"
+             [class.show]="showDropdown()"
+             [class.hover-enabled]="hoverEnabled()"
+diff --git a/core/app/core/src/lib/components/navbar/home-menu-item/base-home-menu-item.component.html b/core/app/core/src/lib/components/navbar/home-menu-item/base-home-menu-item.component.html
+index 5f44625..cfb5afa 100644
+--- a/core/app/core/src/lib/components/navbar/home-menu-item/base-home-menu-item.component.html
++++ b/core/app/core/src/lib/components/navbar/home-menu-item/base-home-menu-item.component.html
+@@ -27,7 +27,7 @@
+ -->
+ <ul class="navbar-nav home-nav">
+     <li [class.active]="active" class="nav-item">
+-        <a [routerLink]="route" class="home-nav-link">
++        <a [routerLink]="route" class="home-nav-link" aria-label="Home">
+             <scrm-image class="home-icon" image="home"></scrm-image>
+         </a>
+     </li>
+diff --git a/core/app/core/src/lib/components/navbar/menu-item/base-menu-item.component.html b/core/app/core/src/lib/components/navbar/menu-item/base-menu-item.component.html
+index 7a1759a..87b9733 100644
+--- a/core/app/core/src/lib/components/navbar/menu-item/base-menu-item.component.html
++++ b/core/app/core/src/lib/components/navbar/menu-item/base-menu-item.component.html
+@@ -52,7 +52,6 @@
+         </span>
+ 
+         <div (click)="hideDropdown()"
+-             aria-labelledby="navbarDropdownMenuLink"
+              *ngIf="item.submenu.length"
+              class="dropdown-menu submenu"
+              [class.show]="showDropdown()"
+diff --git a/core/app/core/src/lib/components/navbar/menu-items-list/base-menu-items-list.component.html b/core/app/core/src/lib/components/navbar/menu-items-list/base-menu-items-list.component.html
+index 0008b57..2ae6665 100644
+--- a/core/app/core/src/lib/components/navbar/menu-items-list/base-menu-items-list.component.html
++++ b/core/app/core/src/lib/components/navbar/menu-items-list/base-menu-items-list.component.html
+@@ -47,7 +47,7 @@
+             <scrm-label [labelKey]="labelKey"></scrm-label>
+         </a>
+ 
+-        <div aria-labelledby="navbarDropdownMenuLink"
++        <div
+              (click)="hideDropdown()"
+              class="dropdown-menu more-menu submenu"
+              [class.show]="showDropdown()"
+diff --git a/core/app/core/src/lib/components/navbar/sub-menu-favorites/base-sub-menu-favorites.component.html b/core/app/core/src/lib/components/navbar/sub-menu-favorites/base-sub-menu-favorites.component.html
+index 91d6334..d6a76fa 100644
+--- a/core/app/core/src/lib/components/navbar/sub-menu-favorites/base-sub-menu-favorites.component.html
++++ b/core/app/core/src/lib/components/navbar/sub-menu-favorites/base-sub-menu-favorites.component.html
+@@ -26,7 +26,7 @@
+ */
+ -->
+ <ng-container *ngIf="records() && records().length">
+-    <li class="nav-item dropdown-submenu submenu submenu-extra">
++    <div class="nav-item dropdown-submenu submenu submenu-extra">
+ 
+         <a class="sub-nav-link nav-link action-link dropdown-item dropdown-toggle pr-4"
+            (touchstart)="onTouchStart($event)"
+@@ -52,7 +52,7 @@
+                 </scrm-menu-item-link>
+             </li>
+         </ul>
+-    </li>
++    </div>
+ </ng-container>
+ 
+ 
+diff --git a/core/app/core/src/lib/components/navbar/sub-menu-recently-viewed/base-sub-menu-recently-viewed.component.html b/core/app/core/src/lib/components/navbar/sub-menu-recently-viewed/base-sub-menu-recently-viewed.component.html
+index c743dcf..4ba6ccc 100644
+--- a/core/app/core/src/lib/components/navbar/sub-menu-recently-viewed/base-sub-menu-recently-viewed.component.html
++++ b/core/app/core/src/lib/components/navbar/sub-menu-recently-viewed/base-sub-menu-recently-viewed.component.html
+@@ -26,7 +26,7 @@
+ */
+ -->
+ <ng-container *ngIf="records && records.length">
+-    <li class="nav-item dropdown-submenu submenu submenu-extra">
++    <div class="nav-item dropdown-submenu submenu submenu-extra">
+ 
+         <a class="sub-nav-link nav-link action-link dropdown-item dropdown-toggle pr-4"
+            (touchstart)="onTouchStart($event)"
+@@ -52,7 +52,7 @@
+                 </scrm-menu-item-link>
+             </li>
+         </ul>
+-    </li>
++    </div>
+ </ng-container>
+ 
+ 
+diff --git a/core/app/core/src/lib/components/popups/components/record-details-popup-button/record-details-popup-button.component.html b/core/app/core/src/lib/components/popups/components/record-details-popup-button/record-details-popup-button.component.html
+index 339310f..911e2a8 100644
+--- a/core/app/core/src/lib/components/popups/components/record-details-popup-button/record-details-popup-button.component.html
++++ b/core/app/core/src/lib/components/popups/components/record-details-popup-button/record-details-popup-button.component.html
+@@ -25,7 +25,7 @@
+ * the words "Supercharged by SuiteCRM".
+ */
+ -->
+-<scrm-popup-button [icon]="'dots-vertical'">
++<scrm-popup-button [icon]="'dots-vertical'" [titleKey]="'LBL_MORE'">
+     <div popup-content *ngIf="columns" class="container container-popover scrollbar-thin">
+         <div *ngFor="let column of columns" class="row py-1">
+             <div class="col font-weight-bold text-muted">
+diff --git a/core/app/core/src/lib/components/sidebar/mobile-menu/mobile-menu.component.html b/core/app/core/src/lib/components/sidebar/mobile-menu/mobile-menu.component.html
+index cc16e57..eb45ff5 100644
+--- a/core/app/core/src/lib/components/sidebar/mobile-menu/mobile-menu.component.html
++++ b/core/app/core/src/lib/components/sidebar/mobile-menu/mobile-menu.component.html
+@@ -28,20 +28,20 @@
+ 
+ <div class="mobile-menu-container">
+     <ng-container *ngIf="menuItems() && menuItems().length">
+-        <div class="mobile-menu-items scrollbar-thin">
++        <ul class="mobile-menu-items scrollbar-thin" tabindex="0">
+             <li class="d-flex align-items-center" (click)="navigateRoute(item?.link?.route)" *ngFor="let item of menuItems()">
+                 <scrm-image class="sicon mobile-nav-icon pl-3" [image]="item.icon"
+                ></scrm-image>
+                 <a class="flex-grow-1 mobile-nav-link px-3 py-2 mobile-menu-item-label">{{ item.link.label }}</a>
+             </li>
+-        </div>
++        </ul>
+     </ng-container>
+ 
+-    <li class="border-0">
++    <div class="border-0">
+         <div *ngIf="!menuItems() || !menuItems()?.length" class="d-flex justify-content-center">
+             <scrm-label [labelKey]="'LBL_MODULE_NOT_FOUND'"></scrm-label>
+         </div>
+-    </li>
++    </div>
+ </div>
+ 
+ 
+diff --git a/core/app/core/src/lib/components/sidebar/sidebar.component.html b/core/app/core/src/lib/components/sidebar/sidebar.component.html
+index e185a96..69edddf 100644
+--- a/core/app/core/src/lib/components/sidebar/sidebar.component.html
++++ b/core/app/core/src/lib/components/sidebar/sidebar.component.html
+@@ -29,7 +29,7 @@
+     <ng-template pTemplate="header">
+         <div class="d-flex justify-content-start">
+             <div class="flex-shrink-1">
+-                <button (click)="toggleSidebar()" class="navbar-toggler" type="button">
++                <button (click)="toggleSidebar()" class="navbar-toggler" type="button" aria-label="Toggle navigation">
+                     <scrm-image class="responsive-menu-toggler" image="hamburger"></scrm-image>
+                 </button>
+             </div>
+diff --git a/core/app/core/src/lib/components/table/table-body/table-body.component.html b/core/app/core/src/lib/components/table/table-body/table-body.component.html
+index 15b0226..72ffd18 100644
+--- a/core/app/core/src/lib/components/table/table-body/table-body.component.html
++++ b/core/app/core/src/lib/components/table/table-body/table-body.component.html
+@@ -35,7 +35,7 @@
+ 
+                 <ng-container cdkColumnDef="checkbox" *ngIf="vm()?.selection">
+ 
+-                    <th cdk-header-cell scope="col" *cdkHeaderCellDef class="primary-table-header"></th>
++                    <th cdk-header-cell scope="col" *cdkHeaderCellDef class="primary-table-header"><span class="scrm-visually-hidden">Select records</span></th>
+ 
+                     <td cdk-cell *cdkCellDef="let record">
+                         <label class="checkbox-container">
+@@ -43,7 +43,7 @@
+                                    [checked]="(record['id'] && vm()?.selected[record['id']]) || allSelected(vm()?.selectionStatus) "
+                                    (change)="toggleSelection(record['id'])"
+                                    [disabled]="allSelected(vm()?.selectionStatus)"
+-                                   aria-hidden="true">
++                                   aria-label="Select row">
+                             <span class="checkmark"></span>
+                         </label>
+                     </td>
+@@ -53,7 +53,7 @@
+                 <ng-container cdkColumnDef="show-more" *ngIf="popoverColumns && popoverColumns.length">
+ 
+                     <th cdk-header-cell scope="col" *cdkHeaderCellDef
+-                        class="primary-table-header show-more-column"></th>
++                        class="primary-table-header show-more-column"><span class="scrm-visually-hidden">Record details</span></th>
+ 
+                     <td cdk-cell *cdkCellDef="let record" class="show-more-column">
+                         <scrm-record-details-popup-button [record]="record" [columns]="popoverColumns"
+@@ -91,7 +91,7 @@
+ 
+                 <ng-container cdkColumnDef="line-actions">
+ 
+-                    <th cdk-header-cell scope="col" *cdkHeaderCellDef class="primary-table-header"></th>
++                    <th cdk-header-cell scope="col" *cdkHeaderCellDef class="primary-table-header"><span class="scrm-visually-hidden">Actions</span></th>
+ 
+                     <td cdk-cell *cdkCellDef="let record">
+                         <scrm-line-action-menu *ngIf="record && config.lineActions"
+diff --git a/core/app/core/src/lib/containers/favorite-toggle/components/favorite-toggle/favorite-toggle.component.ts b/core/app/core/src/lib/containers/favorite-toggle/components/favorite-toggle/favorite-toggle.component.ts
+index 6e970da..14188ee 100644
+--- a/core/app/core/src/lib/containers/favorite-toggle/components/favorite-toggle/favorite-toggle.component.ts
++++ b/core/app/core/src/lib/containers/favorite-toggle/components/favorite-toggle/favorite-toggle.component.ts
+@@ -60,6 +60,7 @@ export class FavoriteToggleComponent implements OnInit, OnDestroy {
+ 
+         this.addButton = {
+             klass: ['btn btn-sm btn-outline-light favorite-star favorite-off'],
++            titleKey: 'LBL_FAVORITES',
+             onClick: () => {
+                 this.debounceService.debounce(() => {
+                     this.add();
+@@ -70,6 +71,7 @@ export class FavoriteToggleComponent implements OnInit, OnDestroy {
+ 
+         this.removeButton = {
+             klass: ['btn btn-sm btn-outline-light favorite-star favorite-on'],
++            titleKey: 'LBL_FAVORITES',
+             onClick: () => {
+                 this.debounceService.debounce(() => {
+                     this.remove();
+diff --git a/core/app/core/src/lib/containers/sidebar-widget/components/chart-sidebar-widget/chart-sidebar-widget.component.html b/core/app/core/src/lib/containers/sidebar-widget/components/chart-sidebar-widget/chart-sidebar-widget.component.html
+index be11491..5744b52 100644
+--- a/core/app/core/src/lib/containers/sidebar-widget/components/chart-sidebar-widget/chart-sidebar-widget.component.html
++++ b/core/app/core/src/lib/containers/sidebar-widget/components/chart-sidebar-widget/chart-sidebar-widget.component.html
+@@ -35,7 +35,7 @@
+                             <form class="login-form mb-0 mt-2 w-100">
+ 
+                                 <select (ngModelChange)="onChartSelect($event)" [(ngModel)]="selectedChart" class="m-0 w-100 chart-select"
+-                                        name="chart">
++                                        name="chart" [attr.aria-label]="language.getFieldLabel('LBL_CHARTS')">
+                                     <option *ngFor="let chart of configuredCharts; index as i"
+                                             [value]="getKey(chart)">
+                                         {{language.getFieldLabel(chart.labelKey)}}
+diff --git a/core/app/core/src/lib/containers/subpanel/components/subpanel-container/subpanel-container.component.html b/core/app/core/src/lib/containers/subpanel/components/subpanel-container/subpanel-container.component.html
+index 1670d7a..1e0cf59 100644
+--- a/core/app/core/src/lib/containers/subpanel/components/subpanel-container/subpanel-container.component.html
++++ b/core/app/core/src/lib/containers/subpanel/components/subpanel-container/subpanel-container.component.html
+@@ -28,7 +28,7 @@
+ <div class="card border shadow-sm" *ngIf="bodySubpanels()?.length">
+     <div ngbAccordion class="sub-panel-banner" #accordion="ngbAccordion" activeIds="sub-panel-buttons">
+         <div ngbAccordionItem id="sub-panel-buttons" class="card" [collapsed]="isCollapsed()">
+-            <div ngbAccordionHeader class="card-header">
++            <div ngbAccordionHeader class="card-header" aria-level="2">
+                 <div class="d-flex justify-content-between">
+                     <div class="d-flex align-items-start sub-panel-banner-header">
+                         <a (click)="toggleSubPanels()" class="clickable">
+@@ -49,7 +49,7 @@
+                         </div>
+ 
+                         <div class="d-flex align-items-center sub-panel-header-toggle">
+-                            <a (click)="toggleSubPanels()" class="clickable position-relative">
++                            <a (click)="toggleSubPanels()" class="clickable position-relative" id="ngb-accordion-item-0-toggle">
+                                 <ng-container *ngIf="isCollapsed()">
+                                     <scrm-image
+                                             [attr.aria-expanded]="false"
+diff --git a/core/app/core/src/lib/fields/boolean/templates/checkbox-filter/boolean-checkbox.component.html b/core/app/core/src/lib/fields/boolean/templates/checkbox-filter/boolean-checkbox.component.html
+index ec41321..927618b 100644
+--- a/core/app/core/src/lib/fields/boolean/templates/checkbox-filter/boolean-checkbox.component.html
++++ b/core/app/core/src/lib/fields/boolean/templates/checkbox-filter/boolean-checkbox.component.html
+@@ -30,7 +30,7 @@
+         <input type="checkbox"
+                [checked]="field.value"
+                (change)="toggle()"
+-               aria-hidden="true">
++               [attr.aria-label]="field?.label">
+         <span class="checkmark"></span>
+     </label>
+ </div>
+diff --git a/core/app/core/src/lib/fields/boolean/templates/edit/boolean.component.html b/core/app/core/src/lib/fields/boolean/templates/edit/boolean.component.html
+index f9bb198..b283937 100644
+--- a/core/app/core/src/lib/fields/boolean/templates/edit/boolean.component.html
++++ b/core/app/core/src/lib/fields/boolean/templates/edit/boolean.component.html
+@@ -30,7 +30,7 @@
+     <input type="checkbox"
+            [checked]="checked"
+            (change)="toggle()"
+-           aria-hidden="true">
++           [attr.aria-label]="field?.label">
+     <span class="checkmark"></span>
+ </label>
+ </div>
+diff --git a/core/app/core/src/lib/fields/currency/templates/edit/currency.component.html b/core/app/core/src/lib/fields/currency/templates/edit/currency.component.html
+index 4819bbf..fbd0e43 100644
+--- a/core/app/core/src/lib/fields/currency/templates/edit/currency.component.html
++++ b/core/app/core/src/lib/fields/currency/templates/edit/currency.component.html
+@@ -25,7 +25,7 @@
+ * the words "Supercharged by SuiteCRM".
+ */
+ -->
+-<input #currencyField [class.is-invalid]="field.formControl.invalid && field.formControl.touched"
++<input #currencyField [attr.aria-label]="field?.label" [class.is-invalid]="field.formControl.invalid && field.formControl.touched"
+        [(ngModel)]="value"
+        [formControl]="field.formControl"
+        [ngClass]="klass"
+diff --git a/core/app/core/src/lib/fields/date/templates/edit/date.component.html b/core/app/core/src/lib/fields/date/templates/edit/date.component.html
+index c34c2b8..fe9c3c6 100644
+--- a/core/app/core/src/lib/fields/date/templates/edit/date.component.html
++++ b/core/app/core/src/lib/fields/date/templates/edit/date.component.html
+@@ -27,6 +27,7 @@
+ -->
+ <div class="field-datetime-edit input-group">
+     <input ngbDatepicker
++           [attr.aria-label]="field?.label"
+            [ngClass]="klass"
+            [placement]="getPlacement()"
+            [placeholder]="getDateFormat().toLowerCase()"
+diff --git a/core/app/core/src/lib/fields/date/templates/edit/date.component.ts b/core/app/core/src/lib/fields/date/templates/edit/date.component.ts
+index 22e57ac..03385dc 100644
+--- a/core/app/core/src/lib/fields/date/templates/edit/date.component.ts
++++ b/core/app/core/src/lib/fields/date/templates/edit/date.component.ts
+@@ -95,6 +95,7 @@ export class DateEditFieldComponent extends BaseDateComponent implements OnInit,
+     getOpenButton(datepicker: NgbInputDatepicker): ButtonInterface {
+         return {
+             klass: 'btn btn-sm btn-outline-secondary m-0 border-0',
++            titleKey: 'LBL_DATE',
+             // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+             onClick: () => {
+                 datepicker.toggle();
+diff --git a/core/app/core/src/lib/fields/date/templates/filter/date.component.html b/core/app/core/src/lib/fields/date/templates/filter/date.component.html
+index 7858346..4aee518 100644
+--- a/core/app/core/src/lib/fields/date/templates/filter/date.component.html
++++ b/core/app/core/src/lib/fields/date/templates/filter/date.component.html
+@@ -27,6 +27,7 @@
+ -->
+ <div class="input-group">
+     <input ngbDatepicker
++           [attr.aria-label]="field?.label"
+            [ngClass]="klass"
+            [placement]="getPlacement()"
+            [placeholder]="getDateFormat().toLowerCase()"
+diff --git a/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.html b/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.html
+index f75a803..b22ad32 100644
+--- a/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.html
++++ b/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.html
+@@ -29,6 +29,7 @@
+ <div class="input-group mr-2" #calendarContainer>
+ 
+     <input
++        [attr.aria-label]="field?.label"
+         [ngClass]="klass"
+         [placeholder]="getDateTimeFormat().toLowerCase()"
+         [class.is-invalid]="validateOnlyOnSubmit ? isInvalid() : (field.formControl.invalid && field.formControl.touched)"
+diff --git a/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.ts b/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.ts
+index 4ece2dc..ea6cdb7 100644
+--- a/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.ts
++++ b/core/app/core/src/lib/fields/datetime/templates/edit/datetime.component.ts
+@@ -145,6 +145,7 @@ export class DateTimeEditFieldComponent extends BaseDateTimeComponent implements
+     getOpenButton(): ButtonInterface {
+         return {
+             klass: 'btn btn-sm btn-outline-secondary m-0 border-0',
++            titleKey: 'LBL_DATE',
+             icon: 'calendar'
+         };
+     }
+diff --git a/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.html b/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.html
+index b4c2d08..892a919 100644
+--- a/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.html
++++ b/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.html
+@@ -29,6 +29,7 @@
+ <div class="input-group mr-2">
+ 
+     <input
++        [attr.aria-label]="field?.label"
+         [ngClass]="klass"
+         [placeholder]="getDateTimeFormat().toLowerCase()"
+         [class.is-invalid]="validateOnlyOnSubmit ? isInvalid() : (field.formControl.invalid && field.formControl.touched)"
+diff --git a/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.ts b/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.ts
+index bdce9ab..b25646d 100644
+--- a/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.ts
++++ b/core/app/core/src/lib/fields/datetime/templates/filter/datetime.component.ts
+@@ -133,6 +133,7 @@ export class DateTimeFilterFieldComponent extends BaseDateTimeComponent implemen
+     getOpenButton(): ButtonInterface {
+         return {
+             klass: 'btn btn-sm btn-outline-secondary m-0 border-0',
++            titleKey: 'LBL_DATE',
+             icon: 'calendar'
+         };
+     }
+diff --git a/core/app/core/src/lib/fields/dropdownenum/templates/edit/dropdownenum.component.html b/core/app/core/src/lib/fields/dropdownenum/templates/edit/dropdownenum.component.html
+index f88a403..932d65a 100644
+--- a/core/app/core/src/lib/fields/dropdownenum/templates/edit/dropdownenum.component.html
++++ b/core/app/core/src/lib/fields/dropdownenum/templates/edit/dropdownenum.component.html
+@@ -27,6 +27,7 @@
+ -->
+ <div class="dropdownenum">
+     <select [formControl]="field.formControl"
++            [attr.aria-label]="field?.label"
+             class="custom-select custom-select-sm"
+             [class.w-auto] ="field?.definition?.metadata?.widthAuto ?? false"
+     >
+diff --git a/core/app/core/src/lib/fields/dynamic-field/dynamic-field.component.html b/core/app/core/src/lib/fields/dynamic-field/dynamic-field.component.html
+index 0365616..db71ffb 100644
+--- a/core/app/core/src/lib/fields/dynamic-field/dynamic-field.component.html
++++ b/core/app/core/src/lib/fields/dynamic-field/dynamic-field.component.html
+@@ -57,7 +57,7 @@
+             </a>
+         </ng-container>
+         <ng-container *ngIf="isLink() && !hasOnClick()">
+-            <a [routerLink]="getLink()" [queryParams]="record?.metadata?.queryParams" class="field-link flex-grow-1">
++            <a *ngIf="field?.value" [routerLink]="getLink()" [queryParams]="record?.metadata?.queryParams" class="field-link flex-grow-1">
+                 <ndc-dynamic
+                         [ndcDynamicComponent]="componentType"
+                         [ndcDynamicInputs]="{
+@@ -70,6 +70,18 @@
+             }"
+                 ></ndc-dynamic>
+             </a>
++            <ndc-dynamic *ngIf="!field?.value"
++                    [ndcDynamicComponent]="componentType"
++                    [ndcDynamicAttributes]="{ 'class': 'flex-grow-1'}"
++                    [ndcDynamicInputs]="{
++                'mode': mode,
++                'originalMode': originalMode,
++                'field': field,
++                'klass': klass,
++                'record': record,
++                'parent': parent
++            }"
++            ></ndc-dynamic>
+         </ng-container>
+         <ng-container *ngIf="!isLink() && !hasOnClick()">
+             <ndc-dynamic
+diff --git a/core/app/core/src/lib/fields/line-items/line-items.component.ts b/core/app/core/src/lib/fields/line-items/line-items.component.ts
+index 69305e9..2795378 100644
+--- a/core/app/core/src/lib/fields/line-items/line-items.component.ts
++++ b/core/app/core/src/lib/fields/line-items/line-items.component.ts
+@@ -73,6 +73,7 @@ export class LineItemsComponent extends BaseLineItemsComponent {
+         return {
+             klass: 'btn btn-sm btn-outline-secondary m-0 border-0',
+             icon: 'plus',
++            titleKey: 'LBL_CREATE',
+             onClick: (): void => {
+                 this.addEmptyItem();
+             },
+@@ -90,6 +91,7 @@ export class LineItemsComponent extends BaseLineItemsComponent {
+         return {
+             klass: 'btn btn-sm btn-outline-secondary m-0 border-0',
+             icon: 'minimise',
++            titleKey: 'LBL_DELETE',
+             onClick: (): void => {
+                 this.removeItem(index);
+             },
+diff --git a/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.html b/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.html
+index 9344ef7..5a45acc 100644
+--- a/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.html
++++ b/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.html
+@@ -27,6 +27,8 @@
+ -->
+ <div class="d-flex align-items-center">
+     <p-multiSelect
++                [ariaLabel]="field?.label"
++                [ariaFilterLabel]="field?.label"
+         #multiSelect
+         [options]="options"
+         [(ngModel)]="selectedValues"
+diff --git a/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.ts b/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.ts
+index f79b4a9..9d5c4be 100644
+--- a/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.ts
++++ b/core/app/core/src/lib/fields/multienum/templates/edit/multienum.component.ts
+@@ -78,6 +78,7 @@ export class MultiEnumEditFieldComponent extends BaseMultiEnumComponent {
+ 
+         this.clearButton = {
+             klass: ['btn', 'btn-sm', 'btn-outline-secondary', 'm-0', 'border-0'],
++            titleKey: 'LBL_DELETE',
+             onClick: (event): void => {
+                 this.onRemove();
+             },
+diff --git a/core/app/core/src/lib/fields/multienum/templates/filter/multienum.component.html b/core/app/core/src/lib/fields/multienum/templates/filter/multienum.component.html
+index 697e8ea..48078f0 100644
+--- a/core/app/core/src/lib/fields/multienum/templates/filter/multienum.component.html
++++ b/core/app/core/src/lib/fields/multienum/templates/filter/multienum.component.html
+@@ -27,6 +27,8 @@
+ -->
+ <div class="d-flex align-items-center">
+     <p-multiSelect
++                [ariaLabel]="field?.label"
++                [ariaFilterLabel]="field?.label"
+         #multiSelect
+         [options]="options"
+         [(ngModel)]="selectedValues"
+diff --git a/core/app/core/src/lib/fields/multiflexrelate/templates/edit/multiflexrelate.component.html b/core/app/core/src/lib/fields/multiflexrelate/templates/edit/multiflexrelate.component.html
+index d3255f7..2426429 100644
+--- a/core/app/core/src/lib/fields/multiflexrelate/templates/edit/multiflexrelate.component.html
++++ b/core/app/core/src/lib/fields/multiflexrelate/templates/edit/multiflexrelate.component.html
+@@ -28,6 +28,8 @@
+ <div class="field-multi-flex-relate d-flex align-items-center">
+     <div class="flex-grow-1 w-100 mr-1">
+         <p-multiSelect
++                [ariaLabel]="field?.label"
++                [ariaFilterLabel]="field?.label"
+             #tag
+             [options]="currentOptionGroups()"
+             [(ngModel)]="selectedValues"
+@@ -128,7 +130,8 @@
+                            class="p-multiselect-filter p-inputtext p-component"
+                            [(ngModel)]="filterValue"
+                            (keyup)="onFilterInput($event);"
+-                           tabindex="0">
++                           [attr.aria-label]="field?.label"
++                               tabindex="0">
+                     <span class="p-multiselect-filter-icon">
+                             <scrm-image image="search" class="p-element p-dropdown-filter-search-icon"></scrm-image>
+                         </span>
+diff --git a/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.html b/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.html
+index 24f36c7..136762e 100644
+--- a/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.html
++++ b/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.html
+@@ -29,6 +29,8 @@
+     <ng-container *ngIf="initModule">
+         <div class="flex-grow-1 w-100 mr-1">
+             <p-multiSelect
++                [ariaLabel]="field?.label"
++                [ariaFilterLabel]="field?.label"
+                 #tag
+                 [options]="currentOptions()"
+                 [(ngModel)]="selectedValues"
+@@ -129,6 +131,7 @@
+                                class="p-multiselect-filter p-inputtext p-component"
+                                [(ngModel)]="filterValue"
+                                (keyup)="onFilterInput($event);"
++                               [attr.aria-label]="field?.label"
+                                tabindex="0">
+                         <span class="p-multiselect-filter-icon">
+                             <scrm-image image="search" class="p-element p-dropdown-filter-search-icon"></scrm-image>
+diff --git a/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.ts b/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.ts
+index 7c96a47..9b35698 100644
+--- a/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.ts
++++ b/core/app/core/src/lib/fields/multirelate/templates/edit/multirelate.component.ts
+@@ -102,6 +102,7 @@ export class MultiRelateEditFieldComponent extends BaseRelateComponent {
+ 
+         this.selectButton = {
+             klass: ['btn', 'btn-sm', 'btn-outline-secondary', 'm-0', 'border-0'],
++            titleKey: 'LBL_SELECT_BUTTON_TITLE',
+             onClick: (): void => {
+                 this.showSelectModal();
+             },
+diff --git a/core/app/core/src/lib/fields/password/templates/edit/password.component.html b/core/app/core/src/lib/fields/password/templates/edit/password.component.html
+index 3f35450..9ea1556 100644
+--- a/core/app/core/src/lib/fields/password/templates/edit/password.component.html
++++ b/core/app/core/src/lib/fields/password/templates/edit/password.component.html
+@@ -29,4 +29,5 @@
+        [formControl]="field.formControl"
+        [ngClass]="klass"
+        [value]="field.value"
++       [attr.aria-label]="field?.label"
+        type="password">
+diff --git a/core/app/core/src/lib/fields/phone/templates/detail/phone.component.html b/core/app/core/src/lib/fields/phone/templates/detail/phone.component.html
+index 333a8dc..22aec97 100644
+--- a/core/app/core/src/lib/fields/phone/templates/detail/phone.component.html
++++ b/core/app/core/src/lib/fields/phone/templates/detail/phone.component.html
+@@ -25,4 +25,4 @@
+ * the words "Supercharged by SuiteCRM".
+ */
+ -->
+-<a [href]="getTelLink(field.value)">{{ field.value }}</a>
++<a *ngIf="field.value" [href]="getTelLink(field.value)">{{ field.value }}</a>
+diff --git a/core/app/core/src/lib/fields/relate/templates/edit/relate.component.html b/core/app/core/src/lib/fields/relate/templates/edit/relate.component.html
+index 0757d7a..21a9b41 100644
+--- a/core/app/core/src/lib/fields/relate/templates/edit/relate.component.html
++++ b/core/app/core/src/lib/fields/relate/templates/edit/relate.component.html
+@@ -29,6 +29,8 @@
+     <ng-container *ngIf="initModule()">
+         <div #tagWrapper class="flex-grow-1 w-100 mr-1">
+             <p-dropdown
++                [ariaLabel]="field?.label"
++                [ariaFilterLabel]="field?.label"
+                 #tag
+                 [options]="currentOptions()"
+                 [(ngModel)]="selectedValue"
+@@ -63,6 +65,7 @@
+                                pInputText
+                                autocomplete="off"
+                                class="p-dropdown-filter p-component"
++                               [attr.aria-label]="field?.label"
+                                [(ngModel)]="filterValue"
+                                (keyup)="onFilterInput($event)"
+                                tabindex="0">
+diff --git a/core/app/core/src/lib/fields/relate/templates/edit/relate.component.ts b/core/app/core/src/lib/fields/relate/templates/edit/relate.component.ts
+index f9db261..28aa4ae 100644
+--- a/core/app/core/src/lib/fields/relate/templates/edit/relate.component.ts
++++ b/core/app/core/src/lib/fields/relate/templates/edit/relate.component.ts
+@@ -127,6 +127,7 @@ export class RelateEditFieldComponent extends BaseRelateComponent implements Aft
+ 
+         this.selectButton = {
+             klass: ['btn', 'btn-sm', 'btn-outline-secondary', 'm-0', 'border-0'],
++            titleKey: 'LBL_SELECT_BUTTON_TITLE',
+             onClick: (): void => {
+                 this.showSelectModal();
+             },
+diff --git a/core/app/core/src/lib/fields/relate/templates/filter/relate.component.html b/core/app/core/src/lib/fields/relate/templates/filter/relate.component.html
+index 6ab8ee7..97703a2 100644
+--- a/core/app/core/src/lib/fields/relate/templates/filter/relate.component.html
++++ b/core/app/core/src/lib/fields/relate/templates/filter/relate.component.html
+@@ -29,6 +29,8 @@
+     <ng-container *ngIf="initModule">
+         <div class="flex-grow-1 w-100 mr-1">
+             <p-multiSelect
++                [ariaLabel]="field?.label"
++                [ariaFilterLabel]="field?.label"
+                 #tag
+                 [options]="currentOptions()"
+                 [(ngModel)]="selectedValues"
+@@ -81,6 +83,7 @@
+                                class="p-multiselect-filter p-inputtext p-component"
+                                [(ngModel)]="filterValue"
+                                (keyup)="onFilterInput($event);"
++                               [attr.aria-label]="field?.label"
+                                tabindex="0">
+                         <span class="p-multiselect-filter-icon">
+                             <scrm-image image="search" class="p-element p-dropdown-filter-search-icon"></scrm-image>
+diff --git a/core/app/core/src/lib/fields/relate/templates/filter/relate.component.ts b/core/app/core/src/lib/fields/relate/templates/filter/relate.component.ts
+index 18d39bf..c393396 100644
+--- a/core/app/core/src/lib/fields/relate/templates/filter/relate.component.ts
++++ b/core/app/core/src/lib/fields/relate/templates/filter/relate.component.ts
+@@ -95,6 +95,7 @@ export class RelateFilterFieldComponent extends BaseRelateComponent {
+ 
+         this.selectButton = {
+             klass: ['btn', 'btn-sm', 'btn-outline-secondary', 'm-0', 'border-0'],
++            titleKey: 'LBL_SELECT_BUTTON_TITLE',
+             onClick: (): void => {
+                 this.showSelectModal();
+             },
+diff --git a/core/app/core/src/lib/fields/text/templates/edit/text.component.html b/core/app/core/src/lib/fields/text/templates/edit/text.component.html
+index 662263b..a5b17d2 100644
+--- a/core/app/core/src/lib/fields/text/templates/edit/text.component.html
++++ b/core/app/core/src/lib/fields/text/templates/edit/text.component.html
+@@ -29,5 +29,6 @@
+           [cols]="cols"
+           [ngClass]="klass"
+           [class.is-invalid]="validateOnlyOnSubmit ? isInvalid() : (field.formControl.invalid && field.formControl.touched)"
+-          [formControl]="field.formControl">
++          [formControl]="field.formControl"
++          [attr.aria-label]="field?.label">
+ </textarea>
+diff --git a/core/app/core/src/lib/fields/url/templates/detail/url.component.html b/core/app/core/src/lib/fields/url/templates/detail/url.component.html
+index 4c7c5f1..3ebeada 100644
+--- a/core/app/core/src/lib/fields/url/templates/detail/url.component.html
++++ b/core/app/core/src/lib/fields/url/templates/detail/url.component.html
+@@ -25,4 +25,4 @@
+ * the words "Supercharged by SuiteCRM".
+ */
+ -->
+-<a [target]="target" href="{{ this.field.value }}">{{ this.field.value }}</a>
++<a *ngIf="this.field.value" [target]="target" href="{{ this.field.value }}">{{ this.field.value }}</a>
+diff --git a/core/app/core/src/lib/fields/varchar/templates/edit/varchar.component.html b/core/app/core/src/lib/fields/varchar/templates/edit/varchar.component.html
+index ff0b6f9..5782917 100644
+--- a/core/app/core/src/lib/fields/varchar/templates/edit/varchar.component.html
++++ b/core/app/core/src/lib/fields/varchar/templates/edit/varchar.component.html
+@@ -29,4 +29,5 @@
+        [formControl]="field.formControl"
+        [value]="field.value"
+        [ngClass]="klass"
++       [attr.aria-label]="field?.label"
+        type="text">
+diff --git a/core/app/core/src/lib/fields/varchar/templates/filter/filter.component.html b/core/app/core/src/lib/fields/varchar/templates/filter/filter.component.html
+index ff0b6f9..5782917 100644
+--- a/core/app/core/src/lib/fields/varchar/templates/filter/filter.component.html
++++ b/core/app/core/src/lib/fields/varchar/templates/filter/filter.component.html
+@@ -29,4 +29,5 @@
+        [formControl]="field.formControl"
+        [value]="field.value"
+        [ngClass]="klass"
++       [attr.aria-label]="field?.label"
+        type="text">
+diff --git a/core/app/core/src/lib/views/admin/components/admin-card/admin-card.component.html b/core/app/core/src/lib/views/admin/components/admin-card/admin-card.component.html
+index b6dfa78..68f6324 100644
+--- a/core/app/core/src/lib/views/admin/components/admin-card/admin-card.component.html
++++ b/core/app/core/src/lib/views/admin/components/admin-card/admin-card.component.html
+@@ -29,10 +29,10 @@
+ <div class="widget-panel h-100 shadow-sm">
+     <div *ngIf="content" class="card h-100 panel-card border-0">
+         <div class="card-header">
+-            <h5 [title]="language.getFieldLabel(content.descriptionLabelKey, 'administration')"
++            <h2 [title]="language.getFieldLabel(content.descriptionLabelKey, 'administration')"
+                 class="card-title admin-card-title m-0">
+                 <scrm-label [labelKey]="content.titleLabelKey" module="administration"></scrm-label>
+-            </h5>
++            </h2>
+         </div>
+         <div class="card-body d-flex flex-column align-items-start">
+             <ng-container *ngIf="content.linkGroup">
+diff --git a/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.html b/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.html
+index 45fa193..c8737ec 100644
+--- a/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.html
++++ b/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.html
+@@ -26,5 +26,5 @@
+ */
+ -->
+ <div class="classic-view-container" #dataContainer>
+-    <iframe></iframe>
++    <iframe title="SuiteCRM"></iframe>
+ </div>
+diff --git a/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.ts b/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.ts
+index 146c33a..a9113bf 100644
+--- a/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.ts
++++ b/core/app/core/src/lib/views/classic/components/classic-view/classic-view.component.ts
+@@ -105,7 +105,7 @@ export class ClassicViewUiComponent implements OnInit, OnDestroy, AfterViewInit
+         if (this.wrapper.firstChild) {
+             placeholder.removeChild(placeholder.firstChild);
+         }
+-        placeholder.innerHTML = '<iframe></iframe>';
++        placeholder.innerHTML = '<iframe title="SuiteCRM"></iframe>';
+         this.wrapper = null;
+     }
+ 
+@@ -129,6 +129,7 @@ export class ClassicViewUiComponent implements OnInit, OnDestroy, AfterViewInit
+         }
+         const iframe = document.createElement('iframe');
+         iframe.src = this.url;
++        iframe.title = 'SuiteCRM';
+ 
+         this.wrapper.appendChild(iframe);
+ 
+diff --git a/core/app/core/src/lib/views/record/components/record-header/base-record-header/base-record-header.component.ts b/core/app/core/src/lib/views/record/components/record-header/base-record-header/base-record-header.component.ts
+index 103b0e1..cc3b871 100644
+--- a/core/app/core/src/lib/views/record/components/record-header/base-record-header/base-record-header.component.ts
++++ b/core/app/core/src/lib/views/record/components/record-header/base-record-header/base-record-header.component.ts
+@@ -147,6 +147,7 @@ export class BaseRecordHeaderComponent implements OnInit, OnDestroy {
+             this.backButtonConfig = {
+                 icon: 'paginate_previous',
+                 klass: 'back-button',
++                titleKey: 'LBL_BACK',
+                 onClick: () => {
+                     this.router.navigate([moduleRoute.route], {queryParams: {keepPagination: true}}).then();
+                 }
+@@ -174,6 +175,7 @@ export class BaseRecordHeaderComponent implements OnInit, OnDestroy {
+         this.backButtonConfig = {
+             icon: 'paginate_previous',
+             klass: 'back-button',
++            titleKey: 'LBL_BACK',
+             onClick: () => {
+                 this.moduleNavigation.navigateBack(parentRecord, module, {});
+             }
+diff --git a/core/app/shell/src/app/app.component.html b/core/app/shell/src/app/app.component.html
+index abd3c41..db1efe9 100644
+--- a/core/app/shell/src/app/app.component.html
++++ b/core/app/shell/src/app/app.component.html
+@@ -32,7 +32,12 @@
+     <scrm-navbar-ui></scrm-navbar-ui>
+     <scrm-sidebar></scrm-sidebar>
+     <scrm-message-ui></scrm-message-ui>
+-    <div #mainOutlet></div>
+-    <router-outlet></router-outlet>
++    <main id="scrm-main" role="main" class="app-main">
++        <ng-container *ngIf="(appState$ | async) as appState">
++            <h1 class="scrm-page-heading">{{ appState.module || 'SuiteCRM' }}</h1>
++        </ng-container>
++        <div #mainOutlet></div>
++        <router-outlet></router-outlet>
++    </main>
+ </div>
+ <scrm-footer-ui></scrm-footer-ui>
+diff --git a/core/app/shell/src/themes/suite8/css/abstracts/_variables.scss b/core/app/shell/src/themes/suite8/css/abstracts/_variables.scss
+index 871d79d..d15cc70 100644
+--- a/core/app/shell/src/themes/suite8/css/abstracts/_variables.scss
++++ b/core/app/shell/src/themes/suite8/css/abstracts/_variables.scss
+@@ -38,8 +38,8 @@ $median-grey: #333333;
+ $less-median-grey: #333;
+ $dark-midnight-grey: #444444;
+ $midnight-grey: #666666;
+-$nepal-grey: #93a4b3;
+-$shell-grey: #777777;
++$nepal-grey: #5f6f7c;
++$shell-grey: #707070;
+ $dusty-grey: #778591;
+ $smoky-grey: #9794a2;
+ $sky-grey: #f9f1e8;
+@@ -58,7 +58,7 @@ $highlight-grey: #9f9e9e;
+ $grey-transparent: #d3d3d34d;
+ 
+ $geyser-blue: #d7dde1;
+-$cool-blue: #76858f;
++$cool-blue: #5d6e78;
+ $dusky-blue: #666176;
+ $dusky-light-blue: #757083;
+ $midnight-blue: #534d64;
+@@ -68,29 +68,29 @@ $suite-logo-blue: #4e5063;
+ $powdered-blue: #c6d0d8;
+ $sky-blue: #a99ac9;
+ $astral-blue: #4b7291;
+-$pale-blue: #7096b5;
++$pale-blue: #4e7391;
+ $bright-blue: #eeebf5;
+ 
+ $burnt-orange: #e65545;
+-$light-orange: #f05645;
+-$dull-orange: #ee8776;
++$light-orange: #b23426;
++$dull-orange: #a3381f;
+ $bright-orange: #f08377;
+ $vacant-orange: #a97375;
+ $lighter-orange: #fd7e143b;
+ 
+-$burnt-red: #ef8177;
++$burnt-red: #b5403a;
+ $amaranth: #dc3545;
+ 
+ $mellow-yellow: #e2b98e;
+ $sandy-yellow: #e3a35f;
+ 
+ $lighter-salmon-pink: #faeeeb;
+-$salmon-pink: #f5aea6;
+-$coral-pink: #eb6657;
++$salmon-pink: #f9c5c0;
++$coral-pink: #b73a2d;
+ $suite-logo-pink: #e67062;
+ 
+-$bright-purple: #8d74cc;
+-$highlight-purple: #b9a2f2;
++$bright-purple: #7557c0;
++$highlight-purple: #775fc6;
+ 
+ $wild-willow-green: #c6ca6b;
+ $light-green: #93ae8a;
+@@ -116,7 +116,7 @@ $very-lighter-orange: #fffbe0;
+ 
+ /* ----Base colors -- */
+ 
+-$danger: #ee8776;
++$danger: $dull-orange;
+ $error: $amaranth;
+ $info: $mild-blue;
+ $info-light: $baby-blue;
+diff --git a/core/app/shell/src/themes/suite8/css/components/_button.scss b/core/app/shell/src/themes/suite8/css/components/_button.scss
+index d297acd..956f272 100644
+--- a/core/app/shell/src/themes/suite8/css/components/_button.scss
++++ b/core/app/shell/src/themes/suite8/css/components/_button.scss
+@@ -396,6 +396,8 @@ button {
+   border: none;
+   padding: 0 0.3em;
+   font-size: 0.8em;
++  min-width: 24px;
++  min-height: 24px;
+   fill: transparentize($nepal-grey, 0.5);
+ }
+ 
+diff --git a/core/app/shell/src/themes/suite8/css/components/_input.scss b/core/app/shell/src/themes/suite8/css/components/_input.scss
+index 9e1ac0d..2773721 100644
+--- a/core/app/shell/src/themes/suite8/css/components/_input.scss
++++ b/core/app/shell/src/themes/suite8/css/components/_input.scss
+@@ -34,16 +34,16 @@ input {
+ 
+ ::-webkit-input-placeholder {
+   /* Edge */
+-  color: $powdered-blue;
++  color: $midnight-grey;
+ }
+ 
+ :-ms-input-placeholder {
+   /* Internet Explorer */
+-  color: $powdered-blue;
++  color: $midnight-grey;
+ }
+ 
+ ::placeholder {
+-  color: $powdered-blue;
++  color: $midnight-grey;
+ }
+ 
+ .login-form {
+@@ -228,6 +228,19 @@ input {
+   border-color: $border-focus-blue;
+ }
+ 
++.scrm-page-heading,
++.scrm-visually-hidden {
++    position: absolute !important;
++    width: 1px !important;
++    height: 1px !important;
++    padding: 0 !important;
++    margin: -1px !important;
++    overflow: hidden !important;
++    clip: rect(0, 0, 0, 0) !important;
++    white-space: nowrap !important;
++    border: 0 !important;
++}
++
+ .visually-hidden {
+   display: none;
+ }
+diff --git a/core/app/shell/src/themes/suite8/css/components/_searchbar.scss b/core/app/shell/src/themes/suite8/css/components/_searchbar.scss
+index e324c66..87c85a9 100644
+--- a/core/app/shell/src/themes/suite8/css/components/_searchbar.scss
++++ b/core/app/shell/src/themes/suite8/css/components/_searchbar.scss
+@@ -37,10 +37,10 @@
+     background-color: $dusky-light-blue;
+     transition: background-color ease-in-out 0.15s;
+     &:hover {
+-      background-color: $smoky-grey;
++      background-color: $dusky-blue;
+       .search-bar-term {
+         &::placeholder {
+-          color: $lilac-grey;
++          color: $white;
+         }
+       }
+ 
+@@ -58,7 +58,7 @@
+       border: none;
+       max-width: 100%;
+       &::placeholder {
+-        color: $pale-bue-grey;
++        color: $white;
+         font-size: 14px;
+       }
+ 
+diff --git a/core/app/shell/src/themes/suite8/css/components/_svg.scss b/core/app/shell/src/themes/suite8/css/components/_svg.scss
+index 5ddf7f4..9493af4 100644
+--- a/core/app/shell/src/themes/suite8/css/components/_svg.scss
++++ b/core/app/shell/src/themes/suite8/css/components/_svg.scss
+@@ -81,6 +81,8 @@
+ .line-action-item {
+   padding: 0.2em;
+   background: none;
++  min-width: 24px;
++  min-height: 24px;
+ }
+ 
+ .line-action svg polygon {

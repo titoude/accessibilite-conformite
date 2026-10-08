@@ -1,0 +1,1596 @@
+# Audit accessibilité — 2026-10-08
+
+**19 règle(s) violée(s), 1364 occurrence(s), 28/28 scénario(s) audité(s), 0 erreur(s), 146 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `c0bc4b2f9fd1`
+
+## [CRITICAL] aria-allowed-attr — Elements must only use supported ARIA attributes
+
+Ensure an element's role supports its ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-allowed-attr?application=axeAPI
+
+- http://localhost:9950/
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/home
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/contacts/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/leads/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/opportunities/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/administration/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item.ng-tns-c2316037842-2 > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/home [state:global-search]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.global-links > .navbar-nav > .global-link-item > .primary-global-link.dropdown-toggle[ngbdropdowntoggle=""]`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.nav-link`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:9950/#/accounts/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.col-lg-12.col-xl-12.col-xs-12:nth-child(2) > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(5) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-entry-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.col-lg-12.col-xl-12.col-xs-12:nth-child(2) > div:nth-child(2) > .record-action-button`
+  - … +3 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.dynamic-field-name-assigned_user_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-entry-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+- http://localhost:9950/#/leads/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - … +4 autres
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-entry-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+- http://localhost:9950/#/opportunities/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - … +4 autres
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.input-group-append.align-items-end > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.dynamic-field-name-campaign_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.dynamic-field-name-assigned_user_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.col-lg-12.col-xl-12.col-xs-12:nth-child(2) > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(5) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.btn-outline-light`
+  - `.btn-outline-secondary`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .show-more-column.cdk-column-show-more > scrm-record-details-popup-button > scrm-popup-button > div > scrm-button > .float-right.line-action-item.line-action`
+- http://localhost:9950/#/accounts/index [state:list-column-chooser]
+  - `.btn-outline-light`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.col-lg-12.col-xl-12.col-xs-12:nth-child(2) > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(5) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `.back-button`
+  - `.btn-sm`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `.back-button`
+  - `.favorite-star`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.col-lg-12.col-xl-12.col-xs-12:nth-child(2) > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(5) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - … +1 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.dynamic-field-name-assigned_user_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-entry-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.dynamic-field-name-assigned_user_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > scrm-relate-edit > .align-items-center.d-flex > div:nth-child(2) > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-entry-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+  - `.line-item-buttons > scrm-button > .btn-sm.btn-outline-secondary.btn`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `.navbar > div:nth-child(1) > .navbar-toggler`
+  - `.flex-shrink-1 > .navbar-toggler`
+
+## [CRITICAL] aria-required-attr — Required ARIA attributes must be provided
+
+Ensure elements with ARIA roles have all required ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-attr?application=axeAPI
+
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `.accordion-header`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `.accordion-header`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `.accordion-header`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `.accordion-header`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `.accordion-header`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `.accordion-header`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `.accordion-header`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `.accordion-header`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.ng-invalid.form-control-sm[type="text"]`
+  - `.dynamic-field-name-website > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-phone_office > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-email_address > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-billing_address_street > .w-100.flex-grow-1.d-flex > scrm-text-edit > textarea[rows="3"]`
+  - `.dynamic-field-name-billing_address_postalcode > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-billing_address_city > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-billing_address_state > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-billing_address_country > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.ng-valid[type="text"]`
+  - `.dynamic-field-name-shipping_address_street > .w-100.flex-grow-1.d-flex > scrm-text-edit > textarea[rows="3"]`
+  - … +5 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.dynamic-field-name-first_name > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.ng-invalid.form-control-sm[type="text"]`
+  - `.dynamic-field-name-phone_work > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-phone_mobile > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-title > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-department > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-email_address > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-primary_address_street > .w-100.flex-grow-1.d-flex > scrm-text-edit > textarea[rows="3"]`
+  - `.dynamic-field-name-primary_address_postalcode > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-primary_address_city > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - … +8 autres
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.dynamic-field-name-first_name > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.ng-invalid.form-control-sm[type="text"]`
+  - `.dynamic-field-name-title > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-phone_mobile > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-department > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-phone_work > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-website > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - `.dynamic-field-name-primary_address_street > .w-100.flex-grow-1.d-flex > scrm-text-edit > textarea[rows="3"]`
+  - `.dynamic-field-name-primary_address_postalcode > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm[type="text"]`
+  - … +10 autres
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.dynamic-field-name-name > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > input[type="text"]`
+  - `scrm-currency-edit > input[type="text"]`
+  - `.dynamic-field-name-probability > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > input[type="text"]`
+  - `.dynamic-field-name-next_step > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > input[type="text"]`
+  - `textarea`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.dynamic-field-name-name.dynamic-field-type-name.dynamic-field-mode-filter > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-website > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-phone > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-email > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-address_street > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-address_city > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-address_state > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-address_postalcode > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `.dynamic-field-name-billing_address_country.dynamic-field-type-name.dynamic-field-mode-filter > .w-100.flex-grow-1.d-flex > scrm-varchar-filter > .ng-dirty.form-control-sm.form-control`
+  - `#pn_id_3 > .p-hidden-accessible[data-p-hidden-accessible="true"] > input[role="combobox"][pautofocus=""][aria-haspopup="listbox"]`
+  - … +3 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.dynamic-field-name-first_name > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.ng-invalid.form-control-sm[type="text"]`
+  - `.p-dropdown-filter`
+  - `.dynamic-field-name-phone_work > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-phone_mobile > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-title > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-department > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-email_address > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-primary_address_street > .w-100.flex-grow-1.d-flex > scrm-text-edit > textarea[rows="3"]`
+  - `.dynamic-field-name-primary_address_postalcode > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - … +9 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.dynamic-field-name-first_name > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.ng-invalid.form-control-sm[type="text"]`
+  - `.dynamic-field-name-phone_work > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-phone_mobile > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-title > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-department > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.p-dropdown-filter`
+  - `.dynamic-field-name-email_address > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - `.dynamic-field-name-primary_address_street > .w-100.flex-grow-1.d-flex > scrm-text-edit > textarea[rows="3"]`
+  - `.dynamic-field-name-primary_address_postalcode > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+  - … +9 autres
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `select`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `select`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.dropdownenum > .w-auto`
+  - `.dynamic-field-name-sales_stage > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-edit > .dropdownenum > select`
+  - `.dynamic-field-name-opportunity_type > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-edit > .dropdownenum > select`
+  - `.dynamic-field-name-lead_source > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-edit > .dropdownenum > select`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `select`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `select`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `select`
+
+## [SERIOUS] aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+Ensure ARIA attributes are not prohibited for an element's role
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI
+
+- http://localhost:9950/
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/home
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/contacts/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/leads/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/opportunities/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/administration/index
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/home [state:global-search]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.search-mobile-view`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:9950/
+  - `.home-nav-link`
+- http://localhost:9950/#/home
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/index
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.home-nav-link`
+- http://localhost:9950/#/contacts/index
+  - `.home-nav-link`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `.home-nav-link`
+  - `scrm-phone-detail > a[href=""]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.home-nav-link`
+- http://localhost:9950/#/leads/index
+  - `.home-nav-link`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `.home-nav-link`
+  - `scrm-phone-detail > a[href=""]`
+  - `a[target="_blank"][href=""]`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.home-nav-link`
+- http://localhost:9950/#/opportunities/index
+  - `.home-nav-link`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `.home-nav-link`
+  - `a[href$="#/campaigns/record"]`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.home-nav-link`
+- http://localhost:9950/#/administration/index
+  - `.home-nav-link`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `.home-nav-link`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `.home-nav-link`
+- http://localhost:9950/#/home [state:global-search]
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `.home-nav-link`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `.home-nav-link`
+  - `a[href$="#/accounts/record"]`
+  - `a[href$="#/campaigns/record"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `.home-nav-link`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.home-nav-link`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.home-nav-link`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:9950/#/accounts/index
+  - `.active > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.settings-button.button-group-button[type="button"]`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > scrm-label`
+  - `.cdk-column-billing_address_country.column-billing_address_country.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_office.column-phone_office.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-column-email1.column-email1.column-type-email > scrm-label`
+  - … +10 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `scrm-relate-detail`
+  - `a[href="https://example.org/00"]`
+  - `a[href="tel:+33478000001"]`
+  - `tr:nth-child(1) > td:nth-child(1) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(2) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(3) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(4) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - … +12 autres
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `scrm-button:nth-child(2) > .button-group-button.settings-button > scrm-label`
+- http://localhost:9950/#/contacts/index
+  - `.active > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.pl-0.table-pagination-wrapper > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-title.column-title.column-type-varchar > scrm-label`
+  - `.cdk-column-account_name.column-account_name.column-type-relate > scrm-label`
+  - `.cdk-column-email1.column-email1.column-type-email > scrm-label`
+  - `.cdk-column-phone_work.column-phone_work.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-column-date_entered.column-date_entered.column-type-datetime > scrm-label`
+  - … +16 autres
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `a[href$="#/users/record/1"] > scrm-relate-detail`
+  - `a[href="tel:+334000001"]`
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > .field-link.flex-grow-1 > scrm-relate-detail`
+  - `.clickable.field-link`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - … +1 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `scrm-button:nth-child(2) > .button-group-button.settings-button > scrm-label`
+- http://localhost:9950/#/leads/index
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-status.column-status.column-type-enum > scrm-label`
+  - `.cdk-column-account_name.column-account_name.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_work.column-phone_work.column-type-phone > scrm-label`
+  - `.cdk-column-email1.column-email1.column-type-email > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name > .field-name-name.field-type-name > .dynamic-field-name-name.dynamic-field-type-name > .w-100.flex-grow-1.d-flex > .field-link.flex-grow-1 > scrm-varchar-detail`
+  - … +9 autres
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `scrm-relate-detail`
+  - `a[href="tel:+33600000001"]`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(4) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `scrm-button:nth-child(2) > .button-group-button.settings-button > scrm-label`
+- http://localhost:9950/#/opportunities/index
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-account_name.column-account_name.column-type-relate > scrm-label`
+  - `.cdk-column-sales_stage.column-sales_stage.column-type-enum > scrm-label`
+  - `.cdk-column-amount_usdollar.column-amount_usdollar.column-type-currency > scrm-label`
+  - `.cdk-column-date_closed.column-date_closed.column-type-date > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name > .field-name-name.field-type-name > .dynamic-field-name-name.dynamic-field-type-name > .w-100.flex-grow-1.d-flex > .field-link.flex-grow-1 > scrm-varchar-detail`
+  - … +9 autres
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `.dynamic-field-name-account_name > .w-100.flex-grow-1.d-flex > .field-link.flex-grow-1 > scrm-relate-detail`
+  - `a[href$="#/users/record/1"] > scrm-relate-detail`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(4) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `scrm-button:nth-child(2) > .button-group-button.settings-button > scrm-label`
+- http://localhost:9950/#/administration/index
+  - `.nav-link-grouped > span`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-label[labelkey="LBL_MODULE_NAME"]`
+  - `scrm-label[labelkey="LBL_QUICK_ACTIONS"]`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `scrm-relate-detail`
+  - `a[href="https://example.org/00"]`
+  - `a[href="tel:+33478000001"]`
+  - `tr:nth-child(1) > td:nth-child(1) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(2) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - … +14 autres
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.active > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.settings-button.button-group-button[type="button"]`
+  - `.panel-title > scrm-label`
+  - `.clear-filters-button > scrm-label`
+  - `.filter-button > scrm-label`
+  - `.btn-outline-danger.button-group-button.btn-sm > scrm-label`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > scrm-label`
+  - … +14 autres
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.active > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.settings-button.button-group-button[type="button"]`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"] > .bulk-action-selected-number > .d-sm-inline.d-none[labelkey="LBL_LISTVIEW_SELECTED_OBJECTS"]`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > scrm-label`
+  - `.cdk-column-billing_address_country.column-billing_address_country.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_office.column-phone_office.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - … +19 autres
+- http://localhost:9950/#/accounts/index [state:list-column-chooser]
+  - `.active > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `.filter-settings-button`
+  - `.settings-button.button-group-button[type="button"]`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > scrm-label`
+  - `.cdk-column-billing_address_country.column-billing_address_country.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_office.column-phone_office.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-column-email1.column-email1.column-type-email > scrm-label`
+  - … +10 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `.settings-button.dropdown-item[ngbdropdownitem=""]:nth-child(1) > .align-items-center.d-flex > .dropdown-item-label.flex-grow-1`
+  - `.settings-button.dropdown-item[ngbdropdownitem=""]:nth-child(2) > .align-items-center.d-flex > .dropdown-item-label.flex-grow-1`
+  - `.settings-button.dropdown-item[ngbdropdownitem=""]:nth-child(3) > .align-items-center.d-flex > .dropdown-item-label.flex-grow-1`
+  - `.settings-button.dropdown-item[ngbdropdownitem=""]:nth-child(4) > .align-items-center.d-flex > .dropdown-item-label.flex-grow-1`
+  - `.settings-button.dropdown-item[ngbdropdownitem=""]:nth-child(5) > .align-items-center.d-flex > .dropdown-item-label.flex-grow-1`
+  - `scrm-relate-detail`
+  - `a[href="https://example.org/00"]`
+  - … +17 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `tr:nth-child(1) > td:nth-child(1) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(2) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(3) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(1) > td:nth-child(4) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(2) > td:nth-child(1) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(2) > td:nth-child(2) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `tr:nth-child(2) > td:nth-child(3) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - … +9 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.hover-enabled > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button[type="button"] > scrm-label`
+  - `.button-group-button.settings-button[ngbdropdowntoggle=""]`
+  - `scrm-relate-detail`
+  - `a[href="https://example.org/00"]`
+  - `a[href="tel:+33478000001"]`
+  - `.insight-panel.sub-panel-banner-body-table-row:nth-child(1) > .sub-panel-banner-body-table-col:nth-child(1) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.insight-panel.sub-panel-banner-body-table-row:nth-child(1) > .sub-panel-banner-body-table-col:nth-child(2) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.insight-panel.sub-panel-banner-body-table-row:nth-child(1) > .sub-panel-banner-body-table-col:nth-child(3) > .insight-panel-card.border-insight.pl-2 > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - `.sub-panel-banner-button-active > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col > .text-truncate.widget-entry-label > scrm-label`
+  - … +15 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `scrm-button:nth-child(2) > .button-group-button.settings-button > scrm-label`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.active.top-nav.non-grouped > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > span[data-target=".navbar-collapse"][data-toggle="collapse"] > scrm-menu-item-link > scrm-base-menu-item-link > .top-nav-link.nav-link-nongrouped.dropdown-toggle > span`
+  - `scrm-button:nth-child(1) > .button-group-button.settings-button > scrm-label`
+  - `scrm-button:nth-child(2) > .button-group-button.settings-button > scrm-label`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:9950/#/accounts/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - … +2 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/contacts/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .line-action-item.button-group-button[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .line-action-item.button-group-button[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .line-action-item.button-group-button[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .line-action-item.button-group-button[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .line-action-item.button-group-button[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .line-action-item.button-group-button[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .line-action-item.button-group-button[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .line-action-item.button-group-button[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .line-action-item.button-group-button[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .line-action-item.button-group-button[title="Schedule Meeting"]`
+  - … +2 autres
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/leads/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - … +2 autres
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/opportunities/index
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - … +2 autres
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(7) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .field-layout-field-wrapper.col-lg-9.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .line-action-item.button-group-button[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .line-action-item.button-group-button[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .line-action-item.button-group-button[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .line-action-item.button-group-button[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .line-action-item.button-group-button[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .line-action-item.button-group-button[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .line-action-item.button-group-button[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .line-action-item.button-group-button[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .line-action-item.button-group-button[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .line-action-item.button-group-button[title="Schedule Meeting"]`
+  - … +2 autres
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(3) > .button-group-button.line-action-item[title="Create Task"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(4) > .button-group-button.line-action-item[title="Compose Email"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(1) > .button-group-button.line-action-item[title="Log Call"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-line-actions > scrm-line-action-menu > .line-action-container > .line-action-position.line-action > .listview-actions > .icon-bar > scrm-button-group > .icon-bar-block > scrm-button:nth-child(2) > .button-group-button.line-action-item[title="Schedule Meeting"]`
+  - … +2 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-lg-9.field-layout-field-wrapper.col-md-12 > div:nth-child(2) > .record-action-button[type="button"]`
+  - `.line-action-item.line-action[title="Edit Record"]`
+  - `.line-action-item.line-action[title="Unlink Record"]`
+
+## [SERIOUS] aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
+
+Ensure aria-hidden elements are not focusable nor contain focusable elements
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=axeAPI
+
+- http://localhost:9950/#/accounts/index
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.dynamic-field-name-primary_address > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-opt_out > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-invalid_email > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+- http://localhost:9950/#/contacts/index
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.dynamic-field-name-primary_address.dynamic-field-type-bool > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-opt_out > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-invalid_email > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+- http://localhost:9950/#/leads/index
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.dynamic-field-name-primary_address.dynamic-field-type-bool > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-opt_out > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-invalid_email > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+- http://localhost:9950/#/opportunities/index
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-checkbox > label > input[type="checkbox"]`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.dynamic-field-name-current_user_only > .w-100.flex-grow-1.d-flex > scrm-boolean-checkbox-filter > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-favorites_only > .w-100.flex-grow-1.d-flex > scrm-boolean-checkbox-filter > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-checkbox > .checkbox-container > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(2) > .cdk-column-checkbox > .checkbox-container > input[type="checkbox"]`
+  - `.cdk-row[cdk-row=""]:nth-child(3) > .cdk-column-checkbox > .checkbox-container > input[type="checkbox"]`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.dynamic-field-name-primary_address.dynamic-field-type-bool > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-opt_out > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-invalid_email > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.dynamic-field-name-primary_address.dynamic-field-type-bool > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-opt_out > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+  - `.dynamic-field-name-invalid_email > .w-100.flex-grow-1.d-flex > scrm-boolean-edit > .pb-4.checkbox-field > .checkbox-container > input[type="checkbox"]`
+
+## [SERIOUS] frame-title — Frames must have an accessible name
+
+Ensure <iframe> and <frame> elements have an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/frame-title?application=axeAPI
+
+- http://localhost:9950/
+  - `iframe`
+- http://localhost:9950/#/home
+  - `iframe`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `iframe`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `iframe`
+- http://localhost:9950/#/home [state:global-search]
+  - `iframe`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `iframe`
+
+## [SERIOUS] listitem — <li> elements must be contained in a <ul> or <ol>
+
+Ensure <li> elements are used semantically
+Référence : https://dequeuniversity.com/rules/axe/4.14/listitem?application=axeAPI
+
+- http://localhost:9950/#/administration/index
+  - `.active`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `.global-links > .global-link-item`
+  - `.mobile-menu-items > .align-items-center:nth-child(1)`
+  - `.mobile-menu-items > .align-items-center:nth-child(2)`
+  - `.mobile-menu-items > .align-items-center:nth-child(3)`
+  - `.align-items-center:nth-child(4)`
+  - `.align-items-center:nth-child(5)`
+  - `.align-items-center:nth-child(6)`
+  - `.align-items-center:nth-child(7)`
+  - `.align-items-center:nth-child(8)`
+  - `.align-items-center:nth-child(9)`
+  - … +23 autres
+
+## [SERIOUS] aria-dialog-name — ARIA dialog and alertdialog nodes should have an accessible name
+
+Ensure every ARIA dialog and alertdialog node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-dialog-name?application=axeAPI
+
+- http://localhost:9950/#/accounts/index [state:list-column-chooser]
+  - `ngb-modal-window`
+
+## [SERIOUS] list — <ul> and <ol> must only directly contain <li>, <script> or <template> elements
+
+Ensure that lists are structured correctly
+Référence : https://dequeuniversity.com/rules/axe/4.14/list?application=axeAPI
+
+- http://localhost:9950/#/home [state:mobile-390]
+  - `.navbar`
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI
+
+- http://localhost:9950/#/home [state:mobile-390]
+  - `.mobile-menu-items`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:9950/
+  - `scrm-footer-ui`
+- http://localhost:9950/#/home
+  - `scrm-footer-ui`
+- http://localhost:9950/#/accounts/index
+  - `.custom-col-4`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > scrm-label`
+  - `.cdk-column-billing_address_country.column-billing_address_country.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_office.column-phone_office.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-header-row > .cdk-column-email1.column-email1.column-type-email`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > .field-name-billing_address_city.field-type-varchar > .dynamic-field-name-billing_address_city.dynamic-field-type-varchar > .w-100.flex-grow-1.d-flex > scrm-varchar-detail`
+  - … +12 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.border-right > .widget-bar-entry-value.pl-1.pr-1 > .field-mode-list.field-type-currency[mode="list"] > .dynamic-field-mode-list.dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.border-right > .widget-bar-entry-end-label.pl-1`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-value.pl-1.pr-1 > .field-mode-list.field-type-currency[mode="list"] > .dynamic-field-mode-list.dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-end-label.pl-1`
+  - `.mb-3:nth-child(2)`
+  - `.mb-3:nth-child(3)`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.col-md-5`
+  - `scrm-record-container`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/contacts/index
+  - `.custom-col-4`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.pl-0.table-pagination-wrapper > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-title.column-title.column-type-varchar > scrm-label`
+  - `.cdk-column-account_name.column-account_name.column-type-relate > scrm-label`
+  - `.cdk-header-row > .cdk-column-email1.column-email1.column-type-email`
+  - `.cdk-column-phone_work.column-phone_work.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-column-date_entered.column-date_entered.column-type-datetime > scrm-label`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name`
+  - … +22 autres
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(4) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - … +3 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.col-md-5`
+  - `scrm-record-container`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/leads/index
+  - `.custom-col-4`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-status.column-status.column-type-enum > scrm-label`
+  - `.cdk-column-account_name.column-account_name.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_work.column-phone_work.column-type-phone > scrm-label`
+  - `.cdk-header-row > .cdk-column-email1.column-email1.column-type-email`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-status.column-status.column-type-enum > .field-name-status.field-type-enum > .dynamic-field-name-status.dynamic-field-type-enum > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-detail`
+  - … +15 autres
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(4) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - … +5 autres
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.col-md-5`
+  - `scrm-record-container`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/opportunities/index
+  - `.custom-col-4`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-account_name.column-account_name.column-type-relate > scrm-label`
+  - `.cdk-column-sales_stage.column-sales_stage.column-type-enum > scrm-label`
+  - `.cdk-column-amount_usdollar.column-amount_usdollar.column-type-currency > scrm-label`
+  - `.cdk-column-date_closed.column-date_closed.column-type-date > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-account_name.column-account_name.column-type-relate`
+  - … +18 autres
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(1) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(2) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(3) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-value.font-weight-bolder.statistics-sidebar-widget-col`
+  - `.col-auto.insight-panel-card.border-insight:nth-child(4) > scrm-grid-widget > .grid-widget[placement="auto"][container="body"] > .statistics-sidebar-widget-row.justify-content-end.align-items-center > .sub-panel-banner-button-title.font-weight-bolder.statistics-sidebar-widget-col`
+  - … +5 autres
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.col-md-5`
+  - `scrm-record-container`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/administration/index
+  - `.col-12.col-sm-6.col-lg-4:nth-child(1) > scrm-admin-card > .widget-panel.shadow-sm.h-100 > .card.panel-card.border-0 > .card-header`
+  - `.card-link.admin-card-link[href$="#/users/index"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `.card-link.admin-card-link[href$="#/acl-roles/index"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `.col-12.col-sm-6.col-lg-4:nth-child(1) > scrm-admin-card > .widget-panel.shadow-sm.h-100 > .card.panel-card.border-0 > .card-body.align-items-start.flex-column > .admin-card-link-box.border-bottom.w-100:nth-child(3) > .card-link.admin-card-link[queryparamshandling="merge"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `.card-link.admin-card-link[href$="#/oauth2-clients/index"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `a[title="OAuth key management"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `a[title="Security Suite Group Editor"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `.card-link.admin-card-link[href$="#/security-groups/config"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - `.col-12.col-sm-6.col-lg-4:nth-child(2) > scrm-admin-card > .widget-panel.shadow-sm.h-100 > .card.panel-card.border-0 > .card-header`
+  - `a[title="Configure system-wide settings"] > .admin-card-link-wrapper.p-1.align-items-center > .admin-card-label.pl-1.flex-grow-1`
+  - … +46 autres
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `scrm-footer-ui`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `scrm-footer-ui`
+- http://localhost:9950/#/home [state:global-search]
+  - `scrm-footer-ui`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.border-right > .widget-bar-entry-value.pl-1.pr-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.border-right > .widget-bar-entry-end-label.pl-1`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-value.pl-1.pr-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-end-label.pl-1`
+  - `.mb-3:nth-child(2)`
+  - `.mb-3:nth-child(3)`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.custom-col-4`
+  - `.panel-title`
+  - `.form-row.align-items-center:nth-child(1) > .form-group.m-1.col:nth-child(1) > .flex-column.d-flex > div:nth-child(1)`
+  - `.dynamic-field-name-name.dynamic-field-type-name.dynamic-field-mode-filter > .w-100.flex-grow-1.d-flex > scrm-varchar-filter`
+  - `.form-row.align-items-center:nth-child(1) > .form-group.m-1.col:nth-child(2) > .flex-column.d-flex > div:nth-child(1)`
+  - `.dynamic-field-name-website > .w-100.flex-grow-1.d-flex > scrm-varchar-filter`
+  - `.form-row.align-items-center:nth-child(1) > .form-group.m-1.col:nth-child(3) > .flex-column.d-flex > div:nth-child(1)`
+  - `.dynamic-field-name-phone > .w-100.flex-grow-1.d-flex > scrm-varchar-filter`
+  - `.form-row.align-items-center:nth-child(2) > .form-group.m-1.col:nth-child(1) > .flex-column.d-flex > div:nth-child(1)`
+  - `.dynamic-field-name-email > .w-100.flex-grow-1.d-flex > scrm-varchar-filter`
+  - … +47 autres
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.custom-col-4`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .mx-0.table-pagination-wrapper.pl-0 > scrm-pagination > .bulk-action.float-right > .pagination-count`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > scrm-label`
+  - `.cdk-column-billing_address_country.column-billing_address_country.column-type-varchar > scrm-label`
+  - `.cdk-column-phone_office.column-phone_office.column-type-phone > scrm-label`
+  - `.cdk-column-assigned_user_name.column-assigned_user_name.column-type-relate > scrm-label`
+  - `.cdk-header-row > .cdk-column-email1.column-email1.column-type-email`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-name.column-name.column-type-name`
+  - `.cdk-row[cdk-row=""]:nth-child(1) > .cdk-column-billing_address_city.column-billing_address_city.column-type-varchar > .field-name-billing_address_city.field-type-varchar > .dynamic-field-name-billing_address_city.dynamic-field-type-varchar > .w-100.flex-grow-1.d-flex > scrm-varchar-detail`
+  - … +13 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `scrm-dynamic-label`
+  - `div[data-popper-placement="bottom-end"]`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.border-right > .widget-bar-entry-value.pl-1.pr-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.border-right > .widget-bar-entry-end-label.pl-1`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-value.pl-1.pr-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-end-label.pl-1`
+  - `.mb-3:nth-child(2)`
+  - `.mb-3:nth-child(3)`
+  - … +1 autres
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.align-items-start`
+  - `.border-right > .pr-1.widget-bar-entry-value.pl-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.border-right > .widget-bar-entry-end-label.pl-1`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .pr-1.widget-bar-entry-value.pl-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-end-label.pl-1`
+  - `.mb-3:nth-child(2)`
+  - `.mb-3:nth-child(3)`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `scrm-dynamic-label`
+  - `.mt-1`
+  - `.sub-panel-banner-header`
+  - `.subpanel-contacts > .card-header.justify-content-between.align-items-center > .align-items-center.flex-grow-1.d-flex > .panel-title.d-inline-block.pl-1`
+  - `.cdk-column-name.column-name.column-type-name > scrm-label`
+  - `.cdk-column-primary_address_city.column-primary_address_city.column-type-varchar > scrm-label`
+  - `.cdk-column-primary_address_state.column-primary_address_state.column-type-varchar > scrm-label`
+  - `.cdk-header-row > .cdk-column-email1.column-email1.column-type-email`
+  - `.cdk-column-phone_work.column-phone_work.column-type-phone > scrm-label`
+  - `.cdk-row > .cdk-column-name.column-name.column-type-name`
+  - … +11 autres
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.col-md-5`
+  - `scrm-record-container`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.col-md-5`
+  - `scrm-record-container`
+  - `scrm-footer-ui`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `a[aria-label="Quick Create"]`
+  - `a[aria-label="Recently Viewed"]`
+  - `.search-mobile-view`
+  - `scrm-footer-ui`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://localhost:9950/
+  - `html`
+- http://localhost:9950/#/home
+  - `html`
+- http://localhost:9950/#/accounts/index
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/contacts/index
+  - `html`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/leads/index
+  - `html`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/opportunities/index
+  - `html`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/administration/index
+  - `html`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `html`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `html`
+- http://localhost:9950/#/home [state:global-search]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `html`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `html`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:9950/
+  - `html`
+- http://localhost:9950/#/home
+  - `html`
+- http://localhost:9950/#/accounts/index
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/contacts/index
+  - `html`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/leads/index
+  - `html`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/opportunities/index
+  - `html`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `html`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/administration/index
+  - `html`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `html`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `html`
+- http://localhost:9950/#/home [state:global-search]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `html`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `html`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `html`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `html`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:9950/#/accounts/index
+  - `.cdk-header-row > .cdk-column-checkbox`
+  - `.cdk-header-row > .show-more-column.cdk-column-show-more`
+  - `.cdk-header-row > .cdk-column-line-actions`
+- http://localhost:9950/#/contacts/index
+  - `.cdk-header-row > .cdk-column-checkbox`
+  - `.cdk-header-row > .cdk-column-line-actions`
+- http://localhost:9950/#/leads/index
+  - `.cdk-header-row > .cdk-column-checkbox`
+  - `.cdk-header-row > .show-more-column.cdk-column-show-more`
+  - `.cdk-header-row > .cdk-column-line-actions`
+- http://localhost:9950/#/opportunities/index
+  - `.cdk-header-row > .cdk-column-checkbox`
+  - `.cdk-header-row > .show-more-column.cdk-column-show-more`
+  - `.cdk-header-row > .cdk-column-line-actions`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.cdk-header-row > .cdk-column-checkbox`
+  - `.cdk-header-row > .show-more-column.cdk-column-show-more`
+  - `.cdk-header-row > .cdk-column-line-actions`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.cdk-header-row > .cdk-column-checkbox`
+  - `.cdk-header-row > .show-more-column.cdk-column-show-more`
+  - `.cdk-header-row > .cdk-column-line-actions`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `.cdk-header-row > .cdk-column-line-actions`
+
+## Résultats incomplets à revoir (146)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### bypass — Page must have means to bypass repeated blocks
+
+- http://localhost:9950/
+  - `html`
+- http://localhost:9950/#/home
+  - `html`
+- http://localhost:9950/#/accounts/index
+  - `html`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/contacts/index
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/leads/index
+  - `html`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/opportunities/index
+  - `html`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `html`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `html`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `html`
+- http://localhost:9950/#/home [state:global-search]
+  - `html`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `html`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `html`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `html`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `html`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9950/
+  - `input`
+- http://localhost:9950/#/home
+  - `input`
+- http://localhost:9950/#/accounts/index
+  - `.form-control`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+- http://localhost:9950/#/accounts/edit?return_module=Accounts&return_action=DetailView
+  - `.search-bar-term`
+- http://localhost:9950/#/contacts/index
+  - `.form-control`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `.form-control`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > .col-form-label-sm.mb-0`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > .col-form-label-sm.mb-0`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > .col-form-label-sm.mb-0`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > .col-form-label-sm.mb-0`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(6) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > .col-form-label-sm.mb-0`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(6) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > .col-form-label-sm.mb-0`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView
+  - `.search-bar-term`
+  - `select`
+- http://localhost:9950/#/leads/index
+  - `.form-control`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(5) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(5) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+- http://localhost:9950/#/leads/edit?return_module=Leads&return_action=DetailView
+  - `.search-bar-term`
+  - `select`
+- http://localhost:9950/#/opportunities/index
+  - `.form-control`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(3) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(7) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+- http://localhost:9950/#/opportunities/edit?return_module=Opportunities&return_action=DetailView
+  - `.search-bar-term`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.dropdownenum > .w-auto`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.dynamic-field-name-sales_stage > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-edit > .dropdownenum > select`
+  - `.dynamic-field-name-opportunity_type > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-edit > .dropdownenum > select`
+  - `.dynamic-field-name-lead_source > .w-100.flex-grow-1.d-flex > scrm-dropdownenum-edit > .dropdownenum > select`
+- http://localhost:9950/#/administration/index
+  - `input`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `input`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `a[href$="#/project"] > span`
+  - `a[href$="#/project-templates"] > span`
+  - `a[href$="#/events"] > span`
+  - `a[href$="#/event-locations"] > span`
+  - `a[href$="#/products"] > span`
+  - `input`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `.search-bar-term`
+  - `.btn-outline-light > span[aria-hidden="true"]`
+  - `select`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `.form-control`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"] > .bulk-action-selected-number`
+  - `.table-header > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .d-sm-block > .d-inline-block.dropdown-button.bulk-action-group > .bulk-action-button.btn-sm[ngbdropdowntoggle=""] > scrm-label`
+  - `.table-footer > .justify-content-between.align-items-center.d-flex > .d-flex > scrm-bulk-action-menu > .bulk-action.d-flex > .select-action-group.dropdown[ngbdropdown=""] > .bulk-action-button[aria-haspopup="true"][aria-label="Select Action Menu"] > .bulk-action-selected-number`
+  - `.show.bulk-action-button[ngbdropdowntoggle=""] > scrm-label`
+- http://localhost:9950/#/accounts/index [state:list-column-chooser]
+  - `.form-control`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pr-3:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-value.pl-1.pr-1 > .field-type-currency > .dynamic-field-type-currency > .w-100.flex-grow-1.d-flex > scrm-currency-detail`
+  - `.widget-bar-entry.col-6.justify-content-start:nth-child(2) > .widget-bar-entry-end-label.pl-1`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.field-layout-field-label-wrapper.label-container > strong > label`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `input`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(1) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(2) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-column-bordered.field-layout-col.pl-3 > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+  - `.field-layout-row.form-row.align-items-stretch:nth-child(4) > .field-layout-col.pl-3.pb-2:nth-child(2) > .field-layout-field-group-wrapper.row.form-group > .col-form-label.col-lg-3.field-layout-field-label-wrapper > strong > label`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `.search-bar-term`
+  - `select`
+  - `.dynamic-field-name-phone_mobile > .w-100.flex-grow-1.d-flex > scrm-varchar-edit > .form-control-sm.form-control[type="text"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.search-bar-term`
+  - `select`
+  - `.p-dropdown-empty-message`
+  - `.align-self-start.flex-fill.h-100:nth-child(2) > .field-group-label.pr-1 > label > scrm-label`
+  - `.align-self-start.flex-fill.h-100:nth-child(3) > .field-group-label.pr-1 > label > scrm-label`
+  - `.align-self-start.flex-fill.h-100:nth-child(4) > .field-group-label.pr-1 > label > scrm-label`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `input[placeholder="Filter Modules..."]`
+  - `a[data-target=".copyright-suitecrm"]`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://localhost:9950/
+  - `iframe`
+- http://localhost:9950/#/home
+  - `iframe`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `iframe`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `iframe`
+- http://localhost:9950/#/home [state:global-search]
+  - `iframe`
+- http://localhost:9950/#/home [state:mobile-390]
+  - `iframe`
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:9950/#/accounts/index
+  - `table`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `#ngb-accordion-item-0-collapse`
+- http://localhost:9950/#/contacts/index
+  - `table`
+- http://localhost:9950/#/leads/index
+  - `table`
+- http://localhost:9950/#/opportunities/index
+  - `table`
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `.top-nav.non-grouped.dropdown:nth-child(1) > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > .submenu.dropdown-menu[aria-labelledby="navbarDropdownMenuLink"]`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `.more-menu`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `#ngb-accordion-item-0-collapse`
+- http://localhost:9950/#/accounts/index [state:list-filter-open]
+  - `table`
+- http://localhost:9950/#/accounts/index [state:list-bulk-action-menu]
+  - `table`
+- http://localhost:9950/#/accounts/index [state:list-column-chooser]
+  - `ngb-modal-window`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `#ngb-accordion-item-0-collapse`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `#ngb-accordion-item-0-collapse`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `#ngb-accordion-item-0-collapse`
+  - `.cdk-table`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-p-dropdown-open]
+  - `span[aria-controls="pn_id_1_list"]`
+- http://localhost:9950/#/contacts/edit?return_module=Contacts&return_action=DetailView [state:edit-relate-field]
+  - `.p-placeholder`
+
+### aria-allowed-attr — Elements must only use supported ARIA attributes
+
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/contacts/record/58con001-0000-4000-8000-000000000001
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/leads/record/58lea001-0000-4000-8000-000000000001
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/opportunities/record/58opp001-0000-4000-8000-000000000001
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:global-links-menu]
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-actions-menu]
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:record-tab-more-info]
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+- http://localhost:9950/#/accounts/record/58acc001-0000-4000-8000-000000000001 [state:subpanel-open]
+  - `scrm-image[aria-controls="collapseShowSubPanels"]`
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:9950/#/home [state:nav-module-submenu]
+  - `.top-nav.non-grouped.dropdown:nth-child(1) > scrm-menu-item > scrm-base-menu-item > .menu-item-wrapper > .submenu.dropdown-menu[aria-labelledby="navbarDropdownMenuLink"]`
+- http://localhost:9950/#/home [state:nav-more-menu]
+  - `.more-menu`
+
+### aria-hidden-focus — ARIA hidden element must not be focusable or contain focusable elements
+
+- http://localhost:9950/#/accounts/index [state:list-column-chooser]
+  - `app-root`
+

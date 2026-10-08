@@ -1,0 +1,143 @@
+{
+  "runId": "a49fe550-0bc2-4024-933f-154f020fab50",
+  "runnerVersion": "audit.mjs v13-c58-suitecrm",
+  "generatedAt": "2026-10-08T21:17:14.375Z",
+  "baseUrl": "http://localhost:9950",
+  "pages": [
+    {
+      "url": "http://localhost:9950/#/Login",
+      "requestedUrl": "http://localhost:9950/#/Login",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9950/#/Login",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9950/#/Login [state:login-mobile-390]",
+      "requestedUrl": "http://localhost:9950/#/Login",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9950/#/Login",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:9950/#/Login [state:login-bad-creds]",
+      "requestedUrl": "http://localhost:9950/#/Login",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#b57a7f",
+                    "bgColor": "#f8d7da",
+                    "contrastRatio": 2.59,
+                    "fontSize": "18.0pt (24px)",
+                    "fontWeight": "bold",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div role=\"alert\" class=\"ng-tns-c3493484211-0 alert alert-danger alert-dismissible fade message shadow show ng-trigger ng-trigger-fade ng-star-inserted\">",
+                      "target": [
+                        ".alert"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span aria-hidden=\"true\" class=\"ng-tns-c3493484211-0\">×</span>",
+              "target": [
+                "span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            }
+          ]
+        },
+        {
+          "id": "label-content-name-mismatch",
+          "impact": "serious",
+          "tags": [
+            "cat.semantics",
+            "wcag21a",
+            "wcag253",
+            "EN-301-549",
+            "EN-9.2.5.3",
+            "RGAAv4",
+            "RGAA-6.1.5"
+          ],
+          "description": "Ensure that elements labelled through their content must have their visible text as part of their accessible name",
+          "help": "Elements must have their visible text as part of their accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/label-content-name-mismatch?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "label-content-name-mismatch",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Unable to determine if the visible text is part of the accessible name"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a role=\"button\" data-dismiss=\"alert\" aria-label=\"Close\" class=\"close ng-tns-c3493484211-0\"><span aria-hidden=\"true\" class=\"ng-tns-c3493484211-0\">×</span></a>",
+              "target": [
+                ".close"
+              ],
+              "failureSummary": "Fix any of the following:\n  Unable to determine if the visible text is part of the accessible name"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:9950/#/Login",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "8d0c255d060922aa866f3353bd6cce9dbf41efb20f150bff9d280a24dd417468"
+}

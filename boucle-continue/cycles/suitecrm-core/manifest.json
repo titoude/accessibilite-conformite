@@ -1,0 +1,57 @@
+{
+ "cycle": 58,
+ "produit": "suitecrm-core",
+ "repo": "https://github.com/SuiteCRM/SuiteCRM-Core",
+ "commit": "1eb3669683b34e84f574066bf11098a5bd504ffc",
+ "tag": "v8.9.3",
+ "choix_cible": "SuiteCRM-Core choisi (suite demandée) : Angular 14 + Symfony 8 + legacy PHP — plus maintenu que SuiteCRM legacy. SuiteCRM (Smarty/jQuery) non retenu, pas de fallback nécessaire.",
+ "stack": "Angular 14 (ng build core+shell → public/dist/) + Symfony 8 (API Platform /api/graphql) + backend legacy PHP/Smarty bind-monté + MariaDB — première stack Angular+Symfony de la boucle",
+ "boot": {
+  "clone": "git clone SuiteCRM-Core + checkout SHA pinné 1eb3669 (tag v8.9.3)",
+  "install": "yarn install && yarn merge-angular-json (angular.json gitignoré, généré par le plugin yarn) && yarn build && composer install SANS --no-dev (post-install requiert DoctrineFixturesBundle)",
+  "run": "bash tools/boot.sh <checkout> <port> <suffix> — Dockerfile php:8.1-apache + mariadb:10.6, checkout bind-monté, .env.local prod + install idempotent suitecrm:app:install, ré-assertion APP_ENV=prod post-install (l'installeur réécrit .env.local → profiler dev sinon)",
+  "notes": [
+   "Ports propres au cycle : patché :9950, vanilla :9960, install-build :9970 — COMPOSE_PROJECT_NAME=sc58-<suffix>",
+   "Vanilla : worktree git @SHA buildé à l'identique (yarn+merge-angular-json+build), stack sc58-9960, DB fraîche seedée par le même tools/seed.mjs",
+   "Install-build : clone LOCAL du checkout patché@SHA (git clone local = objets commités uniquement → propre) + git apply patch.diff + build + boot :9970 + seed + rescan",
+   "Wart éprouvé : l'installeur réécrit .env.local (APP_SECRET random, env non prod) → boot.sh ré-écrit .env.local prod + purge cache/prod APRÈS install ; cache réel = /var/www/html/cache/prod (pas var/cache)",
+   "Wart éprouvé : installer touche public/legacy/custom/Extension/application/Ext/LogicHooks/AOW_WorkFlow_Hook.php à CHAQUE install (runtime, hors patch — reverté avant génération patch.diff)"
+  ]
+ },
+ "seed": {
+  "outil": "tools/seed.mjs <port> — API REST legacy /legacy/Api/V8 (oauth2 password grant) : 3 accounts + 3 contacts + 3 leads + 3 opportunities + relations, ids déterministes 58acc001-…/58con001-…/58lea001-…/58opp001-…",
+  "ids": "tools/seed-info.json — source unique des ids (leçons 44/46) ; urls-auth.resolved.txt généré par gen-urls.mjs depuis seed-info",
+  "comptes": "admin/Sc58-Admin-Pass! ; mariadb suitecrm/sc-app-pass base suitecrm"
+ },
+ "tools": {
+  "runner": "tools/audit.mjs <base> --urls <csv> [--storage-state f] --states all --out dir (runner v13-c58 ; STATES : nav-module-submenu, nav-more-menu, global-search, global-links-menu, list-filter-open, list-bulk-action-menu, list-column-chooser, record-actions-menu, record-tab-more-info, subpanel-open, edit-p-dropdown-open, edit-relate-field, mobile-390, login-mobile-390, login-bad-creds — sélecteurs vanilla-safe + stateProof ; contexte public/auth)",
+  "login": "tools/login.mjs <baseUrl> (vrai formulaire → storageState auth.json)",
+  "seed": "tools/seed.mjs <port>",
+  "gen-urls": "tools/gen-urls.mjs <port> (seed-info.json → urls-*.resolved.txt)",
+  "verify": "tools/verify.mjs <baseUrl> [auth.json] (32 assertions dures : landmarks, h1, liaisons aria résolues, th non vides, contrastes mesurés ≥4.5, 2.5.3 nom⊇visible, bad-creds réel, mobile 390)",
+  "eval": "tools/eval-final.mjs <baseUrl> [auth.json] (16 contrôles transverses : zoom, lang, clavier Tab×15, Escape, mobile 390, régions live, h1, labels[for], title)",
+  "probes": "tools/incomplete-probes.mjs --report <report.json> --base <url> [--storage-state f] (rejoue page+état, mesure contraste propre WCAG — ::placeholder inclus — ou N-A motivé)"
+ },
+ "auditCommands": [
+  "node tools/audit.mjs http://localhost:9950 --urls \"$(paste -sd, tools/urls-auth.resolved.txt)\" --storage-state tools/auth.json --states all --out reports/final-auth",
+  "node tools/audit.mjs http://localhost:9950 --urls \"$(paste -sd, tools/urls-public.resolved.txt)\" --states all --out reports/final-public",
+  "node tools/audit.mjs http://localhost:9960 --urls \"$(paste -sd, tools/urls-auth.resolved.txt)\" --storage-state tools/auth-9960.json --states all --out reports/baseline-auth",
+  "node tools/audit.mjs http://localhost:9960 --urls \"$(paste -sd, tools/urls-public.resolved.txt)\" --states all --out reports/baseline-public",
+  "node tools/audit.mjs http://localhost:9970 --urls \"$(paste -sd, tools/urls-auth.resolved.txt)\" --storage-state tools/auth-9970.json --states all --out reports/install-build",
+  "node tools/verify.mjs http://localhost:9950 tools/auth.json",
+  "node tools/verify.mjs http://localhost:9960 tools/auth-9960.json",
+  "node tools/eval-final.mjs http://localhost:9950 tools/auth.json",
+  "node tools/incomplete-probes.mjs --report reports/final-auth/report.json --base http://localhost:9950 --storage-state tools/auth.json --out reports/final-auth/probes.json",
+  "node tools/incomplete-probes.mjs --report reports/install-build/report.json --base http://localhost:9970 --storage-state tools/auth-9970.json --out reports/install-build/probes.json",
+  "node tools/incomplete-probes.mjs --report reports/final-public/report.json --base http://localhost:9950 --out reports/final-public/probes.json"
+ ],
+ "axe": "4.14.0 (axe-core npm lock, injecté dans la page)",
+ "scenarios": "28 auth (15 urls + 13 états) + 3 publics (login + mobile-390 + bad-creds) — 0 sauté",
+ "patch": {
+  "fichier": "patch.diff",
+  "sha256": "6116ab34e58b3d3d9ae52a55630ad2fa7a78dad81d5055e944be0087959b3861",
+  "stats": "60 fichiers, +167/−88",
+  "provenance": "git diff du checkout patché @SHA (vraies sources : templates Angular, configs champs/boutons, SCSS thème) — fichiers runtime installés exclus"
+ },
+ "resultats": "voir results.json + reports/*/report.json"
+}

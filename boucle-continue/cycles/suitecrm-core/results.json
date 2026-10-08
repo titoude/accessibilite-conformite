@@ -1,0 +1,36 @@
+{
+ "cycle": 58,
+ "produit": "suitecrm-core @1eb3669683b34e84f574066bf11098a5bd504ffc (v8.9.3)",
+ "generatedAt": "2026-10-08T22:05:00Z",
+ "baseline_vanilla": {
+  "public": { "pages": 3, "regles": 5, "occurrences": 21, "incompletes": 5, "erreurs": 0 },
+  "auth": { "pages": 28, "reglesUniques": 19, "instancesRegles": 265, "occurrences": 1364, "incompletes": 146, "erreurs": 0 },
+  "regles": {
+   "auth": { "region": 375, "color-contrast": 322, "button-name": 132, "label": 109, "aria-allowed-attr": 81, "aria-prohibited-attr": 55, "aria-hidden-focus": 45, "listitem": 34, "link-name": 32, "landmark-one-main": 26, "page-has-heading-one": 26, "empty-table-header": 18, "select-name": 9, "aria-required-attr": 8, "frame-title": 6, "aria-dialog-name": 1, "list": 1, "scrollable-region-focusable": 1, "target-size": 83 },
+   "public": { "region": 9, "color-contrast": 5, "landmark-one-main": 3, "page-has-heading-one": 3, "aria-prohibited-attr": 1 }
+  },
+  "scenariosSautes": 0
+ },
+ "final_patache_9950": {
+  "auth": { "pages": 28, "regles": 0, "occurrences": 0, "incompletes": 118, "erreurs": 0 },
+  "public": { "pages": 3, "regles": 0, "occurrences": 0, "incompletes": 2, "erreurs": 0 }
+ },
+ "install_build_9970": {
+  "verbatim": "clone local @SHA + git apply --check (0 rejet) + yarn install/merge-angular-json/build + boot.sh + seed.mjs + login.mjs + rescan audit.mjs identiques",
+  "auth": { "pages": 28, "regles": 0, "occurrences": 0, "incompletes": 151, "erreurs": 0 }
+ },
+ "verify": {
+  "patache_9950": { "ok": 32, "fail": 0, "na": 0 },
+  "vanilla_9960": { "ok": 16, "fail": 10, "na": 3, "failsAttendus": ["public: exactement 1 landmark main", "public: h1 non vide présent", "public: footer/contentinfo présent", "message close: role=button, pas de type sur <a>", "auth /home: exactement 1 landmark main", "auth /home: h1 non vide présent", "auth /home: footer/contentinfo", "list /accounts/index: table rendue", "mobile 390: chaque toggler visible nommé", "mobile 390: landmark main unique visible"] },
+  "sabotage_9950": { "ok": 30, "fail": 2, "failsNommes": ["public: html lang renseigné", "contraste nameLink ≥ 4.5"], "note": "lang=en retiré de dist/index.html + #b5403a→#ef8177 dans styles.css → 2 FAIL nommés exacts, puis restauration 32/32" }
+ },
+ "eval_final_9950": { "ok": 16, "fail": 0, "na": 1, "naDetail": "régions live : aucune aria-live/status dans le produit" },
+ "incomplete_probes": {
+  "final_auth": { "items": 97, "mesures": 83, "nonConformes": 0, "na": 14 },
+  "final_public": { "items": 2, "mesures": 2, "nonConformes": 0, "na": 0 },
+  "install_build": { "items": 130, "mesures": 84, "nonConformes": 0, "na": 46 },
+  "methode": "rejeu page+état, localisation par target axe, mesure contraste WCAG propre (::placeholder inclus) ou N-A motivé (pas de texte visible / élément absent)"
+ },
+ "patch": { "fichiers": 60, "insertions": 167, "deletions": 88, "sha256": "6116ab34e58b3d3d9ae52a55630ad2fa7a78dad81d5055e944be0087959b3861" },
+ "provenance": "provenance.json — re-hash --strict en dernière étape"
+}
