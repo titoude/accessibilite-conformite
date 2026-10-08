@@ -1,20 +1,9 @@
-import { createRequire } from 'node:module';
-const require = createRequire(new URL('./package.json', import.meta.url));
-const { chromium } = require('playwright');
-const BASE = 'http://localhost:9540';
-const b = await chromium.launch();
-const ctx = await b.newContext({ locale: 'en-US', storageState: './auth.json' });
-const p = await ctx.newPage();
-await p.goto(`${BASE}/objects/companies`, { waitUntil: 'load' });
-await p.waitForTimeout(6000);
-const asideBefore = await p.evaluate(() => document.querySelector('aside')?.outerHTML?.slice(0, 400) || 'pas-d-aside');
-console.log('aside avant:', asideBefore.replace(/\s+/g,' '));
-await p.keyboard.press('Control+k');
-await p.waitForTimeout(3000);
-const after = await p.evaluate(() => {
-  const asides = [...document.querySelectorAll('aside')].map(e => e.outerHTML.slice(0, 800));
-  return asides.join('\n===\n');
+import { chromium } from 'playwright';
+const b=await chromium.launch();const ctx=await b.newContext({storageState:'auth.json',locale:'en-US'});const p=await ctx.newPage();
+await p.goto('http://localhost:9540/objects/people');await p.waitForTimeout(6000);
+const out=await p.evaluate(()=>{
+  const els=[...document.querySelectorAll('[data-base-ui-click-trigger]')].filter(e=>{const s=getComputedStyle(e);return s.display!=='none'});
+  return els.slice(0,8).map(e=>({id:e.id,role:e.getAttribute('role'),hp:e.getAttribute('aria-haspopup'),ph:(e.parentElement?.outerHTML||'').slice(0,120),inner:(e.querySelector('[data-testid],[aria-label]')?.getAttribute('data-testid')||e.querySelector('svg')?'icon/svg':e.textContent.slice(0,30))}));
 });
-console.log('asides après Ctrl+K:', after.replace(/\s+/g,' ').slice(0, 2500));
-await p.screenshot({ path: '/tmp/cmdk3.png' });
+console.log(JSON.stringify(out,null,0).slice(0,3000));
 await b.close();

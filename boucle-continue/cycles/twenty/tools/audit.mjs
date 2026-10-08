@@ -154,8 +154,9 @@ export const STATES = {
       const btn = page.getByRole('button', { name: /^Filter$/i }).first();
       await btn.waitFor({ state: 'visible', timeout: 30000 });
       await btn.click();
-      // preuve : la listbox de sélection de champ de filtre est ouverte.
-      await page.waitForSelector('[role="listbox"]', { state: 'visible', timeout: 15000 });
+      // preuve : le panneau options du dropdown de filtre est ouvert
+      // (sélecteur vanilla-safe : présent avant et après patch — leçon 47).
+      await page.waitForSelector('[id$="-options"][data-floating-ui-viewport]', { state: 'visible', timeout: 15000 });
     },
   },
   'command-menu': {
@@ -393,7 +394,41 @@ async function run() {
     } catch { /* animations longues/infinies : le scan part quand même */ }
   };
 
+  // Le rendu React peuple <main> et le h1 de façon asynchrone ; scanner
+  // pendant ce gap produit des landmark-one-main / empty-heading fantômes.
+  // Attente best-effort des landmarks stables — si le h1 reste vide au bout
+  // du timeout c'est un vrai finding, le scan part quand même.
+  const settleLandmarks = async () => {
+    try {
+      await page.waitForSelector('main', { state: 'attached', timeout: 8000 });
+      await page.waitForFunction(
+        () => {
+          const h1 = document.querySelector('h1');
+          return !h1 || (h1.textContent || '').trim().length > 0;
+        },
+        { timeout: 8000, polling: 150 },
+      );
+    } catch { /* landmark jamais rendu : le scan axe le rapportera */ }
+    // Les cellules d'agrégats du footer se remplissent en GraphQL async :
+    // scanner pendant le chargement produit des aria-command-name /
+    // label-content-name-mismatch fantômes. On attend que leurs textes
+    // soient stables entre deux échantillons (best-effort).
+    try {
+      for (let i = 0; i < 12; i++) {
+        const sampleA = await page.$$eval('[id$="-footer-value"]', (els) =>
+          els.map((e) => e.textContent),
+        );
+        await page.waitForTimeout(700);
+        const sampleB = await page.$$eval('[id$="-footer-value"]', (els) =>
+          els.map((e) => e.textContent),
+        );
+        if (JSON.stringify(sampleA) === JSON.stringify(sampleB)) break;
+      }
+    } catch { /* pas de footer : le scan part quand même */ }
+  };
+
   const scanPage = async () => {
+    await settleLandmarks();
     await settleAnimations();
     await injectAxe();
     return await page.evaluate(async (tags) => {

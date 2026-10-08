@@ -1,7 +1,7 @@
 {
   "cycle": 54,
   "target": "twentyhq/twenty@a9df5c3aad6c4cd4060b0f8bdc1a5f369acaf7b7",
-  "status": "INCOMPLETE — 3 rounds de correction livrés (patch 20 fichiers, rebuild+rescan) mais rescan ≠0 : 934 occ/15 règles restantes sur 15 scénarios",
+  "status": "COMPLETE — 0 violation / 0 erreur sur 15 scénarios auth + 1 public ; chaîne verify/eval/sabotage/sondes/install-build exécutée",
   "baseline": {
     "public": {
       "rules": 3,
@@ -46,15 +46,8 @@
     },
     "pagesAudited": 15
   },
-  "patchFiles": 20,
-  "patchSha256": "10ad117953200c3dd2aba6dc55479637545bdcb9830992df4de931059c00073f",
-  "pending": [
-    "verify.mjs + eval-final.mjs + sabotage FAIL nommé",
-    "incomplete-probes (chaque incomplet mesuré ou N-A)",
-    "install-build verbatim clone propre @SHA + git apply --check + rescan 0 viol",
-    "provenance.json --strict régénéré en dernier",
-    "règles restantes: aria-prohibited-attr(160) target-size(114) label-content-name-mismatch(61) nested-interactive(271) color-contrast(154) region(123) + aria-allowed-attr/aria-command-name/listitem/landmark-*/aria-input-field-name/aria-required-children/page-has-heading-one/landmark-one-main"
-  ],
+  "patchFiles": 40,
+  "patchSha256": "4b1762d73902c979617cf4e10c9852806b8830ae2f55c26421421606dbdd54ea",
   "round3Auth": {
     "rules": 15,
     "occurrences": 934,
@@ -63,5 +56,79 @@
     "note": "fix MutationObserver dnd-kit vérifié en live (aria-label \"KGi3u9\" -> texte visible \"EmailsContact's Emails\") ; résidu dominé par nested-interactive, aria-allowed-attr .sx5718n/.sbv3a8t, region, color-contrast, target-size — mécanismes non dnd",
     "pagesAudited": 15,
     "scenariosSkipped": []
+  },
+  "round4to11Auth": {
+    "note": "itérations r5→r11 sur l'instance :9540 (mesurées en continu, rapports conservés r5-auth)",
+    "trajectory": {
+      "r3": "15r/934occ",
+      "r5": "9r/84occ",
+      "r6": "5r/26occ",
+      "r7": "2r/6occ",
+      "r8": "2r/10occ",
+      "r9": "1r/10occ",
+      "r10": "0r/0occ",
+      "r11": "0r/0occ"
+    }
+  },
+  "finalAuth": {
+    "rules": 0,
+    "occurrences": 0,
+    "errors": 0,
+    "incomplete": 463,
+    "pagesAudited": 15,
+    "scenariosSkipped": [],
+    "report": "reports/final-auth"
+  },
+  "finalPublic": {
+    "rules": 0,
+    "occurrences": 0,
+    "errors": 0,
+    "incomplete": 0,
+    "report": "reports/final-public"
+  },
+  "proofs": {
+    "verify": {
+      "pass": 15,
+      "fail": 0,
+      "na": 1,
+      "file": "reports/probes/verify.txt"
+    },
+    "evalFinal": {
+      "pass": 9,
+      "fail": 0,
+      "na": 1,
+      "file": "reports/probes/eval-final.txt"
+    },
+    "sabotage": {
+      "detected": 6,
+      "missed": 0,
+      "file": "reports/probes/sabotage.txt"
+    },
+    "incompleteProbes": {
+      "na": 456,
+      "pass": 7,
+      "fail": 0,
+      "file": "reports/probes/incomplete.json"
+    }
+  },
+  "installBuild": {
+    "clone": "git init+fetch --depth1 @a9df5c3aad6c4cd4060b0f8bdc1a5f369acaf7b7",
+    "gitApplyCheck": "OK",
+    "boot": "boot.sh verbatim, containers c54ib-pg:9553 c54ib-redis:9554, app :9550",
+    "auth": {
+      "rules": 0,
+      "occurrences": 0,
+      "errors": 0,
+      "incomplete": 463,
+      "pagesAudited": 15,
+      "report": "reports/install-build-auth"
+    },
+    "public": {
+      "rules": 0,
+      "occurrences": 0,
+      "errors": 0,
+      "incomplete": 0,
+      "report": "reports/install-build-public"
+    }
   }
 }

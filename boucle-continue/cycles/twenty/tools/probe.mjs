@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch(); const ctx = await b.newContext({storageState:'auth.json',locale:'en-US'});
+const p = await ctx.newPage();
+await p.goto('http://localhost:9540/objects/people'); await p.waitForTimeout(6000);
+const q = async (sel,fn)=>await p.evaluate(([s,f])=>{const e=document.querySelector(s); if(!e) return 'NONE'; return eval(f)},[sel,fn]);
+console.log('H1count', await p.evaluate(()=>document.querySelectorAll('h1').length));
+console.log('MAINcount', await p.evaluate(()=>document.querySelectorAll('main,[role=main]').length));
+console.log('handle', await q('.s15hjodz[data-dnd-sortable-handle]', `JSON.stringify({tag:e.tagName,role:e.getAttribute('role'),tab:e.getAttribute('tabindex'),kids:[...e.children].map(c=>c.tagName+'.'+(c.className||'').toString().slice(0,40)+':'+(c.getAttribute('role')||'')+':'+(c.getAttribute('tabindex')||'')),txt:e.textContent.slice(0,60),label:e.getAttribute('aria-label'),desc:e.getAttribute('aria-describedby'),parent:e.parentElement.tagName+'.'+(e.parentElement.className||'').toString().slice(0,50)})`));
+console.log('sx5718n', await q('.sx5718n', `e.outerHTML.slice(0,300)`));
+console.log('cmd', await q('#base-ui-_r_3og_,[id^="base-ui-"]', `e.outerHTML.slice(0,250)`));
+console.log('sectitle', await q('.section-title-label', `JSON.stringify({tag:e.tagName,style:getComputedStyle(e).color,bg:getComputedStyle(e).backgroundColor,txt:e.textContent.slice(0,40)})`));
+console.log('s1oavrdv', await q('.s1oavrdv', `e.outerHTML.slice(0,200)`));
+console.log('dragcell', await q('.record-table-column-drag-and-drop, [class*="drag-and-d"]', `JSON.stringify({w:e.getBoundingClientRect().width,h:e.getBoundingClientRect().height,html:e.outerHTML.slice(0,200)})`));
+await b.close();

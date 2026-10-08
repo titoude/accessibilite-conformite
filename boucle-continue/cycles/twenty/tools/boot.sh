@@ -59,12 +59,12 @@ fi
 # --- 4. DB : init + migrations + seed dev (crée workspaces Apple + YCombinator,
 #         users tim@apple.dev/…, ~1200 people / 599 companies / 150 opportunities) ---
 cd packages/twenty-server
-node dist/scripts/setup-db.js || true
+node dist/database/scripts/setup-db.js || node dist/scripts/setup-db.js || true
 npx nx run twenty-server:database:migrate -- --include-slow || npx nx run twenty-server:database:migrate
 npx nx command-no-deps twenty-server -- workspace:seed:dev || true
 
 # --- 5. Serveur ---
-pkill -f "node dist/main.js" 2>/dev/null || true
+PID=$(ss -tlnp 2>/dev/null | grep ":${APP_PORT} " | grep -o 'pid=[0-9]*' | head -1 | cut -d= -f2); [ -n "${PID:-}" ] && kill "$PID" 2>/dev/null || true
 sleep 2
 (nohup node dist/main.js > "${SERVER_LOG:-/tmp/c54-server.log}" 2>&1 &)
 for i in $(seq 1 60); do

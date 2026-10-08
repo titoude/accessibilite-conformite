@@ -1,5 +1,37 @@
+diff --git a/packages/twenty-front/src/modules/auth/components/Logo.tsx b/packages/twenty-front/src/modules/auth/components/Logo.tsx
+index d1b099c697..6661783308 100644
+--- a/packages/twenty-front/src/modules/auth/components/Logo.tsx
++++ b/packages/twenty-front/src/modules/auth/components/Logo.tsx
+@@ -1,5 +1,6 @@
+ import { UndecoratedLink } from '@/ui/navigation/link/components/UndecoratedLink/UndecoratedLink';
+ import { getWorkspaceAvatarColorSeed } from '@/workspace/utils/getWorkspaceAvatarColorSeed';
++import { useLingui } from '@lingui/react/macro';
+ import { styled } from '@linaria/react';
+ import { isNonEmptyString } from '@sniptt/guards';
+ import { AppPath } from 'twenty-shared/types';
+@@ -59,6 +60,7 @@ export const Logo = ({
+   onClick,
+   to = AppPath.SignInUp,
+ }: LogoProps) => {
++  const { t } = useLingui();
+   const { redirectToDefaultDomain } = useRedirectToDefaultDomain();
+   const defaultPrimaryLogoUrl = `${window.location.origin}/images/icons/android/android-launchericon-192-192.png`;
+ 
+@@ -79,7 +81,11 @@ export const Logo = ({
+   return (
+     <StyledContainer onClick={() => onClick?.()}>
+       {isUsingDefaultLogo ? (
+-        <UndecoratedLink to={to} onClick={() => redirectToDefaultDomain()}>
++        <UndecoratedLink
++          to={to}
++          onClick={() => redirectToDefaultDomain()}
++          aria-label={t`Twenty`}
++        >
+           <StyledPrimaryLogo
+             style={{ backgroundImage: `url(${primaryLogoUrl})` }}
+           />
 diff --git a/packages/twenty-front/src/modules/auth/components/Title.tsx b/packages/twenty-front/src/modules/auth/components/Title.tsx
-index eb81b167..52427c66 100644
+index eb81b1675d..52427c6631 100644
 --- a/packages/twenty-front/src/modules/auth/components/Title.tsx
 +++ b/packages/twenty-front/src/modules/auth/components/Title.tsx
 @@ -8,13 +8,14 @@ type TitleProps = React.PropsWithChildren & {
@@ -22,7 +54,7 @@ index eb81b167..52427c66 100644
  `;
  
 diff --git a/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx b/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
-index 4a113fb6..47311c99 100644
+index 4a113fb6ab..47311c99c3 100644
 --- a/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
 +++ b/packages/twenty-front/src/modules/object-record/record-board/record-board-card/components/RecordBoardCardHeader.tsx
 @@ -131,6 +131,7 @@ export const RecordBoardCardHeader = () => {
@@ -34,7 +66,7 @@ index 4a113fb6..47311c99 100644
            </StopPropagationContainer>
          </StyledCheckboxContainer>
 diff --git a/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx b/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx
-index ed1e366e..4ddfc9a2 100644
+index ed1e366e72..4ddfc9a21e 100644
 --- a/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx
 +++ b/packages/twenty-front/src/modules/object-record/record-calendar/record-calendar-card/components/RecordCalendarCardHeader.tsx
 @@ -10,6 +10,7 @@ import { useAtomComponentFamilyState } from '@/ui/utilities/state/jotai/hooks/us
@@ -53,8 +85,54 @@ index ed1e366e..4ddfc9a2 100644
            />
          </StopPropagationContainer>
        </StyledCheckboxContainer>
+diff --git a/packages/twenty-front/src/modules/object-record/record-field-list/record-detail-section/components/RecordDetailSectionContainer.tsx b/packages/twenty-front/src/modules/object-record/record-field-list/record-detail-section/components/RecordDetailSectionContainer.tsx
+index 3b7c0ed9cd..aaf7edb4d4 100644
+--- a/packages/twenty-front/src/modules/object-record/record-field-list/record-detail-section/components/RecordDetailSectionContainer.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-field-list/record-detail-section/components/RecordDetailSectionContainer.tsx
+@@ -11,7 +11,7 @@ const StyledRecordDetailSectionWrapper = styled.div`
+   width: auto;
+ `;
+ 
+-const StyledHeader = styled.header<{
++const StyledHeader = styled.div<{
+   isDropdownOpen?: boolean;
+   areRecordsAvailable?: boolean;
+   ariaLabel?: string;
+diff --git a/packages/twenty-front/src/modules/object-record/record-show/components/PageLayoutRecordPageRenderer.tsx b/packages/twenty-front/src/modules/object-record/record-show/components/PageLayoutRecordPageRenderer.tsx
+index 945ae046ff..c3a4a033b1 100644
+--- a/packages/twenty-front/src/modules/object-record/record-show/components/PageLayoutRecordPageRenderer.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-show/components/PageLayoutRecordPageRenderer.tsx
+@@ -33,7 +33,7 @@ const StyledShowPageRightContainer = styled.div`
+   width: 100%;
+ `;
+ 
+-const StyledContentContainer = styled.div`
++const StyledContentContainer = styled.main`
+   background: ${themeCssVariables.background.primary};
+   flex: 1;
+   min-height: 0;
+diff --git a/packages/twenty-front/src/modules/object-record/record-show/components/RecordShowPageHeaderRecordTitle.tsx b/packages/twenty-front/src/modules/object-record/record-show/components/RecordShowPageHeaderRecordTitle.tsx
+index 9889c98047..ec5de0632f 100644
+--- a/packages/twenty-front/src/modules/object-record/record-show/components/RecordShowPageHeaderRecordTitle.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-show/components/RecordShowPageHeaderRecordTitle.tsx
+@@ -5,7 +5,7 @@ import { useRecordIdentifierTitle } from '@/object-record/record-show/hooks/useR
+ import { RecordTitleCell } from '@/object-record/record-title-cell/components/RecordTitleCell';
+ import { RecordTitleCellContainerType } from '@/object-record/record-title-cell/types/RecordTitleCellContainerType';
+ 
+-const StyledTitle = styled.div`
++const StyledTitle = styled.h1`
+   flex-shrink: 1;
+   min-width: 0;
+ `;
+diff --git a/packages/twenty-front/src/modules/object-record/record-table/constants/RecordTableColumnDragAndDropWidth.ts b/packages/twenty-front/src/modules/object-record/record-table/constants/RecordTableColumnDragAndDropWidth.ts
+index 90fe7a28ba..b077746389 100644
+--- a/packages/twenty-front/src/modules/object-record/record-table/constants/RecordTableColumnDragAndDropWidth.ts
++++ b/packages/twenty-front/src/modules/object-record/record-table/constants/RecordTableColumnDragAndDropWidth.ts
+@@ -1 +1 @@
+-export const RECORD_TABLE_COLUMN_DRAG_AND_DROP_WIDTH = 12;
++export const RECORD_TABLE_COLUMN_DRAG_AND_DROP_WIDTH = 24;
 diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx
-index e95908df..3900ece3 100644
+index e95908dfaa..3900ece391 100644
 --- a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx
 +++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellCheckboxPlaceholder.tsx
 @@ -1,4 +1,5 @@
@@ -77,7 +155,7 @@ index e95908df..3900ece3 100644
      </RecordTableCellStyleWrapper>
    );
 diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
-index c513fd1e..a8577c78 100644
+index c513fd1e6b..a26f012d3d 100644
 --- a/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
 +++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-cell/components/RecordTableCellDragAndDrop.tsx
 @@ -1,5 +1,6 @@
@@ -109,7 +187,7 @@ index c513fd1e..a8577c78 100644
 +    (element: HTMLElement | null) => {
 +      sortableHandleRef?.(element);
 +      if (element !== null) {
-+        observeDragActivatorAccessibleName(element, t`Drag to reorder row`);
++        observeDragActivatorAccessibleName(element, () => t`Drag to reorder row`);
 +      }
 +    },
 +    [sortableHandleRef, t],
@@ -123,12 +201,97 @@ index c513fd1e..a8577c78 100644
        widthClassName={RECORD_TABLE_COLUMN_DRAG_AND_DROP_WIDTH_CLASS_NAME}
      >
 -      <StyledContainer ref={sortableHandleRef}>
-+      <StyledContainer ref={setHandleRef} aria-label={t`Drag to reorder row`}>
++      <StyledContainer ref={setHandleRef} role="button" tabIndex={0} aria-label={t`Drag to reorder row`}>
          <StyledIconWrapper className="icon" isDragging={isDragging}>
            <IconListViewGrip />
          </StyledIconWrapper>
+diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValue.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValue.tsx
+index e30fbe2f6a..1f13a8c595 100644
+--- a/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValue.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValue.tsx
+@@ -64,7 +64,7 @@ export const RecordTableColumnAggregateFooterValue = ({
+           ) : (
+             <>
+               <OverflowingTextWithTooltip text={aggregateLabel} />
+-              <StyledValue>{aggregateValue}</StyledValue>
++              <StyledValue> {aggregateValue}</StyledValue>
+             </>
+           )}
+         </StyledValueContainer>
+diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValueCell.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValueCell.tsx
+index 1fb1b55f43..4f6b1ba1fe 100644
+--- a/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValueCell.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterValueCell.tsx
+@@ -78,6 +78,7 @@ export const RecordTableColumnAggregateFooterValueCell = ({
+ 
+   return (
+     <div
++      id={`${dropdownId}-value`}
+       onMouseEnter={() => {
+         setIsHovered(true);
+       }}
+diff --git a/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterWithDropdown.tsx b/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterWithDropdown.tsx
+index 4a626ceb01..7308c42bcd 100644
+--- a/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterWithDropdown.tsx
++++ b/packages/twenty-front/src/modules/object-record/record-table/record-table-footer/components/RecordTableColumnAggregateFooterWithDropdown.tsx
+@@ -6,6 +6,7 @@ import { RecordTableColumnAggregateFooterValueCell } from '@/object-record/recor
+ import { DropdownRoot } from '@/ui/layout/dropdown/components/DropdownRoot';
+ import { DropdownContent } from '@/ui/layout/dropdown/components/DropdownContent';
+ import { useToggleScrollWrapper } from '@/ui/utilities/scroll/hooks/useToggleScrollWrapper';
++import { useLingui } from '@lingui/react/macro';
+ import { useCallback, useContext } from 'react';
+ import { Dropdown } from 'twenty-ui/components/navigation';
+ 
+@@ -18,6 +19,7 @@ export const RecordTableColumnFooterWithDropdown = ({
+   currentRecordGroupId,
+   isFirstCell,
+ }: RecordTableColumnFooterWithDropdownProps) => {
++  const { t } = useLingui();
+   const { fieldMetadataId } = useContext(
+     RecordTableColumnAggregateFooterCellContext,
+   );
+@@ -57,7 +59,14 @@ export const RecordTableColumnFooterWithDropdown = ({
+         handleDropdownClose();
+       }}
+     >
+-      <Dropdown.Trigger render={<div />} nativeButton={false}>
++      <Dropdown.Trigger
++        render={<div />}
++        nativeButton={false}
++        // WCAG 2.5.3: the visible cell text names the control when present;
++        // aria-label only fills in while the cell renders nothing
++        aria-labelledby={`${dropdownId}-value`}
++        aria-label={t`Aggregate ${fieldMetadata?.label ?? ''}`}
++      >
+         <RecordTableColumnAggregateFooterValueCell
+           dropdownId={dropdownId}
+           isFirstCell={isFirstCell}
+diff --git a/packages/twenty-front/src/modules/page-layout/widgets/field/components/FieldWidgetRelationEditAction.tsx b/packages/twenty-front/src/modules/page-layout/widgets/field/components/FieldWidgetRelationEditAction.tsx
+index c90c866d0e..e1c302f64a 100644
+--- a/packages/twenty-front/src/modules/page-layout/widgets/field/components/FieldWidgetRelationEditAction.tsx
++++ b/packages/twenty-front/src/modules/page-layout/widgets/field/components/FieldWidgetRelationEditAction.tsx
+@@ -92,11 +92,14 @@ export const FieldWidgetRelationEditAction = ({
+   const triggerLabel = isEditAction ? t`Edit relation` : t`Add relation`;
+ 
+   const dropdownTriggerClickableComponent = (
+-    <StyledEditButtonWrapper>
+-      <IconButton variant="ghost" size="sm" aria-label={triggerLabel}>
+-        <TriggerIcon />
+-      </IconButton>
+-    </StyledEditButtonWrapper>
++    <IconButton
++      className="displayOnHover"
++      variant="ghost"
++      size="sm"
++      aria-label={triggerLabel}
++    >
++      <TriggerIcon />
++    </IconButton>
+   );
+ 
+   return (
 diff --git a/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx b/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx
-index 6f069d12..9d56a31d 100644
+index 6f069d12de..9d56a31d83 100644
 --- a/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx
 +++ b/packages/twenty-front/src/modules/settings/components/SettingsPageContainer.tsx
 @@ -23,7 +23,7 @@ const getMatchingSettingsPath = (pathname: string) =>
@@ -141,7 +304,7 @@ index 6f069d12..9d56a31d 100644
    isMobile?: boolean;
    isInSidePanel?: boolean;
 diff --git a/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx b/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx
-index 526a5d37..65170d92 100644
+index 526a5d37af..65170d9257 100644
 --- a/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx
 +++ b/packages/twenty-front/src/modules/settings/profile/components/EmailField.tsx
 @@ -99,6 +99,7 @@ export const EmailField = () => {
@@ -152,8 +315,59 @@ index 526a5d37..65170d92 100644
            onInputEnter={handleSave}
          />
          {isEditing ? (
+diff --git a/packages/twenty-front/src/modules/side-panel/components/SidePanelForDesktop.tsx b/packages/twenty-front/src/modules/side-panel/components/SidePanelForDesktop.tsx
+index 641aa74dbc..3589f26bc1 100644
+--- a/packages/twenty-front/src/modules/side-panel/components/SidePanelForDesktop.tsx
++++ b/packages/twenty-front/src/modules/side-panel/components/SidePanelForDesktop.tsx
+@@ -182,23 +182,6 @@ export const SidePanelForDesktop = () => {
+       <SidePanelAskAiHandoffEffect
+         onContinueChatFromFullWidth={handleContinueChatFromFullWidth}
+       />
+-      {isSidePanelOpened && (
+-        <ResizeHandle
+-          edge="left"
+-          min={SIDE_PANEL_CONSTRAINTS.min}
+-          max={SIDE_PANEL_CONSTRAINTS.max}
+-          value={liveWidth ?? sidePanelWidth}
+-          onValueChange={handleWidthPreview}
+-          onValueCommitted={handleWidthChange}
+-          onActivate={handleCollapse}
+-          placement="gap"
+-          aria-label={t`Resize side panel`}
+-          scale={getUiZoom}
+-          onResizeEnd={handleResizeEnd}
+-          onResizeStart={handleResizeStart}
+-        />
+-      )}
+-
+       <StyledSidePanelWrapper
+         isOpen={isSidePanelOpened}
+         isResizing={isResizing}
+@@ -209,6 +192,22 @@ export const SidePanelForDesktop = () => {
+         data-click-outside-id={SIDE_PANEL_CLICK_OUTSIDE_ID}
+       >
+         <StyledSidePanel isShrinkingFromFullWidth={isShrinkingFromFullWidth}>
++          {isSidePanelOpened && (
++            <ResizeHandle
++              edge="left"
++              min={SIDE_PANEL_CONSTRAINTS.min}
++              max={SIDE_PANEL_CONSTRAINTS.max}
++              value={liveWidth ?? sidePanelWidth}
++              onValueChange={handleWidthPreview}
++              onValueCommitted={handleWidthChange}
++              onActivate={handleCollapse}
++              placement="gap"
++              aria-label={t`Resize side panel`}
++              scale={getUiZoom}
++              onResizeEnd={handleResizeEnd}
++              onResizeStart={handleResizeStart}
++            />
++          )}
+           <StyledModalContainer ref={handleModalContainerRef} />
+           <DialogContainerContext.Provider
+             value={{ container: modalContainer }}
 diff --git a/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx b/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx
-index 659f13e2..5066331f 100644
+index 659f13e2cb..a6a94d7d0a 100644
 --- a/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx
 +++ b/packages/twenty-front/src/modules/ui/layout/dropdown/components/Dropdown.tsx
 @@ -25,6 +25,8 @@ import {
@@ -165,7 +379,7 @@ index 659f13e2..5066331f 100644
    type MouseEvent,
    type ReactNode,
    useCallback,
-@@ -214,13 +216,17 @@ export const Dropdown = ({
+@@ -214,13 +216,50 @@ export const Dropdown = ({
          <StyledClickableComponent
            ref={refs.setReference}
            onClick={handleClickableComponentClick}
@@ -183,13 +397,59 @@ index 659f13e2..5066331f 100644
 +                'aria-controls': `${dropdownId}-options`,
 +                'aria-expanded': isDropdownOpen,
 +                'aria-haspopup': true,
++                role:
++                  (clickableComponent.props as Record<string, unknown>).role ??
++                  'button',
++                tabIndex:
++                  (clickableComponent.props as Record<string, unknown>)
++                    .tabIndex ?? 0,
++                onKeyDown: (event: React.KeyboardEvent) => {
++                  (
++                    clickableComponent.props as {
++                      onKeyDown?: (event: React.KeyboardEvent) => void;
++                    }
++                  ).onKeyDown?.(event);
++                  if (event.defaultPrevented) return;
++                  const target = event.currentTarget as HTMLElement;
++                  const isNativeControl = [
++                    'BUTTON',
++                    'A',
++                    'INPUT',
++                    'SELECT',
++                    'TEXTAREA',
++                    'SUMMARY',
++                  ].includes(target.tagName);
++                  if (
++                    !isNativeControl &&
++                    (event.key === 'Enter' || event.key === ' ')
++                  ) {
++                    event.preventDefault();
++                    event.stopPropagation();
++                    void handleClickableComponentClick(
++                      event as unknown as MouseEvent,
++                    );
++                  }
++                },
 +              } as Record<string, unknown>)
 +            : clickableComponent}
          </StyledClickableComponent>
        ) : (
          <StyledDropdownFallbackAnchor ref={refs.setReference} />
+diff --git a/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuHeader/DropdownMenuHeader.tsx b/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuHeader/DropdownMenuHeader.tsx
+index a1905c2d2e..3a1bf2eb4b 100644
+--- a/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuHeader/DropdownMenuHeader.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuHeader/DropdownMenuHeader.tsx
+@@ -3,7 +3,7 @@ import { type ComponentProps, type MouseEvent } from 'react';
+ import { isDefined } from 'twenty-shared/utils';
+ import { themeCssVariables } from 'twenty-ui/theme';
+ 
+-const StyledHeader = styled.li`
++const StyledHeader = styled.div`
+   align-items: center;
+   border-bottom: 1px solid ${themeCssVariables.border.color.light};
+   border-top-left-radius: calc(
 diff --git a/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx b/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx
-index 1ad15cfc..284a774d 100644
+index 1ad15cfc06..284a774d33 100644
 --- a/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx
 +++ b/packages/twenty-front/src/modules/ui/layout/dropdown/components/DropdownMenuItemsContainer.tsx
 @@ -76,7 +76,6 @@ export const DropdownMenuItemsContainer = ({
@@ -222,8 +482,95 @@ index 1ad15cfc..284a774d 100644
        <StyledInternalContainer>{children}</StyledInternalContainer>
      </StyledExternalContainer>
    );
+diff --git a/packages/twenty-front/src/modules/ui/layout/dropdown/components/internal/DropdownInternalContainer.tsx b/packages/twenty-front/src/modules/ui/layout/dropdown/components/internal/DropdownInternalContainer.tsx
+index 0cafc46cd8..637e557d01 100644
+--- a/packages/twenty-front/src/modules/ui/layout/dropdown/components/internal/DropdownInternalContainer.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/dropdown/components/internal/DropdownInternalContainer.tsx
+@@ -16,6 +16,7 @@ import { useAtomComponentStateValue } from '@/ui/utilities/state/jotai/hooks/use
+ import { useAtomStateValue } from '@/ui/utilities/state/jotai/hooks/useAtomStateValue';
+ import { useSetAtomComponentState } from '@/ui/utilities/state/jotai/hooks/useSetAtomComponentState';
+ import { styled } from '@linaria/react';
++import { useLingui } from '@lingui/react/macro';
+ import {
+   FloatingPortal,
+   type Placement,
+@@ -61,6 +62,7 @@ export const DropdownInternalContainer = ({
+   excludedClickOutsideIds,
+   isDropdownInModal = false,
+ }: DropdownInternalContainerProps) => {
++  const { t } = useLingui();
+   const isDropdownOpen = useAtomComponentStateValue(
+     isDropdownOpenComponentState,
+   );
+@@ -149,8 +151,9 @@ export const DropdownInternalContainer = ({
+           data-floating-ui-viewport
+           ref={floatingUiRefs.setFloating}
+           style={dropdownMenuStyles}
+-          role="listbox"
+           id={`${dropdownId}-options`}
++          role="dialog"
++          aria-label={t`Menu options`}
+           data-click-outside-id={excludedClickOutsideId}
+           isAboveModal={isDropdownInModal}
+         >
+diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/HeaderIdentifier.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/HeaderIdentifier.tsx
+index 0643e83b5b..905561ca4c 100644
+--- a/packages/twenty-front/src/modules/ui/layout/page/components/HeaderIdentifier.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/page/components/HeaderIdentifier.tsx
+@@ -40,7 +40,7 @@ const StyledTextContainer = styled.div`
+   min-width: 0;
+ `;
+ 
+-const StyledTitle = styled.h3<{ fontSize: 'md' | 'lg' }>`
++const StyledTitle = styled.h1<{ fontSize: 'md' | 'lg' }>`
+   color: ${themeCssVariables.font.color.primary};
+   font-size: ${({ fontSize }) => themeCssVariables.font.size[fontSize]};
+   font-weight: ${themeCssVariables.font.weight.semiBold};
+diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/PageCardHeader.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/PageCardHeader.tsx
+index f8762b8615..78a9f0d945 100644
+--- a/packages/twenty-front/src/modules/ui/layout/page/components/PageCardHeader.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/page/components/PageCardHeader.tsx
+@@ -50,7 +50,7 @@ const StyledLeft = styled.div`
+   width: 100%;
+ `;
+ 
+-const StyledTitle = styled.div<{ titleColor?: string }>`
++const StyledTitle = styled.h1<{ titleColor?: string }>`
+   align-items: center;
+   color: ${({ titleColor }) =>
+     titleColor ?? themeCssVariables.font.color.primary};
+@@ -58,6 +58,7 @@ const StyledTitle = styled.div<{ titleColor?: string }>`
+   font-size: ${themeCssVariables.font.size.md};
+   font-weight: ${themeCssVariables.font.weight.semiBold};
+   gap: ${themeCssVariables.spacing[1]};
++  margin: 0;
+   min-width: 0;
+ `;
+ 
+diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/PageCardLayout.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/PageCardLayout.tsx
+index 1d25c9ead2..49016398ed 100644
+--- a/packages/twenty-front/src/modules/ui/layout/page/components/PageCardLayout.tsx
++++ b/packages/twenty-front/src/modules/ui/layout/page/components/PageCardLayout.tsx
+@@ -123,13 +123,15 @@ export const PageCardLayout = ({
+     <StyledRoot data-page-surface="main">
+       <StyledMainCardWrapper>
+         <StyledCard>
+-          <StyledPrintHidden>{header}</StyledPrintHidden>
++          <StyledPrintHidden as="header">
++            {header}
++            {secondaryBar}
++          </StyledPrintHidden>
+           {shouldShowInformationBanner && (
+             <StyledPrintHidden>
+               <InformationBannerWrapper />
+             </StyledPrintHidden>
+           )}
+-          <StyledPrintHidden>{secondaryBar}</StyledPrintHidden>
+           {body}
+         </StyledCard>
+       </StyledMainCardWrapper>
 diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx
-index 365936af..81a1614d 100644
+index 365936afa6..81a1614d3b 100644
 --- a/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx
 +++ b/packages/twenty-front/src/modules/ui/layout/page/components/PageContainer.tsx
 @@ -1,6 +1,6 @@
@@ -235,7 +582,7 @@ index 365936af..81a1614d 100644
    flex-direction: column;
    width: 100%;
 diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx
-index 2bbf317b..3ec28450 100644
+index 2bbf317b85..3ec284502c 100644
 --- a/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx
 +++ b/packages/twenty-front/src/modules/ui/layout/page/components/PageHeader.tsx
 @@ -47,12 +47,12 @@ const StyledLeftContainer = styled.div`
@@ -254,7 +601,7 @@ index 2bbf317b..3ec28450 100644
    width: 100%;
  `;
 diff --git a/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx b/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx
-index 40f5688b..76eeef96 100644
+index 40f5688b6f..76eeef9691 100644
 --- a/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx
 +++ b/packages/twenty-front/src/modules/ui/layout/page/components/ShowPageContainer.tsx
 @@ -12,7 +12,7 @@ const StyledOuterContainer = styled.div`
@@ -266,8 +613,36 @@ index 40f5688b..76eeef96 100644
    display: flex;
    flex-direction: var(--show-page-direction, row);
    height: 100%;
+diff --git a/packages/twenty-front/src/modules/ui/navigation/link/components/UndecoratedLink/UndecoratedLink.tsx b/packages/twenty-front/src/modules/ui/navigation/link/components/UndecoratedLink/UndecoratedLink.tsx
+index 57626891eb..ae6ff1663d 100644
+--- a/packages/twenty-front/src/modules/ui/navigation/link/components/UndecoratedLink/UndecoratedLink.tsx
++++ b/packages/twenty-front/src/modules/ui/navigation/link/components/UndecoratedLink/UndecoratedLink.tsx
+@@ -16,6 +16,7 @@ type UndecoratedLinkProps = {
+   replace?: boolean;
+   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+   fullWidth?: boolean;
++  'aria-label'?: string;
+ };
+ 
+ export const UndecoratedLink = ({
+@@ -24,6 +25,7 @@ export const UndecoratedLink = ({
+   replace = false,
+   onClick,
+   fullWidth = false,
++  'aria-label': ariaLabel,
+ }: UndecoratedLinkProps) => {
+   return (
+     <Link
+@@ -32,6 +34,7 @@ export const UndecoratedLink = ({
+       onClick={onClick}
+       className={styles.undecoratedLink}
+       style={fullWidth ? { width: '100%' } : undefined}
++      aria-label={ariaLabel}
+     >
+       {children}
+     </Link>
 diff --git a/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx b/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx
-index 8a3f56bb..bbdf7ee5 100644
+index 8a3f56bbd8..bbdf7ee5b9 100644
 --- a/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx
 +++ b/packages/twenty-front/src/modules/ui/navigation/navigation-drawer/components/NavigationDrawer.tsx
 @@ -29,7 +29,7 @@ export type NavigationDrawerProps = {
@@ -280,7 +655,7 @@ index 8a3f56bb..bbdf7ee5 100644
    isResizing: boolean;
  }>`
 diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx
-index 49ae574e..4c80d5ff 100644
+index 49ae574ee7..aef6f3e3af 100644
 --- a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx
 +++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableCell.tsx
 @@ -6,6 +6,7 @@ import {
@@ -291,15 +666,19 @@ index 49ae574e..4c80d5ff 100644
  import { type ReactNode, useCallback, useState } from 'react';
  import { isDefined } from 'twenty-shared/utils';
  import { themeCssVariables } from 'twenty-ui/theme';
-@@ -16,6 +17,7 @@ import { DragDropItemSortableHandleRefContext } from '@/ui/utilities/drag-and-dr
+@@ -16,6 +17,11 @@ import { DragDropItemSortableHandleRefContext } from '@/ui/utilities/drag-and-dr
  import { type DragDropItemDropTargetOrientation } from '@/ui/utilities/drag-and-drop/types/DragDropItemDropTargetOrientation';
  import { preventNativeDragStart } from '@/ui/utilities/drag-and-drop/utils/preventNativeDragStart';
  import { getOwnDndKitAccessibilityAttributes } from '@/ui/utilities/drag-and-drop/utils/getOwnDndKitAccessibilityAttributes';
++import {
++  hasInteractiveDescendant,
++  neutralizeDragActivatorSemantics,
++} from '@/ui/utilities/drag-and-drop/utils/neutralizeDragActivatorSemantics';
 +import { observeDragActivatorAccessibleName } from '@/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName';
  import { removeDndKitAccessibilityAttributes } from '@/ui/utilities/drag-and-drop/utils/removeDndKitAccessibilityAttributes';
  
  const SORTABLE_COLLISION_PRIORITY = 3;
-@@ -94,6 +96,7 @@ export const DragDropItemSortableCell = ({
+@@ -94,6 +100,7 @@ export const DragDropItemSortableCell = ({
    orientation,
    type,
  }: DragDropItemSortableCellProps) => {
@@ -307,17 +686,21 @@ index 49ae574e..4c80d5ff 100644
    const { handleRef, ref, isDragging, isDragSource } = useSortable({
      id,
      index,
-@@ -138,6 +141,9 @@ export const DragDropItemSortableCell = ({
+@@ -138,6 +145,13 @@ export const DragDropItemSortableCell = ({
            );
          }
          connect(element);
 +        if (element instanceof HTMLElement) {
-+          observeDragActivatorAccessibleName(element, t`Drag to reorder`);
++          if (hasInteractiveDescendant(element)) {
++            neutralizeDragActivatorSemantics(element);
++          } else {
++            observeDragActivatorAccessibleName(element, () => t`Drag to reorder`);
++          }
 +        }
          return;
        }
  
-@@ -151,7 +157,7 @@ export const DragDropItemSortableCell = ({
+@@ -151,7 +165,7 @@ export const DragDropItemSortableCell = ({
          removeDndKitAccessibilityAttributes({ element, ownAttributes });
        }
      },
@@ -327,7 +710,7 @@ index 49ae574e..4c80d5ff 100644
  
    const setSortableRef = useCallback(
 diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx
-index 3a076973..7a9eaa40 100644
+index 3a07697380..7a9eaa40fa 100644
 --- a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx
 +++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/components/DragDropItemSortableHandle.tsx
 @@ -1,4 +1,5 @@
@@ -362,13 +745,75 @@ index 3a076973..7a9eaa40 100644
      >
        {children}
      </StyledSortableHandle>
+diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/neutralizeDragActivatorSemantics.ts b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/neutralizeDragActivatorSemantics.ts
+new file mode 100644
+index 0000000000..93ac66aab8
+--- /dev/null
++++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/neutralizeDragActivatorSemantics.ts
+@@ -0,0 +1,38 @@
++import { DND_KIT_ACCESSIBILITY_ATTRIBUTES } from '@/ui/utilities/drag-and-drop/constants/DndKitAccessibilityAttributes';
++
++const suppressorsByElement = new WeakMap<Element, MutationObserver>();
++
++const NEUTRALIZED_ATTRIBUTES = [
++  ...DND_KIT_ACCESSIBILITY_ATTRIBUTES,
++  'aria-label',
++];
++
++const INTERACTIVE_DESCENDANT_SELECTOR =
++  'button, a[href], input, select, textarea, summary, [tabindex], [role]';
++
++// A drag surface that already wraps a real control (a column header holding
++// the column menu button, a board card holding links) must not become a
++// second interactive layer: WCAG forbids nested interactive elements. We
++// strip every activator attribute dnd-kit or React (re)writes on it so the
++// wrapper stays a pointer-only drag surface.
++export const hasInteractiveDescendant = (element: Element) =>
++  element.querySelector(INTERACTIVE_DESCENDANT_SELECTOR) !== null;
++
++export const neutralizeDragActivatorSemantics = (element: Element) => {
++  const strip = () => {
++    for (const attribute of NEUTRALIZED_ATTRIBUTES) {
++      element.removeAttribute(attribute);
++    }
++  };
++
++  strip();
++
++  if (!suppressorsByElement.has(element)) {
++    const observer = new MutationObserver(strip);
++    observer.observe(element, {
++      attributes: true,
++      attributeFilter: NEUTRALIZED_ATTRIBUTES,
++    });
++    suppressorsByElement.set(element, observer);
++  }
++};
 diff --git a/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName.ts b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName.ts
 new file mode 100644
-index 00000000..eddff3f1
+index 0000000000..0ef7579d2f
 --- /dev/null
 +++ b/packages/twenty-front/src/modules/ui/utilities/drag-and-drop/utils/observeDragActivatorAccessibleName.ts
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,52 @@
 +const observersByElement = new WeakMap<Element, MutationObserver>();
++
++const visibleText = (element: HTMLElement) => {
++  const collected: string[] = [];
++  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
++  let node = walker.nextNode();
++  while (node !== null) {
++    const parent = node.parentElement;
++    if (
++      parent !== null &&
++      parent.getAttribute('aria-hidden') !== 'true' &&
++      parent.closest('[aria-hidden="true"]') === null
++    ) {
++      collected.push(node.textContent ?? '');
++    }
++    node = walker.nextNode();
++  }
++  return collected.join(' ').replace(/\s+/g, ' ').trim();
++};
 +
 +// dnd-kit names each activator after its sortable id (e.g. "KGi3u9") and
 +// applies it asynchronously, overwriting whatever aria-label React rendered.
@@ -376,13 +821,15 @@ index 00000000..eddff3f1
 +// there is one (WCAG 2.5.3 label = visible text), otherwise a fallback.
 +export const observeDragActivatorAccessibleName = (
 +  element: HTMLElement,
-+  fallbackAccessibleName: string,
++  resolveFallbackAccessibleName: string | (() => string),
 +) => {
 +  const restoreAccessibleName = () => {
-+    const text = element.textContent?.trim();
++    const text = visibleText(element);
 +    const wanted =
-+      text === undefined || text === ''
-+        ? fallbackAccessibleName
++      text === ''
++        ? typeof resolveFallbackAccessibleName === 'function'
++          ? resolveFallbackAccessibleName()
++          : resolveFallbackAccessibleName
 +        : text;
 +    if (element.getAttribute('aria-label') !== wanted) {
 +      element.setAttribute('aria-label', wanted);
@@ -401,7 +848,7 @@ index 00000000..eddff3f1
 +  }
 +};
 diff --git a/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx b/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx
-index 2d6e99ab..1174d8b7 100644
+index 2d6e99ab44..1174d8b729 100644
 --- a/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx
 +++ b/packages/twenty-front/src/modules/ui/utilities/scroll/components/ScrollWrapper.tsx
 @@ -73,6 +73,8 @@ export const ScrollWrapper = ({
@@ -413,8 +860,21 @@ index 2d6e99ab..1174d8b7 100644
        >
          {children}
        </StyledScrollWrapper>
+diff --git a/packages/twenty-front/src/modules/views/view-picker/components/ViewPickerDropdown.tsx b/packages/twenty-front/src/modules/views/view-picker/components/ViewPickerDropdown.tsx
+index 15bbc92d4e..d51239d145 100644
+--- a/packages/twenty-front/src/modules/views/view-picker/components/ViewPickerDropdown.tsx
++++ b/packages/twenty-front/src/modules/views/view-picker/components/ViewPickerDropdown.tsx
+@@ -27,7 +27,7 @@ const StyledIconContainer = styled.span`
+ 
+ const StyledDropdownLabelAdornments = styled.span`
+   align-items: center;
+-  color: ${themeCssVariables.grayScale.gray8};
++  color: ${themeCssVariables.grayScale.gray11};
+   display: flex;
+   flex-shrink: 0;
+   gap: ${themeCssVariables.spacing[1]};
 diff --git a/packages/twenty-front/src/pages/auth/SignInUp.tsx b/packages/twenty-front/src/pages/auth/SignInUp.tsx
-index 7030ce0b..f01dfa91 100644
+index 7030ce0b2b..f01dfa91cc 100644
 --- a/packages/twenty-front/src/pages/auth/SignInUp.tsx
 +++ b/packages/twenty-front/src/pages/auth/SignInUp.tsx
 @@ -49,7 +49,7 @@ const StyledLoaderContainer = styled.div`
@@ -427,7 +887,7 @@ index 7030ce0b..f01dfa91 100644
    display: flex;
    flex-direction: column;
 diff --git a/packages/twenty-ui/src/theme/constants/ThemeDark.ts b/packages/twenty-ui/src/theme/constants/ThemeDark.ts
-index 11360517..ab5193b9 100644
+index 11360517f8..ab5193b903 100644
 --- a/packages/twenty-ui/src/theme/constants/ThemeDark.ts
 +++ b/packages/twenty-ui/src/theme/constants/ThemeDark.ts
 @@ -175,9 +175,9 @@ export const THEME_DARK: typeof THEME_LIGHT = {
@@ -444,7 +904,7 @@ index 11360517..ab5193b9 100644
        danger: 'color(display-p3 0.83 0.329 0.324)',
      },
 diff --git a/packages/twenty-ui/src/theme/constants/ThemeLight.ts b/packages/twenty-ui/src/theme/constants/ThemeLight.ts
-index 5a774042..f0dfe323 100644
+index 5a77404205..bead6989a1 100644
 --- a/packages/twenty-ui/src/theme/constants/ThemeLight.ts
 +++ b/packages/twenty-ui/src/theme/constants/ThemeLight.ts
 @@ -174,9 +174,9 @@ export const THEME_LIGHT = {
@@ -460,3 +920,83 @@ index 5a774042..f0dfe323 100644
        inverted: 'color(display-p3 1 1 1)',
        danger: 'color(display-p3 0.83 0.329 0.324)',
      },
+@@ -237,11 +237,11 @@ export const THEME_LIGHT = {
+       violet: 'color(display-p3 0.383 0.317 0.702)',
+       iris: 'color(display-p3 0.337 0.326 0.748)',
+       cyan: 'color(display-p3 0.08 0.48 0.63)',
+-      turquoise: 'color(display-p3 0.08 0.5 0.43)',
++      turquoise: 'color(display-p3 0.06 0.44 0.38)',
+       sky: 'color(display-p3 0.193 0.448 0.605)',
+       blue: 'color(display-p3 0.256 0.354 0.755)',
+       jade: 'color(display-p3 0.15 0.5 0.37)',
+-      green: 'color(display-p3 0.19 0.5 0.32)',
++      green: 'color(display-p3 0.16 0.45 0.29)',
+       grass: 'color(display-p3 0.263 0.488 0.261)',
+       mint: 'color(display-p3 0.203 0.463 0.397)',
+       lime: 'color(display-p3 0.386 0.482 0.227)',
+@@ -250,7 +250,7 @@ export const THEME_LIGHT = {
+       brown: 'color(display-p3 0.485 0.374 0.288)',
+       orange: 'color(display-p3 0.76 0.34 0)',
+       amber: 'color(display-p3 0.64 0.4 0)',
+-      yellow: 'color(display-p3 0.6 0.44 0)',
++      yellow: 'color(display-p3 0.52 0.38 0)',
+     },
+     background: {
+       gray: 'color(display-p3 0.976 0.976 0.976)',
+diff --git a/packages/twenty-ui/src/theme/theme-dark.css b/packages/twenty-ui/src/theme/theme-dark.css
+index c5fe0877d5..f3b9146f60 100644
+--- a/packages/twenty-ui/src/theme/theme-dark.css
++++ b/packages/twenty-ui/src/theme/theme-dark.css
+@@ -159,9 +159,9 @@
+     2px 4px 16px 0px rgba(0, 0, 0, 0.12), 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
+   --t-font-color-primary: color(display-p3 0.922 0.922 0.922);
+   --t-font-color-secondary: color(display-p3 0.702 0.702 0.702);
+-  --t-font-color-tertiary: color(display-p3 0.506 0.506 0.506);
+-  --t-font-color-light: color(display-p3 0.4 0.4 0.4);
+-  --t-font-color-extra-light: color(display-p3 0.298 0.298 0.298);
++  --t-font-color-tertiary: color(display-p3 0.7 0.7 0.7);
++  --t-font-color-light: color(display-p3 0.7 0.7 0.7);
++  --t-font-color-extra-light: color(display-p3 0.72 0.72 0.72);
+   --t-font-color-inverted: color(display-p3 0.09 0.09 0.09);
+   --t-font-color-danger: color(display-p3 0.83 0.329 0.324);
+   --t-font-size-xxs: 0.625rem;
+diff --git a/packages/twenty-ui/src/theme/theme-light.css b/packages/twenty-ui/src/theme/theme-light.css
+index 814668ebc0..228f7b2860 100644
+--- a/packages/twenty-ui/src/theme/theme-light.css
++++ b/packages/twenty-ui/src/theme/theme-light.css
+@@ -163,9 +163,9 @@
+     0px 24px 56px -16px color(display-p3 0 0 0 / 0.078);
+   --t-font-color-primary: color(display-p3 0.2 0.2 0.2);
+   --t-font-color-secondary: color(display-p3 0.4 0.4 0.4);
+-  --t-font-color-tertiary: color(display-p3 0.6 0.6 0.6);
+-  --t-font-color-light: color(display-p3 0.702 0.702 0.702);
+-  --t-font-color-extra-light: color(display-p3 0.8 0.8 0.8);
++  --t-font-color-tertiary: color(display-p3 0.45 0.45 0.45);
++  --t-font-color-light: color(display-p3 0.45 0.45 0.45);
++  --t-font-color-extra-light: color(display-p3 0.45 0.45 0.45);
+   --t-font-color-inverted: color(display-p3 1 1 1);
+   --t-font-color-danger: color(display-p3 0.83 0.329 0.324);
+   --t-font-size-xxs: 0.625rem;
+@@ -206,11 +206,11 @@
+   --t-tag-text-violet: color(display-p3 0.383 0.317 0.702);
+   --t-tag-text-iris: color(display-p3 0.337 0.326 0.748);
+   --t-tag-text-cyan: color(display-p3 0.08 0.48 0.63);
+-  --t-tag-text-turquoise: color(display-p3 0.08 0.5 0.43);
++  --t-tag-text-turquoise: color(display-p3 0.06 0.44 0.38);
+   --t-tag-text-sky: color(display-p3 0.193 0.448 0.605);
+   --t-tag-text-blue: color(display-p3 0.256 0.354 0.755);
+   --t-tag-text-jade: color(display-p3 0.15 0.5 0.37);
+-  --t-tag-text-green: color(display-p3 0.19 0.5 0.32);
++  --t-tag-text-green: color(display-p3 0.16 0.45 0.29);
+   --t-tag-text-grass: color(display-p3 0.263 0.488 0.261);
+   --t-tag-text-mint: color(display-p3 0.203 0.463 0.397);
+   --t-tag-text-lime: color(display-p3 0.386 0.482 0.227);
+@@ -219,7 +219,7 @@
+   --t-tag-text-brown: color(display-p3 0.485 0.374 0.288);
+   --t-tag-text-orange: color(display-p3 0.76 0.34 0);
+   --t-tag-text-amber: color(display-p3 0.64 0.4 0);
+-  --t-tag-text-yellow: color(display-p3 0.6 0.44 0);
++  --t-tag-text-yellow: color(display-p3 0.52 0.38 0);
+   --t-tag-background-gray: color(display-p3 0.976 0.976 0.976);
+   --t-tag-background-mauve: color(display-p3 0.946 0.938 0.952);
+   --t-tag-background-slate: color(display-p3 0.94 0.941 0.953);

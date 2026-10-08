@@ -8,7 +8,11 @@
   "commitDate": "2026-10-08",
   "pinSource": "main HEAD au moment du clone",
   "baseUrl": "http://localhost:9540",
-  "ports": { "app": 9540, "postgres": 9543, "redis": 9544 },
+  "ports": {
+    "app": 9540,
+    "postgres": 9543,
+    "redis": 9544
+  },
   "bootMethod": "build local depuis sources @SHA (docker compose officiel non pinnable/patchable — écart image/SHA nul par construction)",
   "axeCore": "4.14.0",
   "playwright": "1.64.0",
@@ -23,9 +27,13 @@
     "seed.mjs": "auth /metadata puis find-or-create company/person/opportunity via /graphql + viewId kanban dynamique -> seed-info.json (source unique des ids)",
     "seed-info.json": "ids committés des fixtures (leçons 44/46)",
     "login.mjs": "login UI /welcome -> storageState auth.json",
-    "audit.mjs": "runner axe-core 4.14.0, STATES avec stateProof (leçon 32), garde hydratation (leçon 34), assertAuthed",
+    "audit.mjs": "runner axe-core 4.14.0, STATES avec stateProof (leçon 32), garde hydratation (34), assertAuthed, settleLandmarks (attente h1/footer stable — footer agrégat async)",
     "urls-public.txt": "/welcome",
-    "urls-auth.txt": "8 routes authentifiées"
+    "urls-auth.txt": "8 routes authentifiées",
+    "verify.mjs": "15 sondes comportementales live (record routes /object/<singular>/<id>)",
+    "eval-final.mjs": "9 sondes axe ciblées par mécanisme fixé",
+    "sabotage.mjs": "6 sabotages injectés -> le scanner doit détecter (sélecteur vanilla-safe, style body*)",
+    "incomplete-probes.mjs": "mesure manuelle des incomplets axe (ratio contraste réel) -> PASS/FAIL/N-A"
   },
   "surfaces": [
     "index records (companies/people/opportunities/tasks)",
@@ -37,5 +45,7 @@
     "mobile 390px",
     "thème dark (persistedColorSchemeState)",
     "login /welcome public"
-  ]
+  ],
+  "patchSha256": "4b1762d73902c979617cf4e10c9852806b8830ae2f55c26421421606dbdd54ea",
+  "patchFiles": 40
 }
