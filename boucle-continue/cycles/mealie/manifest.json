@@ -1,40 +1,40 @@
 {
-  "cycle": 44,
-  "produit": "mealie",
-  "repo": "https://github.com/mealie-recipes/mealie",
-  "commit": "06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9",
-  "pinned": "06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9 (HEAD v3.28.0 vérifié via `git ls-remote https://github.com/mealie-recipes/mealie HEAD` le 2026-10-07)",
-  "baseUrl": "http://localhost:7054",
-  "stack": "Mealie = Nuxt 4 / Vue 3 + Vuetify 3 (frontend, ssr:false — SPA servie par FastAPI) + FastAPI Python 3.14 + SQLite par défaut. Une seule image docker officielle (docker/Dockerfile multi-stage : pnpm generate → dist statique servie par mealie/routes/spa). Instances : vanilla mealie-c44 :7044 (image mealie-c44:06ccc2b), patchée mealie-p44 :7054 (mealie-c44:patched), install mealie-i44 :7064 (mealie-c44:install).",
-  "boot": {
-    "mecanisme": "docker build -f docker/Dockerfile -t mealie-c44:<tag> . (build local depuis les sources — le Dockerfile compile le frontend via `pnpm generate` puis embarque tout). Pas d'image amont publique pour un SHA arbitraire → on build depuis le clone.",
-    "clone": "git clone https://github.com/mealie-recipes/mealie && git checkout 06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9",
-    "patch": "git apply cycles/mealie/patch.diff — rejoué sur clone vierge en install-build (voir install-build.sh + install-build.log)",
-    "image": "mealie-c44:vanilla | mealie-c44:patched | mealie-c44:install (toutes buildées localement)",
-    "seed": "tools/seed.mjs <base> — ARTEFACT REJOUABLE : HTTP API complet — login admin par défaut (admin@example.com/changeme), changement mot de passe (MyPassword), création recettes (golden-lentil-soup, midnight-chocolate-cake, shared-lemon-bars, herb-sheet-pan-chicken) avec ingrédients/sections/notes/images (recipe-image.png), cookbook 'weeknight-staples', shopping list + items, mealplan entries, partage de recette (shareToken), timeline event ; écrit tools/seed-env.json (ids réels : shareToken, shoppingListId, cookbookSlug, userId) + urls-auth.txt + urls-public.txt",
-    "web": "docker run -d --name <inst> -p <port>:9000 -e DB_ENGINE=sqlite -v <data>:/app/data mealie-c44:<tag>",
-    "login": "node tools/login.mjs <base> admin@example.com MyPassword → tools/auth.json (storage state — session Mealie = token JWT en en-tête, rejoué via le formulaire /login)"
-  },
-  "auth": "tools/auth.json (storage state Playwright, régénéré par tools/login.mjs — jamais commité)",
-  "urls": {
-    "auth": "tools/urls-auth.txt — 40 routes (home, 5 recettes, cookbooks, timeline, categories/tags/tools/finder, mealplan planner+settings, household ×5, shopping list éditable, group ×9 data + reports + migrations + index, admin ×8 dont site-settings/setup/parser, user profile + favorites) — régénérées par seed.mjs avec les vrais ids de l'instance",
-    "public": "tools/urls-public.txt — 5 routes publiques : /, /login, page recette partagée (shareToken), 404 /group/data/pages (error.vue), /group/reports"
-  },
-  "exclusions": "Aucune exclusion axe — périmètre honnête étendu : admin (site-settings, users/groups/households, backups, maintenance, parser debug, setup), household (members, notifiers, webhooks, mealplan planner+settings), group (data CRUD foods/units/categories/tags/labels/tools/pages/recipe-actions/recipes, migrations, reports), recipes (lecture, création /r/create/new, timeline, cookbooks, organizers), shopping list avec éditeur d'item ouvert (état dédié), thème dark + mobile 390px.",
-  "states": "10 états auth (open-actions = sélecteur déterministe + stateProof dans audit.mjs STATES) : create-menu, settings-menu, language-dialog, search-dialog, recipe-context-menu, recipe-lastmade-dialog, shopping-item-editor, theme-dark, theme-dark-menu, mobile-drawer-390 + 1 état public shared-recipe-menu",
-  "theme": "États theme-dark/* rejouent le toggle thème (localStorage vuetify theme) avant scan.",
-  "auditCommands": {
-    "baseline_auth": "node tools/audit.mjs http://localhost:7044 --urls \"$(paste -sd, tools/urls-auth.txt)\" --out reports/baseline-auth --wait 1500 --states create-menu,settings-menu,language-dialog,search-dialog,recipe-context-menu,recipe-lastmade-dialog,shopping-item-editor,theme-dark,theme-dark-menu,mobile-drawer-390 --storage-state tools/auth.json",
-    "baseline_public": "node tools/audit.mjs http://localhost:7044 --urls \"$(paste -sd, tools/urls-public.txt)\" --out reports/baseline-public --wait 1500 --states shared-recipe-menu",
-    "final_auth": "node tools/audit.mjs http://localhost:7054 --urls \"$(paste -sd, tools/urls-auth.txt)\" --out reports/final-auth --wait 1500 --states create-menu,settings-menu,language-dialog,search-dialog,recipe-context-menu,recipe-lastmade-dialog,shopping-item-editor,theme-dark,theme-dark-menu,mobile-drawer-390 --storage-state tools/auth.json",
-    "final_public": "node tools/audit.mjs http://localhost:7054 --urls \"$(paste -sd, tools/urls-public.txt)\" --out reports/final-public --wait 1500 --states shared-recipe-menu",
-    "install_auth": "node tools/audit.mjs http://localhost:7064 --urls \"$(paste -sd, tools/urls-auth.txt)\" --out reports/install-auth --wait 1500 --states create-menu,settings-menu,language-dialog,search-dialog,recipe-context-menu,recipe-lastmade-dialog,shopping-item-editor,theme-dark,theme-dark-menu,mobile-drawer-390 --storage-state tools/auth.json",
-    "install_public": "node tools/audit.mjs http://localhost:7064 --urls \"$(paste -sd, tools/urls-public.txt)\" --out reports/install-public --wait 1500 --states shared-recipe-menu"
-  },
-  "verify": "node tools/verify.mjs <base> — 21 assertions DOM ciblées (landmarks, noms de boutons/menus, labels de champs, dialog erreur, sidebar, recipe, shopping, table admin, dark theme) — 21/21 PASS sur :7054",
-  "eval": "node tools/eval-final.mjs <base> [auth.json] — 25 contrôles (hiérarchie titres visible-only, ordre Tab repères, focus visible, trap dialog, reflow 320px, partage public) — 25/25 PASS sur :7054",
-  "probes": "node tools/incomplete-probes.mjs <base> <report.json> <out.json> [storageState] — composite alpha fg×bg + couche ::before/::after + color(srgb) CSS4 (color-mix), vérification lazy-mount réelle (séquence pointerdown→click), exemption disabled WCAG 1.4.3, repli nom via aria-label — 0 FAIL auth (777 PASS + 176 N-A vérifiés) + 0 FAIL public (25 PASS + 12 N-A)",
-  "patch": "patch.diff — régénéré depuis l'arbre appliqué+vérifié (git add -N app.vue/error.vue + git diff @06ccc2b1) ; git apply --check sur clone vierge OK ; sidecar patch.diff.sha256",
-  "results": "results.json — chiffres par phase, aucun auto-verdict",
-  "notes": "Leçons appliquées : states déterministes+stateProof (32), états d'erreur dédiés (searxng — error.vue créé pour les 404 Nuxt), garde hydratation (34), composite fg×bg alpha (35), gate statuts terminaux (36), seed rejouable verbatim (37), locale:'en-US' partout (38), comptes manifeste depuis le diff final (39). Spécifique Mealie : menus/overlays Vuetify passés en `eager` (idrefs aria-controls/aria-owns résolues), `menu-props.eager` sur selects/autocompletes, role=button sur v-list-items non-liens + role=group sur v-list-group + :value réel (corrige l'id `v-list-group--id-Symbol(...)` buggé amont), color-mix() pour assombrir les tokens de thème (primary 82%/70%, success 78%, error 75%), seuils de contraste chipTextColor/labelTextColor 0.35→meilleur-ratio (blanc sur #959595 = 3.3:1 éliminé)."
+ "cycle": 44,
+ "produit": "mealie",
+ "repo": "https://github.com/mealie-recipes/mealie",
+ "commit": "06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9",
+ "pinned": "06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9 (HEAD v3.28.0 vérifié via `git ls-remote https://github.com/mealie-recipes/mealie HEAD` le 2026-10-07)",
+ "baseUrl": "http://localhost:7054",
+ "stack": "Mealie = Nuxt 4 / Vue 3 + Vuetify 3 (frontend, ssr:false — SPA servie par FastAPI) + FastAPI Python 3.14 + SQLite par défaut. Une seule image docker officielle (docker/Dockerfile multi-stage : pnpm generate → dist statique servie par mealie/routes/spa). Instances : vanilla mealie-c44 :7044 (image mealie-c44:06ccc2b), patchée mealie-p44 :7054 (mealie-c44:patched), install mealie-i44 :7064 (mealie-c44:install).",
+ "boot": {
+  "mecanisme": "docker build -f docker/Dockerfile -t mealie-c44:<tag> . (build local depuis les sources — le Dockerfile compile le frontend via `pnpm generate` puis embarque tout). Pas d'image amont publique pour un SHA arbitraire → on build depuis le clone.",
+  "clone": "git clone https://github.com/mealie-recipes/mealie && git checkout 06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9",
+  "patch": "git apply cycles/mealie/patch.diff — rejoué sur clone vierge en install-build (voir install-build.sh + install-build.log)",
+  "image": "mealie-c44:vanilla | mealie-c44:patched | mealie-c44:install (toutes buildées localement)",
+  "seed": "tools/seed.mjs <base> — ARTEFACT REJOUABLE : HTTP API complet — login admin par défaut (admin@example.com/changeme), changement mot de passe (MyPassword), création recettes (golden-lentil-soup, midnight-chocolate-cake, shared-lemon-bars, herb-sheet-pan-chicken) avec ingrédients/sections/notes/images (recipe-image.png), cookbook 'weeknight-staples', shopping list + items, mealplan entries, partage de recette (shareToken), timeline event ; écrit tools/seed-env.json (ids réels : shareToken, shoppingListId, cookbookSlug, userId) + urls-auth.txt + urls-public.txt",
+  "web": "docker run -d --name <inst> -p <port>:9000 -e DB_ENGINE=sqlite -v <data>:/app/data mealie-c44:<tag>",
+  "login": "node tools/login.mjs <base> admin@example.com MyPassword → tools/auth.json (storage state — session Mealie = token JWT en en-tête, rejoué via le formulaire /login)"
+ },
+ "auth": "tools/auth.json (storage state Playwright, régénéré par tools/login.mjs — jamais commité)",
+ "urls": {
+  "auth": "tools/urls-auth.txt — 40 routes (home, 5 recettes, cookbooks, timeline, categories/tags/tools/finder, mealplan planner+settings, household ×5, shopping list éditable, group ×9 data + reports + migrations + index, admin ×8 dont site-settings/setup/parser, user profile + favorites) — régénérées par seed.mjs avec les vrais ids de l'instance",
+  "public": "tools/urls-public.txt — 5 routes publiques : /, /login, page recette partagée (shareToken), 404 /group/data/pages (error.vue), /group/reports"
+ },
+ "exclusions": "Aucune exclusion axe — périmètre honnête étendu : admin (site-settings, users/groups/households, backups, maintenance, parser debug, setup), household (members, notifiers, webhooks, mealplan planner+settings), group (data CRUD foods/units/categories/tags/labels/tools/pages/recipe-actions/recipes, migrations, reports), recipes (lecture, création /r/create/new, timeline, cookbooks, organizers), shopping list avec éditeur d'item ouvert (état dédié), thème dark + mobile 390px.",
+ "states": "10 états auth (open-actions = sélecteur déterministe + stateProof dans audit.mjs STATES) : create-menu, settings-menu, language-dialog, search-dialog, recipe-context-menu, recipe-lastmade-dialog, shopping-item-editor, theme-dark, theme-dark-menu, mobile-drawer-390 + 1 état public shared-recipe-menu",
+ "theme": "États theme-dark/* rejouent le toggle thème (localStorage vuetify theme) avant scan.",
+ "auditCommands": {
+  "baseline_auth": "node tools/audit.mjs http://localhost:7044 --urls \"$(paste -sd, tools/urls-auth.txt)\" --out reports/baseline-auth --wait 1500 --states create-menu,settings-menu,language-dialog,search-dialog,recipe-context-menu,recipe-lastmade-dialog,shopping-item-editor,theme-dark,theme-dark-menu,mobile-drawer-390 --storage-state tools/auth.json",
+  "baseline_public": "node tools/audit.mjs http://localhost:7044 --urls \"$(paste -sd, tools/urls-public.txt)\" --out reports/baseline-public --wait 1500 --states shared-recipe-menu",
+  "final_auth": "node tools/audit.mjs http://localhost:7054 --urls \"$(paste -sd, tools/urls-auth.txt)\" --out reports/final-auth --wait 1500 --states create-menu,settings-menu,language-dialog,search-dialog,recipe-context-menu,recipe-lastmade-dialog,shopping-item-editor,theme-dark,theme-dark-menu,mobile-drawer-390 --storage-state tools/auth.json",
+  "final_public": "node tools/audit.mjs http://localhost:7054 --urls \"$(paste -sd, tools/urls-public.txt)\" --out reports/final-public --wait 1500 --states shared-recipe-menu",
+  "install_auth": "node tools/audit.mjs http://localhost:7064 --urls \"$(paste -sd, tools/urls-auth.txt)\" --out reports/install-auth --wait 1500 --states create-menu,settings-menu,language-dialog,search-dialog,recipe-context-menu,recipe-lastmade-dialog,shopping-item-editor,theme-dark,theme-dark-menu,mobile-drawer-390 --storage-state tools/auth.json",
+  "install_public": "node tools/audit.mjs http://localhost:7064 --urls \"$(paste -sd, tools/urls-public.txt)\" --out reports/install-public --wait 1500 --states shared-recipe-menu"
+ },
+ "verify": "node tools/verify.mjs <base> [auth.json] — 28 checks nommés id+description (S0 session explicite ; absence auth → FAIL + sections auth N-A ; M1–M5 prouvent W1–W3 live) — 28/28 PASS sur :7954 (patché) ; 20 FAIL/28 sur :7944 (vanilla, attendus)",
+ "eval": "node tools/eval-final.mjs <base> [auth.json] — 26 contrôles nommés id+description (même garde S0/N-A) — 26/26 PASS sur :7954 ; 6 FAIL/26 sur :7944 (vanilla, attendus)",
+ "probes": "node tools/incomplete-probes.mjs <base> <report.json> <out.json> [storageState] — composite alpha fg×bg + couche ::before/::after + color(srgb) CSS4 (color-mix), vérification lazy-mount réelle (séquence pointerdown→click), exemption disabled WCAG 1.4.3, repli nom via aria-label — 0 FAIL auth (777 PASS + 176 N-A vérifiés) + 0 FAIL public (25 PASS + 12 N-A)",
+ "patch": "patch.diff — fixer v2 : régénéré depuis l'arbre appliqué+corrigé+vérifié (git add -N app.vue/error.vue + git diff @06ccc2b1) ; git apply --check sur clone vierge OK ; sidecar patch.diff.sha256 = 4eb45f9087b4ae62b4fcdda57ce8e2fdfcc729c3034e2158e30b58b4acff6035 ; 114 fichiers +504/−206 (W1 : retrait title:'Actions' données ×11 — RecipeNotes.vue revenu amont ; W2 : .safe-markdown rebranchée template+color-mix ; W3 : members.vue pattern user.user-can-*)",
+ "results": "results.json — chiffres par phase, aucun auto-verdict",
+ "notes": "Leçons appliquées : states déterministes+stateProof (32), états d'erreur dédiés (searxng — error.vue créé pour les 404 Nuxt), garde hydratation (34), composite fg×bg alpha (35), gate statuts terminaux (36), seed rejouable verbatim (37), locale:'en-US' partout (38), comptes manifeste depuis le diff final (39). Spécifique Mealie : menus/overlays Vuetify passés en `eager` (idrefs aria-controls/aria-owns résolues), `menu-props.eager` sur selects/autocompletes, role=button sur v-list-items non-liens + role=group sur v-list-group + :value réel (corrige l'id `v-list-group--id-Symbol(...)` buggé amont), color-mix() pour assombrir les tokens de thème (primary 82%/70%, success 78%, error 75%), seuils de contraste chipTextColor/labelTextColor 0.35→meilleur-ratio (blanc sur #959595 = 3.3:1 éliminé). Fixer v2 : W1 title:'Actions' retiré des 11 spots données (éditeurs recette + mealplan) — les titres de section restent un attribut template (hasSectionTitle .trim()), checks M1/M2 live ; W2 class='safe-markdown' ajoutée au template + color-mix(82% noir clair / 45% blanc sombre) + soulignement natif, mesuré M3/M4 ; W3 members.vue sur clés amont user.user-can-* + header avatar 'user.user', check M5 ; W4 checks id+description partout, S0 session obligatoire, N-A explicite, probes color(srgb) ajoutés. Ports fixer : :7954 patché, :7944 vanilla."
 }

@@ -1,7 +1,9 @@
 /**
- * verify.mjs — assertions DURES sur les corrections mealie (cycle 44).
+ * verify.mjs — assertions DURES sur les corrections mealie (cycle 44, fixer v2).
+ * Chaque check a un ID STABLE + une DESCRIPTION : un FAIL dit QUOI a cassé.
  * Effets mesurés dans le DOM rendu, jamais `if(el) ok()` ni `|| true`.
  * Un élément requis absent = FAIL ou N-A explicite.
+ * Pas de session auth → S0 FAIL + sections authentifiées N-A (jamais anonyme silencieux).
  * Pas de self-verdict axe ici.
  *
  * Usage: node verify.mjs <baseUrl> [auth.json]
@@ -20,19 +22,24 @@ if (!base) { console.error('usage: node verify.mjs <baseUrl> [auth.json]'); proc
 const B = base.replace(/\/$/, '');
 
 const results = [];
-const ok = (name, cond, extra = '') => {
-    results.push({ name, pass: !!cond });
-    if (!cond) console.error(`  FAIL ${name} ${extra}`);
+const ok = (id, desc, cond, extra = '') => {
+    results.push({ id, name: desc, pass: !!cond });
+    if (!cond) console.error(`  FAIL [${id}] ${desc} ${extra}`);
     return cond;
 };
-const na = (name, reason = '') => {
-    results.push({ name, pass: true, verdict: 'N-A', reason });
-    console.error(`  N-A ${name} ${reason}`);
+const na = (id, desc, reason = '') => {
+    results.push({ id, name: desc, pass: true, verdict: 'N-A', reason });
+    console.error(`  N-A [${id}] ${desc} ${reason}`);
     return true;
 };
 
+// ── S0. Précondition : session authentifiée disponible ────────────────────
+const storageState = existsSync(authPath) ? authPath
+    : existsSync(resolve(HERE, authPath)) ? resolve(HERE, authPath) : undefined;
+let sessionDead = !ok('S0', 'session auth disponible (auth.json chargé comme storageState)',
+    !!storageState, storageState || 'fichier absent — régénérer via tools/login.mjs');
+
 const browser = await chromium.launch();
-const storageState = existsSync(authPath) ? authPath : existsSync(resolve(HERE, authPath)) ? resolve(HERE, authPath) : undefined;
 const ctx = await browser.newContext({ storageState, locale: 'en-US' });
 const page = await ctx.newPage();
 
@@ -42,14 +49,35 @@ const settle = async () => {
     await page.waitForTimeout(400);
 };
 
+/**
+ * Navigation vers une page authentifiée : détecte la redirection SPA vers /login.
+ * Retourne false (et émet N-A pour `id`) si la session est absente ou expirée.
+ */
+const gotoAuth = async (url, id, desc) => {
+    if (sessionDead) { na(id, desc, 'session absente — saut de la navigation'); return false; }
+    await page.goto(url, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1200);
+    if (new URL(page.url()).pathname.startsWith('/login')) {
+        sessionDead = true;
+        na(id, desc, `redirection vers ${page.url()} — auth.json absent/expiré`);
+        return false;
+    }
+    return true;
+};
+
 // Composite alpha fg sur pile d'ancêtres (leçon 35) — injecté par page
 const probeInit = () => {
     window.__probe = {
         parseColor(str) {
             const m = /rgba?\(([^)]+)\)/.exec(str || '');
-            if (!m) return null;
-            const p = m[1].split(',').map(Number);
-            return [p[0], p[1], p[2], p[3] === undefined ? 1 : p[3]];
+            if (m) {
+                const p = m[1].split(',').map(Number);
+                return [p[0], p[1], p[2], p[3] === undefined ? 1 : p[3]];
+            }
+            // Chromium sérialise color-mix() en color(srgb r g b [/ a]) — r,g,b ∈ [0,1]
+            const s = /color\(srgb\s+([^\s/]+)\s+([^\s/]+)\s+([^\s/]+)(?:\s*\/\s*([^\s)]+))?\s*\)/.exec(str || '');
+            if (s) return [Number(s[1]) * 255, Number(s[2]) * 255, Number(s[3]) * 255, s[4] === undefined ? 1 : Number(s[4])];
+            return null;
         },
         effectiveBg(el) {
             let acc = [0, 0, 0, 0];
@@ -80,21 +108,35 @@ const probeInit = () => {
 await page.addInitScript(probeInit);
 
 // ── A. html lang + titre sur public & auth ────────────────────────────────
-for (const url of [`${B}/login/`, `${B}/g/home`, `${B}/g/home/r/golden-lentil-soup`]) {
-    await page.goto(url, { waitUntil: 'networkidle' });
-    await page.waitForTimeout(1200);
+await page.goto(`${B}/login/`, { waitUntil: 'networkidle' });
+await page.waitForTimeout(1200);
+{
     const meta = await page.evaluate(() => ({
         lang: document.documentElement.getAttribute('lang'),
         title: (document.title || '').trim(),
     }));
-    ok(`${url}: html lang renseigné`, !!meta.lang, String(meta.lang));
-    ok(`${url}: <title> non vide`, meta.title.length > 0, `"${meta.title.slice(0, 60)}"`);
+    ok('A1-lang', 'page publique /login : html[lang] renseigné', !!meta.lang, String(meta.lang));
+    ok('A1-title', 'page publique /login : <title> non vide', meta.title.length > 0, `"${meta.title.slice(0, 60)}"`);
+}
+if (await gotoAuth(`${B}/g/home`, 'A2-nav', 'navigation authentifiée /g/home')) {
+    const meta = await page.evaluate(() => ({
+        lang: document.documentElement.getAttribute('lang'),
+        title: (document.title || '').trim(),
+    }));
+    ok('A2-lang', '/g/home : html[lang] renseigné', !!meta.lang, String(meta.lang));
+    ok('A2-title', '/g/home : <title> non vide', meta.title.length > 0, `"${meta.title.slice(0, 60)}"`);
+}
+if (await gotoAuth(`${B}/g/home/r/golden-lentil-soup`, 'A3-nav', 'navigation authentifiée page recette')) {
+    const meta = await page.evaluate(() => ({
+        lang: document.documentElement.getAttribute('lang'),
+        title: (document.title || '').trim(),
+    }));
+    ok('A3-lang', 'page recette : html[lang] renseigné', !!meta.lang, String(meta.lang));
+    ok('A3-title', 'page recette : <title> non vide', meta.title.length > 0, `"${meta.title.slice(0, 60)}"`);
 }
 
 // ── B. AppHeader : lien logo nommé, h1, burger, search label ─────────────
-await page.goto(`${B}/g/home`, { waitUntil: 'networkidle' });
-await page.waitForTimeout(1200);
-{
+if (await gotoAuth(`${B}/g/home`, 'B-nav', 'navigation authentifiée /g/home (header)')) {
     const head = await page.evaluate(() => {
         const link = document.querySelector('.v-app-bar a[href="/g/home"]');
         const burger = document.querySelector('.v-app-bar > button.v-btn--icon:first-child, .v-app-bar button[aria-label*="avigation" i]');
@@ -108,14 +150,14 @@ await page.waitForTimeout(1200);
             searchNamed: !!(search && (search.getAttribute('aria-label') || field?.querySelector('label')?.textContent?.trim())),
         };
     });
-    ok('header: lien logo aria-label', head.linkLabel.length > 0, head.linkLabel);
-    ok('header: burger aria-label', head.burgerLabel.length > 0, head.burgerLabel);
-    ok('header: h1 "Mealie"', head.h1Text === 'Mealie', head.h1Text);
-    ok('header: champ recherche nommé (label/aria-label)', head.searchNamed);
+    ok('B1', 'header : lien logo a un aria-label', head.linkLabel.length > 0, head.linkLabel);
+    ok('B2', 'header : bouton burger a un aria-label', head.burgerLabel.length > 0, head.burgerLabel);
+    ok('B3', 'header : h1 "Mealie" présent', head.h1Text === 'Mealie', head.h1Text);
+    ok('B4', 'header : champ recherche nommé (label/aria-label)', head.searchNamed);
 }
 
-// ── C. Contraste mesuré : titre toolbar + bouton logout (composite alpha) ──
-{
+// ── C. Contraste mesuré : titre toolbar (composite alpha) ────────────────
+if (!sessionDead) {
     const c = await page.evaluate(() => {
         const t = document.querySelector('.v-app-bar .v-toolbar-title__placeholder') || document.querySelector('.v-app-bar h1');
         if (!t) return { missing: true };
@@ -123,32 +165,39 @@ await page.waitForTimeout(1200);
         const bg = window.__probe.effectiveBg(t);
         return { ratio: window.__probe.ratio(fg, bg), fg, bg };
     });
-    ok('header: titre "Mealie" contraste ≥ 4.5:1', c.ratio >= 4.5, `ratio=${c.ratio?.toFixed(2)} fg=${c.fg} bg=${c.bg}`);
+    ok('C1', 'header : contraste titre "Mealie" ≥ 4.5:1', !c.missing && c.ratio >= 4.5,
+        `ratio=${c.ratio?.toFixed(2)} fg=${c.fg} bg=${c.bg} missing=${!!c.missing}`);
+} else {
+    na('C1', 'header : contraste titre "Mealie" ≥ 4.5:1', 'session absente');
 }
 
 // ── D. Sidebar : pas de div nu dans les listes nav ────────────────────────
-{
+if (!sessionDead) {
     const bad = await page.evaluate(() => {
         const lists = [...document.querySelectorAll('.v-navigation-drawer .v-list')];
         return lists.map(l => [...l.children].filter(c => c.tagName === 'DIV' && !c.classList.contains('v-list-group') && !c.getAttribute('role')).length);
     });
-    ok('sidebar: aucun div enfant direct de .v-list', bad.every(n => n === 0), `counts=${JSON.stringify(bad)}`);
+    ok('D1', 'sidebar : aucun div enfant direct de .v-list', bad.every(n => n === 0), `counts=${JSON.stringify(bad)}`);
+} else {
+    na('D1', 'sidebar : aucun div enfant direct de .v-list', 'session absente');
 }
 
 // ── E. Tooltips : rendues non vides (eager) ───────────────────────────────
-{
+if (!sessionDead) {
     const t = await page.evaluate(() => {
         const tips = [...document.querySelectorAll('.v-tooltip')];
         const empty = tips.filter(x => (x.textContent || '').trim() === '' && (x.querySelector('[role="tooltip"]')?.textContent || '').trim() === '');
         return { total: tips.length, empty: empty.length };
     });
-    ok(`tooltips: ${t.total} présentes, 0 vide`, t.empty === 0, `empty=${t.empty}`);
+    ok('E1', `tooltips : ${t.total} présentes, 0 vide`, t.empty === 0, `empty=${t.empty}`);
+} else {
+    na('E1', 'tooltips : présentes non vides', 'session absente');
 }
 
 // ── F. Menus overlay : contenu dans un landmark nommé ─────────────────────
-await STATES['create-menu'].setup(page);
-await page.waitForTimeout(600);
-{
+if (!sessionDead) {
+    await STATES['create-menu'].setup(page);
+    await page.waitForTimeout(600);
     const m = await page.evaluate(() => {
         const contents = [...document.querySelectorAll('.v-overlay__content')].filter(o => o.getClientRects().length > 0);
         return contents.map(o => ({
@@ -157,18 +206,21 @@ await page.waitForTimeout(600);
             inLandmark: !!o.closest('main,nav,header,footer,aside,[role="main"],[role="navigation"],[role="banner"],[role="contentinfo"],[role="complementary"]'),
         }));
     });
+    ok('F0', 'create-menu : ≥1 overlay visible ouvert', m.length > 0, `overlays=${m.length}`);
     for (const [i, o] of m.entries()) {
-        ok(`create-menu overlay ${i}: role=region nommé OU dans landmark`,
+        ok(`F${i + 1}`, `create-menu overlay ${i} : role=region nommé OU dans landmark`,
             (o.role === 'region' && o.label.length > 0) || o.inLandmark || o.role === 'dialog' || o.role === 'menu',
             JSON.stringify(o));
     }
+    await settle();
+} else {
+    na('F0', 'create-menu : overlays dans landmark', 'session absente');
 }
-await settle();
 
 // ── G. Dialog langue : toolbar = div (pas de banner dupliqué) + nommé ─────
-await STATES['language-dialog'].setup(page);
-await page.waitForTimeout(600);
-{
+if (!sessionDead) {
+    await STATES['language-dialog'].setup(page);
+    await page.waitForTimeout(600);
     const d = await page.evaluate(() => {
         const dlg = [...document.querySelectorAll('[role="dialog"], .v-overlay__content')].find(o => o.getClientRects().length > 0 && o.querySelector('.v-toolbar'));
         if (!dlg) return { open: false };
@@ -180,67 +232,129 @@ await page.waitForTimeout(600);
             dlgLabel: (dlg.getAttribute('aria-label') || dlg.getAttribute('aria-labelledby') || '').length > 0,
         };
     });
-    ok('language-dialog: toolbar tag=div (pas de banner)', d.open && d.tbTag === 'div' && d.headers === 0, JSON.stringify(d));
+    ok('G1', 'language-dialog : toolbar tag=div, 0 header interne, dialog nommé', d.open && d.tbTag === 'div' && d.headers === 0 && d.dlgLabel, JSON.stringify(d));
+    await settle();
+} else {
+    na('G1', 'language-dialog : toolbar div + nommé', 'session absente');
 }
-await settle();
 
-// ── H. Recipe page : context-menu activator nommé + scale/unit = button ───
-await page.goto(`${B}/g/home/r/golden-lentil-soup`, { waitUntil: 'networkidle' });
-await page.waitForTimeout(1500);
-{
+// ── H. Recipe page : context-menu activator nommé + plus de card-haspopup ──
+if (await gotoAuth(`${B}/g/home/r/golden-lentil-soup`, 'H-nav', 'navigation authentifiée page recette')) {
     const r = await page.evaluate(() => {
         const ctxBtn = document.querySelector('.v-btn.bg-info, [aria-label*="action" i]');
         const cards = [...document.querySelectorAll('.v-card--link[aria-haspopup], div[aria-haspopup]:not([role])')].filter(e => !['button', 'menuitem', 'link'].includes(e.getAttribute('role') || ''));
-        const scaleBtns = [...document.querySelectorAll('button')].filter(b => b.closest('.v-menu') !== null || b.getAttribute('aria-haspopup'));
         return {
             ctxLabel: (ctxBtn?.getAttribute('aria-label') || '').trim(),
             badCards: cards.length,
         };
     });
-    ok('recipe: bouton context-menu aria-label', r.ctxLabel.length > 0, r.ctxLabel);
-    ok('recipe: plus de v-card--link[aria-haspopup]', r.badCards === 0, `restants=${r.badCards}`);
+    ok('H1', 'recipe : bouton context-menu a un aria-label', r.ctxLabel.length > 0, r.ctxLabel);
+    ok('H2', 'recipe : plus de v-card--link[aria-haspopup]', r.badCards === 0, `restants=${r.badCards}`);
+}
+
+// ── M1/M2. W1 : section titres recette — h3 non vides, ingrédients rendus ──
+if (!sessionDead) {
+    const w1 = await page.evaluate(() => {
+        const h3s = [...document.querySelectorAll('h3.section-title-text, .section-title-text')];
+        const h3inPage = h3s.filter(e => e.getClientRects().length > 0);
+        const emptyH3 = h3inPage.filter(e => (e.textContent || '').trim() === '').length;
+        const noActionsTitle = !h3inPage.some(e => (e.textContent || '').trim().toLowerCase() === 'actions');
+        const ingredients = [...document.querySelectorAll('.v-list-item, li')].filter(e => /g |ml |cup|tsp|tbsp|piece/i.test(e.textContent || '')).length;
+        return { h3: h3inPage.length, emptyH3, noActionsTitle, ingredients };
+    });
+    ok('M1', 'W1 : aucun h3 de section vide ni intitulé "Actions" (pas de titre injecté en données)',
+        w1.emptyH3 === 0 && w1.noActionsTitle, JSON.stringify(w1));
+    ok('M2', 'W1 : les ingrédients restent rendus après retrait des titres "Actions"', w1.ingredients > 0, `ingredients=${w1.ingredients}`);
+}
+
+// ── M3/M4. W2 : liens markdown — couleur mesurée + soulignement, clair & sombre ──
+if (!sessionDead) {
+    const md = await page.evaluate(() => {
+        const a = document.querySelector('.safe-markdown a');
+        if (!a) return { missing: true };
+        const cs = getComputedStyle(a);
+        const fg = window.__probe.parseColor(cs.color);
+        const bg = window.__probe.effectiveBg(a);
+        return { ratio: fg ? window.__probe.ratio(fg, bg) : null, fg, bg, rawColor: cs.color,
+            underline: (cs.textDecorationLine || '').includes('underline'), text: a.textContent.trim().slice(0, 40) };
+    });
+    ok('M3', 'W2 : lien markdown (clair) contraste ≥ 4.5:1 ET souligné',
+        !md.missing && md.ratio >= 4.5 && md.underline,
+        `ratio=${md.ratio?.toFixed(2)} underline=${md.underline} "${md.text}" fg=${md.fg} bg=${md.bg} missing=${!!md.missing}`);
+    await STATES['theme-dark'].setup(page);
+    await page.waitForTimeout(800);
+    const mdD = await page.evaluate(() => {
+        const a = document.querySelector('.safe-markdown a');
+        if (!a) return { missing: true };
+        const cs = getComputedStyle(a);
+        const fg = window.__probe.parseColor(cs.color);
+        const bg = window.__probe.effectiveBg(a);
+        return { ratio: fg ? window.__probe.ratio(fg, bg) : null, fg, bg, rawColor: cs.color,
+            underline: (cs.textDecorationLine || '').includes('underline'), dark: document.documentElement.classList.contains('dark') };
+    });
+    ok('M4', 'W2 : lien markdown (sombre) contraste ≥ 4.5:1 ET souligné',
+        !mdD.missing && mdD.ratio >= 4.5 && mdD.underline,
+        `ratio=${mdD.ratio?.toFixed(2)} underline=${mdD.underline} dark=${mdD.dark} fg=${mdD.fg} bg=${mdD.bg}`);
+    await STATES['theme-dark'].cleanup?.(page).catch(() => {});
 }
 
 // ── I. Shopping list : checkbox nommée ────────────────────────────────────
-const seedEnv = JSON.parse(require('node:fs').readFileSync(resolve(HERE, 'seed-env.json'), 'utf8'));
-await page.goto(`${B}/shopping-lists/${seedEnv.shoppingListId}`, { waitUntil: 'networkidle' });
-await page.waitForTimeout(1500);
-{
-    const c = await page.evaluate(() => {
-        const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
-        const named = boxes.filter(b => (b.getAttribute('aria-label') || '').trim().length > 0 || b.labels?.length).length;
-        return { total: boxes.length, named };
-    });
-    ok(`shopping: ${c.total} checkbox, toutes nommées`, c.total > 0 && c.named === c.total, JSON.stringify(c));
+let seedEnv = null;
+try { seedEnv = JSON.parse(require('node:fs').readFileSync(resolve(HERE, 'seed-env.json'), 'utf8')); }
+catch { na('I1', 'shopping : checkboxes nommées', 'seed-env.json illisible — rejouer tools/seed.mjs'); }
+if (seedEnv?.shoppingListId && !sessionDead) {
+    if (await gotoAuth(`${B}/shopping-lists/${seedEnv.shoppingListId}`, 'I-nav', 'navigation authentifiée shopping list')) {
+        const c = await page.evaluate(() => {
+            const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
+            const named = boxes.filter(b => (b.getAttribute('aria-label') || '').trim().length > 0 || b.labels?.length).length;
+            return { total: boxes.length, named };
+        });
+        ok('I1', `shopping : ${c.total} checkbox, toutes nommées`, c.total > 0 && c.named === c.total, JSON.stringify(c));
+    }
+} else if (seedEnv && !seedEnv.shoppingListId) {
+    na('I1', 'shopping : checkboxes nommées', 'seed-env.json sans shoppingListId');
+} else if (sessionDead) {
+    na('I1', 'shopping : checkboxes nommées', 'session absente');
 }
 
 // ── J. Table admin : dernier th non vide ──────────────────────────────────
-await page.goto(`${B}/group/data/foods/`, { waitUntil: 'networkidle' });
-await page.waitForTimeout(1500);
-{
+if (await gotoAuth(`${B}/group/data/foods/`, 'J-nav', 'navigation authentifiée /group/data/foods')) {
     const t = await page.evaluate(() => {
         const ths = [...document.querySelectorAll('.v-data-table thead th')];
         const empty = ths.filter(th => (th.textContent || '').trim() === '' && !th.querySelector('input,button') && !th.getAttribute('aria-label'));
         return { total: ths.length, empty: empty.length };
     });
-    ok(`data/foods: ${t.total} th, aucun vide`, t.empty === 0, `empty=${t.empty}`);
+    ok('J1', `data/foods : ${t.total} th, aucun vide`, t.empty === 0, `empty=${t.empty}`);
 }
 
 // ── K. Page d'erreur : v-main présent ─────────────────────────────────────
-await page.goto(`${B}/group/data/pages/`, { waitUntil: 'networkidle' });
-await page.waitForTimeout(1200);
-{
+if (await gotoAuth(`${B}/group/data/pages/`, 'K-nav', 'navigation authentifiée page 404')) {
     const m = await page.evaluate(() => ({
         mains: document.querySelectorAll('main, .v-main, [role="main"]').length,
         bodyChildrenInLandmark: [...document.querySelectorAll('#__nuxt > *')].length,
     }));
-    ok('404/erreur: un landmark main existe', m.mains > 0, JSON.stringify(m));
+    ok('K1', '404/erreur : un landmark main existe', m.mains > 0, JSON.stringify(m));
+}
+
+// ── M5. W3 : members.vue — 4 checkboxes permissions, labels homogènes ──────
+if (await gotoAuth(`${B}/household/members`, 'M5-nav', 'navigation authentifiée /household/members')) {
+    const mm = await page.evaluate(() => {
+        const boxes = [...document.querySelectorAll('input[type="checkbox"]')];
+        const labels = boxes.map(b => (b.getAttribute('aria-label') || '').trim());
+        return { total: boxes.length, labels,
+            allNamed: labels.every(l => l.length > 0),
+            samePattern: labels.every(l => /^.+ — .+$/.test(l)) };
+    });
+    ok('M5', `W3 : ${mm.total} checkboxes membres nommées, pattern homogène "Nom — permission"`,
+        mm.allNamed && mm.samePattern, JSON.stringify(mm.labels));
 }
 
 // ── L. Thème dark : boutons header contrastés aussi ───────────────────────
-await STATES['theme-dark'].setup(page);
-await page.waitForTimeout(800);
-{
+if (!sessionDead) {
+    await page.goto(`${B}/g/home`, { waitUntil: 'networkidle' });
+    await page.waitForTimeout(1000);
+    await STATES['theme-dark'].setup(page);
+    await page.waitForTimeout(800);
     const c = await page.evaluate(() => {
         const t = document.querySelector('.v-app-bar .v-toolbar-title__placeholder')
             || document.querySelector('.v-app-bar h1')
@@ -252,12 +366,16 @@ await page.waitForTimeout(800);
         const bg = window.__probe.effectiveBg(t);
         return { ratio: window.__probe.ratio(fg, bg), fg, bg };
     });
-    ok('dark: élément texte app-bar contraste ≥ 4.5:1', c.missing ? true : c.ratio >= 4.5, `ratio=${c.ratio?.toFixed(2)} missing=${!!c.missing}`);
-    // restaurer
+    ok('L1', 'dark : élément texte app-bar contraste ≥ 4.5:1', !c.missing && c.ratio >= 4.5,
+        `ratio=${c.ratio?.toFixed(2)} missing=${!!c.missing}`);
     await STATES['theme-dark'].cleanup?.(page).catch(() => {});
+} else {
+    na('L1', 'dark : contraste app-bar', 'session absente');
 }
 
 // ── Résumé ────────────────────────────────────────────────────────────────
 const fails = results.filter(r => !r.pass).length;
-console.log(`\nverify.mjs: ${results.length - fails}/${results.length} PASS, ${fails} FAIL`);
+const nas = results.filter(r => r.verdict === 'N-A').length;
+console.log(`\nverify.mjs: ${results.length - fails - nas}/${results.length - nas} PASS, ${fails} FAIL, ${nas} N-A`);
+for (const r of results) console.error(`  ${r.pass ? (r.verdict === 'N-A' ? 'N-A ' : 'PASS') : 'FAIL'} [${r.id}] ${r.name}`);
 process.exit(fails === 0 ? 0 : 1);
