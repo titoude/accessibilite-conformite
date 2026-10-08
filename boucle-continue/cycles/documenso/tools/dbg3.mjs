@@ -1,0 +1,36 @@
+import { chromium } from 'playwright';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const TOOLS = dirname(fileURLToPath(import.meta.url));
+const b = await chromium.launch();
+const c = await b.newContext({ locale: 'en-US', storageState: join(TOOLS, 'auth.json') });
+const p = await c.newPage();
+const team='personal_ehonlsofkmxlrfxy';
+const checks = async (label, sels) => {
+  const out = {};
+  for (const s of sels) out[s] = await p.evaluate((s) => [...document.querySelectorAll(s)].map(e => e.outerHTML.slice(0,280)), s);
+  console.log('==', label, JSON.stringify(out, null, 1));
+};
+await p.goto(`http://localhost:9400/t/${team}/documents`, { waitUntil:'load', timeout:90000 });
+await p.waitForSelector('main', {timeout:60000}); await p.waitForTimeout(2500);
+await checks('documents', ['button.bg-transparent, [role="combobox"]', 'button.my-2, .my-2']);
+// status filter popover dialog structure
+await p.locator('button:has-text("Status")').first().click(); await p.waitForTimeout(1200);
+await checks('status-popover', ['[role="dialog"]', '[role="listbox"]', '[data-radix-popper-content-wrapper] > *']);
+await p.keyboard.press('Escape'); await p.waitForTimeout(600);
+await p.goto(`http://localhost:9400/t/${team}/documents/envelope_oiuyeoawyurxfklv`, { waitUntil:'load', timeout:90000 });
+await p.waitForSelector('main, h1', {timeout:60000}); await p.waitForTimeout(2500);
+await checks('pending', ['li .h-7', 'button.bg-transparent, [role="combobox"]', 'fieldset .gap-x-2']);
+await p.goto(`http://localhost:9400/t/${team}/settings/document`, { waitUntil:'load', timeout:90000 });
+await p.waitForSelector('main', {timeout:60000}); await p.waitForTimeout(2500);
+await checks('settings-document', ['button[data-testid="document-visibility-trigger"]','button.my-2, .my-2','.peer','button[data-testid="signature-types-trigger"]']);
+await p.goto(`http://localhost:9400/t/${team}/settings/members`, { waitUntil:'load', timeout:90000 });
+await p.waitForSelector('main', {timeout:60000}); await p.waitForTimeout(2500);
+await checks('settings-members', ['.w-\\[70px\\]','button#radix-_r_g_, [data-testid*="invite"]','[role="tab"]']);
+await p.goto(`http://localhost:9400/o/org_dhhifibmrwznuxbr/settings/members`, { waitUntil:'load', timeout:90000 });
+await p.waitForSelector('main', {timeout:60000}); await p.waitForTimeout(2500);
+await checks('org-members', ['[role="tab"]','[role="tablist"]','[role="tabpanel"]']);
+await p.goto('http://localhost:9400/signup', { waitUntil:'load', timeout:90000 });
+await p.waitForTimeout(2500);
+await checks('signup', ['button.inset-0, .inset-0']);
+await b.close();

@@ -1,0 +1,18 @@
+import { createRequire } from 'node:module';
+const require = createRequire(new URL('./package.json', import.meta.url));
+const { chromium } = require('playwright');
+const b = await chromium.launch();
+const ctx = await b.newContext({ locale: 'en-US' });
+const p = await ctx.newPage();
+p.on('console', m => { if (m.type() === 'error') console.log('CONSOLE-ERR:', m.text().slice(0, 150)); });
+await p.goto('http://localhost:9400/sign/zAIfwzfZQjF364bEggEiZ', { waitUntil: 'load', timeout: 60000 });
+await p.waitForTimeout(4000);
+const btns = await p.evaluate(() => [...document.querySelectorAll('button')].filter(x => x.offsetParent).map(x => (x.innerText || x.getAttribute('aria-label') || '').slice(0, 50)));
+console.log('BUTTONS:', JSON.stringify(btns));
+const r = p.locator('button', { hasText: 'Reject' }).first();
+console.log('reject count:', await r.count());
+await r.click().catch(e => console.log('click err', e.message.slice(0, 80)));
+await p.waitForTimeout(3000);
+const d = await p.evaluate(() => [...document.querySelectorAll('[role="dialog"],[role="alertdialog"]')].map(x => ({ vis: !!x.offsetParent, txt: (x.innerText || '').slice(0, 120), lbl: x.getAttribute('aria-label'), lblby: x.getAttribute('aria-labelledby') })));
+console.log('DIALOGS:', JSON.stringify(d));
+await b.close();
