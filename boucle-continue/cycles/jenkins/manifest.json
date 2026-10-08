@@ -1,0 +1,33 @@
+{
+  "cycle": 42,
+  "produit": "jenkins",
+  "repo": "https://github.com/jenkinsci/jenkins",
+  "commit": "db0e08291b113878ba08f97274d56c321be32078",
+  "pinned": "db0e08291b113878ba08f97274d56c321be32078 (HEAD amont vérifié via `git ls-remote https://github.com/jenkinsci/jenkins HEAD` le 2026-10-07, version pom 2.586-SNAPSHOT)",
+  "baseUrl": "http://localhost:6042",
+  "stack": "Java 21 (Temurin 21.0.12.1) + Jetty 12.1.13 embarqué dans jenkins.war + Jelly/Stapler (XHTML tags) + Prototype/jQuery + SCSS compilé par webpack en jsbundles. War construit DEPUIS les sources pinnées (pas d'image docker : la version servie EST 2.586-SNAPSHOT @db0e0829 — aucun écart image/SHA).",
+  "boot": {
+    "clone": "git clone --depth 1 https://github.com/jenkinsci/jenkins jenkins42 && cd jenkins42 && git fetch --depth 1 origin db0e08291b113878ba08f97274d56c321be32078 && git checkout FETCH_HEAD",
+    "toolchain": "JDK Temurin 21.0.12.1 (~/work/jdk-21.0.12.1+1) + Maven 3.9.16 (~/work/apache-maven-3.9.16) + ~/.m2/settings.xml (mirror central→maven-central.storage-download.googleapis.com + profil jenkins-ci repo.jenkins-ci.org/public)",
+    "build": "JAVA_HOME=~/work/jdk-21.0.12.1+1 PATH=~/work/apache-maven-3.9.16/bin:$JAVA_HOME/bin:$PATH mvn -am -pl war,bom -Pquick-build clean install  (2m14s → war/target/jenkins.war 56MB ; le frontend yarn/webpack est compilé par frontend-maven-plugin dans ce profil)",
+    "patch": "git apply cycles/jenkins/patch.diff dans jenkins42 puis REBUILD war (même commande) — le patch porte sur les sources (core/src/main/resources/**/*.jelly, src/main/scss, src/main/js)",
+    "home": "JENKINS_HOME=~/work/jk42-home avec init.groovy.d/basic-security.groovy (tools/basic-security.groovy copié : HudsonPrivateSecurityRealm admin/jk42-admin-pw + FullControlOnceLoggedInAuthorizationStrategy allowAnonymousRead=false + setInstallState(INITIAL_SETUP_COMPLETED))",
+    "plugins": "python3 tools/install-plugins.py --home ~/work/jk42-home — résolveur UC (update-center.actual.json, tools/plugins.txt), 12 racines (workflow-aggregator pipeline-stage-view credentials* git timestamper ansicolor dark-theme matrix-auth junit) → 75 .jpi, requiredCore ≤ 2.586",
+    "web": "JENKINS_HOME=~/work/jk42-home ~/work/jdk-21.0.12.1+1/bin/java -Djenkins.install.runSetupWizard=false -jar war/target/jenkins.war --httpPort=6042 --prefix=/ > ~/work/jk42.log 2>&1 &  (le -D ET l'init.groovy installState sont requis : sans eux un home vierge affiche le SetupWizard malgré la sécurité configurée)",
+    "seed": "bash tools/seed.sh http://localhost:6042 — POST /scriptText tools/seed.groovy (crumb + cookie jar) : 2 users (alice,bob), 4 freestyle/pipeline jobs (webapp-deploy paramétré BRANCH/ENV/DEBUG, docs-build, nightly-backup échoué, api-pipeline, release-pipeline) + folder services/worker-queue, 4 credentials, vue release, builds exécutés — idempotent (SEED_DONE jobs=6 creds=4)",
+    "login": "node tools/login.mjs http://localhost:6042 auth.json admin jk42-admin-pw — formulaire /login (j_username/j_password) → storageState cookies JSESSIONID"
+  },
+  "auth": "storageState tools/../auth.json (JSESSIONID ; admin/jk42-admin-pw créé par init.groovy)",
+  "urls": "tools/urls-public.txt = /login (seule URL anonyme 200 ; /loginError n'est servi qu'après POST échoué) ; tools/urls-auth.txt = 20 routes : dashboard, vue release, job freestyle paramétré + builds + console + configure, pipeline + build, folder + job imbriqué, manage/configure, securityRealm, pluginManager, configureSecurity, credentials domain, configure global, user/admin, log/all, computer, newJob",
+  "states": "6 états auth (states.json) : user-menu, job-row-menu, build-badge-menu (dropdowns tippy/jumplist), command-palette (dialog), theme-dark (mutant plugin dark-theme), mobile-nav-390 (restore + viewport). Public : --states none.",
+  "auditCommands": {
+    "baseline_auth": "cd cycles/jenkins/tools && npm ci && node login.mjs http://localhost:6042 auth.json && node audit.mjs http://localhost:6042 --urls $(paste -sd, urls-auth.txt) --states user-menu,job-row-menu,build-badge-menu,command-palette,theme-dark,mobile-nav-390 --storage-state ../auth.json --out ../reports/baseline-auth",
+    "baseline_public": "node audit.mjs http://localhost:6042 --urls /login --states none --out ../reports/baseline-public",
+    "final_auth": "node audit.mjs http://localhost:6042 --urls $(paste -sd, urls-auth.txt) --states user-menu,job-row-menu,build-badge-menu,command-palette,theme-dark,mobile-nav-390 --storage-state ../auth.json --out ../reports/final-auth",
+    "final_public": "node audit.mjs http://localhost:6042 --urls /login --states none --out ../reports/final-public",
+    "verify": "node verify.mjs http://localhost:6042 ../auth.json — 32 assertions DOM indépendantes du score axe",
+    "probes": "node incomplete-probes.mjs http://localhost:6042 ../reports/final-auth/report.json ../reports/probes/incomplete-probes-auth.json ../auth.json (et 'none' en storageState pour le public) — composite ::before/::after, mask-image ignorée",
+    "eval": "node eval-final.mjs http://localhost:6042 ../auth.json — 25 assertions : 16 pages hors périmètre + dup-ids + replays à froid",
+    "install_build": "voir install-build.log — clone vierge @SHA + git apply patch.diff (41 fichiers) + mvn quick-build + boot :6043 JENKINS_HOME vierge (init.groovy + 75 plugins) + seed + login auth-v.json + rescan verbatim → 0 violation 26/26 (reports/install-build)"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "cycle": 42,
+  "produit": "jenkins",
+  "commit": "db0e08291b113878ba08f97274d56c321be32078",
+  "version_servie": "2.586-SNAPSHOT (war construit depuis les sources pinnées)",
+  "axe": "4.14.0",
+  "statut_execution": "complet",
+  "baseline": {
+    "auth": {
+      "violations_occ": 1546,
+      "violations_regles": 15,
+      "regles": {
+        "region": 867,
+        "color-contrast": 221,
+        "label": 93,
+        "tabindex": 88,
+        "button-name": 84,
+        "aria-allowed-attr": 38,
+        "link-name": 32,
+        "html-has-lang": 25,
+        "landmark-one-main": 25,
+        "target-size": 21,
+        "aria-prohibited-attr": 19,
+        "empty-table-header": 13,
+        "select-name": 11,
+        "page-has-heading-one": 7,
+        "heading-order": 2
+      },
+      "erreurs": 0,
+      "incomplets": {
+        "total": 261,
+        "detail": {
+          "color-contrast": 153,
+          "label-content-name-mismatch": 88,
+          "aria-prohibited-attr": 19,
+          "th-has-data-cells": 1
+        }
+      },
+      "note": "26 scénarios : 20 routes auth + 6 états (user-menu, job-row-menu, build-badge-menu, command-palette, theme-dark, mobile-nav-390)"
+    },
+    "public": {
+      "violations_occ": 1,
+      "violations_regles": 1,
+      "regles": { "region": 1 },
+      "erreurs": 0,
+      "incomplets": { "total": 1, "detail": { "color-contrast": 1 } },
+      "note": "/login — .app-branding hors landmark ; /loginError non servi sans POST échoué"
+    }
+  },
+  "final": {
+    "auth": {
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "erreurs": 0,
+      "incomplets": {
+        "total": 247,
+        "detail": {
+          "color-contrast": 159,
+          "label-content-name-mismatch": 88
+        }
+      }
+    },
+    "public": {
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "erreurs": 0,
+      "incomplets": { "total": 1, "detail": { "color-contrast": 1 } }
+    },
+    "note": "mêmes 26 scénarios que baseline (scopeHash identique dc6410df…) ; war rebuilt maven quick-build"
+  },
+  "install_build": {
+    "auth": {
+      "violations_occ": 0,
+      "violations_regles": 0,
+      "erreurs": 0,
+      "incomplets": {
+        "total": 240,
+        "detail": {
+          "color-contrast": 152,
+          "label-content-name-mismatch": 88
+        }
+      }
+    },
+    "public": {
+      "note": "non rescanée — public identique au build primaire (mêmes sources)"
+    },
+    "note": "clone vierge @db0e0829 + git apply patch.diff (41 fichiers) → mvn quick-build → boot :6043 JENKINS_HOME vierge + init.groovy + 75 plugins + seed → rescan verbatim, 26/26 scénarios"
+  },
+  "verify": {
+    "assertions": 32,
+    "fail": 0,
+    "script": "tools/verify.mjs"
+  },
+  "eval_final": {
+    "assertions": 25,
+    "fail": 0,
+    "script": "tools/eval-final.mjs",
+    "note": "16 pages hors périmètre + dup-ids + replays à froid (menu user, newJob, mobile 390, build paramétré, dialogue suppression)"
+  },
+  "probes_incomplets": {
+    "color-contrast|PASS": 130,
+    "color-contrast|N-A": 29,
+    "label-content-name-mismatch|PASS": 88
+  },
+  "probes_note": "N-A = nœud introuvable/masqué au rejeu (menus fermés, états transitoires) ; sonde composite ::before/::after + mask-image ignorée — voir reports/probes/*.json"
+}

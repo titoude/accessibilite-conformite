@@ -1,0 +1,11 @@
+{
+  "states": {
+    "user-menu": "sur /, hover #root-action-UserAction (action header) ; stateProof : .tippy-box a[href=/logout] visible + select#account-theme-picker présent",
+    "job-row-menu": "sur /, hover a.jenkins-table__link.model-link texte « webapp-deploy » puis clic .jenkins-menu-dropdown-chevron (inséré par jumplists.js) ; stateProof : .tippy-box contient liens « Configure » ET « Build with Parameters »",
+    "build-badge-menu": "sur /, hover 1er a.jenkins-badge.model-link (badge #N build) puis clic son .jenkins-menu-dropdown-chevron ; stateProof : .tippy-box contient « Console Output »",
+    "command-palette": "sur /, clic #root-action-SearchAction → dialog#command-palette[open], saisie « webapp » ; stateProof : #search-results a.jenkins-command-palette__results__item visible",
+    "theme-dark": "MUTANT — sur /, menu utilisateur → select#account-theme-picker option « dark » (préférence serveur persistée) ; stateProof : documentElement.dataset.theme === 'dark'",
+    "mobile-nav-390": "MUTANT — restore theme=none via même sélecteur, viewport 390×844 + reload ; stateProof : #command-bar masqué ET #root-action-SearchAction visible"
+  },
+  "notes": "Public : aucun état — /loginError n'est servi (200) qu'après POST échoué (GET anonyme 401, GET auth 302→/) ; le scan d'une erreur de login n'est donc pas déclarable dans le runner (URL finale ≠ URL demandée). Scope public = /login seul. Ordre des mutants : theme-dark avant mobile-nav-390 qui restaure theme=none."
+}

@@ -1,0 +1,43 @@
+install-build — cycle 42 jenkins — 2026-10-08
+=============================================
+
+Objectif : rejouer le patch sur un clone VIERGE au SHA pinné et re-scanner.
+
+1) Clone vierge
+  git clone --depth 1 https://github.com/jenkinsci/jenkins ~/work/jenkins42-v
+  cd ~/work/jenkins42-v
+  git fetch --depth 1 origin db0e08291b113878ba08f97274d56c321be32078
+  git checkout db0e08291b113878ba08f97274d56c321be32078
+  → HEAD is now at db0e082 Update dependency io.jenkins.plugins:commons-lang3-api (#27493)
+
+2) Application du patch
+  git apply --check cycles/jenkins/patch.diff && git apply cycles/jenkins/patch.diff
+  → PATCH_APPLIED : 41 fichiers modifiés (git status --short | wc -l = 41)
+
+3) Rebuild
+  JAVA_HOME=~/work/jdk-21.0.12.1+1 PATH=~/work/apache-maven-3.9.16/bin:~/work/jdk-21.0.12.1+1/bin:$PATH
+  mvn -am -pl war,bom -Pquick-build clean install -DskipTests -q
+  → war/target/jenkins.war (56 400 491 o)
+  → contrôle : jsbundles/styles.css contient a.jenkins-badge:link (1), jenkins-core jar contient aria-label search-bar.jelly (1)
+
+4) JENKINS_HOME vierge
+  mkdir -p ~/work/jk42-home-v/init.groovy.d && cp tools/basic-security.groovy ~/work/jk42-home-v/init.groovy.d/
+  python3 tools/install-plugins.py --home ~/work/jk42-home-v
+  → 75 .jpi téléchargés depuis update-center.actual.json (core UC 2.585 ≤ 2.586)
+
+5) Boot sur :6043
+  JENKINS_HOME=~/work/jk42-home-v java -Djenkins.install.runSetupWizard=false -jar war/target/jenkins.war --httpPort=6043 --prefix=/
+  → "Jenkins is fully up and running" en ~10 s ; /login 200
+  (le -D runSetupWizard=false est requis : sans lui, même avec la sécurité
+   initialisée par hook, le wizard plugins s'affiche — constaté au premier boot -v)
+
+6) Seed + login
+  bash tools/seed.sh http://localhost:6043  → SEED_DONE jobs=6 creds=4 / [seed] OK
+  node tools/login.mjs http://localhost:6043 auth-v.json admin jk42-admin-pw → storageState
+
+7) Rescan verbatim
+  node tools/audit.mjs http://localhost:6043 --urls $(paste -sd, tools/urls-auth.txt) \
+    --states user-menu,job-row-menu,build-badge-menu,command-palette,theme-dark,mobile-nav-390 \
+    --storage-state ../auth-v.json --out ../reports/install-build
+  → reports/install-build/report.md : 0 règle(s), 0 occurrence(s), 0 erreur(s), 240 incomplet(s)
+  → 26/26 scénarios — identique au final-auth primaire

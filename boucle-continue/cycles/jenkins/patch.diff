@@ -1,0 +1,846 @@
+diff --git a/core/src/main/resources/hudson/PluginManager/installed.jelly b/core/src/main/resources/hudson/PluginManager/installed.jelly
+index 88c30c0..c4cee0d 100644
+--- a/core/src/main/resources/hudson/PluginManager/installed.jelly
++++ b/core/src/main/resources/hudson/PluginManager/installed.jelly
+@@ -88,7 +88,7 @@ THE SOFTWARE.
+               </j:if>
+               <th class="jenkins-table__cell--tight">${%Enabled}</th>
+               <l:isAdmin>
+-                <th data-sort-disable="true"/>
++                <th data-sort-disable="true"><span class="jenkins-visually-hidden">${%Actions}</span></th>
+               </l:isAdmin>
+             </tr>
+             </thead>
+diff --git a/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly b/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly
+index 772a534..cf300cb 100644
+--- a/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly
++++ b/core/src/main/resources/hudson/logging/LogRecorderManager/index.jelly
+@@ -66,7 +66,7 @@ THE SOFTWARE.
+       <thead>
+         <tr>
+           <th initialSortDir="down">${%Name}</th>
+-          <th class="jenkins-table__cell--tight" data-sort-disable="true"/>
++          <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Actions}</span></th>
+         </tr>
+       </thead>
+       <tbody>
+diff --git a/core/src/main/resources/hudson/model/ComputerSet/index.jelly b/core/src/main/resources/hudson/model/ComputerSet/index.jelly
+index dc9a48f..7b080f9 100644
+--- a/core/src/main/resources/hudson/model/ComputerSet/index.jelly
++++ b/core/src/main/resources/hudson/model/ComputerSet/index.jelly
+@@ -75,7 +75,7 @@ THE SOFTWARE.
+               <th align="right" tooltip="${m.descriptor.timestampString}">${m.columnCaption}</th>
+             </j:if>
+           </j:forEach>
+-          <th class="jenkins-table__cell--tight" data-sort-disable="true" />
++          <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Configure}</span></th>
+         </tr>
+       </thead>
+       <tbody>
+@@ -102,7 +102,7 @@ THE SOFTWARE.
+           <td class="jenkins-table__cell--tight">
+             <j:if test="${c.hasPermission(extendedReadPermission)}">
+               <div class="jenkins-table__cell__button-wrapper">
+-                <a href="../${c.url}configure" class="jenkins-button jenkins-button--tertiary">
++                <a href="../${c.url}configure" class="jenkins-button jenkins-button--tertiary" aria-label="${%Configure} ${c.displayName}" tooltip="${%Configure} ${c.displayName}" data-tooltip-append-to-parent="true">
+                   <l:icon src="symbol-settings" />
+                 </a>
+               </div>
+@@ -117,7 +117,7 @@ THE SOFTWARE.
+       </j:forEach>
+ 
+       <tr class="sortbottom">
+-        <th />
++        <td />
+         <th>${%Data obtained}</th>
+         <j:forEach var="m" items="${monitors}">
+           <j:if test="${m.columnCaption!=null}">
+@@ -126,7 +126,7 @@ THE SOFTWARE.
+             </th>
+           </j:if>
+         </j:forEach>
+-        <th />
++        <td />
+       </tr>
+       </tbody>
+     </table>
+diff --git a/core/src/main/resources/hudson/model/Job/buildTimeTrend.jelly b/core/src/main/resources/hudson/model/Job/buildTimeTrend.jelly
+index 0181f95..4a0694f 100644
+--- a/core/src/main/resources/hudson/model/Job/buildTimeTrend.jelly
++++ b/core/src/main/resources/hudson/model/Job/buildTimeTrend.jelly
+@@ -66,7 +66,7 @@ THE SOFTWARE.
+                     <j:if test="${showAgent}">
+                       <th>${%Agent}</th>
+                     </j:if>
+-                    <th class="jenkins-table__cell--tight" data-sort-disable="true"></th>
++                    <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Actions}</span></th>
+                   </tr>
+                 </thead>
+                 <tbody></tbody>
+diff --git a/core/src/main/resources/hudson/model/Job/index.jelly b/core/src/main/resources/hudson/model/Job/index.jelly
+index a8580b2..ce14ba1 100644
+--- a/core/src/main/resources/hudson/model/Job/index.jelly
++++ b/core/src/main/resources/hudson/model/Job/index.jelly
+@@ -39,7 +39,7 @@ THE SOFTWARE.
+             <div class="jenkins-app-bar__content jenkins-build-caption">
+               <j:set var="lastBuild" value="${it.lastBuild}" />
+               <j:if test="${lastBuild != null}">
+-                <a href="${rootURL + '/' + lastBuild.url}" class="jenkins-!-display-contents" tabindex="-1">
++                <a href="${rootURL + '/' + lastBuild.url}" class="jenkins-!-display-contents" tabindex="-1" aria-label="${lastBuild.iconColor.description}: ${lastBuild.displayName}">
+                   <l:icon src="symbol-status-${lastBuild.iconColor.iconName}" tooltip="${lastBuild.iconColor.description}"/>
+                 </a>
+               </j:if>
+diff --git a/core/src/main/resources/hudson/model/View/index.jelly b/core/src/main/resources/hudson/model/View/index.jelly
+index fd75659..e498096 100644
+--- a/core/src/main/resources/hudson/model/View/index.jelly
++++ b/core/src/main/resources/hudson/model/View/index.jelly
+@@ -36,6 +36,7 @@ THE SOFTWARE.
+         <st:include page="sidepanel.jelly" />
+         <!-- no need for additional breadcrumb here as we're on an index page already including breadcrumb -->
+         <l:main-panel>
++          <h1 class="jenkins-visually-hidden">${(it.class.name=='hudson.model.AllView' and it.ownerItemGroup == app) ? '%Dashboard' : it.displayName}</h1>
+           <st:include page="view-index-top.jelly" it="${it.owner}" optional="true">
+             <!-- allow the owner to take over the top section, but we also need the default to be backward compatible -->
+             <div id="view-message">
+diff --git a/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.jelly b/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.jelly
+index 96b3e88..f945095 100644
+--- a/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.jelly
++++ b/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.jelly
+@@ -43,11 +43,11 @@ THE SOFTWARE.
+     <table class="jenkins-table sortable" id="people">
+       <thead>
+         <tr>
+-          <th class="jenkins-table__cell--tight" data-sort-disable="true" />
++          <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Avatar}</span></th>
+           <th initialSortDir="down">${%Username}</th>
+           <th>${%Full name}</th>
+-          <th class="jenkins-table__cell--tight" data-sort-disable="true" />
+-          <th class="jenkins-table__cell--tight" data-sort-disable="true" />
++          <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Account settings}</span></th>
++          <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Delete}</span></th>
+         </tr>
+       </thead>
+       <tbody>
+@@ -66,7 +66,7 @@ THE SOFTWARE.
+             </td>
+             <td>
+               <div class="jenkins-table__cell__button-wrapper">
+-                <a href="${user.url}/account" class="jenkins-button jenkins-button--tertiary">
++                <a href="${user.url}/account" class="jenkins-button jenkins-button--tertiary" aria-label="${%account.settings(user.displayName)}" tooltip="${%account.settings(user.displayName)}" data-tooltip-append-to-parent="true">
+                   <l:icon src="symbol-settings" />
+                 </a>
+               </div>
+diff --git a/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.properties b/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.properties
+index 45d6df5..30b2e73 100644
+--- a/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.properties
++++ b/core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/index.properties
+@@ -21,3 +21,4 @@
+ # THE SOFTWARE.
+ 
+ delete.user=Delete Jenkins user ‘{0}’?
++account.settings=Account settings for {0}
+diff --git a/core/src/main/resources/hudson/views/BuildButtonColumn/columnHeader.jelly b/core/src/main/resources/hudson/views/BuildButtonColumn/columnHeader.jelly
+index 7da40ba..43ba66d 100644
+--- a/core/src/main/resources/hudson/views/BuildButtonColumn/columnHeader.jelly
++++ b/core/src/main/resources/hudson/views/BuildButtonColumn/columnHeader.jelly
+@@ -23,5 +23,5 @@ THE SOFTWARE.
+ -->
+ <?jelly escape-by-default='true'?>
+ <j:jelly xmlns:j="jelly:core">
+-    <th class="jenkins-table__cell--tight" data-sort-disable="true" />
++    <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Build}</span></th>
+ </j:jelly>
+diff --git a/core/src/main/resources/hudson/widgets/HistoryWidget/entry.jelly b/core/src/main/resources/hudson/widgets/HistoryWidget/entry.jelly
+index 60c3bde..8276246 100644
+--- a/core/src/main/resources/hudson/widgets/HistoryWidget/entry.jelly
++++ b/core/src/main/resources/hudson/widgets/HistoryWidget/entry.jelly
+@@ -79,7 +79,7 @@ THE SOFTWARE.
+       </div>
+     </div>
+ 
+-    <button class="jenkins-card__reveal jenkins-jumplist-link" data-href="${link}">
++    <button class="jenkins-card__reveal jenkins-jumplist-link" data-href="${link}" aria-label="${%actions(build.displayName)}" aria-haspopup="true">
+       <l:icon src="symbol-chevron-down" />
+     </button>
+     <j:if test="${!empty build.truncatedDescription}">
+diff --git a/core/src/main/resources/hudson/widgets/HistoryWidget/entry.properties b/core/src/main/resources/hudson/widgets/HistoryWidget/entry.properties
+index 6aa3af4..4f73675 100644
+--- a/core/src/main/resources/hudson/widgets/HistoryWidget/entry.properties
++++ b/core/src/main/resources/hudson/widgets/HistoryWidget/entry.properties
+@@ -1 +1,2 @@
+ confirm=Are you sure you want to abort {0}?
++actions=Actions for {0}
+diff --git a/core/src/main/resources/jenkins/diagnosis/HsErrPidList/index.jelly b/core/src/main/resources/jenkins/diagnosis/HsErrPidList/index.jelly
+index cc1db08..689b772 100644
+--- a/core/src/main/resources/jenkins/diagnosis/HsErrPidList/index.jelly
++++ b/core/src/main/resources/jenkins/diagnosis/HsErrPidList/index.jelly
+@@ -36,7 +36,7 @@ THE SOFTWARE.
+           <tr>
+             <th>${%Name}</th>
+             <th>${%Date}</th>
+-            <th/>
++            <th><span class="jenkins-visually-hidden">${%Actions}</span></th>
+           </tr>
+         </thead>
+         <tbody>
+diff --git a/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly b/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly
+index 6a18e75..ab3b4cf 100644
+--- a/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly
++++ b/core/src/main/resources/jenkins/monitor/JavaVersionRecommendationAdminMonitor/message.jelly
+@@ -28,7 +28,7 @@ THE SOFTWARE.
+       <a href="https://jenkins.io/redirect/java-support/" class="jenkins-button jenkins-button--primary">${%More Info}</a>
+     </j:set>
+     <l:adminMonitor severity="${it.severityAsString}" controls="${controls}">
+-      <h4 class="jenkins-!-margin-bottom-1">${%Recommended_Java_Version_Heading(it.javaVersion)}</h4>
++      <h3 role="heading" aria-level="2" class="jenkins-!-margin-bottom-1">${%Recommended_Java_Version_Heading(it.javaVersion)}</h3>
+       ${%Recommended_Java_Version(it.javaVersion, it.endOfLifeAsDate)}
+     </l:adminMonitor>
+ </j:jelly>
+diff --git a/core/src/main/resources/jenkins/monitor/OperatingSystemEndOfLifeAdminMonitor/message.jelly b/core/src/main/resources/jenkins/monitor/OperatingSystemEndOfLifeAdminMonitor/message.jelly
+index d35a9cd..4b7941b 100644
+--- a/core/src/main/resources/jenkins/monitor/OperatingSystemEndOfLifeAdminMonitor/message.jelly
++++ b/core/src/main/resources/jenkins/monitor/OperatingSystemEndOfLifeAdminMonitor/message.jelly
+@@ -29,7 +29,7 @@ THE SOFTWARE.
+         <a href="https://www.jenkins.io/redirect/operating-system-end-of-life" class="jenkins-button jenkins-button--primary">${%More Info}</a>
+     </j:set>
+     <l:adminMonitor severity="danger" controls="${controls}">
+-        <h4 class="jenkins-!-margin-bottom-1">${it.displayName}</h4>
++        <h3 role="heading" aria-level="2" class="jenkins-!-margin-bottom-1">${it.displayName}</h3>
+         <j:choose>
+             <j:when test="${it.afterEndOfLifeDate}">
+                 ${%Past_End_of_Life(it.operatingSystemName, it.endOfLifeDate, it.documentationUrl)}
+diff --git a/core/src/main/resources/lib/form/entry.jelly b/core/src/main/resources/lib/form/entry.jelly
+index cff0085..3316bfc 100644
+--- a/core/src/main/resources/lib/form/entry.jelly
++++ b/core/src/main/resources/lib/form/entry.jelly
+@@ -77,7 +77,7 @@ THE SOFTWARE.
+     <j:choose>
+       <j:when test="${possiblyEscapedTitle!=null}">
+         <div class="jenkins-form-label help-sibling">
+-          <j:out value="${possiblyEscapedTitle}" />
++          <span class="jenkins-form-label__text" id="${h.generateId()}"><j:out value="${possiblyEscapedTitle}" /></span>
+           <f:helpLink url="${attrs.help}" featureName="${attrs.title}"/>
+         </div>
+         <j:if test="${!empty(attrs.description)}">
+diff --git a/core/src/main/resources/lib/form/helpLink.jelly b/core/src/main/resources/lib/form/helpLink.jelly
+index bf2639d..5415934 100644
+--- a/core/src/main/resources/lib/form/helpLink.jelly
++++ b/core/src/main/resources/lib/form/helpLink.jelly
+@@ -55,7 +55,7 @@ THE SOFTWARE.
+   </st:documentation>
+   <j:choose>
+     <j:when test="${attrs.url!=null}">
+-      <j:set var="altText" value="${attrs.featureName != null ? '%Help for feature:' + ' ' + attrs.featureName : '%Help'}" />
++      <j:set var="altText" value="${attrs.featureName != null ? '? ' + '%Help for feature:' + ' ' + attrs.featureName : '? ' + '%Help'}" />
+       <a href="#" class="jenkins-help-button" aria-label="${altText}" helpURL="${rootURL}${attrs.url}">
+         <!-- .jenkins-help-button span element is required as it's restyled in CSS -->
+         <span>?</span>
+diff --git a/core/src/main/resources/lib/hudson/buildHealth.jelly b/core/src/main/resources/lib/hudson/buildHealth.jelly
+index 6b0e7c1..62c3773 100644
+--- a/core/src/main/resources/lib/hudson/buildHealth.jelly
++++ b/core/src/main/resources/lib/hudson/buildHealth.jelly
+@@ -69,7 +69,7 @@ THE SOFTWARE.
+       <div class="jenkins-table__cell__button-wrapper">
+         <j:choose>
+           <j:when test="${!empty(healthReports)}">
+-            <a class="build-health-link jenkins-button jenkins-button--tertiary" href="${empty(link)?'#':link}" style="${attrs.style}">
++            <a class="build-health-link jenkins-button jenkins-button--tertiary" href="${empty(link)?'#':link}" style="${attrs.style}" aria-label="${%Build health}: ${buildHealth.score}% - ${buildHealth.localizableDescription}">
+               <l:icon src="symbol-weather-${buildHealth.iconClassName}" />
+             </a>
+           </j:when>
+diff --git a/core/src/main/resources/lib/hudson/buildListTable.jelly b/core/src/main/resources/lib/hudson/buildListTable.jelly
+index c819964..cbbbb6a 100644
+--- a/core/src/main/resources/lib/hudson/buildListTable.jelly
++++ b/core/src/main/resources/lib/hudson/buildListTable.jelly
+@@ -61,7 +61,7 @@ THE SOFTWARE.
+             <th>${%Build}</th>
+             <th initialSortDir="up">${%Time Since}</th>
+             <th>${%Status}</th>
+-            <th class="jenkins-table__cell--tight" data-sort-disable="true"></th>
++            <th class="jenkins-table__cell--tight" data-sort-disable="true"><span class="jenkins-visually-hidden">${%Actions}</span></th>
+         </tr>
+     </thead>
+     <tbody></tbody>
+diff --git a/core/src/main/resources/lib/layout/branding.jelly b/core/src/main/resources/lib/layout/branding.jelly
+index d051f15..fd391c6 100644
+--- a/core/src/main/resources/lib/layout/branding.jelly
++++ b/core/src/main/resources/lib/layout/branding.jelly
+@@ -6,9 +6,9 @@
+     </st:attribute>
+   </st:documentation>
+ 
+-  <div class="app-branding ${attrs.clazz}">
++  <header class="app-branding ${attrs.clazz}">
+     <div class="app-branding__conic">
+       <img src="${imagesURL}/svgs/logo.svg" alt="${%Jenkins illustration}" />
+     </div>
+-  </div>
++  </header>
+ </j:jelly>
+diff --git a/core/src/main/resources/lib/layout/breadcrumb.jelly b/core/src/main/resources/lib/layout/breadcrumb.jelly
+index 675a85a..112d41c 100644
+--- a/core/src/main/resources/lib/layout/breadcrumb.jelly
++++ b/core/src/main/resources/lib/layout/breadcrumb.jelly
+@@ -82,7 +82,7 @@ THE SOFTWARE.
+             </j:otherwise>
+           </j:choose>
+           <j:if test="${attrs.hasMenu or attrs.hasChildrenMenu}">
+-            <div aria-label="dropdown menu for ${attrs.title}" data-iscurrent="${isCurrent}" data-href="${attrs.href}" data-base="${baseUrl}" tabindex="0" class="dropdown-indicator" data-model="${attrs.hasMenu}" data-children="${attrs.hasChildrenMenu}" >
++            <div role="button" aria-label="dropdown menu for ${attrs.title}" data-iscurrent="${isCurrent}" data-href="${attrs.href}" data-base="${baseUrl}" tabindex="0" class="dropdown-indicator" data-model="${attrs.hasMenu}" data-children="${attrs.hasChildrenMenu}" >
+               <l:icon class="icon-sm jenkins-!-text-color-secondary" src="symbol-chevron-down" />
+             </div>
+           </j:if>
+diff --git a/core/src/main/resources/lib/layout/breadcrumbBar.jelly b/core/src/main/resources/lib/layout/breadcrumbBar.jelly
+index 999b24d..52d6717 100644
+--- a/core/src/main/resources/lib/layout/breadcrumbBar.jelly
++++ b/core/src/main/resources/lib/layout/breadcrumbBar.jelly
+@@ -35,7 +35,7 @@ THE SOFTWARE.
+     ]]>
+   </st:documentation>
+ 
+-  <div id="breadcrumbBar" class="jenkins-breadcrumbs" aria-label="breadcrumb">
++  <nav id="breadcrumbBar" class="jenkins-breadcrumbs" aria-label="breadcrumb">
+     <ol class="jenkins-breadcrumbs__list" id="breadcrumbs">
+       <j:forEach var="anc" items="${request2.ancestors}" indexVar="index">
+         <j:if test="${h.isModel(anc.object) and anc.prev.url!=anc.url}">
+@@ -53,5 +53,5 @@ THE SOFTWARE.
+       <!-- render additional breadcrumb items -->
+       <d:invokeBody />
+     </ol>
+-  </div>
++  </nav>
+ </j:jelly>
+diff --git a/core/src/main/resources/lib/layout/layout.jelly b/core/src/main/resources/lib/layout/layout.jelly
+index 0e1312f..39eb0dc 100644
+--- a/core/src/main/resources/lib/layout/layout.jelly
++++ b/core/src/main/resources/lib/layout/layout.jelly
+@@ -102,7 +102,7 @@ THE SOFTWARE.
+   </j:if>
+ </j:if>
+ <x:doctype name="html" />
+-<html data-disable-sticky="${h.stickyPositioningDisabled}">
++<html lang="${request2.getLocale().toLanguageTag()}" data-disable-sticky="${h.stickyPositioningDisabled}">
+   <head data-rooturl="${rootURL}" data-resurl="${resURL}" data-imagesurl="${imagesURL}" resURL="${resURL}"
+         data-extensions-available="${extensionsAvailable}"
+         data-crumb-header="${h.getCrumbRequestField()}" data-crumb-value="${h.getCrumb(request2)}"
+diff --git a/core/src/main/resources/lib/layout/main-panel.jelly b/core/src/main/resources/lib/layout/main-panel.jelly
+index a097d8d..6db58a6 100644
+--- a/core/src/main/resources/lib/layout/main-panel.jelly
++++ b/core/src/main/resources/lib/layout/main-panel.jelly
+@@ -32,7 +32,7 @@ THE SOFTWARE.
+   </st:documentation>
+ 
+   <j:if test="${mode=='main-panel'}">
+-    <div id="main-panel" class="app-main-panel
++    <main id="main-panel" class="app-main-panel
+               ${attrs.width eq 'wide' ? 'app-main-panel--wide' : ''}
+               ${attrs.width eq 'narrow' ? 'app-main-panel--narrow' : ''}">
+       <j:if test="${app.isQuietingDown()}">
+@@ -67,6 +67,6 @@ THE SOFTWARE.
+       <x:comment>&#10;start of main content ⇒&#10;</x:comment>
+       <d:invokeBody />
+       <x:comment>&#10;⇐ end of main content&#10;</x:comment>
+-    </div>
++    </main>
+   </j:if>
+ </j:jelly>
+diff --git a/core/src/main/resources/lib/layout/overflowButton.jelly b/core/src/main/resources/lib/layout/overflowButton.jelly
+index a411a11..187096f 100644
+--- a/core/src/main/resources/lib/layout/overflowButton.jelly
++++ b/core/src/main/resources/lib/layout/overflowButton.jelly
+@@ -53,9 +53,10 @@ THE SOFTWARE.
+ 
+   <button class="jenkins-button ${attrs.clazz}"
+           tooltip="${attrs.containsKey('tooltip') ? attrs.tooltip : '%More actions'}"
++          aria-label="${(attrs.text == null and attrs.html == null) ? (attrs.containsKey('tooltip') ? attrs.tooltip : '%More actions') : null}"
+           id="${attrs.id}"
+           data-testid="${attrs.containsKey('testId') ? attrs.testid  : attrs.containsKey('id') ? attrs.id : ''}"
+-          type="button" data-dropdown="true">
++          type="button" data-dropdown="true" aria-haspopup="true">
+     <j:choose>
+       <j:when test="${attrs.containsKey('icon')}">
+         <j:if test="${attrs.icon != null}">
+diff --git a/core/src/main/resources/lib/layout/search-bar.jelly b/core/src/main/resources/lib/layout/search-bar.jelly
+index 3af74e9..9734b6c 100644
+--- a/core/src/main/resources/lib/layout/search-bar.jelly
++++ b/core/src/main/resources/lib/layout/search-bar.jelly
+@@ -54,6 +54,7 @@ THE SOFTWARE.
+              id="${attrs.id}"
+              class="jenkins-input jenkins-search__input"
+              placeholder="${attrs.placeholder ?: '%Search'}"
++             aria-label="${attrs.placeholder ?: '%Search'}"
+              type="search"
+              autofocus="${attrs.autofocus == 'true' ? 'true' : null}"
+              autocomplete="off"
+diff --git a/core/src/main/resources/lib/layout/side-panel.jelly b/core/src/main/resources/lib/layout/side-panel.jelly
+index 6972c1e..a88e1dd 100644
+--- a/core/src/main/resources/lib/layout/side-panel.jelly
++++ b/core/src/main/resources/lib/layout/side-panel.jelly
+@@ -29,8 +29,8 @@ THE SOFTWARE.
+   </st:documentation>
+ 
+   <j:if test="${mode=='side-panel'}">
+-    <div id="side-panel" class="app-page-body__sidebar">
++    <aside id="side-panel" class="app-page-body__sidebar">
+       <d:invokeBody />
+-    </div>
++    </aside>
+   </j:if>
+ </j:jelly>
+diff --git a/src/main/js/components/dropdowns/jumplists.js b/src/main/js/components/dropdowns/jumplists.js
+index ddadec3..88b2351 100644
+--- a/src/main/js/components/dropdowns/jumplists.js
++++ b/src/main/js/components/dropdowns/jumplists.js
+@@ -13,6 +13,18 @@ function generateDropdownChevron(element) {
+   const dropdownChevron = document.createElement(isFirefox ? "span" : "button");
+   dropdownChevron.className = "jenkins-menu-dropdown-chevron";
+   dropdownChevron.dataset.href = element.href;
++  const linkText = element.textContent.trim();
++  dropdownChevron.setAttribute(
++    "aria-label",
++    linkText ? `${linkText} options` : "More options",
++  );
++  dropdownChevron.setAttribute("aria-haspopup", "true");
++  // The parent link already opens the same menu via keyboard; keeping the
++  // hidden chevron out of the tab order avoids focus on an invisible control.
++  dropdownChevron.setAttribute("tabindex", "-1");
++  if (isFirefox) {
++    dropdownChevron.setAttribute("role", "button");
++  }
+   dropdownChevron.addEventListener("click", (event) => {
+     event.preventDefault();
+   });
+diff --git a/src/main/js/components/dropdowns/utils.js b/src/main/js/components/dropdowns/utils.js
+index c584579..d3399ef 100644
+--- a/src/main/js/components/dropdowns/utils.js
++++ b/src/main/js/components/dropdowns/utils.js
+@@ -84,6 +84,8 @@ function generateDropdown(element, callback, immediate, options = {}) {
+ function generateDropdownItems(items, compact = false, context = "") {
+   const menuItems = document.createElement("div");
+   menuItems.classList.add("jenkins-dropdown");
++  menuItems.setAttribute("role", "navigation");
++  menuItems.setAttribute("aria-label", context || "Menu");
+   if (compact === true) {
+     menuItems.classList.add("jenkins-dropdown--compact");
+   }
+diff --git a/src/main/js/components/header/actions-touch.js b/src/main/js/components/header/actions-touch.js
+index d5f691e..c56cfbf 100644
+--- a/src/main/js/components/header/actions-touch.js
++++ b/src/main/js/components/header/actions-touch.js
+@@ -9,8 +9,14 @@ export default function updateActionsForTouch() {
+     // HTMLUnit doesn't register itself as supporting hover, thus the href is removed when it shouldn't be
+     if (isTouchDevice && !window.isRunAsTest) {
+       link.removeAttribute("href");
++      // Without an href the element loses its link role, which invalidates
++      // the aria-expanded attribute tippy manages on it.
++      link.setAttribute("role", "button");
+     } else {
+-      link.setAttribute("href", originalHref);
++      if (originalHref) {
++        link.setAttribute("href", originalHref);
++      }
++      link.removeAttribute("role");
+     }
+   }
+ }
+diff --git a/src/main/scss/abstracts/_theme.scss b/src/main/scss/abstracts/_theme.scss
+index b7ff9d1..e6dcb34 100644
+--- a/src/main/scss/abstracts/_theme.scss
++++ b/src/main/scss/abstracts/_theme.scss
+@@ -55,7 +55,7 @@ $semantics: (
+   --dark-grey: #4d545d;
+ 
+   // branding
+-  --secondary: oklch(from var(--black) 60% c h);
++  --secondary: oklch(from var(--black) 55% c h);
+   --focus-input-border: var(--accent-color);
+   --focus-input-glow: color-mix(in sRGB, var(--accent-color) 15%, transparent);
+ 
+@@ -117,7 +117,7 @@ $semantics: (
+   );
+   --alert-warning-text-color: color-mix(
+     in sRGB,
+-    var(--warning-color) 80%,
++    var(--warning-color) 65%,
+     var(--text-color)
+   );
+   --alert-warning-bg-color: color-mix(
+@@ -125,7 +125,7 @@ $semantics: (
+     var(--warning-color) 4%,
+     transparent
+   );
+-  --alert-danger-text-color: var(--error-color);
++  --alert-danger-text-color: oklch(from var(--error-color) 50% c h);
+   --alert-danger-bg-color: color-mix(
+     in sRGB,
+     var(--error-color) 4%,
+diff --git a/src/main/scss/base/_layout-commons.scss b/src/main/scss/base/_layout-commons.scss
+index ba653a9..e6bfb1d 100644
+--- a/src/main/scss/base/_layout-commons.scss
++++ b/src/main/scss/base/_layout-commons.scss
+@@ -55,6 +55,10 @@
+       .jenkins-card,
+       .pane-frame {
+         margin-inline: -0.5rem;
++
++        @media (width < 740px) {
++          margin-inline: 0;
++        }
+       }
+     }
+   }
+diff --git a/src/main/scss/components/_badges.scss b/src/main/scss/components/_badges.scss
+index 054a4c9..fc01246 100644
+--- a/src/main/scss/components/_badges.scss
++++ b/src/main/scss/components/_badges.scss
+@@ -5,6 +5,12 @@ button.jenkins-badge {
+   pointer-events: auto;
+ }
+ 
++// a:link (0,1,1) otherwise beats .jenkins-badge (0,1,0)
++a.jenkins-badge:link,
++a.jenkins-badge:visited {
++  color: oklch(from var(--color, var(--accent-color)) 50% c h);
++}
++
+ .jenkins-badge {
+   @include mixins.item;
+ 
+@@ -34,6 +40,7 @@ button.jenkins-badge {
+   align-items: center;
+   justify-content: center;
+   border-radius: 100px;
++  color: oklch(from var(--color, var(--accent-color)) 50% c h);
+   font-size: 0.6875rem;
+   font-weight: 400;
+   min-height: 20px;
+diff --git a/src/main/scss/components/_breadcrumbs.scss b/src/main/scss/components/_breadcrumbs.scss
+index 3e18a91..2e4d7b5 100644
+--- a/src/main/scss/components/_breadcrumbs.scss
++++ b/src/main/scss/components/_breadcrumbs.scss
+@@ -85,8 +85,8 @@
+ .jenkins-menu-dropdown-chevron {
+   position: absolute;
+   display: inline-block;
+-  width: 14px;
+-  height: 14px;
++  width: 24px;
++  height: 24px;
+   right: 0;
+   border: none;
+   outline: none;
+@@ -94,7 +94,7 @@
+   padding: 0;
+   transition: var(--standard-transition);
+   background: transparent;
+-  top: 4px;
++  top: -1px;
+ 
+   &:hover {
+     &::after {
+@@ -144,7 +144,7 @@
+     }
+ 
+     .jenkins-menu-dropdown-chevron {
+-      right: -22px;
++      right: -24px;
+ 
+       &::after {
+         opacity: 1;
+@@ -168,8 +168,16 @@
+       }
+     }
+ 
++    // The reveal chevron is only interactive while the row is hovered, open or
++    // focused: an invisible yet clickable target would sit under any overlay
++    // (e.g. an open dropdown) as a partially-obscured control.
++    .jenkins-menu-dropdown-chevron {
++      pointer-events: none;
++    }
++
+     &--open,
+-    &:hover {
++    &:hover,
++    &:focus-within {
+       & + a.jenkins-table__badge {
+         margin-left: -1.5rem !important;
+         transform: translateX(1.5rem);
+@@ -182,7 +190,7 @@
+ 
+       .jenkins-menu-dropdown-chevron {
+         pointer-events: all;
+-        right: -22px;
++        right: -24px;
+ 
+         &::after {
+           opacity: 0.5;
+diff --git a/src/main/scss/components/_notice.scss b/src/main/scss/components/_notice.scss
+index 6491b8b..72f07bf 100644
+--- a/src/main/scss/components/_notice.scss
++++ b/src/main/scss/components/_notice.scss
+@@ -1,4 +1,7 @@
+ .jenkins-notice {
++  // --button-background est clair : les liens y demandent un accent plus foncé.
++  --link-color: oklch(from var(--accent-color) 50% c h);
++
+   display: flex;
+   align-items: center;
+   justify-content: center;
+diff --git a/src/main/scss/components/_table.scss b/src/main/scss/components/_table.scss
+index 0f6b6f6..76ba4d7 100644
+--- a/src/main/scss/components/_table.scss
++++ b/src/main/scss/components/_table.scss
+@@ -163,9 +163,14 @@
+     display: inline-flex;
+   }
+ 
++  .sortheader {
++    align-items: center;
++    min-height: 24px;
++  }
++
+   &__link {
+     .jenkins-menu-dropdown-chevron {
+-      top: 0;
++      top: -5px;
+     }
+   }
+ 
+diff --git a/src/main/scss/form/_codemirror.scss b/src/main/scss/form/_codemirror.scss
+index 1f9ed23..d565ba3 100644
+--- a/src/main/scss/form/_codemirror.scss
++++ b/src/main/scss/form/_codemirror.scss
+@@ -62,11 +62,11 @@
+   }
+ 
+   .CodeMirror-matchingbracket {
+-    color: var(--green) !important;
++    color: oklch(from var(--green) 50% c h) !important;
+   }
+ 
+   .cm-keyword {
+-    color: var(--purple) !important;
++    color: oklch(from var(--purple) 55% c h) !important;
+   }
+ 
+   .cm-atom {
+@@ -74,7 +74,7 @@
+   }
+ 
+   .cm-number {
+-    color: var(--green) !important;
++    color: oklch(from var(--green) 50% c h) !important;
+   }
+ 
+   .cm-def {
+@@ -90,7 +90,7 @@
+   }
+ 
+   .cm-variable-3 {
+-    color: var(--green) !important;
++    color: oklch(from var(--green) 50% c h) !important;
+   }
+ 
+   .cm-operator {
+@@ -102,11 +102,11 @@
+   }
+ 
+   .cm-string {
+-    color: var(--green) !important;
++    color: oklch(from var(--green) 50% c h) !important;
+   }
+ 
+   .cm-string-2 {
+-    color: var(--orange) !important;
++    color: oklch(from var(--orange) 55% c h) !important;
+   }
+ 
+   .cm-meta {
+diff --git a/src/main/scss/form/_layout.scss b/src/main/scss/form/_layout.scss
+index 2f07474..099bd23 100644
+--- a/src/main/scss/form/_layout.scss
++++ b/src/main/scss/form/_layout.scss
+@@ -132,6 +132,8 @@
+   display: inline-flex;
+   justify-content: center;
+   align-items: center;
++  min-width: 24px;
++  min-height: 24px;
+   margin-left: 1ch;
+   border-radius: 100%;
+ 
+diff --git a/src/main/scss/form/_validation.scss b/src/main/scss/form/_validation.scss
+index 5524b86..3db4827 100644
+--- a/src/main/scss/form/_validation.scss
++++ b/src/main/scss/form/_validation.scss
+@@ -51,7 +51,7 @@
+ }
+ 
+ .error {
+-  color: var(--red);
++  color: oklch(from var(--red) 50% c h);
+ 
+   &::before {
+     mask-image: url("../images/svgs/mask-validation__error.svg");
+@@ -59,12 +59,12 @@
+ }
+ 
+ .error-inline {
+-  color: var(--red);
++  color: oklch(from var(--red) 50% c h);
+   font-weight: var(--font-bold-weight);
+ }
+ 
+ .warning {
+-  color: var(--orange);
++  color: oklch(from var(--orange) 55% c h);
+ 
+   &::before {
+     mask-image: url("../images/svgs/mask-validation__warning.svg");
+@@ -72,7 +72,7 @@
+ }
+ 
+ .warning-inline {
+-  color: var(--orange);
++  color: oklch(from var(--orange) 55% c h);
+   font-weight: var(--font-bold-weight);
+ }
+ 
+diff --git a/src/main/scss/pages/_job.scss b/src/main/scss/pages/_job.scss
+index 44b9ee0..80fd303 100644
+--- a/src/main/scss/pages/_job.scss
++++ b/src/main/scss/pages/_job.scss
+@@ -440,3 +440,10 @@
+     }
+   }
+ }
++
++// Keep the permalinks hit area at or above the 24px target-size minimum
++.permalink-item .permalink-link {
++  display: inline-flex;
++  align-items: center;
++  min-height: 24px;
++}
+diff --git a/src/main/scss/pages/_log-recorder.scss b/src/main/scss/pages/_log-recorder.scss
+index 2e1933d..5b4c171 100644
+--- a/src/main/scss/pages/_log-recorder.scss
++++ b/src/main/scss/pages/_log-recorder.scss
+@@ -33,7 +33,7 @@
+ }
+ 
+ .logrecord-metadata-new {
+-  color: var(--green);
++  color: oklch(from var(--green) 50% c h);
+ }
+ 
+ .logrecord-metadata-old {
+diff --git a/war/src/main/webapp/scripts/hudson-behavior.js b/war/src/main/webapp/scripts/hudson-behavior.js
+index a0cbee0..8e0d2ee 100644
+--- a/war/src/main/webapp/scripts/hudson-behavior.js
++++ b/war/src/main/webapp/scripts/hudson-behavior.js
+@@ -1341,7 +1341,32 @@ function rowvgStartEachRow(recursive, f) {
+     "label-attach-previous",
+     ++p,
+     function (e) {
+-      e.onclick = labelAttachPreviousOnClick;
++      // Associate the label with the preceding control so it provides an
++      // accessible name; ids are assigned at apply time, so repeated chunks
++      // each get their own association.
++      var control = e.previousElementSibling;
++      while (control != null) {
++        if (control.classList.contains("jenkins-radio")) {
++          control = control.querySelector("input");
++        }
++        if (control.tagName == "INPUT") {
++          break;
++        }
++        control = control.previousElementSibling;
++      }
++      if (control != null && control.tagName == "INPUT") {
++        if (!control.id) {
++          control.id = "cb" + iota++;
++        }
++        if (e.htmlFor !== control.id) {
++          // a stale 'for' attribute (e.g. copied by repeatable) can point at
++          // another copy's control — relink to this label's own control
++          e.htmlFor = control.id;
++        }
++      }
++      if (!e.htmlFor) {
++        e.onclick = labelAttachPreviousOnClick;
++      }
+     },
+   );
+ 
+@@ -1428,14 +1453,14 @@ function rowvgStartEachRow(recursive, f) {
+     ++p,
+     function (e) {
+       e.onclick = helpButtonOnClick;
+-      e.tabIndex = 9999; // make help link unnavigable from keyboard
++      e.tabIndex = -1; // keep the help link out of the keyboard tab order
+     },
+   );
+ 
+   // legacy class name
+   Behaviour.specify("A.help-button", "a-help-button", ++p, function (e) {
+     e.onclick = helpButtonOnClick;
+-    e.tabIndex = 9999; // make help link unnavigable from keyboard
++    e.tabIndex = -1; // keep the help link out of the keyboard tab order
+   });
+ 
+   // Script Console : settings and shortcut key
+@@ -1586,7 +1611,10 @@ function rowvgStartEachRow(recursive, f) {
+       var checkbox = e.querySelector("input[type='checkbox']");
+ 
+       // Set start.ref to checkbox in preparation of row-set-end processing
+-      e.setAttribute("ref", (checkbox.id = "cb" + iota++));
++      if (!checkbox.id) {
++        checkbox.id = "cb" + iota++;
++      }
++      e.setAttribute("ref", checkbox.id);
+     },
+   );
+ 
+@@ -1948,6 +1976,42 @@ function rowvgStartEachRow(recursive, f) {
+       label.appendChild(spanTag);
+     },
+   );
++
++  // Associate form controls with their visible label.
++  // <f:entry> renders the field title as a .jenkins-form-label <div>, which
++  // does not provide an accessible name to the nested control. Link the two
++  // via aria-labelledby so assistive technologies announce the field title.
++  Behaviour.specify(
++    ".jenkins-form-item input, .jenkins-form-item select, .jenkins-form-item textarea",
++    "associate-form-label",
++    ++p,
++    function (e) {
++      if (
++        e.type === "hidden" ||
++        (e.labels && e.labels.length > 0) ||
++        e.getAttribute("aria-label") ||
++        e.getAttribute("aria-labelledby")
++      ) {
++        return;
++      }
++      var item = e.closest(".jenkins-form-item");
++      if (item === null) {
++        return;
++      }
++      var label = item.querySelector(":scope > .jenkins-form-label");
++      if (label === null) {
++        return;
++      }
++      var labelText = label.querySelector(
++        ":scope > .jenkins-form-label__text",
++      );
++      var labelledElement = labelText === null ? label : labelText;
++      if (!labelledElement.id) {
++        labelledElement.id = "form-label-" + iota++;
++      }
++      e.setAttribute("aria-labelledby", labelledElement.id);
++    },
++  );
+ })();
+ 
+ var hudsonRules = {}; // legacy name

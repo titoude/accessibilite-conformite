@@ -1,0 +1,114 @@
+{
+  "runId": "63c94adf-05ef-468a-90bb-82fb47d5694b",
+  "runnerVersion": "audit.mjs v6-jenkins",
+  "axeVersion": "4.14.0",
+  "generatedAt": "2026-10-07T23:22:09.651Z",
+  "baseUrl": "http://localhost:6042",
+  "pages": [
+    {
+      "url": "http://localhost:6042/login",
+      "requestedUrl": "http://localhost:6042/login",
+      "violations": [
+        {
+          "id": "region",
+          "impact": "moderate",
+          "tags": [
+            "cat.keyboard",
+            "best-practice",
+            "RGAAv4",
+            "RGAA-9.2.1"
+          ],
+          "description": "Ensure all page content is contained by landmarks",
+          "help": "All page content should be contained by landmarks",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "region",
+                  "data": {
+                    "isIframe": false
+                  },
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Some page content is not contained by landmarks"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<div class=\"app-branding app-sign-in-register__branding\"><div class=\"app-branding__conic\"><img src=\"/static/3a4e7af2/images/svgs/logo.svg\" alt=\"Jenkins illustration\"></div></div>",
+              "target": [
+                ".app-branding"
+              ],
+              "failureSummary": "Fix any of the following:\n  Some page content is not contained by landmarks"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fontSize": "11.3pt (15px)",
+                    "fontWeight": "normal",
+                    "messageKey": "pseudoContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"submit\" name=\"Submit\" class=\"jenkins-button jenkins-button--primary\">Sign in</button>",
+                      "target": [
+                        "button"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined due to a pseudo element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"submit\" name=\"Submit\" class=\"jenkins-button jenkins-button--primary\">Sign in</button>",
+              "target": [
+                "button"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined due to a pseudo element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:6042/login",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "66a1c7a4ae16bf6f00a9d10d5e71aa259595154d2eaab8f1cd23883e23af73df"
+}
