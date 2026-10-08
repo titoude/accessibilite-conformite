@@ -6,13 +6,22 @@
  * Usage: node verify.mjs <baseUrl> [auth.json]
  */
 import { createRequire } from 'node:module';
-import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
+const HERE = dirname(fileURLToPath(import.meta.url));
 
 const base = process.argv[2]?.replace(/\/$/, '');
 const authPath = process.argv[3] || 'auth.json';
 if (!base) { console.error('usage: node verify.mjs <baseUrl> [auth.json]'); process.exit(2); }
+
+// Ids du seed : seed-info.json à côté du script — sert de REPLI uniquement.
+// La source primaire est l'app elle-même (leçon 44/46 : un seed-info périmé
+// ne doit pas casser le rejeu, juste être signalé).
+let SEED = {};
+try { SEED = JSON.parse(readFileSync(new URL('./seed-info.json', import.meta.url), 'utf8')); } catch { /* non résolu */ }
 
 const results = [];
 const ok = (name, cond, extra = '') => { results.push({ name, pass: !!cond }); if (!cond) console.error(`  FAIL ${name} ${extra}`); return cond; };
@@ -134,23 +143,42 @@ const dlOk = await ap.evaluate(() => {
 });
 ok('dlitem my-account: dt/dd dans <dl>', dlOk);
 
-// Fix button-name : more-dropdown des épisodes labellisés
-await ap.goto(`${base}/cp-admin/podcasts/4/episodes`, { waitUntil: 'domcontentloaded' });
-const more = await ap.evaluate(() => {
-    const bs = [...document.querySelectorAll('button[id^="more-dropdown-"]')];
-    return { n: bs.length, unnamed: bs.filter(b => !__c50.accName(b)).length };
+// Fix button-name : more-dropdown des épisodes labellisés.
+// Résolution DYNAMIQUE de l'id podcast (F4/leçon 44-46) : la liste admin des
+// podcasts fournit le vrai id de l'instance scannée ; repli seed-info.json ;
+// ni l'un ni l'autre → FAIL nommé, jamais d'id durcodé.
+await ap.goto(`${base}/cp-admin/podcasts`, { waitUntil: 'domcontentloaded' });
+await ap.waitForSelector('header nav, main', { timeout: 25000 });
+let podId = await ap.evaluate(() => {
+    // La carte du podcast banc s'appelle « Audit Waves » (@auditwaves) — on la
+    // préfère ; sinon premier id numérique trouvé.
+    const links = [...document.querySelectorAll('a[href*="/cp-admin/podcasts/"]')];
+    const idOf = a => (a?.getAttribute('href') || '').match(/\/cp-admin\/podcasts\/(\d+)/)?.[1] || null;
+    const bench = links.find(a => /audit waves/i.test(a.closest('div,article,li')?.innerText || a.innerText || ''));
+    return idOf(bench || links[0]) || null;
 });
-ok('button-name: more-dropdown nommés', more.n > 0 && more.unnamed === 0, `${more.n} boutons, ${more.unnamed} sans nom`);
+if (!podId && SEED?.podcast?.id) podId = String(SEED.podcast.id);
+if (!podId) {
+    ok('button-name: more-dropdown nommés', false, 'podcast id non résolu (liste admin vide ET seed-info.json absent) — rejouer gen-urls.sh ?');
+    na('publication pill', 'podcast non résolu');
+} else {
+    await ap.goto(`${base}/cp-admin/podcasts/${podId}/episodes`, { waitUntil: 'domcontentloaded' });
+    const more = await ap.evaluate(() => {
+        const bs = [...document.querySelectorAll('button[id^="more-dropdown-"]')];
+        return { n: bs.length, unnamed: bs.filter(b => !__c50.accName(b)).length };
+    });
+    ok('button-name: more-dropdown nommés', more.n > 0 && more.unnamed === 0, `${more.n} boutons, ${more.unnamed} sans nom (podcast=${podId})`);
 
-// Fix publication_pill : contraste texte/fond >= 4.5
-const pill = await ap.evaluate(() => {
-    const s = [...document.querySelectorAll('span')].find(e => /Scheduled|Published/.test(e.textContent) && e.className.includes('border'));
-    if (!s) return null;
-    const f = __c50.fg(s), bg = __c50.effBg(s);
-    return +__c50.ratio(__c50.lum(f), __c50.lum(bg)).toFixed(2);
-});
-if (pill === null) na('publication pill', 'aucun badge affiché');
-else ok('publication pill: contraste >= 4.5', pill >= 4.5, `mesuré ${pill}`);
+    // Fix publication_pill : contraste texte/fond >= 4.5
+    const pill = await ap.evaluate(() => {
+        const s = [...document.querySelectorAll('span')].find(e => /Scheduled|Published/.test(e.textContent) && e.className.includes('border'));
+        if (!s) return null;
+        const f = __c50.fg(s), bg = __c50.effBg(s);
+        return +__c50.ratio(__c50.lum(f), __c50.lum(bg)).toFixed(2);
+    });
+    if (pill === null) na('publication pill', 'aucun badge affiché');
+    else ok('publication pill: contraste >= 4.5', pill >= 4.5, `mesuré ${pill}`);
+}
 
 // Fix Tooltip : describedby + tooltip dans un landmark + nom conservé
 await ap.goto(`${base}/cp-admin/settings`, { waitUntil: 'domcontentloaded' });

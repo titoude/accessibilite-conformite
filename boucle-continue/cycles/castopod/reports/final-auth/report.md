@@ -1,16 +1,16 @@
 # Audit accessibilité — 2026-10-08
 
-**0 règle(s) violée(s), 0 occurrence(s), 25/25 scénario(s) audité(s), 0 erreur(s), 194 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 25/25 scénario(s) audité(s), 0 erreur(s), 127 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `d57e1df8a5bd`
+Périmètre : scope.json — hash `7c1780ccd359`
 
-## Résultats incomplets à revoir (194)
+## Résultats incomplets à revoir (127)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
 ### color-contrast — Elements must meet minimum color contrast ratio thresholds
 
-- http://localhost:9170/cp-admin
+- http://localhost:9160/cp-admin
   - `h1`
   - `g[transform="translate(63,398)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,348.25)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
@@ -21,28 +21,28 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,0)"][fill="#000000"] > g[transform="translate(-53,-10)"] > text[x="0"] > tspan`
-  - … +8 autres
-- http://localhost:9170/cp-admin/settings
+  - … +1 autres
+- http://localhost:9160/cp-admin/settings
   - `h1`
   - `form[action="/cp-admin/settings/instance"] > fieldset > legend`
   - `.max-w-xl.gap-y-4:nth-child(2) > fieldset > legend`
   - `.max-w-xl.gap-y-4:nth-child(3) > fieldset > legend`
-- http://localhost:9170/cp-admin/settings/theme
+- http://localhost:9160/cp-admin/settings/theme
   - `h1`
   - `legend`
-- http://localhost:9170/cp-admin/persons
+- http://localhost:9160/cp-admin/persons
   - `h1`
   - `h2`
-- http://localhost:9170/cp-admin/persons/new
+- http://localhost:9160/cp-admin/persons/new
   - `h1`
-- http://localhost:9170/cp-admin/persons/1
+- http://localhost:9160/cp-admin/persons/1
   - `h1`
-- http://localhost:9170/cp-admin/persons/1/edit
+- http://localhost:9160/cp-admin/persons/1/edit
   - `h1`
-- http://localhost:9170/cp-admin/podcasts
+- http://localhost:9160/cp-admin/podcasts
   - `h1`
   - `h2`
-- http://localhost:9170/cp-admin/podcasts/new
+- http://localhost:9160/cp-admin/podcasts/new
   - `h1`
   - `.p-8.rounded-xl.items-start:nth-child(2) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl.items-start:nth-child(3) > .float-left.z-10.font-bold`
@@ -53,19 +53,19 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.p-8.rounded-xl.items-start:nth-child(8) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl.items-start:nth-child(9) > .float-left.z-10.font-bold`
   - `xml-editor,.cm-lineNumbers > .cm-activeLineGutter.cm-gutterElement`
-- http://localhost:9170/cp-admin/podcasts/4
+- http://localhost:9160/cp-admin/podcasts/1
   - `h1`
   - `h2`
   - `.text-red-800`
   - `abbr[title="Episode 04"]`
   - `article:nth-child(1) > .justify-end.group.text-white > .z-20.items-start.py-2 > .leading-tight.line-clamp-2`
-  - `span[title="2026-10-07 09:33:11"]`
+  - `span[title="2026-10-07 11:40:12"]`
   - `abbr[title="Episode 03"]`
   - `article:nth-child(2) > .justify-end.group.text-white > .z-20.items-start.py-2 > .leading-tight.line-clamp-2`
-  - `span[title="2026-10-03 09:33:11"]`
+  - `span[title="2026-10-03 11:40:12"]`
   - `abbr[title="Episode 02"]`
   - … +4 autres
-- http://localhost:9170/cp-admin/podcasts/4/edit
+- http://localhost:9160/cp-admin/podcasts/1/edit
   - `h1`
   - `.p-8.rounded-xl:nth-child(1) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl:nth-child(2) > .float-left.z-10.font-bold`
@@ -76,28 +76,18 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.p-8.rounded-xl:nth-child(7) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl:nth-child(8) > .float-left.z-10.font-bold`
   - `xml-editor,.cm-lineNumbers > .cm-activeLineGutter.cm-gutterElement`
-- http://localhost:9170/cp-admin/podcasts/4/persons
+- http://localhost:9160/cp-admin/podcasts/1/persons
   - `h1`
   - `legend`
-- http://localhost:9170/cp-admin/podcasts/4/analytics
+- http://localhost:9160/cp-admin/podcasts/1/analytics
   - `h1`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,398)"][fill="#000000"] > g[transform="translate(-20,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,331.667)"][fill="#000000"] > g[transform="translate(-20,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,265.333)"][fill="#000000"] > g[transform="translate(-27,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,199)"][fill="#000000"]:nth-child(7) > g[transform="translate(-24,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,132.667)"][fill="#000000"] > g[transform="translate(-26,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,66.333)"][fill="#000000"] > g[transform="translate(-27,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,0)"][fill="#000000"] > g[transform="translate(-27,-10)"] > text[x="0"] > tspan`
-  - `g[transform="translate(180.5,0)"][fill="#000000"] > g[transform="translate(-26.5,10)"] > text[x="0"] > tspan`
-  - `#id-171 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,398)"][fill="#000000"] > g[transform="translate(-20,-10)"] > text[x="0"] > tspan`
-  - … +14 autres
-- http://localhost:9170/cp-admin/podcasts/4/episodes
+- http://localhost:9160/cp-admin/podcasts/1/episodes
   - `h1`
   - `.border-t.hover\:bg-base:nth-child(1) > td:nth-child(1) > .gap-x-2.flex > .flex-shrink-0 > time`
   - `.border-t.hover\:bg-base:nth-child(2) > td:nth-child(1) > .gap-x-2.flex > .flex-shrink-0 > time`
   - `.border-t.hover\:bg-base:nth-child(3) > td:nth-child(1) > .gap-x-2.flex > .flex-shrink-0 > time`
   - `.border-t.hover\:bg-base:nth-child(4) > td:nth-child(1) > .gap-x-2.flex > .flex-shrink-0 > time`
-- http://localhost:9170/cp-admin/podcasts/4/episodes/new
+- http://localhost:9160/cp-admin/podcasts/1/episodes/new
   - `h1`
   - `.p-8.rounded-xl.border-subtle:nth-child(2) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl.border-subtle:nth-child(3) > .float-left.z-10.font-bold`
@@ -106,19 +96,9 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.p-8.rounded-xl.border-subtle:nth-child(6) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl.border-subtle:nth-child(7) > .float-left.z-10.font-bold`
   - `xml-editor,.cm-lineNumbers > .cm-activeLineGutter.cm-gutterElement`
-- http://localhost:9170/cp-admin/podcasts/4/episodes/7
+- http://localhost:9160/cp-admin/podcasts/1/episodes/1
   - `h1`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,398)"][fill="#000000"] > g[transform="translate(-20,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,331.667)"][fill="#000000"] > g[transform="translate(-20,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,265.333)"][fill="#000000"] > g[transform="translate(-27,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,199)"][fill="#000000"]:nth-child(7) > g[transform="translate(-24,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,132.667)"][fill="#000000"] > g[transform="translate(-26,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,66.333)"][fill="#000000"] > g[transform="translate(-27,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,0)"][fill="#000000"] > g[transform="translate(-27,-10)"] > text[x="0"] > tspan`
-  - `g[transform="translate(180.5,0)"][fill="#000000"] > g[transform="translate(-26.5,10)"] > text[x="0"] > tspan`
-  - `#id-171 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(37,398)"][fill="#000000"] > g[transform="translate(-20,-10)"] > text[x="0"] > tspan`
-  - … +7 autres
-- http://localhost:9170/cp-admin/podcasts/4/episodes/7/edit
+- http://localhost:9160/cp-admin/podcasts/1/episodes/1/edit
   - `h1`
   - `.p-8.rounded-xl.items-start:nth-child(2) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl.items-start:nth-child(3) > .float-left.z-10.font-bold`
@@ -127,17 +107,17 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.p-8.rounded-xl.items-start:nth-child(6) > .float-left.z-10.font-bold`
   - `.p-8.rounded-xl.items-start:nth-child(7) > .float-left.z-10.font-bold`
   - `xml-editor,.cm-lineNumbers > .cm-activeLineGutter.cm-gutterElement`
-- http://localhost:9170/cp-admin/pages
+- http://localhost:9160/cp-admin/pages
   - `h1`
-- http://localhost:9170/cp-admin/pages/new
+- http://localhost:9160/cp-admin/pages/new
   - `h1`
-- http://localhost:9170/cp-admin/pages/1/edit
+- http://localhost:9160/cp-admin/pages/1/edit
   - `h1`
-- http://localhost:9170/cp-admin/fediverse/blocked-actors
+- http://localhost:9160/cp-admin/fediverse/blocked-actors
   - `h1`
-- http://localhost:9170/cp-admin/my-account
+- http://localhost:9160/cp-admin/my-account
   - `h1`
-- http://localhost:9170/cp-admin [state:nav-account-menu]
+- http://localhost:9160/cp-admin [state:nav-account-menu]
   - `h1`
   - `g[transform="translate(63,398)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,348.25)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
@@ -148,8 +128,8 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,0)"][fill="#000000"] > g[transform="translate(-53,-10)"] > text[x="0"] > tspan`
-  - … +8 autres
-- http://localhost:9170/cp-admin [state:nav-notifications-menu]
+  - … +1 autres
+- http://localhost:9160/cp-admin [state:nav-notifications-menu]
   - `#tooltip0`
   - `h1`
   - `g[transform="translate(63,398)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
@@ -160,8 +140,8 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,149.25)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
-  - … +9 autres
-- http://localhost:9170/cp-admin [state:admin-mobile-390]
+  - … +2 autres
+- http://localhost:9160/cp-admin [state:admin-mobile-390]
   - `footer`
   - `h1`
   - `g[transform="translate(63,398)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
@@ -172,15 +152,15 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,149.25)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
-  - … +9 autres
+  - … +2 autres
 
 ### aria-required-children — Certain ARIA roles must contain particular children
 
-- http://localhost:9170/cp-admin/podcasts/new
+- http://localhost:9160/cp-admin/podcasts/new
   - `.choices__list--multiple`
-- http://localhost:9170/cp-admin/podcasts/4/edit
+- http://localhost:9160/cp-admin/podcasts/1/edit
   - `.choices__list--multiple`
-- http://localhost:9170/cp-admin/podcasts/4/persons
+- http://localhost:9160/cp-admin/podcasts/1/persons
   - `.flex-col.flex:nth-child(1) > .mt-1.w-full > .choices[data-type="select-multiple"][role="combobox"] > .choices__inner > .choices__list--multiple.choices__list[role="listbox"]`
   - `.flex-col.flex:nth-child(2) > .mt-1.w-full > .choices[data-type="select-multiple"][role="combobox"] > .choices__inner > .choices__list--multiple.choices__list[role="listbox"]`
 

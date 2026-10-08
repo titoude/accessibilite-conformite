@@ -1,22 +1,23 @@
 {
-  "runId": "5c82829d-34fd-4cdc-a8e2-94fc54799994",
-  "runnerVersion": "audit.mjs v11-c50",
-  "generatedAt": "2026-10-08T10:49:59.786Z",
+  "runId": "fb9b2847-f0eb-4b3f-9666-e8846a03ed17",
+  "runnerVersion": "audit.mjs v12-c50",
+  "generatedAt": "2026-10-08T11:59:14.624Z",
   "baseUrl": "http://localhost:9180",
   "depth": 1,
   "maxPages": 50,
   "statesRequested": [
-    "public-sidebar-390"
+    "public-sidebar-390",
+    "route-404"
   ],
   "wait": 0,
   "waitFor": null,
   "storageState": false,
-  "total": 10,
-  "audited": 10,
+  "total": 11,
+  "audited": 11,
   "errored": 0,
   "crawlErrors": [],
-  "scopeHash": "b8635c67977c68d5bd183ea9d4f5623ce98da7e3593406b49e096802b11616f8",
-  "statesHash": "61cea87ef382399b464dcc438fc2553432fe7b26f6c2e790cf22f50a6a835ce8",
+  "scopeHash": "42676645da294caf75d1977a2be7593b3e045d64ef63bc075f188d625feb7874",
+  "statesHash": "c9079e908896d80e9672cd35f793d2be0ed535a3a02842bd9fd3c0e1caf5cbee",
   "scenarios": [
     {
       "id": "http://localhost:9180/@auditwaves",
@@ -77,6 +78,12 @@
       "status": "audited",
       "httpStatus": 200,
       "finalUrl": "http://localhost:9180/@auditwaves"
+    },
+    {
+      "id": "http://localhost:9180/@auditwaves/chemin-inexistant [state:route-404]",
+      "status": "audited",
+      "httpStatus": 404,
+      "finalUrl": "http://localhost:9180/@auditwaves/chemin-inexistant"
     }
   ]
 }

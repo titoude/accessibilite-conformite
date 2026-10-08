@@ -17,6 +17,7 @@ import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { STATES } from './audit.mjs';
 const HERE = dirname(fileURLToPath(import.meta.url));
 const require = createRequire(resolve(HERE, 'package.json'));
 const { chromium } = require('playwright');
@@ -74,11 +75,21 @@ for (const dir of reports) {
     for (const p of rep.pages) {
         const url = p.url;
         const pg = authUrls.some(a => url.includes(a)) ? admPage : pubPage;
-        const state = p.state; // état rejouable si présent
+        // F5 : les scénarios d'état portent leur nom dans le label « ... [state:nom] »,
+        // pas dans p.state. Sans décodage + rejeu du setup, les nœuds incomplets des
+        // états (menus ouverts, sidebars 390) tombaient tous en « sélecteur non
+        // résolu » — des N-A d'outil, pas honnêtes.
+        const sm = url.match(/^(.*) \[state:([^\]]+)\]$/);
+        const pageUrl = sm ? sm[1] : url;
+        const stateName = sm ? sm[2] : null;
         try {
-            await pg.goto(url, { waitUntil: 'domcontentloaded' });
+            await pg.goto(pageUrl, { waitUntil: 'domcontentloaded' });
             await pg.waitForTimeout(1200);
-            if (state && state.setup) { try { await pg.evaluate(state.setup); } catch {} if (state.openAction) { try { await pg.evaluate(state.openAction); } catch {} } }
+            if (stateName && STATES[stateName]) {
+                try { await STATES[stateName].setup(pg); } catch (e) { push('nav', url, '-', 'N-A', `setup état '${stateName}' échoué: ${String(e).slice(0, 80)}`); continue; }
+            } else if (stateName) {
+                push('nav', url, '-', 'N-A', `état '${stateName}' inconnu de STATES`); continue;
+            }
             await pg.waitForTimeout(500);
         } catch (e) { push('nav', url, '-', 'N-A', `goto échoué: ${String(e).slice(0, 80)}`); continue; }
 

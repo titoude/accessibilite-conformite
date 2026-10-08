@@ -1,8 +1,8 @@
 # Audit accessibilité — 2026-10-08
 
-**0 règle(s) violée(s), 0 occurrence(s), 10/10 scénario(s) audité(s), 0 erreur(s), 28 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 11/11 scénario(s) audité(s), 0 erreur(s), 28 résultat(s) incomplet(s).**
 
-Périmètre : scope.json — hash `b8635c67977c`
+Périmètre : scope.json — hash `42676645da29`
 
 ## Résultats incomplets à revoir (28)
 

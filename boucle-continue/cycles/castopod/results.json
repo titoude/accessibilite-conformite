@@ -4,91 +4,117 @@
  "statut_execution": "complet",
  "baseline": {
   "public": {
-   "scenarios": 10,
-   "violations_occ": 23,
+   "scenarios": 11,
+   "audited": 11,
+   "violations_occ": 28,
    "violations_regles": 6,
    "erreurs": 0,
+   "erreurs_liste": [],
    "incomplets": 23,
    "detail": {
-    "region": 7,
-    "color-contrast": 6,
+    "color-contrast": 7,
     "landmark-unique": 5,
-    "landmark-one-main": 2,
-    "target-size": 2,
-    "label-content-name-mismatch": 1
+    "label-content-name-mismatch": 1,
+    "region": 10,
+    "landmark-one-main": 3,
+    "target-size": 2
    }
   },
   "auth": {
    "scenarios": 25,
-   "violations_occ": 212,
+   "audited": 25,
+   "violations_occ": 313,
    "violations_regles": 11,
    "erreurs": 0,
-   "incomplets": 114,
+   "erreurs_liste": [],
+   "incomplets": 141,
    "detail": {
-    "nested-interactive": 72,
-    "target-size": 64,
-    "color-contrast": 23,
-    "image-alt": 18,
-    "link-name": 16,
+    "image-alt": 27,
+    "landmark-unique": 8,
+    "link-name": 25,
+    "nested-interactive": 95,
+    "target-size": 82,
+    "color-contrast": 54,
+    "image-redundant-alt": 3,
+    "aria-input-field-name": 4,
+    "button-name": 6,
     "dlitem": 8,
-    "landmark-unique": 6,
-    "button-name": 2,
-    "region": 1,
-    "image-redundant-alt": 1,
-    "aria-input-field-name": 1
+    "region": 1
    }
   },
-  "total_occ": 235,
-  "total_regles": 14,
-  "note": "route-404 : réponse JSON de l'API — exclusion documentée dans scope (expectHttp:404), scénario conservé et listé, pas de skip silencieux (leçon 45)"
+  "total_occ": 341,
+  "total_regles": 13,
+  "note": "FIXER : baseline complète rejouée sur scope plein (F1) — podcast_id résolu dynamiquement par tools/gen-urls.sh (leçon 44), /cp-admin/fediverse/blocked-actors (URL réelle — /cp-admin/fediverse redirige), route-404 réellement scannée (F3 : page HTML 404 CI4 négociée par Accept — la garde d'hydratation la rejetait ; bypass expectHttp). Les erreurs de scénarios sont listées nominativement dans erreurs_liste (leçon 45). Ancien artefact : 235 occ sur scope troué (8 pages podcast + fediverse non baselinées)."
  },
  "final": {
   "public": {
+   "scenarios": 11,
+   "audited": 11,
    "violations_occ": 0,
    "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 28
+   "erreurs_liste": [],
+   "incomplets": 28,
+   "detail": {}
   },
   "auth": {
+   "scenarios": 25,
+   "audited": 25,
    "violations_occ": 0,
    "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 194
+   "erreurs_liste": [],
+   "incomplets": 127,
+   "detail": {}
   },
-  "note": "incomplets = nœuds axe (color-contrast sur dégradés/fond indécidable) — chacun mesuré par incomplete-probes.mjs"
+  "note": "0 violation / 0 erreur sur 36 scénarios (dont route-404 — <main> ajouté à error_404.php, page jamais scannée avant F3). incomplets = nœuds axe (color-contrast sur dégradés/fond indécidable) — chacun mesuré par incomplete-probes.mjs.",
+  "total_occ": 0,
+  "total_regles": 0
  },
  "install_build_verbatim": {
-  "checkout": "clone propre @12720055b475 + git apply --check patch.diff (0 rejet) + composer install + pnpm build + boot.sh :9180/:9181 -i + seed.sh -i + login",
+  "checkout": "clone propre @12720055b475 + git apply --check patch.diff a794bcd8 (0 rejet) + composer install + pnpm build + boot.sh :9180/:9181 -i + seed.sh -i + login",
   "public": {
+   "scenarios": 11,
+   "audited": 11,
    "violations_occ": 0,
+   "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 28
+   "erreurs_liste": [],
+   "incomplets": 28,
+   "detail": {}
   },
   "auth": {
+   "scenarios": 25,
+   "audited": 25,
    "violations_occ": 0,
+   "violations_regles": 0,
    "erreurs": 0,
-   "incomplets": 199
+   "erreurs_liste": [],
+   "incomplets": 127,
+   "detail": {}
   },
-  "note": "urls-auth.resolved.txt régénéré par seed.sh avec ids réels du seed frais (podcast=1 episode=1 page=1) — leçon 44"
+  "note": "urls-auth.resolved.txt + seed-info.json produits par tools/gen-urls.sh sur la DB seedée (podcast=1 episode=1 page=1 person=1) — leçon 44/46",
+  "total_occ": 0,
+  "total_regles": 0
  },
- "verify_mjs": "20/20 assertions OK",
+ "verify_mjs": "20/20 assertions OK (podcast id résolu dynamiquement depuis /cp-admin/podcasts — F4, leçon 44)",
  "eval_final_mjs": "10/10 OK (2 N-A : skip-link absent du produit, aucune région live aria-live)",
  "sabotage": {
   "mutant": "git stash du fix 2.5.3 (themes/cp_app/podcast/episodes.php)",
   "resultat": "verify.mjs FAIL nommé : '2.5.3: bouton listes — pas d'aria-label divergent du texte aria-label=More texte=2026' (19/20)",
-  "vanilla_attendu": "FAIL attendus confirmés (baseline 235 occ)"
+  "vanilla_attendu": "FAIL attendus confirmés (baseline complète 341 occ)"
  },
  "incomplete_probes": {
-  "sondes": 243,
-  "conformes": 66,
+  "sondes": 155,
+  "conformes": 67,
   "non_conformes": 0,
-  "non_applicables": 177,
-  "detail": "texte-sur-image/scrim → N-A honnête (img-overlap) ; Choices.js listbox vide au repos → N-A ; 4 nœuds NON-CONFORME réels détectés (abbr/relative-time/time blanc/90 sur bg-accent-base/75 au-dessus de gradient cover = 1.07:1) → corrigés aux sources (bg-accent-base plein, ratio 5.4:1) puis 0 NC"
+  "non_applicables": 88,
+  "detail": "FIXER : les sondes rejouent désormais le setup des états via le label [state:nom] (F5) — 'sélecteur non résolu' 177→4. N-A restants honnêtes : 80 texte-sur-image/scrim (ratio non calculable sans échantillonnage pixel), 4 listbox Choices.js vide au repos, 4 sélecteurs non résolus."
  },
  "modifications": {
-  "fichiers": 30,
-  "insertions": 133,
-  "suppressions": 53,
+  "fichiers": 31,
+  "insertions": 145,
+  "suppressions": 63,
   "zones": [
    "resources/js/_modules/Tooltip.ts : aria-label sur éléments nommables sans texte visible (2.5.3), role=tooltip, ancrage dans landmark parent (region)",
    "resources/js/_modules/Dropdown.ts : fermeture Escape + refocus bouton",
@@ -101,7 +127,8 @@
    "app/Views/Components/Button.php : variante info blue-600/700",
    "themes/cp_admin : dl autour de _user_info dt/dd (dlitem), navs aria-label distinctes (landmark-unique), bouton more aria-label épisode/liste, alt='' cartes redondantes",
    "themes/cp_app : header bg-accent-base plein (était /75 sur gradient), fermeture </section>, navs py-2 + inline-flex (target-size), z-10 parasites retirés",
-   "modules/Admin/Language/en/Navigation.php : clés podcast/episode/main navigation (i18n résolues — leçon 43)"
+   "modules/Admin/Language/en/Navigation.php : clés podcast/episode/main navigation (i18n résolues — leçon 43)",
+   "app/Views/errors/html/error_404.php : contenu enveloppé dans <main> (landmark-one-main + region — page jamais scannée avant F3, fixer)"
   ]
  },
  "hors_patch": [

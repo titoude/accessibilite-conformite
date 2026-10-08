@@ -95,6 +95,40 @@ index c004ef2d..ec18ebe9 100644
                          </markdown-write-preview>
                          <markdown-toolbar for="{$this->id}" class="flex gap-4 px-2 py-1">{$toolbarContent}</markdown-toolbar>
                      </div>
+diff --git a/app/Views/errors/html/error_404.php b/app/Views/errors/html/error_404.php
+index 09390651..081d160c 100644
+--- a/app/Views/errors/html/error_404.php
++++ b/app/Views/errors/html/error_404.php
+@@ -13,17 +13,19 @@
+ 
+ <body class="flex flex-col items-center justify-center min-h-screen px-2 text-center bg-base theme-<?= service('settings')
+         ->get('App.theme') ?>">
+-    <?= svg('castopod-mascot_confused', 'h-64') ?>
+-    <h1 class="mt-4 text-3xl font-bold font-display md:text-4xl lg:text-5xl">404</h1>
++    <main class="flex flex-col items-center">
++        <?= svg('castopod-mascot_confused', 'h-64') ?>
++        <h1 class="mt-4 text-3xl font-bold font-display md:text-4xl lg:text-5xl">404</h1>
+ 
+-    <p class="mb-6 text-lg text-skin-muted md:text-xl lg:text-2xl">
+-        <?php if (isset($message) && $message !== '(null)'): ?>
+-            <?= esc($message) ?>
+-        <?php else: ?>
+-            <?= lang('Errors.sorryCannotFind') ?>
+-        <?php endif; ?>
+-    </p>
+-    <a href="<?= previous_url() ?>" class="inline-flex items-center justify-center px-3 py-1 text-sm font-semibold rounded-full shadow-xs text-accent-contrast focus:ring-accent md:px-4 md:py-2 md:text-base bg-accent-base hover:bg-accent-hover"><?= lang('Common.go_back') ?></a>
++        <p class="mb-6 text-lg text-skin-muted md:text-xl lg:text-2xl">
++            <?php if (isset($message) && $message !== '(null)'): ?>
++                <?= esc($message) ?>
++            <?php else: ?>
++                <?= lang('Errors.sorryCannotFind') ?>
++            <?php endif; ?>
++        </p>
++        <a href="<?= previous_url() ?>" class="inline-flex items-center justify-center px-3 py-1 text-sm font-semibold rounded-full shadow-xs text-accent-contrast focus:ring-accent md:px-4 md:py-2 md:text-base bg-accent-base hover:bg-accent-hover"><?= lang('Common.go_back') ?></a>
++    </main>
+ </body>
+ 
+ </html>
 diff --git a/modules/Admin/Language/en/Navigation.php b/modules/Admin/Language/en/Navigation.php
 index f3ffb129..b2e044f3 100644
 --- a/modules/Admin/Language/en/Navigation.php

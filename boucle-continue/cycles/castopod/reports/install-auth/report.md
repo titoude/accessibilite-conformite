@@ -1,10 +1,10 @@
 # Audit accessibilité — 2026-10-08
 
-**0 règle(s) violée(s), 0 occurrence(s), 25/25 scénario(s) audité(s), 0 erreur(s), 199 résultat(s) incomplet(s).**
+**0 règle(s) violée(s), 0 occurrence(s), 25/25 scénario(s) audité(s), 0 erreur(s), 127 résultat(s) incomplet(s).**
 
 Périmètre : scope.json — hash `d9f4257aac9f`
 
-## Résultats incomplets à revoir (199)
+## Résultats incomplets à revoir (127)
 
 axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
 
@@ -21,7 +21,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,0)"][fill="#000000"] > g[transform="translate(-53,-10)"] > text[x="0"] > tspan`
-  - … +9 autres
+  - … +1 autres
 - http://localhost:9180/cp-admin/settings
   - `h1`
   - `form[action="/cp-admin/settings/instance"] > fieldset > legend`
@@ -59,10 +59,10 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `.text-red-800`
   - `abbr[title="Episode 04"]`
   - `article:nth-child(1) > .justify-end.group.text-white > .z-20.items-start.py-2 > .leading-tight.line-clamp-2`
-  - `span[title="2026-10-07 10:48:36"]`
+  - `span[title="2026-10-07 11:58:44"]`
   - `abbr[title="Episode 03"]`
   - `article:nth-child(2) > .justify-end.group.text-white > .z-20.items-start.py-2 > .leading-tight.line-clamp-2`
-  - `span[title="2026-10-03 10:48:36"]`
+  - `span[title="2026-10-03 11:58:44"]`
   - `abbr[title="Episode 02"]`
   - … +4 autres
 - http://localhost:9180/cp-admin/podcasts/1/edit
@@ -81,16 +81,6 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `legend`
 - http://localhost:9180/cp-admin/podcasts/1/analytics
   - `h1`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,398)"][fill="#000000"] > g[transform="translate(-34,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,331.667)"][fill="#000000"] > g[transform="translate(-34,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,265.333)"][fill="#000000"] > g[transform="translate(-30,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,199)"][fill="#000000"]:nth-child(7) > g[transform="translate(-26,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,132.667)"][fill="#000000"] > g[transform="translate(-29,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,66.333)"][fill="#000000"] > g[transform="translate(-30,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,0)"][fill="#000000"] > g[transform="translate(-30,-10)"] > text[x="0"] > tspan`
-  - `g[transform="translate(177,0)"][fill="#000000"] > g[transform="translate(-26.5,10)"] > text[x="0"] > tspan`
-  - `#id-171 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,398)"][fill="#000000"] > g[transform="translate(-34,-10)"] > text[x="0"] > tspan`
-  - … +15 autres
 - http://localhost:9180/cp-admin/podcasts/1/episodes
   - `h1`
   - `.border-t.hover\:bg-base:nth-child(1) > td:nth-child(1) > .gap-x-2.flex > .flex-shrink-0 > time`
@@ -108,16 +98,6 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `xml-editor,.cm-lineNumbers > .cm-activeLineGutter.cm-gutterElement`
 - http://localhost:9180/cp-admin/podcasts/1/episodes/1
   - `h1`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,398)"][fill="#000000"] > g[transform="translate(-34,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,331.667)"][fill="#000000"] > g[transform="translate(-34,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,265.333)"][fill="#000000"] > g[transform="translate(-30,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,199)"][fill="#000000"]:nth-child(7) > g[transform="translate(-26,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,132.667)"][fill="#000000"] > g[transform="translate(-29,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,66.333)"][fill="#000000"] > g[transform="translate(-30,-10)"] > text[x="0"] > tspan`
-  - `#id-22 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,0)"][fill="#000000"] > g[transform="translate(-30,-10)"] > text[x="0"] > tspan`
-  - `g[transform="translate(177,0)"][fill="#000000"] > g[transform="translate(-26.5,10)"] > text[x="0"] > tspan`
-  - `#id-171 > g[transform="translate(15,15)"] > g > g > g > g > g[transform="translate(0,32)"] > g > g:nth-child(2) > g > g[aria-hidden="true"] > g > g[transform="translate(0,0)"] > g > g[transform="translate(44,398)"][fill="#000000"] > g[transform="translate(-34,-10)"] > text[x="0"] > tspan`
-  - … +7 autres
 - http://localhost:9180/cp-admin/podcasts/1/episodes/1/edit
   - `h1`
   - `.p-8.rounded-xl.items-start:nth-child(2) > .float-left.z-10.font-bold`
@@ -148,7 +128,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,0)"][fill="#000000"] > g[transform="translate(-53,-10)"] > text[x="0"] > tspan`
-  - … +9 autres
+  - … +1 autres
 - http://localhost:9180/cp-admin [state:nav-notifications-menu]
   - `#tooltip0`
   - `h1`
@@ -160,7 +140,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,149.25)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
-  - … +10 autres
+  - … +2 autres
 - http://localhost:9180/cp-admin [state:admin-mobile-390]
   - `footer`
   - `h1`
@@ -172,7 +152,7 @@ axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
   - `g[transform="translate(63,149.25)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,99.5)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
   - `g[transform="translate(63,49.75)"] > g[transform="translate(-50,-10)"] > text[x="0"] > tspan`
-  - … +10 autres
+  - … +2 autres
 
 ### aria-required-children — Certain ARIA roles must contain particular children
 

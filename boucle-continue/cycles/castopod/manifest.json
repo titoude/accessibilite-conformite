@@ -13,28 +13,29 @@
    "Écart image/SHA : AUCUN — pas d'image upstream utilisée ; le produit boote depuis les sources patchées du SHA (php spark serve) avec assets rebuildés",
    "Trois couches de cache castopod : writable/cache/page_* (rendu), writable/cache/vite-manifest (hash assets), OPCACHE — purge obligatoire avant chaque rescan : docker exec castopod50 sh -c 'find /app/writable/cache -type f ! -name index.html -delete' + rebuild pour émettre les nouvelles classes Tailwind",
    "Couleurs = config runtime : app/Config/Colors.php → /themes/colors servi en CSS vars (cache colors.css décennal)",
-   "seed : tools/seed.sh <checkout> [suffixe] — install:init-database + BenchSeeder (superadmin bench-admin/AuditC50-Pass-Seed!, podcast @auditwaves, 3 épisodes publiés + 1 programmé, page custom, personne) ; urls-auth.resolved.txt régénéré avec les ids réels (leçon 44)"
+   "seed : tools/seed.sh <checkout> [suffixe] — install:init-database + BenchSeeder (superadmin bench-admin/AuditC50-Pass-Seed!, podcast @auditwaves, 3 épisodes publiés + 1 programmé, page custom, personne) ; seed-info.json + urls-auth.resolved.txt régénérés par tools/gen-urls.sh <db-container> qui interroge la DB du seed (leçon 44/46 — rejouable seul)"
   ]
  },
  "tools": {
-  "runner": "tools/audit.mjs (runner v11-c50, STATES : nav-account-menu, nav-notifications-menu, admin-mobile-390, public-sidebar-390, route-404)",
+  "runner": "tools/audit.mjs (runner v12-c50 : états expectHttp réellement scannés — bypass garde hydratation sur pages d'erreur, F3 ; STATES : nav-account-menu, nav-notifications-menu, admin-mobile-390, public-sidebar-390, route-404)",
   "login": "tools/login.mjs (POST /cp-auth/login → storageState)",
-  "verify": "tools/verify.mjs (20 assertions castopod-spécifiques)",
+  "verify": "tools/verify.mjs (20 assertions — podcast id résolu dynamiquement depuis /cp-admin/podcasts, repli seed-info.json, F4)",
   "eval": "tools/eval-final.mjs (10 contrôles indépendants)",
-  "probes": "tools/incomplete-probes.mjs (v3 : composite ratios, img-overlap → N-A honnête, Choices.js listbox vide → N-A)",
-  "seed": "tools/BenchSeeder.php + tools/seed.sh",
+  "probes": "tools/incomplete-probes.mjs (v4 : rejeu des setups d'états via le label [state:nom] — F5 ; composite ratios, img-overlap → N-A honnête, Choices.js listbox vide → N-A)",
+  "aggregate": "tools/aggregate-results.mjs (results.json synchronisé sur les rapports + erreurs_liste nominative — F2, leçon 45)",
+  "seed": "tools/BenchSeeder.php + tools/seed.sh + tools/gen-urls.sh",
   "boot": "tools/boot.sh"
  },
  "auditCommands": [
   "node tools/login.mjs http://localhost:9170 tools/auth.json",
   "docker exec castopod50 sh -c 'find /app/writable/cache -type f ! -name index.html -delete'   # avant CHAQUE scan",
-  "node audit.mjs http://localhost:9170 --urls $(tr '\\n' ',' < tools/urls-public.txt) --states public-sidebar-390 --out reports/final-public",
+  "node audit.mjs http://localhost:9170 --urls $(tr '\\n' ',' < tools/urls-public.txt) --states public-sidebar-390,route-404 --out reports/final-public",
   "node audit.mjs http://localhost:9170 --urls $(tr '\\n' ',' < tools/urls-auth.resolved.txt) --states nav-account-menu,nav-notifications-menu,admin-mobile-390 --storage-state tools/auth.json --out reports/final-auth",
   "node tools/verify.mjs http://localhost:9170 tools/auth.json",
   "node tools/eval-final.mjs http://localhost:9170 tools/auth.json",
   "node tools/incomplete-probes.mjs http://localhost:9170 tools/auth.json",
   "# install-build verbatim : clone propre @SHA + git apply --check patch.diff + composer install + pnpm build + tools/boot.sh <clone> 9180 9181 -i + tools/seed.sh <clone> -i + login + mêmes rescans :9180"
  ],
- "patch": "patch.diff (30 fichiers, +133/−53) — sha256: b25be6733edf0e5b8e066a28ff5e12139ad444093a3cb035d4ef9fc125ad0fac",
+ "patch": "patch.diff (31 fichiers, +145/−63 — fixer : + error_404.php <main>) — sha256: a794bcd83e78dbc31808c5295e58797c28409f1edf160de74f0d74854a572b4d",
  "environnement": "node v24.19.0 (nvm), pnpm 12.10.1, PHP 8.2 (image cp50-php:8.2, Dockerfile cycle), mariadb:11.4, axe-core 4.14.0 + playwright 1.63.0, chromium headless"
 }

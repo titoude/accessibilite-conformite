@@ -109,7 +109,7 @@ if (statesArg.includes('none') && statesArg.length > 1) {
 // Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
-const RUNNER_VERSION = 'audit.mjs v11-c50'; // v9 (ghost) → EspoCRM Backbone SPA : garde hydratation (#navbar .navbar | #login + texte), session settle sur hash-router, états Espo
+const RUNNER_VERSION = 'audit.mjs v12-c50'; // v12 fixer : états expectHttp réellement scannés (bypass garde hydratation sur pages d'erreur — route-404 F3) ; v11 : garde hydratation + session settle
 
 // ids des enregistrements seedés — produits par tools/seed.mjs (seed-info.json).
 // En l'absence du fichier les états pointant un enregistrement échouent honnêtement.
@@ -183,11 +183,20 @@ export const STATES = {
       await page.waitForTimeout(400);
     },
   },
+  // Page d'erreur 404 du produit (error_404.php — vraie page HTML servie,
+  // testé live : text/html + h1 « 404 » + lien « Go back »). expectHttp:404 +
+  // bypass de la garde d'hydratation (pas de chrome applicatif) → réellement
+  // scannée. Avant F3 le scan refusait « contenu non monté » et le scénario
+  // était ensuite absent des runs finaux — exclusion à demi documentée.
   'route-404': {
     url: b => `${b}/@auditwaves/chemin-inexistant`,
     expectHttp: 404,
     setup: async page => {
-      await page.waitForFunction(() => (document.body.innerText || '').length > 50, { timeout: 30000 });
+      await page.waitForSelector('h1', { state: 'visible', timeout: 30000 });
+      // Le corps de l'erreur 404 CI4 est textuellement minimal
+      // (« 404\nPage Not Found\nGo back » ≈ 28 car.) — le seuil vérifie
+      // juste qu'un vrai document HTML est servi, pas le JSON négocié vide.
+      await page.waitForFunction(() => (document.body.innerText || '').length > 10, { timeout: 30000 });
     },
   },
 };
@@ -462,13 +471,15 @@ async function run() {
 
   // Préconditions métier rejouées sur le document courant : --wait-for sur
   // le document FINAL, pas seulement sur le document avant rechargement.
-  const applyPreconditions = async ({ hydrationRetry = true } = {}) => {
-    if (!(await waitHydrated(hydrationRetry))) {
+  // skipHydration : pages d'erreur déclarées (expectHttp) — une 404 réelle est
+  // une page sans chrome applicatif, le setup de l'état fait foi de montage.
+  const applyPreconditions = async ({ hydrationRetry = true, skipHydration = false } = {}) => {
+    if (!skipHydration && !(await waitHydrated(hydrationRetry))) {
       throw new Error(
         'contenu non monté (ni header nav ni main ni player rendu, ou body sans texte) — scan refusé',
       );
     }
-    if (storageState) { await settleEspoSession(); await assertAuthed(); }
+    if (storageState) { if (!skipHydration) await settleEspoSession(); await assertAuthed(); }
     if (waitFor) {
       await page.waitForSelector(waitFor, { state: 'attached', timeout: 15000 }); // précondition : non avalée
     }
@@ -484,12 +495,14 @@ async function run() {
       // puis revenir via prevPath — le jugement de navigation attend la fin de
       // la stabilisation (hydratation + userId + path stable).
       if (storageState) {
-        if (!(await waitHydrated(true))) {
-          throw new Error(
-            'contenu non monté (ni header nav ni main ni player rendu, ou body sans texte) — scan refusé',
-          );
+        if (!expectHttp) {
+          if (!(await waitHydrated(true))) {
+            throw new Error(
+              'contenu non monté (ni header nav ni main ni player rendu, ou body sans texte) — scan refusé',
+            );
+          }
+          await settleEspoSession();
         }
-        await settleEspoSession();
         await assertAuthed();
       }
       const nav = checkNav(resp, gotoUrl);
@@ -500,7 +513,7 @@ async function run() {
       // échec — le scan court sur la vraie page d'erreur.
       if (expectHttp && entry.error === `HTTP ${expectHttp}`) entry.error = null;
       if (!entry.error) {
-        await applyPreconditions();
+        await applyPreconditions({ skipHydration: !!expectHttp });
         if (extraSetup) {
           // Le setup peut re-naviguer (état dynamique) : sa navigation est
           // re-contrôlée, et l'URL post-setup aussi — le document scanné
@@ -523,7 +536,7 @@ async function run() {
             // monté (modale ouverte…). Sur stall d'hydratation on REJOUÈE le
             // setup complet une seule fois (il re-navigue about:blank → url
             // → interactions), puis on revérifie sans retry.
-            await applyPreconditions({ hydrationRetry: false });
+            await applyPreconditions({ hydrationRetry: false, skipHydration: !!expectHttp });
           } catch (e1) {
             if (!/contenu non monté/.test(e1.message)) throw e1;
             const nav3 = await extraSetup(page, checkNav);
@@ -533,7 +546,7 @@ async function run() {
               if (nav3.error) entry.error = nav3.error;
               if (expectHttp && entry.error === `HTTP ${expectHttp}`) entry.error = null;
             }
-            if (!entry.error) await applyPreconditions({ hydrationRetry: false });
+            if (!entry.error) await applyPreconditions({ hydrationRetry: false, skipHydration: !!expectHttp });
           }
         }
         const post = checkNav(null, gotoUrl);
@@ -600,9 +613,13 @@ async function run() {
         const resp2 = await p.goto(st.url(origin), { waitUntil: 'load', timeout: 30000 });
         // Même race Meteor que pour les pages : rebond sign-in réversible —
         // stabiliser la session avant le setup et avant de juger la nav.
+        // État expectHttp (page d'erreur) : pas de chrome à hydrater ni de
+        // session SPA à stabiliser — le setup de l'état fait foi.
         if (storageState) {
-          await waitHydrated(true);
-          await settleEspoSession();
+          if (!st.expectHttp) {
+            await waitHydrated(true);
+            await settleEspoSession();
+          }
           await assertAuthed();
         }
         const nav2 = check(resp2, st.url(origin));
