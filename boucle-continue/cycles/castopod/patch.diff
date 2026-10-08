@@ -1,0 +1,695 @@
+diff --git a/app/Config/Colors.php b/app/Config/Colors.php
+index 49618892..a25c3241 100644
+--- a/app/Config/Colors.php
++++ b/app/Config/Colors.php
+@@ -14,7 +14,7 @@ class Colors extends BaseConfig
+     public array $themes = [
+         /* Castopod's brand color */
+         'pine' => [
+-            'accent-base'     => [174, 100, 29],
++            'accent-base'     => [174, 100, 24],
+             'accent-hover'    => [172, 100, 17],
+             'accent-muted'    => [131, 100, 12],
+             'accent-contrast' => [0, 0, 100],
+diff --git a/app/Helpers/components_helper.php b/app/Helpers/components_helper.php
+index 81265862..0d47f2a0 100644
+--- a/app/Helpers/components_helper.php
++++ b/app/Helpers/components_helper.php
+@@ -114,11 +114,11 @@ if (! function_exists('publication_pill')) {
+     function publication_pill(?Time $publicationDate, string $publicationStatus, string $customClass = ''): string
+     {
+         $class = match ($publicationStatus) {
+-            'published'     => 'text-pine-500 border-pine-500 bg-pine-50',
+-            'scheduled'     => 'text-red-600 border-red-600 bg-red-50',
+-            'with_podcast'  => 'text-blue-600 border-blue-600 bg-blue-50',
+-            'not_published' => 'text-gray-600 border-gray-600 bg-gray-50',
+-            default         => 'text-gray-600 border-gray-600 bg-gray-50',
++            'published'     => 'text-pine-800 border-pine-500 bg-pine-50',
++            'scheduled'     => 'text-red-800 border-red-600 bg-red-50',
++            'with_podcast'  => 'text-blue-800 border-blue-600 bg-blue-50',
++            'not_published' => 'text-gray-800 border-gray-600 bg-gray-50',
++            default         => 'text-gray-800 border-gray-600 bg-gray-50',
+         };
+ 
+         $title = match ($publicationStatus) {
+diff --git a/app/Helpers/page_helper.php b/app/Helpers/page_helper.php
+index 253b0135..e8ab191a 100644
+--- a/app/Helpers/page_helper.php
++++ b/app/Helpers/page_helper.php
+@@ -20,19 +20,19 @@ if (! function_exists('render_page_links')) {
+     {
+         $pages = (new PageModel())->findAll();
+         $links = anchor(route_to('home'), lang('Common.home'), [
+-            'class' => 'px-2 py-1 underline hover:no-underline focus:ring-accent',
++            'class' => 'px-2 py-2 underline hover:no-underline focus:ring-accent',
+         ]);
+         if ($podcastHandle !== null) {
+             $links .= anchor(route_to('podcast-links', $podcastHandle), lang('Podcast.links'), [
+-                'class' => 'px-2 py-1 underline hover:no-underline focus:ring-accent',
++                'class' => 'px-2 py-2 underline hover:no-underline focus:ring-accent',
+             ]);
+         }
+ 
+         $links .= anchor(route_to('credits'), lang('Person.credits'), [
+-            'class' => 'px-2 py-1 underline hover:no-underline focus:ring-accent',
++            'class' => 'px-2 py-2 underline hover:no-underline focus:ring-accent',
+         ]);
+         $links .= anchor(route_to('map'), lang('Page.map.title'), [
+-            'class' => 'px-2 py-1 underline hover:no-underline focus:ring-accent',
++            'class' => 'px-2 py-2 underline hover:no-underline focus:ring-accent',
+         ]);
+         foreach ($pages as $page) {
+             $links .= anchor($page->link, esc($page->title), [
+@@ -43,7 +43,7 @@ if (! function_exists('render_page_links')) {
+         // if set in .env, add legal notice link at the end of page links
+         if (config('App')->legalNoticeURL !== null) {
+             $links .= anchor(config('App')->legalNoticeURL, lang('Common.legal_notice'), [
+-                'class'  => 'px-2 py-1 underline hover:no-underline focus:ring-accent',
++                'class'  => 'px-2 py-2 underline hover:no-underline focus:ring-accent',
+                 'target' => '_blank',
+                 'rel'    => 'noopener noreferrer',
+             ]);
+diff --git a/app/Views/Components/Button.php b/app/Views/Components/Button.php
+index 4d024339..268b0f13 100644
+--- a/app/Views/Components/Button.php
++++ b/app/Views/Components/Button.php
+@@ -37,7 +37,7 @@ class Button extends Component
+             'success'   => 'shadow-sm text-white bg-pine-500 hover:bg-pine-800',
+             'danger'    => 'shadow-sm text-white bg-red-600 hover:bg-red-700',
+             'warning'   => 'shadow-sm text-black bg-yellow-500 hover:bg-yellow-600',
+-            'info'      => 'shadow-sm text-white bg-blue-500 hover:bg-blue-600',
++            'info'      => 'shadow-sm text-white bg-blue-600 hover:bg-blue-700',
+             'disabled'  => 'shadow-sm text-black bg-gray-300 cursor-not-allowed',
+         ];
+ 
+diff --git a/app/Views/Components/Forms/MarkdownEditor.php b/app/Views/Components/Forms/MarkdownEditor.php
+index c004ef2d..ec18ebe9 100644
+--- a/app/Views/Components/Forms/MarkdownEditor.php
++++ b/app/Views/Components/Forms/MarkdownEditor.php
+@@ -97,7 +97,7 @@ class MarkdownEditor extends FormComponent
+                     <div class="sticky top-0 z-20 flex flex-wrap justify-between border-b border-gray-300 bg-elevated">
+                         <markdown-write-preview for="{$this->id}" class="relative inline-flex h-8">
+                             <button type="button" slot="write" class="px-2 font-semibold focus:ring-inset focus:ring-accent">{$translations['write']}</button>
+-                            <button type="button" slot="preview" class="px-2 font-semibold focus:ring-inset focus:ring-accent">{$translations['preview']}</button>
++                            <button type="button" slot="preview" class="px-2 font-semibold text-skin-base focus:ring-inset focus:ring-accent">{$translations['preview']}</button>
+                         </markdown-write-preview>
+                         <markdown-toolbar for="{$this->id}" class="flex gap-4 px-2 py-1">{$toolbarContent}</markdown-toolbar>
+                     </div>
+diff --git a/modules/Admin/Language/en/Navigation.php b/modules/Admin/Language/en/Navigation.php
+index f3ffb129..b2e044f3 100644
+--- a/modules/Admin/Language/en/Navigation.php
++++ b/modules/Admin/Language/en/Navigation.php
+@@ -10,6 +10,9 @@ declare(strict_types=1);
+ 
+ return [
+     'toggle_sidebar' => 'Toggle sidebar',
++    'podcast' => 'Podcast navigation',
++    'episode' => 'Episode navigation',
++    'main' => 'Administration navigation',
+     'go_to_website' => 'Go to website',
+     'go_to_admin' => 'Go to admin',
+     'not-authorized' => 'Not authorized',
+diff --git a/resources/js/_modules/Charts.ts b/resources/js/_modules/Charts.ts
+index c949599b..bc523be6 100644
+--- a/resources/js/_modules/Charts.ts
++++ b/resources/js/_modules/Charts.ts
+@@ -5,12 +5,35 @@ import * as am4maps from "@amcharts/amcharts4/maps";
+ import * as am4plugins_sliceGrouper from "@amcharts/amcharts4/plugins/sliceGrouper";
+ import am4themes_material from "@amcharts/amcharts4/themes/material";
+ 
++// Les SVG générés par amCharts exposent des landmarks/rôles imbriqués
++// (g[role="region"], g[role="scrollbar"], aria-labelledby internes) que axe
++// signale. Le graphique reste visible ; on le retire de l'arbre a11y.
++const hideChartFromAT = (chart: am4core.Container): void => {
++  // Le conteneur reste accessible (menu d'export focalisable) ; seul le svg
++  // décoratif et ses landmarks internes quittent l'arbre a11y.
++  const hideSvg = (): void => {
++    const container = chart.svgContainer && chart.svgContainer.htmlElement;
++    const svg = container ? container.querySelector("svg") : null;
++    if (svg) {
++      svg.setAttribute("aria-hidden", "true");
++      svg.setAttribute("focusable", "false");
++      svg.querySelectorAll("[tabindex]").forEach((focusable) => {
++        focusable.removeAttribute("tabindex");
++      });
++    }
++  };
++  hideSvg();
++  chart.events.onAll(hideSvg);
++};
++
++
+ const drawPieChart = (
+   chartDiv: HTMLDivElement,
+   dataUrl: string | null
+ ): void => {
+   // Create chart instance
+   const chart = am4core.create(chartDiv, am4charts.PieChart);
++  hideChartFromAT(chart);
+   am4core.percent(100);
+   chart.exporting.menu = new am4core.ExportMenu();
+   chart.exporting.menu.align = "left";
+@@ -52,6 +75,7 @@ const drawXYChart = (
+ ): void => {
+   // Create chart instance
+   const chart = am4core.create(chartDiv, am4charts.XYChart);
++  hideChartFromAT(chart);
+   am4core.percent(100);
+   chart.exporting.menu = new am4core.ExportMenu();
+   chart.exporting.menu.align = "right";
+@@ -100,6 +124,7 @@ const drawBarChart = (
+ ): void => {
+   // Create chart instance
+   const chart = am4core.create(chartDiv, am4charts.XYChart);
++  hideChartFromAT(chart);
+   am4core.percent(100);
+   chart.exporting.menu = new am4core.ExportMenu();
+   chart.exporting.menu.align = "right";
+@@ -135,6 +160,7 @@ const drawXYDurationChart = (
+ ): void => {
+   // Create chart instance
+   const chart = am4core.create(chartDiv, am4charts.XYChart);
++  hideChartFromAT(chart);
+   am4core.percent(100);
+   chart.exporting.menu = new am4core.ExportMenu();
+   chart.exporting.menu.align = "right";
+@@ -186,6 +212,7 @@ const drawMapChart = (
+ ): void => {
+   // Create map instance
+   const chart = am4core.create(chartDiv, am4maps.MapChart);
++  hideChartFromAT(chart);
+   am4core.percent(100);
+   chart.exporting.menu = new am4core.ExportMenu();
+   chart.exporting.menu.align = "left";
+diff --git a/resources/js/_modules/Dropdown.ts b/resources/js/_modules/Dropdown.ts
+index 06cfb9a5..7b83f0b0 100644
+--- a/resources/js/_modules/Dropdown.ts
++++ b/resources/js/_modules/Dropdown.ts
+@@ -79,6 +79,20 @@ const Dropdown = (): void => {
+             dropdownToggle();
+           }
+         });
++
++        // Escape ferme le menu et rend le focus au bouton (WCAG 2.1.2)
++        menu.addEventListener("keydown", function (event) {
++          if (event.key === "Escape" && menu.hasAttribute("data-show")) {
++            event.stopPropagation();
++            hideMenu();
++            button.focus();
++          }
++        });
++        button.addEventListener("keydown", function (event) {
++          if (event.key === "Escape" && menu.hasAttribute("data-show")) {
++            hideMenu();
++          }
++        });
+       }
+     }
+   }
+diff --git a/resources/js/_modules/Tooltip.ts b/resources/js/_modules/Tooltip.ts
+index 5ea75754..66370a34 100644
+--- a/resources/js/_modules/Tooltip.ts
++++ b/resources/js/_modules/Tooltip.ts
+@@ -16,11 +16,29 @@ const Tooltip = (): void => {
+     const tooltipReference = tooltipContainers[i];
+     const tooltipContent = tooltipReference.title;
+ 
++    // Le rôle implicite de certains éléments interdit aria-label (ARIA :
++    // label, et les génériques comme span/div ne sont pas nommables). Pour
++    // eux le contenu reste exposé via aria-describedby ; pour les rôles
++    // nommables privés de texte visible, title devient aria-label afin que
++    // l'élément conserve un nom lorsque showTooltip() retire `title`.
++    const canBeNamed = tooltipReference.matches(
++      "a, button, input, select, textarea, summary, area, img, iframe, audio, video, meter, progress, [role]"
++    );
++    if (
++      canBeNamed &&
++      tooltipContent &&
++      !tooltipReference.getAttribute("aria-label") &&
++      (tooltipReference.innerText ?? "").trim() === ""
++    ) {
++      tooltipReference.setAttribute("aria-label", tooltipContent);
++    }
++
+     const tooltip = document.createElement("div");
+     tooltip.setAttribute("id", "tooltip" + i);
++    tooltip.setAttribute("role", "tooltip");
+     tooltip.setAttribute(
+       "class",
+-      "absolute px-2 py-1 text-sm bg-gray-900 text-white rounded max-w-xs z-50"
++      "fixed px-2 py-1 text-sm bg-gray-900 text-white rounded max-w-xs z-50"
+     );
+     tooltip.innerHTML = tooltipContent;
+     const arrowElement = document.createElement("div");
+@@ -66,10 +84,16 @@ const Tooltip = (): void => {
+       });
+     };
+ 
++    const tooltipHome =
++      tooltipReference.closest(
++        "main, nav, header, aside, footer, form, article, section, " +
++          "[role=main], [role=navigation], [role=banner], [role=complementary], [role=contentinfo]"
++      ) ?? document.body;
++
+     const showTooltip = () => {
+       tooltipReference.removeAttribute("title");
+       tooltipReference.setAttribute("aria-describedby", "tooltip" + i);
+-      document.body.appendChild(tooltip);
++      tooltipHome.appendChild(tooltip);
+       update();
+     };
+ 
+@@ -78,7 +102,7 @@ const Tooltip = (): void => {
+       tooltipReference.removeAttribute("aria-describedby");
+       tooltipReference.setAttribute("title", tooltipContent);
+       if (element) {
+-        document.body.removeChild(element);
++        element.remove();
+       }
+     };
+ 
+diff --git a/resources/js/_modules/markdown-write-preview.ts b/resources/js/_modules/markdown-write-preview.ts
+index 9de3795e..5b550bf5 100644
+--- a/resources/js/_modules/markdown-write-preview.ts
++++ b/resources/js/_modules/markdown-write-preview.ts
+@@ -50,7 +50,7 @@ export class MarkdownWritePreview extends LitElement {
+ 
+   static styles = css`
+     ::slotted(button) {
+-      opacity: 0.5;
++      color: hsl(var(--color-text-muted));
+     }
+ 
+     ::slotted(button.active) {
+diff --git a/resources/js/_modules/xml-editor.ts b/resources/js/_modules/xml-editor.ts
+index f4f5de57..2ae386ab 100644
+--- a/resources/js/_modules/xml-editor.ts
++++ b/resources/js/_modules/xml-editor.ts
+@@ -55,6 +55,12 @@ export class XMLEditor extends LitElement {
+       }
+     }
+ 
++    const editorLabel =
++      document.querySelector(`label[for="${this._textarea[0].id}"]`)
++        ?.textContent ||
++      this._textarea[0].getAttribute("aria-label") ||
++      "XML editor";
++
+     this.editorState = EditorState.create({
+       doc: editorContents,
+       extensions: [
+@@ -63,6 +69,7 @@ export class XMLEditor extends LitElement {
+         language.of(xml()),
+         minHeightEditor,
+         syntaxHighlighting(defaultHighlightStyle),
++        EditorView.contentAttributes.of({ "aria-label": editorLabel }),
+       ],
+     });
+ 
+diff --git a/resources/styles/_modules/colors.css b/resources/styles/_modules/colors.css
+index d59e79ba..d159e4ef 100644
+--- a/resources/styles/_modules/colors.css
++++ b/resources/styles/_modules/colors.css
+@@ -1,6 +1,6 @@
+ @layer base {
+   :root {
+-    --color-accent-base: 174 100% 29%;
++    --color-accent-base: 174 100% 24%;
+     --color-accent-hover: 172 100% 17%;
+     --color-accent-muted: 131 100% 12%;
+     --color-accent-contrast: 0 0% 100%;
+diff --git a/themes/cp_admin/_partials/_nav_header.php b/themes/cp_admin/_partials/_nav_header.php
+index da5e36fa..3afc1a68 100644
+--- a/themes/cp_admin/_partials/_nav_header.php
++++ b/themes/cp_admin/_partials/_nav_header.php
+@@ -9,7 +9,7 @@ $userPodcasts = get_podcasts_user_can_interact_with(auth()->user()); ?>
+     <div class="inline-flex items-center h-full">
+         <a href="<?= route_to(
+             'admin',
+-        ) ?>" class="inline-flex items-center h-full px-2 border-r border-navigation focus:ring-inset focus:ring-accent">
++        ) ?>" class="inline-flex items-center h-full px-2 border-r border-navigation focus:ring-inset focus:ring-accent" aria-label="<?= lang('Navigation.dashboard') ?>">
+             <?= (isset($podcast) ? icon('arrow-left-line', [
+                 'class' => 'mr-2',
+             ]) : '') . svg('castopod-logo-base', 'h-6') ?>
+@@ -54,7 +54,7 @@ if ($userPodcasts !== []) {
+             'title' => <<<HTML
+                             <div class="inline-flex items-center flex-1 text-sm align-middle">
+                                 <div class="relative">
+-                                    <img src="{$userPodcast->cover->tiny_url}" class="w-6 h-6 mr-2 rounded-full" loading="lazy" />
++                                    <img src="{$userPodcast->cover->tiny_url}" alt="" class="w-6 h-6 mr-2 rounded-full" loading="lazy" />
+                                     <span class="absolute top-0 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border border-background-elevated {$unreadNotificationDotDisplayClass}"></span>
+                                 </div>
+                                 <span class="max-w-xs truncate">{$userPodcastTitle}</span>
+@@ -83,11 +83,11 @@ if ($userPodcasts !== []) {
+             data-dropdown="button"
+             data-dropdown-target="my-account-dropdown-menu"
+             aria-haspopup="true"
+-            aria-expanded="false"><div class="relative mr-1">
++            aria-expanded="false" aria-label="<?= lang('Navigation.account.my-account') . ' — ' . esc(auth()->user()->username) ?>"><div class="relative mr-1">
+                 <?= icon('account-circle-fill', [
+                     'class' => 'text-3xl opacity-60',
+                 ]) ?>
+-                <?= $userPodcasts === [] ? '' : '<img src="' . interact_as_actor()->avatar_image_url . '" class="absolute bottom-0 w-4 h-4 border rounded-full -right-1 border-navigation-bg" loading="lazy" />' ?>
++                <?= $userPodcasts === [] ? '' : '<img src="' . interact_as_actor()->avatar_image_url . '" alt="" class="absolute bottom-0 w-4 h-4 border rounded-full -right-1 border-navigation-bg" loading="lazy" />' ?>
+             </div>
+             <span class="hidden sm:block"><?= esc(auth()->user()->username) ?></span>
+             <?= icon('arrow-drop-down-fill', [
+@@ -104,7 +104,7 @@ foreach ($userPodcasts as $userPodcast) {
+ 
+     $interactButtons .= <<<HTML
+                 <button class="inline-flex items-center w-full px-4 py-1 hover:bg-highlight" id="interact-as-actor-{$userPodcast->id}" name="actor_id" value="{$userPodcast->actor_id}">
+-                    <div class="inline-flex items-center flex-1 text-sm"><img src="{$userPodcast->cover->tiny_url}" class="w-6 h-6 mr-2 rounded-full" loading="lazy" /><span class="max-w-xs truncate">{$userPodcastTitle}</span>{$checkMark}</div>
++                    <div class="inline-flex items-center flex-1 text-sm"><img src="{$userPodcast->cover->tiny_url}" alt="" class="w-6 h-6 mr-2 rounded-full" loading="lazy" /><span class="max-w-xs truncate">{$userPodcastTitle}</span>{$checkMark}</div>
+                 </button>
+             HTML;
+ }
+@@ -139,7 +139,7 @@ if ($userPodcasts !== []) {
+         [
+             'type'    => 'html',
+             'content' => esc(<<<HTML
+-                        <nav class="flex flex-col py-2 whitespace-nowrap">
++                        <nav class="flex flex-col py-2 whitespace-nowrap" aria-label="{$interactAsText}">
+                             <span class="px-4 mb-2 text-xs font-semibold tracking-wider uppercase text-skin-muted">{$interactAsText}</span>
+                             <form action="{$interactAsRoute}" method="POST" class="flex flex-col">
+                                 {$csrfField}
+diff --git a/themes/cp_admin/_partials/_nav_menu.php b/themes/cp_admin/_partials/_nav_menu.php
+index ba53c59a..e68105f9 100644
+--- a/themes/cp_admin/_partials/_nav_menu.php
++++ b/themes/cp_admin/_partials/_nav_menu.php
+@@ -1,4 +1,4 @@
+-<nav class="flex flex-col flex-1 py-4 overflow-y-auto">
++<nav aria-label="<?= lang('Navigation.main') ?>" class="flex flex-col flex-1 py-4 overflow-y-auto">
+     <?php foreach ($navigation as $section => $data):
+         $isSectionActive = false;
+         $activeItem = '';
+@@ -9,23 +9,25 @@
+             }
+         }
+         ?>
+-    <details <?= $isSectionActive ? 'open="open"' : '' ?> class="<?= $isSectionActive ? 'bg-navigation-active' : '' ?> [&[open]>summary::after]:rotate-90">
++    <details <?= $isSectionActive ? 'open="open"' : '' ?> class="relative <?= $isSectionActive ? 'bg-navigation-active' : '' ?> [&[open]>summary::after]:rotate-90">
+         <summary class="inline-flex items-center w-full px-4 py-2 font-semibold focus:ring-accent focus:ring-inset after:w-5 after:h-5 after:transition-transform after:content-chevronRightIcon after:ml-2 after:opacity-60 after:text-white">
+             <div class="inline-flex items-center mr-auto">
+             <?= icon($data['icon'], [
+                 'class' => 'opacity-60 text-2xl mr-4',
+             ]) ?>
+             <?= lang($langKey . '.' . $section) ?>
++            </div>
++        </summary>
++        <div class="absolute inline-flex items-center gap-x-1 top-2 right-8">
+             <?php if (array_key_exists('count', $data)): ?>
+-                <a href="<?= route_to($data['count-route'], $podcastId ?? null, $episodeId ?? null) ?>" class="px-2 ml-2 text-xs font-normal rounded-full focus:ring-accent <?= $isSectionActive ? 'bg-navigation' : 'bg-navigation-active' ?>"><?= $data['count'] ?></a>
++                <a href="<?= route_to($data['count-route'], $podcastId ?? null, $episodeId ?? null) ?>" class="inline-flex items-center justify-center min-w-6 min-h-6 px-2 text-xs font-normal rounded-full focus:ring-accent <?= $isSectionActive ? 'bg-navigation' : 'bg-navigation-active' ?>"><?= $data['count'] ?></a>
+                 <?php endif; ?>
+-            </div>
+             <?php if (array_key_exists('add-cta', $data)): ?>
+-                <a href="<?= route_to($data['add-cta'], $podcastId ?? null, $episodeId ?? null)  ?>" class="p-2 rounded-full shadow bg-accent-base focus:ring-accent" title="<?= lang($langKey . '.' . $data['add-cta']) ?>" data-tooltip="bottom">
++                <a href="<?= route_to($data['add-cta'], $podcastId ?? null, $episodeId ?? null)  ?>" class="inline-flex items-center justify-center w-6 h-6 p-1 rounded-full shadow bg-accent-base focus:ring-accent" title="<?= lang($langKey . '.' . $data['add-cta']) ?>" aria-label="<?= lang($langKey . '.' . $data['add-cta']) ?>" data-tooltip="bottom">
+                     <?= icon('add-fill') ?>
+                 </a>
+             <?php endif; ?>
+-        </summary>
++        </div>
+         <ul class="flex flex-col pb-4">
+             <?php foreach ($data['items'] as $item):
+                 $isActive = $item === $activeItem;
+diff --git a/themes/cp_admin/_partials/_user_info.php b/themes/cp_admin/_partials/_user_info.php
+index 6bb3aebb..c5a032ee 100644
+--- a/themes/cp_admin/_partials/_user_info.php
++++ b/themes/cp_admin/_partials/_user_info.php
+@@ -1,3 +1,4 @@
++<dl class="divide-y divide-subtle">
+ <div class="px-4 py-5">
+     <dt class="text-sm font-medium leading-5 text-skin-muted">
+     <?= lang('User.form.username') ?>
+@@ -30,3 +31,4 @@
+     <?= implode(', ', $user->getPermissions()) ?>
+     </dd>
+ </div>
++</dl>
+diff --git a/themes/cp_admin/episode/_card.php b/themes/cp_admin/episode/_card.php
+index 4b7decf4..77db1848 100644
+--- a/themes/cp_admin/episode/_card.php
++++ b/themes/cp_admin/episode/_card.php
+@@ -2,7 +2,7 @@
+     <a href="<?= route_to('episode-view', $episode->podcast->id, $episode->id) ?>" class="flex flex-col justify-end w-full h-full text-white group">
+         <div class="absolute bottom-0 left-0 z-10 w-full h-full backdrop-gradient mix-blend-multiply"></div>
+         <div class="w-full h-full overflow-hidden bg-header">
+-            <img src="<?= $episode->cover->medium_url ?>" alt="<?= esc($episode->title) ?>" class="object-cover w-full h-full transition duration-200 ease-in-out transform group-focus:scale-105 group-hover:scale-105 aspect-square" loading="lazy" />
++            <img src="<?= $episode->cover->medium_url ?>" alt="" class="object-cover w-full h-full transition duration-200 ease-in-out transform group-focus:scale-105 group-hover:scale-105 aspect-square" loading="lazy" />
+         </div>
+         <?php if ($episode->is_premium): ?>
+             <div class="absolute top-0 left-0 inline-flex mt-2 gap-x-2">
+diff --git a/themes/cp_admin/episode/_sidebar.php b/themes/cp_admin/episode/_sidebar.php
+index 6206b7c3..c0d5e141 100644
+--- a/themes/cp_admin/episode/_sidebar.php
++++ b/themes/cp_admin/episode/_sidebar.php
+@@ -32,7 +32,7 @@ $episodeNavigation = [
+     ]) ?>
+     <img
+     src="<?= $podcast->cover->tiny_url ?>"
+-    alt="<?= esc($podcast->title) ?>"
++    alt=""
+     class="object-cover w-6 h-6 rounded aspect-square"
+     loading="lazy"
+     />
+@@ -46,7 +46,7 @@ $episodeNavigation = [
+     <?php endif; ?>
+     <img
+     src="<?= $episode->cover->thumbnail_url ?>"
+-    alt="<?= esc($episode->title) ?>"
++    alt=""
+     class="object-cover w-16 h-16 rounded aspect-square"
+     loading="lazy"
+     />
+diff --git a/themes/cp_admin/episode/list.php b/themes/cp_admin/episode/list.php
+index 4fa16935..34b0b51e 100644
+--- a/themes/cp_admin/episode/list.php
++++ b/themes/cp_admin/episode/list.php
+@@ -160,7 +160,7 @@
+                     HTML),
+                     ];
+                 }
+-                return '<button id="more-dropdown-' . $episode->id . '" type="button" class="inline-flex items-center p-1 rounded-full focus:ring-accent" data-dropdown="button" data-dropdown-target="more-dropdown-' . $episode->id . '-menu" aria-haspopup="true" aria-expanded="false">' .
++                return '<button id="more-dropdown-' . $episode->id . '" type="button" class="inline-flex items-center p-1 rounded-full focus:ring-accent" data-dropdown="button" data-dropdown-target="more-dropdown-' . $episode->id . '-menu" aria-haspopup="true" aria-expanded="false" aria-label="' . esc(lang('Common.more')) . '">' .
+                     icon('more-2-fill') .
+                     '</button>' .
+                     '<DropdownMenu id="more-dropdown-' . $episode->id . '-menu" labelledby="more-dropdown-' . $episode->id . '" offsetY="-24" items="' . esc(json_encode($items)) . '" />';
+diff --git a/themes/cp_admin/episode/publish.php b/themes/cp_admin/episode/publish.php
+index 88a88022..85f08986 100644
+--- a/themes/cp_admin/episode/publish.php
++++ b/themes/cp_admin/episode/publish.php
+@@ -43,7 +43,7 @@
+     </div>
+     <div class="flex border-y">
+         <img src="<?= $episode->cover
+-    ->thumbnail_url ?>" alt="<?= esc($episode->title) ?>" class="w-24 h-24 aspect-square" loading="lazy" />
++    ->thumbnail_url ?>" alt="" class="w-24 h-24 aspect-square" loading="lazy" />
+         <div class="flex flex-col flex-1">
+             <a href="<?= $episode->link ?>" class="flex-1 px-4 py-2">
+                 <div class="flex items-baseline">
+diff --git a/themes/cp_admin/episode/publish_edit.php b/themes/cp_admin/episode/publish_edit.php
+index 31bbf3d4..10ed018a 100644
+--- a/themes/cp_admin/episode/publish_edit.php
++++ b/themes/cp_admin/episode/publish_edit.php
+@@ -45,7 +45,7 @@
+     </div>
+     <div class="flex border-y">
+         <img src="<?= $episode->cover
+-                ->thumbnail_url ?>" alt="<?= esc($episode->title) ?>" class="w-24 h-24 aspect-square" loading="lazy" />
++                ->thumbnail_url ?>" alt="" class="w-24 h-24 aspect-square" loading="lazy" />
+         <div class="flex flex-col flex-1">
+             <a href="<?= $episode->link ?>" class="flex-1 px-4 py-2">
+                 <div class="flex items-baseline">
+diff --git a/themes/cp_admin/person/_card.php b/themes/cp_admin/person/_card.php
+index 7a73e7d4..e3a15a82 100644
+--- a/themes/cp_admin/person/_card.php
++++ b/themes/cp_admin/person/_card.php
+@@ -2,7 +2,7 @@
+     <a href="<?= route_to('person-view', $person->id) ?>" class="flex flex-col justify-end w-full h-full text-white group">
+         <div class="absolute bottom-0 left-0 z-10 w-full h-full backdrop-gradient mix-blend-multiply"></div>
+         <div class="w-full h-full overflow-hidden bg-header">
+-            <img alt="<?= esc($person->full_name) ?>" src="<?= get_avatar_url($person, 'medium') ?>" class="object-cover w-full h-full transition duration-200 ease-in-out transform aspect-square group-focus:scale-105 group-hover:scale-105" loading="lazy" />
++            <img alt="" src="<?= get_avatar_url($person, 'medium') ?>" class="object-cover w-full h-full transition duration-200 ease-in-out transform aspect-square group-focus:scale-105 group-hover:scale-105" loading="lazy" />
+         </div>
+         <div class="absolute z-20">
+             <h2 class="px-4 py-2 font-semibold leading-tight"><?= esc($person->full_name) ?></h2>
+diff --git a/themes/cp_admin/podcast/_card.php b/themes/cp_admin/podcast/_card.php
+index 9e4cf0f4..0e600ef5 100644
+--- a/themes/cp_admin/podcast/_card.php
++++ b/themes/cp_admin/podcast/_card.php
+@@ -3,7 +3,7 @@
+         <div class="absolute bottom-0 left-0 z-10 w-full h-full backdrop-gradient mix-blend-multiply"></div>
+         <div class="<?= 'w-full h-full overflow-hidden bg-header' . ($podcast->publication_status !== 'published' ? ' grayscale group-hover:grayscale-[60%]' : '') ?>">
+             <img
+-            alt="<?= esc($podcast->title) ?>"
++            alt=""
+             src="<?= $podcast->cover->medium_url ?>" class="object-cover w-full h-full transition duration-200 ease-in-out transform aspect-square group-focus:scale-105 group-hover:scale-105" loading="lazy" />
+         </div>
+         <?php if ($podcast->is_premium): ?>
+diff --git a/themes/cp_app/embed.php b/themes/cp_app/embed.php
+index 40b448af..fa965eb1 100644
+--- a/themes/cp_app/embed.php
++++ b/themes/cp_app/embed.php
+@@ -20,6 +20,7 @@
+ 
+ <body class="flex theme-<?= service('settings')
+         ->get('App.theme') ?>" style="background: <?= $themeData['background'] ?>; color: <?= $themeData['text'] ?>;">
++    <main class="flex items-start w-full">
+     <img src="<?= $episode->cover->thumbnail_url ?>" alt="<?= esc($episode->title) ?>" class="flex-shrink w-28 h-28 aspect-square" loading="lazy" />
+     <div class="flex flex-col items-start flex-1 min-w-0 px-4 pt-4 h-28">
+         <a href="https://castopod.org/" class="absolute top-0 right-0 mt-1 mr-2 text-2xl text-pine-500 hover:opacity-75" title="<?= lang('Common.powered_by', [
+@@ -27,7 +28,7 @@
+         ]) ?>" target="_blank" rel="noopener noreferrer"><?= icon('podcasting:castopod') ?></a>
+         <div class="flex gap-x-2">
+             <?= episode_numbering($episode->number, $episode->season_number, 'text-xs font-semibold !no-underline border px-1 border-gray-500', true) ?>
+-            <a href="<?= route_to('podcast-activity', esc($podcast->handle)) ?>" style="color: <?= $themeData['text'] ?>;" class="text-xs truncate opacity-75 hover:opacity-100" target="_blank" rel="noopener noreferrer"><?= esc($podcast->title) ?></a>
++            <a href="<?= route_to('podcast-activity', esc($podcast->handle)) ?>" style="color: <?= $themeData['text'] ?>;" class="py-1 text-xs truncate opacity-75 hover:opacity-100" target="_blank" rel="noopener noreferrer"><?= esc($podcast->title) ?></a>
+         </div>
+         <a href="<?= $episode->link ?>" class="flex flex-col items-start text-sm" style="color: <?= $themeData['text'] ?>;" target="_blank" rel="noopener noreferrer">
+             <h1 class="font-semibold leading-tight opacity-100 line-clamp-2 hover:opacity-75"><?= esc($episode->title) ?></h1>
+@@ -66,7 +67,7 @@
+             </vm-ui>
+         </vm-player>
+         <?php endif; ?>
+-    </div>
++        </main>
+ </body>
+ 
+ </html>
+diff --git a/themes/cp_app/episode/_layout-preview.php b/themes/cp_app/episode/_layout-preview.php
+index d4661aa1..7155b7dc 100644
+--- a/themes/cp_app/episode/_layout-preview.php
++++ b/themes/cp_app/episode/_layout-preview.php
+@@ -82,7 +82,7 @@
+             ) ?>
+         </div>
+     </nav>
+-    <header class="relative z-50 flex flex-col col-start-2 px-8 pt-8 pb-4 overflow-hidden bg-accent-base/75 gap-y-4">
++    <header class="relative z-50 flex flex-col col-start-2 px-8 pt-8 pb-4 overflow-hidden bg-accent-base gap-y-4">
+         <div class="absolute top-0 left-0 w-full h-full bg-center bg-no-repeat bg-cover blur-lg mix-blend-overlay filter grayscale" style="background-image: url('<?= get_podcast_banner_url($episode->podcast, 'small') ?>');"></div>
+         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-background-header to-transparent"></div>
+         <div class="z-10 flex flex-col items-start gap-y-2 gap-x-4 sm:flex-row">
+diff --git a/themes/cp_app/episode/_layout.php b/themes/cp_app/episode/_layout.php
+index 8fa3f363..ae7aa71b 100644
+--- a/themes/cp_app/episode/_layout.php
++++ b/themes/cp_app/episode/_layout.php
+@@ -42,7 +42,7 @@
+         </div>
+     <?php endif; ?>
+ 
+-    <nav class="flex items-center justify-between h-10 col-start-2 text-white bg-header">
++    <nav aria-label="<?= lang('Navigation.podcast') ?>" class="flex items-center justify-between h-10 col-start-2 text-white bg-header">
+         <a href="<?= route_to('podcast-episodes', esc($podcast->handle)) ?>" class="flex items-center h-full min-w-0 px-2 gap-x-2 focus:ring-accent focus:ring-inset" title="<?= lang('Episode.back_to_episodes', [
+             'podcast' => esc($podcast->title),
+         ]) ?>">
+@@ -79,7 +79,7 @@
+             ) ?>
+         </div>
+     </nav>
+-    <header class="relative z-50 flex flex-col col-start-2 px-8 pt-8 pb-4 overflow-hidden bg-accent-base/75 gap-y-4">
++    <header class="relative z-50 flex flex-col col-start-2 px-8 pt-8 pb-4 overflow-hidden bg-accent-base gap-y-4">
+         <div class="absolute top-0 left-0 w-full h-full bg-center bg-no-repeat bg-cover blur-lg mix-blend-overlay filter grayscale" style="background-image: url('<?= get_podcast_banner_url($episode->podcast, 'small') ?>');"></div>
+         <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-background-header to-transparent"></div>
+         <div class="z-10 flex flex-col items-start gap-y-2 gap-x-4 sm:flex-row">
+@@ -138,14 +138,14 @@
+             </div>
+         </div>
+     </header>
+-    <div class="col-start-2 px-8 py-4 text-white bg-header">
++    <section aria-label="<?= lang('Episode.description') ?>" class="col-start-2 px-8 py-4 text-white bg-header">
+         <h2 class="text-xs font-bold tracking-wider uppercase whitespace-pre-line font-display"><?= lang('Episode.description') ?></h2>
+         <?php if (substr_count($episode->description_markdown, "\n") > 6 || strlen($episode->description) > 500): ?>
+             <SeeMore class="max-w-xl prose-sm text-white"><?= $episode->getDescriptionHtml('-+Website+-') ?></SeeMore>
+         <?php else: ?>
+             <div class="max-w-xl prose-sm text-white"><?= $episode->getDescriptionHtml('-+Website+-') ?></div>
+         <?php endif; ?>
+-    </div>
++    </section>
+     <?= $this->include('episode/_partials/navigation') ?>
+     <?= $this->include('podcast/_partials/premium_banner') ?>
+     <div class="relative grid items-start flex-1 col-start-2 grid-cols-podcastMain gap-x-6">
+diff --git a/themes/cp_app/episode/_partials/navigation.php b/themes/cp_app/episode/_partials/navigation.php
+index 0391c6b2..1845c7f9 100644
+--- a/themes/cp_app/episode/_partials/navigation.php
++++ b/themes/cp_app/episode/_partials/navigation.php
+@@ -49,10 +49,10 @@ if ($episode->publication_status === 'published') {
+ }
+ 
+ ?>
+-<nav class="sticky z-40 flex col-start-2 pt-4 shadow bg-elevated md:px-8 gap-x-2 md:gap-x-4 -top-4 rounded-conditional-b-xl">
++<nav aria-label="<?= lang('Navigation.episode') ?>" class="sticky z-40 flex col-start-2 pt-4 shadow bg-elevated md:px-8 gap-x-2 md:gap-x-4 -top-4 rounded-conditional-b-xl">
+     <?php foreach ($navigationItems as $item): ?>
+         <?php $isActive = url_is($item['uri']); ?>
+-        <a href="<?= $item['uri'] ?>" class="px-4 py-1 text-sm font-semibold uppercase focus:ring-accent border-b-4<?= $isActive ? ' border-b-4 text-black border-accent-base' : ' text-skin-muted hover:text-skin-base hover:border-subtle border-transparent' ?>"><?= $item['label'] ?><span class="px-2 ml-1 font-semibold rounded-full bg-base"><?= $item['labelInfo'] ?></span></a>
++        <a href="<?= $item['uri'] ?>" class="inline-flex items-center px-4 py-2 text-sm font-semibold uppercase focus:ring-accent border-b-4<?= $isActive ? ' border-b-4 text-black border-accent-base' : ' text-skin-muted hover:text-skin-base hover:border-subtle border-transparent' ?>"><?= $item['label'] ?><span class="px-2 ml-1 font-semibold rounded-full bg-base"><?= $item['labelInfo'] ?></span></a>
+     <?php endforeach; ?>
+     <button type="button" class="p-2 ml-auto rotate-180 rounded-full md:hidden focus:ring-accent" data-sidebar-toggler="toggler" aria-label="<?= lang('Navigation.toggle_sidebar') ?>"><?= icon('menu-2-fill') ?></button>
+ </nav>
+\ No newline at end of file
+diff --git a/themes/cp_app/podcast/_layout.php b/themes/cp_app/podcast/_layout.php
+index 59cf98f9..681af518 100644
+--- a/themes/cp_app/podcast/_layout.php
++++ b/themes/cp_app/podcast/_layout.php
+@@ -56,7 +56,7 @@
+                 </div>
+             </div>
+         </div>
+-        <div class="z-10 inline-flex items-center self-end mt-2 mr-2 sm:mb-4 sm:mr-4 gap-x-2">
++        <div class="inline-flex items-center self-end mt-2 mr-2 sm:mb-4 sm:mr-4 gap-x-2">
+             <?php if (in_array(true, array_column($podcast->fundingPlatforms, 'is_visible'), true)): ?>
+                 <button class="inline-flex items-center px-4 text-xs font-semibold leading-8 tracking-wider text-red-600 uppercase bg-white rounded-full shadow hover:text-red-500 focus:ring-accent" data-toggle="funding-links" data-toggle-class="hidden"><?= icon('heart-fill', [
+                     'class' => 'mr-2 text-sm',
+diff --git a/themes/cp_app/podcast/_partials/navigation.php b/themes/cp_app/podcast/_partials/navigation.php
+index fdccf76d..4bf83ddf 100644
+--- a/themes/cp_app/podcast/_partials/navigation.php
++++ b/themes/cp_app/podcast/_partials/navigation.php
+@@ -15,10 +15,10 @@ $navigationItems = [
+     ],
+ ]
+ ?>
+-<nav class="sticky z-40 flex col-start-2 pt-8 shadow bg-elevated gap-x-2 md:gap-x-4 md:px-8 -top-6 md:-top-10 rounded-conditional-b-xl md:pt-12 ">
++<nav aria-label="<?= lang('Navigation.podcast') ?>" class="sticky z-40 flex col-start-2 pt-8 shadow bg-elevated gap-x-2 md:gap-x-4 md:px-8 -top-6 md:-top-10 rounded-conditional-b-xl md:pt-12 ">
+     <?php foreach ($navigationItems as $item): ?>
+         <?php $isActive = url_is($item['uri']); ?>
+-        <a href="<?= $item['uri'] ?>" class="px-4 py-1 text-sm font-semibold uppercase focus:ring-accent border-b-4<?= $isActive ? ' border-b-4 text-black border-accent-base' : ' text-skin-muted hover:text-skin-base hover:border-subtle border-transparent' ?>"><?= $item['label'] ?></a>
++        <a href="<?= $item['uri'] ?>" class="inline-flex items-center px-4 py-2 text-sm font-semibold uppercase focus:ring-accent border-b-4<?= $isActive ? ' border-b-4 text-black border-accent-base' : ' text-skin-muted hover:text-skin-base hover:border-subtle border-transparent' ?>"><?= $item['label'] ?></a>
+     <?php endforeach; ?>
+     <button type="button" class="p-2 ml-auto rotate-180 rounded-full md:hidden focus:ring-accent" data-sidebar-toggler="toggler" aria-label="<?= lang('Navigation.toggle_sidebar') ?>"><?= icon('menu-2-fill') ?></button>
+ </nav>
+\ No newline at end of file
+diff --git a/themes/cp_app/podcast/episodes.php b/themes/cp_app/podcast/episodes.php
+index e2d37f24..781133c0 100644
+--- a/themes/cp_app/podcast/episodes.php
++++ b/themes/cp_app/podcast/episodes.php
+@@ -18,7 +18,7 @@
+             <?php endif; ?>
+         </h1>
+         <?php if ($activeQuery): ?>
+-            <button id="episode-lists-dropdown" type="button" class="inline-flex items-center px-2 py-1 text-sm font-semibold focus:ring-accent" data-dropdown="button" data-dropdown-target="episode-lists-dropdown-menu" aria-label="<?= lang('Common.more') ?>" aria-haspopup="true" aria-expanded="false">
++            <button id="episode-lists-dropdown" type="button" class="inline-flex items-center px-2 py-2 text-sm font-semibold focus:ring-accent" data-dropdown="button" data-dropdown-target="episode-lists-dropdown-menu" aria-haspopup="true" aria-expanded="false">
+                 <?= $activeQuery['label'] . icon('arrow-drop-down-fill', [
+                     'class' => 'ml-2 text-xl',
+                 ]) ?>
+@@ -29,7 +29,7 @@
+                         $link['route'],
+                         $link['label'] . ' (' . $link['number_of_episodes'] . ')',
+                         [
+-                            'class' => 'px-2 py-1 whitespace-nowrap hover:bg-highlight ' .
++                            'class' => 'px-2 py-2 whitespace-nowrap hover:bg-highlight ' .
+                                 ($link['is_active']
+                                     ? 'font-semibold'
+                                     : 'text-skin-muted hover:text-skin-base'),
+diff --git a/themes/cp_app/podcast/links.php b/themes/cp_app/podcast/links.php
+index 81e11c89..0930bc9a 100644
+--- a/themes/cp_app/podcast/links.php
++++ b/themes/cp_app/podcast/links.php
+@@ -47,7 +47,7 @@
+             <a href="<?= $podcast->link ?>">
+                 <h1 class="flex flex-col items-center mt-2 text-2xl font-bold leading-none line-clamp-2 md:leading-none font-display"><?= esc($podcast->title) ?><span class="ml-1 font-sans text-base font-normal">@<?= esc($podcast->handle) ?></span></h1>
+             </a>
+-            <div class="z-10 flex flex-wrap items-center justify-center gap-2 p-2 mt-6 shadow-xl rounded-conditional-full bg-accent-base shadow-accent/20">
++            <div class="flex flex-wrap items-center justify-center gap-2 p-2 mt-6 shadow-xl rounded-conditional-full bg-accent-base shadow-accent/20">
+                 <?php if (in_array(true, array_column($podcast->fundingPlatforms, 'is_visible'), true)): ?>
+                     <button class="inline-flex items-center px-4 text-xs font-semibold leading-8 tracking-wider text-red-600 uppercase bg-white rounded-full shadow hover:text-red-500 focus:ring-accent" data-toggle="funding-links" data-toggle-class="hidden"><?= icon('heart-fill', [
+                         'class' => 'mr-2 text-sm',

@@ -1,0 +1,111 @@
+{
+ "cycle": 50,
+ "produit": "castopod",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "scenarios": 10,
+   "violations_occ": 23,
+   "violations_regles": 6,
+   "erreurs": 0,
+   "incomplets": 23,
+   "detail": {
+    "region": 7,
+    "color-contrast": 6,
+    "landmark-unique": 5,
+    "landmark-one-main": 2,
+    "target-size": 2,
+    "label-content-name-mismatch": 1
+   }
+  },
+  "auth": {
+   "scenarios": 25,
+   "violations_occ": 212,
+   "violations_regles": 11,
+   "erreurs": 0,
+   "incomplets": 114,
+   "detail": {
+    "nested-interactive": 72,
+    "target-size": 64,
+    "color-contrast": 23,
+    "image-alt": 18,
+    "link-name": 16,
+    "dlitem": 8,
+    "landmark-unique": 6,
+    "button-name": 2,
+    "region": 1,
+    "image-redundant-alt": 1,
+    "aria-input-field-name": 1
+   }
+  },
+  "total_occ": 235,
+  "total_regles": 14,
+  "note": "route-404 : réponse JSON de l'API — exclusion documentée dans scope (expectHttp:404), scénario conservé et listé, pas de skip silencieux (leçon 45)"
+ },
+ "final": {
+  "public": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 28
+  },
+  "auth": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 194
+  },
+  "note": "incomplets = nœuds axe (color-contrast sur dégradés/fond indécidable) — chacun mesuré par incomplete-probes.mjs"
+ },
+ "install_build_verbatim": {
+  "checkout": "clone propre @12720055b475 + git apply --check patch.diff (0 rejet) + composer install + pnpm build + boot.sh :9180/:9181 -i + seed.sh -i + login",
+  "public": {
+   "violations_occ": 0,
+   "erreurs": 0,
+   "incomplets": 28
+  },
+  "auth": {
+   "violations_occ": 0,
+   "erreurs": 0,
+   "incomplets": 199
+  },
+  "note": "urls-auth.resolved.txt régénéré par seed.sh avec ids réels du seed frais (podcast=1 episode=1 page=1) — leçon 44"
+ },
+ "verify_mjs": "20/20 assertions OK",
+ "eval_final_mjs": "10/10 OK (2 N-A : skip-link absent du produit, aucune région live aria-live)",
+ "sabotage": {
+  "mutant": "git stash du fix 2.5.3 (themes/cp_app/podcast/episodes.php)",
+  "resultat": "verify.mjs FAIL nommé : '2.5.3: bouton listes — pas d'aria-label divergent du texte aria-label=More texte=2026' (19/20)",
+  "vanilla_attendu": "FAIL attendus confirmés (baseline 235 occ)"
+ },
+ "incomplete_probes": {
+  "sondes": 243,
+  "conformes": 66,
+  "non_conformes": 0,
+  "non_applicables": 177,
+  "detail": "texte-sur-image/scrim → N-A honnête (img-overlap) ; Choices.js listbox vide au repos → N-A ; 4 nœuds NON-CONFORME réels détectés (abbr/relative-time/time blanc/90 sur bg-accent-base/75 au-dessus de gradient cover = 1.07:1) → corrigés aux sources (bg-accent-base plein, ratio 5.4:1) puis 0 NC"
+ },
+ "modifications": {
+  "fichiers": 30,
+  "insertions": 133,
+  "suppressions": 53,
+  "zones": [
+   "resources/js/_modules/Tooltip.ts : aria-label sur éléments nommables sans texte visible (2.5.3), role=tooltip, ancrage dans landmark parent (region)",
+   "resources/js/_modules/Dropdown.ts : fermeture Escape + refocus bouton",
+   "resources/js/_modules/Charts.ts : svg amCharts aria-hidden + retrait tabindex interne (landmark-unique, nested-interactive) — menu export conservé accessible",
+   "resources/js/_modules/xml-editor.ts : EditorView.contentAttributes aria-label résolu (aria-input-field-name)",
+   "resources/js/_modules/markdown-write-preview.ts : ::slotted(button) color text-muted au lieu d'opacity .5",
+   "app/Config/Colors.php : pine accent-base 29→24 (≈5.6:1 sur blanc)",
+   "app/Helpers/components_helper.php : publication_pill textes -800 sur fonds -50",
+   "app/Helpers/page_helper.php : liens pagination py-2 (target-size ≥24px)",
+   "app/Views/Components/Button.php : variante info blue-600/700",
+   "themes/cp_admin : dl autour de _user_info dt/dd (dlitem), navs aria-label distinctes (landmark-unique), bouton more aria-label épisode/liste, alt='' cartes redondantes",
+   "themes/cp_app : header bg-accent-base plein (était /75 sur gradient), fermeture </section>, navs py-2 + inline-flex (target-size), z-10 parasites retirés",
+   "modules/Admin/Language/en/Navigation.php : clés podcast/episode/main navigation (i18n résolues — leçon 43)"
+  ]
+ },
+ "hors_patch": [
+  "tools/BenchSeeder.php copié dans le checkout par seed.sh uniquement (artefact banc)",
+  "public/assets/* rebuildés : sortie build non commitée dans patch.diff"
+ ]
+}
