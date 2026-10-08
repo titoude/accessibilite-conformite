@@ -1,0 +1,10 @@
+{
+  "note": "baseline vs final : même périmètre (urls-auth.txt 18 routes + 11 états, urls-public.txt 6 routes), axe 4.14.0, même runner audit.mjs",
+  "baseline": {"auth": {"rules": 13, "occurrences": 195, "incompletes": 292, "errors": 0}, "public": {"rules": 6, "occurrences": 14, "incompletes": 34, "errors": 0}},
+  "final": {"auth": {"rules": 0, "occurrences": 0, "incompletes": 291, "errors": 0}, "public": {"rules": 0, "occurrences": 0, "incompletes": 34, "errors": 0}},
+  "scopeDeltas": [
+    {"url": "/settings", "decision": "exclu", "cause": "redirect 302 -> /settings/preferences — doublon, non silencieux"},
+    {"url": "/settings/team/general", "decision": "exclu", "cause": "redirect vers /settings/team/users (team multi-membres existante) — non silencieux"},
+    {"url": "/not-a-real-page-xyz", "decision": "exclu", "cause": "HTTP 404 — le runner refuse de scanner les statuts d'erreur (documenté dans audit.mjs, commentaire route-404)"}
+  ]
+}

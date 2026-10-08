@@ -1,0 +1,42 @@
+{
+  "cycle": 48,
+  "repo": "https://github.com/plausible/analytics",
+  "sha": "b89b749cd1beee2bc4bb75a32c437bcf58e0253a",
+  "shaTitle": "Improve the segment modals (#6718)",
+  "branchBase": "master",
+  "stack": "Elixir/Phoenix LiveView + React (esbuild) + Tailwind CSS + PostgreSQL + ClickHouse — premier Elixir de la boucle",
+  "bootPath": "mix/phx local (pas docker compose officiel) — requis pour patcher assets/ React + templates HEEx depuis le SHA source",
+  "ports": {"app": 8950, "postgres": 8952, "clickhouse": 8953, "installBuild": {"app": 8960, "postgres": 8962, "clickhouse": 8963}},
+  "credentials": {"email": "user@plausible.test", "password": "plausible", "name": "Jane Smith", "sites": ["dummy.site", "another.site"], "sharedLink": "/share/dummy.site?auth=audit-c48-shared"},
+  "bootSteps": "tools/boot.sh — BOOT_ROOT/REPO/APP_PORT/PG_PORT/CH_PORT/PG_NAME/CH_NAME paramétrables ; containers PG+CH (CLICKHOUSE_SKIP_USER_SETUP=1 + CLICKHOUSE_DB obligatoires sinon auth requise), CONFIG_DIR secrets overrides, mix deps.get + ecto.create + ecto.migrate, npm ci assets+tracker, mix assets.build, npm run deploy --prefix tracker, mix download_country_database, tools/seed.sh, nohup mix phx.server",
+  "seedSteps": "tools/seed.sh — mix run priv/repo/seeds.exs (NON idempotent : ne pas relancer sans reset DB) + INSERT shared_links SQL",
+  "auditCommands": {
+    "login": "node tools/login.mjs http://localhost:8950",
+    "baselineAuth": "node tools/audit.mjs http://localhost:8950 --urls $(paste -sd, tools/urls-auth.txt) --states all --out reports/baseline-auth --storage-state tools/auth.json",
+    "baselinePublic": "node tools/audit.mjs http://localhost:8950 --urls $(paste -sd, tools/urls-public.txt) --states none --out reports/baseline-public",
+    "finalAuth": "node tools/audit.mjs http://localhost:8950 --urls $(paste -sd, tools/urls-auth.txt) --states all --out reports/final-auth --storage-state tools/auth.json",
+    "finalPublic": "node tools/audit.mjs http://localhost:8950 --urls $(paste -sd, tools/urls-public.txt) --states none --out reports/final-public",
+    "installBuild": "node tools/audit.mjs http://localhost:8960 --urls $(paste -sd, tools/urls-auth.txt) --states all --out reports/install-build --storage-state tools/auth.json",
+    "installPublic": "node tools/audit.mjs http://localhost:8960 --urls $(paste -sd, tools/urls-public.txt) --states none --out reports/install-public",
+    "verify": "node tools/verify.mjs http://localhost:8950",
+    "evalFinal": "node tools/eval-final.mjs http://localhost:8950",
+    "incompleteProbes": "node tools/incomplete-probes.mjs reports/final-auth reports/final-public"
+  },
+  "states": ["site-switcher-menu", "user-menu", "filter-menu", "period-menu", "options-menu", "breakdown-menu", "funnel-menu", "realtime-view", "goal-report", "mobile-dash-390", "dark-dashboard"],
+  "scopeDeltas": "voir scope-compare.json — /settings (redirect prefs), /settings/team/general (redirect users), /not-a-real-page-xyz (404)",
+  "gotchas": [
+    "React root dashboard = #stats-react-container (PAS #app)",
+    "Phoenix LiveView droppe les attrs de slot non déclarés → déclarer attr : avant usage",
+    "aria-checked={false} booléen OMIS par le rendu Phoenix → émettre \"true\"/\"false\" en string (aria-required-attr)",
+    "user-menu sur /sites = Alpine div[x-show], PAS headlessui-menu-items",
+    "\"Current Visitors\" rendu en majuscules (text-transform) — matcher /current\\s*visitors/i",
+    "image CH mirror.gcr.io : CLICKHOUSE_SKIP_USER_SETUP=1 + CLICKHOUSE_DB obligatoires (sinon auth par défaut)",
+    "seeds.exs non idempotent — reset DB avant rejeu",
+    "mix run seeds.exs démarre l'Endpoint : conflit si phx.server tourne déjà (lancer seed avant serveur)",
+    "npm run deploy n'existe pas à la racine — mix assets.build ; tracker: npm run deploy --prefix tracker"
+  ],
+  "vanillaPurity": "marqueur patch absent du build vanilla avant baseline (lesson 40)",
+  "filesChanged": 35,
+  "insertions": 157,
+  "deletions": 105
+}

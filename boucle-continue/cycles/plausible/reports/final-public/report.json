@@ -1,0 +1,1130 @@
+{
+  "runId": "c606ad80-58d3-4d9e-b25d-c605040ec144",
+  "runnerVersion": "audit.mjs v11-plausible",
+  "generatedAt": "2026-10-08T10:34:55.907Z",
+  "baseUrl": "http://localhost:8950",
+  "pages": [
+    {
+      "url": "http://localhost:8950/",
+      "requestedUrl": "http://localhost:8950/",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8950/",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:8950/login",
+      "requestedUrl": "http://localhost:8950/login",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258",
+            "EN-301-549v4",
+            "EN-9.2.5.8"
+          ],
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "target-size",
+                  "data": {
+                    "minSize": 24,
+                    "width": 16,
+                    "height": 40
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element with negative tabindex has insufficient size (16px by 40px, should be at least 24px by 24px). Is this a target?"
+                },
+                {
+                  "id": "target-offset",
+                  "data": {
+                    "closestOffset": 16,
+                    "minOffset": 24
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input data-phx-loc=\"200\" type=\"password\" name=\"password\" id=\"current-password\" class=\"input-base input-md pr-10 w-full\" autocomplete=\"current-password\" x-bind:type=\"showPassword ? 'text' : 'password'\">",
+                      "target": [
+                        "#current-password"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element with negative tabindex has insufficient space to its closest neighbors. Safe clickable space has a diameter of 16px instead of at least 24px. Is this a target?"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-phx-loc=\"298\" type=\"button\" @click=\"showPassword = !showPassword\" tabindex=\"-1\" aria-label=\"Toggle password visibility\" class=\"absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors duration-150\">",
+              "target": [
+                ".inset-y-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element with negative tabindex has insufficient size (16px by 40px, should be at least 24px by 24px). Is this a target?\n  Element with negative tabindex has insufficient space to its closest neighbors. Safe clickable space has a diameter of 16px instead of at least 24px. Is this a target?"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8950/login",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:8950/register",
+      "requestedUrl": "http://localhost:8950/register",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "target-size",
+          "impact": "serious",
+          "tags": [
+            "cat.sensory-and-visual-cues",
+            "wcag22aa",
+            "wcag258",
+            "EN-301-549v4",
+            "EN-9.2.5.8"
+          ],
+          "description": "Ensure touch targets have sufficient size and space",
+          "help": "All touch targets must be 24px large, or leave sufficient space",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "target-size",
+                  "data": {
+                    "minSize": 24,
+                    "width": 16,
+                    "height": 40
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element with negative tabindex has insufficient size (16px by 40px, should be at least 24px by 24px). Is this a target?"
+                },
+                {
+                  "id": "target-offset",
+                  "data": {
+                    "closestOffset": 16,
+                    "minOffset": 24
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<input data-phx-loc=\"200\" type=\"password\" name=\"user[password]\" id=\"register-form_password\" class=\"input-base input-md pr-10 w-full\" autocomplete=\"new-password\" x-bind:type=\"showPassword ? 'text' : 'password'\" phx-debounce=\"200\">",
+                      "target": [
+                        "#register-form_password"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element with negative tabindex has insufficient space to its closest neighbors. Safe clickable space has a diameter of 16px instead of at least 24px. Is this a target?"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button data-phx-loc=\"298\" type=\"button\" @click=\"showPassword = !showPassword\" tabindex=\"-1\" aria-label=\"Toggle password visibility\" class=\"absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors duration-150\">",
+              "target": [
+                ".absolute"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element with negative tabindex has insufficient size (16px by 40px, should be at least 24px by 24px). Is this a target?\n  Element with negative tabindex has insufficient space to its closest neighbors. Safe clickable space has a diameter of 16px instead of at least 24px. Is this a target?"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8950/register",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:8950/password/request-reset",
+      "requestedUrl": "http://localhost:8950/password/request-reset",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8950/password/request-reset",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:8950/invitation-expired",
+      "requestedUrl": "http://localhost:8950/invitation-expired",
+      "violations": [],
+      "incomplete": [],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8950/invitation-expired",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:8950/share/dummy.site?auth=audit-c48-shared",
+      "requestedUrl": "http://localhost:8950/share/dummy.site?auth=audit-c48-shared",
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "shortTextContent",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element content is too short to determine if it is actual text content"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" x=\"-3\" dy=\"0.32em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none\">0</text>",
+              "target": [
+                "g[transform=\"translate(0,336.5)\"] > text[x=\"-3\"][dy=\"0.32em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" x=\"-3\" dy=\"0.32em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none\">50</text>",
+              "target": [
+                "g[transform=\"translate(0,256.5)\"] > text[x=\"-3\"][dy=\"0.32em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" x=\"-3\" dy=\"0.32em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none\">100</text>",
+              "target": [
+                "g[transform=\"translate(0,176.5)\"] > text[x=\"-3\"][dy=\"0.32em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" x=\"-3\" dy=\"0.32em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none\">150</text>",
+              "target": [
+                "g[transform=\"translate(0,96.5)\"] > text[x=\"-3\"][dy=\"0.32em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" x=\"-3\" dy=\"0.32em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none\">200</text>",
+              "target": [
+                "g[transform=\"translate(0,16.5)\"] > text[x=\"-3\"][dy=\"0.32em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" y=\"7\" dy=\"0.71em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none translate-y-2\">10 Sep</text>",
+              "target": [
+                "g[transform=\"translate(24.5,0)\"] > .translate-y-2[y=\"7\"][dy=\"0.71em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" y=\"7\" dy=\"0.71em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none translate-y-2\">15 Sep</text>",
+              "target": [
+                "g[transform=\"translate(215.6111111111111,0)\"] > .translate-y-2[y=\"7\"][dy=\"0.71em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" y=\"7\" dy=\"0.71em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none translate-y-2\">20 Sep</text>",
+              "target": [
+                "g[transform=\"translate(406.7222222222222,0)\"] > .translate-y-2[y=\"7\"][dy=\"0.71em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" y=\"7\" dy=\"0.71em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none translate-y-2\">25 Sep</text>",
+              "target": [
+                "g[transform=\"translate(597.8333333333334,0)\"] > .translate-y-2[y=\"7\"][dy=\"0.71em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" y=\"7\" dy=\"0.71em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none translate-y-2\">30 Sep</text>",
+              "target": [
+                "g[transform=\"translate(788.9444444444443,0)\"] > .translate-y-2[y=\"7\"][dy=\"0.71em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<svg viewBox=\"0 0 1060 368\" class=\"w-full h-auto\" opacity=\"1\">",
+                      "target": [
+                        ".h-auto"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<text fill=\"currentColor\" y=\"7\" dy=\"0.71em\" class=\"fill-gray-500 dark:fill-gray-400 text-xs select-none translate-y-2\">5 Oct</text>",
+              "target": [
+                "g[transform=\"translate(980.0555555555557,0)\"] > .translate-y-2[y=\"7\"][dy=\"0.71em\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">549</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(1) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">546</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(2) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">508</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(3) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">505</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(4) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">504</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(5) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">478</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(6) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">466</span>",
+              "target": [
+                "div[data-testid=\"report-sources\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(7) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">50</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(1) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">48</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(2) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">48</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(3) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"absolute top-0 left-0 h-full rounded-sm dark:bg-gray-500/15 dark:group-hover/row:bg-gray-500/30 bg-orange-50 group-hover/row:bg-orange-100\" style=\"width: 90%;\"></div>",
+                      "target": [
+                        "div:nth-child(4) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .bg-orange-50.group-hover\\/row\\:bg-orange-100.left-0"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"w-full md:truncate group-hover:underline\">/index/rewrite_prefix/candidates/rk...ize_map_args/2-fun-0-/check_gc.html</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(4) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .py-1\\.5.z-9.break-all > .justify-start.gap-x-1\\.5.items-center > .max-w-max.md\\:overflow-hidden[data-testid=\"dimension-value\"] > .group-hover\\:underline.md\\:truncate"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">45</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(4) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"absolute top-0 left-0 h-full rounded-sm dark:bg-gray-500/15 dark:group-hover/row:bg-gray-500/30 bg-orange-50 group-hover/row:bg-orange-100\" style=\"width: 88%;\"></div>",
+                      "target": [
+                        "div:nth-child(5) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .bg-orange-50.group-hover\\/row\\:bg-orange-100.left-0"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"w-full md:truncate group-hover:underline\">/index/correct/finalize_fun_table_1...a_sha1/site_import/export_vars.html</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(5) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .py-1\\.5.z-9.break-all > .justify-start.gap-x-1\\.5.items-center > .max-w-max.md\\:overflow-hidden[data-testid=\"dimension-value\"] > .group-hover\\:underline.md\\:truncate"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">44</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(5) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">44</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(6) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"absolute top-0 left-0 h-full rounded-sm dark:bg-gray-500/15 dark:group-hover/row:bg-gray-500/30 bg-orange-50 group-hover/row:bg-orange-100\" style=\"width: 88%;\"></div>",
+                      "target": [
+                        "div:nth-child(7) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .bg-orange-50.group-hover\\/row\\:bg-orange-100.left-0"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"w-full md:truncate group-hover:underline\">/index/ecdsa_digest_oid/delayed_yreg_copy/validate_init_delay.html</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(7) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .py-1\\.5.z-9.break-all > .justify-start.gap-x-1\\.5.items-center > .max-w-max.md\\:overflow-hidden[data-testid=\"dimension-value\"] > .group-hover\\:underline.md\\:truncate"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">44</span>",
+              "target": [
+                "div[data-testid=\"report-pages\"] > .flex-1.flex-col.flex > .opacity-100.duration-300.starting\\:opacity-0 > .group\\/report > div > div:nth-child(7) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"absolute top-0 left-0 h-full rounded-sm dark:bg-gray-500/15 dark:group-hover/row:bg-gray-500/30 bg-orange-50 group-hover/row:bg-orange-100\" style=\"width: 88%;\"></div>",
+                      "target": [
+                        "div:nth-child(8) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .bg-orange-50.group-hover\\/row\\:bg-orange-100.left-0"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"w-full md:truncate group-hover:underline\">/index/elixir_config/listen_ip/enco...uousDateTime/scan_include_lib1.html</span>",
+              "target": [
+                "div:nth-child(8) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .py-1\\.5.z-9.break-all > .justify-start.gap-x-1\\.5.items-center > .max-w-max.md\\:overflow-hidden[data-testid=\"dimension-value\"] > .group-hover\\:underline.md\\:truncate"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">44</span>",
+              "target": [
+                "div:nth-child(8) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "elmPartiallyObscured",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"absolute top-0 left-0 h-full rounded-sm dark:bg-gray-500/15 dark:group-hover/row:bg-gray-500/30 bg-orange-50 group-hover/row:bg-orange-100\" style=\"width: 86%;\"></div>",
+                      "target": [
+                        "div:nth-child(9) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .bg-orange-50.group-hover\\/row\\:bg-orange-100.left-0"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it's partially obscured by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"w-full md:truncate group-hover:underline\">/index/_95/yeccpars2_236/recv_all/f...r24/fallback_installation_type.html</span>",
+              "target": [
+                "div:nth-child(9) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .grow.md\\:truncate.w-full > .h-full.relative.w-full > .py-1\\.5.z-9.break-all > .justify-start.gap-x-1\\.5.items-center > .max-w-max.md\\:overflow-hidden[data-testid=\"dimension-value\"] > .group-hover\\:underline.md\\:truncate"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.5pt (14px)",
+                    "fontWeight": "normal",
+                    "messageKey": "bgOverlap",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because it is overlapped by another element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"block w-full transition-transform duration-150 translate-x-[100%] md:group-hover/report:translate-x-0\" data-testid=\"metric-value\">43</span>",
+              "target": [
+                "div:nth-child(9) > .group\\/row.hover\\:bg-gray-100\\/60.dark\\:hover\\:bg-gray-850 > .min-w-32.text-right.w-32 > .dark\\:text-gray-200.font-medium.text-gray-800 > .w-1\\/2:nth-child(1) > .transition-transform.translate-x-\\[100\\%\\].md\\:group-hover\\/report\\:translate-x-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:8950/share/dummy.site?auth=audit-c48-shared",
+      "error": null,
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "b5005400b1534b4b430a242c358fc95d5384c6636b726992afc49babf777f75b"
+}

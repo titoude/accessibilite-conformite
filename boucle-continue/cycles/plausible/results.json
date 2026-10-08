@@ -1,0 +1,68 @@
+{
+  "cycle": 48,
+  "repo": "plausible/analytics",
+  "sha": "b89b749cd1beee2bc4bb75a32c437bcf58e0253a",
+  "stack": "Elixir/Phoenix LiveView + React (esbuild) + Tailwind + ClickHouse/Postgres",
+  "axe": "4.14.0",
+  "baseline": {
+    "auth": {
+      "rules": 13,
+      "occurrences": 195,
+      "incompletes": 292,
+      "errors": 0
+    },
+    "public": {
+      "rules": 6,
+      "occurrences": 14,
+      "incompletes": 34,
+      "errors": 0
+    }
+  },
+  "final": {
+    "auth": {
+      "rules": 0,
+      "occurrences": 0,
+      "incompletes": 291,
+      "errors": 0
+    },
+    "public": {
+      "rules": 0,
+      "occurrences": 0,
+      "incompletes": 34,
+      "errors": 0
+    }
+  },
+  "incompleteProbes": {
+    "probed": 325,
+    "conformes": 322,
+    "nonConformes": 0,
+    "nonRetrouvees": 3,
+    "note": "3 non retrouvées = tick SVG d3 avec coordonnées transform recalculées à chaque render — non retrouvables par sélecteur exact ; mesurées conformes au run précédent"
+  },
+  "verify": {
+    "checks": 37,
+    "fail": 0,
+    "na": 3
+  },
+  "evalFinal": {
+    "checks": 8,
+    "fail": 0,
+    "na": 1
+  },
+  "sabotage": {
+    "description": "aria-label supprimé sur le bouton options du dashboard",
+    "result": "FAIL nommé attendu : 'dashboard: bouton options nommé'"
+  },
+  "vanilla": {
+    "verifyFails": 18,
+    "description": "verify.mjs rejoué sur le build vanilla (git stash du patch) — 18 FAIL attendus, tous nommés"
+  },
+  "installBuild": {
+    "gitApplyCheck": "OK",
+    "auth": "0 viol/0 err",
+    "public": "0 viol/0 err",
+    "note": "clone propre @SHA + patch + build + seed + rescan — ports 896x"
+  },
+  "filesChanged": 35,
+  "note": "pas d'auto-verdict — verdict délégué à l'auditeur"
+}

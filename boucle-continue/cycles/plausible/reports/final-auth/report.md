@@ -1,0 +1,233 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 29/29 scénario(s) audité(s), 0 erreur(s), 291 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `3d3ca458f3a7`
+
+## Résultats incomplets à revoir (291)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:8950/sites
+  - `#sort-dropdown-trigger`
+  - `#site-dummy\.site-dropdown-trigger`
+  - `#site-another\.site-dropdown-trigger`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:8950/sites
+  - `span[data-phx-loc="34"]`
+  - `.text-indigo-600`
+- http://localhost:8950/team/setup
+  - `span[data-phx-loc="34"]`
+  - `.underline`
+- http://localhost:8950/dummy.site
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,96.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,16.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(24.5,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(215.6111111111111,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(406.7222222222222,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - … +3 autres
+- http://localhost:8950/dummy.site/installation
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+- http://localhost:8950/dummy.site/change-domain
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+- http://localhost:8950/dummy.site/settings/people
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(11)`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(12)`
+- http://localhost:8950/dummy.site/settings/visibility
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(11)`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(12)`
+  - `#theme`
+- http://localhost:8950/dummy.site/settings/funnels
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(11)`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(12)`
+- http://localhost:8950/dummy.site/settings/danger-zone
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(11)`
+- http://localhost:8950/dummy.site/settings/integrations
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(11)`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(12)`
+- http://localhost:8950/dummy.site/settings/imports-exports
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(11)`
+  - `.dark\:hover\:bg-gray-850.focus\:text-gray-900.focus\:bg-gray-50:nth-child(12)`
+- http://localhost:8950/settings/preferences
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `#user_theme`
+- http://localhost:8950/settings/security
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+- http://localhost:8950/settings/api-keys
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+- http://localhost:8950/settings/api-keys/new
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+- http://localhost:8950/settings/danger-zone
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+- http://localhost:8950/billing/choose-plan
+  - `span[data-phx-loc="147"]`
+  - `div[x-data="{ open: true}"] > dt > .items-start.text-left[data-phx-loc="762"] > .font-semibold[data-phx-loc="767"]`
+  - `p[data-phx-loc="221"]`
+  - `span[data-phx-loc="247"]`
+  - `b`
+  - `a[data-phx-loc="256"]`
+  - `div[x-data="{ open: false}"] > dt > .items-start.text-left[data-phx-loc="762"] > .font-semibold[data-phx-loc="767"]`
+  - `.mt-16`
+  - `.dark\:hover\:text-indigo-400[data-phx-loc="360"][href$="contact"]`
+  - `a[data-phx-loc="367"]`
+- http://localhost:8950/dummy.site [state:site-switcher-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `a[data-selected="false"] > kbd`
+  - `a[data-selected="true"] > kbd`
+  - `.w-fit.font-bold.tracking-\[-\.01em\]`
+  - `#visitors`
+  - `.bg-gray-100\/70 > div:nth-child(2) > .items-baseline.whitespace-nowrap > .ml-2.font-medium[data-testid="change-arrow"]`
+  - `.lg\:border-l.lg\:flex-1.w-1\/2:nth-child(2) > div > .gap-y-1.p-2.-mx-2 > .group-hover\:text-gray-900.dark\:group-hover\:text-gray-100.w-fit`
+  - `#visits`
+  - `.lg\:border-l.lg\:flex-1.w-1\/2:nth-child(2) > div > .gap-y-1.p-2.-mx-2 > div:nth-child(2) > .items-baseline.whitespace-nowrap > .ml-2.font-medium[data-testid="change-arrow"]`
+  - … +11 autres
+- http://localhost:8950/dummy.site [state:user-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `#headlessui-popover-button-\:r2\: > .block.truncate`
+  - `span[data-testid="current-query-period"]`
+  - `.lg\:border-l.lg\:flex-1.px-4:nth-child(6) > div > .gap-y-1.p-2.-mx-2 > .group-hover\:text-gray-900.dark\:group-hover\:text-gray-100.w-fit`
+  - `#visit_duration`
+  - `.lg\:border-l.lg\:flex-1.px-4:nth-child(6) > div > .gap-y-1.p-2.-mx-2 > div:nth-child(2) > .items-baseline.whitespace-nowrap > .ml-2.font-medium[data-testid="change-arrow"]`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - … +8 autres
+- http://localhost:8950/dummy.site [state:filter-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.border-r.lg\:border-r-0.lg\:border-l:nth-child(5) > div > .gap-y-1.p-2.-mx-2 > .group-hover\:text-gray-900.dark\:group-hover\:text-gray-100.w-fit`
+  - `#bounce_rate`
+  - `.border-r.lg\:border-r-0.lg\:border-l:nth-child(5) > div > .gap-y-1.p-2.-mx-2 > div:nth-child(2) > .items-baseline.whitespace-nowrap > .ml-2.font-medium[data-testid="change-arrow"]`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,96.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,16.5)"] > text[x="-3"][dy="0.32em"]`
+  - … +6 autres
+- http://localhost:8950/dummy.site [state:period-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(1) > kbd`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(2) > kbd`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(3) > kbd`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(5) > kbd`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(6) > kbd`
+  - `a[data-selected="true"] > kbd`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(8) > kbd`
+  - `.py-2\.5.data-\[selected\=true\]\:bg-gray-100[data-selected="false"]:nth-child(10) > kbd`
+  - … +20 autres
+- http://localhost:8950/dummy.site [state:options-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,96.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,16.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(24.5,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(215.6111111111111,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(406.7222222222222,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - … +3 autres
+- http://localhost:8950/dummy.site [state:breakdown-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.sm\:mr-1`
+  - `.inline-block.text-gray-500.dark\:text-gray-400`
+  - `.lg\:inline`
+  - `#headlessui-popover-button-\:r2\: > .truncate.block`
+  - `span[data-testid="current-query-period"]`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - … +30 autres
+- http://localhost:8950/dummy.site [state:funnel-menu]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.sm\:mr-1`
+  - `.inline-block.dark\:text-gray-400.text-gray-500`
+  - `.lg\:inline`
+  - `#headlessui-popover-button-\:r2\: > .truncate.block`
+  - `span[data-testid="current-query-period"]`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - … +15 autres
+- http://localhost:8950/dummy.site?period=realtime [state:realtime-view]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,96.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,16.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(16.5,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `.tick.group[opacity="1"]:nth-child(2) > .translate-y-2[y="7"][dy="0.71em"]`
+  - `.tick.group[opacity="1"]:nth-child(3) > .translate-y-2[y="7"][dy="0.71em"]`
+  - … +3 autres
+- http://localhost:8950/dummy.site [state:goal-report]
+  - `span[data-phx-loc="34"]`
+  - `.plausible-event-name\=Trial\+Notification\+Upgrade\+Click`
+  - `.sm\:mr-1`
+  - `.inline-block.dark\:text-gray-400.text-gray-500`
+  - `.lg\:inline`
+  - `#headlessui-popover-button-\:r2\: > .truncate.block`
+  - `span[data-testid="current-query-period"]`
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - … +14 autres
+- http://localhost:8950/dummy.site [state:mobile-dash-390]
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,96.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,16.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(24.5,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(80.42592592592592,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `.tick[opacity="1"]:nth-child(3) > .translate-y-2[y="7"][dy="0.71em"]`
+  - `.tick[opacity="1"]:nth-child(4) > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(248.2037037037037,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - … +1 autres
+- http://localhost:8950/dummy.site [state:dark-dashboard]
+  - `g[transform="translate(0,336.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,256.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,176.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,96.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(0,16.5)"] > text[x="-3"][dy="0.32em"]`
+  - `g[transform="translate(24.5,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(80.42592592592592,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - `.tick[opacity="1"]:nth-child(3) > .translate-y-2[y="7"][dy="0.71em"]`
+  - `.tick[opacity="1"]:nth-child(4) > .translate-y-2[y="7"][dy="0.71em"]`
+  - `g[transform="translate(248.2037037037037,0)"] > .translate-y-2[y="7"][dy="0.71em"]`
+  - … +1 autres
+

@@ -1,0 +1,1167 @@
+diff --git a/assets/js/dashboard/email-reports-cta-banner.tsx b/assets/js/dashboard/email-reports-cta-banner.tsx
+index 14d6895..49787c6 100644
+--- a/assets/js/dashboard/email-reports-cta-banner.tsx
++++ b/assets/js/dashboard/email-reports-cta-banner.tsx
+@@ -57,7 +57,7 @@ export function EmailReportsCTABanner() {
+         Your first pageview has landed!
+       </span>{' '}
+       <a
+-        className="plausible-event-name=Weekly+Email+Note+Click text-indigo-600 hover:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-150"
++        className="plausible-event-name=Weekly+Email+Note+Click text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-150"
+         href={`/${encodeURIComponent(site.domain)}/settings/email-reports?cta_clicked=true`}
+         onClick={() => setVisible(false)}
+       >
+diff --git a/assets/js/dashboard/index.tsx b/assets/js/dashboard/index.tsx
+index bb2f7ac..7a3a908 100644
+--- a/assets/js/dashboard/index.tsx
++++ b/assets/js/dashboard/index.tsx
+@@ -7,6 +7,7 @@ import { Devices } from './stats/devices'
+ import { TopBar } from './nav-menu/top-bar'
+ import Behaviours from './stats/behaviours'
+ import { useDashboardStateContext } from './dashboard-state-context'
++import { useSiteContext } from './site-context'
+ import { isRealTimeDashboard } from './util/filters'
+ import { GraphIntervalProvider } from './stats/graph/graph-interval-context'
+ import { ImportsIncludedProvider } from './stats/graph/imports-included-context'
+@@ -47,11 +48,13 @@ function useIsRealtimeDashboard() {
+ function Dashboard() {
+   const isRealTimeDashboard = useIsRealtimeDashboard()
+   const [importedDataInView, setImportedDataInView] = useState(false)
++  const site = useSiteContext()
+ 
+   return (
+     <CurrentVisitorsProvider>
+       <GraphIntervalProvider>
+         <ImportsIncludedProvider>
++          <h1 className="sr-only">Analytics for {site.domain}</h1>
+           <div className="mb-16 grid grid-cols-1 md:grid-cols-2 gap-5">
+             <TopBar showCurrentVisitors={!isRealTimeDashboard} />
+             <DashboardStats
+diff --git a/assets/js/dashboard/keybinding.tsx b/assets/js/dashboard/keybinding.tsx
+index 7fa707d..7056b71 100644
+--- a/assets/js/dashboard/keybinding.tsx
++++ b/assets/js/dashboard/keybinding.tsx
+@@ -147,7 +147,7 @@ export function KeybindHint({
+   return (
+     <kbd
+       className={classNames(
+-        'hidden md:block rounded bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 px-1.5 font-medium text-xs text-gray-400',
++        'hidden md:block rounded bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 px-1.5 font-medium text-xs text-gray-500 dark:text-gray-400',
+         className
+       )}
+     >
+diff --git a/assets/js/dashboard/nav-menu/dashboard-options-menu.tsx b/assets/js/dashboard/nav-menu/dashboard-options-menu.tsx
+index 8c57eb5..40adee9 100644
+--- a/assets/js/dashboard/nav-menu/dashboard-options-menu.tsx
++++ b/assets/js/dashboard/nav-menu/dashboard-options-menu.tsx
+@@ -81,6 +81,7 @@ function DashboardOptionsMenuItems() {
+       <Popover.Button
+         ref={buttonRef}
+         data-testid="dashboard-options-menu"
++        aria-label="Dashboard options"
+         className={classNames(
+           popover.toggleButton.classNames.rounded,
+           popover.toggleButton.classNames.ghost,
+@@ -148,6 +149,7 @@ export function DashboardOptionsMenu() {
+     return (
+       <button
+         disabled
++        aria-label="Dashboard options"
+         className={classNames(
+           popover.toggleButton.classNames.rounded,
+           popover.toggleButton.classNames.ghost,
+diff --git a/assets/js/dashboard/nav-menu/query-periods/dashboard-period-menu.tsx b/assets/js/dashboard/nav-menu/query-periods/dashboard-period-menu.tsx
+index 0ca5bba..5775b38 100644
+--- a/assets/js/dashboard/nav-menu/query-periods/dashboard-period-menu.tsx
++++ b/assets/js/dashboard/nav-menu/query-periods/dashboard-period-menu.tsx
+@@ -239,6 +239,7 @@ export const MainCalendar = ({
+         className={hiddenCalendarButtonClassName}
+         tabIndex={-1}
+         ref={calendarButtonRef}
++        aria-label="Select date range"
+       />
+       <CalendarPanel className="mt-2">
+         <DateRangeCalendar
+diff --git a/assets/js/liveview/live_socket.js b/assets/js/liveview/live_socket.js
+index e1c9513..a6c7dcf 100644
+--- a/assets/js/liveview/live_socket.js
++++ b/assets/js/liveview/live_socket.js
+@@ -81,6 +81,14 @@ if (csrfToken && websocketUrl) {
+     shadowColor: 'rgba(0, 0, 0, .3)',
+     barThickness: 4
+   })
++  const topbarShow = topbar.show
++  topbar.show = function (...args) {
++    const result = topbarShow.apply(this, args)
++    document
++      .querySelectorAll('body > canvas')
++      .forEach((canvas) => canvas.setAttribute('aria-hidden', 'true'))
++    return result
++  }
+   window.addEventListener('phx:page-loading-start', (_info) => topbar.show())
+   window.addEventListener('phx:page-loading-stop', (_info) => topbar.hide())
+   window.addEventListener('scroll-to-top', () => window.scrollTo(0, 0))
+diff --git a/lib/plausible_web/components/billing/billing.ex b/lib/plausible_web/components/billing/billing.ex
+index 12a0216..e341a1b 100644
+--- a/lib/plausible_web/components/billing/billing.ex
++++ b/lib/plausible_web/components/billing/billing.ex
+@@ -32,9 +32,9 @@ defmodule PlausibleWeb.Components.Billing do
+           <Heroicons.lock_closed solid class="size-6 -mt-px pb-px" />
+         </div>
+         <div class="flex flex-col gap-y-1.5 items-center">
+-          <h3 class="font-medium text-gray-900 dark:text-gray-100">
++          <h2 class="font-medium text-gray-900 dark:text-gray-100">
+             Upgrade to unlock
+-          </h3>
++          </h2>
+           <span
+             id="lock-notice"
+             class="max-w-sm sm:max-w-md mb-2 text-sm text-gray-600 dark:text-gray-100/60 leading-normal text-center"
+@@ -340,7 +340,7 @@ defmodule PlausibleWeb.Components.Billing do
+       class={[
+         "text-sm w-full mt-6 block rounded-md py-2 px-3 text-center font-semibold leading-6 text-white transition-colors duration-150",
+         !@checkout_disabled && "bg-indigo-600 hover:bg-indigo-500",
+-        @checkout_disabled && "pointer-events-none bg-gray-400 dark:bg-gray-600"
++        @checkout_disabled && "pointer-events-none bg-gray-500 dark:bg-gray-600"
+       ]}
+     >
+       {render_slot(@inner_block)}
+diff --git a/lib/plausible_web/components/billing/notice.ex b/lib/plausible_web/components/billing/notice.ex
+index be884ac..84979c7 100644
+--- a/lib/plausible_web/components/billing/notice.ex
++++ b/lib/plausible_web/components/billing/notice.ex
+@@ -9,7 +9,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+   def active_grace_period(assigns) do
+     if assigns.enterprise? do
+       ~H"""
+-      <aside class="container">
++      <div class="container">
+         <.notice
+           title={Plausible.Billing.active_grace_period_notice_title()}
+           class="shadow-md dark:shadow-none"
+@@ -22,11 +22,11 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+             Upgrade now <span aria-hidden="true"> &rarr;</span>
+           </.link>
+         </.notice>
+-      </aside>
++      </div>
+       """
+     else
+       ~H"""
+-      <aside class="container">
++      <div class="container">
+         <.notice
+           title={Plausible.Billing.active_grace_period_notice_title()}
+           class="shadow-md dark:shadow-none"
+@@ -39,14 +39,14 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+             Upgrade now <span aria-hidden="true"> &rarr;</span>
+           </.link>
+         </.notice>
+-      </aside>
++      </div>
+       """
+     end
+   end
+ 
+   def dashboard_locked(assigns) do
+     ~H"""
+-    <aside class="container">
++    <div class="container">
+       <.notice
+         title={Plausible.Billing.dashboard_locked_notice_title()}
+         class="shadow-md dark:shadow-none"
+@@ -59,7 +59,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+           Upgrade now <span aria-hidden="true"> &rarr;</span>
+         </.link>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+@@ -120,7 +120,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+         } = assigns
+       ) do
+     ~H"""
+-    <aside
++    <div
+       :if={not Subscriptions.expired?(@subscription)}
+       id="global-subscription-cancelled-notice"
+       class="container"
+@@ -132,7 +132,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+       >
+         <.subscription_cancelled_notice_body subscription={@subscription} />
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+@@ -145,7 +145,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+     assigns = assign(assigns, :container_id, "local-subscription-cancelled-notice")
+ 
+     ~H"""
+-    <aside :if={not Subscriptions.expired?(@subscription)} id={@container_id} class="hidden">
++    <div :if={not Subscriptions.expired?(@subscription)} id={@container_id} class="hidden">
+       <.notice
+         title={Plausible.Billing.subscription_cancelled_notice_title()}
+         theme={:red}
+@@ -153,7 +153,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+       >
+         <.subscription_cancelled_notice_body subscription={@subscription} />
+       </.notice>
+-    </aside>
++    </div>
+     <script
+       data-localstorage-key={"notice_dismissed__#{Plausible.Billing.cancelled_subscription_notice_dismiss_id(@subscription.id)}"}
+       data-container-id={@container_id}
+@@ -176,14 +176,14 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+         %{subscription: %Subscription{status: Subscription.Status.past_due()}} = assigns
+       ) do
+     ~H"""
+-    <aside class={@class}>
++    <div class={@class}>
+       <.notice title={Plausible.Billing.subscription_past_due_notice_title()}>
+         There was a problem with your latest payment. Please update your payment information to keep using Plausible.<.link
+           href={@subscription.update_url}
+           class="whitespace-nowrap font-semibold"
+         > Update billing info <span aria-hidden="true"> &rarr;</span></.link>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+@@ -196,7 +196,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+         %{subscription: %Subscription{status: Subscription.Status.paused()}} = assigns
+       ) do
+     ~H"""
+-    <aside class={@class}>
++    <div class={@class}>
+       <.notice
+         title={Plausible.Billing.subscription_paused_notice_title()}
+         theme={:red}
+@@ -206,7 +206,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+           class="whitespace-nowrap font-semibold"
+         > Update billing info <span aria-hidden="true"> &rarr;</span></.link>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+@@ -222,7 +222,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+       assigns = assign(assigns, message: message)
+ 
+       ~H"""
+-      <aside class={@class}>
++      <div class={@class}>
+         <.notice
+           title={Plausible.Billing.pending_site_ownerships_notice_title()}
+           class="shadow-md dark:shadow-none mt-4"
+@@ -233,7 +233,7 @@ defmodule PlausibleWeb.Components.Billing.Notice do
+           </.link>
+           and reject the invitations.
+         </.notice>
+-      </aside>
++      </div>
+       """
+     else
+       ~H""
+diff --git a/lib/plausible_web/components/billing/pageview_slider.ex b/lib/plausible_web/components/billing/pageview_slider.ex
+index e46524e..c522045 100644
+--- a/lib/plausible_web/components/billing/pageview_slider.ex
++++ b/lib/plausible_web/components/billing/pageview_slider.ex
+@@ -46,6 +46,7 @@ defmodule PlausibleWeb.Components.Billing.PageviewSlider do
+             phx-change="slide"
+             id="slider"
+             name="slider"
++            aria-label="Monthly pageviews"
+             class="shadow-sm dark:bg-gray-600 dark:border-none"
+             type="range"
+             min="0"
+diff --git a/lib/plausible_web/components/billing/plan_benefits.ex b/lib/plausible_web/components/billing/plan_benefits.ex
+index a1a18b3..852e3cd 100644
+--- a/lib/plausible_web/components/billing/plan_benefits.ex
++++ b/lib/plausible_web/components/billing/plan_benefits.ex
+@@ -23,13 +23,17 @@ defmodule PlausibleWeb.Components.Billing.PlanBenefits do
+   returning a Phoenix component. This allows, for example, to render
+   links within the plan benefit text.
+   """
++  attr :link_class, :string, default: "text-indigo-600 dark:text-indigo-400"
++
+   def render(assigns) do
++    assigns = assign(assigns, :link_class, assigns.link_class)
++
+     ~H"""
+     <ul role="list" class={["mt-8 space-y-1 text-sm leading-6", @class]}>
+       <li :for={benefit <- @benefits} class="flex gap-x-1">
+         <Heroicons.check class="shrink-0 h-5 w-5 text-indigo-600 dark:text-green-600" />
+         <%= if benefit == "Sites API" do %>
+-          <.sites_api_benefit />
++          <.sites_api_benefit link_class={@link_class} />
+         <% else %>
+           {benefit}
+         <% end %>
+@@ -43,7 +47,7 @@ defmodule PlausibleWeb.Components.Billing.PlanBenefits do
+     <p>
+       Sites API access for
+       <.link
+-        class="text-indigo-500 hover:underline"
++        class={[@link_class, "underline"]}
+         href="https://plausible.io/white-label-web-analytics"
+       >
+         reselling
+diff --git a/lib/plausible_web/components/billing/plan_box.ex b/lib/plausible_web/components/billing/plan_box.ex
+index b4d9253..e750f97 100644
+--- a/lib/plausible_web/components/billing/plan_box.ex
++++ b/lib/plausible_web/components/billing/plan_box.ex
+@@ -32,13 +32,13 @@ defmodule PlausibleWeb.Components.Billing.PlanBox do
+       ]}
+     >
+       <div class="flex items-center justify-between gap-x-4">
+-        <h3 class={[
++        <h2 class={[
+           "text-lg font-semibold leading-8",
+           !@highlight && "text-gray-900 dark:text-gray-100",
+           @highlight && "text-indigo-600 dark:text-indigo-300"
+         ]}>
+           {String.capitalize(to_string(@kind))}
+-        </h3>
++        </h2>
+         <.highlight_pill :if={@highlight} text={@highlight} />
+       </div>
+       <div>
+@@ -69,13 +69,13 @@ defmodule PlausibleWeb.Components.Billing.PlanBox do
+       ]}
+     >
+       <div class="flex items-center justify-between gap-x-4">
+-        <h3 class={[
++        <h2 class={[
+           "text-lg font-semibold leading-8",
+           !@recommended && "text-white dark:text-gray-100",
+           @recommended && "text-indigo-400 dark:text-indigo-300"
+         ]}>
+           Enterprise
+-        </h3>
++        </h2>
+         <span
+           :if={@recommended}
+           id="enterprise-highlight-pill"
+@@ -90,7 +90,7 @@ defmodule PlausibleWeb.Components.Billing.PlanBox do
+         </span>
+       </div>
+       <.contact_button class="" />
+-      <PlanBenefits.render benefits={@benefits} class="text-gray-300 dark:text-gray-100" />
++      <PlanBenefits.render benefits={@benefits} class="text-gray-300 dark:text-gray-100" link_class="text-indigo-300 dark:text-indigo-400" />
+     </div>
+     """
+   end
+@@ -396,7 +396,7 @@ defmodule PlausibleWeb.Components.Billing.PlanBox do
+       class={[
+         "w-full mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 text-white",
+         !@checkout_disabled && "bg-indigo-600 hover:bg-indigo-500",
+-        @checkout_disabled && "pointer-events-none bg-gray-400 dark:bg-gray-600"
++        @checkout_disabled && "pointer-events-none bg-gray-500 dark:bg-gray-600"
+       ]}
+     >
+       {@change_plan_link_text}
+diff --git a/lib/plausible_web/components/flow_progress.ex b/lib/plausible_web/components/flow_progress.ex
+index d07d415..cada870 100644
+--- a/lib/plausible_web/components/flow_progress.ex
++++ b/lib/plausible_web/components/flow_progress.ex
+@@ -14,14 +14,15 @@ defmodule PlausibleWeb.Components.FlowProgress do
+     assigns = assign(assigns, :current_step_idx, current_step_idx)
+ 
+     ~H"""
+-    <div id="flow-progress" class="flex items-center gap-2" aria-label="Progress">
+-      <span
++    <ol id="flow-progress" class="flex items-center gap-2" aria-label="Progress">
++      <li
+         :for={{step, idx} <- Enum.with_index(@steps)}
+         class={dot_class(dot_state(idx, @current_step_idx))}
+         aria-current={idx == @current_step_idx && "step"}
+-        aria-label={step}
+-      />
+-    </div>
++      >
++        <span class="sr-only">{step}</span>
++      </li>
++    </ol>
+     """
+   end
+ 
+diff --git a/lib/plausible_web/components/generic.ex b/lib/plausible_web/components/generic.ex
+index 8a2797e..5d02344 100644
+--- a/lib/plausible_web/components/generic.ex
++++ b/lib/plausible_web/components/generic.ex
+@@ -199,6 +199,7 @@ defmodule PlausibleWeb.Components.Generic do
+           rel="noopener noreferrer"
+           target="_blank"
+           class="flex"
++          aria-label={"Learn more about #{@slug} (documentation)"}
+         >
+           <Heroicons.information_circle class="text-gray-400 dark:text-indigo-500 size-4.5 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-150" />
+         </a>
+@@ -253,6 +254,7 @@ defmodule PlausibleWeb.Components.Generic do
+       <div class={["rounded-md p-5 relative", @theme.bg, @class]} {@rest}>
+         <button
+           :if={@dismissable_id}
++          aria-label="Dismiss"
+           class={"absolute right-0 top-0 m-2 #{@theme.title_text}"}
+           onclick={"localStorage['notice_dismissed__#{@dismissable_id}'] = 'true'; document.getElementById('#{@dismissable_id}').classList.add('hidden')"}
+         >
+@@ -271,7 +273,7 @@ defmodule PlausibleWeb.Components.Generic do
+               <% end %>
+             </div>
+             <div class="flex-1 flex flex-col gap-y-1.5">
+-              <h3
++              <h2
+                 :if={@title}
+                 class={[
+                   @title_class == "" && "text-sm font-medium",
+@@ -280,7 +282,7 @@ defmodule PlausibleWeb.Components.Generic do
+                 ]}
+               >
+                 {@title}
+-              </h3>
++              </h2>
+               <div class={"#{@theme.body_text}"}>
+                 <p class="text-pretty">
+                   {render_slot(@inner_block)}
+@@ -320,7 +322,7 @@ defmodule PlausibleWeb.Components.Generic do
+       external_icon={@external_icon}
+       href={@href}
+       method={@method}
+-      class={"text-indigo-600 hover:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-400 transition-colors duration-150 " <> @class}
++      class={"text-indigo-600 underline underline-offset-2 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300 transition-colors duration-150 " <> @class}
+       {@rest}
+     >
+       {render_slot(@inner_block)}
+@@ -330,6 +332,7 @@ defmodule PlausibleWeb.Components.Generic do
+ 
+   attr :class, :string, default: ""
+   attr :id, :string, default: nil
++  attr :button_aria_label, :string, default: nil
+ 
+   slot :button, required: true do
+     attr(:class, :string)
+@@ -367,6 +370,7 @@ defmodule PlausibleWeb.Components.Generic do
+         theme={@button_theme}
+         size={@button_size}
+         class={@button_class}
++        aria-label={@button_aria_label}
+       >
+         {render_slot(@button)}
+       </.button>
+@@ -859,9 +863,12 @@ defmodule PlausibleWeb.Components.Generic do
+       {@rest}
+     >
+       <div class={if(@padding?, do: "p-8")}>
+-        <.title :if={@title != []}>
++        <h1
++          :if={@title != []}
++          class="text-lg font-medium text-gray-900 dark:text-gray-100 leading-7"
++        >
+           {render_slot(@title)}
+-        </.title>
++        </h1>
+         <div></div>
+ 
+         <div :if={@subtitle != []} class="text-sm mt-4 leading-6">
+@@ -990,6 +997,7 @@ defmodule PlausibleWeb.Components.Generic do
+ 
+   attr :set_to, :boolean, default: false
+   attr :disabled?, :boolean, default: false
++  attr :label, :string, required: true
+   slot :inner_block, required: true
+ 
+   def toggle_submit(assigns) do
+@@ -997,6 +1005,9 @@ defmodule PlausibleWeb.Components.Generic do
+     <div class="my-2 flex items-center">
+       <button
+         type="submit"
++        role="switch"
++        aria-checked={if @set_to, do: "true", else: "false"}
++        aria-label={@label}
+         class={[
+           "relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full transition-colors ease-in-out duration-200",
+           if(@set_to, do: "bg-indigo-600", else: "bg-gray-200 dark:bg-gray-600"),
+@@ -1027,6 +1038,7 @@ defmodule PlausibleWeb.Components.Generic do
+   end
+ 
+   attr :class, :string, default: ""
++  attr :label, :string, default: "Edit"
+   attr :rest, :global, include: ~w(disabled)
+ 
+   def edit_button(assigns) do
+@@ -1036,6 +1048,7 @@ defmodule PlausibleWeb.Components.Generic do
+       size="sm"
+       icon?={true}
+       class={"btn-text-primary #{@class}"}
++      aria-label={@label}
+       {@rest}
+     >
+       <.pencil_icon class="size-4" />
+@@ -1045,6 +1058,7 @@ defmodule PlausibleWeb.Components.Generic do
+ 
+   attr :href, :string, default: nil
+   attr :class, :string, default: ""
++  attr :label, :string, default: "Delete"
+   attr :rest, :global, include: ~w(method disabled)
+ 
+   def delete_button(assigns) do
+@@ -1056,6 +1070,7 @@ defmodule PlausibleWeb.Components.Generic do
+       size="sm"
+       icon?={true}
+       class={"btn-text-danger #{@class}"}
++      aria-label={@label}
+       {@rest}
+     >
+       <Heroicons.trash class="size-4" />
+@@ -1066,6 +1081,7 @@ defmodule PlausibleWeb.Components.Generic do
+       size="sm"
+       icon?={true}
+       class={"btn-text-danger #{@class}"}
++      aria-label={@label}
+       {@rest}
+     >
+       <Heroicons.trash class="size-4" />
+diff --git a/lib/plausible_web/components/layouts/footer.html.heex b/lib/plausible_web/components/layouts/footer.html.heex
+index d0fd551..35ae1fb 100644
+--- a/lib/plausible_web/components/layouts/footer.html.heex
++++ b/lib/plausible_web/components/layouts/footer.html.heex
+@@ -1,15 +1,15 @@
+-<div class="mt-24 bg-gray-800 dark:bg-gray-900">
++<footer class="mt-24 bg-gray-800 dark:bg-gray-900">
+   <div class="container px-4 py-12 sm:px-6 lg:py-16 lg:px-8">
+     <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+       <div class="my-8 xl:my-0">
+-        <h4 class="font-semibold tracking-wider text-gray-300 leading-5">
++        <p class="font-semibold tracking-wider text-gray-300 leading-5">
+           <img
+             src={PlausibleWeb.LayoutView.logo_path("logo_dark.svg")}
+             class="inline-block w-32 mr-1"
+             alt="Plausible logo"
+             loading="lazy"
+           />
+-        </h4>
++        </p>
+         <p class="mt-4 text-base text-gray-400 leading-6">
+           <%= if ee?() do %>
+             <a href="/eu-hosted-web-analytics" class="text-gray-300 hover:text-white">
+@@ -29,9 +29,9 @@
+       <div class="grid grid-cols-2 gap-8 xl:col-span-2">
+         <div class="md:grid md:grid-cols-2 md:gap-8 print:hidden">
+           <div>
+-            <h4 class="text-sm font-semibold tracking-wider text-gray-400 uppercase leading-5">
++            <h2 class="text-sm font-semibold tracking-wider text-gray-400 uppercase leading-5">
+               Getting started
+-            </h4>
++            </h2>
+             <ul class="mt-4">
+               <li>
+                 <a
+@@ -108,9 +108,9 @@
+             </ul>
+           </div>
+           <div class="mt-32 md:mt-0">
+-            <h4 class="text-sm font-semibold tracking-wider text-gray-400 uppercase leading-5">
++            <h2 class="text-sm font-semibold tracking-wider text-gray-400 uppercase leading-5">
+               Explore
+-            </h4>
++            </h2>
+             <ul class="mt-4">
+               <li>
+                 <a
+@@ -189,9 +189,9 @@
+         </div>
+         <div class="md:grid md:grid-cols-2 md:gap-8 print:hidden">
+           <div>
+-            <h4 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
++            <h2 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
+               Resources
+-            </h4>
++            </h2>
+             <ul class="mt-4">
+               <li>
+                 <a
+@@ -288,9 +288,9 @@
+             </ul>
+           </div>
+           <div class="mt-12 md:mt-0">
+-            <h4 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
++            <h2 class="text-sm leading-5 font-semibold tracking-wider text-gray-400 uppercase">
+               Company
+-            </h4>
++            </h2>
+             <ul class="mt-4">
+               <li class="mt-4">
+                 <a
+@@ -370,4 +370,4 @@
+       </div>
+     </div>
+   </div>
+-</div>
++</footer>
+\ No newline at end of file
+diff --git a/lib/plausible_web/components/layouts/header.html.heex b/lib/plausible_web/components/layouts/header.html.heex
+index c463509..69ebd75 100644
+--- a/lib/plausible_web/components/layouts/header.html.heex
++++ b/lib/plausible_web/components/layouts/header.html.heex
+@@ -1,6 +1,6 @@
+-<nav class="relative z-20 py-5">
++<nav aria-label="Main" class="relative z-20 py-5">
+   <div class="container print:max-w-full">
+-    <nav class="relative flex items-center justify-between sm:h-10 md:justify-center">
++    <div class="relative flex items-center justify-between sm:h-10 md:justify-center">
+       <div class="flex items-center flex-1 md:absolute md:inset-y-0 md:left-0">
+         <a href={PlausibleWeb.LayoutView.home_dest(@current_user)}>
+           <Layout.logo />
+@@ -45,13 +45,14 @@
+               </div>
+             </li>
+             <li class="w-full sm:w-auto">
+-              <.dropdown>
++              <.dropdown id="user-menu" button_aria_label={@current_user.name}>
+                 <:button theme="ghost" size="sm" class="pr-1.5">
+                   <span class="hidden md:block text-sm font-medium truncate dark:text-gray-100">
+                     {@current_user.name}
+                   </span>
+                   <img
+                     src={Plausible.Auth.User.profile_img_url(@current_user)}
++                    alt=""
+                     class="size-6 rounded-full"
+                   />
+                 </:button>
+@@ -147,6 +148,6 @@
+           </div>
+         <% end %>
+       </div>
+-    </nav>
++    </div>
+   </div>
+ </nav>
+diff --git a/lib/plausible_web/components/site/toggle_live.ex b/lib/plausible_web/components/site/toggle_live.ex
+index a93644d..c00996d 100644
+--- a/lib/plausible_web/components/site/toggle_live.ex
++++ b/lib/plausible_web/components/site/toggle_live.ex
+@@ -32,6 +32,9 @@ defmodule PlausibleWeb.Components.Site.Feature.ToggleLive do
+           type="button"
+           phx-click="toggle"
+           phx-target={@myself}
++          role="switch"
++          aria-checked={if @current_setting, do: "true", else: "false"}
++          aria-label={if @current_setting, do: "Hide from dashboard", else: "Show in dashboard"}
+           class={[
+             "relative inline-flex flex-shrink-0 h-5 w-9 border-2 border-transparent rounded-full transition-colors ease-in-out duration-200",
+             if(@current_setting, do: "bg-indigo-600", else: "bg-gray-200 dark:bg-gray-600"),
+diff --git a/lib/plausible_web/components/team/notice.ex b/lib/plausible_web/components/team/notice.ex
+index d2342af..cd38284 100644
+--- a/lib/plausible_web/components/team/notice.ex
++++ b/lib/plausible_web/components/team/notice.ex
+@@ -10,7 +10,7 @@ defmodule PlausibleWeb.Team.Notice do
+ 
+   def owner_cta_banner(assigns) do
+     ~H"""
+-    <aside class="mt-4 mb-4">
++    <div class="mt-4 mb-4">
+       <.notice
+         title="A Better Way of Inviting People to Your Team"
+         class="shadow-md dark:shadow-none mt-4"
+@@ -24,13 +24,13 @@ defmodule PlausibleWeb.Team.Notice do
+           </.styled_link>.
+         </p>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+   def guest_cta_banner(assigns) do
+     ~H"""
+-    <aside class="mt-4 mb-4">
++    <div class="mt-4 mb-4">
+       <.notice
+         title="A Better Way of Inviting People to a Team"
+         class="shadow-md dark:shadow-none mt-4"
+@@ -41,13 +41,13 @@ defmodule PlausibleWeb.Team.Notice do
+           contact the site owner to create your team.
+         </p>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+   def team_members_notice(assigns) do
+     ~H"""
+-    <aside class="mt-4 mb-4">
++    <div class="mt-4 mb-4">
+       <.notice theme={:gray} class="mt-4">
+         <p>
+           Team members automatically have access to this site.
+@@ -56,13 +56,13 @@ defmodule PlausibleWeb.Team.Notice do
+           </.styled_link>
+         </p>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+   def team_invitations(assigns) do
+     ~H"""
+-    <aside :if={not Enum.empty?(@team_invitations)} class="flex flex-col gap-y-4">
++    <div :if={not Enum.empty?(@team_invitations)} class="flex flex-col gap-y-4">
+       <.notice
+         :for={i <- @team_invitations}
+         id={"invitation-#{i.invitation_id}"}
+@@ -97,19 +97,19 @@ defmodule PlausibleWeb.Team.Notice do
+           </.button_link>
+         </:actions>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ 
+   def site_ownership_invitations(assigns) do
+     ~H"""
+-    <aside :if={not Enum.empty?(@site_ownership_invitations)} class="flex flex-col gap-y-4">
++    <div :if={not Enum.empty?(@site_ownership_invitations)} class="flex flex-col gap-y-4">
+       <.site_ownership_invitation
+         :for={i <- @site_ownership_invitations}
+         invitation={i}
+         current_team={@current_team}
+       />
+-    </aside>
++    </div>
+     """
+   end
+ 
+@@ -223,7 +223,7 @@ defmodule PlausibleWeb.Team.Notice do
+ 
+   def site_invitations(assigns) do
+     ~H"""
+-    <aside :if={not Enum.empty?(@site_invitations)} class="flex flex-col gap-y-4">
++    <div :if={not Enum.empty?(@site_invitations)} class="flex flex-col gap-y-4">
+       <.notice
+         :for={i <- @site_invitations}
+         id={"site-invitation-#{i.invitation_id}"}
+@@ -258,7 +258,7 @@ defmodule PlausibleWeb.Team.Notice do
+           </.button_link>
+         </:actions>
+       </.notice>
+-    </aside>
++    </div>
+     """
+   end
+ end
+diff --git a/lib/plausible_web/live/components/form.ex b/lib/plausible_web/live/components/form.ex
+index 0177201..4aa48ef 100644
+--- a/lib/plausible_web/live/components/form.ex
++++ b/lib/plausible_web/live/components/form.ex
+@@ -247,16 +247,16 @@ defmodule PlausibleWeb.Live.Components.Form do
+           class={@class}
+           {@rest}
+         />
+-        <a
++        <button
++          type="button"
+           onclick={"var input = document.getElementById('#{@id}'); input.focus(); input.select(); document.execCommand('copy'); event.stopPropagation();"}
+-          href="javascript:void(0)"
+-          class="absolute flex items-center text-xs font-medium text-indigo-600 dark:text-indigo-500 no-underline hover:text-indigo-700 dark:hover:text-indigo-400 top-3 right-4 transition-colors duration-150"
++          class="absolute flex items-center min-w-6 min-h-6 px-1 text-xs font-medium text-indigo-600 dark:text-indigo-500 no-underline hover:text-indigo-700 dark:hover:text-indigo-400 top-3 right-4 transition-colors duration-150"
+         >
+           <Heroicons.document_duplicate class="mr-1 size-4" />
+           <span>
+             COPY
+           </span>
+-        </a>
++        </button>
+       </div>
+     </div>
+     """
+@@ -300,7 +300,7 @@ defmodule PlausibleWeb.Live.Components.Form do
+             @click="showPassword = !showPassword"
+             tabindex="-1"
+             aria-label="Toggle password visibility"
+-            class="absolute inset-y-0 right-2 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors duration-150"
++            class="absolute inset-y-0 right-1 px-1 flex items-center text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300 transition-colors duration-150"
+           >
+             <span x-show="!showPassword">
+               <Heroicons.eye class="size-4" />
+diff --git a/lib/plausible_web/live/components/modal.ex b/lib/plausible_web/live/components/modal.ex
+index c1480bb..19d7405 100644
+--- a/lib/plausible_web/live/components/modal.ex
++++ b/lib/plausible_web/live/components/modal.ex
+@@ -159,6 +159,7 @@ defmodule PlausibleWeb.Live.Components.Modal do
+   attr :id, :any, required: true
+   attr :class, :string, default: ""
+   attr :preload?, :boolean, default: true
++  attr :label, :string, default: "Dialog"
+   slot :inner_block, required: true
+ 
+   @impl true
+@@ -220,6 +221,7 @@ defmodule PlausibleWeb.Live.Components.Modal do
+       x-on:keydown.escape.window="closeModal()"
+       role="dialog"
+       aria-modal="true"
++      aria-label={@label}
+     >
+       <div
+         x-show="modalOpen || modalPreopen"
+diff --git a/lib/plausible_web/live/components/team.ex b/lib/plausible_web/live/components/team.ex
+index 459dd76..5e7389d 100644
+--- a/lib/plausible_web/live/components/team.ex
++++ b/lib/plausible_web/live/components/team.ex
+@@ -44,7 +44,7 @@ defmodule PlausibleWeb.Live.Components.Team do
+       }
+     >
+       <div class="flex items-center gap-x-5">
+-        <img src={User.profile_img_url(@user)} class="w-8 rounded-full bg-gray-300" />
++        <img src={User.profile_img_url(@user)} alt="" class="w-8 rounded-full bg-gray-300" />
+         <div class="flex flex-col">
+           <span class="text-sm font-medium">
+             {@user.name}
+diff --git a/lib/plausible_web/live/csv_export.ex b/lib/plausible_web/live/csv_export.ex
+index 534aa08..70085ea 100644
+--- a/lib/plausible_web/live/csv_export.ex
++++ b/lib/plausible_web/live/csv_export.ex
+@@ -157,7 +157,7 @@ defmodule PlausibleWeb.Live.CSVExport do
+       <Heroicons.exclamation_circle class="w-4 h-4 text-red-500" />
+       <p class="ml-2 text-sm">
+         Something went wrong when preparing your download. Please
+-        <button phx-click="export" class="text-indigo-500">try again.</button>
++        <button phx-click="export" class="text-indigo-600 dark:text-indigo-400">try again.</button>
+       </p>
+     </div>
+     """
+diff --git a/lib/plausible_web/live/installation/instructions.ex b/lib/plausible_web/live/installation/instructions.ex
+index 9277571..06ae2ba 100644
+--- a/lib/plausible_web/live/installation/instructions.ex
++++ b/lib/plausible_web/live/installation/instructions.ex
+@@ -152,6 +152,8 @@ defmodule PlausibleWeb.Live.Installation.Instructions do
+         name="snippet"
+         rows={@rows}
+         readonly
++        aria-label="JavaScript snippet"
++      
+         class="block w-full resize-none border-0 bg-transparent px-3 py-3 text-[0.8rem] leading-4.5 font-mono text-gray-800 dark:text-gray-300 selection:bg-gray-200/80 dark:selection:bg-gray-700 focus:outline-none focus:ring-0"
+       ><%= @text %></textarea>
+ 
+diff --git a/lib/plausible_web/live/shared_link_settings.ex b/lib/plausible_web/live/shared_link_settings.ex
+index ebbbb9c..0b1850a 100644
+--- a/lib/plausible_web/live/shared_link_settings.ex
++++ b/lib/plausible_web/live/shared_link_settings.ex
+@@ -61,6 +61,7 @@ defmodule PlausibleWeb.Live.SharedLinkSettings do
+           module={Modal}
+           preload?={false}
+           id="shared-links-form-modal"
++          label="Shared link"
+         >
+           <.live_component
+             module={PlausibleWeb.Live.SharedLinkSettings.Form}
+@@ -154,6 +155,7 @@ defmodule PlausibleWeb.Live.SharedLinkSettings do
+                     name={link.slug}
+                     id={link.slug}
+                     value={Plausible.Sites.shared_link_url(@site, link)}
++                    aria-label={"Shared link URL for #{link.name}"}
+                   />
+                 </.td>
+                 <.td actions>
+diff --git a/lib/plausible_web/live/site_transfer_settings.ex b/lib/plausible_web/live/site_transfer_settings.ex
+index d09eadf..9dab7ba 100644
+--- a/lib/plausible_web/live/site_transfer_settings.ex
++++ b/lib/plausible_web/live/site_transfer_settings.ex
+@@ -115,7 +115,7 @@ defmodule PlausibleWeb.Live.SiteTransferSettings do
+               </div>
+               <p
+                 :if={not @show_teams?}
+-                class="ml-7 mt-1 text-sm text-gray-500/60 dark:text-gray-400/60 text-pretty"
++                class="ml-7 mt-1 text-sm text-gray-600 dark:text-gray-400 text-pretty"
+               >
+                 You aren't a member of any other teams or you lack privileges for transfer.
+               </p>
+@@ -168,7 +168,7 @@ defmodule PlausibleWeb.Live.SiteTransferSettings do
+               </div>
+               <p
+                 :if={@my_team_notice}
+-                class="ml-7 mt-1 text-sm text-gray-500/60 dark:text-gray-400/60 text-pretty"
++                class="ml-7 mt-1 text-sm text-gray-600 dark:text-gray-400 text-pretty"
+               >
+                 {@my_team_notice}
+                 <.styled_link :if={@my_team_upgrade_href} href={@my_team_upgrade_href}>
+diff --git a/lib/plausible_web/live/sites.ex b/lib/plausible_web/live/sites.ex
+index dc0481e..3f238c3 100644
+--- a/lib/plausible_web/live/sites.ex
++++ b/lib/plausible_web/live/sites.ex
+@@ -116,9 +116,9 @@ defmodule PlausibleWeb.Live.Sites do
+       } />
+ 
+       <div class="group py-4 border-b border-gray-200 dark:border-gray-750 flex items-center gap-2">
+-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl min-w-0 truncate">
++        <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl min-w-0 truncate">
+           {Teams.name(@current_team)}
+-        </h2>
++        </h1>
+         <.unstyled_link
+           :if={Teams.setup?(@current_team)}
+           data-test-id="team-settings-link"
+@@ -188,9 +188,9 @@ defmodule PlausibleWeb.Live.Sites do
+         :if={@is_empty_state?}
+         class="flex flex-col items-center justify-center py-8 sm:py-12 max-w-md mx-auto"
+       >
+-        <h3 class="text-center text-base font-medium text-gray-900 dark:text-gray-100 leading-7">
++        <h2 class="text-center text-base font-medium text-gray-900 dark:text-gray-100 leading-7">
+           {@empty_state_title}
+-        </h3>
++        </h2>
+         <p class="text-center text-sm mt-1 text-gray-500 dark:text-gray-400 leading-5 text-pretty">
+           {@empty_state_description}
+         </p>
+@@ -300,9 +300,9 @@ defmodule PlausibleWeb.Live.Sites do
+           </svg>
+         </div>
+         <div class="ml-2">
+-          <h3 class="font-medium text-gray-900 dark:text-gray-100">
++          <h2 class="font-medium text-gray-900 dark:text-gray-100">
+             Payment required
+-          </h3>
++          </h2>
+           <div class="mt-1 text-sm text-gray-900/80 dark:text-gray-100/60">
+             <p>
+               To access the sites you own, you need to subscribe to a monthly or yearly payment plan.
+@@ -327,9 +327,9 @@ defmodule PlausibleWeb.Live.Sites do
+         <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+           Introducing
+         </p>
+-        <h3 class="text-lg sm:text-[1.35rem] font-bold text-gray-900 leading-tighter dark:text-gray-100">
++        <h2 class="text-lg sm:text-[1.35rem] font-bold text-gray-900 leading-tighter dark:text-gray-100">
+           Consolidated view
+-        </h3>
++        </h2>
+       </div>
+ 
+       <div
+@@ -431,9 +431,9 @@ defmodule PlausibleWeb.Live.Sites do
+             <span class="size-8 sm:size-10 bg-indigo-600 ring-2 ring-inset ring-white/25 dark:ring-white/15 text-white p-1.5 sm:p-2 rounded-lg sm:rounded-xl">
+               <.globe_icon />
+             </span>
+-            <h3 class="text-gray-900 font-medium text-md sm:text-lg leading-tight dark:text-gray-100">
++            <h2 class="text-gray-900 font-medium text-md sm:text-lg leading-tight dark:text-gray-100">
+               All sites
+-            </h3>
++            </h2>
+           </div>
+           <span
+             :if={is_map(@consolidated_sparkline)}
+@@ -561,12 +561,12 @@ defmodule PlausibleWeb.Live.Sites do
+           <div class="w-full flex items-center justify-between gap-x-2.5">
+             <.favicon domain={@site.domain} />
+             <div class="flex-1 w-full">
+-              <h3
++              <h2
+                 class="text-gray-900 font-medium text-md sm:text-lg leading-[22px] truncate dark:text-gray-100"
+                 style="width: calc(100% - 4rem)"
+               >
+                 {@site.domain}
+-              </h3>
++              </h2>
+             </div>
+           </div>
+           <.site_stats sparkline={@sparkline} needs_verification?={@needs_verification?} />
+@@ -614,6 +614,7 @@ defmodule PlausibleWeb.Live.Sites do
+           theme="link"
+           size="sm"
+           icon?={true}
++          aria-label={"Actions for #{@site.domain}"}
+         >
+           <Heroicons.ellipsis_vertical class="size-5" />
+         </PrimaDropdown.dropdown_trigger>
+diff --git a/lib/plausible_web/templates/auth/login_form.html.heex b/lib/plausible_web/templates/auth/login_form.html.heex
+index 7053434..d954427 100644
+--- a/lib/plausible_web/templates/auth/login_form.html.heex
++++ b/lib/plausible_web/templates/auth/login_form.html.heex
+@@ -28,7 +28,7 @@
+           autocomplete="current-password"
+           field={f[:password]}
+         />
+-        <.styled_link href="/password/request-reset" class="text-sm absolute top-0 right-0">
++        <.styled_link href="/password/request-reset" class="text-sm absolute top-0 right-0 py-1">
+           Forgot password?
+         </.styled_link>
+         <p
+diff --git a/lib/plausible_web/templates/billing/upgrade_success.html.heex b/lib/plausible_web/templates/billing/upgrade_success.html.heex
+index c3f1719..0517d61 100644
+--- a/lib/plausible_web/templates/billing/upgrade_success.html.heex
++++ b/lib/plausible_web/templates/billing/upgrade_success.html.heex
+@@ -11,7 +11,7 @@
+ 
+   <p hidden id="timeout-notice" class="text-gray-500 dark:text-gray-200 text-sm">
+     Your subscription is taking longer than usual to upgrade. If you're not
+-    redirected soon, please contact <a class="text-indigo-500" href="mailto:hello@plausible.io">hello@plausible.io</a>.
++    redirected soon, please contact <a class="text-indigo-600 dark:text-indigo-400" href="mailto:hello@plausible.io">hello@plausible.io</a>.
+   </p>
+ 
+   <div class="loading my-12 mx-auto">
+diff --git a/lib/plausible_web/templates/layout/settings.html.heex b/lib/plausible_web/templates/layout/settings.html.heex
+index 253af4a..6ee832c 100644
+--- a/lib/plausible_web/templates/layout/settings.html.heex
++++ b/lib/plausible_web/templates/layout/settings.html.heex
+@@ -4,9 +4,9 @@
+     ← Back to sites
+   </.styled_link>
+   <div class="pt-0.5 pb-4 border-b border-gray-200 dark:border-gray-750">
+-    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl sm:truncate">
++    <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl sm:truncate">
+       Settings
+-    </h2>
++    </h1>
+   </div>
+   <div class="lg:grid lg:grid-cols-12 lg:gap-x-5 lg:mt-1.5">
+     <div class="lg:col-span-3">
+@@ -20,7 +20,7 @@
+       <div class="hidden lg:flex flex-col gap-8 py-4 top-0 sticky">
+         <div class="flex flex-col gap-4">
+           <div>
+-            <h3 class="text-gray-900 dark:text-gray-100 font-semibold">Account</h3>
++            <h2 class="text-gray-900 dark:text-gray-100 font-semibold">Account</h2>
+             <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
+               {@current_user.email}
+             </p>
+diff --git a/lib/plausible_web/templates/layout/site_settings.html.heex b/lib/plausible_web/templates/layout/site_settings.html.heex
+index c9504f2..2251eca 100644
+--- a/lib/plausible_web/templates/layout/site_settings.html.heex
++++ b/lib/plausible_web/templates/layout/site_settings.html.heex
+@@ -7,9 +7,9 @@
+     ← Back to stats
+   </.styled_link>
+   <div class="pt-0.5 pb-4 border-b border-gray-200 dark:border-gray-750">
+-    <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl sm:truncate">
++    <h1 class="text-xl font-semibold text-gray-900 dark:text-gray-100 sm:text-2xl sm:truncate">
+       Settings for {Plausible.Sites.display_name(@site)}
+-    </h2>
++    </h1>
+   </div>
+   <div class="lg:grid lg:grid-cols-12 lg:gap-x-5 lg:mt-1.5">
+     <div class="lg:col-span-3">
+diff --git a/lib/plausible_web/templates/settings/api_keys.html.heex b/lib/plausible_web/templates/settings/api_keys.html.heex
+index 429a531..f8b03bc 100644
+--- a/lib/plausible_web/templates/settings/api_keys.html.heex
++++ b/lib/plausible_web/templates/settings/api_keys.html.heex
+@@ -14,9 +14,9 @@
+ 
+     <%= if Enum.empty?(@api_keys) do %>
+       <div class="flex flex-col items-center justify-center pt-5 pb-6 max-w-md mx-auto">
+-        <h3 class="text-center text-base font-medium text-gray-900 dark:text-gray-100 leading-7">
++        <h2 class="text-center text-base font-medium text-gray-900 dark:text-gray-100 leading-7">
+           Create your first API key
+-        </h3>
++        </h2>
+         <p class="text-center text-sm mt-1 text-gray-500 dark:text-gray-400 leading-5 text-pretty">
+           Access your stats through the Plausible API.
+           <.styled_link href="https://plausible.io/docs/stats-api">Learn more</.styled_link>
+diff --git a/lib/plausible_web/templates/settings/security.html.heex b/lib/plausible_web/templates/settings/security.html.heex
+index f2285d0..d089652 100644
+--- a/lib/plausible_web/templates/settings/security.html.heex
++++ b/lib/plausible_web/templates/settings/security.html.heex
+@@ -16,6 +16,7 @@
+     >
+       <.input
+         type="text"
++        id="user_current_email"
+         name="user[current_email]"
+         value={f.data.email}
+         label="Current email"
+@@ -43,6 +44,7 @@
+     <.form :let={f} for={@email_changeset}>
+       <.input
+         type="text"
++        id="user_current_email"
+         name="user[current_email]"
+         value={f.data.email}
+         label="Current email"
+diff --git a/lib/plausible_web/templates/site/settings_email_reports.html.heex b/lib/plausible_web/templates/site/settings_email_reports.html.heex
+index f152cdc..d9c2e4f 100644
+--- a/lib/plausible_web/templates/site/settings_email_reports.html.heex
++++ b/lib/plausible_web/templates/site/settings_email_reports.html.heex
+@@ -42,7 +42,7 @@
+       method="post"
+     >
+       <div>
+-        <.toggle_submit set_to={meta.report}>
++        <.toggle_submit set_to={meta.report} label="Send email report">
+           {meta.toggle}
+         </.toggle_submit>
+       </div>
+@@ -132,7 +132,7 @@
+       }
+       method="post"
+     >
+-      <.toggle_submit set_to={meta.notification}>
++      <.toggle_submit set_to={meta.notification} label="Send traffic spike notification">
+         {meta.toggle}
+       </.toggle_submit>
+     </.form>
+diff --git a/lib/plausible_web/templates/site/settings_integrations.html.heex b/lib/plausible_web/templates/site/settings_integrations.html.heex
+index 6322e4d..b53d3da 100644
+--- a/lib/plausible_web/templates/site/settings_integrations.html.heex
++++ b/lib/plausible_web/templates/site/settings_integrations.html.heex
+@@ -13,6 +13,7 @@
+     <%= if Keyword.get(Application.get_env(:plausible, :google), :client_id) do %>
+       <%= if @site.google_auth do %>
+         <.input
++          id="integrations-account"
+           name="account"
+           label="Linked Google account"
+           value={@site.google_auth.email}
+diff --git a/lib/plausible_web/templates/site/settings_people.html.heex b/lib/plausible_web/templates/site/settings_people.html.heex
+index 34c22fc..73c88b8 100644
+--- a/lib/plausible_web/templates/site/settings_people.html.heex
++++ b/lib/plausible_web/templates/site/settings_people.html.heex
+@@ -33,6 +33,7 @@
+               <div class="shrink-0">
+                 <img
+                   src={Plausible.Auth.User.profile_img_url(membership.user)}
++                  alt=""
+                   class="size-8 rounded-full"
+                 />
+               </div>
+diff --git a/lib/plausible_web/templates/site/settings_visibility.html.heex b/lib/plausible_web/templates/site/settings_visibility.html.heex
+index 2e4aa9c..90eac8a 100644
+--- a/lib/plausible_web/templates/site/settings_visibility.html.heex
++++ b/lib/plausible_web/templates/site/settings_visibility.html.heex
+@@ -16,10 +16,10 @@
+       method="post"
+       for={nil}
+     >
+-      <.toggle_submit set_to={@site.public}>
++      <.toggle_submit set_to={@site.public} label="Make stats dashboard publicly accessible">
+         Make stats publicly available on
+         <.unstyled_link
+-          class="text-indigo-500"
++          class="text-indigo-600 dark:text-indigo-400 underline"
+           href={stats_path(@site.domain)}
+         >
+           {PlausibleWeb.StatsView.pretty_stats_url(@site)}
+@@ -95,13 +95,14 @@
+         onclick="this.select()"
+         class="block w-full border-gray-300 dark:border-gray-750 resize-none text-sm shadow-xs focus:ring-indigo-500 focus:border-indigo-500 rounded-md dark:bg-gray-750 dark:text-gray-300"
+       ></textarea>
+-      <a
++      <button
++        type="button"
+         onclick="var textarea = document.getElementById('embed-code'); textarea.focus(); textarea.select(); document.execCommand('copy');"
+-        href="javascript:void(0)"
+-        class="text-sm text-indigo-500 no-underline hover:underline"
++        aria-label="Copy embed code"
++        class="text-sm text-indigo-600 dark:text-indigo-400"
+       >
+         <Heroicons.document_duplicate class="size-5 absolute text-indigo-600 hover:text-indigo-700 dark:text-indigo-500 dark:hover:text-indigo-400 top-3 right-3 transition-colors duration-150" />
+-      </a>
++      </button>
+     </div>
+   </.tile>
+ </.settings_tiles>
