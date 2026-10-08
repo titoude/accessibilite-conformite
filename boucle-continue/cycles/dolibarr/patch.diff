@@ -1,0 +1,904 @@
+diff --git a/htdocs/admin/company.php b/htdocs/admin/company.php
+index 2ffcf6a1763..c1a8fc8c5cb 100644
+--- a/htdocs/admin/company.php
++++ b/htdocs/admin/company.php
+@@ -616,7 +616,7 @@ print '<tr class="liste_titre"><td class="wordbreak" colspan="2">'.$langs->trans
+ $langs->load("companies");
+ 
+ // Managing Director(s)
+-print '<tr class="oddeven"><td class="titlefieldcreate smallheight"><label for="director">'.$langs->trans("ManagingDirectors").'</label></td><td>';
++print '<tr class="oddeven"><td class="titlefieldcreate smallheight"><label for="directors">'.$langs->trans("ManagingDirectors").'</label></td><td>';
+ print '<input name="MAIN_INFO_SOCIETE_MANAGERS" id="directors" class="minwidth300" value="'.dolPrintHTMLForAttribute((GETPOSTISSET('MAIN_INFO_SOCIETE_MANAGERS') ? GETPOST('MAIN_INFO_SOCIETE_MANAGERS', 'alphanohtml') : getDolGlobalString('MAIN_INFO_SOCIETE_MANAGERS'))).'"></td></tr>';
+ 
+ // GDPR contact
+diff --git a/htdocs/core/boxes/modules_boxes.php b/htdocs/core/boxes/modules_boxes.php
+index 3c6abf5c8c0..994f147d2fe 100644
+--- a/htdocs/core/boxes/modules_boxes.php
++++ b/htdocs/core/boxes/modules_boxes.php
+@@ -288,7 +288,7 @@ class ModeleBoxes // Can't be abstract as it is instantiated to build "empty" bo
+ 
+ 			$out .= "\n<!-- Box ".get_class($this)." start -->\n";
+ 
+-			$out .= '<div class="box divboxtable boxdraggable" id="boxto_'.$this->box_id.'">'."\n";
++			$out .= '<div class="box divboxtable boxdraggable" id="boxto_'.$this->box_id.'" tabindex="0" role="region" aria-label="'.dol_escape_htmltag(empty($head['text']) ? $langs->trans('Dashboard').' '.$this->box_id : $head['text']).'">'."\n";
+ 			if (!empty($head['text']) || !empty($head['sublink']) || !empty($head['subpicto']) || $nblines) {
+ 				$out .= '<table summary="boxtable'.$this->box_id.'" class="noborder boxtable centpercent">'."\n";
+ 			}
+diff --git a/htdocs/core/class/commonorder.class.php b/htdocs/core/class/commonorder.class.php
+index cf8a77a6aee..1849bfed5ee 100644
+--- a/htdocs/core/class/commonorder.class.php
++++ b/htdocs/core/class/commonorder.class.php
+@@ -56,7 +56,7 @@ abstract class CommonOrder extends CommonObject
+ 		$return .= '<div class="info-box-content">';
+ 		$return .= '<span class="info-box-ref inline-block tdoverflowmax150 valignmiddle">'.(method_exists($this, 'getNomUrl') ? $this->getNomUrl() : $this->ref).'</span>';
+ 		if ($selected >= 0) {
+-			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'"'.($selected ? ' checked="checked"' : '').'>';
++			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'" aria-label="'.dol_escape_htmltag($langs->trans('Select')).'"'.($selected ? ' checked="checked"' : '').'>';
+ 		}
+ 		if (property_exists($this, 'thirdparty') && is_object($this->thirdparty)) {
+ 			$return .= '<br><div class="info-box-ref tdoverflowmax150">'.$this->thirdparty->getNomUrl(1).'</div>';
+diff --git a/htdocs/core/class/html.form.class.php b/htdocs/core/class/html.form.class.php
+index 50f58a41d41..ec9d4b42885 100644
+--- a/htdocs/core/class/html.form.class.php
++++ b/htdocs/core/class/html.form.class.php
+@@ -1683,7 +1683,7 @@ class Form
+ 				print $langs->trans("Type").'...';
+ 			}
+ 
+-			print '<select class="flat'.($morecss ? ' '.$morecss : '').'" id="select_' . $htmlname . '" name="' . $htmlname . '">';
++			print '<select class="flat'.($morecss ? ' '.$morecss : '').'" id="select_' . $htmlname . '" name="' . $htmlname . '" aria-label="'.$langs->trans('Type').'">';
+ 			if ($showempty) {
+ 				print '<option value="-1" class="opacitymedium"'.($useajaxcombo ? '' : ' disabled="disabled"');
+ 				if ($selected == -1) {
+@@ -8167,7 +8167,7 @@ class Form
+ 			}
+ 
+ 			if (!$options_only) {
+-				$return .= '<select class="flat valignmiddle minwidth75imp maxwidth100 right" id="' . $htmlname . '" name="' . $htmlname . '"' . ($disabled ? ' disabled' : '') . $title . '>';
++				$return .= '<select class="flat valignmiddle minwidth75imp maxwidth100 right" id="' . $htmlname . '" name="' . $htmlname . '" aria-label="'.$langs->trans('VAT').'"' . ($disabled ? ' disabled' : '') . $title . '>';
+ 			}
+ 
+ 			$selectedfound = false;
+@@ -8446,7 +8446,7 @@ class Form
+ 					// and load the js that contains them so the call of showDP will works.
+ 					/*
+ 					// Input area to enter date manually
+-					$retstring .= '<!-- datepicker usecalendar=eldy --><input id="' . $prefix . '" name="' . $prefix . '" type="text" class="maxwidthdate center" maxlength="11" value="' . $formatted_date . '"';
++					$retstring .= '<!-- datepicker usecalendar=eldy --><input id="' . $prefix . '" name="' . $prefix . '" type="text" class="maxwidthdate center" maxlength="11" aria-label="' . dol_escape_htmltag($langs->trans('Date')) . '" value="' . $formatted_date . '"';
+ 					$retstring .= ($disabled ? ' disabled' : '');
+ 					$retstring .= ' onChange="dpChangeDay(\'' . dol_escape_js($prefix) . '\',\'' . dol_escape_js($formatjslong")) . '\'); "'; // FormatDateShortInput for dol_print_date is same than FormatDateShortJavaInput for javascript
+ 					$retstring .= ' autocomplete="off">';
+@@ -8504,7 +8504,7 @@ class Form
+ 
+ 					// Input area to enter date manually
+ 					$retstring .= '<div class="nowraponall inline-block divfordateinput">';
+-					$retstring .= '<input id="'.$prefix.'" name="'.$prefix.'" type="'.($usecalendar == 'html' ? "date" : "text").'" class="maxwidthdate'.(getDolUserString('MAIN_OPTIMIZEFORTEXTBROWSER') ? ' textbrowser' : '').' center" maxlength="11" value="'.$formatted_date.'"';
++					$retstring .= '<input id="'.$prefix.'" name="'.$prefix.'" type="'.($usecalendar == 'html' ? "date" : "text").'" class="maxwidthdate'.(getDolUserString('MAIN_OPTIMIZEFORTEXTBROWSER') ? ' textbrowser' : '').' center" maxlength="11" aria-label="'.dol_escape_htmltag($langs->trans('Date')).'" value="'.$formatted_date.'"';
+ 					$retstring .= ($disabled ? ' disabled' : '');
+ 					$retstring .= ($placeholder ? ' placeholder="' . dol_escape_htmltag($placeholder) . '"' : '');
+ 					$retstring .= ' onChange="dpChangeDay(\'' . dol_escape_js($prefix) . '\',\'' . dol_escape_js($usecalendar == 'html' ? 'yyyy-mm-dd' : $formatjslong) . '\'); "'; // FormatDateShortInput for dol_print_date / FormatDateShortJavaInput that is same for javascript
+@@ -10769,7 +10769,7 @@ class Form
+ 
+         <dl class="dropdown">
+             <dt>
+-            <a href="#' . $htmlname . '" class="multiselectpicto">
++            <a href="#' . $htmlname . '" class="multiselectpicto" aria-label="' . $langs->trans('SelectAll') . '" title="' . $langs->trans('SelectAll') . '">
+               ' . img_picto('', 'list') . '
+             </a>
+             <input type="hidden" class="' . $htmlname . '" name="' . $htmlname . '" value="' . $listcheckedstring . '">
+@@ -12125,9 +12125,11 @@ class Form
+ 	 */
+ 	public function showFilterButtons($pos = '')
+ 	{
++		global $langs;
++
+ 		$out = '<div class="nowraponall">';
+-		$out .= '<button type="submit" class="liste_titre button_search reposition" name="button_search_x" value="x"><span class="fas fa-search"></span></button>';
+-		$out .= '<button type="submit" class="liste_titre button_removefilter reposition" name="button_removefilter_x" value="x"><span class="fas fa-times"></span></button>';
++		$out .= '<button type="submit" class="liste_titre button_search reposition" name="button_search_x" value="x" aria-label="' . dol_escape_htmltag($langs->trans('Search')) . '" title="' . dol_escape_htmltag($langs->trans('Search')) . '"><span class="fas fa-search"></span></button>';
++		$out .= '<button type="submit" class="liste_titre button_removefilter reposition" name="button_removefilter_x" value="x" aria-label="' . dol_escape_htmltag($langs->trans('RemoveFilter')) . '" title="' . dol_escape_htmltag($langs->trans('RemoveFilter')) . '"><span class="fas fa-times"></span></button>';
+ 		$out .= '</div>';
+ 
+ 		return $out;
+@@ -12143,12 +12145,12 @@ class Form
+ 	 */
+ 	public function showCheckAddButtons($cssclass = 'checkforaction', $calljsfunction = 0, $massactionname = "massaction")
+ 	{
+-		global $conf;
++		global $conf, $langs;
+ 
+ 		$out = '';
+ 
+ 		if (!empty($conf->use_javascript_ajax)) {
+-			$out .= '<div class="inline-block checkallactions"><input type="checkbox" id="' . $cssclass . 's" name="' . $cssclass . 's" class="checkallactions"></div>';
++			$out .= '<div class="inline-block checkallactions"><input type="checkbox" id="' . $cssclass . 's" name="' . $cssclass . 's" class="checkallactions" aria-label="' . dol_escape_htmltag($langs->trans('SelectAll')) . '"></div>';
+ 		}
+ 		$out .= '<script nonce="' . getNonce() . '">
+             $(document).ready(function() {
+diff --git a/htdocs/core/class/timespent.class.php b/htdocs/core/class/timespent.class.php
+index 0709c296533..478c7d9dbbf 100644
+--- a/htdocs/core/class/timespent.class.php
++++ b/htdocs/core/class/timespent.class.php
+@@ -854,7 +854,7 @@ class TimeSpent extends CommonObject
+ 		$return .= '<div class="info-box-content">';
+ 		$return .= '<span class="info-box-ref inline-block tdoverflowmax150 valignmiddle">'.(method_exists($this, 'getNomUrl') ? $this->getNomUrl() : $this->ref).'</span>';
+ 		if ($selected >= 0) {
+-			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'"'.($selected ? ' checked="checked"' : '').'>';
++			$return .= '<input id="cb'.$this->id.'" class="flat checkforselect fright" type="checkbox" name="toselect[]" value="'.$this->id.'" aria-label="'.dol_escape_htmltag($langs->trans('Select')).'"'.($selected ? ' checked="checked"' : '').'>';
+ 		}
+ 		if (property_exists($this, 'label')) {
+ 			$return .= ' <div class="inline-block opacitymedium valignmiddle tdoverflowmax100">'.$this->label.'</div>';
+diff --git a/htdocs/core/js/lib_head.js.php b/htdocs/core/js/lib_head.js.php
+index 1a0c8a2ebfd..05bc975ef3f 100644
+--- a/htdocs/core/js/lib_head.js.php
++++ b/htdocs/core/js/lib_head.js.php
+@@ -1907,4 +1907,166 @@ $(function() {
+ 
+ }
+ 
++
++// a11y cycle 57 — fixes runtime : noms accessibles + liaisons select2 + h1
++(function () {
++	var selLabel = <?php echo json_encode($langs->trans('Select')); ?>;
++	var menuLabel = <?php echo json_encode($langs->trans('Menu')); ?>;
++	var searchLabel = <?php echo json_encode($langs->trans('Search')); ?>;
++
++	function labelFromTitle(el) {
++		var t = el.getAttribute('title');
++		if (t && t.replace(/<[^>]*>/g, '').trim() !== '') { return t.replace(/<[^>]*>/g, '').trim(); }
++		return null;
++	}
++
++	function fixSearchInputs() {
++		document.querySelectorAll('input[name^="search"], select[name^="search"], input.select2-search__field, input.checkforselect, input[name="toselect[]"]').forEach(function (el) {
++			if (el.getAttribute('aria-label') || el.getAttribute('aria-labelledby')) { return; }
++			var label = labelFromTitle(el);
++			if (!label) {
++				var td = el.closest('th, td');
++				var th = td && td.closest('tr') ? null : null;
++				// colonne parente : texte du th de la colonne
++				var cell = el.closest('td, th');
++				if (cell) {
++					var idx = Array.prototype.indexOf.call(cell.parentNode.children, cell);
++					var table = cell.closest('table');
++					if (table) {
++						var headTh = table.querySelector('tr.liste_titre th:nth-child(' + (idx + 1) + '), thead th:nth-child(' + (idx + 1) + ')');
++						if (headTh && headTh.textContent.trim()) { label = headTh.textContent.trim(); }
++					}
++				}
++			}
++			if (!label && el.classList.contains('checkforselect')) { label = selLabel; }
++			if (!label) { label = searchLabel; }
++			if (el.getAttribute('aria-label') !== label) { el.setAttribute('aria-label', label); }
++		});
++		// label-title-only : title sans autre nom
++		document.querySelectorAll('input[title]:not([aria-label]):not([aria-labelledby]), select[title]:not([aria-label]):not([aria-labelledby])').forEach(function (el) {
++			var t = labelFromTitle(el);
++			if (t) { el.setAttribute('aria-label', t); }
++		});
++		// lignes de formulaire legacy <td>libelle</td><td><input/></td> : nom accessible depuis la cellule precedente
++		document.querySelectorAll('#id-right input:not([aria-label]):not([aria-labelledby]), #id-right select:not([aria-label]):not([aria-labelledby]), #id-right textarea:not([aria-label]):not([aria-labelledby])').forEach(function (el) {
++			if (el.type === 'hidden' || el.getAttribute('aria-hidden') === 'true' || el.closest('[aria-hidden="true"]')) { return; }
++			var cell = el.closest('td, th');
++			var lbl = null;
++			if (cell) {
++				var prev = cell.previousElementSibling;
++				while (prev && !lbl) {
++					var txt = (prev.textContent || '').replace(/[*  ]+/g, ' ').trim();
++					if (txt) { lbl = txt; }
++					prev = prev.previousElementSibling;
++				}
++			}
++			if (!lbl && el.placeholder) { lbl = el.placeholder; }
++			if (!lbl && el.name) { lbl = el.name.replace(/[_-]+/g, ' '); }
++			if (!lbl) { lbl = el.id ? el.id.replace(/[_-]+/g, ' ') : selLabel; }
++			el.setAttribute('aria-label', lbl);
++		});
++	}
++
++	function fixSelect2() {
++		// Liaison aria-controls/aria-owns : supprime les references vers des id absents du DOM
++		document.querySelectorAll('span.select2-selection[role="combobox"]').forEach(function (cb) {
++			['aria-controls', 'aria-owns'].forEach(function (attr) {
++				var ref = cb.getAttribute(attr);
++				if (ref && !document.getElementById(ref)) { cb.removeAttribute(attr); }
++			});
++			var host = cb.closest('.select2-container');
++			var sel = host ? host.previousElementSibling : null;
++			var lbl = null;
++			if (sel && sel.id) {
++				var lab = document.querySelector('label[for="' + sel.id + '"]');
++				if (lab && lab.textContent.trim()) { lbl = lab.textContent.trim(); }
++			}
++			if (!lbl && sel && sel.getAttribute('data-placeholder')) { lbl = sel.getAttribute('data-placeholder'); }
++			if (!lbl && sel && sel.name) { lbl = searchLabel; }
++			var newLbl = lbl || selLabel;
++			// aria-labelledby pointant vers un contenu vide ne nomme rien -> on le remplace
++			var by = cb.getAttribute('aria-labelledby');
++			var byEmpty = by && by.split(' ').every(function (id) {
++				var el = document.getElementById(id);
++				return el ? el.textContent.trim() === '' : true;
++			});
++			if (by && byEmpty) { cb.removeAttribute('aria-labelledby'); }
++			if ((!cb.getAttribute('aria-label') && !cb.getAttribute('aria-labelledby')) || byEmpty) {
++				if (cb.getAttribute('aria-label') !== newLbl) { cb.setAttribute('aria-label', newLbl); }
++			}
++			if (!cb.hasAttribute('aria-expanded')) { cb.setAttribute('aria-expanded', 'false'); }
++			// le span rendu (role=textbox) herite du meme nom
++			var rendered = cb.querySelector('.select2-selection__rendered');
++			if (rendered && rendered.getAttribute('role') === 'textbox') {
++				var rby = rendered.getAttribute('aria-labelledby');
++				var rbyOk = rby && rby.split(' ').some(function (id) {
++					var el = document.getElementById(id);
++					return el && el !== rendered && el.textContent.trim() !== '';
++				});
++				if (!rendered.getAttribute('aria-label') && !rbyOk && rendered.getAttribute('aria-label') !== newLbl) {
++					rendered.setAttribute('aria-label', newLbl);
++				}
++			}
++			// liaison aria-controls -> la liste de resultats correspondante
++			var rid = rendered && rendered.id ? rendered.id.replace(/-container$/, '-results') : null;
++			if (rid && document.getElementById(rid) && !cb.hasAttribute('aria-controls')) {
++				cb.setAttribute('aria-controls', rid);
++			}
++		});
++		// popup select2 ouvert attache a <body> : role dialog (hors landmarks sinon)
++		document.querySelectorAll('body > span.select2-container--open:not([role]), body > .select2-container.select2-container--open:not([role])').forEach(function (pop) {
++			pop.setAttribute('role', 'dialog');
++			pop.setAttribute('aria-label', selLabel);
++		});
++		// listbox vide : role retire tant qu'il n'y a pas d'option (aria-required-children)
++		document.querySelectorAll('ul.select2-results__options').forEach(function (ul) {
++			var hasOpts = !!ul.querySelector('[role="option"], li.select2-results__option');
++			if (!hasOpts && ul.getAttribute('role') === 'listbox') {
++				ul.setAttribute('data-a11y-role', 'listbox');
++				ul.removeAttribute('role');
++			} else if (hasOpts && ul.getAttribute('data-a11y-role') === 'listbox') {
++				ul.setAttribute('role', 'listbox');
++				ul.removeAttribute('data-a11y-role');
++			}
++		});
++		// Liste d'options : li messages hors role=option
++		document.querySelectorAll('.select2-results__options > li.select2-results__message:not([role="option"])').forEach(function (li) {
++			li.setAttribute('role', 'option');
++			li.setAttribute('aria-disabled', 'true');
++			if (li.hasAttribute('aria-live')) { li.removeAttribute('aria-live'); }
++		});
++	}
++
++	function ensureH1() {
++		var main = document.getElementById('id-right');
++		if (!main) { return; }
++		if (!main.querySelector('h1')) {
++			var h1 = document.createElement('h1');
++			h1.className = 'sr-only';
++			var title = document.querySelector('#id-right .titre, #id-right .print-barre-liste');
++			h1.textContent = (title && title.textContent.trim()) || document.title.replace(/\s*-\s*[^-]*$/, '');
++			main.prepend(h1);
++		}
++	}
++
++	function run() {
++		fixSearchInputs(); fixSelect2(); ensureH1();
++		document.addEventListener('keydown', function(e) {
++			if (e.key !== 'Escape') return;
++			var open = document.querySelectorAll('.dropdown.open');
++			for (var i = 0; i < open.length; i++) { open[i].classList.remove('open'); }
++		});
++		if (!window.__a11yObs && document.body) {
++			window.__a11yObs = true;
++			new MutationObserver(function () { fixSearchInputs(); fixSelect2(); }).observe(document.body, {
++				childList: true, subtree: true, attributes: true,
++				attributeFilter: ['aria-controls', 'aria-owns', 'aria-expanded', 'aria-labelledby', 'role', 'class', 'title']
++			});
++		}
++	}
++	if (document.readyState === 'loading') {
++		document.addEventListener('DOMContentLoaded', run);
++	} else { run(); }
++})();
++
+ // End of lib_head.js.php
+diff --git a/htdocs/core/lib/functions.lib.php b/htdocs/core/lib/functions.lib.php
+index c6a077bb102..9d19e1f145d 100644
+--- a/htdocs/core/lib/functions.lib.php
++++ b/htdocs/core/lib/functions.lib.php
+@@ -7244,6 +7244,15 @@ function getTitleFieldOfList($name, $thead = 0, $file = "", $field = "", $begin
+ 
+ 	$out = $tagstart . $sortimg . $out . $tagend;
+ 
++	// a11y: un <th> sans texte de titre n'est pas un en-tete — basculer en <td>.
++	// Le composant de selection de colonnes (multiSelectArrayWithCheckbox) et les cases
++	// "tout cocher" (checkforselect) sont des controles, pas des titres de colonne.
++	$textprobe = preg_replace('/<dl class="dropdown">.*?<\/dl>/s', '', $out);
++	$onlycontrols = (strpos($out, 'multiSelectArrayWithCheckbox') !== false || strpos($out, 'checkforselect') !== false);
++	if ($tag === 'th' && ($onlycontrols || trim(html_entity_decode(strip_tags(str_replace('&nbsp;', ' ', $textprobe)))) === '')) {
++		$out = '<td' . substr($out, 3, strlen($out) - strlen('</th>') - 3) . '</td>';
++	}
++
+ 	return $out;
+ }
+ 
+@@ -7307,9 +7316,12 @@ function load_fiche_titre($title, $morehtmlright = '', $picto = 'generic', $pict
+ 		$return .= '<td class="nobordernopadding widthpictotitle valignmiddle col-picto">' . img_picto('', $picto, 'class="valignmiddle pictotitle'.($morecssonpicto ? ' '.$morecssonpicto : '').'"', $pictoisfullpath) . '</td>';
+ 	}
+ 	$return .= '<td class="nobordernopadding valignmiddle col-title">';
+-	$return .= '<div class="titre inline-block">';
++	if (trim(html_entity_decode(strip_tags(str_replace('&nbsp;', ' ', $title)))) === '') {
++		$title = $langs->trans('Home');
++	}
++	$return .= '<h1 class="titre inline-block">';
+ 	$return .= '<span class="inline-block valignmiddle print-barre-liste">' . $title . '</span>';	// $title is already HTML sanitized content
+-	$return .= '</div>';
++	$return .= '</h1>';
+ 	$return .= '</td>';
+ 	if (dol_strlen($morehtmlcenter)) {
+ 		$return .= '<td class="nobordernopadding center valignmiddle col-center">' . $morehtmlcenter . '</td>';
+@@ -14545,6 +14557,7 @@ function dolGetBadge($label, $html = '', $type = 'primary', $mode = '', $url = '
+ 	if ($mode === 'dot') {
+ 		$attr['class'] .= ' classfortooltip';
+ 		$attr['title'] = $html;
++		$attr['role'] = 'img'; // a11y: aria-label permis uniquement avec un role
+ 		$attr['aria-label'] = $label;
+ 		$html = '';
+ 	}
+@@ -14840,6 +14853,11 @@ function dolGetButtonAction($label, $text = '', $actionType = 'default', $url =
+ 	if (empty($userRight) || $userRight < 0) {
+ 		$attr['class'] = 'butActionRefused';
+ 		$attr['href'] = '';
++		$attr['role'] = 'button'; // a11y: le span est un bouton desactive — role requis pour aria-label/aria-disabled
++		$attr['aria-disabled'] = 'true';
++		$attr['aria-label'] = (isset($attr['aria-label']) && $attr['aria-label'] !== $text && strpos((string) $attr['aria-label'], $text) === false) ? $text . ' ' . $attr['aria-label'] : (isset($attr['aria-label']) ? $attr['aria-label'] : null);
++		if ($attr['aria-label'] === null) { unset($attr['aria-label']); }
++		// a11y: le nom accessible doit inclure le texte visible ($text) — la raison va dans title
+ 		$attr['title'] = (($label && $text && $label != $text) ? $label : '');
+ 		$attr['title'] = ($attr['title'] ? $attr['title'] . (empty($userRight) ? '<br>' : '') : '');
+ 		$attr['title'] .= ((empty($userRight) && empty($label)) ? $langs->trans('NotEnoughPermissions') : '');
+diff --git a/htdocs/core/menus/standard/auguria.lib.php b/htdocs/core/menus/standard/auguria.lib.php
+index 75aec03ab68..cfd675b197d 100644
+--- a/htdocs/core/menus/standard/auguria.lib.php
++++ b/htdocs/core/menus/standard/auguria.lib.php
+@@ -215,7 +215,7 @@ function print_auguria_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout
+ function print_start_menu_array_auguria()
+ {
+ 	print '<div class="tmenudiv">';
+-	print '<ul role="navigation" class="tmenu"'.(getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER') ? ' alt="Top menu"' : '').'>';
++	print '<ul class="tmenu"'.(getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER') ? ' alt="Top menu"' : '').'>';
+ }
+ 
+ /**
+diff --git a/htdocs/core/menus/standard/eldy.lib.php b/htdocs/core/menus/standard/eldy.lib.php
+index 7bb6b8fd30b..fb3a6fd77e9 100644
+--- a/htdocs/core/menus/standard/eldy.lib.php
++++ b/htdocs/core/menus/standard/eldy.lib.php
+@@ -68,7 +68,7 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout =
+ 		$classname = 'class="tmenu menuhider nohover"';
+ 		$idsel = 'menu';
+ 
+-		$menu->add('#', (getDolGlobalInt('THEME_TOPMENU_DISABLE_IMAGE') == 1 ? '<span class="fas fa-bars size12x"></span>' : ''), 0, $showmode, $atarget, "xxx", '', 0, $id, $idsel, $classname, '<span class="fas fa-bars size12x"></span>');
++		$menu->add('#', (getDolGlobalInt('THEME_TOPMENU_DISABLE_IMAGE') == 1 ? '<span class="fas fa-bars size12x"></span>' : ''), 0, $showmode, $atarget, "xxx", '', 0, $id, $idsel, $classname, '<span class="fas fa-bars size12x"></span>'); /* label fixe dans print_start_menu_entry */
+ 	}
+ 
+ 	$menu_arr = array();
+@@ -657,8 +657,10 @@ function print_eldy_menu($db, $atarget, $type_user, &$tabMenu, &$menu, $noout =
+  */
+ function print_start_menu_array()
+ {
+-	print '<div class="tmenudiv">';
+-	print '<ul role="navigation" class="tmenu"'.(getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER') ? ' title="Top menu"' : '').'>';
++	global $langs;
++
++	print '<nav class="tmenudiv" aria-label="'.dol_escape_htmltag($langs->trans('Menu')).'">';
++	print '<ul class="tmenu"'.(getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER') ? ' title="Top menu"' : '').'>';
+ }
+ 
+ /**
+@@ -700,7 +702,8 @@ function print_text_menu_entry($text, $showmode, $url, $id, $idsel, $classname,
+ 
+ 	//$conf->global->THEME_TOPMENU_DISABLE_IMAGE=1;
+ 	if ($showmode == 1) {
+-		print '<a '.$classnameimg.' tabindex="-1" href="'.$url.'"'.($atarget ? ' target="'.$atarget.'"' : '').' title="'.dol_escape_htmltag($text).'">';
++		$menulabel = ($text !== '' ? $text : $langs->trans('Menu'));
++		print '<a '.$classnameimg.' tabindex="-1" href="'.$url.'"'.($atarget ? ' target="'.$atarget.'"' : '').' title="'.dol_escape_htmltag($menulabel).'" aria-label="'.dol_escape_htmltag($menulabel).'">';
+ 		print '<div class="'.$id.' '.$idsel.' topmenuimage">';
+ 		$reg = array();
+ 		if (!empty($menuval['prefix']) && strpos($menuval['prefix'], '<span') === 0) {
+@@ -713,9 +716,9 @@ function print_text_menu_entry($text, $showmode, $url, $id, $idsel, $classname,
+ 		print '</div>';
+ 		print '</a>';
+ 		if (!getDolGlobalString('THEME_TOPMENU_DISABLE_TEXT')) {
+-			print '<a '.$classnametxt.' id="mainmenua_'.$idsel.'" href="'.$url.'"'.($atarget ? ' target="'.$atarget.'"' : '').' title="'.dol_escape_htmltag($text).'">';
++			print '<a '.$classnametxt.' id="mainmenua_'.$idsel.'" href="'.$url.'"'.($atarget ? ' target="'.$atarget.'"' : '').' title="'.dol_escape_htmltag($menulabel).'">';
+ 			print '<span class="mainmenuaspan">';
+-			print $text;
++			print $menulabel;
+ 			print '</span>';
+ 			print '</a>';
+ 		}
+diff --git a/htdocs/core/tpl/login.tpl.php b/htdocs/core/tpl/login.tpl.php
+index 114ca9b572f..7c079b28b88 100644
+--- a/htdocs/core/tpl/login.tpl.php
++++ b/htdocs/core/tpl/login.tpl.php
+@@ -234,7 +234,7 @@ $(document).ready(function () {
+ </script>
+ <?php } ?>
+ 
+-<div class="login_center center"<?php
++<div class="login_center center" role="main"<?php
+ if (!getDolGlobalString('ADD_UNSPLASH_LOGIN_BACKGROUND')) {
+ 	$backstyle = 'background: linear-gradient('.((!empty($conf->browser->layout) && $conf->browser->layout == 'phone') ? '0deg' : '4deg').', var(--colorbackbody) 52%, rgb('.$colorbackhmenu1.') 52.1%);';
+ 	// old style:  $backstyle = 'background-image: linear-gradient(rgb('.$colorbackhmenu1.',0.3), rgb(240,240,240));';
+@@ -268,7 +268,7 @@ if (!getDolGlobalString('ADD_UNSPLASH_LOGIN_BACKGROUND')) {
+ 
+ 
+ <!-- Title with version -->
+-<div class="login_table_title center" tabindex="-1" title="<?php echo dolPrintHTMLForAttribute($title); ?>">
++<h1 class="login_table_title center" tabindex="-1" title="<?php echo dolPrintHTMLForAttribute($title); ?>">
+ <?php
+ if ($disablenofollow) {
+ 	echo '<a class="login_table_title" tabindex="-1" href="https://www.dolibarr.org" target="_blank" rel="noopener noreferrer external">';
+@@ -278,7 +278,7 @@ if ($disablenofollow) {
+ 	echo '</a>';
+ }
+ ?>
+-</div>
++</h1>
+ 
+ 
+ 
+@@ -305,7 +305,7 @@ if ($disablenofollow) {
+ 	} ?>
+ <!-- <span class="span-icon-user">-->
+ <span class="fa fa-user"></span>
+-<input type="text" id="username" maxlength="255" placeholder="<?php echo $langs->trans("Login"); ?>" name="username" class="flat input-icon-user minwidth150 input-nobottom" value="<?php echo dol_escape_htmltag($login); ?>" tabindex="1" autofocus="autofocus" autocapitalize="off" autocomplete="on" spellcheck="false" />
++<input type="text" id="username" maxlength="255" placeholder="<?php echo $langs->trans("Login"); ?>" name="username" class="flat input-icon-user minwidth150 input-nobottom" value="<?php echo dol_escape_htmltag($login); ?>" autofocus="autofocus" autocapitalize="off" autocomplete="on" spellcheck="false" />
+ </div>
+ </div>
+ 
+@@ -317,7 +317,7 @@ if ($disablenofollow) {
+ 	} ?>
+ <!--<span class="span-icon-password">-->
+ <span class="fa fa-key"></span>
+-<input type="password" id="password" maxlength="128" placeholder="<?php echo $langs->trans("Password"); ?>" name="password" class="flat input-icon-password minwidth150 input-nobottom" value="<?php echo dol_escape_htmltag($password); ?>" tabindex="2" autocomplete="<?php echo !getDolGlobalString('MAIN_LOGIN_ENABLE_PASSWORD_AUTOCOMPLETE') ? 'off' : 'on'; ?>" />
++<input type="password" id="password" maxlength="128" placeholder="<?php echo $langs->trans("Password"); ?>" name="password" class="flat input-icon-password minwidth150 input-nobottom" value="<?php echo dol_escape_htmltag($password); ?>" autocomplete="<?php echo !getDolGlobalString('MAIN_LOGIN_ENABLE_PASSWORD_AUTOCOMPLETE') ? 'off' : 'on'; ?>" />
+ 	<?php
+ 	include_once DOL_DOCUMENT_ROOT.'/core/lib/security2.lib.php';
+ 	print showEyeForField('togglepassword', 'password');
+@@ -400,7 +400,7 @@ if (!empty($morelogincontent)) {
+ <?php if (!isset($conf->file->main_authentication) || $conf->file->main_authentication != 'googleoauth') { ?>
+ <br>
+ <div id="login-submit-wrapper">
+-<input type="submit" class="butAction butActionLogin noborderfocus" value="&nbsp; <?php echo $langs->trans('Connection'); ?> &nbsp;" tabindex="5" />
++<input type="submit" class="butAction butActionLogin noborderfocus" value="&nbsp; <?php echo $langs->trans('Connection'); ?> &nbsp;" />
+ </div>
+ <?php } ?>
+ 
+diff --git a/htdocs/core/tpl/objectline_create.tpl.php b/htdocs/core/tpl/objectline_create.tpl.php
+index 3e016e1ee6a..66b90555210 100644
+--- a/htdocs/core/tpl/objectline_create.tpl.php
++++ b/htdocs/core/tpl/objectline_create.tpl.php
+@@ -281,7 +281,7 @@ if ($nolinesbefore) {
+ 				$labelforradio = $langs->trans('PredefinedItem');
+ 			}
+ 			if (empty($senderissupplier)) {		// TODO Move this into the placeholder
+-				//print '<span class="textradioforitem">'.$labelforradio.'</span>';
++				print '<span class="textradioforitem">'.$labelforradio.'</span>'; // a11y: label radio non vide
+ 			}
+ 			print '</label>';
+ 			//print ' ';
+@@ -368,7 +368,7 @@ if ($nolinesbefore) {
+ 			if ($addproducton || $addserviceon) {
+ 				if ($addproducton && $addserviceon) {
+ 					echo '<div id="dropdownAddProductAndService" class="dropdown inline-block">';
+-					echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownAddProductAndServiceLink" aria-haspopup="true" aria-expanded="false">';
++					echo '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownAddProductAndServiceLink" aria-haspopup="true" aria-expanded="false" aria-label="'.$langs->trans('AddNewLine').'" title="'.$langs->trans('AddNewLine').'">';
+ 					echo '<span class="fa fa-plus-circle valignmiddle paddingleft"></span>';
+ 					echo '</a>';
+ 					echo '<div class="dropdown-menu" aria-labelledby="dropdownAddProductAndServiceLink" style="top:auto; left:auto;">';
+@@ -503,7 +503,7 @@ if ($nolinesbefore) {
+ 	</td>
+ 
+ 	<td class="nobottom linecoluht right"><?php $coldisplay++; ?>
+-		<input type="text" name="price_ht" id="price_ht" class="flat right width50" value="<?php echo(GETPOSTISSET("price_ht") ? GETPOST("price_ht", 'alpha', 2) : ''); ?>">
++		<input type="text" name="price_ht" id="price_ht" class="flat right width50" aria-label="<?php echo $langs->trans('UnitPriceHT'); ?>" value="<?php echo(GETPOSTISSET("price_ht") ? GETPOST("price_ht", 'alpha', 2) : ''); ?>">
+ 	</td>
+ 
+ 	<?php
+@@ -517,7 +517,7 @@ if ($nolinesbefore) {
+ 	if (!empty($inputalsopricewithtax) && !getDolGlobalInt('MAIN_NO_INPUT_PRICE_WITH_TAX')) {
+ 		$coldisplay++; ?>
+ 		<td class="nobottom linecoluttc right">
+-			<input type="text" name="price_ttc" id="price_ttc" class="flat right width50" value="<?php echo(GETPOSTISSET("price_ttc") ? GETPOST("price_ttc", 'alpha', 2) : ''); ?>">
++			<input type="text" name="price_ttc" id="price_ttc" class="flat right width50" aria-label="<?php echo $langs->trans('UnitPriceTTC'); ?>" value="<?php echo(GETPOSTISSET("price_ttc") ? GETPOST("price_ttc", 'alpha', 2) : ''); ?>">
+ 		</td>
+ 					<?php
+ 	}
+@@ -532,7 +532,7 @@ if ($nolinesbefore) {
+ 	?>
+ 	<td class="nobottom linecolqty right">
+ 	<?php $default_qty = (!getDolGlobalString('MAIN_OBJECTLINE_CREATE_EMPTY_QTY_BY_DEFAULT') ? 1 : ''); ?>
+-	<input type="text" name="qty" id="qty" class="flat width40 right" value="<?php echo(GETPOSTISSET("qty") ? GETPOST("qty", 'alpha', 2) : $default_qty); ?>">
++	<input type="text" name="qty" id="qty" class="flat width40 right" aria-label="<?php echo $langs->trans('Qty'); ?>" value="<?php echo(GETPOSTISSET("qty") ? GETPOST("qty", 'alpha', 2) : $default_qty); ?>">
+ 	</td>
+ 	<?php
+ 	if (getDolGlobalInt('PRODUCT_USE_UNITS')) {
+@@ -548,7 +548,7 @@ if ($nolinesbefore) {
+ 	$coldisplay++;
+ 	?>
+ 
+-	<td class="nobottom nowrap linecoldiscount right"><input type="text" name="remise_percent" id="remise_percent" class="flat width40 right" value="<?php echo(GETPOSTISSET("remise_percent") ? GETPOST("remise_percent", 'alpha', 2) : ($remise_percent ? $remise_percent : '')); ?>"><span class="opacitymedium hideonsmartphone">%</span></td>
++	<td class="nobottom nowrap linecoldiscount right"><input type="text" name="remise_percent" id="remise_percent" class="flat width40 right" aria-label="<?php echo $langs->trans('Discount'); ?>" value="<?php echo(GETPOSTISSET("remise_percent") ? GETPOST("remise_percent", 'alpha', 2) : ($remise_percent ? $remise_percent : '')); ?>"><span class="opacitymedium hideonsmartphone">%</span></td>
+ 	<?php
+ 	if (isset($this->situation_cycle_ref) && $this->situation_cycle_ref) {
+ 		$coldisplay++;
+diff --git a/htdocs/core/tpl/objectline_title.tpl.php b/htdocs/core/tpl/objectline_title.tpl.php
+index 702cd6dc47e..902abffca9d 100644
+--- a/htdocs/core/tpl/objectline_title.tpl.php
++++ b/htdocs/core/tpl/objectline_title.tpl.php
+@@ -242,11 +242,11 @@ if (isModEnabled('asset') && $object->element == 'invoice_supplier') {
+ 	print '<th class="linecolasset"></th>';
+ }
+ 
+-print '<th class="linecoledit"></th>'; // No width to allow autodim
++print '<th class="linecoledit"><span class="sr-only">'.$langs->trans('Edit').'</span></th>'; // No width to allow autodim
+ 
+-print '<th class="linecoldelete" style="width: 10px"></th>';
++print '<th class="linecoldelete" style="width: 10px"><span class="sr-only">'.$langs->trans('Delete').'</span></th>';
+ 
+-print '<th class="linecolmove" style="width: 10px"></th>';
++print '<th class="linecolmove" style="width: 10px"><span class="sr-only">'.$langs->trans('Move').'</span></th>';
+ 
+ if ($action == 'selectlines') {
+ 	print '<th class="linecolcheckall center">';
+diff --git a/htdocs/core/tpl/passwordforgotten.tpl.php b/htdocs/core/tpl/passwordforgotten.tpl.php
+index 2ef0ea382d6..0d496381a49 100644
+--- a/htdocs/core/tpl/passwordforgotten.tpl.php
++++ b/htdocs/core/tpl/passwordforgotten.tpl.php
+@@ -189,7 +189,7 @@ if (!empty($disablenofollow)) {
+ <div class="tagtd nowraponall center valignmiddle tdinputlogin">
+ <!-- <span class="span-icon-user">-->
+ <span class="fa fa-user"></span>
+-<input type="text" maxlength="255" placeholder="<?php echo $langs->trans("Login"); ?>" <?php echo $disabled; ?> id="username" name="username" class="flat input-icon-user minwidth150" value="<?php echo dol_escape_htmltag($username); ?>" tabindex="1" autocapitalize="off" autocomplete="on" spellcheck="false" autocorrect="off" />
++<input type="text" maxlength="255" placeholder="<?php echo $langs->trans("Login"); ?>" <?php echo $disabled; ?> id="username" name="username" class="flat input-icon-user minwidth150" value="<?php echo dol_escape_htmltag($username); ?>" autocapitalize="off" autocomplete="on" spellcheck="false" autocorrect="off" />
+ </div>
+ </div>
+ 
+@@ -262,7 +262,7 @@ if (!empty($morelogincontent)) {
+ <div id="login_line2" style="clear: both">
+ 
+ <!-- Button "Regenerate and Send password" -->
+-<br><input type="submit" <?php echo $disabled; ?> class="butAction butActionLogin noborderfocus small" id="button_password" name="button_password" value="<?php echo $langs->trans('SendNewPassword'); ?>" tabindex="4" />
++<br><input type="submit" <?php echo $disabled; ?> class="butAction butActionLogin noborderfocus small" id="button_password" name="button_password" value="<?php echo $langs->trans('SendNewPassword'); ?>" />
+ 
+ <br>
+ <div class="center" style="margin-top: 15px;">
+diff --git a/htdocs/index.php b/htdocs/index.php
+index 4d3793d0f51..cb5ec4897d8 100644
+--- a/htdocs/index.php
++++ b/htdocs/index.php
+@@ -633,7 +633,7 @@ if (!getDolGlobalString('MAIN_DISABLE_GLOBAL_WORKBOARD') && getDolGlobalInt('MAI
+ 				}
+ 
+ 				if (array_key_exists($groupKey, $arrayLinks)) {
+-					$openedDashBoard .= '		<a href="'.$arrayLinks[$groupKey].'" class="info-box-createlink"><span class="fas fa-plus-circle"></span></a>'."\n";
++					$openedDashBoard .= '		<a href="'.$arrayLinks[$groupKey].'" class="info-box-createlink" aria-label="'.dol_escape_htmltag($langs->trans('New').' '.$groupName).'" title="'.dol_escape_htmltag($langs->trans('New').' '.$groupName).'"><span class="fas fa-plus-circle"></span></a>'."\n";
+ 				}
+ 
+ 				$openedDashBoard .= '</span>'."\n";
+diff --git a/htdocs/main.inc.php b/htdocs/main.inc.php
+index d462486f358..4d9f90f97e8 100644
+--- a/htdocs/main.inc.php
++++ b/htdocs/main.inc.php
+@@ -2372,7 +2372,7 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
+ 				}
+ 			}
+ 			$qs .= (($qs && $morequerystring) ? '&' : '').$morequerystring;
+-			$text = '<a href="'.dol_escape_htmltag($_SERVER["PHP_SELF"]).'?'.$qs.($qs ? '&' : '').'optioncss=print" target="_blank" rel="noopener noreferrer">';
++			$text = '<a href="'.dol_escape_htmltag($_SERVER["PHP_SELF"]).'?'.$qs.($qs ? '&' : '').'optioncss=print" target="_blank" rel="noopener noreferrer" aria-label="'.dol_escape_htmltag($langs->trans('PrintContentArea')).'" title="'.dol_escape_htmltag($langs->trans('PrintContentArea')).'">';
+ 			//$text.= img_picto(":".$langs->trans("PrintContentArea"), 'printer_top.png', 'class="printer"');
+ 			$text .= '<span class="fa fa-print atoplogin valignmiddle"></span>';
+ 			$text .= '</a>';
+@@ -2413,7 +2413,7 @@ function top_menu($head, $title = '', $target = '', $disablejs = 0, $disablehead
+ 						$title .= ' <span class="opacitymedium">('.$langs->trans("HomePage").')</span>';
+ 					}
+ 				}
+-				$text .= '<a class="help" target="_blank" rel="noopener noreferrer" href="';
++				$text .= '<a class="help" target="_blank" rel="noopener noreferrer" aria-label="'.dol_escape_htmltag($langs->trans('Help')).'" href="';
+ 				if ($mode == 'wiki') {
+ 					// @phan-suppress-next-line PhanPluginPrintfVariableFormatString
+ 					$text .= sprintf($helpbaseurl, urlencode(html_entity_decode($helppage)));
+@@ -3464,7 +3464,7 @@ function left_menu($menu_array_before, $helppagename = '', $notused = '', $menu_
+ 		// Instantiate hooks for external modules
+ 		$hookmanager->initHooks(array('leftblock'));
+ 
+-		print "\n".'<!-- Begin side-nav id-left -->'."\n".'<div class="side-nav"><div id="id-left">'."\n";
++		print "\n".'<!-- Begin side-nav id-left -->'."\n".'<nav class="side-nav" aria-label="'.dol_escape_htmltag($langs->trans('Modules')).'"><div id="id-left">'."\n";
+ 		print "\n";
+ 
+ 		if (!is_object($form)) {
+@@ -3683,7 +3683,7 @@ function left_menu($menu_array_before, $helppagename = '', $notused = '', $menu_
+ 		$reshook = $hookmanager->executeHooks('printLeftBlock', $parameters); // Note that $action and $object may have been modified by some hooks
+ 		print $hookmanager->resPrint;
+ 
+-		print '</div></div> <!-- End side-nav id-left -->'; // End div id="side-nav" div id="id-left"
++		print '</div></nav> <!-- End side-nav id-left -->'; // End nav side-nav / div id-left
+ 	}
+ 
+ 	print "\n";
+@@ -3706,7 +3706,7 @@ function main_area($title = '')
+ 	global $conf, $langs, $hookmanager;
+ 
+ 	if (empty($conf->dol_hide_leftmenu) && !GETPOST('dol_openinpopup', 'aZ09')) {
+-		print '<div id="id-right">';
++		print '<main id="id-right">';
+ 	}
+ 
+ 	print "\n";
+@@ -3963,7 +3963,7 @@ if (!function_exists("llxFooter")) {
+ 		print '</div> <!-- End div class="fiche" -->'."\n"; // End div fiche
+ 
+ 		if (empty($conf->dol_hide_leftmenu) && !GETPOST('dol_openinpopup', 'aZ09')) {
+-			print '</div> <!-- End div id-right -->'."\n"; // End div id-right
++			print '</main> <!-- End main id-right -->'."\n"; // End main id-right
+ 		}
+ 
+ 		if (empty($conf->dol_hide_leftmenu) && empty($conf->dol_use_jmobile)) {
+diff --git a/htdocs/theme/eldy/badges.inc.php b/htdocs/theme/eldy/badges.inc.php
+index 66d570875b8..2c52bceaca2 100644
+--- a/htdocs/theme/eldy/badges.inc.php
++++ b/htdocs/theme/eldy/badges.inc.php
+@@ -304,7 +304,7 @@ function _createStatusBadgeCss($statusName, $statusVarNamePrefix = '', $commentL
+ 			$thisBadgeTextColor = '#25a580';
+ 		}
+ 		if (in_array((string) $statusName, array('0', '5', '9', '10'))) {
+-			$thisBadgeTextColor = '#999999';
++			$thisBadgeTextColor = '#6e6e6e'; // a11y: 5.1:1 (etait #999 = 2.8:1)
+ 		}
+ 		if (in_array((string) $statusName, array('6'))) {
+ 			$thisBadgeTextColor = '#777777';
+diff --git a/htdocs/theme/eldy/btn.inc.php b/htdocs/theme/eldy/btn.inc.php
+index b5a32e09aa7..d2d84585aa0 100644
+--- a/htdocs/theme/eldy/btn.inc.php
++++ b/htdocs/theme/eldy/btn.inc.php
+@@ -250,7 +250,7 @@ span.butActionNewRefused>span.fa, span.butActionNewRefused>span.fa:hover
+ 	box-sizing: border-box;
+ 	-moz-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+-	color: #999 !important;
++	color: #444444 !important; /* a11y: composite avec opacity .8 = #696969 = 5.2:1 (etait #adadad = 2.2:1) */
+ 
+ 	border: 1px solid #ccc;
+ }
+diff --git a/htdocs/theme/eldy/global.inc.php b/htdocs/theme/eldy/global.inc.php
+index ccbd00e81c4..513ca7d0a37 100644
+--- a/htdocs/theme/eldy/global.inc.php
++++ b/htdocs/theme/eldy/global.inc.php
+@@ -194,7 +194,7 @@ $borderradius = getDolGlobalString('THEME_ELDY_USEBORDERONTABLE') ? getDolGlobal
+ 	--colortextbackhmenu: #<?php print $colortextbackhmenu; ?>;
+ 	--colortextbackvmenu: #<?php print $colortextbackvmenu; ?>;
+ 	--colortopbordertitle1: rgb(<?php print $colortopbordertitle1; ?>);
+-	--listetotal: #888888;
++	--listetotal: #6e6e6e;
+ 	--inputbackgroundcolor: #FFF;
+ 	--inputbackgroundcolordisabled: #eee;
+ 	--inputcolordisabled: rgb(80, 80, 80);
+@@ -798,7 +798,7 @@ input.pageplusone {
+ 	color: var(--colortextlink);
+ }
+ .optiongrey, .opacitymedium {
+-	opacity: 0.5;
++	opacity: 0.68; /* a11y: composite >= 4.5:1 sur blanc (0.5 -> #808080 = 3.9:1) */
+ }
+ .opacitymediumbycolor {
+ 	color: rgba(0, 0, 0, 0.4);
+@@ -816,21 +816,21 @@ input.pageplusone {
+ 	opacity: unset !important;
+ }
+ .spantitle {
+-	opacity: 0.5;
++	opacity: 0.68; /* a11y */
+ 	font-size: 0.95em;
+ }
+ .colorwhite {
+ 	color: var(--colorwhite);
+ }
+ .colorgrey {
+-	color: #888 !important;
++	color: #6e6e6e !important;
+ }
+ .colorblack {
+ 	color: var(--colorblack);
+ }
+ .colorblack.totalnboflines {
+ 	font-size: 90%;
+-	opacity: 0.5;
++	opacity: 0.68; /* a11y: composite >= 4.5:1 */
+ }
+ .fontsizeunset {
+ 	font-size: unset !important;
+@@ -889,11 +889,11 @@ input:-webkit-autofill {
+ }
+ 
+ /* CSS for placeholder */
+-.placeholder { color: #ccc; }
+-select.placeholder { color: #ccc; }
++.placeholder { color: #6e6e6e; }
++select.placeholder { color: #6e6e6e; }
+ .select2-selection__choice .placeholder { color: #aaa; }
+-::-webkit-input-placeholder { color: #ccc; }
+-input:-moz-placeholder { color: #ccc; }
++::-webkit-input-placeholder { color: #6e6e6e; }
++input:-moz-placeholder { color: #6e6e6e; }
+ select.placeholder option:not(.opacitymediumbycolor):not(.opacitymedium) {
+ 	color: var(--colortext);
+ }
+@@ -1635,7 +1635,7 @@ div.divsearchfield {
+ 	display: inline-block;
+ }
+ .tagsearchdelete {
+-	color: #999;
++	color: #6e6e6e;
+ 	cursor: pointer;
+ 	display: inline-block;
+ 	font-weight: bold;
+@@ -3019,7 +3019,7 @@ td.nobordernopadding.widthpictotitle.col-picto {
+ }
+ .table-list-of-attached-files .col-picto .widthpictotitle, .table-list-of-links .col-picto .widthpictotitle {
+ 	width: unset;
+-	color: #999;
++	color: #6e6e6e;
+ }
+ 
+ /*
+@@ -3841,7 +3841,7 @@ div.login_block_user {
+ 	text-decoration:underline !important;
+ }
+ .alogin.aloginpasswordforgotten, .alogin.aloginpasswordforgotten:hover, .alogin.aloginhelp, .alogin.aloginhelp:hover {
+-	opacity: 0.5;
++	opacity: 0.68; /* a11y: >= 4.5:1 */
+ }
+ 
+ span.fa.atoplogin, span.fa.atoplogin:hover {
+@@ -5969,12 +5969,12 @@ table.table-fiche-title tr.toptitle, table.table-fiche-title tr.toptitle {
+ }
+ 
+ 
+-div.titre {
++.titre {
+ 	font-size: 1.1em;
+ 	text-decoration: none;
+ 	font-weight: 400;
+ }
+-div.titre.small {
++.titre.small {
+ 	font-size: 1em;
+ }
+ div.fiche > table.table-fiche-title:first-of-type div, div.fiche > form > table.table-fiche-title:first-of-type div {
+@@ -5983,7 +5983,7 @@ div.fiche > table.table-fiche-title:first-of-type div, div.fiche > form > table.
+ div.fiche > table.table-fiche-title:first-of-type div {
+ 	color: var(--colortexttitlenotab);
+ }
+-div.titre, tr.liste_titre .print-barre-liste {
++.titre, tr.liste_titre .print-barre-liste {
+ 	color: var(--colortexttitlenotab);
+ }
+ 
+@@ -5998,7 +5998,7 @@ td.subtitle {
+ 	color: var(--colortexttitlenotab2);
+ }
+ 
+-table.table-fiche-title .col-title div.titre > span:not(.print-barre-liste) {
++table.table-fiche-title .col-title .titre > span:not(.print-barre-liste) {
+ 	line-height: normal;
+ }
+ 
+@@ -6063,7 +6063,7 @@ input#cardholder-name {
+ }
+ 
+ .divmainbodylarge { margin-left: 40px; margin-right: 40px; }
+-.publicnewmemberform div.titre { font-size: 2em; }
++.publicnewmemberform .titre { font-size: 2em; }
+ #divsubscribe { max-width: 900px; }
+ #divsubscribe .eventlabel { font-size: 1.5em; }
+ #tablesubscribe { width: 100%; }
+@@ -7715,7 +7715,7 @@ li.select2-selection__choice {
+ 	/* background-color: var(--inputbackgroundcolor); */
+ }
+ .select2-default {
+-	color: #999 !important;
++	color: #6e6e6e !important;
+ }
+ .select2-choice, .select2-container .select2-choice {
+ 	border-bottom: solid 1px rgba(0,0,0,.4);
+@@ -7953,8 +7953,7 @@ span#select2-taskid-container[title^='--'] {
+ 	opacity: 0.4;
+ }
+ .select2-container--default .select2-selection--single .select2-selection__placeholder {
+-	color: var(--colortext);
+-	opacity: 0.4;
++	color: #6e6e6e; /* a11y: 5.1:1 au lieu de var a 0.4 (2.4:1) */
+ }
+ span#select2-boxbookmark-container, span#select2-boxcombo-container {
+ 	text-align: <?php echo $left; ?>;
+@@ -9451,7 +9450,7 @@ table.jPicker {
+ 		font-size: 0.94em;
+ 	}
+ 
+-	table.table-fiche-title .col-title div.titre{
++	table.table-fiche-title .col-title .titre{
+ 		line-height: unset;
+ 	}
+ 
+@@ -9734,3 +9733,20 @@ div.flot-text .flot-tick-label .tickLabel, .fa-color-unset {
+ 	-ms-user-select: none; /* Internet Explorer/Edge */
+ 	user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
+ }
++
++/* a11y cycle 57 — cibles tactiles >= 24px (WCAG 2.2 target-size) + liens discernables + sr-only */
++.a11y-target-size-24, .button_search, .button_removefilter,
++.login_block_elem a, a.help, .info-box-createlink, a.multiselectpicto {
++	min-width: 24px; min-height: 24px;
++	display: inline-flex; align-items: center; justify-content: center;
++}
++table.boxtable .liste_titre a, table.boxtable .box_titre a { text-decoration: underline; }
++.sr-only {
++	position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
++	overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
++}
++
++a.tmenulabel[id^="mainmenua_"], a.customer-back, a.vendor-back, td .reposition > a {
++	min-width: 24px; min-height: 24px;
++	display: inline-flex; align-items: center; justify-content: center;
++}
+diff --git a/htdocs/theme/eldy/info-box.inc.php b/htdocs/theme/eldy/info-box.inc.php
+index 288b16475a1..9fa547a17d3 100644
+--- a/htdocs/theme/eldy/info-box.inc.php
++++ b/htdocs/theme/eldy/info-box.inc.php
+@@ -306,7 +306,7 @@ a.info-box-text-a i.fa.fa-exclamation-triangle, span.badge i.fa.fa-exclamation-t
+ 	text-transform: uppercase;
+ 	/* font-weight: bold; */
+ 	margin-bottom: 3px;	/* not too much space so we can add another lines */
+-	opacity: 0.5;
++	opacity: 0.68; /* a11y: >= 4.5:1 */
+ 	/* color: var(--colortexttitlenotab); */
+ }
+ .info-box-text {
+diff --git a/htdocs/theme/eldy/theme_vars.inc.php b/htdocs/theme/eldy/theme_vars.inc.php
+index 47126b01c2c..c874ddcc1f1 100644
+--- a/htdocs/theme/eldy/theme_vars.inc.php
++++ b/htdocs/theme/eldy/theme_vars.inc.php
+@@ -64,7 +64,7 @@ $colorbacklinepair2 = '255,255,255'; // line pair
+ $colorbacklinepairhover = '240,242,249'; // line hover
+ $colorbacklinepairchecked = '240,242,249'; // line checked
+ $colorbacklinebreak = '248,247,244'; // line break
+-$colortexttitlenotab = '0,135,160'; // 150,90,121 140,80,10 or 10,140,80  #875a7b  green=0,123,140, violet: 0,50,120
++$colortexttitlenotab = '0,95,115'; // a11y: 7.3:1 sur blanc (etait 3.5:1) // 150,90,121 140,80,10 or 10,140,80  #875a7b  green=0,123,140, violet: 0,50,120
+ $colortexttitlenotab2 = '100,0,100'; // 150,90,121 140,80,10 or 10,140,80  #875a7b  green=0,123,140, violet: 0,50,120
+ $colortexttitle = '40, 40, 60';
+ $colortexttitlelink = '10, 20, 100';
+@@ -88,8 +88,8 @@ $colorblind_deuteranopes_textWarning = $textWarning; // currently not tested wit
+ 
+ // Badges colors
+ $badgePrimary   = '#007bff';
+-$badgeSecondary = '#aaaabb';
+-$badgeInfo      = '#aaaabb';
++$badgeSecondary = '#6a6a85'; // a11y: texte blanc 5.2:1 (etait ~3.0:1)
++$badgeInfo      = '#6a6a85'; // a11y: texte blanc 5.2:1
+ $badgeSuccess   = '#55a580';
+ $badgeWarning   = '#bc9526'; // See $textWarning bc9526
+ $badgeDanger    = '#994013'; // See $textDanger
+@@ -111,11 +111,11 @@ $badgeStatus1 = '#bc9526'; // validated
+ $badgeStatus1b = '#bc9526'; // validated
+ $badgeStatus2 = '#9c9c26'; // approved
+ $badgeStatus3 = '#bca52b';
+-$badgeStatus4 = '#25a580'; // Color ok
+-$badgeStatus4b = '#25a580'; // Color ok
++$badgeStatus4 = '#0f7a55'; // a11y: texte blanc 5.3:1 (etait ~2.9:1) // Color ok
++$badgeStatus4b = '#0f7a55'; // a11y: texte blanc 5.3:1 // Color ok
+ $badgeStatus5 = '#cad2d2';
+ $badgeStatus6 = '#cad2d2';
+-$badgeStatus7 = '#25a580';
++$badgeStatus7 = '#0f7a55'; // a11y: texte blanc 5.3:1
+ $badgeStatus8 = '#994013';
+ $badgeStatus9 = '#e7f0f0';
+ $badgeStatus10 = '#993013';

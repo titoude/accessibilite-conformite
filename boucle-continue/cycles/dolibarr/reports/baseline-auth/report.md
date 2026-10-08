@@ -1,0 +1,1958 @@
+# Audit accessibilité — 2026-10-08
+
+**19 règle(s) violée(s), 1860 occurrence(s), 25/25 scénario(s) audité(s), 0 erreur(s), 607 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `14cf48c70667`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:9800/societe/list.php
+  - `#checkforselects`
+  - `#cb1`
+  - `#cb2`
+  - `#cb3`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `input[name="search_name"]`
+  - `input[name="search_poste"]`
+  - `input[name="search_address"]`
+  - `.select2-search__field`
+- http://localhost:9800/societe/card.php?action=create
+  - `#name`
+  - `#customer_code`
+  - `#supplier_code`
+  - `#address`
+  - `#zipcode`
+  - `#town`
+  - `#phone`
+  - `#phone_mobile`
+  - `#fax`
+  - `#url`
+  - … +9 autres
+- http://localhost:9800/product/list.php
+  - `#checkforselects`
+  - `#cb1`
+  - `#cb2`
+  - `#cb3`
+  - `#cb4`
+  - `#cb5`
+- http://localhost:9800/product/card.php?id=1
+  - `input[readonly=""]`
+- http://localhost:9800/product/card.php?action=create
+  - `#ref`
+  - `#label`
+  - `.quatrevingtpercent`
+  - `input[name="seuil_stock_alerte"]`
+  - `input[name="desiredstock"]`
+  - `input[name="weight"]`
+  - `input[name="size"]`
+  - `input[name="sizewidth"]`
+  - `input[name="sizeheight"]`
+  - `input[name="surface"]`
+  - … +11 autres
+- http://localhost:9800/compta/facture/list.php
+  - `.select2-search__field`
+  - `#checkforselects`
+  - `#cb1`
+  - `#cb2`
+  - `#cb3`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `#prod_entry_mode_predef`
+  - `#price_ht`
+  - `#price_ttc`
+  - `#qty`
+  - `#remise_percent`
+  - `#date_start`
+  - `#date_end`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `#prod_entry_mode_predef`
+  - `#price_ht`
+  - `#price_ttc`
+  - `#qty`
+  - `#remise_percent`
+  - `#date_start`
+  - `#date_end`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `#prod_entry_mode_predef`
+  - `#price_ht`
+  - `#price_ttc`
+  - `#qty`
+  - `#remise_percent`
+  - `#date_start`
+  - `#date_end`
+- http://localhost:9800/commande/card.php?id=1
+  - `#prod_entry_mode_predef`
+  - `#price_ht`
+  - `#price_ttc`
+  - `#qty`
+  - `#remise_percent`
+  - `#date_start`
+  - `#date_end`
+- http://localhost:9800/projet/card.php?id=1
+  - `input[name="usage_opportunity"]`
+  - `input[name="usage_task"]`
+  - `input[name="usage_bill_time"]`
+- http://localhost:9800/user/card.php?id=1
+  - `input[name="employee"]`
+  - `.colorgrey`
+- http://localhost:9800/user/list.php
+  - `#checkforselects`
+  - `#cb1`
+  - `#cb2`
+- http://localhost:9800/admin/company.php
+  - `#phone_mobile`
+  - `#directors`
+  - `#infodirector`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `input[name="search_name"]`
+  - `input[name="search_poste"]`
+  - `input[name="search_address"]`
+  - `.select2-search__field`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `#name`
+  - `#customer_code`
+  - `#supplier_code`
+  - `#address`
+  - `#zipcode`
+  - `#town`
+  - `#phone`
+  - `#phone_mobile`
+  - `#fax`
+  - `#url`
+  - … +10 autres
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:9800/societe/list.php
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/product/list.php
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/compta/facture/list.php
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/user/list.php
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `.button_search`
+  - `.button_removefilter`
+
+## [CRITICAL] select-name — Select element must have an accessible name
+
+Ensure select element has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/select-name?application=axeAPI
+
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `#select_type`
+  - `#tva_tx`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `#select_type`
+  - `#tva_tx`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `#select_type`
+  - `#tva_tx`
+- http://localhost:9800/commande/card.php?id=1
+  - `#select_type`
+  - `#tva_tx`
+
+## [CRITICAL] aria-required-attr — Required ARIA attributes must be provided
+
+Ensure elements with ARIA roles have all required ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-attr?application=axeAPI
+
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.selection > .searchselectcombo.vmenusearchselectcombo[title="Keyboard shortcut ALT + s"]`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI
+
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `#select2-searchselectcombo-results`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `.select2-selection__placeholder`
+  - `.info-box-weather > .info-box-content > .info-box-title`
+  - `.info-box-title[title="Agenda"]`
+  - `.info-box-title[title="Projects"]`
+  - `.info-box-title[title="Commercial proposals"]`
+  - `div[title="Orders"]`
+  - `div[title="Invoices"]`
+  - `.info-box-title[title="Purchase orders"]`
+  - `.info-box-title[title="Vendor invoices"]`
+  - `.info-box-title[title="Tickets"]`
+  - … +1 autres
+- http://localhost:9800/societe/list.php
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+  - `.colorblack`
+  - `tr[data-rowid="1"] > .nowraponall.center > .badge.badge-status4.badge-status`
+  - `tr[data-rowid="2"] > .nowraponall.center > .badge.badge-status4.badge-status`
+  - `tr[data-rowid="3"] > .nowraponall.center > .badge.badge-status4.badge-status`
+- http://localhost:9800/societe/card.php?socid=1
+  - `.select2-selection__placeholder`
+  - `.badge-status4`
+  - `.maxwidth750 > .valignmiddle`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.valignmiddle.inline-block`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.valignmiddle.inline-block`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `.select2-selection__placeholder`
+  - `.statusref > .badge-status4.badge-status[title="Open"]`
+  - `.maxwidth750 > .valignmiddle`
+  - `.print-barre-liste`
+  - `.center:nth-child(6) > .badge-status4.badge-status[title="Open"]`
+- http://localhost:9800/societe/card.php?action=create
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+- http://localhost:9800/product/list.php
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+  - `.colorblack`
+  - `tr[data-rowid="1"] > .nowrap.center:nth-child(8) > .badge.badge-status4[title="For sale"]`
+  - `tr[data-rowid="1"] > .nowrap.center:nth-child(9) > .badge.badge-status4[title="For purchase"]`
+  - `tr[data-rowid="2"] > .nowrap.center:nth-child(8) > .badge.badge-status4[title="For sale"]`
+  - `tr[data-rowid="2"] > .nowrap.center:nth-child(9) > .badge.badge-status4[title="For purchase"]`
+  - `tr[data-rowid="3"] > .nowrap.center:nth-child(8) > .badge.badge-status4[title="For sale"]`
+  - `tr[data-rowid="3"] > .nowrap.center:nth-child(9) > .badge.badge-status4[title="For purchase"]`
+  - `tr[data-rowid="4"] > .nowrap.center:nth-child(8) > .badge.badge-status4[title="For sale"]`
+  - … +3 autres
+- http://localhost:9800/product/card.php?id=1
+  - `.select2-selection__placeholder`
+  - `span[title="For sale"]`
+  - `span[title="For purchase"]`
+  - `.maxwidth750 > .valignmiddle`
+  - `.butActionRefused > .textbutton`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/product/card.php?action=create
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+- http://localhost:9800/compta/facture/list.php
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+  - `.colorblack`
+  - `#select2-search_sale-container > .placeholder`
+  - `#select2-search_user-container > .placeholder`
+  - `.liste_total > td:nth-child(1)`
+  - `.liste_total > .right:nth-child(7)`
+  - `.liste_total > .right:nth-child(8)`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `.select2-selection__placeholder`
+  - `.badge-status0`
+  - `.maxwidth750 > .valignmiddle`
+  - `td:nth-child(2) > .opacitymedium:nth-child(1)`
+  - `.opacitymedium:nth-child(4)`
+  - `#select_type`
+  - `#select2-idprod-container > .placeholder`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.showlinkedobjectblock > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `.select2-selection__placeholder`
+  - `.badge-status0`
+  - `.maxwidth750 > .valignmiddle`
+  - `td:nth-child(2) > .opacitymedium:nth-child(1)`
+  - `.opacitymedium:nth-child(4)`
+  - `#select_type`
+  - `#select2-idprod-container > .placeholder`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.showlinkedobjectblock > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `.select2-selection__placeholder`
+  - `.badge`
+  - `.maxwidth750 > .valignmiddle`
+  - `td:nth-child(2) > .opacitymedium:nth-child(1)`
+  - `.opacitymedium:nth-child(4)`
+  - `#select_type`
+  - `#select2-idprod-container > .placeholder`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.showlinkedobjectblock > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/commande/card.php?id=1
+  - `.select2-selection__placeholder`
+  - `.badge`
+  - `.maxwidth750 > .valignmiddle`
+  - `.valuefield > .opacitymedium:nth-child(1)`
+  - `.opacitymedium:nth-child(4)`
+  - `#select_type`
+  - `#select2-idprod-container > .placeholder`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.showlinkedobjectblock > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/projet/card.php?id=1
+  - `.select2-selection__placeholder`
+  - `.badge-status0`
+  - `.maxwidth750 > .valignmiddle`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/contact/card.php?id=1
+  - `.select2-selection__placeholder`
+  - `.badge-status4`
+  - `.maxwidth750 > .valignmiddle`
+  - `tr:nth-child(2) > td:nth-child(2) > .opacitymedium`
+  - `tr:nth-child(3) > td:nth-child(2) > .opacitymedium`
+  - `tr:nth-child(4) > td:nth-child(2) > .opacitymedium`
+  - `.print-barre-liste`
+- http://localhost:9800/user/card.php?id=1
+  - `.select2-selection__placeholder`
+  - `#rights > .marginleftonlyshort.badge`
+  - `#info > .marginleftonlyshort.badge`
+  - `.badge-status4`
+  - `.maxwidth750 > .valignmiddle:nth-child(1)`
+  - `tr:nth-child(4) > td:nth-child(2) > .opacitymedium`
+  - `.hideonsmartphone.opacitymedium`
+  - `tr:nth-child(3) > td:nth-child(2) > .opacitymedium`
+  - `span[title="No email"] > .textbutton`
+  - `.butActionRefused.classfortooltip:nth-child(4) > .textbutton`
+  - … +3 autres
+- http://localhost:9800/user/list.php
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+  - `.colorblack`
+  - `tr[data-rowid="1"] > .center:nth-child(11) > .badge.badge-status4.badge-status`
+  - `tr[data-rowid="2"] > .center:nth-child(11) > .badge.badge-status4.badge-status`
+- http://localhost:9800/admin/index.php
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+  - `.opacitymedium.hideonsmartphone`
+- http://localhost:9800/admin/company.php
+  - `.select2-selection__placeholder`
+  - `.fiche > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `form > .notopnoleftnoright.table-fiche-title > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.noborder.editmode:nth-child(16) > tbody > .nohover.oddeven > td[colspan="3"] > .opacitymedium`
+  - `.noborder.editmode:nth-child(18) > tbody > .nohover.oddeven > td[colspan="3"] > .opacitymedium`
+  - `.noborder.editmode:nth-child(20) > tbody > .nohover.oddeven > td[colspan="3"] > .opacitymedium`
+- http://localhost:9800/admin/menus.php
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+  - `.justify`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `.select2-selection__placeholder`
+  - `.info-box-weather > .info-box-content > .info-box-title`
+  - `.info-box-title[title="Agenda"]`
+  - `.info-box-title[title="Projects"]`
+  - `div[title="Orders"]`
+  - `.info-box-title[title="Purchase orders"]`
+  - `.info-box-title[title="Vendor invoices"]`
+  - `.info-box-title[title="Tickets"]`
+  - `div[title="Bank account"]`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `.select2-selection__placeholder`
+  - `.statusref > .badge-status4.badge-status[title="Open"]`
+  - `.maxwidth750 > .valignmiddle`
+  - `.print-barre-liste`
+  - `.center:nth-child(6) > .badge-status4.badge-status[title="Open"]`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `.select2-selection__placeholder`
+  - `.badge-status0`
+  - `.maxwidth750 > .valignmiddle`
+  - `td:nth-child(2) > .opacitymedium:nth-child(1)`
+  - `.opacitymedium:nth-child(4)`
+  - `#builddoc_form > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.showlinkedobjectblock > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+  - `.fichehalfright > .notopnoleftnoright.table-fiche-title.centpercent > tbody > .toptitle > .col-title.nobordernopadding.valignmiddle > .titre.inline-block > .print-barre-liste.inline-block.valignmiddle`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.select2-selection__placeholder`
+  - `.print-barre-liste`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `.info-box-weather > .info-box-content > .info-box-title`
+  - `.info-box-title[title="Agenda"]`
+  - `.info-box-title[title="Projects"]`
+  - `.info-box-title[title="Commercial proposals"]`
+  - `div[title="Orders"]`
+  - `div[title="Invoices"]`
+  - `.info-box-title[title="Purchase orders"]`
+  - `.info-box-title[title="Vendor invoices"]`
+  - `.info-box-title[title="Tickets"]`
+  - `div[title="Bank account"]`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `a[href="/index.php?optioncss=print"]`
+  - `.help`
+  - `.bg-infobox-action > .info-box-createlink`
+  - `.info-box-createlink[href="/projet/card.php?action=create"]`
+  - `.bg-infobox-propal > .info-box-createlink`
+  - `.bg-infobox-commande > .info-box-createlink`
+  - `.bg-infobox-facture > .info-box-createlink`
+  - `.bg-infobox-order_supplier > .info-box-createlink`
+  - `.bg-infobox-invoice_supplier > .info-box-createlink`
+  - `a[href="/ticket/card.php?action=create"]`
+  - … +1 autres
+- http://localhost:9800/societe/list.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `.multiselectpicto`
+- http://localhost:9800/societe/card.php?socid=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.help`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.help`
+  - `.multiselectpicto`
+- http://localhost:9800/societe/card.php?action=create
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/product/list.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `.multiselectpicto`
+- http://localhost:9800/product/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/product/card.php?action=create
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/compta/facture/list.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `.multiselectpicto`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `#dropdownAddProductAndServiceLink`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `#dropdownAddProductAndServiceLink`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `#dropdownAddProductAndServiceLink`
+- http://localhost:9800/commande/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `#dropdownAddProductAndServiceLink`
+- http://localhost:9800/projet/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/contact/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.help`
+- http://localhost:9800/user/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/user/list.php
+  - `a[href="/user/list.php?optioncss=print"]`
+  - `.help`
+  - `.multiselectpicto`
+- http://localhost:9800/admin/index.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/admin/company.php
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/admin/menus.php
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `a[href="/index.php?optioncss=print"]`
+  - `.help`
+  - `.bg-infobox-action > .info-box-createlink`
+  - `.info-box-createlink[href="/projet/card.php?action=create"]`
+  - `.bg-infobox-propal > .info-box-createlink`
+  - `.bg-infobox-commande > .info-box-createlink`
+  - `.bg-infobox-facture > .info-box-createlink`
+  - `.bg-infobox-order_supplier > .info-box-createlink`
+  - `.bg-infobox-invoice_supplier > .info-box-createlink`
+  - `a[href="/ticket/card.php?action=create"]`
+  - … +1 autres
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.help`
+  - `.multiselectpicto`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `.menuhider[title=""][href="#"]:nth-child(1)`
+  - `#mainmenua_menu`
+  - `.bg-infobox-action > .info-box-createlink`
+  - `.info-box-createlink[href="/projet/card.php?action=create"]`
+  - `.bg-infobox-propal > .info-box-createlink`
+  - `.bg-infobox-commande > .info-box-createlink`
+  - `.bg-infobox-facture > .info-box-createlink`
+  - `.bg-infobox-order_supplier > .info-box-createlink`
+  - `.bg-infobox-invoice_supplier > .info-box-createlink`
+  - `a[href="/ticket/card.php?action=create"]`
+  - … +1 autres
+
+## [SERIOUS] listitem — <li> elements must be contained in a <ul> or <ol>
+
+Ensure <li> elements are used semantically
+Référence : https://dequeuniversity.com/rules/axe/4.14/listitem?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/societe/list.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/societe/card.php?socid=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/societe/card.php?action=create
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/product/list.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/product/card.php?id=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/product/card.php?action=create
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/compta/facture/list.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/commande/card.php?id=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/projet/card.php?id=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/contact/card.php?id=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/user/card.php?id=1
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/user/list.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/admin/index.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/admin/company.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/admin/menus.php
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - `#mainmenutd_tools`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `#mainmenutd_menu`
+  - `#mainmenutd_home`
+  - `#mainmenutd_companies`
+  - `#mainmenutd_products`
+  - `#mainmenutd_project`
+  - `#mainmenutd_commercial`
+  - `#mainmenutd_billing`
+  - `#mainmenutd_bank`
+  - `#mainmenutd_agenda`
+  - `#mainmenutd_ticket`
+  - … +1 autres
+
+## [SERIOUS] aria-input-field-name — ARIA input fields must have an accessible name
+
+Ensure every ARIA input field has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-input-field-name?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/societe/list.php
+  - `#select2-searchselectcombo-container`
+  - `.selection > .search_type_thirdparty.minwidth50.maxwidth125`
+  - `#select2-search_type_thirdparty-container`
+  - `span[aria-labelledby="select2-search_type-container"]`
+  - `#select2-search_type-container`
+- http://localhost:9800/societe/card.php?socid=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/societe/card.php?action=create
+  - `#select2-searchselectcombo-container`
+  - `span[aria-labelledby="select2-state_id-container"]`
+  - `#select2-state_id-container`
+- http://localhost:9800/product/list.php
+  - `#select2-searchselectcombo-container`
+  - `.search_tosell.selectformat.select2-selection`
+  - `#select2-search_tosell-container`
+  - `span[aria-labelledby="select2-search_tobuy-container"]`
+  - `#select2-search_tobuy-container`
+- http://localhost:9800/product/card.php?id=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/product/card.php?action=create
+  - `#select2-searchselectcombo-container`
+  - `.selection > .widthcentpercentminusxx.maxwidth500.minwidth300`
+  - `#select2-fk_default_warehouse-container`
+  - `span[aria-labelledby="select2-finished-container"]`
+  - `#select2-finished-container`
+  - `.selection > .selectcountry.widthcentpercentminusx.maxwidth200onsmartphone`
+  - `#select2-selectcountry_id-container`
+  - `span[aria-labelledby="select2-state_id-container"]`
+  - `#select2-state_id-container`
+- http://localhost:9800/compta/facture/list.php
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/commande/card.php?id=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/projet/card.php?id=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/contact/card.php?id=1
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/user/card.php?id=1
+  - `#select2-searchselectcombo-container`
+  - `span[aria-labelledby="select2-group-container"]`
+  - `#select2-group-container`
+- http://localhost:9800/user/list.php
+  - `#select2-searchselectcombo-container`
+  - `.maxwidth125.select2-selection.select2-selection--single`
+  - `#select2-search_supervisor-container`
+- http://localhost:9800/admin/index.php
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/admin/company.php
+  - `#select2-searchselectcombo-container`
+  - `span[aria-labelledby="select2-state_id-container"]`
+  - `#select2-state_id-container`
+  - `span[data-select2-id="7"] > .selection > .select2-selection.select2-selection--single[role="combobox"]`
+  - `#select2-forme_juridique_code-container`
+- http://localhost:9800/admin/menus.php
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `#select2-searchselectcombo-container`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `#select2-searchselectcombo-container`
+  - `span[aria-labelledby="select2-state_id-container"]`
+  - `#select2-state_id-container`
+
+## [SERIOUS] target-size — All touch targets must be 24px large, or leave sufficient space
+
+Ensure touch targets have sufficient size and space
+Référence : https://dequeuniversity.com/rules/axe/4.14/target-size?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `a[href="/index.php?optioncss=print"]`
+  - `.help`
+- http://localhost:9800/societe/list.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.button_search`
+  - `.button_removefilter`
+  - `a[href="/comm/card.php?socid=3"]`
+  - `.vendor-back`
+- http://localhost:9800/societe/card.php?socid=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/societe/card.php?action=create
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/product/list.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/product/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/product/card.php?action=create
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/compta/facture/list.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/commande/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/projet/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/contact/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+- http://localhost:9800/user/card.php?id=1
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+  - `.help`
+- http://localhost:9800/user/list.php
+  - `a[href="/user/list.php?optioncss=print"]`
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/admin/index.php
+  - `.inline-block:nth-child(1) > .classfortooltip.login_block_elem.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/admin/company.php
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/admin/menus.php
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `a[href="/index.php?optioncss=print"]`
+  - `.help`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[rel="noopener noreferrer"][target="_blank"]`
+  - `.button_search`
+  - `.button_removefilter`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.inline-block:nth-child(1) > .login_block_elem.classfortooltip.inline-block > a[target="_blank"][rel="noopener noreferrer"]`
+
+## [SERIOUS] aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+Ensure ARIA attributes are not prohibited for an element's role
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-prohibited-attr?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `table[summary="boxtable32"] > tbody > .oddeven > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `table[summary="boxtable6"] > tbody > .oddeven:nth-child(2) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(3) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(4) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.nowrap.right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(2) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - `.oddeven:nth-child(2) > .right[width="18"]:nth-child(7) > .statusrefbuy > .badge-status4[title="For purchase"][aria-label="For purchase"]`
+  - `.oddeven:nth-child(3) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - `.oddeven:nth-child(3) > .right[width="18"]:nth-child(7) > .statusrefbuy > .badge-status4[title="For purchase"][aria-label="For purchase"]`
+  - `.oddeven:nth-child(4) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - … +5 autres
+- http://localhost:9800/societe/card.php?socid=1
+  - `.oddeven:nth-child(2) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(3) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(4) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+- http://localhost:9800/product/card.php?id=1
+  - `.badge-dot`
+- http://localhost:9800/projet/card.php?id=1
+  - `.badge-dot`
+- http://localhost:9800/contact/card.php?id=1
+  - `.badge-dot`
+- http://localhost:9800/user/card.php?id=1
+  - `.oddeven:nth-child(2) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(3) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(4) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(5) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(6) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(7) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(8) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(9) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(10) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+  - `.oddeven:nth-child(11) > .right > .badge-dot.badge-status9[aria-label="Not applicable"]`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `table[summary="boxtable32"] > tbody > .oddeven > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `table[summary="boxtable6"] > tbody > .oddeven:nth-child(2) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(3) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(4) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.nowrap.right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(2) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - `.oddeven:nth-child(2) > .right[width="18"]:nth-child(7) > .statusrefbuy > .badge-status4[title="For purchase"][aria-label="For purchase"]`
+  - `.oddeven:nth-child(3) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - `.oddeven:nth-child(3) > .right[width="18"]:nth-child(7) > .statusrefbuy > .badge-status4[title="For purchase"][aria-label="For purchase"]`
+  - `.oddeven:nth-child(4) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - … +5 autres
+- http://localhost:9800/index.php [state:mobile-390]
+  - `table[summary="boxtable32"] > tbody > .oddeven > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `table[summary="boxtable6"] > tbody > .oddeven:nth-child(2) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(3) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(4) > .right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.nowrap.right[width="18"] > .badge-status4[title="Open"][aria-label="Open"]`
+  - `.oddeven:nth-child(2) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - `.oddeven:nth-child(2) > .right[width="18"]:nth-child(7) > .statusrefbuy > .badge-status4[title="For purchase"][aria-label="For purchase"]`
+  - `.oddeven:nth-child(3) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - `.oddeven:nth-child(3) > .right[width="18"]:nth-child(7) > .statusrefbuy > .badge-status4[title="For purchase"][aria-label="For purchase"]`
+  - `.oddeven:nth-child(4) > .right[width="18"]:nth-child(6) > .statusrefsell > .badge-status4[title="For sale"][aria-label="For sale"]`
+  - … +5 autres
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-title-only?application=axeAPI
+
+- http://localhost:9800/societe/list.php
+  - `input[name="search_nom"]`
+  - `input[name="search_customer_code"]`
+  - `input[name="search_zip"]`
+  - `input[name="search_phone"]`
+- http://localhost:9800/product/list.php
+  - `.width75`
+  - `input[name="search_label"]`
+- http://localhost:9800/compta/facture/list.php
+  - `input[name="search_ref"]`
+  - `.maxwidth50imp`
+  - `input[name="search_company"]`
+  - `input[name="search_montant_ht"]`
+  - `input[name="search_montant_ttc"]`
+- http://localhost:9800/user/list.php
+  - `input[name="search_login"]`
+  - `input[name="search_lastname"]`
+  - `input[name="search_firstname"]`
+  - `input[name="search_phonepro"]`
+  - `input[name="search_phonemobile"]`
+  - `input[name="search_email"]`
+  - `input[name="search_thirdparty"]`
+
+## [SERIOUS] scrollable-region-focusable — Scrollable region must have keyboard access
+
+Ensure elements that have scrollable content are accessible by keyboard in Safari
+Référence : https://dequeuniversity.com/rules/axe/4.14/scrollable-region-focusable?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `#boxto_13`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `#boxto_13`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `#boxto_27`
+
+## [SERIOUS] link-in-text-block — Links must be distinguishable without relying on color
+
+Ensure links are distinguished from surrounding text in a way that does not rely on color
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-in-text-block?application=axeAPI
+
+- http://localhost:9800/index.php [state:mobile-390]
+  - `table[summary="boxtable29"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `span[data-select2-id="3"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.fichecenter:nth-child(2)`
+  - `th[title="Login Information"] > .tdoverflowmax400.maxwidth250onsmartphone.float`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(2)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(3)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4)`
+  - … +93 autres
+- http://localhost:9800/societe/list.php
+  - `span[data-select2-id="12"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.col-title`
+  - `.limit > .selection`
+  - `.liste_titre[data-key="ref"]`
+  - `.liste_titre_filter > .liste_titre:nth-child(3)`
+  - `.liste_titre_filter > .liste_titre:nth-child(4)`
+  - … +16 autres
+- http://localhost:9800/societe/card.php?socid=1
+  - `.selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `.fichehalfleft > .border.tableforfield > tbody > tr:nth-child(1)`
+  - `.fichehalfleft > .border.tableforfield > tbody > tr:nth-child(2) > td:nth-child(1)`
+  - `.clipboardCPValue`
+  - … +13 autres
+- http://localhost:9800/societe/contact.php?socid=1
+  - `span[data-select2-id="4"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `#dragDropAreaTabBar`
+  - `.notopnoleftnoright`
+  - `.tagtable > tbody > tr:nth-child(1) > td:nth-child(2)`
+  - `.tagtable > tbody > tr:nth-child(1) > td:nth-child(3)`
+  - … +8 autres
+- http://localhost:9800/societe/card.php?action=create
+  - `span[data-select2-id="20"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.notopnoleftnoright`
+  - `.tr-field-thirdparty-name`
+  - `#name_alias > td[colspan="3"]`
+  - `#spannature1`
+  - `#spannature2`
+  - … +24 autres
+- http://localhost:9800/product/list.php
+  - `span[data-select2-id="9"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.col-title`
+  - `.limit > .selection`
+  - `.paginationafterarrows`
+  - `.left.liste_titre:nth-child(2)`
+  - `.left.liste_titre:nth-child(3)`
+  - … +16 autres
+- http://localhost:9800/product/card.php?id=1
+  - `.selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `.fichehalfleft > .border.tableforfield > tbody > tr:nth-child(1)`
+  - `.fichehalfleft > .border.tableforfield > tbody > tr:nth-child(2)`
+  - `.fichehalfleft > .border.tableforfield > tbody > tr:nth-child(3)`
+  - … +14 autres
+- http://localhost:9800/product/card.php?action=create
+  - `span[data-select2-id="25"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.notopnoleftnoright`
+  - `.border:nth-child(1) > tbody > tr:nth-child(1)`
+  - `.border:nth-child(1) > tbody > tr:nth-child(2)`
+  - `tr:nth-child(3) > .fieldrequired`
+  - `span[data-select2-id="1"] > .selection`
+  - … +33 autres
+- http://localhost:9800/compta/facture/list.php
+  - `span[data-select2-id="10"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.col-title`
+  - `.limit > .selection`
+  - `span[data-select2-id="5"] > .selection`
+  - `span[data-select2-id="7"] > .selection`
+  - `.divsearchfield:nth-child(3)`
+  - … +22 autres
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `span[data-select2-id="7"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `#dragDropAreaTabBar > .fichecenter`
+  - `thead`
+  - `#row-1 > .minwidth300imp.linecoldescription`
+  - … +29 autres
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `span[data-select2-id="7"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `#dragDropAreaTabBar > .fichecenter`
+  - `thead`
+  - `#row-3 > .minwidth300imp.linecoldescription`
+  - … +29 autres
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `span[data-select2-id="7"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `#dragDropAreaTabBar > .fichecenter`
+  - `thead`
+  - `#row-1`
+  - … +18 autres
+- http://localhost:9800/commande/card.php?id=1
+  - `span[data-select2-id="7"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `#dragDropAreaTabBar > .fichecenter`
+  - `thead`
+  - `#row-1`
+  - … +18 autres
+- http://localhost:9800/projet/card.php?id=1
+  - `span[data-select2-id="6"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `#dragDropAreaTabBar > .fichecenter`
+  - `.butActionEmail`
+  - `.tabsAction > .butAction[aria-label=""][title=""]:nth-child(2)`
+  - … +9 autres
+- http://localhost:9800/contact/card.php?id=1
+  - `.selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `#id-right`
+- http://localhost:9800/user/card.php?id=1
+  - `span[data-select2-id="3"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.paginationref`
+  - `.statusref`
+  - `.maxwidth750 > .valignmiddle:nth-child(1)`
+  - `.titlefieldmiddle`
+  - … +19 autres
+- http://localhost:9800/user/list.php
+  - `span[data-select2-id="9"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.col-title`
+  - `.limit > .selection`
+  - `.liste_titre_filter > .liste_titre:nth-child(2)`
+  - `.liste_titre_filter > .liste_titre:nth-child(3)`
+  - `.liste_titre_filter > .liste_titre:nth-child(4)`
+  - … +19 autres
+- http://localhost:9800/admin/index.php
+  - `.selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `table`
+  - `.opacitymedium.hideonsmartphone`
+  - `.setupcompany`
+  - `.setupmodules`
+  - `.setupeinvoice`
+- http://localhost:9800/admin/company.php
+  - `span[data-select2-id="9"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.fiche > .notopnoleftnoright.table-fiche-title`
+  - `.tabs`
+  - `.info`
+  - `.noborder.editmode:nth-child(4) > tbody > .liste_titre`
+  - `.noborder.editmode:nth-child(4) > tbody > .oddeven:nth-child(2)`
+  - … +46 autres
+- http://localhost:9800/admin/menus.php
+  - `span[data-select2-id="9"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.notopnoleftnoright`
+  - `.tabs`
+  - `.justify`
+  - `.liste_titre`
+  - `.oddeven:nth-child(2) > td:nth-child(1)`
+  - … +5 autres
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `span[data-select2-id="3"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.fichecenter:nth-child(2)`
+  - `th[title="Login Information"] > .tdoverflowmax400.maxwidth250onsmartphone.float`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(2)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(3)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4)`
+  - … +93 autres
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `span[data-select2-id="4"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `#dragDropAreaTabBar`
+  - `.notopnoleftnoright`
+  - `.tagtable > tbody > tr:nth-child(1) > td:nth-child(2)`
+  - `.tagtable > tbody > tr:nth-child(1) > td:nth-child(3)`
+  - … +8 autres
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `span[data-select2-id="5"] > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.tabs`
+  - `.arearef`
+  - `#dragDropAreaTabBar > .fichecenter`
+  - `thead`
+  - `#row-3 > .minwidth300imp.linecoldescription`
+  - … +19 autres
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.select2-container--below > .selection`
+  - `.blockvmenufirst`
+  - `.blockvmenuimpair.blockvmenu:nth-child(3)`
+  - `.blockvmenupair.blockvmenu:nth-child(4)`
+  - `.blockvmenulast`
+  - `.notopnoleftnoright`
+  - `.tr-field-thirdparty-name`
+  - `#name_alias > td[colspan="3"]`
+  - `#spannature1`
+  - `#spannature2`
+  - … +24 autres
+- http://localhost:9800/index.php [state:mobile-390]
+  - `.fichecenter:nth-child(2)`
+  - `th[title="Login Information"] > .tdoverflowmax400.maxwidth250onsmartphone.float`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(2)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(3)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4)`
+  - `th[title="Customer Invoices per month"] > .tdoverflowmax400.maxwidth250onsmartphone.float`
+  - `table[summary="boxtable21"] > tbody > .nohover.oddeven > .nohover.center > .fichecenter > .fichehalfleft > .dolgraphtitle.dolgraphtitlecssboxes.center`
+  - `#placeholder_invoicesnbinyear_2026_png`
+  - `table[summary="boxtable21"] > tbody > .nohover.oddeven > .nohover.center > .fichecenter > .fichehalfright > .dolgraphtitle.dolgraphtitlecssboxes.center`
+  - `#placeholder_invoicesamountinyear_2026_png`
+  - … +88 autres
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `html`
+- http://localhost:9800/societe/list.php
+  - `html`
+- http://localhost:9800/societe/card.php?socid=1
+  - `html`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `html`
+- http://localhost:9800/societe/card.php?action=create
+  - `html`
+- http://localhost:9800/product/list.php
+  - `html`
+- http://localhost:9800/product/card.php?id=1
+  - `html`
+- http://localhost:9800/product/card.php?action=create
+  - `html`
+- http://localhost:9800/compta/facture/list.php
+  - `html`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `html`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `html`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `html`
+- http://localhost:9800/commande/card.php?id=1
+  - `html`
+- http://localhost:9800/projet/card.php?id=1
+  - `html`
+- http://localhost:9800/contact/card.php?id=1
+  - `html`
+- http://localhost:9800/user/card.php?id=1
+  - `html`
+- http://localhost:9800/user/list.php
+  - `html`
+- http://localhost:9800/admin/index.php
+  - `html`
+- http://localhost:9800/admin/company.php
+  - `html`
+- http://localhost:9800/admin/menus.php
+  - `html`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `html`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `html`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `html`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `html`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `html`
+- http://localhost:9800/societe/list.php
+  - `html`
+- http://localhost:9800/societe/card.php?socid=1
+  - `html`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `html`
+- http://localhost:9800/societe/card.php?action=create
+  - `html`
+- http://localhost:9800/product/list.php
+  - `html`
+- http://localhost:9800/product/card.php?id=1
+  - `html`
+- http://localhost:9800/product/card.php?action=create
+  - `html`
+- http://localhost:9800/compta/facture/list.php
+  - `html`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `html`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `html`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `html`
+- http://localhost:9800/commande/card.php?id=1
+  - `html`
+- http://localhost:9800/projet/card.php?id=1
+  - `html`
+- http://localhost:9800/contact/card.php?id=1
+  - `html`
+- http://localhost:9800/user/card.php?id=1
+  - `html`
+- http://localhost:9800/user/list.php
+  - `html`
+- http://localhost:9800/admin/index.php
+  - `html`
+- http://localhost:9800/admin/company.php
+  - `html`
+- http://localhost:9800/admin/menus.php
+  - `html`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `html`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `html`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `html`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `html`
+
+## [MINOR] aria-allowed-role — ARIA role should be appropriate for the element
+
+Ensure role attribute has an appropriate value for the element
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-allowed-role?application=axeAPI
+
+- http://localhost:9800/index.php
+  - `ul`
+- http://localhost:9800/societe/list.php
+  - `ul[role="navigation"]`
+- http://localhost:9800/societe/card.php?socid=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/societe/card.php?action=create
+  - `ul[role="navigation"]`
+- http://localhost:9800/product/list.php
+  - `ul[role="navigation"]`
+- http://localhost:9800/product/card.php?id=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/product/card.php?action=create
+  - `ul`
+- http://localhost:9800/compta/facture/list.php
+  - `ul[role="navigation"]`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `ul[role="navigation"]`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/commande/card.php?id=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/projet/card.php?id=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/contact/card.php?id=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/user/card.php?id=1
+  - `ul[role="navigation"]`
+- http://localhost:9800/user/list.php
+  - `ul[role="navigation"]`
+- http://localhost:9800/admin/index.php
+  - `ul`
+- http://localhost:9800/admin/company.php
+  - `ul`
+- http://localhost:9800/admin/menus.php
+  - `ul`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `ul`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `ul[role="navigation"]`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `ul[role="navigation"]`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `ul[role="navigation"]`
+  - `.select2-results__option`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `ul`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:9800/societe/list.php
+  - `tr:nth-child(2) > .maxwidthsearch`
+- http://localhost:9800/societe/card.php?socid=1
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `.maxwidthsearch`
+- http://localhost:9800/product/list.php
+  - `tr:nth-child(2) > .maxwidthsearch`
+- http://localhost:9800/product/card.php?id=1
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.right.wrapcolumntitle`
+- http://localhost:9800/compta/facture/list.php
+  - `.maxwidthsearch[align="center"]`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `.nodrag.nodrop.liste_titre > .linecoledit`
+  - `.nodrag.nodrop.liste_titre > .linecoldelete`
+  - `.nodrag.nodrop.liste_titre > .linecolmove`
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `.nodrag.nodrop.liste_titre > .linecoledit`
+  - `.nodrag.nodrop.liste_titre > .linecoldelete`
+  - `.nodrag.nodrop.liste_titre > .linecolmove`
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `.nodrag.nodrop.liste_titre > .linecoledit`
+  - `.nodrag.nodrop.liste_titre > .linecoldelete`
+  - `.nodrag.nodrop.liste_titre > .linecolmove`
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+- http://localhost:9800/commande/card.php?id=1
+  - `.nodrag.nodrop.liste_titre > .linecoledit`
+  - `.nodrag.nodrop.liste_titre > .linecoldelete`
+  - `.nodrag.nodrop.liste_titre > .linecolmove`
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+- http://localhost:9800/projet/card.php?id=1
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.right.wrapcolumntitle`
+- http://localhost:9800/contact/card.php?id=1
+  - `th:nth-child(4)`
+  - `.liste_titre > .right`
+- http://localhost:9800/user/card.php?id=1
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+- http://localhost:9800/user/list.php
+  - `tr:nth-child(2) > .maxwidthsearch`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `.maxwidthsearch`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `.nodrag > .linecoledit`
+  - `.nodrag > .linecoldelete`
+  - `.nodrag > .linecolmove`
+  - `.wrapcolumntitle:nth-child(4)`
+  - `.wrapcolumntitle:nth-child(6)`
+
+## Résultats incomplets à revoir (607)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### bypass — Page must have means to bypass repeated blocks
+
+- http://localhost:9800/index.php
+  - `html`
+- http://localhost:9800/societe/card.php?socid=1
+  - `html`
+- http://localhost:9800/societe/card.php?action=create
+  - `html`
+- http://localhost:9800/product/card.php?id=1
+  - `html`
+- http://localhost:9800/product/card.php?action=create
+  - `html`
+- http://localhost:9800/projet/card.php?id=1
+  - `html`
+- http://localhost:9800/contact/card.php?id=1
+  - `html`
+- http://localhost:9800/user/card.php?id=1
+  - `html`
+- http://localhost:9800/admin/index.php
+  - `html`
+- http://localhost:9800/admin/company.php
+  - `html`
+- http://localhost:9800/admin/menus.php
+  - `html`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `html`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `html`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `html`
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9800/index.php
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(2) > .maxwidth150onsmartphone.tdoverflowmax150:nth-child(1)`
+  - `.usertext`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(3) > td:nth-child(1)`
+  - `td:nth-child(2) > .opacitymedium`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4) > td:nth-child(1)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4) > td:nth-child(2)`
+  - `table[summary="boxtable22"] > tbody > .oddeven > .center > .opacitymedium`
+  - `table[summary="boxtable23"] > tbody > tr:nth-child(2) > .center[colspan="2"] > .opacitymedium`
+  - `table[summary="boxtable24"] > tbody > tr:nth-child(2) > .center[colspan="2"] > .opacitymedium`
+  - `.nographyettext`
+  - … +63 autres
+- http://localhost:9800/societe/list.php
+  - `tr[data-rowid="1"] > .tdoverflowmax200.tdlineheightsmall[data-key="ref"] > .lineheightsmall.inline-block > .refurl.classforajaxtooltip[title="tocomplete"]`
+  - `tr[data-rowid="1"] > .nowraponall:nth-child(3)`
+  - `tr[data-rowid="1"] > td:nth-child(4)`
+  - `tr[data-rowid="1"] > .nowraponall:nth-child(6) > .paddingright`
+  - `a[href="/comm/card.php?socid=1"]`
+  - `tr[data-rowid="1"] > .tdoverflowmax150.nowraponall > .classforajaxtooltip[title="tocomplete"] > .usertext.nopadding`
+  - `tr[data-rowid="2"] > .tdoverflowmax200.tdlineheightsmall[data-key="ref"] > .lineheightsmall.inline-block > .refurl.classforajaxtooltip[title="tocomplete"]`
+  - `tr[data-rowid="2"] > .nowraponall:nth-child(3)`
+  - `tr[data-rowid="2"] > td:nth-child(4)`
+  - `tr[data-rowid="2"] > .nowraponall:nth-child(6) > .paddingright`
+  - … +9 autres
+- http://localhost:9800/societe/card.php?socid=1
+  - `#contact > .marginleftonlyshort.badge`
+  - `#project > .marginleftonlyshort.badge`
+  - `#note > .marginleftonlyshort.badge`
+  - `#agenda > .marginleftonlyshort.badge`
+  - `.customer-back`
+  - `td[colspan="5"] > .opacitymedium`
+  - `.nopaddingrightimp.nowraponall > .classforajaxtooltip[href="/comm/action/card.php?id=11"][title="Project A11Y-PJ01 created"]`
+  - `.oddeven:nth-child(2) > .celldateheight.nowraponall.center > .center.inline-block`
+  - `.oddeven:nth-child(2) > .celldateheight.nowraponall.center > .center.inline-block > .small.opacitymedium`
+  - `.oddeven:nth-child(2) > .tdoverflowmax100.nowraponall > .classforajaxtooltip[title="tocomplete"][href="/user/card.php?id=1"] > .usertext.nopadding`
+  - … +11 autres
+- http://localhost:9800/societe/contact.php?socid=1
+  - `#contact > .marginleftonlyshort.badge`
+  - `#project > .marginleftonlyshort.badge`
+  - `#note > .marginleftonlyshort.badge`
+  - `#agenda > .marginleftonlyshort.badge`
+  - `.classforajaxtooltip > .valignmiddle`
+  - `.tdoverflowmax150.classfortooltip > .paddingright`
+  - `a[href="mailto:cmartin@acme.example"]`
+- http://localhost:9800/product/list.php
+  - `tr[data-rowid="1"] > .tdoverflowmax250 > .classforajaxtooltip.nowraponall[title="tocomplete"] > .aaa`
+  - `td[title="Widget standard"] > .spantitle`
+  - `tr[data-rowid="1"] > .nowraponall.right:nth-child(4) > .amount`
+  - `tr[data-rowid="1"] > .right:nth-child(6)`
+  - `tr[data-rowid="1"] > .right:nth-child(7)`
+  - `tr[data-rowid="2"] > .tdoverflowmax250 > .classforajaxtooltip.nowraponall[title="tocomplete"] > .aaa`
+  - `td[title="Widget premium"] > .spantitle`
+  - `tr[data-rowid="2"] > .nowraponall.right:nth-child(4) > .amount`
+  - `tr[data-rowid="2"] > .right:nth-child(6)`
+  - `tr[data-rowid="2"] > .right:nth-child(7)`
+  - … +11 autres
+- http://localhost:9800/product/card.php?id=1
+  - `.marginleftonlyshort`
+  - `td[colspan="5"] > .opacitymedium`
+  - `.nopaddingrightimp > .classforajaxtooltip[href="/comm/action/card.php?id=6"][title="Product A11Y-PROD-1 created"]`
+  - `.center.inline-block`
+  - `.small.opacitymedium`
+  - `.usertext`
+  - `.tdoverflowmax250 > .classforajaxtooltip[href="/comm/action/card.php?id=6"][title="Product A11Y-PROD-1 created"]`
+- http://localhost:9800/compta/facture/list.php
+  - `tr[data-rowid="1"] > .nowraponall:nth-child(2) > table > tbody > .nocellnopadd > .nobordernopadding.nowraponall > .classforajaxtooltip[title="tocomplete"]`
+  - `tr[data-rowid="1"] > .nowraponall[align="center"]:nth-child(3)`
+  - `tr[data-rowid="1"] > .nowraponall[align="center"]:nth-child(4)`
+  - `tr[data-rowid="1"] > .tdoverflowmax150 > .refurl.classforajaxtooltip[title="tocomplete"]`
+  - `tr[data-rowid="1"] > .right.nowraponall:nth-child(7) > .amount`
+  - `tr[data-rowid="1"] > .amount.right.nowraponall`
+  - `tr[data-rowid="1"] > .nowrap.center:nth-child(9) > .badge.badge-status0.badge-status`
+  - `tr[data-rowid="2"] > .nowraponall:nth-child(2) > table > tbody > .nocellnopadd > .nobordernopadding.nowraponall > .classforajaxtooltip[title="tocomplete"]`
+  - `tr[data-rowid="2"] > .nowraponall[align="center"]:nth-child(3)`
+  - `tr[data-rowid="2"] > .nowraponall[align="center"]:nth-child(4)`
+  - … +11 autres
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `.marginleftonlyshort`
+  - `tr:nth-child(2) > .right[colspan="5"] > .opacitymedium`
+  - `.paymenttable > tbody > tr:nth-child(2) > .right:nth-child(2)`
+  - `tr:nth-child(3) > .right[colspan="5"] > .opacitymedium`
+  - `.paymenttable > tbody > tr:nth-child(3) > .right:nth-child(2)`
+  - `tr:nth-child(4) > .right[colspan="5"] > .opacitymedium`
+  - `.amountremaintopay`
+  - `#row-1 > .minwidth300imp.linecoldescription`
+  - `a[href="/product/card.php?id=4"] > .aaa`
+  - `#row-1 > .linecolvat.nowrap.right > .classfortooltip`
+  - … +18 autres
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `.marginleftonlyshort`
+  - `tr:nth-child(2) > .right[colspan="5"] > .opacitymedium`
+  - `.paymenttable > tbody > tr:nth-child(2) > .right:nth-child(2)`
+  - `tr:nth-child(3) > .right[colspan="5"] > .opacitymedium`
+  - `.paymenttable > tbody > tr:nth-child(3) > .right:nth-child(2)`
+  - `tr:nth-child(4) > .right[colspan="5"] > .opacitymedium`
+  - `.amountremaintopay`
+  - `#row-3 > .minwidth300imp.linecoldescription`
+  - `a[href="/product/card.php?id=4"] > .aaa`
+  - `#row-3 > .linecolvat.nowrap.right > .classfortooltip`
+  - … +18 autres
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `.minwidth300imp`
+  - `.aaa`
+  - `.linecolvat.nowrap.right > .classfortooltip`
+  - `#row-1 > .linecoluht.nowraponall.right`
+  - `#row-1 > .linecoluttc.nowraponall.right`
+  - `.linecolqty.nowraponall.right`
+  - `.linecolht.nowrap.right > .classfortooltip`
+  - `#cke_12_text`
+  - `#cke_13_text`
+  - `#cke_38_label`
+  - … +4 autres
+- http://localhost:9800/commande/card.php?id=1
+  - `.minwidth300imp`
+  - `.aaa`
+  - `.linecolvat.nowrap.right > .classfortooltip`
+  - `#row-1 > .linecoluht.nowraponall.right`
+  - `#row-1 > .linecoluttc.nowraponall.right`
+  - `.linecolqty.nowraponall.right`
+  - `.linecolht.nowrap.right > .classfortooltip`
+  - `#cke_12_text`
+  - `#cke_13_text`
+  - `#cke_38_label`
+  - … +4 autres
+- http://localhost:9800/projet/card.php?id=1
+  - `#tasks > .marginleftonlyshort.badge`
+  - `#element > .marginleftonlyshort.badge`
+  - `#agenda > .marginleftonlyshort.badge`
+  - `#builddoc_generatebutton`
+  - `td[colspan="5"] > .opacitymedium`
+  - `.nopaddingrightimp > .classforajaxtooltip[href="/comm/action/card.php?id=11"][title="Project A11Y-PJ01 created"]`
+  - `.center.inline-block`
+  - `.small.opacitymedium`
+  - `.usertext`
+  - `.tdoverflowmax250 > .classforajaxtooltip[href="/comm/action/card.php?id=11"][title="Project A11Y-PJ01 created"]`
+- http://localhost:9800/contact/card.php?id=1
+  - `.marginleftonlyshort`
+  - `.nopaddingrightimp > .classforajaxtooltip[href="/comm/action/card.php?id=5"][title="Contact Claire Martin created"]`
+  - `.center.inline-block`
+  - `.small.opacitymedium`
+  - `.usertext`
+  - `.tdoverflowmax250 > .classforajaxtooltip[href="/comm/action/card.php?id=5"][title="Contact Claire Martin created"]`
+- http://localhost:9800/user/card.php?id=1
+  - `.button`
+  - `td[colspan="2"] > .opacitymedium`
+  - `td[colspan="5"] > .opacitymedium`
+  - `.nopaddingrightimp.nowraponall > .classforajaxtooltip[href="/comm/action/card.php?id=11"][title="Project A11Y-PJ01 created"]`
+  - `.oddeven:nth-child(2) > .celldateheight.nowraponall.center > .center.inline-block`
+  - `.oddeven:nth-child(2) > .celldateheight.nowraponall.center > .center.inline-block > .small.opacitymedium`
+  - `.oddeven:nth-child(2) > .tdoverflowmax100.nowraponall > .classforajaxtooltip[title="tocomplete"][href="/user/card.php?id=1"] > .usertext.nopadding`
+  - `.tdoverflowmax250 > .classforajaxtooltip[href="/comm/action/card.php?id=11"][title="Project A11Y-PJ01 created"]`
+  - `.nopaddingrightimp.nowraponall > .classforajaxtooltip[href="/comm/action/card.php?id=10"][title="Product A11Y-SERV-2 created"]`
+  - `.oddeven:nth-child(3) > .celldateheight.nowraponall.center > .center.inline-block`
+  - … +44 autres
+- http://localhost:9800/user/list.php
+  - `tr[data-rowid="1"] > .nowraponall.tdoverflowmax150 > .classforajaxtooltip[title="tocomplete"] > .usertext.nopadding`
+  - `.tdoverflowmax150[title="SuperAdmin"]:nth-child(3)`
+  - `tr[data-rowid="1"] > .tdoverflowmax150:nth-child(9) > .opacitymedium`
+  - `tr[data-rowid="1"] > .nowraponall.center`
+  - `tr[data-rowid="2"] > .nowraponall.tdoverflowmax150 > .classforajaxtooltip[title="tocomplete"] > .usertext.nopadding`
+  - `.tdoverflowmax150[title="Dupont"]:nth-child(3)`
+  - `.tdoverflowmax150[title="Dupont"]:nth-child(4)`
+  - `a[href="mailto:jdupont@example.com"]`
+  - `tr[data-rowid="2"] > .tdoverflowmax150:nth-child(9) > .opacitymedium`
+- http://localhost:9800/admin/menus.php
+  - `.oddeven:nth-child(2) > td:nth-child(1)`
+  - `.oddeven:nth-child(3) > td:nth-child(1)`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `.info-box-title[title="Commercial proposals"]`
+  - `div[title="Invoices"]`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(2) > .maxwidth150onsmartphone.tdoverflowmax150:nth-child(1)`
+  - `.usertext`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(3) > td:nth-child(1)`
+  - `td:nth-child(2) > .opacitymedium`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4) > td:nth-child(1)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4) > td:nth-child(2)`
+  - `table[summary="boxtable22"] > tbody > .oddeven > .center > .opacitymedium`
+  - `table[summary="boxtable23"] > tbody > tr:nth-child(2) > .center[colspan="2"] > .opacitymedium`
+  - … +65 autres
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `#contact > .marginleftonlyshort.badge`
+  - `#project > .marginleftonlyshort.badge`
+  - `#note > .marginleftonlyshort.badge`
+  - `#agenda > .marginleftonlyshort.badge`
+  - `.classforajaxtooltip > .valignmiddle`
+  - `.tdoverflowmax150.classfortooltip > .paddingright`
+  - `a[href="mailto:cmartin@acme.example"]`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `.marginleftonlyshort`
+  - `tr:nth-child(2) > .right[colspan="5"] > .opacitymedium`
+  - `.paymenttable > tbody > tr:nth-child(2) > .right:nth-child(2)`
+  - `tr:nth-child(3) > .right[colspan="5"] > .opacitymedium`
+  - `.paymenttable > tbody > tr:nth-child(3) > .right:nth-child(2)`
+  - `tr:nth-child(4) > .right[colspan="5"] > .opacitymedium`
+  - `.amountremaintopay`
+  - `#row-3 > .minwidth300imp.linecoldescription`
+  - `a[href="/product/card.php?id=4"] > .aaa`
+  - `#row-3 > .linecolvat.nowrap.right > .classfortooltip`
+  - … +16 autres
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `a[title="My Dashboard"]`
+  - `a[title="Setup"]`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(2) > .maxwidth150onsmartphone.tdoverflowmax150:nth-child(1)`
+  - `.usertext`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(3) > td:nth-child(1)`
+  - `td:nth-child(2) > .opacitymedium`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4) > td:nth-child(1)`
+  - `table[summary="boxtable1"] > tbody > .oddeven:nth-child(4) > td:nth-child(2)`
+  - `table[summary="boxtable22"] > tbody > .oddeven > .center > .opacitymedium`
+  - `table[summary="boxtable23"] > tbody > tr:nth-child(2) > .center[colspan="2"] > .opacitymedium`
+  - `table[summary="boxtable24"] > tbody > tr:nth-child(2) > .center[colspan="2"] > .opacitymedium`
+  - `.nographyettext`
+  - … +61 autres
+
+### link-in-text-block — Links must be distinguishable without relying on color
+
+- http://localhost:9800/index.php
+  - `table[summary="boxtable28"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable29"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable32"] > tbody > .liste_titre.box_titre > th[colspan="3"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable34"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable35"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable5"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable6"] > tbody > .liste_titre.box_titre > th[colspan="3"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable7"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `th[colspan="4"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `th[colspan="7"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - … +2 autres
+- http://localhost:9800/societe/card.php?action=create
+  - `.hideonsmartphone[href="#"]`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `a[href="/product/card.php?id=4"]`
+  - `a[href="/product/card.php?id=1"]`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `a[href="/product/card.php?id=4"]`
+  - `a[href="/product/card.php?id=2"]`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `a[href="/product/card.php?id=1"]`
+- http://localhost:9800/commande/card.php?id=1
+  - `a[href="/product/card.php?id=1"]`
+- http://localhost:9800/index.php [state:dropdown-user]
+  - `table[summary="boxtable28"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable29"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable32"] > tbody > .liste_titre.box_titre > th[colspan="3"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable34"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable35"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable5"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable6"] > tbody > .liste_titre.box_titre > th[colspan="3"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable7"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `th[colspan="4"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `th[colspan="7"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - … +2 autres
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `a[href="/product/card.php?id=4"]`
+  - `a[href="/product/card.php?id=2"]`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.hideonsmartphone[href="#"]`
+- http://localhost:9800/index.php [state:mobile-390]
+  - `table[summary="boxtable28"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable32"] > tbody > .liste_titre.box_titre > th[colspan="3"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable34"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable35"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable5"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable6"] > tbody > .liste_titre.box_titre > th[colspan="3"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable7"] > tbody > .liste_titre.box_titre > th > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `th[colspan="4"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `th[colspan="7"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - `table[summary="boxtable16"] > tbody > .liste_titre.box_titre > th[colspan="5"] > .tdoverflowmax400.maxwidth250onsmartphone.float > .paddingleft`
+  - … +1 autres
+
+### target-size — All touch targets must be 24px large, or leave sufficient space
+
+- http://localhost:9800/societe/list.php
+  - `.help`
+  - `.select2-selection--multiple`
+  - `.select2-search__field`
+- http://localhost:9800/societe/card.php?socid=1
+  - `.help`
+- http://localhost:9800/societe/contact.php?socid=1
+  - `.help`
+  - `.select2-search__field`
+- http://localhost:9800/societe/card.php?action=create
+  - `.help`
+- http://localhost:9800/product/card.php?id=1
+  - `.help`
+- http://localhost:9800/compta/facture/list.php
+  - `.help`
+  - `.select2-search__field`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `.help`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `.help`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `.help`
+- http://localhost:9800/commande/card.php?id=1
+  - `.help`
+- http://localhost:9800/projet/card.php?id=1
+  - `.help`
+- http://localhost:9800/contact/card.php?id=1
+  - `.help`
+- http://localhost:9800/user/list.php
+  - `.help`
+- http://localhost:9800/admin/index.php
+  - `.help`
+- http://localhost:9800/admin/company.php
+  - `.help`
+- http://localhost:9800/admin/menus.php
+  - `.help`
+- http://localhost:9800/societe/contact.php?socid=1 [state:fiche-tab-contacts]
+  - `.help`
+  - `.select2-search__field`
+- http://localhost:9800/compta/facture/card.php?facid=2 [state:modal-validate-facture]
+  - `.help`
+- http://localhost:9800/societe/card.php?action=create [state:select2-combo]
+  - `.help`
+
+### aria-prohibited-attr — Elements must only use permitted ARIA attributes
+
+- http://localhost:9800/product/card.php?id=1
+  - `.butActionRefused`
+
+### frame-tested — Frames should be tested with axe-core
+
+- http://localhost:9800/product/card.php?action=create
+  - `iframe`
+- http://localhost:9800/compta/facture/card.php?facid=1
+  - `iframe`
+- http://localhost:9800/compta/facture/card.php?facid=2
+  - `iframe`
+- http://localhost:9800/comm/propal/card.php?id=1
+  - `iframe`
+- http://localhost:9800/commande/card.php?id=1
+  - `iframe`
+
+### form-field-multiple-labels — Form field must not have multiple label elements
+
+- http://localhost:9800/admin/company.php
+  - `#phone`
+  - `#use_vat`
+  - `#no_vat`
+

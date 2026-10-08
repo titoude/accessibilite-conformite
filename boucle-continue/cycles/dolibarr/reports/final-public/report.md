@@ -1,0 +1,15 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 1/1 scénario(s) audité(s), 0 erreur(s), 1 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `40bbedeaa643`
+
+## Résultats incomplets à revoir (1)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:9800/index.php
+  - `a[href$="www.dolibarr.org"]`
+

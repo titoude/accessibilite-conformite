@@ -1,0 +1,10 @@
+{
+ "states": {
+  "dropdown-user": "clic a.login-dropdown-a → #topmenu-login-dropdown .dropdown-menu visible + texte /logout|profil|profile/i",
+  "fiche-tab-contacts": "sur /societe/card.php?socid=<seed> → .tabs .tabsElemActive visible + libellé /contact|address|adresses/i",
+  "modal-validate-facture": "sur /compta/facture/card.php?facid=<brouillon seed> : clic .butAction /valid/i → .ui-dialog visible + #dialog-confirm /are you sure/i",
+  "select2-combo": "sur /societe/card.php?action=create : clic premier .select2-container → .select2-container--open ou .select2-dropdown visible",
+  "mobile-390": "viewport 390x844 + documentElement.clientWidth==390 + #id-container présent + .tmenu non vide"
+ },
+ "note": "states codés dans tools/audit.mjs (export STATES, setups Playwright réels, stateProof assertions leçon 32 : chaque état prouve son ouverture avant le scan axe ; sélecteurs vanilla-safe leçon 47 — aucun sélecteur ne dépend d'un attribut ajouté par le patch). mobile-390 s'exécute en dernier sur index. Ids d'entités lus depuis seed-info.json (leçons 44/46)."
+}

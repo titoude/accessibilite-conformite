@@ -1,0 +1,38 @@
+{
+ "cycle": 57,
+ "produit": "dolibarr",
+ "repo": "https://github.com/Dolibarr/dolibarr",
+ "commit": "7e927764767343334aaa067ca5ec054cfea0a26b",
+ "pinned": "7e927764767343334aaa067ca5ec054cfea0a26b (tag 24.0.2, git clone --depth 1 --branch 24.0.2)",
+ "baseUrl": "http://localhost:9800",
+ "stack": "PHP 8.3 / Apache (image doli57-web:24.0.2 = php:8.3-apache + mysqli pdo_mysql mbstring gd zip intl calendar exif opcache curl + a2enmod rewrite, DocumentRoot→htdocs, AllowOverride All) + MariaDB 11.8 — SSR PHP templates + jQuery + Select2, thème eldy (défaut) + md",
+ "boot": {
+  "clone": "git clone --depth 1 --branch 24.0.2 https://github.com/Dolibarr/dolibarr <checkout>  (ou clone complet + git checkout 7e92776)",
+  "build": "docker build -t doli57-web:24.0.2 -f tools/Dockerfile tools/  (fait auto par boot.sh si image absente)",
+  "stack": "bash tools/boot.sh <checkout> [UI_PORT] [SUFFIX] — compose projet doli57<SUFFIX> : web + db + volumes documents/dbdata ; si conf.php absente (clone propre) rejoue l'install CLI officielle step1(conf+db) step2(tables) step4 step5(admin) + install.lock ; chmod 777 conf/ avant le touch www-data ; idempotent",
+  "seed": "node tools/seed.mjs [--container doli57-web] — rejoue seed.php dans le container web (SQL direct : tiers/produits/factures/contacts/users/tasks A11Y*) + écrit seed-info.json = source unique des ids (leçons 44/46)",
+  "login": "node tools/login.mjs <baseUrl> <out.json> — poste le formulaire login réel (admin/Doli57-Admin-2026, banc d'essai), écrit storageState auth.json",
+  "urls": "node tools/gen-urls.mjs --base <url> --tpl urls-auth.tpl.txt --out urls-auth.resolved.txt — remplace les tokens <SOC>/<FAC>/<F_DRAFT> par seed-info.json"
+ },
+ "auth": "storageState auth.json (session Dolibarr admin/Doli57-Admin-2026 — identifiants de banc d'essai uniquement, créés par le seed)",
+ "urls": "tools/urls-auth.tpl.txt — 21 pages auth : index, societe (list/card/create/contact/document/note), product (list/card/price), compta/facture (list/card), admin/company, user/list+home, ticket/list, commande/list ; tools/urls-public.tpl.txt — /index.php login",
+ "states": "voir states.json — 5 états déterministes : dropdown-user, fiche-tab-contacts, modal-validate-facture, select2-combo, mobile-390",
+ "auditCommands": {
+  "baseline_public": "node tools/audit.mjs http://localhost:9800 --urls \"$(cat tools/urls-public.resolved.txt | tr '\\n' ',')\" --out reports/baseline-public --states none",
+  "baseline_auth": "node tools/audit.mjs http://localhost:9800 --urls \"$(cat tools/urls-auth.resolved.txt | tr '\\n' ',')\" --out reports/baseline-auth --states all --storage-state tools/auth.json",
+  "final_public": "identique baseline_public --out reports/final-public",
+  "final_auth": "identique baseline_auth --out reports/final-auth",
+  "install_build": "mêmes commandes sur http://localhost:9810 avec tools/auth-i.json --out reports/install-build-{public,auth}",
+  "verify": "node tools/verify.mjs http://localhost:9800 tools/auth.json",
+  "eval": "node tools/eval-final.mjs http://localhost:9800 tools/auth.json",
+  "probes": "node tools/incomplete-probes.mjs http://localhost:9800 tools/auth.json --reports reports/final-public reports/final-auth --out reports/probes/incomplete-probes.json",
+  "axe_pin": "axe-core 4.14.0 + playwright 1.63.0 épinglés dans tools/package.json + package-lock.json (npm ci reproductible)"
+ },
+ "notes": [
+  "i18n : tous les libellés injectés passent par $langs->trans() et résolvent depuis htdocs/langs/en_US/*.lang (clés vérifiées : Menu, Modules, Search, RemoveFilter, Select, SelectAll, Type, VAT, Date, Edit, Delete, Move, UnitPriceHT, UnitPriceTTC, Qty, Discount, AddNewLine, PrintContentArea, Help, Home, Dashboard, New).",
+  "Le runtime JS de lib_head.js.php (fixSearchInputs/fixSelect2/ensureH1 + observer MutationObserver débouncé 50ms) couvre les surfaces dynamiques : select2 (combobox/aria-controls morts/listbox vide), champs title-only, th de colonnes-controles, dropdowns (Escape). Aucun timing produit adapté au harnais.",
+  "landmarks : <main id=id-right> + nav.side-nav[aria-label=Modules] + nav.tmenudiv[aria-label=Menu] ; h1 réel via load_fiche_titre (fallback Home) + h1 sr-only JS si absent ; login.tpl.php titre → h1.",
+  "Confirguration fraîche : les warnings PHP upstream (dir_output non initialisé) ont disparu après le premier passage admin — non liés au patch.",
+  "Identifiants = banc d'essai session-only, jamais dans le repo produit ni dans les artefacts publics (seed-info.json ne contient que des ids)."
+ ]
+}

@@ -1,0 +1,34 @@
+services:
+  web:
+    image: doli57-web:24.0.2
+    container_name: doli57${SUFFIX}-web
+    depends_on:
+      - db
+    ports:
+      - "${UI_PORT:-9800}:80"
+    volumes:
+      - "${CHECKOUT}:/var/www/html"
+      - "documents:/var/www/documents"
+    networks: [net]
+
+  db:
+    image: mariadb:11.8
+    container_name: doli57${SUFFIX}-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: dolibarr
+      MYSQL_USER: doli
+      MYSQL_PASSWORD: Doli57-Bench-2026
+    volumes:
+      - "dbdata:/var/lib/mysql"
+    networks: [net]
+
+networks:
+  net:
+    name: doli57${SUFFIX}-net
+
+volumes:
+  documents:
+    name: doli57${SUFFIX}-documents
+  dbdata:
+    name: doli57${SUFFIX}-dbdata

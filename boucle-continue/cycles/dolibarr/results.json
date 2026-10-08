@@ -1,0 +1,114 @@
+{
+ "cycle": 57,
+ "produit": "dolibarr",
+ "statut_execution": "complet",
+ "baseline": {
+  "public": {
+   "violations_occ": 8,
+   "violations_regles": 3,
+   "regles": [
+    "color-contrast",
+    "region",
+    "tabindex"
+   ],
+   "erreurs": 0,
+   "incomplets": 2,
+   "note": "page login /index.php sans session"
+  },
+  "auth": {
+   "violations_occ": 1860,
+   "violations_regles": 19,
+   "regles_liste": [
+    "aria-allowed-role",
+    "aria-input-field-name",
+    "aria-prohibited-attr",
+    "aria-required-attr",
+    "aria-required-children",
+    "button-name",
+    "color-contrast",
+    "empty-table-header",
+    "label",
+    "label-title-only",
+    "landmark-one-main",
+    "link-in-text-block",
+    "link-name",
+    "listitem",
+    "page-has-heading-one",
+    "region",
+    "scrollable-region-focusable",
+    "select-name",
+    "target-size"
+   ],
+   "erreurs": 0,
+   "incomplets": 607,
+   "note": "26 scénarios : 21 pages auth + 5 états déterministes (dropdown-user, fiche-tab-contacts, modal-validate-facture, select2-combo, mobile-390)",
+   "regles": {
+    "region": 909,
+    "listitem": 251,
+    "color-contrast": 175,
+    "label": 123,
+    "link-name": 87,
+    "aria-prohibited-attr": 61,
+    "aria-input-field-name": 52,
+    "target-size": 43,
+    "empty-table-header": 41,
+    "aria-allowed-role": 26,
+    "landmark-one-main": 24,
+    "page-has-heading-one": 24,
+    "label-title-only": 18,
+    "button-name": 12,
+    "select-name": 8,
+    "scrollable-region-focusable": 3,
+    "aria-required-attr": 1,
+    "aria-required-children": 1,
+    "link-in-text-block": 1
+   }
+  },
+  "note": "baseline rejouée AVANT patch sur stack :9800 (pureté vanilla prouvée : clone @7e92776 non modifié — diff git vide au moment du scan)"
+ },
+ "final": {
+  "public": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 1
+  },
+  "auth": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 303,
+   "note": "26 scénarios, même scope que baseline (scopeHash identique)"
+  },
+  "note": "patch.diff appliqué au working tree :9800 ; verify.mjs 35/35 + eval-final.mjs 20/20"
+ },
+ "install_build": {
+  "public": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 1
+  },
+  "auth": {
+   "violations_occ": 0,
+   "violations_regles": 0,
+   "erreurs": 0,
+   "incomplets": 303
+  },
+  "note": "clone propre @7e92776 + git apply --check + apply patch.diff + boot :9810 (doli57-i-*) + seed rejoué + rescan — 0 viol/0 err",
+  "verify_vanilla": "reports/probes/verify-vanilla.txt — verify.mjs sur :9810 AVANT patch : 22 FAIL nommés (13/35 OK)"
+ },
+ "probes": {
+  "total": 304,
+  "ok": 279,
+  "na": 25,
+  "non_conforme": 0,
+  "note": "reports/probes/incomplete-probes.json — chaque nœud incomplet mesuré (composite alpha) ou N-A justifié (fond image, état transitoire, espacement axe, label implicite)"
+ },
+ "sabotage": "verify.mjs sur variante mutée ($onlycontrols désactivé) → FAIL nommé « liste: aucun <th> vide » — preuve que les assertions mordent",
+ "patch": {
+  "fichiers": 20,
+  "lignes": "274+/76-",
+  "sha256": "e7d5466914bcd569616851c2dad87f9e90bdb7d7617eeb25164c83ef863a13b6"
+ }
+}

@@ -1,0 +1,10 @@
+install-build — cycle 57 dolibarr
+=================================
+1. clone propre : git clone --depth 1 --branch 24.0.2 → ~/work/dolibarr-ib @7e927764767343334aaa067ca5ec054cfea0a26b
+2. boot vanilla : bash tools/boot.sh ~/work/dolibarr-ib 9810 -i → stack doli57-i-{web,db} + install CLI rejouée (conf.php + step1..5 + install.lock)
+3. login : node tools/login.mjs http://localhost:9810 auth-i.json → storageState
+4. preuve vanilla : node tools/verify.mjs http://localhost:9810 auth-i.json → 13/35 OK, 22 FAIL nommés → reports/probes/verify-vanilla.txt
+5. git apply --check cycles/dolibarr/patch.diff → OK ; git apply → 20 fichiers, +274/−76
+6. restart doli57-i-web (opcache) → 200
+7. seed : node tools/seed.mjs --container doli57-i-web → 3 tiers / 5 produits / 3 factures (ids identiques à seed-info.json)
+8. rescan : audit.mjs :9810 urls-auth+states all → 0 viol / 0 occ / 0 err / 303 inc ; urls-public → 0 / 0 / 0 / 1 inc
