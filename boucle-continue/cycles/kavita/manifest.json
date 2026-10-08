@@ -1,0 +1,36 @@
+{
+ "cycle": 45,
+ "project": "Kareadita/Kavita",
+ "commit": "f75863cb77c0f6aa26e0794a1848294e63c9d07d",
+ "commit_date": "2026-10 (HEAD develop pinné via `git ls-remote https://github.com/Kareadita/Kavita HEAD` ; dernier tag stable v0.9.1.4 — HEAD choisi, runtime rapporte 0.9.1.11)",
+ "branch_upstream": "develop @f75863cb",
+ "framework": ".NET 10 (global.json sdk 10.0.0 — la spec disait « .NET 8 », c'est .NET 10 en réalité) + Angular 22 (kavita-webui@0.7.12.1, @angular/* ^22.1.3) + EF Core/SQLite — première stack .NET/Angular de la boucle",
+ "served_source": "Build local obligatoire : l'image docker officielle (kazaoki/kavita, jvmilazz0/kavita) sert un bundle prédéfini impossible à patcher — écart image/SHA documenté : pas d'image pour le SHA pinné. Backend compilé `dotnet build -c Release` (Kavita.Server/bin/Release/net10.0), frontend `npm run prod` (UI/Web/dist/browser). POINT CRITIQUE : Kavita.Server sert wwwroot depuis le CWD (FallbackController : Path.Combine(GetCurrentDirectory(),'wwwroot')) — déployer dist/browser dans <rundir>/wwwroot, PAS dans bin/",
+ "base_url": "http://localhost:7500",
+ "ports": {
+  "app": 7500
+ },
+ "boot": {
+  "deps": "dotnet SDK 10.0.401 (dotnet-install.sh, ~/work/dotnet10 — DOIT exporter DOTNET_ROOT=$HOME/work/dotnet10 + PATH, l'apphost ne le trouve pas sinon) + node via nvm (outillage audit)",
+  "clone": "git clone https://github.com/Kareadita/Kavita ~/work/kavita45 && git -C ~/work/kavita45 checkout f75863cb77c0f6aa26e0794a1848294e63c9d07d",
+  "build-backend": "cd ~/work/kavita45 && DOTNET_ROOT=$HOME/work/dotnet10 PATH=$HOME/work/dotnet10:$PATH dotnet build -c Release  # ~40s, 0 error",
+  "build-frontend": "cd ~/work/kavita45/UI/Web && export NVM_DIR=$HOME/.nvm && source $NVM_DIR/nvm.sh && npm install --no-audit --no-fund (npm ci échoue amont — lock désynchronisé ; documenté, package-lock.json EXCLU du patch) && npm run prod  # -> dist/browser",
+  "run": "mkdir -p ~/work/kv45-run/config && cp -r ~/work/kavita45/UI/Web/dist/browser ~/work/kv45-run/wwwroot && printf '{\"TokenKey\":\"<cle-64b>\",\"Port\":7500,\"IpAddresses\":\"\",\"BaseUrl\":\"/\",\"Cache\":75}' > ~/work/kv45-run/config/appsettings.json && cp -r ~/work/kavita45/Kavita.Server/bin/Release/net10.0/* ~/work/kv45-run/ && cd ~/work/kv45-run && DOTNET_ROOT=$HOME/work/dotnet10 PATH=$HOME/work/dotnet10:$PATH nohup ./Kavita.Server > kv.log 2>&1 & # prêt quand http://localhost:7500/login -> 200 (~15-20s ; le port SANS appsettings.json est 5000 par défaut)",
+  "admin_seed": "python3 tools/seed.py http://localhost:7500 ~/work/kv45-media  # rejouable : medias CBZ/EPUB généres, admin kv45admin, 3 libs (Manga/Comics/Books) enableMetadata=1, scan-all, 7 series, reading list, collection, invite alice.kv45@localhost",
+  "creds": "admin kv45admin / Kv45-Admin!Pass (config/appsettings.json TokenKey + seed) — login.mjs récupère le JWT dans localStorage['kavita-user'] -> auth.json"
+ },
+ "audit": {
+  "axe": "4.14.0 (npm axe-core@4.14.0 dans tools/)",
+  "baseline": "node audit.mjs --urls \"$(paste -sd, urls-public.txt)\" --out ../reports/baseline-public --states none --wait-for 'app-root' --wait 2000 http://localhost:7500 && node audit.mjs --urls \"$(paste -sd, urls-auth.txt)\" --out ../reports/baseline-auth --states none --storage-state auth.json --wait-for 'app-root' --wait 2000 http://localhost:7500 && node audit.mjs --urls \"/home\" --out ../reports/baseline-states --states all --storage-state auth.json --wait-for 'app-root' --wait 2000 http://localhost:7500",
+  "final": "mêmes commandes avec --out ../reports/final-{public,auth,states} — exécutées après dernier rebuild+deploy",
+  "install_build": "clone vierge ~/work/kavita45-virgin + git apply patch.diff (44 fichiers, --check OK) + npm install && npm run prod + dotnet build -c Release + run dir ~/work/kv45-virgin-run + seed rejoué (7 series) + rescan reports/installbuild-{public,auth} : 0 viol",
+  "verify": "node verify.mjs http://localhost:7500 -> 34/34 PASS ; node eval-final.mjs http://localhost:7500 -> 35/35 PASS ; incomplete-probes sur report scan5-auth + scan7-states -> 0 FAIL (112+88 N-A, 200+50 PASS, 1 link-in-text-block N-A + 1 aria-hidden-focus N-A)"
+ },
+ "patch": {
+  "files": 44,
+  "insertions": 191,
+  "deletions": 169,
+  "exclu": "UI/Web/package-lock.json (modifie par npm install amont, pas un fix a11y)",
+  "domaines": "aria-allowed-role (html), page-has-heading-one (h1 dans main), landmark-one-main/region (main + nav role=navigation labels), button-name (card-actionables [attr.aria-label] 'Actions for {{name}}', icones, toggles), list (navbar), link-name (brand/donate), aria-required-children/parent/listitem (ngbNav li role=presentation, typeahead), color-contrast (muted->body-text, btn-primary/nav-pill texte noir sur vert, badge/toast), heading-order (h4/h5/h6->h2/h3), aria-dialog-name (modal ariaLabelledBy), duplicate-id ([attr.id], entity-id retire)"
+ }
+}

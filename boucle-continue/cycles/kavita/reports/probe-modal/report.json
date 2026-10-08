@@ -1,0 +1,3866 @@
+{
+  "runId": "f83859f9-d851-41ef-955c-67b235aa6da1",
+  "runnerVersion": "audit.mjs v7-jellyfin",
+  "axeVersion": "4.14.0",
+  "generatedAt": "2026-10-08T04:30:43.017Z",
+  "baseUrl": "http://localhost:7500",
+  "pages": [
+    {
+      "url": "http://localhost:7500/library/4/series/6",
+      "requestedUrl": "http://localhost:7500/library/4/series/6",
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "help": "ARIA role should be appropriate for the element",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-allowed-role?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-allowed-role",
+                  "data": [
+                    "main"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "minor",
+                  "message": "ARIA role main is not allowed for given element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "minor",
+              "html": "<html lang=\"en\" role=\"main\" data-beasties-container=\"\" style=\"--vh: 7.2px; height: calc(var(--vh)*100 - var(--nav-offset));\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  ARIA role main is not allowed for given element"
+            }
+          ]
+        },
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require child roles contain them",
+          "help": "Certain ARIA roles must contain particular children",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-children",
+                  "data": {
+                    "messageKey": "unallowed",
+                    "values": "li"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\"><a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-1\" role=\"tab\" aria-controls=\"ngb-nav-1-panel\" aria-selected=\"true\" aria-disabled=\"false\">Storyline</a><!----></li>",
+                      "target": [
+                        "li:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\">",
+                      "target": [
+                        "li:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\">",
+                      "target": [
+                        "li:nth-child(3)"
+                      ]
+                    },
+                    {
+                      "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\">",
+                      "target": [
+                        "li:nth-child(4)"
+                      ]
+                    }
+                  ],
+                  "impact": "critical",
+                  "message": "Element has children which are not allowed: li"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<ul _ngcontent-ng-c1396006662=\"\" ngbnav=\"\" class=\"nav nav-tabs\" role=\"tablist\">",
+              "target": [
+                ".nav-tabs"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has children which are not allowed: li"
+            }
+          ]
+        },
+        {
+          "id": "aria-required-parent",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require parent roles are contained by them",
+          "help": "Certain ARIA roles must be contained by particular parents",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-parent?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-1\" role=\"tab\" aria-controls=\"ngb-nav-1-panel\" aria-selected=\"true\" aria-disabled=\"false\">Storyline</a>",
+              "target": [
+                "#ngb-nav-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-2\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-2-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Chapters <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">1</span></a>",
+              "target": [
+                "#ngb-nav-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-3\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-3-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Related <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">1</span></a>",
+              "target": [
+                "#ngb-nav-3"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-0\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-0-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Reviews <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">0</span></a>",
+              "target": [
+                "#ngb-nav-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            }
+          ]
+        },
+        {
+          "id": "button-name",
+          "impact": "critical",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-11.9.1"
+          ],
+          "description": "Ensure buttons have discernible text",
+          "help": "Buttons must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-home\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+              "target": [
+                "#actions-home"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-reading-lists\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+              "target": [
+                "#actions-reading-lists"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Kv45 Manga\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+              "target": [
+                "#actions-Kv45\\ Manga"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Kv45 Comics\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+              "target": [
+                "#actions-Kv45\\ Comics"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Kv45 Books\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+              "target": [
+                "#actions-Kv45\\ Books"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1396006662=\"\" type=\"button\" ngbdropdowntoggle=\"\" class=\"dropdown-toggle btn btn-outline-primary dropdown-toggle-split\" aria-expanded=\"false\"></button>",
+              "target": [
+                ".dropdown-toggle-split"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1396006662=\"\" class=\"btn btn-actions\"><span _ngcontent-ng-c1396006662=\"\"><i _ngcontent-ng-c1396006662=\"\" aria-hidden=\"true\" class=\"fa-regular fa-star\"></i></span></button>",
+              "target": [
+                ".ms-2.col-auto[_ngcontent-ng-c1396006662=\"\"]:nth-child(2) > .btn-actions"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1396006662=\"\" id=\"edit-btn--komf\" class=\"btn btn-actions\"><span _ngcontent-ng-c1396006662=\"\"><i _ngcontent-ng-c1396006662=\"\" aria-hidden=\"true\" class=\"fa fa-pen\"></i></span></button>",
+              "target": [
+                "#edit-btn--komf"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Solo Leveling\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-h\"></i></button>",
+              "target": [
+                "#actions-Solo\\ Leveling"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button class=\"btn btn-actions\"><!----><i aria-hidden=\"true\" class=\"fa fa-arrow-alt-circle-down\"></i><!----></button>",
+              "target": [
+                "app-download-button > .btn-actions"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            },
+            {
+              "any": [
+                {
+                  "id": "button-has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have inner text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element has no title attribute"
+                },
+                {
+                  "id": "implicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an implicit (wrapped) <label>"
+                },
+                {
+                  "id": "explicit-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element does not have an explicit <label>"
+                },
+                {
+                  "id": "presentational-role",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Chapter\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+              "target": [
+                "#actions-Chapter"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element does not have inner text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute\n  Element does not have an implicit (wrapped) <label>\n  Element does not have an explicit <label>\n  Element's default semantics were not overridden with role=\"none\" or role=\"presentation\""
+            }
+          ]
+        },
+        {
+          "id": "link-name",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag244",
+            "wcag412",
+            "section508",
+            "section508.22.a",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.2.4.4",
+            "EN-9.4.1.2",
+            "ACT",
+            "RGAAv4",
+            "RGAA-6.2.1"
+          ],
+          "description": "Ensure links have discernible text",
+          "help": "Links must have discernible text",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "has-visible-text",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element does not have text that is visible to screen readers"
+                },
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [
+                {
+                  "id": "focusable-no-name",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element is in tab order and does not have accessible text"
+                }
+              ],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c31611253=\"\" rel=\"noopener noreferrer\" target=\"_blank\" class=\"side-nav-item\" id=\"null\" href=\"https://wiki.kavitareader.com/donating\">",
+              "target": [
+                ".side-nav-item[rel=\"noopener noreferrer\"][target=\"_blank\"]"
+              ],
+              "failureSummary": "Fix all of the following:\n  Element is in tab order and does not have accessible text\n\nFix any of the following:\n  Element does not have text that is visible to screen readers\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "list",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure that lists are structured correctly",
+          "help": "<ul> and <ol> must only directly contain <li>, <script> or <template> elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/list?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [],
+              "none": [
+                {
+                  "id": "only-listitems",
+                  "data": {
+                    "values": "div"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div _ngcontent-ng-c3049808064=\"\" class=\"nav-item search\">",
+                      "target": [
+                        ".search.nav-item[_ngcontent-ng-c3049808064=\"\"]"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "List element has direct children that are not allowed: div"
+                }
+              ],
+              "impact": "serious",
+              "html": "<ul _ngcontent-ng-c3049808064=\"\" class=\"navbar-nav col me-auto\">",
+              "target": [
+                ".navbar-nav"
+              ],
+              "failureSummary": "Fix all of the following:\n  List element has direct children that are not allowed: div"
+            }
+          ]
+        },
+        {
+          "id": "listitem",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure <li> elements are used semantically",
+          "help": "<li> elements must be contained in a <ul> or <ol>",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/listitem?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\"><a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-1\" role=\"tab\" aria-controls=\"ngb-nav-1-panel\" aria-selected=\"true\" aria-disabled=\"false\">Storyline</a><!----></li>",
+              "target": [
+                "li:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\">",
+              "target": [
+                "li:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\">",
+              "target": [
+                "li:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li _ngcontent-ng-c1396006662=\"\" class=\"nav-item\">",
+              "target": [
+                "li:nth-child(4)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            }
+          ]
+        },
+        {
+          "id": "page-has-heading-one",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure that the page, or at least one of its frames contains a level-one heading",
+          "help": "Page should contain a level-one heading",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "page-has-heading-one",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Page must have a level-one heading"
+                }
+              ],
+              "none": [],
+              "impact": "moderate",
+              "html": "<html lang=\"en\" role=\"main\" data-beasties-container=\"\" style=\"--vh: 7.2px; height: calc(var(--vh)*100 - var(--nav-offset));\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix all of the following:\n  Page must have a level-one heading"
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Home <!----></div>",
+              "target": [
+                ".side-nav-item[href$=\"home\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Want To Read <!----></div>",
+              "target": [
+                "a[href$=\"want-to-read\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Collections <!----></div>",
+              "target": [
+                "a[href$=\"collections\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Reading Lists <!----></div>",
+              "target": [
+                "a[href$=\"lists\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Bookmarks <!----></div>",
+              "target": [
+                "a[href$=\"bookmarks\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> All Series <!----></div>",
+              "target": [
+                "a[href$=\"all-series\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Browse People <!----></div>",
+              "target": [
+                "a[href$=\"people\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Kv45 Manga <!----></div>",
+              "target": [
+                "a[href$=\"library/4\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Kv45 Comics <!----></div>",
+              "target": [
+                "a[href$=\"library/5\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Kv45 Books <!----></div>",
+              "target": [
+                "a[href$=\"library/6\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "21.0pt (28px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\">Solo Leveling <!----></span>",
+              "target": [
+                "h4 > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.6pt (12.8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c4184774613=\"\" class=\"small-text me-3\">4 Pages</span>",
+              "target": [
+                ".me-3"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.6pt (12.8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c4184774613=\"\" class=\"small-text\"><i _ngcontent-ng-c4184774613=\"\" aria-hidden=\"true\" class=\"fa-regular fa-clock\"></i> &lt;1 Hour </span>",
+              "target": [
+                ".small-text[_ngcontent-ng-c4184774613=\"\"]:nth-child(4)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"badge rounded-pill ps-0 me-1\">",
+              "target": [
+                ".ps-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"read-btn--text ms-1\">Read</span>",
+              "target": [
+                ".btn-outline-primary[type=\"button\"] > span > .read-btn--text.ms-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Writers</span>",
+              "target": [
+                ".upper-details.mt-2[_ngcontent-ng-c1396006662=\"\"] > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .pe-5.col-6[_ngcontent-ng-c1396006662=\"\"] > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Publication</span>",
+              "target": [
+                ".upper-details.mt-2[_ngcontent-ng-c1396006662=\"\"] > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .col-6[_ngcontent-ng-c1396006662=\"\"]:nth-child(2) > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.6pt (12.8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"javascript:void(0);\" class=\"dark-exempt btn-icon font-size\"> Ongoing <!----></a>",
+              "target": [
+                ".font-size"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Genres</span>",
+              "target": [
+                ".mt-3.upper-details.mb-2 > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .pe-5.col-6[_ngcontent-ng-c1396006662=\"\"] > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Tags</span>",
+              "target": [
+                ".mt-3.upper-details.mb-2 > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .col-6[_ngcontent-ng-c1396006662=\"\"]:nth-child(2) > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-1\" role=\"tab\" aria-controls=\"ngb-nav-1-panel\" aria-selected=\"true\" aria-disabled=\"false\">Storyline</a>",
+              "target": [
+                "#ngb-nav-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-2\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-2-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Chapters <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">1</span></a>",
+              "target": [
+                "#ngb-nav-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-3\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-3-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Related <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">1</span></a>",
+              "target": [
+                "#ngb-nav-3"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-0\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-0-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Reviews <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">0</span></a>",
+              "target": [
+                "#ngb-nav-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7500/library/4/series/6#storyline-tab",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    },
+    {
+      "url": "http://localhost:7500/library/4/series/6 [state:series-edit-modal]",
+      "requestedUrl": "http://localhost:7500/library/4/series/6",
+      "violations": [
+        {
+          "id": "aria-allowed-role",
+          "impact": "minor",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure role attribute has an appropriate value for the element",
+          "help": "ARIA role should be appropriate for the element",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-allowed-role?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-allowed-role",
+                  "data": [
+                    "main"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "minor",
+                  "message": "ARIA role main is not allowed for given element"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "minor",
+              "html": "<html lang=\"en\" role=\"main\" data-beasties-container=\"\" style=\"--vh: 7.2px; height: calc(var(--vh)*100 - var(--nav-offset));\">",
+              "target": [
+                "html"
+              ],
+              "failureSummary": "Fix any of the following:\n  ARIA role main is not allowed for given element"
+            }
+          ]
+        },
+        {
+          "id": "aria-dialog-name",
+          "impact": "serious",
+          "tags": [
+            "cat.aria",
+            "best-practice"
+          ],
+          "description": "Ensure every ARIA dialog and alertdialog node has an accessible name",
+          "help": "ARIA dialog and alertdialog nodes should have an accessible name",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-dialog-name?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-label",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-label attribute does not exist or is empty"
+                },
+                {
+                  "id": "aria-labelledby",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty"
+                },
+                {
+                  "id": "non-empty-title",
+                  "data": {
+                    "messageKey": "noAttr"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "Element has no title attribute"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<ngb-modal-window tabindex=\"-1\" aria-modal=\"true\" role=\"dialog\" class=\"d-block modal fade show\">",
+              "target": [
+                "ngb-modal-window"
+              ],
+              "failureSummary": "Fix any of the following:\n  aria-label attribute does not exist or is empty\n  aria-labelledby attribute does not exist, references elements that do not exist or references elements that are empty\n  Element has no title attribute"
+            }
+          ]
+        },
+        {
+          "id": "aria-required-children",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require child roles contain them",
+          "help": "Certain ARIA roles must contain particular children",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-children",
+                  "data": {
+                    "messageKey": "unallowed",
+                    "values": "li"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-4\" role=\"tab\" aria-controls=\"ngb-nav-4-panel\" aria-selected=\"true\" aria-disabled=\"false\">General</a><!----></li>",
+                      "target": [
+                        ".nav-pills > li:nth-child(1)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-9\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Metadata</a><!----></li>",
+                      "target": [
+                        ".nav-pills > li:nth-child(2)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-10\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">External Ids</a><!----></li>",
+                      "target": [
+                        ".nav-pills > li:nth-child(3)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-11\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">People</a><!----></li>",
+                      "target": [
+                        ".nav-pills > li:nth-child(4)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-12\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Web Links</a><!----></li>",
+                      "target": [
+                        "li:nth-child(5)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-5\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Cover Image</a><!----></li>",
+                      "target": [
+                        "li:nth-child(6)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-6\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Related</a><!----></li>",
+                      "target": [
+                        "li:nth-child(7)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-7\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Info</a><!----></li>",
+                      "target": [
+                        "li:nth-child(8)"
+                      ]
+                    },
+                    {
+                      "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-8\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Tasks</a><!----></li>",
+                      "target": [
+                        "li:nth-child(9)"
+                      ]
+                    }
+                  ],
+                  "impact": "critical",
+                  "message": "Element has children which are not allowed: li"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<ul ngbnav=\"\" class=\"nav nav-pills flex-column\" style=\"min-width: 8.4375rem;\" aria-orientation=\"vertical\" role=\"tablist\">",
+              "target": [
+                ".nav-pills"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has children which are not allowed: li"
+            }
+          ]
+        },
+        {
+          "id": "aria-required-parent",
+          "impact": "critical",
+          "tags": [
+            "cat.aria",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure elements with an ARIA role that require parent roles are contained by them",
+          "help": "Certain ARIA roles must be contained by particular parents",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-required-parent?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-4\" role=\"tab\" aria-controls=\"ngb-nav-4-panel\" aria-selected=\"true\" aria-disabled=\"false\">General</a>",
+              "target": [
+                "#ngb-nav-4"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-9\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Metadata</a>",
+              "target": [
+                "#ngb-nav-9"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-10\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">External Ids</a>",
+              "target": [
+                "#ngb-nav-10"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-11\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">People</a>",
+              "target": [
+                "#ngb-nav-11"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-12\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Web Links</a>",
+              "target": [
+                "#ngb-nav-12"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-5\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Cover Image</a>",
+              "target": [
+                "#ngb-nav-5"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-6\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Related</a>",
+              "target": [
+                "#ngb-nav-6"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-7\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Info</a>",
+              "target": [
+                "#ngb-nav-7"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            },
+            {
+              "any": [
+                {
+                  "id": "aria-required-parent",
+                  "data": [
+                    "tablist"
+                  ],
+                  "relatedNodes": [],
+                  "impact": "critical",
+                  "message": "Required ARIA parent role not present: tablist"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "critical",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-8\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Tasks</a>",
+              "target": [
+                "#ngb-nav-8"
+              ],
+              "failureSummary": "Fix any of the following:\n  Required ARIA parent role not present: tablist"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#4ac694",
+                    "contrastRatio": 2.14,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-4\" role=\"tab\" aria-controls=\"ngb-nav-4-panel\" aria-selected=\"true\" aria-disabled=\"false\">General</a>",
+                      "target": [
+                        "#ngb-nav-4"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.14 (foreground color: #ffffff, background color: #4ac694, font size: 10.8pt (14.4px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-4\" role=\"tab\" aria-controls=\"ngb-nav-4-panel\" aria-selected=\"true\" aria-disabled=\"false\">General</a>",
+              "target": [
+                "#ngb-nav-4"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.14 (foreground color: #ffffff, background color: #4ac694, font size: 10.8pt (14.4px), font weight: normal). Expected contrast ratio of 4.5:1"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "fgColor": "#ffffff",
+                    "bgColor": "#4ac694",
+                    "contrastRatio": 2.14,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": null,
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<button type=\"button\" class=\"btn btn-primary\">Save</button>",
+                      "target": [
+                        ".btn-primary"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element has insufficient color contrast of 2.14 (foreground color: #ffffff, background color: #4ac694, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<button type=\"button\" class=\"btn btn-primary\">Save</button>",
+              "target": [
+                ".btn-primary"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element has insufficient color contrast of 2.14 (foreground color: #ffffff, background color: #4ac694, font size: 12.0pt (16px), font weight: normal). Expected contrast ratio of 4.5:1"
+            }
+          ]
+        },
+        {
+          "id": "heading-order",
+          "impact": "moderate",
+          "tags": [
+            "cat.semantics",
+            "best-practice"
+          ],
+          "description": "Ensure the order of headings is semantically correct",
+          "help": "Heading levels should only increase by one",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/heading-order?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "heading-order",
+                  "data": null,
+                  "relatedNodes": [],
+                  "impact": "moderate",
+                  "message": "Heading order invalid"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "moderate",
+              "html": "<h6 _ngcontent-ng-c3103186822=\"\" class=\"section-title\"><label _ngcontent-ng-c3103186822=\"\" for=\"id-a9ebcb32-52ba-4cbf-9590-29dece3ee53d\">Name</label><!----><!----><!----></h6>",
+              "target": [
+                ".row[_ngcontent-ng-c825986750=\"\"]:nth-child(1) > .mb-3[_ngcontent-ng-c825986750=\"\"] > app-setting-item > div[_ngcontent-ng-c3103186822=\"\"] > .settings-row.g-0.row > .edit.setting-title.col-auto > h6"
+              ],
+              "failureSummary": "Fix any of the following:\n  Heading order invalid"
+            }
+          ]
+        },
+        {
+          "id": "listitem",
+          "impact": "serious",
+          "tags": [
+            "cat.structure",
+            "wcag2a",
+            "wcag131",
+            "EN-301-549",
+            "EN-9.1.3.1",
+            "RGAAv4",
+            "RGAA-9.3.1"
+          ],
+          "description": "Ensure <li> elements are used semantically",
+          "help": "<li> elements must be contained in a <ul> or <ol>",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/listitem?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-4\" role=\"tab\" aria-controls=\"ngb-nav-4-panel\" aria-selected=\"true\" aria-disabled=\"false\">General</a><!----></li>",
+              "target": [
+                ".nav-pills > li:nth-child(1)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-9\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Metadata</a><!----></li>",
+              "target": [
+                ".nav-pills > li:nth-child(2)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-10\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">External Ids</a><!----></li>",
+              "target": [
+                ".nav-pills > li:nth-child(3)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-11\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">People</a><!----></li>",
+              "target": [
+                ".nav-pills > li:nth-child(4)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-12\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Web Links</a><!----></li>",
+              "target": [
+                "li:nth-child(5)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-5\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Cover Image</a><!----></li>",
+              "target": [
+                "li:nth-child(6)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-6\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Related</a><!----></li>",
+              "target": [
+                "li:nth-child(7)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-7\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Info</a><!----></li>",
+              "target": [
+                "li:nth-child(8)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            },
+            {
+              "any": [
+                {
+                  "id": "listitem",
+                  "data": {
+                    "messageKey": "roleNotValid"
+                  },
+                  "relatedNodes": [],
+                  "impact": "serious",
+                  "message": "List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<li class=\"nav-item\"><a href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-8\" role=\"tab\" tabindex=\"-1\" aria-selected=\"false\" aria-disabled=\"false\">Tasks</a><!----></li>",
+              "target": [
+                "li:nth-child(9)"
+              ],
+              "failureSummary": "Fix any of the following:\n  List item parent element has a role that is not role=\"list\". Ensure the parent element has role=\"list\", or move the <li> inside a <ul> or <ol>."
+            }
+          ]
+        }
+      ],
+      "incomplete": [
+        {
+          "id": "aria-hidden-focus",
+          "impact": "serious",
+          "tags": [
+            "cat.name-role-value",
+            "wcag2a",
+            "wcag412",
+            "TTv5",
+            "TT6.a",
+            "EN-301-549",
+            "EN-9.4.1.2",
+            "RGAAv4",
+            "RGAA-10.8.1"
+          ],
+          "description": "Ensure aria-hidden elements are not focusable nor contain focusable elements",
+          "help": "ARIA hidden element must not be focusable or contain focusable elements",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/aria-hidden-focus?application=axeAPI",
+          "nodes": [
+            {
+              "any": [],
+              "all": [
+                {
+                  "id": "focusable-modal-open",
+                  "data": null,
+                  "relatedNodes": [
+                    {
+                      "html": "<a _ngcontent-ng-c3049808064=\"\" href=\"javascript:void(0);\" class=\"visually-hidden-focusable focus-visible\">Skip to main content</a>",
+                      "target": [
+                        ".visually-hidden-focusable"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c3049808064=\"\" routerlink=\"/home\" routerlinkactive=\"active\" class=\"navbar-brand dark-exempt\" href=\"/home\">",
+                      "target": [
+                        ".navbar-brand"
+                      ]
+                    },
+                    {
+                      "html": "<input _ngcontent-ng-c29296...=\"\" type=\"text\" inputmode=\"search\" autocomplete=\"off\" role=\"combobox\" aria-autocomplete=\"list\" id=\"id-2f9a052e-7290-4f0...\" placeholder=\"Search…\" aria-controls=\"id-2f9a052e-7290-4f0...\" aria-expanded=\"false\" name=\"ng.form0.typeahead\">",
+                      "target": [
+                        "#id-2f9a052e-7290-4f0f-866e-b7ede83b5f88"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c2929606411=\"\" type=\"button\" popoverclass=\"search-config-popover\" placement=\"bottom-end\" triggers=\"click\" class=\"btn btn-icon search-config flex-shrink-0\" aria-expanded=\"false\" aria-label=\"Search options\">",
+                      "target": [
+                        ".search-config"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1385287171=\"\" type=\"button\" placement=\"bottom-end\" container=\"body\" class=\"btn btn-icon\" title=\"Activity\" aria-label=\"Activity\">",
+                      "target": [
+                        "button[container=\"body\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c3049808064=\"\" routerlink=\"/settings\" class=\"dark-exempt btn btn-icon\" title=\"Settings\" href=\"/settings#preferences\"><i _ngcontent-ng-c3049808064=\"\" aria-hidden=\"true\" class=\"fa fa-cogs nav\"></i><span _ngcontent-ng-c3049808064=\"\" class=\"visually-hidden\">Settings</span></a>",
+                      "target": [
+                        "a[routerlink=\"/settings\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c3049808064=\"\" ngbdropdowntoggle=\"\" class=\"dropdown-toggle btn btn-outline-secondary primary-text\" aria-expanded=\"false\">",
+                      "target": [
+                        ".btn-outline-secondary"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/home\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        ".side-nav-item[href$=\"home\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-home\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+                      "target": [
+                        "#actions-home"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/want-to-read\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"want-to-read\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/collections\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"collections\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/lists\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"lists\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-reading-lists\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+                      "target": [
+                        "#actions-reading-lists"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/bookmarks\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"bookmarks\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/all-series\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"all-series\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/browse/people\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"people\"]"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/library/4\" class=\"side-nav-item active\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"library/4\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Kv45 Manga\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+                      "target": [
+                        "#actions-Kv45\\ Manga"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/library/5\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"library/5\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Kv45 Comics\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+                      "target": [
+                        "#actions-Kv45\\ Comics"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" href=\"/library/6\" class=\"side-nav-item\" id=\"null\">",
+                      "target": [
+                        "a[href$=\"library/6\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Kv45 Books\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+                      "target": [
+                        "#actions-Kv45\\ Books"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c31611253=\"\" rel=\"noopener noreferrer\" target=\"_blank\" class=\"side-nav-item\" id=\"null\" href=\"https://wiki.kavitareader.com/donating\">",
+                      "target": [
+                        ".side-nav-item[rel=\"noopener noreferrer\"][target=\"_blank\"]"
+                      ]
+                    },
+                    {
+                      "html": "<div tabindex=\"0\" role=\"button\" class=\"col-auto custom-col clickable\">",
+                      "target": [
+                        ".custom-col"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1396006662=\"\" type=\"button\" class=\"btn btn-outline-primary\"><span _ngcontent-ng-c1396006662=\"\"><i _ngcontent-ng-c1396006662=\"\" aria-hidden=\"true\" class=\"fa fa-book\"></i><span _ngcontent-ng-c1396006662=\"\" class=\"read-btn--text ms-1\">Read</span></span></button>",
+                      "target": [
+                        ".col-auto[_ngcontent-ng-c1396006662=\"\"]:nth-child(1) > .btn-group[_ngcontent-ng-c1396006662=\"\"] > .btn-outline-primary.btn[type=\"button\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1396006662=\"\" type=\"button\" ngbdropdowntoggle=\"\" class=\"dropdown-toggle btn btn-outline-primary dropdown-toggle-split\" aria-expanded=\"false\"></button>",
+                      "target": [
+                        ".dropdown-toggle-split"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1396006662=\"\" class=\"btn btn-actions\"><span _ngcontent-ng-c1396006662=\"\"><i _ngcontent-ng-c1396006662=\"\" aria-hidden=\"true\" class=\"fa-regular fa-star\"></i></span></button>",
+                      "target": [
+                        ".ms-2.col-auto[_ngcontent-ng-c1396006662=\"\"]:nth-child(2) > .btn-actions.btn"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1396006662=\"\" id=\"edit-btn--komf\" class=\"btn btn-actions\"><span _ngcontent-ng-c1396006662=\"\"><i _ngcontent-ng-c1396006662=\"\" aria-hidden=\"true\" class=\"fa fa-pen\"></i></span></button>",
+                      "target": [
+                        "#edit-btn--komf"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Solo Leveling\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-h\"></i></button>",
+                      "target": [
+                        "#actions-Solo\\ Leveling"
+                      ]
+                    },
+                    {
+                      "html": "<button class=\"btn btn-actions\"><!----><i aria-hidden=\"true\" class=\"fa fa-arrow-alt-circle-down\"></i><!----></button>",
+                      "target": [
+                        "app-download-button > .btn-actions.btn"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"javascript:void(0);\" class=\"dark-exempt btn-icon font-size\"> Ongoing <!----></a>",
+                      "target": [
+                        ".font-size"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-1\" role=\"tab\" aria-controls=\"ngb-nav-1-panel\" aria-selected=\"true\" aria-disabled=\"false\">Storyline</a>",
+                      "target": [
+                        "#ngb-nav-1"
+                      ]
+                    },
+                    {
+                      "html": "<a _ngcontent-ng-c112150043=\"\" class=\"dark-exempt btn-icon\" href=\"/library/4/series/6/chapter/10\"><!----> Chapter 1 <!----></a>",
+                      "target": [
+                        "a[href=\"/library/4/series/6/chapter/10\"]"
+                      ]
+                    },
+                    {
+                      "html": "<button _ngcontent-ng-c1179476218=\"\" class=\"btn\" id=\"actions-Chapter\"><span _ngcontent-ng-c1179476218=\"\"></span><i _ngcontent-ng-c1179476218=\"\" aria-hidden=\"true\" class=\"fa fa-ellipsis-v\"></i></button>",
+                      "target": [
+                        "#actions-Chapter"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Check that focusable elements are not tabbable in the current state"
+                }
+              ],
+              "none": [],
+              "impact": "serious",
+              "html": "<app-root ng-version=\"22.1.4\" _nghost-ng-c3892503704=\"\" aria-hidden=\"true\">",
+              "target": [
+                "app-root"
+              ],
+              "failureSummary": "Fix all of the following:\n  Check that focusable elements are not tabbable in the current state"
+            }
+          ]
+        },
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "tags": [
+            "cat.color",
+            "wcag2aa",
+            "wcag143",
+            "TTv5",
+            "TT13.c",
+            "EN-301-549",
+            "EN-9.1.4.3",
+            "ACT",
+            "RGAAv4",
+            "RGAA-3.2.1"
+          ],
+          "description": "Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds",
+          "help": "Elements must meet minimum color contrast ratio thresholds",
+          "helpUrl": "https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI",
+          "nodes": [
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Home <!----></div>",
+              "target": [
+                ".side-nav-item[href$=\"home\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Want To Read <!----></div>",
+              "target": [
+                "a[href$=\"want-to-read\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Collections <!----></div>",
+              "target": [
+                "a[href$=\"collections\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Reading Lists <!----></div>",
+              "target": [
+                "a[href$=\"lists\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Bookmarks <!----></div>",
+              "target": [
+                "a[href$=\"bookmarks\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> All Series <!----></div>",
+              "target": [
+                "a[href$=\"all-series\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Browse People <!----></div>",
+              "target": [
+                "a[href$=\"people\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Kv45 Manga <!----></div>",
+              "target": [
+                "a[href$=\"library/4\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Kv45 Comics <!----></div>",
+              "target": [
+                "a[href$=\"library/5\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<div class=\"side-nav-container\">",
+                      "target": [
+                        ".side-nav-container"
+                      ]
+                    },
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<div _ngcontent-ng-c31611253=\"\"> Kv45 Books <!----></div>",
+              "target": [
+                "a[href$=\"library/6\"] > .side-nav-text > div[_ngcontent-ng-c31611253=\"\"]"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "21.0pt (28px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "3:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\">Solo Leveling <!----></span>",
+              "target": [
+                ".title > span"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.6pt (12.8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c4184774613=\"\" class=\"small-text me-3\">4 Pages</span>",
+              "target": [
+                ".me-3"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.6pt (12.8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c4184774613=\"\" class=\"small-text\"><i _ngcontent-ng-c4184774613=\"\" aria-hidden=\"true\" class=\"fa-regular fa-clock\"></i> &lt;1 Hour </span>",
+              "target": [
+                ".small-text[_ngcontent-ng-c4184774613=\"\"]:nth-child(4)"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.0pt (12px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span class=\"badge rounded-pill ps-0 me-1\">",
+              "target": [
+                ".ps-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"read-btn--text ms-1\">Read</span>",
+              "target": [
+                ".btn-outline-primary.btn[type=\"button\"] > span > .read-btn--text.ms-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Writers</span>",
+              "target": [
+                ".upper-details.mt-2[_ngcontent-ng-c1396006662=\"\"] > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .pe-5.col-6[_ngcontent-ng-c1396006662=\"\"] > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Publication</span>",
+              "target": [
+                ".upper-details.mt-2[_ngcontent-ng-c1396006662=\"\"] > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .col-6[_ngcontent-ng-c1396006662=\"\"]:nth-child(2) > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "9.6pt (12.8px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"javascript:void(0);\" class=\"dark-exempt btn-icon font-size\"> Ongoing <!----></a>",
+              "target": [
+                ".font-size"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Genres</span>",
+              "target": [
+                ".mt-3.upper-details.mb-2 > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .pe-5.col-6[_ngcontent-ng-c1396006662=\"\"] > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "10.8pt (14.4px)",
+                    "fontWeight": "bold",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<span _ngcontent-ng-c1396006662=\"\" class=\"fw-bold\">Tags</span>",
+              "target": [
+                ".mt-3.upper-details.mb-2 > .g-0.row[_ngcontent-ng-c1396006662=\"\"] > .col-6[_ngcontent-ng-c1396006662=\"\"]:nth-child(2) > .fw-bold"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link active\" id=\"ngb-nav-1\" role=\"tab\" aria-controls=\"ngb-nav-1-panel\" aria-selected=\"true\" aria-disabled=\"false\">Storyline</a>",
+              "target": [
+                "#ngb-nav-1"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-2\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-2-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Chapters <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">1</span></a>",
+              "target": [
+                "#ngb-nav-2"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-3\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-3-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Related <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">1</span></a>",
+              "target": [
+                "#ngb-nav-3"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            },
+            {
+              "any": [
+                {
+                  "id": "color-contrast",
+                  "data": {
+                    "contrastRatio": 0,
+                    "fontSize": "12.0pt (16px)",
+                    "fontWeight": "normal",
+                    "messageKey": "imgNode",
+                    "expectedContrastRatio": "4.5:1"
+                  },
+                  "relatedNodes": [
+                    {
+                      "html": "<canvas _ngcontent-ng-c3892503704=\"\" id=\"backgroundCanvas\" class=\"default-background\" style=\"width: 100%; height: calc(var('--vh') * 100);\"></canvas>",
+                      "target": [
+                        "#backgroundCanvas"
+                      ]
+                    }
+                  ],
+                  "impact": "serious",
+                  "message": "Element's background color could not be determined because element contains an image node"
+                }
+              ],
+              "all": [],
+              "none": [],
+              "impact": "serious",
+              "html": "<a _ngcontent-ng-c1396006662=\"\" href=\"\" ngbnavlink=\"\" class=\"nav-link\" id=\"ngb-nav-0\" role=\"tab\" tabindex=\"-1\" aria-controls=\"ngb-nav-0-panel\" aria-selected=\"false\" aria-disabled=\"false\"> Reviews <span _ngcontent-ng-c1396006662=\"\" class=\"badge rounded-pill text-bg-secondary\">0</span></a>",
+              "target": [
+                "#ngb-nav-0"
+              ],
+              "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because element contains an image node"
+            }
+          ]
+        }
+      ],
+      "httpStatus": 200,
+      "finalUrl": "http://localhost:7500/library/4/series/6#storyline-tab",
+      "testEngine": {
+        "name": "axe-core",
+        "version": "4.14.0"
+      }
+    }
+  ],
+  "configErrors": [],
+  "crawlErrors": [],
+  "scopeHash": "2382f45e50e53ebd9318750619dce06ec83b51b58ba729e21be24e7ce5a8ff76"
+}

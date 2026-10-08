@@ -1,0 +1,219 @@
+# Audit accessibilité — 2026-10-08
+
+**0 règle(s) violée(s), 0 occurrence(s), 19/19 scénario(s) audité(s), 0 erreur(s), 311 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `d91cc8e30d68`
+
+## Résultats incomplets à revoir (311)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:7500/home
+  - `.active.side-nav-item[href$="home"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - … +11 autres
+- http://localhost:7500/library/4
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +5 autres
+- http://localhost:7500/library/5
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +4 autres
+- http://localhost:7500/library/6
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +4 autres
+- http://localhost:7500/library/4/series/6
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +14 autres
+- http://localhost:7500/library/5/series/9
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +13 autres
+- http://localhost:7500/library/6/series/11
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +14 autres
+- http://localhost:7500/library/4/series/6/manga/10
+  - `.toast-message`
+- http://localhost:7500/library/6/series/11/book/19
+  - `div > h1`
+- http://localhost:7500/lists
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/4"] > .side-nav-text > div`
+  - `a[href$="library/5"] > .side-nav-text > div`
+  - `a[href$="library/6"] > .side-nav-text > div`
+  - … +4 autres
+- http://localhost:7500/lists/1
+  - `.side-nav-item[href$="home"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - … +17 autres
+- http://localhost:7500/collections
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +8 autres
+- http://localhost:7500/bookmarks
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/4"] > .side-nav-text > div`
+  - `a[href$="library/5"] > .side-nav-text > div`
+  - `a[href$="library/6"] > .side-nav-text > div`
+  - … +4 autres
+- http://localhost:7500/want-to-read
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `.active > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/4"] > .side-nav-text > div`
+  - `a[href$="library/5"] > .side-nav-text > div`
+  - `a[href$="library/6"] > .side-nav-text > div`
+  - … +3 autres
+- http://localhost:7500/all-series
+  - `.side-nav-item[href$="home"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `.active > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text > div[_ngcontent-ng-c3395926684=""]`
+  - … +17 autres
+- http://localhost:7500/browse
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/4"] > .side-nav-text > div`
+  - `a[href$="library/5"] > .side-nav-text > div`
+  - `a[href$="library/6"] > .side-nav-text > div`
+- http://localhost:7500/announcements
+  - `.side-nav-item[href$="home"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="want-to-read"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="collections"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="lists"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="bookmarks"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="all-series"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="people"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/4"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/5"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - `a[href$="library/6"] > .side-nav-text[_ngcontent-ng-c3395926684=""] > div[_ngcontent-ng-c3395926684=""]`
+  - … +1 autres
+- http://localhost:7500/settings
+  - `h5:nth-child(1)`
+  - `#nav-item-account > .side-nav-text > div`
+  - `#nav-item-preferences > .side-nav-text > div`
+  - `#nav-item-custom-key-binds > .side-nav-text > div`
+  - `#nav-item-reading-profiles > .side-nav-text > div`
+  - `#nav-item-customize > .side-nav-text > div`
+  - `#nav-item-clients > .side-nav-text > div`
+  - `#nav-item-theme > .side-nav-text > div`
+  - `#nav-item-font > .side-nav-text > div`
+  - `#nav-item-devices > .side-nav-text > div`
+  - … +20 autres
+- http://localhost:7500/profile
+  - `.side-nav-item[href$="home"] > .side-nav-text > div`
+  - `a[href$="want-to-read"] > .side-nav-text > div`
+  - `a[href$="collections"] > .side-nav-text > div`
+  - `a[href$="lists"] > .side-nav-text > div`
+  - `a[href$="bookmarks"] > .side-nav-text > div`
+  - `a[href$="all-series"] > .side-nav-text > div`
+  - `a[href$="people"] > .side-nav-text > div`
+  - `a[href$="library/4"] > .side-nav-text > div`
+  - `a[href$="library/5"] > .side-nav-text > div`
+  - `a[href$="library/6"] > .side-nav-text > div`
+

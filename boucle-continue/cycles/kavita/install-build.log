@@ -1,0 +1,10 @@
+install-build cycle45 — rejoué verbatim 2026-10-08
+1. git clone https://github.com/Kareadita/Kavita ~/work/kavita45-virgin ; checkout f75863cb…
+2. git apply --check patch.diff → OK ; git apply → 44 fichiers
+3. UI/Web : npm install (637 pkgs) + npm run prod → dist/browser (~21s)
+4. dotnet build -c Release (DOTNET_ROOT=~/work/dotnet10) → 0 error, 41s
+5. run dir ~/work/kv45-virgin-run : config/appsettings.json (Port 7500) + wwwroot + binaries ; Kavita.Server boot → :7500 200
+   pièges observés : apphost exige DOTNET_ROOT+PATH ; port par défaut 5000 sans appsettings.json ; wwwroot servi depuis le CWD
+6. python3 tools/seed.py http://localhost:7500 → SEED_DONE series=7 libs=3 reading_list=1 collection=1 invited=True
+   (note : scans par-lib avalés par le scheduler → scan-all requis ; libs ids locaux 1-3)
+7. rescan audit.mjs : installbuild-public 2 pages 0 viol ; installbuild-auth 10 pages 0 viol — reports/installbuild-*

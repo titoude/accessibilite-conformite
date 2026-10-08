@@ -1,0 +1,1461 @@
+diff --git a/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html b/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html
+index 3a74349..1e03333 100644
+--- a/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html
++++ b/UI/Web/src/app/_single-module/card-actionables/card-actionables.component.html
+@@ -3,6 +3,7 @@
+     @if (filteredActions().length > 0) {
+       @if (breakpointService.isTabletOrBelow()) {
+         <button [disabled]="disabled()" class="btn {{btnClass()}}" id="{{labelId}}"
++                [attr.aria-label]="t('actions-for', {name: label()})"
+                 (click)="openMobileActionableMenu($event)">
+           <span [ngClass]="{'phone-hidden': hideLabelOnMobile()}">{{label()}}</span>
+           <i class="fa {{iconClass()}}" aria-hidden="true"></i>
+@@ -10,6 +11,7 @@
+       } @else {
+         <div ngbDropdown container="body" class="d-inline-block">
+           <button [disabled]="disabled()" class="btn {{btnClass()}}" id="{{labelId}}" ngbDropdownToggle
++                  [attr.aria-label]="t('actions-for', {name: label()})"
+                   (click)="preventEvent($event)">
+             <span [ngClass]="{'phone-hidden': hideLabelOnMobile()}">{{label()}}</span>
+             <i class="fa {{iconClass()}}" aria-hidden="true"></i>
+diff --git a/UI/Web/src/app/all-series/_components/all-series/all-series.component.html b/UI/Web/src/app/all-series/_components/all-series/all-series.component.html
+index 23cd2eb..d76c001 100644
+--- a/UI/Web/src/app/all-series/_components/all-series/all-series.component.html
++++ b/UI/Web/src/app/all-series/_components/all-series/all-series.component.html
+@@ -1,11 +1,11 @@
+ <div class="main-container container-fluid">
+   <ng-container *transloco="let t; prefix: 'all-series'">
+     <app-side-nav-companion-bar [hasFilter]="true" (filterOpen)="filterOpen.emit($event)" [filterActive]="filterActive">
+-      <h4 title>
++      <h2 title>
+         {{title}}
+-      </h4>
++      </h2>
+       @if (pagination) {
+-        <h5 subtitle>{{t('series-count', {num: pagination.totalItems | number})}}</h5>
++        <h3 subtitle>{{t('series-count', {num: pagination.totalItems | number})}}</h3>
+       }
+     </app-side-nav-companion-bar>
+     @if (filter) {
+diff --git a/UI/Web/src/app/announcements/_components/announcements/announcements.component.html b/UI/Web/src/app/announcements/_components/announcements/announcements.component.html
+index db953b4..2319902 100644
+--- a/UI/Web/src/app/announcements/_components/announcements/announcements.component.html
++++ b/UI/Web/src/app/announcements/_components/announcements/announcements.component.html
+@@ -1,9 +1,9 @@
+ <div class="main-container container-fluid">
+   <ng-container *transloco="let t; prefix: 'announcements'">
+     <app-side-nav-companion-bar>
+-      <h4 title>
++      <h2 title>
+         {{t('title')}}
+-      </h4>
++      </h2>
+     </app-side-nav-companion-bar>
+ 
+     <app-changelog />
+diff --git a/UI/Web/src/app/app.component.html b/UI/Web/src/app/app.component.html
+index 63fd641..7a9af46 100644
+--- a/UI/Web/src/app/app.component.html
++++ b/UI/Web/src/app/app.component.html
+@@ -1,7 +1,7 @@
+ <div [class.no-animations]="transitionState()" [class.no-transitions]="transitionState()" [class.animate-disabled]="transitionState()">
+   @let currentUser = accountService.currentUser();
+     @if (currentUser && navService.navbarVisibleSignal()) {
+-      <div class="fullpage-background">
++      <div class="fullpage-background" aria-hidden="true">
+         <div class="background-area">
+           <canvas id="backgroundCanvas" class="default-background" style="width: 100%; height: calc(var('--vh') * 100);"></canvas>
+         </div>
+@@ -22,8 +22,9 @@
+         }
+       }
+ 
+-      <div [ngClass]="{'g-0': !sideNavVisible}">
++      <main [ngClass]="{'g-0': !sideNavVisible}">
+         <a id="content"></a>
++        <h1 class="visually-hidden">Kavita</h1>
+         @if (sideNavVisible) {
+           <div>
+             <div class="companion-bar" [ngClass]="{'companion-bar-content': !sideNavCollapsed || usePreferenceSideNav,
+@@ -34,7 +35,7 @@
+         } @else {
+           <router-outlet />
+         }
+-      </div>
++      </main>
+     </div>
+ 
+ </div>
+diff --git a/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html b/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html
+index efa6c3f..3249ed1 100644
+--- a/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html
++++ b/UI/Web/src/app/book-reader/_components/_drawers/view-bookmarks-drawer/view-bookmark-drawer.component.html
+@@ -11,13 +11,13 @@
+   <div class="offcanvas-body">
+ 
+     <ul #subnav="ngbNav" ngbNav [(activeId)]="tocId" class="reader-pills nav nav-pills mb-2" [destroyOnHide]="false">
+-      <li [ngbNavItem]="Tabs.BookmarkTextTab">
++      <li role="presentation" [ngbNavItem]="Tabs.BookmarkTextTab">
+         <a ngbNavLink>{{Tabs.BookmarkTextTab | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           <app-personal-table-of-contents [chapterId]="chapterId()!" (loadChapter)="loadChapterPart($event)" />
+         </ng-template>
+       </li>
+-      <li [ngbNavItem]="Tabs.BookmarkImageTab">
++      <li role="presentation" [ngbNavItem]="Tabs.BookmarkImageTab">
+         <a ngbNavLink>{{Tabs.BookmarkImageTab | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           @let items = bookmarks();
+diff --git a/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html b/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html
+index 3a858f8..2ada8c9 100644
+--- a/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html
++++ b/UI/Web/src/app/book-reader/_components/book-reader/book-reader.component.html
+@@ -57,7 +57,7 @@
+         <div class="reader-header">
+           <div class="action-bar top-action-bar px-2">
+             <div>
+-              <button class="btn btn-secondary me-2" (click)="toggleDrawer()">
++              <button class="btn btn-secondary me-2" (click)="toggleDrawer()" aria-label="Toggle reader menu">
+                 <i class="fa fa-bars" aria-hidden="true"></i>
+               </button>
+             </div>
+@@ -86,16 +86,16 @@
+ 
+             <div class="d-flex align-items-center right-group">
+               @if (!this.adhocPageHistory.isEmpty()) {
+-                <button class="btn btn-secondary btn-icon me-1" (click)="goBack()" [title]="t('go-back')">
++                <button class="btn btn-secondary btn-icon me-1" (click)="goBack()" [title]="t('go-back')" [attr.aria-label]="t('go-back')">
+                   <i class="fa fa-reply" aria-hidden="true"></i>
+                 </button>
+               }
+ 
+               @if (debugMode()) {
+-                <button class="btn btn-secondary btn-icon me-1" (click)="logSelectedElement()">
++                <button class="btn btn-secondary btn-icon me-1" (click)="logSelectedElement()" aria-label="Log selected element">
+                   B
+                 </button>
+-                <button class="btn btn-secondary btn-icon me-1" (click)="debugInsertViewportView()">
++                <button class="btn btn-secondary btn-icon me-1" (click)="debugInsertViewportView()" aria-label="Insert viewport debug view">
+                   V
+                 </button>
+               }
+@@ -105,16 +105,16 @@
+                 <span class="visually-hidden">{{t('shortcuts-menu-alt')}}</span>
+               </button>
+ 
+-              <button class="btn btn-secondary btn-icon me-1" (click)="viewBookmarkImages()">
++              <button class="btn btn-secondary btn-icon me-1" (click)="viewBookmarkImages()" aria-label="View bookmark images">
+                 <i class="fa-solid fa-book-bookmark" aria-hidden="true"></i>
+               </button>
+-              <button class="btn btn-secondary btn-icon me-1" (click)="viewAnnotations()">
++              <button class="btn btn-secondary btn-icon me-1" (click)="viewAnnotations()" aria-label="View annotations">
+                 <i class="fa-solid fa-highlighter" aria-hidden="true"></i>
+               </button>
+-              <button class="btn btn-secondary btn-icon me-1" (click)="viewToCDrawer()">
++              <button class="btn btn-secondary btn-icon me-1" (click)="viewToCDrawer()" aria-label="Table of contents">
+                 <i class="fa-regular fa-rectangle-list" aria-hidden="true"></i>
+               </button>
+-              <button class="btn btn-secondary btn-icon me-1" (click)="closeReader()">
++              <button class="btn btn-secondary btn-icon me-1" (click)="closeReader()" [attr.aria-label]="t('close-reader-alt')">
+                 <i class="fa fa-times-circle" aria-hidden="true"></i>
+               </button>
+             </div>
+diff --git a/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html b/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html
+index 3ce61f0..3137ed0 100644
+--- a/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html
++++ b/UI/Web/src/app/bookmark/_components/bookmarks/bookmarks.component.html
+@@ -1,10 +1,10 @@
+ <div class="main-container container-fluid">
+   <ng-container *transloco="let t; prefix: 'bookmarks'">
+     <app-side-nav-companion-bar [hasFilter]="true" (filterOpen)="filterOpen.emit($event)" [filterActive]="filterActive">
+-      <h4 title>
++      <h2 title>
+         {{t('title')}}
+-      </h4>
+-      <h5 subtitle>{{t('series-count', {num: series().length | number})}}</h5>
++      </h2>
++      <h3 subtitle>{{t('series-count', {num: series().length | number})}}</h3>
+     </app-side-nav-companion-bar>
+     @if (filter) {
+       <app-card-detail-layout
+@@ -29,7 +29,7 @@
+         </ng-template>
+ 
+         <ng-template #noData>
+-          {{t('no-data')}} <a [href]="WikiLink.Bookmarks" rel="noopener noreferrer" target="_blank">{{t('no-data-2')}}<i class="fa fa-external-link-alt ms-1" aria-hidden="true"></i></a>
++          {{t('no-data')}} <a [href]="WikiLink.Bookmarks" rel="noopener noreferrer" target="_blank" style="text-decoration: underline;">{{t('no-data-2')}}<i class="fa fa-external-link-alt ms-1" aria-hidden="true"></i></a>
+         </ng-template>
+       </app-card-detail-layout>
+     }
+diff --git a/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html b/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html
+index d9f9342..e4596ca 100644
+--- a/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html
++++ b/UI/Web/src/app/cards/card-detail-layout/card-detail-layout.component.html
+@@ -4,7 +4,7 @@
+   @if (header().length > 0) {
+     <div class="row mt-2 g-0 pb-2">
+       <div class="col me-auto">
+-        <h4>
++        <h2>
+           <span>
+             <app-card-actionables (actionHandler)="performAction($event)" [actions]="actions()" [labelBy]="header()" />
+           </span>
+@@ -17,7 +17,7 @@
+             }
+           </span>
+ 
+-        </h4>
++        </h2>
+       </div>
+     </div>
+   }
+diff --git a/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html b/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html
+index 51959a8..ce93a31 100644
+--- a/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html
++++ b/UI/Web/src/app/cards/cover-image-chooser/cover-image-chooser.component.html
+@@ -24,7 +24,7 @@
+     }
+ 
+     <ul ngbNav #nav="ngbNav" (navChange)="onTabActivate($event.nextId)" [(activeId)]="activeTabId" class="nav-tabs">
+-      <li [ngbNavItem]="Tabs.Uploaded">
++      <li role="presentation" [ngbNavItem]="Tabs.Uploaded">
+         <a ngbNavLink>{{ Tabs.Uploaded | tabTitle }}</a>
+         <ng-template ngbNavContent>
+           <ng-container *ngTemplateOutlet="imageChooserTab; context: { images: uploadedImages(), tabId: Tabs.Uploaded }" />
+@@ -32,7 +32,7 @@
+       </li>
+ 
+       @if (config().selected) {
+-        <li [ngbNavItem]="Tabs.Current">
++        <li role="presentation" [ngbNavItem]="Tabs.Current">
+           <a ngbNavLink>{{ Tabs.Current | tabTitle }}</a>
+           <ng-template ngbNavContent>
+             <div class="row g-0 chooser mt-2">
+@@ -50,7 +50,7 @@
+       }
+ 
+       @if (config().volumeFunc) {
+-        <li [ngbNavItem]="Tabs.Volumes">
++        <li role="presentation" [ngbNavItem]="Tabs.Volumes">
+           <a ngbNavLink>{{ Tabs.Volumes | tabTitle }}</a>
+           <ng-template ngbNavContent>
+             <ng-container *ngTemplateOutlet="imageChooserTab; context: { images: volumeImages(), tabId: Tabs.Volumes }" />
+@@ -59,7 +59,7 @@
+       }
+ 
+       @if (config().chapterFunc) {
+-        <li [ngbNavItem]="Tabs.Chapters">
++        <li role="presentation" [ngbNavItem]="Tabs.Chapters">
+           <a ngbNavLink>{{ Tabs.Chapters | tabTitle }}</a>
+           <ng-template ngbNavContent>
+             <ng-container *ngTemplateOutlet="imageChooserTab; context: { images: chapterImages(), tabId: Tabs.Chapters }" />
+@@ -68,7 +68,7 @@
+       }
+ 
+       @if (config().otherFunc) {
+-        <li [ngbNavItem]="Tabs.Other">
++        <li role="presentation" [ngbNavItem]="Tabs.Other">
+           <a ngbNavLink>{{ Tabs.Other | tabTitle }}</a>
+           <ng-template ngbNavContent>
+             <ng-container *ngTemplateOutlet="imageChooserTab; context: { images: otherImages(), tabId: Tabs.Other }" />
+@@ -77,7 +77,7 @@
+       }
+ 
+       @if (config().kavitaplusFunc) {
+-        <li [ngbNavItem]="Tabs.KavitaPlus">
++        <li role="presentation" [ngbNavItem]="Tabs.KavitaPlus">
+           <a ngbNavLink>{{ Tabs.KavitaPlus | tabTitle }}</a>
+           <ng-template ngbNavContent>
+             <ng-container *ngTemplateOutlet="imageChooserTab; context: { images: kavitaplusImages(), tabId: Tabs.KavitaPlus, loading: !kavitaplusImagesLoaded() }" />
+diff --git a/UI/Web/src/app/cards/entity-card/entity-card.component.html b/UI/Web/src/app/cards/entity-card/entity-card.component.html
+index 13054b2..e6b44a3 100644
+--- a/UI/Web/src/app/cards/entity-card/entity-card.component.html
++++ b/UI/Web/src/app/cards/entity-card/entity-card.component.html
+@@ -127,8 +127,7 @@
+       <span
+         class="card-title"
+         [ngbTooltip]="tooltip()"
+-        placement="top"
+-        [id]="'entity-' + entityId()">
++        placement="top">
+         <a class="dark-exempt btn-icon" [routerLink]="titleRoute()" [queryParams]="titleRouteParams()">
+           @if (hasTitleTemplate()) {
+             <ng-container *ngTemplateOutlet="titleTemplate()!; context: { $implicit: entity() }" />
+diff --git a/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html b/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html
+index 08d91d5..c2bbd80 100644
+--- a/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html
++++ b/UI/Web/src/app/carousel/_components/carousel-reel/carousel-reel.component.html
+@@ -6,7 +6,7 @@
+         @if (actionables().length > 0) {
+           <app-card-actionables [entity]="actionableEntity()" [actions]="actionables()" (actionHandler)="performAction($event)" />
+         }
+-        <h4 class="header" (click)="sectionClicked()" [class.non-selectable]="!clickableTitle()">
++        <h2 class="header" (click)="sectionClicked()" [class.non-selectable]="!clickableTitle()">
+           @if (titleLink(); as titleLink) {
+             <a [href]="titleLink | safeUrl" [class]="headerClass()">{{title()}}</a>
+           } @else {
+@@ -16,7 +16,7 @@
+           @if (iconClasses(); as iconClasses) {
+             <i class="{{iconClasses}} title-icon ms-1" aria-hidden="true"></i>
+           }
+-        </h4>
++        </h2>
+         @if (swiper(); as swiper) {
+           <div class="float-end">
+             <button class="btn btn-icon carousel-btn" [disabled]="isBeginning()" (click)="prevPage()">
+diff --git a/UI/Web/src/app/chapter-detail/chapter-detail.component.html b/UI/Web/src/app/chapter-detail/chapter-detail.component.html
+index dffc654..98189df 100644
+--- a/UI/Web/src/app/chapter-detail/chapter-detail.component.html
++++ b/UI/Web/src/app/chapter-detail/chapter-detail.component.html
+@@ -172,7 +172,7 @@
+         <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav nav-tabs" (navChange)="onNavChange($event)">
+ 
+         @if (showDetailsTab()) {
+-          <li [ngbNavItem]="Tabs.Details">
++          <li role="presentation" [ngbNavItem]="Tabs.Details">
+             <a ngbNavLink>{{Tabs.Details | tabTitle}}</a>
+             <ng-template ngbNavContent>
+               @defer (when activeTabId === Tabs.Details; prefetch on idle) {
+@@ -192,7 +192,7 @@
+ 
+         @let highlights = annotations();
+         @if (highlights.length > 0) {
+-          <li [ngbNavItem]="Tabs.Annotations">
++          <li role="presentation" [ngbNavItem]="Tabs.Annotations">
+             <a ngbNavLink>
+               {{Tabs.Annotations | tabTitle}}
+               <span class="badge rounded-pill text-bg-secondary">{{highlights.length}}</span>
+@@ -205,7 +205,7 @@
+           </li>
+         }
+ 
+-        <li [ngbNavItem]="Tabs.Reviews">
++        <li role="presentation" [ngbNavItem]="Tabs.Reviews">
+           <a ngbNavLink>
+             {{Tabs.Reviews | tabTitle}}
+             <span class="badge rounded-pill text-bg-secondary">{{totalReviewCount()}}</span>
+@@ -219,7 +219,7 @@
+         </li>
+ 
+         @if(readingLists().length > 0) {
+-          <li [ngbNavItem]="Tabs.Related">
++          <li role="presentation" [ngbNavItem]="Tabs.Related">
+             <a ngbNavLink>{{Tabs.Related | tabTitle}}</a>
+             <ng-template ngbNavContent>
+               @defer (when activeTabId === Tabs.Related; prefetch on idle) {
+diff --git a/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html b/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html
+index 0a39b7f..e1f947f 100644
+--- a/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html
++++ b/UI/Web/src/app/collections/_components/all-collections/all-collections.component.html
+@@ -1,8 +1,8 @@
+ <div class="main-container container-fluid">
+   <ng-container *transloco="let t; prefix: 'all-collections'">
+     <app-side-nav-companion-bar [hasFilter]="false" (filterOpen)="filterOpen.emit($event)">
+-      <h4 title>{{t('title')}}</h4>
+-      <h5 subtitle>{{t('item-count', {num: collections().length | number})}}</h5>
++      <h2 title>{{t('title')}}</h2>
++      <h3 subtitle>{{t('item-count', {num: collections().length | number})}}</h3>
+     </app-side-nav-companion-bar>
+ 
+     <app-card-detail-layout
+diff --git a/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html b/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html
+index eb88a4e..ba1bb9a 100644
+--- a/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html
++++ b/UI/Web/src/app/collections/_components/collection-detail/collection-detail.component.html
+@@ -5,14 +5,14 @@
+         <app-side-nav-companion-bar [hasFilter]="true" (filterOpen)="filterOpen.emit($event)" [filterActive]="filterActive()">
+           <ng-container title>
+             @if (collectionTag()) {
+-              <h4>
++              <h2>
+                 <app-promoted-icon [promoted]="collectionTag()!.promoted" />
+                 <span class="ms-2">{{collectionTag()!.title}}</span>
+                 <app-card-actionables [entity]="collectionTag()!" [disabled]="actionInProgress()" [actions]="collectionTagActions()"
+                                       [labelBy]="collectionTag()!.title" iconClass="fa-ellipsis-v" (actionHandler)="handleActionCallback($event)" />
+-              </h4>
++              </h2>
+             }
+-            <h5 subtitle class="ms-2 subtitle-with-actionables">{{t('item-count', {num: series().length})}}</h5>
++            <h3 subtitle class="ms-2 subtitle-with-actionables">{{t('item-count', {num: series().length})}}</h3>
+           </ng-container>
+         </app-side-nav-companion-bar>
+       }
+diff --git a/UI/Web/src/app/library-detail/library-detail.component.html b/UI/Web/src/app/library-detail/library-detail.component.html
+index 71e1873..3788881 100644
+--- a/UI/Web/src/app/library-detail/library-detail.component.html
++++ b/UI/Web/src/app/library-detail/library-detail.component.html
+@@ -1,12 +1,12 @@
+ <div class="main-container container-fluid">
+   <ng-container *transloco="let t">
+     <app-side-nav-companion-bar [hasFilter]="true" (filterOpen)="filterOpen.emit($event)" [filterActive]="filterActive">
+-      <h4 title>
++      <h2 title>
+         <span>{{libraryName()}}</span>
+         <app-card-actionables [actions]="actions()" [entity]="library()" (actionHandler)="handleActionCallback($event)"  />
+-      </h4>
++      </h2>
+       @if (active.fragment === '') {
+-        <h5 subtitle class="subtitle-with-actionables">{{t('common.series-count', {num: pagination.totalItems | number})}} </h5>
++        <h3 subtitle class="subtitle-with-actionables">{{t('common.series-count', {num: pagination.totalItems | number})}} </h3>
+       }
+ 
+     </app-side-nav-companion-bar>
+diff --git a/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html b/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html
+index bc0dc4c..a1b067a 100644
+--- a/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html
++++ b/UI/Web/src/app/nav/_components/download-queue-drawer/download-queue-drawer.component.html
+@@ -19,7 +19,7 @@
+ 
+   <div class="offcanvas-body">
+     <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav-tabs">
+-      <li [ngbNavItem]="'downloading'">
++      <li role="presentation" [ngbNavItem]="'downloading'">
+         <a ngbNavLink>{{ t('tab-downloading') }} <span class="badge bg-secondary ms-1">{{ downloadingTabCount() }}</span></a>
+         <ng-template ngbNavContent>
+           <div class="tab-body mt-3">
+@@ -91,7 +91,7 @@
+           </div>
+         </ng-template>
+       </li>
+-      <li [ngbNavItem]="'completed'">
++      <li role="presentation" [ngbNavItem]="'completed'">
+         <a ngbNavLink>{{ t('tab-completed') }} <span class="badge bg-secondary ms-1">{{ completedTabCount() }}</span></a>
+         <ng-template ngbNavContent>
+           <div class="tab-body mt-3">
+diff --git a/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html b/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html
+index 0f25d9f..523d759 100644
+--- a/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html
++++ b/UI/Web/src/app/nav/_components/nav-header/nav-header.component.html
+@@ -10,7 +10,7 @@
+           <a class="side-nav-toggle" (click)="toggleSideNav($event)"><i class="fas fa-bars" aria-hidden="true"></i></a>
+         }
+ 
+-        <a class="navbar-brand dark-exempt" routerLink="/home" routerLinkActive="active">
++        <a class="navbar-brand dark-exempt" routerLink="/home" aria-label="Kavita" routerLinkActive="active">
+           <app-image width="24px" height="24px" imageUrl="assets/images/logo-32.png" classes="logo-icon" />
+           <div class="d-none d-md-inline logo">
+             <span>Kavita</span>
+@@ -18,11 +18,11 @@
+         </a>
+         <ul class="navbar-nav col me-auto">
+           @if (user) {
+-            <div class="nav-item search">
++            <li class="nav-item search">
+               <div class="ng-autocomplete">
+                 <app-search-typeahead />
+               </div>
+-            </div>
++            </li>
+           }
+         </ul>
+ 
+@@ -37,7 +37,7 @@
+           }
+ 
+           @if(breakpointService.isMobileOrBelow()) {
+-            <button class="btn btn-outline-secondary primary-text" (click)="openLinkSelectionMenu()">
++            <button class="btn btn-outline-secondary primary-text" (click)="openLinkSelectionMenu()" [attr.aria-label]="user.username">
+               <app-profile-icon [userId]="user.id" [size]="20" />
+             </button>
+           } @else {
+@@ -49,7 +49,7 @@
+             </div>
+ 
+             <div ngbDropdown class="nav-item dropdown d-sm-none d-md-block" display="dynamic" placement="bottom-right">
+-              <button class="btn btn-outline-secondary primary-text" ngbDropdownToggle>
++              <button class="btn btn-outline-secondary primary-text" ngbDropdownToggle [attr.aria-label]="user.username">
+                 <span class="phone-hidden d-xs-inline-block d-sm-inline-block me-2">
+                   <app-profile-icon [userId]="user.id" [size]="20" />
+                 </span>
+diff --git a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html
+index eaf4ced..7c4b89f 100644
+--- a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html
++++ b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.html
+@@ -54,7 +54,7 @@
+       <div class="overlay">
+         <div class="search-dropdown">
+           <div class="panel d-flex flex-column">
+-            <ul class="list-group dropdown-list" role="listbox" [id]="listboxId()">
++            <ul class="list-group dropdown-list" [attr.role]="term.length > 0 ? 'listbox' : null" [id]="listboxId()">
+ 
+               @if (term.length > 0) {
+                 <li #optionRow class="list-group-item search-all-row" role="option" [id]="rowId(0)"
+@@ -75,135 +75,135 @@
+               }
+ 
+               @if (data.series.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('series')">{{t('series')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('series')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('series')">{{t('series')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('series')">
+                   @for (option of data.series; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.series + i)"
+                         [class.active]="focusedIndex() === offset.series + i" [attr.aria-selected]="focusedIndex() === offset.series + i">
+                       <ng-container [ngTemplateOutlet]="seriesTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.collections.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('collections')">{{t('collections')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('collections')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('collections')">{{t('collections')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('collections')">
+                   @for (option of data.collections; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.collections + i)"
+                         [class.active]="focusedIndex() === offset.collections + i" [attr.aria-selected]="focusedIndex() === offset.collections + i">
+                       <ng-container [ngTemplateOutlet]="collectionTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.readingLists.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('readingLists')">{{t('reading-lists')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('readingLists')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('readingLists')">{{t('reading-lists')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('readingLists')">
+                   @for (option of data.readingLists; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.readingLists + i)"
+                         [class.active]="focusedIndex() === offset.readingLists + i" [attr.aria-selected]="focusedIndex() === offset.readingLists + i">
+                       <ng-container [ngTemplateOutlet]="readingListTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.bookmarks.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('bookmarks')">{{t('bookmarks')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('bookmarks')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('bookmarks')">{{t('bookmarks')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('bookmarks')">
+                   @for (option of data.bookmarks; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.bookmarks + i)"
+                         [class.active]="focusedIndex() === offset.bookmarks + i" [attr.aria-selected]="focusedIndex() === offset.bookmarks + i">
+                       <ng-container [ngTemplateOutlet]="bookmarkTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.libraries.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('libraries')">{{t('libraries')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('libraries')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('libraries')">{{t('libraries')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('libraries')">
+                   @for (option of data.libraries; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.libraries + i)"
+                         [class.active]="focusedIndex() === offset.libraries + i" [attr.aria-selected]="focusedIndex() === offset.libraries + i">
+                       <ng-container [ngTemplateOutlet]="libraryTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.genres.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('genres')">{{t('genres')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('genres')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('genres')">{{t('genres')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('genres')">
+                   @for (option of data.genres; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.genres + i)"
+                         [class.active]="focusedIndex() === offset.genres + i" [attr.aria-selected]="focusedIndex() === offset.genres + i">
+                       <ng-container [ngTemplateOutlet]="genreTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.tags.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('tags')">{{t('tags')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('tags')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('tags')">{{t('tags')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('tags')">
+                   @for (option of data.tags; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.tags + i)"
+                         [class.active]="focusedIndex() === offset.tags + i" [attr.aria-selected]="focusedIndex() === offset.tags + i">
+                       <ng-container [ngTemplateOutlet]="tagTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.persons.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('persons')">{{t('people')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('persons')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('persons')">{{t('people')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('persons')">
+                   @for (option of data.persons; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.persons + i)"
+                         [class.active]="focusedIndex() === offset.persons + i" [attr.aria-selected]="focusedIndex() === offset.persons + i">
+                       <ng-container [ngTemplateOutlet]="personTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.chapters.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('chapters')">{{t('chapters')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('chapters')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('chapters')">{{t('chapters')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('chapters')">
+                   @for (option of data.chapters; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.chapters + i)"
+                         [class.active]="focusedIndex() === offset.chapters + i" [attr.aria-selected]="focusedIndex() === offset.chapters + i">
+                       <ng-container [ngTemplateOutlet]="chapterTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.files.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('files')">{{t('files')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('files')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('files')">{{t('files')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('files')">
+                   @for (option of data.files; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.files + i)"
+                         [class.active]="focusedIndex() === offset.files + i" [attr.aria-selected]="focusedIndex() === offset.files + i">
+                       <ng-container [ngTemplateOutlet]="fileTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+ 
+               @if (data.annotations.length > 0) {
+-                <li class="list-group-item no-hover group-header" role="presentation"><h5 class="kv-section-header" [id]="groupId('annotations')">{{t('annotations')}}</h5></li>
+-                <ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('annotations')">
++                <li class="list-group-item no-hover group-header" role="presentation"><div class="kv-section-header" [id]="groupId('annotations')">{{t('annotations')}}</div></li>
++                <li role="presentation" class="no-hover"><ul class="list-group results" role="group" [attr.aria-labelledby]="groupId('annotations')">
+                   @for (option of data.annotations; track option; let i = $index) {
+                     <li #optionRow class="list-group-item" role="option" [id]="rowId(offset.annotations + i)"
+                         [class.active]="focusedIndex() === offset.annotations + i" [attr.aria-selected]="focusedIndex() === offset.annotations + i">
+                       <ng-container [ngTemplateOutlet]="annotationTemplate" [ngTemplateOutletContext]="{ $implicit: option }" />
+                     </li>
+                   }
+-                </ul>
++                </ul></li>
+               }
+             </ul>
+ 
+diff --git a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss
+index 7411c81..f7a003d 100644
+--- a/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss
++++ b/UI/Web/src/app/nav/_components/search-typeahead/search-typeahead.component.scss
+@@ -239,12 +239,12 @@ ul ul {
+   .subtitle {
+     font-size: 0.8rem;
+     line-height: 1.4;
+-    color: var(--text-muted-color);
++    color: var(--body-text-color);
+   }
+ 
+   .meta {
+     font-size: 0.8rem;
+-    color: var(--text-muted-color);
++    color: var(--body-text-color);
+     white-space: nowrap;
+   }
+ }
+diff --git a/UI/Web/src/app/profile/_components/profile/profile.component.html b/UI/Web/src/app/profile/_components/profile/profile.component.html
+index 5a8dc79..3c2381d 100644
+--- a/UI/Web/src/app/profile/_components/profile/profile.component.html
++++ b/UI/Web/src/app/profile/_components/profile/profile.component.html
+@@ -56,7 +56,7 @@
+     <div class="carousel-tabs-container mb-2 ms-md-2 me-md-2 w-auto">
+       <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav nav-tabs" [destroyOnHide]="true" syncUrlFragment>
+ 
+-        <li [ngbNavItem]="Tabs.Overview">
++        <li role="presentation" [ngbNavItem]="Tabs.Overview">
+           <a ngbNavLink>{{Tabs.Overview | tabTitle}}</a>
+           <ng-template ngbNavContent>
+             @defer (when activeTabId === Tabs.Overview; prefetch on idle) {
+@@ -65,7 +65,7 @@
+           </ng-template>
+         </li>
+ 
+-        <li [ngbNavItem]="Tabs.Stats">
++        <li role="presentation" [ngbNavItem]="Tabs.Stats">
+           <a ngbNavLink>{{Tabs.Stats | tabTitle}}</a>
+           <ng-template ngbNavContent>
+             @defer (when activeTabId === Tabs.Stats; prefetch on idle) {
+@@ -74,7 +74,7 @@
+           </ng-template>
+ 
+ 
+-        <li [ngbNavItem]="Tabs.Reviews">
++        <li role="presentation" [ngbNavItem]="Tabs.Reviews">
+           <a ngbNavLink>{{Tabs.Reviews | tabTitle}}</a>
+           <ng-template ngbNavContent>
+             @defer (when activeTabId === Tabs.Reviews; prefetch on idle) {
+@@ -84,7 +84,7 @@
+         </li>
+ 
+         @if (accountService.userId() === memberInfo().id) {
+-          <li [ngbNavItem]="Tabs.Activity">
++          <li role="presentation" [ngbNavItem]="Tabs.Activity">
+             <a ngbNavLink>{{Tabs.Activity | tabTitle}}</a>
+             <ng-template ngbNavContent>
+               @defer (when activeTabId === Tabs.Activity; prefetch on idle) {
+diff --git a/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html b/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html
+index 8014c44..f390128 100644
+--- a/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html
++++ b/UI/Web/src/app/reading-list/_components/reading-list-detail/reading-list-detail.component.html
+@@ -9,7 +9,7 @@
+           </div>
+ 
+           <div class="col-xl-10 col-lg-7 col-md-12 col-sm-12 col-xs-12">
+-            <h4 class="title mb-2">
++            <h2 class="title mb-2">
+             <span>
+               <app-promoted-icon [promoted]="rl.promoted" />
+               <span class="ms-2">{{rl.title}}
+@@ -24,7 +24,7 @@
+                 </div>
+               }
+               </span>
+-            </h4>
++            </h2>
+ 
+             <div class="mt-3 mb-3">
+               <div class="row g-0" style="align-items: center;">
+@@ -38,7 +38,7 @@
+                       </span>
+                     </button>
+                     <div class="btn-group" ngbDropdown role="group" [attr.aria-label]="t('read-options-alt')">
+-                      <button type="button" class="btn btn-outline-primary dropdown-toggle-split" ngbDropdownToggle></button>
++                      <button type="button" class="btn btn-outline-primary dropdown-toggle-split" ngbDropdownToggle [attr.aria-label]="t('read-options-alt')"></button>
+                       <div class="dropdown-menu" ngbDropdownMenu>
+                         <button ngbDropdownItem (click)="read()">
+                           <span>
+@@ -70,7 +70,7 @@
+ 
+                 @if (isOwnedReadingList()) {
+                   <div class="col-auto ms-2">
+-                    <button class="btn btn-actions" (click)="editReadingList(rl)" [ngbTooltip]="t('edit-alt')">
++                    <button class="btn btn-actions" (click)="editReadingList(rl)" [attr.aria-label]="t('edit-alt')" [ngbTooltip]="t('edit-alt')">
+                       <span><i class="fa fa-pen" aria-hidden="true"></i></span>
+                     </button>
+                   </div>
+@@ -87,7 +87,7 @@
+ 
+                 @if (isOwnedReadingList()) {
+                   <div class="col-auto ms-2 d-none d-md-block btn-actions">
+-                    <button [class]="formGroup.edit().value() ? 'btn btn-primary' : 'btn btn-icon'" (click)="toggleReorder()" [ngbTooltip]="t('reorder-alt')">
++                    <button [class]="formGroup.edit().value() ? 'btn btn-primary' : 'btn btn-icon'" (click)="toggleReorder()" [attr.aria-label]="t('reorder-alt')" [ngbTooltip]="t('reorder-alt')">
+                       <i class="fa-solid fa-list-ol" aria-hidden="true"></i>
+                     </button>
+                   </div>
+@@ -195,7 +195,7 @@
+         <div class="carousel-tabs-container mb-2">
+           <ul ngbNav #nav="ngbNav" [activeId]="activeTabId" class="nav nav-tabs" [destroyOnHide]="false" (navChange)="onNavChange($event)">
+ 
+-            <li [ngbNavItem]="Tabs.Storyline">
++            <li role="presentation" [ngbNavItem]="Tabs.Storyline">
+               <a ngbNavLink>{{Tabs.Storyline | tabTitle}}</a>
+               <ng-template ngbNavContent>
+                 @defer (when activeTabId === Tabs.Storyline; prefetch on idle) {
+@@ -242,7 +242,7 @@
+ 
+ 
+             @if (rlInfo() && castInfo()) {
+-              <li [ngbNavItem]="Tabs.Details" id="details-tab">
++              <li role="presentation" [ngbNavItem]="Tabs.Details" id="details-tab">
+                 <a ngbNavLink>{{Tabs.Details | tabTitle}}</a>
+                 <ng-template ngbNavContent>
+                   @defer (when activeTabId === Tabs.Details; prefetch on idle) {
+diff --git a/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html b/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html
+index 6f27c68..ae30c0f 100644
+--- a/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html
++++ b/UI/Web/src/app/reading-list/_components/reading-lists/reading-lists.component.html
+@@ -1,12 +1,12 @@
+ <div class="main-container container-fluid">
+   <ng-container *transloco="let t; prefix: 'reading-lists'">
+     <app-side-nav-companion-bar [hasFilter]="true" (filterOpen)="filterOpen.emit($event)" [filterActive]="filterActive()">
+-      <h4 title>
++      <h2 title>
+         <span>{{t('title')}}</span>
+         <app-card-actionables [actions]="globalActions" (actionHandler)="performGlobalAction($event)" />
+-      </h4>
++      </h2>
+       @if (pagination()) {
+-        <h5 subtitle class="subtitle-with-actionables">{{t('item-count', {num: pagination()!.totalItems | number})}}</h5>
++        <h3 subtitle class="subtitle-with-actionables">{{t('item-count', {num: pagination()!.totalItems | number})}}</h3>
+       }
+ 
+     </app-side-nav-companion-bar>
+diff --git a/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html b/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html
+index dcd13fd..f016913 100644
+--- a/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html
++++ b/UI/Web/src/app/reading-list/_modals/edit-reading-list-modal/edit-reading-list-modal.component.html
+@@ -7,7 +7,7 @@
+   <div class="modal-body scrollable-modal {{breakpointService.isMobile() ? '' : 'd-flex'}}">
+     <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills"
+         orientation="{{breakpointService.isMobile() ? 'horizontal' : 'vertical'}}" style="min-width: 8.4375rem;">
+-      <li [ngbNavItem]="Tabs.General">
++      <li role="presentation" [ngbNavItem]="Tabs.General">
+         <a ngbNavLink>{{ Tabs.General | tabTitle }}</a>
+         <ng-template ngbNavContent>
+           <div class="row g-0 mb-3">
+@@ -104,7 +104,7 @@
+       </li>
+ 
+       <!--Tags-->
+-      <li [ngbNavItem]="Tabs.Tags">
++      <li role="presentation" [ngbNavItem]="Tabs.Tags">
+         <a ngbNavLink>{{ Tabs.Tags | tabTitle }}</a>
+         <ng-template ngbNavContent>
+           <div class="row">
+@@ -131,7 +131,7 @@
+         </ng-template>
+       </li>
+ 
+-      <li [ngbNavItem]="Tabs.CoverImage">
++      <li role="presentation" [ngbNavItem]="Tabs.CoverImage">
+         <a ngbNavLink>{{ Tabs.CoverImage | tabTitle }}</a>
+         <ng-template ngbNavContent>
+           <app-cover-image-chooser [config]="chooserConfig()" (coverChanged)="handleCoverChanged($event)" (resetClicked)="handleReset()" />
+diff --git a/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html b/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html
+index 3b25be4..091bd10 100644
+--- a/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html
++++ b/UI/Web/src/app/series-detail/_components/download-button/download-button.component.html
+@@ -1,6 +1,6 @@
+ <ng-container *transloco="let t; prefix: 'download-button'">
+   @if (canDownload()) {
+-    <button class="btn btn-actions" (click)="downloadClicked()" [ngbTooltip]="t('download-tooltip')" [disabled]="isDownloading()">
++    <button class="btn btn-actions" [attr.aria-label]="t('download-tooltip')" (click)="downloadClicked()" [ngbTooltip]="t('download-tooltip')" [disabled]="isDownloading()">
+       @if (isDownloading()) {
+         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+         <span class="visually-hidden">{{t('downloading-status')}}</span>
+diff --git a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html
+index 0a3b80a..2bee365 100644
+--- a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html
++++ b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.html
+@@ -24,7 +24,7 @@
+         </div>
+ 
+         <div class="col-xl-10 col-lg-7 col-md-12 col-sm-12 col-xs-12">
+-          <h4 class="title mb-2">
++          <h2 class="title mb-2">
+             <span>{{seriesValue.name}}
+ 
+               @if(showLoader()) {
+@@ -34,7 +34,7 @@
+               }
+               </span>
+ 
+-          </h4>
++          </h2>
+           <div class="subtitle  mt-2 mb-2">
+             @if (seriesValue.localizedName !== seriesValue.name && seriesValue.localizedName) {
+               <span>{{seriesValue.localizedName | defaultValue}}</span>
+@@ -73,7 +73,7 @@
+                     </span>
+                   </button>
+                   <div class="btn-group" ngbDropdown role="group" display="dynamic" [attr.aria-label]="t('read-options-alt')">
+-                    <button type="button" class="btn btn-outline-primary dropdown-toggle-split" ngbDropdownToggle></button>
++                    <button type="button" class="btn btn-outline-primary dropdown-toggle-split" ngbDropdownToggle [attr.aria-label]="t('read-options-alt')"></button>
+                     <div class="dropdown-menu" ngbDropdownMenu>
+                       <button ngbDropdownItem (click)="read(true)">
+                         <span>
+@@ -87,7 +87,7 @@
+               </div>
+ 
+               <div class="col-auto ms-2">
+-                <button class="btn btn-actions" (click)="toggleWantToRead()" ngbTooltip="{{isWantToRead() ? t('remove-from-want-to-read') : t('add-to-want-to-read')}}">
++                <button class="btn btn-actions" [attr.aria-label]="isWantToRead() ? t('remove-from-want-to-read') : t('add-to-want-to-read')" (click)="toggleWantToRead()" ngbTooltip="{{isWantToRead() ? t('remove-from-want-to-read') : t('add-to-want-to-read')}}">
+                   <span>
+                       <i class="{{isWantToRead() ? 'fa-solid' : 'fa-regular'}} fa-star" aria-hidden="true"></i>
+                   </span>
+@@ -96,7 +96,7 @@
+ 
+               @if (isAdmin()) {
+                 <div class="col-auto ms-2">
+-                  <button class="btn btn-actions" id="edit-btn--komf" (click)="openEditSeriesModal()" [ngbTooltip]="t('edit-series-alt')">
++                  <button class="btn btn-actions" id="edit-btn--komf" [attr.aria-label]="t('edit-series-alt')" (click)="openEditSeriesModal()" [ngbTooltip]="t('edit-series-alt')">
+                     <span><i class="fa fa-pen" aria-hidden="true"></i></span>
+                   </button>
+                 </div>
+@@ -104,7 +104,7 @@
+ 
+               @if (showScrobbleControls()) {
+                 <div class="col-auto ms-2">
+-                  <button class="btn btn-actions" (click)="toggleScrobbling($event)" [ngbTooltip]="t('scrobbling-tooltip', {value: isScrobbling() ? t('on') : t('off')})">
++                  <button class="btn btn-actions" [attr.aria-label]="t('scrobbling-tooltip', {value: isScrobbling() ? t('on') : t('off')})" (click)="toggleScrobbling($event)" [ngbTooltip]="t('scrobbling-tooltip', {value: isScrobbling() ? t('on') : t('off')})">
+                     <i class="fa-solid fa-tower-{{isScrobbling() ? 'broadcast' : 'observation'}}" aria-hidden="true"></i>
+                   </button>
+                 </div>
+@@ -123,7 +123,7 @@
+                   </button>
+                 </div>
+                 <div class="col-auto ms-2 d-md-none">
+-                  <button class="btn btn-actions" [ngbTooltip]="t('kavitaplus-audit-alt')" (click)="openKavitaPlusDrawer()">
++                  <button class="btn btn-actions" [attr.aria-label]="t('kavitaplus-audit-alt')" [ngbTooltip]="t('kavitaplus-audit-alt')" (click)="openKavitaPlusDrawer()">
+                     <i class="fa-solid fa-bolt" aria-hidden="true"></i>
+                   </button>
+                 </div>
+@@ -226,7 +226,7 @@
+         <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav nav-tabs" [destroyOnHide]="false" (navChange)="onNavChange($event)">
+ 
+           @if (shouldShowStorylineTabValue) {
+-            <li [ngbNavItem]="Tabs.Storyline">
++            <li role="presentation" [ngbNavItem]="Tabs.Storyline">
+               <a ngbNavLink>{{Tabs.Storyline | tabTitle}}</a>
+               <ng-template ngbNavContent>
+                 @defer (when activeTabId === Tabs.Storyline; prefetch on idle) {
+@@ -251,7 +251,7 @@
+ 
+ 
+           @if (shouldShowVolumeTabValue) {
+-            <li [ngbNavItem]="Tabs.Volumes">
++            <li role="presentation" [ngbNavItem]="Tabs.Volumes">
+               <a ngbNavLink>
+                 {{(useBookLogicValue ? Tabs.Books : Tabs.Volumes) | tabTitle}}
+                 <span class="badge rounded-pill text-bg-secondary">{{volumes().length}}</span>
+@@ -272,7 +272,7 @@
+           }
+ 
+           @if (showChapterTab()) {
+-            <li [ngbNavItem]="Tabs.Chapters">
++            <li role="presentation" [ngbNavItem]="Tabs.Chapters">
+               <a ngbNavLink>
+                 {{chapterTabName()}}
+                 <span class="badge rounded-pill text-bg-secondary">{{chapterEntities().length}}</span>
+@@ -293,7 +293,7 @@
+           }
+ 
+           @if (hasSpecials()) {
+-            <li [ngbNavItem]="Tabs.Specials">
++            <li role="presentation" [ngbNavItem]="Tabs.Specials">
+               <a ngbNavLink>
+                 {{Tabs.Specials | tabTitle}}
+                 <span class="badge rounded-pill text-bg-secondary">{{specialEntities().length}}</span>
+@@ -313,7 +313,7 @@
+           }
+ 
+           @if (annotations().length > 0) {
+-            <li [ngbNavItem]="Tabs.Annotations">
++            <li role="presentation" [ngbNavItem]="Tabs.Annotations">
+               <a ngbNavLink>
+                 {{Tabs.Annotations | tabTitle}}
+                 <span class="badge rounded-pill text-bg-secondary">{{annotations().length}}</span>
+@@ -327,7 +327,7 @@
+           }
+ 
+           @if (totalRelatedCount() > 0) {
+-            <li [ngbNavItem]="Tabs.Related">
++            <li role="presentation" [ngbNavItem]="Tabs.Related">
+               <a ngbNavLink>
+                 {{Tabs.Related | tabTitle}}
+                 <span class="badge rounded-pill text-bg-secondary">{{totalRelatedCount()}}</span>
+@@ -346,7 +346,7 @@
+           }
+ 
+           @if (hasRecommendations()) {
+-            <li [ngbNavItem]="Tabs.Recommendations">
++            <li role="presentation" [ngbNavItem]="Tabs.Recommendations">
+               <a ngbNavLink>
+                 {{Tabs.Recommendations | tabTitle}}
+                 <span class="badge rounded-pill text-bg-secondary">{{combinedRecs().length}}</span>
+@@ -369,7 +369,7 @@
+             </li>
+           }
+ 
+-          <li [ngbNavItem]="Tabs.Reviews">
++          <li role="presentation" [ngbNavItem]="Tabs.Reviews">
+             <a ngbNavLink>
+               {{Tabs.Reviews | tabTitle}}
+               <span class="badge rounded-pill text-bg-secondary">{{reviewCount()}}</span>
+@@ -382,7 +382,7 @@
+           </li>
+ 
+           @if (seriesMetadataValue && showDetailsTabValue) {
+-            <li [ngbNavItem]="Tabs.Details" id="details-tab">
++            <li role="presentation" [ngbNavItem]="Tabs.Details" id="details-tab">
+               <a ngbNavLink>{{Tabs.Details | tabTitle}}</a>
+               <ng-template ngbNavContent>
+                 @defer (when activeTabId === Tabs.Details; prefetch on idle) {
+@@ -401,7 +401,7 @@
+           }
+ 
+           @if (hasReadingHistory()) {
+-            <li [ngbNavItem]="Tabs.Activity" id="activity-tab">
++            <li role="presentation" [ngbNavItem]="Tabs.Activity" id="activity-tab">
+               <a ngbNavLink>{{Tabs.Activity | tabTitle}}</a>
+               <ng-template ngbNavContent>
+                 @defer (when activeTabId == Tabs.Activity; prefetch on idle) {
+diff --git a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts
+index 6ec7ae0..6a830e9 100644
+--- a/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts
++++ b/UI/Web/src/app/series-detail/_components/series-detail/series-detail.component.ts
+@@ -901,7 +901,7 @@ class SeriesDetailComponent implements OnInit, AfterViewInit {
+   }
+ 
+   openEditSeriesModal() {
+-    const modalRef = this.modalService.open(EditSeriesModalComponent);
++    const modalRef = this.modalService.open(EditSeriesModalComponent, {ariaLabelledBy: 'modal-basic-title'});
+     modalRef.setInput('series', this.series());
+     modalRef.closed.subscribe((closeResult: ModalResult<Series>) => {
+       if (closeResult.success) {
+diff --git a/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html b/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html
+index ac5c693..e31fe8e 100644
+--- a/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html
++++ b/UI/Web/src/app/settings/_components/setting-item/setting-item.component.html
+@@ -5,7 +5,7 @@
+   <div>
+     <div class="settings-row g-0 row">
+       <div class="col-auto {{fixedExtras() ? 'setting-title no-anim edit' : 'setting-title edit'}}">
+-        <h6 class="section-title">
++        <h3 class="section-title">
+           @if (hasControl()) {
+             <label [for]="elementId()">{{title()}}</label>
+           } @else {
+@@ -14,7 +14,7 @@
+           @if (titleExtraRef()) {
+             <ng-container [ngTemplateOutlet]="titleExtraRef()" />
+           }
+-        </h6>
++        </h3>
+       </div>
+       <div class="col-auto text-end align-self-end justify-content-end">
+         @if (showEdit()) {
+diff --git a/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html b/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html
+index 9eddfa4..17a32a9 100644
+--- a/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html
++++ b/UI/Web/src/app/shared/edit-modal-shell/edit-modal-shell.component.html
+@@ -2,7 +2,7 @@
+   <div class="modal-container">
+ 
+     <div class="modal-header">
+-      <h4 class="modal-title">
++      <h4 class="modal-title" id="modal-basic-title">
+         @if (titleTemplate() !== undefined) {
+           <ng-container [ngTemplateOutlet]="titleTemplate()" />
+         } @else {
+@@ -20,7 +20,7 @@
+             [orientation]="isMobile() ? 'horizontal' : 'vertical'" style="min-width: 8.4375rem;">
+ 
+           @for (tab of tabs(); track tab.id()) {
+-            <li [ngbNavItem]="tab.id()">
++            <li role="presentation" [ngbNavItem]="tab.id()">
+               <a ngbNavLink (click)="onTabChange(tab.id(), $event)">{{ tab.id() | tabTitle }}</a>
+               <ng-template ngbNavContent>
+                 <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
+diff --git a/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html b/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html
+index 2c128ad..ff187b2 100644
+--- a/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html
++++ b/UI/Web/src/app/sidenav/_components/manage-customization/manage-customization.component.html
+@@ -1,26 +1,26 @@
+ <ng-container *transloco="let t; prefix: 'customize-dashboard-modal'">
+   <p>{{t('description')}}</p>
+   <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav-pills" orientation="horizontal" style="min-width: 9.625rem;">
+-    <li [ngbNavItem]="Tabs.Dashboard">
++    <li role="presentation" [ngbNavItem]="Tabs.Dashboard">
+       <a ngbNavLink>{{Tabs.Dashboard | tabTitle}}</a>
+       <ng-template ngbNavContent>
+         <app-customize-dashboard-streams />
+       </ng-template>
+     </li>
+ 
+-    <li [ngbNavItem]="Tabs.SideNav">
++    <li role="presentation" [ngbNavItem]="Tabs.SideNav">
+       <a ngbNavLink>{{Tabs.SideNav | tabTitle}}</a>
+       <ng-template ngbNavContent>
+         <app-customize-sidenav-streams />
+       </ng-template>
+     </li>
+-    <li [ngbNavItem]="Tabs.SmartFilters">
++    <li role="presentation" [ngbNavItem]="Tabs.SmartFilters">
+       <a ngbNavLink>{{Tabs.SmartFilters | tabTitle}}</a>
+       <ng-template ngbNavContent>
+         <app-manage-smart-filters />
+       </ng-template>
+     </li>
+-    <li [ngbNavItem]="Tabs.ExternalSources">
++    <li role="presentation" [ngbNavItem]="Tabs.ExternalSources">
+       <a ngbNavLink>{{Tabs.ExternalSources | tabTitle}}</a>
+       <ng-template ngbNavContent>
+         <app-manage-external-sources />
+diff --git a/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html b/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html
+index 012cd2f..c6e4a40 100644
+--- a/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html
++++ b/UI/Web/src/app/sidenav/_components/side-nav-item/side-nav-item.component.html
+@@ -7,20 +7,20 @@
+   </div>
+ } @else {
+   @if (external()) {
+-    <a [id]="id()" class="side-nav-item" [href]="link()" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" rel="noopener noreferrer" target="_blank">
++    <a [attr.id]="id()" class="side-nav-item" [href]="link()" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" rel="noopener noreferrer" target="_blank" [attr.aria-label]="title() || 'External link'">
+       <ng-container [ngTemplateOutlet]="inner" />
+     </a>
+   } @else {
+     @if (queryParams()) {
+-      <a [id]="id()" class="side-nav-item" href="javascript:void(0);" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" (click)="openLink()">
++      <a [attr.id]="id()" class="side-nav-item" href="javascript:void(0);" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" (click)="openLink()">
+         <ng-container [ngTemplateOutlet]="inner" />
+       </a>
+     } @else if (fragment()) {
+-      <a [id]="id()" class="side-nav-item" href="javascript:void(0);" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" [routerLink]="link()" [fragment]="fragment()">
++      <a [attr.id]="id()" class="side-nav-item" href="javascript:void(0);" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" [routerLink]="link()" [fragment]="fragment()">
+         <ng-container [ngTemplateOutlet]="inner" />
+       </a>
+     } @else {
+-      <a [id]="id()" class="side-nav-item" href="javascript:void(0);" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" [routerLink]="link()" [queryParams]="queryParams()">
++      <a [attr.id]="id()" class="side-nav-item" href="javascript:void(0);" [ngClass]="{'closed': isSideNavCollapsed, 'active': highlighted()}" [routerLink]="link()" [queryParams]="queryParams()">
+         <ng-container [ngTemplateOutlet]="inner" />
+       </a>
+     }
+diff --git a/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html b/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html
+index c8705bf..eec625a 100644
+--- a/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html
++++ b/UI/Web/src/app/sidenav/_components/side-nav/side-nav.component.html
+@@ -4,7 +4,7 @@
+   @let sideNavCollapsed = navService.sideNavCollapsedSignal();
+ 
+   @if (accountService.currentUser()) {
+-    <div class="side-nav-container"
++    <div class="side-nav-container" role="navigation" [attr.aria-label]="t('side-nav-alt')"
+          [class.no-donate]="licenseService.hasActiveLicense()"
+          [class.closed]="sideNavCollapsed"
+          [class.hidden]="!sideNavVisible">
+@@ -111,7 +111,7 @@
+     <div class="side-nav-overlay" (click)="toggleNavBar()" [class.closed]="sideNavCollapsed"></div>
+   }
+ 
+-  <div class="sidenav-bottom" [class.closed]="sideNavCollapsed" [class.hidden]="!sideNavVisible || licenseService.hasActiveLicense()">
++  <div class="sidenav-bottom" role="navigation" [attr.aria-label]="t('sidenav-bottom-alt')" [class.closed]="sideNavCollapsed" [class.hidden]="!sideNavVisible || licenseService.hasActiveLicense()">
+     @if (!licenseService.hasActiveLicense()) {
+       <app-side-nav-item class="donate" icon="fa-heart"
+                         [ngbTooltip]="t('donate-tooltip')"
+diff --git a/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html b/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html
+index 923833b..0afd513 100644
+--- a/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html
++++ b/UI/Web/src/app/sidenav/_modals/library-settings-modal/library-settings-modal.component.html
+@@ -14,7 +14,7 @@
+     <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills"
+         orientation="{{breakpointService.isMobile() ? 'horizontal' : 'vertical'}}" style="min-width: 8.4375rem;">
+ 
+-      <li [ngbNavItem]="Tabs.General">
++      <li role="presentation" [ngbNavItem]="Tabs.General">
+         <a ngbNavLink>{{Tabs.General | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           <div class="mb-3">
+@@ -55,7 +55,7 @@
+       </li>
+ 
+ 
+-      <li [ngbNavItem]="Tabs.Folder" [disabled]="isAddLibrary() && setupStep() < 1">
++      <li role="presentation" [ngbNavItem]="Tabs.Folder" [disabled]="isAddLibrary() && setupStep() < 1">
+         <a ngbNavLink>{{Tabs.Folder | tabTitle}}</a>
+         <ng-template ngbNavContent>
+ 
+@@ -95,7 +95,7 @@
+         </ng-template>
+       </li>
+ 
+-      <li [ngbNavItem]="Tabs.CoverImage" [disabled]="isAddLibrary() && setupStep() < 2">
++      <li role="presentation" [ngbNavItem]="Tabs.CoverImage" [disabled]="isAddLibrary() && setupStep() < 2">
+         <a ngbNavLink>{{Tabs.CoverImage | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           @if (isAddLibrary()) {
+@@ -107,7 +107,7 @@
+         </ng-template>
+       </li>
+ 
+-      <li [ngbNavItem]="Tabs.Advanced" [disabled]="isAddLibrary() && setupStep() < 3">
++      <li role="presentation" [ngbNavItem]="Tabs.Advanced" [disabled]="isAddLibrary() && setupStep() < 3">
+         <a ngbNavLink>{{Tabs.Advanced | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           <div class="row g-0 mt-4 mb-4">
+@@ -276,7 +276,7 @@
+ 
+       <!-- Only show tasks on edit flow -->
+       @if (!isAddLibrary()) {
+-        <li [ngbNavItem]="Tabs.Tasks">
++        <li role="presentation" [ngbNavItem]="Tabs.Tasks">
+           <a ngbNavLink>{{Tabs.Tasks | tabTitle}}</a>
+           <ng-template ngbNavContent>
+             @for(task of tasks; track task.action) {
+diff --git a/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html b/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html
+index 947e68a..286bddb 100644
+--- a/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html
++++ b/UI/Web/src/app/sidenav/preference-nav/preference-nav.component.html
+@@ -2,7 +2,7 @@
+   @if (accountService.currentUser(); as user) {
+ 
+     @if(!navService.sideNavCollapsedSignal()) {
+-      <div class="preference side-nav-container"  [ngClass]="{
++      <div class="preference side-nav-container" role="navigation" [attr.aria-label]="t('side-nav-alt')"  [ngClass]="{
+       'closed' : navService.sideNavCollapsedSignal(),
+       'hidden': !navService.sideNavVisibilitySignal(),
+       'no-donate': licenseService.hasActiveLicense()
+diff --git a/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html b/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html
+index d31d144..41bf898 100644
+--- a/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html
++++ b/UI/Web/src/app/statistics/_components/server-stats/server-stats.component.html
+@@ -3,14 +3,14 @@
+   <div class="carousel-tabs-container mb-2 ms-md-2 me-md-2 w-auto">
+     <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav nav-tabs" [destroyOnHide]="true">
+ 
+-      <li [ngbNavItem]="Tabs.Stats">
++      <li role="presentation" [ngbNavItem]="Tabs.Stats">
+         <a ngbNavLink>{{Tabs.Stats | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           <app-server-stats-stats-tab />
+         </ng-template>
+       </li>
+ 
+-      <li [ngbNavItem]="Tabs.Management">
++      <li role="presentation" [ngbNavItem]="Tabs.Management">
+         <a ngbNavLink>{{Tabs.Management | tabTitle}}</a>
+         <ng-template ngbNavContent>
+           <app-server-stats-mgmt-tab />
+diff --git a/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html b/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html
+index 65e9fd3..6743514 100644
+--- a/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html
++++ b/UI/Web/src/app/user-settings/kavitaplus-activity/kavitaplus-activity.component.html
+@@ -48,20 +48,20 @@
+ 
+     <div class="tabs-scroller d-none d-md-block">
+       <ul ngbNav [activeId]="activeTab()" (activeIdChange)="activeTab.set($event)" class="nav-tabs mb-3 flex-nowrap">
+-        <li [ngbNavItem]="Tabs.All">
++        <li role="presentation" [ngbNavItem]="Tabs.All">
+           <a ngbNavLink>{{Tabs.All | tabTitle}} <span class="badge text-bg-secondary ms-1 phone-hidden">{{allCount()}}</span></a>
+         </li>
+-        <li [ngbNavItem]="Tabs.Scrobbles">
++        <li role="presentation" [ngbNavItem]="Tabs.Scrobbles">
+           <a ngbNavLink>{{Tabs.Scrobbles | tabTitle}} <span class="badge text-bg-secondary ms-1 phone-hidden">{{scrobbleCount()}}</span></a>
+         </li>
+-        <li [ngbNavItem]="Tabs.Failed">
++        <li role="presentation" [ngbNavItem]="Tabs.Failed">
+           <a ngbNavLink>{{Tabs.Failed | tabTitle}} <span class="badge text-bg-secondary ms-1 phone-hidden">{{failedCount()}}</span></a>
+         </li>
+-        <li [ngbNavItem]="Tabs.MyChanges">
++        <li role="presentation" [ngbNavItem]="Tabs.MyChanges">
+           <a ngbNavLink>{{Tabs.MyChanges | tabTitle}} <span class="badge text-bg-secondary ms-1 phone-hidden">{{myChangesCount()}}</span></a>
+         </li>
+ 
+-        <li [ngbNavItem]="Tabs.ScrobbleHolds">
++        <li role="presentation" [ngbNavItem]="Tabs.ScrobbleHolds">
+           <a ngbNavLink>{{Tabs.ScrobbleHolds | tabTitle}} <span class="badge text-bg-secondary ms-1 phone-hidden">{{scrobbleHoldsCount()}}</span></a>
+         </li>
+       </ul>
+diff --git a/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html b/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html
+index ca453e5..1b3f22b 100644
+--- a/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html
++++ b/UI/Web/src/app/user-settings/manage-reading-profiles/manage-reading-profiles.component.html
+@@ -71,7 +71,7 @@
+             <div class="carousel-tabs-container mb-2">
+               <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav nav-tabs">
+ 
+-                <li [ngbNavItem]="Tabs.ImageReader">
++                <li role="presentation" [ngbNavItem]="Tabs.ImageReader">
+                   <a ngbNavLink (click)="activeTabId = Tabs.ImageReader">{{Tabs.ImageReader | tabTitle}}</a>
+                   <ng-template ngbNavContent>
+                     @defer (when activeTabId === Tabs.ImageReader; prefetch on idle) {
+@@ -270,7 +270,7 @@
+                   </ng-template>
+                 </li>
+ 
+-                <li [ngbNavItem]="Tabs.BookReader">
++                <li role="presentation" [ngbNavItem]="Tabs.BookReader">
+                   <a ngbNavLink (click)="activeTabId = Tabs.BookReader">{{Tabs.BookReader | tabTitle}}</a>
+                   <ng-template ngbNavContent>
+                     @defer (when activeTabId === Tabs.BookReader; prefetch on idle) {
+@@ -442,7 +442,7 @@
+                   </ng-template>
+                 </li>
+ 
+-                <li [ngbNavItem]="Tabs.PdfReader">
++                <li role="presentation" [ngbNavItem]="Tabs.PdfReader">
+                   <a ngbNavLink (click)="activeTabId = Tabs.PdfReader">{{Tabs.PdfReader | tabTitle}}</a>
+                   <ng-template ngbNavContent>
+                     @defer (when activeTabId === Tabs.PdfReader; prefetch on idle) {
+diff --git a/UI/Web/src/app/volume-detail/volume-detail.component.html b/UI/Web/src/app/volume-detail/volume-detail.component.html
+index 2f63c77..d287d78 100644
+--- a/UI/Web/src/app/volume-detail/volume-detail.component.html
++++ b/UI/Web/src/app/volume-detail/volume-detail.component.html
+@@ -163,7 +163,7 @@
+ 
+     <div class="carousel-tabs-container mb-2">
+       <ul ngbNav #nav="ngbNav" [(activeId)]="activeTabId" class="nav nav-tabs" (navChange)="onNavChange($event)">
+-        <li [ngbNavItem]="Tabs.Chapters">
++        <li role="presentation" [ngbNavItem]="Tabs.Chapters">
+           <a ngbNavLink>
+             {{chapterTabName()}}
+             <span class="badge rounded-pill text-bg-secondary">{{volume().chapters.length}}</span>
+@@ -190,7 +190,7 @@
+         </li>
+ 
+         @if (volume().chapters.length === 1 && readingLists().length > 0) {
+-          <li [ngbNavItem]="Tabs.Related">
++          <li role="presentation" [ngbNavItem]="Tabs.Related">
+             <a ngbNavLink>{{Tabs.Related | tabTitle}}</a>
+             <ng-template ngbNavContent>
+               @defer (when activeTabId === Tabs.Related; prefetch on idle) {
+@@ -201,7 +201,7 @@
+         }
+ 
+         @if (volume().chapters.length === 1 && annotations().length > 0) {
+-          <li [ngbNavItem]="Tabs.Annotations">
++          <li role="presentation" [ngbNavItem]="Tabs.Annotations">
+             <a ngbNavLink>
+               {{Tabs.Annotations | tabTitle}}
+               <span class="badge rounded-pill text-bg-secondary">{{annotations().length}}</span>
+@@ -215,7 +215,7 @@
+         }
+ 
+         @if (volume().chapters.length === 1) {
+-          <li [ngbNavItem]="Tabs.Reviews">
++          <li role="presentation" [ngbNavItem]="Tabs.Reviews">
+             <a ngbNavLink>
+               {{Tabs.Reviews | tabTitle}}
+               <span class="badge rounded-pill text-bg-secondary">{{reviewCount()}}</span>
+@@ -229,7 +229,7 @@
+           </li>
+         }
+ 
+-        <li [ngbNavItem]="Tabs.Details" id="details-tab">
++        <li role="presentation" [ngbNavItem]="Tabs.Details" id="details-tab">
+           <a ngbNavLink>{{Tabs.Details | tabTitle}}</a>
+           <ng-template ngbNavContent>
+             @defer (when activeTabId === Tabs.Details; prefetch on idle) {
+diff --git a/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html b/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html
+index facbfac..34eb488 100644
+--- a/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html
++++ b/UI/Web/src/app/want-to-read/_components/want-to-read/want-to-read.component.html
+@@ -3,11 +3,11 @@
+     <div #companionBar>
+         <app-side-nav-companion-bar [hasFilter]="true" (filterOpen)="filterOpen.emit($event)" [filterActive]="filterActive">
+             <ng-container title>
+-                <h4>
++                <h2>
+                     {{t('title')}}
+-                </h4>
++                </h2>
+             </ng-container>
+-            <h5 subtitle>{{t('series-count', {num: (pagination.totalItems | number)})}}</h5>
++            <h3 subtitle>{{t('series-count', {num: (pagination.totalItems | number)})}}</h3>
+         </app-side-nav-companion-bar>
+     </div>
+ 
+diff --git a/UI/Web/src/index.html b/UI/Web/src/index.html
+index cff4f11..6831e3e 100644
+--- a/UI/Web/src/index.html
++++ b/UI/Web/src/index.html
+@@ -1,5 +1,5 @@
+ <!doctype html>
+-<html lang="en" role="main">
++<html lang="en">
+ <head>
+   <meta charset="utf-8">
+   <title>Kavita</title>
+@@ -22,7 +22,7 @@
+ 
+ </head>
+ <body class="mat-typography default" theme="dark">
+-  <app-root></app-root>
++<app-root></app-root>
+   <noscript>Please enable JavaScript to continue using this application.</noscript>
+ </body>
+ </html>
+diff --git a/UI/Web/src/styles.scss b/UI/Web/src/styles.scss
+index fc81d18..ee7ad23 100644
+--- a/UI/Web/src/styles.scss
++++ b/UI/Web/src/styles.scss
+@@ -161,3 +161,16 @@ body {
+ .kplus-offcanvas {
+   --bs-offcanvas-width: 28rem;
+ }
++
++// a11y cycle 45 : --primary-color est un vert clair ; le texte blanc ne
++// passe pas AA -> texte fonce sur fond primaire (boutons + nav-pills).
++.btn-primary {
++  --bs-btn-color: #000;
++  --bs-btn-hover-color: #000;
++  --bs-btn-active-color: #000;
++  --bs-btn-disabled-color: #000;
++}
++
++.nav-pills {
++  --bs-nav-pills-link-active-color: #000;
++}
+diff --git a/UI/Web/src/theme/_toastr.scss b/UI/Web/src/theme/_toastr.scss
+index 382d9d0..551b019 100644
+--- a/UI/Web/src/theme/_toastr.scss
++++ b/UI/Web/src/theme/_toastr.scss
+@@ -112,6 +112,9 @@
+     cursor: pointer;
+   }
+   /* https://github.com/FortAwesome/Font-Awesome-Pro/blob/master/advanced-options/raw-svg/regular/info-circle.svg */
++  .toast-info, .toast-info .toast-title, .toast-info .toast-message, .toast-info .toast-message a {
++    color: #000;
++  }
+   .toast-info {
+     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='512' height='512'%3E%3Cpath fill='rgb(255,255,255)' d='M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z'/%3E%3C/svg%3E");
+     background-color: var(--toast-info-bg-color);
+diff --git a/UI/Web/src/theme/components/_badge.scss b/UI/Web/src/theme/components/_badge.scss
+index cbb377e..d4e5504 100644
+--- a/UI/Web/src/theme/components/_badge.scss
++++ b/UI/Web/src/theme/components/_badge.scss
+@@ -2,6 +2,10 @@
+   background-color: var(--primary-color) !important;
+ }
+ 
++.badge.bg-primary {
++  color: #000 !important;
++}
++
+ .text-dark {
+   color: var(--body-text-color) !important;
+ }
+diff --git a/UI/Web/src/theme/components/_headers.scss b/UI/Web/src/theme/components/_headers.scss
+index 3206046..8cbc3b1 100644
+--- a/UI/Web/src/theme/components/_headers.scss
++++ b/UI/Web/src/theme/components/_headers.scss
+@@ -3,7 +3,7 @@
+   letter-spacing: 0.06em;
+   font-weight: 600;
+   text-transform: uppercase;
+-  color: var(--text-muted-color);
++  color: var(--body-text-color);
+   margin-bottom: 0.625rem;
+   margin-top: 0.625rem;
+ }
+diff --git a/UI/Web/src/theme/themes/dark.scss b/UI/Web/src/theme/themes/dark.scss
+index 65b936e..88c7f92 100644
+--- a/UI/Web/src/theme/themes/dark.scss
++++ b/UI/Web/src/theme/themes/dark.scss
+@@ -150,10 +150,10 @@
+   --btn-actions-hover-bg: rgb(255 255 255 / 18%);
+ 
+   /* Primary (solid + outline + text) */
+-  --btn-primary-text-color: white;
++  --btn-primary-text-color: black;
+   --btn-primary-bg-color: var(--primary-color);
+   --btn-primary-border-color: var(--primary-color);
+-  --btn-primary-hover-text-color: white;
++  --btn-primary-hover-text-color: black;
+   --btn-primary-hover-bg-color: var(--primary-color-darker-shade);
+   --btn-primary-hover-border-color: var(--primary-color-darker-shade);
+   --btn-outline-primary-text-color: white;
+@@ -226,7 +226,7 @@
+   --nav-tab-hover-border-right: transparent;
+   --nav-tab-active-hover-bg-color: transparent;
+   --nav-link-bg-color: var(--primary-color);
+-  --nav-link-active-text-color: white;
++  --nav-link-active-text-color: black;
+   --nav-link-text-color: var(--elevation-layer10);
+ 
+   /* Modal */
