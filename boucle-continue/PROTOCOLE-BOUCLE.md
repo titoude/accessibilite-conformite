@@ -395,3 +395,7 @@ utilisateur. À la fin : commit du registre + journal + rapport de boucle.
 ### Leçons — cycle 52 netbox (CONFIRMED bit-identique + hashes inter-instances)
 
 48. **Les hashes de scope/states doivent être normalisés sur le chemin — jamais l'origine complète.** scopeHash/statesHash incluaient le baseUrl entier → le même scope sur :9340 vs :9360 produisait des hashes incomparables entre instances (worker vs auditeur vs install-build). Runner corrigé : `stripOrigin(u)` → pathname+search+hash avant hachage. Corollaire portabilité : quand Docker Hub rate-limit (429), basculer les bases sur mirror.gcr.io et retaguer local plutôt que bloquer le rejeu.
+
+### Leçons — cycle 57 dolibarr v2 (CONFIRMED + gate d'install silencieux)
+
+49. **« Install OK » n'est crédible qu'adossé à un comptage réel — les installeurs CLI peuvent mourir avec exit 0.** Dolibarr `step2.php` s'arrête sur « conf.php is not writable » avec exit 0 : le boot affichait « install OK » avec 0 table, le seed échouait plus loin sans cause visible. Double défense dans boot.sh : canary élargi (`not writable|Permission denied`) + **gate post-install sur le nombre de tables réelles** (`information_schema` ≥1) qui fail explicitement. Pré-condition : garantir l'écriture de conf.php dès qu'une étape rejoue (fichier resté 444 après un documents/ réutilisé).

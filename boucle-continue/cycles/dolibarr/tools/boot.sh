@@ -70,16 +70,21 @@ NEED_STEPS=0
 [ "${TABLES:-0}" = "0" ] && NEED_STEPS=1
 if [ "$NEED_STEPS" = 1 ]; then
   docker exec -u root "$WEB" rm -f /var/www/documents/install.lock
+  # W7 : step2.php s'arrête en silence (exit 0) si conf.php n'est pas writable —
+  # « install OK » avec 0 table. On force l'écriture dès qu'une étape rejoue.
+  [ -f "$CHECKOUT/htdocs/conf/conf.php" ] && \
+    docker exec -u root "$WEB" chmod 666 /var/www/html/htdocs/conf/conf.php || true
 fi
 
-# Étape d'install avec canary : « DisabledByFileLock » dans la sortie = échec.
+# Étape d'install avec canary : « DisabledByFileLock » ou « not writable » dans
+# la sortie = échec (les étapes dolibarr peuvent mourir avec exit 0).
 run_step() {
   local out
   if ! out=$(docker exec -u www-data -w /var/www/html/htdocs/install "$WEB" php "$@" 2>&1); then
     echo "[boot] ERREUR étape $* : $out" >&2; exit 1
   fi
-  if grep -qi 'DisabledByFileLock\|install\.lock' <<<"$out"; then
-    echo "[boot] ERREUR : install.lock bloque l'étape $*" >&2; exit 1
+  if grep -qi 'DisabledByFileLock\|install\.lock\|not writable\|Permission denied\|Cannot open file' <<<"$out"; then
+    echo "[boot] ERREUR : étape $* bloquée : $(grep -im1 'DisabledByFileLock\|install\.lock\|not writable\|Permission denied\|Cannot open file' <<<"$out")" >&2; exit 1
   fi
 }
 
@@ -99,6 +104,10 @@ if [ "${TABLES:-0}" = "0" ]; then
   run_step step2.php set en_US
   run_step step4.php en_US
   run_step step5.php '24.0.0' '24.0.2' en_US set admin "$ADMIN_PASS" "$ADMIN_PASS" 1
+  # gate dur : « install OK » n'est crédible que si les tables existent réellement
+  TABLES_AFTER=$(docker exec "$DB" mariadb -udoli -p"$DB_PASS" dolibarr -N -e \
+    "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema='dolibarr' AND table_name='llx_user'" 2>/dev/null || echo 0)
+  [ "${TABLES_AFTER:-0}" = "0" ] && { echo "[boot] ERREUR : install terminée mais 0 table (step2 a échoué en silence)" >&2; exit 1; }
   echo "[boot] install OK (admin/${ADMIN_PASS})"
 else
   echo "[boot] conf + tables présentes — install sautée"
