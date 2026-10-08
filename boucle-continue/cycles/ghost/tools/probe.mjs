@@ -1,0 +1,14 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const p = await (await b.newContext()).newPage();
+await p.goto('http://localhost:6430/ghost/#/signin', {waitUntil:'domcontentloaded'});
+await p.waitForSelector('input[name="identification"]', {timeout:30000});
+await p.fill('input[name="identification"]','audit.c43@example.test');
+await p.fill('input[name="password"]','Audit-C43-Gh0st-Pass!');
+await p.click('button[type="submit"]');
+await p.waitForTimeout(12000);
+console.log('URL:', p.url());
+await p.evaluate(() => { document.querySelectorAll('script,link').forEach(e=>e.remove()); });
+const h = await p.content();
+console.log(h.replace(/\s+/g,' ').slice(0,3000));
+await b.close();

@@ -1,0 +1,165 @@
+{
+  "cycle": 43,
+  "project": "TryGhost/Ghost",
+  "commit": "a327c539f866ff67f4df59966606e73cb1ea06ad",
+  "commit_date": "2026-10-07 (HEAD main au pin via `git ls-remote https://github.com/TryGhost/Ghost HEAD` — version ghost@6.69.1-rc.0)",
+  "branch_upstream": "main @a327c539",
+  "framework": "Monorepo pnpm 12.8.2 : admin hybride React (apps/admin, vite+TanStack) + Ember (apps/ember-admin) + apps UMD front (portal, sodo-search, comments-ui, signup-form, announcement-bar) + thèmes Handlebars (casper/source sous-modules) + koenig-lexical. Première stack Node/Ember/Handlebars de la boucle.",
+  "served_source": "Image docker ghost:6-alpine (Ghost 6.69.0 — écart 1 release RC vs 6.69.1-rc.0 pinné, documenté) sert le runtime sqlite ; les DIST patchées des sources pinnées sont montées dans le conteneur : ghost/core/core/built/{admin,embed-renderer} → /var/lib/ghost/current/core/built/{admin,embed-renderer} (assembleAdminAssets de scripts/lib/admin-assets.ts), thèmes casper+source (sous-modules pinnés par le SHA) montés par-dessus les thèmes de l'image (thème actif: source), mins UMD copiés dans source/assets/ et servis via /assets/ (config portal__url etc. — /public/* est une allowlist fermée dans serve-public-file.js, /content/files/ est text/plain+nosniff → /assets/ du thème actif est le seul chemin local exécutable).",
+  "base_url": "http://localhost:6430",
+  "boot": {
+    "deps": "docker + node v24.19.0 + nvm node 22.23.2 (engines ^22.23.1||^24.20.0 pour le build) + corepack pnpm@12.8.2",
+    "image_pull": "docker pull mirror.gcr.io/library/ghost:6-alpine && docker tag mirror.gcr.io/library/ghost:6-alpine ghost:6-alpine   # Docker Hub rate-limite les pulls anonymes (429)",
+    "clone": "git clone https://github.com/TryGhost/Ghost ~/work/ghost && git -C ~/work/ghost fetch --depth 1 origin a327c539f866ff67f4df59966606e73cb1ea06ad && git -C ~/work/ghost checkout a327c539 && git -C ~/work/ghost submodule update --init ghost/core/content/themes/casper ghost/core/content/themes/source",
+    "install": "cd ~/work/ghost && corepack pnpm install --frozen-lockfile  (~4018 pkgs)",
+    "admin_build": "cd ~/work/ghost && corepack pnpm nx run @tryghost/admin:build   # produit ghost/core/core/built/{admin,embed-renderer} (Nx Cloud cache probable sur un clone vierge)",
+    "apps_build": "cd ~/work/ghost && corepack pnpm nx run-many -t build -p portal,sodo-search,comments-ui,signup-form,announcement-bar  puis cp apps/<app>/umd/*.js|*.css ~/work/ghost/ghost/core/content/themes/source/assets/  (sodo-search main.css → sodo-search.min.css)",
+    "run": "docker run -d --name ghost43 -p 6430:2368 -e url=http://localhost:6430 -e NODE_ENV=production -e database__client=sqlite3 -e database__connection__filename=/var/lib/ghost/content/data/ghost43.db -e security__staffDeviceVerification=false -e portal__url=/assets/portal.min.js -e sodoSearch__url=/assets/sodo-search.min.js -e sodoSearch__styles=/assets/sodo-search.min.css -e comments__url=/assets/comments-ui.min.js -e signupForm__url=/assets/signup-form.min.js -e announcementBar__url=/assets/announcement-bar.min.js -v ~/work/ghost43-data:/var/lib/ghost/content -v ~/work/ghost/ghost/core/core/built/admin:/var/lib/ghost/current/core/built/admin:ro -v ~/work/ghost/ghost/core/core/built/embed-renderer:/var/lib/ghost/current/core/built/embed-renderer:ro -v ~/work/ghost/ghost/core/content/themes/casper:/var/lib/ghost/current/content/themes/casper:ro -v ~/work/ghost/ghost/core/content/themes/source:/var/lib/ghost/current/content/themes/source:ro ghost:6-alpine",
+    "note": "database par défaut mysql → sqlite explicite requis. staffDeviceVerification=false sinon la session admin exige un email de vérification (pas de mailer). Rebuild dist → recréer le conteneur (mounts ro suivent l'inode)."
+  },
+  "seed": {
+    "script": "tools/seed.mjs — idempotent (GET existants par slug avant POST) : session /ghost/api/admin/session/ (fallback : setup wizard via /authentication/setup/ si instance vierge) ; 3 tags, 4 posts (3 publiés w/ h2/h3/listes/blockquote/liens externes, 1 brouillon), 2 pages (manifeste + about), 1 membre Claire Durand, portal_button=true ; écrit seed-info.json (slugs stables).",
+    "rationale": "Seed littéral via la vraie API Admin REST — pas de SQL, pas de lorem."
+  },
+  "auth": "Ghost admin = cookie ghost-admin-api-session — tools/login.mjs remplit le vrai formulaire /ghost/#/signin (input[name=identification]+input[name=password]) puis sauvegarde le storageState dans auth.json (éphémère, exclu de provenance). Compte audit.c43@example.test (role Owner).",
+  "runs": [
+    {
+      "name": "public",
+      "storage_state": null,
+      "urls_file": "tools/urls-public.txt",
+      "urls": [
+        "/",
+        "/refonte-du-portail-membres/",
+        "/accessibilite-trois-tests-rapides/",
+        "/notes-de-lecture-designing-for-real-life/",
+        "/manifeste/",
+        "/about/",
+        "/tag/accessibilite/",
+        "/author/audit/"
+      ],
+      "states_file": "tools/audit.mjs STATES — public-search-modal (sodo-search), public-portal-signup (iframe portal), public-mobile-nav-390",
+      "states": [
+        "public-search-modal",
+        "public-portal-signup",
+        "public-mobile-nav-390"
+      ]
+    },
+    {
+      "name": "auth",
+      "storage_state": "tools/auth.json (regénéré)",
+      "urls_file": "tools/urls-auth.txt",
+      "urls": [
+        "/ghost/#/analytics",
+        "/ghost/#/posts",
+        "/ghost/#/pages",
+        "/ghost/#/members",
+        "/ghost/#/tags",
+        "/ghost/#/tags/accessibilite",
+        "/ghost/#/editor/post/new",
+        "/ghost/#/settings",
+        "/ghost/#/settings/general",
+        "/ghost/#/settings/site",
+        "/ghost/#/settings/staff",
+        "/ghost/#/settings/advanced",
+        "/ghost/#/my-profile",
+        "/ghost/#/comments",
+        "/ghost/#/site"
+      ],
+      "states_file": "tools/audit.mjs STATES — admin-user-menu, admin-appearance-submenu, admin-dark-mode, admin-global-search, admin-mobile-nav-390, editor-post-settings, editor-publish-flow",
+      "states": [
+        "admin-user-menu",
+        "admin-appearance-submenu",
+        "admin-dark-mode",
+        "admin-global-search",
+        "admin-mobile-nav-390",
+        "editor-post-settings",
+        "editor-publish-flow"
+      ]
+    }
+  ],
+  "excluded": [
+    "post/member detail avec id auto-généré (unstable) — la liste + l'éditeur /editor/post/new couvrent les surfaces ; tag detail utilise le slug stable accessibilite, staff profile couvert par /my-profile (React route équivalente au /staff/:slug ember)",
+    "routes /settings/*/edit modales dérivées (portal/edit, navigation/edit, design/edit, invite…) — couvertes indirectement par les sections + states ; les modales de suppression confirmées jamais submit",
+    "signup-form/embed-signup preview, automations, network (ActivityPub iframe externe), explore, migrate, pro — routes externes/démo hors périmètre UI réaliste ; onboarding (/setup/onboarding) est une passe unique vierge",
+    "API REST /ghost/api/* — non-HTML",
+    "éditeur koenig-lexical surface canvas (axe scanne le chrome, le canvas lexical est un éditeur riche spécialisé — couvert par les states editor-*)"
+  ],
+  "auditCommands": [
+    "docker pull mirror.gcr.io/library/ghost:6-alpine && docker tag mirror.gcr.io/library/ghost:6-alpine ghost:6-alpine",
+    "git clone https://github.com/TryGhost/Ghost ~/work/ghost && git -C ~/work/ghost fetch --depth 1 origin a327c539f866ff67f4df59966606e73cb1ea06ad && git -C ~/work/ghost checkout a327c539 && git -C ~/work/ghost submodule update --init ghost/core/content/themes/casper ghost/core/content/themes/source",
+    "cd ~/work/ghost && corepack pnpm install --frozen-lockfile && corepack pnpm nx run @tryghost/admin:build",
+    "cd ~/work/ghost && corepack pnpm nx run-many -t build -p portal,sodo-search,comments-ui,signup-form,announcement-bar && cp apps/{portal,sodo-search,comments-ui,signup-form,announcement-bar}/umd/*.{js,css} ghost/core/content/themes/source/assets/ && mv ghost/core/content/themes/source/assets/main.css ghost/core/content/themes/source/assets/sodo-search.min.css",
+    "docker run -d --name ghost43 -p 6430:2368 -e url=http://localhost:6430 -e NODE_ENV=production -e database__client=sqlite3 -e database__connection__filename=/var/lib/ghost/content/data/ghost43.db -e security__staffDeviceVerification=false -e portal__url=/assets/portal.min.js -e sodoSearch__url=/assets/sodo-search.min.js -e sodoSearch__styles=/assets/sodo-search.min.css -e comments__url=/assets/comments-ui.min.js -e signupForm__url=/assets/signup-form.min.js -e announcementBar__url=/assets/announcement-bar.min.js -v ~/work/ghost43-data:/var/lib/ghost/content -v ~/work/ghost/ghost/core/core/built/admin:/var/lib/ghost/current/core/built/admin:ro -v ~/work/ghost/ghost/core/core/built/embed-renderer:/var/lib/ghost/current/core/built/embed-renderer:ro -v ~/work/ghost/ghost/core/content/themes/casper:/var/lib/ghost/current/content/themes/casper:ro -v ~/work/ghost/ghost/core/content/themes/source:/var/lib/ghost/current/content/themes/source:ro ghost:6-alpine",
+    "cd boucle-continue/cycles/ghost/tools && npm ci && npx playwright install chromium",
+    "node seed.mjs   # GHOST_BASE=http://localhost:6430 — idempotent",
+    "node login.mjs   # régénère tools/auth.json",
+    "node audit.mjs http://localhost:6430 --urls \"$(paste -sd, urls-public.txt)\" --wait-for .gh-navigation --states public-search-modal,public-portal-signup,public-mobile-nav-390 --out ../reports/baseline-public",
+    "node audit.mjs http://localhost:6430 --urls \"$(paste -sd, urls-auth.txt)\" --storage-state auth.json --keep-hash --wait-for main --states admin-user-menu,admin-appearance-submenu,admin-dark-mode,admin-global-search,admin-mobile-nav-390,editor-post-settings,editor-publish-flow --out ../reports/baseline-auth",
+    "git -C ~/work/ghost apply patch.diff && rebuild admin+apps puis docker rm -f ghost43 + même docker run (install-build)",
+    "node audit.mjs http://localhost:6430 --urls \"$(paste -sd, urls-public.txt)\" --wait-for .gh-navigation --states public-search-modal,public-portal-signup,public-mobile-nav-390 --out ../reports/final-public",
+    "node audit.mjs http://localhost:6430 --urls \"$(paste -sd, urls-auth.txt)\" --storage-state auth.json --keep-hash --wait-for main --states admin-user-menu,admin-appearance-submenu,admin-dark-mode,admin-global-search,admin-mobile-nav-390,editor-post-settings,editor-publish-flow --out ../reports/final-auth",
+    "node verify.mjs http://localhost:6430 auth.json",
+    "node incomplete-probes.mjs http://localhost:6430 auth.json ../reports/final-auth ../reports/final-public",
+    "node eval-final.mjs http://localhost:6430 auth.json"
+  ],
+  "wait_rationale": "waitUntil:'domcontentloaded' + garde hydratation (leçon 34) : admin SPA hybride React+Ember — chaque scan attend '[role=\"navigation\"]' visible (sidebar montée) ; les states ont leur stateProof propre ; front Handlebars SSR attend '.gh-navigation'.",
+  "toolVersions": {
+    "node": "v24.19.0 (box) + v22.23.2 (nvm, build)",
+    "playwright": "1.63.0",
+    "axe-core": "4.14.0",
+    "ghost_image": "ghost:6-alpine = 6.69.0 (docker.io officiel via mirror.gcr.io)",
+    "ghost_sources": "6.69.1-rc.0 @a327c539 (pnpm 12.8.2)",
+    "runner": "audit.mjs v9-ghost"
+  },
+  "notes": [
+    "Leçon 32 appliquée : states ouverts par sélecteurs déterministes (aria-label/data-test-nav/data-ghost-search/texte) + stateProof — jamais .first()/.nth() aveugle sauf container déjà étroit.",
+    "Écart version honnête : image 6.69.0 vs sources 6.69.1-rc.0 — le runtime (schéma/API/thèmes route layer) vient de l'image, l'UI auditée+patchée vient des dists construites au SHA. Casper assets vérifiés sha256-identiques image vs sous-module.",
+    "Apps front publiques (portal etc.) servies depuis le SHA : builds UMD copiés dans source/assets/ + env __url overrides — sinon jsdelivr CDN non-patchable.",
+    "Ghost admin 6.x : nav = div[role=navigation] React (pas nav.gh-nav Ember legacy) ; thème actif image = 'source' (pas casper).",
+    "Ghost staffDeviceVerification=true par défaut → login API/form exige un email → désactivé au boot (config security.*, affecte la VÉRIFICATION d'appareil pas l'UI).",
+    "/public/* est une allowlist figée (serve-public-file.js) — impossible de monter portal.min.js là ; /content/files/* force text/plain+nosniff (refus d'exécution) ; /assets/* du thème actif = seul chemin local exécutable.",
+    "OBLIGATOIRE : docker restart ghost43 apres chaque 'nx run @tryghost/admin:build' — assembleAdminAssets supprime+recree built/admin, le bind mount pointe sur l'inode supprime -> Ghost 400 'Unable to find admin template file'.",
+    "nx cache peut rejouer une dist pre-fix : verifier le DOM (ghMainTag) ou --skip-nx-cache.",
+    "admin = coquille hybride : Ember (apps/ember-admin) wrappe <main class=gh-main> + app React (apps/admin, vite) pour les routes React ; les 2 index.html exigent le fix viewport.",
+    "About page vit en DB (mobiledoc fixtures) : seed.mjs la repare via Admin API PUT ?source=html.",
+    "image ghost:6-alpine = 6.69.0 vs SHA epingle 6.69.1-rc.0 — ecart documente ; patch porte sur les sources epinglees rebuildees/montees."
+  ],
+  "results": {
+    "baseline": {
+      "public": {
+        "rules": 7,
+        "occurrences": 73,
+        "errors": 0,
+        "incomplete": 68
+      },
+      "admin": {
+        "rules": 24,
+        "occurrences": 297,
+        "errors": 0,
+        "incomplete": 86
+      }
+    },
+    "final": {
+      "public": {
+        "rules": 0,
+        "occurrences": 0,
+        "errors": 0,
+        "incomplete": 68
+      },
+      "admin": {
+        "rules": 16,
+        "occurrences": 96,
+        "errors": 0,
+        "incomplete": 86
+      }
+    },
+    "verify": "25/25",
+    "evalFinal": "6/6",
+    "probes": {
+      "total": 119,
+      "conformes": 86,
+      "nonConformes": 1,
+      "nonRetrouvees": 36
+    }
+  }
+}

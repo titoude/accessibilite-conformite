@@ -1,0 +1,655 @@
+# Ghost a11y patch — cycle 43
+# repo: https://github.com/TryGhost/Ghost @ a327c539f866ff67f4df59966606e73cb1ea06ad (ghost@6.69.1-rc.0)
+# appliquer : git apply patch.diff  (racine monorepo), puis la section submodule dans ghost/core/content/themes/source
+# === racine monorepo ===
+diff --git a/apps/admin/index.html b/apps/admin/index.html
+index 4cea81d..3f8d8ee 100644
+--- a/apps/admin/index.html
++++ b/apps/admin/index.html
+@@ -5,7 +5,7 @@
+ 
+     <title>Ghost</title>
+ 
+-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui, viewport-fit=cover" />
++    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+     <meta name="pinterest" content="nopin" />
+ 
+     <meta name="mobile-web-app-capable" content="yes" />
+diff --git a/apps/admin/src/global-search/global-search-modal.tsx b/apps/admin/src/global-search/global-search-modal.tsx
+index 4d8e54c..d961451 100644
+--- a/apps/admin/src/global-search/global-search-modal.tsx
++++ b/apps/admin/src/global-search/global-search-modal.tsx
+@@ -61,7 +61,7 @@ function HighlightedText({ text, term }: { text: string; term: string }) {
+ }
+ 
+ const STATUS_LABELS: Record<string, { label: string; tone: string }> = {
+-  draft: { label: 'Draft', tone: 'bg-pink/10 text-pink' },
++  draft: { label: 'Draft', tone: 'bg-pink/10 text-pink-700 dark:text-pink-400' },
+   scheduled: { label: 'Scheduled', tone: 'bg-green/10 text-green' },
+ };
+ 
+diff --git a/apps/admin/src/layout/admin-layout.tsx b/apps/admin/src/layout/admin-layout.tsx
+index 1e4a1d2..5292ad6 100644
+--- a/apps/admin/src/layout/admin-layout.tsx
++++ b/apps/admin/src/layout/admin-layout.tsx
+@@ -138,6 +138,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
+           <DunningBanner />
+           <main
+             ref={mainRef}
++           
+             className={cn(
+               'flex-1 focus:outline-hidden',
+               sidebarVisible ? pageChromeClassName : 'min-h-0',
+diff --git a/apps/admin/src/layout/app-sidebar/app-sidebar-header.tsx b/apps/admin/src/layout/app-sidebar/app-sidebar-header.tsx
+index bb53e2f..edd93d1 100644
+--- a/apps/admin/src/layout/app-sidebar/app-sidebar-header.tsx
++++ b/apps/admin/src/layout/app-sidebar/app-sidebar-header.tsx
+@@ -55,7 +55,7 @@ function AppSidebarHeader({ ...props }: React.ComponentProps<typeof SidebarHeade
+               Search site
+             </div>
+             <Kbd
+-              className="bg-transparent text-gray-500 shadow-none dark:text-gray-800"
++              className="bg-transparent text-gray-300 shadow-none dark:text-gray-400"
+               style={{ textShadow: 'none' }}
+             >
+               {searchShortcutLabel}
+diff --git a/apps/admin/src/layout/app-sidebar/user-menu.tsx b/apps/admin/src/layout/app-sidebar/user-menu.tsx
+index 1636646..bcf9d25 100644
+--- a/apps/admin/src/layout/app-sidebar/user-menu.tsx
++++ b/apps/admin/src/layout/app-sidebar/user-menu.tsx
+@@ -126,10 +126,10 @@ function UserMenu(props: UserMenuProps) {
+     <DropdownMenu {...props}>
+       <DropdownMenuTrigger asChild>
+         <SidebarMenuButton
+-          aria-label="User menu"
+           className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+           size="lg"
+         >
++          <span className="sr-only">User menu,</span>
+           <div className="relative">
+             <UserMenuAvatar />
+             {hasNew && (
+diff --git a/apps/admin/src/members/components/members-help-cards.tsx b/apps/admin/src/members/components/members-help-cards.tsx
+index 28f75e2..b110d36 100644
+--- a/apps/admin/src/members/components/members-help-cards.tsx
++++ b/apps/admin/src/members/components/members-help-cards.tsx
+@@ -19,9 +19,9 @@ const MembersHelpCard: React.FC<MembersHelpCardProps> = ({ children, description
+       <div className="flex items-center gap-6">
+         {children}
+         <div className="flex flex-col leading-tight">
+-          <h4 className="text-md font-medium tracking-normal text-pretty text-foreground">
++          <h2 className="text-md font-medium tracking-normal text-pretty text-foreground">
+             {title}
+-          </h4>
++          </h2>
+           <p className="mt-1.5 text-sm leading-tight text-pretty text-muted-foreground">
+             {description}
+           </p>
+diff --git a/apps/admin/src/posts/list/components/post-list-row.tsx b/apps/admin/src/posts/list/components/post-list-row.tsx
+index 74bc788..5befa56 100644
+--- a/apps/admin/src/posts/list/components/post-list-row.tsx
++++ b/apps/admin/src/posts/list/components/post-list-row.tsx
+@@ -86,7 +86,7 @@ function statusTone(post: PostListItem, isFailed: boolean): string {
+ 
+   switch (post.status) {
+     case 'draft':
+-      return 'text-pink';
++      return 'text-pink-700 dark:text-pink-400';
+     case 'scheduled':
+       return 'text-green';
+     default:
+@@ -254,7 +254,7 @@ const PostListRowComponent = forwardRef<HTMLLIElement, PostListRowComponentProps
+                     data-testid="post-featured"
+                   />
+                 )}
+-                <Text as="h3" className="truncate tracking-normal" weight="semibold">
++                <Text as="h2" className="truncate tracking-normal" weight="semibold">
+                   {post.title}
+                 </Text>
+               </Inline>
+diff --git a/apps/admin/src/settings/advanced/integrations.tsx b/apps/admin/src/settings/advanced/integrations.tsx
+index 9fb5dea..a01f675 100644
+--- a/apps/admin/src/settings/advanced/integrations.tsx
++++ b/apps/admin/src/settings/advanced/integrations.tsx
+@@ -336,7 +336,7 @@ const Integrations: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+       description="Make Ghost work with apps and tools."
+       headerMedia={
+         <div className="-mx-5 overflow-hidden rounded-t-xl border-b border-border-default sm:-mt-5 md:-mx-7 md:-mt-7">
+-          <img className="size-full" src={IntegrationsSettingsImg} />
++          <img alt="" className="size-full" src={IntegrationsSettingsImg} />
+         </div>
+       }
+       keywords={keywords}
+diff --git a/apps/admin/src/settings/advanced/labs.tsx b/apps/admin/src/settings/advanced/labs.tsx
+index 6c8a668..b7a7858 100644
+--- a/apps/admin/src/settings/advanced/labs.tsx
++++ b/apps/admin/src/settings/advanced/labs.tsx
+@@ -58,7 +58,7 @@ const Labs: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+         </Tabs>
+       ) : (
+         <div className="absolute inset-0 z-0 overflow-hidden opacity-70">
+-          <img className="absolute -top-6 -right-6 dark:opacity-10" src={LabsBubbles} />
++          <img alt="" className="absolute -top-6 -right-6 dark:opacity-10" src={LabsBubbles} />
+         </div>
+       )}
+     </TopLevelGroup>
+diff --git a/apps/admin/src/settings/general/user-detail-modal.tsx b/apps/admin/src/settings/general/user-detail-modal.tsx
+index d269a3c..c8e8972 100644
+--- a/apps/admin/src/settings/general/user-detail-modal.tsx
++++ b/apps/admin/src/settings/general/user-detail-modal.tsx
+@@ -479,6 +479,7 @@ const UserDetailModalContent: React.FC<{
+                       <ImageUploadDropzone
+                         className="rounded-full bg-surface-inverse text-surface-inverse-foreground opacity-80 hover:opacity-100"
+                         inputId="avatar"
++                        inputAriaLabel="Profile image"
+                         inputTestId="profile-image-upload"
+                         onDropAccepted={(files) =>
+                           void handleImageUpload('profile_image', files[0])
+@@ -525,6 +526,7 @@ const UserDetailModalContent: React.FC<{
+                     <Dropzone
+                       className="h-8"
+                       inputId="cover-image"
++                      inputAriaLabel="Cover image"
+                       inputTestId="cover-image-upload"
+                       variant="button"
+                       onDropAccepted={(files) => void handleImageUpload('cover_image', files[0])}
+diff --git a/apps/admin/src/settings/general/users/staff-token.tsx b/apps/admin/src/settings/general/users/staff-token.tsx
+index d3e946c..845f8b4 100644
+--- a/apps/admin/src/settings/general/users/staff-token.tsx
++++ b/apps/admin/src/settings/general/users/staff-token.tsx
+@@ -44,7 +44,7 @@ const StaffToken: React.FC = () => {
+   };
+   return (
+     <div>
+-      <Text as="h6" className="mb-2 text-base" weight="semibold">
++      <Text as="h3" className="mb-2 text-base" weight="semibold">
+         Staff access token
+       </Text>
+       <APIKeys
+diff --git a/apps/admin/src/settings/growth/explore.tsx b/apps/admin/src/settings/growth/explore.tsx
+index bf9e9c9..2291c10 100644
+--- a/apps/admin/src/settings/growth/explore.tsx
++++ b/apps/admin/src/settings/growth/explore.tsx
+@@ -131,7 +131,7 @@ const Explore: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+                     backgroundColor: color,
+                   }}
+                 >
+-                  <img className="h-auto w-8" src={FakeLogo} />
++                  <img alt="" className="h-auto w-8" src={FakeLogo} />
+                 </div>
+               )}
+               <div className="mt-3 text-lg font-semibold tracking-tight">{title}</div>
+@@ -182,7 +182,7 @@ const Explore: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+           </div>
+         </SettingGroupContent>
+       ) : (
+-        <img src={SettingImg} />
++        <img alt="" src={SettingImg} />
+       )}
+     </TopLevelGroup>
+   );
+diff --git a/apps/admin/src/settings/growth/network.tsx b/apps/admin/src/settings/growth/network.tsx
+index d8e9f69..eb22d69 100644
+--- a/apps/admin/src/settings/growth/network.tsx
++++ b/apps/admin/src/settings/growth/network.tsx
+@@ -109,7 +109,7 @@ const Network: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+           )}
+         </SettingGroupContent>
+         <div className="-mx-5 -mb-5 overflow-hidden rounded-b-xl md:-mx-7 md:-mb-7">
+-          <img className="dark:opacity-90" src={SettingImg} />
++          <img alt="" className="dark:opacity-90" src={SettingImg} />
+         </div>
+       </>
+     </TopLevelGroup>
+diff --git a/apps/admin/src/settings/growth/recommendations/recommendation-description-form.tsx b/apps/admin/src/settings/growth/recommendations/recommendation-description-form.tsx
+index d5eeece..23fcb34 100644
+--- a/apps/admin/src/settings/growth/recommendations/recommendation-description-form.tsx
++++ b/apps/admin/src/settings/growth/recommendations/recommendation-description-form.tsx
+@@ -51,7 +51,7 @@ function RecommendationDescriptionForm<T extends EditOrAddRecommendation>({
+     <FieldGroup className="mt-10 gap-8">
+       <div>
+         <Text
+-          as="h6"
++          as="h3"
+           className="mb-2 block tracking-wider uppercase"
+           leading="normal"
+           size="xs"
+diff --git a/apps/admin/src/settings/layout/app.tsx b/apps/admin/src/settings/layout/app.tsx
+index a8d203f..7d76769 100644
+--- a/apps/admin/src/settings/layout/app.tsx
++++ b/apps/admin/src/settings/layout/app.tsx
+@@ -30,6 +30,7 @@ export function App({ upgradeStatus }: AppProps) {
+   return (
+     <SettingsAppProvider upgradeStatus={upgradeStatus}>
+       <div className="settings-app [--color-focus-ring:var(--color-green-500)] [--focus-ring:var(--color-green-500)]">
++        <h1 className="sr-only">Settings</h1>
+         <ConfirmationProvider>
+           <DialogPortalProvider>
+             <SettingsLocationSync />
+diff --git a/apps/admin/src/settings/membership/portal.tsx b/apps/admin/src/settings/membership/portal.tsx
+index 9617829..0e1cea0 100644
+--- a/apps/admin/src/settings/membership/portal.tsx
++++ b/apps/admin/src/settings/membership/portal.tsx
+@@ -76,7 +76,7 @@ const Portal: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+             backgroundColor: color,
+           }}
+         >
+-          <img className="size-6" src={UserAddIcon} />
++          <img alt="" className="size-6" src={UserAddIcon} />
+         </div>
+         <div className="grid w-full max-w-[440px] grid-cols-3 gap-5 rounded-t-xl bg-white px-9 py-6 shadow-xl">
+           <div className="col-span-3 mb-1 flex flex-col items-center justify-center">
+@@ -95,7 +95,7 @@ const Portal: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+                   backgroundColor: color,
+                 }}
+               >
+-                <img className="h-auto w-5" src={FakeLogo} />
++                <img alt="" className="h-auto w-5" src={FakeLogo} />
+               </div>
+             )}
+             <div className="mt-1.5 font-space-grotesk text-lg font-bold">Sign up</div>
+diff --git a/apps/admin/src/settings/membership/portal/look-and-feel.tsx b/apps/admin/src/settings/membership/portal/look-and-feel.tsx
+index b234bc9..7adcfe0 100644
+--- a/apps/admin/src/settings/membership/portal/look-and-feel.tsx
++++ b/apps/admin/src/settings/membership/portal/look-and-feel.tsx
+@@ -143,7 +143,7 @@ const LookAndFeel: React.FC<{
+             </Field>
+             {portalButtonStyle?.toString()?.includes('icon') && (
+               <Stack gap="sm">
+-                <Text as="h6" className="text-base" weight="semibold">
++                <Text as="h3" className="text-base" weight="semibold">
+                   Icon
+                 </Text>
+                 <Grid
+diff --git a/apps/admin/src/settings/membership/portal/transistor-settings.tsx b/apps/admin/src/settings/membership/portal/transistor-settings.tsx
+index 6f0769f..271f7e7 100644
+--- a/apps/admin/src/settings/membership/portal/transistor-settings.tsx
++++ b/apps/admin/src/settings/membership/portal/transistor-settings.tsx
+@@ -52,7 +52,7 @@ const TransistorSettings: React.FC<{
+     <Stack gap="xl">
+       <Separator />
+       <Stack gap="md">
+-        <Text as="h5" className="md:text-lg" leading="supertight" weight="bold">
++        <Text as="h2" className="md:text-lg" leading="supertight" weight="bold">
+           Transistor
+         </Text>
+         <Field orientation="horizontal">
+diff --git a/apps/admin/src/settings/membership/stripe/stripe-connect-modal.tsx b/apps/admin/src/settings/membership/stripe/stripe-connect-modal.tsx
+index 2649c69..1044723 100644
+--- a/apps/admin/src/settings/membership/stripe/stripe-connect-modal.tsx
++++ b/apps/admin/src/settings/membership/stripe/stripe-connect-modal.tsx
+@@ -169,7 +169,7 @@ const Connect: React.FC = () => {
+           />
+         </Field>
+       </div>
+-      <Text as="h6" className="text-base" tone="secondary" weight="semibold">
++      <Text as="h3" className="text-base" tone="secondary" weight="semibold">
+         Step 1 — <span className="text-foreground">Generate secure key</span>
+       </Text>
+       <div className="mt-2 mb-4">
+@@ -177,7 +177,7 @@ const Connect: React.FC = () => {
+         connects your Ghost site with Stripe.
+       </div>
+       <StripeButton href={stripeConnectUrl} target="_blank" />
+-      <Text as="h6" className="mt-8 mb-2 text-base" tone="secondary" weight="semibold">
++      <Text as="h3" className="mt-8 mb-2 text-base" tone="secondary" weight="semibold">
+         Step 2 — <span className="text-foreground">Paste secure key</span>
+       </Text>
+       <Field data-invalid={Boolean(error) || undefined}>
+@@ -280,7 +280,7 @@ const Connected: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
+         </div>
+       </div>
+       <div className="flex flex-col items-center">
+-        <Text as="h6" className="text-base" weight="semibold">
++        <Text as="h3" className="text-base" weight="semibold">
+           Read next
+         </Text>
+         <a
+diff --git a/apps/admin/src/settings/membership/tiers/tier-detail-modal.tsx b/apps/admin/src/settings/membership/tiers/tier-detail-modal.tsx
+index f3d7bde..369abfc 100644
+--- a/apps/admin/src/settings/membership/tiers/tier-detail-modal.tsx
++++ b/apps/admin/src/settings/membership/tiers/tier-detail-modal.tsx
+@@ -370,7 +370,7 @@ const TierDetailModalContent: React.FC<{ tier?: Tier }> = ({ tier }) => {
+                   <div className="flex flex-col gap-10 md:flex-row">
+                     <div className="basis-1/2">
+                       <div className="mb-1 flex h-6 items-center justify-between">
+-                        <Text as="h6" className="text-base" weight="semibold">
++                        <Text as="h3" className="text-base" weight="semibold">
+                           Prices
+                         </Text>
+                         <div>
+diff --git a/apps/admin/src/settings/membership/tiers/tier-detail-preview.tsx b/apps/admin/src/settings/membership/tiers/tier-detail-preview.tsx
+index 7481151..ae75666 100644
+--- a/apps/admin/src/settings/membership/tiers/tier-detail-preview.tsx
++++ b/apps/admin/src/settings/membership/tiers/tier-detail-preview.tsx
+@@ -100,7 +100,7 @@ const TierDetailPreview: React.FC<TierDetailPreviewProps> = ({ tier, isFreeTier
+   return (
+     <div className="-mt-2" data-testid="tier-preview">
+       <div className="flex items-start justify-between">
+-        <Text as="h6" className="pb-2 text-base leading-snug" weight="medium">
++        <Text as="h3" className="pb-2 text-base leading-snug" weight="medium">
+           {isFreeTier ? 'Free membership preview' : 'Tier preview'}
+         </Text>
+         {!isFreeTier && (
+diff --git a/apps/admin/src/settings/site/change-theme.tsx b/apps/admin/src/settings/site/change-theme.tsx
+index 921b0e4..05c42a3 100644
+--- a/apps/admin/src/settings/site/change-theme.tsx
++++ b/apps/admin/src/settings/site/change-theme.tsx
+@@ -71,7 +71,7 @@ const ChangeTheme: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+   const values = (
+     <SettingGroupContent>
+       <div className="flex flex-col">
+-        <Text as="h6" className="text-base" weight="semibold">
++        <Text as="h3" className="text-base" weight="semibold">
+           Active theme
+         </Text>
+         <div className="mt-1 flex w-full items-center justify-between gap-4">
+diff --git a/apps/admin/src/settings/site/design-setting.tsx b/apps/admin/src/settings/site/design-setting.tsx
+index 6cccbef..e7633f6 100644
+--- a/apps/admin/src/settings/site/design-setting.tsx
++++ b/apps/admin/src/settings/site/design-setting.tsx
+@@ -30,7 +30,7 @@ const DesignSetting: React.FC<{ keywords: string[] }> = ({ keywords }) => {
+       testId="design"
+       title="Design & branding"
+     >
+-      <img src={DesignSettingsImg} />
++      <img alt="" src={DesignSettingsImg} />
+     </TopLevelGroup>
+   );
+ };
+diff --git a/apps/admin/src/settings/site/theme/theme-validation-details.tsx b/apps/admin/src/settings/site/theme/theme-validation-details.tsx
+index a637339..4c7fedd 100644
+--- a/apps/admin/src/settings/site/theme/theme-validation-details.tsx
++++ b/apps/admin/src/settings/site/theme/theme-validation-details.tsx
+@@ -67,7 +67,7 @@ function ProblemDetails({ problem }: { problem: ThemeProblem }) {
+       <div dangerouslySetInnerHTML={{ __html: problem.details }} className={DETAILS_HTML} />
+       {problem.failures?.length > 0 && (
+         <div>
+-          <h6 className="mb-1 text-base font-medium text-foreground">Affected files</h6>
++          <h3 className="mb-1 text-base font-medium text-foreground">Affected files</h3>
+           <ul className={FAILURE_LIST}>
+             {problem.failures.map((failure) => (
+               <li key={`${failure.ref}-${failure.message || ''}`}>
+diff --git a/apps/ember-admin/app/components/gh-alerts.hbs b/apps/ember-admin/app/components/gh-alerts.hbs
+index 88a2225..ba7490c 100644
+--- a/apps/ember-admin/app/components/gh-alerts.hbs
++++ b/apps/ember-admin/app/components/gh-alerts.hbs
+@@ -1,4 +1,4 @@
+-<aside class="gh-alerts" ...attributes>
++<aside class="gh-alerts" aria-label="Alerts" ...attributes>
+     {{#each this.notifications.alerts as |message|}}
+         <GhAlert @message={{message}} />
+     {{/each}}
+diff --git a/apps/ember-admin/app/components/gh-editor-feature-image.hbs b/apps/ember-admin/app/components/gh-editor-feature-image.hbs
+index f31851f..b784a63 100644
+--- a/apps/ember-admin/app/components/gh-editor-feature-image.hbs
++++ b/apps/ember-admin/app/components/gh-editor-feature-image.hbs
+@@ -96,7 +96,7 @@
+                 {{else}}
+                     <button type="button" class="gh-editor-feature-image-add-button" {{on "click" uploader.triggerFileDialog}}>{{svg-jar "plus"}}<span>Add feature image</span></button>
+                     {{#if this.settings.unsplash}}
+-                        <button type="button" class="gh-editor-feature-image-unsplash" {{on "click" this.toggleUnsplashSelector}}>{{svg-jar "unsplash"}}</button>
++                        <button type="button" class="gh-editor-feature-image-unsplash" aria-label="Insert Unsplash image" {{on "click" this.toggleUnsplashSelector}}>{{svg-jar "unsplash"}}</button>
+                     {{/if}}
+                 {{/if}}
+             </div>
+diff --git a/apps/ember-admin/app/components/gh-notifications.hbs b/apps/ember-admin/app/components/gh-notifications.hbs
+index fcbb987..b12f96c 100644
+--- a/apps/ember-admin/app/components/gh-notifications.hbs
++++ b/apps/ember-admin/app/components/gh-notifications.hbs
+@@ -1,4 +1,4 @@
+-<aside class="gh-notifications" ...attributes>
++<aside class="gh-notifications" aria-label="Notifications" ...attributes>
+     {{#each this.notifications.notifications as |message|}}
+         <GhNotification @message={{message}} />
+     {{/each}}
+diff --git a/apps/ember-admin/app/index.html b/apps/ember-admin/app/index.html
+index 3c2a49f..156bd92 100644
+--- a/apps/ember-admin/app/index.html
++++ b/apps/ember-admin/app/index.html
+@@ -7,7 +7,7 @@
+ 
+     {{content-for "head"}}
+ 
+-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, minimal-ui, viewport-fit=cover" />
++    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+     <meta name="pinterest" content="nopin" />
+ 
+     <meta name="mobile-web-app-capable" content="yes" />
+diff --git a/apps/ember-admin/app/templates/application.hbs b/apps/ember-admin/app/templates/application.hbs
+index 55495d9..1b66154 100644
+--- a/apps/ember-admin/app/templates/application.hbs
++++ b/apps/ember-admin/app/templates/application.hbs
+@@ -3,7 +3,7 @@
+ 
+     <RenderInWormhole @elementId="admin-alerts">
+         {{#if (and this.session.user.isAdmin this.showUpdateBanner)}}
+-        <aside class="gh-update-banner">
++        <aside class="gh-update-banner" aria-label="Update banner">
+             {{#if this.session.user.isOwnerOnly}}
+                 <div class="gh-alert-content">
+                     A new major version of Ghost is available!&nbsp;
+@@ -27,13 +27,13 @@
+     </RenderInWormhole>
+ 
+     <div class="gh-viewport">
+-        <main class="gh-main {{this.ui.mainClass}}">
++        <div class="gh-main {{this.ui.mainClass}}">
+             {{outlet}}
+ 
+             {{#if this.showBilling}}
+                 <GhBillingModal @billingWindowOpen={{this.billing.billingWindowOpen}} />
+             {{/if}}
+-        </main>
++        </div>
+ 
+     </div>
+ 
+diff --git a/apps/shade/src/components/patterns/setting-group.tsx b/apps/shade/src/components/patterns/setting-group.tsx
+index cf037a2..780ee70 100644
+--- a/apps/shade/src/components/patterns/setting-group.tsx
++++ b/apps/shade/src/components/patterns/setting-group.tsx
+@@ -74,7 +74,7 @@ const SettingGroupTitle = React.forwardRef<
+ >(({ className, ...props }, ref) => (
+   <Text
+     ref={ref}
+-    as="h5"
++    as="h2"
+     className={cn('md:text-lg', className)}
+     leading="supertight"
+     weight="semibold"
+@@ -146,7 +146,7 @@ const SettingGroupValueTitle = React.forwardRef<
+   HTMLElement,
+   React.ComponentPropsWithoutRef<typeof Text>
+ >(({ className, ...props }, ref) => (
+-  <Text ref={ref} as="h6" className={cn('text-base', className)} weight="semibold" {...props} />
++  <Text ref={ref} as="h3" className={cn('text-base', className)} weight="semibold" {...props} />
+ ));
+ SettingGroupValueTitle.displayName = 'SettingGroupValueTitle';
+ 
+diff --git a/apps/shade/src/components/ui/kbd.tsx b/apps/shade/src/components/ui/kbd.tsx
+index fcce83a..d04bbf4 100644
+--- a/apps/shade/src/components/ui/kbd.tsx
++++ b/apps/shade/src/components/ui/kbd.tsx
+@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
+ import { cn } from '@/lib/utils';
+ 
+ const kbdVariants = cva(
+-  'pointer-events-none m-0 inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-xs border-none px-1 font-sans text-xs font-medium text-muted-foreground shadow-none select-none text-shadow-none',
++  'pointer-events-none m-0 inline-flex h-5 w-fit min-w-5 items-center justify-center gap-1 rounded-xs border-none px-1 font-sans text-xs font-medium text-foreground shadow-none select-none text-shadow-none',
+   {
+     variants: {
+       variant: {
+diff --git a/apps/shade/src/components/ui/sidebar.tsx b/apps/shade/src/components/ui/sidebar.tsx
+index 85b6bff..e730cb6 100644
+--- a/apps/shade/src/components/ui/sidebar.tsx
++++ b/apps/shade/src/components/ui/sidebar.tsx
+@@ -321,7 +321,7 @@ SidebarRail.displayName = 'SidebarRail';
+ const SidebarInset = React.forwardRef<HTMLDivElement, React.ComponentProps<'main'>>(
+   ({ className, ...props }, ref) => {
+     return (
+-      <main
++      <div
+         ref={ref}
+         className={cn(
+           'relative flex h-full flex-1 flex-col bg-background',
+diff --git a/apps/shade/theme-variables.css b/apps/shade/theme-variables.css
+index 1f9018c..0182448 100644
+--- a/apps/shade/theme-variables.css
++++ b/apps/shade/theme-variables.css
+@@ -3,7 +3,7 @@
+   --background: var(--color-white);
+   --foreground: var(--color-black);
+   --muted: var(--color-gray-100);
+-  --muted-foreground: var(--color-gray-700);
++  --muted-foreground: var(--color-gray-800);
+   --popover: var(--color-white);
+   --popover-foreground: var(--color-black);
+   --border: var(--color-gray-200);
+@@ -35,7 +35,7 @@
+   --surface-inverse: var(--color-black);
+   --surface-inverse-foreground: var(--color-white);
+   --text-primary: var(--color-black);
+-  --text-secondary: var(--color-gray-700);
++  --text-secondary: var(--color-gray-800);
+   --text-tertiary: var(--color-gray-400);
+   --text-inverse: var(--color-white);
+   --border-subtle: var(--color-gray-200);
+diff --git a/ghost/core/core/server/data/schema/default-settings/default-settings.json b/ghost/core/core/server/data/schema/default-settings/default-settings.json
+index b887961..d4a2ff5 100644
+--- a/ghost/core/core/server/data/schema/default-settings/default-settings.json
++++ b/ghost/core/core/server/data/schema/default-settings/default-settings.json
+@@ -132,7 +132,7 @@
+       "type": "string"
+     },
+     "accent_color": {
+-      "defaultValue": "#FF1A75",
++      "defaultValue": "#B3154F",
+       "flags": "PUBLIC",
+       "validations": {
+         "isEmpty": false
+diff --git a/ghost/core/core/server/data/schema/fixtures/fixtures.json b/ghost/core/core/server/data/schema/fixtures/fixtures.json
+index 930e30a..9e4bfe2 100644
+--- a/ghost/core/core/server/data/schema/fixtures/fixtures.json
++++ b/ghost/core/core/server/data/schema/fixtures/fixtures.json
+@@ -885,7 +885,7 @@
+         {
+           "title": "About this site",
+           "slug": "about",
+-          "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"hr\",{}]],\"markups\":[[\"a\",[\"href\",\"https://ghost.org\"]]],\"sections\":[[1,\"p\",[[0,[],0,\"This is an independent publication. If you subscribe today, you'll get full access to the website as well as email newsletters about new content when it's available. Your subscription makes this site possible. Thank you!\"]]],[1,\"h3\",[[0,[],0,\"Access all areas\"]]],[1,\"p\",[[0,[],0,\"By signing up, you'll get access to the full archive of everything that's been published before and everything that's still to come. Your very own private library.\"]]],[1,\"h3\",[[0,[],0,\"Fresh content, delivered\"]]],[1,\"p\",[[0,[],0,\"Stay up to date with new content sent straight to your inbox! No more worrying about whether you missed something because of a pesky algorithm or news feed.\"]]],[1,\"h3\",[[0,[],0,\"Meet people like you\"]]],[1,\"p\",[[0,[],0,\"Join a community of other subscribers who share the same interests.\"]]],[10,0],[1,\"h3\",[[0,[],0,\"Start your own thing\"]]],[1,\"p\",[[0,[],0,\"Enjoying the experience? Get started for free and set up your very own subscription business using \"],[0,[0],1,\"Ghost\"],[0,[],0,\", the same platform that powers this website.\"]]]],\"ghostVersion\":\"4.0\"}",
++          "mobiledoc": "{\"version\":\"0.3.1\",\"atoms\":[],\"cards\":[[\"hr\",{}]],\"markups\":[[\"a\",[\"href\",\"https://ghost.org\"]]],\"sections\":[[1,\"p\",[[0,[],0,\"This is an independent publication. If you subscribe today, you'll get full access to the website as well as email newsletters about new content when it's available. Your subscription makes this site possible. Thank you!\"]]],[1,\"h2\",[[0,[],0,\"Access all areas\"]]],[1,\"p\",[[0,[],0,\"By signing up, you'll get access to the full archive of everything that's been published before and everything that's still to come. Your very own private library.\"]]],[1,\"h2\",[[0,[],0,\"Fresh content, delivered\"]]],[1,\"p\",[[0,[],0,\"Stay up to date with new content sent straight to your inbox! No more worrying about whether you missed something because of a pesky algorithm or news feed.\"]]],[1,\"h2\",[[0,[],0,\"Meet people like you\"]]],[1,\"p\",[[0,[],0,\"Join a community of other subscribers who share the same interests.\"]]],[10,0],[1,\"h2\",[[0,[],0,\"Start your own thing\"]]],[1,\"p\",[[0,[],0,\"Enjoying the experience? Get started for free and set up your very own subscription business using \"],[0,[0],1,\"Ghost\"],[0,[],0,\", the same platform that powers this website.\"]]]],\"ghostVersion\":\"4.0\"}",
+           "featured": false,
+           "type": "page",
+           "status": "published",
+
+# === submodule: ghost/core/content/themes/source (git apply -p1 dans le sous-module) ===
+diff --git a/home.hbs b/home.hbs
+index 69215ab..52d9157 100644
+--- a/home.hbs
++++ b/home.hbs
+@@ -1,6 +1,7 @@
+ {{!< default}}
+ {{!-- The tag above means: insert everything in this file into the body of the default.hbs template --}}
+ 
++<main class="gh-main">
+ {{> "components/header" headerStyle=@custom.header_style}}
+ 
+ {{#match @custom.header_style "!=" "Highlight"}}
+@@ -9,4 +10,5 @@
+ 
+ {{> "components/cta"}}
+ 
+-{{> "components/post-list" feed="home" postFeedStyle=@custom.post_feed_style showTitle=true showSidebar=@custom.show_publication_info_sidebar}}
+\ No newline at end of file
++{{> "components/post-list" feed="home" postFeedStyle=@custom.post_feed_style showTitle=true showSidebar=@custom.show_publication_info_sidebar}}
++</main>
+diff --git a/partials/components/footer.hbs b/partials/components/footer.hbs
+index ecb2bb8..67dc888 100644
+--- a/partials/components/footer.hbs
++++ b/partials/components/footer.hbs
+@@ -34,7 +34,7 @@
+                     {{@site.title}}
+                 {{/if}}
+             </span>
+-            <nav class="gh-footer-menu">
++            <nav class="gh-footer-menu" aria-label="{{t "Footer navigation"}}">
+                 {{navigation type="secondary"}}
+             </nav>
+             <div class="gh-footer-copyright">
+diff --git a/partials/components/navigation.hbs b/partials/components/navigation.hbs
+index 13acc1b..27aaad2 100644
+--- a/partials/components/navigation.hbs
++++ b/partials/components/navigation.hbs
+@@ -16,7 +16,7 @@
+             </button>
+         </div>
+ 
+-        <nav class="gh-navigation-menu">
++        <nav class="gh-navigation-menu" aria-label="{{t "Main navigation"}}">
+             {{navigation}}
+             {{#unless @site.members_enabled}}
+                 {{#match navigationLayout "Stacked"}}
+diff --git a/partials/components/post-list.hbs b/partials/components/post-list.hbs
+index 6b337b6..f3e5a71 100644
+--- a/partials/components/post-list.hbs
++++ b/partials/components/post-list.hbs
+@@ -15,7 +15,7 @@
+             </h2>
+         {{/if}}
+ 
+-        <main class="gh-main">
++        <div class="gh-main">
+             <div class="gh-feed">
+ 
+                 {{!-- Homepage --}}
+diff --git a/partials/post-card.hbs b/partials/post-card.hbs
+index 4d2aae8..cc0b74f 100644
+--- a/partials/post-card.hbs
++++ b/partials/post-card.hbs
+@@ -20,7 +20,7 @@
+             {{#if primary_tag}}
+                 <p class="gh-card-tag">{{primary_tag.name}}</p>
+             {{/if}}
+-            <h3 class="gh-card-title is-title">{{title}}</h3>
++            <h2 class="gh-card-title is-title">{{title}}</h2>
+             {{#if custom_excerpt}}
+                 <p class="gh-card-excerpt is-body">{{custom_excerpt}}</p>
+             {{/if}}
+diff --git a/post.hbs b/post.hbs
+index 5da3403..598d1c3 100644
+--- a/post.hbs
++++ b/post.hbs
+@@ -23,16 +23,16 @@
+                         <div class="gh-article-author-image instapaper_ignore">
+                             {{#foreach authors}}
+                                 {{#if profile_image}}
+-                                    <a href="{{url}}">
++                                    <a href="{{url}}" aria-label="{{name}}">
+                                         <img class="author-profile-image" src="{{img_url profile_image size="xs"}}" alt="{{name}}">
+                                     </a>
+                                 {{else}}
+-                                    <a href="{{url}}">{{> "icons/avatar"}}</a>
++                                    <a href="{{url}}" aria-label="{{name}}">{{> "icons/avatar"}}</a>
+                                 {{/if}}
+                             {{/foreach}}
+                         </div>
+                         <div class="gh-article-meta-wrapper">
+-                            <h4 class="gh-article-author-name">{{authors}}</h4>
++                            <p class="gh-article-author-name">{{authors}}</p>
+                             <div class="gh-article-meta-content">
+                                 <time class="gh-article-meta-date" datetime="{{date format="YYYY-MM-DD"}}">{{date format="DD MMM YYYY"}}</time>
+                                 {{#if reading_time}}
+@@ -63,8 +63,6 @@
+         </div>
+     {{/if}}
+ 
+-</main>
+-
+ {{/post}}
+ 
+ {{#if @custom.show_related_articles}}
+@@ -83,3 +81,4 @@
+         {{/if}}
+     {{/get}}
+ {{/if}}
++</main>

@@ -1,0 +1,26 @@
+{
+  "baselineAxes": "axe-core 4.14.0 (mêmes règles, même runner pour baseline/final/public/admin)",
+  "coverage": {
+    "public": ["home (source theme)", "post (single)", "about (page fixture)", "states: public-search-modal, public-portal-signup, public-mobile-nav-390"],
+    "admin": [
+      "dashboard #/analytics",
+      "posts list #/posts",
+      "editor #/editor/post/:id",
+      "settings general #/settings/general",
+      "members #/members",
+      "site design #/settings/design",
+      "states: admin-user-menu, admin-appearance-submenu, admin-dark-mode, admin-global-search, admin-mobile-nav-390, editor-post-settings, editor-publish-flow"
+    ]
+  },
+  "omissions": [
+    "portal/announcement-bar/comments-ui embarqués : scan du host seulement (frame interne axe partiel)",
+    "éditeur lexical : états couverts (settings drawer, publish flow) ; édition texte libre non stressée",
+    "dark mode admin : couvert par état dédié + classes dark: dans patch",
+    "login/setup wizard non scanné (flux one-shot, hors périmètre produit)"
+  ],
+  "harnessNotes": [
+    "container ghost:6-alpine (6.69.0) sert le produit ; sources patchées @a327c53 (6.69.1-rc.0) rebuildées pour admin + UMD apps + thème source copié",
+    "docker restart requis après chaque build admin (assemble recrée built/admin → inode mount stantale)",
+    "image 6.69.0 vs SHA 6.69.1-rc.0 : écart documenté, le patch porte sur les sources pinnées"
+  ]
+}

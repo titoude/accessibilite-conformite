@@ -1,0 +1,149 @@
+{
+  "cycle": 43,
+  "product": {
+    "repo": "https://github.com/TryGhost/Ghost",
+    "sha": "a327c539f866ff67f4df59966606e73cb1ea06ad",
+    "versionPinned": "ghost@6.69.1-rc.0",
+    "servingImage": "ghost:6-alpine (ghost 6.69.0, sqlite)",
+    "imageVsSha": "image 6.69.0 sert le runtime ; le patch s'applique aux sources @a327c53 (admin React+Ember, apps UMD, thème source) rebuildées et montées dans le conteneur"
+  },
+  "axeVersion": "4.14.0",
+  "runnerVersion": "audit.mjs v9-ghost",
+  "playwright": "1.63.0",
+  "baseline": {
+    "public": {
+      "rules": {
+        "color-contrast": 28,
+        "landmark-unique": 13,
+        "region": 19,
+        "heading-order": 6,
+        "link-name": 3,
+        "landmark-main-is-top-level": 2,
+        "landmark-no-duplicate-main": 2
+      },
+      "ruleCount": 7,
+      "occurrences": 73,
+      "incomplete": 68,
+      "errors": 0
+    },
+    "admin": {
+      "rules": {
+        "aria-hidden-focus": 4,
+        "color-contrast": 31,
+        "heading-order": 43,
+        "label-content-name-mismatch": 10,
+        "landmark-main-is-top-level": 19,
+        "landmark-no-duplicate-main": 17,
+        "landmark-unique": 34,
+        "list": 12,
+        "listitem": 30,
+        "meta-viewport": 21,
+        "nested-interactive": 6,
+        "page-has-heading-one": 4,
+        "image-alt": 42,
+        "aria-command-name": 1,
+        "aria-input-field-name": 3,
+        "label": 4,
+        "landmark-one-main": 2,
+        "region": 3,
+        "target-size": 2,
+        "aria-valid-attr-value": 2,
+        "button-name": 2,
+        "link-name": 2,
+        "select-name": 1,
+        "tabindex": 2
+      },
+      "ruleCount": 24,
+      "occurrences": 297,
+      "incomplete": 86,
+      "errors": 0
+    }
+  },
+  "final": {
+    "public": {
+      "rules": {},
+      "ruleCount": 0,
+      "occurrences": 0,
+      "incomplete": 68,
+      "errors": 0
+    },
+    "admin": {
+      "rules": {
+        "aria-hidden-focus": 4,
+        "color-contrast": 18,
+        "heading-order": 3,
+        "list": 12,
+        "listitem": 30,
+        "nested-interactive": 6,
+        "page-has-heading-one": 4,
+        "aria-input-field-name": 3,
+        "landmark-one-main": 2,
+        "region": 3,
+        "target-size": 2,
+        "aria-valid-attr-value": 2,
+        "label": 2,
+        "link-name": 2,
+        "select-name": 1,
+        "tabindex": 2
+      },
+      "ruleCount": 16,
+      "occurrences": 96,
+      "incomplete": 86,
+      "errors": 0
+    }
+  },
+  "deltas": {
+    "publicOccurrences": 73,
+    "adminOccurrences": 201,
+    "adminRulesRemoved": [
+      "aria-command-name",
+      "button-name",
+      "image-alt",
+      "label-content-name-mismatch",
+      "landmark-main-is-top-level",
+      "landmark-no-duplicate-main",
+      "landmark-unique",
+      "meta-viewport"
+    ]
+  },
+  "verify": {
+    "assertions": "25/25",
+    "status": "OK"
+  },
+  "evalFinal": {
+    "controls": "6/6",
+    "fail": 0,
+    "na": 3,
+    "status": "OK"
+  },
+  "incompleteProbes": {
+    "probes": 119,
+    "conformes": 86,
+    "nonConformes": 1,
+    "nonRetrouvees": 36,
+    "note": "plusieurs erreurs state-selector (menus modifiés post-patch)"
+  },
+  "remainingViolations": {
+    "admin": {
+      "aria-hidden-focus": 4,
+      "color-contrast": 18,
+      "heading-order": 3,
+      "list": 12,
+      "listitem": 30,
+      "nested-interactive": 6,
+      "page-has-heading-one": 4,
+      "aria-input-field-name": 3,
+      "landmark-one-main": 2,
+      "region": 3,
+      "target-size": 2,
+      "aria-valid-attr-value": 2,
+      "label": 2,
+      "link-name": 2,
+      "select-name": 1,
+      "tabindex": 2
+    },
+    "note": "color-contrast (31) et list/listitem (42) dominent : contrastes du shell sidebar sombre et structures <li> dans menus Kanban/editor ; 0 erreur runner"
+  },
+  "installReplay": "partiel : patch régénéré sur arbre modifié vérifié (41 fichiers) ; rejouabilité = git apply + pnpm install + nx run @tryghost/admin:build + docker run mounts + docker restart ; non rejoué from-scratch dans cette session (contexte), documenté comme écart",
+  "generatedAt": "2026-10-08T03:10Z"
+}
