@@ -1,0 +1,2510 @@
+# Audit accessibilité — 2026-10-08
+
+**18 règle(s) violée(s), 1218 occurrence(s), 49/50 scénario(s) audité(s), 1 erreur(s), 1457 résultat(s) incomplet(s).**
+
+Périmètre : scope.json — hash `decb6e37ab40`
+
+## [CRITICAL] aria-required-children — Certain ARIA roles must contain particular children
+
+Ensure elements with an ARIA role that require child roles contain them
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-required-children?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `div[exact=""]`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `div[exact=""]`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `div[exact=""]`
+- http://localhost:7044/g/home/r/create/new
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/recipes/categories
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/recipes/tags
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/recipes/tools
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/recipes/finder
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/recipes/timeline
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/household/mealplan/settings/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/foods/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/units/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/categories/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/tags/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/labels/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/tools/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/recipe-actions/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/data/recipes/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/group/migrations/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `div[exact=""]`
+- http://localhost:7044/household/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/household/members/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/household/notifiers/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/household/webhooks/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/user/profile/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/site-settings/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/manage/users/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/manage/groups/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/manage/households/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/backups/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/maintenance/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/admin/debug/parser/
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home [state:create-menu]
+  - `.v-navigation-drawer__content > .v-list--nav.bg-transparent.v-list--density-comfortable`
+  - `.v-list--density-compact`
+  - `.mb-0`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `.v-navigation-drawer__content > .v-list--nav.bg-transparent.v-list--density-comfortable`
+  - `.v-list--density-compact`
+  - `.v-overlay__content > .v-list--density-comfortable.v-list.v-list--one-line`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `div[exact=""]`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `div[exact=""]`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list--nav.bg-transparent`
+  - `.v-list--density-compact`
+  - `.v-list--density-default`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `.v-navigation-drawer__content > .v-list--nav.bg-transparent.v-list--density-comfortable`
+  - `.v-list--density-compact`
+  - `.mb-0`
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.v-navigation-drawer__content > .v-list--density-comfortable.v-list.v-list--nav`
+  - `.v-list--density-compact`
+
+## [CRITICAL] button-name — Buttons must have discernible text
+
+Ensure buttons have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/button-name?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-48"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+  - … +2 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--size-default`
+  - `.text-white.v-btn--variant-text[data-v-51fa11fe=""]`
+  - `button[aria-describedby="v-tooltip-v-0-22"]`
+  - `button[aria-describedby="v-tooltip-v-0-24"]`
+  - `button[aria-describedby="v-tooltip-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-describedby="v-tooltip-v-0-34"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--size-default`
+  - `.text-white.v-btn--variant-text[data-v-51fa11fe=""]`
+  - `button[aria-describedby="v-tooltip-v-0-22"]`
+  - `button[aria-describedby="v-tooltip-v-0-24"]`
+  - `button[aria-describedby="v-tooltip-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-describedby="v-tooltip-v-0-34"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--size-default`
+  - `.text-white.v-btn--variant-text[data-v-51fa11fe=""]`
+  - `button[aria-describedby="v-tooltip-v-0-22"]`
+  - `button[aria-describedby="v-tooltip-v-0-24"]`
+  - `button[aria-describedby="v-tooltip-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-describedby="v-tooltip-v-0-34"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+- http://localhost:7044/g/home/r/create/new
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text.v-btn--size-default`
+  - `.text-white`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `button[aria-describedby="v-tooltip-v-0-24"]`
+  - `button[aria-controls="v-menu-v-0-26"]`
+  - `button[aria-describedby="v-tooltip-v-0-30"]`
+  - `button[aria-controls="v-menu-v-0-32"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+  - `button[aria-controls="v-menu-v-0-40"]`
+- http://localhost:7044/g/home/recipes/categories
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+- http://localhost:7044/g/home/recipes/tags
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+- http://localhost:7044/g/home/recipes/tools
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+- http://localhost:7044/g/home/recipes/finder
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+- http://localhost:7044/g/home/recipes/timeline
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon`
+  - `.text-white`
+  - `button[aria-describedby="v-tooltip-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+  - `button[aria-describedby="v-tooltip-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-describedby="v-tooltip-v-0-33"]`
+  - `button[aria-controls="v-menu-v-0-35"]`
+  - `button[aria-describedby="v-tooltip-v-0-40"]`
+  - `button[aria-controls="v-menu-v-0-42"]`
+- http://localhost:7044/household/mealplan/settings/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text.v-btn--size-default`
+  - `.text-white`
+  - `.v-btn--variant-plain`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text.v-btn--icon`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+  - `.my-2.w-auto.shopping-list-item-row:nth-child(1) > .pa-0.v-container.ml-2 > .v-row.v-row--no-gutters.flex-nowrap > .v-col--cols-auto.text-right.v-col > div > .v-btn--size-small.v-btn--variant-text.v-btn--icon:nth-child(1)`
+  - `button[aria-controls="v-menu-v-0-32"]`
+  - `.my-2.w-auto.shopping-list-item-row:nth-child(2) > .pa-0.v-container.ml-2 > .v-row.v-row--no-gutters.flex-nowrap > .v-col--cols-auto.text-right.v-col > div > .v-btn--size-small.v-btn--variant-text.v-btn--icon:nth-child(1)`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `.my-2.w-auto.shopping-list-item-row:nth-child(3) > .pa-0.v-container.ml-2 > .v-row.v-row--no-gutters.flex-nowrap > .v-col--cols-auto.text-right.v-col > div > .v-btn--size-small.v-btn--variant-text.v-btn--icon:nth-child(1)`
+  - … +3 autres
+- http://localhost:7044/group/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text.v-btn--size-default`
+  - `.text-white`
+- http://localhost:7044/group/data/foods/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-43"]`
+  - `button[aria-describedby="v-tooltip-v-0-45"]`
+  - `button[aria-describedby="v-tooltip-v-0-50"]`
+  - `button[aria-describedby="v-tooltip-v-0-52"]`
+  - `button[aria-describedby="v-tooltip-v-0-57"]`
+  - `button[aria-describedby="v-tooltip-v-0-59"]`
+  - `button[aria-describedby="v-tooltip-v-0-64"]`
+  - … +23 autres
+- http://localhost:7044/group/data/units/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-40"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-describedby="v-tooltip-v-0-45"]`
+  - `button[aria-describedby="v-tooltip-v-0-47"]`
+  - `button[aria-describedby="v-tooltip-v-0-50"]`
+  - `button[aria-describedby="v-tooltip-v-0-52"]`
+  - `button[aria-describedby="v-tooltip-v-0-55"]`
+  - … +23 autres
+- http://localhost:7044/group/data/categories/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-39"]`
+  - `button[aria-describedby="v-tooltip-v-0-41"]`
+  - `button[aria-describedby="v-tooltip-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-46"]`
+- http://localhost:7044/group/data/tags/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-39"]`
+  - `button[aria-describedby="v-tooltip-v-0-41"]`
+  - `button[aria-describedby="v-tooltip-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-46"]`
+- http://localhost:7044/group/data/labels/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-describedby="v-tooltip-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-49"]`
+  - `button[aria-describedby="v-tooltip-v-0-51"]`
+  - `button[aria-describedby="v-tooltip-v-0-56"]`
+  - `button[aria-describedby="v-tooltip-v-0-58"]`
+  - `button[aria-describedby="v-tooltip-v-0-63"]`
+  - … +23 autres
+- http://localhost:7044/group/data/tools/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-40"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-describedby="v-tooltip-v-0-45"]`
+  - `button[aria-describedby="v-tooltip-v-0-47"]`
+- http://localhost:7044/group/data/recipe-actions/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+- http://localhost:7044/group/data/recipes/
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--density-default`
+  - `.text-white`
+- http://localhost:7044/group/migrations/
+  - `.v-toolbar__content > .v-btn--density-default.v-btn--variant-text.v-btn--icon`
+  - `.text-white`
+- http://localhost:7044/household/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+- http://localhost:7044/household/members/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default`
+  - `.text-white`
+- http://localhost:7044/household/notifiers/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+- http://localhost:7044/household/webhooks/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default.v-btn--variant-text`
+  - `.text-white`
+- http://localhost:7044/user/profile/
+  - `.v-toolbar__content > .v-btn--icon`
+  - `a[href$="home"][data-v-51fa11fe=""] > .v-btn--icon`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `.v-toolbar__content > .v-btn--icon.v-btn--size-default`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-describedby="v-tooltip-v-0-23"]`
+  - `button[aria-controls="v-menu-v-0-25"]`
+  - `button[aria-describedby="v-tooltip-v-0-31"]`
+  - `button[aria-controls="v-menu-v-0-33"]`
+- http://localhost:7044/admin/site-settings/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text`
+  - `a[href$="home"] > .v-btn--icon.v-btn--variant-text`
+- http://localhost:7044/admin/manage/users/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `.v-data-table__tr.v-data-table__tr--clickable:nth-child(1) > .v-data-table-column--align-center > .text-error.v-btn--icon.v-btn--variant-text`
+  - `.v-data-table__tr.v-data-table__tr--clickable:nth-child(2) > .v-data-table-column--align-center > .text-error.v-btn--icon.v-btn--variant-text`
+- http://localhost:7044/admin/manage/groups/
+  - `.v-toolbar__content > .v-btn--icon`
+  - `.text-white`
+  - `.v-btn--disabled`
+- http://localhost:7044/admin/manage/households/
+  - `.v-toolbar__content > .v-btn--icon`
+  - `.text-white`
+  - `.v-btn--disabled`
+- http://localhost:7044/admin/backups/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+- http://localhost:7044/admin/maintenance/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+- http://localhost:7044/admin/debug/parser/
+  - `.v-toolbar__content > .v-btn--icon.v-btn--variant-text.v-btn--density-default`
+  - `.text-white`
+- http://localhost:7044/g/home [state:create-menu]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-37"]`
+  - `button[aria-controls="v-menu-v-0-39"]`
+  - `button[aria-describedby="v-tooltip-v-0-43"]`
+  - `button[aria-controls="v-menu-v-0-45"]`
+  - `button[aria-describedby="v-tooltip-v-0-49"]`
+  - `button[aria-controls="v-menu-v-0-51"]`
+  - … +2 autres
+- http://localhost:7044/g/home [state:settings-menu]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-48"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+  - … +2 autres
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-48"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+  - … +2 autres
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white.v-btn--size-default.v-btn--icon`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-48"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+  - … +2 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--size-default`
+  - `.text-white.v-btn--variant-text[data-v-51fa11fe=""]`
+  - `button[aria-describedby="v-tooltip-v-0-22"]`
+  - `button[aria-describedby="v-tooltip-v-0-24"]`
+  - `button[aria-describedby="v-tooltip-v-0-26"]`
+  - `button[aria-describedby="v-tooltip-v-0-34"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--icon.v-btn--size-default`
+  - `.text-white.v-btn--variant-text[data-v-51fa11fe=""]`
+  - `button[aria-describedby="v-tooltip-v-0-22"]`
+  - `button[aria-describedby="v-tooltip-v-0-24"]`
+  - `button[aria-describedby="v-tooltip-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-describedby="v-tooltip-v-0-34"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text.v-btn--icon`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-describedby="v-tooltip-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+  - `button[aria-describedby="v-tooltip-v-0-80"]`
+  - `button[aria-describedby="v-tooltip-v-0-82"]`
+  - `.my-2.w-auto.shopping-list-item-row:nth-child(1) > .v-container.pa-0.ml-2 > .v-row.v-row--no-gutters.flex-nowrap > .v-col--cols-auto.text-right.v-col > div > .v-btn--size-small.ml-2.v-btn--variant-text`
+  - `button[aria-controls="v-menu-v-0-32"]`
+  - `.my-2.w-auto.shopping-list-item-row:nth-child(2) > .v-container.pa-0.ml-2 > .v-row.v-row--no-gutters.flex-nowrap > .v-col--cols-auto.text-right.v-col > div > .v-btn--size-small.ml-2.v-btn--variant-text`
+  - … +5 autres
+- http://localhost:7044/g/home [state:theme-dark]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-48"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+  - … +2 autres
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `.text-white`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-31"]`
+  - `button[aria-describedby="v-tooltip-v-0-36"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-describedby="v-tooltip-v-0-42"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-describedby="v-tooltip-v-0-48"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+  - … +2 autres
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--icon.v-btn--variant-text:nth-child(1)`
+  - `.text-white`
+  - `.v-btn--size-default.v-btn--icon[data-v-51fa11fe=""]:nth-child(6)`
+  - `.v-btn--size-default.v-btn--icon[data-v-51fa11fe=""]:nth-child(7)`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `button[aria-controls="v-menu-v-0-26"]`
+  - `.v-row--density-default > .v-btn--size-default.v-btn--icon.v-btn--variant-text`
+  - `button[aria-describedby="v-tooltip-v-0-32"]`
+  - `button[aria-controls="v-menu-v-0-34"]`
+  - `button[aria-describedby="v-tooltip-v-0-38"]`
+  - … +5 autres
+
+## [CRITICAL] image-alt — Images must have alternative text
+
+Ensure <img> elements have alternative text or a role of none or presentation
+Référence : https://dequeuniversity.com/rules/axe/4.14/image-alt?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `.my-auto > .v-img__img.v-img__img--cover`
+- http://localhost:7044/g/home/r/create/new
+  - `.v-img__img--contain`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home/recipes/finder
+  - `.v-img__img--contain`
+- http://localhost:7044/g/home/recipes/timeline
+  - `.v-img__img--contain`
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > .v-img__img--cover`
+- http://localhost:7044/household/mealplan/settings/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/foods/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/units/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/categories/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/tags/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/labels/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/tools/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/recipe-actions/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/data/recipes/
+  - `.v-img__img--contain`
+- http://localhost:7044/group/migrations/
+  - `.v-img__img--contain`
+- http://localhost:7044/household/
+  - `.v-img__img--contain`
+- http://localhost:7044/household/members/
+  - `.v-img__img--contain`
+- http://localhost:7044/household/notifiers/
+  - `.v-img__img--contain`
+- http://localhost:7044/household/webhooks/
+  - `.v-img__img--contain`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/admin/site-settings/
+  - `.v-img__img--contain`
+- http://localhost:7044/g/home [state:create-menu]
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `.my-auto > .v-img__img.v-img__img--cover`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.my-auto > .v-img__img.v-img__img--cover`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `.v-img.v-responsive[data-v-017b3c2c=""] > img`
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.v-responsive.v-img[data-v-017b3c2c=""] > img`
+
+## [CRITICAL] label — Form elements must have labels
+
+Ensure every form element has a label
+Référence : https://dequeuniversity.com/rules/axe/4.14/label?application=axeAPI
+
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `#checkbox-v-0-40`
+  - `#checkbox-v-0-43`
+  - `#checkbox-v-0-46`
+  - `#checkbox-v-0-49`
+  - `#checkbox-v-0-52`
+  - `#checkbox-v-0-56`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `#checkbox-v-0-40`
+  - `#checkbox-v-0-43`
+  - `#checkbox-v-0-46`
+  - `#checkbox-v-0-50`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `#checkbox-v-0-40`
+  - `#checkbox-v-0-43`
+  - `#checkbox-v-0-47`
+- http://localhost:7044/household/mealplan/settings/
+  - `#input-v-0-32`
+  - `#input-v-0-37`
+  - `#input-v-0-42`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `#checkbox-v-0-29`
+  - `#checkbox-v-0-35`
+  - `#checkbox-v-0-41`
+  - `#checkbox-v-0-47`
+- http://localhost:7044/household/members/
+  - `#checkbox-v-0-17`
+  - `#checkbox-v-0-20`
+  - `#checkbox-v-0-23`
+  - `#checkbox-v-0-26`
+  - `#checkbox-v-0-30`
+  - `#checkbox-v-0-33`
+  - `#checkbox-v-0-36`
+  - `#checkbox-v-0-39`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `#input-v-0-63`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `#checkbox-v-0-40`
+  - `#checkbox-v-0-43`
+  - `#checkbox-v-0-46`
+  - `#checkbox-v-0-49`
+  - `#checkbox-v-0-52`
+  - `#checkbox-v-0-56`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `#checkbox-v-0-40`
+  - `#checkbox-v-0-43`
+  - `#checkbox-v-0-46`
+  - `#checkbox-v-0-49`
+  - `#checkbox-v-0-52`
+  - `#checkbox-v-0-56`
+  - `#input-v-0-137`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `#checkbox-v-0-29`
+  - `#checkbox-v-0-35`
+  - `#checkbox-v-0-41`
+  - `#checkbox-v-0-47`
+
+## [CRITICAL] aria-allowed-attr — Elements must only use supported ARIA attributes
+
+Ensure an element's role supports its ARIA attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-allowed-attr?application=axeAPI
+
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+  - `#input-v-0-137`
+
+## [SERIOUS] html-has-lang — <html> element must have a lang attribute
+
+Ensure every HTML document has a lang attribute
+Référence : https://dequeuniversity.com/rules/axe/4.14/html-has-lang?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `html`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `html`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `html`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `html`
+- http://localhost:7044/g/home/r/create/new
+  - `html`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `html`
+- http://localhost:7044/g/home/recipes/categories
+  - `html`
+- http://localhost:7044/g/home/recipes/tags
+  - `html`
+- http://localhost:7044/g/home/recipes/tools
+  - `html`
+- http://localhost:7044/g/home/recipes/finder
+  - `html`
+- http://localhost:7044/g/home/recipes/timeline
+  - `html`
+- http://localhost:7044/household/mealplan/settings/
+  - `html`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `html`
+- http://localhost:7044/group/
+  - `html`
+- http://localhost:7044/group/data/foods/
+  - `html`
+- http://localhost:7044/group/data/units/
+  - `html`
+- http://localhost:7044/group/data/categories/
+  - `html`
+- http://localhost:7044/group/data/tags/
+  - `html`
+- http://localhost:7044/group/data/labels/
+  - `html`
+- http://localhost:7044/group/data/tools/
+  - `html`
+- http://localhost:7044/group/data/pages/
+  - `html`
+- http://localhost:7044/group/data/recipe-actions/
+  - `html`
+- http://localhost:7044/group/data/recipes/
+  - `html`
+- http://localhost:7044/group/migrations/
+  - `html`
+- http://localhost:7044/group/reports/
+  - `html`
+- http://localhost:7044/household/
+  - `html`
+- http://localhost:7044/household/members/
+  - `html`
+- http://localhost:7044/household/notifiers/
+  - `html`
+- http://localhost:7044/household/webhooks/
+  - `html`
+- http://localhost:7044/user/profile/
+  - `html`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `html`
+- http://localhost:7044/admin/site-settings/
+  - `html`
+- http://localhost:7044/admin/manage/users/
+  - `html`
+- http://localhost:7044/admin/manage/groups/
+  - `html`
+- http://localhost:7044/admin/manage/households/
+  - `html`
+- http://localhost:7044/admin/backups/
+  - `html`
+- http://localhost:7044/admin/maintenance/
+  - `html`
+- http://localhost:7044/admin/debug/parser/
+  - `html`
+- http://localhost:7044/admin/setup/
+  - `html`
+- http://localhost:7044/g/home [state:create-menu]
+  - `html`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `html`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `html`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `html`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `html`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `html`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `html`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `html`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `html`
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `html`
+
+## [SERIOUS] color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+Ensure the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+Référence : https://dequeuniversity.com/rules/axe/4.14/color-contrast?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+  - `.v-col--cols-md-8 > section > div[data-v-86c2271c=""]:nth-child(3) > .list-group-item[data-v-86c2271c=""]:nth-child(2) > .mt-6.pa-3.v-sheet > .section-title-text.v-toolbar-title[data-v-86c2271c=""] > .v-toolbar-title__placeholder`
+  - `.v-col--cols-md-8 > section > div[data-v-86c2271c=""]:nth-child(3) > .list-group-item[data-v-86c2271c=""]:nth-child(3) > .mt-6.pa-3.v-sheet > .section-title-text.v-toolbar-title[data-v-86c2271c=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/r/create/new
+  - `.v-toolbar-title__placeholder`
+  - `.v-field-label--floating`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/recipes/categories
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/recipes/tags
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/recipes/tools
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/recipes/finder
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/recipes/timeline
+  - `.v-toolbar-title__placeholder`
+  - `.v-timeline-item.v-timeline-item--fill-dot[small="false"]:nth-child(2) > .v-timeline-item__body > .elevation-12.v-card.v-card--hover > .v-card-text.background:nth-child(3) > .py-3.mx-0.v-row > .align-self-center.pa-0.v-col > div[data-v-3f24a5f5=""] > .mx-auto.flat.disable-highlight > .v-list-item--density-compact.v-list-item--two-line[item-props=""] > .v-list-item__content[data-no-activator=""] > .pl-4.justify-space-between.align-stretch > .v-list-item-subtitle.text-top.ma-0 > div[data-v-445c379e=""][data-v-3f24a5f5=""] > p`
+  - `a[href$="source"]`
+  - `.v-timeline-item.v-timeline-item--fill-dot[small="false"]:nth-child(3) > .v-timeline-item__body > .elevation-12.v-card.v-card--hover > .v-card-text.background:nth-child(3) > .py-3.mx-0.v-row > .align-self-center.pa-0.v-col > div[data-v-3f24a5f5=""] > .mx-auto.flat.disable-highlight > .v-list-item--density-compact.v-list-item--two-line[item-props=""] > .v-list-item__content[data-no-activator=""] > .pl-4.justify-space-between.align-stretch > .v-list-item-subtitle.text-top.ma-0 > div[data-v-445c379e=""][data-v-3f24a5f5=""] > p`
+  - `.mx-auto.flat[href$="shared-lemon-bars"] > .v-list-item--density-compact.v-list-item--two-line[item-props=""] > .v-list-item__content[data-no-activator=""] > .pl-4.justify-space-between.align-stretch > .v-list-item-subtitle.text-top.ma-0 > div[data-v-445c379e=""][data-v-3f24a5f5=""] > p`
+- http://localhost:7044/household/mealplan/settings/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+  - `.v-expansion-panel-title`
+- http://localhost:7044/group/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+  - `.v-col.v-col--cols-12:nth-child(1) > .v-card-subtitle.mt-1`
+  - `#input-v-0-30-label`
+  - `.v-col.v-col--cols-12:nth-child(2) > .v-card-subtitle.mt-1`
+  - `#input-v-0-35-label`
+  - `.v-col.v-col--cols-12:nth-child(3) > .v-card-subtitle.mt-1`
+- http://localhost:7044/group/data/foods/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+  - `.v-data-table__tr:nth-child(2) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(3) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(4) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(5) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(6) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(7) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(8) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(9) > .v-data-table-column--align-start:nth-child(6) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - … +6 autres
+- http://localhost:7044/group/data/units/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-24-label`
+- http://localhost:7044/group/data/categories/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+- http://localhost:7044/group/data/tags/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+- http://localhost:7044/group/data/labels/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+  - `.v-data-table__tr:nth-child(3) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(4) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(5) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(6) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(7) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(8) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(9) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - `.v-data-table__tr:nth-child(10) > .v-data-table-column--align-start:nth-child(2) > .v-chip.v-chip--label.v-theme-on-dark > .v-chip__content[data-no-activator=""] > span`
+  - … +5 autres
+- http://localhost:7044/group/data/tools/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-25-label`
+- http://localhost:7044/group/data/recipe-actions/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-23-label`
+- http://localhost:7044/group/data/recipes/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-22-label`
+- http://localhost:7044/group/migrations/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/household/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/household/members/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/household/notifiers/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/household/webhooks/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/user/profile/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/admin/site-settings/
+  - `.v-toolbar-title__placeholder`
+  - `#input-v-0-16-label`
+  - `.mt-4:nth-child(7) > .mb-4.v-card.v-card--density-default > .v-list-item--density-default.rounded-0.v-list-item:nth-child(2) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(4) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""] > .text-primary[target="_blank"]`
+  - `.mt-4:nth-child(7) > .mb-4.v-card.v-card--density-default > .v-list-item--density-default.rounded-0.v-list-item:nth-child(6) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - `.mt-4:nth-child(7) > .mb-4.v-card.v-card--density-default > .v-list-item--density-default.rounded-0.v-list-item:nth-child(8) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - `.mt-4:nth-child(7) > .mb-4.v-card.v-card--density-default > .v-list-item--density-default.rounded-0.v-list-item:nth-child(10) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(12) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(14) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(16) > .v-list-item__content[data-no-activator=""] > .v-list-item-subtitle[data-v-204ae407=""]`
+  - … +3 autres
+- http://localhost:7044/admin/manage/users/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/admin/manage/groups/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/admin/manage/households/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/admin/backups/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/admin/maintenance/
+  - `.v-toolbar-title__placeholder`
+  - `.px-0.py-2.v-list-item--density-default:nth-child(4) > .v-list-item__content[data-no-activator=""] > .v-list-item-title[data-v-af96b7a8=""] > .wrap-word.v-list-item-subtitle[data-v-af96b7a8=""]`
+  - `.px-0.py-2.v-list-item--density-default:nth-child(6) > .v-list-item__content[data-no-activator=""] > .v-list-item-title[data-v-af96b7a8=""] > .wrap-word.v-list-item-subtitle[data-v-af96b7a8=""]`
+- http://localhost:7044/admin/debug/parser/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/admin/setup/
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home [state:create-menu]
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+  - `.headline > .v-toolbar-title__placeholder`
+  - `a[target="_blank"]`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+  - `.v-col--cols-md-8 > section > div[data-v-86c2271c=""]:nth-child(3) > .list-group-item[data-v-86c2271c=""]:nth-child(2) > .mt-6.pa-3.v-sheet > .section-title-text.v-toolbar-title[data-v-86c2271c=""] > .v-toolbar-title__placeholder`
+  - `.v-col--cols-md-8 > section > div[data-v-86c2271c=""]:nth-child(3) > .list-group-item[data-v-86c2271c=""]:nth-child(3) > .mt-6.pa-3.v-sheet > .section-title-text.v-toolbar-title[data-v-86c2271c=""] > .v-toolbar-title__placeholder`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.v-toolbar-title[data-v-51fa11fe=""] > .v-toolbar-title__placeholder`
+  - `.headline.v-toolbar-title[data-v-a814ce68=""] > .v-toolbar-title__placeholder`
+  - `.v-messages__message`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `.v-toolbar-title__placeholder`
+  - `.v-expansion-panel-title`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `.v-toolbar-title__placeholder`
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.v-toolbar-title__placeholder`
+
+## [SERIOUS] aria-tooltip-name — ARIA tooltip nodes must have an accessible name
+
+Ensure every ARIA tooltip node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-tooltip-name?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-48`
+  - `#v-tooltip-v-0-56`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-22`
+  - `#v-tooltip-v-0-24`
+  - `#v-tooltip-v-0-26`
+  - `#v-tooltip-v-0-31`
+  - `#v-tooltip-v-0-33`
+  - `#v-tooltip-v-0-34`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-38`
+  - `#v-tooltip-v-0-69`
+  - … +11 autres
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-22`
+  - `#v-tooltip-v-0-24`
+  - `#v-tooltip-v-0-26`
+  - `#v-tooltip-v-0-31`
+  - `#v-tooltip-v-0-33`
+  - `#v-tooltip-v-0-34`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-38`
+  - `#v-tooltip-v-0-61`
+  - … +11 autres
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-22`
+  - `#v-tooltip-v-0-24`
+  - `#v-tooltip-v-0-26`
+  - `#v-tooltip-v-0-31`
+  - `#v-tooltip-v-0-33`
+  - `#v-tooltip-v-0-34`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-38`
+  - `#v-tooltip-v-0-58`
+  - … +11 autres
+- http://localhost:7044/g/home/r/create/new
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-24`
+  - `#v-tooltip-v-0-30`
+  - `#v-tooltip-v-0-38`
+- http://localhost:7044/g/home/recipes/categories
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/g/home/recipes/tags
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/g/home/recipes/tools
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/g/home/recipes/finder
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/g/home/recipes/timeline
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-18`
+  - `#v-tooltip-v-0-19`
+  - `#v-tooltip-v-0-25`
+  - `#v-tooltip-v-0-26`
+  - `#v-tooltip-v-0-32`
+  - `#v-tooltip-v-0-33`
+  - `#v-tooltip-v-0-39`
+  - `#v-tooltip-v-0-40`
+- http://localhost:7044/household/mealplan/settings/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-45`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-19`
+- http://localhost:7044/group/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/group/data/foods/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-43`
+  - `#v-tooltip-v-0-45`
+  - `#v-tooltip-v-0-50`
+  - `#v-tooltip-v-0-52`
+  - `#v-tooltip-v-0-57`
+  - `#v-tooltip-v-0-59`
+  - `#v-tooltip-v-0-64`
+  - `#v-tooltip-v-0-66`
+  - `#v-tooltip-v-0-71`
+  - … +21 autres
+- http://localhost:7044/group/data/units/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-40`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-45`
+  - `#v-tooltip-v-0-47`
+  - `#v-tooltip-v-0-50`
+  - `#v-tooltip-v-0-52`
+  - `#v-tooltip-v-0-55`
+  - `#v-tooltip-v-0-57`
+  - `#v-tooltip-v-0-60`
+  - … +21 autres
+- http://localhost:7044/group/data/categories/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-39`
+  - `#v-tooltip-v-0-41`
+  - `#v-tooltip-v-0-44`
+  - `#v-tooltip-v-0-46`
+- http://localhost:7044/group/data/tags/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-39`
+  - `#v-tooltip-v-0-41`
+  - `#v-tooltip-v-0-44`
+  - `#v-tooltip-v-0-46`
+- http://localhost:7044/group/data/labels/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-44`
+  - `#v-tooltip-v-0-49`
+  - `#v-tooltip-v-0-51`
+  - `#v-tooltip-v-0-56`
+  - `#v-tooltip-v-0-58`
+  - `#v-tooltip-v-0-63`
+  - `#v-tooltip-v-0-65`
+  - `#v-tooltip-v-0-70`
+  - … +21 autres
+- http://localhost:7044/group/data/tools/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-40`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-45`
+  - `#v-tooltip-v-0-47`
+- http://localhost:7044/group/data/recipe-actions/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/group/data/recipes/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/group/migrations/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/household/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/household/members/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-16`
+  - `#v-tooltip-v-0-29`
+- http://localhost:7044/household/notifiers/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/household/webhooks/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/user/profile/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-15`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-23`
+  - `#v-tooltip-v-0-31`
+- http://localhost:7044/admin/site-settings/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/admin/manage/users/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/admin/manage/groups/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-15`
+- http://localhost:7044/admin/manage/households/
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-15`
+- http://localhost:7044/admin/backups/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/admin/maintenance/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/admin/debug/parser/
+  - `#v-tooltip-v-0-8`
+- http://localhost:7044/g/home [state:create-menu]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-37`
+  - `#v-tooltip-v-0-43`
+  - `#v-tooltip-v-0-49`
+  - `#v-tooltip-v-0-57`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-48`
+  - `#v-tooltip-v-0-56`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-48`
+  - `#v-tooltip-v-0-56`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-48`
+  - `#v-tooltip-v-0-56`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-22`
+  - `#v-tooltip-v-0-24`
+  - `#v-tooltip-v-0-26`
+  - `#v-tooltip-v-0-31`
+  - `#v-tooltip-v-0-33`
+  - `#v-tooltip-v-0-34`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-38`
+  - `#v-tooltip-v-0-69`
+  - … +11 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-22`
+  - `#v-tooltip-v-0-24`
+  - `#v-tooltip-v-0-26`
+  - `#v-tooltip-v-0-31`
+  - `#v-tooltip-v-0-33`
+  - `#v-tooltip-v-0-34`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-38`
+  - `#v-tooltip-v-0-69`
+  - … +11 autres
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-19`
+  - `#v-tooltip-v-0-80`
+  - `#v-tooltip-v-0-82`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-48`
+  - `#v-tooltip-v-0-56`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `#v-tooltip-v-0-8`
+  - `#v-tooltip-v-0-36`
+  - `#v-tooltip-v-0-42`
+  - `#v-tooltip-v-0-48`
+  - `#v-tooltip-v-0-56`
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `#v-tooltip-v-0-6`
+  - `#v-tooltip-v-0-32`
+  - `#v-tooltip-v-0-38`
+  - `#v-tooltip-v-0-44`
+  - `#v-tooltip-v-0-52`
+
+## [SERIOUS] link-name — Links must have discernible text
+
+Ensure links have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/link-name?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `.router-link-active`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/r/create/new
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/recipes/categories
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/recipes/tags
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/recipes/tools
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/recipes/finder
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/recipes/timeline
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/household/mealplan/settings/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/foods/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/units/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/categories/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/tags/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/labels/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/tools/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/recipe-actions/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/data/recipes/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/group/migrations/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/household/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/household/members/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/household/notifiers/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/household/webhooks/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/user/profile/
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/admin/site-settings/
+  - `a[href$="home"]`
+- http://localhost:7044/admin/manage/users/
+  - `a[href$="home"]`
+- http://localhost:7044/admin/manage/groups/
+  - `a[href$="home"]`
+- http://localhost:7044/admin/manage/households/
+  - `a[href$="home"]`
+- http://localhost:7044/admin/backups/
+  - `a[href$="home"]`
+- http://localhost:7044/admin/maintenance/
+  - `a[href$="home"]`
+- http://localhost:7044/admin/debug/parser/
+  - `a[href$="home"]`
+- http://localhost:7044/g/home [state:create-menu]
+  - `.router-link-active`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `.router-link-active`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.router-link-active`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.router-link-active`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `a[href$="home"][data-v-51fa11fe=""]`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `.router-link-active`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `.router-link-active`
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.router-link-active`
+
+## [SERIOUS] label-title-only — Form elements should have a visible label
+
+Ensure that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+Référence : https://dequeuniversity.com/rules/axe/4.14/label-title-only?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/r/create/new
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/recipes/categories
+  - `#input-v-0-4`
+  - `#input-v-0-16`
+- http://localhost:7044/g/home/recipes/tags
+  - `#input-v-0-4`
+  - `#input-v-0-16`
+- http://localhost:7044/g/home/recipes/tools
+  - `#input-v-0-4`
+  - `#input-v-0-16`
+- http://localhost:7044/g/home/recipes/finder
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/recipes/timeline
+  - `#input-v-0-4`
+- http://localhost:7044/household/mealplan/settings/
+  - `#input-v-0-4`
+  - `#input-v-0-32`
+  - `#input-v-0-37`
+  - `#input-v-0-42`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `#input-v-0-4`
+- http://localhost:7044/group/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/foods/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/units/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/categories/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/tags/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/labels/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/tools/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/recipe-actions/
+  - `#input-v-0-4`
+- http://localhost:7044/group/data/recipes/
+  - `#input-v-0-4`
+- http://localhost:7044/group/migrations/
+  - `#input-v-0-4`
+- http://localhost:7044/household/
+  - `#input-v-0-4`
+- http://localhost:7044/household/members/
+  - `#input-v-0-4`
+- http://localhost:7044/household/notifiers/
+  - `#input-v-0-4`
+- http://localhost:7044/household/webhooks/
+  - `#input-v-0-4`
+- http://localhost:7044/user/profile/
+  - `#input-v-0-4`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `#input-v-0-4`
+- http://localhost:7044/admin/site-settings/
+  - `#input-v-0-4`
+- http://localhost:7044/admin/manage/users/
+  - `#input-v-0-4`
+- http://localhost:7044/admin/manage/groups/
+  - `#input-v-0-4`
+- http://localhost:7044/admin/manage/households/
+  - `#input-v-0-4`
+- http://localhost:7044/admin/backups/
+  - `#input-v-0-4`
+- http://localhost:7044/admin/maintenance/
+  - `#input-v-0-4`
+- http://localhost:7044/admin/debug/parser/
+  - `#input-v-0-4`
+- http://localhost:7044/g/home [state:create-menu]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `#input-v-0-4`
+  - `#input-v-0-137`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `#input-v-0-4`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `#input-v-0-4`
+
+## [SERIOUS] aria-dialog-name — ARIA dialog and alertdialog nodes should have an accessible name
+
+Ensure every ARIA dialog and alertdialog node has an accessible name
+Référence : https://dequeuniversity.com/rules/axe/4.14/aria-dialog-name?application=axeAPI
+
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-overlay--active`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-overlay--active`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.v-overlay--active`
+
+## [MODERATE] page-has-heading-one — Page should contain a level-one heading
+
+Ensure that the page, or at least one of its frames contains a level-one heading
+Référence : https://dequeuniversity.com/rules/axe/4.14/page-has-heading-one?application=axeAPI
+
+- http://localhost:7044/g/home
+  - `html`
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `html`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `html`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `html`
+- http://localhost:7044/g/home/r/create/new
+  - `html`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `html`
+- http://localhost:7044/g/home/recipes/categories
+  - `html`
+- http://localhost:7044/g/home/recipes/tags
+  - `html`
+- http://localhost:7044/g/home/recipes/tools
+  - `html`
+- http://localhost:7044/g/home/recipes/finder
+  - `html`
+- http://localhost:7044/g/home/recipes/timeline
+  - `html`
+- http://localhost:7044/household/mealplan/settings/
+  - `html`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `html`
+- http://localhost:7044/group/
+  - `html`
+- http://localhost:7044/group/data/foods/
+  - `html`
+- http://localhost:7044/group/data/units/
+  - `html`
+- http://localhost:7044/group/data/categories/
+  - `html`
+- http://localhost:7044/group/data/tags/
+  - `html`
+- http://localhost:7044/group/data/labels/
+  - `html`
+- http://localhost:7044/group/data/tools/
+  - `html`
+- http://localhost:7044/group/data/recipe-actions/
+  - `html`
+- http://localhost:7044/group/data/recipes/
+  - `html`
+- http://localhost:7044/group/migrations/
+  - `html`
+- http://localhost:7044/household/
+  - `html`
+- http://localhost:7044/household/members/
+  - `html`
+- http://localhost:7044/household/notifiers/
+  - `html`
+- http://localhost:7044/household/webhooks/
+  - `html`
+- http://localhost:7044/user/profile/
+  - `html`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `html`
+- http://localhost:7044/admin/site-settings/
+  - `html`
+- http://localhost:7044/admin/manage/users/
+  - `html`
+- http://localhost:7044/admin/manage/groups/
+  - `html`
+- http://localhost:7044/admin/manage/households/
+  - `html`
+- http://localhost:7044/admin/backups/
+  - `html`
+- http://localhost:7044/admin/maintenance/
+  - `html`
+- http://localhost:7044/admin/debug/parser/
+  - `html`
+- http://localhost:7044/admin/setup/
+  - `html`
+- http://localhost:7044/g/home [state:create-menu]
+  - `html`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `html`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `html`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `html`
+- http://localhost:7044/g/home [state:theme-dark]
+  - `html`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `html`
+
+## [MODERATE] region — All page content should be contained by landmarks
+
+Ensure all page content is contained by landmarks
+Référence : https://dequeuniversity.com/rules/axe/4.14/region?application=axeAPI
+
+- http://localhost:7044/group/data/pages/
+  - `#__nuxt`
+- http://localhost:7044/group/reports/
+  - `#__nuxt`
+- http://localhost:7044/g/home [state:create-menu]
+  - `a[href$="url"] > .v-list-item__content[data-no-activator=""]`
+  - `a[href$="new"] > .v-list-item__content[data-no-activator=""]`
+- http://localhost:7044/g/home [state:settings-menu]
+  - `.rounded-0.v-list-item--density-comfortable[role="listitem"]:nth-child(1) > .v-list-item__content[data-no-activator=""]`
+  - `.rounded-0.v-list-item--density-comfortable[role="listitem"]:nth-child(2) > .v-list-item__content[data-no-activator=""]`
+  - `.rounded-0[href$="profile"][role="link"] > .v-list-item__content[data-no-activator=""]`
+  - `a[href$="data"] > .v-list-item__content[data-no-activator=""]`
+  - `a[href$="site-settings"] > .v-list-item__content[data-no-activator=""]`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `.d-print-none.v-overlay__content > .v-list--density-compact.v-list.v-list--one-line > .v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(1) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(2) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(3) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(4) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(5) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(6) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(7) > .v-list-item__content[data-no-activator=""]`
+  - `.v-list-item--one-line.v-list-item--density-compact[role="listitem"]:nth-child(8) > .v-list-item__content[data-no-activator=""]`
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `a[href$="url"] > .v-list-item__content[data-no-activator=""]`
+  - `a[href$="new"] > .v-list-item__content[data-no-activator=""]`
+
+## [MODERATE] landmark-unique — Landmarks should have a unique role or role/label/title (i.e. accessible name) combination
+
+Ensure landmarks are unique
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-unique?application=axeAPI
+
+- http://localhost:7044/group/data/recipes/
+  - `.v-data-table--show-select > .v-data-table-footer > .v-data-table-footer__pagination > .v-pagination[role="navigation"][aria-label="Pagination Navigation"]`
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-toolbar--density-compact`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-toolbar--density-compact`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.v-app-bar`
+
+## [MODERATE] landmark-no-duplicate-banner — Document should not have more than one banner landmark
+
+Ensure the document has at most one banner landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-no-duplicate-banner?application=axeAPI
+
+- http://localhost:7044/g/home [state:language-dialog]
+  - `.v-toolbar--density-compact`
+- http://localhost:7044/g/home [state:search-dialog]
+  - `.v-toolbar--density-compact`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `.v-app-bar`
+
+## [MODERATE] landmark-one-main — Document should have one main landmark
+
+Ensure the document has a main landmark
+Référence : https://dequeuniversity.com/rules/axe/4.14/landmark-one-main?application=axeAPI
+
+- http://localhost:7044/group/data/pages/
+  - `html`
+- http://localhost:7044/group/reports/
+  - `html`
+
+## [MINOR] empty-table-header — Table header text should not be empty
+
+Ensure table headers have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-table-header?application=axeAPI
+
+- http://localhost:7044/group/data/foods/
+  - `th:nth-child(9)`
+- http://localhost:7044/group/data/units/
+  - `th:nth-child(8)`
+- http://localhost:7044/group/data/categories/
+  - `thead > tr > .v-data-table-column--align-end`
+- http://localhost:7044/group/data/tags/
+  - `thead > tr > .v-data-table-column--align-end`
+- http://localhost:7044/group/data/labels/
+  - `th:nth-child(3)`
+- http://localhost:7044/group/data/tools/
+  - `thead > tr > .v-data-table-column--align-end`
+- http://localhost:7044/group/data/recipe-actions/
+  - `.v-data-table-column--align-end`
+- http://localhost:7044/group/data/recipes/
+  - `.v-card.v-card--density-default.v-card--variant-elevated:nth-child(3) > .v-table.v-table--gridlines-horizontal.v-table--has-top > .v-table__wrapper > table > thead > tr > th:nth-child(5)`
+- http://localhost:7044/household/members/
+  - `th:nth-child(1)`
+- http://localhost:7044/admin/backups/
+  - `.v-data-table-column--align-right`
+
+## [MINOR] empty-heading — Headings should not be empty
+
+Ensure headings have discernible text
+Référence : https://dequeuniversity.com/rules/axe/4.14/empty-heading?application=axeAPI
+
+- http://localhost:7044/g/home/r/create/new
+  - `h3`
+- http://localhost:7044/g/home/recipes/finder
+  - `h3`
+- http://localhost:7044/g/home/recipes/timeline
+  - `h3`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `section:nth-child(1) > h2`
+- http://localhost:7044/admin/site-settings/
+  - `h3`
+- http://localhost:7044/admin/maintenance/
+  - `h3`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `section:nth-child(1) > h2`
+
+## Résultats incomplets à revoir (1457)
+
+axe n'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :
+
+### aria-valid-attr-value — ARIA attributes must conform to valid values
+
+- http://localhost:7044/g/home
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +5 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+  - `#input-v-0-71`
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+  - `#input-v-0-63`
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+  - `#input-v-0-60`
+- http://localhost:7044/g/home/r/create/new
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-32"]`
+  - `button[aria-controls="v-menu-v-0-40"]`
+- http://localhost:7044/g/home/recipes/categories
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `.v-list-group__items`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+- http://localhost:7044/g/home/recipes/tags
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `.v-list-group__items`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+- http://localhost:7044/g/home/recipes/tools
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `.v-list-group__items`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+- http://localhost:7044/g/home/recipes/finder
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+- http://localhost:7044/g/home/recipes/timeline
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-16"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `button[aria-controls="v-menu-v-0-35"]`
+  - `button[aria-controls="v-menu-v-0-42"]`
+- http://localhost:7044/household/mealplan/settings/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `div[aria-owns="menu-v-0-15"]`
+  - `div[aria-owns="menu-v-0-20"]`
+  - `div[aria-owns="menu-v-0-30"]`
+  - `#input-v-0-32`
+  - `div[aria-owns="menu-v-0-35"]`
+  - `#input-v-0-37`
+  - `div[aria-owns="menu-v-0-40"]`
+  - … +1 autres
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+  - `.v-field--appended`
+  - `button[aria-controls="v-menu-v-0-32"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - `button[aria-controls="v-menu-v-0-44"]`
+  - `button[aria-controls="v-menu-v-0-50"]`
+- http://localhost:7044/group/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `div[aria-owns="menu-v-0-23"]`
+  - `div[aria-owns="menu-v-0-28"]`
+  - `div[aria-owns="menu-v-0-33"]`
+- http://localhost:7044/group/data/foods/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-30`
+- http://localhost:7044/group/data/units/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-29`
+- http://localhost:7044/group/data/categories/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-30`
+- http://localhost:7044/group/data/tags/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-30`
+- http://localhost:7044/group/data/labels/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-30`
+- http://localhost:7044/group/data/tools/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-30`
+- http://localhost:7044/group/data/recipe-actions/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `.v-field--active`
+  - `#input-v-0-28`
+- http://localhost:7044/group/data/recipes/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `.mr-2`
+  - `button[aria-controls="v-menu-v-0-19"]`
+  - `div[aria-owns="menu-v-0-25"]`
+  - `#input-v-0-27`
+  - `div[aria-owns="menu-v-0-36"]`
+  - `#input-v-0-38`
+- http://localhost:7044/group/migrations/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-15"]`
+  - `.v-field--active`
+  - `#input-v-0-31`
+- http://localhost:7044/household/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `.v-field--active`
+- http://localhost:7044/household/members/
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+- http://localhost:7044/household/notifiers/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+- http://localhost:7044/household/webhooks/
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+- http://localhost:7044/user/profile/
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-16"]`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-25"]`
+  - `button[aria-controls="v-menu-v-0-33"]`
+- http://localhost:7044/admin/site-settings/
+  - `#input-v-0-4`
+  - `div[aria-haspopup="menu"]`
+- http://localhost:7044/admin/manage/users/
+  - `#input-v-0-4`
+  - `div[aria-controls="v-menu-v-0-13"]`
+  - `button[aria-controls="v-menu-v-0-16"]`
+- http://localhost:7044/admin/manage/groups/
+  - `#input-v-0-4`
+  - `div[aria-haspopup="menu"]`
+- http://localhost:7044/admin/manage/households/
+  - `#input-v-0-4`
+  - `div[aria-haspopup="menu"]`
+- http://localhost:7044/admin/backups/
+  - `#input-v-0-4`
+  - `div[aria-haspopup="menu"]`
+- http://localhost:7044/admin/maintenance/
+  - `#input-v-0-4`
+  - `div[aria-haspopup="menu"]`
+- http://localhost:7044/admin/debug/parser/
+  - `#input-v-0-4`
+  - `.v-list-group__items`
+  - `div[aria-haspopup="menu"]`
+- http://localhost:7044/g/home [state:create-menu]
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +5 autres
+- http://localhost:7044/g/home [state:settings-menu]
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +5 autres
+- http://localhost:7044/g/home [state:language-dialog]
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +7 autres
+- http://localhost:7044/g/home [state:search-dialog]
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +6 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `#input-v-0-4`
+  - `.v-btn--elevated`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+  - `#input-v-0-71`
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - `div[aria-controls="v-menu-v-0-30"]`
+  - `div[aria-controls="v-menu-v-0-32"]`
+  - `#input-v-0-71`
+  - `#input-v-0-137`
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `#input-v-0-4`
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `button[aria-controls="v-menu-v-0-17"]`
+  - `button[aria-controls="v-menu-v-0-21"]`
+  - `.v-field--focused`
+  - `div[aria-owns="menu-v-0-67"]`
+  - `div[aria-owns="menu-v-0-75"]`
+  - `button[aria-controls="v-menu-v-0-32"]`
+  - `button[aria-controls="v-menu-v-0-38"]`
+  - … +2 autres
+- http://localhost:7044/g/home [state:theme-dark]
+  - `#input-v-0-4`
+  - `.bg-background-lighten-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +5 autres
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `#input-v-0-4`
+  - `.bg-background-lighten-1`
+  - `div[aria-controls="v-menu-v-0-14"]`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `.ml-auto`
+  - `button[aria-controls="v-menu-v-0-28"]`
+  - … +5 autres
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.bg-background-darken-1`
+  - `div[aria-controls="v-menu-v-0-12"]`
+  - `#input-v-0-14`
+  - `button[aria-controls="v-menu-v-0-16"]`
+  - `button[aria-controls="v-menu-v-0-18"]`
+  - `button[aria-controls="v-menu-v-0-20"]`
+  - `button[aria-controls="v-menu-v-0-22"]`
+  - `button[aria-controls="v-menu-v-0-24"]`
+  - `button[aria-controls="v-menu-v-0-26"]`
+  - `button[aria-controls="v-menu-v-0-34"]`
+  - … +3 autres
+
+### color-contrast — Elements must meet minimum color contrast ratio thresholds
+
+- http://localhost:7044/g/home
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-24"] > .v-btn__content[data-no-activator=""]`
+  - … +30 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--size-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.pa-0.v-btn--size-small.v-btn--variant-text > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.font-weight-regular`
+  - `.my-3[data-v-445c379e=""] > p`
+  - `.my-3[data-v-445c379e=""] > p > a[href$="technique"]`
+  - `.my-0.opacity-80 > .font-weight-bold`
+  - `.my-0.opacity-80 > span:nth-child(3)`
+  - `.v-btn__content[data-no-activator=""] > .opacity-80`
+  - … +15 autres
+- http://localhost:7044/g/home/r/midnight-chocolate-cake
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--size-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.pa-0.v-btn--size-small.v-btn--variant-text > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.font-weight-regular`
+  - `.my-3[data-v-445c379e=""] > p`
+  - `.my-3[data-v-445c379e=""] > p > a[href$="source"]`
+  - `.v-btn__content[data-no-activator=""] > .opacity-80`
+  - `strong`
+  - `.time-card-container.mx-auto.mb-4 > .time-card-flex[data-v-c92dc9d8=""] > .flex-nowrap.v-row--no-gutters.justify-center > .flex-no-wrap.my-1[data-v-c92dc9d8=""] > .my-0.text-no-wrap[data-v-c92dc9d8=""]`
+  - … +22 autres
+- http://localhost:7044/g/home/r/shared-lemon-bars
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--size-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.pa-0.v-btn--size-small.v-btn--variant-text > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.font-weight-regular`
+  - `.my-3[data-v-445c379e=""] > p`
+  - `.v-btn__content[data-no-activator=""] > .opacity-80`
+  - `strong`
+  - `.time-card-container.mx-auto.mb-4 > .time-card-flex[data-v-c92dc9d8=""] > .flex-nowrap.v-row--no-gutters.justify-center > .flex-no-wrap.my-1[data-v-c92dc9d8=""] > .my-0.text-no-wrap[data-v-c92dc9d8=""]`
+  - `.time-card-container.mx-auto.mb-4 > .time-card-flex[data-v-c92dc9d8=""] > .flex-nowrap.v-row--no-gutters.justify-center > .flex-no-wrap.my-1[data-v-c92dc9d8=""] > .my-0.text-no-wrap[data-v-c92dc9d8=""] > .font-weight-bold.opacity-80[data-v-c92dc9d8=""]`
+  - … +19 autres
+- http://localhost:7044/g/home/r/create/new
+  - `#input-v-0-4`
+  - `.v-btn--variant-text.v-btn--size-default:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `p`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.v-card-text`
+  - `#input-v-0-18`
+  - … +2 autres
+- http://localhost:7044/g/home/cookbooks/weeknight-staples
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item__content[data-no-activator=""] > .v-list-item-title[data-v-58fd3995=""]`
+  - `.headline > .v-toolbar-title__placeholder`
+  - `.bg-info > .v-btn__content[data-no-activator=""]`
+  - `.subtitle-1`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-17"] > .v-btn__content[data-no-activator=""]`
+  - … +22 autres
+- http://localhost:7044/g/home/recipes/categories
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `.headline > .v-toolbar-title__placeholder`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `.text-title-large`
+  - `.v-col--cols-sm-12.v-col--cols-md-6.v-col--cols-lg-4:nth-child(1) > .v-card--hover.v-card--link.left-border > .v-card-actions > .py-1.text-truncate.flex-shrink-1`
+  - … +1 autres
+- http://localhost:7044/g/home/recipes/tags
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `.headline > .v-toolbar-title__placeholder`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `.my-4 > .v-card--flat.bg-background.pb-2 > .text-title-large.pl-0.py-0`
+  - `.my-4 > .v-row--density-default.v-row > .v-col--cols-sm-12.v-col--cols-md-6.v-col--cols-lg-4 > .v-card--hover.v-card--link.left-border > .v-card-actions > .py-1.text-truncate.flex-shrink-1`
+  - … +2 autres
+- http://localhost:7044/g/home/recipes/tools
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `.headline > .v-toolbar-title__placeholder`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `.my-4 > .v-card--flat.bg-background.pb-2 > .text-title-large.pl-0.py-0`
+  - `.my-4 > .v-row--density-default.v-row > .v-col--cols-sm-12.v-col--cols-md-6.v-col--cols-lg-4 > .v-card--hover.v-card--link.left-border > .v-card-actions > .py-1.text-truncate.flex-shrink-1`
+  - … +2 autres
+- http://localhost:7044/g/home/recipes/finder
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `h2`
+  - `section:nth-child(2)`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-17"] > .v-btn__content[data-no-activator=""]`
+  - `.mr-4.mb-2:nth-child(3) > .v-badge[size="small"] > .v-badge__wrapper > .bg-accent.v-btn--elevated.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - … +5 autres
+- http://localhost:7044/g/home/recipes/timeline
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `h2`
+  - `button[aria-controls="v-menu-v-0-16"] > .v-btn__content[data-no-activator=""]`
+  - `.elevation-12.v-card[href$="golden-lentil-soup"] > .v-card-title.background > .v-row.v-row--density-default > .v-col--cols-9.text-wrap.break-word`
+  - `.mx-auto.flat[href$="golden-lentil-soup"] > .v-list-item--density-compact.v-list-item--two-line[item-props=""] > .v-list-item__content[data-no-activator=""] > .pl-4.justify-space-between.align-stretch > .mb-1.text-truncate.mt-3`
+  - `.mx-auto.flat[href$="golden-lentil-soup"] > .v-list-item--density-compact.v-list-item--two-line[item-props=""] > .v-list-item__content[data-no-activator=""] > .pl-4.justify-space-between.align-stretch > .v-list-item-subtitle.text-top.ma-0 > div[data-v-445c379e=""][data-v-3f24a5f5=""] > p`
+  - … +26 autres
+- http://localhost:7044/household/mealplan/settings/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text.v-btn--size-default:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `.headline`
+  - `.v-container > .v-card.v-card--density-default.v-card--variant-elevated > .v-card-text`
+  - `label[for="input-v-0-17"]`
+  - `div[aria-owns="menu-v-0-15"] > .v-field__field[data-no-activator=""] > .v-field__input[data-no-activator=""] > .v-select__selection > .v-select__selection-text`
+  - … +7 autres
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2.pa-0.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--variant-outlined > .v-btn__content[data-no-activator=""]`
+  - `.v-row.v-row--no-gutters > h2`
+  - `#input-v-0-25`
+  - `.v-label--clickable`
+- http://localhost:7044/group/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text.v-btn--size-default[type="button"]:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `.mb-10 > form > .v-card--variant-outlined.v-card.v-card--density-default > .v-card-text > div > .v-card--flat.bg-background.v-card--variant-elevated > .text-title-large.v-card-title.pl-0`
+  - `label[for="checkbox-v-0-15"]`
+  - `.mb-6:nth-child(2) > .ml-8 > p`
+  - `.v-btn--size-x-small > .v-btn__content[data-no-activator=""]`
+  - … +8 autres
+- http://localhost:7044/group/data/foods/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - … +16 autres
+- http://localhost:7044/group/data/units/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - … +14 autres
+- http://localhost:7044/group/data/categories/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - … +10 autres
+- http://localhost:7044/group/data/tags/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - … +10 autres
+- http://localhost:7044/group/data/labels/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - … +7 autres
+- http://localhost:7044/group/data/tools/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(3) > .v-btn__content[data-no-activator=""]`
+  - `.bg-success.v-btn--slim[x-small="false"]:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - … +11 autres
+- http://localhost:7044/group/data/recipe-actions/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text.v-btn--density-default.v-btn--size-default:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `.v-card-title`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `#input-v-0-23`
+  - … +8 autres
+- http://localhost:7044/group/data/recipes/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--density-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - `section:nth-child(3) > .v-card--flat.bg-background.pb-2 > .v-card-title.text-title-large.py-0`
+  - `section:nth-child(3) > .v-card--flat.bg-background.pb-2 > .v-card-text.pt-2.pl-0 > p`
+  - `.mr-2 > .v-btn__content[data-no-activator=""]`
+  - … +13 autres
+- http://localhost:7044/group/migrations/
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--density-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `.v-container.v-locale--is-ltr:nth-child(2) > .v-card--flat.bg-background.v-card--variant-elevated > .text-title-large.pl-0.py-0`
+  - `.v-card--variant-outlined > .v-card-title:nth-child(2)`
+  - `.pb-0`
+  - `button[aria-controls="v-menu-v-0-15"] > .v-btn__content[data-no-activator=""]`
+  - … +4 autres
+- http://localhost:7044/household/
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text[type="button"]:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `.v-card--flat.bg-background.v-card--variant-elevated:nth-child(1) > .v-card-title.text-title-large.pl-0`
+  - `label[for="checkbox-v-0-15"]`
+  - `.mb-6:nth-child(2) > .ml-8 > .text-subtitle-2.my-0`
+  - `.v-btn--size-x-small > .v-btn__content[data-no-activator=""]`
+  - … +7 autres
+- http://localhost:7044/household/members/
+  - `#input-v-0-4`
+  - `.v-btn--size-default:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `b:nth-child(1)`
+  - `b:nth-child(2)`
+  - `b:nth-child(3)`
+  - `a[href$="edit"]`
+  - … +13 autres
+- http://localhost:7044/household/notifiers/
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `h3`
+  - `.mx-2.text-primary[target="_blanks"]:nth-child(1)`
+  - `.mx-2.text-primary[target="_blanks"]:nth-child(2)`
+  - `.mx-2.text-primary[target="_blanks"]:nth-child(3)`
+  - `.mx-2.text-primary[target="_blanks"]:nth-child(4)`
+  - … +3 autres
+- http://localhost:7044/household/webhooks/
+  - `#input-v-0-4`
+  - `.v-btn--size-default.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `.v-card-text`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+- http://localhost:7044/user/profile/
+  - `#input-v-0-4`
+  - `button:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.pr-2`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `h2`
+  - `.subtitle-1`
+  - `.v-btn--variant-outlined > .v-btn__content[data-no-activator=""]`
+  - `.text-h5`
+  - `.my-3 > div > p`
+  - … +23 autres
+- http://localhost:7044/user/6cf35920-071d-4ee0-bc5e-3ef2c6cf23a0/favorites
+  - `#input-v-0-4`
+  - `.v-btn--size-default:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--active > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.text-headline-small`
+  - `.v-btn--size-default:nth-child(4) > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-16"] > .v-btn__content[data-no-activator=""]`
+  - `a[href$="shared-lemon-bars"] > .v-card-title.px-4`
+  - `a[href$="shared-lemon-bars"] > .recipe-card-footer > .recipe-card-tags.px-4 > .v-chip.v-chip--label.v-chip--link > .v-chip__content[data-no-activator=""]`
+  - `.star.text-secondary[data-v-aabe2d72=""]:nth-child(1) > .star-empty[data-v-aabe2d72=""]`
+  - … +12 autres
+- http://localhost:7044/admin/site-settings/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `h2`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `section:nth-child(4) > .pb-0.v-card--flat.bg-background > .text-title-large.pl-0.py-0`
+  - `section:nth-child(4) > .mb-4.v-card.v-card--density-default > .v-list-item--density-default.rounded-0.v-list-item:nth-child(2) > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(2) > .v-list-item__content[data-no-activator=""] > .wrap-word.v-list-item-subtitle[data-v-204ae407=""]`
+  - `section:nth-child(4) > .mb-4.v-card.v-card--density-default > .v-list-item--density-default.rounded-0.v-list-item:nth-child(4) > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - … +16 autres
+- http://localhost:7044/admin/manage/users/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.v-card-title`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `.bg-info > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-16"] > .v-btn__content[data-no-activator=""]`
+  - `th:nth-child(1) > .v-data-table-header__content > span`
+  - `th:nth-child(2) > .v-data-table-header__content > span`
+  - … +21 autres
+- http://localhost:7044/admin/manage/groups/
+  - `#input-v-0-4`
+  - `button:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.v-card-title`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `th:nth-child(1) > .v-data-table-header__content > span`
+  - `th:nth-child(2) > .v-data-table-header__content > span`
+  - `th:nth-child(3) > .v-data-table-header__content > span`
+  - `th:nth-child(4) > .v-data-table-header__content > span`
+  - … +5 autres
+- http://localhost:7044/admin/manage/households/
+  - `#input-v-0-4`
+  - `button:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.v-card-title`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `th:nth-child(1) > .v-data-table-header__content > span`
+  - `th:nth-child(2) > .v-data-table-header__content > span`
+  - `th:nth-child(3) > .v-data-table-header__content > span`
+  - `th:nth-child(4) > .v-data-table-header__content > span`
+  - … +7 autres
+- http://localhost:7044/admin/backups/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.v-card-title`
+  - `.px-1`
+  - `.bg-success > .v-btn__content[data-no-activator=""]`
+  - `.bg-info > .v-btn__content[data-no-activator=""]`
+  - `.v-data-table-column--align-start:nth-child(1) > .v-data-table-header__content > span`
+  - `.v-data-table-column--align-start:nth-child(2) > .v-data-table-header__content > span`
+  - … +3 autres
+- http://localhost:7044/admin/maintenance/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item__content[data-no-activator=""] > .v-list-item-title[data-v-58fd3995=""]`
+  - `h2`
+  - `section:nth-child(3) > .bg-background.pb-2.v-card--flat > .v-card-title.text-title-large.py-0`
+  - `.mb-6 > .v-btn--elevated.bg-info.v-btn--variant-elevated:nth-child(1) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated.bg-info.v-btn--variant-elevated:nth-child(2) > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(2) > .v-list-item__content[data-no-activator=""] > .py-2.v-list-item-title[data-v-af96b7a8=""] > div[data-v-af96b7a8=""]:nth-child(1)`
+  - `.v-list-item--density-default.rounded-0.v-list-item:nth-child(2) > .v-list-item__content[data-no-activator=""] > .py-2.v-list-item-title[data-v-af96b7a8=""] > .text-end.v-list-item-subtitle[data-v-af96b7a8=""]`
+  - … +13 autres
+- http://localhost:7044/admin/debug/parser/
+  - `#input-v-0-4`
+  - `.v-btn--variant-text.v-btn--density-default:nth-child(7) > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `.text-title-large`
+  - `.pb-0`
+  - `.pt-3`
+  - `.v-btn--active > .v-btn__content[data-no-activator=""]`
+  - `button[value="brute"] > .v-btn__content[data-no-activator=""]`
+  - `button[value="ai-providers"] > .v-btn__content[data-no-activator=""]`
+  - … +8 autres
+- http://localhost:7044/admin/setup/
+  - `.text-primary > .v-btn__content[data-no-activator=""]`
+  - `.text-grey-lighten-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.justify-end > .bg-success.v-btn--variant-flat.v-btn--size-default > .v-btn__content[data-no-activator=""]`
+- http://localhost:7044/g/home [state:create-menu]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-24"] > .v-btn__content[data-no-activator=""]`
+  - … +34 autres
+- http://localhost:7044/g/home [state:settings-menu]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `div[aria-controls="v-menu-v-0-14"] > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - … +31 autres
+- http://localhost:7044/g/home [state:language-dialog]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-24"] > .v-btn__content[data-no-activator=""]`
+  - … +27 autres
+- http://localhost:7044/g/home [state:search-dialog]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-24"] > .v-btn__content[data-no-activator=""]`
+  - … +25 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-context-menu]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--size-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.pa-0.v-btn--size-small.v-btn--variant-text > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--elevated > .v-btn__content[data-no-activator=""]`
+  - `.font-weight-regular`
+  - `.my-3[data-v-445c379e=""] > p`
+  - `.my-3[data-v-445c379e=""] > p > a[href$="technique"]`
+  - `.my-0.opacity-80 > .font-weight-bold`
+  - `.my-0.opacity-80 > span:nth-child(3)`
+  - `.v-btn__content[data-no-activator=""] > .opacity-80`
+  - … +23 autres
+- http://localhost:7044/g/home/r/golden-lentil-soup [state:recipe-lastmade-dialog]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--variant-text.v-btn--size-default[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.pa-0.v-btn--size-small.v-btn--variant-text > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.font-weight-regular`
+  - `.my-3[data-v-445c379e=""] > p`
+  - `.my-3[data-v-445c379e=""] > p > a[href$="technique"]`
+  - `.my-0.opacity-80 > .font-weight-bold`
+  - `.my-0.opacity-80 > span:nth-child(3)`
+  - `.v-btn__content[data-no-activator=""] > .opacity-80`
+  - … +19 autres
+- http://localhost:7044/shopping-lists/9ccd85e2-70d1-43a7-b8aa-acbdbd7fa97c [state:shopping-item-editor]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2.pa-0.v-btn--size-small > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-btn--variant-outlined > .v-btn__content[data-no-activator=""]`
+  - `.v-row.v-row--no-gutters > h2`
+  - `label[for="input-v-0-59"]`
+  - `#input-v-0-59`
+  - `label[for="input-v-0-63"]`
+  - `#input-v-0-63`
+  - … +6 autres
+- http://localhost:7044/g/home [state:theme-dark]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-lighten-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-24"] > .v-btn__content[data-no-activator=""]`
+  - … +30 autres
+- http://localhost:7044/g/home [state:theme-dark-menu]
+  - `#input-v-0-4`
+  - `.v-toolbar__content > .v-btn--size-default.v-btn--variant-text[data-v-51fa11fe=""] > .v-btn__content[data-no-activator=""]`
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-lighten-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-16`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-24"] > .v-btn__content[data-no-activator=""]`
+  - … +30 autres
+- http://localhost:7044/g/home [state:mobile-drawer-390]
+  - `.px-2 > .v-btn__content[data-no-activator=""]`
+  - `.bg-background-darken-1 > .v-btn__content[data-no-activator=""]`
+  - `.v-list-item--active > .v-list-item__content[data-no-activator=""] > .v-list-item-title`
+  - `#input-v-0-14`
+  - `button[aria-controls="v-menu-v-0-16"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-18"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-20"] > .v-btn__content[data-no-activator=""]`
+  - `button[aria-controls="v-menu-v-0-22"] > .v-btn__content[data-no-activator=""]`
+  - `.text-headline-small`
+  - `a[href$="shared-lemon-bars"] > .v-list-item--density-compact.v-list-item--two-line[item-props=""] > .v-list-item__content[data-no-activator=""] > .pl-4.justify-space-between.align-stretch > .mb-1.text-truncate.mt-3`
+  - … +34 autres
+
+## Erreurs (1) — exit code != 0
+
+Ces scénarios n'ont pas été audités. Un audit partiel n'est pas un PASS : le gate CI échoue tant qu'un scénario demandé manque.
+
+- http://localhost:7044/household/mealplan/planner?start=2026-10-08&end=2026-10-14 — le document final diffère du document demandé (http://localhost:7044/household/mealplan/planner/?start=2026-10-08&end=2026-10-14) — déclarer l'URL réelle de l'état dans STATES
+

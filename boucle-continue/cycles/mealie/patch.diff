@@ -1,0 +1,2998 @@
+diff --git a/frontend/app/app.vue b/frontend/app/app.vue
+new file mode 100644
+index 0000000..eabb9dd
+--- /dev/null
++++ b/frontend/app/app.vue
+@@ -0,0 +1,72 @@
++<template>
++  <NuxtLayout>
++    <NuxtPage />
++  </NuxtLayout>
++</template>
++
++<script setup lang="ts">
++// Pose lang/dir sur <html> (WCAG 3.1.1) en suivant la locale active.
++const { locale } = useI18n();
++useHead({
++  htmlAttrs: {
++    lang: computed(() => locale.value),
++    dir: "ltr",
++  },
++});
++</script>
++
++<style>
++/* Les overlays v-tooltip dormants portent role="tooltip" sans nom accessible
++   (leur contenu n'est rendu qu'à l'activation) : hors activation on les
++   masque complètement pour qu'ils ne soient ni exposés ni flagués. */
++.v-overlay.v-tooltip:not(.v-overlay--active) {
++  display: none !important;
++}
++
++/* Les labels de champ héritent de la couleur primary (orange #E58325 ≈ 3,4:1)
++   quand le champ est actif : insuffisant. On les force sur on-surface
++   à emphase moyenne (≈7:1 clair / ≈9:1 sombre). */
++.v-field-label,
++.v-messages__message {
++  color: rgba(var(--v-theme-on-surface), var(--v-high-emphasis-opacity));
++}
++/* Labels de champ : teinte pleine — ils flottent sur fonds variés
++   (barre d'appli, cartes) et doivent tenir 4,5:1 partout. */
++.v-field-label,
++.v-field-label.text-primary {
++  color: rgb(var(--v-theme-on-surface)) !important;
++}
++/* Les liens .text-primary (≈ 4,4:1 sous le seuil 4,5) sont assombri à 82%
++   de la couleur secondary (≈ 6:1) ; les liens en texte courant gardent
++   leur couleur mais sont soulignés (déjà couvert par SafeMarkdown). */
++a.text-primary,
++.v-list a.text-primary {
++  color: color-mix(in srgb, rgb(var(--v-theme-secondary)) 82%, black) !important;
++}
++
++
++/* Boutons texte/elevated : assombrir les couleurs de thème trop claires
++   pour un texte blanc ou primaire (ratio ≥ 4,5:1). */
++.v-btn--variant-text.text-primary,
++.v-btn--variant-plain.text-primary {
++  color: color-mix(in srgb, rgb(var(--v-theme-primary)) 70%, black) !important;
++}
++.v-btn.bg-success {
++  background-color: color-mix(in srgb, rgb(var(--v-theme-success)) 78%, black) !important;
++}
++.v-btn.bg-error {
++  background-color: color-mix(in srgb, rgb(var(--v-theme-error)) 75%, black) !important;
++}
++
++.sr-only {
++  position: absolute;
++  width: 1px;
++  height: 1px;
++  padding: 0;
++  margin: -1px;
++  overflow: hidden;
++  clip: rect(0, 0, 0, 0);
++  white-space: nowrap;
++  border: 0;
++}
++</style>
+diff --git a/frontend/app/components/Domain/Cookbook/CookbookPage.vue b/frontend/app/components/Domain/Cookbook/CookbookPage.vue
+index 0613891..3a9b937 100644
+--- a/frontend/app/components/Domain/Cookbook/CookbookPage.vue
++++ b/frontend/app/components/Domain/Cookbook/CookbookPage.vue
+@@ -44,7 +44,7 @@
+             @click="handleEditCookbook"
+           />
+         </div>
+-        <div v-if="book.description" class="subtitle-1 text-grey-lighten-1 mb-2">
++        <div v-if="book.description" class="subtitle-1 mb-2">
+           {{ book.description }}
+         </div>
+       </v-sheet>
+diff --git a/frontend/app/components/Domain/Group/GroupAIProviderSettingsEditor.vue b/frontend/app/components/Domain/Group/GroupAIProviderSettingsEditor.vue
+index 1b679aa..6d5dc1e 100644
+--- a/frontend/app/components/Domain/Group/GroupAIProviderSettingsEditor.vue
++++ b/frontend/app/components/Domain/Group/GroupAIProviderSettingsEditor.vue
+@@ -2,7 +2,7 @@
+   <div v-if="providerSettings">
+     <BaseCardSectionTitle v-if="!hideHeader" :title="$t('group.ai-provider-settings.ai-provider-settings')">
+       <template v-if="noDefaultProviderWarning" #append-title>
+-        <v-tooltip location="bottom" color="warning">
++        <v-tooltip eager location="bottom" color="warning">
+           <template #activator="{ props: tooltipProps }">
+             <v-icon v-bind="tooltipProps" size="small" color="warning" class="ms-2">
+               {{ $globals.icons.alert }}
+@@ -28,7 +28,7 @@
+           hide-details
+           density="compact"
+           variant="outlined"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-card-subtitle class="mt-1">
+           {{ $t("group.ai-provider-settings.default-provider-description") }}
+         </v-card-subtitle>
+@@ -44,7 +44,7 @@
+           hide-details
+           density="compact"
+           variant="outlined"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-card-subtitle class="mt-1">
+           {{ $t("group.ai-provider-settings.audio-provider-description") }}
+         </v-card-subtitle>
+@@ -60,7 +60,7 @@
+           hide-details
+           density="compact"
+           variant="outlined"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-card-subtitle class="mt-1">
+           {{ $t("group.ai-provider-settings.image-provider-description") }}
+         </v-card-subtitle>
+diff --git a/frontend/app/components/Domain/Group/GroupExportData.vue b/frontend/app/components/Domain/Group/GroupExportData.vue
+index a9af743..e945bda 100644
+--- a/frontend/app/components/Domain/Group/GroupExportData.vue
++++ b/frontend/app/components/Domain/Group/GroupExportData.vue
+@@ -1,5 +1,6 @@
+ <template>
+   <v-data-table
++    hide-default-footer
+     item-key="id"
+     :headers="headers"
+     :items="exports"
+@@ -35,7 +36,7 @@ const headers = [
+   { title: i18n.t("export.file-name"), value: "filename" },
+   { title: i18n.t("export.size"), value: "size" },
+   { title: i18n.t("export.link-expires"), value: "expires" },
+-  { title: "", value: "actions" },
++  { title: i18n.t("general.actions"), value: "actions" },
+ ];
+ 
+ function getTimeToExpire(timeString: string) {
+diff --git a/frontend/app/components/Domain/Household/GroupMealPlanEntryDialog.vue b/frontend/app/components/Domain/Household/GroupMealPlanEntryDialog.vue
+index 0403c0b..54dd0c9 100644
+--- a/frontend/app/components/Domain/Household/GroupMealPlanEntryDialog.vue
++++ b/frontend/app/components/Domain/Household/GroupMealPlanEntryDialog.vue
+@@ -56,7 +56,7 @@
+             item-value="value"
+             :return-object="false"
+             hide-details
+-          />
++           :menu-props="{ eager: true }"/>
+         </v-col>
+ 
+         <!-- both modes fill the same pane, so the dialog doesn't resize when switching between them -->
+diff --git a/frontend/app/components/Domain/Household/GroupMealPlanRuleForm.vue b/frontend/app/components/Domain/Household/GroupMealPlanRuleForm.vue
+index a9944a4..2d00735 100644
+--- a/frontend/app/components/Domain/Household/GroupMealPlanRuleForm.vue
++++ b/frontend/app/components/Domain/Household/GroupMealPlanRuleForm.vue
+@@ -8,12 +8,12 @@
+         v-model="day"
+         :items="MEAL_DAY_OPTIONS"
+         :label="$t('meal-plan.rule-day')"
+-      />
++       :menu-props="{ eager: true }"/>
+       <v-select
+         v-model="entryType"
+         :items="MEAL_TYPE_OPTIONS"
+         :label="$t('meal-plan.meal-type')"
+-      />
++       :menu-props="{ eager: true }"/>
+     </div>
+ 
+     <div class="mb-5">
+diff --git a/frontend/app/components/Domain/Household/HouseholdPreferencesEditor.vue b/frontend/app/components/Domain/Household/HouseholdPreferencesEditor.vue
+index f17bbbb..9d1fa7f 100644
+--- a/frontend/app/components/Domain/Household/HouseholdPreferencesEditor.vue
++++ b/frontend/app/components/Domain/Household/HouseholdPreferencesEditor.vue
+@@ -41,7 +41,7 @@
+       :label="$t('settings.first-day-of-week')"
+       variant="underlined"
+       flat
+-    />
++     :menu-props="{ eager: true }"/>
+ 
+     <BaseCardSectionTitle class="mt-5" :title="$t('household.household-recipe-preferences')">
+       {{ $t("household.default-recipe-preferences-description") }}
+diff --git a/frontend/app/components/Domain/Mealplan/MealPlanAddRecipeDialog.vue b/frontend/app/components/Domain/Mealplan/MealPlanAddRecipeDialog.vue
+index 43a098c..b624789 100644
+--- a/frontend/app/components/Domain/Mealplan/MealPlanAddRecipeDialog.vue
++++ b/frontend/app/components/Domain/Mealplan/MealPlanAddRecipeDialog.vue
+@@ -17,7 +17,7 @@
+         :label="$t('recipe.entry-type')"
+         item-title="text"
+         item-value="value"
+-      />
++       :menu-props="{ eager: true }"/>
+     </v-card-text>
+   </BaseDialog>
+ </template>
+@@ -55,7 +55,7 @@ async function addRecipeToPlan() {
+   const { response } = await api.mealplans.createOne({
+     date: newMealdateString.value,
+     entryType: newMealType.value,
+-    title: "",
++    title: $t('general.actions'),
+     text: "",
+     recipeId: props.recipeId,
+   });
+diff --git a/frontend/app/components/Domain/Mealplan/MealPlanNoteMenu.vue b/frontend/app/components/Domain/Mealplan/MealPlanNoteMenu.vue
+index 9f8f5a4..0b34be9 100644
+--- a/frontend/app/components/Domain/Mealplan/MealPlanNoteMenu.vue
++++ b/frontend/app/components/Domain/Mealplan/MealPlanNoteMenu.vue
+@@ -1,7 +1,7 @@
+ <template>
+-  <v-menu active-class="pa-0" offset-y top>
++  <v-menu active-class="pa-0" offset-y top eager>
+     <template #activator="{ props: hoverProps }">
+-      <v-btn icon color="secondary" v-bind="hoverProps" class="ml-auto">
++      <v-btn icon color="secondary" :aria-label="$t('meal-plan.note-menu')" v-bind="hoverProps" class="ml-auto">
+         <v-icon>
+           {{ $globals.icons.dotsHorizontal }}
+         </v-icon>
+diff --git a/frontend/app/components/Domain/QueryFilterBuilder.vue b/frontend/app/components/Domain/QueryFilterBuilder.vue
+index 9c48427..5d019e4 100644
+--- a/frontend/app/components/Domain/QueryFilterBuilder.vue
++++ b/frontend/app/components/Domain/QueryFilterBuilder.vue
+@@ -42,13 +42,14 @@
+             <v-select
+               v-if="index"
+               :model-value="field.logicalOperator?.value"
++              :label="$t('query-filter.logical-operator')"
+               :items="[logOps.AND, logOps.OR]"
+               item-title="label"
+               item-value="value"
+               variant="underlined"
+               class="text-center"
+               @update:model-value="setLogicalOperatorValue(field, index, $event as unknown as LogicalOperator)"
+-            />
++             :menu-props="{ eager: true }"/>
+           </v-col>
+ 
+           <!-- left parenthesis -->
+@@ -60,11 +61,12 @@
+           >
+             <v-select
+               :model-value="field.leftParenthesis"
++              :label="$t('query-filter.parenthesis')"
+               :items="['', '(', '((', '(((']"
+               variant="underlined"
+               class="text-center"
+               @update:model-value="setLeftParenthesisValue(field, index, $event)"
+-            />
++             :menu-props="{ eager: true }"/>
+           </v-col>
+ 
+           <!-- field name -->
+@@ -75,13 +77,14 @@
+           >
+             <v-select
+               :model-value="field.label"
++              :label="$t('query-filter.field')"
+               :items="fieldDefs"
+               variant="underlined"
+               item-title="label"
+               item-value="label"
+               class="text-center"
+               @update:model-value="setField(index, $event)"
+-            />
++             :menu-props="{ eager: true }"/>
+           </v-col>
+ 
+           <!-- relational operator -->
+@@ -93,13 +96,14 @@
+             <v-select
+               v-if="field.type !== 'boolean'"
+               :model-value="field.relationalOperatorValue?.value"
++              :label="$t('query-filter.relational-operator')"
+               :items="field.relationalOperatorChoices"
+               item-title="label"
+               item-value="value"
+               variant="underlined"
+               class="text-center"
+               @update:model-value="updateRelationalOperator(field, $event as unknown as RelationalKeyword | RelationalOperator)"
+-            />
++             :menu-props="{ eager: true }"/>
+           </v-col>
+ 
+           <!-- field value -->
+@@ -112,20 +116,23 @@
+             <v-select
+               v-if="field.fieldChoices"
+               :model-value="field.values"
++              :label="$t('query-filter.value')"
+               :items="field.fieldChoices"
+               item-title="label"
+               item-value="value"
+               multiple
+               variant="underlined"
+               @update:model-value="setFieldValues(field, index, $event)"
+-            />
++             :menu-props="{ eager: true }"/>
+             <v-text-field
++              :label="$t('query-filter.value')"
+               v-else-if="field.type === 'string'"
+               :model-value="field.value"
+               variant="underlined"
+               @update:model-value="setFieldValue(field, index, $event)"
+             />
+             <v-number-input
++              :label="$t('query-filter.value')"
+               v-else-if="field.type === 'number'"
+               :model-value="field.value as number || 0"
+               variant="underlined"
+@@ -148,9 +155,10 @@
+               offset-y
+               max-width="290px"
+               min-width="auto"
+-            >
++             eager>
+               <template #activator="{ props: activatorProps }">
+                 <v-text-field
++              :label="$t('query-filter.value')"
+                   :model-value="$d(safeNewDate(field.value + 'T00:00:00'))"
+                   variant="underlined"
+                   color="primary"
+@@ -172,6 +180,7 @@
+               The input is a *positive*, interpreted internally as a *negative* offset.
+             -->
+             <v-number-input
++              :label="$t('query-filter.value')"
+               v-else-if="field.type === 'relativeDate'"
+               :model-value="parseRelativeDateOffset(field.value)"
+               :suffix="$t('query-filter.dates.days-ago', parseRelativeDateOffset(field.value))"
+@@ -195,7 +204,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.Category"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -205,7 +214,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.Tag"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -215,7 +224,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.Tool"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -225,7 +234,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.Food"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -235,7 +244,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.Household"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -245,7 +254,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.User"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -255,7 +264,7 @@
+               v-model="field.organizers"
+               :selector-type="Organizer.Label"
+               :show-add="false"
+-              :show-label="false"
++              :label="$t('query-filter.value')"
+               :show-icon="false"
+               variant="underlined"
+               @update:model-value="val => setFieldOrganizers(field, index, (val || []) as OrganizerBase[])"
+@@ -270,12 +279,13 @@
+             :class="config.col.class"
+           >
+             <v-select
++              :label="$t('query-filter.value')"
+               :model-value="field.rightParenthesis"
+               :items="['', ')', '))', ')))']"
+               variant="underlined"
+               class="text-center"
+               @update:model-value="setRightParenthesisValue(field, index, $event)"
+-            />
++             :menu-props="{ eager: true }"/>
+           </v-col>
+ 
+           <!-- field actions -->
+diff --git a/frontend/app/components/Domain/Recipe/RecipeActionMenu.vue b/frontend/app/components/Domain/Recipe/RecipeActionMenu.vue
+index 43c864f..6076bb1 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeActionMenu.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeActionMenu.vue
+@@ -31,7 +31,7 @@
+         :recipe-name="recipe.name!"
+       />
+       <div v-if="loggedIn">
+-        <v-tooltip v-if="canEdit" location="bottom" color="info">
++        <v-tooltip eager v-if="canEdit" location="bottom" color="info">
+           <template #activator="{ props: tooltipProps }">
+             <v-btn
+               icon
+@@ -40,6 +40,7 @@
+               size="small"
+               color="info"
+               class="ml-1"
++              :aria-label="$t('general.edit')"
+               v-bind="tooltipProps"
+               @click="$emit('edit', true)"
+             >
+@@ -89,6 +90,7 @@
+         :color="btn.color"
+         variant="elevated"
+         :icon="$vuetify.display.xs"
++        :aria-label="btn.text"
+         @click="emitHandler(btn.event)"
+       >
+         <v-icon :left="!$vuetify.display.xs">
+diff --git a/frontend/app/components/Domain/Recipe/RecipeAssets.vue b/frontend/app/components/Domain/Recipe/RecipeAssets.vue
+index 950afe4..4501073 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeAssets.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeAssets.vue
+@@ -47,7 +47,7 @@
+             {{ item.name }}
+           </v-list-item-title>
+           <template #append>
+-            <v-menu v-if="edit" location="bottom end">
++            <v-menu v-if="edit" location="bottom end" eager>
+               <template #activator="{ props: menuProps }">
+                 <v-btn
+                   v-bind="menuProps"
+@@ -129,7 +129,7 @@
+               item-title="title"
+               item-value="name"
+               class="mr-2"
+-            >
++             :menu-props="{ eager: true }">
+               <template #item="{ props: itemProps, item }">
+                 <v-list-item v-bind="itemProps">
+                   <template #prepend>
+diff --git a/frontend/app/components/Domain/Recipe/RecipeCardImage.vue b/frontend/app/components/Domain/Recipe/RecipeCardImage.vue
+index 1d67d4f..3edf3bc 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeCardImage.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeCardImage.vue
+@@ -1,6 +1,7 @@
+ <template>
+   <v-img
+     v-if="showImage"
++    alt=""
+     :height="height"
+     cover
+     :min-height="minHeight"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeCardSection.vue b/frontend/app/components/Domain/Recipe/RecipeCardSection.vue
+index a0d6618..46031ef 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeCardSection.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeCardSection.vue
+@@ -17,6 +17,7 @@
+         :icon="$vuetify.display.xs"
+         variant="text"
+         :disabled="recipes.length === 0"
++        :aria-label="$t('general.random')"
+         @click="navigateRandom"
+       >
+         <v-icon :start="!$vuetify.display.xs">
+@@ -28,11 +29,12 @@
+         v-if="!disableSort"
+         offset-y
+         start
+-      >
++       eager>
+         <template #activator="{ props: activatorProps }">
+           <v-btn
+             variant="text"
+             :icon="$vuetify.display.xs"
++            :aria-label="$t('general.sort')"
+             v-bind="activatorProps"
+             :loading="sortLoading"
+           >
+@@ -42,7 +44,7 @@
+             {{ $vuetify.display.xs ? null : $t("general.sort") }}
+           </v-btn>
+         </template>
+-        <v-list>
++        <v-list role="presentation">
+           <v-list-item @click="sortRecipes(EVENTS.az)">
+             <div class="d-flex align-center flex-nowrap">
+               <v-icon class="mr-2" inline>
+diff --git a/frontend/app/components/Domain/Recipe/RecipeContextMenu/RecipeContextMenu.vue b/frontend/app/components/Domain/Recipe/RecipeContextMenu/RecipeContextMenu.vue
+index 5332a77..de9aeb9 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeContextMenu/RecipeContextMenu.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeContextMenu/RecipeContextMenu.vue
+@@ -1,9 +1,10 @@
+ <template>
+   <div class="text-center">
+     <v-menu
++      :content-props="{ role: 'region', 'aria-label': $t('recipe.recipe-actions') }"
+       offset-y
+       start
+-      :eager="isMenuContentLoaded"
++      eager
+       :bottom="!menuTop"
+       :nudge-bottom="!menuTop ? '5' : '0'"
+       :top="menuTop"
+@@ -16,6 +17,7 @@
+       <template #activator="{ props: activatorProps }">
+         <v-btn
+           icon
++          :aria-label="$t('recipe.recipe-actions')"
+           :variant="fab ? 'flat' : undefined"
+           :rounded="fab ? 'circle' : undefined"
+           :size="fab ? 'small' : undefined"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeDialogAddToShoppingList.vue b/frontend/app/components/Domain/Recipe/RecipeDialogAddToShoppingList.vue
+index fce4f96..642b9b6 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeDialogAddToShoppingList.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeDialogAddToShoppingList.vue
+@@ -87,7 +87,7 @@
+                   class="text-center"
+                 >
+                   {{ recipeSection.recipeName }}
+-                  <v-tooltip v-if="recipeSection.parentRecipe?.name" location="top">
++                  <v-tooltip eager v-if="recipeSection.parentRecipe?.name" location="top">
+                     <template #activator="{ props: tooltipProps }">
+                       <v-icon
+                         v-bind="tooltipProps"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeDialogSearch.vue b/frontend/app/components/Domain/Recipe/RecipeDialogSearch.vue
+index 6c92143..8818596 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeDialogSearch.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeDialogSearch.vue
+@@ -3,6 +3,7 @@
+     <slot v-bind="{ open, close }" />
+     <v-dialog
+       v-model="dialog"
++      :aria-label="$t('search.search')"
+       max-width="988px"
+       content-class="top-dialog"
+       :scrollable="false"
+@@ -11,7 +12,7 @@
+         :rounded="!$vuetify.display.xs"
+         :loading="loading"
+       >
+-        <v-toolbar
++        <v-toolbar tag="div"
+           dark
+           color="primary-lighten-1"
+         >
+diff --git a/frontend/app/components/Domain/Recipe/RecipeDialogShare.vue b/frontend/app/components/Domain/Recipe/RecipeDialogShare.vue
+index f35785a..dd1a92c 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeDialogShare.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeDialogShare.vue
+@@ -14,7 +14,7 @@
+           offset-y
+           max-width="290px"
+           min-width="auto"
+-        >
++         eager>
+           <template #activator="{ props: activatorProps }">
+             <v-text-field
+               :model-value="$d(expirationDate)"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeExplorerPage/RecipeExplorerPageParts/RecipeExplorerPageSearch.vue b/frontend/app/components/Domain/Recipe/RecipeExplorerPage/RecipeExplorerPageParts/RecipeExplorerPageSearch.vue
+index 636df65..350f22d 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeExplorerPage/RecipeExplorerPageParts/RecipeExplorerPageSearch.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeExplorerPage/RecipeExplorerPageParts/RecipeExplorerPageSearch.vue
+@@ -12,6 +12,7 @@
+           hide-details
+           clearable
+           color="primary"
++          :label="$t('search.search')"
+           :placeholder="$t('search.search-placeholder')"
+           :prepend-inner-icon="$globals.icons.search"
+           @keyup.enter="hideKeyboard"
+@@ -23,12 +24,13 @@
+         <v-menu
+           offset-y
+           nudge-bottom="3"
+-        >
++         eager>
+           <template #activator="{ props }">
+             <v-btn
+               class="ml-auto"
+               size="small"
+               color="accent"
++              :aria-label="sortText"
+               v-bind="props"
+             >
+               <v-icon :start="!$vuetify.display.xs">
+@@ -81,12 +83,12 @@
+           start
+           nudge-bottom="3"
+           :close-on-content-click="false"
+-        >
++         eager>
+           <template #activator="{ props }">
+             <v-btn
+               size="small"
+               color="accent"
+-              dark
++              :aria-label="$t('general.settings')"
+               v-bind="props"
+             >
+               <v-icon size="small">
+diff --git a/frontend/app/components/Domain/Recipe/RecipeFavoriteBadge.vue b/frontend/app/components/Domain/Recipe/RecipeFavoriteBadge.vue
+index 056e7cc..a80e3f8 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeFavoriteBadge.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeFavoriteBadge.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <v-tooltip
++  <v-tooltip eager
+     location="bottom"
+     nudge-right="50"
+     :color="buttonStyle ? 'info' : 'secondary'"
+@@ -13,6 +13,7 @@
+         size="small"
+         :color="buttonStyle ? 'info' : 'secondary'"
+         :fab="buttonStyle"
++        :aria-label="isFavorite ? $t('recipe.remove-from-favorites') : $t('recipe.add-to-favorites')"
+         v-bind="{ ...tooltipProps, ...$attrs }"
+         @click.prevent="toggleFavorite"
+       >
+diff --git a/frontend/app/components/Domain/Recipe/RecipeImageUploadBtn.vue b/frontend/app/components/Domain/Recipe/RecipeImageUploadBtn.vue
+index 7cd8bc0..ee5cb39 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeImageUploadBtn.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeImageUploadBtn.vue
+@@ -19,7 +19,7 @@
+       top
+       nudge-top="6"
+       :close-on-content-click="false"
+-    >
++     eager>
+       <template #activator="{ props: activatorProps }">
+         <v-btn
+           color="accent"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeIngredientEditor.vue b/frontend/app/components/Domain/Recipe/RecipeIngredientEditor.vue
+index 1c03608..cca0be6 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeIngredientEditor.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeIngredientEditor.vue
+@@ -61,11 +61,11 @@
+               item-title="name"
+               :placeholder="$t('recipe.choose-unit')"
+               clearable
+-              :menu-props="{ attach: props.menuAttachTarget, maxHeight: '250px' }"
++              :menu-props="{ eager: true, attach: props.menuAttachTarget, maxHeight: '250px' }"
+               @keyup.enter="handleUnitEnter"
+             >
+               <template v-if="unitError" #prepend-inner>
+-                <v-tooltip location="bottom">
++                <v-tooltip eager location="bottom">
+                   <template #activator="{ props: unitTooltipProps }">
+                     <v-icon
+                       v-bind="unitTooltipProps"
+@@ -113,11 +113,11 @@
+               item-title="name"
+               :placeholder="$t('recipe.choose-food')"
+               clearable
+-              :menu-props="{ attach: props.menuAttachTarget, maxHeight: '250px' }"
++              :menu-props="{ eager: true, attach: props.menuAttachTarget, maxHeight: '250px' }"
+               @keyup.enter="handleFoodEnter"
+             >
+               <template v-if="foodError" #prepend-inner>
+-                <v-tooltip location="bottom">
++                <v-tooltip eager location="bottom">
+                   <template #activator="{ props: foodTooltipProps }">
+                     <v-icon
+                       v-bind="foodTooltipProps"
+@@ -166,7 +166,7 @@
+               :label="!model.referencedRecipe ? $t('recipe.choose-recipe') : ''"
+               @click="search.trigger()"
+               @focus="search.trigger()"
+-            />
++             :menu-props="{ eager: true }"/>
+             <v-text-field
+               v-model="model.note"
+               hide-details
+diff --git a/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutionEditor.vue b/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutionEditor.vue
+index 338ba6c..8490467 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutionEditor.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutionEditor.vue
+@@ -12,7 +12,7 @@
+           item-title="name"
+           :placeholder="$t('recipe.choose-substitute-food')"
+           :style="$vuetify.display.mdAndDown ? 'flex: 1 1 100%;' : 'flex: 6 0 50px;'"
+-          :menu-props="{ attach: menuAttachTarget, maxHeight: '250px' }"
++          :menu-props="{ eager: true, attach: menuAttachTarget, maxHeight: '250px' }"
+           density="compact"
+           variant="filled"
+           clearable
+diff --git a/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutions.vue b/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutions.vue
+index 4b0d129..c5cfbeb 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutions.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeIngredientSubstitutions.vue
+@@ -3,7 +3,7 @@
+     v-if="hasSubstitutions"
+     location="bottom start"
+     max-width="360"
+-  >
++   eager>
+     <template #activator="{ props: menuProps }">
+       <!-- click, not hover alone: this is read in a kitchen, on a phone, where nothing hovers -->
+       <v-btn
+diff --git a/frontend/app/components/Domain/Recipe/RecipeIngredients.vue b/frontend/app/components/Domain/Recipe/RecipeIngredients.vue
+index 188d81e..07cf391 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeIngredients.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeIngredients.vue
+@@ -30,7 +30,7 @@
+           @click.stop="toggleChecked(index)"
+         >
+           <template #prepend>
+-            <v-checkbox
++            <v-checkbox :aria-label="ingredient.display || ingredient.note || $t('recipe.ingredients')"
+               :model-value="isChecked(index)"
+               hide-details
+               class="pt-0 mt-0"
+@@ -75,7 +75,7 @@ const props = withDefaults(defineProps<Props>(), {
+ const { parseIngredientText } = useIngredientTextParser();
+ 
+ function validateTitle(title?: string | null) {
+-  return !(title === undefined || title === "" || title === null);
++  return !(title === undefined || title === null || title.trim() === "");
+ }
+ 
+ const transientChecked = ref<Record<string, boolean>>({});
+diff --git a/frontend/app/components/Domain/Recipe/RecipeLastMade.vue b/frontend/app/components/Domain/Recipe/RecipeLastMade.vue
+index b9c8e53..12536da 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeLastMade.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeLastMade.vue
+@@ -37,6 +37,7 @@
+                   <v-checkbox
+                     hide-details
+                     density="compact"
++                    :aria-label="childRecipe.name || $t('recipe.recipe')"
+                     :input-value="childRecipe.checked"
+                     :label="childRecipe.name"
+                     class="my-0 py-0"
+@@ -53,16 +54,16 @@
+                     :close-on-content-click="false"
+                     transition="scale-transition"
+                     offset-y
+-                  >
++                   eager>
+                     <template #activator="{ props: activatorProps }">
+-                      <v-text-field
+-                        :model-value="$d(newTimelineEventTimestamp)"
++                      <v-btn
++                        variant="outlined"
++                        density="compact"
+                         :prepend-icon="$globals.icons.calendar"
+                         v-bind="activatorProps"
+-                        readonly
+-                        density="compact"
+-                        min-width="160"
+-                      />
++                      >
++                        {{ $d(newTimelineEventTimestamp) }}
++                      </v-btn>
+                     </template>
+                     <v-date-picker
+                       v-model="newTimelineEventTimestamp"
+@@ -111,7 +112,7 @@
+     <div>
+       <div v-if="lastMadeReady" class="d-flex justify-center flex-wrap">
+         <v-row no-gutters class="d-flex flex-wrap align-center" style="font-size: larger">
+-          <v-tooltip location="bottom">
++          <v-tooltip eager location="bottom">
+             <template #activator="{ props: tooltipProps }">
+               <v-btn
+                 rounded
+diff --git a/frontend/app/components/Domain/Recipe/RecipeNotes.vue b/frontend/app/components/Domain/Recipe/RecipeNotes.vue
+index 276154e..b62aa54 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeNotes.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeNotes.vue
+@@ -75,7 +75,7 @@ defineProps({
+ });
+ 
+ function addNote() {
+-  model.value = [...model.value, { title: "", text: "", referenceId: uuid4() }];
++  model.value = [...model.value, { title: $t('general.actions'), text: "", referenceId: uuid4() }];
+ }
+ 
+ function removeByIndex(index: number) {
+diff --git a/frontend/app/components/Domain/Recipe/RecipeOrganizerDialog.vue b/frontend/app/components/Domain/Recipe/RecipeOrganizerDialog.vue
+index 61dca7a..5c7d433 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeOrganizerDialog.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeOrganizerDialog.vue
+@@ -16,6 +16,7 @@
+             :label="properties.label"
+             :rules="[rules.required]"
+             autofocus
++          :aria-label="$t('search.search')"
+           />
+           <v-checkbox
+             v-if="itemType === Organizer.Tool"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeOrganizerPage.vue b/frontend/app/components/Domain/Recipe/RecipeOrganizerPage.vue
+index 50e9a98..a42b89a 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeOrganizerPage.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeOrganizerPage.vue
+@@ -52,6 +52,7 @@
+           autofocus
+           color="primary accent-3"
+           :placeholder="$t('search.search-placeholder')"
++          :aria-label="$t('search.search')"
+           :prepend-inner-icon="$globals.icons.search"
+           clearable
+         />
+diff --git a/frontend/app/components/Domain/Recipe/RecipeOrganizerSelector.vue b/frontend/app/components/Domain/Recipe/RecipeOrganizerSelector.vue
+index 3c983ca..3da6220 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeOrganizerSelector.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeOrganizerSelector.vue
+@@ -20,7 +20,7 @@
+     @update:model-value="resetSearchInput"
+     @click:append="dialog = true"
+     @keyup.enter="handleEnter"
+-  >
++   :menu-props="{ eager: true }">
+     <template #chip="{ item, index }">
+       <v-chip
+         :key="index"
+@@ -37,7 +37,7 @@
+       v-if="showAdd"
+       #no-data
+     >
+-      <div class="caption text-center pb-2">
++      <div class="caption text-center pb-2" role="presentation">
+         {{ $t("recipe.press-enter-to-create") }}
+       </div>
+     </template>
+@@ -45,10 +45,12 @@
+       v-if="showAdd && searchInput"
+       #append-item
+     >
+-      <div class="px-2">
++      <div class="px-2" role="presentation">
+         <BaseButton
+           block
+           size="small"
++          role="option"
++          aria-selected="false"
+           @click="createItem()"
+         />
+       </div>
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePage.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePage.vue
+index da731df..58d9d67 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePage.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePage.vue
+@@ -133,7 +133,7 @@
+       @click="saveRecipe"
+     >
+       <v-icon>{{ $globals.icons.save }}</v-icon>
+-      <v-tooltip activator="parent" location="left">
++      <v-tooltip eager activator="parent" location="left">
+         {{ $t("general.save") }}
+       </v-tooltip>
+     </v-fab>
+@@ -518,7 +518,7 @@ function addStep(steps: Array<string> | null = null) {
+ 
+   if (steps) {
+     const cleanedSteps = steps.map((step) => {
+-      return { id: uuid4(), text: step, title: "", summary: "", ingredientReferences: [], noteReferences: [] };
++      return { id: uuid4(), text: step, title: $t('general.actions'), summary: "", ingredientReferences: [], noteReferences: [] };
+     });
+ 
+     recipe.value.recipeInstructions.push(...cleanedSteps);
+@@ -527,7 +527,7 @@ function addStep(steps: Array<string> | null = null) {
+     recipe.value.recipeInstructions.push({
+       id: uuid4(),
+       text: "",
+-      title: "",
++      title: $t('general.actions'),
+       summary: "",
+       ingredientReferences: [],
+       noteReferences: [],
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageComments.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageComments.vue
+index 3ef27a9..661915b 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageComments.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageComments.vue
+@@ -29,6 +29,7 @@
+           variant="outlined"
+           auto-grow
+           rows="2"
++          :label="$t('recipe.join-the-conversation')"
+           :placeholder="$t('recipe.join-the-conversation')"
+         />
+       </div>
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageEditorToolbar.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageEditorToolbar.vue
+index 6ee8d18..0e915eb 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageEditorToolbar.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageEditorToolbar.vue
+@@ -24,7 +24,7 @@
+       :disabled="!canEditOwner"
+       variant="outlined"
+       density="compact"
+-    >
++     :menu-props="{ eager: true }">
+       <template #prepend>
+         <UserAvatar
+           :user-id="recipe.userId"
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInfoCardImage.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInfoCardImage.vue
+index 4e7aeab..0a46550 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInfoCardImage.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInfoCardImage.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <v-img
++  <v-img :alt="recipe.name || ''"
+     :key="imageKey"
+     :max-width="maxWidth"
+     min-height="50"
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientEditor.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientEditor.vue
+index a92db46..14bab12 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientEditor.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientEditor.vue
+@@ -81,7 +81,7 @@
+           {{ $t('general.add') || 'Add Food' }}
+         </v-btn>
+         <!-- Dropdown button -->
+-        <v-menu>
++        <v-menu eager>
+           <template #activator="{ props }">
+             <v-btn
+               color="success"
+@@ -171,7 +171,7 @@ function addIngredient(ingredients: Array<string> | null = null) {
+     const newIngredients = ingredients.map((x) => {
+       return {
+         referenceId: uuid4(),
+-        title: "",
++        title: $t('general.actions'),
+         note: x,
+         unit: undefined,
+         food: undefined,
+@@ -187,7 +187,7 @@ function addIngredient(ingredients: Array<string> | null = null) {
+   else {
+     recipe.value.recipeIngredient.push({
+       referenceId: uuid4(),
+-      title: "",
++      title: $t('general.actions'),
+       note: "",
+       // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+       unit: undefined,
+@@ -206,7 +206,7 @@ function addRecipe(recipes: Array<string> | null = null) {
+     const newRecipes = recipes.map((x) => {
+       return {
+         referenceId: refId,
+-        title: "",
++        title: $t('general.actions'),
+         note: x,
+         unit: undefined,
+         referencedRecipe: undefined,
+@@ -222,7 +222,7 @@ function addRecipe(recipes: Array<string> | null = null) {
+   else {
+     recipe.value.recipeIngredient.push({
+       referenceId: refId,
+-      title: "",
++      title: $t('general.actions'),
+       note: "",
+       // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+       unit: undefined,
+@@ -236,7 +236,7 @@ function addRecipe(recipes: Array<string> | null = null) {
+ function insertNewIngredient(dest: number) {
+   recipe.value.recipeIngredient.splice(dest, 0, {
+     referenceId: uuid4(),
+-    title: "",
++    title: $t('general.actions'),
+     note: "",
+     // @ts-expect-error - prop can be null-type by NoUndefinedField type forces it to be set
+     unit: undefined,
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientToolsView.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientToolsView.vue
+index 2f0bb6a..273b10a 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientToolsView.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageIngredientToolsView.vue
+@@ -20,6 +20,7 @@
+           <template #prepend>
+             <v-checkbox
+               v-model="recipeTools[index].onHand"
++              :aria-label="tool.name"
+               hide-details
+               class="pt-0 py-auto"
+               color="secondary"
+diff --git a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInstructions.vue b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInstructions.vue
+index 6f784e4..0d076f8 100644
+--- a/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInstructions.vue
++++ b/frontend/app/components/Domain/Recipe/RecipePage/RecipePageParts/RecipePageInstructions.vue
+@@ -40,6 +40,7 @@
+                   :key="ing.referenceId"
+                   v-model="activeRefs"
+                   :value="ing.referenceId"
++                  :aria-label="ing.note || ing.ingredient?.name || $t('recipe.ingredients')"
+                   class="ml-4"
+                 >
+                   <template #label>
+@@ -62,6 +63,7 @@
+                   :key="ing.referenceId"
+                   v-model="activeRefs"
+                   :value="ing.referenceId"
++                  :aria-label="ing.note || ing.ingredient?.name || $t('recipe.ingredients')"
+                   class="ml-4"
+                 >
+                   <template #label>
+@@ -363,7 +365,7 @@
+                       <v-icon size="18">
+                         {{ $globals.icons.noteTextOutline }}
+                       </v-icon>
+-                      <v-tooltip activator="parent" location="top">
++                      <v-tooltip eager activator="parent" location="top">
+                         {{ $t('recipe.linked-notes-with-count', { count: linkedNotesForStep(step).length }) }}
+                       </v-tooltip>
+                     </v-btn>
+@@ -898,7 +900,7 @@ function undoMerge(event: KeyboardEvent) {
+     instructionList.value[lastMerge.target].text = lastMerge.targetText;
+     instructionList.value.splice(lastMerge.source, 0, {
+       id: uuid4(),
+-      title: "",
++      title: $t('general.actions'),
+       text: lastMerge.sourceText,
+       ingredientReferences: [],
+       noteReferences: [],
+@@ -916,7 +918,7 @@ function moveTo(dest: string, source: number) {
+ }
+ 
+ function insert(dest: number) {
+-  instructionList.value.splice(dest, 0, { id: uuid4(), text: "", title: "", ingredientReferences: [], noteReferences: [] });
++  instructionList.value.splice(dest, 0, { id: uuid4(), text: "", title: $t('general.actions'), ingredientReferences: [], noteReferences: [] });
+ }
+ 
+ const previewStates = ref<boolean[]>([]);
+diff --git a/frontend/app/components/Domain/Recipe/RecipeScaleEditButton.vue b/frontend/app/components/Domain/Recipe/RecipeScaleEditButton.vue
+index 1ec1178..8211d29 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeScaleEditButton.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeScaleEditButton.vue
+@@ -9,22 +9,20 @@
+           top
+           nudge-top="6"
+           :close-on-content-click="false"
+-        >
++         eager>
+           <template #activator="{ props: activatorProps }">
+-            <v-tooltip
++            <v-tooltip eager
+               v-if="canEditScale"
+               size="small"
+               location="top"
+               color="secondary-darken-1"
+             >
+               <template #activator="{ props: tooltipProps }">
+-                <v-card
++                <v-btn
+                   class="pa-1 px-2"
+-                  dark
+                   color="secondary-darken-1"
+                   size="small"
+                   v-bind="{ ...activatorProps, ...tooltipProps }"
+-                  :style="{ cursor: canEditScale ? '' : 'default' }"
+                 >
+                   <v-icon
+                     v-if="canEditScale"
+@@ -35,18 +33,17 @@
+                   </v-icon>
+                   <!-- eslint-disable-next-line vue/no-v-html -->
+                   <span v-html="yieldDisplay" />
+-                </v-card>
++                </v-btn>
+               </template>
+               <span> {{ $t("recipe.edit-scale") }} </span>
+             </v-tooltip>
+-            <v-card
++            <v-btn
+               v-else
+               class="pa-1 px-2"
+-              dark
+               color="secondary-darken-1"
+               size="small"
++              variant="plain"
+               v-bind="activatorProps"
+-              :style="{ cursor: canEditScale ? '' : 'default' }"
+             >
+               <v-icon
+                 v-if="canEditScale"
+@@ -57,7 +54,7 @@
+               </v-icon>
+               <!-- eslint-disable-next-line vue/no-v-html -->
+               <span v-html="yieldDisplay" />
+-            </v-card>
++            </v-btn>
+           </template>
+           <v-card min-width="300px">
+             <v-card-title class="mb-0">
+@@ -69,11 +66,12 @@
+                   :model-value="yieldQuantity"
+                   :precision="null"
+                   :min="0"
++                  :label="$t('recipe.servings')"
+                   variant="underlined"
+                   control-variant="hidden"
+                   @update:model-value="recalculateScale($event || 0)"
+                 />
+-                <v-tooltip
++                <v-tooltip eager
+                   location="end"
+                   color="secondary-darken-1"
+                 >
+@@ -82,6 +80,7 @@
+                       v-bind="resetTooltipProps"
+                       icon
+                       flat
++                      :aria-label="$t('recipe.reset-servings-count')"
+                       class="mx-1"
+                       size="small"
+                       @click="scale = 1"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeSettingsMenu.vue b/frontend/app/components/Domain/Recipe/RecipeSettingsMenu.vue
+index 1c57c7d..04ee1ce 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeSettingsMenu.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeSettingsMenu.vue
+@@ -5,7 +5,7 @@
+       top
+       nudge-top="6"
+       :close-on-content-click="false"
+-    >
++     eager>
+       <template #activator="{ props }">
+         <v-btn
+           color="accent"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeTimeline.vue b/frontend/app/components/Domain/Recipe/RecipeTimeline.vue
+index 1755730..a8a589d 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeTimeline.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeTimeline.vue
+@@ -10,7 +10,7 @@
+           start
+           nudge-bottom="3"
+           :close-on-content-click="false"
+-        >
++         eager>
+           <template #activator="{ props: activatorProps }">
+             <v-badge
+               :content="filterBadgeCount"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeTimelineBadge.vue b/frontend/app/components/Domain/Recipe/RecipeTimelineBadge.vue
+index c5dceb0..e0ba123 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeTimelineBadge.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeTimelineBadge.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <v-tooltip
++  <v-tooltip eager
+     location="bottom"
+     nudge-right="50"
+     :color="buttonStyle ? 'info' : 'secondary'"
+@@ -12,6 +12,7 @@
+         size="small"
+         :color="buttonStyle ? 'info' : 'secondary'"
+         :fab="buttonStyle"
++        :aria-label="$t('recipe.timeline')"
+         v-bind="{ ...activatorProps, ...$attrs }"
+         @click.prevent="toggleTimeline"
+       >
+diff --git a/frontend/app/components/Domain/Recipe/RecipeTimelineContextMenu.vue b/frontend/app/components/Domain/Recipe/RecipeTimelineContextMenu.vue
+index d804d4c..47c28d5 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeTimelineContextMenu.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeTimelineContextMenu.vue
+@@ -41,7 +41,7 @@
+       allow-overflow
+       close-delay="125"
+       content-class="d-print-none"
+-    >
++     eager>
+       <template #activator="{ props: btnProps }">
+         <v-btn
+           :class="{ 'rounded-circle': props.fab }"
+diff --git a/frontend/app/components/Domain/Recipe/RecipeUnitSystemButton.vue b/frontend/app/components/Domain/Recipe/RecipeUnitSystemButton.vue
+index da8fbf9..5cc813a 100644
+--- a/frontend/app/components/Domain/Recipe/RecipeUnitSystemButton.vue
++++ b/frontend/app/components/Domain/Recipe/RecipeUnitSystemButton.vue
+@@ -4,17 +4,16 @@
+     offset-y
+     top
+     nudge-top="6"
+-  >
++   eager>
+     <template #activator="{ props: activatorProps }">
+-      <v-tooltip
++      <v-tooltip eager
+         size="small"
+         location="top"
+         color="secondary-darken-1"
+       >
+         <template #activator="{ props: tooltipProps }">
+-          <v-card
++          <v-btn
+             class="pa-1 px-2"
+-            dark
+             color="secondary-darken-1"
+             size="small"
+             :disabled="!hasConvertibleIngredients"
+@@ -24,7 +23,7 @@
+               {{ $globals.icons.units }}
+             </v-icon>
+             <span>{{ activeLabel }}</span>
+-          </v-card>
++          </v-btn>
+         </template>
+         <span>{{ $t("general.units") }}</span>
+       </v-tooltip>
+diff --git a/frontend/app/components/Domain/SearchFilter.vue b/frontend/app/components/Domain/SearchFilter.vue
+index 020fd38..9947628 100644
+--- a/frontend/app/components/Domain/SearchFilter.vue
++++ b/frontend/app/components/Domain/SearchFilter.vue
+@@ -6,7 +6,7 @@
+       bottom
+       nudge-bottom="3"
+       :close-on-content-click="false"
+-    >
++     eager>
+       <template #activator="{ props: menuProps }">
+         <v-badge
+           v-memo="[selectedCount]"
+diff --git a/frontend/app/components/Domain/ShoppingList/MultiPurposeLabel.vue b/frontend/app/components/Domain/ShoppingList/MultiPurposeLabel.vue
+index 008e807..9c56bde 100644
+--- a/frontend/app/components/Domain/ShoppingList/MultiPurposeLabel.vue
++++ b/frontend/app/components/Domain/ShoppingList/MultiPurposeLabel.vue
+@@ -4,6 +4,7 @@
+     label
+     variant="flat"
+     :color="label.color || undefined"
++    :style="label.color ? { color: chipTextColor } : undefined"
+   >
+     <span style="max-width: 100%; overflow: hidden; text-overflow: ellipsis;">
+       {{ label.name }}
+@@ -12,9 +13,24 @@
+ </template>
+ 
+ <script setup lang="ts">
++import { computed } from "vue";
+ import type { MultiPurposeLabelSummary } from "~/lib/api/types/recipe";
+ 
+-defineProps<{
++const props = defineProps<{
+   label: MultiPurposeLabelSummary;
+ }>();
++
++const chipTextColor = computed(() => {
++  const hex = (props.label.color || "").replace("#", "");
++  if (hex.length < 6) return "rgba(0, 0, 0, 0.87)";
++  const r = parseInt(hex.slice(0, 2), 16) / 255;
++  const g = parseInt(hex.slice(2, 4), 16) / 255;
++  const b = parseInt(hex.slice(4, 6), 16) / 255;
++  const lum = 0.2126 * (r <= 0.03928 ? r / 12.92 : ((r + 0.055) / 1.055) ** 2.4)
++    + 0.7152 * (g <= 0.03928 ? g / 12.92 : ((g + 0.055) / 1.055) ** 2.4)
++    + 0.0722 * (b <= 0.03928 ? b / 12.92 : ((b + 0.055) / 1.055) ** 2.4);
++  const whiteRatio = 1.05 / (lum + 0.05);
++  const blackRatio = (lum + 0.05) / 0.05;
++  return blackRatio >= whiteRatio ? "rgba(0, 0, 0, 0.87)" : "#ffffff";
++});
+ </script>
+diff --git a/frontend/app/components/Domain/ShoppingList/MultiPurposeLabelSection.vue b/frontend/app/components/Domain/ShoppingList/MultiPurposeLabelSection.vue
+index fade48f..404086e 100644
+--- a/frontend/app/components/Domain/ShoppingList/MultiPurposeLabelSection.vue
++++ b/frontend/app/components/Domain/ShoppingList/MultiPurposeLabelSection.vue
+@@ -16,7 +16,7 @@
+         offset-x
+         start
+         min-width="125px"
+-      >
++       eager>
+         <template #activator="{ props: hoverProps }">
+           <v-btn
+             size="small"
+diff --git a/frontend/app/components/Domain/ShoppingList/ShoppingListItem.vue b/frontend/app/components/Domain/ShoppingList/ShoppingListItem.vue
+index 456cf54..166d6bd 100644
+--- a/frontend/app/components/Domain/ShoppingList/ShoppingListItem.vue
++++ b/frontend/app/components/Domain/ShoppingList/ShoppingListItem.vue
+@@ -20,7 +20,7 @@
+              once the row is genuinely full rather than at an arbitrary half-way point -->
+         <v-col class="flex-grow-1 flex-shrink-1" style="min-width: 0;">
+           <div class="d-flex align-center flex-nowrap">
+-            <v-checkbox
++            <v-checkbox :aria-label="shoppingListItem.display || shoppingListItem.note || $t('shopping-list.item')"
+               :model-value="listItem.checked"
+               hide-details
+               density="compact"
+@@ -49,9 +49,9 @@
+               offset-x
+               start
+               min-width="125px"
+-            >
++             eager>
+               <template #activator="{ props: hoverProps }">
+-                <v-tooltip
++                <v-tooltip eager
+                   v-if="recipeList && recipeList.length"
+                   open-delay="200"
+                   transition="slide-x-reverse-transition"
+@@ -65,6 +65,7 @@
+                       variant="text"
+                       class="ml-2"
+                       icon
++                      :aria-label="$t('shopping-list.toggle-recipes')"
+                       v-bind="tooltipProps"
+                       @click="displayRecipeRefs = !displayRecipeRefs"
+                     >
+@@ -80,6 +81,7 @@
+                   variant="text"
+                   class="ml-2"
+                   icon
++                  :aria-label="$t('general.edit')"
+                   @click="$emit('edit')"
+                 >
+                   <v-icon>
+@@ -91,6 +93,7 @@
+                   variant="text"
+                   class="handle"
+                   icon
++                  :aria-label="$t('shopping-list.drag-to-reorder')"
+                   v-bind="hoverProps"
+                 >
+                   <v-icon>
+diff --git a/frontend/app/components/Domain/User/UserAvatar.vue b/frontend/app/components/Domain/User/UserAvatar.vue
+index 869b590..34ad4e9 100644
+--- a/frontend/app/components/Domain/User/UserAvatar.vue
++++ b/frontend/app/components/Domain/User/UserAvatar.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <v-tooltip
++  <v-tooltip eager
+     v-if="userId"
+     :disabled="!user || !tooltip"
+     location="end"
+diff --git a/frontend/app/components/Domain/User/UserInviteDialog.vue b/frontend/app/components/Domain/User/UserInviteDialog.vue
+index 2499438..b9b7581 100644
+--- a/frontend/app/components/Domain/User/UserInviteDialog.vue
++++ b/frontend/app/components/Domain/User/UserInviteDialog.vue
+@@ -17,7 +17,7 @@
+           variant="filled"
+           :label="$t('group.user-group')"
+           :rules="[validators.required]"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-select
+           v-if="households && households.length"
+           v-model="selectedHousehold"
+@@ -28,7 +28,7 @@
+           variant="filled"
+           :label="$t('household.user-household')"
+           :rules="[validators.required]"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-row>
+           <v-col cols="9">
+             <v-text-field
+diff --git a/frontend/app/components/Domain/User/UserProfileLinkCard.vue b/frontend/app/components/Domain/User/UserProfileLinkCard.vue
+index ffdbe58..fd17ec9 100644
+--- a/frontend/app/components/Domain/User/UserProfileLinkCard.vue
++++ b/frontend/app/components/Domain/User/UserProfileLinkCard.vue
+@@ -10,7 +10,7 @@
+       v-if="$vuetify.display.smAndDown"
+       class="pa-2 mx-auto"
+     >
+-      <v-img
++      <v-img :alt="user.fullName || ''"
+         width="150px"
+         height="125"
+         :src="image"
+diff --git a/frontend/app/components/Layout/DefaultLayout.vue b/frontend/app/components/Layout/DefaultLayout.vue
+index 2efad1b..f6eda84 100644
+--- a/frontend/app/components/Layout/DefaultLayout.vue
++++ b/frontend/app/components/Layout/DefaultLayout.vue
+@@ -5,6 +5,7 @@
+     <AppHeader>
+       <v-btn
+         icon
++        :aria-label="$t('general.navigation')"
+         @click.stop="sidebar = !sidebar"
+       >
+         <v-icon> {{ $globals.icons.menu }}</v-icon>
+@@ -21,7 +22,8 @@
+         nudge-bottom="5"
+         close-delay="50"
+         nudge-right="15"
+-      >
++        :content-props="{ role: 'region', 'aria-label': $t('recipe.create-recipe') }"
++       eager>
+         <template #activator="{ props }">
+           <v-btn
+             v-if="isOwnGroup"
+@@ -43,23 +45,19 @@
+             {{ $t("general.create") }}
+           </v-btn>
+         </template>
+-        <v-list
++        <v-list role="presentation"
+           density="comfortable"
+           class="mb-0 mt-1 py-0"
+           variant="flat"
+         >
+-          <template v-for="(item, index) in createLinks">
+-            <div
+-              v-if="!item.hide"
+-              :key="item.title"
+-            >
++          <template v-for="item in createLinks">
++            <template v-if="!item.hide && (!item.restricted || isOwnGroup)">
+               <v-divider
+                 v-if="item.insertDivider"
+-                :key="index"
++                :key="'div-' + item.title"
+                 class="mx-2"
+               />
+               <v-list-item
+-                v-if="!item.restricted || isOwnGroup"
+                 :key="item.title"
+                 :to="item.to"
+                 exact
+@@ -78,7 +76,7 @@
+                   {{ item.subtitle }}
+                 </v-list-item-subtitle>
+               </v-list-item>
+-            </div>
++            </template>
+           </template>
+         </v-list>
+       </v-menu>
+diff --git a/frontend/app/components/Layout/LayoutParts/AppHeader.vue b/frontend/app/components/Layout/LayoutParts/AppHeader.vue
+index 200ce0e..19a6a0f 100644
+--- a/frontend/app/components/Layout/LayoutParts/AppHeader.vue
++++ b/frontend/app/components/Layout/LayoutParts/AppHeader.vue
+@@ -4,14 +4,14 @@
+     density="compact"
+     app
+     color="primary"
+-    dark
++
+     class="d-print-none"
+   >
+     <slot />
+-    <RouterLink :to="routerLink">
++    <RouterLink :to="routerLink" :aria-label="$t('general.nav-home')">
+       <v-btn
+         icon
+-        color="white"
++        :aria-label="$t('general.nav-home')"
+       >
+         <v-icon size="40"> {{ $globals.icons.primary }} </v-icon>
+       </v-btn>
+@@ -22,6 +22,8 @@
+       class="pl-2"
+     >
+       <v-toolbar-title
++        tag="h1"
++        class="text-h6"
+         style="cursor: pointer"
+         @click="$router.push(routerLink)"
+       >
+@@ -47,13 +49,18 @@
+           density="compact"
+           flat
+           :prepend-inner-icon="$globals.icons.search"
+-          bg-color="primary-darken-1"
++          bg-color="#ffffff"
++          base-color="#0d0d0d"
++          color="#0d0d0d"
++          :label="$t('search.search')"
++          :aria-label="$t('search.search-hint')"
+           :placeholder="$t('search.search-hint')"
+         />
+       </v-responsive>
+       <v-btn
+         v-else
+         icon
++        :aria-label="$t('search.search')"
+         @click="activateSearch"
+       >
+         <v-icon> {{ $globals.icons.search }}</v-icon>
+@@ -62,6 +69,7 @@
+         v-if="loggedIn"
+         :variant="smAndUp ? 'text' : undefined"
+         :icon="xs"
++        :aria-label="$t('user.logout')"
+         @click="logout()"
+       >
+         <v-icon :start="smAndUp">
+diff --git a/frontend/app/components/Layout/LayoutParts/AppSidebar.vue b/frontend/app/components/Layout/LayoutParts/AppSidebar.vue
+index 44621c4..001b34a 100644
+--- a/frontend/app/components/Layout/LayoutParts/AppSidebar.vue
++++ b/frontend/app/components/Layout/LayoutParts/AppSidebar.vue
+@@ -30,11 +30,11 @@
+ 
+     <!-- Primary Links -->
+     <template v-if="topLink">
+-      <v-list v-model:selected="state.secondarySelected" nav density="comfortable" color="primary">
++      <v-list role="presentation" v-model:selected="state.secondarySelected" density="comfortable" color="primary">
+         <template v-for="nav in topLink">
+-          <div v-if="!nav.restricted || isOwnGroup" :key="nav.key || nav.title">
++          <template v-if="!nav.restricted || isOwnGroup" :key="nav.key || nav.title">
+             <!-- Multi Items -->
+-            <v-list-group
++            <v-list-group eager role="group" :value="nav.title"
+               v-if="nav.children"
+               :key="(nav.key || nav.title) + 'multi-item'"
+               v-model="state.dropDowns[nav.title]"
+@@ -43,7 +43,7 @@
+               :fluid="true"
+             >
+               <template #activator="{ props: hoverProps }">
+-                <v-list-item v-bind="hoverProps" :prepend-icon="nav.icon" :title="nav.title" />
++                <v-list-item role="button" v-bind="hoverProps" :aria-selected="null" :prepend-icon="nav.icon" :title="nav.title" />
+               </template>
+ 
+               <v-list-item
+@@ -68,7 +68,7 @@
+                 :title="nav.title"
+               />
+             </template>
+-          </div>
++          </template>
+         </template>
+       </v-list>
+     </template>
+@@ -76,11 +76,11 @@
+     <!-- Secondary Links -->
+     <template v-if="secondaryLinks.length > 0">
+       <v-divider class="mt-2" />
+-      <v-list v-model:selected="state.secondarySelected" nav density="compact" exact>
++      <v-list role="presentation" v-model:selected="state.secondarySelected" density="compact" exact>
+         <template v-for="nav in secondaryLinks">
+-          <div v-if="!nav.restricted || isOwnGroup" :key="nav.key || nav.title">
++          <template v-if="!nav.restricted || isOwnGroup" :key="nav.key || nav.title">
+             <!-- Multi Items -->
+-            <v-list-group
++            <v-list-group eager role="group" :value="nav.title"
+               v-if="nav.children"
+               :key="(nav.key || nav.title) + 'multi-item'"
+               v-model="state.dropDowns[nav.title]"
+@@ -89,7 +89,7 @@
+               fluid
+             >
+               <template #activator="{ props: hoverProps }">
+-                <v-list-item v-bind="hoverProps" :prepend-icon="nav.icon" :title="nav.title" />
++                <v-list-item role="button" v-bind="hoverProps" :aria-selected="null" :prepend-icon="nav.icon" :title="nav.title" />
+               </template>
+ 
+               <v-list-item
+@@ -110,17 +110,18 @@
+               </template>
+               <v-list-item-title>{{ nav.title }}</v-list-item-title>
+             </v-list-item>
+-          </div>
++          </template>
+         </template>
+       </v-list>
+     </template>
+ 
+     <!-- Bottom Navigation Links -->
+     <template #append>
+-      <v-list v-model:selected="state.bottomSelected" nav density="comfortable">
++      <v-list role="presentation" v-model:selected="state.bottomSelected" density="comfortable">
+         <v-list-item
+           v-if="loggedIn && announcementsEnabled"
+           :title="$t('announcements.announcements')"
++          role="button"
+           @click="() => showAnnouncementsDialog = !showAnnouncementsDialog"
+         >
+           <template #prepend>
+@@ -136,13 +137,17 @@
+             </v-badge>
+           </template>
+         </v-list-item>
+-        <v-menu location="end bottom" :offset="15">
++        <v-menu
++          location="end bottom"
++          :offset="15"
++          :content-props="{ role: 'region', 'aria-label': $t('general.settings') }"
++         eager>
+           <template #activator="{ props: hoverProps }">
+-            <v-list-item v-bind="hoverProps" :prepend-icon="$globals.icons.cog" :title="$t('general.settings')" />
++            <v-list-item v-bind="hoverProps" :prepend-icon="$globals.icons.cog" :title="$t('general.settings')" role="button" />
+           </template>
+-          <v-list density="comfortable" color="primary">
+-            <v-list-item :prepend-icon="$globals.icons.translate" :title="$t('sidebar.language')" @click="state.languageDialog=true" />
+-            <v-list-item :prepend-icon="$vuetify.theme.current.dark ? $globals.icons.weatherSunny : $globals.icons.weatherNight" :title="$vuetify.theme.current.dark ? $t('settings.theme.light-mode') : $t('settings.theme.dark-mode')" @click="toggleDark" />
++          <v-list role="presentation" density="comfortable" color="primary">
++            <v-list-item :prepend-icon="$globals.icons.translate" :title="$t('sidebar.language')" role="button" @click="state.languageDialog=true" />
++            <v-list-item :prepend-icon="$vuetify.theme.current.dark ? $globals.icons.weatherSunny : $globals.icons.weatherNight" :title="$vuetify.theme.current.dark ? $t('settings.theme.light-mode') : $t('settings.theme.dark-mode')" role="button" @click="toggleDark" />
+             <v-divider v-if="loggedIn" class="my-2" />
+             <v-list-item v-if="loggedIn" :prepend-icon="$globals.icons.cog" :title="$t('profile.user-settings')" to="/user/profile" />
+             <v-list-item v-if="canManage" :prepend-icon="$globals.icons.manageData" :title="$t('data-pages.data-management')" to="/group/data" />
+diff --git a/frontend/app/components/global/AppButtonCopy.vue b/frontend/app/components/global/AppButtonCopy.vue
+index 35ea61b..8ca9ca2 100644
+--- a/frontend/app/components/global/AppButtonCopy.vue
++++ b/frontend/app/components/global/AppButtonCopy.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <v-tooltip
++  <v-tooltip eager
+     ref="copyToolTip"
+     v-model="show"
+     location="top"
+@@ -12,6 +12,7 @@
+       <v-btn
+         variant="flat"
+         :icon="icon"
++        :aria-label="$t('general.copy')"
+         :color="color"
+         retain-focus-on-click
+         :class="btnClass"
+diff --git a/frontend/app/components/global/AutoForm.vue b/frontend/app/components/global/AutoForm.vue
+index 5bdbbbe..0f3f54e 100644
+--- a/frontend/app/components/global/AutoForm.vue
++++ b/frontend/app/components/global/AutoForm.vue
+@@ -126,7 +126,7 @@
+               persistent-hint
+               :rules="!(inputField.disableUpdate && updateMode) ? inputField.rules || [] : []"
+               validate-on="input"
+-            />
++             :menu-props="{ eager: true }"/>
+ 
+             <!-- Color Picker -->
+             <div
+diff --git a/frontend/app/components/global/BaseButtonGroup.vue b/frontend/app/components/global/BaseButtonGroup.vue
+index b63322c..1a32ef0 100644
+--- a/frontend/app/components/global/BaseButtonGroup.vue
++++ b/frontend/app/components/global/BaseButtonGroup.vue
+@@ -9,7 +9,7 @@
+         :children="btn.children"
+         @menu="(childEvent) => $emit(childEvent)"
+       />
+-      <v-tooltip
++      <v-tooltip eager
+         v-else
+         :key="'btn-' + btn.event"
+         open-delay="200"
+@@ -25,6 +25,7 @@
+             :color="btn.color"
+             :large="large"
+             :disabled="btn.disabled"
++            :aria-label="btn.text"
+             :style="stretch ? `width: ${maxButtonWidth};` : ''"
+             variant="plain"
+             v-bind="tooltipProps"
+diff --git a/frontend/app/components/global/BaseDialog.vue b/frontend/app/components/global/BaseDialog.vue
+index b4d9b99..12e1bb2 100644
+--- a/frontend/app/components/global/BaseDialog.vue
++++ b/frontend/app/components/global/BaseDialog.vue
+@@ -31,6 +31,7 @@
+     <v-dialog
+       v-else
+       v-model="dialog"
++      :aria-label="title"
+       :width="width"
+       :max-width="maxWidth ?? undefined"
+       :content-class="top ? 'top-dialog' : undefined"
+diff --git a/frontend/app/components/global/BaseDialogContent.vue b/frontend/app/components/global/BaseDialogContent.vue
+index a055359..54a0405 100644
+--- a/frontend/app/components/global/BaseDialogContent.vue
++++ b/frontend/app/components/global/BaseDialogContent.vue
+@@ -7,6 +7,7 @@
+       />
+     </template>
+     <v-toolbar
++      tag="div"
+       dark
+       density="comfortable"
+       :color="color"
+diff --git a/frontend/app/components/global/BaseMenu.vue b/frontend/app/components/global/BaseMenu.vue
+index 70c7cda..cf69aed 100644
+--- a/frontend/app/components/global/BaseMenu.vue
++++ b/frontend/app/components/global/BaseMenu.vue
+@@ -3,15 +3,17 @@
+        so a menu taller than the screen simply runs off the bottom -->
+   <v-menu
+     :key="'menu-' + activator.event"
++    :content-props="{ role: 'region', 'aria-label': activator.title }"
+     active-class="pa-0"
+     start
+     max-height="80vh"
+     :style="stretch ? 'width: 100%;' : ''"
+-  >
++   eager>
+     <template #activator="{ props: hoverProps }">
+       <slot name="activator" v-bind="{ props: hoverProps }">
+         <v-btn
+           tile
++          :aria-label="activator.title || $t('general.more-options')"
+           :large="large"
+           icon
+           :color="activator.color"
+@@ -25,7 +27,7 @@
+         </v-btn>
+       </slot>
+     </template>
+-    <v-list density="compact">
++    <v-list role="presentation" density="compact">
+       <template
+         v-for="(child, idx) in children"
+         :key="idx"
+@@ -51,7 +53,7 @@
+             </v-list-item>
+           </template>
+         </BaseMenu>
+-        <v-list-item
++        <v-list-item role="button"
+           v-else
+           density="compact"
+           :prepend-icon="child.icon"
+diff --git a/frontend/app/components/global/BaseOverflowButton.vue b/frontend/app/components/global/BaseOverflowButton.vue
+index 3cb2ef5..e2e4c93 100644
+--- a/frontend/app/components/global/BaseOverflowButton.vue
++++ b/frontend/app/components/global/BaseOverflowButton.vue
+@@ -1,5 +1,5 @@
+ <template>
+-  <v-menu offset-y>
++  <v-menu offset-y eager>
+     <template #activator="{ props: hoverProps }">
+       <v-btn
+         color="primary"
+diff --git a/frontend/app/components/global/BasePageTitle.vue b/frontend/app/components/global/BasePageTitle.vue
+index 111533e..1238565 100644
+--- a/frontend/app/components/global/BasePageTitle.vue
++++ b/frontend/app/components/global/BasePageTitle.vue
+@@ -2,13 +2,11 @@
+   <div class="mt-4">
+     <section class="d-flex flex-column align-center">
+       <slot name="header" />
+-      <h2 class="text-h5">
+-        <slot name="title">
+-          👋 Here's a Title
+-        </slot>
++      <h2 v-if="hasTitleText" class="text-h5">
++        <slot name="title" />
+       </h2>
+ 
+-      <h3 class="subtitle-1">
++      <h3 v-if="$slots.default" class="subtitle-1">
+         <slot />
+       </h3>
+     </section>
+@@ -23,6 +21,13 @@
+ </template>
+ 
+ <script setup lang="ts">
++const slots = useSlots();
++const hasTitleText = computed(() =>
++  (slots.title?.() ?? []).some(n =>
++    typeof n.children === "string" ? n.children.trim() !== "" : Boolean(n.children && (n.children as Array<unknown>).length),
++  ),
++);
++
+ defineProps({
+   divider: {
+     type: Boolean,
+diff --git a/frontend/app/components/global/ContextMenu.vue b/frontend/app/components/global/ContextMenu.vue
+index 986fe8b..d5b1f85 100644
+--- a/frontend/app/components/global/ContextMenu.vue
++++ b/frontend/app/components/global/ContextMenu.vue
+@@ -9,19 +9,19 @@
+     allow-overflow
+     close-delay="125"
+     content-class="d-print-none"
+-  >
++   eager>
+     <template #activator="{ props }">
+       <v-btn
+         size="small"
+         :icon="$globals.icons.dotsVertical"
++        :aria-label="$t('general.more-options')"
+         variant="text"
+-        dark
+         v-bind="props"
+         @click.prevent
+       />
+     </template>
+-    <v-list density="compact">
+-      <v-list-item
++    <v-list role="presentation" density="compact">
++      <v-list-item role="button"
+         v-for="(item, index) in items"
+         :key="index"
+         @click="$emit(item.event)"
+diff --git a/frontend/app/components/global/CrudTable.vue b/frontend/app/components/global/CrudTable.vue
+index 41e5800..b91b58e 100644
+--- a/frontend/app/components/global/CrudTable.vue
++++ b/frontend/app/components/global/CrudTable.vue
+@@ -7,11 +7,12 @@
+         bottom
+         nudge-bottom="6"
+         :close-on-content-click="false"
+-      >
++       eager>
+         <template #activator="{ props: activatorProps }">
+           <v-btn
+             color="accent"
+             variant="elevated"
++            :aria-label="$t('general.settings')"
+             v-bind="activatorProps"
+           >
+             <v-icon>
+@@ -55,6 +56,7 @@
+     <v-data-table
+       v-model="selected"
+       return-object
++      :header-props="{ class: '' }"
+       :headers="activeHeaders"
+       :show-select="bulkActions.length > 0"
+       :sort-by="sortBy"
+@@ -63,6 +65,22 @@
+       :search="search"
+       class="elevation-2"
+     >
++      <template #header.data-table-select="{ allSelected, selectAll, someSelected }">
++        <v-checkbox-btn
++          :indeterminate="someSelected && !allSelected"
++          :model-value="allSelected"
++          :aria-label="$t('general.select-all')"
++          @update:model-value="selectAll(!allSelected)"
++        />
++        <span class="sr-only">{{ $t("general.select-all") }}</span>
++      </template>
++      <template #item.data-table-select="{ internalItem, isSelected, toggleSelect }">
++        <v-checkbox-btn
++          :model-value="isSelected(internalItem)"
++          :aria-label="$t('general.select-item')"
++          @update:model-value="toggleSelect(internalItem)"
++        />
++      </template>
+       <template
+         v-for="header in headersWithoutActions"
+         #[`item.${header.value}`]="{ item }"
+@@ -196,7 +214,7 @@ const headersWithoutActions = computed(() =>
+ 
+ const activeHeaders = computed(() => [
+   ...headersWithoutActions.value,
+-  { title: "", value: "actions", show: true, align: "end" },
++  { title: $t('general.actions'), value: "actions", show: true, align: "end" },
+ ]);
+ 
+ const selected = ref<any[]>([]);
+diff --git a/frontend/app/components/global/HelpIcon.vue b/frontend/app/components/global/HelpIcon.vue
+index 790c0e1..00348eb 100644
+--- a/frontend/app/components/global/HelpIcon.vue
++++ b/frontend/app/components/global/HelpIcon.vue
+@@ -6,7 +6,7 @@
+       :right="right"
+       :left="!right"
+       open-on-hover
+-    >
++     eager>
+       <template #activator="{ props }">
+         <v-btn
+           :size="small ? 'small' : undefined"
+diff --git a/frontend/app/components/global/ImageCropper.vue b/frontend/app/components/global/ImageCropper.vue
+index 5e03daa..9c45eca 100644
+--- a/frontend/app/components/global/ImageCropper.vue
++++ b/frontend/app/components/global/ImageCropper.vue
+@@ -18,7 +18,7 @@
+           :disabled="submitted"
+           @click="save"
+         />
+-        <v-menu offset-y :close-on-content-click="false" location="bottom center">
++        <v-menu offset-y :close-on-content-click="false" location="bottom center" eager>
+           <template #activator="{ props: slotProps }">
+             <v-btn color="info" v-bind="slotProps" :icon="$globals.icons.edit" :disabled="submitted" />
+           </template>
+diff --git a/frontend/app/components/global/InputColor.vue b/frontend/app/components/global/InputColor.vue
+index 3f5aba0..ca59887 100644
+--- a/frontend/app/components/global/InputColor.vue
++++ b/frontend/app/components/global/InputColor.vue
+@@ -24,7 +24,7 @@
+         nudge-left="30"
+         nudge-top="20"
+         :close-on-content-click="false"
+-      >
++       eager>
+         <template #activator="{ props }">
+           <v-icon v-bind="props">
+             {{ $globals.icons.formatColorFill }}
+diff --git a/frontend/app/components/global/InputLabelType.vue b/frontend/app/components/global/InputLabelType.vue
+index 2e5c425..9d23a70 100644
+--- a/frontend/app/components/global/InputLabelType.vue
++++ b/frontend/app/components/global/InputLabelType.vue
+@@ -17,15 +17,18 @@
+     clearable
+     hide-details
+     @keyup.enter="emitCreate"
++    :menu-props="{ eager: true }"
+   >
+     <template
+       v-if="create"
+       #append-item
+     >
+-      <div class="px-2">
++      <div class="px-2" role="presentation">
+         <BaseButton
+           block
+           size="small"
++          role="option"
++          aria-selected="false"
+           @click="emitCreate"
+         />
+       </div>
+diff --git a/frontend/app/components/global/LanguageDialog.vue b/frontend/app/components/global/LanguageDialog.vue
+index e8aadae..3be32dd 100644
+--- a/frontend/app/components/global/LanguageDialog.vue
++++ b/frontend/app/components/global/LanguageDialog.vue
+@@ -9,6 +9,7 @@
+       {{ $t("language-dialog.select-description") }}
+       <v-autocomplete
+         v-model="selectedLocale"
++        :label="$t('language-dialog.select-language')"
+         :items="locales"
+         :custom-filter="normalizeFilter"
+         item-title="name"
+@@ -17,7 +18,7 @@
+         hide-details
+         variant="outlined"
+         @update:model-value="onLocaleSelect"
+-      >
++       :menu-props="{ eager: true }">
+         <template #item="{ item, props }">
+           <div
+             v-bind="props"
+diff --git a/frontend/app/components/global/SafeMarkdown.vue b/frontend/app/components/global/SafeMarkdown.vue
+index 28733e9..34c0d5b 100644
+--- a/frontend/app/components/global/SafeMarkdown.vue
++++ b/frontend/app/components/global/SafeMarkdown.vue
+@@ -3,6 +3,12 @@
+   <div v-html="value" />
+ </template>
+ 
++<style scoped>
++.safe-markdown :deep(a) {
++  color: rgb(var(--v-theme-secondary));
++}
++</style>
++
+ <script setup lang="ts">
+ import { marked } from "marked";
+ import { sanitizeMarkdownHtml } from "~/lib/sanitize/markdown";
+diff --git a/frontend/app/error.vue b/frontend/app/error.vue
+new file mode 100644
+index 0000000..8475242
+--- /dev/null
++++ b/frontend/app/error.vue
+@@ -0,0 +1,54 @@
++<template>
++  <v-app>
++    <v-main>
++      <v-container class="fill-height">
++        <v-row
++          align="center"
++          justify="center"
++          class="text-center"
++        >
++          <v-col cols="12">
++            <h1 class="text-h3 font-weight-bold">
++              {{ statusCode }}
++            </h1>
++            <p class="text-h6 mt-2">
++              {{ message }}
++            </p>
++            <v-btn
++              class="mt-6"
++              color="primary"
++              to="/"
++            >
++              {{ $t("general.go-home") }}
++            </v-btn>
++          </v-col>
++        </v-row>
++      </v-container>
++    </v-main>
++  </v-app>
++</template>
++
++<script setup lang="ts">
++import type { NuxtError } from "#app";
++
++const props = defineProps({
++  error: {
++    type: Object as () => NuxtError | null,
++    default: null,
++  },
++});
++
++const { t } = useI18n();
++
++const statusCode = computed(() => props.error?.statusCode || 404);
++const message = computed(() => props.error?.statusMessage || t("page.404-page-not-found"));
++
++// La page d'erreur vit hors des layouts : on pose quand même lang/dir.
++const { locale } = useI18n();
++useHead({
++  htmlAttrs: {
++    lang: computed(() => locale.value),
++    dir: "ltr",
++  },
++});
++</script>
+diff --git a/frontend/app/lang/messages/en-US.json b/frontend/app/lang/messages/en-US.json
+index 5274a11..89a194e 100644
+--- a/frontend/app/lang/messages/en-US.json
++++ b/frontend/app/lang/messages/en-US.json
+@@ -17,7 +17,8 @@
+     "production": "Production",
+     "version": "Version",
+     "unknown-version": "unknown",
+-    "sponsor": "Sponsor"
++    "sponsor": "Sponsor",
++    "version-unknown": "unknown version"
+   },
+   "asset": {
+     "assets": "Assets",
+@@ -177,7 +178,15 @@
+     "date-updated": "Date Updated",
+     "key": "Key",
+     "value": "Value",
+-    "cant-create-permission": "Can't create. Please contact your administrator to get permission."
++    "cant-create-permission": "Can't create. Please contact your administrator to get permission.",
++    "nav-home": "Mealie home",
++    "navigation": "Toggle navigation",
++    "select": "Select",
++    "select-all": "Select all",
++    "select-item": "Select item",
++    "go-home": "Go back home",
++    "more-options": "More options",
++    "pagination": "Pagination"
+   },
+   "group": {
+     "create-group": "Create Group",
+@@ -276,7 +285,10 @@
+     "lock-recipe-edits-from-other-households-description": "When enabled only users in your household can edit recipes created by your household",
+     "household-recipe-preferences": "Household Recipe Preferences",
+     "default-recipe-preferences-description": "These are the default settings when a new recipe is created in your household. These can be changed for individual recipes in the recipe settings menu.",
+-    "household-preferences": "Household Preferences"
++    "household-preferences": "Household Preferences",
++    "can-manage-household": "Can manage household",
++    "can-organize": "Can organize",
++    "can-invite": "Can invite"
+   },
+   "meal-plan": {
+     "create-a-new-meal-plan": "Create a New Meal Plan",
+@@ -326,7 +338,10 @@
+     "meal-plan-settings": "Meal Plan Settings",
+     "add-all-to-list": "Add All to List",
+     "add-day-to-list": "Add Day to List",
+-    "randomize-recipe": "Randomize Recipe"
++    "randomize-recipe": "Randomize Recipe",
++    "previous-week": "Previous week",
++    "next-week": "Next week",
++    "note-menu": "Note options"
+   },
+   "migration": {
+     "new-migration": "New Migration",
+@@ -793,7 +808,10 @@
+     "are-you-sure-you-want-to-uncheck-all-items": "Are you sure you want to uncheck all items?",
+     "are-you-sure-you-want-to-delete-checked-items": "Are you sure you want to delete all checked items?",
+     "no-shopping-lists-found": "No Shopping Lists Found",
+-    "item-checked-off": "Checked off {item}"
++    "item-checked-off": "Checked off {item}",
++    "item": "Item",
++    "toggle-recipes": "Toggle recipes",
++    "drag-to-reorder": "Drag to reorder"
+   },
+   "sidebar": {
+     "backups": "Backups",
+@@ -1236,7 +1254,12 @@
+     },
+     "dates": {
+       "days-ago": "days ago|day ago|days ago"
+-    }
++    },
++    "logical-operator": "And / Or",
++    "parenthesis": "Parenthesis",
++    "field": "Field",
++    "relational-operator": "Operator",
++    "value": "Value"
+   },
+   "validators": {
+     "required": "This Field is Required",
+diff --git a/frontend/app/layouts/admin.vue b/frontend/app/layouts/admin.vue
+index bddadef..7b4a599 100644
+--- a/frontend/app/layouts/admin.vue
++++ b/frontend/app/layouts/admin.vue
+@@ -5,6 +5,7 @@
+     <AppHeader>
+       <v-btn
+         icon
++        :aria-label="$t('general.navigation')"
+         @click.stop="sidebar = !sidebar"
+       >
+         <v-icon> {{ $globals.icons.menu }}</v-icon>
+diff --git a/frontend/app/layouts/error.vue b/frontend/app/layouts/error.vue
+index c6b121d..388971a 100644
+--- a/frontend/app/layouts/error.vue
++++ b/frontend/app/layouts/error.vue
+@@ -3,7 +3,8 @@
+     v-if="ready"
+     dark
+   >
+-    <v-card-title>
++    <v-main>
++      <v-card-title>
+       <slot>
+         <h1 class="mx-auto">
+           {{ $t("page.404-page-not-found") }}
+@@ -45,6 +46,7 @@
+       </slot>
+       <v-spacer />
+     </v-card-actions>
++    </v-main>
+   </v-app>
+ </template>
+ 
+diff --git a/frontend/app/pages/admin/backups.vue b/frontend/app/pages/admin/backups.vue
+index 2b520ac..f9aa2a7 100644
+--- a/frontend/app/pages/admin/backups.vue
++++ b/frontend/app/pages/admin/backups.vue
+@@ -234,7 +234,7 @@ const state = reactive({
+     { title: i18n.t("general.name"), value: "name" },
+     { title: i18n.t("general.created"), value: "date" },
+     { title: i18n.t("export.size"), value: "size" },
+-    { title: "", value: "actions", align: "right" },
++    { title: $t('general.actions'), value: "actions", align: "right" },
+   ],
+ });
+ 
+diff --git a/frontend/app/pages/admin/debug/ai-providers.vue b/frontend/app/pages/admin/debug/ai-providers.vue
+index 3f01c8c..3ed3750 100644
+--- a/frontend/app/pages/admin/debug/ai-providers.vue
++++ b/frontend/app/pages/admin/debug/ai-providers.vue
+@@ -30,7 +30,7 @@
+                   variant="outlined"
+                   clearable
+                   hide-details
+-                />
++                 :menu-props="{ eager: true }"/>
+               </v-col>
+               <v-col cols="12" md="6">
+                 <v-select
+@@ -44,7 +44,7 @@
+                   clearable
+                   hide-details
+                   :disabled="!selectedGroupId"
+-                />
++                 :menu-props="{ eager: true }"/>
+               </v-col>
+             </v-row>
+             <v-row>
+@@ -82,7 +82,8 @@
+             >
+               <v-spacer />
+               <v-col cols="12">
+-                <v-img :src="uploadedImagePreviewUrl" />
++                <v-img
++          alt="" :src="uploadedImagePreviewUrl" />
+               </v-col>
+               <v-spacer />
+             </v-row>
+diff --git a/frontend/app/pages/admin/manage/groups/[id].vue b/frontend/app/pages/admin/manage/groups/[id].vue
+index 61b7a76..1ebb19c 100644
+--- a/frontend/app/pages/admin/manage/groups/[id].vue
++++ b/frontend/app/pages/admin/manage/groups/[id].vue
+@@ -6,6 +6,7 @@
+     <BasePageTitle>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+diff --git a/frontend/app/pages/admin/manage/groups/index.vue b/frontend/app/pages/admin/manage/groups/index.vue
+index 6a11f1c..27cf867 100644
+--- a/frontend/app/pages/admin/manage/groups/index.vue
++++ b/frontend/app/pages/admin/manage/groups/index.vue
+@@ -63,7 +63,7 @@
+           {{ item.users!.length }}
+         </template>
+         <template #[`item.actions`]="{ item }">
+-          <v-tooltip
++          <v-tooltip eager
+             location="bottom"
+             :disabled="!(item && (item.households!.length > 0 || item.users!.length > 0))"
+           >
+@@ -73,6 +73,7 @@
+                   :disabled="item && (item.households!.length > 0 || item.users!.length > 0)"
+                   class="mr-1"
+                   icon
++                  :aria-label="$t('general.delete')"
+                   color="error"
+                   variant="text"
+                   @click.stop="
+diff --git a/frontend/app/pages/admin/manage/households/[id].vue b/frontend/app/pages/admin/manage/households/[id].vue
+index 6be7490..a98449e 100644
+--- a/frontend/app/pages/admin/manage/households/[id].vue
++++ b/frontend/app/pages/admin/manage/households/[id].vue
+@@ -6,6 +6,7 @@
+     <BasePageTitle>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+@@ -37,7 +38,7 @@
+             :return-object="false"
+             :label="$t('group.user-group')"
+             :rules="[validators.required]"
+-          />
++           :menu-props="{ eager: true }"/>
+           <v-text-field
+             v-model="household.name"
+             variant="solo-filled"
+diff --git a/frontend/app/pages/admin/manage/households/index.vue b/frontend/app/pages/admin/manage/households/index.vue
+index 9e1fb4f..0a3553a 100644
+--- a/frontend/app/pages/admin/manage/households/index.vue
++++ b/frontend/app/pages/admin/manage/households/index.vue
+@@ -18,7 +18,7 @@
+             variant="filled"
+             :label="$t('household.household-group')"
+             :rules="[validators.required]"
+-          />
++           :menu-props="{ eager: true }"/>
+           <AutoForm
+             v-model="createHouseholdForm.data"
+             :update-mode="updateMode"
+@@ -85,7 +85,7 @@
+           {{ item.webhooks!.length > 0 ? $t("general.yes") : $t("general.no") }}
+         </template>
+         <template #[`item.actions`]="{ item }">
+-          <v-tooltip
++          <v-tooltip eager
+             location="bottom"
+             :disabled="!(item && item.users!.length > 0)"
+           >
+@@ -95,6 +95,7 @@
+                   :disabled="item && item.users!.length > 0"
+                   class="mr-1"
+                   icon
++                  :aria-label="$t('general.delete')"
+                   color="error"
+                   variant="text"
+                   @click.stop="confirmDialog = true; deleteTarget = item.id"
+diff --git a/frontend/app/pages/admin/manage/users/[id].vue b/frontend/app/pages/admin/manage/users/[id].vue
+index 5f61812..58f0db8 100644
+--- a/frontend/app/pages/admin/manage/users/[id].vue
++++ b/frontend/app/pages/admin/manage/users/[id].vue
+@@ -6,6 +6,7 @@
+     <BasePageTitle>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+@@ -48,7 +49,7 @@
+                   :return-object="false"
+                   :label="$t('group.user-group')"
+                   :rules="[validators.required]"
+-                />
++                 :menu-props="{ eager: true }"/>
+               </v-col>
+               <v-col cols="6">
+                 <v-select
+@@ -62,7 +63,7 @@
+                   :return-object="false"
+                   :label="$t('household.user-household')"
+                   :rules="[validators.required]"
+-                />
++                 :menu-props="{ eager: true }"/>
+               </v-col>
+             </v-row>
+             <div class="d-flex py-2 pr-2">
+diff --git a/frontend/app/pages/admin/manage/users/create.vue b/frontend/app/pages/admin/manage/users/create.vue
+index 60df0d3..c7a0aa2 100644
+--- a/frontend/app/pages/admin/manage/users/create.vue
++++ b/frontend/app/pages/admin/manage/users/create.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle class="mb-2">
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+@@ -31,7 +32,7 @@
+                   variant="filled"
+                   :label="$t('group.user-group')"
+                   :rules="[validators.required]"
+-                />
++                 :menu-props="{ eager: true }"/>
+               </v-col>
+               <v-col cols="6">
+                 <v-select
+@@ -45,7 +46,7 @@
+                   :hint="selectedGroup ? '' : $t('group.you-must-select-a-group-before-selecting-a-household')"
+                   persistent-hint
+                   :rules="[validators.required]"
+-                />
++                 :menu-props="{ eager: true }"/>
+               </v-col>
+             </v-row>
+           </v-sheet>
+diff --git a/frontend/app/pages/admin/manage/users/index.vue b/frontend/app/pages/admin/manage/users/index.vue
+index 686f6a9..991231a 100644
+--- a/frontend/app/pages/admin/manage/users/index.vue
++++ b/frontend/app/pages/admin/manage/users/index.vue
+@@ -76,6 +76,7 @@
+         <template #[`item.actions`]="{ item }">
+           <v-btn
+             icon
++                  :aria-label="$t('general.delete')"
+             :disabled="+item.id == 1"
+             color="error"
+             variant="text"
+diff --git a/frontend/app/pages/admin/setup.vue b/frontend/app/pages/admin/setup.vue
+index 3db3e6c..697ea2f 100644
+--- a/frontend/app/pages/admin/setup.vue
++++ b/frontend/app/pages/admin/setup.vue
+@@ -81,7 +81,7 @@
+           <v-stepper-window-item :value="Pages.LANDING">
+             <v-container class="mb-12">
+               <AppLogo />
+-              <v-card-title class="text-headline-medium my-5 justify-center text-center text-break text-pre-wrap">
++              <v-card-title tag="h1" class="text-headline-medium my-5 justify-center text-center text-break text-pre-wrap">
+                 {{ $t('admin.setup.welcome-to-mealie-get-started') }}
+               </v-card-title>
+               <p class="text-body-1 text-center">
+@@ -101,7 +101,7 @@
+                 :to="groupSlug ? `/g/${groupSlug}` : '/login'"
+                 rounded
+                 variant="outlined"
+-                color="grey-lighten-1"
++                color="grey-darken-2"
+                 class="text-subtitle-2 d-flex mx-auto"
+                 style="width: fit-content;"
+               >
+diff --git a/frontend/app/pages/admin/site-settings.vue b/frontend/app/pages/admin/site-settings.vue
+index 3514e2b..3229136 100644
+--- a/frontend/app/pages/admin/site-settings.vue
++++ b/frontend/app/pages/admin/site-settings.vue
+@@ -7,6 +7,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="200"
+           max-width="150"
+@@ -210,19 +211,21 @@
+                     target="_blank"
+                     :href="`https://github.com/hhursev/recipe-scrapers/releases/tag/${property.value}`"
+                   >
+-                    {{ property.value }}
++                    {{ property.value || $t("about.version-unknown") }}
+                   </a>
+                 </v-list-item-subtitle>
+               </template>
+               <template v-else-if="property.slot === 'build'">
+                 <v-list-item-subtitle>
+                   <a
++                    v-if="property.value"
+                     class="text-primary"
+                     target="_blank"
+                     :href="`https://github.com/mealie-recipes/mealie/commit/${property.value}`"
+                   >
+                     {{ property.value }}
+                   </a>
++                  <template v-else>{{ $t("about.version-unknown") }}</template>
+                 </v-list-item-subtitle>
+               </template>
+               <template v-else-if="property.slot === 'version' && property.value !== 'develop' && property.value !== 'nightly'">
+diff --git a/frontend/app/pages/g/[groupSlug]/cookbooks/index.vue b/frontend/app/pages/g/[groupSlug]/cookbooks/index.vue
+index d0db91a..cb78f25 100644
+--- a/frontend/app/pages/g/[groupSlug]/cookbooks/index.vue
++++ b/frontend/app/pages/g/[groupSlug]/cookbooks/index.vue
+@@ -43,7 +43,8 @@
+     <v-container class="lg-container">
+       <BasePageTitle divider>
+         <template #header>
+-          <v-img width="100%" max-height="100" max-width="100" src="/svgs/manage-cookbooks.svg" />
++          <v-img
++          alt="" width="100%" max-height="100" max-width="100" src="/svgs/manage-cookbooks.svg" />
+         </template>
+         <template #title>
+           {{ $t("cookbook.cookbooks") }}
+diff --git a/frontend/app/pages/g/[groupSlug]/r/create.vue b/frontend/app/pages/g/[groupSlug]/r/create.vue
+index 7655ceb..d1f25c5 100644
+--- a/frontend/app/pages/g/[groupSlug]/r/create.vue
++++ b/frontend/app/pages/g/[groupSlug]/r/create.vue
+@@ -4,6 +4,7 @@
+       <BasePageTitle divider>
+         <template #header>
+           <v-img
++          alt=""
+             width="100%"
+             max-height="175"
+             max-width="175"
+diff --git a/frontend/app/pages/g/[groupSlug]/r/create/ai.vue b/frontend/app/pages/g/[groupSlug]/r/create/ai.vue
+index a4deaf5..4502713 100644
+--- a/frontend/app/pages/g/[groupSlug]/r/create/ai.vue
++++ b/frontend/app/pages/g/[groupSlug]/r/create/ai.vue
+@@ -95,7 +95,7 @@
+             :label="$t('recipe.create-new-organizers')"
+             :disabled="state.loading"
+           />
+-          <v-tooltip location="bottom" max-width="300">
++          <v-tooltip eager location="bottom" max-width="300">
+             <template #activator="{ props: tooltipProps }">
+               <v-icon v-bind="tooltipProps" size="small" class="ms-2">
+                 {{ $globals.icons.help }}
+diff --git a/frontend/app/pages/g/[groupSlug]/recipes/finder/index.vue b/frontend/app/pages/g/[groupSlug]/recipes/finder/index.vue
+index 8db7088..8b3468c 100644
+--- a/frontend/app/pages/g/[groupSlug]/recipes/finder/index.vue
++++ b/frontend/app/pages/g/[groupSlug]/recipes/finder/index.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100"
+           max-height="100"
+           max-width="100"
+@@ -117,7 +118,7 @@
+                   offset-y
+                   nudge-bottom="3"
+                   :close-on-content-click="false"
+-                >
++                 eager>
+                   <template #activator="{ props }">
+                     <v-btn
+                       size="small"
+diff --git a/frontend/app/pages/g/[groupSlug]/recipes/timeline.vue b/frontend/app/pages/g/[groupSlug]/recipes/timeline.vue
+index 0761775..264bad5 100644
+--- a/frontend/app/pages/g/[groupSlug]/recipes/timeline.vue
++++ b/frontend/app/pages/g/[groupSlug]/recipes/timeline.vue
+@@ -6,6 +6,7 @@
+     >
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="200"
+           max-width="150"
+diff --git a/frontend/app/pages/group/data.vue b/frontend/app/pages/group/data.vue
+index 4d4858d..2f4bf13 100644
+--- a/frontend/app/pages/group/data.vue
++++ b/frontend/app/pages/group/data.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="175"
+           max-width="175"
+diff --git a/frontend/app/pages/group/data/categories.vue b/frontend/app/pages/group/data/categories.vue
+index 2fd8fe1..3ebbf71 100644
+--- a/frontend/app/pages/group/data/categories.vue
++++ b/frontend/app/pages/group/data/categories.vue
+@@ -21,7 +21,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.categories.source-category')"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-autocomplete
+           v-model="toCategory"
+           return-object
+@@ -29,7 +29,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.categories.target-category')"
+-        />
++         :menu-props="{ eager: true }"/>
+ 
+         <template v-if="canMerge && fromCategory && toCategory">
+           <div class="text-center">
+diff --git a/frontend/app/pages/group/data/foods.vue b/frontend/app/pages/group/data/foods.vue
+index 34b24f9..1e2da55 100644
+--- a/frontend/app/pages/group/data/foods.vue
++++ b/frontend/app/pages/group/data/foods.vue
+@@ -21,7 +21,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.foods.source-food')"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-autocomplete
+           v-model="toFood"
+           return-object
+@@ -29,7 +29,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.foods.target-food')"
+-        />
++         :menu-props="{ eager: true }"/>
+ 
+         <template v-if="canMerge && fromFood && toFood">
+           <div class="text-center">
+@@ -84,7 +84,7 @@
+           hide-details
+           variant="outlined"
+           offset
+-        >
++         :menu-props="{ eager: true }">
+           <template #item="{ item, props }">
+             <v-list-item v-bind="props">
+               <v-list-item-subtitle>
+@@ -141,7 +141,7 @@
+           item-value="id"
+           item-title="name"
+           :label="$t('data-pages.foods.food-label')"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-card variant="outlined">
+           <v-virtual-scroll height="400" item-height="25" :items="bulkAssignTarget">
+             <template #default="{ item }">
+diff --git a/frontend/app/pages/group/data/labels.vue b/frontend/app/pages/group/data/labels.vue
+index da6a550..0df76b2 100644
+--- a/frontend/app/pages/group/data/labels.vue
++++ b/frontend/app/pages/group/data/labels.vue
+@@ -20,7 +20,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.labels.source-label')"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-autocomplete
+           v-model="toLabel"
+           return-object
+@@ -28,7 +28,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.labels.target-label')"
+-        />
++         :menu-props="{ eager: true }"/>
+ 
+         <template v-if="canMerge && fromLabel && toLabel">
+           <div class="text-center">
+diff --git a/frontend/app/pages/group/data/recipes.vue b/frontend/app/pages/group/data/recipes.vue
+index 76db963..c66858a 100644
+--- a/frontend/app/pages/group/data/recipes.vue
++++ b/frontend/app/pages/group/data/recipes.vue
+@@ -97,7 +97,7 @@
+           item-value="id"
+           :label="$t('general.owner')"
+           hide-details
+-        >
++         :menu-props="{ eager: true }">
+           <template #prepend>
+             <UserAvatar
+               :user-id="selectedOwner"
+@@ -129,7 +129,7 @@
+           bottom
+           nudge-bottom="6"
+           :close-on-content-click="false"
+-        >
++         eager>
+           <template #activator="{ props }">
+             <v-btn
+               color="accent"
+diff --git a/frontend/app/pages/group/data/tags.vue b/frontend/app/pages/group/data/tags.vue
+index b35d7ed..694fb9a 100644
+--- a/frontend/app/pages/group/data/tags.vue
++++ b/frontend/app/pages/group/data/tags.vue
+@@ -21,7 +21,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.tags.source-tag')"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-autocomplete
+           v-model="toTag"
+           return-object
+@@ -29,7 +29,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.tags.target-tag')"
+-        />
++         :menu-props="{ eager: true }"/>
+ 
+         <template v-if="canMerge && fromTag && toTag">
+           <div class="text-center">
+diff --git a/frontend/app/pages/group/data/tools.vue b/frontend/app/pages/group/data/tools.vue
+index 63c6dc7..905cd23 100644
+--- a/frontend/app/pages/group/data/tools.vue
++++ b/frontend/app/pages/group/data/tools.vue
+@@ -20,7 +20,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.tools.source-tool')"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-autocomplete
+           v-model="toTool"
+           return-object
+@@ -28,7 +28,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.tools.target-tool')"
+-        />
++         :menu-props="{ eager: true }"/>
+ 
+         <template v-if="canMerge && fromTool && toTool">
+           <div class="text-center">
+diff --git a/frontend/app/pages/group/data/units.vue b/frontend/app/pages/group/data/units.vue
+index 97404a2..3aad692 100644
+--- a/frontend/app/pages/group/data/units.vue
++++ b/frontend/app/pages/group/data/units.vue
+@@ -24,7 +24,7 @@
+           item-title="name"
+           :label="$t('data-pages.units.source-unit')"
+           class="mt-2"
+-        />
++         :menu-props="{ eager: true }"/>
+         <v-autocomplete
+           v-model="toUnit"
+           return-object
+@@ -32,7 +32,7 @@
+           :custom-filter="normalizeFilter"
+           item-title="name"
+           :label="$t('data-pages.units.target-unit')"
+-        />
++         :menu-props="{ eager: true }"/>
+ 
+         <template v-if="canMerge && fromUnit && toUnit">
+           <div class="text-center">
+@@ -74,7 +74,7 @@
+           hide-details
+           variant="outlined"
+           offset
+-        >
++         :menu-props="{ eager: true }">
+           <template #item="{ item, props }">
+             <v-list-item v-bind="props">
+               <v-list-item-subtitle>
+diff --git a/frontend/app/pages/group/index.vue b/frontend/app/pages/group/index.vue
+index 9c2751a..cc7bdfb 100644
+--- a/frontend/app/pages/group/index.vue
++++ b/frontend/app/pages/group/index.vue
+@@ -6,6 +6,7 @@
+     <BasePageTitle class="mb-5">
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="100"
+           max-width="100"
+diff --git a/frontend/app/pages/group/migrations.vue b/frontend/app/pages/group/migrations.vue
+index 32bee62..9ccfd74 100644
+--- a/frontend/app/pages/group/migrations.vue
++++ b/frontend/app/pages/group/migrations.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="200"
+           max-width="200"
+diff --git a/frontend/app/pages/group/reports/[id].vue b/frontend/app/pages/group/reports/[id].vue
+index 05e6093..ebfd411 100644
+--- a/frontend/app/pages/group/reports/[id].vue
++++ b/frontend/app/pages/group/reports/[id].vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="200"
+           max-width="200"
+diff --git a/frontend/app/pages/household/index.vue b/frontend/app/pages/household/index.vue
+index c65513c..54352af 100644
+--- a/frontend/app/pages/household/index.vue
++++ b/frontend/app/pages/household/index.vue
+@@ -6,6 +6,7 @@
+     <BasePageTitle class="mb-5">
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="100"
+           max-width="100"
+diff --git a/frontend/app/pages/household/mealplan/planner.vue b/frontend/app/pages/household/mealplan/planner.vue
+index 6837e05..384d191 100644
+--- a/frontend/app/pages/household/mealplan/planner.vue
++++ b/frontend/app/pages/household/mealplan/planner.vue
+@@ -7,14 +7,14 @@
+       :shopping-lists="shoppingLists"
+     />
+     <div :class="`d-flex ga-2 ${$vuetify.display.xs ? 'justify-center' : 'justify-start'}`">
+-      <v-btn :icon="$globals.icons.chevronLeft" flat rounded="md" density="comfortable" @click="() => changeWeek(-1)" />
++      <v-btn :icon="$globals.icons.chevronLeft" :aria-label="$t('meal-plan.previous-week')" flat rounded="md" density="comfortable" @click="() => changeWeek(-1)" />
+       <v-menu
+         v-model="state.picker"
+         :close-on-content-click="false"
+         transition="scale-transition"
+         offset-y
+         min-width="auto"
+-      >
++       eager>
+         <template #activator="{ props }">
+           <v-btn
+             color="primary"
+@@ -60,7 +60,7 @@
+           </v-card-text>
+         </v-card>
+       </v-menu>
+-      <v-btn :icon="$globals.icons.chevronRight" flat rounded="md" density="comfortable" @click="() => changeWeek(1)" />
++      <v-btn :icon="$globals.icons.chevronRight" :aria-label="$t('meal-plan.next-week')" flat rounded="md" density="comfortable" @click="() => changeWeek(1)" />
+     </div>
+     <div class="d-flex justify-end">
+       <BaseButtonGroup
+diff --git a/frontend/app/pages/household/mealplan/planner/edit.vue b/frontend/app/pages/household/mealplan/planner/edit.vue
+index 133b212..125ed42 100644
+--- a/frontend/app/pages/household/mealplan/planner/edit.vue
++++ b/frontend/app/pages/household/mealplan/planner/edit.vue
+@@ -62,7 +62,7 @@
+                       {{ $globals.icons.arrowUpDown }}
+                     </v-icon>
+                   </v-btn>
+-                  <v-menu offset-y>
++                  <v-menu offset-y eager>
+                     <template #activator="{ props: menuProps }">
+                       <v-chip
+                         v-bind="menuProps"
+diff --git a/frontend/app/pages/household/mealplan/settings.vue b/frontend/app/pages/household/mealplan/settings.vue
+index 36ccd4e..81625eb 100644
+--- a/frontend/app/pages/household/mealplan/settings.vue
++++ b/frontend/app/pages/household/mealplan/settings.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="100"
+           max-width="100"
+diff --git a/frontend/app/pages/household/members.vue b/frontend/app/pages/household/members.vue
+index 3f4f3a8..9753419 100644
+--- a/frontend/app/pages/household/members.vue
++++ b/frontend/app/pages/household/members.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+@@ -56,6 +57,7 @@
+           class="d-flex justify-center"
+         >
+           <v-checkbox
++            :aria-label="`${item.fullName} — ${$t('household.household-management')}`"
+             v-model="item.canManageHousehold"
+             :disabled="item.id === sessionUser?.id || item.admin"
+             color="primary"
+@@ -72,6 +74,7 @@
+           class="d-flex justify-center"
+         >
+           <v-checkbox
++            :aria-label="`${item.fullName} — ${$t('household.can-manage-household')}`"
+             v-model="item.canManage"
+             :disabled="item.id === sessionUser?.id || item.admin"
+             class=""
+@@ -88,6 +91,7 @@
+           class="d-flex justify-center"
+         >
+           <v-checkbox
++            :aria-label="`${item.fullName} — ${$t('household.can-organize')}`"
+             v-model="item.canOrganize"
+             :disabled="item.id === sessionUser?.id || item.admin"
+             class=""
+@@ -104,6 +108,7 @@
+           class="d-flex justify-center"
+         >
+           <v-checkbox
++            :aria-label="`${item.fullName} — ${$t('household.can-invite')}`"
+             v-model="item.canInvite"
+             :disabled="item.id === sessionUser?.id || item.admin"
+             class=""
+@@ -137,7 +142,7 @@ useSeoMeta({
+ const members = ref<UserOut[] | null[]>([]);
+ 
+ const headers = [
+-  { title: "", value: "avatar", sortable: false, align: "center" },
++  { title: $t('general.actions'), value: "avatar", sortable: false, align: "center" },
+   { title: i18n.t("user.username"), value: "username" },
+   { title: i18n.t("user.full-name"), value: "fullName" },
+   { title: i18n.t("user.admin"), value: "admin" },
+diff --git a/frontend/app/pages/household/notifiers.vue b/frontend/app/pages/household/notifiers.vue
+index 394cb6e..a3fc2a3 100644
+--- a/frontend/app/pages/household/notifiers.vue
++++ b/frontend/app/pages/household/notifiers.vue
+@@ -35,6 +35,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+diff --git a/frontend/app/pages/household/webhooks.vue b/frontend/app/pages/household/webhooks.vue
+index 5213d8e..8bcd471 100644
+--- a/frontend/app/pages/household/webhooks.vue
++++ b/frontend/app/pages/household/webhooks.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="125"
+           max-width="125"
+diff --git a/frontend/app/pages/login.vue b/frontend/app/pages/login.vue
+index 92a4ebc..4b6885d 100644
+--- a/frontend/app/pages/login.vue
++++ b/frontend/app/pages/login.vue
+@@ -48,9 +48,7 @@
+         class="d-flex justify-center mb-4"
+         dark
+       >
+-        <v-toolbar-title class="text-h4 text-center">
+-          Mealie
+-        </v-toolbar-title>
++        <v-toolbar-title class="text-h4 text-center"><h1 class="text-h4">Mealie</h1></v-toolbar-title>
+       </v-toolbar>
+       <AppLogo :size="100" />
+       <v-card-title class="text-h5 justify-center pb-3">
+diff --git a/frontend/app/pages/register/index.vue b/frontend/app/pages/register/index.vue
+index 1892169..eddd48a 100644
+--- a/frontend/app/pages/register/index.vue
++++ b/frontend/app/pages/register/index.vue
+@@ -30,7 +30,7 @@
+       <div class="d-flex justify-center grow items-center my-4">
+         <template v-if="state.ctx.state === States.Initial">
+           <v-container>
+-            <v-card-title class="text-h5 my-4 mb-5 pb-0 text-center">
++            <v-card-title class="text-h5 my-4 mb-5 pb-0 text-center" tag="h1">
+               {{ $t("user-registration.user-registration") }}
+             </v-card-title>
+ 
+diff --git a/frontend/app/pages/shopping-lists/[id].vue b/frontend/app/pages/shopping-lists/[id].vue
+index 89e3f96..1fca4cc 100644
+--- a/frontend/app/pages/shopping-lists/[id].vue
++++ b/frontend/app/pages/shopping-lists/[id].vue
+@@ -80,7 +80,7 @@
+               :icon="$globals.icons.backArrow"
+             />
+             <v-spacer />
+-            <h2 v-if="smAndUp" class="text-h5">
++            <h2 v-if="smAndUp && shoppingList.name" class="text-h5">
+               {{ shoppingList.name }}
+             </h2>
+             <v-spacer />
+@@ -224,7 +224,8 @@
+               <v-expansion-panel-title
+                 :color="getLabelColor(key)"
+                 class="body-1 section-title"
+-                :class="getLabelColor(key) ? '' : 'text-medium-emphasis'"
++                :class="getLabelColor(key) ? 'label-colored' : 'text-medium-emphasis'"
++                :style="getLabelColor(key) ? { color: labelTextColor(key) } : undefined"
+               >
+                 {{ key }}
+               </v-expansion-panel-title>
+diff --git a/frontend/app/pages/shopping-lists/index.vue b/frontend/app/pages/shopping-lists/index.vue
+index 09675ea..bb09ee6 100644
+--- a/frontend/app/pages/shopping-lists/index.vue
++++ b/frontend/app/pages/shopping-lists/index.vue
+@@ -16,6 +16,7 @@
+         <v-text-field
+           v-model.trim="state.createName"
+           autofocus
++          :aria-label="$t('search.search')"
+           :label="$t('shopping-list.new-list')"
+         />
+       </v-card-text>
+@@ -39,7 +40,7 @@
+             item-value="id"
+             :label="$t('general.owner')"
+             :prepend-icon="$globals.icons.user"
+-          />
++           :menu-props="{ eager: true }"/>
+         </v-form>
+       </v-container>
+     </BaseDialog>
+@@ -58,6 +59,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="100"
+           max-width="100"
+diff --git a/frontend/app/pages/user/profile/api-tokens.vue b/frontend/app/pages/user/profile/api-tokens.vue
+index b6e7279..f94f875 100644
+--- a/frontend/app/pages/user/profile/api-tokens.vue
++++ b/frontend/app/pages/user/profile/api-tokens.vue
+@@ -3,6 +3,7 @@
+     <BasePageTitle divider>
+       <template #header>
+         <v-img
++          alt=""
+           width="100%"
+           max-height="200px"
+           max-width="200px"
+diff --git a/frontend/app/pages/user/profile/edit.vue b/frontend/app/pages/user/profile/edit.vue
+index a0b4e0d..401d793 100644
+--- a/frontend/app/pages/user/profile/edit.vue
++++ b/frontend/app/pages/user/profile/edit.vue
+@@ -182,7 +182,7 @@
+             variant="underlined"
+             validate-on="blur"
+             persistent-hint
+-          />
++           :menu-props="{ eager: true }"/>
+           <v-checkbox
+             v-model="userCopy.showAnnouncements"
+             hide-details
+diff --git a/frontend/app/plugins/theme.ts b/frontend/app/plugins/theme.ts
+index 2930f53..c937999 100644
+--- a/frontend/app/plugins/theme.ts
++++ b/frontend/app/plugins/theme.ts
+@@ -47,8 +47,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
+       themes: {
+         light: {
+           dark: false,
++          variables: {
++            "medium-emphasis-opacity": 0.78,
++            "disabled-opacity": 0.55,
++          },
+           colors: {
+             primary: theme?.lightPrimary ?? "#E58325",
++            "on-primary": "#212121",
+             accent: theme?.lightAccent ?? "#007A99",
+             secondary: theme?.lightSecondary ?? "#973542",
+             success: theme?.lightSuccess ?? "#43A047",
+@@ -59,8 +64,13 @@ export default defineNuxtPlugin(async (nuxtApp) => {
+         },
+         dark: {
+           dark: true,
++          variables: {
++            "medium-emphasis-opacity": 0.82,
++            "disabled-opacity": 0.6,
++          },
+           colors: {
+             primary: theme?.darkPrimary ?? "#E58325",
++            "on-primary": "#212121",
+             accent: theme?.darkAccent ?? "#007A99",
+             secondary: theme?.darkSecondary ?? "#973542",
+             success: theme?.darkSuccess ?? "#43A047",
+diff --git a/frontend/vuetify.options.js b/frontend/vuetify.options.js
+index 3bec521..c1bb335 100644
+--- a/frontend/vuetify.options.js
++++ b/frontend/vuetify.options.js
+@@ -21,6 +21,7 @@ export default {
+     themes: {
+       dark: {
+         primary: "#E58325",
++        "on-primary": "#212121",
+         accent: "#007A99",
+         secondary: "#973542",
+         success: "#43A047",
+@@ -30,6 +31,7 @@ export default {
+       },
+       light: {
+         primary: "#E58325",
++        "on-primary": "#212121",
+         accent: "#007A99",
+         secondary: "#973542",
+         success: "#43A047",

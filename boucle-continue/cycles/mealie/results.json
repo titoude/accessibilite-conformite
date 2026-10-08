@@ -1,0 +1,121 @@
+{
+  "cycle": 44,
+  "produit": "mealie",
+  "repo": "https://github.com/mealie-recipes/mealie",
+  "commit": "06ccc2b1a6eef90dece7cfcd5aa48e140f544bf9",
+  "axeVersion": "4.14.0",
+  "baseline": {
+    "auth": {
+      "scenarios": 50,
+      "rules": 18,
+      "occurrences": 1218,
+      "rules_detail": {
+        "aria-required-children": 96,
+        "aria-tooltip-name": 303,
+        "button-name": 373,
+        "color-contrast": 118,
+        "html-has-lang": 49,
+        "image-alt": 33,
+        "label-title-only": 52,
+        "link-name": 46,
+        "page-has-heading-one": 43,
+        "aria-allowed-attr": 11,
+        "label": 46,
+        "empty-heading": 7,
+        "empty-table-header": 10,
+        "landmark-one-main": 2,
+        "region": 19,
+        "landmark-unique": 4,
+        "aria-dialog-name": 3,
+        "landmark-no-duplicate-banner": 3
+      },
+      "incomplete": 1457,
+      "errors": 1,
+      "scopeHash": "decb6e37ab4081880bb7246ee56acd1101e29b260c26ed53b4145bfbda66ff7b"
+    },
+    "public": {
+      "scenarios": 5,
+      "rules": 9,
+      "occurrences": 73,
+      "rules_detail": {
+        "color-contrast": 8,
+        "html-has-lang": 5,
+        "page-has-heading-one": 5,
+        "button-name": 10,
+        "link-name": 3,
+        "aria-allowed-attr": 4,
+        "aria-tooltip-name": 30,
+        "label": 6,
+        "region": 2
+      },
+      "incomplete": 62,
+      "errors": 0,
+      "scopeHash": "3d2ea9525306cf5f0755e14ef3ce614db791284ca4d6633d2319c384d8aa5364"
+    }
+  },
+  "final": {
+    "auth": {
+      "scenarios": 51,
+      "rules": 0,
+      "occurrences": 0,
+      "rules_detail": {},
+      "incomplete": 1440,
+      "errors": 0,
+      "scopeHash": "4eed51cd5842ae4a52e9f38c9e2e61ebf6a15fd2916074e027cac01b73efdf1e"
+    },
+    "public": {
+      "scenarios": 5,
+      "rules": 0,
+      "occurrences": 0,
+      "rules_detail": {},
+      "incomplete": 64,
+      "errors": 0,
+      "scopeHash": "39785701916835ade1354d35cf8db2b46ee4c355ef906f17d1f7e322c384ae30"
+    }
+  },
+  "install_build": {
+    "auth": {
+      "scenarios": 51,
+      "rules": 0,
+      "occurrences": 0,
+      "rules_detail": {},
+      "incomplete": 1440,
+      "errors": 0,
+      "scopeHash": "5cf4e4cff182b4f1049f1458370117ac510ee27da9c07a306c6341a5b3397526"
+    },
+    "public": {
+      "scenarios": 5,
+      "rules": 0,
+      "occurrences": 0,
+      "rules_detail": {},
+      "incomplete": 64,
+      "errors": 0,
+      "scopeHash": "33f8ae2e6fc308651afabeba6b4f608ab7843eaf8a2df635f0b5f2efb6996d78"
+    },
+    "command": "install-build.sh (clone vierge @SHA + git apply + docker build + boot :7064 + seed + rescan)"
+  },
+  "verify": {
+    "command": "node tools/verify.mjs http://localhost:7054",
+    "pass": 21,
+    "fail": 0
+  },
+  "eval_final": {
+    "command": "node tools/eval-final.mjs http://localhost:7054",
+    "pass": 25,
+    "fail": 0
+  },
+  "probes_incomplets": {
+    "command": "node tools/incomplete-probes.mjs http://localhost:7054 reports/final-auth/report.json reports/final-auth/incomplete-probes.json tools/auth.json",
+    "auth": {
+      "PASS": 777,
+      "N-A": 177,
+      "FAIL": 0
+    },
+    "public": {
+      "PASS": 25,
+      "N-A": 12,
+      "FAIL": 0
+    },
+    "notes": "aria-valid-attr-value: 176 N-A = idrefs Vuetify lazy-mount vérifiées à l'activation réelle (séquence pointerdown→click rejouée dans la sonde) ou nom résolu via aria-label ; color-contrast: 1 N-A = contrôle désactivé (exempt WCAG 1.4.3)."
+  }
+}
