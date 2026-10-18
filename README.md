@@ -1,5 +1,7 @@
 # Accessibility, with evidence
 
+[![Toolkit checks](https://github.com/titoude/accessibilite-conformite/actions/workflows/ci.yml/badge.svg)](https://github.com/titoude/accessibilite-conformite/actions/workflows/ci.yml)
+
 **Help coding agents fix accessibility barriers in source code, verify their changes, and show what still needs human review.**
 
 An open-source skill and toolkit for websites and web applications. Designed for maintainers who need useful fixes with reproducible evidence.
@@ -129,6 +131,12 @@ weaker models.
 | [BENCHMARK-PLAN.md](BENCHMARK-PLAN.md) | Historical methodology and proposed corpus |
 
 Historical French audit documents remain as provenance. Use the current skill and release checklist for new work.
+
+## Reporting and privacy
+
+Report security vulnerabilities privately using GitHub Security Advisories; see [SECURITY.md](SECURITY.md). Do not upload production authentication states, customer data, credentials or raw access tokens to issues or benchmark artifacts. The scanner is a development tool, not authorization to test third-party services.
+
+For an independent open-source application from the same account, see [Owly](https://github.com/titoude/owly), an offline-first observation journal. Owly is a separate project; inclusion here does not assert clinical validation or accessibility certification.
 
 ## AI disclosure
 

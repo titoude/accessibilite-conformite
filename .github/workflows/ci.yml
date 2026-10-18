@@ -7,6 +7,11 @@ on:
 permissions:
   contents: read
 
+# Avoid spending minutes on obsolete commits while a PR is being refined.
+concurrency:
+  group: toolkit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
