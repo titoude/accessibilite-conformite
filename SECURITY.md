@@ -14,11 +14,11 @@ This project is a **development-time accessibility auditing and remediation tool
 - Browser storage-state files, login cookies, tokens, API keys, private URLs and screenshots of real users may contain sensitive data. Keep them outside this repository and public bug reports. Use test accounts and synthetic fixtures.
 - Generated audit reports may contain page HTML and text. Review and redact them before publishing or attaching to issues and pull requests.
 - AI code changes require independent review, locked dependencies, real builds, reproducible end-to-end tests and explicit reporting of manual accessibility gaps.
-- When optional agent adapters run with repository credentials, give them the narrowest privileges required. They do not need production secrets to run an accessibility benchmark.
-- Dependencies and CI workflows execute third-party code. Review dependency bumps and run upstream benchmarks in isolated disposable environments.
+- When agents or the optional Devin workflow run with repository credentials, give them the narrowest privileges required. They do not need production secrets to run an accessibility audit.
+- Dependencies and CI workflows execute third-party code. Review dependency bumps, and run the applications you audit in isolated, disposable environments.
 
 An automated scanner finding no violations is **not** evidence that all user tasks, assistive technologies or legal requirements have been assessed.
 
 ## Supported code
 
-Security fixes are applied to the current default branch. Historical benchmark versions and patches are retained for reproducibility and are not maintained as separate supported releases.
+Security fixes are applied to the current default branch only.

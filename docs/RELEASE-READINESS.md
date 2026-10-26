@@ -1,33 +1,31 @@
 # Release readiness
 
-Every decision refers to an exact commit, declared scope and linked evidence. Do not certify perfect accessibility for everyone.
+Use this gate before publishing an accessibility claim or releasing a remediated application. Every decision refers to an exact commit, a declared scope and linked evidence. Never certify perfect accessibility for everyone.
 
 | Gate | Required evidence |
 | --- | --- |
 | Repository | Correct owner/repo, base and candidate SHA; no unrelated changes |
-| Installation | Clean frozen install, toolkit tests and Windows/Linux CI for the candidate |
-| Decision safety | Contradictory or missing required evidence cannot produce success |
-| Demonstration | Reproducible source change and complete keyboard task; captions/transcript for any video |
-| Benchmark | Frozen inputs, isolated skill/control arms, full artifacts and independent replay; failures retained |
-| Human usability | Actual critical tasks, tester/date, OS/browser/AT versions, observed results and open defects |
-| Standards | [Complete criterion inventory](../templates/README.md), justified applicability, appropriate methods, full-page/process requirements and separate jurisdictional assessment |
-| Presentation | Tested English quick start, working links, license, AI disclosure and honest limitations |
+| Build | Clean install from the lockfile, successful build and the project's own tests for the candidate |
+| Automated scan | Baseline and final `report.json`/`scope.json` for the same declared scope, with matching scope identities; no execution errors |
+| Decision safety | Contradictory or missing evidence cannot produce success; open incompletes have an owner |
+| Keyboard tasks | Complete critical tasks, including errors and dialogs, replayed by someone other than the corrector |
+| Human review | Actual critical tasks, tester and date, OS/browser/AT versions, observed results and open defects |
+| Standards | [Complete criterion record](../templates/README.md), justified applicability, appropriate methods, full-page and complete-process requirements, and a separate jurisdictional assessment |
 
-Missing evidence stays open. Automation cannot substitute for an unavailable human test.
+Missing evidence stays open. Automation cannot stand in for a human test that has not been done.
 
 ## Human review record
 
 | Task / route / state | Candidate SHA | Browser / OS / AT versions | Tester / date | Expected | Observed | Status / evidence |
 | --- | --- | --- | --- | --- | --- | --- |
 
-Cover keyboard tasks, NVDA on a tested Windows browser, VoiceOver/Safari and mobile AT when relevant, plus real zoom, text spacing and forced colors. Select environments from user needs rather than assuming one combination proves every configuration.
+Cover keyboard tasks, NVDA with a tested Windows browser, VoiceOver with Safari and mobile assistive technologies when relevant, plus real zoom, text spacing and forced colors. Choose environments from your users' needs rather than assuming one combination proves every configuration.
 
 ## Boundaries
 
-- [WCAG 2.2](https://www.w3.org/TR/WCAG22/) is the web target, including full-page and complete-process conformance requirements.
+- [WCAG 2.2](https://www.w3.org/TR/WCAG22/) is the web target, including its full-page and complete-process conformance requirements.
 - [RGAA](https://accessibilite.numerique.gouv.fr/methode/) has its own method; an axe scan is not an RGAA audit.
-- EAA, EN 301 549 and local laws require a separate applicability assessment using current authoritative texts. Historical legal dates are not current advice.
-- Native software, documents and hardware need additional evaluators and are outside the HTML scanner.
-- [Googlebot](https://developers.google.com/search/docs/crawling-indexing/googlebot) is a search crawler, not an accessibility certification.
+- The European Accessibility Act, EN 301 549 and local laws require a separate applicability assessment based on current authoritative texts.
+- Native software, documents and hardware need other evaluation methods and are outside the HTML scanner.
 
-Record **ready for the declared scope**, **changes required** or **blocked by missing evidence**, with links to every gate. Preserve previous evaluations and publish limitations prominently.
+Record **ready for the declared scope**, **changes required** or **blocked by missing evidence**, with links to every gate. Keep previous evaluations and state limitations prominently.

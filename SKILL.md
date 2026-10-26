@@ -77,6 +77,6 @@ Keep sanitized patch files, baseline/final reports and scopes, manifest/state de
 
 An automated pass means no detected violations or execution errors within the declared scope. Complete conformance additionally requires all applicable criteria and conformance requirements to be evaluated with appropriate methods. Never infer coverage from a count.
 
-Add a regression gate appropriate to the project. The local pre-push hook checks a running URL; it cannot prove which commit the server serves. Use CI that builds the candidate when that identity is required.
+Add a regression gate appropriate to the project. The local [pre-push hook](hooks/pre-push) checks a running URL; it cannot prove which commit the server serves. Use CI that builds the candidate when that identity is required.
 
 Deliver a scoped PR and explicit unresolved items. Use [release readiness](docs/RELEASE-READINESS.md) before any conformance claim or release. Check the applicable authority before writing an accessibility declaration.

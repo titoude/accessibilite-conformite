@@ -2,13 +2,13 @@
 
 **Accessibility fixes that can be challenged, reproduced and reviewed.**
 
-The product is a portable coding-agent skill with an executable audit runner,
-assertion helpers and an evidence protocol. Its value is a reviewable source
+The product is a portable coding-agent skill with an executable scanner,
+assertion helpers and a review protocol. Its value is a reviewable source
 change and a clear account of what remains unchecked.
 
 ## 0:00 — Show the barrier
 
-After the [locked installation](../README.md#start-locally), run `pnpm demo`.
+After the [quickstart installation](../README.md#quickstart), run `pnpm demo`.
 Open the [local broken form](http://127.0.0.1:4173/before.html) and try to reach
 the reservation control using Tab. It is mouse-only. The fields also lack
 programmatic labels and the help text has insufficient contrast.
@@ -18,51 +18,44 @@ programmatic labels and the help text has insufficient contrast.
 Open the [corrected form](http://127.0.0.1:4173/after.html). Submit an empty name,
 observe focus move to the field and its associated error, enter Alex, choose
 In person, reserve, and dismiss the dialog with Escape. Focus returns to the
-button; the confirmation retains the selected value. No real booking is made.
+button; the confirmation keeps the selected value. No real booking is made.
 
 This example is hand-authored. It demonstrates the workflow and testable
-behaviors; it is not evidence that an isolated AI agent produced the fix.
+behaviors; it is not the output of an AI agent.
 
-## 1:15 — Challenge the evidence
+## 1:15 — Scan both versions
+
+In a second terminal, run:
+
+```sh
+node audit.mjs http://127.0.0.1:4173 --urls /before.html,/after.html --states none --out a11y-audit/demo
+```
+
+The scanner exits with code `1`. Open `a11y-audit/demo/report.md`: three rules
+fail on the broken page and none on the corrected one. `scope.json` records
+exactly which pages were scanned, so a smaller scope cannot pass for an improvement.
+
+## 1:45 — Challenge the evidence
 
 Run `pnpm test:demo`. Open the generated `test-results/demo/` reports and
 screenshots. The test checks the complete keyboard task, four corrected states,
-320 CSS-pixel reflow and forced-colors operation. Explain that browser zoom and
-real assistive-technology testing are separate checks.
+320 CSS-pixel reflow and forced-colors operation. Browser zoom and real
+assistive-technology testing remain separate checks.
 
-Show the [toolkit regression suite](EVIDENCE.md#current-toolkit-checks): it
-rejects contradictory reports, lost scenarios, wrong commit identities and
-misleading assertions. A passing test suite demonstrates those specific checks;
-it is not a universal accessibility certificate.
+Show the [toolkit test suite](../README.md#what-the-tests-check): it rejects
+stale reports, undeclared states, HTTP errors, redirects and misleading
+assertions. A passing suite demonstrates those specific checks; it is not an
+accessibility certificate.
 
-## 2:00 — Present the controlled result, including the failure
-
-Open the [paired pilot results](../benchmarks/paired-pilot/RESULTS.md) and the
-[independent replay](../benchmarks/paired-pilot/independent-review/README.md).
-Both isolated agents reduce 108 detected violation nodes to one. Both leave a
-focus-indicator failure. The skill arm's self-reported zero did not survive
-replay. One pair with matching outcomes does not establish skill superiority.
-
-The [second pilot](../benchmarks/task-pilot/independent-review/README.md)
-measures three offline TodoMVC keyboard journeys. Both final patches pass,
-but the skill arm needs a correction that the control does not. Independent
-replay retains that failed first submission and the remaining axe findings.
-This makes the limits of the evidence visible.
-
-The separate W3C ACT calibration tests selected scanner rules against public
-reference fixtures. Its scope, unsupported cases and raw outcomes are published;
-it does not measure the skill's effect.
-
-## 2:40 — Close with the next evidence gate
+## 2:30 — Close with what remains open
 
 The [55-criterion record](../templates/README.md) starts with every criterion
 untested. Maintainers must evaluate applicability, complete user tasks and
-record actual human review. More isolated trials and model families are needed
-before making a general effectiveness claim.
+record actual human review with the [checklist](../checklist.md).
 
-Human assistive-technology validation remains open. See
-[release readiness](RELEASE-READINESS.md). Conformance claims need evidence
+Human assistive-technology validation is still required. See
+[release readiness](RELEASE-READINESS.md): conformance claims need evidence
 for the declared tasks, scope and environments.
 
-This page is the presentation transcript. If recording a video, provide accurate
-captions and keep the on-screen commands and limitations readable.
+If you record this walkthrough as a video, provide accurate captions and keep the
+on-screen commands and limitations readable.

@@ -1,6 +1,6 @@
 # Two-minute source-fix demonstration
 
-This is a **hand-authored teaching fixture**, not an agent benchmark. The broken version intentionally contains barriers. Nothing leaves the browser and no real reservation is made.
+This is a **hand-authored teaching fixture**, not the output of an agent. The broken version intentionally contains barriers. Nothing leaves the browser and no real reservation is made.
 
 From the repository root after the locked installation:
 
