@@ -3,8 +3,9 @@
 # Bounded corrector -> independent verifier loop:
 #   audit (agent A) -> fix on a branch (agent B) -> re-audit + checklist (agent C)
 #   -> new round while findings remain (max 3) -> separate final evaluation -> PR.
-# The corrector never grades its own work; the final status is computed from the
-# verifier's counters (compute_status), not from an agent's verdict.
+# The corrector never grades its own work. The status is computed from the
+# verifier's counters (compute_status): contradictory or malformed output is ERROR,
+# never PASS. The separate final evaluation can then only downgrade PASS to PARTIAL.
 #
 # Requires Devin's workflow runtime, which provides agent(), register_workflow() and
 # log(). Set A11Y_REPO=owner/repo (and optionally A11Y_BASE=<branch>), then run it with
@@ -495,7 +496,7 @@ async function run() {
   md += `Scope: scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
 
   for (const r of rules) {
-    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nReference: ${r.helpUrl}\n\n`;
+    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\n\nReference: ${r.helpUrl}\n\n`;
     for (const [page, targets] of r.pages) {
       md += `- ${page}\n`;
       for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;

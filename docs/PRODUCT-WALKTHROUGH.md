@@ -20,8 +20,8 @@ observe focus move to the field and its associated error, enter Alex, choose
 In person, reserve, and dismiss the dialog with Escape. Focus returns to the
 button; the confirmation keeps the selected value. No real booking is made.
 
-This example is hand-authored. It demonstrates the workflow and testable
-behaviors; it is not the output of an AI agent.
+The corrected form was written by hand to show the workflow and the behaviors
+the tests check.
 
 ## 1:15 — Scan both versions
 
@@ -31,8 +31,9 @@ In a second terminal, run:
 node audit.mjs http://127.0.0.1:4173 --urls /before.html,/after.html --states none --out a11y-audit/demo
 ```
 
-The scanner exits with code `1`. Open `a11y-audit/demo/report.md`: three rules
-fail on the broken page and none on the corrected one. `scope.json` records
+The scanner exits with code `1`, as expected. Open `a11y-audit/demo/report.md`
+(compare it with the [example report](example-report.md)): three rules fail on
+the broken page and none on the corrected one. `scope.json` records
 exactly which pages were scanned, so a smaller scope cannot pass for an improvement.
 
 ## 1:45 — Challenge the evidence
@@ -44,8 +45,7 @@ assistive-technology testing remain separate checks.
 
 Show the [toolkit test suite](../README.md#what-the-tests-check): it rejects
 stale reports, undeclared states, HTTP errors, redirects and misleading
-assertions. A passing suite demonstrates those specific checks; it is not an
-accessibility certificate.
+assertions.
 
 ## 2:30 — Close with what remains open
 
@@ -53,9 +53,6 @@ The [55-criterion record](../templates/README.md) starts with every criterion
 untested. Maintainers must evaluate applicability, complete user tasks and
 record actual human review with the [checklist](../checklist.md).
 
-Human assistive-technology validation is still required. See
-[release readiness](RELEASE-READINESS.md): conformance claims need evidence
-for the declared tasks, scope and environments.
-
-If you record this walkthrough as a video, provide accurate captions and keep the
-on-screen commands and limitations readable.
+Close with [release readiness](RELEASE-READINESS.md): conformance claims need
+evidence, including human assistive-technology testing, for the declared tasks,
+scope and environments.

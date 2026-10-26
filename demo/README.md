@@ -1,6 +1,6 @@
 # Two-minute source-fix demonstration
 
-This is a **hand-authored teaching fixture**, not the output of an agent. The broken version intentionally contains barriers. Nothing leaves the browser and no real reservation is made.
+This is a **hand-authored teaching fixture**. The broken version intentionally contains barriers. Nothing leaves the browser and no real reservation is made.
 
 From the repository root after the locked installation:
 
@@ -26,4 +26,4 @@ pnpm test:demo
 
 The test starts its own loopback server, checks the deliberately broken baseline, runs the corrected keyboard task, tests reflow at a 320 CSS-pixel viewport and forced-colors operation, and writes full axe results and screenshots under `test-results/demo/`. Viewport reflow is not a substitute for testing actual browser zoom or mobile assistive technology.
 
-The result fails if an axe violation **or incomplete finding** appears in the corrected declared states, if focus or the actual booking result is wrong, or if the fixed page cannot complete the task. It does not establish every WCAG criterion or demonstrate that an AI agent independently produced this patch.
+The result fails if an axe violation **or incomplete finding** appears in the corrected declared states, if focus or the actual booking result is wrong, or if the fixed page cannot complete the task.

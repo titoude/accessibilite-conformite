@@ -1,6 +1,6 @@
 # Criterion coverage record
 
-Copy [wcag-2.2-aa.csv](wcag-2.2-aa.csv) into the evaluated project's evidence directory before the baseline. It inventories all **55 A/AA success criteria** in the [12 December 2024 WCAG 2.2 Recommendation](https://www.w3.org/TR/2024/REC-WCAG22-20241212/). The identifiers, levels and links were checked against that published version on 28 September 2026. Every initial status is `NOT_TESTED`.
+Copy [wcag-2.2-aa.csv](wcag-2.2-aa.csv) into the evaluated project's evidence directory before the baseline. It inventories all **55 A/AA success criteria** in the [12 December 2024 WCAG 2.2 Recommendation](https://www.w3.org/TR/2024/REC-WCAG22-20241212/). Identifiers, levels and links follow that published version. Every initial status is `NOT_TESTED`.
 
 This is a record template, not an audit result, normative interpretation or substitute for the linked requirements. It deliberately avoids giving a universal automated test to criteria that require contextual judgment. Use the [practical checklist](../checklist.md) to plan tasks.
 

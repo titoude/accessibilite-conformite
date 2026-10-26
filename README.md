@@ -4,7 +4,7 @@
 
 **An accessibility skill and toolkit for coding agents.** It helps an agent (or a developer) find barriers in a website or web application, fix them in source code, verify the result, and say plainly what still needs a human.
 
-The technical target is **WCAG 2.2 A/AA** for web content. Zero automated violations is not full WCAG or RGAA conformance, so the toolkit keeps every check that still needs a person visible.
+A *skill* is a Markdown file of instructions that an AI coding agent, such as Claude Code, Codex or Devin, loads to follow a defined procedure. [SKILL.md](SKILL.md) is that procedure; the scanner, checklist and test helpers next to it work just as well by hand. The target is **WCAG 2.2 A/AA** for web content.
 
 [Use the skill](SKILL.md) · [Run the scanner](#scan-your-application) · [Try the demo](demo/README.md) · [Walkthrough](docs/PRODUCT-WALKTHROUGH.md) · [Contribute](CONTRIBUTING.md)
 
@@ -19,24 +19,23 @@ The technical target is **WCAG 2.2 A/AA** for web content. Zero automated violat
 | [tests-validators/](tests-validators/README.md) | Assertion helpers (`accNameMatches`, `isTrulyVisible`) and nine deliberately broken cases that weak assertions miss |
 | [demo/](demo/README.md) | A broken and a corrected workshop booking form, with an automated keyboard replay |
 | [hooks/pre-push](hooks/pre-push) | Optional git hook that blocks a push when the scan fails |
-| [docs/](docs/) | [Release readiness](docs/RELEASE-READINESS.md) gate and a [three-minute walkthrough](docs/PRODUCT-WALKTHROUGH.md) |
+| [docs/](docs/) | [Release readiness](docs/RELEASE-READINESS.md) gate, [three-minute walkthrough](docs/PRODUCT-WALKTHROUGH.md) and an [example report](docs/example-report.md) |
 | [integrations/devin/](integrations/devin/README.md) | Optional playbook and orchestration script for Devin |
 
 ## Quickstart
 
-Requirements: **Node.js 22+**, **pnpm 10.34.5** and **Python 3.10+** (used by `pnpm demo` and the Python tests). Dependencies, including transitive ones, are locked.
+Requirements: **Node.js 22+**, **pnpm 10.34.5** and **Python 3.10+**, available as `python` on your `PATH` (the npm scripts call `python`; it serves the demo and runs the Python tests). Dependencies, including transitive ones, are locked.
 
 ```sh
 git clone https://github.com/titoude/accessibilite-conformite.git
 cd accessibilite-conformite
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm exec playwright install chromium
-pnpm test
 ```
 
 On Linux, use `pnpm exec playwright install --with-deps chromium` if Chromium's system libraries are missing.
 
-Then scan the demo. Start the local server in one terminal:
+**Scan the demo.** Start the local server in one terminal:
 
 ```sh
 pnpm demo
@@ -48,7 +47,13 @@ and run the scanner from a second terminal, in the same directory:
 node audit.mjs http://127.0.0.1:4173 --urls /before.html,/after.html --states none --out a11y-audit/demo
 ```
 
-It exits with code `1` and writes `a11y-audit/demo/report.md`: three rules fail on `before.html` (`label`, `select-name`, `color-contrast`) and none on `after.html`. Stop the server with Ctrl+C.
+`--urls` lists the pages to scan, and `--states none` declares that they have no dialogs or other dynamic states to open (the scanner requires that choice to be explicit). The command should exit with code `1`, because the broken page has violations: three rules fail on `before.html` (`label`, `select-name`, `color-contrast`) and none on `after.html`. Read the result in `a11y-audit/demo/report.md`; it looks like this [example report](docs/example-report.md). Stop the server with Ctrl+C.
+
+**Run the test suite:**
+
+```sh
+pnpm test
+```
 
 ## Scan your application
 
@@ -77,7 +82,7 @@ Without `--urls`, it follows same-origin links from the base URL (depth 1, at mo
 | `1` | Automated violations found |
 | `2` | Invalid configuration, navigation or execution error, or (with `--strict-incomplete`) incomplete findings |
 
-Each run writes `report.md` (violations grouped by rule, sorted by impact), `report.json` (full axe results and metadata) and `scope.json` (the scenarios actually scanned and a scope hash to compare a baseline with a fix). These files are rewritten even when the configuration is invalid or the browser fails to start, so an old report can never pass for a new one. Reports and console messages are currently written in French.
+Each run writes `report.md` (violations grouped by rule, sorted by impact), `report.json` (full axe results and metadata) and `scope.json` (the scenarios actually scanned and a scope hash to compare a baseline with a fix). These files are rewritten even when the configuration is invalid or the browser fails to start, so an old report can never pass for a new one.
 
 ### Dialogs, menus and other dynamic states
 
@@ -103,18 +108,18 @@ const STATES = {
 
 > Apply this accessibility skill to our web application. Freeze the scope first, preserve all features, produce source fixes and reproducible evidence, and list every unverified criterion and assistive-technology check.
 
-The scanner finds issues; the agent or developer writes the fixes. This repository is not an AI service, and it does not claim that an agent using the skill produces better fixes than one without it. Judge the result by the evidence: the patch, the before/after reports and the open human checks.
+The scanner finds issues; the agent or developer writes the fixes. Judge the result by its evidence: the patch, the before/after reports and the open human checks.
 
 ## Demo
 
 `pnpm demo` serves a [before/after workshop form](demo/README.md) on `http://127.0.0.1:4173`. Try the broken form with the keyboard, then the corrected one: submit an empty name, choose a format, confirm the reservation and close the dialog with focus restored. No real booking is made.
 
-`pnpm test:demo` replays that task in Chromium and writes axe results and screenshots to `test-results/demo/`. It requires the three known violations on the broken page and zero violations and zero incomplete findings in the four corrected states. The fix was written by hand as a teaching example; it is not the output of an agent.
+`pnpm test:demo` replays that task in Chromium and writes axe results and screenshots to `test-results/demo/`. It requires the three known violations on the broken page and zero violations and zero incomplete findings in the four corrected states. The corrected page was written by hand as a teaching example.
 
 <details>
 <summary>Screenshot: the corrected form after a keyboard reservation</summary>
 
-![The corrected workshop form shows named fields, a visible focus ring around Reserve a place, and the confirmation Place reserved for Alex, In person.](docs/assets/demo-after.png)
+![The corrected workshop form after the confirmation dialog was closed: labelled fields filled with Alex and In person, a visible focus ring around the Reserve a place button, and the status message Place reserved for Alex (In person).](docs/assets/demo-after.png)
 
 </details>
 
@@ -130,13 +135,12 @@ The scanner finds issues; the agent or developer writes the fixes. This reposito
 | `pnpm test:decisions` | The Devin workflow cannot report success from contradictory or missing verification results |
 | `pnpm test:parity` | The copy of `audit.mjs` embedded in the Devin workflow is identical to the source |
 
-These tests show that specific failure modes are rejected. They do not prove the absence of every defect.
-
 ## Limits
 
-- Automated scanning finds only part of the WCAG failures. A clean scan says nothing about criteria that need human judgement.
-- Screen-reader use (NVDA, VoiceOver, TalkBack), real browser zoom and complete user tasks still need people. [checklist.md](checklist.md) and the [criterion record](templates/README.md) keep those checks visible until someone performs them.
+- Automated scanning finds only part of the WCAG failures. Zero automated violations is not WCAG or RGAA conformance, and the test suite covers the specific failure modes listed above, not every possible defect.
+- Screen-reader use (NVDA, VoiceOver, TalkBack), real browser zoom and complete user tasks still need people. [checklist.md](checklist.md) and the [criterion record](templates/README.md) keep those checks open until someone performs them. The demo itself has not yet been tested with assistive technologies by people.
 - RGAA, EN 301 549, the European Accessibility Act and local laws each need their own method and applicability assessment. Native apps and documents are out of scope for the scanner.
+- The skill structures an agent's work; no measured claim is made that agents produce better fixes with it than without it.
 - Use the [release readiness gate](docs/RELEASE-READINESS.md) before making any accessibility claim.
 
 ## Contributing and security
@@ -145,7 +149,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md). Report vulnerabilities privately as desc
 
 ## AI disclosure
 
-This project was developed with AI assistance, including Devin, Codex and Claude Code. The demo has not yet been validated with assistive technologies by human testers.
+This project was developed with AI assistance, including Devin, Codex and Claude Code.
 
 ## License
 

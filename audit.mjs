@@ -470,7 +470,7 @@ async function run() {
   md += `Scope: scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
 
   for (const r of rules) {
-    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nReference: ${r.helpUrl}\n\n`;
+    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\n\nReference: ${r.helpUrl}\n\n`;
     for (const [page, targets] of r.pages) {
       md += `- ${page}\n`;
       for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;

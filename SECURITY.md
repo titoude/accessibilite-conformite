@@ -8,7 +8,7 @@ Include the affected commit or release, environment, exact reproduction instruct
 
 ## Security boundaries
 
-This project is a **development-time accessibility auditing and remediation toolkit**, not a hosted scanning service and not proof of legal or WCAG conformance.
+This project is a **development-time accessibility auditing and remediation toolkit** that runs on your machine or CI; it is not a hosted scanning service.
 
 - Only scan applications, repositories, identities and endpoints you own or have explicit permission to test. Do not use the crawler against unrelated services.
 - Browser storage-state files, login cookies, tokens, API keys, private URLs and screenshots of real users may contain sensitive data. Keep them outside this repository and public bug reports. Use test accounts and synthetic fixtures.
@@ -16,8 +16,6 @@ This project is a **development-time accessibility auditing and remediation tool
 - AI code changes require independent review, locked dependencies, real builds, reproducible end-to-end tests and explicit reporting of manual accessibility gaps.
 - When agents or the optional Devin workflow run with repository credentials, give them the narrowest privileges required. They do not need production secrets to run an accessibility audit.
 - Dependencies and CI workflows execute third-party code. Review dependency bumps, and run the applications you audit in isolated, disposable environments.
-
-An automated scanner finding no violations is **not** evidence that all user tasks, assistive technologies or legal requirements have been assessed.
 
 ## Supported code
 
