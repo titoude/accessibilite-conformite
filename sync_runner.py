@@ -14,7 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 RUNNER = ROOT / "audit.mjs"
-TARGETS = ["workflow.py", "workflow-cdv.py", "benchmark-v3.py"]
+TARGETS = ["workflow.py"]
 
 PATTERN = re.compile(r"^AUDIT_SCRIPT = r'''(.*?)'''", re.S | re.M)
 

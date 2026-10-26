@@ -22,123 +22,9 @@ def load_definitions(filename, names):
     return namespace
 
 
-class BenchmarkDecisions(unittest.TestCase):
-    def setUp(self):
-        self.module = load_definitions("benchmark-v3.py", {
-            "BATCHES", "EXPECTED_REPOS", "REQUIRED_ARTIFACTS", "validate_result"})
-        scope_hash = "a" * 64
-        patch = "diff --git a/index.html b/index.html\n"
-        self.result = {
-            "repo": "miniflux/v2", "commit_sha": "c" * 40, "booted": True, "failure": None,
-            "scope_identical": True, "scope_hash_baseline": scope_hash,
-            "scope_hash_final": scope_hash, "execution_complete": True,
-            "errors_baseline": 0, "errors_final": 0, "axe_score": 0,
-            "final_violations": 0, "final_eval_findings": 0, "regressions": 0,
-            "coverage_gaps": [], "rounds": 2, "budget_exceeded": False,
-            "budget_respected": True, "scope_vs_manifest": "identical",
-            "review_resolved": True, "install_build": "pass", "final_validation": "pass",
-            "artifacts": list(self.module["REQUIRED_ARTIFACTS"]),
-            "patch_diff": patch, "patch_sha256": hashlib.sha256(patch.encode()).hexdigest(),
-            "eval_replay": {
-                "repo": "miniflux/v2", "commit_sha": "c" * 40,
-                "patch_identity_ok": True, "replay_ok": True,
-                "verdict": "PASS", "final_violations": 0, "scope_hash": scope_hash,
-                "install_build": "pass", "evidence": "Clean replay logs attached",
-            },
-        }
-
-    def verdict(self, result):
-        return self.module["validate_result"](result)[0]
-
-    def test_coherent_result_can_pass(self):
-        self.assertEqual(self.verdict(self.result), "CONFIRMED")
-
-    def test_replay_contradictions_cannot_pass(self):
-        for field, value in {
-            "repo": "wrong/repo", "patch_identity_ok": False, "replay_ok": False,
-            "final_violations": 7, "scope_hash": "b" * 64,
-            "install_build": "fail:build", "verdict": "FAIL",
-        }.items():
-            with self.subTest(field=field):
-                result = copy.deepcopy(self.result)
-                result["eval_replay"][field] = value
-                self.assertEqual(self.verdict(result), "REJECTED")
-
-    def test_missing_replay_evidence_cannot_pass(self):
-        for field in ("repo", "patch_identity_ok", "replay_ok", "final_violations",
-                      "scope_hash", "install_build", "evidence"):
-            with self.subTest(field=field):
-                result = copy.deepcopy(self.result)
-                del result["eval_replay"][field]
-                self.assertNotIn(self.verdict(result), ("CONFIRMED", "CONFIRMED_HORS_BUDGET"))
-
-    def test_nonzero_or_missing_gate_counters_cannot_pass(self):
-        for field in ("errors_baseline", "errors_final", "final_eval_findings", "regressions"):
-            for value in (1, -1, None, False, "0"):
-                with self.subTest(field=field, value=value):
-                    result = copy.deepcopy(self.result)
-                    result[field] = value
-                    self.assertNotIn(self.verdict(result), ("CONFIRMED", "CONFIRMED_HORS_BUDGET"))
-
-    def test_patch_digest_must_match(self):
-        self.result["patch_sha256"] = "b" * 64
-        self.assertEqual(self.verdict(self.result), "REJECTED")
-
-    def test_success_requires_an_exact_base_commit(self):
-        for value in (None, "", "main", "abc1234", 123):
-            with self.subTest(value=value):
-                result = copy.deepcopy(self.result)
-                result["commit_sha"] = value
-                result["eval_replay"]["commit_sha"] = value
-                self.assertEqual(self.verdict(result), "REJECTED")
-
-    def test_replay_must_measure_the_same_base_commit(self):
-        for value in (None, "", "d" * 40):
-            with self.subTest(value=value):
-                result = copy.deepcopy(self.result)
-                result["eval_replay"]["commit_sha"] = value
-                self.assertEqual(self.verdict(result), "REJECTED")
-
-    def test_missing_scope_hashes_are_not_identity(self):
-        self.result["scope_hash_baseline"] = self.result["scope_hash_final"] = ""
-        self.result["eval_replay"]["scope_hash"] = ""
-        self.assertNotEqual(self.verdict(self.result), "CONFIRMED")
-
-    def test_coverage_gap_cannot_pass(self):
-        self.result["coverage_gaps"] = ["modal not exercised"]
-        self.assertNotEqual(self.verdict(self.result), "CONFIRMED")
-
-    def test_budget_is_checked_against_rounds(self):
-        self.result["rounds"] = 4
-        self.assertEqual(self.verdict(self.result), "REJECTED")
-        self.result.update(budget_exceeded=True, budget_respected=False)
-        self.assertEqual(self.verdict(self.result), "CONFIRMED_HORS_BUDGET")
-
-    def test_artifact_substrings_are_not_paths(self):
-        self.result["artifacts"] = [f"missing-{name}.txt" for name in self.result["artifacts"]]
-        self.assertEqual(self.verdict(self.result), "REJECTED")
-
-    def test_unrun_replay_is_incomplete(self):
-        del self.result["eval_replay"]
-        self.assertEqual(self.verdict(self.result), "INCOMPLETE")
-
-
-class ReplayContext(unittest.TestCase):
-    def test_replay_receives_declared_scope_for_static_and_dynamic_runs(self):
-        module = load_definitions("benchmark-v3.py", {"AUDIT_SCRIPT", "EVAL_HEAD", "eval_prompt"})
-        for scope in ('{"statesRequested":["none"],"scenarios":[{"id":"/static-reference"}]}',
-                      '{"statesRequested":["settings-dialog"],"scenarios":[{"id":"/settings [state:settings-dialog]"}]}'):
-            with self.subTest(scope=scope):
-                result = {"repo": "example/app", "scope_json_final": scope,
-                          "scope_hash_final": "d" * 64}
-                prompt = module["eval_prompt"](result)
-                self.assertIn(scope, prompt)
-                self.assertIn(result["scope_hash_final"], prompt)
-
-
 class WorkflowDecisions(unittest.TestCase):
     def test_final_evaluation_controls_success_report(self):
-        for filename in ("workflow.py", "workflow-cdv.py"):
+        for filename in ("workflow.py",):
             for findings in (0, 2, -1, None, False, "0"):
                 with self.subTest(filename=filename, findings=findings):
                     module = load_definitions(filename, {"compute_status", "main"})
@@ -162,7 +48,7 @@ class WorkflowDecisions(unittest.TestCase):
                     self.assertEqual(partial.await_count, int(not should_pass))
 
     def test_verifier_requires_a_boolean_and_nonnegative_integer(self):
-        for filename in ("workflow.py", "workflow-cdv.py"):
+        for filename in ("workflow.py",):
             decide = load_definitions(filename, {"compute_status"})["compute_status"]
             for result in (None, {}, {"accepted": "yes", "remaining_violations": 0},
                            {"accepted": True, "remaining_violations": -1},

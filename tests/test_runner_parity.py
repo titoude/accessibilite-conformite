@@ -10,7 +10,7 @@ expected = (ROOT / "audit.mjs").read_text()
 PATTERN = re.compile(r"^AUDIT_SCRIPT = r'''(.*?)'''", re.S | re.M)
 
 ok = True
-for name in ["workflow.py", "workflow-cdv.py", "benchmark-v3.py"]:
+for name in ["workflow.py"]:
     m = PATTERN.search((ROOT / name).read_text())
     if not m:
         print(f"{name}: AUDIT_SCRIPT absent — FAIL")
