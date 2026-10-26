@@ -1,17 +1,18 @@
 #!/usr/bin/env node
 /**
- * validateurs.mjs — suite de contre-exemples pour valider les ASSERTIONS
- * d'accessibilité (pas le produit — les tests eux-mêmes).
+ * validators.mjs — counter-examples that test accessibility ASSERTIONS
+ * (not the product: the tests themselves).
  *
- * Chaque cas compare une assertion FAIBLE (permissive : elle passe à tort sur
- * le mutant) à l'assertion DURCIE prescrite par SKILL.md, implémentée dans
- * assertions.mjs (module partagé réutilisable).
- * Pour chaque mutant, on attend : faible = passe à tort, durcie = échoue.
- * Pour chaque témoin correct : la durcie passe (pas de faux négatif).
+ * Each case compares a WEAK assertion (permissive: it wrongly passes on the
+ * mutant) with the HARDENED assertion prescribed by SKILL.md and implemented in
+ * assertions.mjs (shared, reusable module).
+ * For each mutant we expect: weak = wrongly passes, hardened = fails.
+ * For each valid control: the hardened assertion passes (no false negative).
  *
- * Usage : node tests-validateurs/validateurs.mjs
- * Prérequis : playwright installé dans le projet (npm i -D playwright).
- * Exit : 0 si chaque assertion durcie détecte son mutant et passe le témoin.
+ * Usage: node tests-validators/validators.mjs (or pnpm test:validators)
+ * Requirements: the toolkit's locked dependencies and Chromium
+ *   (pnpm install --frozen-lockfile --ignore-scripts && pnpm exec playwright install chromium).
+ * Exit: 0 if every hardened assertion detects its mutant and accepts its control.
  */
 import { createRequire } from 'node:module';
 import { resolve } from 'node:path';
@@ -20,29 +21,29 @@ const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
 
 const HTML = `<!doctype html><html><body>
-  <ul><li id="item1" class="item unread">Item non lu</li></ul>
+  <ul><li id="item1" class="item unread">Unread item</li></ul>
   <button id="btn" aria-labelledby="no-such-label-id">OK</button>
   <span id="lbl-rich"><img src="x" alt="OK"></span>
   <input id="field" />
-  <div id="app"><main id="main-content"><p>Contenu réel</p></main></div>
+  <div id="app"><main id="main-content"><p>Real content</p></main></div>
   <select id="filter"><option value="">—</option><option value="a">A</option></select>
   <ul id="results"><li class="res">alpha</li><li class="res">beta</li></ul>
-  <div id="error-page" hidden><p>Erreur : route introuvable</p></div>
+  <div id="error-page" hidden><p>Error: route not found</p></div>
 </body></html>`;
 
-// Mutants activés via evaluate (le "produit défectueux")
+// Mutants applied with evaluate (the "defective product")
 const MUTANTS = {
   clean: async () => {},
-  // Étiquetage sous-chaîne : l'élément est "unread", une assertion 'read' faible passe
+  // Substring state: the element is "unread", so a weak 'read' assertion passes
   state_unread: async () => {},
-  // Nom accessible vide : aria-labelledby pointe vers un id inexistant
+  // Empty accessible name: aria-labelledby points to a missing id
   empty_accname: async () => {},
-  // Leurre : un AUTRE bouton porte le nom attendu — un test à l'échelle page passe
+  // Decoy: ANOTHER button has the expected name, so a page-wide test passes
   decoy_button: async (p) => p.evaluate(() => {
     document.body.insertAdjacentHTML('beforeend', '<button id="decoy">OK</button>');
   }),
-  // labelledby riche : la cible existe mais n'apporte AUCUN contenu accessible
-  // (img sans alt, pas de texte) — la présence de l'attribut ne suffit pas
+  // Rich labelledby: the target exists but provides NO accessible content
+  // (img without alt, no text); the attribute being present is not enough
   labelledby_empty_target: async (p) => p.$eval('#btn', (e) => {
     const s = document.createElement('span');
     s.id = 'lbl-empty';
@@ -50,15 +51,15 @@ const MUTANTS = {
     document.body.appendChild(s);
     e.setAttribute('aria-labelledby', 'lbl-empty');
   }),
-  // Contenu masqué : l'app entière est cachée mais le viewport a une taille
+  // Hidden content: the whole app is hidden but the viewport has a size
   hidden_app: async (p) => p.evaluate(() => { document.getElementById('app').style.display = 'none'; }),
-  // Piège isVisible : opacity:0 reste "visible" pour Playwright
+  // isVisible trap: opacity:0 is still "visible" to Playwright
   opacity_app: async (p) => p.evaluate(() => { document.getElementById('app').style.opacity = '0'; }),
-  // Élément requis absent : le filtre n'est pas dans le DOM
+  // Missing required element: the filter is not in the DOM
   missing_filter: async (p) => p.evaluate(() => { document.getElementById('filter').remove(); }),
-  // Action sans effet métier : le select accepte l'option mais ne filtre rien
+  // Action without effect: the select accepts the option but filters nothing
   filter_no_effect: async () => {},
-  // Page d'erreur servie à la place de la page métier
+  // Error page served instead of the expected page
   error_template: async (p) => p.evaluate(() => {
     document.getElementById('main-content').remove();
     document.getElementById('error-page').hidden = false;
@@ -74,38 +75,38 @@ const filterControlFix = (p) => p.$eval('#filter', (e) => {
   });
 });
 
-// Assertions FAIBLES (anti-patrons courants) vs DURCIES
+// WEAK assertions (common anti-patterns) vs HARDENED ones
 const CHECKS = [
   {
-    name: 'etat-read-vs-unread',
+    name: 'state-read-vs-unread',
     mutant: 'state_unread',
-    // Témoin = item réellement lu ; mutant = item "unread" (la sous-chaîne 'read' y figure)
+    // Control = item actually read; mutant = "unread" item (contains the substring 'read')
     controlFix: async (p) => p.$eval('#item1', e => e.classList.replace('unread', 'read')),
     weak: async (p) => (await p.$eval('#item1', e => e.className)).includes('read'),
     hard: async (p) => await p.$eval('#item1', e => e.classList.contains('read')),
   },
   {
-    name: 'nom-accessible-vide',
+    name: 'empty-accessible-name',
     mutant: 'empty_accname',
-    // Témoin = bouton dont le nom accessible est réellement "OK" (texte du bouton)
+    // Control = button whose accessible name really is "OK" (button text)
     controlFix: async (p) => p.$eval('#btn', e => e.removeAttribute('aria-labelledby')),
     weak: async (p) => (await p.$eval('#btn', e => e.getAttribute('aria-labelledby'))) !== null,
     hard: async (p) => accNameMatches(p.locator('#btn'), 'OK'),
   },
   {
-    name: 'leurre-meme-nom',
+    name: 'decoy-same-name',
     mutant: 'decoy_button',
-    // Le nom "OK" existe ailleurs dans la page : un test non scopé ne peut pas
-    // attribuer le nom au bon élément.
+    // The name "OK" exists elsewhere on the page: an unscoped test cannot
+    // attribute the name to the right element.
     controlFix: async (p) => p.$eval('#btn', e => e.removeAttribute('aria-labelledby')),
     weak: async (p) => (await p.getByRole('button', { name: 'OK', exact: true }).count()) >= 1,
     hard: async (p) => accNameMatches(p.locator('#btn'), 'OK'),
   },
   {
-    name: 'labelledby-cible-vide',
+    name: 'labelledby-empty-target',
     mutant: 'labelledby_empty_target',
-    // Témoin = labelledby riche : la cible contient un img alt="OK" — le nom
-    // calculé est correct et la cible apporte du contenu accessible.
+    // Control = rich labelledby: the target contains an img alt="OK", so the
+    // computed name is correct and the target provides accessible content.
     controlFix: async (p) => p.$eval('#btn', e => e.setAttribute('aria-labelledby', 'lbl-rich')),
     weak: async (p) => {
       const ref = await p.$eval('#btn', e => e.getAttribute('aria-labelledby'));
@@ -114,7 +115,7 @@ const CHECKS = [
     hard: async (p) => accNameMatches(p.locator('#btn'), 'OK'),
   },
   {
-    name: 'app-masquee-zoom',
+    name: 'hidden-app-zoom',
     mutant: 'hidden_app',
     weak: async (p) => (await p.evaluate(() => document.documentElement.clientWidth)) > 0,
     hard: async (p) => isTrulyVisible(p.locator('#main-content')),
@@ -122,25 +123,25 @@ const CHECKS = [
   {
     name: 'app-opacity-0',
     mutant: 'opacity_app',
-    // isVisible() ignore opacity — l'assertion faible "visible" passe à tort.
+    // isVisible() ignores opacity, so the weak "visible" assertion wrongly passes.
     weak: async (p) => p.locator('#main-content').isVisible(),
     hard: async (p) => isTrulyVisible(p.locator('#main-content')),
   },
   {
-    name: 'element-requis-absent',
+    name: 'missing-required-element',
     mutant: 'missing_filter',
-    // Témoin = select fonctionnel avec effet mesurable sur #results.
+    // Control = working select with a measurable effect on #results.
     controlFix: filterControlFix,
     weak: async (p) => {
       try { await p.selectOption('#filter', 'a'); return true; }
-      catch { return true; } // catch muet — la faille
+      catch { return true; } // swallowed error: the flaw
     },
     hard: async (p) => effectObserved(p,
       (pg) => pg.selectOption('#filter', 'a'),
       async (pg) => {
         if (!await pg.$eval('#filter', e => e.value === 'a')) return false;
-        // Effet métier : un conteneur #results déclarant data-filter doit
-        // refléter la valeur ; sinon la liste visible doit avoir changé.
+        // Business effect: a #results container declaring data-filter must
+        // reflect the value; otherwise the visible list must have changed.
         const df = await pg.evaluate(() =>
           document.getElementById('results')?.getAttribute('data-filter'));
         if (df !== null && df !== undefined) return df === 'a';
@@ -149,13 +150,13 @@ const CHECKS = [
       }),
   },
   {
-    name: 'filtre-sans-effet-metier',
+    name: 'filter-without-effect',
     mutant: 'filter_no_effect',
-    // Témoin = le select filtre réellement la liste (handler attaché).
+    // Control = the select really filters the list (handler attached).
     controlFix: filterControlFix,
     weak: async (p) => {
       await p.selectOption('#filter', 'a');
-      return await p.$eval('#filter', e => e.value === 'a'); // l'action a réussi, l'effet non vérifié
+      return await p.$eval('#filter', e => e.value === 'a'); // the action succeeded, the effect is not checked
     },
     hard: async (p) => effectObserved(p,
       (pg) => pg.selectOption('#filter', 'a'),
@@ -163,11 +164,11 @@ const CHECKS = [
         els => els.filter(e => e.offsetParent !== null).length === 1)),
   },
   {
-    name: 'page-erreur-vs-metier',
+    name: 'error-page-vs-expected-page',
     mutant: 'error_template',
     weak: async (p) => (await p.evaluate(() => document.title !== null)),
-    // Présence du nœud ≠ écran métier visible : main caché (hidden/opacity)
-    // = FAIL, même si le conteneur d'erreur reste dissimulé.
+    // A present node is not a visible page: a hidden main (hidden/opacity)
+    // = FAIL, even if the error container stays hidden.
     hard: async (p) => await p.locator('#main-content').count() === 1
       && await isTrulyVisible(p.locator('#main-content'))
       && await p.locator('#error-page').isHidden(),
@@ -180,14 +181,14 @@ async function main() {
   page.setDefaultTimeout(1500);
   let detected = 0, total = 0, falseNeg = 0;
   for (const c of CHECKS) {
-    // Témoin correct : les deux assertions doivent passer
+    // Valid control: both assertions are expected to pass
     await page.setContent(HTML);
     if (c.controlFix) await c.controlFix(page);
     const weakOk = await c.weak(page).catch(() => false);
     const hardOk = await c.hard(page).catch(() => false);
-    console.log(`[témoin] ${c.name}: weak=${weakOk} hard=${hardOk}`);
-    if (!hardOk) { falseNeg++; console.log(`  FAUX NÉGATIF : l'assertion durcie rate le cas correct`); }
-    // Mutant : l'assertion durcie doit échouer (détecter le défaut)
+    console.log(`[control] ${c.name}: weak=${weakOk} hard=${hardOk}`);
+    if (!hardOk) { falseNeg++; console.log(`  FALSE NEGATIVE: the hardened assertion rejects the valid case`); }
+    // Mutant: the hardened assertion must fail (detect the defect)
     await page.setContent(HTML);
     await MUTANTS[c.mutant](page);
     const weakMut = await c.weak(page).catch(() => 'err');
@@ -195,10 +196,10 @@ async function main() {
     total++;
     const caught = hardMut === false;
     if (caught) detected++;
-    console.log(`[mutant] ${c.name}: weak=${weakMut} hard=${hardMut} → ${caught ? 'DÉTECTÉ' : 'MANQUÉ'}`);
+    console.log(`[mutant] ${c.name}: weak=${weakMut} hard=${hardMut} → ${caught ? 'DETECTED' : 'MISSED'}`);
   }
   await browser.close();
-  console.log(`\n${detected}/${total} mutants détectés par les assertions durcies, ${falseNeg} faux négatifs`);
+  console.log(`\n${detected}/${total} mutants detected by the hardened assertions, ${falseNeg} false negatives`);
   process.exit(detected === total && falseNeg === 0 ? 0 : 1);
 }
 main().catch(e => { console.error(e); process.exit(2); });

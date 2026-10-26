@@ -1,45 +1,47 @@
 #!/usr/bin/env node
 /**
- * audit.mjs — audit d'accessibilité axe-core + Playwright.
+ * audit.mjs — accessibility scan with axe-core and Playwright.
  *
- * Usage :
- *   node audit.mjs <url-de-base>            # crawl same-origin (profondeur 1, max 50 pages)
- *   node audit.mjs --urls a,b,c              # liste explicite d'URLs
- *   node audit.mjs <url> --out dir           # dossier de sortie (défaut: ./a11y-audit)
- *   node audit.mjs <url> --max 20            # nb max de pages en crawl
- *   node audit.mjs <url> --depth 2           # profondeur de crawl (défaut 1)
- *   node audit.mjs <url> --wait 1500         # attente fixe (ms) après chargement
- *   node audit.mjs <url> --wait-for '#app'   # sélecteur REQUIS — absent => erreur de page
- *   node audit.mjs <url> --states all        # états dynamiques déclarés dans STATES
- *   node audit.mjs <url> --states nom1,nom2  # sous-ensemble explicite
- *   node audit.mjs <url> --states none       # déclare explicitement l'ABSENCE d'états
- *   node audit.mjs <url> --keep-hash         # conserve tous les fragments # (SPA hash-router)
- *   node audit.mjs <url> --storage-state f.json  # contexte authentifié Playwright
- *   node audit.mjs <url> --strict-incomplete # 'incomplete' axe compte comme erreur du gate
+ * Usage:
+ *   node audit.mjs <base-url>               # same-origin crawl (depth 1, max 50 pages)
+ *   node audit.mjs --urls a,b,c              # explicit list of URLs
+ *   node audit.mjs <url> --out dir           # output directory (default: ./a11y-audit)
+ *   node audit.mjs <url> --max 20            # maximum number of crawled pages
+ *   node audit.mjs <url> --depth 2           # crawl depth (default 1)
+ *   node audit.mjs <url> --wait 1500         # fixed wait (ms) after load
+ *   node audit.mjs <url> --wait-for '#app'   # REQUIRED selector; missing => page error
+ *   node audit.mjs <url> --states all        # dynamic states declared in STATES
+ *   node audit.mjs <url> --states name1,name2 # explicit subset
+ *   node audit.mjs <url> --states none       # explicitly declares that there are NO states
+ *   node audit.mjs <url> --keep-hash         # keep every # fragment (hash-routed SPA)
+ *   node audit.mjs <url> --storage-state f.json  # authenticated Playwright context
+ *   node audit.mjs <url> --strict-incomplete # axe 'incomplete' results count as gate errors
  *
- * États dynamiques : déclarez-les dans la carte STATES ci-dessous — ce sont les
- * vues invisibles au chargement (modales, drawers, toasts, onglets) qu'un audit
- * route-par-route ne voit jamais. Le scan tourne après le `setup` de chaque état.
- * `--states all` sur une carte vide est une ERREUR : déclarez les états ou
- * affirmez leur absence avec `--states none`.
+ * Dynamic states: declare them in the STATES map below. They are the views that
+ * are invisible on load (dialogs, drawers, toasts, tabs) and that a route-by-route
+ * scan never sees. The scan runs after each state's `setup`.
+ * `--states all` with an empty map is an ERROR: declare the states or state
+ * that there are none with `--states none`.
  *
- * Prérequis : npm i -D playwright axe-core && npx playwright install chromium
+ * Requirements: playwright and axe-core installed in the current directory's
+ * project (pinned in this toolkit's lockfile), plus Chromium:
+ *   pnpm install --frozen-lockfile --ignore-scripts && pnpm exec playwright install chromium
  *
- * Sorties : <out>/report.json (violations + incomplete + métadonnées),
- *           <out>/report.md (trié par impact), <out>/scope.json (périmètre
- *           exécuté + hash — à comparer entre baseline et final).
+ * Outputs: <out>/report.json (violations + incomplete + metadata),
+ *          <out>/report.md (sorted by impact), <out>/scope.json (executed
+ *          scope + hash, to compare between baseline and final).
  *
- * Exit code : 0 = périmètre complet sans violation ; 1 = violation(s) ;
- *             2 = périmètre incomplet ou erreur (config, navigation, injection,
- *                 précondition, HTTP >= 400, redirection login, état inconnu).
- *             Un PASS n'existe que si tout le périmètre demandé a été audité.
+ * Exit code: 0 = complete scope without violations; 1 = violation(s);
+ *            2 = incomplete scope or error (configuration, navigation, injection,
+ *                precondition, HTTP >= 400, login redirect, unknown state).
+ *            A pass only exists when the whole requested scope was scanned.
  */
 import { createRequire } from 'node:module';
 import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'node:fs';
 import { createHash, randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
 
-// Résolution des deps depuis le projet appelant (CWD), pas depuis ce script.
+// Resolve dependencies from the calling project (CWD), not from this script.
 const require = createRequire(resolve(process.cwd(), 'package.json'));
 const { chromium } = require('playwright');
 
@@ -54,25 +56,25 @@ for (let i = 0; i < args.length; i++) {
   if (!arg.startsWith('--')) { positional.push(arg); continue; }
   const name = arg.slice(2);
   if (!VALUE_OPTIONS.has(name) && !FLAG_OPTIONS.has(name)) {
-    configErrors.push(`option inconnue : ${arg}`);
+    configErrors.push(`unknown option: ${arg}`);
   } else if (options.has(name)) {
-    configErrors.push(`option répétée : ${arg}`);
+    configErrors.push(`repeated option: ${arg}`);
   } else if (FLAG_OPTIONS.has(name)) {
     options.set(name, true);
   } else if (args[i + 1] === undefined || args[i + 1].startsWith('--')) {
-    configErrors.push(`valeur manquante : ${arg}`);
+    configErrors.push(`missing value: ${arg}`);
   } else {
     options.set(name, args[++i]);
   }
 }
 const opt = (name, dflt) => options.get(name) ?? dflt;
 const flag = (name) => options.get(name) === true;
-if (positional.length > 1) configErrors.push('une seule URL de base est permise');
+if (positional.length > 1) configErrors.push('only one base URL is allowed');
 
 const baseUrl = positional[0];
 const urlsOpt = opt('urls', null);
-// Les chemins relatifs (--urls /a,/b) sont résolus contre l'URL de base ;
-// sans base résolvable c'est une erreur de config, pas un skip silencieux.
+// Relative paths (--urls /a,/b) are resolved against the base URL; without a
+// resolvable base this is a configuration error, not a silent skip.
 const explicitUrls = urlsOpt === null ? null : urlsOpt.split(',').map(s => s.trim()).filter(Boolean).map(u => {
   if (/^https?:\/\//i.test(u)) return u;
   if (baseUrl) { try { return new URL(u, baseUrl).href; } catch { return u; } }
@@ -90,35 +92,35 @@ const strictIncomplete = flag('strict-incomplete');
 const storageState = opt('storage-state', null);
 
 if (!baseUrl && explicitUrls === null) {
-  configErrors.push('URL manquante : node audit.mjs <url> | --urls u1,u2,...');
+  configErrors.push('missing URL: node audit.mjs <url> | --urls u1,u2,...');
 }
 for (const [name, value, minimum] of [['max', maxPages, 1], ['wait', waitMs, 0], ['depth', depth, 0]]) {
-  if (!Number.isSafeInteger(value) || value < minimum) configErrors.push(`--${name} doit être un entier >= ${minimum}`);
+  if (!Number.isSafeInteger(value) || value < minimum) configErrors.push(`--${name} must be an integer >= ${minimum}`);
 }
-if (!statesArg.length) configErrors.push('déclarer les états : --states all|nom1,nom2|none');
+if (!statesArg.length) configErrors.push('declare the states: --states all|name1,name2|none');
 if (explicitUrls !== null && explicitUrls.length === 0) {
-  configErrors.push('--urls fourni mais vide : aucune page demandée ne peut produire un audit PASS');
+  configErrors.push('--urls is empty: a scan with no requested page cannot pass');
 }
 if (explicitUrls && explicitUrls.some(u => !/^https?:\/\//.test(u))) {
-  configErrors.push('--urls contient des chemins relatifs sans URL de base résolvable');
+  configErrors.push('--urls contains relative paths without a resolvable base URL');
 }
 if (statesArg.includes('none') && statesArg.length > 1) {
-  configErrors.push("--states none ne se combine pas avec d'autres états");
+  configErrors.push('--states none cannot be combined with other states');
 }
 
-// Axe rule tags : WCAG 2.2 A+AA + best practice. Voir https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
+// Axe rule tags: WCAG 2.2 A+AA + best practice. See https://github.com/dequelabs/axe-core/blob/develop/doc/rule-descriptions.md
 const RULE_TAGS = ['wcag2a', 'wcag2a-best-practice', 'wcag2aa', 'wcag2aa-best-practice', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
 const RUNNER_VERSION = 'audit.mjs v5';
 
 /**
- * États dynamiques audités via --states all | nom1,nom2. Le scan axe tourne
- * APRÈS `setup`, sur le DOM résultant — c'est ce qui couvre les composants
- * invisibles au chargement (modale, drawer, toast, onglet, section dépliée),
- * angle mort d'un audit route-par-route. `url(b)` reçoit l'origine de base.
- * Adaptez cette carte au projet (sélecteurs + séquence). Exemple :
- *   'drawer-fiche': {
- *     url: b => `${b}/#/liste`,
+ * Dynamic states scanned with --states all | name1,name2. The axe scan runs
+ * AFTER `setup`, on the resulting DOM: this covers components that are invisible
+ * on load (dialog, drawer, toast, tab, expanded section), the blind spot of a
+ * route-by-route scan. `url(b)` receives the base origin.
+ * Adapt this map to the project (selectors + sequence). Example:
+ *   'record-drawer': {
+ *     url: b => `${b}/#/list`,
  *     setup: async page => {
  *       await page.locator('table tr[data-id]').first().click();
  *       await page.waitForSelector('#drawer:not(.hidden)', { timeout: 10000 });
@@ -128,20 +130,20 @@ const RUNNER_VERSION = 'audit.mjs v5';
 const STATES = {};
 
 if (statesArg.includes('all') && Object.keys(STATES).length === 0) {
-  configErrors.push("--states all demandé mais STATES est vide : déclarez les états dynamiques, ou affirmez leur absence avec '--states none'");
+  configErrors.push("--states all requested but STATES is empty: declare the dynamic states, or state that there are none with '--states none'");
 }
 const unknownStates = statesArg.filter(s => s !== 'all' && s !== 'none' && !(s in STATES));
 if (unknownStates.length) {
-  configErrors.push(`état(s) demandé(s) inconnu(s) : ${unknownStates.join(', ')} (déclarés : ${Object.keys(STATES).join(', ') || 'aucun'})`);
+  configErrors.push(`unknown requested state(s): ${unknownStates.join(', ')} (declared: ${Object.keys(STATES).join(', ') || 'none'})`);
 }
 
 function sameOrigin(u, origin) {
   try { return new URL(u).origin === origin; } catch { return false; }
 }
 
-// Un fragment n'est une ANCRE effaçable que s'il ne ressemble pas à une route
-// de hash-router (#/x, #!/x, #$:/x, #x/y). #HelloThere (TiddlyWiki) ressemble à
-// une ancre mais est une route : utiliser --keep-hash ou --urls sur ces apps.
+// A fragment is a removable ANCHOR only if it does not look like a hash-router
+// route (#/x, #!/x, #$:/x, #x/y). #HelloThere (TiddlyWiki) looks like an anchor
+// but is a route: use --keep-hash or --urls on such apps.
 function normalizeForDedup(u) {
   try {
     const url = new URL(u);
@@ -181,8 +183,8 @@ const LOGIN_PATH = /\/(login|signin|sign-in|sign_in|auth|connexion)\b/i;
 
 const runId = randomUUID();
 
-// Écriture atomique : tmp + rename — un reader ne voit jamais un fichier
-// partiellement écrit, et les preuves portent le runId du run courant.
+// Atomic write (tmp + rename): a reader never sees a partially written file,
+// and every output carries the runId of the current run.
 function writeJson(file, obj) {
   const tmp = resolve(outDir, file + '.tmp');
   writeFileSync(tmp, JSON.stringify(obj, null, 2));
@@ -194,10 +196,9 @@ function writeText(file, text) {
   renameSync(tmp, resolve(outDir, file));
 }
 
-// Écrit un résultat d'erreur atomique : un audit dont la config est invalide
-// (ou dont le navigateur n'a pas démarré) produit quand même scope.json/
-// report.json/report.md du RUN COURANT — jamais un rapport ancien laissé
-// en place et réutilisé par erreur.
+// Writes an atomic error result: a run with an invalid configuration (or whose
+// browser did not start) still produces scope.json/report.json/report.md for the
+// CURRENT run, so an old report is never left in place and reused by mistake.
 function writeErrorReports(configErrors, crawlErrors) {
   mkdirSync(outDir, { recursive: true });
   const scopeHash = createHash('sha256').update('[]').digest('hex');
@@ -214,17 +215,17 @@ function writeErrorReports(configErrors, crawlErrors) {
     baseUrl: baseUrl ?? null,
     pages: [], configErrors, crawlErrors, scopeHash,
   });
-  let md = `# Audit accessibilité — ${now.slice(0, 10)}\n\n`;
-  md += `**0 scénario audité — ${configErrors.length + crawlErrors.length} erreur(s) de configuration/périmètre. Exit code 2.**\n\n`;
-  for (const e of configErrors) md += `- config : ${e}\n`;
+  let md = `# Accessibility audit — ${now.slice(0, 10)}\n\n`;
+  md += `**0 scenarios scanned — ${configErrors.length + crawlErrors.length} configuration/scope error(s). Exit code 2.**\n\n`;
+  for (const e of configErrors) md += `- config: ${e}\n`;
   for (const e of crawlErrors) md += `- ${e}\n`;
   writeText('report.md', md);
 }
 
 async function run() {
   mkdirSync(outDir, { recursive: true });
-  // Toute la config est validée AVANT d'exécuter quoi que ce soit —
-  // sinon un état inconnu planterait après le début des rapports.
+  // The whole configuration is validated BEFORE anything runs; otherwise an
+  // unknown state would crash after reports had started.
   if (configErrors.length) {
     writeErrorReports(configErrors, []);
     for (const e of configErrors) console.error(`[config] ${e}`);
@@ -237,16 +238,16 @@ async function run() {
   const context = await browser.newContext(storageState ? { storageState } : {});
   const page = await context.newPage();
 
-  // Suivi de la dernière réponse de NAVIGATION du document principal : un clic
-  // dans un setup (ou un reload) déclenche une vraie navigation dont goto() ne
-  // rend pas la réponse — sans ce suivi, un HTTP 500 déclenché pendant setup
-  // était invisible et le scan partait sur la page d'erreur (v4).
+  // Track the main document's last NAVIGATION response: a click in a setup (or
+  // a reload) triggers a real navigation whose response goto() does not return.
+  // Without this, an HTTP 500 triggered during setup was invisible and the scan
+  // ran on the error page (v4).
   let lastNavResponse = null;
   if (typeof page.on === 'function') {
     page.on('response', (r) => {
       try {
         if (r.request().isNavigationRequest() && r.frame() === page.mainFrame()) lastNavResponse = r;
-      } catch { /* frame/request détachés */ }
+      } catch { /* detached frame/request */ }
     });
   }
 
@@ -258,7 +259,7 @@ async function run() {
     console.log(`[crawl] ${baseUrl} (depth=${depth}, max=${maxPages})`);
     urls = await collectUrls(page, baseUrl, origin, depth, maxPages, crawlErrors);
     console.log(`[crawl] ${urls.length} page(s)`);
-    if (urls.length === 0) crawlErrors.push('crawl : aucune page découverte');
+    if (urls.length === 0) crawlErrors.push('crawl: no page discovered');
   }
 
   const axePath = require.resolve('axe-core/axe.min.js');
@@ -276,11 +277,11 @@ async function run() {
 
   const recordPage = (entry) => results.push(entry);
 
-  // Contrôle commun à TOUTE navigation : statut HTTP de la dernière
-  // navigation du document principal + identité de l'URL finale
-  // (redirection login = la page demandée n'a pas été auditée).
-  // response null → on retombe sur lastNavResponse (navigations déclenchées
-  // par un setup ou un JS, dont goto() ne rend pas la réponse).
+  // Check shared by EVERY navigation: HTTP status of the main document's last
+  // navigation + identity of the final URL (a login redirect means the
+  // requested page was not scanned). A null response falls back to
+  // lastNavResponse (navigations triggered by a setup or by JavaScript, whose
+  // response goto() does not return).
   const checkNav = (response, requested) => {
     const httpStatus = response ? response.status()
       : (lastNavResponse && lastNavResponse.url() === page.url() ? lastNavResponse.status() : null);
@@ -289,16 +290,16 @@ async function run() {
     if (httpStatus !== null && httpStatus >= 400) {
       error = `HTTP ${httpStatus}`;
     } else if (LOGIN_PATH.test(finalUrl) && !LOGIN_PATH.test(requested)) {
-      error = `redirection vers une page de connexion (${finalUrl}) — la page demandée n'a pas été auditée`;
+      error = `redirected to a login page (${finalUrl}): the requested page was not scanned`;
     }
     return { httpStatus, finalUrl, error };
   };
 
-  // Préconditions métier rejouées sur le document courant : --wait-for sur
-  // le document FINAL, pas seulement sur le document avant rechargement.
+  // Preconditions replayed on the current document: --wait-for applies to the
+  // FINAL document, not only to the document before a reload.
   const applyPreconditions = async () => {
     if (waitFor) {
-      await page.waitForSelector(waitFor, { timeout: 15000 }); // précondition : non avalée
+      await page.waitForSelector(waitFor, { timeout: 15000 }); // precondition: never swallowed
     }
     if (waitMs) await page.waitForTimeout(waitMs);
   };
@@ -315,9 +316,9 @@ async function run() {
       } else {
         await applyPreconditions();
         if (extraSetup) {
-          // Le setup peut re-naviguer (état dynamique) : sa navigation est
-          // re-contrôlée, et l'URL post-setup aussi — le document scanné
-          // est celui qui compte, pas celui de la première navigation.
+          // The setup may navigate again (dynamic state): its navigation and the
+          // post-setup URL are checked too. The scanned document is what counts,
+          // not the one from the first navigation.
           const nav2 = await extraSetup(page, checkNav);
           if (nav2) {
             entry.httpStatus = nav2.httpStatus ?? entry.httpStatus;
@@ -325,10 +326,9 @@ async function run() {
             if (nav2.error) entry.error = nav2.error;
           }
         }
-        // Re-vérification SYSTÉMATIQUE du document final (pages comme états) :
-        // couvre la nav pendant setup, la redirection login différée pendant
-        // --wait, et applique les préconditions sur le document réellement
-        // scanné — pas celui d'avant rechargement.
+        // ALWAYS re-check the final document (pages and states): covers navigation
+        // during setup and a delayed login redirect during --wait, and applies the
+        // preconditions to the document actually scanned, not the one before a reload.
         if (!entry.error && extraSetup) await applyPreconditions();
         const post = checkNav(null, gotoUrl);
         entry.httpStatus = post.httpStatus ?? entry.httpStatus;
@@ -338,31 +338,31 @@ async function run() {
           try {
             const req = new URL(gotoUrl), fin = new URL(post.finalUrl);
             if (fin.origin !== req.origin) {
-              entry.error = `navigation hors origine avant le scan (${post.finalUrl})`;
+              entry.error = `navigated to another origin before the scan (${post.finalUrl})`;
             } else if (fin.pathname !== req.pathname) {
-              // Un setup qui change de PAGE (pas seulement de hash/query)
-              // scanne un autre document que celui demandé — couvre les
-              // erreurs serveur déclenchées par un clic dont le statut
-              // HTTP n'est pas observable (ex. '.../server-error').
-              entry.error = `le document final diffère du document demandé (${post.finalUrl}) — déclarer l'URL réelle de l'état dans STATES`;
+              // A setup that changes PAGE (not just hash/query) would scan a
+              // different document than the one requested. This covers server
+              // errors triggered by a click whose HTTP status is not observable
+              // (e.g. '.../server-error').
+              entry.error = `the final document differs from the requested one (${post.finalUrl}): declare the state's real URL in STATES`;
             }
-          } catch { /* URL exotique : déjà couvert par les autres contrôles */ }
+          } catch { /* unusual URL: already covered by the other checks */ }
         }
         if (!entry.error) {
           const res = await scanPage();
           if (!res || !Array.isArray(res.violations)) {
-            entry.error = 'résultat axe mal formé (pas de liste violations) — scan invalide, pas un PASS';
+            entry.error = 'malformed axe result (no violations list): invalid scan, not a pass';
           } else {
             entry.violations = res.violations;
             entry.incomplete = res.incomplete || [];
             entry.testEngine = res.testEngine || null;
             if (strictIncomplete && entry.incomplete.length) {
-              entry.error = `${entry.incomplete.length} résultat(s) axe 'incomplete' (--strict-incomplete)`;
+              entry.error = `${entry.incomplete.length} axe 'incomplete' result(s) (--strict-incomplete)`;
             }
           }
         }
       }
-      console.log(`[scan] ${label} — ${entry.error ? 'ERREUR ' + entry.error : `${entry.violations.length} règle(s) violée(s)` + (entry.incomplete.length ? `, ${entry.incomplete.length} incomplete` : '')}`);
+      console.log(`[scan] ${label} — ${entry.error ? 'ERROR ' + entry.error : `${entry.violations.length} rule(s) violated` + (entry.incomplete.length ? `, ${entry.incomplete.length} incomplete` : '')}`);
     } catch (e) {
       entry.error = e.message;
       console.error(`[scan] ${label}: ${e.message}`);
@@ -374,20 +374,20 @@ async function run() {
     await auditLocation(url, url, null);
   }
 
-  // États dynamiques : chaque état repart d'un document neuf — en navigation
-  // par hash (SPA), un goto sur le même document ne recharge pas et l'état
-  // précédent (drawer ouvert…) persisterait.
+  // Dynamic states: each state starts from a fresh document. With hash routing
+  // (SPA), a goto to the same document does not reload, so the previous state
+  // (an open drawer, etc.) would persist.
   const wanted = statesArg.includes('all') ? Object.keys(STATES) : statesArg.filter(s => s !== 'none');
   if (wanted.length) {
     const origin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
     for (const name of wanted) {
       const st = STATES[name];
       const label = `${st.url(origin)} [state:${name}]`;
-      // La 2e navigation (rechargement à neuf) est contrôlée comme la 1re :
-      // HTTP >= 400 ou redirection login => erreur, le scan ne tourne pas
-      // sur la mauvaise page. Le contrôle post-setup (statut via
-      // lastNavResponse, identité d'URL, préconditions re-jouées) est fait
-      // par auditLocation lui-même sur le document final.
+      // The second navigation (fresh reload) is checked like the first:
+      // HTTP >= 400 or a login redirect => error, and the scan does not run on
+      // the wrong page. The post-setup check (status via lastNavResponse, URL
+      // identity, replayed preconditions) is done by auditLocation itself on
+      // the final document.
       await auditLocation(label, st.url(origin), async (p, check) => {
         await p.goto('about:blank');
         const nav2 = check(await p.goto(st.url(origin), { waitUntil: 'load', timeout: 30000 }), st.url(origin));
@@ -401,9 +401,9 @@ async function run() {
 
   await browser.close();
 
-  // Périmètre exécuté : identifiant = url demandée + statut. scope.json permet
-  // de comparer l'ensemble EXACT des scénarios entre baseline et final — une
-  // somme égale de pages ne prouve pas l'identité des ensembles.
+  // Executed scope: identifier = requested URL + status. scope.json makes it
+  // possible to compare the EXACT set of scenarios between baseline and final;
+  // an equal page count does not prove that the sets are identical.
   const scenarioId = (e) => e.url;
   const scopeEntries = results.map(e => ({
     id: scenarioId(e), status: e.error ? 'error' : 'audited',
@@ -412,9 +412,9 @@ async function run() {
   const scopeHash = createHash('sha256')
     .update(JSON.stringify(scopeEntries.map(e => e.id).sort()))
     .digest('hex');
-  // statesHash couvre l'URL ET le code de setup de chaque état exécuté —
-  // le scopeHash seul ne prouve que l'identité des labels, pas celle des
-  // actions jouées (un setup modifié entre baseline et final passerait sinon).
+  // statesHash covers the URL AND the setup code of each executed state. The
+  // scopeHash alone only proves that the labels match, not the actions played
+  // (otherwise a setup changed between baseline and final would go unnoticed).
   let statesHash = null;
   if (wanted.length) {
     const stOrigin = baseUrl ? new URL(baseUrl).origin : new URL(urls[0]).origin;
@@ -445,7 +445,7 @@ async function run() {
     pages: results, configErrors, crawlErrors, scopeHash,
   });
 
-  // Rapport markdown : regroupé par règle, trié par impact
+  // Markdown report: grouped by rule, sorted by impact
   const impactRank = { critical: 0, serious: 1, moderate: 2, minor: 3 };
   const byRule = new Map();
   const incompleteByRule = new Map();
@@ -462,32 +462,32 @@ async function run() {
   const rules = [...byRule.values()].sort((a, b) =>
     (impactRank[a.impact] ?? 9) - (impactRank[b.impact] ?? 9) || b.pages.size - a.pages.size);
 
-  let md = `# Audit accessibilité — ${new Date().toISOString().slice(0, 10)}\n\n`;
+  let md = `# Accessibility audit — ${new Date().toISOString().slice(0, 10)}\n\n`;
   const totalRules = rules.length;
   const totalNodes = rules.reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
   const totalIncomplete = [...incompleteByRule.values()].reduce((s, r) => s + [...r.pages.values()].reduce((a, t) => a + t.length, 0), 0);
-  md += `**${totalRules} règle(s) violée(s), ${totalNodes} occurrence(s), ${scope.audited}/${scope.total} scénario(s) audité(s), ${errorCount} erreur(s), ${totalIncomplete} résultat(s) incomplet(s).**\n\n`;
-  md += `Périmètre : scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
+  md += `**${totalRules} rule(s) violated, ${totalNodes} occurrence(s), ${scope.audited}/${scope.total} scenario(s) scanned, ${errorCount} error(s), ${totalIncomplete} incomplete result(s).**\n\n`;
+  md += `Scope: scope.json — hash \`${scopeHash.slice(0, 12)}\`\n\n`;
 
   for (const r of rules) {
-    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nRéférence : ${r.helpUrl}\n\n`;
+    md += `## [${r.impact?.toUpperCase()}] ${r.id} — ${r.help}\n\n${r.description}\nReference: ${r.helpUrl}\n\n`;
     for (const [page, targets] of r.pages) {
       md += `- ${page}\n`;
       for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
-      if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
+      if (targets.length > 10) md += `  - … +${targets.length - 10} more\n`;
     }
     md += '\n';
   }
 
   if (incompleteByRule.size) {
-    md += `## Résultats incomplets à revoir (${totalIncomplete})\n\n`;
-    md += 'axe n\'a pas pu conclure — ce ne sont ni des PASS ni des échecs automatiques :\n\n';
+    md += `## Incomplete results to review (${totalIncomplete})\n\n`;
+    md += 'axe could not decide: these are neither passes nor automatic failures.\n\n';
     for (const r of incompleteByRule.values()) {
       md += `### ${r.id} — ${r.help || ''}\n\n`;
       for (const [page, targets] of r.pages) {
         md += `- ${page}\n`;
         for (const t of targets.slice(0, 10)) md += `  - \`${t}\`\n`;
-        if (targets.length > 10) md += `  - … +${targets.length - 10} autres\n`;
+        if (targets.length > 10) md += `  - … +${targets.length - 10} more\n`;
       }
       md += '\n';
     }
@@ -495,15 +495,15 @@ async function run() {
 
   const errs = results.filter(p => p.error);
   if (errs.length || crawlErrors.length || configErrors.length) {
-    md += `## Erreurs (${errs.length + crawlErrors.length + configErrors.length}) — exit code != 0\n\n`;
-    md += 'Ces scénarios n\'ont pas été audités. Un audit partiel n\'est pas un PASS : le gate CI échoue tant qu\'un scénario demandé manque.\n\n';
+    md += `## Errors (${errs.length + crawlErrors.length + configErrors.length}) — exit code != 0\n\n`;
+    md += 'These scenarios were not scanned. A partial scan is not a pass: the gate fails while any requested scenario is missing.\n\n';
     for (const e of errs) md += `- ${e.url} — ${e.error}\n`;
     for (const e of crawlErrors) md += `- ${e}\n`;
-    for (const e of configErrors) md += `- config : ${e}\n`;
+    for (const e of configErrors) md += `- config: ${e}\n`;
     md += '\n';
   }
   writeText('report.md', md);
-  console.log(`\n${outDir}/report.md — ${totalRules} règle(s), ${totalNodes} occurrence(s), ${errorCount} erreur(s), ${totalIncomplete} incomplet(s)`);
+  console.log(`\n${outDir}/report.md — ${totalRules} rule(s), ${totalNodes} occurrence(s), ${errorCount} error(s), ${totalIncomplete} incomplete`);
 
   if (configErrors.length) for (const e of configErrors) console.error(`[config] ${e}`);
   if (errorCount > 0) process.exit(2);
@@ -512,13 +512,13 @@ async function run() {
 
 run().catch(e => {
   console.error(e);
-  // Échec global (ex. navigateur non lançable) : on écrit quand même les
-  // rapports d'erreur du RUN COURANT — jamais un report.json périmé pris
-  // pour une preuve récente.
+  // Global failure (e.g. the browser cannot start): still write the error
+  // reports of the CURRENT run, so a stale report.json is never taken for a
+  // fresh result.
   try {
-    writeErrorReports([`erreur fatale du run : ${e.message}`], []);
+    writeErrorReports([`fatal run error: ${e.message}`], []);
   } catch (w) {
-    console.error('impossible d\'écrire le rapport d\'erreur :', w);
+    console.error('could not write the error report:', w);
   }
   process.exit(2);
 });

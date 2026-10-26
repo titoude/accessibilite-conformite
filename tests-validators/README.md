@@ -7,7 +7,7 @@ From the repository root:
 ```sh
 pnpm install --frozen-lockfile --ignore-scripts
 pnpm exec playwright install chromium
-pnpm test:validateurs
+pnpm test:validators
 ```
 
 Exit 0 means all nine deliberate defects were detected and their valid controls passed.

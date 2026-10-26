@@ -1,35 +1,35 @@
 import { expect } from '@playwright/test';
 
 /**
- * assertions.mjs — helpers d'assertions d'accessibilité DURCIES.
+ * assertions.mjs — HARDENED accessibility assertion helpers.
  *
- * Partagés par les scripts de vérification (verify.mjs, eval-final.mjs,
- * tests-validateurs/validateurs.mjs). Chaque helper applique les règles
- * SKILL.md 13-17 : effet observable (pas action), nom accessible CALCULÉ,
- * visibilité réelle (opacity incluse), élément requis absent = échec.
+ * Shared by verification scripts and by tests-validators/validators.mjs. Each
+ * helper applies SKILL.md's testing rules: observable effect (not the action),
+ * COMPUTED accessible name, real visibility (including opacity), and a missing
+ * required element = failure.
  */
 
 /**
- * Extrait diagnostique du premier nœud ariaSnapshot, conservé pour compatibilité.
- * Ne pas utiliser comme preuve : un conteneur générique peut être omis du
- * snapshot. Utiliser accNameMatches pour vérifier le nom du locator exact.
+ * Diagnostic extract of the first ariaSnapshot node, kept for compatibility.
+ * Do not use it as evidence: a generic container can be omitted from the
+ * snapshot. Use accNameMatches to check the exact locator's name.
  */
 export async function accName(locator) {
   if (await locator.count() !== 1) return '';
   const snap = await locator.ariaSnapshot().catch(() => '');
-  // Format "role \"name\"" ou "- role \"name\"" ; les guillemets échappés sont
-  // décodés. Un élément sans nom produit juste "role" → ''.
+  // Format "role \"name\"" or "- role \"name\""; escaped quotes are
+  // decoded. An element without a name produces just "role" → ''.
   const m = snap.split('\n')[0].match(/"((?:[^"\\]|\\.)*)"/);
   return m ? m[1].replace(/\\"/g, '"').replace(/\\\\/g, '\\') : '';
 }
 
 /**
- * Nom accessible == attendu, sur LE locator fourni (pas la page entière —
- * un leurre portant le même nom ailleurs ne doit pas faire passer le test).
- * Le moteur de Playwright calcule le nom du locator, pas celui d'un enfant.
- * En complément, ce contrat strict refuse les références aria-labelledby
- * mortes ou sans contenu textuel/alternatif, même si le navigateur retombe
- * sur le contenu du contrôle. Ce garde-fou n'est pas une règle WCAG autonome.
+ * Accessible name == expected, on THE given locator (not the whole page: a
+ * decoy with the same name elsewhere must not make the test pass).
+ * Playwright's engine computes the locator's name, not a child's.
+ * In addition, this strict contract rejects aria-labelledby references that
+ * are dead or have no text/alternative content, even if the browser falls back
+ * to the control's content. This guard is not a standalone WCAG rule.
  */
 export async function accNameMatches(locator, expected) {
   if (await locator.count() !== 1) return false;
@@ -54,9 +54,9 @@ export async function accNameMatches(locator, expected) {
 }
 
 /**
- * Visibilité réelle : Playwright isVisible() ignore opacity:0 — une appli
- * rendue transparente passerait. On vérifie display/visibility/opacity
- * calculés + boîte englobante non vide.
+ * Real visibility: Playwright's isVisible() ignores opacity:0, so a transparent
+ * app would pass. This checks computed display/visibility/opacity plus a
+ * non-empty bounding box.
  */
 export async function isTrulyVisible(locator) {
   const el = locator.first();
@@ -64,9 +64,9 @@ export async function isTrulyVisible(locator) {
   const visible = await el.isVisible().catch(() => false);
   if (!visible) return false;
   return el.evaluate((e) => {
-    // opacity/visibility peuvent être posés sur un ancêtre — la computed style
-    // de l'enfant ne les reflète pas (opacity n'est pas héritée). On remonte
-    // toute la chaîne.
+    // opacity/visibility can be set on an ancestor, and the child's computed
+    // style does not reflect them (opacity is not inherited), so walk up the
+    // whole chain.
     for (let n = e; n; n = n.parentElement) {
       const cs = getComputedStyle(n);
       if (cs.visibility === 'hidden' || cs.visibility === 'collapse') return false;
@@ -78,15 +78,15 @@ export async function isTrulyVisible(locator) {
 }
 
 /**
- * Effet métier : une action a été exécutée ET a produit l'effet attendu.
- * `act` effectue l'action (click, selectOption…) ; `probe` mesure l'état
- * observable APRÈS coup. Jamais de catch muet : une exception = échec.
+ * Business effect: an action ran AND produced the expected effect.
+ * `act` performs the action (click, selectOption…); `probe` measures the
+ * observable state AFTERWARDS. Errors are never swallowed: an exception = failure.
  *
  *   await effectObserved(page,
  *     (p) => p.selectOption('#filter', 'a'),
  *     (p) => p.$$eval('.res', els => els.filter(e => e.offsetParent).length === 1));
  */
 export async function effectObserved(page, act, probe) {
-  await act(page);            // lève si l'élément requis est absent
+  await act(page);            // throws if the required element is missing
   return !!(await probe(page));
 }

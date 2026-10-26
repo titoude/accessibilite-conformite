@@ -16,7 +16,7 @@ The technical target is **WCAG 2.2 A/AA** for web content. Zero automated violat
 | [audit.mjs](audit.mjs) | Command-line scanner built on axe-core and Playwright, with scope reports and gate-friendly exit codes |
 | [checklist.md](checklist.md) | Review checklist for what automation cannot judge: keyboard tasks, screen readers, zoom, motion, media |
 | [templates/](templates/README.md) | WCAG 2.2 A/AA coverage record: all 55 success criteria, each starting as `NOT_TESTED` |
-| [tests-validateurs/](tests-validateurs/README.md) | Assertion helpers (`accNameMatches`, `isTrulyVisible`) and nine deliberately broken cases that weak assertions miss |
+| [tests-validators/](tests-validators/README.md) | Assertion helpers (`accNameMatches`, `isTrulyVisible`) and nine deliberately broken cases that weak assertions miss |
 | [demo/](demo/README.md) | A broken and a corrected workshop booking form, with an automated keyboard replay |
 | [hooks/pre-push](hooks/pre-push) | Optional git hook that blocks a push when the scan fails |
 | [docs/](docs/) | [Release readiness](docs/RELEASE-READINESS.md) gate and a [three-minute walkthrough](docs/PRODUCT-WALKTHROUGH.md) |
@@ -125,7 +125,7 @@ The scanner finds issues; the agent or developer writes the fixes. This reposito
 | Command | Checks |
 | --- | --- |
 | `pnpm test:browser` | Real Chromium runs of `audit.mjs`: clean page exits `0`, unnamed button exits `1`, HTTP errors, redirects, invalid options and undeclared states exit `2`, stale reports are replaced; accessible-name helper |
-| `pnpm test:validateurs` | The hardened checks detect all nine deliberately broken cases that weak assertions miss, and valid controls still pass |
+| `pnpm test:validators` | The hardened checks detect all nine deliberately broken cases that weak assertions miss, and valid controls still pass |
 | `pnpm test:demo` | The complete keyboard reservation, four corrected states, 320 CSS-pixel reflow and forced-colors operation |
 | `pnpm test:decisions` | The Devin workflow cannot report success from contradictory or missing verification results |
 | `pnpm test:parity` | The copy of `audit.mjs` embedded in the Devin workflow is identical to the source |

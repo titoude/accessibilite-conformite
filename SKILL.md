@@ -42,7 +42,7 @@ Preserve baseline reports, manifest and application commit. Missing controls, wr
 5. **Fix shared causes.** Repair the responsible component or token and check affected uses while preserving product intent.
 6. **Test observable effects.** A click, attribute or nonzero viewport is not a completed user task. Assert the exact state, name, focus and business outcome.
 7. **Required actions fail visibly.** Never swallow missing-element errors or return success from an exception.
-8. **Verify the exact accessible name.** Use `accNameMatches` from [assertions.mjs](tests-validateurs/assertions.mjs), backed by Playwright's matcher. The legacy `accName` snapshot extractor is diagnostic only.
+8. **Verify the exact accessible name.** Use `accNameMatches` from [assertions.mjs](tests-validators/assertions.mjs), backed by Playwright's matcher. The legacy `accName` snapshot extractor is diagnostic only.
 9. **Exercise complete keyboard tasks.** Check order, visible focus, errors and transitions even when axe reports zero violations. Compare the unfocused and keyboard-focused states of each relevant control; a permanent shadow or transparent outline is not evidence of a focus indicator. Automated style checks need visual confirmation. A main landmark and a working keyboard skip link serve different navigation methods. Roving `tabindex="-1"` is legitimate inside correctly implemented composites.
 10. **Check dialog behavior precisely.** Initial focus, inert background, closure and focus return matter. Escaping focus and an inescapable keyboard trap are different defects.
 11. **Dragging needs a single-pointer alternative** when WCAG 2.5.7 applies; keyboard access alone is insufficient.

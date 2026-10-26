@@ -5,7 +5,7 @@ import { spawn } from 'node:child_process';
 import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { chromium } from 'playwright';
-import { accNameMatches } from '../tests-validateurs/assertions.mjs';
+import { accNameMatches } from '../tests-validators/assertions.mjs';
 
 const clean = '<!doctype html><html lang="en"><head><title>Test form</title></head>'
   + '<body><main><h1>Contact</h1><label for="name">Name</label><input id="name">'
