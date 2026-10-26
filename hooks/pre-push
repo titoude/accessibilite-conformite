@@ -1,0 +1,53 @@
+#!/bin/sh
+# Local accessibility gate for the project you are auditing. Install it as a git hook:
+#   cp hooks/pre-push <your-project>/.git/hooks/pre-push && chmod +x <your-project>/.git/hooks/pre-push
+#
+# Blocks `git push` when the axe scan finds at least one violation or the scope is
+# incomplete. It scans whatever server answers at A11Y_URL, so it cannot prove which
+# commit is being served, and it only covers what axe-core can detect, not the manual
+# checklist (checklist.md). Use CI that builds the candidate when identity matters.
+#
+# Requirements: the application is running at A11Y_URL, and the pinned dependencies
+# are installed:
+#   pnpm install --frozen-lockfile --ignore-scripts && pnpm exec playwright install chromium
+#
+#   A11Y_URL=http://localhost:3000 git push
+#   A11Y_STATES=all git push                    # dynamic states declared in STATES
+#   A11Y_STORAGE_STATE=auth.json git push       # authenticated Playwright context
+#   A11Y_URLS="/,/pricing" git push             # extra routes the crawler cannot find
+#   A11Y_SKIP=1 git push                        # explicit, logged bypass
+#
+# The runner is looked up at scripts/a11y/audit.mjs, then at the repository root.
+
+if [ "$A11Y_SKIP" = "1" ]; then
+  echo "a11y: audit skipped (A11Y_SKIP=1)" >&2
+  exit 0
+fi
+
+URL="${A11Y_URL:-http://localhost:3000}"
+ROOT="$(git rev-parse --show-toplevel)"
+AUDIT="$ROOT/scripts/a11y/audit.mjs"
+[ -f "$AUDIT" ] || AUDIT="$ROOT/audit.mjs"
+[ -f "$AUDIT" ] || { echo "a11y: audit.mjs not found (scripts/a11y/ or repository root)" >&2; exit 1; }
+
+STATES="${A11Y_STATES:-none}"
+URLS="${A11Y_URLS:-}"
+set --
+[ -n "$A11Y_STORAGE_STATE" ] && set -- "$@" --storage-state "$A11Y_STORAGE_STATE"
+[ -n "$URLS" ] && set -- "$@" --urls "$URLS"
+
+if ! curl -sf -o /dev/null --max-time 3 "$URL"; then
+  echo "a11y: $URL is unreachable - start the app or set A11Y_URL=..." >&2
+  echo "      (A11Y_SKIP=1 to bypass)" >&2
+  exit 1
+fi
+
+OUT="$ROOT/a11y-audit/pre-push"
+node "$AUDIT" "$URL" --states "$STATES" --out "$OUT" "$@"
+rc=$?
+case "$rc" in
+  0) echo "a11y: no automated violations in the requested scope - push allowed" >&2 ;;
+  1) echo "a11y: violations found - see $OUT/report.md" >&2 ;;
+  2) echo "a11y: incomplete scope or error - see $OUT/report.md (a partial scan is not a pass)" >&2 ;;
+esac
+exit "$rc"

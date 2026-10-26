@@ -1,26 +1,28 @@
-# Workflow : mise en conformité accessibilité (WCAG 2.2 AA / RGAA)
+# Devin workflow: bounded accessibility remediation (WCAG 2.2 A/AA)
 #
-# Boucle bornée correcteur → vérificateur indépendant :
-#   audit (agent A) → fix sur branche (agent B) → re-audit + checklist (agent C)
-#   → si findings : nouveau round (max 3) → rapport.
-# Le correcteur ne se note jamais lui-même : c'est ce qui minimise le taux d'erreur.
+# Bounded corrector -> independent verifier loop:
+#   audit (agent A) -> fix on a branch (agent B) -> re-audit + checklist (agent C)
+#   -> new round while findings remain (max 3) -> separate final evaluation -> PR.
+# The corrector never grades its own work; the final status is computed from the
+# verifier's counters (compute_status), not from an agent's verdict.
 #
-# Prérequis : éditer REPO (owner/repo) — ou variable d'env A11Y_REPO.
-# Lancer via l'outil run_workflow avec script_path=<ce fichier>.
+# Requires Devin's workflow runtime, which provides agent(), register_workflow() and
+# log(). Set A11Y_REPO=owner/repo (and optionally A11Y_BASE=<branch>), then run it with
+# the run_workflow tool and script_path=<this file>. Agent prompts are written in French.
 
 import asyncio
 import json
 import os
 
-REPO = os.environ.get("A11Y_REPO", "")          # ex. "owner/repo"
-BASE_BRANCH = os.environ.get("A11Y_BASE", "")   # vide = branche par défaut
+REPO = os.environ.get("A11Y_REPO", "")          # e.g. "owner/repo"
+BASE_BRANCH = os.environ.get("A11Y_BASE", "")   # empty = the repository's default branch
 MAX_ROUNDS = 3
 
 if not REPO:
-    raise RuntimeError("REPO manquant : export A11Y_REPO=owner/repo ou éditer le script")
+    raise RuntimeError("A11Y_REPO is missing: export A11Y_REPO=owner/repo or edit the script")
 
-# audit.mjs est embarqué ci-dessous — run_workflow copie le script seul dans un
-# dossier temporaire : le fichier doit être auto-contenu (ne pas lire un chemin relatif).
+# audit.mjs is embedded below because run_workflow copies this script alone into a
+# temporary directory. Keep it in sync with `pnpm sync-runner` (checked by test:parity).
 AUDIT_SCRIPT = r'''#!/usr/bin/env node
 /**
  * audit.mjs — audit d'accessibilité axe-core + Playwright.
