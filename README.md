@@ -4,7 +4,7 @@
 
 **An accessibility skill and toolkit for coding agents.** It helps an agent (or a developer) find barriers in a website or web application, fix them in source code, verify the result, and say plainly what still needs a human.
 
-The technical target is **WCAG 2.2 A/AA** for web content. The toolkit is honest about its limits: zero automated violations is not full WCAG or RGAA conformance.
+The technical target is **WCAG 2.2 A/AA** for web content. Zero automated violations is not full WCAG or RGAA conformance, so the toolkit keeps every check that still needs a person visible.
 
 [Use the skill](SKILL.md) · [Run the scanner](#scan-your-application) · [Try the demo](demo/README.md) · [Walkthrough](docs/PRODUCT-WALKTHROUGH.md) · [Contribute](CONTRIBUTING.md)
 
@@ -16,7 +16,7 @@ The technical target is **WCAG 2.2 A/AA** for web content. The toolkit is honest
 | [audit.mjs](audit.mjs) | Command-line scanner built on axe-core and Playwright, with scope reports and gate-friendly exit codes |
 | [checklist.md](checklist.md) | Review checklist for what automation cannot judge: keyboard tasks, screen readers, zoom, motion, media |
 | [templates/](templates/README.md) | WCAG 2.2 A/AA coverage record: all 55 success criteria, each starting as `NOT_TESTED` |
-| [tests-validateurs/](tests-validateurs/README.md) | Assertion helpers (`accNameMatches`, `isTrulyVisible`) and nine deliberately weak assertions they must catch |
+| [tests-validateurs/](tests-validateurs/README.md) | Assertion helpers (`accNameMatches`, `isTrulyVisible`) and nine deliberately broken cases that weak assertions miss |
 | [demo/](demo/README.md) | A broken and a corrected workshop booking form, with an automated keyboard replay |
 | [hooks/pre-push](hooks/pre-push) | Optional git hook that blocks a push when the scan fails |
 | [docs/](docs/) | [Release readiness](docs/RELEASE-READINESS.md) gate and a [three-minute walkthrough](docs/PRODUCT-WALKTHROUGH.md) |
@@ -52,7 +52,7 @@ It exits with code `1` and writes `a11y-audit/demo/report.md`: three rules fail 
 
 ## Scan your application
 
-With your application running, run the scanner from this toolkit directory (it loads Playwright from the current directory's dependencies):
+With your application running, run the scanner from this toolkit directory (it loads `playwright` and `axe-core` from the current directory's dependencies):
 
 ```sh
 node audit.mjs http://localhost:3000 --states none --out a11y-audit/baseline
@@ -77,11 +77,11 @@ Without `--urls`, it follows same-origin links from the base URL (depth 1, at mo
 | `1` | Automated violations found |
 | `2` | Invalid configuration, navigation or execution error, or (with `--strict-incomplete`) incomplete findings |
 
-Each run writes `report.md` (violations grouped by rule, sorted by impact), `report.json` (full axe results and metadata) and `scope.json` (the scenarios actually scanned and a scope hash to compare a baseline with a fix). Every run writes fresh reports, even when the configuration is invalid or the browser fails to start, so an old report can never pass for a new one. Reports and console messages are currently written in French.
+Each run writes `report.md` (violations grouped by rule, sorted by impact), `report.json` (full axe results and metadata) and `scope.json` (the scenarios actually scanned and a scope hash to compare a baseline with a fix). These files are rewritten even when the configuration is invalid or the browser fails to start, so an old report can never pass for a new one. Reports and console messages are currently written in French.
 
 ### Dialogs, menus and other dynamic states
 
-Content that only appears after an interaction is invisible to a page-by-page scan. Copy `audit.mjs` into your project (for example `scripts/a11y/audit.mjs`), declare those states in its `STATES` map before the baseline, and run with `--states all`:
+Content that only appears after an interaction is invisible to a page-by-page scan. Copy `audit.mjs` into your project (for example `scripts/a11y/audit.mjs`, with the same pinned `playwright` and `axe-core` versions as dev dependencies), declare those states in its `STATES` map before the baseline, and run it from your project with `--states all`:
 
 ```js
 const STATES = {
@@ -125,7 +125,7 @@ The scanner finds issues; the agent or developer writes the fixes. This reposito
 | Command | Checks |
 | --- | --- |
 | `pnpm test:browser` | Real Chromium runs of `audit.mjs`: clean page exits `0`, unnamed button exits `1`, HTTP errors, redirects, invalid options and undeclared states exit `2`, stale reports are replaced; accessible-name helper |
-| `pnpm test:validateurs` | Nine deliberately weak assertions are caught by the hardened helpers, and valid controls still pass |
+| `pnpm test:validateurs` | The hardened checks detect all nine deliberately broken cases that weak assertions miss, and valid controls still pass |
 | `pnpm test:demo` | The complete keyboard reservation, four corrected states, 320 CSS-pixel reflow and forced-colors operation |
 | `pnpm test:decisions` | The Devin workflow cannot report success from contradictory or missing verification results |
 | `pnpm test:parity` | The copy of `audit.mjs` embedded in the Devin workflow is identical to the source |

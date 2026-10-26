@@ -3,9 +3,9 @@
  * validateurs.mjs — suite de contre-exemples pour valider les ASSERTIONS
  * d'accessibilité (pas le produit — les tests eux-mêmes).
  *
- * Chaque cas compare une assertion FAIBLE (celle que la revue V2 a prouvée
- * permissive) à l'assertion DURCIE prescrite par SKILL.md règles 13-17,
- * implémentée dans assertions.mjs (module partagé réutilisable).
+ * Chaque cas compare une assertion FAIBLE (permissive : elle passe à tort sur
+ * le mutant) à l'assertion DURCIE prescrite par SKILL.md, implémentée dans
+ * assertions.mjs (module partagé réutilisable).
  * Pour chaque mutant, on attend : faible = passe à tort, durcie = échoue.
  * Pour chaque témoin correct : la durcie passe (pas de faux négatif).
  *
@@ -74,7 +74,7 @@ const filterControlFix = (p) => p.$eval('#filter', (e) => {
   });
 });
 
-// Assertions FAIBLES (anti-patrons prouvés par la revue) vs DURCIES
+// Assertions FAIBLES (anti-patrons courants) vs DURCIES
 const CHECKS = [
   {
     name: 'etat-read-vs-unread',
